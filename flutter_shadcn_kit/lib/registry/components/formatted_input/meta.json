@@ -29,6 +29,7 @@
   },
   "files": [
     "formatted_input.dart",
+    "formatted_input_flow.dart",
     "formatted_input_style.dart",
     "formatted_input_theme.dart",
     "preview.dart"

@@ -317,9 +317,11 @@ class _CarouselState extends State<Carousel>
           }
           final double extent =
               theme.itemExtent ?? viewport * (theme.viewportFraction ?? 1);
-          final Widget stack = Stack(
-            clipBehavior: Clip.none,
-            children: _pages(theme, extent, viewport, cross, rtl),
+          final Widget stack = ClipRect(
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              children: _pages(theme, extent, viewport, cross, rtl),
+            ),
           );
           final Widget keyed = FocusableActionDetector(
             shortcuts: <ShortcutActivator, Intent>{

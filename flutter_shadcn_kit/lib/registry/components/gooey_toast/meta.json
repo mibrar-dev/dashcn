@@ -2,7 +2,7 @@
   "id": "gooey_toast",
   "name": "Gooey Toast",
   "category": "Overlays",
-  "description": "Gooey-style transient notifications: a compact pill whose metaball silhouette morphs into an expanded body, built on the shared toast queue.",
+  "description": "Gooey-style transient notifications: a compact tab-shaped pill that grows a wider body below it through concave shoulders, anchored to the window edge.",
   "tier": "component",
   "install": "flutter_shadcn add gooey_toast",
   "import": "import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';",
@@ -10,7 +10,8 @@
     "overlay",
     "notification",
     "toast",
-    "gooey"
+    "gooey",
+    "metaball"
   ],
   "deps": {
     "foundation": [
@@ -22,13 +23,22 @@
     ],
     "primitives": [
       "animation",
+      "color_math",
       "gooey",
       "toast_queue"
     ],
-    "components": []
+    "components": [
+      "button",
+      "divider",
+      "input"
+    ]
   },
   "files": [
     "gooey_toast.dart",
+    "gooey_toast_controller.dart",
+    "gooey_toast_options.dart",
+    "gooey_toast_payload.dart",
+    "gooey_toast_stack.dart",
     "gooey_toast_style.dart",
     "gooey_toast_theme.dart",
     "preview.dart"
@@ -37,10 +47,14 @@
     "classes": [
       "GooeyAutopilot",
       "GooeyToastAction",
+      "GooeyToastCard",
       "GooeyToastController",
+      "GooeyToastDetails",
       "GooeyToastLayer",
       "GooeyToastOptions",
-      "GooeyToastTheme"
+      "GooeyToastRecord",
+      "GooeyToastScope",
+      "GooeyToastPayload"
     ],
     "enums": [
       "GooeyToastState",
@@ -53,13 +67,22 @@
     ],
     "functions": [
       "gooeyToastControllerOf",
-      "showGooeyToast"
+      "gooeyToastThemeOf",
+      "showGooeyToast",
+      "ensureToneContrast"
     ],
     "constants": [
       "gooeyToastDefaults",
       "gooeyToastThemeOverrides",
       "gooeyTitleTextStyle",
-      "gooeyDescriptionTextStyle"
+      "gooeyDescriptionTextStyle",
+      "gooeySuccessTone",
+      "gooeyWarningTone",
+      "gooeyInfoTone",
+      "gooeyActionTone",
+      "gooeyLoadingTone",
+      "kGooeyDefaultDuration",
+      "kGooeyTransitionCompactGap"
     ]
   },
   "theme": {
@@ -68,21 +91,23 @@
     "defaults": "gooeyToastDefaults",
     "fields": {
       "width": "double? - surface width (350)",
-      "fill": "ThemedColor? - surface fill (#0D1117 by default)",
+      "fill": "ThemedColor? - surface fill (light near-white #F7F8FA)",
       "roundness": "double? - base corner roundness before the shape style (18)",
-      "titleStyle": "TextStyle? - compact label; null adds the state tone",
+      "titleStyle": "TextStyle? - compact label; null uses the state tone",
       "descriptionStyle": "TextStyle? - expanded body text",
+      "descriptionColor": "ThemedColor? - expanded body text colour (mutedForeground)",
       "duration": "Duration? - default auto-dismiss (6s)",
       "animationStyle": "GooeyToastAnimationStyle? - open/close profile (sileo)",
       "shapeStyle": "GooeyToastShapeStyle? - corner profile (defaultShape)",
       "bodyAnimationStyle": "GooeyToastBodyAnimationStyle? - body content profile (fade)",
       "enableGooeyBlur": "bool? - metaball blur pass (true)",
-      "successTone": "ThemedColor? - success accent (#63C65E)",
-      "loadingTone": "ThemedColor? - loading accent (#8A8F98)",
-      "errorTone": "ThemedColor? - error accent (#EF5E5E)",
-      "warningTone": "ThemedColor? - warning accent (#EABB4B)",
-      "infoTone": "ThemedColor? - info accent (#6EA8FF)",
-      "actionTone": "ThemedColor? - action accent (#7A8DFF)"
+      "compactMorph": "GooeyCompactMorph? - in-place compact morph policy",
+      "successTone": "ThemedColor? - success accent (fixed gooeySuccessTone green)",
+      "loadingTone": "ThemedColor? - loading accent (fixed gooeyLoadingTone grey)",
+      "errorTone": "ThemedColor? - error accent (fixed gooeyErrorTone red)",
+      "warningTone": "ThemedColor? - warning accent (fixed gooeyWarningTone amber)",
+      "infoTone": "ThemedColor? - info accent (fixed gooeyInfoTone blue)",
+      "actionTone": "ThemedColor? - action accent (fixed gooeyActionTone indigo)"
     }
   }
 }

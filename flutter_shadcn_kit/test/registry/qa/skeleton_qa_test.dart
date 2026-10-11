@@ -81,19 +81,20 @@ void main() {
     tester,
   ) async {
     await _pumpPreview(tester, skeletonPreviews[0]);
-    expect(find.text('loading - tap to load'), findsOneWidget);
-    await tester.tap(find.text('loading - tap to load'));
+    // The button names what tapping it will do (P7-C2 labels).
+    expect(find.text('Show content'), findsOneWidget);
+    await tester.tap(find.text('Show content'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(tester.takeException(), isNull);
-    expect(find.text('loaded - tap to load'), findsOneWidget);
+    expect(find.text('Show skeleton'), findsOneWidget);
     expect(find.text('Card title'), findsOneWidget);
     // Flip back to loading.
-    await tester.tap(find.text('loaded - tap to load'));
+    await tester.tap(find.text('Show skeleton'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(tester.takeException(), isNull);
-    expect(find.text('loading - tap to load'), findsOneWidget);
+    expect(find.text('Show content'), findsOneWidget);
   });
 
   testWidgets('previews mirror in RTL and fit 375px', (tester) async {

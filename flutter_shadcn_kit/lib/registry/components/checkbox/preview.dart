@@ -29,15 +29,54 @@ Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
 }
 
 /// Unchecked, the default.
-Widget _checkboxDefault(BuildContext context) =>
-    _checkboxRow(context, const Checkbox(), 'Accept terms');
+class _CheckboxDefaultCheckbox extends StatefulWidget {
+  const _CheckboxDefaultCheckbox();
+
+  @override
+  State<_CheckboxDefaultCheckbox> createState() =>
+      _CheckboxDefaultCheckboxState();
+}
+
+class _CheckboxDefaultCheckboxState extends State<_CheckboxDefaultCheckbox> {
+  CheckboxValue _value = CheckboxValue.unchecked;
+
+  @override
+  Widget build(BuildContext context) {
+    return _checkboxRow(
+      context,
+      Checkbox(
+        value: _value,
+        onChanged: (CheckboxValue value) => setState(() => _value = value),
+      ),
+      'Accept terms',
+    );
+  }
+}
 
 /// Checked.
-Widget _checkboxChecked(BuildContext context) => _checkboxRow(
-  context,
-  const Checkbox(value: CheckboxValue.checked),
-  'Notify me',
-);
+class _CheckboxCheckedCheckbox extends StatefulWidget {
+  const _CheckboxCheckedCheckbox();
+
+  @override
+  State<_CheckboxCheckedCheckbox> createState() =>
+      _CheckboxCheckedCheckboxState();
+}
+
+class _CheckboxCheckedCheckboxState extends State<_CheckboxCheckedCheckbox> {
+  CheckboxValue _value = CheckboxValue.checked;
+
+  @override
+  Widget build(BuildContext context) {
+    return _checkboxRow(
+      context,
+      Checkbox(
+        value: _value,
+        onChanged: (CheckboxValue value) => setState(() => _value = value),
+      ),
+      'Notify me',
+    );
+  }
+}
 
 /// Tri-state: the unchecked -> indeterminate -> checked cycle.
 class _CheckboxTristateCheckbox extends StatefulWidget {
@@ -86,6 +125,12 @@ Widget _checkboxDisabled(BuildContext context) {
     ],
   );
 }
+
+Widget _checkboxDefault(BuildContext context) =>
+    const _CheckboxDefaultCheckbox();
+
+Widget _checkboxChecked(BuildContext context) =>
+    const _CheckboxCheckedCheckbox();
 
 Widget _checkboxIndeterminate(BuildContext context) =>
     const _CheckboxTristateCheckbox();

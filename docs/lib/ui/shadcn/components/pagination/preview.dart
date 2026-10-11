@@ -35,17 +35,29 @@ class _LabelledPaginationState extends State<_LabelledPagination> {
 
 Widget _labelled(BuildContext context) => const _LabelledPagination();
 
-/// Page buttons without the "Page x of y" label.
-Widget _iconOnly(BuildContext context) {
-  return const Pagination(
-    page: 5,
-    totalPages: 12,
-    showLabel: false,
-    onPageChanged: _noop,
-  );
+/// Page buttons without the "Page x of y" label; the page lives here too.
+class _IconOnlyPagination extends StatefulWidget {
+  const _IconOnlyPagination();
+
+  @override
+  State<_IconOnlyPagination> createState() => _IconOnlyPaginationState();
 }
 
-void _noop(int page) {}
+class _IconOnlyPaginationState extends State<_IconOnlyPagination> {
+  int _page = 5;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pagination(
+      page: _page,
+      totalPages: 12,
+      showLabel: false,
+      onPageChanged: (int page) => setState(() => _page = page),
+    );
+  }
+}
+
+Widget _iconOnly(BuildContext context) => const _IconOnlyPagination();
 
 /// Named docs examples for `pagination`; the first entry is the default.
 const List<ComponentPreview> paginationPreviews = <ComponentPreview>[

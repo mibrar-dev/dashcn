@@ -31,6 +31,7 @@ import '../../primitives/form_core/form_value.dart';
 import '../../primitives/form_core/validation.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/phone_number.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../country_flag/country_flag.dart';
 import '../input/input.dart';
@@ -136,11 +137,24 @@ class _PhoneInputState extends State<PhoneInput>
     with FormValueSupplier<PhoneNumber, PhoneInput> {
   static const Country _defaultCountry = Country(dialCode: '+1', code: 'US');
 
+  /// Borderless trigger for the country selector inside the joined group:
+  /// the ghost variant paints no border and the override keeps the fill
+  /// transparent, so the group container owns the one shared border.
+  static const SelectTheme _groupSelectTheme = SelectTheme(
+    variant: ButtonVariant.ghost,
+    trigger: ButtonVariantStyle(
+      background: StateValue<ThemedColor>(
+        rest: ThemedColor.ref(ColorRef.muted, alpha: 0),
+      ),
+    ),
+  );
+
   late TextEditingController _controller;
   late bool _ownsController;
   late Country _country;
   String _lastText = '';
   bool _syncing = false;
+  bool _hovered = false;
 
   String get _nationalNumber {
     final String text = _controller.text;
@@ -307,50 +321,86 @@ class _PhoneInputState extends State<PhoneInput>
     final double flagHeight = (style.flagHeight ?? 18) * ambient.scaling;
     final double flagGap = style.flagGap ?? 8;
     final List<CountryInfo> source = widget.countries ?? countryTable;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          width: style.selectWidth ?? 180,
-          child: Select<Country>(
-            value: _country,
-            onChanged: _onCountryChanged,
-            searchPlaceholder: widget.searchPlaceholder,
-            popupConstraints:
-                style.popupConstraints ??
-                const BoxConstraints(maxWidth: 250, maxHeight: 300),
-            builder: (context, query) => _countryRows(
-              source,
-              query,
-              flagWidth: flagWidth,
-              flagHeight: flagHeight,
-              flagGap: flagGap,
-              countryGap: style.countryGap ?? 16,
+    // One joined input group: the container owns the single shared border
+    // (fill + border resolve per brightness, hover included) while the
+    // country trigger and the number field paint borderless inside it,
+    // separated by a hairline divider. The row hugs its content.
+    final BoxDecoration groupDecoration = resolveInputSurface(
+      context,
+      states: _hovered
+          ? const <WidgetState>{WidgetState.hovered}
+          : const <WidgetState>{},
+    ).decoration;
+    final double dividerMargin = (style.fieldGap ?? 8) / 2;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: Container(
+        decoration: groupDecoration,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: style.selectWidth ?? 180,
+              child: ComponentTheme<SelectTheme>(
+                data: _groupSelectTheme,
+                child: Select<Country>(
+                  value: _country,
+                  onChanged: _onCountryChanged,
+                  searchPlaceholder: widget.searchPlaceholder,
+                  popupConstraints:
+                      style.popupConstraints ??
+                      const BoxConstraints(maxWidth: 250, maxHeight: 300),
+                  builder: (context, query) => _countryRows(
+                    source,
+                    query,
+                    flagWidth: flagWidth,
+                    flagHeight: flagHeight,
+                    flagGap: flagGap,
+                    countryGap: style.countryGap ?? 16,
+                  ),
+                  itemBuilder: (context, country) => Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CountryFlag(
+                        country,
+                        width: flagWidth,
+                        height: flagHeight,
+                      ),
+                      Gap(flagGap),
+                      Text(country.dialCode),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            itemBuilder: (context, country) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CountryFlag(country, width: flagWidth, height: flagHeight),
-                Gap(flagGap),
-                Text(country.dialCode),
-              ],
+            Container(
+              // Lookup key of the group divider between the country
+              // trigger and the number field.
+              key: const ValueKey<String>('shadcn.phone_input.divider'),
+              width: 1,
+              height: 20 * ambient.scaling,
+              margin: EdgeInsets.symmetric(horizontal: dividerMargin),
+              color: ambient.colors.input,
             ),
-          ),
+            SizedBox(
+              width: style.maxWidth ?? 200,
+              child: Input(
+                controller: _controller,
+                keyboardType: TextInputType.phone,
+                autofillHints: const <String>[AutofillHints.telephoneNumber],
+                inputFormatters: widget.onlyNumber
+                    ? phoneInputNumberFormatters()
+                    : null,
+                padding: style.inputPadding,
+                // Borderless: the group container paints the shared border.
+                decoration: const BoxDecoration(),
+              ),
+            ),
+          ],
         ),
-        Gap(style.fieldGap ?? 8),
-        SizedBox(
-          width: style.maxWidth ?? 200,
-          child: Input(
-            controller: _controller,
-            keyboardType: TextInputType.phone,
-            autofillHints: const <String>[AutofillHints.telephoneNumber],
-            inputFormatters: widget.onlyNumber
-                ? phoneInputNumberFormatters()
-                : null,
-            padding: style.inputPadding,
-          ),
-        ),
-      ],
+      ),
     );
   }
 

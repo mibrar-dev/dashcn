@@ -28,9 +28,11 @@ final List<TextInputFormatter> digitsOnlyFormatters = <TextInputFormatter>[
 /// One editable rung of a structured field.
 class SegmentRung {
   /// Creates a rung.
+  ///
+  /// [width] is an explicit override; null sizes from the text style.
   const SegmentRung({
     required this.length,
-    required this.width,
+    this.width,
     required this.placeholder,
     this.separatorBefore = '',
   });
@@ -38,8 +40,8 @@ class SegmentRung {
   /// Maximum digits accepted.
   final int length;
 
-  /// Segment width in logical pixels.
-  final double width;
+  /// Explicit width override in logical pixels; null sizes from the style.
+  final double? width;
 
   /// Shown while the segment is empty.
   final Widget placeholder;
@@ -122,6 +124,10 @@ typedef TimePartAbbreviation = String Function(TimePart part);
 typedef DurationPartAbbreviation = String Function(DurationPart part);
 
 /// Rungs for a locale-ordered date field: 4-digit year, 2-digit month/day.
+///
+/// Widths stay null so every box sizes from the text style (measured glyph
+/// advances + cursor): fixed overrides used to leave uneven empty space
+/// inside the narrower boxes (`MM /DD /YYYY`).
 List<SegmentRung> dateSegmentRungs({
   required List<DatePart> order,
   required String separator,
@@ -132,7 +138,6 @@ List<SegmentRung> dateSegmentRungs({
     for (int i = 0; i < order.length; i++)
       SegmentRung(
         length: order[i] == DatePart.year ? 4 : 2,
-        width: order[i] == DatePart.year ? 60 : 40,
         placeholder: placeholders?[order[i]] ?? Text(abbreviations(order[i])),
         separatorBefore: i == 0 ? '' : separator,
       ),
@@ -190,7 +195,6 @@ List<SegmentRung> timeSegmentRungs({
     for (int i = 0; i < count; i++)
       SegmentRung(
         length: 2,
-        width: 40,
         placeholder: placeholders?[order[i]] ?? Text(abbreviations(order[i])),
         separatorBefore: i == 0 ? '' : separator,
       ),
@@ -237,7 +241,6 @@ List<SegmentRung> durationSegmentRungs({
     for (int i = 0; i < count; i++)
       SegmentRung(
         length: 2,
-        width: 40,
         placeholder: placeholders?[order[i]] ?? Text(abbreviations(order[i])),
         separatorBefore: i == 0 ? '' : separator,
       ),

@@ -2,122 +2,252 @@
 //
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
-// site light/dark toggle.
+// site light/dark toggle. Every example is a working carousel: card-style
+// numbered slides clipped to the viewport, prev/next buttons, synced dots,
+// drag/swipe, and arrow-key stepping (tap the slides to focus, then use the
+// arrow keys).
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/constants.dart';
 import '../../foundation/gap.dart';
+import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import '../dot_indicator/dot_indicator.dart';
 import 'carousel.dart';
 
-/// Pages the carousel slides through.
-const List<String> _carouselPages = <String>['One', 'Two', 'Three', 'Four'];
-
-/// One palette-derived page surface.
-Widget _carouselPage(BuildContext context, String label) {
+/// One numbered card slide.
+Widget _slideCard(BuildContext context, int index) {
   final theme = ShadcnTheme.of(context);
-  return DecoratedBox(
+  return Container(
     decoration: BoxDecoration(
-      color: theme.colors.muted,
-      borderRadius: theme.borderRadiusMd,
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: theme.borderRadiusLg,
     ),
-    child: Center(
-      child: Text(
-        label,
-        style: TextStyle(
-          color: theme.colors.foreground,
-          fontWeight: FontWeight.w600,
-        ),
+    alignment: Alignment.center,
+    child: Text(
+      '${index + 1}',
+      style: TextStyle(
+        color: theme.colors.cardForeground,
+        fontSize: 28,
+        fontWeight: FontWeight.w600,
       ),
     ),
   );
 }
 
-/// The carousel with the dot row driven by its controller.
-class _CarouselCarousel extends StatefulWidget {
-  const _CarouselCarousel({this.fade = false});
+/// Shared working shell: viewport + prev/next + dots (+ optional counter).
+class _CarouselShell extends StatefulWidget {
+  const _CarouselShell({
+    this.viewportFraction,
+    this.gap,
+    this.direction = Axis.horizontal,
+    this.autoplay = false,
+    this.showCounter = false,
+  });
 
-  final bool fade;
+  final double? viewportFraction;
+  final double? gap;
+  final Axis direction;
+  final bool autoplay;
+  final bool showCounter;
 
   @override
-  State<_CarouselCarousel> createState() => _CarouselCarouselState();
+  State<_CarouselShell> createState() => _CarouselShellState();
 }
 
-class _CarouselCarouselState extends State<_CarouselCarousel> {
+/// Slides per example.
+const int _slideCount = 5;
+
+class _CarouselShellState extends State<_CarouselShell> {
   final CarouselController _controller = CarouselController();
+  final FocusNode _keys = FocusNode(debugLabel: 'CarouselShell');
   int _index = 0;
+  bool _playing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _playing = widget.autoplay;
+  }
 
   @override
   void dispose() {
     _controller.dispose();
+    _keys.dispose();
     super.dispose();
+  }
+
+  void _go(int delta) {
+    final int next = (_index + delta) % _slideCount < 0
+        ? _slideCount - 1
+        : (_index + delta) % _slideCount;
+    _controller.animateTo(next.toDouble(), kDefaultDuration);
+  }
+
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight ||
+        event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _go(1);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowLeft ||
+        event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _go(-1);
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
   }
 
   @override
   Widget build(BuildContext context) {
     final spacing = ShadcnTheme.of(context).spacing;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          width: 320,
-          height: 96,
+    final bool horizontal = widget.direction == Axis.horizontal;
+    final Widget viewport = GestureDetector(
+      onTap: _keys.requestFocus,
+      child: Focus(
+        focusNode: _keys,
+        onKeyEvent: _onKey,
+        child: SizedBox(
+          height: horizontal ? 160 : 280,
           child: Carousel(
-            itemCount: _carouselPages.length,
+            itemCount: _slideCount,
             controller: _controller,
-            transition: widget.fade ? CarouselTransition.fading : null,
+            viewportFraction: widget.viewportFraction,
+            gap: widget.gap,
+            direction: widget.direction,
+            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
             onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: (context, index) =>
-                _carouselPage(context, _carouselPages[index]),
+            itemBuilder: _slideCard,
           ),
         ),
-        Gap(spacing.md),
-        DotIndicator(
-          index: _index,
-          length: _carouselPages.length,
-          onChanged: (int page) =>
-              _controller.animateTo(page.toDouble(), kDefaultDuration),
-        ),
-      ],
+      ),
     );
-  }
-}
+    final Widget prev = Button(
+      size: ButtonSize.icon,
+      variant: ButtonVariant.outline,
+      onPressed: () => _go(-1),
+      child: Icon(
+        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+        size: 16,
+      ),
+    );
+    final Widget next = Button(
+      size: ButtonSize.icon,
+      variant: ButtonVariant.outline,
+      onPressed: () => _go(1),
+      child: Icon(
+        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+        size: 16,
+      ),
+    );
+    final Widget dots = DotIndicator(
+      index: _index,
+      length: _slideCount,
+      direction: widget.direction,
+      onChanged: (int page) =>
+          _controller.animateTo(page.toDouble(), kDefaultDuration),
+    );
 
-/// Sliding transition.
-Widget _carouselSlide(BuildContext context) => const _CarouselCarousel();
-
-/// Fading transition.
-Widget _carouselFade(BuildContext context) =>
-    const _CarouselCarousel(fade: true);
-
-/// An autoplaying carousel that advances on its own.
-class _CarouselAutoplay extends StatelessWidget {
-  const _CarouselAutoplay();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      height: 96,
-      child: Carousel(
-        itemCount: _carouselPages.length,
-        autoplayInterval: const Duration(seconds: 2),
-        itemBuilder: (context, index) =>
-            _carouselPage(context, _carouselPages[index]),
+    final Widget pager = horizontal
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              prev,
+              Gap(spacing.sm),
+              Expanded(child: viewport),
+              Gap(spacing.sm),
+              next,
+            ],
+          )
+        : Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[prev, Gap(spacing.sm), next],
+              ),
+              Gap(spacing.sm),
+              Expanded(child: viewport),
+              Gap(spacing.sm),
+              dots,
+            ],
+          );
+    return Align(
+      alignment: Alignment.topCenter,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 480),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            pager,
+            if (horizontal) ...<Widget>[Gap(spacing.sm), dots],
+            if (widget.autoplay) ...<Widget>[
+              Gap(spacing.sm),
+              Button(
+                size: ButtonSize.sm,
+                variant: ButtonVariant.outline,
+                onPressed: () => setState(() => _playing = !_playing),
+                leading: Icon(
+                  _playing ? LucideIcons.pause : LucideIcons.play,
+                  size: 16,
+                ),
+                child: Text(_playing ? 'Pause' : 'Play'),
+              ),
+            ],
+            if (widget.showCounter) ...<Widget>[
+              Gap(spacing.sm),
+              Text('Slide ${_index + 1} of $_slideCount'),
+              Gap(spacing.xs),
+              Button(
+                size: ButtonSize.sm,
+                variant: ButtonVariant.secondary,
+                onPressed: () => _controller.animateTo(
+                  (_slideCount - 1).toDouble(),
+                  kDefaultDuration,
+                ),
+                child: const Text('Jump to last'),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget _carouselAutoplay(BuildContext context) => const _CarouselAutoplay();
+/// Default: full-width slides with prev/next and dots.
+Widget _carouselDefault(BuildContext context) => const _CarouselShell();
+
+/// Three-up slides (`basis-1/3`) with spacing.
+Widget _carouselSizes(BuildContext context) =>
+    const _CarouselShell(viewportFraction: 1 / 3, gap: 8);
+
+/// Vertical orientation with up/down buttons and a vertical dot run.
+Widget _carouselVertical(BuildContext context) =>
+    const _CarouselShell(direction: Axis.vertical);
+
+/// Autoplaying slides with a play/pause toggle.
+Widget _carouselAutoplay(BuildContext context) =>
+    const _CarouselShell(autoplay: true);
+
+/// Controller API: live current/total counter plus a jump button.
+Widget _carouselApi(BuildContext context) =>
+    const _CarouselShell(showCounter: true);
 
 /// Named docs examples for `carousel`; the first entry is the default.
 const List<ComponentPreview> carouselPreviews = <ComponentPreview>[
-  ComponentPreview('Slide', _carouselSlide),
-  ComponentPreview('Fade', _carouselFade),
+  ComponentPreview('Default', _carouselDefault),
+  ComponentPreview('Sizes', _carouselSizes),
+  ComponentPreview('Vertical', _carouselVertical),
   ComponentPreview('Autoplay', _carouselAutoplay),
+  ComponentPreview('With API', _carouselApi),
 ];

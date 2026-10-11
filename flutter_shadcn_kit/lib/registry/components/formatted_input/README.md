@@ -20,12 +20,13 @@ For free-form text use `input`; for a step-by-step wizard use `stepper`.
 
 ```dart
 FormattedInput(
-  initialValue: const SegmentedValue([
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('555')),
-    SegmentPart.separator(' ('),
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('123')),
-    SegmentPart.separator(') '),
-    SegmentPart.editable(length: 4, width: 36, placeholder: Text('4567')),
+  initialValue: SegmentedValue([
+    const SegmentPart.separator('('),
+    SegmentPart.editable(length: 3, placeholder: const Text('555')),
+    const SegmentPart.separator(') '),
+    SegmentPart.editable(length: 3, placeholder: const Text('123')),
+    const SegmentPart.separator('-'),
+    SegmentPart.editable(length: 4, placeholder: const Text('4567')),
   ]),
   validator: (text) => (text ?? '').replaceAll(RegExp(r'[^0-9]'), '').length == 10
       ? null
@@ -33,11 +34,19 @@ FormattedInput(
 );
 ```
 
+Separators render exactly where declared, in order (`(555) 123-4567` above).
+Segments size themselves from the resolved text style (`length` glyph
+advances plus the cursor, floored by the placeholder width so labels like
+`MM` never wrap, density-aware); pass `width` only to force a wider box —
+it is never shrunk below what the content needs. The field hugs its content
+(never stretches in a loose parent) and fills a tight parent instead. Its
+height is the shadcn input height (h-9), shared with `Input`.
+
 Controller mode, for a field whose value other widgets also read:
 
 ```dart
 final controller = FormattedInputController(_phone);
-FormattedInput(controller: controller); // controller.value.text -> '555 () 4567'
+FormattedInput(controller: controller); // controller.value.text -> '(555) 123-4567'
 ```
 
 ## API
@@ -46,7 +55,7 @@ FormattedInput(controller: controller); // controller.value.text -> '555 () 4567
 |---|---|
 | `FormattedInput` | `controller` **or** `value` + `onChanged`, `initialValue`, `leading`, `trailing`, `enabled`, `validator`, `autovalidateMode`, `theme` |
 | `FormattedInputController` | `ValueNotifier<SegmentedValue>`; the value of a controller-driven field |
-| `SegmentPart` | `.editable(length:, width:, value:, obscureText:, placeholder:, inputFormatters:)` and `.separator(' / ')` |
+| `SegmentPart` | `.editable(length:, width:? (auto), value:, obscureText:, placeholder:, inputFormatters:)` and `.separator(' / ')` |
 | `SegmentedValue` | the parts + each segment's value; `text`, `values`, `withValue(index, value)`, `hasShape(parts)` |
 | `TextSegment` / `SegmentedTextController` | the segment primitive: one controller and focus node per segment |
 
@@ -59,15 +68,21 @@ alone for a purely uncontrolled field.
 
 Keyboard:
 
-- Typing a full segment hands the focus to the next one; <kbd>Enter</kbd>
-  does the same from anywhere in a segment.
-- <kbd>Backspace</kbd> or <kbd>←</kbd> at the start of a segment steps back to
-  the previous one.
+- Typing a full segment hands the focus to the next one (caret at its
+  start); <kbd>Enter</kbd> does the same from anywhere in a segment.
+- <kbd>Backspace</kbd> in an empty segment steps back and deletes the
+  previous segment's last glyph; at the start of a non-empty segment (or
+  <kbd>←</kbd> at the start) it steps back without deleting.
 - <kbd>→</kbd> at the end of a segment steps forward.
+- Pasting distributes characters across segments (through each segment's
+  `inputFormatters`, so digits-only fields strip separators).
 
-A `SegmentPart.editable` gets a `LengthLimitingTextInputFormatter` for its
-`length` automatically, plus whatever `inputFormatters` you pass (digit-only
-masking, and so on).
+There is intentionally no `LengthLimitingTextInputFormatter`: over-length
+input is distributed across the following segments instead of being
+truncated, so paste keeps every glyph. Lengths are still enforced per
+segment. Round-trips never rewrite the focused box when its text already
+matches (the caret and the IME composing range survive); other boxes keep
+a clamped selection.
 
 ## Theme resolution
 

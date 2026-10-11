@@ -3,6 +3,9 @@
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
+//
+// P7-C2: every card example is live — tapping a card selects it and the
+// selection is echoed under the row, so the demo shows what `onPressed` does.
 
 import 'package:flutter/widgets.dart';
 
@@ -30,61 +33,160 @@ Widget _cardImageThumb(BuildContext context, double height) {
   );
 }
 
+/// One card row plus the status line the example writes to.
+class _CardImageRow extends StatelessWidget {
+  const _CardImageRow({
+    required this.width,
+    required this.title,
+    required this.subtitle,
+    required this.selected,
+    required this.onPressed,
+    this.image,
+    this.direction = Axis.vertical,
+    this.enabled = true,
+  });
+
+  final double width;
+  final String title;
+  final String subtitle;
+  final bool selected;
+  final VoidCallback onPressed;
+  final Widget? image;
+  final Axis direction;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          width: width,
+          child: CardImage(
+            theme: CardImageTheme(direction: direction, gap: 12),
+            image: image ?? _cardImageThumb(context, 120),
+            title: Text(
+              title,
+              style: TextStyle(
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            subtitle: Text(subtitle),
+            enabled: enabled,
+            onPressed: onPressed,
+          ),
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          selected ? 'Opened "$title"' : 'Tap the card to open it',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
 /// Vertical composition: media above the text block.
-Widget _cardImageVertical(BuildContext context) {
-  return SizedBox(
-    width: 220,
-    child: CardImage(
-      image: _cardImageThumb(context, 120),
-      title: const Text('Sunset'),
-      subtitle: const Text('18:42 - Lisbon'),
-      onPressed: () {},
-    ),
-  );
+class _CardImageVertical extends StatefulWidget {
+  const _CardImageVertical();
+
+  @override
+  State<_CardImageVertical> createState() => _CardImageVerticalState();
+}
+
+class _CardImageVerticalState extends State<_CardImageVertical> {
+  bool _opened = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        _CardImageRow(
+          width: 220,
+          title: 'Sunset',
+          subtitle: '18:42 - Lisbon',
+          selected: _opened,
+          onPressed: () => setState(() => _opened = !_opened),
+        ),
+      ],
+    );
+  }
 }
 
 /// Horizontal composition: media beside the text block.
-Widget _cardImageHorizontal(BuildContext context) {
-  return SizedBox(
-    width: 320,
-    child: CardImage(
-      theme: const CardImageTheme(direction: Axis.horizontal, gap: 12),
-      image: SizedBox(width: 96, child: _cardImageThumb(context, 120)),
-      title: const Text('Track'),
-      subtitle: const Text('3:21 - Ambient'),
-      onPressed: () {},
-    ),
-  );
+class _CardImageHorizontal extends StatefulWidget {
+  const _CardImageHorizontal();
+
+  @override
+  State<_CardImageHorizontal> createState() => _CardImageHorizontalState();
 }
 
-/// The disabled card (no `onPressed`).
-Widget _cardImageDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      SizedBox(
-        width: 220,
-        child: CardImage(
-          image: _cardImageThumb(context, 120),
-          title: const Text('Disabled'),
-          subtitle: const Text('onPressed is null'),
-        ),
-      ),
-      Gap(spacing.lg),
-      SizedBox(
-        width: 220,
-        child: CardImage(
-          image: _cardImageThumb(context, 120),
-          title: const Text('Compact'),
-          subtitle: const Text('denser padding'),
+class _CardImageHorizontalState extends State<_CardImageHorizontal> {
+  bool _opened = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CardImageRow(
+      width: 320,
+      direction: Axis.horizontal,
+      image: SizedBox(width: 96, child: _cardImageThumb(context, 120)),
+      title: 'Ambient loops',
+      subtitle: '3:21 - focus mix',
+      selected: _opened,
+      onPressed: () => setState(() => _opened = !_opened),
+    );
+  }
+}
+
+/// The disabled card next to a live one, so the pair reads as one row.
+class _CardImageDisabledPair extends StatefulWidget {
+  const _CardImageDisabledPair();
+
+  @override
+  State<_CardImageDisabledPair> createState() => _CardImageDisabledPairState();
+}
+
+class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
+  bool _opened = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: ShadcnTheme.of(context).spacing.lg,
+      runSpacing: ShadcnTheme.of(context).spacing.lg,
+      crossAxisAlignment: WrapCrossAlignment.start,
+      children: <Widget>[
+        _CardImageRow(
+          width: 220,
+          title: 'Archived',
+          subtitle: 'read-only',
+          selected: false,
+          enabled: false,
           onPressed: () {},
         ),
-      ),
-    ],
-  );
+        _CardImageRow(
+          width: 220,
+          title: 'In progress',
+          subtitle: 'tap to open',
+          selected: _opened,
+          onPressed: () => setState(() => _opened = !_opened),
+        ),
+      ],
+    );
+  }
 }
+
+Widget _cardImageVertical(BuildContext context) => const _CardImageVertical();
+
+Widget _cardImageHorizontal(BuildContext context) =>
+    const _CardImageHorizontal();
+
+Widget _cardImageDisabled(BuildContext context) =>
+    const _CardImageDisabledPair();
 
 /// Named docs examples for `card_image`; the first entry is the default.
 const List<ComponentPreview> cardImagePreviews = <ComponentPreview>[

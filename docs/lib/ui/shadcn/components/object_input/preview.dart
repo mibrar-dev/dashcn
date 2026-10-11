@@ -2,8 +2,8 @@
 //
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
-// site light/dark toggle. Each field carries its own bounded width because
-// the segment rows measure an intrinsic width.
+// site light/dark toggle. Each field hugs its segments, so no example sets
+// a width.
 
 import 'package:flutter/widgets.dart';
 
@@ -25,14 +25,11 @@ class _DateDemoState extends State<_DateDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 280,
-      child: DateInput(
-        value: _date,
-        // Dialog: the example may not provide an OverlayManager.
-        mode: PromptMode.dialog,
-        onChanged: (DateTime? next) => setState(() => _date = next),
-      ),
+    return DateInput(
+      value: _date,
+      // Dialog: the example may not provide an OverlayManager.
+      mode: PromptMode.dialog,
+      onChanged: (DateTime? next) => setState(() => _date = next),
     );
   }
 }
@@ -50,12 +47,9 @@ class _TimeDemoState extends State<_TimeDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 280,
-      child: TimeInput(
-        value: _time,
-        onChanged: (TimeOfDay? next) => setState(() => _time = next),
-      ),
+    return TimeInput(
+      value: _time,
+      onChanged: (TimeOfDay? next) => setState(() => _time = next),
     );
   }
 }
@@ -73,12 +67,9 @@ class _DurationDemoState extends State<_DurationDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 280,
-      child: DurationInput(
-        value: _duration,
-        onChanged: (Duration? next) => setState(() => _duration = next),
-      ),
+    return DurationInput(
+      value: _duration,
+      onChanged: (Duration? next) => setState(() => _duration = next),
     );
   }
 }

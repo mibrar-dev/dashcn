@@ -8,6 +8,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
+import '../../foundation/gap.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
@@ -152,6 +153,7 @@ class _ActionToast extends StatefulWidget {
 
 class _ActionToastState extends State<_ActionToast> {
   final ToastController _controller = ToastController();
+  String _lastAction = 'The toast action is live: tap View.';
 
   @override
   void initState() {
@@ -173,6 +175,14 @@ class _ActionToastState extends State<_ActionToast> {
     super.dispose();
   }
 
+  void _show() {
+    _controller.showToast(
+      placement: ToastPlacement.bottomTrailing,
+      autoDismiss: false,
+      builder: _toastBody,
+    );
+  }
+
   Widget _toastBody(BuildContext context) {
     final spacing = ShadcnTheme.of(context).spacing;
     return Wrap(
@@ -184,7 +194,10 @@ class _ActionToastState extends State<_ActionToast> {
         Button(
           variant: ButtonVariant.secondary,
           size: ButtonSize.sm,
-          onPressed: () {},
+          onPressed: () {
+            _controller.dismissAll();
+            setState(() => _lastAction = 'Watched the deployment');
+          },
           child: const Text('View'),
         ),
       ],
@@ -200,15 +213,25 @@ class _ActionToastState extends State<_ActionToast> {
       height: 220,
       child: ToastLayer(
         controller: _controller,
-        child: Button(
-          variant: ButtonVariant.secondary,
-          size: ButtonSize.sm,
-          onPressed: () => _controller.showToast(
-            placement: ToastPlacement.bottomTrailing,
-            autoDismiss: false,
-            builder: _toastBody,
-          ),
-          child: const Text('Show toast with action'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Button(
+              variant: ButtonVariant.secondary,
+              size: ButtonSize.sm,
+              onPressed: _show,
+              child: const Text('Show toast with action'),
+            ),
+            Gap(ShadcnTheme.of(context).spacing.md),
+            Text(
+              _lastAction,
+              style: TextStyle(
+                fontSize: 12,
+                color: ShadcnTheme.of(context).colors.mutedForeground,
+              ),
+            ),
+          ],
         ),
       ),
     );

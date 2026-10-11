@@ -9,7 +9,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/clickable.dart';
 import '../../primitives/text/text_extension.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'breadcrumb_style.dart';
 
@@ -102,6 +104,64 @@ class Breadcrumb extends StatelessWidget {
   Widget _crumb(Widget child, {required bool isLast}) {
     final Widget styled = child.medium;
     return isLast ? styled.foreground : styled;
+  }
+}
+
+/// An interactive crumb: muted at rest, foreground with an underline on
+/// hover/press/focus, activated by tap, Enter or Space through [Clickable].
+///
+/// Use for every crumb except the current page (plain `Text`, which
+/// [Breadcrumb] already draws in the body foreground and which must stay a
+/// non-link).
+class BreadcrumbLink extends StatelessWidget {
+  /// Creates an interactive crumb.
+  const BreadcrumbLink({
+    super.key,
+    required this.onPressed,
+    required this.child,
+    this.focusNode,
+    this.autofocus = false,
+  });
+
+  /// Called on tap, Enter or Space; null disables the link.
+  final VoidCallback? onPressed;
+
+  /// Crumb label, usually a `Text`.
+  final Widget child;
+
+  /// Focus node of the link.
+  final FocusNode? focusNode;
+
+  /// Whether the link requests focus when first built.
+  final bool autofocus;
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    return Clickable(
+      onPressed: onPressed,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      mouseCursor: const StateValue<MouseCursor>(
+        rest: SystemMouseCursors.click,
+        disabled: SystemMouseCursors.basic,
+      ),
+      textStyle: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return TextStyle(color: ambient.colors.mutedForeground);
+        }
+        if (states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.pressed) ||
+            states.contains(WidgetState.focused)) {
+          return TextStyle(
+            color: ambient.colors.foreground,
+            decoration: TextDecoration.underline,
+          );
+        }
+        return TextStyle(color: ambient.colors.mutedForeground);
+      }),
+      child: child,
+    );
   }
 }
 

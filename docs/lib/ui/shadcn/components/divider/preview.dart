@@ -25,12 +25,12 @@ Widget _dividerLabelled(BuildContext context) {
       Gap(spacing.sm),
       const Divider(
         labelAlignment: DividerLabelAlignment.start,
-        label: Text('start'),
+        label: Text('New this week'),
       ),
       Gap(spacing.sm),
       const Divider(
         labelAlignment: DividerLabelAlignment.end,
-        label: Text('end'),
+        label: Text('Archived'),
       ),
     ],
   );
@@ -44,9 +44,9 @@ Widget _dividerVertical(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: const <Widget>[
-        Text('left'),
+        Text('Inbox'),
         Divider(axis: Axis.vertical),
-        Text('right'),
+        Text('Archive'),
       ],
     ),
   );

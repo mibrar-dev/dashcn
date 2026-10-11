@@ -75,7 +75,7 @@ class _AutocompleteAutoCompleteFieldState
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Input(
-            hintText: 'Type a fruit... (${widget.hint})',
+            hintText: 'Type a fruit - ${widget.hint}',
             features: <InputFeature>[
               AutoCompleteFeature(
                 suggestions: _autocompleteFilter,
@@ -100,26 +100,26 @@ class _AutocompleteAutoCompleteFieldState
 
 /// The default replacement mode.
 Widget _autocompleteDefault(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(hint: 'replaceWord');
+    const _AutocompleteAutoCompleteField(hint: 'replaces the word');
 
 /// Append mode: the suggestion is inserted at the caret.
 Widget _autocompleteAppend(BuildContext context) =>
     const _AutocompleteAutoCompleteField(
-      hint: 'append',
+      hint: 'appended at the caret',
       mode: AutoCompleteMode.append,
     );
 
 /// Replace-all mode: the whole field is replaced.
 Widget _autocompleteReplaceAll(BuildContext context) =>
     const _AutocompleteAutoCompleteField(
-      hint: 'replaceAll',
+      hint: 'replaces the whole field',
       mode: AutoCompleteMode.replaceAll,
     );
 
 /// A custom completer plus a custom row builder.
 Widget _autocompleteCustomRow(BuildContext context) =>
     const _AutocompleteAutoCompleteField(
-      hint: 'custom',
+      hint: 'with a padded completion',
       completer: _autocompletePad,
       itemBuilder: _autocompleteBoldWhenSelected,
     );

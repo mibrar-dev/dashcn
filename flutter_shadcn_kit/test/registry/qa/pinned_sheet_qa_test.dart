@@ -1,8 +1,10 @@
-// QA for `pinned_sheet` previews (P7-Q2).
+// QA for `pinned_sheet` previews (P7-Q2, updated for the P7-C1 examples).
 //
 // Pumps every `pinnedSheetPreviews` example under neutral/claude x light/dark,
 // RTL and 375px, snaps between stages with the buttons, and drags the sheet
-// like a user.
+// like a user. Every example owns its bounded stage and a visible trigger row
+// (`Open sheet` / `Half` / `Close`, plus a live `% open` readout where the
+// example has snap points), so both paths assert on real state.
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/pinned_sheet/pinned_sheet.dart';
@@ -82,31 +84,45 @@ void main() {
   testWidgets('Default sheet drags between stages', (tester) async {
     await _pumpPreview(tester, pinnedSheetPreviews[0]);
     expect(find.byType(PinnedSheet), findsOneWidget);
-    expect(find.text('Sheet content'), findsOneWidget);
-    final double before = tester.getTopLeft(find.text('Sheet content')).dy;
-    // The sheet starts at the 0.4 stage, so most of the body sits below the
-    // box (off-viewport, unhittable): drag from the visible strip near the
-    // bottom of the 280px box, far enough to settle on `expanded`.
-    await tester.dragFrom(const Offset(400, 400), const Offset(0, -150));
+    expect(find.text('Bottom sheet'), findsOneWidget);
+    final double open = tester.getTopLeft(find.text('Bottom sheet')).dy;
+    // The bottom sheet starts expanded, so its body fills the 220px stage;
+    // dragging down past the stage snaps it to `closed` and it slides out.
+    await tester.drag(find.byType(PinnedSheet), const Offset(0, 300));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
+    expect(tester.takeException(), isNull);
+    final double closed = tester.getTopLeft(find.text('Bottom sheet')).dy;
+    expect(closed, greaterThan(open));
+    // Driving it back from the trigger row returns it to the expanded stage.
+    await tester.tap(find.text('Open sheet'));
+    await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     expect(tester.takeException(), isNull);
-    final double after = tester.getTopLeft(find.text('Sheet content')).dy;
-    expect(after, isNot(equals(before)));
+    expect(tester.getTopLeft(find.text('Bottom sheet')).dy, closeTo(open, 0.5));
   });
 
   testWidgets('Snapping buttons move the sheet without exceptions', (
     tester,
   ) async {
-    await _pumpPreview(tester, pinnedSheetPreviews[1]);
-    for (final String label in const <String>['Close', 'Half', 'Open']) {
-      await tester.tap(find.text(label));
+    // The snap-points example is the one with the live fraction readout.
+    await _pumpPreview(tester, pinnedSheetPreviews[4]);
+    expect(find.text('40% open'), findsOneWidget);
+    for (final MapEntry<String, String> step
+        in const <MapEntry<String, String>>[
+          MapEntry<String, String>('Open sheet', '100% open'),
+          MapEntry<String, String>('Half', '40% open'),
+          MapEntry<String, String>('Close', '0% open'),
+          MapEntry<String, String>('Open sheet', '100% open'),
+        ]) {
+      await tester.tap(find.text(step.key));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
+      expect(tester.takeException(), isNull, reason: step.key);
+      expect(find.text(step.value), findsOneWidget, reason: step.key);
     }
-    expect(find.text('Sheet content'), findsOneWidget);
+    expect(find.text('Sheet content'), findsNothing);
+    expect(find.text('Snap points'), findsOneWidget);
   });
 
   testWidgets('previews mirror in RTL and fit 375px', (tester) async {

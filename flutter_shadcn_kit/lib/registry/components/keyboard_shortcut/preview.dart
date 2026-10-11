@@ -4,6 +4,11 @@
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
+//
+// P7-C2: the widget itself renders a chord (it is a display component), so the
+// live example wires a real `Shortcuts` entry around it: pressing the chord
+// fires the intent and the example reports the match, which is what the user
+// sees in an app.
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +17,64 @@ import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'keyboard_shortcut.dart';
+
+/// A chord the example can really fire.
+class _KeyboardShortcutLive extends StatefulWidget {
+  const _KeyboardShortcutLive();
+
+  @override
+  State<_KeyboardShortcutLive> createState() => _KeyboardShortcutLiveState();
+}
+
+class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
+  String _status = 'Press the chord';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Shortcuts(
+      shortcuts: const <ShortcutActivator, Intent>{
+        SingleActivator(LogicalKeyboardKey.keyK, meta: true):
+            _OpenPaletteIntent(),
+      },
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          _OpenPaletteIntent: CallbackAction<_OpenPaletteIntent>(
+            onInvoke: (_) => setState(() => _status = 'Command palette opened'),
+          ),
+        },
+        child: Focus(
+          autofocus: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const KeyboardShortcut(
+                keys: <LogicalKeyboardKey>[
+                  LogicalKeyboardKey.meta,
+                  LogicalKeyboardKey.keyK,
+                ],
+              ),
+              Gap(theme.spacing.md),
+              Text(
+                _status,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: theme.colors.mutedForeground,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The intent the live example binds.
+class _OpenPaletteIntent extends Intent {
+  const _OpenPaletteIntent();
+}
 
 /// A chord rendered from an activator.
 Widget _keyboardShortcutDefault(BuildContext context) {
@@ -71,9 +134,14 @@ Widget _keyboardShortcutScoped(BuildContext context) {
 Widget _keyboardShortcutLabel(BuildContext context, LogicalKeyboardKey key) =>
     Text(key.keyLabel.toUpperCase());
 
+/// A chord that can really be pressed.
+Widget _keyboardShortcutLive(BuildContext context) =>
+    const _KeyboardShortcutLive();
+
 /// Named docs examples for `keyboard_shortcut`; the first is the default.
 const List<ComponentPreview> keyboardShortcutPreviews = <ComponentPreview>[
   ComponentPreview('Default', _keyboardShortcutDefault),
   ComponentPreview('Multiple keys', _keyboardShortcutMultipleKeys),
   ComponentPreview('Scoped labels', _keyboardShortcutScoped),
+  ComponentPreview('Live chord', _keyboardShortcutLive),
 ];

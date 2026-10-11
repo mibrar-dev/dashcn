@@ -82,23 +82,29 @@ void main() {
   testWidgets('date, time and duration fields take focus on tap', (
     tester,
   ) async {
+    // Tap the first segment (not the field center: the date field's trailing
+    // calendar button sits near the center of a wide box and opens the
+    // picker instead of focusing).
+    Future<void> tapFirstSegment(Finder scope) => tester.tap(
+      find.descendant(of: scope, matching: find.byType(EditableText)).first,
+    );
     await _pumpPreview(tester, objectInputPreviews[0]);
     expect(find.byType(DateInput), findsOneWidget);
-    await tester.tap(find.byType(DateInput));
+    await tapFirstSegment(find.byType(DateInput));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(tester.takeException(), isNull);
 
     await _pumpPreview(tester, objectInputPreviews[1]);
     expect(find.byType(TimeInput), findsOneWidget);
-    await tester.tap(find.byType(TimeInput));
+    await tapFirstSegment(find.byType(TimeInput));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(tester.takeException(), isNull);
 
     await _pumpPreview(tester, objectInputPreviews[2]);
     expect(find.byType(DurationInput), findsOneWidget);
-    await tester.tap(find.byType(DurationInput));
+    await tapFirstSegment(find.byType(DurationInput));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(tester.takeException(), isNull);

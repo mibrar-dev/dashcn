@@ -618,7 +618,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'flutter_shadcn add formatted_input',
     import:
         "import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';",
-    fileCount: 3,
+    fileCount: 4,
     stability: 'stable',
     listed: true,
   ),
@@ -1103,11 +1103,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Gooey Toast',
     category: 'Overlays',
     description:
-        'Gooey-style transient notifications: a compact pill whose metaball silhouette morphs into an expanded body, built on the shared toast queue.',
+        'Gooey-style transient notifications: a compact tab-shaped pill that grows a wider body below it through concave shoulders, anchored to the window edge.',
     install: 'flutter_shadcn add gooey_toast',
     import:
         "import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';",
-    fileCount: 3,
+    fileCount: 7,
     stability: 'stable',
     listed: true,
   ),

@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import 'skeleton.dart';
 
 /// Tap target that flips the loading state of the example.
@@ -23,20 +24,13 @@ class _SkeletonSkeletonToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: colors.border),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(
-          loading ? 'loading - tap to load' : 'loaded - tap to load',
-          style: TextStyle(color: colors.foreground),
-        ),
-      ),
+    // A real Button (keyboard, hover, focus ring, semantics) instead of a
+    // hand-rolled GestureDetector pill.
+    return Button(
+      size: ButtonSize.sm,
+      variant: ButtonVariant.outline,
+      onPressed: onPressed,
+      child: Text(loading ? 'Show content' : 'Show skeleton'),
     );
   }
 }

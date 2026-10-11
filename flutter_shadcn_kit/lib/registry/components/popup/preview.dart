@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import '../menu/menu.dart';
 import 'popup.dart';
 
@@ -63,20 +64,14 @@ class _AnchoredDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return GestureDetector(
-      onTap: () => showShadcnPopup(
+    return Button(
+      variant: ButtonVariant.secondary,
+      size: ButtonSize.sm,
+      onPressed: () => showShadcnPopup(
         context: context,
         builder: (BuildContext context) => const _ProfileCard(),
       ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: theme.colors.secondary,
-          borderRadius: theme.borderRadiusMd,
-        ),
-        child: const Text('Show popup'),
-      ),
+      child: const Text('Show popup'),
     );
   }
 }

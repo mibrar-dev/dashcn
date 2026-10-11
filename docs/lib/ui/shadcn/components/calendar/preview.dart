@@ -90,26 +90,59 @@ Widget _calendarMulti(BuildContext context) =>
     const _CalendarCalendarPanel(selectionMode: CalendarSelectionMode.multi);
 
 /// A month grid that also serves as the month picker.
-Widget _calendarMonthGrid(BuildContext context) {
-  return Calendar(
-    view: _calendarMarch,
-    viewType: CalendarViewType.month,
-    now: _calendarToday,
-    selectionMode: CalendarSelectionMode.single,
-    onChanged: (CalendarValue? value) {},
-  );
+class _CalendarMonthGridPanel extends StatefulWidget {
+  const _CalendarMonthGridPanel();
+
+  @override
+  State<_CalendarMonthGridPanel> createState() =>
+      _CalendarMonthGridPanelState();
+}
+
+class _CalendarMonthGridPanelState extends State<_CalendarMonthGridPanel> {
+  CalendarValue? _value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Calendar(
+      view: _calendarMarch,
+      viewType: CalendarViewType.month,
+      now: _calendarToday,
+      selectionMode: CalendarSelectionMode.single,
+      value: _value,
+      onChanged: (CalendarValue? value) => setState(() => _value = value),
+    );
+  }
 }
 
 /// A year grid.
-Widget _calendarYearGrid(BuildContext context) {
-  return Calendar(
-    view: _calendarMarch,
-    viewType: CalendarViewType.year,
-    now: _calendarToday,
-    selectionMode: CalendarSelectionMode.single,
-    onChanged: (CalendarValue? value) {},
-  );
+class _CalendarYearGridPanel extends StatefulWidget {
+  const _CalendarYearGridPanel();
+
+  @override
+  State<_CalendarYearGridPanel> createState() => _CalendarYearGridPanelState();
 }
+
+class _CalendarYearGridPanelState extends State<_CalendarYearGridPanel> {
+  CalendarValue? _value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Calendar(
+      view: _calendarMarch,
+      viewType: CalendarViewType.year,
+      now: _calendarToday,
+      selectionMode: CalendarSelectionMode.single,
+      value: _value,
+      onChanged: (CalendarValue? value) => setState(() => _value = value),
+    );
+  }
+}
+
+Widget _calendarMonthGrid(BuildContext context) =>
+    const _CalendarMonthGridPanel();
+
+Widget _calendarYearGrid(BuildContext context) =>
+    const _CalendarYearGridPanel();
 
 /// Read-only: Sundays are disabled and the value does not change.
 Widget _calendarReadOnly(BuildContext context) {

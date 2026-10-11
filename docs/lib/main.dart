@@ -30,6 +30,7 @@ import 'routing/deferred_page.dart';
 import 'routing/docs_router.dart';
 import 'state/docs_state.dart';
 import 'ui/shadcn/components/app/app.dart';
+import 'ui/shadcn/components/gooey_toast/gooey_toast.dart';
 import 'ui/shadcn/theme/color_tokens.dart';
 import 'ui/shadcn/theme/theme.dart';
 import 'web_bridge.dart';
@@ -154,7 +155,16 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       ),
       // The home route is deliberately unnamed: the docs navigator must be the
       // only thing reporting URLs to the engine (the Router owns history).
-      home: DocsAppShell(delegate: _delegate, state: state, child: navigator),
+      // The gooey toast layer is hosted app-wide: its controller portals into
+      // the root overlay, so a toast anchors to the browser window instead of
+      // to the preview card that triggered it.
+      home: GooeyToastLayer(
+        child: DocsAppShell(
+          delegate: _delegate,
+          state: state,
+          child: navigator,
+        ),
+      ),
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
           PageRouteBuilder<T>(
             settings: const RouteSettings(),

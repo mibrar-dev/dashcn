@@ -6,23 +6,57 @@
 //
 // P7-D1b: single-button examples use `Align.center` (not start) so the stage
 // centres them on both axes.
+//
+// P7-C2: every example is live — a press is counted in the button's own label
+// (or in a status line under the row), so the demo shows the callback firing.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
+import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'button.dart';
 
+/// One button whose label counts the presses the example owns.
+class _PressableButton extends StatefulWidget {
+  const _PressableButton({
+    required this.label,
+    this.variant = ButtonVariant.primary,
+  });
+
+  final String label;
+  final ButtonVariant variant;
+
+  @override
+  State<_PressableButton> createState() => _PressableButtonState();
+}
+
+class _PressableButtonState extends State<_PressableButton> {
+  int _presses = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Button(
+        variant: widget.variant,
+        onPressed: () => setState(() => _presses++),
+        child: Text(
+          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+        ),
+      ),
+    );
+  }
+}
+
+/// One variant demo, centred with its press count in the label.
 Widget _buttonExample(
   BuildContext context,
   ButtonVariant variant,
   String label,
 ) {
-  return Align(
-    alignment: Alignment.center,
-    child: Button(variant: variant, onPressed: () {}, child: Text(label)),
-  );
+  return _PressableButton(variant: variant, label: label);
 }
 
 Widget _buttonDefault(BuildContext context) =>
@@ -43,75 +77,151 @@ Widget _buttonLink(BuildContext context) =>
 Widget _buttonDestructive(BuildContext context) =>
     _buttonExample(context, ButtonVariant.destructive, 'Delete');
 
-/// Icon-only button (shadcn `size="icon"`).
-Widget _buttonIcon(BuildContext context) {
-  return Align(
-    alignment: Alignment.center,
-    child: Button(
-      size: ButtonSize.icon,
-      variant: ButtonVariant.outline,
-      onPressed: () {},
-      child: const Icon(LucideIcons.settings, size: 16),
-    ),
-  );
+/// Icon-only button (shadcn `size="icon"`) with the press count beside it.
+class _ButtonIcon extends StatefulWidget {
+  const _ButtonIcon();
+
+  @override
+  State<_ButtonIcon> createState() => _ButtonIconState();
 }
 
-/// Leading and trailing icon buttons.
-Widget _buttonWithIcon(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Wrap(
-    spacing: spacing.md,
-    runSpacing: spacing.sm,
-    children: <Widget>[
-      Button(
-        leading: const Icon(LucideIcons.plus, size: 16),
-        onPressed: () {},
-        child: const Text('Add item'),
-      ),
-      Button(
-        variant: ButtonVariant.outline,
-        trailing: const Icon(LucideIcons.chevronRight, size: 16),
-        onPressed: () {},
-        child: const Text('Next'),
-      ),
-    ],
-  );
+class _ButtonIconState extends State<_ButtonIcon> {
+  int _presses = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Button(
+          size: ButtonSize.icon,
+          variant: ButtonVariant.outline,
+          onPressed: () => setState(() => _presses++),
+          child: const Icon(LucideIcons.settings, size: 16),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          _presses == 0 ? 'not pressed yet' : 'pressed $_presses time(s)',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+/// Leading and trailing icon buttons; both report the press below the row.
+class _ButtonWithIcon extends StatefulWidget {
+  const _ButtonWithIcon();
+
+  @override
+  State<_ButtonWithIcon> createState() => _ButtonWithIconState();
+}
+
+class _ButtonWithIconState extends State<_ButtonWithIcon> {
+  String _last = 'not pressed yet';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Wrap(
+          spacing: theme.spacing.md,
+          runSpacing: theme.spacing.sm,
+          children: <Widget>[
+            Button(
+              leading: const Icon(LucideIcons.plus, size: 16),
+              onPressed: () => setState(() => _last = 'Add item pressed'),
+              child: const Text('Add item'),
+            ),
+            Button(
+              variant: ButtonVariant.outline,
+              trailing: const Icon(LucideIcons.chevronRight, size: 16),
+              onPressed: () => setState(() => _last = 'Next pressed'),
+              child: const Text('Next'),
+            ),
+          ],
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          _last,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
 }
 
 /// The size scale in one row (shadcn shows the sizes together).
-Widget _buttonSizes(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Wrap(
-    spacing: spacing.sm,
-    runSpacing: spacing.sm,
-    crossAxisAlignment: WrapCrossAlignment.center,
-    children: <Widget>[
-      for (final size in ButtonSize.values)
-        if (size != ButtonSize.icon)
-          Button(size: size, onPressed: () {}, child: Text(size.name)),
-    ],
-  );
+class _ButtonSizes extends StatefulWidget {
+  const _ButtonSizes();
+
+  @override
+  State<_ButtonSizes> createState() => _ButtonSizesState();
+}
+
+class _ButtonSizesState extends State<_ButtonSizes> {
+  String _last = 'not pressed yet';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Wrap(
+          spacing: theme.spacing.sm,
+          runSpacing: theme.spacing.sm,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: <Widget>[
+            for (final ButtonSize size in ButtonSize.values)
+              if (size != ButtonSize.icon)
+                Button(
+                  size: size,
+                  onPressed: () =>
+                      setState(() => _last = '${size.name} button pressed'),
+                  child: Text(size.name),
+                ),
+          ],
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          _last,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
 }
 
 /// A pending button: disabled with a loader glyph, the shadcn pattern.
 Widget _buttonLoading(BuildContext context) {
-  return Align(
+  return const Align(
     alignment: Alignment.center,
     child: Button(
       enabled: false,
-      leading: const Icon(LucideIcons.loaderCircle, size: 16),
-      child: const Text('Loading...'),
+      leading: Icon(LucideIcons.loaderCircle, size: 16),
+      child: Text('Loading...'),
     ),
   );
 }
 
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
-  return Align(
+  return const Align(
     alignment: Alignment.center,
-    child: Button(enabled: false, child: const Text('Disabled')),
+    child: Button(enabled: false, child: Text('Disabled')),
   );
 }
+
+Widget _buttonIcon(BuildContext context) => const _ButtonIcon();
+
+Widget _buttonWithIcon(BuildContext context) => const _ButtonWithIcon();
+
+Widget _buttonSizes(BuildContext context) => const _ButtonSizes();
 
 /// Named docs examples for `button`; the first entry is the default.
 const List<ComponentPreview> buttonPreviews = <ComponentPreview>[

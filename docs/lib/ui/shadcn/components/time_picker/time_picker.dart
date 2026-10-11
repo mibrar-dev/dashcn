@@ -62,6 +62,10 @@ const double _timeColumnWidth = 72;
 const double _timeColumnMinWidth = 48;
 
 /// A clock-time field opening a [TimePickerDialog] sheet.
+///
+/// The trigger hugs its content (at least 140 shadcn px): the clock icon
+/// leads, the label is left-aligned, the placeholder is muted. Pass [expand]
+/// for a full-width field.
 class TimePicker extends StatelessWidget {
   const TimePicker({
     super.key,
@@ -76,6 +80,7 @@ class TimePicker extends StatelessWidget {
     this.showSeconds = false,
     this.dialogTitle,
     this.enabled,
+    this.expand = false,
     this.theme,
   });
   final TimeOfDay? value;
@@ -89,11 +94,15 @@ class TimePicker extends StatelessWidget {
   final bool showSeconds;
   final Widget? dialogTitle;
   final bool? enabled;
+
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
   final TimePickerTheme? theme;
   @override
   Widget build(BuildContext context) {
     final TimePickerTheme style = _resolveTimePickerTheme(context, theme);
     final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
     final bool clock24 =
         use24HourFormat ??
         style.use24HourFormat ??
@@ -110,7 +119,13 @@ class TimePicker extends StatelessWidget {
           showSeconds: seconds,
         ),
       ),
-      trailing: const Icon(LucideIcons.clock),
+      leading: Icon(
+        LucideIcons.clock,
+        size: 16,
+        color: ambient.colors.mutedForeground,
+      ),
+      expand: expand,
+      triggerMinWidth: 140,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -261,6 +276,7 @@ class DurationPicker extends StatelessWidget {
     this.popoverPadding,
     this.dialogTitle,
     this.enabled,
+    this.expand = false,
   });
   final Duration? value;
   final ValueChanged<Duration?>? onChanged;
@@ -271,15 +287,25 @@ class DurationPicker extends StatelessWidget {
   final EdgeInsetsGeometry? popoverPadding;
   final Widget? dialogTitle;
   final bool? enabled;
+
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
   @override
   Widget build(BuildContext context) {
     final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
     return ObjectFormField<Duration>(
       value: value,
       onChanged: onChanged,
       placeholder: placeholder ?? Text(strings.placeholderDurationPicker),
       builder: (context, value) => Text(strings.formatDuration(value)),
-      trailing: const Icon(LucideIcons.clock),
+      leading: Icon(
+        LucideIcons.clock,
+        size: 16,
+        color: ambient.colors.mutedForeground,
+      ),
+      expand: expand,
+      triggerMinWidth: 140,
       mode: mode,
       popoverAlignment: popoverAlignment,
       popoverAnchorAlignment: popoverAnchorAlignment,

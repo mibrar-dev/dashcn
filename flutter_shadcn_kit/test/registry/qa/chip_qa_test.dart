@@ -1,11 +1,14 @@
-// QA for `chip` previews (P7-Q1).
+// QA for `chip` previews (P7-Q1, updated for the P7-C1 examples).
 //
 // Regression cover for: the dead `autofocus` on Chip and ChipButton (now
 // honoured through an owned focus node).
 
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/chip/chip.dart';
 import 'package:flutter_shadcn_kit/registry/components/chip/preview.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/icons/lucide_icons.dart';
 import 'package:flutter_shadcn_kit/registry/primitives/clickable.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
@@ -21,7 +24,11 @@ Widget _frame(
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Center(
-        child: width == null ? child : SizedBox(width: width, child: child),
+        child: SizedBox(
+          key: const ValueKey<String>('stage'),
+          width: width,
+          child: child,
+        ),
       ),
     ),
   );
@@ -72,13 +79,60 @@ void main() {
     expect(Focus.of(tester.element(find.text('x'))).hasPrimaryFocus, isTrue);
   });
 
-  testWidgets('pressable preview counts taps', (tester) async {
+  testWidgets('removable preview counts clicks on the x', (tester) async {
+    await tester.pumpWidget(_frame(Builder(builder: chipPreviews[0].builder)));
+    await tester.pumpAndSettle();
+    expect(find.text('4 of 4 shown'), findsOneWidget);
+    await tester.tap(find.byIcon(LucideIcons.x).first);
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('3 of 4 shown'), findsOneWidget);
+    // Reset restores the list, so the example is re-runnable.
+    await tester.tap(find.text('Reset'));
+    await tester.pump();
+    expect(find.text('4 of 4 shown'), findsOneWidget);
+  });
+
+  testWidgets('selectable preview counts toggles', (tester) async {
     await tester.pumpWidget(_frame(Builder(builder: chipPreviews[1].builder)));
     await tester.pumpAndSettle();
-    expect(find.text('pressed 0'), findsOneWidget);
-    await tester.tap(find.byType(Chip).first);
+    expect(find.text('2 selected'), findsOneWidget);
+    await tester.tap(find.text('Sports'));
     await tester.pump();
-    expect(find.text('pressed 1'), findsOneWidget);
+    await tester.pump();
+    expect(find.text('3 selected'), findsOneWidget);
+    await tester.tap(find.text('Travel'));
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('2 selected'), findsOneWidget);
+  });
+
+  testWidgets('chip examples are centred in the stage', (tester) async {
+    for (final preview in chipPreviews) {
+      await tester.pumpWidget(
+        _frame(Builder(builder: preview.builder), width: 720),
+      );
+      await tester.pumpAndSettle();
+      final RenderBox stage = tester.renderObject(
+        find.byKey(const ValueKey<String>('stage')),
+      );
+      final double stageCentre =
+          stage.localToGlobal(Offset.zero).dx + stage.size.width / 2;
+      double left = double.infinity;
+      double right = -double.infinity;
+      for (final Element e in find.byType(Chip).evaluate()) {
+        final RenderBox box = e.renderObject! as RenderBox;
+        final Rect rect = box.localToGlobal(Offset.zero) & box.size;
+        left = math.min(left, rect.left);
+        right = math.max(right, rect.right);
+      }
+      expect(left.isFinite && right > left, isTrue);
+      expect(
+        (left + right) / 2,
+        closeTo(stageCentre, 1),
+        reason: '${preview.name} must centre its chips',
+      );
+    }
   });
 
   testWidgets('static chip builds no Clickable', (tester) async {

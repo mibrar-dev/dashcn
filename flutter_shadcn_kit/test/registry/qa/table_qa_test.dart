@@ -88,8 +88,13 @@ void main() {
     expect(find.text('Name'), findsOneWidget);
     expect(find.text('Avery'), findsOneWidget);
     expect(find.text('Casey'), findsOneWidget);
-    expect(find.text('3 people'), findsOneWidget);
+    expect(find.text('4 people'), findsOneWidget);
     expect(tester.takeException(), isNull);
+    // P7-C2: a row tap selects it and the example reports it.
+    expect(find.text('Tap a row to select it'), findsOneWidget);
+    await tester.tap(find.text('Casey'));
+    await tester.pump();
+    expect(find.text('Selected Casey'), findsOneWidget);
   });
 
   testWidgets('Default preview fits a 375px phone with no overflow', (

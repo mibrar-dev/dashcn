@@ -53,7 +53,7 @@ class FormattedInputTheme extends ComponentThemeData
   /// Inner padding. Default: 8 horizontal, 4 vertical (scaled).
   final EdgeInsetsGeometry? padding;
 
-  /// Field height. Default: 36 (the shadcn input height).
+  /// Minimum field height. Default: 36 (the shadcn input height).
   final double? height;
 
   /// Segment text style; null takes the theme mono at `text-sm`.
@@ -191,7 +191,7 @@ class FormattedInputSurface {
   /// Density-resolved inner padding.
   final EdgeInsetsGeometry padding;
 
-  /// Field height.
+  /// Minimum field height.
   final double height;
 
   /// Resolved segment text style.

@@ -28,6 +28,7 @@ import '../../primitives/table_layout/table_layout.dart';
 import '../../primitives/table_layout/table_models.dart';
 import '../../primitives/table_layout/table_resize.dart';
 import '../../primitives/table_layout/table_resize_controller.dart';
+import '../../primitives/clickable.dart';
 import '../../theme/theme.dart';
 import '../scrollable_client/scrollable_client.dart';
 import 'table_style.dart';
@@ -66,6 +67,7 @@ class ShadcnTable extends StatefulWidget {
     this.resizeController,
     this.cellWidthResizeMode = TableCellResizeMode.reallocate,
     this.cellHeightResizeMode = TableCellResizeMode.expand,
+    this.onRowTap,
     this.theme,
   });
 
@@ -105,7 +107,13 @@ class ShadcnTable extends StatefulWidget {
 
   /// Column / row resize behaviour when [resizeController] is set.
   final TableCellResizeMode cellWidthResizeMode;
+
+  /// Cell height strategy while a row resize drag runs.
   final TableCellResizeMode cellHeightResizeMode;
+
+  /// Called with the row index when a body row is activated (tap, Enter or
+  /// Space). Header and footer rows never report; null keeps every row inert.
+  final ValueChanged<int>? onRowTap;
 
   /// Widget-leg theme override, merged on top of the other resolver legs.
   final TableTheme? theme;
@@ -316,7 +324,7 @@ class ShadcnTableState extends State<ShadcnTable> {
       _rowDefaultTheme(row),
       tableTheme: tableCellTheme,
     );
-    return TableCellView(
+    final Widget view = TableCellView(
       current: TableCellRange(
         flat.column,
         flat.row,
@@ -337,6 +345,17 @@ class ShadcnTableState extends State<ShadcnTable> {
       padding: cellTheme.padding,
       minHeight: cellTheme.minHeight,
       child: cell.child,
+    );
+    final ValueChanged<int>? onRowTap = widget.onRowTap;
+    if (onRowTap == null ||
+        row is ShadcnTableHeader ||
+        row is ShadcnTableFooter) {
+      return view;
+    }
+    return Clickable(
+      behavior: HitTestBehavior.opaque,
+      onPressed: () => onRowTap(flat.row),
+      child: view,
     );
   }
 

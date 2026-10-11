@@ -10,7 +10,7 @@
   "deps": {
     "foundation": [],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["table_layout"],
+    "primitives": ["clickable", "table_layout"],
     "components": ["scrollable_client"]
   },
   "files": [

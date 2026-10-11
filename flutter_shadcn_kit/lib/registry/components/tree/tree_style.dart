@@ -279,34 +279,47 @@ class TreeRow extends StatelessWidget {
         null => BorderRadius.zero,
       };
 
-  /// The guide of ancestor level [index]; only the direct parent draws a tick.
+  /// The guide of ancestor level [index].
+  ///
+  /// [indent] and [thickness] are already scaled. The hairline is a stretched
+  /// row, not a `Positioned.fill` inside a `Stack`: `BoxConstraints` pin only a
+  /// *minimum* width and a childless `ColoredBox` fills its box, so that stack
+  /// painted the whole indent width as a grey block.
   static Widget _guide(
     TreeBranchLine kind,
     Color color,
+    double indent,
+    double thickness,
     List<TreeNodeDepth> depth,
     int index,
   ) {
     if (kind == TreeBranchLine.none) {
       return const SizedBox.shrink();
     }
-    final bool tick = kind == TreeBranchLine.path && index == depth.length - 2;
-    return Stack(
+    // The direct parent owns the last ancestor level — the box its own chevron
+    // sits in — so that guide carries the tick towards this row.
+    final bool tick = kind == TreeBranchLine.path && index == depth.length - 1;
+    final double lead = (indent - thickness) / 2;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Positioned.fill(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints.tightFor(width: 1),
-            child: ColoredBox(color: color),
-          ),
+        SizedBox(width: lead),
+        SizedBox(
+          width: thickness,
+          child: ColoredBox(color: color),
         ),
-        if (tick)
-          Align(
-            alignment: AlignmentDirectional.centerEnd,
-            child: SizedBox(
-              width: 9,
-              height: 1,
-              child: ColoredBox(color: color),
-            ),
-          ),
+        Expanded(
+          child: tick
+              ? Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: SizedBox(
+                    width: lead,
+                    height: thickness,
+                    child: ColoredBox(color: color),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
       ],
     );
   }
@@ -329,6 +342,8 @@ class TreeRow extends StatelessWidget {
     final double scaling = data.scaling;
     final double indent = (style.indentWidth ?? 16) * scaling;
     final double gap = (style.itemGap ?? 8) * scaling;
+    // A border token is a hairline: 1px at the default scaling.
+    final double thickness = scaling;
     final Color guide = (style.branchLineColor ?? treeDefaults.branchLineColor!)
         .resolve(data.colors);
     final List<TreeNodeDepth> depth = row?.depth ?? const <TreeNodeDepth>[];
@@ -380,23 +395,30 @@ class TreeRow extends StatelessWidget {
         ),
       ),
       // IntrinsicHeight bounds the guides: a list row has no height of its own.
+      // The min height is the shadcn tree row (~32px at default density).
       child: IntrinsicHeight(
-        child: Row(
-          children: <Widget>[
-            for (int i = 1; i < depth.length; i++)
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: 32 * scaling),
+          child: Row(
+            children: <Widget>[
+              for (int i = 1; i < depth.length; i++)
+                SizedBox(
+                  width: indent,
+                  child: _guide(branchLine, guide, indent, thickness, depth, i),
+                ),
               SizedBox(
                 width: indent,
-                child: _guide(branchLine, guide, depth, i),
+                child: Center(child: toggle),
               ),
-            SizedBox(
-              width: indent,
-              child: Center(child: toggle),
-            ),
-            SizedBox(width: gap),
-            if (leading != null) ...<Widget>[leading!, SizedBox(width: gap)],
-            Expanded(child: child),
-            if (trailing != null) ...<Widget>[SizedBox(width: gap), trailing!],
-          ],
+              SizedBox(width: gap),
+              if (leading != null) ...<Widget>[leading!, SizedBox(width: gap)],
+              Expanded(child: child),
+              if (trailing != null) ...<Widget>[
+                SizedBox(width: gap),
+                trailing!,
+              ],
+            ],
+          ),
         ),
       ),
     );

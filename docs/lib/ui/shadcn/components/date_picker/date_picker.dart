@@ -68,6 +68,10 @@ final EdgeInsetsGeometry datePickerDialogFooterPadding =
 
 /// A single-date field: a trigger showing the value (or the localized
 /// placeholder) that opens a [DatePickerDialog] in a dialog or a popover.
+///
+/// The trigger hugs its content (at least 240 shadcn px, `w-[240px]`): the
+/// calendar icon leads, the label is left-aligned, the placeholder is muted.
+/// Pass [expand] for a full-width field.
 class DatePicker extends StatelessWidget {
   const DatePicker({
     super.key,
@@ -83,6 +87,7 @@ class DatePicker extends StatelessWidget {
     this.dialogTitle,
     this.stateBuilder,
     this.enabled,
+    this.expand = false,
     this.theme,
   });
   final DateTime? value;
@@ -97,18 +102,29 @@ class DatePicker extends StatelessWidget {
   final Widget? dialogTitle;
   final DateStateBuilder? stateBuilder;
   final bool? enabled;
+
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
   final DatePickerTheme? theme;
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
     final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
     return ObjectFormField<DateTime>(
       value: value,
       onChanged: onChanged,
       placeholder: placeholder ?? Text(strings.placeholderDatePicker),
       builder: (context, value) =>
           Text(strings.formatDateTime(value, showTime: false)),
-      trailing: const Icon(LucideIcons.calendarDays),
+      leading: Icon(
+        LucideIcons.calendarDays,
+        size: 16,
+        color: ambient.colors.mutedForeground,
+      ),
+      expand: expand,
+      // shadcn's date trigger is `w-[240px]`; longer labels still grow.
+      triggerMinWidth: 240,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -156,6 +172,7 @@ class DateRangePicker extends StatelessWidget {
     this.dialogTitle,
     this.stateBuilder,
     this.enabled,
+    this.expand = false,
     this.theme,
   });
   final DateTimeRange? value;
@@ -170,11 +187,15 @@ class DateRangePicker extends StatelessWidget {
   final Widget? dialogTitle;
   final DateStateBuilder? stateBuilder;
   final bool? enabled;
+
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
   final DatePickerTheme? theme;
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
     final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
     return ObjectFormField<DateTimeRange>(
       value: value,
       onChanged: onChanged,
@@ -183,7 +204,13 @@ class DateRangePicker extends StatelessWidget {
         '${strings.formatDateTime(value.start, showTime: false)} - '
         '${strings.formatDateTime(value.end, showTime: false)}',
       ),
-      trailing: const Icon(LucideIcons.calendarRange),
+      leading: Icon(
+        LucideIcons.calendarRange,
+        size: 16,
+        color: ambient.colors.mutedForeground,
+      ),
+      expand: expand,
+      triggerMinWidth: 240,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:

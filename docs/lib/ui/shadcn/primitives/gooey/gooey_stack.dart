@@ -1,154 +1,156 @@
-// An anchored stack of gooey surfaces over a [ToastQueue].
+// Edge anchoring and region layout for gooey toasts.
 //
-// Owns the presentation-free queue's slot reconciliation (the documented
-// auto-dismiss policy: non-primary toasts in a stacked slot pause) and the
-// edge anchoring, so the `gooey_toast` component only supplies the card
-// builder.
+// Pure geometry and one thin widget: nothing here owns state or imports a
+// component, so the `gooey_toast` controller only has to resolve a
+// [ToastPlacement] (from `primitives/toast_queue`) into screen anchors and ask
+// how far a region stacks. Keeping the maths here is what lets the controller
+// stay readable.
+//
+// Anchors are *physical* edges resolved with a `TextDirection` mirror: a leading
+// toast sits on the left in LTR and on the right in RTL, so RTL keeps the toast
+// next to the text it belongs to.
 
 import 'package:flutter/widgets.dart';
 
-import '../toast_queue/toast_entry.dart';
-import '../toast_queue/toast_exit.dart';
 import '../toast_queue/toast_placement.dart';
-import '../toast_queue/toast_queue.dart';
 
-/// Hosts a [ToastQueue]'s entries as gooey surfaces anchored to screen edges.
+/// Distance from the window edge a gooey toast anchors at.
+const double kGooeyEdgeInset = 16;
+
+/// Distance between two toasts stacked in one region.
+const double kGooeyStackGap = 8;
+
+/// Resolved screen anchors of one gooey toast.
 ///
-/// Entries are positioned per [ToastSlot.placement]: top/bottom edge plus a
-/// leading/center/trailing alignment, stacked away from the anchor with
-/// [gap] between items. The newest entry of a placement sits nearest the edge.
-class GooeyStack<T> extends StatefulWidget {
-  /// Creates a gooey stack.
-  const GooeyStack({
-    super.key,
-    required this.queue,
-    required this.builder,
-    required this.child,
-    this.anchorInset = 16,
-    this.gap = 8,
-  });
+/// Exactly one horizontal (left/right) and one vertical (top/bottom) anchor is
+/// set; the other of each pair is null so the toast keeps its intrinsic size on
+/// that axis.
+@immutable
+class GooeyEdgeAnchors {
+  /// Creates anchors.
+  const GooeyEdgeAnchors({this.left, this.right, this.top, this.bottom});
 
-  /// The queue driving the stack.
-  final ToastQueue<T> queue;
-
-  /// Builds one surface; [index] is its position within its placement.
-  final Widget Function(BuildContext context, ToastEntry<T> entry, int index)
-  builder;
-
-  /// Content below the surfaces.
-  final Widget child;
-
-  /// Distance from the screen edge in logical px.
-  final double anchorInset;
-
-  /// Distance between stacked surfaces in logical px.
-  final double gap;
-
-  @override
-  State<GooeyStack<T>> createState() => _GooeyStackState<T>();
-}
-
-class _GooeyStackState<T> extends State<GooeyStack<T>> {
-  final Map<ToastSlot, int> _slotCounts = <ToastSlot, int>{};
-
-  @override
-  void initState() {
-    super.initState();
-    widget.queue.addListener(_reconcileSlots);
-  }
-
-  @override
-  void didUpdateWidget(covariant GooeyStack<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.queue == widget.queue) {
-      return;
+  /// Anchors for [placement] inside [viewport].
+  ///
+  /// `leading`/`trailing` resolve through [textDirection] so an RTL layout
+  /// mirrors the horizontal anchor. A horizontally centred toast spans the full
+  /// width and is centred by its child's alignment, never by a left inset.
+  factory GooeyEdgeAnchors.resolve({
+    required ToastPlacement placement,
+    required double width,
+    required Size viewport,
+    required TextDirection textDirection,
+    double inset = kGooeyEdgeInset,
+  }) {
+    final double? left;
+    final double? right;
+    if (placement.isCenter) {
+      left = 0;
+      right = 0;
+    } else {
+      final bool onLeft = placement.isLeading
+          ? textDirection == TextDirection.ltr
+          : textDirection == TextDirection.rtl;
+      left = onLeft ? inset : null;
+      right = onLeft ? null : inset;
     }
-    oldWidget.queue.removeListener(_reconcileSlots);
-    _slotCounts.clear();
-    widget.queue.addListener(_reconcileSlots);
-  }
-
-  @override
-  void dispose() {
-    widget.queue.removeListener(_reconcileSlots);
-    super.dispose();
-  }
-
-  void _reconcileSlots() {
-    for (final ToastPlacement placement in ToastPlacement.values) {
-      final ToastSlot slot = ToastSlot(placement);
-      final List<ToastEntry<T>> live = widget.queue
-          .entriesIn(slot)
-          .where((ToastEntry<T> entry) => !entry.isExiting)
-          .toList(growable: false);
-      final int previous = _slotCounts[slot] ?? 0;
-      _slotCounts[slot] = live.length;
-      if (live.length > 1) {
-        widget.queue.pauseSlot(
-          slot,
-          selector: (ToastEntry<T> entry) => entry.id != live.first.id,
-        );
-      } else if (previous > 1) {
-        widget.queue.resumeSlot(slot);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: widget.queue,
-      builder: (BuildContext context, Widget? child) {
-        final List<ToastEntry<T>> entries = widget.queue.entries;
-        if (entries.isEmpty) {
-          return widget.child;
-        }
-        final Map<ToastPlacement, int> counts = <ToastPlacement, int>{};
-        return Stack(
-          children: <Widget>[
-            widget.child,
-            for (final ToastEntry<T> entry in entries)
-              _positioned(
-                context,
-                entry,
-                counts.update(
-                  entry.slot.placement,
-                  (int value) => value + 1,
-                  ifAbsent: () => 0,
-                ),
-              ),
-          ],
-        );
-      },
+    return GooeyEdgeAnchors(
+      left: left,
+      right: right,
+      top: placement.isTop ? inset : null,
+      bottom: placement.isTop ? null : inset,
     );
   }
 
-  Widget _positioned(BuildContext context, ToastEntry<T> entry, int index) {
-    final ToastPlacement placement = entry.slot.placement;
-    final MediaQueryData? media = MediaQuery.maybeOf(context);
-    final EdgeInsets padding = media?.padding ?? EdgeInsets.zero;
-    final double inset = widget.anchorInset;
-    final double offset = index * widget.gap;
-    final bool ltr = Directionality.of(context) == TextDirection.ltr;
-    final bool leading = placement.isLeading;
-    final bool onLeft = placement.isCenter ? false : (leading ? ltr : !ltr);
-    final bool onRight = placement.isCenter ? false : (leading ? !ltr : ltr);
-    final bool instant = media?.disableAnimations ?? false;
-    final Widget child = widget.builder(context, entry, index);
+  /// Left inset, or null when the toast anchors right.
+  final double? left;
+
+  /// Right inset, or null when the toast anchors left or centre.
+  final double? right;
+
+  /// Top inset, or null when the toast anchors to the bottom.
+  final double? top;
+
+  /// Bottom inset, or null when the toast anchors to the top.
+  final double? bottom;
+}
+
+/// Offsets one region's toasts away from their shared edge.
+///
+/// The newest toast (index 0) sits nearest the edge; every older one is pushed
+/// [gap] further away. [overlapOffset] replaces the gap when the region asks
+/// for overlap stacking, and [maxVisible] hides the tail of the stack
+/// (`0` keeps everything).
+@immutable
+class GooeyStackLayout {
+  /// Creates a layout.
+  const GooeyStackLayout({
+    this.gap = kGooeyStackGap,
+    this.overlapOffset,
+    this.maxVisible = 0,
+  });
+
+  /// Distance between stacked toasts.
+  final double gap;
+
+  /// Per-item offset used instead of [gap] when overlap stacking is on.
+  final double? overlapOffset;
+
+  /// Maximum visible entries; `0` keeps all of them.
+  final int maxVisible;
+
+  /// Whether the entry at [index] is visible.
+  bool isVisible(int index) => maxVisible <= 0 || index < maxVisible;
+
+  /// Offset of the entry at [index] from the region edge.
+  double offsetAt(int index) {
+    if (index <= 0) {
+      return 0;
+    }
+    return index * (overlapOffset ?? gap);
+  }
+}
+
+/// Places one gooey toast inside an [Overlay]'s stack at [anchors].
+///
+/// [offset] is the distance pushed away from the shared edge; it animates, so a
+/// toast leaving the region slides the remaining ones into place instead of
+/// jumping.
+class GooeyAnchoredEntry extends StatelessWidget {
+  /// Creates an anchored entry.
+  const GooeyAnchoredEntry({
+    super.key,
+    required this.anchors,
+    required this.offset,
+    this.duration = const Duration(milliseconds: 220),
+    required this.child,
+  });
+
+  /// Resolved anchors of this toast.
+  final GooeyEdgeAnchors anchors;
+
+  /// Distance pushed away from the region edge.
+  final double offset;
+
+  /// Reflow duration of the stack offset.
+  final Duration duration;
+
+  /// Toast content.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool centred = anchors.left != null && anchors.right != null;
     return AnimatedPositioned(
-      // Keyed so an entry keeps its element (and its offset animation) when
-      // the list shrinks after an exiting toast is removed.
-      key: ValueKey<String>(entry.id),
-      // Siblings animate into their new offsets when an exiting toast leaves.
-      duration: instant ? Duration.zero : kToastExitDuration,
-      curve: Curves.easeInOut,
-      top: placement.isTop ? inset + padding.top + offset : null,
-      bottom: placement.isTop ? null : inset + padding.bottom + offset,
-      left: placement.isCenter ? 0 : (onLeft ? inset + padding.left : null),
-      right: placement.isCenter ? 0 : (onRight ? inset + padding.right : null),
-      child: placement.isCenter
+      duration: duration,
+      curve: Curves.easeOutCubic,
+      top: anchors.top == null ? null : anchors.top! + offset,
+      bottom: anchors.bottom == null ? null : anchors.bottom! + offset,
+      left: anchors.left,
+      right: anchors.right,
+      child: centred
           ? Align(
-              alignment: placement.isTop
+              alignment: anchors.top != null
                   ? Alignment.topCenter
                   : Alignment.bottomCenter,
               child: child,

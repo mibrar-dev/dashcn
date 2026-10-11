@@ -3,6 +3,9 @@
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
+//
+// P7-C2: the reaction chips are live — tapping one toggles it and the count
+// follows, so the demo shows what the reaction row does.
 
 import 'package:flutter/widgets.dart';
 
@@ -122,56 +125,75 @@ Widget _chatOutgoing(BuildContext context) {
   );
 }
 
-/// A grouped run with a tailed shape.
-Widget _chatGrouped(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 560),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const ChatGroup(
-            avatarPrefix: _ChatConversation._start,
-            children: <Widget>[
-              ChatBubble(child: Text('First message')),
-              ChatBubble(child: Text('Second message')),
-              ChatBubble(child: Text('Third message')),
-            ],
-          ),
-          Gap(0),
-          ChatReaction(
-            chips: <Widget>[
-              ChatReactionContainer(
-                onTap: () {},
-                selected: true,
-                child: const Text('\u{1F44D} 3'),
-              ),
-              const ChatReactionContainer(child: Text('\u{1F389} 1')),
-            ],
-            child: const ChatBubble(child: Text('Nice work!')),
-          ),
-          Gap(spacing.lg),
-          ComponentTheme<ChatTheme>(
-            data: const ChatTheme(
-              widthFactor: 0.8,
-              background: ThemedColor.ref(ColorRef.accent),
-              foreground: ThemedColor.ref(ColorRef.accentForeground),
-            ),
-            child: const ChatGroup(
+/// A grouped run with a tailed shape and a live reaction row.
+class _ChatGrouped extends StatefulWidget {
+  const _ChatGrouped();
+
+  @override
+  State<_ChatGrouped> createState() => _ChatGroupedState();
+}
+
+class _ChatGroupedState extends State<_ChatGrouped> {
+  bool _thumbsUp = true;
+  bool _party = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = ShadcnTheme.of(context).spacing;
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 560),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const ChatGroup(
+              avatarPrefix: _ChatConversation._start,
               children: <Widget>[
-                ChatBubble(child: Text('Accented group bubble.')),
+                ChatBubble(child: Text('First message')),
+                ChatBubble(child: Text('Second message')),
+                ChatBubble(child: Text('Third message')),
               ],
             ),
-          ),
-        ],
+            Gap(spacing.sm),
+            ChatReaction(
+              chips: <Widget>[
+                ChatReactionContainer(
+                  onTap: () => setState(() => _thumbsUp = !_thumbsUp),
+                  selected: _thumbsUp,
+                  child: Text('\u{1F44D} ${_thumbsUp ? 4 : 3}'),
+                ),
+                ChatReactionContainer(
+                  onTap: () => setState(() => _party = !_party),
+                  selected: _party,
+                  child: Text('\u{1F389} ${_party ? 2 : 1}'),
+                ),
+              ],
+              child: const ChatBubble(child: Text('Nice work!')),
+            ),
+            Gap(spacing.lg),
+            ComponentTheme<ChatTheme>(
+              data: const ChatTheme(
+                widthFactor: 0.8,
+                background: ThemedColor.ref(ColorRef.accent),
+                foreground: ThemedColor.ref(ColorRef.accentForeground),
+              ),
+              child: const ChatGroup(
+                children: <Widget>[
+                  ChatBubble(child: Text('Accented group bubble.')),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 Widget _chatDefault(BuildContext context) => const _ChatConversation();
+
+Widget _chatGrouped(BuildContext context) => const _ChatGrouped();
 
 /// Named docs examples for `chat`; the first entry is the default.
 const List<ComponentPreview> chatPreviews = <ComponentPreview>[

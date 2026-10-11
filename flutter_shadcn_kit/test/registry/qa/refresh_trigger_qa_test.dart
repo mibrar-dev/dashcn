@@ -85,7 +85,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     expect(tester.takeException(), isNull);
-    expect(find.text('Row 0'), findsWidgets);
+    expect(find.text('Row 1'), findsWidgets);
   });
 
   testWidgets('Refreshing indicator renders its stage', (tester) async {

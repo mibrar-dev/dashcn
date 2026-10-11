@@ -729,7 +729,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Formatted Input',
     kind: DocsSearchKind.component,
     route: '/docs/components/formatted_input',
-    tag: '3 files',
+    tag: '4 files',
     keywords: <String>[
       'FormattedInput',
       'formatted_input',
@@ -1266,11 +1266,12 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Gooey Toast',
     kind: DocsSearchKind.component,
     route: '/docs/components/gooey_toast',
-    tag: '3 files',
+    tag: '7 files',
     keywords: <String>[
       'Gooey Toast',
       'gooey_toast',
       'gooey',
+      'metaball',
       'notification',
       'overlay',
       'toast',

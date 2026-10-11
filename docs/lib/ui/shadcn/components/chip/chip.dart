@@ -7,6 +7,7 @@
 // interaction, but builds its own (much smaller) box so a read-only chip is a
 // static token instead of a dimmed, clickable button.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
@@ -25,18 +26,28 @@ const _chipMouseCursor = StateValue<MouseCursor>(
   disabled: SystemMouseCursors.basic,
 );
 
+/// Keyboard intent deleting the focused chip (Backspace/Delete).
+class _ChipDeleteIntent extends Intent {
+  /// Creates the intent.
+  const _ChipDeleteIntent();
+}
+
 /// A compact button shaped like a shadcn chip (`px-2 py-0.5 text-xs`).
 ///
 /// Without [onPressed] the chip is a static token: it paints the variant's
 /// colours at full strength and never enters the focus tree. The old widget
 /// passed `onPressed ?? () {}`, so a read-only chip was an enabled button that
 /// swallowed taps and showed its hover/press rows.
+///
+/// Pass [onDeleted] for a removable token: Backspace/Delete on the focused
+/// chip fires it (the preview wires it to remove the chip from its list).
 class Chip extends StatelessWidget {
   /// Creates a chip.
   const Chip({
     super.key,
     required this.child,
     this.onPressed,
+    this.onDeleted,
     this.leading,
     this.trailing,
     this.variant,
@@ -53,6 +64,10 @@ class Chip extends StatelessWidget {
 
   /// Turns the chip into a press target when provided.
   final VoidCallback? onPressed;
+
+  /// Fired when Backspace/Delete hits the focused chip; makes a press-less
+  /// chip focusable so removable tokens are keyboard-deletable.
+  final VoidCallback? onDeleted;
 
   /// Widget shown before [child].
   final Widget? leading;
@@ -101,7 +116,7 @@ class Chip extends StatelessWidget {
     final ButtonVariantStyle resolved = chipLeg.merge(
       buttonDefaults.forVariant(buttonVariant),
     );
-    final bool interactive = onPressed != null;
+    final bool interactive = onPressed != null || onDeleted != null;
 
     Color? colorFor(StateValue<ThemedColor>? value, Set<WidgetState> states) =>
         value?.resolve(states)?.resolve(ambient.colors);
@@ -168,6 +183,7 @@ class Chip extends StatelessWidget {
       );
     }
 
+    final VoidCallback? handleDelete = onDeleted;
     return Clickable(
       onPressed: onPressed,
       onHover: onHover,
@@ -178,6 +194,24 @@ class Chip extends StatelessWidget {
       textStyle: WidgetStateProperty.resolveWith(textStyleFor),
       iconTheme: WidgetStateProperty.resolveWith(iconThemeFor),
       mouseCursor: _chipMouseCursor,
+      shortcuts: handleDelete == null
+          ? null
+          : <LogicalKeySet, Intent>{
+              LogicalKeySet(LogicalKeyboardKey.backspace):
+                  const _ChipDeleteIntent(),
+              LogicalKeySet(LogicalKeyboardKey.delete):
+                  const _ChipDeleteIntent(),
+            },
+      actions: handleDelete == null
+          ? null
+          : <Type, Action<Intent>>{
+              _ChipDeleteIntent: CallbackAction<_ChipDeleteIntent>(
+                onInvoke: (_) {
+                  handleDelete.call();
+                  return null;
+                },
+              ),
+            },
       child: content,
     );
   }

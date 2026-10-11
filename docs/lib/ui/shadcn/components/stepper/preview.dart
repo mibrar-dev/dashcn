@@ -49,21 +49,45 @@ Widget _vertical(BuildContext context) {
   return const _InteractiveStepper(direction: Axis.vertical);
 }
 
-/// The three indicator sizes in one column.
-Widget _sizes(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      for (final StepperSize size in StepperSize.values) ...<Widget>[
-        Text('${size.name} (${size.indicatorSize}px)'),
-        Stepper(currentStep: 1, size: size, steps: _steps()),
-        Gap(spacing.md),
-      ],
-    ],
-  );
+/// The three indicator sizes, each one tappable and reporting its step.
+class _SizesStepper extends StatefulWidget {
+  const _SizesStepper();
+
+  @override
+  State<_SizesStepper> createState() => _SizesStepperState();
 }
+
+class _SizesStepperState extends State<_SizesStepper> {
+  int _current = 1;
+  String _last = 'Tap a step indicator';
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = ShadcnTheme.of(context).spacing;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        for (final StepperSize size in StepperSize.values) ...<Widget>[
+          Text('${size.name} (${size.indicatorSize}px)'),
+          Stepper(
+            currentStep: _current,
+            size: size,
+            steps: _steps(),
+            onStepChanged: (int index) => setState(() {
+              _current = index;
+              _last = '${size.name} step ${index + 1}';
+            }),
+          ),
+          Gap(spacing.md),
+        ],
+        Text(_last),
+      ],
+    );
+  }
+}
+
+Widget _sizes(BuildContext context) => const _SizesStepper();
 
 /// A controller-driven stepper with the first step flagged as failed.
 class _FailedStepper extends StatefulWidget {

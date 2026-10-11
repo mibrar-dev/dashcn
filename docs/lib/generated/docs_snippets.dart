@@ -1504,28 +1504,29 @@ FormTableLayout(rows: <ShadcnFormField<Object?>>[titleRow, slugRow]);''',
       componentId: 'formatted_input',
       language: 'dart',
       code: r'''FormattedInput(
-  initialValue: const SegmentedValue([
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('555')),
-    SegmentPart.separator(' ('),
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('123')),
-    SegmentPart.separator(') '),
-    SegmentPart.editable(length: 4, width: 36, placeholder: Text('4567')),
+  initialValue: SegmentedValue([
+    const SegmentPart.separator('('),
+    SegmentPart.editable(length: 3, placeholder: const Text('555')),
+    const SegmentPart.separator(') '),
+    SegmentPart.editable(length: 3, placeholder: const Text('123')),
+    const SegmentPart.separator('-'),
+    SegmentPart.editable(length: 4, placeholder: const Text('4567')),
   ]),
   validator: (text) => (text ?? '').replaceAll(RegExp(r'[^0-9]'), '').length == 10
       ? null
       : 'Enter a full number.',
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppssssssssspppsspppppppppppppppppppppppkkkkpppppppppsssssssssssssssssssssspppp',
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppsssppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssppppppppkkkkkpppppppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssppppppppkkkkkpppppppppppppppppppppppsssppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppssssssssspppsspppppppppppppppppppppppkkkkpppppppppsssssssssssssssssssssspppp',
     ),
     DocsSnippet(
       id: 'formatted_input.1',
       componentId: 'formatted_input',
       language: 'dart',
       code:
-          'final controller = FormattedInputController(_phone);\nFormattedInput(controller: controller); // controller.value.text -> \'555 () 4567\'',
+          'final controller = FormattedInputController(_phone);\nFormattedInput(controller: controller); // controller.value.text -> \'(555) 123-4567\'',
       tokenClasses:
-          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccc',
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccc',
     ),
   ],
   'input': <DocsSnippet>[
@@ -3008,41 +3009,101 @@ controller.setStepState(1, null); // cleared''',
       id: 'gooey_toast.0',
       componentId: 'gooey_toast',
       language: 'dart',
-      code: r'''ShadcnTheme(
-  data: theme,
-  child: GooeyToastLayer(child: myApp),
+      code:
+          r'''import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+
+// Wrap the app once.
+GooeyToastLayer(child: myApp);
+
+// Then show a toast from anywhere below the layer.
+showGooeyToast(
+  context,
+  const GooeyToastOptions(
+    title: 'Saved to your workspace',
+    description: 'Everything is in sync.',
+    state: GooeyToastState.success,
+  ),
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssspppcccccccccccccccccccccpppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppssssssssssssssssssssssssspppppppppppppppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'gooey_toast.1',
       componentId: 'gooey_toast',
       language: 'dart',
-      code: r'''showGooeyToast(
-  context,
-  const GooeyToastOptions(
-    title: 'Saved',
-    description: 'Your changes are on the server.',
-    state: GooeyToastState.success,
-    position: GooeyToastPosition.left,
-  ),
-);''',
+      code: r'''final controller = GooeyToastController();
+GooeyToastLayer(controller: controller, child: myApp);
+
+controller.activeToasts;      // newest first
+controller.containsToast(id); // is it still on screen?
+controller.dismiss(id);       // dismiss it now''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppssssssspppppppppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccpppppppppppppppppppppppppppppppcccccccccccccccccccccccccpppppppppppppppppppppppppppppppccccccccccccccccc',
     ),
     DocsSnippet(
       id: 'gooey_toast.2',
       componentId: 'gooey_toast',
       language: 'dart',
-      code: r'''final controller = GooeyToastController();
-GooeyToastLayer(controller: controller, child: myApp);
-controller.showGooeyToast(
-  const GooeyToastOptions(title: 'Deployed', state: GooeyToastState.info),
-  behavior: GooeyToastNewToastBehavior.transition,
+      code:
+          r'''const GooeyToastTheme gooeyToastThemeOverrides = GooeyToastTheme(
+  successTone: ThemedColor.value(Color(0xFF22C55E)),
 );''',
       tokenClasses:
-          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'gooey_toast.3',
+      componentId: 'gooey_toast',
+      language: 'dart',
+      code: r'''GooeyToastOptions(
+  title: 'Pinned top-right',
+  position: GooeyToastPosition.right,
+  expandDirection: GooeyToastExpandDirection.bottom,
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'gooey_toast.4',
+      componentId: 'gooey_toast',
+      language: 'dart',
+      code:
+          r'''GooeyToastOptions(title: 'Hover me', description: '…', autopilot: null)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppsssssssssspppppppppppppppssspppppppppppppkkkkp',
+    ),
+    DocsSnippet(
+      id: 'gooey_toast.5',
+      componentId: 'gooey_toast',
+      language: 'dart',
+      code: r'''final id = showGooeyToast(
+  context,
+  const GooeyToastOptions(title: 'Uploading', state: GooeyToastState.loading),
+);
+await upload();
+await showGooeyToast(
+  context,
+  const GooeyToastOptions(
+    title: 'Upload Complete',
+    description: 'Your file is ready.',
+    state: GooeyToastState.success,
+  ),
+  id: id,
+);''',
+      tokenClasses:
+          'kkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'gooey_toast.6',
+      componentId: 'gooey_toast',
+      language: 'dart',
+      code: r'''GooeyToastOptions(
+  title: 'Thread Reply',
+  state: GooeyToastState.action,
+  expandedChild: myReplyForm,
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'hover_card': <DocsSnippet>[
@@ -4534,6 +4595,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'formatted_input',
     files: <String>[
       'lib/ui/shadcn/components/formatted_input/formatted_input.dart',
+      'lib/ui/shadcn/components/formatted_input/formatted_input_flow.dart',
       'lib/ui/shadcn/components/formatted_input/formatted_input_style.dart',
     ],
     userOwned: <String>[
@@ -4857,6 +4919,10 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'gooey_toast',
     files: <String>[
       'lib/ui/shadcn/components/gooey_toast/gooey_toast.dart',
+      'lib/ui/shadcn/components/gooey_toast/gooey_toast_controller.dart',
+      'lib/ui/shadcn/components/gooey_toast/gooey_toast_options.dart',
+      'lib/ui/shadcn/components/gooey_toast/gooey_toast_payload.dart',
+      'lib/ui/shadcn/components/gooey_toast/gooey_toast_stack.dart',
       'lib/ui/shadcn/components/gooey_toast/gooey_toast_style.dart',
     ],
     userOwned: <String>[

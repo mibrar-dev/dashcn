@@ -1,15 +1,7 @@
-// The object form field: a button-like trigger that opens a dialog or popover
-// editor for a complex value.
-//
-// Ported from the old `form_field` component (absorbed into `form`) into
-// `form_core` because the form component folder is capped at two code files.
-// Differences from the old widget:
-//
-// * the trigger paints itself from tokens instead of reusing `OutlineButton`
-//   (a primitive may not import the `button` component);
-// * `size` / `density` / `shape` are gone (the trigger is one shape now);
-// * the dialog prompt is a widgets-only `showGeneralDialog` route that captures
-//   themes and data; the popover prompt reuses `PopoverController`.
+// The object form field: a button-like trigger opening a dialog or popover
+// editor for a complex value. The trigger paints itself from tokens (a
+// primitive may not import `button`); the dialog prompt is a widgets-only
+// `showGeneralDialog` route, the popover prompt reuses `PopoverController`.
 
 import 'package:flutter/widgets.dart';
 
@@ -50,11 +42,9 @@ abstract class ObjectFormHandler<T> {
   /// Closes the editor; completes when its route/overlay is gone.
   Future<void> close();
 
-  /// The nearest handler; asserts when absent.
+  /// Nearest handler (`find` returns null instead of asserting).
   static ObjectFormHandler<T> of<T>(BuildContext context) =>
       Data.of<ObjectFormHandler<T>>(context);
-
-  /// The nearest handler, or null.
   static ObjectFormHandler<T>? find<T>(BuildContext context) =>
       Data.maybeOf<ObjectFormHandler<T>>(context);
 }
@@ -64,6 +54,11 @@ abstract class ObjectFormHandler<T> {
 /// multipliers, resolved at build.
 const EdgeInsetsGeometry objectFormPromptPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8);
+
+/// Minimum trigger height: the shadcn input height (h-9, 36) shared with the
+/// `input` and `formatted_input` fields. The trigger padding lives inside
+/// this height (like `EditableTextShell`), so the total matches text fields.
+const double objectFormTriggerMinHeight = 36;
 
 class ObjectFormFieldDialogResult<T> {
   /// Creates a dialog result wrapping [value].
@@ -89,6 +84,8 @@ class ObjectFormField<T> extends StatefulWidget {
     this.popoverAlignment,
     this.popoverAnchorAlignment,
     this.popoverPadding,
+    this.expand = false,
+    this.triggerMinWidth = 0,
     this.dialogTitle,
     this.dialogActions,
     this.dialogPadding,
@@ -132,20 +129,23 @@ class ObjectFormField<T> extends StatefulWidget {
   /// Padding inside the popover surface.
   final EdgeInsetsGeometry? popoverPadding;
 
+  /// Full-width trigger when true; otherwise hugs (at least [triggerMinWidth]).
+  /// A tight parent fills either way.
+  final bool expand;
+
+  /// Minimum trigger width in shadcn px (240 date, 140 time pickers).
+  final double triggerMinWidth;
+
   /// Title of the dialog prompt.
   final Widget? dialogTitle;
 
-  /// Padding between the dialog card border and the editor.
-  ///
-  /// `EdgeInsets.zero` paints no card padding, which is what a picker editor
-  /// that paints its own shell (a `p-3` calendar) wants — shadcn's picker
-  /// dialogs are `p-0`. Null resolves [objectFormDialogPadding].
+  /// Padding between the dialog card border and the editor (`EdgeInsets.zero`
+  /// paints no card padding for editors with their own shell, like pickers).
+  /// Null resolves [objectFormDialogPadding].
   final EdgeInsetsGeometry? dialogPadding;
 
-  /// Padding of the dialog footer row when it paints a hairline top border.
-  ///
-  /// Non-null gives the footer its own `p-3` and separator, as shadcn's
-  /// picker dialogs have; null keeps the footer inside the card padding.
+  /// Padding of the dialog footer row (with a hairline top border); null keeps
+  /// the footer inside the card padding.
   final EdgeInsetsGeometry? dialogFooterPadding;
 
   /// Extra dialog actions before Cancel/Save.
@@ -161,10 +161,7 @@ class ObjectFormField<T> extends StatefulWidget {
   /// Whether prompt mode paints its own surface around the editor.
   final bool decorate;
 
-  /// Whether edits are reported live.
-  ///
-  /// Defaults to true in popover mode and false in dialog mode: dialogs report
-  /// once on save/close.
+  /// Whether edits are reported live (popover default true, dialog false).
   final bool? immediateValueChange;
 
   @override
@@ -273,8 +270,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
           anchorAlignment:
               widget.popoverAnchorAlignment ?? Alignment.bottomLeft,
           offset: Offset(0, theme.spacing.xs),
-          // shadcn's picker popovers are `w-auto`: the surface hugs the
-          // editor instead of stretching to the overlay.
+          // Picker popovers are `w-auto`: the surface hugs the editor.
           widthConstraint: PopoverConstraint.intrinsic,
           modal: true,
           overlayBarrier: OverlayBarrier(borderRadius: theme.borderRadiusLg),
@@ -302,15 +298,21 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         });
   }
 
+  /// Zero-height box centering an adornment on the label: the 16px icon must
+  /// not stretch the row past the text line, or the trigger outgrows `Input`
+  /// at roomy densities (the icon paints through; the row never clips).
+  static Widget _adornment(Widget child) =>
+      SizedBox(height: 0, child: Center(child: child));
+
   @override
   Widget build(BuildContext context) {
-    // Report the current value to the nearest form; a no-op without one.
     formValue = widget.value;
     final ShadcnThemeData theme = ShadcnTheme.of(context);
     final bool enabled = _enabled;
     final Color foreground = theme.colors.foreground;
     final Color muted = theme.colors.mutedForeground;
     final Color borderColor = theme.colors.input;
+    final double scale = theme.scaling;
 
     Decoration decoration(Set<WidgetState> states) {
       final double alpha = states.hovered || states.pressed ? 0.5 : 0.3;
@@ -332,16 +334,22 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     content = Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        ?widget.leading,
+        if (widget.leading != null) _adornment(widget.leading!),
         if (widget.leading != null) Gap(theme.spacing.sm),
         Flexible(child: content),
         if (widget.trailing != null) Gap(theme.spacing.sm),
-        ?widget.trailing,
+        if (widget.trailing != null) _adornment(widget.trailing!),
       ],
     );
 
-    return Opacity(
-      opacity: enabled ? 1 : 0.5,
+    // Hug by default ([IntrinsicWidth]); `expand` or a tight parent fills
+    // (a tighter parent drops the minimum). Height is outside the padding,
+    // so the total stays h-9 like `EditableTextShell`.
+    Widget button(double minWidth) => ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: objectFormTriggerMinHeight,
+        minWidth: minWidth,
+      ),
       child: Clickable(
         enabled: enabled,
         onPressed: enabled ? prompt : null,
@@ -354,19 +362,34 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
           theme.typography.small.copyWith(color: foreground),
         ),
         padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+          // The trigger always paints the prompt padding (`px-3 py-2`): the
+          // popover surface padding is unrelated (it used to leak here and
+          // left the label flush against the border when it was zero).
           resolveEdgeInsets(
-            widget.popoverPadding ?? objectFormPromptPadding,
-            theme.density.baseContentPadding * theme.scaling,
+            objectFormPromptPadding,
+            theme.density.baseContentPadding * scale,
           ),
         ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 36),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[Expanded(child: content)],
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[Expanded(child: content)],
         ),
       ),
     );
+
+    final double minWidth = widget.triggerMinWidth * scale;
+    final Widget sized = widget.expand
+        ? SizedBox(width: double.infinity, child: button(0))
+        : LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (!constraints.hasBoundedWidth ||
+                  constraints.maxWidth >= minWidth) {
+                return IntrinsicWidth(child: button(minWidth));
+              }
+              return button(0);
+            },
+          );
+
+    return Opacity(opacity: enabled ? 1 : 0.5, child: sized);
   }
 }

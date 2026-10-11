@@ -593,6 +593,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'table': <DocsDep>[
     DocsDep(id: 'scrollable_client', kind: DocsDepKind.component),
+    DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'table_layout', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -1013,6 +1014,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'breadcrumb': <DocsDep>[
+    DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -1092,7 +1094,11 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'gooey_toast': <DocsDep>[
+    DocsDep(id: 'button', kind: DocsDepKind.component),
+    DocsDep(id: 'divider', kind: DocsDepKind.component),
+    DocsDep(id: 'input', kind: DocsDepKind.component),
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
+    DocsDep(id: 'color_math', kind: DocsDepKind.primitive),
     DocsDep(id: 'gooey', kind: DocsDepKind.primitive),
     DocsDep(id: 'toast_queue', kind: DocsDepKind.primitive),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),

@@ -2,14 +2,15 @@
 //
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
-// site light/dark toggle. Each example narrows the country selector and the
-// number field through the widget-leg theme so the row also fits a 375-wide
-// phone (the defaults total ~388 logical pixels).
+// site light/dark toggle. The group is one joined box (country trigger +
+// divider + number field) that hugs its content; each example narrows the two
+// halves through the widget-leg theme so the row also fits a 375-wide phone
+// (the defaults total ~388 logical pixels).
 //
 // Note: `PhoneInput` exposes no leading-icon slot (verified in
-// `phone_input.dart`: a country `Select` plus a number `Input`), so the
-// audit's "With leading icon" example is replaced by "Custom countries",
-// which covers the `countries` API instead.
+// `phone_input.dart`: a country `Select` plus a number `Input` in one group),
+// so the audit's "With leading icon" example is replaced by "Custom
+// countries", which covers the `countries` API instead.
 
 import 'package:flutter/widgets.dart';
 

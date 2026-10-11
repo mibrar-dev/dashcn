@@ -163,6 +163,12 @@ class SegmentedTextController extends ChangeNotifier {
   }
 
   /// Writes [text] into the segment at [index], clamped to its length.
+  ///
+  /// A write that would not change the text is skipped entirely, so a
+  /// keystroke round-trip never resets the caret or clears the IME composing
+  /// region. Otherwise the selection is clamped into the new text (invalid
+  /// selections collapse at the end) and a still-valid composing range is
+  /// kept; it never resets to `collapsed(-1)`.
   void setText(int index, String text, {bool notify = true}) {
     if (index < 0 || index >= controllers.length) {
       return;
@@ -170,25 +176,67 @@ class SegmentedTextController extends ChangeNotifier {
     final String next = text.length > _segments[index].length
         ? text.substring(0, _segments[index].length)
         : text;
-    if (controllers[index].text == next) {
-      return;
-    }
-    controllers[index].text = next;
-    if (notify) {
+    if (_write(index, next) && notify) {
       notifyListeners();
     }
   }
 
   /// Replaces every segment value, clamping each to its length.
+  ///
+  /// Each segment is skipped when its text already matches, preserving the
+  /// focused caret; differing segments keep a clamped selection (see
+  /// [setText]).
   void setValues(List<String> values, {bool notify = true}) {
+    bool changed = false;
     for (int i = 0; i < controllers.length && i < values.length; i++) {
-      controllers[i].text = values[i].length > _segments[i].length
+      final String next = values[i].length > _segments[i].length
           ? values[i].substring(0, _segments[i].length)
           : values[i];
+      changed = _write(i, next) || changed;
     }
-    if (notify) {
+    if (changed && notify) {
       notifyListeners();
     }
+  }
+
+  /// Writes [next] into segment [index] with selection preservation.
+  ///
+  /// Returns false when the text already matched (no write happened).
+  bool _write(int index, String next) {
+    final TextEditingController controller = controllers[index];
+    if (controller.text == next) {
+      return false;
+    }
+    final TextEditingValue old = controller.value;
+    final int length = next.length;
+    final TextSelection selection = old.selection;
+    final TextSelection kept = !selection.isValid
+        ? TextSelection.collapsed(offset: length)
+        : selection.isCollapsed
+        ? TextSelection.collapsed(offset: selection.baseOffset.clamp(0, length))
+        : TextSelection(
+            baseOffset: selection.baseOffset.clamp(0, length),
+            extentOffset: selection.extentOffset.clamp(0, length),
+          );
+    TextRange composing = TextRange.empty;
+    if (old.isComposingRangeValid) {
+      final int start = old.composing.start.clamp(0, length);
+      final int end = old.composing.end.clamp(0, length);
+      if (start <= end) {
+        final TextRange candidate = TextRange(start: start, end: end);
+        if (!candidate.isValid || end > length) {
+          composing = TextRange.empty;
+        } else {
+          composing = candidate;
+        }
+      }
+    }
+    controller.value = old.copyWith(
+      text: next,
+      selection: kept,
+      composing: composing,
+    );
+    return true;
   }
 
   /// Grows or shrinks the segment list, keeping the values that survive.
@@ -294,3 +342,7 @@ class SegmentedTextController extends ChangeNotifier {
     super.dispose();
   }
 }
+
+/// Segment width helpers ([maxSegmentGlyphAdvance], [segmentMinWidth]) live
+/// in `segmented_value.dart` next to [SegmentPart], so both files stay under
+/// the 400-line rule.

@@ -1,9 +1,10 @@
 // Named examples for the `formatted_input` component (P6-F3 preview contract).
 //
 // One focused demo per example; the first entry is the default. State lives in
-// the example's own widget. The fixed width is inherent: the segment row sizes
-// from its parts, so the example hands it a bounded box.
+// the example's own widget. Segments size from the text style and the field
+// hugs its content, so no example sets a width.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
@@ -20,25 +21,41 @@ class _PhoneExample extends StatefulWidget {
 }
 
 class _PhoneExampleState extends State<_PhoneExample> {
-  static const SegmentedValue _initial = SegmentedValue(<SegmentPart>[
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('555')),
-    SegmentPart.separator(' ('),
-    SegmentPart.editable(length: 3, width: 32, placeholder: Text('123')),
-    SegmentPart.separator(') '),
-    SegmentPart.editable(length: 4, width: 36, placeholder: Text('4567')),
+  static final SegmentedValue _initial = SegmentedValue(<SegmentPart>[
+    const SegmentPart.separator('('),
+    SegmentPart.editable(
+      length: 3,
+      placeholder: const Text('555'),
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+    ),
+    const SegmentPart.separator(') '),
+    SegmentPart.editable(
+      length: 3,
+      placeholder: const Text('123'),
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+    ),
+    const SegmentPart.separator('-'),
+    SegmentPart.editable(
+      length: 4,
+      placeholder: const Text('4567'),
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+    ),
   ]);
 
   SegmentedValue _value = _initial;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      child: FormattedInput(
-        leading: const Icon(LucideIcons.phone, size: 16),
-        value: _value,
-        onChanged: (SegmentedValue value) => setState(() => _value = value),
-      ),
+    return FormattedInput(
+      leading: const Icon(LucideIcons.phone, size: 16),
+      value: _value,
+      onChanged: (SegmentedValue value) => setState(() => _value = value),
     );
   }
 }
@@ -47,19 +64,34 @@ Widget _phone(BuildContext context) => const _PhoneExample();
 
 /// A date field reporting a validation error while incomplete.
 Widget _date(BuildContext context) {
-  return SizedBox(
-    width: 300,
-    child: FormattedInput(
-      initialValue: const SegmentedValue(<SegmentPart>[
-        SegmentPart.editable(length: 2, width: 28, placeholder: Text('MM')),
-        SegmentPart.separator('/'),
-        SegmentPart.editable(length: 2, width: 28, placeholder: Text('DD')),
-        SegmentPart.separator('/'),
-        SegmentPart.editable(length: 4, width: 36, placeholder: Text('YYYY')),
-      ]),
-      validator: _validateDate,
-      autovalidateMode: FormValidationMode.changed,
-    ),
+  return FormattedInput(
+    initialValue: SegmentedValue(<SegmentPart>[
+      SegmentPart.editable(
+        length: 2,
+        placeholder: const Text('MM'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+      const SegmentPart.separator('/'),
+      SegmentPart.editable(
+        length: 2,
+        placeholder: const Text('DD'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+      const SegmentPart.separator('/'),
+      SegmentPart.editable(
+        length: 4,
+        placeholder: const Text('YYYY'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+    ]),
+    validator: _validateDate,
+    autovalidateMode: FormValidationMode.changed,
   );
 }
 
@@ -73,19 +105,40 @@ String? _validateDate(String? text) {
 
 /// A 16-digit card field.
 Widget _card(BuildContext context) {
-  return const SizedBox(
-    width: 300,
-    child: FormattedInput(
-      initialValue: SegmentedValue(<SegmentPart>[
-        SegmentPart.editable(length: 4, width: 40, placeholder: Text('1234')),
-        SegmentPart.separator(' '),
-        SegmentPart.editable(length: 4, width: 40, placeholder: Text('5678')),
-        SegmentPart.separator(' '),
-        SegmentPart.editable(length: 4, width: 40, placeholder: Text('9012')),
-        SegmentPart.separator(' '),
-        SegmentPart.editable(length: 4, width: 40, placeholder: Text('3456')),
-      ]),
-    ),
+  return FormattedInput(
+    initialValue: SegmentedValue(<SegmentPart>[
+      SegmentPart.editable(
+        length: 4,
+        placeholder: const Text('1234'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+      const SegmentPart.separator(' '),
+      SegmentPart.editable(
+        length: 4,
+        placeholder: const Text('5678'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+      const SegmentPart.separator(' '),
+      SegmentPart.editable(
+        length: 4,
+        placeholder: const Text('9012'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+      const SegmentPart.separator(' '),
+      SegmentPart.editable(
+        length: 4,
+        placeholder: const Text('3456'),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+    ]),
   );
 }
 

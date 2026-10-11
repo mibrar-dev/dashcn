@@ -1,7 +1,9 @@
 # PhoneInput (`phone_input`)
 
-A searchable country selector (flag + dial code) beside a national-number
-field, with form integration and the built-in `PhoneNumberValidator`.
+One joined input group: a searchable country selector (flag + dial code), a
+hairline divider, and the national-number field inside a single shared
+border, with form integration and the built-in `PhoneNumberValidator`. The
+group hugs its content (never stretches in a loose parent).
 
 ## When to use
 
@@ -90,7 +92,7 @@ PhoneInput(
 | `popupConstraints` | 250x300 | popup max size |
 | `flagWidth` / `flagHeight` | 24/18 | flag size |
 | `flagGap` | 8 | flag-to-code/name gap |
-| `fieldGap` | 8 | selector-to-field gap |
+| `fieldGap` | 8 | space around the group divider (half each side) |
 | `countryGap` | 16 | name-to-dial-code gap in rows |
 
 Resolution: widget `theme` > nearest `ComponentTheme<PhoneInputTheme>` >

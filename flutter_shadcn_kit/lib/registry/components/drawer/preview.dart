@@ -87,10 +87,13 @@ Widget _drawerDefault(BuildContext context) {
     spacing: spacing.sm,
     runSpacing: spacing.sm,
     children: const <Widget>[
-      _DrawerDrawerTrigger(position: OverlayPosition.start, label: 'left'),
-      _DrawerDrawerTrigger(position: OverlayPosition.end, label: 'right'),
-      _DrawerDrawerTrigger(position: OverlayPosition.top, label: 'top'),
-      _DrawerDrawerTrigger(position: OverlayPosition.bottom, label: 'bottom'),
+      _DrawerDrawerTrigger(position: OverlayPosition.start, label: 'Open left'),
+      _DrawerDrawerTrigger(position: OverlayPosition.end, label: 'Open right'),
+      _DrawerDrawerTrigger(position: OverlayPosition.top, label: 'Open top'),
+      _DrawerDrawerTrigger(
+        position: OverlayPosition.bottom,
+        label: 'Open bottom',
+      ),
     ],
   );
 }

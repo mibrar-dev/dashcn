@@ -3,12 +3,16 @@
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
+//
+// P7-C2: the value pills are real `Button`s, so the demo reacts to a click and
+// to Enter/Space as well as to a pointer tap.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import 'number_ticker.dart';
 
 /// A rolling ticker whose value the example changes on tap.
@@ -29,15 +33,6 @@ class _NumberTickerTickerState extends State<_NumberTickerTicker> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(
-          _value.toStringAsFixed(0),
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w600,
-            color: theme.colors.foreground,
-          ),
-        ),
-        Gap(theme.spacing.md),
         NumberTicker(
           number: _value,
           formatter: (num value) => value.toStringAsFixed(0),
@@ -48,22 +43,11 @@ class _NumberTickerTickerState extends State<_NumberTickerTicker> {
           runSpacing: theme.spacing.sm,
           children: <Widget>[
             for (final double next in const <double>[0, 1234, 987654])
-              GestureDetector(
-                onTap: () => setState(() => _value = next),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: theme.colors.border),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '${next.toInt()}',
-                    style: TextStyle(color: theme.colors.foreground),
-                  ),
-                ),
+              Button(
+                size: ButtonSize.sm,
+                variant: ButtonVariant.outline,
+                onPressed: () => setState(() => _value = next),
+                child: Text('${next.toInt()}'),
               ),
           ],
         ),
@@ -97,24 +81,14 @@ class _NumberTickerFlipClockState extends State<_NumberTickerFlipClock> {
         Gap(theme.spacing.md),
         Wrap(
           spacing: theme.spacing.sm,
+          runSpacing: theme.spacing.sm,
           children: <Widget>[
             for (final double next in const <double>[7, 1234, 987654])
-              GestureDetector(
-                onTap: () => setState(() => _value = next),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: theme.colors.border),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '${next.toInt()}',
-                    style: TextStyle(color: theme.colors.foreground),
-                  ),
-                ),
+              Button(
+                size: ButtonSize.sm,
+                variant: ButtonVariant.outline,
+                onPressed: () => setState(() => _value = next),
+                child: Text('${next.toInt()}'),
               ),
           ],
         ),

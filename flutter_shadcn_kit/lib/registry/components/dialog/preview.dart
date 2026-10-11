@@ -11,8 +11,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import 'dialog.dart';
 import 'dialog_style.dart';
 
@@ -26,20 +26,12 @@ class _DialogTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: theme.colors.primary,
-          borderRadius: theme.borderRadiusMd,
-        ),
-        child: Text(
-          label,
-          style: TextStyle(color: theme.colors.primaryForeground),
-        ),
-      ),
+    // A real Button (keyboard, hover, focus ring, semantics) instead of a
+    // hand-rolled GestureDetector.
+    return Button(
+      variant: ButtonVariant.primary,
+      onPressed: onPressed,
+      child: Text(label),
     );
   }
 }

@@ -10,41 +10,11 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/animation.dart';
 import '../../primitives/gooey/gooey_frame.dart';
+import '../../primitives/gooey/gooey_content.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
-
-/// Semantic state of a gooey toast; picks the default icon and tone.
-enum GooeyToastState {
-  success,
-  loading,
-  error,
-  warning,
-  info,
-  action;
-
-  /// Default compact icon for this state.
-  IconData get icon => switch (this) {
-    GooeyToastState.success => LucideIcons.check,
-    GooeyToastState.loading => LucideIcons.loaderCircle,
-    GooeyToastState.error => LucideIcons.x,
-    GooeyToastState.warning => LucideIcons.triangleAlert,
-    GooeyToastState.info => LucideIcons.info,
-    GooeyToastState.action => LucideIcons.arrowRight,
-  };
-
-  /// Resolved accent colour for this state.
-  Color tone(GooeyToastTheme theme, ShadcnColors colors) => switch (this) {
-    GooeyToastState.success => theme.successTone!.resolve(colors),
-    GooeyToastState.loading => theme.loadingTone!.resolve(colors),
-    GooeyToastState.error => theme.errorTone!.resolve(colors),
-    GooeyToastState.warning => theme.warningTone!.resolve(colors),
-    GooeyToastState.info => theme.infoTone!.resolve(colors),
-    GooeyToastState.action => theme.actionTone!.resolve(colors),
-  };
-}
 
 /// Open/close animation profile of a gooey toast.
 enum GooeyToastAnimationStyle {
@@ -110,6 +80,42 @@ enum GooeyToastBodyAnimationStyle {
   };
 }
 
+/// Fixed status tones: the reference gooey-toast hues, tuned so every one of
+/// them clears 3:1 against BOTH the light and the dark `popover` fill.
+///
+/// shadcn ships no success/warning/info tokens, and the chart tokens change hue
+/// per preset and mode (success read blue in dark, orange in light), so the
+/// status tones are fixed constants instead of token references: the same
+/// green, red, amber, blue, indigo and grey in every mode and preset.
+/// [ensureToneContrast] (in `gooey_toast_options.dart`) still lifts a tone that
+/// is too weak for a customised surface, so a user-chosen fill stays readable
+/// without anyone re-checking the palette.
+const Color gooeySuccessTone = Color(0xFF16A34A);
+
+/// Fixed warning tone; see [gooeySuccessTone].
+const Color gooeyWarningTone = Color(0xFFB45309);
+
+/// Fixed info tone; see [gooeySuccessTone].
+const Color gooeyInfoTone = Color(0xFF3B82F6);
+
+/// Fixed action tone; see [gooeySuccessTone].
+const Color gooeyActionTone = Color(0xFF6366F1);
+
+/// Fixed loading tone; see [gooeySuccessTone].
+const Color gooeyLoadingTone = Color(0xFF6B7280);
+
+/// Fixed error tone; a static red (like the other status tones) so the error
+/// colour is identical in every preset and clears 3:1 on the light surface —
+/// the `destructive` token flips to a pale red in dark mode that is unreadable
+/// on the light toast. See [gooeySuccessTone].
+const Color gooeyErrorTone = Color(0xFFDC2626);
+
+/// Surface fill: main's light near-white, inverted from the dark site so the
+/// toast reads as a light card in dark mode. A fixed value (not a token) so the
+/// silhouette colour is stable across presets and modes, like the reference;
+/// user-overridable through the component theme.
+const Color gooeySurfaceFill = Color(0xFFF7F8FA);
+
 /// Compact title style before the state tone is applied.
 const TextStyle gooeyTitleTextStyle = TextStyle(
   fontSize: 13.2,
@@ -128,11 +134,9 @@ const TextStyle gooeyDescriptionTextStyle = TextStyle(
 /// Visual and timing contract of a gooey toast.
 ///
 /// Every field is nullable: an override leg sets only what it changes and
-/// [merge] keeps the lower leg's remaining fields. The six `*Tone` fields
-/// are direct (Studio-editable) theme fields; shadcn has no
-/// success/warning/info tokens, so their defaults point at the closest
-/// semantic token (`chart1..5`, `destructive`, `mutedForeground`) and follow
-/// preset switches.
+/// [merge] keeps the lower leg's remaining fields. The six `*Tone` fields are
+/// direct (Studio-editable) theme fields, so a customised toast keeps its
+/// identity across presets instead of following a token that changes hue.
 class GooeyToastTheme extends ComponentThemeData
     implements Mergeable<GooeyToastTheme> {
   const GooeyToastTheme({
@@ -150,6 +154,7 @@ class GooeyToastTheme extends ComponentThemeData
     this.shapeStyle,
     this.bodyAnimationStyle,
     this.enableGooeyBlur,
+    this.compactMorph,
     this.successTone,
     this.loadingTone,
     this.errorTone,
@@ -160,19 +165,20 @@ class GooeyToastTheme extends ComponentThemeData
 
   final double? width;
 
-  /// Surface fill. Default: the `popover` token.
+  /// Surface fill. Default: main's light near-white (#F7F8FA), inverted from
+  /// the dark site background so the toast reads as a light card.
   final ThemedColor? fill;
 
   final double? roundness;
 
-  /// Compact title style; null uses `gooeyTitleTextStyle` + the state tone.
+  /// Compact title style; null uses `gooeyTitleTextStyle` in the state tone.
   final TextStyle? titleStyle;
 
   /// Expanded description style; null uses `gooeyDescriptionTextStyle`.
   final TextStyle? descriptionStyle;
 
   /// Expanded description colour, applied when the style carries none.
-  /// Default: the `popoverForeground` token.
+  /// Default: the `mutedForeground` token.
   final ThemedColor? descriptionColor;
 
   final Duration? duration;
@@ -185,22 +191,25 @@ class GooeyToastTheme extends ComponentThemeData
 
   final bool? enableGooeyBlur;
 
-  /// `success` accent. Default: the `chart1` token.
+  /// Compact pill morph profile for in-place title/state changes.
+  final GooeyCompactMorph? compactMorph;
+
+  /// `success` accent. Default: the fixed [gooeySuccessTone] green.
   final ThemedColor? successTone;
 
-  /// `loading` accent. Default: the `mutedForeground` token.
+  /// `loading` accent. Default: the fixed [gooeyLoadingTone] grey.
   final ThemedColor? loadingTone;
 
-  /// `error` accent. Default: the `destructive` token.
+  /// `error` accent. Default: the fixed [gooeyErrorTone] red.
   final ThemedColor? errorTone;
 
-  /// `warning` accent. Default: the `chart4` token.
+  /// `warning` accent. Default: the fixed [gooeyWarningTone] amber.
   final ThemedColor? warningTone;
 
-  /// `info` accent. Default: the `chart2` token.
+  /// `info` accent. Default: the fixed [gooeyInfoTone] blue.
   final ThemedColor? infoTone;
 
-  /// `action` accent. Default: the `chart5` token.
+  /// `action` accent. Default: the fixed [gooeyActionTone] indigo.
   final ThemedColor? actionTone;
 
   /// Returns a copy with the given fields replaced.
@@ -216,6 +225,7 @@ class GooeyToastTheme extends ComponentThemeData
     ValueGetter<GooeyToastShapeStyle?>? shapeStyle,
     ValueGetter<GooeyToastBodyAnimationStyle?>? bodyAnimationStyle,
     ValueGetter<bool?>? enableGooeyBlur,
+    ValueGetter<GooeyCompactMorph?>? compactMorph,
     ValueGetter<ThemedColor?>? successTone,
     ValueGetter<ThemedColor?>? loadingTone,
     ValueGetter<ThemedColor?>? errorTone,
@@ -248,6 +258,7 @@ class GooeyToastTheme extends ComponentThemeData
       enableGooeyBlur: enableGooeyBlur == null
           ? this.enableGooeyBlur
           : enableGooeyBlur(),
+      compactMorph: compactMorph == null ? this.compactMorph : compactMorph(),
       successTone: successTone == null ? this.successTone : successTone(),
       loadingTone: loadingTone == null ? this.loadingTone : loadingTone(),
       errorTone: errorTone == null ? this.errorTone : errorTone(),
@@ -278,6 +289,7 @@ class GooeyToastTheme extends ComponentThemeData
       shapeStyle: shapeStyle ?? fallback.shapeStyle,
       bodyAnimationStyle: bodyAnimationStyle ?? fallback.bodyAnimationStyle,
       enableGooeyBlur: enableGooeyBlur ?? fallback.enableGooeyBlur,
+      compactMorph: compactMorph ?? fallback.compactMorph,
       successTone: successTone ?? fallback.successTone,
       loadingTone: loadingTone ?? fallback.loadingTone,
       errorTone: errorTone ?? fallback.errorTone,
@@ -308,6 +320,7 @@ class GooeyToastTheme extends ComponentThemeData
       shapeStyle: t < 0.5 ? a.shapeStyle : b.shapeStyle,
       bodyAnimationStyle: t < 0.5 ? a.bodyAnimationStyle : b.bodyAnimationStyle,
       enableGooeyBlur: t < 0.5 ? a.enableGooeyBlur : b.enableGooeyBlur,
+      compactMorph: t < 0.5 ? a.compactMorph : b.compactMorph,
       successTone: t < 0.5 ? a.successTone : b.successTone,
       loadingTone: t < 0.5 ? a.loadingTone : b.loadingTone,
       errorTone: t < 0.5 ? a.errorTone : b.errorTone,
@@ -337,6 +350,7 @@ class GooeyToastTheme extends ComponentThemeData
         other.shapeStyle == shapeStyle &&
         other.bodyAnimationStyle == bodyAnimationStyle &&
         other.enableGooeyBlur == enableGooeyBlur &&
+        other.compactMorph == compactMorph &&
         other.successTone == successTone &&
         other.loadingTone == loadingTone &&
         other.errorTone == errorTone &&
@@ -346,7 +360,7 @@ class GooeyToastTheme extends ComponentThemeData
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll(<Object?>[
     themeDensity,
     themeSpacing,
     themeShadows,
@@ -361,36 +375,36 @@ class GooeyToastTheme extends ComponentThemeData
     shapeStyle,
     bodyAnimationStyle,
     enableGooeyBlur,
+    compactMorph,
     successTone,
     loadingTone,
     errorTone,
     warningTone,
     infoTone,
     actionTone,
-  );
+  ]);
 }
 
 /// Token-derived baseline; every unset override field falls through here. The
-/// six state tones map to the closest semantic tokens — success `chart1`,
-/// loading `mutedForeground`, error `destructive`, warning `chart4`, info
-/// `chart2`, action `chart5` — because shadcn ships no status tokens of its
-/// own; each `*Tone` field documents its mapping above.
+/// status tones are the fixed [gooeySuccessTone] family: the reference hues,
+/// stable across presets and modes.
 const GooeyToastTheme gooeyToastDefaults = GooeyToastTheme(
   width: 350,
-  fill: ThemedColor.ref(ColorRef.popover),
+  fill: ThemedColor.value(gooeySurfaceFill),
   roundness: 18,
   titleStyle: gooeyTitleTextStyle,
   descriptionStyle: gooeyDescriptionTextStyle,
-  descriptionColor: ThemedColor.ref(ColorRef.popoverForeground),
+  descriptionColor: ThemedColor.ref(ColorRef.mutedForeground),
   duration: Duration(milliseconds: 6000),
   animationStyle: GooeyToastAnimationStyle.sileo,
   shapeStyle: GooeyToastShapeStyle.defaultShape,
   bodyAnimationStyle: GooeyToastBodyAnimationStyle.fade,
   enableGooeyBlur: true,
-  successTone: ThemedColor.ref(ColorRef.chart1),
-  loadingTone: ThemedColor.ref(ColorRef.mutedForeground),
-  errorTone: ThemedColor.ref(ColorRef.destructive),
-  warningTone: ThemedColor.ref(ColorRef.chart4),
-  infoTone: ThemedColor.ref(ColorRef.chart2),
-  actionTone: ThemedColor.ref(ColorRef.chart5),
+  compactMorph: GooeyCompactMorph(),
+  successTone: ThemedColor.value(gooeySuccessTone),
+  loadingTone: ThemedColor.value(gooeyLoadingTone),
+  errorTone: ThemedColor.value(gooeyErrorTone),
+  warningTone: ThemedColor.value(gooeyWarningTone),
+  infoTone: ThemedColor.value(gooeyInfoTone),
+  actionTone: ThemedColor.value(gooeyActionTone),
 );

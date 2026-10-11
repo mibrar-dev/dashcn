@@ -22,7 +22,14 @@ class SheetController extends ChangeNotifier {
   bool get isAttached => _state != null;
   void _attach(_PinnedSheetState state) {
     _state = state;
-    notifyListeners();
+    // A listener (e.g. `ListenableBuilder`) mounted with the sheet cannot
+    // rebuild while the sheet is still mounting, so the attach notification
+    // waits for the frame instead of firing synchronously from `initState`.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (identical(_state, state)) {
+        notifyListeners();
+      }
+    });
   }
 
   void _detach(_PinnedSheetState state) {

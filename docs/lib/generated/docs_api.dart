@@ -1034,6 +1034,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Turns the chip into a press target when provided.',
       ),
       DocsApiParam(
+        name: 'onDeleted',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc:
+            'Fired when Backspace/Delete hits the focused chip; makes a press-less\nchip focusable so removable tokens are keyboard-deletable.',
+      ),
+      DocsApiParam(
         name: 'leading',
         type: 'Widget?',
         isRequired: false,
@@ -1657,6 +1664,14 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'TableCellResizeMode',
         isRequired: false,
         defaultValue: 'TableCellResizeMode.expand',
+        doc: 'Cell height strategy while a row resize drag runs.',
+      ),
+      DocsApiParam(
+        name: 'onRowTap',
+        type: 'ValueChanged<int>?',
+        isRequired: false,
+        doc:
+            'Called with the row index when a body row is activated (tap, Enter or\nSpace). Header and footer rows never report; null keeps every row inert.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -1934,6 +1949,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
       ),
       DocsApiParam(name: 'enabled', type: 'bool?', isRequired: false),
+      DocsApiParam(
+        name: 'expand',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether the trigger stretches to the available width.',
+      ),
       DocsApiParam(name: 'theme', type: 'DatePickerTheme?', isRequired: false),
     ],
     members: <DocsApiMember>[],
@@ -1977,6 +1999,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(name: 'dialogTitle', type: 'Widget?', isRequired: false),
       DocsApiParam(name: 'enabled', type: 'bool?', isRequired: false),
+      DocsApiParam(
+        name: 'expand',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether the trigger stretches to the available width.',
+      ),
       DocsApiParam(name: 'theme', type: 'TimePickerTheme?', isRequired: false),
     ],
     members: <DocsApiMember>[],
@@ -5444,29 +5473,23 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'gooey_toast': DocsApiTable(
     componentId: 'gooey_toast',
-    symbol: 'GooeyToastLayer',
+    symbol: 'GooeyToastCard',
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Hosts a [GooeyToastController] and renders its stack above [child].',
+        'Renders one live toast: the metaball surface wrapped in the swipe-to-dismiss gesture. There is no close button (dismiss is by timeout, swipe or the controller\'s `dismiss`), matching the reference.',
     params: <DocsApiParam>[
       DocsApiParam(
-        name: 'child',
-        type: 'Widget',
+        name: 'payload',
+        type: 'GooeyToastPayload',
         isRequired: true,
-        doc: 'Content below the toasts.',
+        doc: 'Resolved content and geometry of this toast.',
       ),
       DocsApiParam(
         name: 'controller',
-        type: 'GooeyToastController?',
-        isRequired: false,
-        doc: 'Injected controller; one is owned when null.',
-      ),
-      DocsApiParam(
-        name: 'theme',
-        type: 'GooeyToastTheme?',
-        isRequired: false,
-        doc: 'Widget-leg theme override.',
+        type: 'GooeyToastController',
+        isRequired: true,
+        doc: 'Controller that owns the toast.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -11581,7 +11604,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'actionTone',
         type: 'ThemedColor?',
-        description: 'action accent (#7A8DFF)',
+        description: 'action accent (fixed gooeyActionTone indigo)',
       ),
       DocsThemeField(
         name: 'animationStyle',
@@ -11592,6 +11615,16 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         name: 'bodyAnimationStyle',
         type: 'GooeyToastBodyAnimationStyle?',
         description: 'body content profile (fade)',
+      ),
+      DocsThemeField(
+        name: 'compactMorph',
+        type: 'GooeyCompactMorph?',
+        description: 'in-place compact morph policy',
+      ),
+      DocsThemeField(
+        name: 'descriptionColor',
+        type: 'ThemedColor?',
+        description: 'expanded body text colour (mutedForeground)',
       ),
       DocsThemeField(
         name: 'descriptionStyle',
@@ -11611,22 +11644,22 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'errorTone',
         type: 'ThemedColor?',
-        description: 'error accent (#EF5E5E)',
+        description: 'error accent (fixed gooeyErrorTone red)',
       ),
       DocsThemeField(
         name: 'fill',
         type: 'ThemedColor?',
-        description: 'surface fill (#0D1117 by default)',
+        description: 'surface fill (light near-white #F7F8FA)',
       ),
       DocsThemeField(
         name: 'infoTone',
         type: 'ThemedColor?',
-        description: 'info accent (#6EA8FF)',
+        description: 'info accent (fixed gooeyInfoTone blue)',
       ),
       DocsThemeField(
         name: 'loadingTone',
         type: 'ThemedColor?',
-        description: 'loading accent (#8A8F98)',
+        description: 'loading accent (fixed gooeyLoadingTone grey)',
       ),
       DocsThemeField(
         name: 'roundness',
@@ -11641,17 +11674,17 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'successTone',
         type: 'ThemedColor?',
-        description: 'success accent (#63C65E)',
+        description: 'success accent (fixed gooeySuccessTone green)',
       ),
       DocsThemeField(
         name: 'titleStyle',
         type: 'TextStyle?',
-        description: 'compact label; null adds the state tone',
+        description: 'compact label; null uses the state tone',
       ),
       DocsThemeField(
         name: 'warningTone',
         type: 'ThemedColor?',
-        description: 'warning accent (#EABB4B)',
+        description: 'warning accent (fixed gooeyWarningTone amber)',
       ),
       DocsThemeField(
         name: 'width',

@@ -29,6 +29,7 @@ import 'package:flutter_shadcn_kit/registry/components/number_ticker/number_tick
 import 'package:flutter_shadcn_kit/registry/components/overflow_marquee/overflow_marquee.dart';
 import 'package:flutter_shadcn_kit/registry/components/scrollable/scrollable.dart';
 import 'package:flutter_shadcn_kit/registry/components/tracker/tracker.dart';
+import 'package:flutter_shadcn_kit/registry/primitives/color_math.dart';
 import 'package:flutter_shadcn_kit/registry/primitives/gooey/gooey_surface.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/syntax_colors.dart';
@@ -60,16 +61,18 @@ Widget buildPresetHost(
 
 const List<String> kPresets = [kNeutralPreset, kClaudePreset, kTangerinePreset];
 
-/// The state-tone mapping `gooeyToastDefaults` documents.
-const Map<GooeyToastState, ColorRef> gooeyToneRefs =
-    <GooeyToastState, ColorRef>{
-      GooeyToastState.success: ColorRef.chart1,
-      GooeyToastState.loading: ColorRef.mutedForeground,
-      GooeyToastState.error: ColorRef.destructive,
-      GooeyToastState.warning: ColorRef.chart4,
-      GooeyToastState.info: ColorRef.chart2,
-      GooeyToastState.action: ColorRef.chart5,
-    };
+/// Fixed gooey tones (P7-F3, made fully fixed in P7-G3): every state resolves
+/// to the same colour in every mode and preset, and each clears 3:1 on the
+/// light reference surface. No state follows a token any more, so a tone never
+/// flips hue across presets or modes.
+const Map<GooeyToastState, Color> gooeyFixedTones = <GooeyToastState, Color>{
+  GooeyToastState.success: gooeySuccessTone,
+  GooeyToastState.loading: gooeyLoadingTone,
+  GooeyToastState.error: gooeyErrorTone,
+  GooeyToastState.warning: gooeyWarningTone,
+  GooeyToastState.info: gooeyInfoTone,
+  GooeyToastState.action: gooeyActionTone,
+};
 
 /// Captured `Clipboard.setData` payload, because `Clipboard.getData` has no
 /// platform handler in `flutter_test` and never resolves.
@@ -112,7 +115,9 @@ ShaderMaskLayer fadeLayerOf(Element root) {
 
 void main() {
   group('Gooey toast follows the preset', () {
-    testWidgets('state tones resolve to their semantic tokens', (tester) async {
+    testWidgets('state tones are stable and readable in every preset', (
+      tester,
+    ) async {
       await pumpUnderPreset(
         tester,
         presetId: kNeutralPreset,
@@ -128,22 +133,27 @@ void main() {
             child: const SizedBox.shrink(),
           );
           final ShadcnColors colors = resolvedTheme(tester).colors;
-          for (final entry in gooeyToneRefs.entries) {
-            final Color expected = entry.value.resolve(colors);
+          final Color surface = gooeyToastDefaults.fill!.resolve(colors);
+          for (final entry in gooeyFixedTones.entries) {
             final Color actual = entry.key.tone(gooeyToastDefaults, colors);
             expectColor(
               actual,
-              expected,
+              entry.value,
               'gooey_toast ${entry.key.name} tone under $preset $brightness',
+            );
+            expect(
+              contrastRatio(actual, surface),
+              greaterThanOrEqualTo(3),
+              reason:
+                  'gooey_toast ${entry.key.name} contrast under '
+                  '$preset $brightness',
             );
           }
         }
       }
     });
 
-    testWidgets('fill and description default to popover tokens', (
-      tester,
-    ) async {
+    testWidgets('fill defaults to the light reference surface', (tester) async {
       for (final preset in kPresets) {
         for (final brightness in Brightness.values) {
           await pumpUnderPreset(
@@ -153,14 +163,16 @@ void main() {
             child: const SizedBox.shrink(),
           );
           final ShadcnColors colors = resolvedTheme(tester).colors;
+          // A fixed light near-white, inverted from the dark site background,
+          // identical in every preset and brightness (P7-G3).
           expectColor(
             gooeyToastDefaults.fill!.resolve(colors),
-            colors.popover,
+            gooeySurfaceFill,
             'gooey_toast fill under $preset $brightness',
           );
           expectColor(
             gooeyToastDefaults.descriptionColor!.resolve(colors),
-            colors.popoverForeground,
+            colors.mutedForeground,
             'gooey_toast description under $preset $brightness',
           );
         }
@@ -180,6 +192,7 @@ void main() {
               title: 'Pill',
               titleStyle: gooeyTitleTextStyle,
               morphKey: 'pill',
+              leading: null,
             ),
           );
           final ShadcnColors colors = resolvedTheme(tester).colors;
@@ -188,6 +201,7 @@ void main() {
               title: 'Pill',
               titleStyle: gooeyTitleTextStyle,
               morphKey: 'pill',
+              leading: null,
             ).fill.resolve(colors),
             colors.popover,
             'gooey_surface default fill under $preset $brightness',

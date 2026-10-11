@@ -31,3 +31,9 @@ is intended, e.g. in forms).
 Gates: `cd $KIT && rearch/qa_gate.sh`; generators regenerate + --check; docs sync + --check, codegen --check,
 format/analyze/test, `flutter build web --release`. Captures (agent-browser) of the five component pages at 1440 dark
 → `rearch/design/ours/screens/p7f2-*.png`. Report `rearch/reports/P7-F2.md`, `## RESULT`. No git ops.
+
+## Orchestrator addendum (after P7-F1)
+P7-F1 found the formatted_input phone preview is DECLARED as "555 (123) 4567". Re-declare it as the shadcn/US mask
+"(555) 123-4567" (static "(" + 3 digits + static ") " + 3 digits + static "-" + 4 digits) and check every other preview/
+block using formatted parts reads naturally. `formatted_input.dart` is now 622 lines — split it (≤ ~400) per F1's
+documented proposal while you are in there.

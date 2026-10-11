@@ -669,3 +669,11 @@
 - Canvas keeps the background token (no grey fill, per user), dot pattern blurred + faint (pattern layer only); components separate by their own border/shadow. Visually verified (release build, card page dark).
 - Sidebar category sub-labels aligned with item text (8px), semibold 12px near-foreground; group labels 13px semibold foreground. Docs tests 232 green.
 - Gooey toast (P7-G1) and regenerated docs data held for its own commit.
+
+## P7 batch 2 — gooey toast (ported from main), inputs, previews, canvas, sidebar — ACCEPTED
+- Gooey toast: P7-G1 rewrite rejected by user → P7-G2 ported main's implementation (shapes, lifecycle, presets, playground examples: variants, promise, positions, presets, body animation, shapes, interactive reply, booking multi-state, tabs+listview) → P7-G3 matched main's look exactly (light #F7F8FA surface, no stroke, main's silhouette math, Confirm action, close button removed per user); orchestrator made the action chip hug its label. Side-by-side vs the deployed main site verified (success/error/action/loading, timeline 0.4s expand → ~2.4s collapse).
+- Inputs: P7-F1 typing (write-back caret reset), P7-F2 intrinsic widths + joined phone group, P7-F3 object MM wrap, segment gaps, 36px triggers, fixed status tones.
+- Previews: P7-C1 chip/carousel/pinned_sheet/tree/breadcrumb interactive + root fixes; P7-T1 QA tests updated, chip centred, 1px tree guides.
+- Canvas blurred (not grey), sidebar category labels aligned + clearer.
+- Gates: kit format 0 / analyze 0 / registry 4518 / rearch 42 / generators + layers + owner + user-theme; docs format 0 / analyze 0 / 232 / codegen + mirror --check / release build. Visual checks by orchestrator on release builds.
+- Model note: Go muse-spark hit "Insufficient account funds"; Go step-5 and longcat endpoints went unavailable once; G3 finished on Zen step-5.

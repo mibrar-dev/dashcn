@@ -1,22 +1,76 @@
 // Content pieces of a gooey surface: the compact pill, the expanded body, the
 // state icon bubble and the inline action chip.
 //
-// Split from `gooey_frame.dart` so each file stays under the ~400-line limit;
-// all pieces are widgets-only and take resolved styles/colours.
+// All pieces are widgets-only and take resolved styles/colours, so the surface
+// (which owns the animation) stays free of token lookups.
 
-import 'dart:math' as math;
-
-import 'package:flutter/rendering.dart';
+import 'package:flutter/rendering.dart' show RenderProxyBox;
 import 'package:flutter/widgets.dart';
 
-import '../animation.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Compact pill content: leading icon, title and optional trailing widget.
+/// Timing and choreography of the compact pill morph.
 ///
-/// [morphKey] keys the [AnimatedSwitcher], so a new title or state animates
-/// instead of snapping.
+/// Changing a toast's title/state in place (the promise and multi-state flows)
+/// cross-fades the outgoing compact frame out and the incoming one in instead
+/// of snapping: the old label slides up while the new one rises from below, and
+/// both scale from [scaleFrom] up to `1`.
+@immutable
+class GooeyCompactMorph {
+  /// Creates a morph profile.
+  const GooeyCompactMorph({
+    this.duration = const Duration(milliseconds: 400),
+    this.curve = Curves.easeInOutCubicEmphasized,
+    this.slideOffset = const Offset(0, 0.10),
+    this.scaleFrom = 0.80,
+  });
+
+  /// Duration of the morph.
+  final Duration duration;
+
+  /// Curve of the morph.
+  final Curve curve;
+
+  /// Slide delta in normalized axis units; `dy` scales with the pill height.
+  final Offset slideOffset;
+
+  /// Starting scale of both frames.
+  final double scaleFrom;
+}
+
+/// The outgoing compact frame while a morph runs.
+///
+/// [progress] is the eased morph position: `0` fully on the previous frame,
+/// `1` settled on the current one. A progress of `1` (the default) means no
+/// morph is running and only the current frame paints.
+@immutable
+class GooeyCompactMorphFrame {
+  /// Creates a morph frame.
+  const GooeyCompactMorphFrame({
+    this.progress = 1,
+    this.title,
+    this.titleStyle,
+    this.leading,
+  });
+
+  /// Eased morph position, `0..1`.
+  final double progress;
+
+  /// Outgoing compact title, or null when no morph runs.
+  final String? title;
+
+  /// Outgoing compact title style, tone already applied.
+  final TextStyle? titleStyle;
+
+  /// Outgoing leading widget (state icon).
+  final Widget? leading;
+}
+
+/// Compact pill content: leading icon and title, cross-faded while morphing.
+///
+/// Morphing keeps both frames in one [Stack] so the pill never changes size:
+/// the outgoing label slides out as the incoming one slides in.
 class GooeySurfacePill extends StatelessWidget {
   /// Creates pill content.
   const GooeySurfacePill({
@@ -25,14 +79,12 @@ class GooeySurfacePill extends StatelessWidget {
     required this.titleStyle,
     required this.width,
     required this.height,
-    required this.morphKey,
+    required this.morph,
+    this.morphSlide = const Offset(0, 0.10),
+    this.morphScaleFrom = 0.80,
     this.leading,
     this.expandUp = false,
     this.onTap,
-    this.morphDuration = const Duration(milliseconds: 400),
-    this.morphCurve = Curves.easeInOutCubicEmphasized,
-    this.morphSlide = const Offset(0, 0.10),
-    this.morphScaleFrom = 0.80,
   });
 
   /// Measures the pill width needed to fit [title] and a 24px leading icon.
@@ -42,6 +94,7 @@ class GooeySurfacePill extends StatelessWidget {
     required TextDirection direction,
     required double pillHeight,
     required double maxWidth,
+    double extra = 10,
   }) {
     final TextPainter painter = TextPainter(
       text: TextSpan(text: title, style: style),
@@ -51,7 +104,6 @@ class GooeySurfacePill extends StatelessWidget {
     const double iconWidth = 24;
     const double iconGap = 8;
     const double padding = 16;
-    const double extra = 10;
     final double inner = iconWidth + iconGap + painter.width;
     return (inner + padding + extra).clamp(pillHeight, maxWidth).toDouble();
   }
@@ -59,7 +111,7 @@ class GooeySurfacePill extends StatelessWidget {
   /// Compact label.
   final String title;
 
-  /// Compact label style.
+  /// Compact label style, tone already applied.
   final TextStyle titleStyle;
 
   /// Pill width.
@@ -68,10 +120,16 @@ class GooeySurfacePill extends StatelessWidget {
   /// Pill height.
   final double height;
 
-  /// Identity of the current compact content, for the morph switcher.
-  final Object morphKey;
+  /// Current morph frame.
+  final GooeyCompactMorphFrame morph;
 
-  /// Optional leading widget (state icon).
+  /// Slide of both frames in normalized axis units; `dy` scales with [height].
+  final Offset morphSlide;
+
+  /// Starting scale of both frames.
+  final double morphScaleFrom;
+
+  /// Leading widget (state icon).
   final Widget? leading;
 
   /// Whether the body grows upwards, flipping the morph slide.
@@ -80,38 +138,15 @@ class GooeySurfacePill extends StatelessWidget {
   /// Called when the pill is tapped; null keeps the pill static.
   final VoidCallback? onTap;
 
-  /// Compact morph duration.
-  final Duration morphDuration;
-
-  /// Compact morph curve.
-  final Curve morphCurve;
-
-  /// Compact morph slide in `Offset` units.
-  final Offset morphSlide;
-
-  /// Starting scale of the morphing content.
-  final double morphScaleFrom;
-
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final Widget row = Row(
-      children: <Widget>[
-        if (leading != null) ...<Widget>[
-          leading!,
-          SizedBox(width: theme.spacing.sm),
-        ],
-        Expanded(
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: titleStyle,
-          ),
-        ),
-      ],
-    );
-    return MouseRegion(
+    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final GooeyCompactMorphFrame frame = morph;
+    final double t = frame.progress.clamp(0.0, 1.0).toDouble();
+    final bool morphing = t < 0.999 && frame.title != null;
+    final double previousOpacity = morphing ? (1 - t).clamp(0.0, 1.0) : 0.0;
+    final double currentOpacity = morphing ? t.clamp(0.0, 1.0) : 1.0;
+    final Widget pill = MouseRegion(
       cursor: onTap == null
           ? SystemMouseCursors.basic
           : SystemMouseCursors.click,
@@ -122,32 +157,68 @@ class GooeySurfacePill extends StatelessWidget {
           width: width,
           height: height,
           padding: const EdgeInsets.all(8),
-          child: AnimatedSwitcher(
-            duration: morphDuration,
-            switchInCurve: morphCurve,
-            switchOutCurve: morphCurve,
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(
-                opacity: animation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: Offset(
-                      morphSlide.dx,
-                      (expandUp ? -1 : 1) * morphSlide.dy,
-                    ),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: ScaleTransition(
-                    scale: Tween<double>(
-                      begin: morphScaleFrom,
-                      end: 1,
-                    ).animate(animation),
-                    child: child,
-                  ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              if (morphing)
+                _compactFrame(
+                  opacity: previousOpacity,
+                  slide: -morphSlide.dy,
+                  scale:
+                      morphScaleFrom + (1 - morphScaleFrom) * previousOpacity,
+                  style: frame.titleStyle ?? titleStyle,
+                  title: frame.title!,
+                  leading: frame.leading,
+                  gap: gap,
                 ),
-              );
-            },
-            child: KeyedSubtree(key: ValueKey<Object>(morphKey), child: row),
+              _compactFrame(
+                opacity: currentOpacity,
+                slide: morphSlide.dy * (1 - t),
+                scale: morphScaleFrom + (1 - morphScaleFrom) * currentOpacity,
+                title: title,
+                style: titleStyle,
+                leading: leading,
+                gap: gap,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return pill;
+  }
+
+  Widget _compactFrame({
+    required double opacity,
+    required double slide,
+    required double scale,
+    required String title,
+    required TextStyle style,
+    required Widget? leading,
+    required double gap,
+  }) {
+    if (opacity <= 0.002) {
+      return const SizedBox.shrink();
+    }
+    final double dy = slide * height;
+    return Opacity(
+      opacity: opacity.clamp(0.0, 1.0).toDouble(),
+      child: Transform.translate(
+        offset: Offset(0, expandUp ? -dy : dy),
+        child: Transform.scale(
+          scale: scale.clamp(0.65, 1.15).toDouble(),
+          child: Row(
+            children: <Widget>[
+              if (leading != null) ...<Widget>[leading, SizedBox(width: gap)],
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: style,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -258,114 +329,5 @@ class _GooeyMeasureRender extends RenderProxyBox {
     }
     _lastSize = next;
     WidgetsBinding.instance.addPostFrameCallback((_) => onSizeChanged(next));
-  }
-}
-
-/// Circular icon bubble for the compact leading slot.
-///
-/// [loading] spins the glyph, replacing the old Material
-/// `CircularProgressIndicator` in the gooey toast.
-class GooeyStateIcon extends StatelessWidget {
-  /// Creates a state icon.
-  const GooeyStateIcon({
-    super.key,
-    required this.icon,
-    required this.color,
-    this.loading = false,
-  });
-
-  /// Glyph shown inside the bubble.
-  final IconData icon;
-
-  /// Bubble tint; the glyph uses it at full strength.
-  final Color color;
-
-  /// Whether to spin the glyph.
-  final bool loading;
-
-  @override
-  Widget build(BuildContext context) {
-    final Widget glyph = Icon(icon, size: 16, color: color);
-    // A fixed `size-6` envelope around the 16px glyph, like the button size
-    // table's unscaled `minHeight`: not spacing.
-    return SizedBox(
-      width: 24,
-      height: 24,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.2),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: loading
-              ? RepeatedAnimationBuilder(
-                  start: 0,
-                  end: math.pi * 2,
-                  duration: const Duration(milliseconds: 900),
-                  builder: (BuildContext context, double value, Widget? child) {
-                    return Transform.rotate(angle: value, child: child);
-                  },
-                  child: glyph,
-                )
-              : glyph,
-        ),
-      ),
-    );
-  }
-}
-
-/// Inline action chip for the expanded body.
-///
-/// Replaces the old Material `TextButton`; height 28, stadium shape, tinted
-/// with the toast tone.
-class GooeyActionChip extends StatelessWidget {
-  /// Creates an action chip.
-  const GooeyActionChip({
-    super.key,
-    required this.label,
-    required this.color,
-    required this.onPressed,
-  });
-
-  /// Chip label.
-  final String label;
-
-  /// Tone colour of label, tint and border.
-  final Color color;
-
-  /// Called when the chip is tapped.
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onPressed,
-          child: Container(
-            height: 28,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: color.withValues(alpha: 0.26)),
-            ),
-            child: Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                height: 1,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

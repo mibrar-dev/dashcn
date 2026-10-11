@@ -59,6 +59,9 @@ class PhoneInputTheme extends ComponentThemeData
   final double? flagGap;
 
   /// Gap between the country selector and the number field.
+  ///
+  /// The group is one joined box: half of this value pads each side of the
+  /// hairline divider between the trigger and the field.
   final double? fieldGap;
 
   /// Gap between the country name and its dial code in popup rows.

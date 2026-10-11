@@ -20,6 +20,7 @@
       "theme"
     ],
     "primitives": [
+      "clickable",
       "text"
     ],
     "components": []
@@ -33,6 +34,7 @@
   "api": {
     "classes": [
       "Breadcrumb",
+      "BreadcrumbLink",
       "BreadcrumbTheme"
     ],
     "constants": [

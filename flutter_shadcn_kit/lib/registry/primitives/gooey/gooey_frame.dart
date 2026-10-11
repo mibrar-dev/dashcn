@@ -1,19 +1,24 @@
-// Per-frame composition of one gooey surface: the shape layer, the compact
-// pill and the expanding body, interpolated from the open progress.
+// Per-frame composition of one gooey surface: the silhouette, the compact pill
+// and the revealing body, interpolated from the open progress.
 //
-// Split out of `gooey_surface.dart` (which owns the state machine) so both
-// files stay readable; the silhouette itself lives in `gooey_shape.dart`.
+// Stateless on purpose: `gooey_surface.dart` owns the controllers and hands in
+// a single `progress` value, so every frame of the morph is reproducible from
+// the numbers below (that is also what the widget tests assert).
 
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/widgets.dart';
 
+import 'gooey_paint.dart';
 import 'gooey_shape.dart';
 
 /// Entry fade/scale duration.
-const Duration _kReadyDuration = Duration(milliseconds: 400);
+const Duration kGooeyReadyDuration = Duration(milliseconds: 400);
 
-/// Body content animation profile of `GooeySurface`.
+/// Width of the compact pill/blob as the canvas widens into the full body.
+const double kGooeyBodySlide = 6;
+
+/// Expanded-body content animation profile.
 @immutable
 class GooeySurfaceBodyAnimation {
   /// Creates a profile.
@@ -28,7 +33,7 @@ class GooeySurfaceBodyAnimation {
 
   /// Fades content while sliding from the toast seam.
   static const GooeySurfaceBodyAnimation fadeSlide = GooeySurfaceBodyAnimation(
-    slide: 6,
+    slide: kGooeyBodySlide,
   );
 
   /// Fades content while slightly scaling from compact to expanded.
@@ -74,6 +79,8 @@ class GooeySurfaceFrame extends StatelessWidget {
     required this.ready,
     required this.pill,
     this.body,
+    this.borderColor,
+    this.shadowColor,
   });
 
   /// Open progress, `0` compact and `1` fully expanded.
@@ -82,10 +89,10 @@ class GooeySurfaceFrame extends StatelessWidget {
   /// Surface width.
   final double width;
 
-  /// Content height of the compact pill.
+  /// Content height of the compact pill; the seam the body grows from.
   final double pillHeight;
 
-  /// Drawn pill height at rest, including blur head-room.
+  /// Drawn pill height at rest, including the blur head-room.
   final double pillBase;
 
   /// Canvas height when fully open.
@@ -130,14 +137,27 @@ class GooeySurfaceFrame extends StatelessWidget {
   /// Expanded body content, or null when closed.
   final Widget? body;
 
+  /// Border colour around the silhouette; null skips the border.
+  final Color? borderColor;
+
+  /// Drop shadow colour under the silhouette; null skips the shadow.
+  final Color? shadowColor;
+
   @override
   Widget build(BuildContext context) {
     final double open = progress.clamp(0.0, 1.0).toDouble();
     final double visualHeight =
-        lerpDouble(pillHeight, targetHeight, open) ?? pillHeight;
+        lerpDouble(
+          pillHeight,
+          targetHeight,
+          open,
+        )?.clamp(0.0, 4000.0).toDouble() ??
+        pillHeight;
     final double bodyHeight = (targetHeight - pillHeight)
         .clamp(0.0, 1000.0)
         .toDouble();
+    // The drawn pill carries blur head-room; squashing it back to the content
+    // height while closed keeps the silhouette exactly one pill tall.
     final double pillScaleY = lerpDouble(pillHeight / pillBase, 1, open) ?? 1;
     final double bodyScaleY = Curves.easeInOut.transform(open);
     final double translateY = (expandUp ? -3.0 : 3.0) * open;
@@ -146,19 +166,18 @@ class GooeySurfaceFrame extends StatelessWidget {
         .clamp(0.0, 1.0)
         .toDouble();
     final double contentEase = Curves.easeOutCubic.transform(contentProgress);
-    final GooeySurfaceBodyAnimation animation = bodyAnimation;
-    final double contentOpacity = animation.instant
+    final double contentOpacity = bodyAnimation.instant
         ? (contentProgress >= 0.999 ? 1.0 : 0.0)
         : contentEase;
-    final double contentHeightFactor = animation.instant
+    final double contentHeightFactor = bodyAnimation.instant
         ? (contentProgress >= 0.999 ? 1.0 : 0.0)
         : contentProgress;
-    final double contentSlide = animation.instant
+    final double contentSlide = bodyAnimation.instant
         ? 0.0
-        : (1 - contentEase) * animation.slide * (expandUp ? 1.0 : -1.0);
-    final double contentScale = animation.instant
+        : (1 - contentEase) * bodyAnimation.slide * (expandUp ? 1.0 : -1.0);
+    final double contentScale = bodyAnimation.instant
         ? 1.0
-        : (lerpDouble(animation.scaleFrom, 1.0, contentEase) ?? 1.0)
+        : (lerpDouble(bodyAnimation.scaleFrom, 1.0, contentEase) ?? 1.0)
               .clamp(0.92, 1.04)
               .toDouble();
     final Matrix4 headerTransform = Matrix4.identity()
@@ -169,6 +188,7 @@ class GooeySurfaceFrame extends StatelessWidget {
       pillX: pillX,
       pillWidth: pillWidth,
       pillHeight: pillHeight,
+      pillCanvasHeight: pillBase,
       pillScaleY: pillScaleY,
       bodyHeight: bodyHeight,
       bodyScaleY: bodyScaleY,
@@ -185,13 +205,15 @@ class GooeySurfaceFrame extends StatelessWidget {
       blur: blur,
       surfaceBlur: surfaceBlur,
       enableGooeyBlur: enableGooeyBlur,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
     );
     return AnimatedOpacity(
-      duration: _kReadyDuration,
+      duration: kGooeyReadyDuration,
       curve: Curves.easeOut,
       opacity: ready ? 1 : 0,
       child: AnimatedScale(
-        duration: _kReadyDuration,
+        duration: kGooeyReadyDuration,
         curve: Curves.easeOutCubic,
         scale: ready ? 1 : 0.95,
         child: AnimatedSize(

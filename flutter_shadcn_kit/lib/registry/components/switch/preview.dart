@@ -88,8 +88,8 @@ Widget _disabled(BuildContext context) {
     spacing: spacing.xl,
     runSpacing: spacing.md,
     children: const <Widget>[
-      Switch(value: true, label: Text('on')),
-      Switch(value: false, label: Text('off')),
+      Switch(value: true, label: Text('Notifications (on)')),
+      Switch(value: false, label: Text('Sounds (off)')),
     ],
   );
 }
