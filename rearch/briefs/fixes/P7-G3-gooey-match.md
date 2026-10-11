@@ -17,7 +17,9 @@ re-derive them. Live: https://mibrar-dev.github.io/shadcn_flutter_kit/#/componen
    height/padding, body radius ≈16, fillet radius, shoulder blend) — same silhouette at every stage of the morph.
 3. ACTION variant: main shows a "Confirm" action button (soft tinted pill button, blue) inside the body under the
    description; ours shows none. Restore action rendering exactly.
-4. CLOSE ×: main shows no close button by default; ours always does. Default = hidden (opt-in param, like main).
+4. CLOSE ×: REMOVE the close button entirely (user, 2026-10-11: "remove the close button") — no × widget, no
+   `showClose`-style param, nothing in previews/README/meta. Toasts dismiss by timeout, swipe and tap-to-dismiss (if
+   main has it) and the `dismiss` API.
 5. TEXT: body description is muted grey on the light surface (main); title + icon in the status colour (green
    "Success", red "Error", blue "Action Required", amber warning, blue info); main's default titles per variant.
 6. LOADING pill: light, like main.
@@ -30,7 +32,7 @@ Build docs release, serve, and capture OUR success / error / action / loading to
 do without viewing images: sample the surface colour at the body centre (must be light ≈ main's, in dark site mode),
 measure the silhouette bounding boxes (pill w/h, body w/h) from the screenshots with PIL and compare to main (±4px),
 check no border pixels. Put the numbers in the report. Tests: surface colour default, no stroke, action button present
-for action variant, close hidden by default, path geometry constants equal main's.
+for action variant, no close button exists, path geometry constants equal main's.
 Gates: `cd $KIT && rearch/qa_gate.sh`; generators --check; docs sync + --check, codegen --check, analyze/test, build web.
 Report `rearch/reports/P7-G3.md`, `## RESULT`. No git ops. (Agent P7-T1 is fixing chip/pinned_sheet/tree tests — don't
 touch those.)
