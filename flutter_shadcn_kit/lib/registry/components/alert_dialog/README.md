@@ -19,15 +19,17 @@ final confirmed = await showAlertDialog<bool>(
   icon: const Icon(LucideIcons.triangleAlert),
   title: const Text('Delete this project?'),
   description: const Text('This cannot be undone.'),
-  actions: <Widget>[
+  // Actions get the dialog's own context: popping the caller's context would
+  // pop the page under the dialog when the app has nested navigators.
+  actionsBuilder: (dialogContext) => <Widget>[
     Button(
       variant: ButtonVariant.outline,
-      onPressed: () => Navigator.pop(context, false),
+      onPressed: () => Navigator.pop(dialogContext, false),
       child: const Text('Cancel'),
     ),
     Button(
       variant: ButtonVariant.destructive,
-      onPressed: () => Navigator.pop(context, true),
+      onPressed: () => Navigator.pop(dialogContext, true),
       child: const Text('Delete'),
     ),
   ],
@@ -53,7 +55,9 @@ const AlertDialog(
 | `actions` | `List<Widget>` | `const []` | footer controls, laid out at the end |
 | `theme` | `AlertDialogTheme?` | null | widget leg of the resolver |
 
-`showAlertDialog` additionally takes the `dialog` parameters
+`showAlertDialog` takes `actionsBuilder: (BuildContext dialogContext) =>
+List<Widget>` (build the footer with the dialog's context so `Navigator.pop`
+closes the dialog) and additionally the `dialog` parameters
 `useRootNavigator`, `barrierDismissible`, `barrierColor`, `alignment`,
 `routeSettings` and returns the route result.
 

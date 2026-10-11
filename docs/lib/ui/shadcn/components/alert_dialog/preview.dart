@@ -89,15 +89,15 @@ class _AlertDialogPushedDialog extends StatelessWidget {
             'This action cannot be undone. The project and its history are '
             'removed.',
           ),
-          actions: <Widget>[
+          actionsBuilder: (BuildContext dialogContext) => <Widget>[
             Button(
               variant: ButtonVariant.outline,
-              onPressed: () => Navigator.of(context).pop(false),
+              onPressed: () => Navigator.of(dialogContext).pop(false),
               child: const Text('Cancel'),
             ),
             Button(
               variant: ButtonVariant.destructive,
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () => Navigator.of(dialogContext).pop(true),
               child: const Text('Delete'),
             ),
           ],

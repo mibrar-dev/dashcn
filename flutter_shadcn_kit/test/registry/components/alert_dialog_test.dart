@@ -82,7 +82,7 @@ Future<void> _pumpOpen(
     title: title,
     description: description,
     icon: icon,
-    actions: actions,
+    actionsBuilder: (_) => actions,
     barrierColor: barrierColor == null ? null : ThemedColor.value(barrierColor),
     barrierDismissible: barrierDismissible,
     theme: theme,
@@ -298,9 +298,9 @@ void main() {
             context: host,
             title: const Text('Confirm'),
             description: const Text('Really?'),
-            actions: <Widget>[
+            actionsBuilder: (BuildContext dialogContext) => <Widget>[
               GestureDetector(
-                onTap: () => Navigator.of(host).pop('ok'),
+                onTap: () => Navigator.of(dialogContext).pop('ok'),
                 child: const Text('Ok'),
               ),
             ],

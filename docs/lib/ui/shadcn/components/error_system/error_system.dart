@@ -235,7 +235,7 @@ Future<T?> showErrorDialog<T>({
   bool barrierDismissible = true,
   ThemedColor? barrierColor,
 }) {
-  final List<Widget> actions = error.actions.isEmpty
+  List<Widget> actionsFor(BuildContext context) => error.actions.isEmpty
       ? <Widget>[
           Button(
             variant: ButtonVariant.outline,
@@ -254,7 +254,7 @@ Future<T?> showErrorDialog<T>({
     icon: icon ?? const Icon(LucideIcons.triangleAlert, size: 20),
     title: Text(error.title),
     description: Text(error.message),
-    actions: actions,
+    actionsBuilder: actionsFor,
   );
 }
 

@@ -202,15 +202,17 @@ class AlertDialog extends StatelessWidget {
 ///   context: context,
 ///   title: const Text('Delete this project?'),
 ///   description: const Text('This cannot be undone.'),
-///   actions: <Widget>[
+///   // Build actions from the DIALOG's context: popping the caller's context
+///   // would pop the page under the dialog in apps with nested navigators.
+///   actionsBuilder: (dialogContext) => <Widget>[
 ///     Button(
 ///       variant: ButtonVariant.outline,
-///       onPressed: () => Navigator.pop(context, false),
+///       onPressed: () => Navigator.pop(dialogContext, false),
 ///       child: const Text('Cancel'),
 ///     ),
 ///     Button(
 ///       variant: ButtonVariant.destructive,
-///       onPressed: () => Navigator.pop(context, true),
+///       onPressed: () => Navigator.pop(dialogContext, true),
 ///       child: const Text('Delete'),
 ///     ),
 ///   ],
@@ -221,7 +223,7 @@ Future<T?> showAlertDialog<T>({
   Widget? title,
   Widget? description,
   Widget? icon,
-  List<Widget> actions = const <Widget>[],
+  List<Widget> Function(BuildContext dialogContext)? actionsBuilder,
   bool useRootNavigator = true,
   bool barrierDismissible = true,
   ThemedColor? barrierColor,
@@ -240,7 +242,7 @@ Future<T?> showAlertDialog<T>({
       title: title,
       description: description,
       icon: icon,
-      actions: actions,
+      actions: actionsBuilder?.call(context) ?? const <Widget>[],
       theme: theme,
     ),
   );

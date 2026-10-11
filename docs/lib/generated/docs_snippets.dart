@@ -2895,21 +2895,23 @@ controller.setStepState(1, null); // cleared''',
   icon: const Icon(LucideIcons.triangleAlert),
   title: const Text('Delete this project?'),
   description: const Text('This cannot be undone.'),
-  actions: <Widget>[
+  // Actions get the dialog's own context: popping the caller's context would
+  // pop the page under the dialog when the app has nested navigators.
+  actionsBuilder: (dialogContext) => <Widget>[
     Button(
       variant: ButtonVariant.outline,
-      onPressed: () => Navigator.pop(context, false),
+      onPressed: () => Navigator.pop(dialogContext, false),
       child: const Text('Cancel'),
     ),
     Button(
       variant: ButtonVariant.destructive,
-      onPressed: () => Navigator.pop(context, true),
+      onPressed: () => Navigator.pop(dialogContext, true),
       child: const Text('Delete'),
     ),
   ],
 );''',
       tokenClasses:
-          'kkkkkpppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppkkkkkppppppssssssssppppppppppppppppp',
+          'kkkkkpppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssppppppppppppppppppkkkkkppppppsssssssssssssssssssssssspppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppkkkkkppppppssssssssppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'alert_dialog.1',

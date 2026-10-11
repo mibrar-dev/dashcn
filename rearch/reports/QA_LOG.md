@@ -659,3 +659,8 @@
 ## P7-Z — final polish — ACCEPTED
 - Gates: kit format 0 / analyze 0 / registry 4400 / rearch 42 / generators --check / layers+owner exit 0 / user-theme 0; docs format 0 / analyze 0 / 217 / codegen + mirror --check / release build.
 - Visual (release build): command input has no ring, 1px bottom divider; preview toolbar actions right-aligned. Also: BasicLayout AlignmentDirectional (RTL), Clickable autofocus (badge/chip duplicates removed), object_form_prompt bounds unbounded editors.
+
+## Orchestrator fix — alert actions popped the page under the dialog (user report 2026-10-11)
+- Root cause: `showAlertDialog(actions: [...])` took prebuilt widgets, so callbacks captured the CALLER's context; the dialog lives on the root navigator, so `Navigator.pop(context)` popped the docs router's only page → `_history.isNotEmpty` assertion (debug) and the "deactivated widget" follow-up. This was also the user's earlier "first-launch" error.
+- Fix (clean break): `actionsBuilder: (dialogContext) => [...]`; README/doc comment/preview/error_system/docs Danger zone card updated. Regression tests: registry nested-navigator test + docs Danger zone Delete/Cancel test (verified failing on the old code).
+- Gates: kit 4401 / rearch 42 / analyze 0; docs 219 / analyze 0 / codegen + mirror --check.

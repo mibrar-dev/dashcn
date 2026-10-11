@@ -127,15 +127,15 @@ class HomeAlertConfirmCard extends StatelessWidget {
               'The release, its royalties and every report will be removed '
               'permanently.',
             ),
-            actions: <Widget>[
+            actionsBuilder: (BuildContext dialogContext) => <Widget>[
               Button(
                 variant: ButtonVariant.outline,
-                onPressed: () => Navigator.pop(context, false),
+                onPressed: () => Navigator.pop(dialogContext, false),
                 child: const Text('Cancel'),
               ),
               Button(
                 variant: ButtonVariant.destructive,
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: () => Navigator.pop(dialogContext, true),
                 child: const Text('Delete'),
               ),
             ],
