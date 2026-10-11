@@ -35,3 +35,15 @@ idle = label (+ its own icons) only; loading = spinner + gap + label (or loading
 cross-fade the icon; no reserved/min-width slot, no layout jank in rows (siblings may move with the animation). Full-width
 buttons (expand / tight parent) keep the parent width. Update P7-S1's tests (replace "width stable" with "width hugs
 content in each state + animates between them") and README.
+
+## Also: EVERY preview example centred (user 2026-10-11 — e.g. /docs/components/toggle sits on the left)
+1. Add a generated test (extend `tool/registry/gen_previews_test.dart` or a new `test/registry/qa/previews_centered_test.dart`)
+   that pumps EVERY ComponentPreview example of every listed component inside a 720×420 stage (and 375 wide) and computes
+   the bounding box of the painted content (union of leaf render boxes: RenderParagraph, RenderImage, decorated/
+   coloured boxes, custom paints — ignoring full-stage transparent wrappers) and asserts its horizontal centre equals
+   the stage centre ±2px (vertical too, unless the example is intentionally top-anchored like a full-width table/list —
+   whitelist with a reason).
+2. Fix every failing example at the root of its preview (Row/Column/Wrap with max main-axis size → min, Align start →
+   centre, crossAxisAlignment.stretch only where content is intentionally full-width and then centred within a
+   max-width box). Toggle first. Keep examples interactive.
+3. The docs stage keeps `Center` for the child; no IntrinsicWidth in the stage (breaks LayoutBuilder examples).
