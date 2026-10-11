@@ -664,3 +664,8 @@
 - Root cause: `showAlertDialog(actions: [...])` took prebuilt widgets, so callbacks captured the CALLER's context; the dialog lives on the root navigator, so `Navigator.pop(context)` popped the docs router's only page → `_history.isNotEmpty` assertion (debug) and the "deactivated widget" follow-up. This was also the user's earlier "first-launch" error.
 - Fix (clean break): `actionsBuilder: (dialogContext) => [...]`; README/doc comment/preview/error_system/docs Danger zone card updated. Regression tests: registry nested-navigator test + docs Danger zone Delete/Cancel test (verified failing on the old code).
 - Gates: kit 4401 / rearch 42 / analyze 0; docs 219 / analyze 0 / codegen + mirror --check.
+
+## P7-D2/D2b — preview canvas + orchestrator sidebar labels — ACCEPTED
+- Canvas keeps the background token (no grey fill, per user), dot pattern blurred + faint (pattern layer only); components separate by their own border/shadow. Visually verified (release build, card page dark).
+- Sidebar category sub-labels aligned with item text (8px), semibold 12px near-foreground; group labels 13px semibold foreground. Docs tests 232 green.
+- Gooey toast (P7-G1) and regenerated docs data held for its own commit.

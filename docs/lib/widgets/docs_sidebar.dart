@@ -208,10 +208,10 @@ class _GroupLabel extends StatelessWidget {
             label,
             style: docsText(
               context,
-              size: 12,
-              weight: FontWeight.w500,
-              height: 16 / 12,
-              color: theme.colors.mutedForeground,
+              size: 13,
+              weight: FontWeight.w600,
+              height: 16 / 13,
+              color: theme.colors.foreground,
             ),
           ),
         ),
@@ -220,8 +220,9 @@ class _GroupLabel extends StatelessWidget {
   }
 }
 
-/// A category sub-label (`Forms & Inputs`, `Sidebar`): the group label look,
-/// indented and lighter, matching the reference's nested lists.
+/// A category sub-label (`Forms & Inputs`, `Sidebar`): aligned with the item
+/// text (8px inset, like the rows below it), semibold and close to foreground
+/// so the categories scan clearly, with extra space above to separate groups.
 class _SubGroupLabel extends StatelessWidget {
   const _SubGroupLabel(this.label);
 
@@ -231,18 +232,18 @@ class _SubGroupLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 6, 8, 2),
+      padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
       child: Text(
         label,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: docsText(
           context,
-          size: 11,
-          weight: FontWeight.w500,
-          height: 16 / 11,
-          letterSpacing: 0.02,
-          color: theme.colors.mutedForeground.withValues(alpha: 0.8),
+          size: 12,
+          weight: FontWeight.w600,
+          height: 16 / 12,
+          letterSpacing: 0.2,
+          color: theme.colors.foreground.withValues(alpha: 0.72),
         ),
       ),
     );
