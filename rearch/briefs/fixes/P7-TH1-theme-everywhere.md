@@ -47,3 +47,10 @@ content in each state + animates between them") and README.
    centre, crossAxisAlignment.stretch only where content is intentionally full-width and then centred within a
    max-width box). Toggle first. Keep examples interactive.
 3. The docs stage keeps `Center` for the child; no IntrinsicWidth in the stage (breaks LayoutBuilder examples).
+
+## Also: component page header is crammed (user 2026-10-11)
+Evidence `rearch/design/ours/screens/user-bugs-2026-10-11b/page-header-crammed.png`: the "3 files" badge, "stable"
+badge, "Copy Page" button and the prev/next buttons touch each other (0px gaps). Use theme spacing: gap-2 between
+badges, gap-3 between the badge group and the actions, gap-2 between Copy Page and the pager; badges at shadcn badge
+size, buttons size sm; wrap to the next line on narrow widths instead of squeezing. Same check for every docs header/
+toolbar row (blocks page, themes page, code card toolbars).
