@@ -1,10 +1,4 @@
-// The `input` component: a widgets-only text field built on `EditableText`.
-//
-// The reusable machinery lives in `primitives/text_editing/` (host, shell,
-// gesture detector, validation) and `primitives/input_features/` (feature
-// framework and concrete features); this file is only the public widget and
-// its state wiring. `input` never imports `autocomplete`: suggestions go
-// through the generic feature slot.
+// The `input` component: widgets-only text field on `EditableText`.
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -86,6 +80,7 @@ class Input extends StatefulWidget {
     this.autovalidateMode = FormValidationMode.changed,
     this.groupId = EditableText,
     this.theme,
+    this.showFocusRing = true,
   });
 
   final TextEditingController? controller;
@@ -135,6 +130,9 @@ class Input extends StatefulWidget {
   final FormValidationMode autovalidateMode;
   final Object groupId;
   final InputTheme? theme;
+
+  /// Whether the focused field paints the ring; false keeps caret only.
+  final bool showFocusRing;
 
   @override
   State<Input> createState() => _InputState();
@@ -363,6 +361,7 @@ class _InputState extends State<Input>
       padding: surface.padding,
       gestureBuilder: _host.gestureBuilder,
       focused: focused,
+      showFocusRing: widget.showFocusRing,
       enabled: enabled,
       minHeight: surface.minHeight,
       errorText: errorText,

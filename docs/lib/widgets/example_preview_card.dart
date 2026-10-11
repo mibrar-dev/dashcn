@@ -215,19 +215,17 @@ class _ExampleToolbar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Row(
         children: <Widget>[
-          // The tab strip keeps its natural width on wide cards and shrinks
-          // (scrolling internally) on 320 px phones instead of overflowing
-          // the row: `Flexible` caps it at the leftover width and the
-          // horizontal scroll view carries the 192 px strip when the leftover
-          // is smaller. The spacer keeps toggle + copy at the right edge.
-          Flexible(
-            flex: 10,
+          // Tabs hug left, actions pin right: the tab strip is tight
+          // (`Expanded`) so the trailing gap lives between the strip and the
+          // actions, not after the actions. The strip scrolls internally on
+          // 320 px phones instead of overflowing the row.
+          Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: tabs,
             ),
           ),
-          const Spacer(),
+          const Gap(8),
           actions,
         ],
       ),

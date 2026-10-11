@@ -655,3 +655,7 @@
 - Orchestrator visual QA (release build): select popup anchored + trigger-width + single-line options (flips when needed); dropdown highlight = soft accent bg (no white border); command input row compact (remaining: focus ring around the input → final polish); account-02 / sidebar-02 / sidebar-03 verified (agent captured wrong pages); date/time picker dialogs compact (calendar|time + Cancel/Save); radio gaps correct; component pages = main demo + Examples with per-example Preview|Code cards, demos centred.
 - Sidebar: 35 building blocks hidden (listed:false); readable titles from ids; parity vs main: nothing app-usable missing.
 - Follow-ups → P7-Z: command input focus ring; preview toolbar toggle/copy right-aligned on desktop; basic_layout RTL alignment; Clickable autofocus param; object_form_prompt crash with unbounded editors; 39 over-length files.
+
+## P7-Z — final polish — ACCEPTED
+- Gates: kit format 0 / analyze 0 / registry 4400 / rearch 42 / generators --check / layers+owner exit 0 / user-theme 0; docs format 0 / analyze 0 / 217 / codegen + mirror --check / release build.
+- Visual (release build): command input has no ring, 1px bottom divider; preview toolbar actions right-aligned. Also: BasicLayout AlignmentDirectional (RTL), Clickable autofocus (badge/chip duplicates removed), object_form_prompt bounds unbounded editors.

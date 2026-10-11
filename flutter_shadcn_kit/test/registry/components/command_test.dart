@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/command/command.dart';
+import 'package:flutter_shadcn_kit/registry/primitives/focus_outline.dart';
 import 'package:flutter_shadcn_kit/registry/primitives/subfocus_list_item.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
@@ -293,5 +294,98 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pump();
     expect(activated, <String>['Beta']);
+  });
+
+  group('P7-Z search row', () {
+    testWidgets('focused input shows no ring, only a bottom divider', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          child: _command(
+            builder: (context, query) async* {
+              yield <Widget>[const SubFocusListItem(title: Text('Alpha'))];
+            },
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      // Keyboard focus lands in the search field (caret visible).
+      final EditableText editable = tester.widget<EditableText>(
+        find.descendant(
+          of: find.byType(Command),
+          matching: find.byType(EditableText),
+        ),
+      );
+      expect(editable.focusNode.hasFocus, isTrue);
+      // No focus ring anywhere inside the palette.
+      final List<FocusOutline> outlines = tester
+          .widgetList<FocusOutline>(
+            find.descendant(
+              of: find.byType(Command),
+              matching: find.byType(FocusOutline),
+            ),
+          )
+          .toList();
+      expect(outlines, isNotEmpty);
+      for (final FocusOutline outline in outlines) {
+        expect(outline.focused, isFalse);
+      }
+      // The row keeps only its 1px bottom divider (border token).
+      final List<BoxDecoration> boxes = tester
+          .widgetList<Container>(
+            find.descendant(
+              of: find.byType(Command),
+              matching: find.byType(Container),
+            ),
+          )
+          .map((Container c) => c.decoration)
+          .whereType<BoxDecoration>()
+          .toList();
+      final List<BoxDecoration> dividers = boxes
+          .where((BoxDecoration b) => b.border is Border)
+          .where((BoxDecoration b) {
+            final Border border = b.border! as Border;
+            return border.bottom != BorderSide.none &&
+                border.top == BorderSide.none &&
+                border.left == BorderSide.none &&
+                border.right == BorderSide.none;
+          })
+          .toList();
+      expect(dividers, isNotEmpty);
+    });
+
+    testWidgets('search icon is size-4 at 50% opacity', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: _command(
+            autofocus: false,
+            builder: (context, query) async* {
+              yield const <Widget>[];
+            },
+          ),
+        ),
+      );
+      await tester.pump();
+      final Finder icon = find.descendant(
+        of: find.byType(Command),
+        matching: find.byType(Icon),
+      );
+      expect(icon, findsWidgets);
+      final Icon search = tester
+          .widgetList<Icon>(icon)
+          .firstWhere((Icon i) => i.size == 16);
+      expect(search.size, 16);
+      final Finder opacity = find.ancestor(
+        of: find.byWidget(search),
+        matching: find.byType(Opacity),
+      );
+      expect(opacity, findsWidgets);
+      expect(
+        tester.widget<Opacity>(opacity.first).opacity,
+        moreOrLessEquals(0.5),
+      );
+    });
   });
 }

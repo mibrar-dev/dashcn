@@ -222,4 +222,57 @@ void main() {
     expect(find.text('mapped'), findsOneWidget);
     expect(find.text('rich'), findsOneWidget);
   });
+
+  group('P7-Z autofocus', () {
+    testWidgets('autofocus requests focus with an owned node', (tester) async {
+      await tester.pumpWidget(
+        _wrap(Clickable(autofocus: true, onPressed: () {}, child: _probe())),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('focused'), findsOneWidget);
+    });
+
+    testWidgets('no autofocus leaves the node unfocused', (tester) async {
+      await tester.pumpWidget(
+        _wrap(Clickable(onPressed: () {}, child: _probe())),
+      );
+      await tester.pump();
+      expect(find.text('focused'), findsNothing);
+    });
+
+    testWidgets('autofocus drives an external node', (tester) async {
+      final FocusNode node = FocusNode();
+      addTearDown(node.dispose);
+      await tester.pumpWidget(
+        _wrap(
+          Clickable(
+            autofocus: true,
+            focusNode: node,
+            onPressed: () {},
+            child: _probe(),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(node.hasFocus, isTrue);
+    });
+
+    testWidgets('disabled autofocus never requests focus', (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          Clickable(
+            autofocus: true,
+            enabled: false,
+            onPressed: () {},
+            child: _probe(),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('focused'), findsNothing);
+    });
+  });
 }

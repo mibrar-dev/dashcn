@@ -20,6 +20,7 @@ import 'widget_states.dart';
 /// Framework-internal: public only so the widget can create it across files.
 class ClickableState extends State<Clickable> {
   late FocusNode _focusNode;
+  bool _ownsFocusNode = false;
   late WidgetStatesController _controller;
   DateTime? _lastTap;
   int _tapCount = 0;
@@ -27,9 +28,11 @@ class ClickableState extends State<Clickable> {
   @override
   void initState() {
     super.initState();
-    _focusNode = widget.focusNode ?? FocusNode();
+    _ownsFocusNode = widget.focusNode == null;
+    _focusNode = widget.focusNode ?? FocusNode(debugLabel: 'Clickable');
     _controller = widget.statesController ?? WidgetStatesController();
     _controller.update(WidgetState.disabled, !widget.enabled);
+    _syncAutofocus();
   }
 
   @override
@@ -40,11 +43,39 @@ class ClickableState extends State<Clickable> {
     }
     _controller.update(WidgetState.disabled, !widget.enabled);
     if (widget.focusNode != oldWidget.focusNode) {
-      _focusNode = widget.focusNode ?? FocusNode();
+      if (_ownsFocusNode) {
+        _focusNode.dispose();
+      }
+      _ownsFocusNode = widget.focusNode == null;
+      _focusNode = widget.focusNode ?? FocusNode(debugLabel: 'Clickable');
+      _syncAutofocus();
+    } else if (widget.autofocus != oldWidget.autofocus ||
+        widget.enabled != oldWidget.enabled) {
+      _syncAutofocus();
     }
     if (widget.disableHoverEffect) {
       _controller.update(WidgetState.hovered, false);
     }
+  }
+
+  @override
+  void dispose() {
+    if (_ownsFocusNode) {
+      _focusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  void _syncAutofocus() {
+    if (!widget.autofocus || !widget.enabled) {
+      return;
+    }
+    final FocusNode node = _focusNode;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && identical(_focusNode, node)) {
+        node.requestFocus();
+      }
+    });
   }
 
   /// Emits the tap semantics event and plays the platform click sound on

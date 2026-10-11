@@ -1,11 +1,4 @@
-// The two presentations of an `ObjectFormField` editor: a centered dialog and
-// an anchored popover. Both implement `ObjectFormHandler` for `editorBuilder`.
-//
-// Moved from the old `form_field` component. The dialog is a widgets-only
-// `showGeneralDialog` page (the old one used the Material `AlertDialog`); the
-// popover reads `Data<OverlayHandlerStateMixin>` through `closeOverlay`. The
-// action buttons paint from tokens because a primitive cannot import the
-// `button` component.
+// Dialog + popover presentations of an `ObjectFormField` editor.
 
 import 'package:flutter/widgets.dart';
 
@@ -20,17 +13,10 @@ import 'object_form_field.dart';
 
 /// The dialog presentation of an object editor.
 ///
-/// The card shrink-wraps its content: a caller that hands it an editor which
-/// hugs its own width (the picker dialogs do) gets a dialog exactly as wide
-/// as that editor plus its padding — never the 480px frame the old fixed
-/// `Column(stretch)` produced. [objectFormDialogMinWidth] is the floor for
-/// wide editors, [objectFormDialogMaxWidth] the ceiling.
+/// Shrink-wraps between [objectFormDialogMinWidth] and
+/// [objectFormDialogMaxWidth].
 ///
-///
-/// Object-form dialog card padding: shadcn `p-6` (24) as density
-/// multipliers, resolved at build. A compact editor (a calendar, a time
-/// wheel) passes a smaller value; `p-0` is what shadcn uses on its picker
-/// dialogs, where the editor paints its own shell.
+/// Dialog card padding (`p-6`), density multipliers.
 const EdgeInsetsGeometry objectFormDialogPadding = EdgeInsetsDensity.pxAll(24);
 
 /// Object-form popover card padding: shadcn `p-4` (16) as density
@@ -155,6 +141,7 @@ class _ObjectFormPromptDialogState<T> extends State<ObjectFormPromptDialog<T>>
     final EdgeInsetsGeometry? cardPadding = widget.padding;
     final EdgeInsetsGeometry? footerPadding = widget.footerPadding;
     Widget footer = Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         if (widget.dialogActions != null)
@@ -188,52 +175,90 @@ class _ObjectFormPromptDialogState<T> extends State<ObjectFormPromptDialog<T>>
     return Center(
       child: Padding(
         padding: resolveEdgeInsets(objectFormScreenPadding, density),
-        // `IntrinsicWidth` is what makes the card shrink-wrap: the column
-        // inside is stretch-aligned (so the footer still ends at the card's
-        // right edge) but the card is only as wide as the widest of title,
-        // editor and footer.
-        child: IntrinsicWidth(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: objectFormDialogMinWidth * theme.density.scale,
-              maxWidth: objectFormDialogMaxWidth,
-            ),
-            child: DecoratedBox(
-              key: kObjectFormDialogSurfaceKey,
-              decoration: BoxDecoration(
-                color: theme.colors.card,
-                border: Border.all(color: theme.colors.border),
-                borderRadius: theme.borderRadiusLg,
-                boxShadow: theme.tokens.shadows.shadowLg,
+        // Shrink-wrap via intrinsics for content editors; viewports have no
+        // intrinsics, so they take the non-intrinsic path (capped, no crash).
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewport) {
+            final double maxW = viewport.maxWidth.isFinite
+                ? viewport.maxWidth
+                      .clamp(0.0, objectFormDialogMaxWidth)
+                      .toDouble()
+                : objectFormDialogMaxWidth;
+            final double maxH = viewport.maxHeight.isFinite
+                ? viewport.maxHeight
+                : 600.0;
+            final double scale = theme.density.scale;
+            final double minW = maxW < objectFormDialogMinWidth * scale
+                ? maxW
+                : objectFormDialogMinWidth * scale;
+            final EdgeInsets insets = cardPadding == null
+                ? EdgeInsets.zero
+                : resolveEdgeInsets(
+                    cardPadding,
+                    density,
+                  ).resolve(Directionality.of(context));
+            final double editorMaxW = (maxW - insets.horizontal)
+                .clamp(0.0, maxW)
+                .toDouble();
+            final double editorMaxH = (maxH - insets.vertical - 120)
+                .clamp(0.0, maxH)
+                .toDouble();
+            final Widget editor = widget.editorBuilder(context, this);
+            final bool viewportEditor =
+                editor is ScrollView || editor is SingleChildScrollView;
+            Widget card = ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: minW,
+                maxWidth: maxW,
+                maxHeight: maxH,
               ),
-              child: Data<ObjectFormHandler<T>>.inherit(
-                data: this,
-                child: Padding(
-                  padding: cardPadding == null
-                      ? EdgeInsets.zero
-                      : resolveEdgeInsets(cardPadding, density),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      if (widget.dialogTitle != null) ...<Widget>[
-                        DefaultTextStyle.merge(
-                          style: theme.typography.large.copyWith(
-                            fontWeight: FontWeight.w600,
+              child: DecoratedBox(
+                key: kObjectFormDialogSurfaceKey,
+                decoration: BoxDecoration(
+                  color: theme.colors.card,
+                  border: Border.all(color: theme.colors.border),
+                  borderRadius: theme.borderRadiusLg,
+                  boxShadow: theme.tokens.shadows.shadowLg,
+                ),
+                child: Data<ObjectFormHandler<T>>.inherit(
+                  data: this,
+                  child: Padding(
+                    padding: cardPadding == null
+                        ? EdgeInsets.zero
+                        : resolveEdgeInsets(cardPadding, density),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        if (widget.dialogTitle != null) ...<Widget>[
+                          DefaultTextStyle.merge(
+                            style: theme.typography.large.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            child: widget.dialogTitle!,
                           ),
-                          child: widget.dialogTitle!,
+                          Gap(theme.spacing.md),
+                        ],
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: editorMaxW,
+                            maxHeight: editorMaxH,
+                          ),
+                          child: editor,
                         ),
                         Gap(theme.spacing.md),
+                        footer,
                       ],
-                      widget.editorBuilder(context, this),
-                      Gap(theme.spacing.md),
-                      footer,
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+            if (!viewportEditor) {
+              card = IntrinsicWidth(child: card);
+            }
+            return card;
+          },
         ),
       ),
     );

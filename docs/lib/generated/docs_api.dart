@@ -2985,6 +2985,14 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         defaultValue: 'EditableText',
       ),
       DocsApiParam(name: 'theme', type: 'InputTheme?', isRequired: false),
+      DocsApiParam(
+        name: 'showFocusRing',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'true',
+        doc:
+            'Whether the focused field paints the ring; false keeps caret only.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),

@@ -1,18 +1,5 @@
-// The `command` component: a command palette with a debounced async result
-// stream, keyboard navigation through `SubFocus`, and a dialog entry point.
-//
-// The old module spread this over 12 files and four Material imports
-// (`command_widget`, `command_dialog`, `command_state`, `command_item_state`).
-// The widgets are widgets-only now, the search field is the `input` component,
-// the list surface paints from `CommandTheme`, and stream requests cancel
-// their predecessors instead of leaking.
-//
-// Deliberate scope cuts, documented in the README: `CommandItem` is replaced by
-// the shared `primitives/subfocus_list_item.dart` row (same behaviour, shared
-// with future menu/select lists), and the keyboard-hint footer /
-// `CommandKeyboardDisplay` / `CommandCategory` widgets were not ported (the
-// component folder is capped at two code files; apps compose headers/footers
-// around `Command`). Keyboard navigation itself is unchanged.
+// The `command` component: palette with debounced async results,
+// `SubFocus` keyboard navigation, and a dialog entry point.
 
 import 'dart:async';
 
@@ -168,8 +155,6 @@ class _CommandState extends State<Command> {
           defaults: commandDefaults,
         );
     final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
-    // An inline palette may live outside any Navigator; only offer the close
-    // button when a pop is possible.
     final bool canPop = Navigator.maybeOf(context)?.canPop() ?? false;
     final Color background =
         resolved.background?.resolve(theme.colors) ?? theme.colors.popover;
@@ -179,7 +164,6 @@ class _CommandState extends State<Command> {
     final BorderRadiusGeometry radius =
         resolved.borderRadius ?? theme.borderRadiusLg;
     final double scale = theme.scaling;
-    // The result list's `p-1`, density-scaled.
     final EdgeInsets listPadding = resolveEdgeInsets(
       resolved.padding ?? EdgeInsetsDensity.pxAll(4),
       theme.density.baseContentPadding * scale,
@@ -231,12 +215,11 @@ class _CommandState extends State<Command> {
                   Input(
                     controller: _controller,
                     autofocus: widget.autofocus,
+                    showFocusRing: false,
                     placeholder:
                         widget.searchPlaceholder ??
                         Text(localizations.commandSearch),
-                    // The search row is h-9 chrome, not a field: transparent
-                    // with a bottom border only, so focusing it never draws
-                    // a rounded ring inside the palette.
+                    // Search row chrome: transparent with bottom border only.
                     decoration: BoxDecoration(
                       color: const Color(0x00000000),
                       border: borderWidth > 0
@@ -252,10 +235,6 @@ class _CommandState extends State<Command> {
                     padding: EdgeInsets.symmetric(horizontal: theme.spacing.md),
                     features: <InputFeature>[
                       const InputLeadingFeature(
-                        // shadcn `mr-2` on the command search icon. Held as a
-                        // density multiplier; `DensityContentPadding` is the
-                        // widget that paints it, so it is the one that
-                        // resolves it (16 * 0.5 = 8 at the default density).
                         DensityContentPadding(
                           padding: EdgeInsetsDensity.only(
                             right: 8 / Density.pxBase,
@@ -280,7 +259,6 @@ class _CommandState extends State<Command> {
                   ),
                   Flexible(
                     child: ConstrainedBox(
-                      // shadcn caps the result list; taller results scroll.
                       constraints: BoxConstraints(maxHeight: 300 * scale),
                       child: _CommandResults(
                         stream: _stream,
@@ -339,8 +317,6 @@ class _CommandResults extends StatelessWidget {
           return items.isEmpty ? empty() : _buildList(items);
         }
         if (!snapshot.hasData) {
-          // A loading cap, not a padding: shadcn's command list keeps its
-          // minimum height while the stream has not produced data.
           return loadingBuilder?.call(context) ?? const SizedBox(height: 48);
         }
         return _buildList(snapshot.data!);
@@ -349,8 +325,6 @@ class _CommandResults extends StatelessWidget {
   }
 
   Widget _buildList(List<Widget> items) {
-    // No separators between rows: apps separate groups themselves (with a
-    // heading or a spacer); the list only carries the surface's `p-1`.
     return ListView(shrinkWrap: true, padding: listPadding, children: items);
   }
 }
@@ -393,8 +367,6 @@ Future<T?> showCommandDialog<T>({
       );
   return showShadcnDialog<T>(
     context: context,
-    // The palette paints its own surface, so the dialog contributes only the
-    // route, barrier and transitions.
     theme: const DialogTheme(
       background: ThemedColor.value(Color(0x00000000)),
       borderWidth: 0,

@@ -29,6 +29,7 @@ class EditableTextShell extends StatelessWidget {
     this.gap = 4,
     this.hitBehavior = HitTestBehavior.translucent,
     this.onHover,
+    this.showFocusRing = true,
   });
 
   /// The field content, usually an [EditableTextFieldRow].
@@ -48,6 +49,9 @@ class EditableTextShell extends StatelessWidget {
 
   /// Whether the focus ring is shown.
   final bool focused;
+
+  /// Whether [focused] paints the ring; false keeps caret/selection only.
+  final bool showFocusRing;
 
   /// Whether the field accepts input; false dims and ignores pointers.
   final bool enabled;
@@ -84,7 +88,7 @@ class EditableTextShell extends StatelessWidget {
       onEnter: (_) => onHover?.call(true),
       onExit: (_) => onHover?.call(false),
       child: FocusOutline(
-        focused: focused,
+        focused: focused && showFocusRing,
         borderRadius: borderRadius,
         child: field,
       ),

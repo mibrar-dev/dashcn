@@ -234,27 +234,27 @@ class Basic extends StatelessWidget {
     final leadingAlignment = styleValue(
       widgetValue: this.leadingAlignment,
       themeValue: componentTheme.leadingAlignment,
-      defaultValue: Alignment.topCenter,
+      defaultValue: AlignmentDirectional.topCenter,
     );
     final trailingAlignment = styleValue(
       widgetValue: this.trailingAlignment,
       themeValue: componentTheme.trailingAlignment,
-      defaultValue: Alignment.topCenter,
+      defaultValue: AlignmentDirectional.topCenter,
     );
     final titleAlignment = styleValue(
       widgetValue: this.titleAlignment,
       themeValue: componentTheme.titleAlignment,
-      defaultValue: Alignment.topLeft,
+      defaultValue: AlignmentDirectional.topStart,
     );
     final subtitleAlignment = styleValue(
       widgetValue: this.subtitleAlignment,
       themeValue: componentTheme.subtitleAlignment,
-      defaultValue: Alignment.topLeft,
+      defaultValue: AlignmentDirectional.topStart,
     );
     final contentAlignment = styleValue(
       widgetValue: this.contentAlignment,
       themeValue: componentTheme.contentAlignment,
-      defaultValue: Alignment.topLeft,
+      defaultValue: AlignmentDirectional.topStart,
     );
     final mainAxisAlignment = styleValue(
       widgetValue: this.mainAxisAlignment,

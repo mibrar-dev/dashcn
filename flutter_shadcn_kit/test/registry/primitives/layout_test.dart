@@ -167,4 +167,57 @@ void main() {
     expect(tester.getSize(find.byType(Hidden)).width, 0);
     expect(tester.getSize(find.byType(Hidden)).height, 0);
   });
+
+  group('P7-Z RTL', () {
+    testWidgets('Basic defaults are directional', (tester) async {
+      await tester.pumpWidget(
+        _wrap(const Center(child: Basic(title: Text('T')))),
+      );
+      final List<Align> aligns = tester
+          .widgetList<Align>(find.byType(Align))
+          .toList();
+      expect(aligns, isNotEmpty);
+      for (final Align align in aligns) {
+        expect(align.alignment, isA<AlignmentDirectional>());
+      }
+    });
+
+    testWidgets('BasicLayout defaults are directional', (tester) async {
+      await tester.pumpWidget(
+        _wrap(const Center(child: BasicLayout(title: Text('T')))),
+      );
+      final List<Align> aligns = tester
+          .widgetList<Align>(find.byType(Align))
+          .toList();
+      expect(aligns, isNotEmpty);
+      for (final Align align in aligns) {
+        expect(align.alignment, isA<AlignmentDirectional>());
+      }
+    });
+
+    testWidgets('BasicLayout mirrors title in RTL', (tester) async {
+      Future<double> titleDx(TextDirection direction) async {
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: direction,
+            child: ShadcnTheme(
+              data: const ShadcnThemeData(),
+              child: const Center(
+                child: SizedBox(
+                  width: 300,
+                  child: BasicLayout(title: Text('Title')),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        return tester.getTopLeft(find.text('Title')).dx;
+      }
+
+      final double ltr = await titleDx(TextDirection.ltr);
+      final double rtlDx = await titleDx(TextDirection.rtl);
+      expect(rtlDx, greaterThan(ltr));
+    });
+  });
 }

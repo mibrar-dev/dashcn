@@ -57,6 +57,9 @@ class Clickable extends StatefulWidget {
   /// Focus node for keyboard focus. Created internally when null.
   final FocusNode? focusNode;
 
+  /// Whether to request focus when first built (owned-node logic lives here).
+  final bool autofocus;
+
   /// Hit-test behavior. Defaults to [HitTestBehavior.translucent].
   final HitTestBehavior behavior;
 
@@ -148,6 +151,7 @@ class Clickable extends StatefulWidget {
     this.iconTheme,
     this.onPressed,
     this.focusNode,
+    this.autofocus = false,
     this.behavior = HitTestBehavior.translucent,
     this.onHover,
     this.onFocus,

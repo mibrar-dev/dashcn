@@ -31,7 +31,7 @@ const MouseCursor _badgeMouseCursor = SystemMouseCursors.click;
 /// surface and never enters the focus tree. The old badges were always
 /// `enabled: true` buttons wrapped in `ExcludeFocus`, so even a static badge
 /// showed hover/press styling and swallowed a pointer click with no handler.
-class Badge extends StatefulWidget {
+class Badge extends StatelessWidget {
   /// Creates a badge.
   const Badge({
     super.key,
@@ -88,59 +88,6 @@ class Badge extends StatefulWidget {
   bool get isInteractive => onPressed != null;
 
   @override
-  State<Badge> createState() => _BadgeState();
-}
-
-class _BadgeState extends State<Badge> {
-  FocusNode? _ownedFocusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _syncAutofocus();
-  }
-
-  @override
-  void didUpdateWidget(Badge oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.autofocus != oldWidget.autofocus ||
-        widget.focusNode != oldWidget.focusNode) {
-      _syncAutofocus();
-    }
-  }
-
-  @override
-  void dispose() {
-    _ownedFocusNode?.dispose();
-    super.dispose();
-  }
-
-  void _syncAutofocus() {
-    if (!widget.autofocus || !widget.isInteractive) {
-      _ownedFocusNode?.dispose();
-      _ownedFocusNode = null;
-      return;
-    }
-    if (widget.focusNode != null) {
-      final FocusNode node = widget.focusNode!;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          node.requestFocus();
-        }
-      });
-      _ownedFocusNode?.dispose();
-      _ownedFocusNode = null;
-      return;
-    }
-    final FocusNode node = _ownedFocusNode ??= FocusNode(debugLabel: 'Badge');
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && identical(_ownedFocusNode, node)) {
-        node.requestFocus();
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ShadcnThemeData ambient = ShadcnTheme.of(context);
     final BadgeTheme container = resolveComponentStyle<BadgeTheme, BadgeTheme>(
@@ -148,8 +95,8 @@ class _BadgeState extends State<Badge> {
       select: (t) => t,
       defaults: badgeDefaults,
     );
-    final BadgeStyle resolved = (widget.theme ?? const BadgeStyle()).merge(
-      container.forVariant(widget.variant),
+    final BadgeStyle resolved = (theme ?? const BadgeStyle()).merge(
+      container.forVariant(variant),
     );
     final TextStyle textStyle =
         resolved.textStyle ?? container.textStyle ?? badgeDefaultTextStyle;
@@ -191,19 +138,20 @@ class _BadgeState extends State<Badge> {
       return IconThemeData(color: color, size: iconSize);
     }
 
-    if (widget.showAsDot) {
+    if (showAsDot) {
       final Widget dot = DecoratedBox(
         decoration: dotDecoration(const <WidgetState>{}),
         child: SizedBox.fromSize(size: Size.square(dotSize)),
       );
-      if (!widget.isInteractive) {
+      if (!isInteractive) {
         return dot;
       }
       return Clickable(
-        onPressed: widget.onPressed,
-        onHover: widget.onHover,
-        onFocus: widget.onFocusChange,
-        focusNode: widget.focusNode ?? _ownedFocusNode,
+        onPressed: onPressed,
+        onHover: onHover,
+        onFocus: onFocusChange,
+        focusNode: focusNode,
+        autofocus: autofocus,
         mouseCursor: const WidgetStatePropertyAll<MouseCursor?>(
           _badgeMouseCursor,
         ),
@@ -212,17 +160,17 @@ class _BadgeState extends State<Badge> {
       );
     }
 
-    Widget content = widget.child;
-    if (widget.leading != null || widget.trailing != null) {
+    Widget content = child;
+    if (leading != null || trailing != null) {
       content = Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ?widget.leading,
-          if (widget.leading != null) Gap(gap),
-          widget.child,
-          if (widget.trailing != null) Gap(gap),
-          ?widget.trailing,
+          ?leading,
+          if (leading != null) Gap(gap),
+          child,
+          if (trailing != null) Gap(gap),
+          ?trailing,
         ],
       );
     }
@@ -230,7 +178,7 @@ class _BadgeState extends State<Badge> {
     // same edge distance as the label (shadcn `px-2`) and never touches it.
     content = Padding(padding: padding, child: content);
 
-    if (!widget.isInteractive) {
+    if (!isInteractive) {
       // The static badge still sets the variant text/icon style: without
       // this the label would inherit whatever ambient size surrounds it
       // instead of shadcn `text-xs` (same wrap the chip builds).
@@ -247,10 +195,11 @@ class _BadgeState extends State<Badge> {
     }
 
     return Clickable(
-      onPressed: widget.onPressed,
-      onHover: widget.onHover,
-      onFocus: widget.onFocusChange,
-      focusNode: widget.focusNode ?? _ownedFocusNode,
+      onPressed: onPressed,
+      onHover: onHover,
+      onFocus: onFocusChange,
+      focusNode: focusNode,
+      autofocus: autofocus,
       mouseCursor: const WidgetStatePropertyAll<MouseCursor?>(
         _badgeMouseCursor,
       ),

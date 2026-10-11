@@ -269,6 +269,59 @@ void main() {
       );
     }
   });
+
+  testWidgets('P7-Z: toolbar pins tabs left and actions right', (
+    WidgetTester tester,
+  ) async {
+    for (final double width in <double>[1440, 375]) {
+      await tester.pumpWidget(const SizedBox.shrink());
+      tester.takeException();
+      final delegate = await pumpDocsApp(tester, width: width);
+      tester.takeException();
+      await goTo(tester, delegate, '/docs/components/button');
+      await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull, reason: 'button@$width');
+      final Finder card = find.byType(ExamplePreviewCard).first;
+      final Finder tabs = find.byKey(const ValueKey<String>('example-tabs-0'));
+      final Finder toggle = find.byKey(
+        const ValueKey<String>('preview-theme-toggle-0'),
+      );
+      final Finder copy = find.byKey(const ValueKey<String>('example-copy-0'));
+      expect(tabs, findsOneWidget, reason: 'tabs@$width');
+      expect(toggle, findsOneWidget, reason: 'toggle@$width');
+      expect(copy, findsOneWidget, reason: 'copy@$width');
+      final Rect cardRect = tester.getRect(card);
+      final Rect tabsRect = tester.getRect(tabs);
+      final Rect toggleRect = tester.getRect(toggle);
+      final Rect copyRect = tester.getRect(copy);
+      // Single row.
+      expect(
+        (toggleRect.center.dy - tabsRect.center.dy).abs(),
+        lessThanOrEqualTo(8.0),
+        reason: 'row@$width',
+      );
+      expect(
+        (copyRect.center.dy - tabsRect.center.dy).abs(),
+        lessThanOrEqualTo(8.0),
+        reason: 'row@$width',
+      );
+      // Tabs left, actions right: 16px toolbar padding on both sides.
+      expect(
+        tabsRect.left,
+        moreOrLessEquals(cardRect.left + 16, epsilon: 2.0),
+        reason: 'tabs left@$width',
+      );
+      expect(
+        copyRect.right,
+        moreOrLessEquals(cardRect.right - 16, epsilon: 2.0),
+        reason: 'actions right@$width',
+      );
+      // Actions sit after the tabs, not on top of them.
+      expect(toggleRect.left, greaterThan(tabsRect.right));
+      expect(copyRect.left, greaterThan(toggleRect.right - 1));
+    }
+  });
 }
 
 /// Bounded settle: enough frames for the deferred chunks and lazy cards,
