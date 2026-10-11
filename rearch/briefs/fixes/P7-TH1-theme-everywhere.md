@@ -26,3 +26,12 @@ docs shell, Theme Studio, component pages, blocks pages, and all blocks/cards.
 Gates: `cd $KIT && rearch/qa_gate.sh`; generators regenerate + --check; docs sync + --check, codegen --check,
 format/analyze/test, build web --release. Report `rearch/reports/P7-TH1.md`, `## RESULT`. No git ops.
 Keep recent orchestrator edits (chat incoming bubble theme, block page backgrounds = background, brand panels = card).
+
+## Also: Button status width must be DYNAMIC (user 2026-10-11)
+P7-S1's ButtonStatus machine reserves a fixed slot so the width stays stable — the user rejects that (an empty reserved
+gap looks like something is missing). Change `components/button/**` so the button ALWAYS hugs its current content:
+idle = label (+ its own icons) only; loading = spinner + gap + label (or loading label); success/failure = status icon
++ gap + label. Animate the width change smoothly (AnimatedSize ~150–200ms, ease-out; reduced motion = instant) and
+cross-fade the icon; no reserved/min-width slot, no layout jank in rows (siblings may move with the animation). Full-width
+buttons (expand / tight parent) keep the parent width. Update P7-S1's tests (replace "width stable" with "width hugs
+content in each state + animates between them") and README.
