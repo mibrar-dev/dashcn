@@ -22,6 +22,10 @@
 - Plans + agent infra: `DASHCN_FEATURES_PLAN.md`, `rearch/briefs/dashcn/_common.md`, `rearch/run_dashcn_agent.sh`,
   briefs P8-1, P8-2.
 
+## Baseline gate (cloud, Flutter 3.47.7 / Dart 3.13.5, tree @ 98032a1 before P8-1)
+format 0 changed · analyze 0 issues (lib + tests) · registry tests +4518 pass · rearch +42 pass · layers clean ·
+theme 0 · banned none · **owner: 1 pre-existing finding `components/switcher/preview.dart:76 [switcher]`** (not P8 work).
+
 ## Next
 1. Mac: create kit worktree from origin/refactor/dashcn; recon report (opencode models, local branch drift).
 2. Launch P8-1 (muse-spark-1.3-contributor#xhigh). After acceptance: P8-2 (stops at rename map for approval).
