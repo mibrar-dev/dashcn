@@ -29,7 +29,13 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 Widget _imageDefault(BuildContext context) {
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: Picture(image: _imagePhoto, width: 96, height: 96, aspectRatio: 1),
+    child: Picture(
+      image: _imagePhoto,
+      width: 96,
+      height: 96,
+      aspectRatio: 1,
+      semanticLabel: 'Photo',
+    ),
   );
 }
 

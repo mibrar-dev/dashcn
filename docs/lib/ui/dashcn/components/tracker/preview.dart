@@ -16,6 +16,7 @@ Widget _default(BuildContext context) {
   return const SizedBox(
     width: 320,
     child: Tracker(
+      semanticLabel: 'Activity tracker',
       data: <TrackerData>[
         TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
         TrackerData(tooltip: Text('Degraded'), level: TrackerLevel.warning),

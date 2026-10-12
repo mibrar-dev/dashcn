@@ -30,6 +30,7 @@ class _InteractiveRatingState extends State<_InteractiveRating> {
     return StarRating(
       value: _value,
       onChanged: (double value) => setState(() => _value = value),
+      semanticLabel: 'Rating',
     );
   }
 }

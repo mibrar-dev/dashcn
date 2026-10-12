@@ -223,7 +223,8 @@ class _ChipInputState<T> extends State<ChipInput<T>>
       trailing: ChipButton(
         iconSize: style.chipIconSize ?? chipInputDefaultChipIconSize,
         onPressed: () => _controller.removeTokenAt(index),
-        child: Icon(LucideIcons.x, semanticLabel: _removeLabel),
+        semanticLabel: _removeLabel,
+        child: const Icon(LucideIcons.x),
       ),
       child: content,
     );

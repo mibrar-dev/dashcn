@@ -63,6 +63,9 @@ void main() {
       await tester.pumpWidget(
         _frame(
           Button(size: entry.key, onPressed: () {}, child: const Text('b')),
+          // Desktop platform: the test bed runs as Android, where buttons
+          // grow a transparent touch hit area.
+          data: const ThemeData(platform: TargetPlatform.macOS),
         ),
       );
       await tester.pump();

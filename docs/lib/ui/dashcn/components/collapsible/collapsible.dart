@@ -12,6 +12,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/text/text_extension.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'collapsible_style.dart';
@@ -164,17 +165,27 @@ class CollapsibleTrigger extends StatelessWidget {
             // the icon `Button` stays a sibling (never nested), so a tap
             // lands on exactly one of the two controls.
             Expanded(
-              child: Clickable(
-                onPressed: data.toggle,
-                child: child.small.semiBold,
+              // The label line is 14px tall: touch platforms pad it to the
+              // 48px minimum (transparent, visuals unchanged).
+              child: TouchHitArea(
+                vertical: 17,
+                child: Clickable(
+                  onPressed: data.toggle,
+                  child: child.small.semiBold,
+                ),
               ),
             ),
             Gap(iconGap),
-            Button(
-              variant: ButtonVariant.ghost,
-              size: ButtonSize.icon,
-              onPressed: data.toggle,
-              child: IconTheme(data: iconTheme, child: Icon(icon)),
+            // The outer node already announces the button and its expanded
+            // state; the icon control is excluded so it never reports a
+            // second, unlabeled tap target for the same action.
+            ExcludeSemantics(
+              child: Button(
+                variant: ButtonVariant.ghost,
+                size: ButtonSize.icon,
+                onPressed: data.toggle,
+                child: IconTheme(data: iconTheme, child: Icon(icon)),
+              ),
             ),
           ],
         ),

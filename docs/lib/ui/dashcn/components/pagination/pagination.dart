@@ -284,7 +284,7 @@ class Pagination extends StatelessWidget {
       variant: ButtonVariant.ghost,
       size: ButtonSize.sm,
       onPressed: () => onPageChanged(targetPage),
-      child: const TripleDots(),
+      child: Semantics(label: 'Page $targetPage', child: const TripleDots()),
     );
   }
 

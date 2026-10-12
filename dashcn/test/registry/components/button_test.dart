@@ -19,6 +19,10 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 const Color _yellow = Color(0xFFFFFF00);
 
+/// Desktop theme: `flutter test` runs as Android, where buttons grow a
+/// transparent touch hit area; size-table assertions pin the desktop visuals.
+const ThemeData _desktop = ThemeData(platform: TargetPlatform.macOS);
+
 Widget _frame({
   ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
@@ -199,6 +203,7 @@ void main() {
         onPressed: () {},
         child: const SizedBox(width: 16, height: 16),
       ),
+      data: _desktop,
     );
     // Let the AnimatedContainer finish moving from the previous padding.
     await tester.pump(const Duration(milliseconds: 200));
@@ -554,6 +559,7 @@ void main() {
               onPressed: () {},
               child: const Text('Save'),
             ),
+            data: _desktop,
           );
           // The variant/size swap animates padding/decoration; settle first.
           await tester.pumpAndSettle();
@@ -572,6 +578,7 @@ void main() {
           onPressed: () {},
           child: const Text('+'),
         ),
+        data: _desktop,
       );
       await tester.pumpAndSettle();
       expect(tester.getSize(find.byType(Button)), const Size(36, 36));
@@ -587,6 +594,7 @@ void main() {
           onPressed: () {},
           child: const Text('Save'),
         ),
+        data: _desktop,
       );
       expect(tester.getSize(find.byType(Button)).height, 36);
       final TestGesture gesture = await tester.createGesture(
@@ -620,6 +628,7 @@ void main() {
           ),
           child: const Text('Save'),
         ),
+        data: _desktop,
       );
       expect(tester.getSize(find.byType(Button)).height, 36);
       final TestGesture gesture = await tester.createGesture(
@@ -631,6 +640,23 @@ void main() {
       await gesture.moveTo(tester.getCenter(find.byType(Button)));
       await tester.pump();
       expect(tester.getSize(find.byType(Button)).height, 36, reason: 'hovered');
+    });
+
+    testWidgets('touch platforms grow the hit box, never the visuals', (
+      tester,
+    ) async {
+      // `flutter test` runs as Android (48px minimum): a 36px md button
+      // measures 48 tall through transparent padding.
+      await _pump(tester, Button(onPressed: () {}, child: const Text('Save')));
+      expect(tester.getSize(find.byType(Button)).height, 48);
+      // Desktop keeps the size-table height.
+      await _pump(
+        tester,
+        Button(onPressed: () {}, child: const Text('Save')),
+        data: _desktop,
+      );
+      expect(tester.getSize(find.byType(Button)).height, 36);
+      expect(tester.takeException(), isNull);
     });
   });
 }

@@ -69,6 +69,7 @@ class _RemovableChipsState extends State<_RemovableChips> {
                 onDeleted: () => _remove(tag),
                 trailing: ChipButton(
                   onPressed: () => _remove(tag),
+                  semanticLabel: 'Remove $tag',
                   child: const Icon(LucideIcons.x, size: 12),
                 ),
                 child: Text(tag),

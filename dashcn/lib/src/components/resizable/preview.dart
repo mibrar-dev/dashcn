@@ -27,7 +27,8 @@ class _Pane extends StatelessWidget {
       child: Text(
         label,
         textAlign: TextAlign.center,
-        style: TextStyle(color: theme.colors.mutedForeground),
+        // The pane fill is muted: the raw token fails AA on it.
+        style: TextStyle(color: theme.colors.onMuted),
       ),
     );
   }

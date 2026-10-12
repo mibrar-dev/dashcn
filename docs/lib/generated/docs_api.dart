@@ -1727,6 +1727,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Segments, in visual order.',
       ),
       DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Accessible label for the row; null leaves it unannotated.',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'TrackerTheme?',
         isRequired: false,
@@ -2198,7 +2204,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'semanticsLabel',
         type: 'String?',
         isRequired: false,
-        doc: 'Semantic label, e.g. `\'Loading\'`.',
+        doc: 'Semantic label; null reads `\'Loading\'`.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -3806,6 +3812,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'onFocusChange',
         type: 'ValueChanged<bool>?',
         isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Accessible label for the slider node; null leaves it unlabeled.',
       ),
       DocsApiParam(name: 'theme', type: 'StarRatingStyle?', isRequired: false),
     ],
@@ -5726,6 +5738,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         defaultValue: 'Duration.zero',
         doc: 'Minimum time the tooltip stays visible.',
+      ),
+      DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Accessible announcement for the anchor; null leaves it unannotated.\n\nPass the tooltip\'s text content here so screen readers announce it\nwithout waiting for the hover overlay.',
       ),
       DocsApiParam(
         name: 'theme',

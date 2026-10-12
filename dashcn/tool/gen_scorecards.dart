@@ -208,14 +208,21 @@ import 'package:flutter_test/flutter_test.dart';
 $imports
 
 /// Pumps [builder] under [direction] with no settling.
+///
+/// The stage paints the theme background behind the example and installs the
+/// same default text scope `DashcnApp` provides (docs and apps always render
+/// inside both); without them the pixel sampler compares bare text against
+/// transparent black (artefact ratios like 4.43 muted grey or 1.06 dark text)
+/// or samples the white fallback style on the now-white stage (1.00).
 Future<Object?> pumpExample(
   WidgetTester tester,
   WidgetBuilder builder,
   TextDirection direction,
 ) async {
+  const ThemeData stage = ThemeData();
   await tester.pumpWidget(
     Theme(
-      data: const ThemeData(),
+      data: stage,
       child: Directionality(
         textDirection: direction,
         child: Overlay.wrap(
@@ -223,7 +230,15 @@ Future<Object?> pumpExample(
             child: SizedBox(
               width: 800,
               height: 600,
-              child: Builder(builder: builder),
+              child: ColoredBox(
+                color: stage.colors.background,
+                child: DefaultTextStyle(
+                  style: stage.typography.sans.copyWith(
+                    color: stage.colors.foreground,
+                  ),
+                  child: Builder(builder: builder),
+                ),
+              ),
             ),
           ),
         ),

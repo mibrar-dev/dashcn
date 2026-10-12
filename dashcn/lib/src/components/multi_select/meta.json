@@ -23,6 +23,7 @@
       "theme"
     ],
     "primitives": [
+      "localizations",
       "select_popup"
     ],
     "components": [

@@ -462,6 +462,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'button': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'geometry', kind: DocsDepKind.foundation),
@@ -568,6 +569,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'contrast', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'keyboard_shortcut': <DocsDep>[
@@ -795,6 +797,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'chip', kind: DocsDepKind.component),
     DocsDep(id: 'menu', kind: DocsDepKind.component),
     DocsDep(id: 'select', kind: DocsDepKind.component),
+    DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'select_popup', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
@@ -913,6 +916,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons/lucide_icons', kind: DocsDepKind.foundation),

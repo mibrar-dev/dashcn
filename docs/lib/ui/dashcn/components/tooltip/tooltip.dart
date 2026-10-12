@@ -64,6 +64,7 @@ class Tooltip extends StatefulWidget {
     this.waitDuration = kTooltipWaitDuration,
     this.showDuration = kTooltipShowDuration,
     this.minDuration = Duration.zero,
+    this.semanticLabel,
     this.theme,
   });
 
@@ -88,6 +89,12 @@ class Tooltip extends StatefulWidget {
 
   /// Minimum time the tooltip stays visible.
   final Duration minDuration;
+
+  /// Accessible announcement for the anchor; null leaves it unannotated.
+  ///
+  /// Pass the tooltip's text content here so screen readers announce it
+  /// without waiting for the hover overlay.
+  final String? semanticLabel;
 
   /// Widget-leg theme override for the presented container.
   final TooltipTheme? theme;
@@ -142,6 +149,9 @@ class _TooltipState extends State<Tooltip> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget anchor = widget.semanticLabel == null
+        ? widget.child
+        : Semantics(tooltip: widget.semanticLabel, child: widget.child);
     return Hover(
       waitDuration: widget.waitDuration,
       minDuration: widget.minDuration,
@@ -153,7 +163,7 @@ class _TooltipState extends State<Tooltip> {
           _hide();
         }
       },
-      child: widget.child,
+      child: anchor,
     );
   }
 }

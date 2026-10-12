@@ -310,7 +310,10 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     final ThemeData theme = Theme.of(context);
     final bool enabled = _enabled;
     final Color foreground = theme.colors.foreground;
-    final Color muted = theme.colors.mutedForeground;
+    // Placeholders sit on the translucent `input` trigger fill: the raw
+    // `mutedForeground` token falls just short of AA on it, so the derived
+    // `onMuted` is used instead.
+    final Color muted = theme.colors.onMuted;
     final Color borderColor = theme.colors.input;
     final double scale = theme.scaling;
 

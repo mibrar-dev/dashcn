@@ -53,6 +53,20 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
   T? _value;
   int _validityRequest = 0;
 
+  /// Whether a value has been reported since mount.
+  ///
+  /// The first report carries the mount-time value (initial publication by
+  /// the supplier), so it validates with [FormValidationMode.initial]; only
+  /// later reports are value changes after mount (`changed`). Without this,
+  /// the supplier's initial publication arrives as the controller's second
+  /// attach and runs `changed` validators before any edit.
+  bool _dirty = false;
+
+  /// Lifecycle for a non-forced attach: pristine fields validate as
+  /// `initial`, fields with a reported value as `changed`.
+  FormValidationMode get _attachMode =>
+      _dirty ? FormValidationMode.changed : FormValidationMode.initial;
+
   @override
   FormKey get formKey => widget.key;
 
@@ -71,7 +85,13 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
     _controller = controller;
     _controller?.addListener(_pullValidity);
     if (controller != null) {
-      controller.attach(context, this, _value, widget.validator);
+      controller.attach(
+        context,
+        this,
+        _value,
+        widget.validator,
+        mode: _attachMode,
+      );
       _pullValidity();
     } else {
       _validity.value = null;
@@ -82,7 +102,13 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
   void didUpdateWidget(covariant FormEntry<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.validator != oldWidget.validator) {
-      _controller?.attach(context, this, _value, widget.validator);
+      _controller?.attach(
+        context,
+        this,
+        _value,
+        widget.validator,
+        mode: _attachMode,
+      );
       _pullValidity();
     }
   }
@@ -127,7 +153,17 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
     if (controller == null) {
       return null;
     }
-    return controller.attach(context, this, _value, widget.validator);
+    final bool firstReport = !_dirty;
+    _dirty = true;
+    return controller.attach(
+      context,
+      this,
+      _value,
+      widget.validator,
+      mode: firstReport
+          ? FormValidationMode.initial
+          : FormValidationMode.changed,
+    );
   }
 
   @override

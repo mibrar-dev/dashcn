@@ -71,6 +71,7 @@ Widget _anchor(
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),
+      semanticLabel: label,
       child: Container(
         width: 36,
         height: 36,

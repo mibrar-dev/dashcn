@@ -40,7 +40,18 @@ class _Row extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.md),
-          Expanded(child: Text(item)),
+          // Tile text inherits the surface color explicitly so the
+          // rows stay readable outside the app's default text scope.
+          Expanded(
+            child: Text(
+              item,
+              style: TextStyle(
+                color: candidate
+                    ? theme.colors.accentForeground
+                    : theme.colors.cardForeground,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -123,7 +134,16 @@ class _Tile extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.sm),
-          Expanded(child: Text(item)),
+          Expanded(
+            child: Text(
+              item,
+              style: TextStyle(
+                color: candidate
+                    ? theme.colors.accentForeground
+                    : theme.colors.cardForeground,
+              ),
+            ),
+          ),
         ],
       ),
     );

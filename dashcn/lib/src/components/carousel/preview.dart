@@ -110,22 +110,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -134,18 +138,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(

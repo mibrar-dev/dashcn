@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/select_popup.dart';
 import '../../theme/theme.dart';
 import '../chip/chip.dart';
@@ -224,6 +225,9 @@ class MultiSelectChip<T> extends StatelessWidget {
       trailing: removable
           ? ChipButton(
               onPressed: () => data?.onChanged(value, false),
+              semanticLabel: ComponentLocalizations.of(
+                context,
+              ).chipInputRemoveChip,
               child: const Icon(LucideIcons.x),
             )
           : null,

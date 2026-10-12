@@ -52,6 +52,7 @@ class NavigationItemRow extends StatefulWidget {
     this.onPressed,
     this.focusNode,
     this.registryValue,
+    this.semanticLabel,
   });
 
   /// Main content (usually an icon).
@@ -115,6 +116,10 @@ class NavigationItemRow extends StatefulWidget {
   /// registration.
   final int? registryValue;
 
+  /// Accessible label; null falls back to the label's text when the label
+  /// is hidden, and leaves a label-less row unannotated.
+  final String? semanticLabel;
+
   @override
   State<NavigationItemRow> createState() => _NavigationItemRowState();
 }
@@ -161,7 +166,7 @@ class _NavigationItemRowState extends State<NavigationItemRow> {
   @override
   Widget build(BuildContext context) {
     _register();
-    return Clickable(
+    final Widget tappable = Clickable(
       enabled: widget.enabled,
       focusNode: _focusNode,
       statesController: _states,
@@ -173,6 +178,26 @@ class _NavigationItemRowState extends State<NavigationItemRow> {
         builder: (BuildContext context, Widget? child) => _body(context),
       ),
     );
+    // Hidden labels leave icon-only rows unlabeled: fall back to the label
+    // widget's text (usually a `Text`), so icon-only bars stay annotated.
+    // Shown labels already report themselves; duplicating them is skipped.
+    final String? label = widget.semanticLabel ?? _hiddenLabelText;
+    if (label == null) {
+      return tappable;
+    }
+    return Semantics(label: label, child: tappable);
+  }
+
+  /// The label's text when it is a hidden `Text`, else null.
+  String? get _hiddenLabelText {
+    if (widget.showLabel) {
+      return null;
+    }
+    final Widget? label = widget.label;
+    if (label is Text) {
+      return label.data;
+    }
+    return null;
   }
 
   Widget _body(BuildContext context) {

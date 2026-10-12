@@ -304,6 +304,7 @@ class StepperIndicator extends StatelessWidget {
     this.iconTheme,
     this.onPressed,
     this.focusNode,
+    this.semanticLabel,
   });
 
   /// Zero-based step index, used for the number.
@@ -333,6 +334,10 @@ class StepperIndicator extends StatelessWidget {
   /// Focus node for keyboard activation; internal when null.
   final FocusNode? focusNode;
 
+  /// Accessible label; null reads `'Step ${index + 1}'` for icon phases
+  /// (numbered phases already announce their number).
+  final String? semanticLabel;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -359,28 +364,45 @@ class StepperIndicator extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: Clickable(
-        enabled: onPressed != null,
-        onPressed: onPressed,
-        focusNode: focusNode,
-        padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-          EdgeInsets.zero,
-        ),
-        decoration: WidgetStatePropertyAll<Decoration?>(
-          BoxDecoration(
-            color: style.background?.resolve(colors),
-            shape: theme.radius > 0 ? BoxShape.circle : BoxShape.rectangle,
-            borderRadius: theme.radius > 0 ? null : theme.borderRadiusMd,
-            border: border == null || borderWidth <= 0
-                ? null
-                : Border.all(color: border, width: borderWidth),
+      child: _labeledRing(
+        Clickable(
+          enabled: onPressed != null,
+          onPressed: onPressed,
+          focusNode: focusNode,
+          padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+            EdgeInsets.zero,
           ),
+          decoration: WidgetStatePropertyAll<Decoration?>(
+            BoxDecoration(
+              color: style.background?.resolve(colors),
+              shape: theme.radius > 0 ? BoxShape.circle : BoxShape.rectangle,
+              borderRadius: theme.radius > 0 ? null : theme.borderRadiusMd,
+              border: border == null || borderWidth <= 0
+                  ? null
+                  : Border.all(color: border, width: borderWidth),
+            ),
+          ),
+          mouseCursor: const WidgetStatePropertyAll<MouseCursor?>(
+            SystemMouseCursors.click,
+          ),
+          child: content,
         ),
-        mouseCursor: const WidgetStatePropertyAll<MouseCursor?>(
-          SystemMouseCursors.click,
-        ),
-        child: content,
       ),
     );
+  }
+
+  /// Labels icon-phase rings (`failed`/`completed`/custom icon), whose glyph
+  /// carries no text; numbered rings already announce their number.
+  Widget _labeledRing(Widget ring) {
+    final bool iconPhase =
+        icon != null ||
+        phase == StepperPhase.failed ||
+        phase == StepperPhase.completed;
+    final String? label =
+        semanticLabel ?? (iconPhase ? 'Step ${index + 1}' : null);
+    if (label == null) {
+      return ring;
+    }
+    return Semantics(label: label, child: ring);
   }
 }

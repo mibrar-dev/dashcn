@@ -230,6 +230,7 @@ class ChipButton extends StatelessWidget {
     this.iconSize,
     this.focusNode,
     this.autofocus = false,
+    this.semanticLabel,
     this.theme,
   });
 
@@ -247,6 +248,9 @@ class ChipButton extends StatelessWidget {
 
   /// Whether the control requests focus when first built.
   final bool autofocus;
+
+  /// Accessible label for the control; null leaves it unlabeled.
+  final String? semanticLabel;
 
   /// Widget-leg override, merged over the component/app/defaults legs.
   final ChipTheme? theme;
@@ -293,7 +297,7 @@ class ChipButton extends StatelessWidget {
       );
     }
 
-    return Clickable(
+    final Widget control = Clickable(
       onPressed: onPressed,
       focusNode: focusNode,
       autofocus: autofocus,
@@ -305,5 +309,9 @@ class ChipButton extends StatelessWidget {
       mouseCursor: _chipMouseCursor,
       child: content,
     );
+    if (semanticLabel == null) {
+      return control;
+    }
+    return Semantics(label: semanticLabel, child: control);
   }
 }

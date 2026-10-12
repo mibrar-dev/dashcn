@@ -37,7 +37,8 @@ class _ChatAvatar extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: theme.colors.mutedForeground,
+          // Initials sit on the muted circle: the raw token fails AA on it.
+          color: theme.colors.onMuted,
         ),
       ),
     );

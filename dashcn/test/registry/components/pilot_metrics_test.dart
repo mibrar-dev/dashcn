@@ -69,6 +69,8 @@ void main() {
       for (final entry in expected.entries) {
         await tester.pumpWidget(
           _frame(
+            // Desktop platform: touch platforms add a transparent hit area.
+            data: const ThemeData(platform: TargetPlatform.macOS),
             child: Button(
               size: entry.key,
               onPressed: () {},
@@ -90,6 +92,8 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
+          // Desktop platform: touch platforms add a transparent hit area.
+          data: const ThemeData(platform: TargetPlatform.macOS),
           child: Button(
             size: ButtonSize.icon,
             onPressed: () {},

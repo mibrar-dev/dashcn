@@ -372,6 +372,9 @@ class _FilterBarState extends State<FilterBar> {
                 Chip(
                   trailing: ChipButton(
                     onPressed: () => _emit(current.withoutChip(chip.key)),
+                    semanticLabel: ComponentLocalizations.of(
+                      context,
+                    ).chipInputRemoveChip,
                     child: const Icon(LucideIcons.x),
                   ),
                   child: Text(chip.label),

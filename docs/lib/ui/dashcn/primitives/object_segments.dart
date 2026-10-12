@@ -287,6 +287,7 @@ class ObjectPromptButton extends StatefulWidget {
     this.enabled = true,
     this.alignment,
     this.anchorAlignment,
+    this.semanticLabel,
   });
 
   /// Dialog or popover presentation (resolved by the caller).
@@ -310,6 +311,9 @@ class ObjectPromptButton extends StatefulWidget {
   /// Popover anchor alignment; null = bottom-left.
   final AlignmentGeometry? anchorAlignment;
 
+  /// Accessible label for the button; null leaves it unlabeled.
+  final String? semanticLabel;
+
   @override
   State<ObjectPromptButton> createState() => _ObjectPromptButtonState();
 }
@@ -325,7 +329,7 @@ class _ObjectPromptButtonState extends State<ObjectPromptButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Clickable(
+    final Widget button = Clickable(
       enabled: widget.enabled,
       onPressed: widget.enabled ? _open : null,
       mouseCursor: const StateValue<MouseCursor>(
@@ -334,6 +338,10 @@ class _ObjectPromptButtonState extends State<ObjectPromptButton> {
       ),
       child: widget.child,
     );
+    if (widget.semanticLabel == null) {
+      return button;
+    }
+    return Semantics(label: widget.semanticLabel, child: button);
   }
 
   Future<void> _open() async {

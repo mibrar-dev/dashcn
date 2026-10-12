@@ -37,7 +37,7 @@ class _AppBarAction extends StatelessWidget {
       size: ButtonSize.icon,
       variant: ButtonVariant.ghost,
       onPressed: onPressed,
-      child: Icon(icon, size: 16),
+      child: Semantics(label: label, child: Icon(icon, size: 16)),
     );
   }
 }
