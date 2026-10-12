@@ -51,7 +51,9 @@ open_questions: [bullets]
 
 ## Process hygiene (added after P8-2/P8-3 incidents)
 - Never leave processes behind: if a test or tool you started hangs or you stop waiting for it, kill it (and its
-  children) before moving on. Orphaned `dart test` runs spinning at 100% CPU starve every other agent.
+  children) before moving on — BY PID ONLY (`cmd & pid=$!` … `kill $pid`, or `pkill -P <pid>` for its children).
+  NEVER `pkill -f <pattern>` / `killall`: your own OpenCode process's command line contains this whole brief, so
+  any pattern from it ("flutter test", "dart") kills YOU and the other agents (P9-1 killed itself this way). Orphaned `dart test` runs spinning at 100% CPU starve every other agent.
 - A test that hangs is a bug to diagnose (print progress, bisect), not something to retry with a longer timeout.
 - Keep tool outputs short (pipe through `tail`/`wc`/`head`); huge outputs bloat your context until you hang.
 - Never `sleep` more than 60 s at a time.
