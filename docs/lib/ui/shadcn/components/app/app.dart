@@ -311,11 +311,14 @@ class ShadcnApp extends StatelessWidget {
           )
         : ShadcnTheme(data: data, child: result);
     result = ComponentThemes(themes: componentThemes, child: result);
-    return OverlayManagerLayer(
-      popoverHandler: popoverHandler,
-      tooltipHandler: tooltipHandler,
-      menuHandler: menuHandler,
-      child: result,
+    // P7-FOCUS: keep everything out of traversal for one frame (see below).
+    return _FirstFrameFocusGate(
+      child: OverlayManagerLayer(
+        popoverHandler: popoverHandler,
+        tooltipHandler: tooltipHandler,
+        menuHandler: menuHandler,
+        child: result,
+      ),
     );
   }
 
@@ -357,4 +360,46 @@ PageRoute<T> _defaultPageRouteBuilder<T>(
     settings: settings,
     pageBuilder: (context, animation, secondaryAnimation) => builder(context),
   );
+}
+
+/// Keeps [child] out of focus traversal until after the first frame.
+///
+/// On web the engine delivers the initial view-focus event before the first
+/// layout pass, and the reading-order traversal throws on un-laid-out boxes.
+/// Hiding the subtree from traversal (not from focus, so `autofocus` still
+/// works) for one frame makes it find nothing instead.
+class _FirstFrameFocusGate extends StatefulWidget {
+  /// Creates a first-frame focus gate around [child].
+  const _FirstFrameFocusGate({required this.child});
+
+  /// The subtree kept out of traversal until the first frame completes.
+  final Widget child;
+
+  @override
+  State<_FirstFrameFocusGate> createState() => _FirstFrameFocusGateState();
+}
+
+/// State of [_FirstFrameFocusGate]: opens after the first post-frame.
+class _FirstFrameFocusGateState extends State<_FirstFrameFocusGate> {
+  bool _ready = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_ready) {
+        setState(() => _ready = true);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      canRequestFocus: false,
+      skipTraversal: true,
+      descendantsAreTraversable: _ready,
+      child: widget.child,
+    );
+  }
 }
