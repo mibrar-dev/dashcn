@@ -185,6 +185,7 @@ export 'src/components/stepper/stepper.dart';
 export 'src/components/stepper/stepper_style.dart';
 export 'src/components/steps/steps.dart';
 export 'src/components/steps/steps_style.dart';
+export 'src/components/swipe_actions/swipe_actions.dart';
 export 'src/components/swiper/swiper.dart';
 export 'src/components/swiper/swiper_style.dart';
 export 'src/components/switch/switch.dart';

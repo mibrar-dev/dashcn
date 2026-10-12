@@ -79,6 +79,7 @@ import 'examples/spinner.dart' as spinner_example;
 import 'examples/star_rating.dart' as star_rating_example;
 import 'examples/stepper.dart' as stepper_example;
 import 'examples/steps.dart' as steps_example;
+import 'examples/swipe_actions.dart' as swipe_actions_example;
 import 'examples/switch.dart' as switch_example;
 import 'examples/table.dart' as table_example;
 import 'examples/tabs.dart' as tabs_example;
@@ -249,6 +250,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'star_rating': star_rating_example.scorecardExample,
   'stepper': stepper_example.scorecardExample,
   'steps': steps_example.scorecardExample,
+  'swipe_actions': swipe_actions_example.scorecardExample,
   'switch': switch_example.scorecardExample,
   'table': table_example.scorecardExample,
   'tabs': tabs_example.scorecardExample,

@@ -9,12 +9,16 @@
 //   block-imports           error  - a block importing another block.
 //   block-installable       error  - a block directory that is not
 //                                    self-contained.
+//   flow-imports            error  - a flow importing another flow.
+//   flow-installable        error  - a flow directory that is not
+//                                    self-contained.
 //   file-too-long           warning - more than 400 physical lines.
 //   unused-dependency       warning - declared deps never imported (deps
 //                                      format only).
 //
 // The per-file rule logic lives in layer_checks.dart; the directory-level
-// rules (installable, block-installable, no-impl-dir) in dir_checks.dart.
+// rules (installable, block-installable, flow-installable, no-impl-dir) in
+// dir_checks.dart.
 //
 // Dependency checking has two modes, picked per component by the presence
 // of a `deps` object in its meta.json:
@@ -42,6 +46,8 @@ const List<String> layerRuleIds = <String>[
   'undeclared-dependency',
   'block-imports',
   'block-installable',
+  'flow-imports',
+  'flow-installable',
   'file-too-long',
   'unused-dependency',
   'installable',
@@ -200,6 +206,9 @@ LayersReport runLayersCheck({
   }
   if (enabled.contains('block-installable')) {
     findings.addAll(blockInstallableFindings(scan));
+  }
+  if (enabled.contains('flow-installable')) {
+    findings.addAll(flowInstallableFindings(scan));
   }
   if (enabled.contains('no-impl-dir') && isNewLayout) {
     findings.addAll(noImplDirFindings(scan));

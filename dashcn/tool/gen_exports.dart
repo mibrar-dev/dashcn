@@ -8,6 +8,8 @@
 //   lib/primitives.dart
 //   lib/components/<id>.dart  one library per component
 //   lib/blocks/<id>.dart       one library per block
+//   lib/flows/<id>.dart        one library per flow (NOT in dashcn.dart,
+//                              like blocks)
 //
 // Usage:
 //   dart run tool/gen_exports.dart [--check] [--help]
@@ -187,8 +189,12 @@ void main(List<String> args) {
       .cast<String, dynamic>();
   final Map<String, dynamic> blocks = (manifest['blocks'] as Map)
       .cast<String, dynamic>();
+  final Map<String, dynamic> flows =
+      (manifest['flows'] as Map?)?.cast<String, dynamic>() ??
+      <String, dynamic>{};
   final List<String> componentIds = components.keys.toList()..sort();
   final List<String> blockIds = blocks.keys.toList()..sort();
+  final List<String> flowIds = flows.keys.toList()..sort();
 
   List<String> entryFiles(String id, Map<String, dynamic> group) {
     final List<String> files = ((group[id] as Map)['files'] as List)
@@ -219,6 +225,9 @@ void main(List<String> args) {
   };
   for (final String id in blockIds) {
     allPaths.addAll(entryFiles(id, blocks));
+  }
+  for (final String id in flowIds) {
+    allPaths.addAll(entryFiles(id, flows));
   }
   final Map<String, Set<String>> namesByFile = <String, Set<String>>{};
   for (final String rel in allPaths) {
@@ -251,6 +260,15 @@ void main(List<String> args) {
     bundle['lib/blocks/$stem.dart'] = render(
       'lib/blocks/$stem.dart',
       entryFiles(id, blocks),
+    );
+  }
+  for (final String id in flowIds) {
+    // Flow ids contain hyphens (`onboarding-01`); the library stem uses
+    // underscores, matching the block convention (`onboarding_01.dart`).
+    final String stem = id.replaceAll('-', '_');
+    bundle['lib/flows/$stem.dart'] = render(
+      'lib/flows/$stem.dart',
+      entryFiles(id, flows),
     );
   }
 

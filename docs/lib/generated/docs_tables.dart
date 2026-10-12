@@ -313,6 +313,7 @@ kKeyboardRows = <String, List<DocsKeyboardRow>>{
   'selectable': <DocsKeyboardRow>[],
   'spell_check_suggestions_toolbar': <DocsKeyboardRow>[],
   'stage_container': <DocsKeyboardRow>[],
+  'swipe_actions': <DocsKeyboardRow>[],
   'swiper': <DocsKeyboardRow>[],
   'switcher': <DocsKeyboardRow>[],
   'timeline_animation': <DocsKeyboardRow>[],
@@ -432,6 +433,7 @@ const List<String> kKeyboardGaps = <String>[
   'selectable',
   'spell_check_suggestions_toolbar',
   'stage_container',
+  'swipe_actions',
   'swiper',
   'switcher',
   'timeline_animation',
@@ -1308,6 +1310,10 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'stage_container': <DocsDep>[
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
+  ],
+  'swipe_actions': <DocsDep>[
+    DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'swiper': <DocsDep>[

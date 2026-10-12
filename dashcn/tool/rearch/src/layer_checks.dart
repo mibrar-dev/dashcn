@@ -77,6 +77,7 @@ class DependencyCollector {
         'theme',
         'primitives',
         'components',
+        'blocks',
       ]) {
         final declared = deps[layer];
         if (declared is! List) {
@@ -86,6 +87,9 @@ class DependencyCollector {
           final used = imported.any((target) {
             if (layer == 'components') {
               return target.startsWith('components/$entry/');
+            }
+            if (layer == 'blocks') {
+              return target.startsWith('blocks/$entry/');
             }
             return depEntryCovers(layer, entry, target);
           });
@@ -313,13 +317,28 @@ void checkLayerFile({
         findings.add(finding);
       }
     }
+    if (enabled.contains('flow-imports')) {
+      final LayerFinding? finding = _flowImportFinding(
+        owner: owner,
+        targetRelPath: targetRelPath,
+        line: line,
+      );
+      if (finding != null) {
+        findings.add(finding);
+      }
+    }
   }
 }
 
 /// The block a `meta.json`-owning directory belongs to, or null when it is a
-/// component.
+/// component or a flow.
 String? blockIdOf(ComponentInfo component) =>
     component.relDir.startsWith('blocks/') ? component.id : null;
+
+/// The flow a `meta.json`-owning directory belongs to, or null when it is a
+/// component or a block.
+String? flowIdOf(ComponentInfo component) =>
+    component.relDir.startsWith('flows/') ? component.id : null;
 
 /// `block-imports` rule: a block may import foundation/theme/primitives and
 /// components, never another block.
@@ -343,6 +362,31 @@ LayerFinding? _blockImportFinding({
         'block \'$selfId\' imports block \'$targetId\'; blocks may only '
         'import foundation, theme, primitives and components',
     details: <String, Object?>{'block': selfId, 'target': targetId},
+  );
+}
+
+/// `flow-imports` rule: a flow may import foundation/theme/primitives,
+/// components and blocks, never another flow.
+LayerFinding? _flowImportFinding({
+  required OwnerUnit owner,
+  required String targetRelPath,
+  required int line,
+}) {
+  if (owner.kind != 'component') return null;
+  final String? selfId = flowIdOf(owner.component!);
+  if (selfId == null) return null;
+  final List<String> segments = targetRelPath.split('/');
+  if (segments.length < 3 || segments.first != 'flows') return null;
+  final String targetId = segments[1];
+  if (targetId == selfId) return null;
+  return LayerFinding(
+    rule: 'flow-imports',
+    file: owner.component!.relDir,
+    line: line,
+    message:
+        'flow \'$selfId\' imports flow \'$targetId\'; flows may only '
+        'import foundation, theme, primitives, components and blocks',
+    details: <String, Object?>{'flow': selfId, 'target': targetId},
   );
 }
 
@@ -495,6 +539,38 @@ void _checkNextDeps({
     );
     return;
   }
+  if (segments.first == 'blocks') {
+    final targetOwner = scan.ownerOf(joinPath(scan.root, targetRelPath));
+    if (targetOwner.kind != 'component') {
+      return;
+    }
+    final targetId = targetOwner.component!.id;
+    if (targetId == self.id) {
+      return;
+    }
+    final declared = deps['blocks'];
+    final list = declared is List
+        ? declared.whereType<String>().toList()
+        : const <String>[];
+    if (list.contains(targetId)) {
+      return;
+    }
+    dependencies.add(
+      file: parsed.relPath,
+      key: 'block:$targetId',
+      meta: DependencyMeta(
+        kind: 'block',
+        dependency: targetId,
+        message:
+            "missing block dependency '$targetId' in "
+            'meta.json deps.blocks',
+      ),
+      uri: uri,
+      target: targetRelPath,
+      line: line,
+    );
+    return;
+  }
   const layers = <String>{'foundation', 'theme', 'primitives'};
   if (!layers.contains(segments.first)) {
     return;
@@ -568,7 +644,8 @@ bool _isMaterialUri(String uri) =>
 ///   * legacy tree — `shared/**` is the special `shared` layer and
 ///     `components/<category>/<name>` files are `components` (layer 3);
 ///   * new tree (`registry_next`) — `foundation`=0, `theme`=1,
-///     `primitives`=2, `components/<name>`=3 and `blocks/<id>`=4.
+///     `primitives`=2, `components/<name>`=3, `blocks/<id>`=4 and
+///     `flows/<id>`=5.
 /// Files without a layer segment (manifests, tools, previews outside the
 /// tree) return null.
 _Layer? _layerOfRelPath(String relPath) {
@@ -587,6 +664,8 @@ _Layer? _layerOfRelPath(String relPath) {
       return const _Layer(3);
     case 'blocks':
       return const _Layer(4);
+    case 'flows':
+      return const _Layer(5);
     case 'shared':
       return const _Layer.shared();
   }

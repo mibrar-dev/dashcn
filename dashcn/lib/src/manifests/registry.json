@@ -7384,6 +7384,43 @@
         "components/steps/steps_theme.dart"
       ]
     },
+    "swipe_actions": {
+      "api": {
+        "classes": [
+          "SwipeActions",
+          "SwipeAction",
+          "SwipeActionsController"
+        ]
+      },
+      "category": "Utilities (building blocks)",
+      "deps": {
+        "components": [
+          "button"
+        ],
+        "foundation": [],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Swipe a row to reveal trailing actions; dismiss-to-delete; RTL-aware with a keyboard/semantics alternative.",
+      "entry": "components/swipe_actions/swipe_actions.dart",
+      "files": [
+        "components/swipe_actions/swipe_actions.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
+      "install": "dashcn add swipe_actions",
+      "listed": true,
+      "name": "SwipeActions",
+      "tags": [
+        "swipe",
+        "dismiss",
+        "actions",
+        "list",
+        "gesture"
+      ],
+      "userOwned": []
+    },
     "swiper": {
       "api": {
         "classes": [
@@ -9017,6 +9054,8 @@
     "components/steps/steps.dart": "56dbf1f22c20698ffa933c6311149e42156dc22e6c782d3c5d9be3272414b500",
     "components/steps/steps_style.dart": "9199e49f41feeea60abc3ead6baeb178ff29e906dca611b5f4928a59d8b13272",
     "components/steps/steps_theme.dart": "3ae02e6c7990e17e81b74eca3ee31cded8fb5278cbdd53bed7d785ba5183ff18",
+    "components/swipe_actions/preview.dart": "f51fc66a56cb1ae16170f429998a38d72c6d2bd19322593bd2f8a1c08637395b",
+    "components/swipe_actions/swipe_actions.dart": "e50354a37cb07f43c31919642da87b307dff8f7e425ef5fd17698b26ce50507c",
     "components/swiper/preview.dart": "d76e99b227ee05dc762552cc6c6e6c7bc6654bb1f4f2a359879e68050d76eb5b",
     "components/swiper/swiper.dart": "b66f990a31484c353464efa0ac83b870806c17ad96032d9f754b5505a4d0f51c",
     "components/swiper/swiper_style.dart": "a8e57f8ce3c90ff8033b4d7b94299c359854c8ae9835cd835100ead6ab41685e",
@@ -9081,6 +9120,34 @@
     "components/window/window.dart": "3cdd82cfbcda031a86c5dcb39f324a611c8950366a9068423f10ec24235fe145",
     "components/window/window_style.dart": "19cfa15bfcae96faec1468d28beb26ac49eabad7e1f6cf0d28268b1a831d852d",
     "components/window/window_theme.dart": "d1052c6165dc9d8caaeb94a1b5c67fdc6cd98ac7160cdcb5266bf485e8f4be38",
+    "flows/auth-01/README.md": "6f56d0bc2dd58b95b0dfd308201f7b39c599620d121e6a1feb93e462399a15f8",
+    "flows/auth-01/flow.dart": "a5b410d085895ec37a3311d0d8c57b3607bb25b454886da5b55821589d6930af",
+    "flows/auth-01/screens/forgot_password_screen.dart": "9a29aefce8c5e6779f3225b5a89413bf13eeedddd350339730099d917bda8013",
+    "flows/auth-01/screens/otp_screen.dart": "a39844d740b0c2a646199e7bc6d46a832f239ba22510a569c0c0a67d1714a4fb",
+    "flows/auth-01/screens/scaffold.dart": "71297ab2d543e8ac24d97724982748c18a4e3951cb3c9de956f451ee78cd3fd7",
+    "flows/auth-01/screens/sign_in_screen.dart": "bd1660db62374c602f1ab7d606a8c228eb47e03a46cf32313ef7c3c360878238",
+    "flows/auth-01/screens/sign_up_screen.dart": "5906418d75547eca6f5c66a748bc03e1c606fd3e08e4386778f115fceef96c4c",
+    "flows/auth-01/screens/social_buttons.dart": "5420459b73c5a7b56b415ea63e74bdee816b20a4424c92d0fa4698f2bf3b875b",
+    "flows/chat-01/README.md": "733d0fe6c956cb64714360a6a564c0d485446ec25d188df3ba308cde65be4818",
+    "flows/chat-01/flow.dart": "f18ee7afe9b9dab2604e4d4e1800cd280bb473fdfe2646019a8013cd607052e9",
+    "flows/chat-01/screens/attachments_sheet.dart": "828e039f64ec93ab995a00799ac476fe4ce90a132199f0bf0e5f5a3885001f14",
+    "flows/chat-01/screens/conversation_screen.dart": "ca1fb35dc10ded056cc2ef9bf0de60107db1e1e3ae5d55ad2bee7844b9c24891",
+    "flows/chat-01/screens/thread_list_screen.dart": "985be1c616ad2cd78a1cdf796b79472e139caa8c266183c393a0635d996b4757",
+    "flows/checkout-01/README.md": "83d7dc70434e1400c26f6f841da07e1571294489b8236c5832b46cccbb7ab892",
+    "flows/checkout-01/flow.dart": "3638f9a0df7dbee24bec345cacac6bec3e568ea8e3d02b9ccbf874c6deabb8d3",
+    "flows/checkout-01/screens/address_sheet.dart": "6facf1f7a50681986aabd84a1a8990ea6ed4ec1e08e5f75a1684d11e1f11cdb5",
+    "flows/checkout-01/screens/cart_screen.dart": "485dcbaa4b8a6c729177a410ba91e1ce72556ffed3e55de46674665869f2377a",
+    "flows/checkout-01/screens/payment_screen.dart": "c6ce272ff878e5e0930da1f856b87a97f464caf306677f74fee2d62866370fcc",
+    "flows/checkout-01/screens/success_screen.dart": "9fa772de36b0581c268f20ec44ccf9b306c622e569c828eedffada79b0ae48cf",
+    "flows/onboarding-01/README.md": "70889c2b9a4a7ed2e38bb5eb8f773ffd83a724ab5c5dae0111b51f05f388dc9b",
+    "flows/onboarding-01/flow.dart": "7d1e1c5b8af7ce2fb4f5e9d22164a9fcd3f335f52af2ebb511828cdba794a9a7",
+    "flows/onboarding-01/screens/pages_screen.dart": "46492a3451cd89e12db3019ae86adb071259e25855b54268fb71c88a802efc56",
+    "flows/onboarding-01/screens/permission_screen.dart": "38f751d44ceefa02a25da42c93f259e76479898b985562afc4e94ec81030e02d",
+    "flows/settings-01/README.md": "1ff25e99427ae8c37e26c397d21ca2143f8d54a9ab4f6184fa92330942dfdc44",
+    "flows/settings-01/flow.dart": "1731188d835eac0db580af4e69ee3b288f49e81f3916128e64648c26e2212201",
+    "flows/settings-01/screens/account_sheet.dart": "27713b07a792feaf62323eec51a71199ac7e6e43d706aa59710c8b2db97d5e09",
+    "flows/settings-01/screens/detail_screens.dart": "1ae2a14847c7e65945944340d4051bd7d60c709699a85fb2545167880377cc01",
+    "flows/settings-01/screens/home_screen.dart": "639f6ff789784480e55d7488b11ea5aff28194970b336637851b5208aa307e7b",
     "foundation/captured_wrapper.dart": "eb4f03c5643f882c778279880f04edfe6652fc21cbfb2d37944063121c515296",
     "foundation/color_extensions.dart": "c5f93831cf77e2a1dafca8c6da8ccbbfcd9cd444b2b9d5de0f45109e785d1776",
     "foundation/component_preview.dart": "9736ed0b02ec08ed2ee3e6685dc1171b64f0036812cddbbaee512622c118c6a4",
@@ -9384,6 +9451,261 @@
     "themes/vercel.json": "b505877bd40ae1c9d22c779fd47625b42335b4cb253a5af4f5eab490fa9fd300",
     "themes/vintage-paper.json": "867244637b35eec8fca03734203c6af45f169d7a6e9697acdf970152ed88611f",
     "themes/violet-bloom.json": "15fc50ca3acf0949ddf8dbeb96f5a4a3c5009da66e7814972473b66fa5ba2473"
+  },
+  "flows": {
+    "auth-01": {
+      "deps": {
+        "blocks": [],
+        "components": [
+          "button",
+          "card",
+          "form",
+          "input",
+          "input_otp",
+          "page_route"
+        ],
+        "foundation": [
+          "gap"
+        ],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Sign in, sign up, OTP verify and forgot password with social buttons and form validation.",
+      "docs": [
+        "flows/auth-01/README.md"
+      ],
+      "entry": "flows/auth-01/flow.dart",
+      "files": [
+        "flows/auth-01/flow.dart",
+        "flows/auth-01/screens/forgot_password_screen.dart",
+        "flows/auth-01/screens/otp_screen.dart",
+        "flows/auth-01/screens/scaffold.dart",
+        "flows/auth-01/screens/sign_in_screen.dart",
+        "flows/auth-01/screens/sign_up_screen.dart",
+        "flows/auth-01/screens/social_buttons.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/flows/auth-01/flow.dart';",
+      "install": "dashcn add flow:auth-01",
+      "name": "Auth 01",
+      "screens": [
+        "Sign in",
+        "Sign up",
+        "OTP",
+        "Forgot password"
+      ],
+      "tags": [
+        "auth",
+        "sign-in",
+        "sign-up",
+        "otp",
+        "password"
+      ],
+      "type": "flow",
+      "viewport": "mobile"
+    },
+    "chat-01": {
+      "deps": {
+        "blocks": [],
+        "components": [
+          "avatar",
+          "button",
+          "card",
+          "chat",
+          "drawer_container",
+          "empty_state",
+          "input",
+          "page_route",
+          "pinned_sheet",
+          "refresh_trigger",
+          "swipe_actions"
+        ],
+        "foundation": [
+          "gap"
+        ],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Thread list with swipe actions and pull-to-refresh, a conversation with composer, and an attachments sheet.",
+      "docs": [
+        "flows/chat-01/README.md"
+      ],
+      "entry": "flows/chat-01/flow.dart",
+      "files": [
+        "flows/chat-01/flow.dart",
+        "flows/chat-01/screens/attachments_sheet.dart",
+        "flows/chat-01/screens/conversation_screen.dart",
+        "flows/chat-01/screens/thread_list_screen.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/flows/chat-01/flow.dart';",
+      "install": "dashcn add flow:chat-01",
+      "name": "Chat 01",
+      "screens": [
+        "Threads",
+        "Conversation",
+        "Attachments sheet"
+      ],
+      "tags": [
+        "chat",
+        "messages",
+        "threads",
+        "composer"
+      ],
+      "type": "flow",
+      "viewport": "mobile"
+    },
+    "checkout-01": {
+      "deps": {
+        "blocks": [],
+        "components": [
+          "button",
+          "card",
+          "drawer_container",
+          "empty_state",
+          "form",
+          "input",
+          "page_route",
+          "pinned_sheet",
+          "swipe_actions"
+        ],
+        "foundation": [
+          "gap",
+          "icons"
+        ],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Cart with swipe-to-delete rows, an address bottom sheet, payment and a success screen.",
+      "docs": [
+        "flows/checkout-01/README.md"
+      ],
+      "entry": "flows/checkout-01/flow.dart",
+      "files": [
+        "flows/checkout-01/flow.dart",
+        "flows/checkout-01/screens/address_sheet.dart",
+        "flows/checkout-01/screens/cart_screen.dart",
+        "flows/checkout-01/screens/payment_screen.dart",
+        "flows/checkout-01/screens/success_screen.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/flows/checkout-01/flow.dart';",
+      "install": "dashcn add flow:checkout-01",
+      "name": "Checkout 01",
+      "screens": [
+        "Cart",
+        "Address sheet",
+        "Payment",
+        "Success"
+      ],
+      "tags": [
+        "checkout",
+        "cart",
+        "payment",
+        "sheet",
+        "shop"
+      ],
+      "type": "flow",
+      "viewport": "mobile"
+    },
+    "onboarding-01": {
+      "deps": {
+        "blocks": [],
+        "components": [
+          "button",
+          "card",
+          "carousel",
+          "dot_indicator",
+          "page_route"
+        ],
+        "foundation": [
+          "gap",
+          "icons"
+        ],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Three swipeable intro pages with Skip and Next, ending in a notification permission ask.",
+      "docs": [
+        "flows/onboarding-01/README.md"
+      ],
+      "entry": "flows/onboarding-01/flow.dart",
+      "files": [
+        "flows/onboarding-01/flow.dart",
+        "flows/onboarding-01/screens/pages_screen.dart",
+        "flows/onboarding-01/screens/permission_screen.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/flows/onboarding-01/flow.dart';",
+      "install": "dashcn add flow:onboarding-01",
+      "name": "Onboarding 01",
+      "screens": [
+        "Pages",
+        "Permission"
+      ],
+      "tags": [
+        "onboarding",
+        "intro",
+        "permission",
+        "carousel"
+      ],
+      "type": "flow",
+      "viewport": "mobile"
+    },
+    "settings-01": {
+      "deps": {
+        "blocks": [],
+        "components": [
+          "alert_dialog",
+          "avatar",
+          "button",
+          "card",
+          "drawer_container",
+          "page_route",
+          "pinned_sheet",
+          "switch"
+        ],
+        "foundation": [
+          "gap"
+        ],
+        "primitives": [],
+        "theme": [
+          "theme"
+        ]
+      },
+      "description": "Grouped settings list with nested pages, toggles, an account sheet and a sign-out confirm.",
+      "docs": [
+        "flows/settings-01/README.md"
+      ],
+      "entry": "flows/settings-01/flow.dart",
+      "files": [
+        "flows/settings-01/flow.dart",
+        "flows/settings-01/screens/account_sheet.dart",
+        "flows/settings-01/screens/detail_screens.dart",
+        "flows/settings-01/screens/home_screen.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/flows/settings-01/flow.dart';",
+      "install": "dashcn add flow:settings-01",
+      "name": "Settings 01",
+      "screens": [
+        "Home",
+        "Notifications",
+        "Appearance",
+        "Account sheet"
+      ],
+      "tags": [
+        "settings",
+        "account",
+        "toggles",
+        "sheet"
+      ],
+      "type": "flow",
+      "viewport": "mobile"
+    }
   },
   "foundation": {
     "captured_wrapper": {
