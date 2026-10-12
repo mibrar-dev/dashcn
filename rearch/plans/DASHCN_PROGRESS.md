@@ -144,6 +144,21 @@ dependent ranges as data (`boundedBy`); Reset; values in the URL. Review: playgr
 no default, builders fell back to '') → generator now gives text controls meaningful defaults and the code shows them.
 Orchestrator gates: docs format/analyze clean, `flutter test test tool` +593, gen/sync --check, build web.
 
+## P9-3a Screens & Flows — ACCEPTED (worktree B, branch wip/p9-3a-flows, merged)
+`lib/src/flows/` layer (manifest type `flow`, public `lib/flows/<id>.dart`, not in the barrel; check_layers rule:
+flows → components/blocks only): onboarding-01, auth-01, checkout-01, settings-01, chat-01 — data + callbacks in, no
+fake backends; new component `swipe_actions`. Four review rounds: (1) REAL bug — exposed swipe actions never fired
+(close-tap detector's un-translated hit box won the arena) → fixed, tests assert real callbacks in scrollables;
+(2) flow forms showed errors before typing → `showErrors: {submitted}`; KIT BUG found: `FormValidationMode.changed`
+fires at mount (also hits the login-01 block) → queued; (3) capture harness lacked the app text style (white text in
+light mode) → wraps like DashcnApp; (4) swipe_actions lacked preview.dart (docs generator) → added + scorecard example.
+Merged refactor/dashcn into the branch: regenerated docs controls/scorecards (84 components); scorecards page test
+hard-coded 83 → derives the count. Orchestrator gates on the merged tree: kit +4830/+42, all generators --check,
+check_names 0, scorecard+tool tests +111, package format clean; docs format/analyze clean, `test tool` +593,
+gen/sync --check, build web.
+Deferred polish → P9-3b: "No account yet?Create one" spacing; settings home vertically centred instead of top;
+cramped toggle rows.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.
