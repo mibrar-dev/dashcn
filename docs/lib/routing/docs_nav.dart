@@ -50,6 +50,7 @@ const List<DocsNavLink> kDocsSections = <DocsNavLink>[
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),
+  DocsNavLink(label: 'How we measure', location: '/docs/scorecards'),
 ];
 
 /// Pager chain for prose pages.
@@ -62,6 +63,7 @@ const List<DocsNavLink> kDocsPageChain = <DocsNavLink>[
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),
+  DocsNavLink(label: 'How we measure', location: '/docs/scorecards'),
 ];
 
 /// Previous/next links in [kDocsPageChain] for [location].

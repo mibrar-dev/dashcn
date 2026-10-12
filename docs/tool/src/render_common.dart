@@ -4,6 +4,7 @@ import 'api_model.dart';
 import 'example_sources.dart';
 import 'readme_scan.dart';
 import 'registry_scan.dart';
+import 'scorecard_scan.dart';
 
 /// Everything the docs renderers need, assembled once by the CLI entry.
 class DocsModel {
@@ -20,6 +21,7 @@ class DocsModel {
     required this.cliCommands,
     required this.blockSources,
     required this.blockClasses,
+    required this.scorecards,
   });
 
   /// Registry facts (components, presets, stats inputs).
@@ -61,6 +63,9 @@ class DocsModel {
   /// Block widget class names keyed by block id, read with
   /// `package:analyzer` from each block's entry file.
   final Map<String, String> blockClasses;
+
+  /// Measured scorecard facts from `manifests/scorecards.json`.
+  final ScorecardsDoc scorecards;
 }
 
 /// `// GENERATED CODE …` banner shared by every generated file.

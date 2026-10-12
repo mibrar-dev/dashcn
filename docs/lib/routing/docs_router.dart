@@ -39,6 +39,9 @@ enum DocsRoute {
   /// `/docs/cli` — CLI reference.
   cli,
 
+  /// `/docs/scorecards` — how trust scorecards are measured.
+  scorecards,
+
   /// `/docs/components` — link-grid index.
   components,
 
@@ -115,6 +118,11 @@ class DocsRouteConfiguration {
   /// `/docs/cli`.
   static const DocsRouteConfiguration cli = DocsRouteConfiguration._(
     DocsRoute.cli,
+  );
+
+  /// `/docs/scorecards`.
+  static const DocsRouteConfiguration scorecards = DocsRouteConfiguration._(
+    DocsRoute.scorecards,
   );
 
   /// `/docs/components`.
@@ -203,6 +211,8 @@ class DocsRouteConfiguration {
           return darkMode;
         case 'cli':
           return cli;
+        case 'scorecards':
+          return scorecards;
         case 'components':
           if (path.length == 2) {
             return components;
@@ -223,6 +233,7 @@ class DocsRouteConfiguration {
     DocsRoute.theming => '/docs/theming',
     DocsRoute.darkMode => '/docs/dark-mode',
     DocsRoute.cli => '/docs/cli',
+    DocsRoute.scorecards => '/docs/scorecards',
     DocsRoute.components => '/docs/components',
     DocsRoute.component => '/docs/components/$componentId',
     DocsRoute.themes => '/themes',
@@ -240,6 +251,7 @@ class DocsRouteConfiguration {
     DocsRoute.theming => 'Theming',
     DocsRoute.darkMode => 'Dark mode',
     DocsRoute.cli => 'CLI reference',
+    DocsRoute.scorecards => 'How we measure',
     DocsRoute.components => 'Components',
     DocsRoute.component => componentId ?? 'Component',
     DocsRoute.themes => 'Themes',

@@ -53,6 +53,7 @@ export 'src/render_files.dart';
 export 'src/render_presets.dart';
 export 'src/render_previews.dart';
 export 'src/render_tables.dart';
+export 'src/scorecards.dart';
 
 const String _usage =
     'Usage: dart run tool/gen_docs_data.dart [options]\n'

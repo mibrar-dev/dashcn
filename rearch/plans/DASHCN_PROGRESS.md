@@ -121,6 +121,12 @@ the orchestrator: muted-foreground #737373 on muted #F5F5F5 = 4.35:1 (< WCAG AA 
 11 unlabeled tappables; 22 below 44/48 px mobile tap targets (32–36 px desktop sizing); 5 missing semantics; RTL 83/83.
 CI now runs test/scorecards + `gen_scorecards --check`. Follow-up queued: A11Y-1 token/semantics fix batch.
 
+## P9-5b scorecards on the docs site — ACCEPTED
+`docs_scorecards.dart` generated from scorecards.json; `ScorecardCard(componentId:)` (pass/fail/not-measured badges,
+expandable guideline messages, measured-on footer) — placement on the component page in P9-Z; "How we measure" page
+(`/docs/scorecards`) with metrics, method, limits and an all-components table. Orchestrator gates: docs format/analyze
+clean, +304, gen/sync --check, build web; real-site screenshots (en-US) reviewed — honest labels as briefed.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.
