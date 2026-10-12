@@ -4,13 +4,16 @@
 // `playground` section):
 //  * `bool`/`bool?` -> toggle (default from the literal, else null).
 //  * kit enum (resolved by `scanEnumValues`) -> select with the enum values.
-//  * `String`/`String?` -> text.
+//  * `String`/`String?` -> text (stored quoted; a missing literal default
+//    synthesizes one — the display name, a typing prompt, or a short
+//    sentence — so previews never open empty).
 //  * `int`/`double` (nullable or not) -> slider; bounds come from the
 //    `playground.ranges` override, else the name heuristics in `rangeFor`,
 //    else int 0..100 step 1 / double 0..10 step 0.1.
 //  * `Color`/`Color?` -> token picker over the theme token names.
 //  * `Widget`/`Widget?` named child/label/title/content/placeholder/hint/
-//    text/separator/message -> text (the builder wraps it in `Text`).
+//    text/separator/message -> text (the builder wraps it in `Text`;
+//    like `String`, a missing literal default synthesizes one).
 //  * `WidgetBuilder` named tooltip -> text (the builder wraps it in a
 //    closure returning `Text`).
 //  * `VoidCallback?` named onPressed/onLongPress -> one shared `enabled`
@@ -30,6 +33,7 @@ import 'dart:io';
 import 'api_model.dart';
 import 'controls_decode.dart';
 import 'controls_scan.dart';
+import 'literals.dart';
 import 'registry_scan.dart';
 
 /// One derived control row (tool-side shape of the generated `ControlSpec`).
@@ -191,7 +195,13 @@ ComponentControlsFacts _componentControls(
             param.name == 'enabled')) {
       continue;
     }
-    final ControlFacts? row = _controlFor(param, enums, tokens, overrides);
+    final ControlFacts? row = _controlFor(
+      param,
+      enums,
+      tokens,
+      overrides,
+      component.name,
+    );
     if (row != null) {
       controls.add(row);
     }
@@ -233,6 +243,7 @@ ControlFacts? _controlFor(
   Map<String, List<String>> enums,
   List<String> tokens,
   PlaygroundOverrides overrides,
+  String displayName,
 ) {
   final String base = _base(param.type);
   final String raw = _rawBase(param.type);
@@ -283,7 +294,7 @@ ControlFacts? _controlFor(
       kind: 'text',
       type: param.type,
       isRequired: param.isRequired,
-      defaultValue: decodedDefault(param.defaultValue),
+      defaultValue: _textDefault(param, overrides, displayName),
     );
   }
   if (base == 'int' || base == 'double') {
@@ -327,7 +338,7 @@ ControlFacts? _controlFor(
       kind: 'text',
       type: param.type,
       isRequired: param.isRequired,
-      defaultValue: decodedDefault(param.defaultValue),
+      defaultValue: _textDefault(param, overrides, displayName),
       isBuilder: base == 'WidgetBuilder',
     );
   }
@@ -354,6 +365,65 @@ bool _isTextSlot(String name) => const <String>{
   'separator',
   'message',
 }.contains(name);
+
+/// Display-name params: visible text that demos the component itself.
+const Set<String> _displayNameParams = <String>{
+  'child',
+  'label',
+  'title',
+  'text',
+  'content',
+  'message',
+  'initials',
+  'actionLabel',
+  'tooltip',
+  'data',
+  'initialValue',
+};
+
+/// Derives a `text` default in Dart-source (quoted) shape.
+///
+/// Literal text first: an explicit `meta.json` override (literal text or
+/// quoted source), then the extracted constructor default (`decodeDefault`
+/// unquotes `String` literals, so they are quoted again for storage).
+/// Otherwise a display default is synthesized — the component's registry
+/// display name for demo text, a typing prompt for placeholders, a short
+/// sentence for descriptions — so the playground never opens empty. Stored
+/// quoted so `PlaygroundValues` round-trips it; technical text
+/// (barrier/semantic labels, separators, routes) keeps no default.
+String? _textDefault(
+  ApiParamFacts param,
+  PlaygroundOverrides overrides,
+  String displayName,
+) {
+  final String? override = overrides.defaults[param.name];
+  if (override != null) {
+    if (override == 'null') {
+      return null;
+    }
+    return _isSingleQuoted(override) ? override : dartString(override);
+  }
+  final String? decoded = decodeDefault(param.type, param.defaultValue);
+  if (decoded != null) {
+    return _base(param.type) == 'String' ? dartString(decoded) : decoded;
+  }
+  if (_displayNameParams.contains(param.name)) {
+    return dartString(displayName);
+  }
+  if (param.name == 'placeholder' ||
+      param.name == 'hint' ||
+      param.name == 'hintText') {
+    return dartString('Type here…');
+  }
+  if (param.name == 'description') {
+    return dartString('A short description.');
+  }
+  return null;
+}
+
+/// Whether [source] is already a single-quoted Dart string literal.
+bool _isSingleQuoted(String source) =>
+    source.length >= 2 && source.startsWith("'") && source.endsWith("'");
 
 String _readOnlyReason(String base, String name) {
   if (base.startsWith('ValueChanged') ||

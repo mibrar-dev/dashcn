@@ -8,6 +8,6 @@ import 'package:flutter/widgets.dart';
 Widget buildSkeletonPlayground(BuildContext context, PlaygroundValues values) {
   return Skeleton(
     enabled: values.getBoolOr('enabled', true),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }

@@ -213,8 +213,19 @@ void main() {
       expect(
         emitCode(spec, values),
         "import 'package:dashcn/components/button.dart';\n\n"
-        "Button(onPressed: () {}, child: Text(''))\n",
+        "Button(onPressed: () {}, child: Text('Button'))\n",
       );
+    });
+
+    test('optional text at its default is omitted', () {
+      final ComponentControls spec = kControlSpecs['select']!;
+      final PlaygroundValues values = PlaygroundValues.defaults(spec);
+      // The placeholder defaults to the typing prompt; at its default the
+      // snippet omits it, and a custom value emits it.
+      expect(values.getString('placeholder'), 'Type here…');
+      expect(emitCode(spec, values), isNot(contains('placeholder')));
+      values.set('placeholder', 'Pick one');
+      expect(emitCode(spec, values), contains("placeholder: Text('Pick one')"));
     });
   });
 }

@@ -14,16 +14,17 @@ import 'package:flutter/widgets.dart';
 Widget buildInputPlayground(BuildContext context, PlaygroundValues values) {
   final bool expands = values.getBoolOr('expands', false);
   final bool obscure = values.getBoolOr('obscureText', false);
+  final String? placeholder = values.textOrNull('placeholder');
   return Input(
-    initialValue: values.getString('initialValue'),
-    placeholder: _textOrNull(values.getString('placeholder')),
-    hintText: values.getString('hintText'),
+    initialValue: values.textOrNull('initialValue'),
+    placeholder: placeholder == null ? null : Text(placeholder),
+    hintText: values.textOrNull('hintText'),
     maxLines: expands ? null : (obscure ? 1 : values.getInt('maxLines')),
     minLines: expands ? null : values.getInt('minLines'),
     expands: expands,
     maxLength: values.getInt('maxLength'),
     obscureText: obscure,
-    obscuringCharacter: values.getStringOr('obscuringCharacter', '•'),
+    obscuringCharacter: values.textOr('obscuringCharacter'),
     readOnly: values.getBoolOr('readOnly', false),
     enabled: values.getBoolOr('enabled', true),
     autofocus: values.getBoolOr('autofocus', false),
@@ -39,5 +40,3 @@ Widget buildInputPlayground(BuildContext context, PlaygroundValues values) {
     showFocusRing: values.getBoolOr('showFocusRing', true),
   );
 }
-
-Widget? _textOrNull(String? value) => value == null ? null : Text(value);

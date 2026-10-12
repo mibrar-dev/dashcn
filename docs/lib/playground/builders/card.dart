@@ -8,6 +8,6 @@ import 'package:flutter/widgets.dart';
 Widget buildCardPlayground(BuildContext context, PlaygroundValues values) {
   return Card(
     borderWidth: values.getDouble('borderWidth'),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }

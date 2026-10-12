@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 Widget buildAvatarPlayground(BuildContext context, PlaygroundValues values) {
   final double? badgeGap = values.getDouble('badgeGap');
   return Avatar(
-    initials: values.getStringOr('initials', ''),
+    initials: values.textOr('initials'),
     size: values.getDouble('size'),
     backgroundColor: playgroundTokenColor(
       context,

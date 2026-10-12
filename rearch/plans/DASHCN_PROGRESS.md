@@ -137,6 +137,13 @@ Found during QA: the P8-2 comment rule had written "a upstream app/dialog/theme"
 Orchestrator gates: kit qa_gate +4741/+42, all generators --check, check_names 0, package format clean; docs
 format/analyze clean, `flutter test test tool` +556, gen/sync --check, build web.
 
+## P9-2b playground panel — ACCEPTED
+`PlaygroundPanel(componentId:)`: preview inside FramedPreview, controls rail ≥1100 px / stacked 600–1100 / bottom
+sheet < 600; live syntax-highlighted code; kit controls only (Switch, Select, Input, Slider, tri-state, token picker);
+dependent ranges as data (`boundedBy`); Reset; values in the URL. Review: playgrounds opened EMPTY (text controls had
+no default, builders fell back to '') → generator now gives text controls meaningful defaults and the code shows them.
+Orchestrator gates: docs format/analyze clean, `flutter test test tool` +593, gen/sync --check, build web.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

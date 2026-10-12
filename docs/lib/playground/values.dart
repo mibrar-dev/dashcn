@@ -16,6 +16,7 @@ class PlaygroundValues {
   /// Seeds every editable control from the spec defaults.
   factory PlaygroundValues.defaults(ComponentControls spec) {
     final PlaygroundValues values = PlaygroundValues();
+    values._spec = spec;
     for (final ControlSpec control in spec.controls) {
       if (control.isEditable) {
         values._values[control.name] = _decodeDefault(control);
@@ -47,6 +48,9 @@ class PlaygroundValues {
 
   final Map<String, Object?> _values;
 
+  /// The spec these values were seeded from (null for hand-built values).
+  ComponentControls? _spec;
+
   /// Raw value (null when unset).
   Object? valueOf(String name) => _values[name];
 
@@ -58,6 +62,7 @@ class PlaygroundValues {
 
   /// Resets every editable control to the spec defaults.
   void reset(ComponentControls spec) {
+    _spec = spec;
     _values
       ..clear()
       ..addAll(PlaygroundValues.defaults(spec)._values);
@@ -75,6 +80,32 @@ class PlaygroundValues {
   /// Non-null string with [fallback].
   String getStringOr(String name, String fallback) =>
       getString(name) ?? fallback;
+
+  /// Decoded text default of [name] from the seeding spec, or null when the
+  /// control has no literal text default (or the values are hand-built).
+  String? defaultText(String name) {
+    final ComponentControls? spec = _spec;
+    if (spec == null) {
+      return null;
+    }
+    for (final ControlSpec control in spec.controls) {
+      if (control.name == name && control.kind == ControlKind.text) {
+        final String? source = control.defaultValue;
+        if (source == null || source == 'null') {
+          return null;
+        }
+        return _unquote(source);
+      }
+    }
+    return null;
+  }
+
+  /// Text value with spec-default fallback; null only when both are missing.
+  String? textOrNull(String name) => getString(name) ?? defaultText(name);
+
+  /// Non-null text with spec-default fallback (`''` only when the spec
+  /// carries no default, e.g. hand-built values in tests).
+  String textOr(String name) => textOrNull(name) ?? '';
 
   /// Nullable int (`slider` with [ControlSpec.isInt]).
   int? getInt(String name) {

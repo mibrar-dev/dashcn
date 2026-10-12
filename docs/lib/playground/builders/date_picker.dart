@@ -13,9 +13,10 @@ Widget buildDatePickerPlayground(
   BuildContext context,
   PlaygroundValues values,
 ) {
+  final String? placeholder = values.textOrNull('placeholder');
   return DatePicker(
     value: null,
-    placeholder: _textOrNull(values.getString('placeholder')),
+    placeholder: placeholder == null ? null : Text(placeholder),
     mode: _byNameOrNull(PromptMode.values, values.getEnum('mode')),
     initialViewType: _byNameOrNull(
       CalendarViewType.values,
@@ -25,8 +26,6 @@ Widget buildDatePickerPlayground(
     expand: values.getBoolOr('expand', false),
   );
 }
-
-Widget? _textOrNull(String? value) => value == null ? null : Text(value);
 
 T? _byNameOrNull<T extends Enum>(List<T> values, String? name) {
   if (name == null) {

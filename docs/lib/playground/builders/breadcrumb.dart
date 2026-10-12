@@ -12,7 +12,7 @@ Widget buildBreadcrumbPlayground(
   BuildContext context,
   PlaygroundValues values,
 ) {
-  final String? separator = values.getString('separator');
+  final String? separator = values.textOrNull('separator');
   return Breadcrumb(
     separator: separator == null ? null : Text(separator),
     children: const <Widget>[Text('Home'), Text('Docs'), Text('Playground')],

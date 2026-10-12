@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 Widget buildDialogPlayground(BuildContext context, PlaygroundValues values) {
   final bool useRootNavigator = values.getBoolOr('useRootNavigator', true);
   final bool barrierDismissible = values.getBoolOr('barrierDismissible', true);
-  final String? barrierLabel = values.getString('barrierLabel');
+  final String? barrierLabel = values.textOrNull('barrierLabel');
   final bool useSafeArea = values.getBoolOr('useSafeArea', true);
   final bool fullScreen = values.getBoolOr('fullScreen', false);
   return Button(

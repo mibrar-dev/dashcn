@@ -14,12 +14,13 @@ const List<String> _fruits = <String>['Apple', 'Banana', 'Cherry'];
 Widget buildSelectPlayground(BuildContext context, PlaygroundValues values) {
   final bool canUnselect = values.getBoolOr('canUnselect', false);
   final bool autoClose = values.getBoolOr('autoClose', true);
+  final String? placeholder = values.textOrNull('placeholder');
   return SizedBox(
     width: 220,
     child: Select<String>(
       key: ValueKey<String>('select-$canUnselect-$autoClose'),
       enabled: values.getBool('enabled'),
-      placeholder: _textOrNull(values.getString('placeholder')),
+      placeholder: placeholder == null ? null : Text(placeholder),
       canUnselect: canUnselect,
       autoClose: autoClose,
       itemBuilder: (BuildContext context, String value) => Text(value),
@@ -30,5 +31,3 @@ Widget buildSelectPlayground(BuildContext context, PlaygroundValues values) {
     ),
   );
 }
-
-Widget? _textOrNull(String? value) => value == null ? null : Text(value);

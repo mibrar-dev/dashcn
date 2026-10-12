@@ -17,7 +17,7 @@ Widget buildProgressPlayground(BuildContext context, PlaygroundValues values) {
     ),
     showSparks: values.getBool('showSparks'),
     disableAnimation: values.getBool('disableAnimation'),
-    semanticsLabel: values.getString('semanticsLabel'),
-    semanticsValue: values.getString('semanticsValue'),
+    semanticsLabel: values.textOrNull('semanticsLabel'),
+    semanticsValue: values.textOrNull('semanticsValue'),
   );
 }

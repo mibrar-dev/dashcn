@@ -9,9 +9,9 @@ import 'package:flutter/widgets.dart';
 /// The `tooltip` builder closure is owned here; its text comes from the
 /// control of the same name.
 Widget buildTooltipPlayground(BuildContext context, PlaygroundValues values) {
-  final String tip = values.getStringOr('tooltip', '');
+  final String tip = values.textOr('tooltip');
   return Tooltip(
     tooltip: (BuildContext context) => Text(tip),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }

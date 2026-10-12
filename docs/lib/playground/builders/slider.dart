@@ -18,6 +18,6 @@ Widget buildSliderPlayground(BuildContext context, PlaygroundValues values) {
       values.getEnum('variant') ?? 'standard',
     ),
     enabled: values.getBoolOr('enabled', true),
-    semanticLabel: values.getString('semanticLabel'),
+    semanticLabel: values.textOrNull('semanticLabel'),
   );
 }

@@ -12,10 +12,11 @@ import 'package:flutter/widgets.dart';
 /// lines) so every control combination pumps without throwing.
 Widget buildTextAreaPlayground(BuildContext context, PlaygroundValues values) {
   final bool expands = values.getBoolOr('expands', false);
+  final String? placeholder = values.textOrNull('placeholder');
   return TextArea(
-    initialValue: values.getString('initialValue'),
-    hintText: values.getString('hintText'),
-    placeholder: _textOrNull(values.getString('placeholder')),
+    initialValue: values.textOrNull('initialValue'),
+    hintText: values.textOrNull('hintText'),
+    placeholder: placeholder == null ? null : Text(placeholder),
     minLines: expands ? null : values.getInt('minLines'),
     maxLines: expands ? null : values.getInt('maxLines'),
     expands: expands,
@@ -32,5 +33,3 @@ Widget buildTextAreaPlayground(BuildContext context, PlaygroundValues values) {
     ),
   );
 }
-
-Widget? _textOrNull(String? value) => value == null ? null : Text(value);

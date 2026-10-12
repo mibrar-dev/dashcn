@@ -11,6 +11,9 @@
 // bool -> toggle, kit enum -> select, String -> text, int/double
 // -> slider, Color -> theme-token picker, text-like Widget slots ->
 // text, onPressed/onLongPress -> one shared `enabled` toggle.
+// Text without a literal default synthesizes one (the display
+// name, a typing prompt, or a short sentence) so previews never
+// open empty.
 // Infrastructure params (key, context, controllers, theme/style)
 // are skipped; everything else is read-only with a reason.
 // Per-component `playground: {exclude, ranges, defaults, labels}`
@@ -151,6 +154,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Border Loading\'',
       ),
       ControlSpec(
         name: 'strokeWidth',
@@ -391,6 +395,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: true,
+        defaultValue: '\'TextAnimate\'',
       ),
       ControlSpec(
         name: 'typewriter',
@@ -488,6 +493,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Button\'',
       ),
       ControlSpec(
         name: 'variant',
@@ -569,6 +575,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Toggle\'',
       ),
       ControlSpec(
         name: 'value',
@@ -727,6 +734,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: true,
+        defaultValue: '\'Avatar\'',
       ),
       ControlSpec(
         name: 'image',
@@ -895,6 +903,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Badge\'',
       ),
       ControlSpec(
         name: 'variant',
@@ -1096,6 +1105,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Chat\'',
       ),
       ControlSpec(
         name: 'variant',
@@ -1185,6 +1195,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Chip\'',
       ),
       ControlSpec(
         name: 'onDeleted',
@@ -1373,6 +1384,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Divider\'',
       ),
       ControlSpec(
         name: 'labelPadding',
@@ -1430,6 +1442,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'EmptyState\'',
       ),
       ControlSpec(
         name: 'description',
@@ -1689,6 +1702,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Pinned Sheet\'',
       ),
       ControlSpec(
         name: 'position',
@@ -2201,6 +2215,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'mode',
@@ -2319,6 +2334,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'popoverAlignment',
@@ -2404,6 +2420,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Alert\'',
       ),
       ControlSpec(
         name: 'content',
@@ -2411,6 +2428,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Alert\'',
       ),
       ControlSpec(
         name: 'trailing',
@@ -2591,6 +2609,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Skeleton\'',
       ),
       ControlSpec(
         name: 'enabled',
@@ -2699,6 +2718,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Toast\'',
       ),
     ],
   ),
@@ -2811,6 +2831,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Checkbox\'',
       ),
       ControlSpec(
         name: 'size',
@@ -2943,6 +2964,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'keyboardType',
@@ -3047,6 +3069,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'content',
@@ -3054,6 +3077,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Dropzone\'',
       ),
       ControlSpec(
         name: 'actionLabel',
@@ -3061,6 +3085,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'Dropzone\'',
       ),
       ControlSpec(
         name: 'onBrowse',
@@ -3266,6 +3291,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'FormScope\'',
       ),
       ControlSpec(
         name: 'onSubmit',
@@ -3362,6 +3388,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'Input\'',
       ),
       ControlSpec(
         name: 'keyboardType',
@@ -3394,6 +3421,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'hintText',
@@ -3401,6 +3429,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'textAlign',
@@ -3475,7 +3504,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: false,
-        defaultValue: '•',
+        defaultValue: '\'•\'',
       ),
       ControlSpec(
         name: 'readOnly',
@@ -3768,6 +3797,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'InputOtp\'',
       ),
       ControlSpec(
         name: 'onChanged',
@@ -3958,6 +3988,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'title',
@@ -3965,6 +3996,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'ItemPicker\'',
       ),
       ControlSpec(
         name: 'mode',
@@ -4028,6 +4060,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'items',
@@ -4156,7 +4189,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: false,
-        defaultValue: '/',
+        defaultValue: '\'/\'',
       ),
       ControlSpec(
         name: 'placeholders',
@@ -4363,6 +4396,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'items',
@@ -4651,6 +4685,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Switch\'',
       ),
       ControlSpec(
         name: 'autofocus',
@@ -4690,6 +4725,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'TextArea\'',
       ),
       ControlSpec(
         name: 'hintText',
@@ -4697,6 +4733,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'placeholder',
@@ -4704,6 +4741,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'textAlign',
@@ -4990,6 +5028,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Card\'',
       ),
       ControlSpec(
         name: 'padding',
@@ -5080,6 +5119,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Card Image\'',
       ),
       ControlSpec(
         name: 'subtitle',
@@ -5315,6 +5355,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Overflow Marquee\'',
       ),
       ControlSpec(
         name: 'direction',
@@ -5407,6 +5448,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Scaffold\'',
       ),
       ControlSpec(
         name: 'headers',
@@ -5512,6 +5554,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Scrollbar\'',
       ),
       ControlSpec(
         name: 'thumbVisibility',
@@ -5618,6 +5661,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Sortable\'',
       ),
       ControlSpec(
         name: 'enabled',
@@ -5851,6 +5895,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'ContextMenu\'',
       ),
       ControlSpec(
         name: 'items',
@@ -5924,6 +5969,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Menu\'',
       ),
       ControlSpec(
         name: 'subMenu',
@@ -6422,6 +6468,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'AlertDialog\'',
       ),
       ControlSpec(
         name: 'description',
@@ -6672,6 +6719,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'HoverCard\'',
       ),
       ControlSpec(
         name: 'hoverBuilder',
@@ -6861,6 +6909,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'RefreshTrigger\'',
       ),
       ControlSpec(
         name: 'minExtent',
@@ -6945,6 +6994,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Tooltip\'',
       ),
       ControlSpec(
         name: 'tooltip',
@@ -6952,6 +7002,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'WidgetBuilder',
         isRequired: true,
+        defaultValue: '\'Tooltip\'',
         isBuilder: true,
       ),
       ControlSpec(
@@ -7150,6 +7201,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Type here…\'',
       ),
       ControlSpec(
         name: 'errorBuilder',
@@ -7208,6 +7260,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: true,
+        defaultValue: '\'Markdown\'',
       ),
       ControlSpec(
         name: 'selectable',
@@ -7546,6 +7599,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: false,
+        defaultValue: '\'App\'',
       ),
       ControlSpec(
         name: 'color',
@@ -7841,6 +7895,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: true,
+        defaultValue: '\'Color\'',
       ),
       ControlSpec(
         name: 'color',
@@ -8260,6 +8315,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Drawer Container\'',
       ),
       ControlSpec(
         name: 'startPadding',
@@ -8350,6 +8406,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Eye Dropper\'',
       ),
       ControlSpec(
         name: 'previewAlignment',
@@ -8525,6 +8582,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Color History\'',
       ),
       ControlSpec(
         name: 'initialRecentColors',
@@ -8890,7 +8948,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String',
         isRequired: false,
-        defaultValue: ',',
+        defaultValue: '\',\'',
       ),
     ],
   ),
@@ -8906,6 +8964,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'MediaQueryVisibility\'',
       ),
       ControlSpec(
         name: 'minWidth',
@@ -8949,6 +9008,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Multiple Choice\'',
       ),
       ControlSpec(
         name: 'value',
@@ -8994,6 +9054,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Outlined Container\'',
       ),
       ControlSpec(
         name: 'backgroundColor',
@@ -9212,6 +9273,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'ClickDetector\'',
       ),
       ControlSpec(
         name: 'onClick',
@@ -9253,6 +9315,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Scrollable\'',
       ),
       ControlSpec(
         name: 'fadeExtent',
@@ -9330,6 +9393,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Scrollable Client\'',
       ),
       ControlSpec(
         name: 'diagonalDragBehavior',
@@ -9392,6 +9456,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Scroll View Interceptor\'',
       ),
       ControlSpec(
         name: 'enabled',
@@ -9415,6 +9480,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'String?',
         isRequired: true,
+        defaultValue: '\'SelectableText\'',
       ),
       ControlSpec(
         name: 'textAlign',
@@ -9696,6 +9762,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget',
         isRequired: true,
+        defaultValue: '\'Swiper\'',
       ),
       ControlSpec(
         name: 'variant',
@@ -9911,6 +9978,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Window\'',
       ),
       ControlSpec(
         name: 'actions',
@@ -9927,6 +9995,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.text,
         type: 'Widget?',
         isRequired: false,
+        defaultValue: '\'Window\'',
       ),
     ],
   ),

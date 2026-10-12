@@ -15,7 +15,7 @@ void main() {
       expect(values.getBool('enabled'), isTrue);
       expect(values.getEnum('variant'), 'primary');
       expect(values.getEnum('size'), 'md');
-      expect(values.getString('child'), '');
+      expect(values.getString('child'), 'Button');
       expect(values.getBool('autofocus'), isFalse);
       expect(values.toQuery(spec), isEmpty);
     });

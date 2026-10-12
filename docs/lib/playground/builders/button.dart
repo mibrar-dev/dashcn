@@ -13,6 +13,6 @@ Widget buildButtonPlayground(BuildContext context, PlaygroundValues values) {
     ),
     size: ButtonSize.values.byName(values.getEnum('size') ?? 'md'),
     autofocus: values.getBoolOr('autofocus', false),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }

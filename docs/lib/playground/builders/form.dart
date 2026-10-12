@@ -13,7 +13,7 @@ Widget buildFormPlayground(BuildContext context, PlaygroundValues values) {
   return FormScope(
     child: FormItem<String>(
       key: const FormKey<String>('playground'),
-      label: Text(values.getStringOr('child', '')),
+      label: Text(values.textOr('child')),
       child: const Input(),
     ),
   );

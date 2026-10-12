@@ -11,6 +11,6 @@ Widget buildSpinnerPlayground(BuildContext context, PlaygroundValues values) {
     size: values.getDouble('size'),
     strokeWidth: values.getDouble('strokeWidth'),
     color: playgroundTokenColor(context, values.getToken('color')),
-    semanticsLabel: values.getString('semanticsLabel'),
+    semanticsLabel: values.textOrNull('semanticsLabel'),
   );
 }

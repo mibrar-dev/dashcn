@@ -14,6 +14,6 @@ Widget buildTogglePlayground(BuildContext context, PlaygroundValues values) {
     size: ToggleSize.values.byName(values.getEnum('size') ?? 'md'),
     enabled: values.getBool('enabled'),
     autofocus: values.getBoolOr('autofocus', false),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }

@@ -6,11 +6,11 @@ import 'package:flutter/widgets.dart';
 
 /// Renders an [Alert] from playground values.
 Widget buildAlertPlayground(BuildContext context, PlaygroundValues values) {
+  final String? title = values.textOrNull('title');
+  final String? content = values.textOrNull('content');
   return Alert(
-    title: _textOrNull(values.getString('title')),
-    content: _textOrNull(values.getString('content')),
+    title: title == null ? null : Text(title),
+    content: content == null ? null : Text(content),
     variant: AlertVariant.values.byName(values.getEnum('variant') ?? 'base'),
   );
 }
-
-Widget? _textOrNull(String? value) => value == null ? null : Text(value);

@@ -11,6 +11,6 @@ Widget buildBadgePlayground(BuildContext context, PlaygroundValues values) {
     variant: BadgeVariant.values.byName(values.getEnum('variant') ?? 'primary'),
     showAsDot: values.getBoolOr('showAsDot', false),
     autofocus: values.getBoolOr('autofocus', false),
-    child: Text(values.getStringOr('child', '')),
+    child: Text(values.textOr('child')),
   );
 }
