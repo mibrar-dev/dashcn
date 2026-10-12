@@ -3,7 +3,7 @@
 //
 // The old `components/utility/image/` module had an **empty** entry file
 // (`image.dart` held one suppress-all-lints pragma line and nothing else); the only
-// thing it shipped was a Material preview. This is a real upstream component:
+// thing it shipped was a Material preview. This is a real dashcn component:
 // `aspect-square` + `rounded-lg` + `object-cover`, plus the loading/error slots
 // the old preview hand-rolled with `CircularProgressIndicator` and
 // `Icon(Icons.error)`.

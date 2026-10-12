@@ -10,7 +10,7 @@ import 'syntax_colors.dart';
 import 'tokens.dart';
 import 'typography.dart';
 
-/// Ambient upstream theme data: colors, tokens, fonts, typography and flags.
+/// Ambient dashcn theme data: colors, tokens, fonts, typography and flags.
 class ThemeData {
   const ThemeData({
     this.colors = ThemeColors.lightFallback,

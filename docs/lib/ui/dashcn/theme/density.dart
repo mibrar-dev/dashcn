@@ -76,7 +76,7 @@ class Density {
   double get scale =>
       baseContentPadding / Density.defaultDensity.baseContentPadding;
 
-  /// Density base at [defaultDensity]: the divisor that turns a upstream px
+  /// Density base at [defaultDensity]: the divisor that turns an upstream px
   /// value into an [EdgeInsetsDensity] multiplier.
   static const double pxBase = 16.0;
 

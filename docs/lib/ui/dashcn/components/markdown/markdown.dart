@@ -1,4 +1,4 @@
-// The `markdown` component: a widgets-only markdown renderer with a upstream
+// The `markdown` component: a widgets-only markdown renderer with a dashcn
 // theme, tap callbacks and an image preview overlay. Model, parsing and
 // block builders live in `primitives/markdown_parser` (shared with the
 // streaming `text_animate` component). See README for dropped scope.

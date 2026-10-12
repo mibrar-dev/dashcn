@@ -46,7 +46,7 @@ import '../../theme/theme.dart';
 /// );
 /// ```
 class DashcnApp extends StatelessWidget {
-  /// Creates a upstream app.
+  /// Creates a dashcn app.
   const DashcnApp({
     super.key,
     this.navigatorKey,

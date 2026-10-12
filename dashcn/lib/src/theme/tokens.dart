@@ -106,7 +106,7 @@ class ShadowScale {
   /// ambient layer per size (from [offsetX], [offsetY], [blur], [spread])
   /// plus, for sm..xl, one detail layer with ABSOLUTE geometry
   /// (`Offset(offsetX, y)`, blur `b`, `spread - 1`), so small atoms such as
-  /// a upstream default base (offsetY 1, blur 3) can never go negative.
+  /// an upstream default base (offsetY 1, blur 3) can never go negative.
   /// Alpha ratios follow tweakcn: 0.5 for 2xs/xs, 1.0 for sm..xl (ambient
   /// and detail alike), 2.5 for 2xl, all relative to [opacity]; rgb channels
   /// come from [color] unchanged. Geometry reproduces [defaultShadowScale]
