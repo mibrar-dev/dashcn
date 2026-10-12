@@ -159,6 +159,7 @@ gen/sync --check, build web.
 Deferred polish → P9-3b: "No account yet?Create one" spacing; settings home vertically centred instead of top;
 cramped toggle rows.
 
-## Next
-1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
-2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.
+## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
+In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
+Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
+(component page = frames + playground + scorecard; nav; landing hero; headless-locale crash) → P8-6 final QA.
