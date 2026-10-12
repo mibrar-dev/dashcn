@@ -20,13 +20,14 @@ QA every result yourself, and commit + push after each accepted step.
   cd /Users/ibrar/Desktop/infinora.noworkspace/shadcn_copy_paste/shadcn_flutter_kit
   git fetch origin
   git worktree add -b refactor/dashcn ../dashcn-kit origin/refactor/rearchitecture
-  cd ../shadcn_flutter_cli && git fetch origin
-  git worktree add -b refactor/dashcn ../dashcn-cli origin/refactor/rearchitecture
+  cd ../shadcn_flutter_cli
+  git worktree add -b refactor/dashcn ../dashcn-cli refactor/rearchitecture   # CLI branch is LOCAL only (not on origin)
   ```
-  Work ONLY in `../dashcn-kit` and `../dashcn-cli`; push `refactor/dashcn` in both repos after each accepted step.
+  Work ONLY in `../dashcn-kit` and `../dashcn-cli`. Push `refactor/dashcn` in the kit repo after each accepted step;
+  in the CLI repo ask Ibrar before the first push (its `refactor/rearchitecture` has never been pushed).
 - **Never merge `refactor/dashcn` into `refactor/rearchitecture` or `main`**, open no PR, publish nothing, rename no
   GitHub repo unless Ibrar asks. To pick up later fixes from the other session, merge one-way
-  `origin/refactor/rearchitecture` → `refactor/dashcn` (before the big rename if possible; after it, re-run the rename
+  `refactor/rearchitecture` → `refactor/dashcn` (kit: `origin/…`; CLI: the local branch) (before the big rename if possible; after it, re-run the rename
   codemod on the incoming changes).
 - Read first: `rearch/plans/DASHCN_PACKAGE_PLAN.md` (the approved plan — binding), `rearch/PROGRESS.md`,
   `rearch/reports/QA_LOG.md` (last sections), `REARCHITECTURE_PLAN.md`, the registry under
