@@ -1,7 +1,7 @@
 // The `triple_dots` component: a small row (or column) of round dots.
 //
 // Ported from `components/display/triple_dots` (old `MoreDots`, renamed to
-// the shadcn-style component name). Fixes the old default-colour crash: the
+// the upstream-style component name). Fixes the old default-colour crash: the
 // old code read `DefaultTextStyle.style.color!` and threw when no explicit
 // colour was installed; the dots now default to the `mutedForeground` token.
 
@@ -55,16 +55,15 @@ class TripleDots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     final resolved = resolveComponentStyle<TripleDotsTheme, TripleDotsTheme>(
       context,
       widget: theme,
       select: (t) => t,
       defaults: tripleDotsDefaults,
     );
-    final double effectiveSize =
-        size ?? resolved.size ?? 4 * shadcnTheme.scaling;
+    final double effectiveSize = size ?? resolved.size ?? 4 * themeData.scaling;
     final double effectiveSpacing = spacing ?? resolved.spacing ?? 2;
     final Color effectiveColor =
         color ?? resolved.color?.resolve(colors) ?? colors.mutedForeground;

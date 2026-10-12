@@ -197,7 +197,7 @@ class _ToggleState extends State<Toggle> with FormValueSupplier<bool, Toggle> {
   }
 
   Widget _build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool isOn = _isOn;
     final bool enabled = _isEnabled;
     final ToggleStyle? stateStyle = isOn ? widget.activeStyle : widget.style;
@@ -212,7 +212,7 @@ class _ToggleState extends State<Toggle> with FormValueSupplier<bool, Toggle> {
           defaults: toggleDefaults.forValue(isOn)!,
         );
     final EdgeInsetsGeometry padding = resolved.padding ?? toggleDefaultPadding;
-    // Border-box totals (shadcn h-8/h-9/h-10 with px-2): the `Clickable`
+    // Border-box totals (upstream h-8/h-9/h-10 with px-2): the `Clickable`
     // padding wraps the `ConstrainedBox`, so the inner minima subtract the
     // resolved padding to keep totals exact (e.g. 16px icon + 16px padding
     // still measures 36x36, not 52x36). A painted border adds layout as
@@ -226,7 +226,7 @@ class _ToggleState extends State<Toggle> with FormValueSupplier<bool, Toggle> {
     final double borderWidth = resolved.borderWidth ?? 0;
     final bool hasBorder = resolved.borderColor != null && borderWidth > 0;
     // Density resolution happens before `.resolve`, so an
-    // [EdgeInsetsDensity] theme leg measures its shadcn px value at the
+    // [EdgeInsetsDensity] theme leg measures its upstream px value at the
     // default density and scales with every other one.
     final EdgeInsets resolvedPad = resolveEdgeInsets(
       padding,

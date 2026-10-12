@@ -49,11 +49,11 @@ ui.Image _solidImage() {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -69,14 +69,14 @@ void main() {
     tester,
   ) async {
     for (final preview in imagePreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -97,13 +97,13 @@ void main() {
       _frame(
         const Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[ShadcnImage(image: _SolidProvider(), width: 40)],
+          children: <Widget>[Picture(image: _SolidProvider(), width: 40)],
         ),
       ),
     );
     await tester.pump();
     expect(tester.takeException(), isNull);
-    expect(tester.getSize(find.byType(ShadcnImage)), const Size(40, 40));
+    expect(tester.getSize(find.byType(Picture)), const Size(40, 40));
   });
 
   testWidgets('height-only image defaults to square in a Row', (tester) async {
@@ -111,13 +111,13 @@ void main() {
       _frame(
         const Row(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[ShadcnImage(image: _SolidProvider(), height: 40)],
+          children: <Widget>[Picture(image: _SolidProvider(), height: 40)],
         ),
       ),
     );
     await tester.pump();
     expect(tester.takeException(), isNull);
-    expect(tester.getSize(find.byType(ShadcnImage)), const Size(40, 40));
+    expect(tester.getSize(find.byType(Picture)), const Size(40, 40));
   });
 
   testWidgets('width-only with an aspectRatio resolves the missing axis', (
@@ -128,22 +128,22 @@ void main() {
         const Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ShadcnImage(image: _SolidProvider(), width: 40, aspectRatio: 2),
+            Picture(image: _SolidProvider(), width: 40, aspectRatio: 2),
           ],
         ),
       ),
     );
     await tester.pump();
     expect(tester.takeException(), isNull);
-    expect(tester.getSize(find.byType(ShadcnImage)), const Size(40, 20));
+    expect(tester.getSize(find.byType(Picture)), const Size(40, 20));
   });
 
   testWidgets('explicit axes are never overridden', (tester) async {
     await tester.pumpWidget(
-      _frame(const ShadcnImage(image: _SolidProvider(), width: 30, height: 50)),
+      _frame(const Picture(image: _SolidProvider(), width: 30, height: 50)),
     );
     await tester.pump();
-    expect(tester.getSize(find.byType(ShadcnImage)), const Size(30, 50));
+    expect(tester.getSize(find.byType(Picture)), const Size(30, 50));
   });
 
   testWidgets('default preview fits 375px with no overflow', (tester) async {

@@ -80,15 +80,12 @@ extension IconExtension on Widget {
 class _IconThemeModifier extends StatelessWidget {
   const _IconThemeModifier({required this.resolve, required this.child});
 
-  final IconThemeData Function(ShadcnThemeData theme) resolve;
+  final IconThemeData Function(ThemeData theme) resolve;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return IconTheme.merge(
-      data: resolve(ShadcnTheme.of(context)),
-      child: child,
-    );
+    return IconTheme.merge(data: resolve(Theme.of(context)), child: child);
   }
 }
 
@@ -129,8 +126,8 @@ class IconContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     final resolved =
         resolveComponentStyle<IconContainerTheme, IconContainerTheme>(
           context,
@@ -152,12 +149,12 @@ class IconContainer extends StatelessWidget {
     return Container(
       padding: resolveEdgeInsets(
         effectivePadding,
-        shadcnTheme.density.baseContainerPadding * shadcnTheme.scaling,
+        themeData.density.baseContainerPadding * themeData.scaling,
       ),
       decoration: BoxDecoration(
         color: background,
         borderRadius:
-            borderRadius ?? resolved.borderRadius ?? shadcnTheme.borderRadiusMd,
+            borderRadius ?? resolved.borderRadius ?? themeData.borderRadiusMd,
       ),
       child: IconTheme.merge(
         data: IconThemeData(color: foreground),

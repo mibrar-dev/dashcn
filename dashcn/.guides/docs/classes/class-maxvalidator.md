@@ -1,32 +1,20 @@
 ---
 title: "Class: MaxValidator"
-description: "A validator that checks if a numeric value does not exceed a maximum threshold."
+description: "Bounds a numeric value from above."
 ---
 
 ```dart
-/// A validator that checks if a numeric value does not exceed a maximum threshold.
-///
-/// [MaxValidator] ensures that numeric values are less than (or equal to)
-/// a specified maximum value. Useful for enforcing maximum quantities, limits, etc.
-///
-/// Example:
-/// ```dart
-/// MaxValidator<int>(
-///   100,
-///   inclusive: true,
-///   message: 'Must not exceed 100',
-/// )
-/// ```
+/// Bounds a numeric value from above.
 class MaxValidator<T extends num> extends Validator<T> {
-  /// The maximum acceptable value.
-  final T max;
-  /// Whether the maximum value itself is acceptable (true) or must not be reached (false).
-  final bool inclusive;
-  /// Custom error message, or null to use default localized message.
-  final String? message;
-  /// Creates a [MaxValidator] with the specified maximum value.
+  /// Creates a maximum validator.
   const MaxValidator(this.max, {this.inclusive = true, this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, T? value, FormValidationMode state);
+  /// Upper bound.
+  final T max;
+  /// Whether the bound itself is accepted.
+  final bool inclusive;
+  /// Failure text; null uses the localized bound messages.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, T? value, FormValidationMode lifecycle);
   bool operator ==(Object other);
   int get hashCode;
 }

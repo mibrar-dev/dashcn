@@ -5,7 +5,7 @@
 // `data_widget` `Data<DrawerContainerData>` ancestor, themed with
 // `Theme.colorScheme`, and shipped a `SheetRawContainer` subclass plus glass
 // and overscroll-growth parameters the accepted `drawer` already dropped.
-// This port reads the ambient shadcn tokens, folds the sheet chrome into
+// This port reads the ambient upstream tokens, folds the sheet chrome into
 // `isSheet`, and keeps the `AxisSize` algebra verbatim.
 
 import 'package:flutter/widgets.dart';
@@ -89,7 +89,7 @@ class DrawerRawContainer extends StatelessWidget {
 
   final double endPadding;
 
-  Border _border(BuildContext context, ShadcnColors colors) {
+  Border _border(BuildContext context, ThemeColors colors) {
     final OverlayPosition resolved = position.resolve(
       Directionality.of(context),
     );
@@ -145,8 +145,8 @@ class DrawerRawContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     final OverlayPosition resolved = position.resolve(
       Directionality.of(context),
     );

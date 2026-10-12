@@ -149,7 +149,7 @@ class PopoverConfiguration extends OverlayConfiguration {
 
   @override
   OverlayConfiguration adaptiveConversion(BuildContext context) {
-    if (isMobile(ShadcnTheme.of(context).platform)) {
+    if (isMobile(Theme.of(context).platform)) {
       return DrawerConfiguration(
         position: OverlayPosition.bottom,
         barrierDismissible: barrierDismissable,
@@ -206,7 +206,7 @@ class TooltipConfiguration extends PopoverConfiguration {
 
   @override
   OverlayCompleter<T?> show<T>(BuildContext context, WidgetBuilder builder) {
-    final bool mobile = isMobile(ShadcnTheme.of(context).platform);
+    final bool mobile = isMobile(Theme.of(context).platform);
     return _showPopoverWith<T>(
       context,
       builder,

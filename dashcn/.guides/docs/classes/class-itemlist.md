@@ -1,25 +1,13 @@
 ---
 title: "Class: ItemList"
-description: "A delegate that wraps a fixed list of items."
+description: "Delegate over a fixed list of items."
 ---
 
 ```dart
-/// A delegate that wraps a fixed list of items.
-///
-/// Provides items from a pre-defined `List<T>`.
-///
-/// Example:
-/// ```dart
-/// ItemList<String>(['Apple', 'Banana', 'Cherry'])
-/// ```
+/// Delegate over a fixed list of items.
 class ItemList<T> extends ItemChildDelegate<T> {
-  /// The list of items.
-  final List<T> items;
-  /// Creates an [ItemList].
-  ///
-  /// Parameters:
-  /// - [items] (`List<T>`, required): The items to provide.
   const ItemList(this.items);
+  final List<T> items;
   int get itemCount;
   T operator [](int index);
 }

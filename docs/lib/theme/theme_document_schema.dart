@@ -9,14 +9,14 @@
 // The site-wide theme model (D7, spec §2.7): a schema-v2 preset document as
 // an immutable value object.
 //
-// The Theme Studio edits every `ShadcnThemeData` token, and the edit has to
+// The Theme Studio edits every `ThemeData` token, and the edit has to
 // round-trip three ways: apply live to the whole site, persist to
 // localStorage, and export as the exact `app_theme.dart` / preset JSON that
-// `flutter_shadcn theme apply` consumes. The only representation that does
+// `dashcn theme apply` consumes. The only representation that does
 // all three is the preset document itself, so this class *is* the model: it
 // parses and validates against `themes.schema.json` (as enforced by the
 // registry's own rules), edits token-wise, serialises back to the canonical
-// key order, and resolves a real `ShadcnThemeData`.
+// key order, and resolves a real `ThemeData`.
 //
 // Nothing here is hand-typed: the 32 colour token keys are read from the
 // generated `docs_preset_sources.dart`, and the numbers follow the kit
@@ -67,7 +67,7 @@ final RegExp kDocsHexColorPattern = RegExp(
 );
 
 /// Parses `#RRGGBB` / `#RRGGBBAA` into a 32-bit ARGB int; alpha defaults to
-/// `FF` and is never dropped when present (shadcn's 10 % dark border).
+/// `FF` and is never dropped when present (upstream's 10 % dark border).
 int parseDocsHexColor(String value) {
   if (!kDocsHexColorPattern.hasMatch(value)) {
     throw ThemeDocumentException('Not a #RRGGBB[AA] colour: $value');

@@ -46,7 +46,7 @@ Collapsible(
 
 The trigger icon is the kit's `Button` (ghost, icon size), so it is focusable
 and keyboard-activatable (Enter/Space). Tapping anywhere on the label toggles
-too (like shadcn's `CollapsibleTrigger`), and the header exposes
+too (like dashcn's `CollapsibleTrigger`), and the header exposes
 `button` + `expanded` semantics.
 
 ## Theme resolution

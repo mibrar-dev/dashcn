@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Compact deletable-token control plus the borderless control embedded inside a chip.",
   "tier": "component",
-  "install": "flutter_shadcn add chip",
-  "import": "import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';",
+  "install": "dashcn add chip",
+  "import": "import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';",
   "tags": [
     "display",
     "chip",

@@ -60,7 +60,7 @@ class Tracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final TrackerTheme resolved =
         resolveComponentStyle<TrackerTheme, TrackerTheme>(
           context,
@@ -71,7 +71,7 @@ class Tracker extends StatelessWidget {
     if (data.isEmpty) {
       return const SizedBox.shrink();
     }
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final double gap = resolved.gap ?? trackerDefaultGap;
     final double height = resolved.itemHeight ?? trackerDefaultItemHeight;
     final BorderRadius radius = BorderRadius.circular(

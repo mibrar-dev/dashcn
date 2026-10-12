@@ -53,12 +53,12 @@ class _OverlayHostState extends State<_OverlayHost> {
 }
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -77,22 +77,20 @@ EditableText _editable(WidgetTester tester) =>
     tester.widget<EditableText>(find.byType(EditableText));
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('renders read-only with the foreground token', (tester) async {
     await tester.pumpWidget(_frame(child: const SelectableText('hello')));
     final editable = _editable(tester);
     expect(editable.readOnly, isTrue);
     expect(editable.style.color, colors.foreground);
-    expect(editable.selectionControls, isA<ShadcnSelectionControls>());
+    expect(editable.selectionControls, isA<SelectionControls>());
     expect(editable.contextMenuBuilder, isNotNull);
     expect(editable.enableInteractiveSelection, isTrue);
   });
 
   testWidgets('dark tokens drive the text colour', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(data: dark, child: const SelectableText('hello')),
     );
@@ -276,7 +274,7 @@ void main() {
     await tester.pump();
 
     final state = tester.state<EditableTextState>(find.byType(EditableText));
-    final menu = defaultShadcnContextMenuBuilder(context, state);
+    final menu = defaultContextMenuBuilder(context, state);
     await tester.pumpWidget(_frame(child: menu));
     expect(find.text('Copy'), findsOneWidget);
     expect(find.text('Select all'), findsOneWidget);

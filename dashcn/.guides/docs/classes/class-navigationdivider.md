@@ -1,24 +1,17 @@
 ---
 title: "Class: NavigationDivider"
-description: "Visual divider between navigation items."
+description: "A 1px rule between navigation items."
 ---
 
 ```dart
-/// Visual divider between navigation items.
-///
-/// Renders a horizontal or vertical line separator in navigation bars.
-/// Automatically adapts direction based on navigation orientation.
+/// A 1px rule between navigation items.
 class NavigationDivider extends StatelessWidget implements NavigationBarItem {
-  /// Optional thickness of the divider line.
-  final double? thickness;
-  /// Optional color for the divider.
-  final Color? color;
   /// Creates a navigation divider.
-  ///
-  /// Parameters:
-  /// - [thickness] (double?): Line thickness
-  /// - [color] (Color?): Divider color
   const NavigationDivider({super.key, this.thickness, this.color});
+  /// Line thickness; null resolves 1.
+  final double? thickness;
+  /// Line colour; null resolves the `muted` token.
+  final Color? color;
   bool get selectable;
   Widget build(BuildContext context);
 }

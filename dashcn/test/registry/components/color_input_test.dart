@@ -31,7 +31,7 @@ const Size _narrow = Size(320, 640);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorInputTheme? scoped,
   Size size = _wide,
@@ -40,7 +40,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<ColorInputTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -126,7 +126,7 @@ class _HarnessState extends State<_Harness> {
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorInputTheme? scoped,
   Size size = _wide,
@@ -188,13 +188,13 @@ BoxDecoration _wellDecoration(WidgetTester tester, Set<WidgetState> states) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   group('rendering', () {
     testWidgets('well and hex field render in light and dark', (tester) async {
-      for (final ShadcnThemeData data in <ShadcnThemeData>[
-        const ShadcnThemeData(),
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      for (final ThemeData data in <ThemeData>[
+        const ThemeData(),
+        const ThemeData(colors: ThemeColors.darkFallback),
       ]) {
         await _pump(tester, const _Harness(), data: data);
         expect(_well(), findsOneWidget);
@@ -649,9 +649,9 @@ void main() {
       final List<ColorDerivative> commits = <ColorDerivative>[];
       await _pump(
         tester,
-        ShadcnForm(
+        FormScope(
           controller: controller,
-          child: ShadcnFormField<ColorDerivative>(
+          child: FormItem<ColorDerivative>(
             key: key,
             label: const Text('Color'),
             child: _Harness(onChanged: commits.add),

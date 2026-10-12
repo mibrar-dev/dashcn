@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' as material;
 
-import 'ui/shadcn/components/control/button/button.dart';
-import 'ui/shadcn/components/form/text_field/text_field.dart';
-import 'ui/shadcn/components/layout/card/card.dart';
-import 'ui/shadcn/components/overlay/dialog/dialog.dart' as shadcn_dialog;
-import 'ui/shadcn/shared/primitives/overlay.dart';
-import 'ui/shadcn/shared/theme/theme.dart' as shadcn;
+import 'ui/dashcn/components/control/button/button.dart';
+import 'ui/dashcn/components/form/text_field/text_field.dart';
+import 'ui/dashcn/components/layout/card/card.dart';
+import 'ui/dashcn/components/overlay/dialog/dialog.dart' as dashcn_dialog;
+import 'ui/dashcn/shared/primitives/overlay.dart';
+import 'ui/dashcn/shared/theme/theme.dart' as dashcn;
 
 void main() {
   material.runApp(const VerificationHarnessApp());
@@ -18,9 +18,9 @@ class VerificationHarnessApp extends material.StatelessWidget {
   material.Widget build(material.BuildContext context) {
     return material.MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: shadcn.Theme(
-        data: const shadcn.ThemeData(),
-        child: const ShadcnLayer(
+      home: dashcn.Theme(
+        data: const dashcn.ThemeData(),
+        child: const AppLayer(
           child: material.Material(
             type: material.MaterialType.transparency,
             child: VerificationHarnessScreen(),
@@ -83,7 +83,7 @@ class VerificationHarnessScreen extends material.StatelessWidget {
   }
 
   void _openDialog(material.BuildContext context) {
-    shadcn_dialog.showDialog<void>(
+    dashcn_dialog.showDialog<void>(
       context: context,
       builder: (context) {
         return Card(

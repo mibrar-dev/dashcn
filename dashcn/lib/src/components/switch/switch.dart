@@ -23,7 +23,7 @@ import 'switch_style.dart';
 
 export 'switch_style.dart';
 
-/// Opacity applied to the whole switch while disabled (shadcn
+/// Opacity applied to the whole switch while disabled (upstream
 /// `opacity-50`).
 const double _switchDisabledOpacity = 0.5;
 
@@ -41,12 +41,12 @@ const double switchHitPadding = 2;
 
 /// Lookup key of the switch track surface.
 const ValueKey<String> kSwitchTrackKey = ValueKey<String>(
-  'shadcn.switch.track',
+  'dashcn.switch.track',
 );
 
 /// Lookup key of the sliding switch thumb.
 const ValueKey<String> kSwitchThumbKey = ValueKey<String>(
-  'shadcn.switch.thumb',
+  'dashcn.switch.thumb',
 );
 
 /// Holds the value of an uncontrolled [Switch].
@@ -206,7 +206,7 @@ class _SwitchState extends State<Switch> with FormValueSupplier<bool, Switch> {
   }
 
   Widget _build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final bool isOn = _isOn;
     final bool enabled = _isEnabled;
     final SwitchTheme container =
@@ -221,11 +221,11 @@ class _SwitchState extends State<Switch> with FormValueSupplier<bool, Switch> {
     final Size track = resolved.trackSize ?? switchDefaultTrackSize;
     final double thumb = resolved.thumbSize ?? switchDefaultThumbSize;
     final double borderWidth = resolved.borderWidth ?? 0;
-    // shadcn `translate-x-[calc(100%-2px)]`: the checked thumb stops 2px
+    // upstream `translate-x-[calc(100%-2px)]`: the checked thumb stops 2px
     // short of the far edge (track width - thumb - 2 = 14 by default).
     final double travel =
         resolved.travel ?? max(0.0, track.width - thumb - borderWidth * 2 - 2);
-    // shadcn `gap-2` (8), scaled with the ambient density.
+    // upstream `gap-2` (8), scaled with the ambient density.
     final double gap =
         (resolved.gap ?? 8) * ambient.density.scale * ambient.scaling;
     final TextStyle labelStyle =
@@ -317,7 +317,7 @@ class _SwitchTrack extends StatelessWidget {
   final StateValue<ThemedColor>? background;
   final StateValue<ThemedColor>? borderColor;
   final StateValue<ThemedColor>? thumbColor;
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   @override
   Widget build(BuildContext context) {

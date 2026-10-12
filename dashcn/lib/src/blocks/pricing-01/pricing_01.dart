@@ -37,7 +37,7 @@ class Pricing01 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // Align loosens the width: a bare ConstrainedBox under the scroll view
     // would receive tight width and its maxWidth cap would be clamped away.
     final Widget body = Align(
@@ -84,7 +84,7 @@ class _Pricing01Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,7 +123,7 @@ class _Pricing01Plans extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double spacing = ShadcnTheme.of(context).spacing.lg;
+    final double spacing = Theme.of(context).spacing.lg;
     const List<_Pricing01Plan> plans = <_Pricing01Plan>[
       _Pricing01Plan(
         name: 'Starter',
@@ -229,7 +229,7 @@ class _Pricing01Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // The highlight is a 2 px primary border on the default card fill, so
     // every text colour stays the card's own (primary-foreground on a card
     // fill would be unreadable after a preset switch).
@@ -295,7 +295,7 @@ class _Pricing01Features extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +323,7 @@ class _Pricing01Faq extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -362,7 +362,7 @@ class _Pricing01FaqItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 320),
       child: Column(

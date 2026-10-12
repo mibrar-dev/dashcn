@@ -86,7 +86,7 @@ class ColorField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ColorFieldTheme style =
         resolveComponentStyle<ColorFieldTheme, ColorFieldTheme>(
           context,

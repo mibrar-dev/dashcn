@@ -40,12 +40,12 @@ class _TestImageProvider extends ImageProvider<_TestImageProvider> {
 }
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -74,7 +74,7 @@ TextStyle _initialsStyle(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   group('Avatar.getInitials', () {
     test('two words take the first character of each', () {
@@ -104,9 +104,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the tile', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(
         data: dark,
@@ -175,7 +173,7 @@ void main() {
     );
     final decoration = container.decoration! as BoxDecoration;
     expect(decoration.color, colors.primary);
-    // shadcn `size-2.5` = 10 on the default avatar (was 12 before P4-M1).
+    // upstream `size-2.5` = 10 on the default avatar (was 12 before P4-M1).
     expect(container.constraints?.maxWidth ?? 10, 10);
     final badgeRect = tester.getRect(find.byType(AvatarBadge));
     final avatarRect = tester.getRect(find.byType(Avatar));

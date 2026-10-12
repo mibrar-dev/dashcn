@@ -37,7 +37,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
   void _run(String action) => setState(() => _lastAction = action);
 }
 
-/// A trigger that anchors the menu with `showShadcnDropdown`.
+/// A trigger that anchors the menu with `showDropdown`.
 class _DropdownMenuTrigger extends StatelessWidget {
   const _DropdownMenuTrigger();
 
@@ -108,7 +108,7 @@ class _DropdownMenuTrigger extends StatelessWidget {
     return Button(
       variant: ButtonVariant.outline,
       size: ButtonSize.sm,
-      onPressed: () => showShadcnDropdown<void>(
+      onPressed: () => showDropdown<void>(
         context: context,
         children: <Widget>[
           MenuButton(

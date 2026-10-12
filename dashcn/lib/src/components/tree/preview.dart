@@ -242,7 +242,7 @@ class _FileTreeState extends State<_FileTree> {
             tristate: true,
             onChanged: (_) => _toggleSubtree(item),
           ),
-          Gap(ShadcnTheme.of(context).spacing.xs),
+          Gap(Theme.of(context).spacing.xs),
           leading,
         ],
       );
@@ -252,7 +252,7 @@ class _FileTreeState extends State<_FileTree> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final Widget tree = Tree<_FileEntry>(
       nodes: _nodes,
       shrinkWrap: widget.height == null,
@@ -280,7 +280,7 @@ class _FileTreeState extends State<_FileTree> {
           Text(
             _selectedLabel(_nodes),
             style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
               fontSize: 12,
             ),
           ),

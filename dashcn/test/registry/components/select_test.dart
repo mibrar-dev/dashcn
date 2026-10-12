@@ -18,7 +18,7 @@ const Color _green = Color(0xFF00FF00);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   SelectTheme? scoped,
 }) {
@@ -26,7 +26,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<SelectTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -193,7 +193,7 @@ void main() {
     expect(tester.getSize(find.byType(MenuGroup)).height, greaterThan(240));
   });
 
-  testWidgets('rows are 32 high (shadcn h-8)', (tester) async {
+  testWidgets('rows are 32 high (dashcn h-8)', (tester) async {
     await tester.pumpWidget(_frame(_sized(_select(onChanged: (_) {}))));
     await tester.pump();
     await _open(tester, find.text('Pick a fruit'));
@@ -431,7 +431,7 @@ void main() {
     testWidgets('defaults resolve the outline button row', (tester) async {
       await tester.pumpWidget(_frame(_sized(_select(onChanged: (_) {}))));
       await tester.pump();
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(
         _triggerColor(tester),
         const ThemedColor.ref(ColorRef.input, alpha: 0.3).resolve(colors),
@@ -439,9 +439,7 @@ void main() {
     });
 
     testWidgets('dark tokens drive the trigger', (tester) async {
-      const ShadcnThemeData theme = ShadcnThemeData(
-        colors: ShadcnColors.darkFallback,
-      );
+      const ThemeData theme = ThemeData(colors: ThemeColors.darkFallback);
       await tester.pumpWidget(
         _frame(_sized(_select(onChanged: (_) {})), data: theme),
       );
@@ -462,7 +460,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(_triggerColor(tester), const ShadcnThemeData().colors.secondary);
+      expect(_triggerColor(tester), const ThemeData().colors.secondary);
     });
 
     testWidgets('scoped leg beats the app leg', (tester) async {
@@ -476,7 +474,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(_triggerColor(tester), const ShadcnThemeData().colors.secondary);
+      expect(_triggerColor(tester), const ThemeData().colors.secondary);
     });
 
     testWidgets('widget leg beats every other leg', (tester) async {
@@ -495,7 +493,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(_triggerColor(tester), const ShadcnThemeData().colors.primary);
+      expect(_triggerColor(tester), const ThemeData().colors.primary);
     });
 
     testWidgets('the theme itemPadding moves the row content', (tester) async {

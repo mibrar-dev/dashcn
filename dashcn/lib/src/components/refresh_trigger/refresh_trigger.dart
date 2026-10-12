@@ -88,7 +88,7 @@ class RefreshTriggerState extends State<RefreshTrigger> {
   }
 
   void _resolve() {
-    final double scale = ShadcnTheme.of(context).scaling;
+    final double scale = Theme.of(context).scaling;
     final RefreshTriggerTheme style =
         resolveComponentStyle<RefreshTriggerTheme, RefreshTriggerTheme>(
           context,
@@ -275,8 +275,8 @@ class DefaultRefreshIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double pull = stage.extentValue.clamp(0, 1);
     final double angle = stage.direction == Axis.vertical
         ? -pi * pull
@@ -331,7 +331,7 @@ class DefaultRefreshIndicator extends StatelessWidget {
     );
   }
 
-  /// One pill row: label, spacing-token gap (`spacing.sm` = shadcn `gap-2`),
+  /// One pill row: label, spacing-token gap (`spacing.sm` = upstream `gap-2`),
   /// then the icon.
   Widget _row(Widget label, Widget icon, double gap) {
     return Row(

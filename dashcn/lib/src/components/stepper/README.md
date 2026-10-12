@@ -112,8 +112,8 @@ and centred titles) and the progress-bar variant (`line`) are documented in
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add stepper`) or copy the folder
-   into `lib/ui/shadcn/stepper/`.
+1. Install the component (`dashcn add stepper`) or copy the folder
+   into `lib/ui/dashcn/stepper/`.
 2. Import `stepper.dart`; it re-exports `StepperTheme` and `stepperDefaults`.
 3. App-wide overrides go in `stepper_theme.dart`; per-subtree overrides use
    `ComponentTheme<StepperTheme>(data: ..., child: ...)`.

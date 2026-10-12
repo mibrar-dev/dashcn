@@ -1,14 +1,14 @@
 // The site-wide theme model (D7, spec §2.7): a schema-v2 preset document as
 // an immutable value object.
 //
-// The Theme Studio edits every `ShadcnThemeData` token, and each edit has to
+// The Theme Studio edits every `ThemeData` token, and each edit has to
 // round-trip three ways: apply live to the whole site, persist to
 // localStorage, and export as the exact `app_theme.dart` / preset JSON that
-// `flutter_shadcn theme apply` consumes. The only representation that does all
+// `dashcn theme apply` consumes. The only representation that does all
 // three is the preset document itself, so this class *is* the model: it parses
 // and validates against `themes.schema.json`, edits token-wise (see
 // `theme_document_edits.dart`), serialises back to the canonical key order,
-// and resolves a real `ShadcnThemeData`.
+// and resolves a real `ThemeData`.
 //
 // The schema primitives (token keys, hex codec, shadow atoms) live in
 // `theme_document_schema.dart`.
@@ -18,11 +18,11 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_preset_sources.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/density.dart';
-import '../ui/shadcn/theme/theme.dart';
-import '../ui/shadcn/theme/tokens.dart';
-import '../ui/shadcn/theme/typography.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/density.dart';
+import '../ui/dashcn/theme/theme.dart';
+import '../ui/dashcn/theme/tokens.dart';
+import '../ui/dashcn/theme/typography.dart';
 import 'theme_document_schema.dart';
 
 export 'theme_document_schema.dart'
@@ -193,7 +193,7 @@ class ThemeDocument {
   /// The canonical preset JSON text (2-space indent).
   String get json => const JsonEncoder.withIndent('  ').convert(toJson());
 
-  /// Resolves the live `ShadcnThemeData` for [brightness].
+  /// Resolves the live `ThemeData` for [brightness].
   ///
   /// Mirrors the generated `build<Id>Theme` factories exactly (radius
   /// unitless, spacing/tracking ×16, `ShadowScale.derive`) and additionally
@@ -208,14 +208,14 @@ class ThemeDocument {
   /// by a registry widget, and no widget reads `tokens.spacingBase` — they
   /// read `theme.spacing`/`theme.density`. Without these two lines the font
   /// and spacing rows would export values the site never renders.
-  ShadcnThemeData theme(Brightness brightness) {
-    final ShadcnFonts families = ShadcnFonts(
+  ThemeData theme(Brightness brightness) {
+    final ThemeFonts families = ThemeFonts(
       fontSans: fonts['sans'],
       fontSerif: fonts['serif'],
       fontMono: fonts['mono'],
     );
     final SpacingScale scale = SpacingScale(spacing * 16);
-    return ShadcnThemeData(
+    return ThemeData(
       colors: colorsFor(brightness),
       tokens: tokensFor(brightness),
       fonts: families,
@@ -225,12 +225,12 @@ class ThemeDocument {
     );
   }
 
-  /// The colour tokens for [brightness] as a `ShadcnColors`.
-  ShadcnColors colorsFor(Brightness brightness) {
+  /// The colour tokens for [brightness] as a `ThemeColors`.
+  ThemeColors colorsFor(Brightness brightness) {
     final Map<String, String> map = brightness == Brightness.dark
         ? dark
         : light;
-    return ShadcnColors(
+    return ThemeColors(
       brightness: brightness,
       background: docsColorOf(map['background']!),
       foreground: docsColorOf(map['foreground']!),
@@ -267,13 +267,13 @@ class ThemeDocument {
     );
   }
 
-  /// The non-colour tokens for [brightness] as a `ShadcnTokens`.
+  /// The non-colour tokens for [brightness] as a `DesignTokens`.
   ///
   /// Spacing and tracking multiply by 16 exactly like the kit generator: the
   /// schema stores rem/em with the unit stripped, Flutter wants px.
-  ShadcnTokens tokensFor(Brightness brightness) {
+  DesignTokens tokensFor(Brightness brightness) {
     final DocsShadowAtoms atoms = shadowOf(brightness);
-    return ShadcnTokens(
+    return DesignTokens(
       radius: radius,
       spacingBase: spacing * 16,
       trackingNormal: (tracking['normal'] ?? 0) * 16,

@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AccordionTheme? scoped,
 }) {
@@ -23,7 +23,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<AccordionTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -118,7 +118,7 @@ void main() {
     // item re-checked on every didChangeDependencies.
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: _accordion(firstExpanded: true),
       ),
     );
@@ -154,7 +154,7 @@ void main() {
     const Color scopedColor = Color(0xFF222222);
     const Color widgetColor = Color(0xFF333333);
 
-    await expectDivider(tester, color: ShadcnColors.lightFallback.muted);
+    await expectDivider(tester, color: ThemeColors.lightFallback.muted);
     await expectDivider(
       tester,
       color: appColor,
@@ -192,7 +192,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: _accordion(),
       ),
     );
@@ -202,7 +202,7 @@ void main() {
           .ancestor(of: find.byType(Icon), matching: find.byType(IconTheme))
           .first,
     );
-    expect(theme.data.color, ShadcnColors.darkFallback.mutedForeground);
+    expect(theme.data.color, ThemeColors.darkFallback.mutedForeground);
     // The old default came from Material's Icons.keyboard_arrow_up.
     final Icon icon = tester.widget<Icon>(find.byType(Icon).first);
     expect(icon.icon, LucideIcons.chevronUp);

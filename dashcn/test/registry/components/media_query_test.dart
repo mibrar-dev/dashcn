@@ -21,8 +21,8 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<MediaQueryVisibilityTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: ComponentThemes(
       themes: app,
       child: Directionality(
@@ -192,14 +192,14 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens build the component', (tester) async {
         await tester.pumpWidget(
-          ShadcnTheme(
-            data: ShadcnThemeData(colors: colors),
+          Theme(
+            data: ThemeData(colors: colors),
             child: Directionality(
               textDirection: TextDirection.ltr,
               child: MediaQuery(

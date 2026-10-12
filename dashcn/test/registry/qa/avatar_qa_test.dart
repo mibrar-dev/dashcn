@@ -1,7 +1,7 @@
 // QA for `avatar` previews (P7-Q1).
 //
 // Regression cover for: docs claiming a 40px default (code resolves 32 =
-// shadcn `size-8`) and the group ring staying circular for rounded tiles.
+// upstream `size-8`) and the group ring staying circular for rounded tiles.
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/avatar/avatar.dart';
@@ -12,10 +12,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -31,14 +31,14 @@ void main() {
     tester,
   ) async {
     for (final preview in avatarPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pumpAndSettle();
@@ -51,7 +51,7 @@ void main() {
     }
   });
 
-  testWidgets('default tile is 32 (shadcn size-8)', (tester) async {
+  testWidgets('default tile is 32 (dashcn size-8)', (tester) async {
     await tester.pumpWidget(_frame(const Avatar(initials: 'IB')));
     await tester.pump();
     expect(tester.getSize(find.byType(Avatar)), const Size(32, 32));

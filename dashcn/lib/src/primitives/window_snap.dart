@@ -148,7 +148,7 @@ class _WindowSnapBarState extends State<WindowSnapBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool dragging = widget.drag.window != null;
     final bool shown = dragging && _hovering;
     final double width = widget.viewportSize.width;
@@ -312,7 +312,7 @@ class _SnapCellState extends State<_SnapCell> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return MouseRegion(
       onEnter: (_) => _setHovering(true),
       onHover: (_) => _setHovering(true),

@@ -25,8 +25,8 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
+        child: Theme(
+          data: const ThemeData(),
           child: Center(
             child: SizedBox(
               width: 200,
@@ -71,8 +71,8 @@ void main() {
     Widget frame(ScrollController fadeController) {
       return Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
+        child: Theme(
+          data: const ThemeData(),
           child: Center(
             child: SizedBox(
               width: 200,
@@ -130,8 +130,8 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
+        child: Theme(
+          data: const ThemeData(),
           child: Center(
             child: SizedBox(
               width: 200,
@@ -158,9 +158,9 @@ void main() {
     expect(mask.blendMode, BlendMode.dstIn);
   });
 
-  for (final (String name, ShadcnThemeData data) in <(String, ShadcnThemeData)>[
-    ('light', const ShadcnThemeData()),
-    ('dark', const ShadcnThemeData(colors: ShadcnColors.darkFallback)),
+  for (final (String name, ThemeData data) in <(String, ThemeData)>[
+    ('light', const ThemeData()),
+    ('dark', const ThemeData(colors: ThemeColors.darkFallback)),
   ]) {
     testWidgets('faded pixels blend to the surface in $name mode', (
       tester,
@@ -173,7 +173,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: ShadcnTheme(
+          child: Theme(
             data: data,
             child: Align(
               child: RepaintBoundary(

@@ -15,13 +15,13 @@ Avoid when you need the picker always visible — use `color_picker` directly.
 ## Install
 
 ```bash
-flutter_shadcn add color_input
+dashcn add color_input
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/color_input/color_input.dart';
+import 'package:<your_app>/ui/dashcn/color_input/color_input.dart';
 ```
 
 ## Minimal example
@@ -81,7 +81,7 @@ Recent colours come from a `RecentColorsScope` (both optional).
 | `popoverAlignment` / `popoverAnchorAlignment` | top-start / bottom-start | directional popover placement |
 | `popoverPadding` | 16 | popover inner padding |
 | `gap` | 8 | gap between well and hex field |
-| `swatchSize` | 36 | well edge (shadcn h-9) |
+| `swatchSize` | 36 | well edge (dashcn h-9) |
 | `swatchBorderRadius` | ambient `radiusMd` | well corner radius |
 | `swatchBorderColor` | `border` token | well border |
 

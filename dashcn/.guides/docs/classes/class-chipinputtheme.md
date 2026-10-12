@@ -1,33 +1,39 @@
 ---
 title: "Class: ChipInputTheme"
-description: "Theme configuration for [ChipInput] widget styling and behavior."
+description: "Theme container for the token field."
 ---
 
 ```dart
-/// Theme configuration for [ChipInput] widget styling and behavior.
+/// Theme container for the token field.
 ///
-/// Defines visual properties and default behaviors for chip input components
-/// including popover constraints and chip rendering preferences. Applied globally
-/// through [ComponentTheme] or per-instance for customization.
-class ChipInputTheme extends ComponentThemeData {
-  /// Whether to render selected items as interactive chip widgets by default.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class ChipInputTheme extends ComponentThemeData implements Mergeable<ChipInputTheme> {
+  /// Creates a chip-input theme.
+  const ChipInputTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.spacing, this.removable, this.chipTheme, this.chipIconSize, this.alignment});
+  /// Logical pixels reserved between two adjacent tokens. Default: 4.
   ///
-  /// When true, selected items appear as dismissible chip widgets with close buttons.
-  /// When false, items appear as simple text tokens. Individual [ChipInput] widgets
-  /// can override this default behavior.
-  final bool? useChips;
-  /// The spacing between chips.
+  /// Half of it lands on each side of the inner edges, so the rendered gap
+  /// between two neighbouring chips is exactly this.
   final double? spacing;
-  /// Creates a [ChipInputTheme].
+  /// Whether each token gets a remove button. Default: true.
+  final bool? removable;
+  /// Extra `ChipTheme` leg for the tokens of *this* field.
   ///
-  /// All parameters are optional and fall back to framework defaults when null.
-  /// The theme can be applied globally or to specific chip input instances.
-  const ChipInputTheme({this.spacing, this.useChips});
-  /// Creates a copy of this theme with specified properties overridden.
-  ///
-  /// Each parameter function is called only if provided, allowing selective
-  /// overrides while preserving existing values for unspecified properties.
-  ChipInputTheme copyWith({ValueGetter<BoxConstraints?>? popoverConstraints, ValueGetter<bool?>? useChips, ValueGetter<double?>? spacing});
+  /// Merged over the app's `ChipTheme`, so one field can restyle its chips
+  /// without touching every other chip in the app.
+  final ChipTheme? chipTheme;
+  /// Icon size of the remove button. Default: 12.
+  final double? chipIconSize;
+  /// How the painted token sits on the text baseline. Default:
+  /// [PlaceholderAlignment.middle].
+  final PlaceholderAlignment? alignment;
+  /// Returns a copy with the given fields replaced.
+  ChipInputTheme copyWith({ValueGetter<double?>? spacing, ValueGetter<bool?>? removable, ValueGetter<ChipTheme?>? chipTheme, ValueGetter<double?>? chipIconSize, ValueGetter<PlaceholderAlignment?>? alignment});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  ChipInputTheme merge(ChipInputTheme? fallback);
+  /// Scalars interpolate; flags and the alignment step at `t = 0.5`.
+  static ChipInputTheme lerp(ChipInputTheme a, ChipInputTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

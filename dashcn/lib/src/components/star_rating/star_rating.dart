@@ -30,7 +30,7 @@ const _starRatingMouseCursor = StateValue<MouseCursor>(
 
 const Duration _starRatingStepDuration = Duration(milliseconds: 150);
 
-/// Opacity of the whole control while disabled (shadcn `opacity-50`).
+/// Opacity of the whole control while disabled (upstream `opacity-50`).
 const double _starRatingDisabledOpacity = 0.5;
 
 class StarRatingController extends ValueNotifier<double>
@@ -206,7 +206,7 @@ class _StarRatingState extends State<StarRating>
   }
 
   Widget _build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final StarRatingStyle style =
         resolveComponentStyle<StarRatingTheme, StarRatingStyle>(
           context,

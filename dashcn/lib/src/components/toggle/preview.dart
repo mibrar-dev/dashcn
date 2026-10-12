@@ -58,7 +58,7 @@ class _ToggleControllerToggleState extends State<_ToggleControllerToggle> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +76,7 @@ class _ToggleControllerToggleState extends State<_ToggleControllerToggle> {
 
 /// Disabled toggles in both states.
 Widget _toggleDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,7 +107,7 @@ class _ToggleGroupState extends State<_ToggleGroup> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,

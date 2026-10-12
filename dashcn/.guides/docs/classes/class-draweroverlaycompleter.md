@@ -1,27 +1,18 @@
 ---
 title: "Class: DrawerOverlayCompleter"
-description: "Reference for DrawerOverlayCompleter"
+description: "Handle to an open drawer: completion, removal and animation futures."
 ---
 
 ```dart
-class DrawerOverlayCompleter<T> extends OverlayCompleter<T> {
-  /// Creates a drawer overlay completer.
-  ///
-  /// Parameters:
-  /// - [_entry] (`DrawerOverlayEntry<T>`, required): The drawer entry to manage
-  DrawerOverlayCompleter(this._entry);
-  Future<void> get animationFuture;
-  void dispose();
-  /// Gets the animation controller for the drawer.
-  ///
-  /// Returns the external animation controller if provided, otherwise
-  /// returns the internal controller from the drawer entry widget state.
-  ///
-  /// Returns [AnimationController] or null if not available.
-  AnimationController? get animationController;
-  Future<T> get future;
-  bool get isAnimationCompleted;
-  bool get isCompleted;
+/// Handle to an open drawer: completion, removal and animation futures.
+class DrawerOverlayCompleter<T> implements OverlayCompleter<T> {
+  /// Creates a completer over a pushed route.
+  DrawerOverlayCompleter(this._future, this._animation, this._remove);
   void remove();
+  void dispose();
+  bool get isCompleted;
+  bool get isAnimationCompleted;
+  Future<T?> get future;
+  Future<void> get animationFuture;
 }
 ```

@@ -13,7 +13,7 @@ import 'package:intl/intl.dart' as intl;
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   NumberTickerTheme? scoped,
 }) {
@@ -21,7 +21,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<NumberTickerTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,

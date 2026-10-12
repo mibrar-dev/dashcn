@@ -14,11 +14,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add otp-01
+dashcn add otp-01
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/otp-01/otp_01.dart';
+import 'package:<your_app>/ui/dashcn/blocks/otp-01/otp_01.dart';
 
 void main() => runApp(const Otp01());
 ```

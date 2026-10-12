@@ -1,26 +1,18 @@
 ---
 title: "Class: MultiCalendarValue"
-description: "Calendar value representing multiple selected dates."
+description: "Any number of selected dates."
 ---
 
 ```dart
-/// Calendar value representing multiple selected dates.
-///
-/// Encapsulates a list of individually selected dates. Provides lookup
-/// functionality to determine if a date is among the selected dates.
-/// Used with [CalendarSelectionMode.multi].
+/// Any number of selected dates.
 class MultiCalendarValue extends CalendarValue {
-  /// The list of selected dates.
+  /// Selects [dates].
+  const MultiCalendarValue(this.dates);
   final List<DateTime> dates;
-  /// Creates a multi calendar value with the specified list of dates.
-  MultiCalendarValue(this.dates);
-  CalendarValueLookup lookup(int year, [int? month, int? day]);
-  CalendarView get view;
-  String toString();
+  CalendarValueLookup lookupDate(DateTime date);
+  CalendarValueLookup lookupMonth(int year, int month);
+  CalendarValueLookup lookupYear(int year);
   bool operator ==(Object other);
   int get hashCode;
-  SingleCalendarValue toSingle();
-  RangeCalendarValue toRange();
-  MultiCalendarValue toMulti();
 }
 ```

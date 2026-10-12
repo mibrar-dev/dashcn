@@ -4,13 +4,13 @@
 
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/components/card/card.dart';
-import 'package:docs/ui/shadcn/components/progress/progress.dart';
-import 'package:docs/ui/shadcn/components/slider/slider.dart';
-import 'package:docs/ui/shadcn/components/tabs/tabs.dart';
-import 'package:docs/ui/shadcn/components/table/table.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/components/card/card.dart';
+import 'package:docs/ui/dashcn/components/progress/progress.dart';
+import 'package:docs/ui/dashcn/components/slider/slider.dart';
+import 'package:docs/ui/dashcn/components/tabs/tabs.dart';
+import 'package:docs/ui/dashcn/components/table/table.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/docs_header.dart';
 import 'package:docs/widgets/studio_canvas.dart';
 import 'package:docs/widgets/theme_rail.dart';
@@ -41,7 +41,7 @@ void main() {
       expect(find.byType(Progress), findsWidgets, reason: 'stats + progress');
       expect(find.byType(Slider), findsWidgets, reason: 'form slider');
       expect(find.byType(Tabs), findsOneWidget);
-      expect(find.byType(ShadcnTable), findsOneWidget);
+      expect(find.byType(TableView), findsOneWidget);
       expect(find.text('Recent Transactions'), findsOneWidget);
       expect(find.text('Distribute Track'), findsOneWidget);
       expect(find.text('Claimable Balance'), findsOneWidget);
@@ -97,11 +97,8 @@ void main() {
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       // The site theme is installed above the router, so every route reads it.
-      Color sitePrimary() => tester
-          .widget<ShadcnTheme>(find.byType(ShadcnTheme).first)
-          .data
-          .colors
-          .primary;
+      Color sitePrimary() =>
+          tester.widget<Theme>(find.byType(Theme).first).data.colors.primary;
       final Color before = sitePrimary();
 
       await goTo(tester, delegate, '/themes');
@@ -140,11 +137,8 @@ void main() {
         platformBrightness: Brightness.light,
       );
       await goTo(tester, delegate, '/themes');
-      Brightness siteBrightness() => tester
-          .widget<ShadcnTheme>(find.byType(ShadcnTheme).first)
-          .data
-          .colors
-          .brightness;
+      Brightness siteBrightness() =>
+          tester.widget<Theme>(find.byType(Theme).first).data.colors.brightness;
       expect(siteBrightness(), Brightness.light);
 
       await tester.tap(find.byKey(const ValueKey<String>('theme-canvas-mode')));
@@ -219,15 +213,14 @@ void main() {
       // With animations disabled the colour tween is capped to 150 ms, so one
       // frame after the edit the new radius is already in the tree.
       await tester.pump();
-      final Iterable<AnimatedShadcnTheme> tweens = tester
-          .widgetList<AnimatedShadcnTheme>(
-            find.descendant(
-              of: find.byType(ThemeCanvas),
-              matching: find.byType(AnimatedShadcnTheme),
-            ),
-          );
+      final Iterable<AnimatedTheme> tweens = tester.widgetList<AnimatedTheme>(
+        find.descendant(
+          of: find.byType(ThemeCanvas),
+          matching: find.byType(AnimatedTheme),
+        ),
+      );
       expect(tweens, isNotEmpty);
-      for (final AnimatedShadcnTheme tween in tweens) {
+      for (final AnimatedTheme tween in tweens) {
         expect(
           tween.duration,
           lessThanOrEqualTo(const Duration(milliseconds: 150)),
@@ -309,10 +302,10 @@ void main() {
   // `Popup` dismisses itself (Escape, outside tap, a bare "Done" button)
   // through `closeOverlay(context)` with **no** result, and the registry's
   // `onCloseWithResult` performs `completer.complete(value as T)`
-  // (`ui/shadcn/primitives/popover_overlay_handler.dart`). When the popup was
+  // (`ui/dashcn/primitives/popover_overlay_handler.dart`). When the popup was
   // opened with a non-nullable `T` that cast threw
   // `type 'Null' is not a subtype of type 'String'` on every dismissal.
-  // `showShadcnPicker` now opens popups with a nullable result type.
+  // `showPicker` now opens popups with a nullable result type.
   group('picker popup dismissal', () {
     const Map<String, String> kRowSentinel = <String, String>{
       'rail-row-heading': 'ui-serif',

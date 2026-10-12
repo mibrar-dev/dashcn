@@ -60,7 +60,7 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcn = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final TextDirection direction = Directionality.of(context);
     final ChatTheme style = resolveChatStyle(
       context,
@@ -82,8 +82,8 @@ class ChatBubble extends StatelessWidget {
         (resolved.x >= 0
             ? ChatBubbleCorner.bottomRight
             : ChatBubbleCorner.bottomLeft);
-    final Color background = style.background!.resolve(shadcn.colors);
-    final Color foreground = style.foreground!.resolve(shadcn.colors);
+    final Color background = style.background!.resolve(themeData.colors);
+    final Color foreground = style.foreground!.resolve(themeData.colors);
     final IconThemeData icons = IconThemeData(color: foreground);
     final BorderRadiusGeometry source = style.borderRadius!;
     final BorderRadius radius = source is BorderRadius
@@ -94,7 +94,7 @@ class ChatBubble extends StatelessWidget {
     // or app leg) passes through unchanged.
     final EdgeInsetsGeometry bubblePadding = resolveEdgeInsets(
       style.padding!,
-      shadcn.density.baseContentPadding * shadcn.scaling,
+      themeData.density.baseContentPadding * themeData.scaling,
     );
     final Widget content = DecoratedBox(
       decoration: BoxDecoration(
@@ -103,7 +103,7 @@ class ChatBubble extends StatelessWidget {
         border: style.borderColor == null
             ? null
             : Border.all(
-                color: style.borderColor!.resolve(shadcn.colors),
+                color: style.borderColor!.resolve(themeData.colors),
                 width: style.borderWidth!,
               ),
       ),
@@ -131,12 +131,12 @@ class ChatBubble extends StatelessWidget {
       result = CustomPaint(
         painter: _ChatTailPainter(
           color: background,
-          borderColor: style.borderColor?.resolve(shadcn.colors),
+          borderColor: style.borderColor?.resolve(themeData.colors),
           borderWidth: style.borderWidth!,
           radius: radius,
           corner: bubbleCorner,
           tailSize: tail,
-          tailRadius: style.tailRadius ?? shadcn.radiusSm,
+          tailRadius: style.tailRadius ?? themeData.radiusSm,
         ),
         child: Padding(
           padding: EdgeInsets.only(
@@ -292,7 +292,7 @@ class ChatReaction extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextDirection dir = Directionality.of(context);
     final ChatTheme style = resolveChatStyle(context, widgetTheme: theme);
-    final ShadcnThemeData shadcn = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final Alignment side = style.alignment!.resolve(dir);
     final ChatBubbleCorner fallback = side.x >= 0
         ? ChatBubbleCorner.bottomRight
@@ -301,11 +301,11 @@ class ChatReaction extends StatelessWidget {
     return OverlapLayout(
       corner: OverlapCorner.values[at.index],
       alignment: side,
-      gap: (gap ?? 8) * shadcn.scaling,
-      extraWidth: (extraWidth ?? 8) * shadcn.scaling,
+      gap: (gap ?? 8) * themeData.scaling,
+      extraWidth: (extraWidth ?? 8) * themeData.scaling,
       overlap: Row(
         mainAxisSize: MainAxisSize.min,
-        spacing: 4 * shadcn.scaling,
+        spacing: 4 * themeData.scaling,
         children: chips,
       ),
       child: ComponentTheme<ChatTheme>(
@@ -333,15 +333,15 @@ class ChatReactionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ChatTheme style = resolveChatStyle(context, widgetTheme: theme);
-    final ShadcnThemeData shadcn = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcn.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     ThemedColor fill = style.reactionBackground!;
     ThemedColor label = style.reactionForeground!;
     if (selected) fill = style.reactionSelectedBackground!;
     if (selected) label = style.reactionSelectedForeground!;
     final EdgeInsetsGeometry pillPadding = resolveEdgeInsets(
       style.reactionPadding!,
-      shadcn.density.baseContentPadding * shadcn.scaling,
+      themeData.density.baseContentPadding * themeData.scaling,
     );
     final BoxDecoration decoration = BoxDecoration(
       color: fill.resolve(colors),

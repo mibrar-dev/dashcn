@@ -1,16 +1,16 @@
 ---
 title: "Class: CollapsibleContent"
-description: "Holder for the collapsible child content."
+description: "The content pane of a [Collapsible]."
 ---
 
 ```dart
-/// Holder for the collapsible child content.
+/// The content pane of a [Collapsible].
 class CollapsibleContent extends StatelessWidget {
-  /// Creates a content pane for [Collapsible].
+  /// Creates a content pane.
   const CollapsibleContent({super.key, this.collapsible = true, required this.child});
-  /// Whether this pane should respect the expansion state.
+  /// Whether this pane follows the section's expansion state.
   final bool collapsible;
-  /// Inner widget that is shown or hidden.
+  /// The widget shown while expanded.
   final Widget child;
   Widget build(BuildContext context);
 }

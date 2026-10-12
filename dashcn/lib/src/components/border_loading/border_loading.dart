@@ -225,7 +225,7 @@ class _BorderLoadingState extends State<BorderLoading>
       curve: widget.curve,
       opacity: widget.opacity,
     );
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final BorderRadiusGeometry? geometry = style.borderRadius;
     final BorderRadius radius = geometry is BorderRadius
         ? geometry

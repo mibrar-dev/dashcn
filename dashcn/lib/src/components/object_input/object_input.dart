@@ -200,7 +200,7 @@ class DateInput extends StatelessWidget {
   }
 
   Future<void> _openDialog(BuildContext context) async {
-    final CalendarValue? picked = await showShadcnDialog<CalendarValue>(
+    final CalendarValue? picked = await showDialog<CalendarValue>(
       context: context,
       builder: (BuildContext context) {
         final DatePickerDialog sheet = _calendarSheet(
@@ -210,10 +210,10 @@ class DateInput extends StatelessWidget {
         if (dialogTitle == null) return sheet;
         return Column(
           mainAxisSize: MainAxisSize.min,
-          // shadcn `gap-2` (8) between the title and the sheet body.
+          // upstream `gap-2` (8) between the title and the sheet body.
           children: <Widget>[
             dialogTitle!,
-            Gap(ShadcnTheme.of(context).spacing.sm),
+            Gap(Theme.of(context).spacing.sm),
             sheet,
           ],
         );
@@ -224,8 +224,8 @@ class DateInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     final List<DatePart> order = datePartsOrder ?? strings.datePartsOrder;
     final String orderKey = order.map((DatePart part) => part.name).join(',');
     return _ClockField<DateTime>(
@@ -310,7 +310,7 @@ class TimeInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
     return _ClockField<TimeOfDay>(
       shapeKey: (showSeconds, separator, placeholders),
       buildRungs: (_) => timeSegmentRungs(
@@ -379,7 +379,7 @@ class DurationInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
     return _ClockField<Duration>(
       shapeKey: (showSeconds, separator, placeholders),
       buildRungs: (_) => durationSegmentRungs(

@@ -1,185 +1,123 @@
 ---
 title: "Extension: TextExtension"
-description: "Extension providing text styling modifiers for widgets."
+description: "The fluent text-styling API."
 ---
 
 ```dart
-/// Extension providing text styling modifiers for widgets.
+/// The fluent text-styling API.
 ///
-/// This extension adds a fluent API for applying text styles to widgets.
-/// Each property returns a [TextModifier] that can be further chained.
+/// Every getter returns a [TextModifier], so calls chain and read left to
+/// right. Modifiers resolve against the ambient [Theme], so the same
+/// chain restyles itself when the theme changes.
 ///
-/// Example:
 /// ```dart
-/// Text('Hello').sans.large.bold.muted
+/// Text('Heading').h2.bold;
+/// Text('Body').p.muted;
 /// ```
 extension TextExtension on Widget {
-  /// Applies sans-serif font family.
+  /// Sans-serif family.
   TextModifier get sans;
-  /// Applies monospace font family.
+  /// Monospace family.
   TextModifier get mono;
-  /// Applies extra-small font size.
+  /// 12px.
   TextModifier get xSmall;
-  /// Applies small font size.
+  /// 14px.
   TextModifier get small;
-  /// Applies base (default) font size.
+  /// 16px.
   TextModifier get base;
-  /// Applies large font size.
+  /// 18px.
   TextModifier get large;
-  /// Applies extra-large font size.
+  /// 20px.
   TextModifier get xLarge;
-  /// Applies 2x large font size.
+  /// 24px.
   TextModifier get x2Large;
-  /// Applies 3x large font size.
+  /// 30px.
   TextModifier get x3Large;
-  /// Applies 4x large font size.
+  /// 36px.
   TextModifier get x4Large;
-  /// Applies 5x large font size.
+  /// 48px.
   TextModifier get x5Large;
-  /// Applies 6x large font size.
+  /// 60px.
   TextModifier get x6Large;
-  /// Applies 7x large font size.
+  /// 72px.
   TextModifier get x7Large;
-  /// Applies 8x large font size.
+  /// 96px.
   TextModifier get x8Large;
-  /// Applies 9x large font size.
+  /// 144px.
   TextModifier get x9Large;
-  /// Applies thin font weight (100).
+  /// Weight 100.
   TextModifier get thin;
-  /// Applies extra-light font weight (200).
+  /// Weight 200.
   TextModifier get extraLight;
-  /// Applies light font weight (300).
+  /// Weight 300.
   TextModifier get light;
-  /// Applies normal font weight (400).
+  /// Weight 400.
   TextModifier get normal;
-  /// Applies medium font weight (500).
+  /// Weight 500.
   TextModifier get medium;
-  /// Applies semi-bold font weight (600).
+  /// Weight 600.
   TextModifier get semiBold;
-  /// Applies bold font weight (700).
+  /// Weight 700.
   TextModifier get bold;
-  /// Applies extra-bold font weight (800).
+  /// Weight 800.
   TextModifier get extraBold;
-  /// Applies black font weight (900).
+  /// Weight 900.
   TextModifier get black;
-  /// Applies italic font style.
+  /// Italic.
   TextModifier get italic;
-  /// Applies underline text decoration.
+  /// Underlined.
   TextModifier get underline;
-  /// Applies muted foreground color.
+  /// Muted foreground colour.
   TextModifier get muted;
-  /// Applies primary foreground color.
+  /// Primary foreground colour.
   TextModifier get primaryForeground;
-  /// Applies secondary foreground color.
+  /// Secondary foreground colour.
   TextModifier get secondaryForeground;
-  /// Applies heading 1 style.
-  TextModifier get h1;
-  /// Applies heading 2 style with bottom border.
-  TextModifier get h2;
-  /// Applies heading 3 style.
-  TextModifier get h3;
-  /// Applies heading 4 style.
-  TextModifier get h4;
-  /// Applies paragraph style with top spacing.
-  TextModifier get p;
-  /// Applies paragraph style for the first paragraph (no top spacing).
-  TextModifier get firstP;
-  /// Applies block quote style with left border.
-  TextModifier get blockQuote;
-  /// Applies list item style with bullet point.
-  ///
-  /// Automatically adds a bullet point and indents nested list items.
-  TextModifier get li;
-  /// Applies inline code style with background and padding.
-  TextModifier get inlineCode;
-  /// Applies lead paragraph style with muted color.
-  TextModifier get lead;
-  /// Applies large text style.
-  TextModifier get textLarge;
-  /// Applies small text style.
-  TextModifier get textSmall;
-  /// Applies muted text style with muted color.
-  TextModifier get textMuted;
-  /// Constrains text to a single line without wrapping.
-  TextModifier get singleLine;
-  /// Applies ellipsis overflow to text.
-  TextModifier get ellipsis;
-  /// Centers text horizontally.
-  TextModifier get textCenter;
-  /// Right-aligns text.
-  TextModifier get textRight;
-  /// Left-aligns text.
-  TextModifier get textLeft;
-  /// Justifies text alignment.
-  TextModifier get textJustify;
-  /// Aligns text to the start (left in LTR, right in RTL).
-  TextModifier get textStart;
-  /// Aligns text to the end (right in LTR, left in RTL).
-  TextModifier get textEnd;
-  /// Applies primary foreground color modifier.
-  TextModifier get modify;
-  /// Applies standard foreground color.
+  /// Body foreground colour.
   TextModifier get foreground;
-  /// Appends an inline span to the current text widget.
-  ///
-  /// Allows chaining multiple text spans together. Works with [Text],
-  /// [SelectableText], and [RichText] widgets.
-  ///
-  /// Parameters:
-  /// - [span] (`InlineSpan`, required): The span to append.
-  ///
-  /// Returns: `Widget` — a rich text widget with the appended span.
-  ///
-  /// Example:
-  /// ```dart
-  /// Text('Hello ').then(TextSpan(text: 'World'))
-  /// ```
-  Widget then(InlineSpan span);
-  /// Appends a text span to the current text widget.
-  ///
-  /// Convenience method for appending plain text.
-  ///
-  /// Parameters:
-  /// - [text] (`String`, required): Text to append.
-  ///
-  /// Returns: `Widget` — a rich text widget with the appended text.
-  ///
-  /// Example:
-  /// ```dart
-  /// Text('Hello ').thenText('World')
-  /// ```
-  Widget thenText(String text);
-  /// Appends inline code to the current text widget.
-  ///
-  /// The appended text is styled as inline code with background.
-  ///
-  /// Parameters:
-  /// - [text] (`String`, required): Code text to append.
-  ///
-  /// Returns: `Widget` — a rich text widget with the appended code.
-  ///
-  /// Example:
-  /// ```dart
-  /// Text('Use ').thenInlineCode('myFunction()')
-  /// ```
-  Widget thenInlineCode(String text);
-  /// Appends a button widget to the current text widget.
-  ///
-  /// Creates an inline button within the text flow.
-  ///
-  /// Parameters:
-  /// - [onPressed] (`VoidCallback`, required): Button press handler.
-  /// - [child] (`Widget`, required): Button content.
-  ///
-  /// Returns: `Widget` — a rich text widget with the appended button.
-  ///
-  /// Example:
-  /// ```dart
-  /// Text('Click ').thenButton(
-  ///   onPressed: () => print('clicked'),
-  ///   child: Text('here'),
-  /// )
-  /// ```
-  Widget thenButton({required VoidCallback onPressed, required Widget child});
+  /// Primary foreground colour; retained name of [foreground]'s sibling.
+  TextModifier get modify;
+  /// Heading level 1.
+  TextModifier get h1;
+  /// Heading level 2, with a rule underneath and top margin.
+  TextModifier get h2;
+  /// Heading level 3.
+  TextModifier get h3;
+  /// Heading level 4.
+  TextModifier get h4;
+  /// Paragraph, with top margin. See [firstP] for the first one on a page.
+  TextModifier get p;
+  /// Paragraph without the top margin.
+  TextModifier get firstP;
+  /// Block quote, with a left rule.
+  TextModifier get blockQuote;
+  /// List item: draws a bullet and increases the nesting depth for children.
+  TextModifier get li;
+  /// Inline code: monospace style in a rounded, muted chip.
+  TextModifier get inlineCode;
+  /// Lead paragraph, in the muted colour.
+  TextModifier get lead;
+  /// Large body text.
+  TextModifier get textLarge;
+  /// Small body text.
+  TextModifier get textSmall;
+  /// Small body text in the muted colour.
+  TextModifier get textMuted;
+  /// One line, no wrapping.
+  TextModifier get singleLine;
+  /// Truncates with an ellipsis.
+  TextModifier get ellipsis;
+  /// Centres the text.
+  TextModifier get textCenter;
+  /// Right-aligns the text.
+  TextModifier get textRight;
+  /// Left-aligns the text.
+  TextModifier get textLeft;
+  /// Justifies the text.
+  TextModifier get textJustify;
+  /// Aligns to the leading edge (left in LTR).
+  TextModifier get textStart;
+  /// Aligns to the trailing edge (right in LTR).
+  TextModifier get textEnd;
 }
 ```

@@ -1,17 +1,14 @@
 ---
 title: "Enum: PromptMode"
-description: "Defines how a form field editor is presented to the user."
+description: "How an [ObjectFormField] presents its editor."
 ---
 
 ```dart
-/// Defines how a form field editor is presented to the user.
-///
-/// [PromptMode] determines whether the field editor appears in a modal
-/// dialog or a popover overlay.
+/// How an [ObjectFormField] presents its editor.
 enum PromptMode {
-  /// Display the editor in a modal dialog.
+  /// A centered modal dialog with cancel/save actions.
   dialog,
-  /// Display the editor in a popover overlay.
+  /// An anchored popover that reports changes live.
   popover,
 }
 ```

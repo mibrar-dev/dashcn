@@ -1,17 +1,14 @@
 ---
 title: "Class: KeyboardShortcutDisplayHandle"
-description: "Handle for accessing keyboard shortcut display builders."
+description: "Wraps a [KeyboardShortcutDisplayBuilder] so components can read it from  the tree through `Data."
 ---
 
 ```dart
-/// Handle for accessing keyboard shortcut display builders.
-///
-/// Wraps a keyboard shortcut display builder function to provide
-/// a consistent API for building key displays.
+/// Wraps a [KeyboardShortcutDisplayBuilder] so components can read it from
+/// the tree through `Data.of<KeyboardShortcutDisplayHandle>`.
 class KeyboardShortcutDisplayHandle {
-  /// Creates a handle with the specified builder.
   const KeyboardShortcutDisplayHandle(this._builder);
-  /// Builds a display widget for the specified keyboard key.
+  /// Builds a display widget for [key].
   Widget buildKeyboardDisplay(BuildContext context, LogicalKeyboardKey key);
 }
 ```

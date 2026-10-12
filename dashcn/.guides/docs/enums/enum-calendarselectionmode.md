@@ -1,20 +1,16 @@
 ---
 title: "Enum: CalendarSelectionMode"
-description: "Selection modes available for calendar components."
+description: "How a date cell reacts to a tap."
 ---
 
 ```dart
-/// Selection modes available for calendar components.
-///
-/// Determines how users can select dates in calendar widgets.
+/// How a date cell reacts to a tap. [none] is a read-only display; tapping
+/// the selection in [single] clears it; [range] moves or clears an endpoint;
+/// [multi] toggles one date of a list.
 enum CalendarSelectionMode {
-  /// No date selection allowed (display only).
   none,
-  /// Only one date can be selected at a time.
   single,
-  /// Two dates can be selected to form a date range.
   range,
-  /// Multiple individual dates can be selected.
   multi,
 }
 ```

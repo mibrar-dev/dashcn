@@ -1,18 +1,18 @@
 ---
 title: "Enum: NavigationLabelPosition"
-description: "Position of navigation item labels relative to icons."
+description: "Position of a navigation label relative to its icon."
 ---
 
 ```dart
-/// Position of navigation item labels relative to icons.
+/// Position of a navigation label relative to its icon.
 enum NavigationLabelPosition {
-  /// Label before icon (left in LTR, right in RTL)
+  /// Before the icon (left in LTR).
   start,
-  /// Label after icon (right in LTR, left in RTL)
+  /// After the icon (right in LTR).
   end,
-  /// Label above icon
+  /// Above the icon.
   top,
-  /// Label below icon
+  /// Below the icon.
   bottom,
 }
 ```

@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 Future<void> _pump(
   WidgetTester tester, {
   required HSLColorSliderType type,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   HSLSliderStyle? style,
   ValueChanged<HSLColor>? onChanged,
@@ -21,7 +21,7 @@ Future<void> _pump(
   HSLColor color = const HSLColor.fromAHSL(1, 120, 0.5, 0.5),
 }) async {
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: ComponentThemes(
         themes: app,
@@ -55,9 +55,9 @@ void main() {
       testWidgets('renders every slider type ($type) in light and dark', (
         tester,
       ) async {
-        for (final data in <ShadcnThemeData>[
-          const ShadcnThemeData(),
-          const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        for (final data in <ThemeData>[
+          const ThemeData(),
+          const ThemeData(colors: ThemeColors.darkFallback),
         ]) {
           await _pump(tester, type: type, data: data);
           expect(find.byType(HSLColorSlider), findsOneWidget);
@@ -199,8 +199,8 @@ void main() {
     ) async {
       final key = GlobalKey();
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: const <ComponentThemeData>[
               HSLSliderTheme(slider: HSLSliderStyle(cursorWidth: 9)),
@@ -245,8 +245,8 @@ void main() {
 
       // tree leg beats the app leg; the widget leg beats both.
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: app,
             child: Directionality(
@@ -283,8 +283,8 @@ void main() {
 
       // app leg beats the defaults leg.
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: app,
             child: Directionality(

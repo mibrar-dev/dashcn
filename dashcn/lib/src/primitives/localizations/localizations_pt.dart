@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Portuguese (`pt`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsPt extends ShadcnLocalizations {
+class ComponentLocalizationsPt extends ComponentLocalizations {
   /// Creates the Portuguese strings.
-  const ShadcnLocalizationsPt([super.locale = const Locale('pt')]);
+  const ComponentLocalizationsPt([super.locale = const Locale('pt')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

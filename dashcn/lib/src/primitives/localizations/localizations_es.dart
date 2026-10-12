@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Spanish (`es`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsEs extends ShadcnLocalizations {
+class ComponentLocalizationsEs extends ComponentLocalizations {
   /// Creates the Spanish strings.
-  const ShadcnLocalizationsEs([super.locale = const Locale('es')]);
+  const ComponentLocalizationsEs([super.locale = const Locale('es')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

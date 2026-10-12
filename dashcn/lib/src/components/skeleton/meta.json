@@ -4,8 +4,8 @@
   "category": "Feedback",
   "description": "Widgets-only loading placeholder with a repeating shimmer sweep; replaces the banned skeletonizer package.",
   "tier": "component",
-  "install": "flutter_shadcn add skeleton",
-  "import": "import 'package:<your_app>/ui/shadcn/components/skeleton/skeleton.dart';",
+  "install": "dashcn add skeleton",
+  "import": "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
   "tags": ["display", "loading", "placeholder", "shimmer"],
   "deps": {
     "foundation": [],
@@ -43,7 +43,7 @@
   },
   "notes": [
     "`package:skeletonizer` is banned; the shimmer is a `ShaderMask` gradient driven by `RepeatedAnimationBuilder`.",
-    "`ShadcnSkeletonizerConfigLayer` is gone: it required a `material.ThemeData` and only forwarded `SkeletonizerConfigData`.",
+    "`DashcnSkeletonizerConfigLayer` is gone: it required a `material.ThemeData` and only forwarded `SkeletonizerConfigData`.",
     "The `Widget` extension (`asSkeleton`, `asSkeletonSliver`, `ignoreSkeleton`, `excludeSkeleton`) and the `Skeleton.leaf/unite/replace/ignore/keep` factories are deleted: they existed only to configure skeletonizer's subtree walk and had no reader outside the component.",
     "`avatar` is not a dependency any more: the old `asSkeleton` type test `this is Avatar` only picked a skeletonizer mode and is not needed to paint a placeholder."
   ]

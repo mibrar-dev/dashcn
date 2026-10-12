@@ -4,7 +4,7 @@
 //
 // The old module had two widgets (`Checkbox` + `ControlledCheckbox`), a
 // `CheckboxController` and a hand-rolled `AnimatedCheckPainter`. The adapter is
-// gone (one widget, two modes), the painter is replaced by the shadcn check /
+// gone (one widget, two modes), the painter is replaced by the upstream check /
 // minus indicator and interaction moved to the `Clickable` primitive.
 
 import 'package:flutter/widgets.dart';
@@ -23,10 +23,10 @@ export 'checkbox_style.dart';
 
 /// Lookup key of the 16px checkbox box surface (fill/border live here only).
 const ValueKey<String> kCheckboxBoxKey = ValueKey<String>(
-  'shadcn.checkbox.box',
+  'dashcn.checkbox.box',
 );
 
-/// Opacity applied to the whole checkbox while disabled (shadcn
+/// Opacity applied to the whole checkbox while disabled (upstream
 /// `opacity-50`).
 const double _checkboxDisabledOpacity = 0.5;
 
@@ -247,7 +247,7 @@ class _CheckboxState extends State<Checkbox>
   }
 
   Widget _build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final CheckboxValue value = _value;
     final bool enabled = _isEnabled;
     final CheckboxTheme container =
@@ -265,7 +265,7 @@ class _CheckboxState extends State<Checkbox>
         theme.scaling;
     final EdgeInsetsGeometry padding =
         widget.padding ?? resolved.padding ?? checkboxDefaultPadding;
-    // shadcn check icon `size-3.5` = 14 inside the `size-4` (16) box.
+    // upstream check icon `size-3.5` = 14 inside the `size-4` (16) box.
     final double indicatorSize = resolved.indicatorSize ?? size * 0.875;
     final double borderWidth = resolved.borderWidth ?? 1;
     final BorderRadiusGeometry radius =
@@ -294,7 +294,7 @@ class _CheckboxState extends State<Checkbox>
     );
 
     final Widget row = Row(
-      key: const ValueKey<String>('shadcn.checkbox.row'),
+      key: const ValueKey<String>('dashcn.checkbox.row'),
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -312,7 +312,7 @@ class _CheckboxState extends State<Checkbox>
     );
 
     // The Clickable paints no surface of its own — the 16px box alone
-    // carries the fill/border, the label sits beside it uncoloured (shadcn
+    // carries the fill/border, the label sits beside it uncoloured (upstream
     // checkbox). The row hugs its content (MainAxisSize.min); under a stretch
     // parent the transparent Clickable may fill the width, but no fill is
     // ever painted outside the box.
@@ -367,7 +367,7 @@ class _CheckboxBox extends StatelessWidget {
   final StateValue<ThemedColor>? borderColor;
   final Color? indicatorColor;
   final CheckboxValue value;
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   @override
   Widget build(BuildContext context) {

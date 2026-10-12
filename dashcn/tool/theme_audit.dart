@@ -108,7 +108,7 @@ void main() async {
           final l = lines[j];
           // Look for assignments to color-related fields
           final assignMatch = RegExp(
-            r'(\w*(?:color|foreground|background|fill|border)\w*)\s*=\s*.*(?:ShadcnTheme\.of|Theme\.of|\.resolve\(|\.colors)',
+            r'(\w*(?:color|foreground|background|fill|border)\w*)\s*=\s*.*(?:Theme\.of|Theme\.of|\.resolve\(|\.colors)',
           ).firstMatch(l);
           if (assignMatch != null) {
             final context = _getContext(lines, j);

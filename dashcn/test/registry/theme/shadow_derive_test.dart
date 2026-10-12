@@ -41,7 +41,7 @@ void main() {
     }
   });
 
-  test('shadcn default base gives the tailwind shadow ramp', () {
+  test('dashcn default base gives the tailwind shadow ramp', () {
     final derived = ShadowScale.derive(
       color: const Color(0xFF000000),
       opacity: 0.1,
@@ -67,7 +67,7 @@ void main() {
     expect(mdDetail.spreadRadius, -1);
   });
 
-  test('no negative blur or offset with the shadcn base', () {
+  test('no negative blur or offset with the dashcn base', () {
     final derived = ShadowScale.derive(
       color: const Color(0xFF000000),
       opacity: 0.1,

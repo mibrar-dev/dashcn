@@ -77,7 +77,7 @@ ui.Image _solidImage() {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ImageTheme? scoped,
 }) {
@@ -85,7 +85,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<ImageTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -100,7 +100,7 @@ Widget _frame(
 Color _backgroundOf(WidgetTester tester) => tester
     .widgetList<ColoredBox>(
       find.descendant(
-        of: find.byType(ShadcnImage),
+        of: find.byType(Picture),
         matching: find.byType(ColoredBox),
       ),
     )
@@ -111,7 +111,7 @@ BorderRadius _radiusOf(WidgetTester tester) =>
     tester
             .widget<ClipRRect>(
               find.descendant(
-                of: find.byType(ShadcnImage),
+                of: find.byType(Picture),
                 matching: find.byType(ClipRRect),
               ),
             )
@@ -121,7 +121,7 @@ BorderRadius _radiusOf(WidgetTester tester) =>
 Duration _fadeOf(WidgetTester tester) => tester
     .widget<AnimatedOpacity>(
       find.descendant(
-        of: find.byType(ShadcnImage),
+        of: find.byType(Picture),
         matching: find.byType(AnimatedOpacity),
       ),
     )
@@ -134,7 +134,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(
+          Picture(
             image: const _SolidProvider(),
             width: 40,
             aspectRatio: 1,
@@ -153,7 +153,7 @@ void main() {
     testWidgets('the picture fades in once the bytes arrive', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 40, aspectRatio: 1),
+          Picture(image: const _SolidProvider(), width: 40, aspectRatio: 1),
         ),
       );
       await tester.pump();
@@ -170,7 +170,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(
+          Picture(
             image: const _FailingProvider(),
             width: 40,
             aspectRatio: 1,
@@ -189,11 +189,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(
-            image: const _FailingProvider(),
-            width: 40,
-            aspectRatio: 1,
-          ),
+          Picture(image: const _FailingProvider(), width: 40, aspectRatio: 1),
         ),
       );
       await tester.pump();
@@ -210,11 +206,9 @@ void main() {
   group('sizing', () {
     testWidgets('width and height size the box exactly', (tester) async {
       await tester.pumpWidget(
-        _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 30, height: 50),
-        ),
+        _frame(Picture(image: const _SolidProvider(), width: 30, height: 50)),
       );
-      final Size size = tester.getSize(find.byType(ShadcnImage));
+      final Size size = tester.getSize(find.byType(Picture));
       expect(size, const Size(30, 50));
     });
 
@@ -223,10 +217,10 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 40, aspectRatio: 2),
+          Picture(image: const _SolidProvider(), width: 40, aspectRatio: 2),
         ),
       );
-      expect(tester.getSize(find.byType(ShadcnImage)), const Size(40, 20));
+      expect(tester.getSize(find.byType(Picture)), const Size(40, 20));
     });
 
     testWidgets('aspectRatio derives the width from an explicit height', (
@@ -234,14 +228,10 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(
-            image: const _SolidProvider(),
-            height: 20,
-            aspectRatio: 2,
-          ),
+          Picture(image: const _SolidProvider(), height: 20, aspectRatio: 2),
         ),
       );
-      expect(tester.getSize(find.byType(ShadcnImage)), const Size(40, 20));
+      expect(tester.getSize(find.byType(Picture)), const Size(40, 20));
     });
   });
 
@@ -249,17 +239,17 @@ void main() {
     testWidgets('defaults paint the muted token at radiusLg', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 20, aspectRatio: 1),
+          Picture(image: const _SolidProvider(), width: 20, aspectRatio: 1),
         ),
       );
-      expect(_backgroundOf(tester), ShadcnColors.lightFallback.muted);
-      expect(_radiusOf(tester).topLeft.x, ShadcnThemeData().radiusLg);
+      expect(_backgroundOf(tester), ThemeColors.lightFallback.muted);
+      expect(_radiusOf(tester).topLeft.x, ThemeData().radiusLg);
     });
 
     testWidgets('the widget leg overrides the defaults', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(
+          Picture(
             image: const _SolidProvider(),
             width: 20,
             aspectRatio: 1,
@@ -277,7 +267,7 @@ void main() {
     testWidgets('the scoped leg overrides the app leg', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 20, aspectRatio: 1),
+          Picture(image: const _SolidProvider(), width: 20, aspectRatio: 1),
           app: const <ComponentThemeData>[
             ImageTheme(
               background: ThemedColor.value(_green),
@@ -295,7 +285,7 @@ void main() {
     testWidgets('the app leg overrides the defaults', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 20, aspectRatio: 1),
+          Picture(image: const _SolidProvider(), width: 20, aspectRatio: 1),
           app: const <ComponentThemeData>[
             ImageTheme(background: ThemedColor.value(_green)),
           ],
@@ -310,20 +300,20 @@ void main() {
     testWidgets('dark tokens paint the dark muted colour', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 20, aspectRatio: 1),
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          Picture(image: const _SolidProvider(), width: 20, aspectRatio: 1),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
         ),
       );
-      expect(_backgroundOf(tester), ShadcnColors.darkFallback.muted);
+      expect(_backgroundOf(tester), ThemeColors.darkFallback.muted);
     });
 
     testWidgets('light tokens paint the light muted colour', (tester) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnImage(image: const _SolidProvider(), width: 20, aspectRatio: 1),
+          Picture(image: const _SolidProvider(), width: 20, aspectRatio: 1),
         ),
       );
-      expect(_backgroundOf(tester), ShadcnColors.lightFallback.muted);
+      expect(_backgroundOf(tester), ThemeColors.lightFallback.muted);
     });
   });
 }

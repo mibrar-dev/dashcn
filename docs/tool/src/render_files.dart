@@ -50,7 +50,7 @@ String renderDocsData(DocsModel model) {
     ..writeln('  /// One-line description from the manifest.')
     ..writeln('  final String description;')
     ..writeln()
-    ..writeln('  /// `flutter_shadcn add <id>` from the manifest.')
+    ..writeln('  /// `dashcn add <id>` from the manifest.')
     ..writeln('  final String install;')
     ..writeln()
     ..writeln('  /// Corrected import line for the installed layout.')
@@ -149,7 +149,7 @@ String renderDocsData(DocsModel model) {
     ..writeln('}')
     ..writeln()
     ..writeln(
-      '/// One global theme token: the shadcn CSS variable name in camelCase.',
+      '/// One global theme token: the dashcn CSS variable name in camelCase.',
     )
     ..writeln('class DocsThemeToken {')
     ..writeln('  /// Creates a token entry.')
@@ -160,7 +160,7 @@ String renderDocsData(DocsModel model) {
     ..writeln('  /// camelCase token name (`cardForeground`).')
     ..writeln('  final String name;')
     ..writeln()
-    ..writeln('  /// shadcn CSS variable (`--card-foreground`).')
+    ..writeln('  /// dashcn CSS variable (`--card-foreground`).')
     ..writeln('  final String cssVar;')
     ..writeln('}')
     ..writeln();
@@ -452,7 +452,7 @@ String renderDocsSearch(DocsModel model) {
     ..writeln('  /// Extra match terms (display name, tags).')
     ..writeln('  final List<String> keywords;')
     ..writeln()
-    ..writeln('  /// Footer action (`flutter_shadcn add <id>`), or null.')
+    ..writeln('  /// Footer action (`dashcn add <id>`), or null.')
     ..writeln('  final String? action;')
     ..writeln('}')
     ..writeln()

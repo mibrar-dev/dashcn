@@ -14,11 +14,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add sidebar-03
+dashcn add sidebar-03
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/sidebar-03/sidebar_03.dart';
+import 'package:<your_app>/ui/dashcn/blocks/sidebar-03/sidebar_03.dart';
 
 void main() => runApp(const Sidebar03());
 ```

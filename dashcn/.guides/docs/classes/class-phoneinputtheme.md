@@ -1,35 +1,42 @@
 ---
 title: "Class: PhoneInputTheme"
-description: "Theme data for [PhoneInput]."
+description: "Theme data for the `phone_input` component."
 ---
 
 ```dart
-/// Theme data for [PhoneInput].
-class PhoneInputTheme extends ComponentThemeData {
-  /// The padding of the [PhoneInput].
-  final EdgeInsetsGeometry? padding;
-  /// The border radius of the [PhoneInput].
-  final BorderRadiusGeometry? borderRadius;
-  /// The constraints of the country selector popup.
-  final BoxConstraints? popupConstraints;
-  /// The maximum width of the [PhoneInput].
+/// Theme data for the `phone_input` component.
+///
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class PhoneInputTheme extends ComponentThemeData implements Mergeable<PhoneInputTheme> {
+  /// Creates a phone input theme.
+  const PhoneInputTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.inputPadding, this.maxWidth, this.selectWidth, this.popupConstraints, this.flagWidth, this.flagHeight, this.flagGap, this.fieldGap, this.countryGap});
+  /// Padding inside the number field; density-scaled (upstream `px-3 py-2`).
+  final EdgeInsetsGeometry? inputPadding;
+  /// Maximum width of the number field.
   final double? maxWidth;
-  /// The height of the flag.
-  final double? flagHeight;
-  /// The width of the flag.
+  /// Width of the country selector (the popup is trigger-wide).
+  final double? selectWidth;
+  /// Constraints of the country popup.
+  final BoxConstraints? popupConstraints;
+  /// Flag width in the trigger and in popup rows.
   final double? flagWidth;
-  /// The gap between the flag and the country code.
+  /// Flag height in the trigger and in popup rows.
+  final double? flagHeight;
+  /// Gap between a flag and the dial code / country name.
   final double? flagGap;
-  /// The gap between the country code and the text field.
+  /// Gap between the country selector and the number field.
+  ///
+  /// The group is one joined box: half of this value pads each side of the
+  /// hairline divider between the trigger and the field.
+  final double? fieldGap;
+  /// Gap between the country name and its dial code in popup rows.
   final double? countryGap;
-  /// The shape of the flag.
-  final Shape? flagShape;
-  /// Theme data for [PhoneInput].
-  const PhoneInputTheme({this.padding, this.borderRadius, this.popupConstraints, this.maxWidth, this.flagHeight, this.flagWidth, this.flagGap, this.countryGap, this.flagShape});
-  /// Creates a copy of this [PhoneInputTheme] with the given values overridden.
-  PhoneInputTheme copyWith({ValueGetter<EdgeInsetsGeometry?>? padding, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<BoxConstraints?>? popupConstraints, ValueGetter<double?>? maxWidth, ValueGetter<double?>? flagHeight, ValueGetter<double?>? flagWidth, ValueGetter<double?>? flagGap, ValueGetter<double?>? countryGap, ValueGetter<Shape?>? flagShape});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  PhoneInputTheme merge(PhoneInputTheme? fallback);
+  /// Dimensions are lerped; box constraints step at `t = 0.5`.
+  static PhoneInputTheme lerp(PhoneInputTheme a, PhoneInputTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  String toString();
 }
 ```

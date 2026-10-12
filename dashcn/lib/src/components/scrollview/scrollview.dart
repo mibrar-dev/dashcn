@@ -125,7 +125,7 @@ class _ScrollViewInterceptorState extends State<ScrollViewInterceptor>
           FlutterErrorDetails(
             exception: error,
             stack: stack,
-            library: 'shadcn_flutter',
+            library: 'dashcn',
             context: ErrorDescription(
               'while dispatching a pointer scroll event',
             ),

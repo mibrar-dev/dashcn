@@ -44,7 +44,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ColoredBox(
       color: colors.background,
       child: Padding(
@@ -85,10 +85,10 @@ class _AsyncPreviewState extends State<AsyncPreview> {
               }),
               child: const Text('reload futures'),
             ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(height: Theme.of(context).spacing.xl),
             Builder(
               builder: (context) => ColoredBox(
-                color: ShadcnTheme.of(context).colors.card,
+                color: Theme.of(context).colors.card,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: FutureOrBuilder<int>(

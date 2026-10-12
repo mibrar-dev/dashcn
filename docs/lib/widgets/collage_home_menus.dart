@@ -6,16 +6,16 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/command/command.dart';
-import '../ui/shadcn/components/dialog/dialog.dart';
-import '../ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import '../ui/shadcn/components/menu/menu.dart';
-import '../ui/shadcn/components/menubar/menubar.dart';
-import '../ui/shadcn/primitives/subfocus_list_item.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/command/command.dart';
+import '../ui/dashcn/components/dialog/dialog.dart';
+import '../ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import '../ui/dashcn/components/menu/menu.dart';
+import '../ui/dashcn/components/menubar/menubar.dart';
+import '../ui/dashcn/primitives/subfocus_list_item.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -124,7 +124,7 @@ class HomeCommandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Command palette',
       subtitle: 'Every page, one keystroke away.',
@@ -133,7 +133,7 @@ class HomeCommandCard extends StatelessWidget {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           leading: const Icon(LucideIcons.search, size: 14),
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             builder: (BuildContext dialogContext) => SizedBox(
               width: 320,

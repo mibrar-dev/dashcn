@@ -1,23 +1,15 @@
 ---
 title: "Class: FormTableLayout"
-description: "A table-based layout for multiple form fields."
+description: "A two-column table of labelled fields."
 ---
 
 ```dart
-/// A table-based layout for multiple form fields.
-///
-/// Arranges form fields in a table layout for structured data entry.
+/// A two-column table of labelled fields.
 class FormTableLayout extends StatelessWidget {
-  /// List of form field rows to display in the table.
-  final List<FormField> rows;
-  /// Vertical spacing between rows.
+  const FormTableLayout({super.key, required this.rows, this.spacing, this.theme});
+  final List<FormItem<Object?>> rows;
   final double? spacing;
-  /// Creates a [FormTableLayout].
-  ///
-  /// Parameters:
-  /// - [rows] (`List<FormField>`, required): Form fields to arrange in rows.
-  /// - [spacing] (`double?`, optional): Custom row spacing.
-  const FormTableLayout({super.key, required this.rows, this.spacing});
+  final FormTheme? theme;
   Widget build(BuildContext context);
 }
 ```

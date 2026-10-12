@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Polish (`pl`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsPl extends ShadcnLocalizations {
+class ComponentLocalizationsPl extends ComponentLocalizations {
   /// Creates the Polish strings.
-  const ShadcnLocalizationsPl([super.locale = const Locale('pl')]);
+  const ComponentLocalizationsPl([super.locale = const Locale('pl')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Chat bubbles and groups: plain, tailed or sharp-corner bubbles aligned to their side of the row, with optional avatars.",
   "tier": "component",
-  "install": "flutter_shadcn add chat",
-  "import": "import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';",
+  "install": "dashcn add chat",
+  "import": "import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';",
   "tags": [
     "display",
     "chat",

@@ -51,14 +51,14 @@ enum StepperSize {
   final double indicatorSize;
 
   /// The title text style for this size.
-  TextStyle titleStyleFor(ShadcnThemeData theme) => switch (this) {
+  TextStyle titleStyleFor(ThemeData theme) => switch (this) {
     StepperSize.sm => theme.typography.small,
     StepperSize.md => theme.typography.base,
     StepperSize.lg => theme.typography.large,
   };
 
   /// The icon slot for this size.
-  IconThemeData iconThemeFor(ShadcnThemeData theme) => switch (this) {
+  IconThemeData iconThemeFor(ThemeData theme) => switch (this) {
     StepperSize.sm => theme.iconTheme.small,
     StepperSize.md => theme.iconTheme.medium,
     StepperSize.lg => theme.iconTheme.large,
@@ -335,8 +335,8 @@ class StepperIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     final Color? foreground = style.foreground?.resolve(colors);
     final Color? border = style.borderColor?.resolve(colors);
     final double borderWidth = (style.borderWidth ?? 2) * theme.scaling;

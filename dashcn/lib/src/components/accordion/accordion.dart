@@ -69,7 +69,7 @@ class AccordionState extends State<Accordion> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AccordionTheme resolved =
         resolveComponentStyle<AccordionTheme, AccordionTheme>(
           context,
@@ -218,7 +218,7 @@ class _AccordionItemState extends State<AccordionItem>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AccordionTheme resolved =
         resolveComponentStyle<AccordionTheme, AccordionTheme>(
           context,
@@ -269,7 +269,7 @@ class AccordionTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AccordionTheme resolved =
         resolveComponentStyle<AccordionTheme, AccordionTheme>(
           context,
@@ -282,13 +282,13 @@ class AccordionTrigger extends StatelessWidget {
         resolved.padding ??
         (resolved.themeDensity ?? ambient.density).baseContentPadding *
             ambient.scaling;
-    // shadcn trigger `gap-4` = 16 between the label and the chevron.
+    // upstream trigger `gap-4` = 16 between the label and the chevron.
     final double iconGap = resolved.iconGap ?? 16 * ambient.scaling;
     final Color arrowColor =
         (resolved.arrowIconColor ??
                 const ThemedColor.ref(ColorRef.mutedForeground))
             .resolve(ambient.colors);
-    // shadcn chevron `size-4` = 16; prefer the small icon rung so a themed
+    // upstream chevron `size-4` = 16; prefer the small icon rung so a themed
     // medium (20) rung does not inflate the trigger.
     final double iconSize =
         ambient.iconTheme.small.size ??

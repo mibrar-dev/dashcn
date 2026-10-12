@@ -1,61 +1,26 @@
 ---
 title: "Class: ButtonGroup"
-description: "Reference for ButtonGroup"
+description: "Arranges [children] as one connected control."
 ---
 
 ```dart
+/// Arranges [children] as one connected control.
+///
+/// Wraps every child in a [ButtonGroupData] that flattens the shared inner
+/// edges; children keep their own variants, sizes and states.
 class ButtonGroup extends StatelessWidget {
-  /// The layout direction for the button group.
-  ///
-  /// [Axis.horizontal] arranges buttons in a row, removing vertical borders
-  /// between adjacent buttons. [Axis.vertical] arranges buttons in a column,
-  /// removing horizontal borders between adjacent buttons.
-  final Axis direction;
-  /// The list of button widgets to group together.
-  ///
-  /// Each widget should typically be a [Button] or similar interactive widget.
-  /// The group automatically applies border modifications to create the
-  /// connected appearance.
-  final List<Widget> children;
-  /// Whether the button group should be shrink-wrapped or expanded.
-  ///
-  /// When true, the group will expand to fill available space in the
-  /// cross axis. When false, the group will size itself based on its
-  /// children's intrinsic size.
-  final bool expands;
-  /// Creates a [ButtonGroup] that arranges buttons with connected borders.
-  ///
-  /// Parameters:
-  /// - [direction] (Axis, default: Axis.horizontal): Layout direction for the buttons.
-  /// - [children] (`List<Widget>`, required): The buttons to group together.
-  ///
-  /// The group automatically handles:
-  /// - Border radius adjustments for first/middle/last buttons
-  /// - Proper sizing with [IntrinsicHeight] or [IntrinsicWidth]
-  /// - Stretch alignment for consistent button heights/widths
-  ///
-  /// Example:
-  /// ```dart
-  /// ButtonGroup(
-  ///   direction: Axis.vertical,
-  ///   children: [
-  ///     Button.outline(child: Text('Option 1')),
-  ///     Button.outline(child: Text('Option 2')),
-  ///     Button.outline(child: Text('Option 3')),
-  ///   ],
-  /// );
-  /// ```
+  /// Creates a button group.
   const ButtonGroup({super.key, this.direction = Axis.horizontal, this.expands = false, required this.children});
-  /// Creates a horizontal button group.
-  ///
-  /// A convenience constructor equivalent to `ButtonGroup(direction: Axis.horizontal)`.
-  /// Arranges buttons in a row with connected borders.
+  /// Creates a horizontal (row) button group.
   const ButtonGroup.horizontal({super.key, this.expands = false, required this.children});
-  /// Creates a vertical button group.
-  ///
-  /// A convenience constructor equivalent to `ButtonGroup(direction: Axis.vertical)`.
-  /// Arranges buttons in a column with connected borders.
+  /// Creates a vertical (column) button group.
   const ButtonGroup.vertical({super.key, this.expands = false, required this.children});
+  /// Layout direction of the group.
+  final Axis direction;
+  /// Whether the group takes the full main-axis extent of its parent.
+  final bool expands;
+  /// Buttons in visual order. First and last are rounded; the rest are not.
+  final List<Widget> children;
   Widget build(BuildContext context);
 }
 ```

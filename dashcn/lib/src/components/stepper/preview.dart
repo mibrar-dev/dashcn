@@ -63,7 +63,7 @@ class _SizesStepperState extends State<_SizesStepper> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

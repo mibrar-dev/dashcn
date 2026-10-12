@@ -1,39 +1,24 @@
 ---
 title: "Class: SafePasswordValidator"
-description: "A validator for ensuring password strength and security requirements."
+description: "Checks a password against the enabled character-class requirements."
 ---
 
 ```dart
-/// A validator for ensuring password strength and security requirements.
-///
-/// [SafePasswordValidator] checks passwords against common security criteria:
-/// digits, lowercase letters, uppercase letters, and special characters.
-/// Each requirement can be individually enabled or disabled.
-///
-/// Example:
-/// ```dart
-/// SafePasswordValidator(
-///   requireDigit: true,
-///   requireLowercase: true,
-///   requireUppercase: true,
-///   requireSpecialChar: true,
-///   message: 'Password must meet security requirements',
-/// )
-/// ```
+/// Checks a password against the enabled character-class requirements.
 class SafePasswordValidator extends Validator<String> {
-  /// Custom error message, or null to use default localized messages.
-  final String? message;
-  /// Whether password must contain at least one digit.
-  final bool requireDigit;
-  /// Whether password must contain at least one lowercase letter.
-  final bool requireLowercase;
-  /// Whether password must contain at least one uppercase letter.
-  final bool requireUppercase;
-  /// Whether password must contain at least one special character.
-  final bool requireSpecialChar;
-  /// Creates a [SafePasswordValidator] with configurable requirements.
+  /// Creates a password-strength validator.
   const SafePasswordValidator({this.requireDigit = true, this.requireLowercase = true, this.requireUppercase = true, this.requireSpecialChar = true, this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode state);
+  /// Whether a digit is required.
+  final bool requireDigit;
+  /// Whether a lowercase letter is required.
+  final bool requireLowercase;
+  /// Whether an uppercase letter is required.
+  final bool requireUppercase;
+  /// Whether a non-alphanumeric character is required.
+  final bool requireSpecialChar;
+  /// Overrides every message when set.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode lifecycle);
   bool operator ==(Object other);
   int get hashCode;
 }

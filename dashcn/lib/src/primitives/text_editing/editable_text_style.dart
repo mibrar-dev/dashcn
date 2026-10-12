@@ -25,7 +25,7 @@ TextStyle resolveEditableTextStyle(
   List<TextStyle?> overrides = const <TextStyle?>[],
   required Color color,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final TextStyle ambient = DefaultTextStyle.of(context).style;
   TextStyle merged = base ?? const TextStyle();
   for (final TextStyle? override in overrides) {

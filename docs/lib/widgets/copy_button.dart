@@ -9,9 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../motion/ease.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 
 /// Copied-state reset window (spec §2.8: 2000 ms, not 1.5 s).
 const Duration kCopyFeedbackDuration = kDurationCopyFeedback;

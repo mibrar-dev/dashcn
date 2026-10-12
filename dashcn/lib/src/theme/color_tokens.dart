@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-/// The 32 shadcn color tokens for one brightness.
+/// The 32 upstream color tokens for one brightness.
 ///
-/// Field names match the preset JSON keys exactly (camelCase of the shadcn
+/// Field names match the preset JSON keys exactly (camelCase of the upstream
 /// CSS variables, PLAN §6.1). Colors may carry alpha (8-digit ARGB); never
 /// assume opaque. `destructiveForeground` is a normal field (un-deprecated
 /// per QA decision A5); contrast derivation only applies at import time.
-class ShadcnColors {
-  const ShadcnColors({
+class ThemeColors {
+  const ThemeColors({
     required this.brightness,
     required this.background,
     required this.foreground,
@@ -81,7 +81,7 @@ class ShadcnColors {
   List<Color> get chartColors => [chart1, chart2, chart3, chart4, chart5];
 
   /// All tokens are non-nullable, so copyWith takes plain optional values.
-  ShadcnColors copyWith({
+  ThemeColors copyWith({
     Brightness? brightness,
     Color? background,
     Color? foreground,
@@ -116,7 +116,7 @@ class ShadcnColors {
     Color? sidebarBorder,
     Color? sidebarRing,
   }) {
-    return ShadcnColors(
+    return ThemeColors(
       brightness: brightness ?? this.brightness,
       background: background ?? this.background,
       foreground: foreground ?? this.foreground,
@@ -157,9 +157,9 @@ class ShadcnColors {
   }
 
   /// Field-wise lerp. Brightness steps at t = 0.5.
-  static ShadcnColors lerp(ShadcnColors a, ShadcnColors b, double t) {
+  static ThemeColors lerp(ThemeColors a, ThemeColors b, double t) {
     Color mix(Color x, Color y) => Color.lerp(x, y, t)!;
-    return ShadcnColors(
+    return ThemeColors(
       brightness: t < 0.5 ? a.brightness : b.brightness,
       background: mix(a.background, b.background),
       foreground: mix(a.foreground, b.foreground),
@@ -208,7 +208,7 @@ class ShadcnColors {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is ShadcnColors &&
+    return other is ThemeColors &&
         other.brightness == brightness &&
         other.background == background &&
         other.foreground == foreground &&
@@ -283,7 +283,7 @@ class ShadcnColors {
 
   /// Transcribed from the old `ColorSchemes.lightDefaultColor`. Test and
   /// fallback baseline only; real apps use generated preset values.
-  static const ShadcnColors lightFallback = ShadcnColors(
+  static const ThemeColors lightFallback = ThemeColors(
     brightness: Brightness.light,
     background: Color(0xFFFFFFFF),
     foreground: Color(0xFF0A0A0A),
@@ -321,7 +321,7 @@ class ShadcnColors {
 
   /// Transcribed from the old `ColorSchemes.darkDefaultColor`. Also the
   /// readability fallback source for dark normalisation.
-  static const ShadcnColors darkFallback = ShadcnColors(
+  static const ThemeColors darkFallback = ThemeColors(
     brightness: Brightness.dark,
     background: Color(0xFF0A0A0A),
     foreground: Color(0xFFFAFAFA),
@@ -395,7 +395,7 @@ enum ColorRef {
   sidebarRing;
 
   /// Resolves this reference against [colors].
-  Color resolve(ShadcnColors colors) {
+  Color resolve(ThemeColors colors) {
     switch (this) {
       case ColorRef.background:
         return colors.background;
@@ -474,7 +474,7 @@ sealed class ThemedColor {
   const factory ThemedColor.ref(ColorRef ref, {double alpha}) = RefColor;
 
   /// Resolves to a concrete color against [colors].
-  Color resolve(ShadcnColors colors);
+  Color resolve(ThemeColors colors);
 }
 
 /// A fixed color. Ignores preset switches.
@@ -482,7 +482,7 @@ final class LiteralColor extends ThemedColor {
   const LiteralColor(this.color);
   final Color color;
   @override
-  Color resolve(ShadcnColors colors) => color;
+  Color resolve(ThemeColors colors) => color;
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is LiteralColor && other.color == color;
@@ -498,7 +498,7 @@ final class RefColor extends ThemedColor {
   final ColorRef ref;
   final double alpha;
   @override
-  Color resolve(ShadcnColors colors) {
+  Color resolve(ThemeColors colors) {
     final base = ref.resolve(colors);
     if (alpha == 1.0) return base;
     return base.withValues(alpha: (base.a * alpha).clamp(0.0, 1.0));

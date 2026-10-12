@@ -14,7 +14,7 @@ import 'package:docs/routing/deferred_page.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/widgets/theme_rail.dart';
 import 'package:docs/state/docs_state.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -108,7 +108,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
+        Theme(
           data: buildDocsTheme('neutral', Brightness.light),
           child: Directionality(
             textDirection: TextDirection.ltr,

@@ -1,21 +1,23 @@
 ---
 title: "Class: FocusOutlineTheme"
-description: "Theme configuration for focus outlines."
+description: "Alignment, radius and border of the [FocusOutline] ring."
 ---
 
 ```dart
-/// Theme configuration for focus outlines.
-class FocusOutlineTheme extends ComponentThemeData {
-  /// Offset applied when drawing the outline.
+/// Alignment, radius and border of the [FocusOutline] ring.
+class FocusOutlineTheme extends ComponentThemeData implements Mergeable<FocusOutlineTheme> {
+  /// Extra distance between the child edge and the ring. Defaults to 3.
   final double? align;
-  /// Border radius for rounded outlines.
+  /// Corner radius of the ring.
   final BorderRadiusGeometry? borderRadius;
-  /// Border style used by the outline.
+  /// Ring border. Defaults to a 3px `ring`-colored border at half alpha.
   final Border? border;
-  /// Creates a theme for [FocusOutline].
-  const FocusOutlineTheme({this.align, this.borderRadius, this.border});
-  /// Copies this theme with selected overrides.
-  FocusOutlineTheme copyWith({ValueGetter<double?>? align, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<Border?>? border});
+  /// Creates a [FocusOutlineTheme].
+  const FocusOutlineTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.align, this.border, this.borderRadius});
+  /// Returns a copy with the given fields replaced.
+  FocusOutlineTheme copyWith({ValueGetter<Border?>? border, ValueGetter<double?>? align, ValueGetter<BorderRadiusGeometry?>? borderRadius});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  FocusOutlineTheme merge(FocusOutlineTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

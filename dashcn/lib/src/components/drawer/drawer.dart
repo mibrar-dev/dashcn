@@ -61,7 +61,7 @@ DrawerOverlayCompleter<T?> _pushPanel<T>({
     rootNavigator: useRootNavigator,
   );
   final DrawerTheme style = _resolveDrawerTheme(context, theme);
-  final ShadcnDrawerRoute<T> route = ShadcnDrawerRoute<T>(
+  final DrawerRoute<T> route = DrawerRoute<T>(
     builder: builder,
     position: position,
     themeOf: (BuildContext context) => _resolveDrawerTheme(context, theme),

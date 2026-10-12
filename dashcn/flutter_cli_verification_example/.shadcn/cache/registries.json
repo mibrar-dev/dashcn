@@ -4,16 +4,16 @@
   "registries": [
     {
       "id": "official",
-      "displayName": "shadcn_flutter_kit",
+      "displayName": "dashcn_kit",
       "maintainers": [
         "ibrar-x"
       ],
-      "repo": "https://github.com/ibrar-x/shadcn_flutter_kit",
+      "repo": "https://github.com/ibrar-x/dashcn_kit",
       "license": "MIT",
       "minCliVersion": "0.1.8",
-      "homepage": "https://ibrar-x.github.io/shadcn_flutter_kit/",
-      "description": "Official shadcn Flutter registry.",
-      "baseUrl": "https://github.com/ibrar-x/shadcn_flutter_kit/tree/main/flutter_shadcn_kit/lib/registry",
+      "homepage": "https://ibrar-x.github.io/dashcn_kit/",
+      "description": "Official dashcn Flutter registry.",
+      "baseUrl": "https://github.com/ibrar-x/dashcn_kit/tree/main/dashcn/lib/registry",
       "paths": {
         "componentsJson": "manifests/components.json",
         "componentsSchemaJson": "manifests/components.schema.json",
@@ -21,12 +21,12 @@
         "indexSchemaJson": "manifests/index.schema.json",
         "themesJson": "manifests/theme.index.json",
         "themesSchemaJson": "manifests/themes.index.schema.json",
-        "themeConverterDart": "https://raw.githubusercontent.com/ibrar-x/shadcn_flutter_kit/main/flutter_shadcn_kit/tool/theme/theme_preset_json_to_dart.dart",
+        "themeConverterDart": "https://raw.githubusercontent.com/ibrar-x/dashcn_kit/main/dashcn/tool/theme/theme_preset_json_to_dart.dart",
         "folderStructureJson": "manifests/folder_structure.json"
       },
       "install": {
-        "namespace": "shadcn",
-        "root": "lib/ui/shadcn"
+        "namespace": "dashcn",
+        "root": "lib/ui/dashcn"
       },
       "capabilities": {
         "sharedGroups": true,
@@ -38,7 +38,7 @@
       },
       "init": {
         "version": 1,
-        "description": "Bootstrap shared core files, dependencies, and font assets for flutter_shadcn.",
+        "description": "Bootstrap shared core files, dependencies, and font assets for dashcn.",
         "actions": [
           {
             "type": "message",
@@ -52,13 +52,13 @@
             "dirs": [
               "assets/fonts",
               "assets/fonts/geist",
-              "lib/ui/shadcn/shared"
+              "lib/ui/dashcn/shared"
             ]
           },
           {
             "type": "copyFiles",
             "base": "shared",
-            "destBase": "lib/ui/shadcn/shared",
+            "destBase": "lib/ui/dashcn/shared",
             "overwrite": false,
             "files": [
               "theme/theme.dart",

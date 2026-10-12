@@ -6,17 +6,14 @@ import 'package:flutter_test/flutter_test.dart';
 /// Port of the old `Theme._ensureReadableDarkTheme` behaviour: dark theme on
 /// a dark background patches near-black foregrounds to readable fallbacks.
 void main() {
-  Future<ShadcnThemeData> themeOf(
-    WidgetTester tester,
-    ShadcnThemeData data,
-  ) async {
-    ShadcnThemeData? seen;
+  Future<ThemeData> themeOf(WidgetTester tester, ThemeData data) async {
+    ThemeData? seen;
     await tester.pumpWidget(
-      ShadcnTheme(
+      Theme(
         data: data,
         child: Builder(
           builder: (context) {
-            seen = ShadcnTheme.of(context);
+            seen = Theme.of(context);
             return const SizedBox();
           },
         ),
@@ -26,8 +23,8 @@ void main() {
   }
 
   testWidgets('dark theme patches near-black foregrounds', (tester) async {
-    const dark = ShadcnColors.darkFallback;
-    final data = ShadcnThemeData(
+    const dark = ThemeColors.darkFallback;
+    final data = ThemeData(
       colors: dark.copyWith(
         background: const Color(0xFF000000),
         foreground: const Color(0xFF111111),
@@ -46,17 +43,17 @@ void main() {
   });
 
   testWidgets('readable dark theme passes through untouched', (tester) async {
-    const data = ShadcnThemeData(colors: ShadcnColors.darkFallback);
+    const data = ThemeData(colors: ThemeColors.darkFallback);
     final seen = await themeOf(tester, data);
     expect(seen, data);
   });
 
   testWidgets('light theme never patches', (tester) async {
-    const data = ShadcnThemeData(colors: ShadcnColors.lightFallback);
+    const data = ThemeData(colors: ThemeColors.lightFallback);
     final seen = await themeOf(
       tester,
-      ShadcnThemeData(
-        colors: ShadcnColors.lightFallback.copyWith(
+      ThemeData(
+        colors: ThemeColors.lightFallback.copyWith(
           background: const Color(0xFF000000),
           foreground: const Color(0xFF111111),
         ),

@@ -264,8 +264,8 @@ void main() {
         expect(meta['name'], isNotEmpty);
         expect(meta['description'], isA<String>());
         expect(meta['description'], isNotEmpty);
-        expect(meta['install'], 'flutter_shadcn add $id');
-        expect(meta['import'], contains('/ui/shadcn/blocks/$id/'));
+        expect(meta['install'], 'dashcn add $id');
+        expect(meta['import'], contains('/ui/dashcn/blocks/$id/'));
       });
 
       test('category comes from the block taxonomy', () {

@@ -1,21 +1,27 @@
 ---
 title: "Class: StageContainerTheme"
-description: "Theme configuration for [StageContainer] responsive behavior."
+description: "Padding and width strategy of a `StageContainer`."
 ---
 
 ```dart
-/// Theme configuration for [StageContainer] responsive behavior.
+/// Padding and width strategy of a `StageContainer`.
 ///
-/// Defines default breakpoint strategy and padding for stage containers.
-class StageContainerTheme extends ComponentThemeData {
-  /// The breakpoint strategy to use.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class StageContainerTheme extends ComponentThemeData implements Mergeable<StageContainerTheme> {
+  /// Creates a stage container theme.
+  const StageContainerTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.breakpoint, this.padding});
+  /// Width strategy; null resolves [StageBreakpoint.defaultBreakpoints].
   final StageBreakpoint? breakpoint;
-  /// Default padding for the container.
-  final EdgeInsets? padding;
-  /// Creates a [StageContainerTheme].
-  const StageContainerTheme({this.breakpoint, this.padding});
-  /// Creates a copy of this theme with the given fields replaced.
-  StageContainerTheme copyWith({ValueGetter<StageBreakpoint?>? breakpoint, ValueGetter<EdgeInsets?>? padding});
+  /// Base outer padding. A density-aware `EdgeInsetsDensity` resolves against
+  /// the ambient container density; a plain `EdgeInsets` is used as-is.
+  final EdgeInsetsGeometry? padding;
+  /// Returns a copy with the given fields replaced.
+  StageContainerTheme copyWith({ValueGetter<StageBreakpoint?>? breakpoint, ValueGetter<EdgeInsetsGeometry?>? padding});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  StageContainerTheme merge(StageContainerTheme? fallback);
+  /// Strategies step at t < 0.5; padding lerps.
+  static StageContainerTheme lerp(StageContainerTheme a, StageContainerTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

@@ -147,8 +147,8 @@ SpinnerSurface resolveSpinnerSurface(
   double? strokeWidth,
   Color? color,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
-  final ShadcnColors colors = theme.colors;
+  final ThemeData theme = Theme.of(context);
+  final ThemeColors colors = theme.colors;
   final resolved = resolveComponentStyle<SpinnerTheme, SpinnerTheme>(
     context,
     widget: widgetTheme,

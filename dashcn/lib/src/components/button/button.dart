@@ -22,7 +22,7 @@ import 'button_style.dart';
 export 'button_group.dart' show ButtonGroup, ButtonGroupData;
 export 'button_style.dart';
 
-/// Opacity applied to the whole button while disabled (shadcn `opacity-50`).
+/// Opacity applied to the whole button while disabled (upstream `opacity-50`).
 const double _buttonDisabledOpacity = 0.5;
 
 /// Cursor for an enabled button; the system arrow while disabled.
@@ -154,7 +154,7 @@ class _ButtonState extends State<Button> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool enabled = widget.enabled ?? (widget.onPressed != null);
     final ButtonVariantStyle resolved =
         resolveComponentStyle<ButtonTheme, ButtonVariantStyle>(
@@ -274,7 +274,7 @@ class _ButtonState extends State<Button> {
     );
   }
 
-  BorderRadius _borderRadius(BuildContext context, ShadcnThemeData theme) {
+  BorderRadius _borderRadius(BuildContext context, ThemeData theme) {
     final ButtonGroupData? group = Data.maybeOf<ButtonGroupData>(context);
     final BorderRadius base = theme.borderRadiusMd;
     if (group == null) {
@@ -319,7 +319,7 @@ double _innerMin(
   return (total - used).clamp(0, double.infinity).toDouble();
 }
 
-/// Design §1.3 size table, corrected to shadcn/ui (new-york, default
+/// Design §1.3 size table, corrected to the upstream web kit (new-york, default
 /// density): heights are border-box totals (h-7/h-8/h-9/h-10 = 28/32/36/40),
 /// horizontal padding is px-2/px-3/px-4/px-6 (8/12/16/24). Vertical padding
 /// is zero: the `Clickable` padding wraps the `ConstrainedBox`, so any

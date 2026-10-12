@@ -21,7 +21,7 @@ import 'breadcrumb.dart';
 
 /// Current-page line under a trail, so navigation is visible (and testable).
 Widget _currentLine(BuildContext context, String page) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     'Current page: $page',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
@@ -34,7 +34,7 @@ Future<void> _openHidden(
   List<String> hidden,
   void Function(String crumb) onSelect,
 ) {
-  return showShadcnDropdown<void>(
+  return showDropdown<void>(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
@@ -67,7 +67,7 @@ class _DefaultTrailState extends State<_DefaultTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -102,7 +102,7 @@ class _SlashTrailState extends State<_SlashTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -149,7 +149,7 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     // A short trail needs no ellipsis.
     final Widget trail = _path.length <= 3
         ? Breadcrumb(children: _crumbs(_path, (int i) => _goTo(_path[i])))
@@ -209,7 +209,7 @@ class _ResponsiveTrailState extends State<_ResponsiveTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

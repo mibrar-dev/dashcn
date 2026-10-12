@@ -101,8 +101,8 @@ class FileUploadRow extends StatelessWidget {
           select: (FileUploadRowTheme t) => t,
           defaults: fileUploadRowDefaults,
         );
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     final double scaling = ambient.scaling;
     final FileStatusLabels labels =
         statusLabels ??
@@ -212,7 +212,7 @@ class FileUploadRow extends StatelessWidget {
     String label,
     VoidCallback onPressed,
   ) {
-    final double scaling = ShadcnTheme.of(context).scaling;
+    final double scaling = Theme.of(context).scaling;
     return Clickable(
       onPressed: onPressed,
       child: Padding(
@@ -224,7 +224,7 @@ class FileUploadRow extends StatelessWidget {
 
   Widget _thumbnail(
     BuildContext context,
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     FileUploadRowTheme style,
     double scaling,
   ) {

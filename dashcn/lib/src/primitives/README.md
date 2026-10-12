@@ -21,7 +21,7 @@ Flutter non-Material libraries. No third-party packages (except `intl` /
 - `overlay.dart` — `OverlayCompleter`, `OverlayHandler`, `OverlayBarrier`,
   `OverlayHandlerStateMixin`, `closeOverlay`.
 - `overlay_manager.dart` / `overlay_manager_layer.dart` — app-level overlay
-  stack (`OverlayManager`, `ShadcnLayer`, `OverlayManagerLayer`).
+  stack (`OverlayManager`, `AppLayer`, `OverlayManagerLayer`).
 - `popover.dart`, `popover_controller.dart`, `popover_layout.dart`,
   `popover_layout_render.dart`, `popover_overlay_widget.dart`,
   `popover_overlay_state.dart`, `popover_overlay_handler.dart` — popovers.

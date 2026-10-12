@@ -39,7 +39,7 @@ class Steps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final StepsTheme style = resolveComponentStyle<StepsTheme, StepsTheme>(
       context,
       widget: theme,
@@ -109,8 +109,8 @@ class _StepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeData ambient = Theme.of(context);
+    final ThemeColors colors = ambient.colors;
     final Color fill = indicatorColor?.resolve(colors) ?? colors.muted;
     final Color numberColor =
         indicatorForeground?.resolve(colors) ?? colors.foreground;

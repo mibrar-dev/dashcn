@@ -1,32 +1,27 @@
 ---
 title: "Class: PhoneNumber"
-description: "Represents a phone number with country code information."
+description: "An international phone number: a country (nullable while unknown) and the  national number without the country code."
 ---
 
 ```dart
-/// Represents a phone number with country code information.
-///
-/// [PhoneNumber] combines a country (with dial code) and a phone number
-/// string to create a complete international phone number.
-///
-/// Example:
-/// ```
-/// final phone = PhoneNumber(
-///   Country(dialCode: '+1', code: 'US'),
-///   '5551234567',
-/// );
-/// print(phone.fullNumber); // +15551234567
-/// ```
+/// An international phone number: a country (nullable while unknown) and the
+/// national number without the country code.
 class PhoneNumber {
-  /// The country associated with this phone number.
-  final Country country;
-  /// The phone number without the country code.
+  /// The country associated with this number; null when undetected.
+  final Country? country;
+  /// The number without the country code.
   final String number;
-  /// Creates a [PhoneNumber] with the specified country and number.
+  /// Creates a [PhoneNumber].
   const PhoneNumber(this.country, this.number);
-  /// Gets the complete phone number including country code.
+  /// Returns a copy with a different [country].
+  PhoneNumber withCountry(Country? country);
+  /// The dial code followed by the number, or just the number when the
+  /// country is unknown.
   String get fullNumber;
-  /// Gets the full number or null if the number is empty.
+  /// Like [fullNumber] but always prefixed with a single `+`.
+  String get fullCodeNumber;
+  /// The full number, or null when the number is empty or the country is
+  /// unknown.
   String? get value;
   String toString();
   bool operator ==(Object other);

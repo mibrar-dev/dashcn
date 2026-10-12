@@ -80,11 +80,11 @@ const FileDiff _longPath = FileDiff(
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -130,9 +130,9 @@ void main() {
     tester,
   ) async {
     for (final preview in fileDiffViewerPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         // Reset first: the frame's Navigator keeps its first route, so
         // without this every iteration would re-show the first preview.
@@ -140,7 +140,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -218,7 +218,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         const FileDiffViewer(files: <FileDiff>[_patch]),
-        data: const ShadcnThemeData(scaling: 2),
+        data: const ThemeData(scaling: 2),
       ),
     );
     await tester.tap(find.text('Copy'));

@@ -14,7 +14,7 @@
 //   * `adaptiveOverlay` went through `showOverlay` + `TooltipConfiguration`
 //     from the `overlay_configuration` component, which this component may not
 //     depend on. Dropped: an app installs a distinct tooltip handler through
-//     `ShadcnLayer.tooltipHandler` instead, and the handler is used below.
+//     `AppLayer.tooltipHandler` instead, and the handler is used below.
 //   * `TooltipContainer` read only `this.theme ?? ComponentTheme.maybeOf`, so
 //     app-wide overrides never applied and no token default existed for the
 //     background, padding or radius.
@@ -35,7 +35,7 @@ import 'tooltip_style.dart';
 
 export 'tooltip_style.dart';
 
-/// Default delay before a tooltip appears (shadcn `delayDuration: 0`, the old
+/// Default delay before a tooltip appears (upstream `delayDuration: 0`, the old
 /// Flutter default was 500 ms and is kept).
 const Duration kTooltipWaitDuration = Duration(milliseconds: 500);
 
@@ -102,7 +102,7 @@ class _TooltipState extends State<Tooltip> {
   /// Routes a presentation request to the app's tooltip handler.
   ///
   /// `showPopover` only knows how to call `OverlayHandler.show`, while
-  /// `ShadcnLayer` installs a distinct handler for tooltips; this adapter
+  /// `AppLayer` installs a distinct handler for tooltips; this adapter
   /// keeps that distinction without a component dependency.
   OverlayHandler _handler(BuildContext context) {
     return TooltipOverlayHandler(OverlayManager.of(context));
@@ -262,7 +262,7 @@ class TooltipContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData appTheme = ShadcnTheme.of(context);
+    final ThemeData appTheme = Theme.of(context);
     final TooltipTheme resolved =
         resolveComponentStyle<TooltipTheme, TooltipTheme>(
           context,

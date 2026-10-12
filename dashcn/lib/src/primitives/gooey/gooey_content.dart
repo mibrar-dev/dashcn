@@ -140,7 +140,7 @@ class GooeySurfacePill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     final GooeyCompactMorphFrame frame = morph;
     final double t = frame.progress.clamp(0.0, 1.0).toDouble();
     final bool morphing = t < 0.999 && frame.title != null;
@@ -260,7 +260,7 @@ class GooeySurfaceBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Widget content =
         body ??
         Column(

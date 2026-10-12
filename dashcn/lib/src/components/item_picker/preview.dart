@@ -83,15 +83,15 @@ class _Swatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
+    final colors = Theme.of(context).colors;
     final Color color = switch (name) {
       'Coral' => colors.chart1,
       'Mint' => colors.chart2,
       _ => colors.chart3,
     };
     return SizedBox(
-      width: ShadcnTheme.of(context).spacing.xl,
-      height: ShadcnTheme.of(context).spacing.xl,
+      width: Theme.of(context).spacing.xl,
+      height: Theme.of(context).spacing.xl,
       child: ColoredBox(color: color, child: const SizedBox()),
     );
   }

@@ -1,25 +1,21 @@
 ---
 title: "Class: RecentColorsScope"
-description: "Provides color history storage in the widget tree."
+description: "Provides a [ColorHistoryStorage] to descendants."
 ---
 
 ```dart
-/// Provides color history storage in the widget tree.
-///
-/// [RecentColorsScope] manages a list of recently used colors and makes it
-/// available to descendant widgets through [ColorHistoryStorage]. It supports
-/// a configurable maximum capacity and notifies listeners of changes.
+/// Provides a [ColorHistoryStorage] to descendants.
 class RecentColorsScope extends StatefulWidget {
-  /// Initial colors to populate the history.
+  /// Creates a scope.
+  const RecentColorsScope({super.key, this.initialRecentColors = const <Color>[], this.maxRecentColors = 50, this.onRecentColorsChanged, required this.child});
+  /// Seed colours.
   final List<Color> initialRecentColors;
-  /// Maximum number of colors to keep in the history.
+  /// Maximum stored colours.
   final int maxRecentColors;
-  /// Called when the recent colors list changes.
+  /// Called whenever the list changes.
   final ValueChanged<List<Color>>? onRecentColorsChanged;
-  /// The child widget.
+  /// Content below the scope.
   final Widget child;
-  /// Creates a [RecentColorsScope].
-  const RecentColorsScope({super.key, this.initialRecentColors = const [], this.maxRecentColors = 50, this.onRecentColorsChanged, required this.child});
   State<RecentColorsScope> createState();
 }
 ```

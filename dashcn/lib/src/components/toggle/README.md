@@ -95,7 +95,7 @@ Defaults: `on` is the button primary row, `off` is the button ghost row
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add toggle`) or copy the folder.
+1. Install the component (`dashcn add toggle`) or copy the folder.
 2. Import `toggle.dart`; it re-exports `ToggleStyle`, `ToggleTheme` and
    `toggleDefaults`.
 3. App-wide overrides live in the user-owned `toggle_theme.dart`.

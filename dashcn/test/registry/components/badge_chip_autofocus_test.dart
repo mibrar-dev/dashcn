@@ -8,8 +8,8 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(Widget child) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Center(child: child),

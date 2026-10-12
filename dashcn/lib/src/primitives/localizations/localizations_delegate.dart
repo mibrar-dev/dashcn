@@ -42,108 +42,109 @@ import 'localizations_zh.dart';
 import 'localizations_zh_hant.dart';
 import 'localizations.dart';
 
-/// Loads [ShadcnLocalizations] for every locale that ships translated data.
+/// Loads [ComponentLocalizations] for every locale that ships translated data.
 ///
 /// Matching is on the language code, so `de_AT` resolves to German and
 /// `zh_TW` to the traditional-Chinese table.
-class ShadcnLocalizationsDelegate
-    extends LocalizationsDelegate<ShadcnLocalizations> {
+class ComponentLocalizationsDelegate
+    extends LocalizationsDelegate<ComponentLocalizations> {
   /// Creates the delegate.
-  const ShadcnLocalizationsDelegate();
+  const ComponentLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ShadcnLocalizations.supportedLocales.any(
-    (supported) => supported.languageCode == locale.languageCode,
-  );
+  bool isSupported(Locale locale) => ComponentLocalizations.supportedLocales
+      .any((supported) => supported.languageCode == locale.languageCode);
 
   @override
-  Future<ShadcnLocalizations> load(Locale locale) =>
-      SynchronousFuture<ShadcnLocalizations>(lookupShadcnLocalizations(locale));
+  Future<ComponentLocalizations> load(Locale locale) =>
+      SynchronousFuture<ComponentLocalizations>(
+        lookupComponentLocalizations(locale),
+      );
 
   @override
-  bool shouldReload(ShadcnLocalizationsDelegate old) => false;
+  bool shouldReload(ComponentLocalizationsDelegate old) => false;
 }
 
-/// Returns the translated [ShadcnLocalizations] for [locale].
+/// Returns the translated [ComponentLocalizations] for [locale].
 ///
 /// Locales without their own table fall back to the English defaults, so this
 /// is total: it never throws.
-ShadcnLocalizations lookupShadcnLocalizations(Locale locale) {
+ComponentLocalizations lookupComponentLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
-      return ShadcnLocalizationsAr(locale);
+      return ComponentLocalizationsAr(locale);
     case 'bg':
-      return ShadcnLocalizationsBg(locale);
+      return ComponentLocalizationsBg(locale);
     case 'bn':
-      return ShadcnLocalizationsBn(locale);
+      return ComponentLocalizationsBn(locale);
     case 'cs':
-      return ShadcnLocalizationsCs(locale);
+      return ComponentLocalizationsCs(locale);
     case 'da':
-      return ShadcnLocalizationsDa(locale);
+      return ComponentLocalizationsDa(locale);
     case 'de':
-      return ShadcnLocalizationsDe(locale);
+      return ComponentLocalizationsDe(locale);
     case 'el':
-      return ShadcnLocalizationsEl(locale);
+      return ComponentLocalizationsEl(locale);
     case 'es':
-      return ShadcnLocalizationsEs(locale);
+      return ComponentLocalizationsEs(locale);
     case 'fa':
-      return ShadcnLocalizationsFa(locale);
+      return ComponentLocalizationsFa(locale);
     case 'fi':
-      return ShadcnLocalizationsFi(locale);
+      return ComponentLocalizationsFi(locale);
     case 'fil':
-      return ShadcnLocalizationsFil(locale);
+      return ComponentLocalizationsFil(locale);
     case 'fr':
-      return ShadcnLocalizationsFr(locale);
+      return ComponentLocalizationsFr(locale);
     case 'he':
-      return ShadcnLocalizationsHe(locale);
+      return ComponentLocalizationsHe(locale);
     case 'hi':
-      return ShadcnLocalizationsHi(locale);
+      return ComponentLocalizationsHi(locale);
     case 'hu':
-      return ShadcnLocalizationsHu(locale);
+      return ComponentLocalizationsHu(locale);
     case 'id':
-      return ShadcnLocalizationsId(locale);
+      return ComponentLocalizationsId(locale);
     case 'it':
-      return ShadcnLocalizationsIt(locale);
+      return ComponentLocalizationsIt(locale);
     case 'ja':
-      return ShadcnLocalizationsJa(locale);
+      return ComponentLocalizationsJa(locale);
     case 'ko':
-      return ShadcnLocalizationsKo(locale);
+      return ComponentLocalizationsKo(locale);
     case 'mr':
-      return ShadcnLocalizationsMr(locale);
+      return ComponentLocalizationsMr(locale);
     case 'ms':
-      return ShadcnLocalizationsMs(locale);
+      return ComponentLocalizationsMs(locale);
     case 'nb':
-      return ShadcnLocalizationsNb(locale);
+      return ComponentLocalizationsNb(locale);
     case 'nl':
-      return ShadcnLocalizationsNl(locale);
+      return ComponentLocalizationsNl(locale);
     case 'pl':
-      return ShadcnLocalizationsPl(locale);
+      return ComponentLocalizationsPl(locale);
     case 'ps':
-      return ShadcnLocalizationsPs(locale);
+      return ComponentLocalizationsPs(locale);
     case 'pt':
-      return ShadcnLocalizationsPt(locale);
+      return ComponentLocalizationsPt(locale);
     case 'ro':
-      return ShadcnLocalizationsRo(locale);
+      return ComponentLocalizationsRo(locale);
     case 'ru':
-      return ShadcnLocalizationsRu(locale);
+      return ComponentLocalizationsRu(locale);
     case 'sk':
-      return ShadcnLocalizationsSk(locale);
+      return ComponentLocalizationsSk(locale);
     case 'sv':
-      return ShadcnLocalizationsSv(locale);
+      return ComponentLocalizationsSv(locale);
     case 'ta':
-      return ShadcnLocalizationsTa(locale);
+      return ComponentLocalizationsTa(locale);
     case 'te':
-      return ShadcnLocalizationsTe(locale);
+      return ComponentLocalizationsTe(locale);
     case 'th':
-      return ShadcnLocalizationsTh(locale);
+      return ComponentLocalizationsTh(locale);
     case 'tr':
-      return ShadcnLocalizationsTr(locale);
+      return ComponentLocalizationsTr(locale);
     case 'uk':
-      return ShadcnLocalizationsUk(locale);
+      return ComponentLocalizationsUk(locale);
     case 'ur':
-      return ShadcnLocalizationsUr(locale);
+      return ComponentLocalizationsUr(locale);
     case 'vi':
-      return ShadcnLocalizationsVi(locale);
+      return ComponentLocalizationsVi(locale);
     case 'zh':
       // Traditional first, then the regions that write in that script.
       if (locale.scriptCode == 'Hant' ||
@@ -151,10 +152,10 @@ ShadcnLocalizations lookupShadcnLocalizations(Locale locale) {
               (locale.countryCode == 'TW' ||
                   locale.countryCode == 'HK' ||
                   locale.countryCode == 'MO'))) {
-        return ShadcnLocalizationsZhHant(locale);
+        return ComponentLocalizationsZhHant(locale);
       }
-      return ShadcnLocalizationsZh(locale);
+      return ComponentLocalizationsZh(locale);
     default:
-      return ShadcnLocalizations(locale);
+      return ComponentLocalizations(locale);
   }
 }

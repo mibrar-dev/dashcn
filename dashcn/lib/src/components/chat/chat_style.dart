@@ -103,7 +103,7 @@ class ChatTheme extends ComponentThemeData implements Mergeable<ChatTheme> {
 
   final double? widthFactor;
 
-  /// Inner padding; null = the shadcn bubble's `px-3 py-2` (12/8) as an
+  /// Inner padding; null = the upstream bubble's `px-3 py-2` (12/8) as an
   /// [EdgeInsetsDensity].
   final EdgeInsetsGeometry? padding;
 
@@ -372,7 +372,7 @@ ChatTheme resolveChatStyle(
   double? avatarSpacing,
   AlignmentGeometry? avatarAlignment,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final ChatTheme resolved = resolveComponentStyle<ChatTheme, ChatTheme>(
     context,
     widget: widgetTheme,

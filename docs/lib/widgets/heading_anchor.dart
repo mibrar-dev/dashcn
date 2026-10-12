@@ -1,4 +1,4 @@
-// Section heading with the shadcn `#` anchor (spec §2.3): the hash fades in
+// Section heading with the upstream `#` anchor (spec §2.3): the hash fades in
 // on hover over 200 ms linear and the heading registers itself with the
 // article's TOC/scroll-spy controller.
 //
@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart';
 
 import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_article.dart';
 import 'docs_tokens.dart';
 
@@ -60,7 +60,7 @@ class _HeadingAnchorState extends State<HeadingAnchor> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool h2 = widget.level <= 2;
     final double size = h2 ? 18.75 : 16.875;
     final double height = h2 ? 26.25 : 24.47;

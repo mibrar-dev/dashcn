@@ -6,9 +6,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/docs_tokens.dart';
 
 /// A readable not-found page.
@@ -21,7 +21,7 @@ class DocsPlaceholderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool docsRoute = config.route != DocsRoute.themes;
     return ColoredBox(
       color: theme.colors.background,

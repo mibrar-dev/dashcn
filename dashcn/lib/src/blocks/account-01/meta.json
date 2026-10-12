@@ -4,8 +4,8 @@
   "category": "Settings & Account",
   "description": "An account settings screen with tabbed, validated profile and password forms.",
   "viewport": "desktop",
-  "install": "flutter_shadcn add account-01",
-  "import": "import 'package:<your_app>/ui/shadcn/blocks/account-01/account_01.dart';",
+  "install": "dashcn add account-01",
+  "import": "import 'package:<your_app>/ui/dashcn/blocks/account-01/account_01.dart';",
   "tags": [
     "account01",
     "account"

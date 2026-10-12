@@ -56,7 +56,7 @@ Common parameters: `position` (`OverlayPosition.left/right/top/bottom/start/end`
 `borderRadius`, `maxSize`, `barrierLabel`, `useRootNavigator`, `routeSettings`,
 `theme` (widget leg).
 
-The barrier is `black @ 50%` by default (shadcn `bg-black/50`), dismisses on tap
+The barrier is `black @ 50%` by default (dashcn `bg-black/50`), dismisses on tap
 and Escape, traps Tab, and restores the opener's focus on close. A sheet's
 content is marked with the `primitives/sheet_overlay` marker so a `Card` inside
 it drops its chrome.
@@ -93,8 +93,8 @@ light/dark or preset switch restyles an open drawer.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add drawer`) or copy the folder into
-   `lib/ui/shadcn/drawer/`.
+1. Install the component (`dashcn add drawer`) or copy the folder into
+   `lib/ui/dashcn/drawer/`.
 2. Import `drawer.dart`; it re-exports `DrawerTheme`, `OverlayPosition`,
    `DrawerOverlayCompleter` and `drawerDefaults`.
 3. App-wide overrides go in `drawer_theme.dart`; per-subtree overrides use

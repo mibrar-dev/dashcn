@@ -19,7 +19,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ChipTheme? scopedTheme,
 }) {
@@ -27,7 +27,7 @@ Widget _frame({
   if (scopedTheme != null) {
     body = ComponentTheme<ChipTheme>(data: scopedTheme, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -107,10 +107,10 @@ void main() {
     ) async {
       await tester.pumpWidget(_frame(child: const Chip(child: Text('static'))));
       expect(find.text('static'), findsOneWidget);
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(_staticDecoration(tester).color, colors.secondary);
       expect(_staticTextStyle(tester).color, colors.secondaryForeground);
-      // The default is density multipliers, so the rendered chip holds the shadcn
+      // The default is density multipliers, so the rendered chip holds the upstream
       // value (px-2 py-0.5) resolved at the default density.
       expect(
         _staticPadding(tester),
@@ -140,7 +140,7 @@ void main() {
         );
         expect(
           _staticDecoration(tester).color,
-          ShadcnColors.lightFallback.secondary,
+          ThemeColors.lightFallback.secondary,
         );
       },
     );
@@ -179,7 +179,7 @@ void main() {
         () => FocusManager.instance.highlightStrategy =
             FocusHighlightStrategy.automatic,
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           child: Chip(onPressed: () {}, child: const Text('hover')),
@@ -287,7 +287,7 @@ void main() {
             .padding,
         chipButtonDefaultPadding,
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       BoxDecoration buttonRow(Set<WidgetState> states) =>
           _buttonClickable(tester)!.decoration!.resolve(states)
               as BoxDecoration;
@@ -369,7 +369,7 @@ void main() {
       );
       expect(
         _staticDecoration(tester).color,
-        ShadcnColors.lightFallback.destructive,
+        ThemeColors.lightFallback.destructive,
       );
     });
 
@@ -383,7 +383,7 @@ void main() {
           child: const Chip(child: Text('scoped')),
         ),
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(_staticDecoration(tester).color!.a, 0);
       expect(_staticTextStyle(tester).color, colors.foreground);
     });
@@ -436,7 +436,7 @@ void main() {
         ),
       );
       expect(_staticDecoration(tester).color, custom);
-      // The default is density multipliers, so the rendered chip holds the shadcn
+      // The default is density multipliers, so the rendered chip holds the upstream
       // value (px-2 py-0.5) resolved at the default density.
       expect(
         _staticPadding(tester),
@@ -451,10 +451,10 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Chip(child: Text('dark')),
         ),
       );
@@ -475,14 +475,14 @@ void main() {
       );
       final BoxDecoration box = _staticDecoration(tester);
       expect(box.color!.a, closeTo(0.3, 0.001));
-      expect(box.border, Border.all(color: ShadcnColors.lightFallback.input));
+      expect(box.border, Border.all(color: ThemeColors.lightFallback.input));
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Chip(
             theme: ChipTheme(
               style: ButtonVariantStyle(
@@ -511,7 +511,7 @@ void main() {
           child: Chip(onPressed: () {}, child: const Text('row')),
         ),
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(_rowText(tester).color, colors.secondaryForeground);
       expect(
         _row(tester, const <WidgetState>{WidgetState.hovered}).color,

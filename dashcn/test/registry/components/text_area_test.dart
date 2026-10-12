@@ -65,7 +65,7 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   InputTheme? scoped,
 }) {
@@ -73,7 +73,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<InputTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -126,7 +126,7 @@ class _FakeFormHandle with FormFieldHandle {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   group('multiline defaults', () {
     testWidgets('is three lines tall by default', (tester) async {
@@ -254,10 +254,10 @@ void main() {
     testWidgets('paints the input tokens', (tester) async {
       await tester.pumpWidget(_frame(const TextArea()));
       final BoxDecoration surface = _surface(tester);
-      // shadcn v4: transparent in light (input @0).
+      // upstream v4: transparent in light (input @0).
       expect(surface.color, _alpha(colors.input, 0));
       expect(surface.border, Border.all(color: colors.input));
-      expect(surface.borderRadius, const ShadcnThemeData().borderRadiusMd);
+      expect(surface.borderRadius, const ThemeData().borderRadiusMd);
     });
 
     testWidgets('the focus ring follows focus', (tester) async {
@@ -358,15 +358,15 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors palette) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors palette) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive the surface', (tester) async {
         await tester.pumpWidget(
-          _frame(const TextArea(), data: ShadcnThemeData(colors: palette)),
+          _frame(const TextArea(), data: ThemeData(colors: palette)),
         );
-        // shadcn v4: transparent in light, input/30 in dark.
+        // upstream v4: transparent in light, input/30 in dark.
         final double alpha = name == 'dark' ? 0.3 : 0;
         expect(_surface(tester).color, _alpha(palette.input, alpha));
         expect(_surface(tester).border, Border.all(color: palette.input));
@@ -376,7 +376,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             const TextArea(hintText: 'hint'),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(find.text('hint'), findsOneWidget);
@@ -388,7 +388,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             const TextArea(initialValue: 'value'),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_field(tester).style.color, palette.foreground);

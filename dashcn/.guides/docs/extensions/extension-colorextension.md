@@ -1,17 +1,23 @@
 ---
 title: "Extension: ColorExtension"
-description: "Extension adding color manipulation utilities to [Color]."
+description: "Color manipulation utilities."
 ---
 
 ```dart
-/// Extension adding color manipulation utilities to [Color].
+/// Color manipulation utilities.
 extension ColorExtension on Color {
-  /// Scales the alpha channel by a factor.
-  ///
-  /// Parameters:
-  /// - [factor] (`double`, required): Multiplier for alpha (0.0 to 1.0+).
-  ///
-  /// Returns: `Color` — color with scaled alpha.
+  /// Multiplies the alpha channel by [factor].
   Color scaleAlpha(double factor);
+  /// Returns a color whose HSL lightness moves [luminanceContrast] toward the
+  /// opposite end of the scale.
+  Color getContrastColor([double luminanceContrast = 1]);
+  /// Sets the HSL lightness of this color.
+  Color withLuminance(double luminance);
+  /// ARGB hex string (`AARRGGBB`), optionally without alpha / hash sign.
+  String toHex({bool includeHashSign = false, bool includeAlpha = true});
+  /// Converts this color to [HSLColor].
+  HSLColor toHSL();
+  /// Converts this color to [HSVColor].
+  HSVColor toHSV();
 }
 ```

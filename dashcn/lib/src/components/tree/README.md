@@ -129,7 +129,7 @@ with receiver-wins `Mergeable.merge`. The tree's own `theme:` (widget leg),
   30-method `List` extension forwarding each of them, and a deprecated `Tree`
   subclass forwarding both (~540 lines of code with the doc comments stripped).
   One `TreeNodeListExtension` remains; `Tree` is the widget name (the
-  shadcn/upstream name) and the `TreeView`/`Tree` aliases are gone.
+  dashcn/upstream name) and the `TreeView`/`Tree` aliases are gone.
 - `TreeRoot` (an invisible grouping node) was never instantiated anywhere in the
   repo and is dropped.
 - Keyboard range/multi-select ran through `Actions`/`Shortcuts` inside a
@@ -181,8 +181,8 @@ with receiver-wins `Mergeable.merge`. The tree's own `theme:` (widget leg),
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add tree`) or copy the folder into
-   `lib/ui/shadcn/tree/`.
+1. Install the component (`dashcn add tree`) or copy the folder into
+   `lib/ui/dashcn/tree/`.
 2. Import `tree.dart`; it re-exports `TreeTheme`, `treeDefaults`, `TreeRow` and
    the row context.
 3. App-wide overrides go in `tree_theme.dart`; per-subtree overrides use

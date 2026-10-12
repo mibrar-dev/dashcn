@@ -25,7 +25,7 @@ Build 482 ships **faster cold start** and a *smaller bundle*.
 
 /// Headings, emphasis, a list, a quote and a local image placeholder.
 Widget _default(BuildContext context) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   return SizedBox(
     width: 320,
     child: Markdown(
@@ -70,7 +70,7 @@ Widget _streamingTail(BuildContext context) {
     0,
     computeStableMarkdownPrefixLength(_streamSource),
   );
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   return SizedBox(
     width: 320,
     child: Column(

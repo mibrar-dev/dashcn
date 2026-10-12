@@ -79,13 +79,13 @@ same on every keyboard the user is on.
 
 | `KeyboardShortcutTheme` field | Default |
 |---|---|
-| `spacing` | 2 (shadcn `gap-0.5`) |
-| `keyPadding` | `EdgeInsets.symmetric(horizontal: 6, vertical: 4)` (shadcn `px-1.5 py-0.5`) |
+| `spacing` | 2 (dashcn `gap-0.5`) |
+| `keyPadding` | `EdgeInsets.symmetric(horizontal: 6, vertical: 4)` (dashcn `px-1.5 py-0.5`) |
 | `keyBackground` | `background` at 70% alpha, computed at build |
 | `keyForeground` | `mutedForeground` |
 | `keyBorderRadius` | the ambient `radiusMd` |
-| `keyTextStyle` | `TextStyle(fontSize: 12, fontWeight: w500)` (shadcn `text-xs`) |
-| `keyShadows` | none (the shadcn look) |
+| `keyTextStyle` | `TextStyle(fontSize: 12, fontWeight: w500)` (dashcn `text-xs`) |
+| `keyShadows` | none (the dashcn look) |
 
 Only `spacing` is multiplied by `theme.scaling`; a key cap's size is a fixed
 readability floor, so scaling it would make a 12 px label a 24 px one.

@@ -13,7 +13,7 @@ import 'triple_dots.dart';
 
 /// Counts, sizes and strokes in one row.
 Widget _tripleDotsDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xxl,
     runSpacing: spacing.md,

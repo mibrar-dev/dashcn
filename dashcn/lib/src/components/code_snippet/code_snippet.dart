@@ -57,7 +57,7 @@ class CodeSnippet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final CodeSnippetTheme style =
         resolveComponentStyle<CodeSnippetTheme, CodeSnippetTheme>(
           context,
@@ -99,7 +99,7 @@ class CodeSnippet extends StatelessWidget {
                   child: Overlay.maybeOf(context) == null
                       ? _codeChild(ambient)
                       : SelectableRegion(
-                          selectionControls: ShadcnSelectionControls(),
+                          selectionControls: SelectionControls(),
                           child: _codeChild(ambient),
                         ),
                 ),
@@ -136,7 +136,7 @@ class CodeSnippet extends StatelessWidget {
   /// The source string comes from a plain [Text] or from a [Text.rich]
   /// span (`toPlainText`); it is re-colored with the theme syntax group.
   /// Any other widget renders untouched.
-  Widget _codeChild(ShadcnThemeData ambient) {
+  Widget _codeChild(ThemeData ambient) {
     final Widget raw = code;
     if (raw is! Text) return raw.mono.small;
     final String? text = raw.data ?? raw.textSpan?.toPlainText();

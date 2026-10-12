@@ -2,10 +2,10 @@
   "id": "popup",
   "name": "Popup",
   "category": "Overlays",
-  "description": "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showShadcnPopup, a generic helper with Escape/outside-tap dismissal.",
+  "description": "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
   "tier": "component",
-  "install": "flutter_shadcn add popup",
-  "import": "import 'package:<your_app>/ui/shadcn/components/popup/popup.dart';",
+  "install": "dashcn add popup",
+  "import": "import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';",
   "tags": [
     "overlay",
     "popup",
@@ -29,7 +29,7 @@
   ],
   "api": {
     "functions": [
-      "showShadcnPopup"
+      "showPopup"
     ],
     "reExportedFromComponents": {
       "menu": [
@@ -44,7 +44,7 @@
     "owner": "menu",
     "userFile": "menu/menu_theme.dart",
     "defaults": "menuPopupDefaults",
-    "note": "The surface tokens are menu-owned; showShadcnPopup accepts a MenuPopupTheme as its widget-leg override."
+    "note": "The surface tokens are menu-owned; showPopup accepts a MenuPopupTheme as its widget-leg override."
   },
   "accessibility": {
     "keyboard": "Escape closes the popup (the helper binds DismissIntent); with modal: true focus is trapped on the surface while it is open",
@@ -57,6 +57,6 @@
     "MenuPopup/MenuPopupTheme are re-exported from menu (B13) and never re-declared.",
     "The old popup depended on dialog for DialogOverlayHandler padding sniffing; that sniffing is deleted in menu, so the dependency dissolved.",
     "The old MenuPopup surfaceOpacity/surfaceBlur/fillColor/borderColor fields are replaced by MenuPopupTheme's token fields (B13).",
-    "showShadcnPopup is new: the old component was only the surface, with no helper to present it."
+    "showPopup is new: the old component was only the surface, with no helper to present it."
   ]
 }

@@ -4,12 +4,12 @@
 // Ported from `layout/table` (39 files, ~4.5k LOC). The layout engine, cell
 // helpers, resize controller/handles and the cell view live in
 // `primitives/table_layout/` so this file stays within the 400-line limit.
-// `ResizableTable` is folded into `ShadcnTable` behind `resizeController`
+// `ResizableTable` is folded into `TableView` behind `resizeController`
 // (clean break; no alias).
 //
-// Names are prefixed `ShadcnTable*` because `Table`, `TableRow` and `TableCell`
+// Names are prefixed `TableView*` because `Table`, `TableRow` and `TableCell`
 // are also names in `package:flutter/widgets.dart` (the `image` batch resolved
-// the same clash by renaming `Image` to `ShadcnImage`).
+// the same clash by renaming `Image` to `Picture`).
 //
 // Old bugs fixed, not ported: hard-coded white cell fill (dark tables were
 // white); `TableTheme.cellTheme` declared but never read; per-build
@@ -45,11 +45,11 @@ export '../../primitives/table_layout/table_resize_controller.dart'
     show ResizableTableController;
 export 'table_style.dart';
 
-/// A themed data grid of [ShadcnTableRow]s (headers, rows, footers) holding
-/// [ShadcnTableCell]s, sized by [TableSize] strategies.
-class ShadcnTable extends StatefulWidget {
+/// A themed data grid of [TableViewRow]s (headers, rows, footers) holding
+/// [TableViewCell]s, sized by [TableSize] strategies.
+class TableView extends StatefulWidget {
   /// Creates a table.
-  const ShadcnTable({
+  const TableView({
     super.key,
     required this.rows,
     this.defaultColumnWidth = const FlexTableSize(),
@@ -72,7 +72,7 @@ class ShadcnTable extends StatefulWidget {
   });
 
   /// Rows of the table.
-  final List<ShadcnTableRow> rows;
+  final List<TableViewRow> rows;
 
   /// Default column sizing strategy.
   final TableSize defaultColumnWidth;
@@ -119,16 +119,16 @@ class ShadcnTable extends StatefulWidget {
   final TableTheme? theme;
 
   @override
-  State<ShadcnTable> createState() => ShadcnTableState();
+  State<TableView> createState() => TableViewState();
 }
 
-/// One row of a [ShadcnTable].
+/// One row of a [TableView].
 
-/// State of a [ShadcnTable]: flattens the rows, resolves the theme and lays out
+/// State of a [TableView]: flattens the rows, resolves the theme and lays out
 /// the cells.
-class ShadcnTableState extends State<ShadcnTable> {
-  List<FlatTableCell<ShadcnTableCell>> _cells =
-      const <FlatTableCell<ShadcnTableCell>>[];
+class TableViewState extends State<TableView> {
+  List<FlatTableCell<TableViewCell>> _cells =
+      const <FlatTableCell<TableViewCell>>[];
   int _maxRow = 0;
   int _maxColumn = 0;
   TextDirection _textDirection = TextDirection.ltr;
@@ -147,7 +147,7 @@ class ShadcnTableState extends State<ShadcnTable> {
   }
 
   @override
-  void didUpdateWidget(covariant ShadcnTable oldWidget) {
+  void didUpdateWidget(covariant TableView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(widget.rows, oldWidget.rows)) {
       _initCells();
@@ -163,10 +163,10 @@ class ShadcnTableState extends State<ShadcnTable> {
   }
 
   void _initCells() {
-    _cells = flattenTableCells<ShadcnTableCell, ShadcnTableRow>(widget.rows);
+    _cells = flattenTableCells<TableViewCell, TableViewRow>(widget.rows);
     _maxRow = 0;
     _maxColumn = 0;
-    for (final FlatTableCell<ShadcnTableCell> cell in _cells) {
+    for (final FlatTableCell<TableViewCell> cell in _cells) {
       _maxColumn = max(_maxColumn, cell.column + cell.columnSpan - 1);
       _maxRow = max(_maxRow, cell.row + cell.rowSpan - 1);
     }
@@ -204,7 +204,7 @@ class ShadcnTableState extends State<ShadcnTable> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final TableTheme resolved = resolveComponentStyle<TableTheme, TableTheme>(
       context,
       widget: widget.theme,
@@ -231,7 +231,7 @@ class ShadcnTableState extends State<ShadcnTable> {
         width: (i) => _size(i, true),
         height: (i) => _size(i, false),
         children: <Widget>[
-          for (final FlatTableCell<ShadcnTableCell> cell in _cells)
+          for (final FlatTableCell<TableViewCell> cell in _cells)
             _buildRawCell(cell, resolved.cellTheme),
         ],
       );
@@ -281,7 +281,7 @@ class ShadcnTableState extends State<ShadcnTable> {
   }
 
   Widget _buildRawCell(
-    FlatTableCell<ShadcnTableCell> flat,
+    FlatTableCell<TableViewCell> flat,
     TableCellTheme? tableCellTheme,
   ) {
     final ResizableTableController? controller = widget.resizeController;
@@ -315,11 +315,11 @@ class ShadcnTableState extends State<ShadcnTable> {
   }
 
   Widget _buildCell(
-    FlatTableCell<ShadcnTableCell> flat,
+    FlatTableCell<TableViewCell> flat,
     TableCellTheme? tableCellTheme,
   ) {
-    final ShadcnTableCell cell = flat.cell;
-    final ShadcnTableRow row = widget.rows[flat.row];
+    final TableViewCell cell = flat.cell;
+    final TableViewRow row = widget.rows[flat.row];
     final TableCellTheme cellTheme = mergeTableCellTheme(
       _rowDefaultTheme(row),
       tableTheme: tableCellTheme,
@@ -347,9 +347,7 @@ class ShadcnTableState extends State<ShadcnTable> {
       child: cell.child,
     );
     final ValueChanged<int>? onRowTap = widget.onRowTap;
-    if (onRowTap == null ||
-        row is ShadcnTableHeader ||
-        row is ShadcnTableFooter) {
+    if (onRowTap == null || row is TableViewHeader || row is TableViewFooter) {
       return view;
     }
     return Clickable(
@@ -359,11 +357,11 @@ class ShadcnTableState extends State<ShadcnTable> {
     );
   }
 
-  TableCellTheme _rowDefaultTheme(ShadcnTableRow row) {
-    if (row is ShadcnTableHeader) {
+  TableCellTheme _rowDefaultTheme(TableViewRow row) {
+    if (row is TableViewHeader) {
       return tableHeaderCellDefaults;
     }
-    if (row is ShadcnTableFooter) {
+    if (row is TableViewFooter) {
       return tableFooterCellDefaults;
     }
     return tableCellDefaults;

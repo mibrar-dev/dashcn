@@ -29,11 +29,11 @@ SliderMarksStyle _marksStyleFor(SliderVariant variant) {
 }
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -78,7 +78,7 @@ class _FakeFormHandle with FormFieldHandle {
 }
 
 void main() {
-  const colors = ShadcnColors.lightFallback;
+  const colors = ThemeColors.lightFallback;
 
   test('default rows match the token design for every variant', () {
     for (final variant in SliderVariant.values) {
@@ -122,13 +122,13 @@ void main() {
   testWidgets('renders dark tokens', (tester) async {
     await tester.pumpWidget(
       _frame(
-        data: ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: ThemeData(colors: ThemeColors.darkFallback),
         child: Slider(value: 0.5, onChanged: (_) {}),
       ),
     );
     final painter = _painter(tester);
-    expect(painter.trackColor, ShadcnColors.darkFallback.secondary);
-    expect(painter.fillColor, ShadcnColors.darkFallback.primary);
+    expect(painter.trackColor, ThemeColors.darkFallback.secondary);
+    expect(painter.fillColor, ThemeColors.darkFallback.primary);
   });
 
   for (final variant in SliderVariant.values) {

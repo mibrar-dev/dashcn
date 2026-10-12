@@ -89,7 +89,7 @@ class CountryFlag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final CountryFlagTheme style =
         resolveComponentStyle<CountryFlagTheme, CountryFlagTheme>(
           context,

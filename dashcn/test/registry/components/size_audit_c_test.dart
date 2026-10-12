@@ -1,4 +1,4 @@
-// Size audit C: table + markdown spacing vs shadcn/ui new-york v4.
+// Size audit C: table + markdown spacing vs the upstream web kit new-york v4.
 //
 // Split from `size_audit_b_test.dart` (400-line limit). Same conventions as
 // `size_audit_a_test.dart`.
@@ -12,18 +12,18 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('table (head h-10 px-2, cell p-2)', () {
     Widget table() {
-      return ShadcnTable(
-        rows: const <ShadcnTableRow>[
-          ShadcnTableHeader(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Name')),
-              ShadcnTableCell(child: Text('Role')),
+      return TableView(
+        rows: const <TableViewRow>[
+          TableViewHeader(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Name')),
+              TableViewCell(child: Text('Role')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Avery')),
-              ShadcnTableCell(child: Text('Designer')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Avery')),
+              TableViewCell(child: Text('Designer')),
             ],
           ),
         ],
@@ -34,8 +34,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(
@@ -64,8 +64,8 @@ void main() {
 
     testWidgets('body cells pad 8 on every side (p-2)', (tester) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(
@@ -85,8 +85,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(
@@ -105,7 +105,7 @@ void main() {
             .first,
       );
       expect(text.style.fontWeight, FontWeight.w500);
-      expect(text.style.color, const ShadcnThemeData().colors.foreground);
+      expect(text.style.color, const ThemeData().colors.foreground);
     });
   });
 
@@ -115,8 +115,8 @@ void main() {
     Widget mdFrame({required Widget child}) {
       return Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
+        child: Theme(
+          data: const ThemeData(),
           child: Navigator(
             onGenerateRoute: (_) => PageRouteBuilder<void>(
               pageBuilder: (_, _, _) => SizedBox(width: 400, child: child),
@@ -129,7 +129,7 @@ void main() {
     testWidgets('paragraph blocks gap by blockSpacing (6)', (tester) async {
       // A blank source line renders its own 8px block, so two paragraphs
       // separated by one blank line sit 6 (blockSpacing) + 8 (blank) = 14
-      // apart. shadcn typography uses mt-6 (24); the kit compacts both
+      // apart. upstream typography uses mt-6 (24); the kit compacts both
       // legs (see the P4-M1 report).
       await tester.pumpWidget(
         mdFrame(child: const Markdown(data: 'Para one.\n\nPara two.')),
@@ -158,7 +158,7 @@ void main() {
     testWidgets('fenced code pads 12 with 6px vertical margins', (
       tester,
     ) async {
-      // shadcn docs `pre` uses p-4 (16); the kit compacts to 12. Pinned
+      // upstream docs `pre` uses p-4 (16); the kit compacts to 12. Pinned
       // here so the primitives batch can align it deliberately.
       await tester.pumpWidget(
         mdFrame(child: const Markdown(data: '```dart\ncode\n```')),
@@ -182,7 +182,7 @@ void main() {
     });
 
     testWidgets('inline code paints the mono code background', (tester) async {
-      // shadcn inline code is `px-[0.3rem] py-[0.2rem]` on muted; the kit
+      // upstream inline code is `px-[0.3rem] py-[0.2rem]` on muted; the kit
       // paints mono + background with no padding (TextSpan cannot pad).
       // Pinned so the primitives batch can promote it to a WidgetSpan.
       await tester.pumpWidget(

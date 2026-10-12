@@ -28,7 +28,7 @@ final ImageProvider _avatarPhoto = MemoryImage(
 
 /// A photo avatar, with the initials fallback next to it.
 Widget _avatarImage(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +50,7 @@ Widget _avatarImage(BuildContext context) {
 
 /// Initials-only avatars at three sizes.
 Widget _avatarInitials(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +66,7 @@ Widget _avatarInitials(BuildContext context) {
 
 /// An avatar carrying a status badge.
 Widget _avatarBadge(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,

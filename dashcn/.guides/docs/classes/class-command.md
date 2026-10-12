@@ -1,30 +1,29 @@
 ---
 title: "Class: Command"
-description: "Command palette with search input, results, and keyboard handling."
+description: "A command palette with a search field, async results and keyboard support."
 ---
 
 ```dart
-/// Command palette with search input, results, and keyboard handling.
+/// A command palette with a search field, async results and keyboard support.
 class Command extends StatefulWidget {
-  const Command({super.key, required this.builder, this.autofocus = true, this.debounceDuration = const Duration(milliseconds: 500), this.emptyBuilder, this.errorBuilder, this.loadingBuilder, this.surfaceOpacity, this.surfaceBlur, this.searchPlaceholder});
-  /// Search results builder.
+  /// Creates a command palette.
+  const Command({super.key, required this.builder, this.autofocus = true, this.debounceDuration = const Duration(milliseconds: 300), this.emptyBuilder, this.errorBuilder, this.loadingBuilder, this.searchPlaceholder, this.theme});
+  /// Builds the results for the current query.
   final CommandBuilder builder;
-  /// Auto-focus the search field.
-  final bool autofocus;
-  /// Debounce delay for search input.
+  /// Delay between typing and running [builder]; each query restarts it.
   final Duration debounceDuration;
-  /// Empty state builder override.
+  /// Whether the search field takes focus when mounted.
+  final bool autofocus;
+  /// Shown when the finished result stream is empty.
   final WidgetBuilder? emptyBuilder;
-  /// Error builder override.
-  final ErrorWidgetBuilder? errorBuilder;
-  /// Loading state builder.
+  /// Shown when the result stream errors; defaults to the empty state.
+  final CommandErrorBuilder? errorBuilder;
+  /// Shown while the debounce/result stream has not produced data.
   final WidgetBuilder? loadingBuilder;
-  /// Optional surface opacity override.
-  final double? surfaceOpacity;
-  /// Optional surface blur override.
-  final double? surfaceBlur;
-  /// Placeholder widget for the search input.
+  /// Placeholder of the search field; defaults to the localized hint.
   final Widget? searchPlaceholder;
+  /// Widget-leg theme override, merged over the component/app/defaults.
+  final CommandTheme? theme;
   State<Command> createState();
 }
 ```

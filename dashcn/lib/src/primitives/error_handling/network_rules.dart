@@ -23,7 +23,7 @@ List<ErrorRule> networkRules({
   required VoidCallback onRetry,
   required VoidCallback onReport,
   required VoidCallback onSettings,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   ErrorRule ioRule(
     String typeName, {

@@ -1,32 +1,20 @@
 ---
 title: "Class: LengthValidator"
-description: "A validator that checks if a string's length is within specified bounds."
+description: "Bounds a string's length."
 ---
 
 ```dart
-/// A validator that checks if a string's length is within specified bounds.
-///
-/// [LengthValidator] validates that a string's length falls within the minimum
-/// and/or maximum bounds. Either bound can be null to check only one direction.
-///
-/// Example:
-/// ```dart
-/// LengthValidator(
-///   min: 3,
-///   max: 20,
-///   message: 'Must be between 3 and 20 characters',
-/// )
-/// ```
+/// Bounds a string's length.
 class LengthValidator extends Validator<String> {
-  /// Minimum length requirement (inclusive), or null for no minimum.
-  final int? min;
-  /// Maximum length requirement (inclusive), or null for no maximum.
-  final int? max;
-  /// Custom error message, or null to use default localized message.
-  final String? message;
-  /// Creates a [LengthValidator] with optional min/max bounds.
+  /// Creates a length validator; null bounds are not checked.
   const LengthValidator({this.min, this.max, this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode state);
+  /// Minimum length (inclusive).
+  final int? min;
+  /// Maximum length (inclusive).
+  final int? max;
+  /// Failure text; null uses the localized bound messages.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode lifecycle);
   bool operator ==(Object other);
   int get hashCode;
 }

@@ -8,10 +8,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/input/input.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/input/input.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/theme/theme.dart';
 
 /// The rail footer: preset id field plus the three actions.
 class RailFooter extends StatefulWidget {
@@ -61,7 +61,7 @@ class _RailFooterState extends State<RailFooter> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: theme.colors.border)),

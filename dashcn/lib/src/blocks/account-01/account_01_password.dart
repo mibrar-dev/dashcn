@@ -128,15 +128,15 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
         onSubmit: _handleValidSubmit,
         // The Builder hands the form's inner context to every submit call:
         // cross-field validators (CompareWith) resolve the other field
         // through FormController.maybeOf, which only sees a context under
-        // the ShadcnForm, not the State context above it.
+        // the FormScope, not the State context above it.
         child: Builder(
           builder: (BuildContext formContext) {
             return Column(
@@ -154,7 +154,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Gap(theme.spacing.lg),
                 const Divider(),
                 Gap(theme.spacing.lg),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _currentKey,
                   label: const Text('Current password'),
                   validator: const NotEmptyValidator(),
@@ -168,7 +168,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                   ),
                 ),
                 Gap(theme.spacing.lg),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _newKey,
                   label: const Text('New password'),
                   hint: const Text('At least 8 characters.'),
@@ -184,7 +184,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                   ),
                 ),
                 Gap(theme.spacing.lg),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _confirmKey,
                   label: const Text('Confirm new password'),
                   validator: _confirmValidator,

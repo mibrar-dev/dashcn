@@ -15,10 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -34,14 +34,14 @@ void main() {
     tester,
   ) async {
     for (final preview in chatPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pumpAndSettle();

@@ -1,5 +1,5 @@
 // Unit tests for the `syntax` token group: the github-light/github-dark
-// palettes, resolution through ShadcnThemeData for every preset in both
+// palettes, resolution through ThemeData for every preset in both
 // brightnesses (no per-preset JSON edits required), the copyWith override
 // leg, and lerp stepping.
 
@@ -14,10 +14,10 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../tool/rearch/gen_app_theme.dart' as gen;
 import '../themes/schema_check.dart';
 
-/// Builds the 32 shadcn color tokens from a preset's light/dark value map.
-ShadcnColors colorsFrom(Map<String, int> map, Brightness brightness) {
+/// Builds the 32 upstream color tokens from a preset's light/dark value map.
+ThemeColors colorsFrom(Map<String, int> map, Brightness brightness) {
   Color color(String key) => Color(map[key]!);
-  return ShadcnColors(
+  return ThemeColors(
     brightness: brightness,
     background: color('background'),
     foreground: color('foreground'),
@@ -55,11 +55,11 @@ ShadcnColors colorsFrom(Map<String, int> map, Brightness brightness) {
 }
 
 /// Builds the non-color tokens the way the kit generator emits them.
-ShadcnTokens tokensFrom(gen.ThemeValues values, Brightness brightness) {
+DesignTokens tokensFrom(gen.ThemeValues values, Brightness brightness) {
   final atoms = brightness == Brightness.dark
       ? values.darkShadow
       : values.lightShadow;
-  return ShadcnTokens(
+  return DesignTokens(
     radius: values.radius,
     spacingBase: values.spacing,
     trackingNormal: values.tracking['normal'] ?? 0,
@@ -76,14 +76,14 @@ ShadcnTokens tokensFrom(gen.ThemeValues values, Brightness brightness) {
   );
 }
 
-ShadcnThemeData themeFrom(gen.ThemeValues values, Brightness brightness) {
-  return ShadcnThemeData(
+ThemeData themeFrom(gen.ThemeValues values, Brightness brightness) {
+  return ThemeData(
     colors: colorsFrom(
       brightness == Brightness.dark ? values.dark : values.light,
       brightness,
     ),
     tokens: tokensFrom(values, brightness),
-    fonts: ShadcnFonts(
+    fonts: ThemeFonts(
       fontSans: values.fonts['sans'],
       fontSerif: values.fonts['serif'],
       fontMono: values.fonts['mono'],
@@ -168,8 +168,8 @@ void main() {
       );
       final a = themeFrom(values, Brightness.light);
       final b = a.copyWith(syntax: () => SyntaxColors.dark);
-      expect(ShadcnThemeData.lerp(a, b, 0.2).syntaxColors, SyntaxColors.light);
-      expect(ShadcnThemeData.lerp(a, b, 0.8).syntaxColors, SyntaxColors.dark);
+      expect(ThemeData.lerp(a, b, 0.2).syntaxColors, SyntaxColors.light);
+      expect(ThemeData.lerp(a, b, 0.8).syntaxColors, SyntaxColors.dark);
     });
   });
 }

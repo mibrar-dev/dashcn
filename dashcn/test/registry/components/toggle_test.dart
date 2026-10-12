@@ -25,11 +25,11 @@ const Color _red = Color(0xFFFF0000);
 const Color _yellow = Color(0xFFFFFF00);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -99,7 +99,7 @@ class _FakeFormHandle with FormFieldHandle {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   test('default on/off rows match the design', () {
     final on = toggleDefaults.forValue(true)!;
@@ -407,10 +407,10 @@ void main() {
   });
 
   testWidgets('dark tokens drive the on/off fill', (tester) async {
-    const ShadcnColors dark = ShadcnColors.darkFallback;
+    const ThemeColors dark = ThemeColors.darkFallback;
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: Toggle(value: true, onChanged: (_) {}, child: const Text('On')),
       ),
     );
@@ -447,7 +447,7 @@ void main() {
   });
 
   group('size table with a border (F1)', () {
-    testWidgets('a bordered toggle keeps its shadcn height at every size', (
+    testWidgets('a bordered toggle keeps its dashcn height at every size', (
       tester,
     ) async {
       const Map<ToggleSize, double> heights = <ToggleSize, double>{

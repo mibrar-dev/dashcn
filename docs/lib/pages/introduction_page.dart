@@ -90,7 +90,7 @@ class IntroductionPage extends StatelessWidget {
           ),
           TypesetParagraph.rich(<InlineSpan>[
             const TextSpan(text: 'Add a component with '),
-            typesetInlineCodeSpan('flutter_shadcn add <component>'),
+            typesetInlineCodeSpan('dashcn add <component>'),
             const TextSpan(
               text:
                   '. The CLI writes the component, its shared dependencies '

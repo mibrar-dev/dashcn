@@ -6,7 +6,7 @@ updates `lib/registry/manifests/components.json` plus `docs/assets/registry/comp
 
 Example:
 ```bash
-dart run scripts/new_component.dart button --category control --description "Shadcn-style button."
+dart run scripts/new_component.dart button --category control --description "Dashcn-style button."
 ```
 
 What it does:
@@ -15,7 +15,7 @@ What it does:
 - Creates `_impl/` taxonomy folders (`core`, `state`, `styles`, `themes`, `utils`,
   `variants`, `extensions`).
 - Overwrites `lib/main.dart` to point at the new component preview, wrapped in
-  `ShadcnApp`.
+  `DashcnApp`.
 - Writes `version: 1.0.0` into `meta.json` and `components.json`.
 - Skips hidden files (e.g. `.DS_Store`) when assembling file lists.
 

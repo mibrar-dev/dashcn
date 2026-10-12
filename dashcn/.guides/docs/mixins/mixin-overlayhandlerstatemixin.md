@@ -1,35 +1,19 @@
 ---
 title: "Mixin: OverlayHandlerStateMixin"
-description: "Mixin providing overlay state management methods."
+description: "State-level contract implemented by every overlay widget."
 ---
 
 ```dart
-/// Mixin providing overlay state management methods.
+/// State-level contract implemented by every overlay widget.
 ///
-/// Defines the interface for overlay state classes, including methods for
-/// closing overlays and updating overlay configuration dynamically.
-///
-/// Used by overlay implementations to provide consistent lifecycle management
-/// and configuration update capabilities.
+/// The setters allow a `PopoverController` to update a live overlay; the
+/// default no-op implementations let simple overlays ignore them.
 mixin OverlayHandlerStateMixin<T extends StatefulWidget> on State<T> {
   /// Closes the overlay.
-  ///
-  /// Parameters:
-  /// - [immediate] (bool): If true, closes immediately without animation
-  ///
-  /// Returns a [Future] that completes when closed.
   Future<void> close([bool immediate = false]);
   /// Schedules overlay closure for the next frame.
-  ///
-  /// Useful for closing overlays from callbacks where immediate closure
-  /// might cause issues with the widget tree.
   void closeLater();
   /// Closes the overlay with a result value.
-  ///
-  /// Parameters:
-  /// - [value] (X?): Optional result to return
-  ///
-  /// Returns a [Future] that completes when closed.
   Future<void> closeWithResult<X>([X? value]);
   /// Updates the anchor context for positioning.
   set anchorContext(BuildContext value);

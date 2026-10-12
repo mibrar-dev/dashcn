@@ -22,7 +22,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   DotIndicatorTheme? scoped,
 }) {
@@ -30,7 +30,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<DotIndicatorTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -58,16 +58,13 @@ void main() {
 
     testWidgets('the active dot uses the primary token', (tester) async {
       await tester.pumpWidget(_frame(const DotIndicator(index: 1, length: 4)));
-      expect(
-        _decorationAt(tester, 1).color,
-        ShadcnColors.lightFallback.primary,
-      );
+      expect(_decorationAt(tester, 1).color, ThemeColors.lightFallback.primary);
     });
 
     testWidgets('inactive dots use the muted token', (tester) async {
       await tester.pumpWidget(_frame(const DotIndicator(index: 1, length: 4)));
-      expect(_decorationAt(tester, 0).color, ShadcnColors.lightFallback.muted);
-      expect(_decorationAt(tester, 3).color, ShadcnColors.lightFallback.muted);
+      expect(_decorationAt(tester, 0).color, ThemeColors.lightFallback.muted);
+      expect(_decorationAt(tester, 3).color, ThemeColors.lightFallback.muted);
     });
 
     testWidgets('dots are full circles', (tester) async {
@@ -82,7 +79,7 @@ void main() {
       for (final BoxDecoration box in _dots(
         tester,
       ).map((AnimatedContainer b) => b.decoration! as BoxDecoration)) {
-        expect(box.color, ShadcnColors.lightFallback.muted);
+        expect(box.color, ThemeColors.lightFallback.muted);
       }
     });
 
@@ -226,7 +223,7 @@ void main() {
       await tester.pumpWidget(
         _frame(
           const DotIndicator(index: 0, length: 2, padding: EdgeInsets.all(20)),
-          data: const ShadcnThemeData(scaling: 4),
+          data: const ThemeData(scaling: 4),
         ),
       );
       final Padding padding = tester.widget<Padding>(
@@ -251,15 +248,15 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive the rows', (tester) async {
         await tester.pumpWidget(
           _frame(
             const DotIndicator(index: 0, length: 2),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         expect(_decorationAt(tester, 0).color, colors.primary);

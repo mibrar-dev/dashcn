@@ -4,8 +4,8 @@
   "category": "Overlays",
   "description": "Modal dialog route and themed card shell.",
   "tier": "component",
-  "install": "flutter_shadcn add dialog",
-  "import": "import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';",
+  "install": "dashcn add dialog",
+  "import": "import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';",
   "tags": ["overlay", "modal", "dialog", "route"],
   "deps": {
     "foundation": ["constants", "data"],
@@ -20,8 +20,8 @@
     "preview.dart"
   ],
   "api": {
-    "functions": ["showShadcnDialog"],
-    "classes": ["ShadcnDialogRoute", "DialogTheme"],
+    "functions": ["showDialog"],
+    "classes": ["DialogRoute", "DialogTheme"],
     "constants": [
       "dialogDefaults",
       "dialogThemeOverrides",

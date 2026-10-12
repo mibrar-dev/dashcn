@@ -15,7 +15,7 @@ class Login02Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double spacing = theme.spacing.xl;
     return DecoratedBox(
       decoration: BoxDecoration(

@@ -227,7 +227,7 @@ class _StepperRender extends StatelessWidget {
     StepperPhase.pending => style.pending ?? stepperDefaults.pending!,
   };
 
-  Color connectorColor(int index, ShadcnColors colors) {
+  Color connectorColor(int index, ThemeColors colors) {
     if (failedAt != null && index >= failedAt!) {
       return (style.failed?.borderColor ?? stepperDefaults.failed!.borderColor)!
           .resolve(colors);
@@ -241,8 +241,8 @@ class _StepperRender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     final double scaling = theme.scaling;
     final double box = size.indicatorSize * scaling;
     final double gap = (style.gap ?? 8) * scaling;

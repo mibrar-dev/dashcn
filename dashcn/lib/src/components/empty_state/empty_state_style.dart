@@ -2,7 +2,7 @@
 // [EmptyStateTheme] container, the [EmptyStateSize] scale, the token-derived
 // [emptyStateDefaults] and the per-size lookup tables.
 //
-// shadcn empty state: a muted icon in a rounded container, a semibold title, a
+// upstream empty state: a muted icon in a rounded container, a semibold title, a
 // muted description clamped to a readable measure, and up to three actions. The
 // compact size drops the whole thing onto a `Card` surface; the full-page size
 // centres it in the available space. User-owned overrides live in
@@ -154,7 +154,7 @@ class EmptyStateTheme extends ComponentThemeData
   /// so a restyled size is never half-default. The top-level
   /// [iconContainerPadding]/[iconContainerBorderRadius] legs win over the size
   /// table, so an explicit widget/container leg is never shadowed by it.
-  EmptyStateMetrics metricsFor(EmptyStateSize size, ShadcnThemeData theme) {
+  EmptyStateMetrics metricsFor(EmptyStateSize size, ThemeData theme) {
     final EmptyStateMetrics fallback = emptyStateMetrics(size, theme);
     final EmptyStateMetrics? override = metrics?[size];
     if (override == null) {
@@ -283,7 +283,7 @@ const EmptyStateMetrics _compactMetrics = EmptyStateMetrics(
   iconSize: 28,
   titleStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
   descriptionStyle: TextStyle(fontSize: 14, height: 1.35),
-  // shadcn `p-6`, density-scaled.
+  // upstream `p-6`, density-scaled.
   padding: EdgeInsetsDensity.pxAll(24),
   contentGap: 16,
   titleGap: 8,
@@ -291,7 +291,7 @@ const EmptyStateMetrics _compactMetrics = EmptyStateMetrics(
   actionSpacing: 12,
   maxWidth: 420,
   descriptionMaxWidth: 420,
-  // shadcn `p-2.5`, density-scaled.
+  // upstream `p-2.5`, density-scaled.
   iconContainerPadding: EdgeInsetsDensity.pxAll(10),
   iconContainerBorderRadius: BorderRadius.all(Radius.circular(14)),
 );
@@ -301,7 +301,7 @@ const EmptyStateMetrics _fullPageMetrics = EmptyStateMetrics(
   iconSize: 36,
   titleStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
   descriptionStyle: TextStyle(fontSize: 14, height: 1.35),
-  // shadcn `p-8`, density-scaled.
+  // upstream `p-8`, density-scaled.
   padding: EdgeInsetsDensity.pxAll(32),
   contentGap: 24,
   titleGap: 12,
@@ -309,7 +309,7 @@ const EmptyStateMetrics _fullPageMetrics = EmptyStateMetrics(
   actionSpacing: 12,
   maxWidth: 520,
   descriptionMaxWidth: 520,
-  // shadcn `p-3`, density-scaled.
+  // upstream `p-3`, density-scaled.
   iconContainerPadding: EdgeInsetsDensity.pxAll(12),
   iconContainerBorderRadius: BorderRadius.all(Radius.circular(14)),
 );
@@ -324,10 +324,7 @@ double _radius(BorderRadiusGeometry radius) =>
 ///
 /// Colours are applied here rather than stored on the theme so a theme leg can
 /// override a single colour without restating the whole [TextStyle].
-EmptyStateMetrics emptyStateMetrics(
-  EmptyStateSize size,
-  ShadcnThemeData theme,
-) {
+EmptyStateMetrics emptyStateMetrics(EmptyStateSize size, ThemeData theme) {
   final EmptyStateMetrics base = switch (size) {
     EmptyStateSize.compact => _compactMetrics,
     EmptyStateSize.fullPage => _fullPageMetrics,

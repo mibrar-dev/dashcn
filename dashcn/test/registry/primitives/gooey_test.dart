@@ -34,8 +34,8 @@ Widget _surfaceFrame({
   GooeySurfaceBodyAnimation bodyAnimation = GooeySurfaceBodyAnimation.fade,
   double progress = 0,
 }) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: GooeySurfaceFrame(
@@ -195,8 +195,8 @@ void main() {
   group('shape painting', () {
     testWidgets('the border strokes the merged contour once', (tester) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: const Directionality(
             textDirection: TextDirection.ltr,
             child: GooeyShapeLayer(
@@ -235,8 +235,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        const ShadcnTheme(
-          data: ShadcnThemeData(),
+        const Theme(
+          data: ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: GooeyShapeLayer(
@@ -298,8 +298,8 @@ void main() {
 
     testWidgets('a morphing pill shows both frames', (tester) async {
       await tester.pumpWidget(
-        const ShadcnTheme(
-          data: ShadcnThemeData(),
+        const Theme(
+          data: ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: GooeySurfacePill(
@@ -322,8 +322,8 @@ void main() {
 
     testWidgets('a settled morph shows only the current frame', (tester) async {
       await tester.pumpWidget(
-        const ShadcnTheme(
-          data: ShadcnThemeData(),
+        const Theme(
+          data: ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: GooeySurfacePill(
@@ -345,8 +345,8 @@ void main() {
   group('body content', () {
     testWidgets('the action chip sits below the description', (tester) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: const Directionality(
             textDirection: TextDirection.ltr,
             child: GooeySurfaceBody(
@@ -369,8 +369,8 @@ void main() {
 
     testWidgets('the state icon spins while loading', (tester) async {
       await tester.pumpWidget(
-        const ShadcnTheme(
-          data: ShadcnThemeData(),
+        const Theme(
+          data: ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: GooeyStateIcon(
@@ -438,8 +438,8 @@ void main() {
     ) async {
       int dismissed = 0;
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Center(
             child: GooeySwipe(
               directions: const <ToastSwipeDirection>{
@@ -460,8 +460,8 @@ void main() {
     ) async {
       int dismissed = 0;
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Center(
             child: GooeySwipe(
               directions: const <ToastSwipeDirection>{

@@ -1,11 +1,11 @@
 {
   "id": "image",
-  "name": "ShadcnImage",
+  "name": "Picture",
   "category": "Typography & Media",
   "description": "Themed rounded image slot with a placeholder while loading and a caller-supplied error slot on failure.",
   "tier": "component",
-  "install": "flutter_shadcn add image",
-  "import": "import 'package:<your_app>/ui/shadcn/components/image/image.dart';",
+  "install": "dashcn add image",
+  "import": "import 'package:<your_app>/ui/dashcn/components/image/image.dart';",
   "tags": ["display", "image", "media", "picture", "avatar"],
   "deps": {
     "foundation": ["constants"],
@@ -15,7 +15,7 @@
   },
   "files": ["image.dart", "image_style.dart", "image_theme.dart", "preview.dart"],
   "api": {
-    "classes": ["ShadcnImage", "ImageTheme"],
+    "classes": ["Picture", "ImageTheme"],
     "typedefs": ["ImageErrorBuilder"],
     "constants": ["imageDefaults", "imageThemeOverrides"]
   },
@@ -30,7 +30,7 @@
     }
   },
   "notes": [
-    "The widget is `ShadcnImage`, not `Image`: package:flutter/widgets.dart exports an `Image`, so a plain `Image` would make any file importing both libraries fail to compile. Same rule as ShadcnTheme.",
+    "The widget is `Picture`, not `Image`: package:flutter/widgets.dart exports an `Image`, so a plain `Image` would make any file importing both libraries fail to compile. Same rule as Theme.",
     "`ImageTheme`, `ImageErrorBuilder`, `imageDefaults` and `imageThemeOverrides` keep their plain names - audited against every library widgets.dart re-exports (widgets, painting, rendering, foundation, animation, services, gestures, scheduler, semantics, physics) and declared in no Flutter name list.",
     "The component resolves the stream itself (ImageProvider -> ImageStream -> RawImage) so it can keep a placeholder layer and a fade-in without Flutter's Image widget."
   ]

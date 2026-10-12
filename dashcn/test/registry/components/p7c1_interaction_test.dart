@@ -45,8 +45,8 @@ Future<void> _pump(
   _shownBuilder = builder;
   _shownSize = size;
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Overlay(
@@ -77,13 +77,13 @@ Future<void> _pumpDark(
   Brightness brightness,
   Size size,
 ) {
-  final ShadcnThemeData data = brightness == Brightness.dark
-      ? const ShadcnThemeData(colors: ShadcnColors.darkFallback)
-      : const ShadcnThemeData();
+  final ThemeData data = brightness == Brightness.dark
+      ? const ThemeData(colors: ThemeColors.darkFallback)
+      : const ThemeData();
   _shownBuilder = builder;
   _shownSize = size;
   return tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -145,8 +145,8 @@ void main() {
       final FocusNode node = FocusNode(debugLabel: 'ChipDelete');
       addTearDown(node.dispose);
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Center(

@@ -18,12 +18,12 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -50,7 +50,7 @@ ProgressSurface _surface(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('token surface: primary fill, 20% track, 8px pill', (
     tester,
@@ -69,9 +69,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the surface', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(data: dark, child: const Progress(value: 0.5)),
     );

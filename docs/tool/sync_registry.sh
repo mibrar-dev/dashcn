@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # sync_registry.sh — mirror the canonical registry Dart sources into the docs app.
 #
-# docs/lib/ui/shadcn/{foundation,theme,primitives,components/<id>} is the exact
-# layout the new CLI installs (`flutter_shadcn init` + `add --all`). Until the
+# docs/lib/ui/dashcn/{foundation,theme,primitives,components/<id>} is the exact
+# layout the new CLI installs (`dashcn init` + `add --all`). Until the
 # new CLI lands, this script produces the identical tree from the post-cutover
 # registry so the docs app consumes components the way a user would.
 #
@@ -32,7 +32,7 @@ set -euo pipefail
 
 KIT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SRC="${REGISTRY:-$KIT/dashcn/lib/src}"
-DEST="$KIT/docs/lib/ui/shadcn"
+DEST="$KIT/docs/lib/ui/dashcn"
 MODE="mirror"
 if [[ "${1:-}" == "--check" ]]; then
   MODE="check"

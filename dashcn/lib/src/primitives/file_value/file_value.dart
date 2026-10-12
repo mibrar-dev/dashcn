@@ -183,7 +183,7 @@ class FileError {
   /// Why the file was rejected.
   final FileErrorCode code;
 
-  /// User-facing message. Components build this from `ShadcnLocalizations`; the
+  /// User-facing message. Components build this from `ComponentLocalizations`; the
   /// validation helper takes it as a parameter so it never hard-codes English.
   final String message;
 

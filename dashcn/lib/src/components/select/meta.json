@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   "tier": "component",
-  "install": "flutter_shadcn add select",
-  "import": "import 'package:<your_app>/ui/shadcn/components/select/select.dart';",
+  "install": "dashcn add select",
+  "import": "import 'package:<your_app>/ui/dashcn/components/select/select.dart';",
   "tags": [
     "form",
     "select",
@@ -89,7 +89,7 @@
     "The Material-only SelectItemButton mouse cursor override and the scroll chevron affordances are not ported.",
     "Fixed: the old trigger resolved its disabled state from onChanged == null only, so enabled: true with no callback opened a dead popup; _enabled is now the single source of truth.",
     "Fixed (B20/F1): menu_rows.RovingRow reserves its padding inside the 32px minimum and paints the hover/focus accent; SelectRow and the popup constraints rely on it.",
-    "The popup search field has no leading search icon (dropped with the two-file budget; not shadcn).",
+    "The popup search field has no leading search icon (dropped with the two-file budget; not dashcn).",
     "Multi selection is the sibling multi_select component (MultiSelect/MultiSelectItem/MultiSelectChip), built on Select's valueSelectionHandler/valueSelectionPredicate hooks and the menu component's MenuCheckboxItem; it lives in its own folder because the popup rows need menu/chip (layer 3) and the two-file select budget cannot hold the family.",
     "canUnselect (click the selected item to clear), autoClose (default true) and themeable popup constraints (SelectTheme.constraints / popupConstraints) are restored; the default popup hugs the widest option between 128 wide and the viewport, 240 high, never narrower than the trigger; option labels stay single-line with ellipsis."
   ]

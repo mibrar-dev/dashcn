@@ -200,7 +200,7 @@ class ItemPickerDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ItemPickerTheme style =
         resolveComponentStyle<ItemPickerTheme, ItemPickerTheme>(
           context,
@@ -494,7 +494,7 @@ Future<T?> showItemPickerDialog<T>(
   T? initialValue,
   Widget? title,
 }) {
-  return showShadcnDialog<T>(
+  return showDialog<T>(
     context: context,
     builder: (context) {
       return ItemPickerDialog<T>(

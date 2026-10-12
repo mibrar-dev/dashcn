@@ -1,7 +1,7 @@
 // The `Get Code` dialog (spec §2.7 requirement 3).
 //
 // Three tabs over the live document: `Dart` (the exact `app_theme.dart`
-// `flutter_shadcn theme apply` writes), `JSON` (the canonical schema-v2 preset
+// `dashcn theme apply` writes), `JSON` (the canonical schema-v2 preset
 // document) and `CLI` (how to apply it). Each tab copies its own payload with
 // the site's 2 s copied state, and the whole pane is syntax-highlighted from
 // the language of the active tab (registry `syntax_highlight`).
@@ -10,13 +10,13 @@ import 'package:flutter/widgets.dart';
 
 import '../state/site_theme_model.dart';
 import '../theme/theme_export.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/dialog/dialog.dart';
-import '../ui/shadcn/components/tabs/tabs.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/primitives/fade_scroll.dart';
-import '../ui/shadcn/primitives/syntax_highlight/syntax_highlight.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/dialog/dialog.dart';
+import '../ui/dashcn/components/tabs/tabs.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/primitives/fade_scroll.dart';
+import '../ui/dashcn/primitives/syntax_highlight/syntax_highlight.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
 import 'selectable_code.dart';
@@ -43,7 +43,7 @@ enum GetCodeTab {
 
 /// Shows the `Get Code` dialog for [model] and returns when it closes.
 Future<void> showGetCodeDialog(BuildContext context, SiteThemeModel model) {
-  return showShadcnDialog<void>(
+  return showDialog<void>(
     context: context,
     builder: (BuildContext context) => _GetCodeDialog(model: model),
   );
@@ -63,7 +63,7 @@ class _GetCodeDialogState extends State<_GetCodeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final SiteThemeModel model = widget.model;
     return ConstrainedBox(
       constraints: const BoxConstraints(
@@ -138,7 +138,7 @@ class _CodePaneState extends State<_CodePane> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     final SyntaxLanguage? language = syntaxLanguageFromId(widget.language);
     final TextStyle base = theme.typography.mono.copyWith(

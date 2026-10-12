@@ -16,7 +16,7 @@ import '../../theme/theme.dart';
 
 /// Visual variants of the alert component.
 ///
-/// The shadcn `default` variant is called [base] because `default` is a Dart
+/// The upstream `default` variant is called [base] because `default` is a Dart
 /// reserved word.
 enum AlertVariant { base, destructive }
 
@@ -45,10 +45,10 @@ class AlertStyle implements Mergeable<AlertStyle> {
   /// Border colour.
   final ThemedColor? borderColor;
 
-  /// Corner radius; null resolves the ambient `radiusLg` (shadcn `rounded-lg`).
+  /// Corner radius; null resolves the ambient `radiusLg` (upstream `rounded-lg`).
   final BorderRadiusGeometry? borderRadius;
 
-  /// Inner padding. The default is shadcn `px-4 py-3` (16/12) as an
+  /// Inner padding. The default is upstream `px-4 py-3` (16/12) as an
   /// [EdgeInsetsDensity], so it scales with the ambient density; a literal
   /// override passes through `Alert` unchanged.
   final EdgeInsetsGeometry? padding;
@@ -72,7 +72,7 @@ class AlertStyle implements Mergeable<AlertStyle> {
   ///
   /// A raw `double` (handed straight to `BasicLayout.contentSpacing`), so it
   /// cannot carry a density multiplier: the 12 default is the `spacing.md`
-  /// step of the default spacing scale (base 4, shadcn `gap-3`). An app that
+  /// step of the default spacing scale (base 4, upstream `gap-3`). An app that
   /// wants it to follow a preset spacing base resolves it at build time.
   final double? gap;
 
@@ -253,23 +253,23 @@ class AlertTheme extends ComponentThemeData implements Mergeable<AlertTheme> {
       Object.hash(themeDensity, themeSpacing, themeShadows, base, destructive);
 }
 
-/// Default alert title: shadcn `text-sm font-medium`.
+/// Default alert title: upstream `text-sm font-medium`.
 const TextStyle alertDefaultTitleStyle = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
 );
 
-/// Default alert content: shadcn `text-sm`.
+/// Default alert content: upstream `text-sm`.
 const TextStyle alertDefaultContentStyle = TextStyle(fontSize: 14);
 
 /// Token-derived baseline rows; every unset override field falls through here.
 ///
-/// shadcn alert: `bg-card text-card-foreground rounded-lg border px-4 py-3`
-/// (padding 16/12, radius `--radius` = [ShadcnThemeData.radiusLg]) with a
+/// upstream alert: `bg-card text-card-foreground rounded-lg border px-4 py-3`
+/// (padding 16/12, radius `--radius` = [ThemeData.radiusLg]) with a
 /// 12px icon-to-text gap. The destructive variant only swaps the three
 /// foreground colours to the `destructive` token; the surface stays a card.
 ///
-/// The `px-4 py-3` padding is an [EdgeInsetsDensity] (shadcn px stored as
+/// The `px-4 py-3` padding is an [EdgeInsetsDensity] (upstream px stored as
 /// multipliers): `Alert` resolves it against
 /// `density.baseContentPadding * scaling`, so it measures 16/12 at the default
 /// density and scales everywhere else. The icon gap stays a plain `double`.

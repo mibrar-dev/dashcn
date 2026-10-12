@@ -42,7 +42,7 @@ class ErrorSystemTheme extends ComponentThemeData
   final TextStyle? messageStyle;
 
   /// Padding inside the full-page card; null resolves
-  /// [errorSystemDefaultCardPadding] (shadcn `p-6`, density-scaled).
+  /// [errorSystemDefaultCardPadding] (upstream `p-6`, density-scaled).
   final EdgeInsetsGeometry? cardPadding;
 
   /// Banner fill; null resolves the `card` token.
@@ -52,7 +52,7 @@ class ErrorSystemTheme extends ComponentThemeData
   final ThemedColor? bannerBorder;
 
   /// Banner padding; null resolves [errorSystemDefaultBannerPadding]
-  /// (shadcn `px-4 py-3`, density-scaled).
+  /// (upstream `px-4 py-3`, density-scaled).
   final EdgeInsetsGeometry? bannerPadding;
 
   /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
@@ -114,11 +114,11 @@ class ErrorSystemTheme extends ComponentThemeData
   );
 }
 
-/// Card padding of the full-page error: shadcn `p-6` (24px), density-scaled.
+/// Card padding of the full-page error: upstream `p-6` (24px), density-scaled.
 const EdgeInsetsGeometry errorSystemDefaultCardPadding =
     EdgeInsetsDensity.pxAll(24);
 
-/// Banner padding: shadcn `px-4 py-3`, density-scaled.
+/// Banner padding: upstream `px-4 py-3`, density-scaled.
 const EdgeInsetsGeometry errorSystemDefaultBannerPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 16, vertical: 12);
 

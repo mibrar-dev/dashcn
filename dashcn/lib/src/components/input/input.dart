@@ -337,9 +337,9 @@ class _InputState extends State<Input>
       backgroundCursorColor: surface.backgroundCursorColor,
       scrollPadding: widget.scrollPadding,
       selectionColor: focused ? surface.selectionColor : null,
-      selectionControls: widget.selectionControls ?? ShadcnSelectionControls(),
+      selectionControls: widget.selectionControls ?? SelectionControls(),
       contextMenuBuilder:
-          widget.contextMenuBuilder ?? defaultShadcnContextMenuBuilder,
+          widget.contextMenuBuilder ?? defaultContextMenuBuilder,
       onChanged: _handleTextChanged,
       onEditingComplete: () {
         widget.onEditingComplete?.call();

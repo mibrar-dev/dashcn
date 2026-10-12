@@ -16,11 +16,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -51,14 +51,14 @@ void main() {
     tester,
   ) async {
     for (final preview in dropzonePreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -85,7 +85,7 @@ void main() {
     );
     expect(outline.focused, isTrue);
     final Border border = outline.border!;
-    expect(border.top.color, ShadcnColors.lightFallback.ring);
+    expect(border.top.color, ThemeColors.lightFallback.ring);
     expect(border.top.width, 2);
 
     await tester.pumpWidget(_frame(const Dropzone()));
@@ -134,7 +134,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         const Dropzone(hint: Text('hint')),
-        data: const ShadcnThemeData(scaling: 2),
+        data: const ThemeData(scaling: 2),
       ),
     );
     expect(_statusStyle(tester).fontSize, 28);
@@ -160,7 +160,7 @@ void main() {
     );
     final Border border =
         (surface.decoration! as BoxDecoration).border! as Border;
-    expect(border.top.color, ShadcnColors.lightFallback.border);
+    expect(border.top.color, ThemeColors.lightFallback.border);
     final AnimatedOpacity opacity = tester.widget<AnimatedOpacity>(
       find
           .ancestor(

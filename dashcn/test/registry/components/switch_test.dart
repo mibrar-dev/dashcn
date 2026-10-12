@@ -32,7 +32,7 @@ Color _alpha(Color base, double factor) =>
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   SwitchTheme? scopedTheme,
   FormFieldHandle? formHandle,
@@ -44,7 +44,7 @@ Widget _frame({
   if (formHandle != null) {
     body = Data<FormFieldHandle>.inherit(data: formHandle, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -121,7 +121,7 @@ void main() {
     testWidgets('off uses the input track and the foreground thumb', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Switch(value: false, onChanged: _noop)),
       );
@@ -133,20 +133,20 @@ void main() {
     testWidgets('on uses the primary track and the background thumb', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Switch(value: true, onChanged: _noop)),
       );
       expect(_track(tester).color, colors.primary);
       expect(_thumb(tester).color, colors.background);
-      // shadcn `translate-x-[calc(100%-2px)]`: 32 - 16 - 2 = 14.
+      // upstream `translate-x-[calc(100%-2px)]`: 32 - 16 - 2 = 14.
       expect(
         _thumbLeft(tester),
         switchDefaultTrackSize.width - switchDefaultThumbSize - 2,
       );
     });
 
-    testWidgets('track and thumb use the shadcn sizes', (tester) async {
+    testWidgets('track and thumb use the dashcn sizes', (tester) async {
       await tester.pumpWidget(
         _frame(child: const Switch(value: false, onChanged: _noop)),
       );
@@ -183,7 +183,7 @@ void main() {
           )
           .last
           .style;
-      expect(style.color, ShadcnColors.lightFallback.foreground);
+      expect(style.color, ThemeColors.lightFallback.foreground);
       expect(style.fontSize, switchDefaultLabelStyle.fontSize);
     });
 
@@ -204,7 +204,7 @@ void main() {
       );
       expect(
         _track(tester).border,
-        Border.all(color: ShadcnColors.lightFallback.border, width: 2),
+        Border.all(color: ThemeColors.lightFallback.border, width: 2),
       );
     });
   });
@@ -351,7 +351,7 @@ void main() {
         () => FocusManager.instance.highlightStrategy =
             FocusHighlightStrategy.automatic,
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Switch(value: false, onChanged: _noop)),
       );
@@ -506,8 +506,8 @@ void main() {
           child: const Switch(value: true, onChanged: _noop),
         ),
       );
-      expect(_track(tester).color, ShadcnColors.lightFallback.primary);
-      expect(_thumb(tester).color, ShadcnColors.lightFallback.background);
+      expect(_track(tester).color, ThemeColors.lightFallback.primary);
+      expect(_thumb(tester).color, ThemeColors.lightFallback.background);
     });
 
     testWidgets('the value row is re-resolved when the value changes', (
@@ -524,7 +524,7 @@ void main() {
           ),
         ),
       );
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(_track(tester).color, colors.input);
       await tester.tap(find.byType(Switch));
       await tester.pumpAndSettle();
@@ -534,10 +534,10 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Switch(value: true, onChanged: _noop),
         ),
       );
@@ -550,7 +550,7 @@ void main() {
     ) async {
       // The old table painted `muted` for the track and `mutedForeground`
       // for the thumb while disabled, so the control changed identity.
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(_frame(child: const Switch(value: true)));
       expect(_track(tester).color, colors.primary);
       expect(_thumb(tester).color, colors.background);
@@ -558,10 +558,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Switch(
             value: false,
             onChanged: _noop,

@@ -7,13 +7,13 @@ a collapsed size and an external controller.
 ## Install
 
 ```bash
-flutter_shadcn add resizable
+dashcn add resizable
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/resizable/resizable.dart';
+import 'package:<your_app>/ui/dashcn/resizable/resizable.dart';
 ```
 
 ## Minimal example
@@ -41,7 +41,7 @@ SizedBox(
 - `ResizableHandle` — a draggable divider between two panes. The default is a
   1px themed line with a 10px hit area; `withHandle: true` draws a grip bar.
   It is focusable: arrow keys move it 10px, Home/End move it to the extremes.
-  Its semantics label comes from `ShadcnLocalizations.resizableHandle`.
+  Its semantics label comes from `ComponentLocalizations.resizableHandle`.
 - `ResizablePaneController` — absolute/flexible pane state; `setSize`,
   `setFlex`, `collapse`, `expand`. Provide exactly one of `size`/`flex`.
 - `ResizableTheme` — divider colour/thickness, hit area and grip.
@@ -59,7 +59,7 @@ SizedBox(
 - The custom `RenderBox`, the Material `Divider`/`VerticalDivider` defaults and
   the `data_widget` channel are gone; layout uses `LayoutBuilder` + `Stack`.
 - `ResizablePanel` / `ResizablePanelGroup` replace `ResizablePane` /
-  `ResizablePanel` (shadcn naming); the `HorizontalResizableDragger` /
+  `ResizablePanel` (dashcn naming); the `HorizontalResizableDragger` /
   `VerticalResizableDragger` pair is replaced by `ResizableHandle`.
 - `AbsoluteResizablePaneController` / `FlexibleResizablePaneController` merge
   into `ResizablePaneController`; `PanelSibling` and the `tryExpand` /

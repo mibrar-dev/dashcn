@@ -44,7 +44,7 @@ export '../../primitives/file_value/file_value.dart'
         FileValue;
 
 const ValueKey<String> fileUploadTileKey = ValueKey<String>(
-  'shadcn.fileUpload.tile',
+  'dashcn.fileUpload.tile',
 );
 
 class FileUploadPickRequest {
@@ -135,7 +135,7 @@ class _FileUploadState extends State<FileUpload> {
 
   FileUploadMessage _messageFor(BuildContext context) {
     return (FileErrorCode code, FileValue? file) {
-      final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+      final ComponentLocalizations l10n = ComponentLocalizations.of(context);
       return switch (code) {
         FileErrorCode.tooMany => l10n.fileUploadTooMany,
         FileErrorCode.tooLarge => l10n.fileUploadTooLarge,
@@ -219,7 +219,7 @@ class _FileUploadState extends State<FileUpload> {
       if (!mounted) return;
       final FileError failure = FileError(
         code: FileErrorCode.uploadFailed,
-        message: ShadcnLocalizations.of(context).fileUploadPickFailed,
+        message: ComponentLocalizations.of(context).fileUploadPickFailed,
       );
       _controller.reportError(failure);
       widget.onError?.call(failure);
@@ -285,14 +285,14 @@ class _FileUploadState extends State<FileUpload> {
           select: (FileUploadTheme t) => t,
           defaults: fileUploadDefaults,
         );
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double gap = (style.gap ?? 12) * ambient.scaling;
     final List<FileItem> items = _controller.items;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _surface(context, style, ShadcnLocalizations.of(context)),
+        _surface(context, style, ComponentLocalizations.of(context)),
         if (_visibleErrors.isNotEmpty) ...<Widget>[
           Gap(gap),
           for (final FileError error in _visibleErrors)
@@ -330,7 +330,7 @@ class _FileUploadState extends State<FileUpload> {
   Widget _surface(
     BuildContext context,
     FileUploadTheme style,
-    ShadcnLocalizations l10n,
+    ComponentLocalizations l10n,
   ) {
     final Widget surface = switch (widget.variant) {
       FileUploadVariant.dragDrop => _dropSurface(),
@@ -339,10 +339,7 @@ class _FileUploadState extends State<FileUpload> {
         variant: ButtonVariant.outline,
         size: ButtonSize.md,
         onPressed: widget.enabled && widget.pick != null ? _pick : null,
-        leading: Icon(
-          RadixIcons.upload,
-          size: 16 * ShadcnTheme.of(context).scaling,
-        ),
+        leading: Icon(RadixIcons.upload, size: 16 * Theme.of(context).scaling),
         child: Text(l10n.fileUploadChoose),
       ),
     };
@@ -386,9 +383,9 @@ class _FileUploadState extends State<FileUpload> {
   Widget _tileSurface(
     BuildContext context,
     FileUploadTheme style,
-    ShadcnLocalizations l10n,
+    ComponentLocalizations l10n,
   ) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final List<FileItem> items = _controller.items;
     final String label = items.isEmpty
         ? l10n.fileUploadNoFile

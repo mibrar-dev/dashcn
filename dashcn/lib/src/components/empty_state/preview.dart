@@ -31,7 +31,7 @@ class _StatusLine extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 12,
-        color: ShadcnTheme.of(context).colors.mutedForeground,
+        color: Theme.of(context).colors.mutedForeground,
       ),
     );
   }
@@ -66,7 +66,7 @@ class _EmptyStateEmptyState extends State<_EmptyStateEmpty> {
             onPressed: () => setState(() => _status = 'Importing a project.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -97,7 +97,7 @@ class _EmptyStateNoResultsState extends State<_EmptyStateNoResults> {
             onPressed: () => setState(() => _status = 'Filters cleared.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -133,7 +133,7 @@ class _EmptyStateErrorState extends State<_EmptyStateError> {
             onPressed: () => setState(() => _status = 'Report sent.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -142,7 +142,7 @@ class _EmptyStateErrorState extends State<_EmptyStateError> {
 
 /// The compact scale, with and without the icon container.
 Widget _emptyStateCompact(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,

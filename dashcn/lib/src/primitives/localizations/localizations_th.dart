@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Thai (`th`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsTh extends ShadcnLocalizations {
+class ComponentLocalizationsTh extends ComponentLocalizations {
   /// Creates the Thai strings.
-  const ShadcnLocalizationsTh([super.locale = const Locale('th')]);
+  const ComponentLocalizationsTh([super.locale = const Locale('th')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

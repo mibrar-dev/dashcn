@@ -1,7 +1,7 @@
 // Visual screenshot harness for the Phase 3 pilot components (brief P3-V).
 //
 // Runs under `flutter test`: each scene is rendered at device pixel ratio 2
-// inside `ShadcnTheme` + `ComponentThemes`, captured through a
+// inside `Theme` + `ComponentThemes`, captured through a
 // `RepaintBoundary` and written as a real PNG to
 // `rearch/screenshots/pilot/<scene>_<light|dark>.png`.
 //
@@ -12,7 +12,7 @@
 //
 // Read-only with respect to component code: it observes and captures only.
 //
-// Light/dark scenes use the shadcn default fallback colours; the `preset_*`
+// Light/dark scenes use the upstream default fallback colours; the `preset_*`
 // scenes reuse the same widgets with the `violet-bloom` preset tokens/fonts.
 
 import 'dart:io';
@@ -205,24 +205,24 @@ Future<void> _loadFonts() async {
 // Theme selection.
 // ---------------------------------------------------------------------------
 
-/// shadcn default fallback colours with default tokens.
-ShadcnThemeData _baseTheme(Brightness brightness) => ShadcnThemeData(
+/// upstream default fallback colours with default tokens.
+ThemeData _baseTheme(Brightness brightness) => ThemeData(
   colors: brightness == Brightness.dark
-      ? ShadcnColors.darkFallback
-      : ShadcnColors.lightFallback,
+      ? ThemeColors.darkFallback
+      : ThemeColors.lightFallback,
 );
 
 /// The [_presetId] preset, generated from its JSON like the CLI would.
-ShadcnThemeData _presetTheme(Brightness brightness) {
+ThemeData _presetTheme(Brightness brightness) {
   final generated = loadGeneratedTheme('$themesDir/$_presetId.json');
-  return ShadcnThemeData(
+  return ThemeData(
     colors: brightness == Brightness.dark
         ? generated.darkColors
         : generated.lightColors,
     tokens: brightness == Brightness.dark
         ? generated.darkTokens
         : generated.lightTokens,
-    fonts: generated.fonts ?? ShadcnFonts.empty,
+    fonts: generated.fonts ?? ThemeFonts.empty,
   );
 }
 
@@ -242,8 +242,8 @@ class _PreviewScene extends StatelessWidget {
 
 /// Wraps [child] in the theme legs, directionality, text style and an
 /// [Overlay] (the input context menu needs one).
-Widget _frame(ShadcnThemeData data, Size size, Widget child) {
-  return ShadcnTheme(
+Widget _frame(ThemeData data, Size size, Widget child) {
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: const <ComponentThemeData>[
@@ -258,13 +258,13 @@ Widget _frame(ShadcnThemeData data, Size size, Widget child) {
           data: const MediaQueryData(devicePixelRatio: _dpr),
           child: Builder(
             builder: (BuildContext context) {
-              final theme = ShadcnTheme.of(context);
+              final theme = Theme.of(context);
               return DefaultTextStyle(
                 style: theme.typography.sans.copyWith(
                   color: theme.colors.foreground,
                   fontSize: 14,
                 ),
-                child: ShadcnLayer(
+                child: AppLayer(
                   child: SizedBox(
                     width: size.width,
                     height: size.height,
@@ -606,7 +606,7 @@ class _InputScene extends StatefulWidget {
 
 class _InputSceneState extends State<_InputScene> {
   final TextEditingController _filled = TextEditingController(
-    text: 'shadcn@example.com',
+    text: 'dashcn@example.com',
   );
   final TextEditingController _features = TextEditingController(
     text: 'Clear me',
@@ -763,10 +763,7 @@ class _DialogPageState extends State<_DialogPage> {
       if (!mounted) {
         return;
       }
-      showShadcnDialog<void>(
-        context: context,
-        builder: (_) => const _DialogCard(),
-      );
+      showDialog<void>(context: context, builder: (_) => const _DialogCard());
     });
   }
 
@@ -775,7 +772,7 @@ class _DialogPageState extends State<_DialogPage> {
     // Paint the page in the ambient background explicitly: a transparent
     // page would let the capture rely on the ancestor `ColoredBox`, hiding a
     // stale-theme regression where the route subtree falls back to light.
-    final background = ShadcnTheme.of(context).colors.background;
+    final background = Theme.of(context).colors.background;
     return ColoredBox(color: background, child: const SizedBox.expand());
   }
 }
@@ -786,7 +783,7 @@ class _DialogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
+    final colors = Theme.of(context).colors;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,

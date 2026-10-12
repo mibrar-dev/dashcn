@@ -10,20 +10,23 @@ import 'package:dashcn/src/primitives/localizations/localizations_extensions.dar
 import 'package:flutter_test/flutter_test.dart';
 
 /// Reads the localizations instance installed for [locale].
-Future<ShadcnLocalizations> loadFor(WidgetTester tester, Locale locale) async {
-  late ShadcnLocalizations result;
+Future<ComponentLocalizations> loadFor(
+  WidgetTester tester,
+  Locale locale,
+) async {
+  late ComponentLocalizations result;
   await tester.pumpWidget(
     Localizations(
       locale: locale,
       // The Localizations widget insists on a WidgetsLocalizations delegate;
       // an app normally gets it from `WidgetsApp`/`MaterialApp`.
       delegates: <LocalizationsDelegate<dynamic>>[
-        ...ShadcnLocalizations.localizationsDelegates,
+        ...ComponentLocalizations.localizationsDelegates,
         GlobalWidgetsLocalizations.delegate,
       ],
       child: Builder(
         builder: (context) {
-          result = ShadcnLocalizations.of(context);
+          result = ComponentLocalizations.of(context);
           return Directionality(
             textDirection: TextDirection.ltr,
             child: Text(result.commandEmpty),
@@ -38,8 +41,8 @@ Future<ShadcnLocalizations> loadFor(WidgetTester tester, Locale locale) async {
 void main() {
   group('delegate', () {
     test('supports exactly the locales it lists', () {
-      const delegate = ShadcnLocalizations.delegate;
-      for (final locale in ShadcnLocalizations.supportedLocales) {
+      const delegate = ComponentLocalizations.delegate;
+      for (final locale in ComponentLocalizations.supportedLocales) {
         expect(delegate.isSupported(locale), isTrue, reason: '$locale');
       }
       expect(delegate.isSupported(const Locale('xx')), isFalse);
@@ -49,20 +52,20 @@ void main() {
 
     test('localizationsDelegates carries the delegate', () {
       expect(
-        ShadcnLocalizations.localizationsDelegates,
-        contains(ShadcnLocalizations.delegate),
+        ComponentLocalizations.localizationsDelegates,
+        contains(ComponentLocalizations.delegate),
       );
     });
 
     test('shouldReload is false, so strings are never rebuilt', () {
-      const delegate = ShadcnLocalizations.delegate;
+      const delegate = ComponentLocalizations.delegate;
       expect(delegate.shouldReload(delegate), isFalse);
     });
 
     testWidgets('loads English', (tester) async {
       final localizations = await loadFor(tester, const Locale('en'));
 
-      expect(localizations, isNot(isA<ShadcnLocalizationsDe>()));
+      expect(localizations, isNot(isA<ComponentLocalizationsDe>()));
       expect(localizations.commandEmpty, 'No results found');
       expect(
         localizations.formLengthLessThan(4),
@@ -75,7 +78,7 @@ void main() {
     testWidgets('loads a second locale from its data file', (tester) async {
       final localizations = await loadFor(tester, const Locale('de'));
 
-      expect(localizations, isA<ShadcnLocalizationsDe>());
+      expect(localizations, isA<ComponentLocalizationsDe>());
       expect(localizations.locale.languageCode, 'de');
       expect(localizations.commandEmpty, 'Keine Ergebnisse gefunden.');
       expect(localizations.monthMarch, 'März');
@@ -99,15 +102,15 @@ void main() {
     testWidgets('every supported locale loads a translated table', (
       tester,
     ) async {
-      const delegate = ShadcnLocalizations.delegate;
+      const delegate = ComponentLocalizations.delegate;
       expect(
-        ShadcnLocalizations.supportedLocales.length,
+        ComponentLocalizations.supportedLocales.length,
         40,
         reason: 'one table per shipped locale, plus the English fallback',
       );
 
       final seen = <String>{};
-      for (final locale in ShadcnLocalizations.supportedLocales) {
+      for (final locale in ComponentLocalizations.supportedLocales) {
         expect(delegate.isSupported(locale), isTrue, reason: '$locale');
 
         final loaded = await loadFor(tester, locale);
@@ -133,26 +136,26 @@ void main() {
       }
       expect(
         seen.length,
-        ShadcnLocalizations.supportedLocales.length,
+        ComponentLocalizations.supportedLocales.length,
         reason: 'each locale resolves to its own class, no two share one',
       );
     });
 
     test('regional variants resolve to their language table', () {
-      const delegate = ShadcnLocalizations.delegate;
+      const delegate = ComponentLocalizations.delegate;
       expect(delegate.isSupported(const Locale('de', 'AT')), isTrue);
 
       expect(
-        lookupShadcnLocalizations(const Locale('de', 'AT')),
-        isA<ShadcnLocalizationsDe>(),
+        lookupComponentLocalizations(const Locale('de', 'AT')),
+        isA<ComponentLocalizationsDe>(),
       );
       expect(
-        lookupShadcnLocalizations(const Locale('en')),
+        lookupComponentLocalizations(const Locale('en')),
         isNot(
           isA<Object>().having(
             (type) => type,
             'type',
-            isA<ShadcnLocalizationsDe>(),
+            isA<ComponentLocalizationsDe>(),
           ),
         ),
       );
@@ -160,40 +163,40 @@ void main() {
 
     test('zh picks the table that matches the script and region', () {
       expect(
-        lookupShadcnLocalizations(const Locale('zh')).runtimeType,
-        ShadcnLocalizationsZh().runtimeType,
+        lookupComponentLocalizations(const Locale('zh')).runtimeType,
+        ComponentLocalizationsZh().runtimeType,
       );
       expect(
-        lookupShadcnLocalizations(
+        lookupComponentLocalizations(
           Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
         ).runtimeType,
-        ShadcnLocalizationsZhHant().runtimeType,
+        ComponentLocalizationsZhHant().runtimeType,
       );
       for (final country in ['TW', 'HK', 'MO']) {
         expect(
-          lookupShadcnLocalizations(Locale('zh', country)).runtimeType,
-          ShadcnLocalizationsZhHant().runtimeType,
+          lookupComponentLocalizations(Locale('zh', country)).runtimeType,
+          ComponentLocalizationsZhHant().runtimeType,
           reason: country,
         );
       }
       expect(
-        lookupShadcnLocalizations(const Locale('zh', 'CN')).runtimeType,
-        ShadcnLocalizationsZh().runtimeType,
+        lookupComponentLocalizations(const Locale('zh', 'CN')).runtimeType,
+        ComponentLocalizationsZh().runtimeType,
       );
     });
 
     test('an unknown language falls back to English instead of throwing', () {
-      final fallback = lookupShadcnLocalizations(const Locale('xx'));
-      expect(fallback, isA<ShadcnLocalizations>());
+      final fallback = lookupComponentLocalizations(const Locale('xx'));
+      expect(fallback, isA<ComponentLocalizations>());
       expect(fallback.commandEmpty, 'No results found');
     });
 
     testWidgets('falls back to English without a delegate', (tester) async {
-      late ShadcnLocalizations localizations;
+      late ComponentLocalizations localizations;
       await tester.pumpWidget(
         Builder(
           builder: (context) {
-            localizations = ShadcnLocalizations.of(context);
+            localizations = ComponentLocalizations.of(context);
             return const SizedBox.shrink();
           },
         ),
@@ -206,13 +209,16 @@ void main() {
 
   group('localeName', () {
     test('is the canonicalized locale string', () {
-      expect(const ShadcnLocalizations(Locale('en')).localeName, 'en');
-      expect(const ShadcnLocalizations(Locale('de', 'AT')).localeName, 'de_AT');
+      expect(const ComponentLocalizations(Locale('en')).localeName, 'en');
+      expect(
+        const ComponentLocalizations(Locale('de', 'AT')).localeName,
+        'de_AT',
+      );
     });
   });
 
   group('extensions', () {
-    const english = ShadcnLocalizations(Locale('en'));
+    const english = ComponentLocalizations(Locale('en'));
 
     test('formatNumber drops the decimal point for whole numbers', () {
       expect(english.formatNumber(1500), '1500');
@@ -383,7 +389,7 @@ void main() {
     });
 
     test('the placeholders come from the locale, not hard-coded English', () {
-      const german = ShadcnLocalizationsDe(Locale('de'));
+      const german = ComponentLocalizationsDe(Locale('de'));
       expect(german.getTimePartAbbreviation(TimePart.hour), 'SS');
       expect(german.timeDaysAbbreviation, 'TT');
       expect(
@@ -407,20 +413,20 @@ void main() {
 
   group('resolveLocale', () {
     Locale resolve(String language, [String? country, String? script]) {
-      return ShadcnLocalizations.resolveLocale(
+      return ComponentLocalizations.resolveLocale(
         Locale.fromSubtags(
           languageCode: language,
           countryCode: country,
           scriptCode: script,
         ),
-        ShadcnLocalizations.supportedLocales,
+        ComponentLocalizations.supportedLocales,
       );
     }
 
     test('en is the first entry and a supported fallback', () {
-      expect(ShadcnLocalizations.supportedLocales.first, const Locale('en'));
+      expect(ComponentLocalizations.supportedLocales.first, const Locale('en'));
       expect(
-        ShadcnLocalizations.delegate.isSupported(const Locale('en')),
+        ComponentLocalizations.delegate.isSupported(const Locale('en')),
         isTrue,
       );
     });
@@ -456,12 +462,12 @@ void main() {
 
     test('lookup picks the table from the resolved locale', () {
       expect(
-        lookupShadcnLocalizations(resolve('zh', 'TW')),
-        isA<ShadcnLocalizationsZhHant>(),
+        lookupComponentLocalizations(resolve('zh', 'TW')),
+        isA<ComponentLocalizationsZhHant>(),
       );
       expect(
-        lookupShadcnLocalizations(resolve('zh', 'CN')),
-        isA<ShadcnLocalizationsZh>(),
+        lookupComponentLocalizations(resolve('zh', 'CN')),
+        isA<ComponentLocalizationsZh>(),
       );
     });
   });

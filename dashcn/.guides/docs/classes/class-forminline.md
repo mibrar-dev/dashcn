@@ -1,27 +1,19 @@
 ---
 title: "Class: FormInline"
-description: "An inline form field widget with label next to the input."
+description: "A compact field with the label beside the input."
 ---
 
 ```dart
-/// An inline form field widget with label next to the input.
-///
-/// Provides a compact horizontal layout for form inputs with labels
-/// and validation.
+/// A compact field with the label beside the input.
 class FormInline<T> extends StatelessWidget {
-  /// The label widget for the form field.
-  final Widget label;
-  /// Optional hint text displayed below the field.
-  final Widget? hint;
-  /// The main input widget.
-  final Widget child;
-  /// Validator function for this field.
-  final Validator<T>? validator;
-  /// Validation modes that trigger error display.
-  final Set<FormValidationMode>? showErrors;
-  /// Creates an inline form field.
-  const FormInline({required FormKey<T> super.key, required this.label, required this.child, this.validator, this.hint, this.showErrors});
+  const FormInline({required FormKey<T> super.key, required this.label, required this.child, this.hint, this.validator, this.showErrors, this.theme});
   FormKey<T> get key;
+  final Widget label;
+  final Widget child;
+  final Widget? hint;
+  final Validator<T>? validator;
+  final Set<FormValidationMode>? showErrors;
+  final FormTheme? theme;
   Widget build(BuildContext context);
 }
 ```

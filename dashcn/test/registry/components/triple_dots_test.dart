@@ -14,11 +14,11 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -43,7 +43,7 @@ List<BoxDecoration> _dotDecorations(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('renders three muted dots by default', (tester) async {
     await tester.pumpWidget(_frame(child: const TripleDots()));
@@ -65,9 +65,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the dots', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(_frame(data: dark, child: const TripleDots()));
     expect(_dotDecorations(tester).first.color, dark.colors.mutedForeground);
   });

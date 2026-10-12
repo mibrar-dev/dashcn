@@ -1,6 +1,6 @@
 // Every one of the 43 canonical presets must satisfy
 // `lib/src/themes/themes.schema.json`, and the generator's token list
-// must agree with the schema (so the emitted `ShadcnColors` arguments can never
+// must agree with the schema (so the emitted `ThemeColors` arguments can never
 // drift from the validated key set).
 
 import 'package:flutter_test/flutter_test.dart';
@@ -127,7 +127,7 @@ void main() {
       'claude',
       'modern-minimal',
       'nature',
-      // `neutral` has no CLI atoms either; its atoms come from shadcn's
+      // `neutral` has no CLI atoms either; its atoms come from upstream's
       // `--shadow-sm` in themes-css/neutral.css (documented in P6-D3 round 3).
       'neutral',
       'northern-lights',

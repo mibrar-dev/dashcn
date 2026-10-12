@@ -16,12 +16,12 @@
 import 'package:flutter/widgets.dart';
 
 import '../previews/block_previews.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/spinner/spinner.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/spinner/spinner.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 
 /// The three viewport presets of a block card, in reference order.
 enum BlockViewport {
@@ -99,7 +99,7 @@ class BlockViewportToggle extends StatelessWidget {
 /// The viewport sits *inside* the card's one continuous border (the card clips
 /// it to the bottom radius): desktop fills the card edge to edge with no inner
 /// border of its own, so header + tabs + viewport read as a single framed card
-/// (shadcn `/blocks`); tablet and mobile render narrower in a bordered device
+/// (upstream `/blocks`); tablet and mobile render narrower in a bordered device
 /// frame of their own, centred on the card background. The height is the
 /// block's intrinsic height (minimum [kBlockPreviewMinHeight]): nothing is
 /// ever clipped, and short forms never float in empty space.
@@ -119,7 +119,7 @@ class BlockPreviewFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool fill = viewport.width == null;
     return Container(
       width: double.infinity,
@@ -224,7 +224,7 @@ class BlockPreviewLoaderState extends State<BlockPreviewLoader> {
                 'Preview failed to load',
                 style: TextStyle(
                   fontSize: 13,
-                  color: ShadcnTheme.of(context).colors.mutedForeground,
+                  color: Theme.of(context).colors.mutedForeground,
                 ),
               ),
             ),

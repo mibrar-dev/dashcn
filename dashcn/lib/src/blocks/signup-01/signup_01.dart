@@ -136,13 +136,13 @@ class _Signup01State extends State<Signup01> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Widget body = Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 384),
         child: Card(
           padding: EdgeInsets.all(theme.spacing.xl),
-          child: ShadcnForm(
+          child: FormScope(
             controller: _controller,
             onSubmit: _handleValidSubmit,
             child: Column(
@@ -158,7 +158,7 @@ class _Signup01State extends State<Signup01> {
                   ),
                 ),
                 Gap(theme.spacing.xl),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _nameKey,
                   label: const Text('Name'),
                   validator:
@@ -176,7 +176,7 @@ class _Signup01State extends State<Signup01> {
                   ),
                 ),
                 Gap(theme.spacing.md),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _emailKey,
                   label: const Text('Email'),
                   validator: const NotEmptyValidator() & const EmailValidator(),
@@ -193,7 +193,7 @@ class _Signup01State extends State<Signup01> {
                   ),
                 ),
                 Gap(theme.spacing.md),
-                ShadcnFormField<String>(
+                FormItem<String>(
                   key: _passwordKey,
                   label: const Text('Password'),
                   hint: const Text('At least 8 characters.'),
@@ -212,7 +212,7 @@ class _Signup01State extends State<Signup01> {
                   ),
                 ),
                 Gap(theme.spacing.md),
-                ShadcnFormField<CheckboxValue>(
+                FormItem<CheckboxValue>(
                   key: _termsKey,
                   // The checkbox carries its own inline label; the field
                   // label stays empty so no text is duplicated.
@@ -330,7 +330,7 @@ class _Signup01Terms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

@@ -15,13 +15,13 @@ Avoid when a single control is enough — use `input` or `select` directly.
 ## Install
 
 ```bash
-flutter_shadcn add filter_bar
+dashcn add filter_bar
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/filter_bar/filter_bar.dart';
+import 'package:<your_app>/ui/dashcn/filter_bar/filter_bar.dart';
 ```
 
 ## Minimal example

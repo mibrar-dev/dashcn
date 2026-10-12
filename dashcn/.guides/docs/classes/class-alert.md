@@ -1,12 +1,22 @@
 ---
 title: "Class: Alert"
-description: "Flexible alert box for status, warning, and info messages."
+description: "A bordered banner that highlights a message."
 ---
 
 ```dart
-/// Flexible alert box for status, warning, and info messages.
+/// A bordered banner that highlights a message.
+///
+/// ```dart
+/// Alert(
+///   leading: const Icon(LucideIcons.info),
+///   title: const Text('Heads up'),
+///   content: const Text('You can add components from the registry.'),
+/// )
+/// ```
 class Alert extends StatelessWidget {
-  /// Optional leading widget (icon/avatar).
+  /// Creates an alert.
+  const Alert({super.key, this.leading, this.title, this.content, this.trailing, this.variant = AlertVariant.base, this.theme});
+  /// Optional leading widget, usually a 16px `Icon`.
   final Widget? leading;
   /// Optional title widget.
   final Widget? title;
@@ -14,12 +24,10 @@ class Alert extends StatelessWidget {
   final Widget? content;
   /// Optional trailing widget (actions/dismissal).
   final Widget? trailing;
-  /// Applies destructive styling when true.
-  final bool destructive;
-  /// Creates a styled [Alert].
-  const Alert({super.key, this.leading, this.title, this.content, this.trailing, this.destructive = false});
-  /// Convenience constructor for destructive alerts.
-  const Alert.destructive({super.key, this.leading, this.title, this.content, this.trailing});
+  /// Visual variant. Defaults to [AlertVariant.base].
+  final AlertVariant variant;
+  /// Widget-leg style override, merged on top of the component/app/defaults.
+  final AlertTheme? theme;
   Widget build(BuildContext context);
 }
 ```

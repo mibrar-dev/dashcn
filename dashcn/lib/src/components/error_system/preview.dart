@@ -40,7 +40,7 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: DefaultTextStyle(
@@ -77,7 +77,7 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
           title,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        Gap(ShadcnTheme.of(context).spacing.sm),
+        Gap(Theme.of(context).spacing.sm),
         child,
       ],
     );

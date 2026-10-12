@@ -14,13 +14,13 @@ Avoid when you only need a compact swatch/hex field — use `color_input`.
 ## Install
 
 ```bash
-flutter_shadcn add color_picker
+dashcn add color_picker
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/color_picker/color_picker.dart';
 ```
 
 ## Minimal example

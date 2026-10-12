@@ -1,7 +1,7 @@
 // Colour format round trip: `#RRGGBB` and `#RRGGBBAA`, alpha never dropped.
 //
 // The regression this guards is the one P1-D found: 0/42 legacy presets carried
-// a translucent colour, so shadcn's `oklch(1 0 0 / 10%)` dark border was
+// a translucent colour, so upstream's `oklch(1 0 0 / 10%)` dark border was
 // flattened. tweakcn atoms DO carry alpha (`hsl(0 0% 20% / 0.1)` for graphite,
 // `rgba(29,161,242,0.15)` for twitter), so the format has to round trip it.
 
@@ -78,7 +78,7 @@ void main() {
   });
 
   test('an opaque token never gains an alpha suffix', () {
-    // shadcn's official neutral CSS defines three dark tokens with alpha
+    // upstream's official neutral CSS defines three dark tokens with alpha
     // (`oklch(1 0 0 / 10%)` border, `/ 15%` input and sidebar-border); those
     // are the only documented 8-digit colour tokens. Every other token must
     // stay opaque: the P1-D regression was alpha appearing where the source

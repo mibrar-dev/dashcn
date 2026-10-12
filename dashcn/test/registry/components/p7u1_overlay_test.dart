@@ -32,10 +32,10 @@ import '../theme_audit/theme_audit_helpers.dart';
 /// Pumps [child] in an overlay at the top-left of the test viewport.
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -191,8 +191,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Overlay(
@@ -280,7 +280,7 @@ void main() {
         ),
       );
       await tester.pump();
-      final Future<void> opened = showShadcnDropdown<void>(
+      final Future<void> opened = showDropdown<void>(
         context: host,
         children: <Widget>[
           MenuButton(onPressed: _noop, child: const Text('Profile')),
@@ -322,7 +322,7 @@ void main() {
       );
       await tester.pump();
       final TestGesture gesture = await _hover(tester, find.text('Cut'));
-      final ShadcnColors colors = const ShadcnThemeData().colors;
+      final ThemeColors colors = const ThemeData().colors;
       final BoxDecoration decoration = _rowDecoration(
         tester,
         find.byType(RovingRow).first,
@@ -374,7 +374,7 @@ void main() {
                   ),
                 ],
               ),
-              data: ShadcnThemeData(
+              data: ThemeData(
                 colors: view.colors,
                 tokens: view.tokens,
                 fonts: view.fonts,
@@ -417,7 +417,7 @@ void main() {
     testWidgets('popup surface paints popover tokens with shadow', (
       tester,
     ) async {
-      const ShadcnThemeData theme = ShadcnThemeData();
+      const ThemeData theme = ThemeData();
       await tester.pumpWidget(
         _frame(const MenuPopup(children: <Widget>[Text('x')])),
       );
@@ -740,7 +740,7 @@ void main() {
     });
 
     testWidgets('surface paints popover tokens with shadow-lg', (tester) async {
-      const ShadcnThemeData theme = ShadcnThemeData();
+      const ThemeData theme = ThemeData();
       await tester.pumpWidget(_frame(SizedBox(width: 320, child: palette())));
       await tester.pump();
       await tester.pump();
@@ -801,7 +801,7 @@ void main() {
                 ),
               ],
             ),
-            data: ShadcnThemeData(density: entry.value),
+            data: ThemeData(density: entry.value),
           ),
         );
         await tester.pump();

@@ -55,7 +55,7 @@ const FileDiff _patch = FileDiff(
   ],
 );
 
-/// Compact single-column patch (the shadcn default).
+/// Compact single-column patch (the upstream default).
 Widget _unified(BuildContext context) {
   return const FileDiffViewer(maxHeight: 260, files: <FileDiff>[_patch]);
 }

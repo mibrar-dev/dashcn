@@ -1,17 +1,32 @@
 ---
 title: "Class: Spinner"
-description: "Shared spinner base class with color and size resolution helpers."
+description: "An indeterminate circular indicator."
 ---
 
 ```dart
-/// Shared spinner base class with color and size resolution helpers.
-abstract class Spinner extends StatelessWidget {
-  /// Optional color override.
-  final Color? color;
-  /// Optional size override.
+/// An indeterminate circular indicator.
+///
+/// ```dart
+/// const Spinner();
+/// const Spinner(size: 16, strokeWidth: 2);
+/// ```
+///
+/// The arc rotates continuously; the widget has no determinate mode by
+/// design. Use `Progress` for a value-bearing indicator.
+class Spinner extends StatelessWidget {
+  /// Creates a spinner.
+  const Spinner({super.key, this.size, this.strokeWidth, this.color, this.semanticsLabel, this.theme});
+  /// Diameter override; null uses [SpinnerTheme.size] then `24 * scaling`.
   final double? size;
-  const Spinner({super.key, this.color, this.size});
-  Color? resolveColor(BuildContext context);
-  double resolveSize(BuildContext context, double defaultValue);
+  /// Arc thickness override; null uses [SpinnerTheme.strokeWidth] then
+  /// `size / 12`.
+  final double? strokeWidth;
+  /// Arc colour override.
+  final Color? color;
+  /// Semantic label, e.g. `'Loading'`.
+  final String? semanticsLabel;
+  /// Widget-leg theme override, merged on top of the other legs.
+  final SpinnerTheme? theme;
+  Widget build(BuildContext context);
 }
 ```

@@ -54,7 +54,7 @@ class _VerticalRatingState extends State<_VerticalRating> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,

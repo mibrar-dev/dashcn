@@ -53,7 +53,7 @@ class ContextMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TargetPlatform platform = ShadcnTheme.of(context).platform;
+    final TargetPlatform platform = Theme.of(context).platform;
     final bool touch =
         platform == TargetPlatform.iOS ||
         platform == TargetPlatform.android ||
@@ -62,7 +62,7 @@ class ContextMenu extends StatelessWidget {
       // The pointer offset is physical: mirror it in RTL so the menu still
       // opens just past the pointer on the reading side.
       final bool rtl = Directionality.of(context) == TextDirection.rtl;
-      showShadcnContextMenu<void>(
+      showContextMenu<void>(
         context: context,
         position: position + Offset(rtl ? -8 : 8, 0),
         children: items,
@@ -90,7 +90,7 @@ class ContextMenu extends StatelessWidget {
 /// The menu opens just right of the pointer, is non-modal, keeps submenu
 /// levels working and completes when a row closes it or a tap lands outside.
 /// The opened menu takes focus so keyboard traversal works immediately.
-Future<T?> showShadcnContextMenu<T>({
+Future<T?> showContextMenu<T>({
   required BuildContext context,
   required Offset position,
   required List<Widget> children,
@@ -109,7 +109,7 @@ Future<T?> showShadcnContextMenu<T>({
     dismissBackdropFocus: false,
     follow: false,
     builder: (context) {
-      final ShadcnThemeData ambient = ShadcnTheme.of(context);
+      final ThemeData ambient = Theme.of(context);
       final EdgeInsets itemPadding = SheetOverlayHandler.isSheetOverlay(context)
           ? EdgeInsets.symmetric(horizontal: ambient.spacing.sm)
           : EdgeInsets.zero;

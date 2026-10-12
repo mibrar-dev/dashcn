@@ -1,27 +1,23 @@
 ---
 title: "Class: FormEntry"
-description: "A form field entry that wraps a form widget with validation."
+description: "Attaches one field ([key] + [validator]) to the nearest form."
 ---
 
 ```dart
-/// A form field entry that wraps a form widget with validation.
+/// Attaches one field ([key] + [validator]) to the nearest form.
 ///
-/// [FormEntry] associates a [FormKey] with a form field widget and optional
-/// validator. It integrates with the form state management system to track
-/// field values and validation states.
+/// A `FormEntry` publishes itself as `Data<FormFieldHandle>`; value suppliers
+/// below it (like `Input`) find it and report values, which run [validator]
+/// through the controller and surface through the entry's `validity`.
 class FormEntry<T> extends StatefulWidget {
-  /// The form field widget to wrap.
-  final Widget child;
-  /// Optional validator function for this form field.
-  ///
-  /// Called when form validation is triggered. Should return `null` for valid
-  /// values or a validation error message for invalid values.
+  /// Creates a form entry for [key].
+  const FormEntry({required FormKey<T> super.key, this.validator, required this.child});
+  /// The field's identity and value type.
+  FormKey<T> get key;
+  /// Validation for this field; null fields are value-only.
   final Validator<T>? validator;
-  /// Creates a form entry with a typed key.
-  ///
-  /// The [key] parameter must be a [FormKey<T>] to ensure type safety.
-  const FormEntry({required FormKey<T> super.key, required this.child, this.validator});
-  FormKey get key;
-  State<FormEntry> createState();
+  /// The field subtree.
+  final Widget child;
+  State<FormEntry<T>> createState();
 }
 ```

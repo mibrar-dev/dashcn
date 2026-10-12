@@ -4,8 +4,8 @@
   "category": "Feedback",
   "description": "Bordered callout banner with base and destructive variants, a leading slot, title, content and trailing slot.",
   "tier": "component",
-  "install": "flutter_shadcn add alert",
-  "import": "import 'package:<your_app>/ui/shadcn/components/alert/alert.dart';",
+  "install": "dashcn add alert",
+  "import": "import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';",
   "tags": ["layout", "feedback", "banner", "status"],
   "deps": {
     "foundation": [],

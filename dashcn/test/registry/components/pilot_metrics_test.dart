@@ -1,7 +1,7 @@
-// Pilot metrics vs shadcn/ui (brief P3-F §1): logical sizes measured with
+// Pilot metrics vs the upstream web kit (brief P3-F §1): logical sizes measured with
 // widget tests (`tester.getSize` / `tester.getRect`), not pixel probing.
 //
-// Reference: shadcn/ui new-york, default density.
+// Reference: the upstream web kit new-york, default density.
 // Button: sm h-8 (32), md h-9 (36), lg h-10 (40), icon size-9 (36x36),
 // xs h-7 (28, pre-existing size); px-3/px-4/px-6 = 12/16/24 horizontal,
 // text text-sm font-medium (14 w500).
@@ -23,11 +23,8 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _frame({
-  required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
-}) {
-  return ShadcnTheme(
+Widget _frame({required Widget child, ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: const <ComponentThemeData>[],
@@ -61,7 +58,7 @@ EdgeInsets _togglePadding(WidgetTester tester) {
 }
 
 void main() {
-  group('button matches shadcn/ui', () {
+  group('button matches the upstream web kit', () {
     testWidgets('heights: xs 28, sm 32, md 36, lg 40', (tester) async {
       final expected = <ButtonSize, double>{
         ButtonSize.xs: 28,
@@ -143,7 +140,7 @@ void main() {
     });
   });
 
-  group('input matches shadcn/ui', () {
+  group('input matches the upstream web kit', () {
     testWidgets('height is 36', (tester) async {
       await tester.pumpWidget(
         _frame(
@@ -168,7 +165,7 @@ void main() {
       expect((surface.border! as Border).top.width, 1);
       expect(
         surface.borderRadius,
-        const ShadcnThemeData().borderRadiusMd,
+        const ThemeData().borderRadiusMd,
         reason: 'radius must be the radiusMd token',
       );
       final paddings = tester.widgetList<Padding>(
@@ -183,7 +180,7 @@ void main() {
     });
   });
 
-  group('toggle matches shadcn/ui', () {
+  group('toggle matches the upstream web kit', () {
     testWidgets('heights: sm 32, md 36, lg 40', (tester) async {
       final expected = <ToggleSize, double>{
         ToggleSize.sm: 32,
@@ -228,15 +225,15 @@ void main() {
     });
   });
 
-  group('dialog matches shadcn/ui', () {
+  group('dialog matches the upstream web kit', () {
     Future<BuildContext> pumpDialog(
       WidgetTester tester, {
-      ShadcnThemeData theme = const ShadcnThemeData(),
+      ThemeData theme = const ThemeData(),
       WidgetBuilder? builder,
     }) async {
       late BuildContext host;
       await tester.pumpWidget(
-        ShadcnTheme(
+        Theme(
           data: theme,
           child: Directionality(
             textDirection: TextDirection.ltr,
@@ -256,7 +253,7 @@ void main() {
         ),
       );
       unawaited(
-        showShadcnDialog<void>(
+        showDialog<void>(
           context: host,
           builder: builder ?? (_) => const SizedBox(width: 1000, height: 20),
         ),
@@ -286,7 +283,7 @@ void main() {
       final box = tester.widget<DecoratedBox>(find.byKey(kDialogSurfaceKey));
       expect(
         (box.decoration as BoxDecoration).borderRadius,
-        const ShadcnThemeData().borderRadiusLg,
+        const ThemeData().borderRadiusLg,
       );
     });
 
@@ -319,9 +316,9 @@ void main() {
     testWidgets('dark mode: card uses dark tokens (no stale theme)', (
       tester,
     ) async {
-      const dark = ShadcnThemeData(colors: ShadcnColors.darkFallback);
+      const dark = ThemeData(colors: ThemeColors.darkFallback);
       await tester.pumpWidget(
-        ShadcnTheme(
+        Theme(
           data: dark,
           child: Directionality(
             textDirection: TextDirection.ltr,
@@ -346,7 +343,7 @@ void main() {
       final box = tester.widget<DecoratedBox>(find.byKey(kDialogSurfaceKey));
       expect(
         (box.decoration as BoxDecoration).color,
-        ShadcnColors.darkFallback.card,
+        ThemeColors.darkFallback.card,
         reason: 'card must resolve against the live dark theme',
       );
       final pageColor = tester
@@ -356,7 +353,7 @@ void main() {
           .color;
       expect(
         pageColor,
-        ShadcnColors.darkFallback.background,
+        ThemeColors.darkFallback.background,
         reason: 'page behind the barrier must be the dark background',
       );
     });
@@ -378,7 +375,7 @@ class _DialogProbePageState extends State<_DialogProbePage> {
       if (!mounted) {
         return;
       }
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: context,
         builder: (_) => const SizedBox(width: 200, height: 20),
       );

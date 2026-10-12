@@ -1,20 +1,20 @@
 // Home showcase: overlay cards, part 1 — dialog, alert, drawer (P6-H1).
 //
-// Every card opens its real registry overlay (`showShadcnDialog`,
+// Every card opens its real registry overlay (`showDialog`,
 // `showAlertDialog`, `openDrawer` / `openSheet`), the way the reference
 // home's `Alert Dialog` trigger does: the collage shows the composed scene,
 // the overlay opens on demand.
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/alert_dialog/alert_dialog.dart';
-import '../ui/shadcn/components/avatar/avatar.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/dialog/dialog.dart';
-import '../ui/shadcn/components/drawer/drawer.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/alert_dialog/alert_dialog.dart';
+import '../ui/dashcn/components/avatar/avatar.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/dialog/dialog.dart';
+import '../ui/dashcn/components/drawer/drawer.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -25,7 +25,7 @@ class HomeDialogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Share document',
       subtitle: 'Invite people to this workspace.',
@@ -63,7 +63,7 @@ class HomeDialogCard extends StatelessWidget {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           leading: const Icon(LucideIcons.share2, size: 14),
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             builder: (BuildContext dialogContext) => AlertDialog(
               title: const Text('Share this document'),
@@ -98,7 +98,7 @@ class HomeAlertConfirmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Danger zone',
       subtitle: 'Deleting a project cannot be undone.',
@@ -204,7 +204,7 @@ class _HomePanelSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(

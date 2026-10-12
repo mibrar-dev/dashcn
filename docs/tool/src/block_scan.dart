@@ -41,7 +41,7 @@ class BlockFacts {
   /// Viewport hint: `desktop` or `mobile`.
   final String viewport;
 
-  /// `flutter_shadcn add <id>`.
+  /// `dashcn add <id>`.
   final String install;
 
   /// Corrected user import line for the installed layout.
@@ -141,7 +141,7 @@ BlockFacts _blockFacts(
     category: category,
     description: description,
     viewport: viewport,
-    install: _string(manifest['install'], 'flutter_shadcn add $id'),
+    install: _string(manifest['install'], 'dashcn add $id'),
     import: _string(manifest['import'], ''),
     entry: entry,
     files: files,

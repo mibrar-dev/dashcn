@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required ScrollController controller,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ScrollbarTheme? scoped,
   ScrollbarTheme? widgetTheme,
@@ -37,7 +37,7 @@ Widget _frame({
   if (scoped != null) {
     bar = ComponentTheme<ScrollbarTheme>(data: scoped, child: bar);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -63,7 +63,7 @@ void main() {
     await tester.pumpWidget(_frame(controller: controller));
 
     final RawScrollbar raw = _raw(tester);
-    expect(_hex(raw.thumbColor!), _hex(ShadcnColors.lightFallback.border));
+    expect(_hex(raw.thumbColor!), _hex(ThemeColors.lightFallback.border));
     expect(raw.thickness, scrollbarDefaultThickness);
     expect(raw.radius, const Radius.circular(4));
     expect(raw.minThumbLength, kMinScrollbarThumbExtent);
@@ -76,12 +76,12 @@ void main() {
     await tester.pumpWidget(
       _frame(
         controller: controller,
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
       ),
     );
 
     final RawScrollbar raw = _raw(tester);
-    expect(_hex(raw.thumbColor!), _hex(ShadcnColors.darkFallback.border));
+    expect(_hex(raw.thumbColor!), _hex(ThemeColors.darkFallback.border));
   });
 
   testWidgets('app leg overrides the defaults', (tester) async {
@@ -157,7 +157,7 @@ void main() {
       ),
     );
 
-    final double expected = ShadcnColors.lightFallback.border.a * 0.5;
+    final double expected = ThemeColors.lightFallback.border.a * 0.5;
     expect(_raw(tester).thumbColor!.a, closeTo(expected, 0.001));
   });
 
@@ -175,7 +175,7 @@ void main() {
 
     final RawScrollbar raw = _raw(tester);
     expect(raw.thickness, 9);
-    expect(_hex(raw.thumbColor!), _hex(ShadcnColors.lightFallback.border));
+    expect(_hex(raw.thumbColor!), _hex(ThemeColors.lightFallback.border));
   });
 
   testWidgets('flags are forwarded to RawScrollbar', (tester) async {

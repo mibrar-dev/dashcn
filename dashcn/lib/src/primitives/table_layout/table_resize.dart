@@ -221,7 +221,7 @@ class _CellResizerState extends State<CellResizer> {
     final bool expandWidth =
         widget.widthMode == TableCellResizeMode.expand ||
         widget.column + widget.columnSpan <= widget.maxColumn;
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     return Stack(
       children: <Widget>[
         if (widget.row > 0 && canHeight)

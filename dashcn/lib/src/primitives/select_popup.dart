@@ -37,7 +37,7 @@ T? singleSelectionHandler<T>(T? oldValue, Object? item, bool selected) {
 bool singleSelectionPredicate<T>(T? value, Object? test) => value == test;
 
 /// One selectable row: a [RovingRow] with the optional trailing check
-/// indicator (shadcn reserves the gutter whenever something is selected).
+/// indicator (upstream reserves the gutter whenever something is selected).
 ///
 /// Place it inside a `MenuGroup`; the row joins that group's traversal and
 /// paints the shared menu row hover/focus highlight. Plain-text labels stay
@@ -71,28 +71,28 @@ class SelectRow extends StatelessWidget {
   /// Called on tap and on Enter/Space while focused.
   final VoidCallback? onPressed;
 
-  /// Row padding; null resolves the menu row default (shadcn `px-2 py-1.5`)
+  /// Row padding; null resolves the menu row default (upstream `px-2 py-1.5`)
   /// against the ambient density.
   final EdgeInsetsGeometry? padding;
 
   /// Minimum row height.
   final double minHeight;
 
-  /// Default row padding for a selectable row: shadcn `px-2 py-1.5`, as
+  /// Default row padding for a selectable row: upstream `px-2 py-1.5`, as
   /// density multipliers resolved at build.
   static const EdgeInsetsGeometry defaultRowPadding =
       EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 6);
 
   @override
   Widget build(BuildContext context) {
-    // 16 is shadcn `size-4`: the fixed box the check glyph and its reserved
+    // 16 is upstream `size-4`: the fixed box the check glyph and its reserved
     // gutter live in, not spacing.
     final Widget? indicator = selected
         ? const Icon(LucideIcons.check, size: 16)
         : (reserveIndicator ? const SizedBox(width: 16, height: 16) : null);
     // A select row owns its padding, so it resolves the density multipliers
     // here (theme-free primitive, no component import).
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return RovingRow(
       enabled: enabled,
       onPressed: enabled ? onPressed : null,

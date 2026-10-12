@@ -55,7 +55,7 @@ child takes its natural size there.
 
 ## Differences from the old `layout/group`
 
-- The old directory shipped only `group_widget.dart`, so `flutter_shadcn add
+- The old directory shipped only `group_widget.dart`, so `dashcn add
   group` could not find an entry file. This file is the `group.dart` entry.
 - `GroupWidget` is renamed `Group` (clean break; no alias).
 - The `ignore_for_file`, `part` and `_impl/` structure is gone; the render

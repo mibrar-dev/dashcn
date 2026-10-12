@@ -4,8 +4,8 @@
   "category": "Sidebar",
   "description": "An inset sidebar with grouped navigation and live search; a drawer on phones.",
   "viewport": "desktop",
-  "install": "flutter_shadcn add sidebar-02",
-  "import": "import 'package:<your_app>/ui/shadcn/blocks/sidebar-02/sidebar_02.dart';",
+  "install": "dashcn add sidebar-02",
+  "import": "import 'package:<your_app>/ui/dashcn/blocks/sidebar-02/sidebar_02.dart';",
   "tags": [
     "sidebar02",
     "sidebar"

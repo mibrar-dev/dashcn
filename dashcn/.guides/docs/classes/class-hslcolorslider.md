@@ -1,43 +1,35 @@
 ---
 title: "Class: HSLColorSlider"
-description: "A slider widget for adjusting HSL color components."
+description: "Interactive slider for one or two HSL channels."
 ---
 
 ```dart
-/// A slider widget for adjusting HSL color components.
-///
-/// [HSLColorSlider] provides an interactive slider for modifying different
-/// aspects of an HSL color (hue, saturation, lightness, and combinations).
-/// The slider displays a gradient representing the selected color channel(s)
-/// and allows users to drag to adjust values.
-///
-/// Example:
-/// ```dart
-/// HSLColorSlider(
-///   color: HSLColor.fromColor(Colors.blue),
-///   sliderType: HSLColorSliderType.hue,
-///   onChanged: (newColor) {
-///     print('New hue: ${newColor.hue}');
-///   },
-/// )
-/// ```
+/// Interactive slider for one or two HSL channels.
 class HSLColorSlider extends StatefulWidget {
-  /// The current HSL color value.
+  /// Creates an HSL slider.
+  const HSLColorSlider({super.key, required this.color, required this.sliderType, this.onChanging, this.onChanged, this.reverse = false, this.radius = const Radius.circular(0), this.padding = EdgeInsets.zero, this.enabled = true, this.style, this.focusNode, this.autofocus = false});
+  /// The current colour.
   final HSLColor color;
-  /// Called while the slider is being dragged.
-  final ValueChanged<HSLColor>? onChanging;
-  /// Called when the slider interaction is complete.
-  final ValueChanged<HSLColor>? onChanged;
-  /// The type of HSL component(s) this slider controls.
+  /// Which channel(s) this slider drives.
   final HSLColorSliderType sliderType;
-  /// Whether to reverse the slider direction.
+  /// Called while the value changes.
+  final ValueChanged<HSLColor>? onChanging;
+  /// Called when the interaction completes.
+  final ValueChanged<HSLColor>? onChanged;
+  /// Swaps the channel axes (and the cursor orientation).
   final bool reverse;
-  /// Corner radius for the slider.
+  /// Corner radius of the gradient.
   final Radius radius;
-  /// Padding around the slider.
+  /// Padding between gradient and cursor bar edge.
   final EdgeInsets padding;
-  /// Creates an [HSLColorSlider].
-  const HSLColorSlider({super.key, required this.color, this.onChanging, this.onChanged, required this.sliderType, this.reverse = false, this.radius = const Radius.circular(0), this.padding = const EdgeInsets.all(0)});
+  /// Whether gestures/keys are accepted.
+  final bool enabled;
+  /// Widget-leg style override.
+  final HSLSliderStyle? style;
+  /// Focus node; one is created internally when null and [autofocus].
+  final FocusNode? focusNode;
+  /// Request focus on first build.
+  final bool autofocus;
   State<HSLColorSlider> createState();
 }
 ```

@@ -22,8 +22,8 @@ final FocusNode _insideNodeA = FocusNode(debugLabel: 'insideA');
 final FocusNode _insideNodeB = FocusNode(debugLabel: 'insideB');
 
 /// Ambient theme of the frame; flipped in place to prove the theme stays live.
-final ValueNotifier<ShadcnThemeData> _theme = ValueNotifier<ShadcnThemeData>(
-  const ShadcnThemeData(),
+final ValueNotifier<ThemeData> _theme = ValueNotifier<ThemeData>(
+  const ThemeData(),
 );
 
 /// Stable navigator key for tests that keep a dialog open across pumps.
@@ -31,12 +31,12 @@ final GlobalKey<NavigatorState> _liveNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'liveNavigator',
 );
 
-/// Pumps a page with a `Navigator`, a directionality and a shadcn theme, plus
+/// Pumps a page with a `Navigator`, a directionality and a upstream theme, plus
 /// the optional app leg ([ComponentThemes]) and scoped leg ([ComponentTheme])
 /// of [DialogTheme]. Pass `navigatorKey` to keep overlay state across pumps.
 Future<void> _pumpApp(
   WidgetTester tester, {
-  ShadcnThemeData? theme,
+  ThemeData? theme,
   DialogTheme? appTheme,
   DialogTheme? scopedTheme,
   EdgeInsets mediaPadding = EdgeInsets.zero,
@@ -75,9 +75,9 @@ Future<void> _pumpApp(
     app = ComponentThemes(themes: <ComponentThemeData>[appTheme], child: app);
   }
   await tester.pumpWidget(
-    ValueListenableBuilder<ShadcnThemeData>(
+    ValueListenableBuilder<ThemeData>(
       valueListenable: _theme,
-      builder: (context, data, _) => ShadcnTheme(data: data, child: app),
+      builder: (context, data, _) => Theme(data: data, child: app),
     ),
   );
   _openerNode.requestFocus();
@@ -140,7 +140,7 @@ FocusNode get _primary => FocusManager.instance.primaryFocus!;
 
 void main() {
   setUp(() {
-    _theme.value = const ShadcnThemeData();
+    _theme.value = const ThemeData();
   });
 
   tearDown(() {
@@ -150,10 +150,7 @@ void main() {
   testWidgets('opens with a scale and fade, closes again', (tester) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pump();
     expect(find.byKey(kDialogSurfaceKey), findsOneWidget);
@@ -172,14 +169,14 @@ void main() {
   testWidgets('shell paints the themed card', (tester) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         builder: (context) => const _Body(width: 1000),
       ),
     );
     await tester.pumpAndSettle();
 
-    final colors = ShadcnColors.lightFallback;
+    final colors = ThemeColors.lightFallback;
     final decoration = _surfaceDecoration(tester);
     expect(decoration.color, colors.card);
     expect(decoration.borderRadius, const BorderRadius.all(Radius.circular(8)));
@@ -196,10 +193,7 @@ void main() {
   ) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
     final barrier = _barrierColor(tester);
@@ -209,11 +203,11 @@ void main() {
     expect(barrier.b, 0.0);
     expect(
       _barrier(tester).semanticsLabel,
-      ShadcnLocalizations(Locale('en')).dialogDismiss,
+      ComponentLocalizations(Locale('en')).dialogDismiss,
     );
 
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         barrierColor: const ThemedColor.value(Color(0xFFFF0000)),
         barrierLabel: 'Close it',
@@ -230,10 +224,7 @@ void main() {
   ) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
     await tester.tapAt(const Offset(4, 4));
@@ -241,7 +232,7 @@ void main() {
     expect(find.byKey(kDialogSurfaceKey), findsNothing);
 
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         barrierDismissible: false,
         builder: (context) => const _Body(),
@@ -256,10 +247,7 @@ void main() {
   testWidgets('escape dismisses only when barrierDismissible', (tester) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
     await tester.sendKeyEvent(LogicalKeyboardKey.escape);
@@ -267,7 +255,7 @@ void main() {
     expect(find.byKey(kDialogSurfaceKey), findsNothing);
 
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         barrierDismissible: false,
         builder: (context) => const _Body(),
@@ -286,10 +274,7 @@ void main() {
     expect(_primary, _openerNode);
 
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
     expect(_primary, isNot(_openerNode));
@@ -321,7 +306,7 @@ void main() {
   ) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         fullScreen: true,
         builder: (context) => const _Body(width: 1000),
@@ -341,7 +326,7 @@ void main() {
   testWidgets('card pads its content and keeps an outer inset', (tester) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         alignment: Alignment.topLeft,
         builder: (context) => const _Body(),
@@ -351,7 +336,7 @@ void main() {
     // insetPadding: padSm x density content padding = 16.
     final card = tester.getTopLeft(find.byKey(kDialogSurfaceKey));
     expect(card, const Offset(16, 16));
-    // padding: shadcn p-6 = padMd x density content padding = 24.
+    // padding: upstream p-6 = padMd x density content padding = 24.
     expect(tester.getTopLeft(find.byType(_Body)), card + const Offset(24, 24));
   });
 
@@ -367,31 +352,25 @@ void main() {
       ),
     );
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
-    expect(_surfaceDecoration(tester).color, ShadcnColors.lightFallback.card);
+    expect(_surfaceDecoration(tester).color, ThemeColors.lightFallback.card);
     // The scoped leg beats the black a0.5 default.
-    expect(_barrierColor(tester), ShadcnColors.lightFallback.muted);
+    expect(_barrierColor(tester), ThemeColors.lightFallback.muted);
 
-    _theme.value = const ShadcnThemeData(colors: ShadcnColors.darkFallback);
+    _theme.value = const ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpAndSettle();
     expect(find.byKey(kDialogSurfaceKey), findsOneWidget);
-    expect(_surfaceDecoration(tester).color, ShadcnColors.darkFallback.card);
-    expect(_barrierColor(tester), ShadcnColors.darkFallback.muted);
+    expect(_surfaceDecoration(tester).color, ThemeColors.darkFallback.card);
+    expect(_barrierColor(tester), ThemeColors.darkFallback.muted);
   });
 
   testWidgets('useSafeArea insets the card', (tester) async {
     const padding = EdgeInsets.only(top: 40, bottom: 20);
     await _pumpApp(tester, mediaPadding: padding);
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
     expect(find.byType(SafeArea), findsOneWidget);
@@ -401,7 +380,7 @@ void main() {
     Navigator.of(_host).pop();
     await tester.pumpAndSettle();
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         useSafeArea: false,
         builder: (context) => const _Body(),
@@ -425,7 +404,7 @@ void main() {
         scopedTheme: const DialogTheme(maxWidth: 320),
       );
       unawaited(
-        showShadcnDialog<void>(
+        showDialog<void>(
           context: _host,
           theme: widgetTheme,
           builder: (context) => const _Body(width: 1000),
@@ -453,7 +432,7 @@ void main() {
 
   testWidgets('returns the value passed to Navigator.pop', (tester) async {
     await _pumpApp(tester);
-    final result = showShadcnDialog<String>(
+    final result = showDialog<String>(
       context: _host,
       builder: (context) => const _Body(),
     );
@@ -466,7 +445,7 @@ void main() {
 
   testWidgets('barrier dismissal resolves to null', (tester) async {
     await _pumpApp(tester);
-    final result = showShadcnDialog<String>(
+    final result = showDialog<String>(
       context: _host,
       builder: (context) => const _Body(),
     );
@@ -480,16 +459,13 @@ void main() {
   testWidgets('dark tokens drive the card', (tester) async {
     await _pumpApp(
       tester,
-      theme: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      theme: const ThemeData(colors: ThemeColors.darkFallback),
     );
     unawaited(
-      showShadcnDialog<void>(
-        context: _host,
-        builder: (context) => const _Body(),
-      ),
+      showDialog<void>(context: _host, builder: (context) => const _Body()),
     );
     await tester.pumpAndSettle();
-    final colors = ShadcnColors.darkFallback;
+    final colors = ThemeColors.darkFallback;
     final decoration = _surfaceDecoration(tester);
     expect(decoration.color, colors.card);
     expect((decoration.border! as Border).top.color, colors.border);
@@ -498,7 +474,7 @@ void main() {
   testWidgets('transitionDuration from the theme is honoured', (tester) async {
     await _pumpApp(tester);
     unawaited(
-      showShadcnDialog<void>(
+      showDialog<void>(
         context: _host,
         theme: const DialogTheme(transitionDuration: Duration.zero),
         builder: (context) => const _Body(),

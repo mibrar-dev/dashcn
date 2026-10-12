@@ -8,7 +8,7 @@ import '../../theme/theme.dart';
 /// [maxLines], [textWidthBasis]) is a builder rather than a value, so the same
 /// modifier widget can be rebuilt against a different theme.
 typedef WrappedTextDataBuilder<T> =
-    T Function(BuildContext context, ShadcnThemeData theme);
+    T Function(BuildContext context, ThemeData theme);
 
 /// Wraps the wrapped child in extra widgets (padding, borders, ...).
 typedef WidgetTextWrapper = Widget Function(BuildContext context, Widget child);
@@ -61,7 +61,7 @@ abstract class TextModifier extends StatelessWidget {
 }
 
 /// The default [TextModifier]: resolves its builders against the ambient
-/// [ShadcnTheme] and installs the result as a merged [DefaultTextStyle].
+/// [Theme] and installs the result as a merged [DefaultTextStyle].
 ///
 /// [wrapper] runs outside the style merge, so decorations and padding around
 /// the text do not inherit the modifier's text style.
@@ -164,7 +164,7 @@ class WrappedText extends TextModifier {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return DefaultTextStyle.merge(
       child: wrapper?.call(context, child) ?? child,
       style: style?.call(context, theme),

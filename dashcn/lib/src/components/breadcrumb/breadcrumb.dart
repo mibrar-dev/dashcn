@@ -4,7 +4,7 @@
 // Ported from `components/navigation/breadcrumb`. The old tree wrapped each
 // crumb in `shared/primitives/text` modifiers (`.medium()`, `.small()`,
 // `.muted()`, `.foreground()`); those now come from `primitives/text`. The
-// default separator is the shadcn chevron; a slash separator is provided too.
+// default separator is the upstream chevron; a slash separator is provided too.
 
 import 'package:flutter/widgets.dart';
 
@@ -41,7 +41,7 @@ class Breadcrumb extends StatelessWidget {
     this.theme,
   });
 
-  /// Chevron separator (the shadcn default).
+  /// Chevron separator (the upstream default).
   static const Widget arrowSeparator = _BreadcrumbArrowSeparator();
 
   /// Slash separator.
@@ -62,7 +62,7 @@ class Breadcrumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final BreadcrumbTheme style =
         resolveComponentStyle<BreadcrumbTheme, BreadcrumbTheme>(
           context,
@@ -137,7 +137,7 @@ class BreadcrumbLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     return Clickable(
       onPressed: onPressed,
       focusNode: focusNode,
@@ -171,7 +171,7 @@ class _BreadcrumbArrowSeparator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double size = 12 * theme.scaling;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return SizedBox.square(

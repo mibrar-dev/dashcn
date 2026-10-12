@@ -31,7 +31,7 @@ const List<FeatureCarouselItem> _items = <FeatureCarouselItem>[
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   FeatureCarouselTheme? scoped,
   double width = 480,
@@ -40,7 +40,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<FeatureCarouselTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -273,7 +273,7 @@ void main() {
   group('tokens', () {
     testWidgets('the token defaults fill the card', (tester) async {
       await tester.pumpWidget(_frame(FeatureCarousel(items: _items)));
-      expect(_cardDecoration(tester).color, ShadcnColors.lightFallback.card);
+      expect(_cardDecoration(tester).color, ThemeColors.lightFallback.card);
     });
 
     testWidgets('regression: dark tokens drive the card', (tester) async {
@@ -281,10 +281,10 @@ void main() {
       await tester.pumpWidget(
         _frame(
           FeatureCarousel(items: _items),
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
         ),
       );
-      expect(_cardDecoration(tester).color, ShadcnColors.darkFallback.card);
+      expect(_cardDecoration(tester).color, ThemeColors.darkFallback.card);
     });
   });
 

@@ -9,12 +9,12 @@ import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/popup/popup.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/overlay.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/popup/popup.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/overlay.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/studio_canvas.dart';
 import '../widgets/theme_rail.dart';
 
@@ -25,7 +25,7 @@ class ThemesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsState state = DocsRouterScope.of(context).state;
     if (MediaQuery.sizeOf(context).width < 640) {
       return ColoredBox(
@@ -69,7 +69,7 @@ class ThemesPage extends StatelessWidget {
 
   /// Opens the rail in an anchored sheet (`<640`).
   Future<void> _openRail(BuildContext context, DocsState state) {
-    return showShadcnPopup<void>(
+    return showPopup<void>(
       context: context,
       alignment: Alignment.topRight,
       anchorAlignment: Alignment.bottomRight,

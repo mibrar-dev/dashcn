@@ -29,7 +29,7 @@ class GooeyCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.escape): onDismiss,

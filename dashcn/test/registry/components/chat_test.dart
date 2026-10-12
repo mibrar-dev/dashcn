@@ -18,12 +18,12 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -65,8 +65,8 @@ Finder _tailOf(int index) {
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   testWidgets('token surface: primary fill, primaryForeground label', (
     tester,
@@ -84,7 +84,7 @@ void main() {
       // default density (see `ChatBubble`).
       resolveEdgeInsets(
         style.padding!,
-        const ShadcnThemeData().density.baseContentPadding,
+        const ThemeData().density.baseContentPadding,
       ),
       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     );
@@ -101,7 +101,7 @@ void main() {
   testWidgets('dark tokens drive the bubble', (tester) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: const ChatBubble(child: Text('hello')),
       ),
     );

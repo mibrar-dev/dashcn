@@ -70,7 +70,7 @@ const SkeletonTheme skeletonThemeOverrides = SkeletonTheme(
 
 | Old | New |
 |---|---|
-| `ShadcnSkeletonizerConfigLayer(theme: material.ThemeData(...))` | deleted; wrap the content in `Skeleton` |
+| `DashcnSkeletonizerConfigLayer(theme: material.ThemeData(...))` | deleted; wrap the content in `Skeleton` |
 | `content.asSkeleton()` | `Skeleton(child: content)` |
 | `content.asSkeleton(enabled: loading)` | `Skeleton(enabled: loading, child: content)` |
 | `content.asSkeleton(snapshot: s)` | `Skeleton(enabled: !s.hasData, child: content)` |

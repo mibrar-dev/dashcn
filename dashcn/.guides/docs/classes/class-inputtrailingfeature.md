@@ -1,34 +1,15 @@
 ---
 title: "Class: InputTrailingFeature"
-description: "Adds a custom widget to the trailing (right) side of the input field."
+description: "Adds a widget after the editable text."
 ---
 
 ```dart
-/// Adds a custom widget to the trailing (right) side of the input field.
-///
-/// Allows you to place any widget after the input text, such as icons,
-/// buttons, or other decorative elements.
-///
-/// Example:
-/// ```dart
-/// TextField(
-///   features: [
-///     InputTrailingFeature(
-///       Icon(Icons.arrow_forward),
-///     ),
-///   ],
-/// )
-/// ```
+/// Adds a widget after the editable text.
 class InputTrailingFeature extends InputFeature {
-  /// The widget to display on the trailing side.
+  /// Creates a trailing feature.
+  const InputTrailingFeature(this.suffix, {super.visibility});
+  /// The widget shown after the editable text.
   final Widget suffix;
-  /// Creates an [InputTrailingFeature].
-  ///
-  /// Parameters:
-  /// - [suffix] (`Widget`, required): The widget to show after the input.
-  /// - [visibility] (`InputFeatureVisibility`, optional): Controls visibility.
-  /// - [skipFocusTraversal] (`bool`, optional): Whether to skip in focus order.
-  const InputTrailingFeature(this.suffix, {super.visibility, super.skipFocusTraversal});
-  InputFeatureState createState();
+  Iterable<Widget> buildTrailing(InputFeatureState state, BuildContext context);
 }
 ```

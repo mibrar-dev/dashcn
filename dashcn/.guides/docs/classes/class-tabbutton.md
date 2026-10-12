@@ -1,74 +1,34 @@
 ---
 title: "Class: TabButton"
-description: "Convenience widget for creating a tab button."
+description: "A tight pressable for tab rows."
 ---
 
 ```dart
-/// Convenience widget for creating a tab button.
-///
-/// A simplified wrapper around [Button] with the same properties
-/// as [PrimaryButton] but using tab button styling for tabbed navigation.
+/// A tight pressable for tab rows. Unlike `Button` it carries no minimum size
+/// or padding, so strips keep their own metrics.
 class TabButton extends StatelessWidget {
-  /// The widget to display as the button's content.
+  /// Creates a tab button.
+  const TabButton({super.key, required this.child, this.onPressed, this.enabled, this.selected = false, this.focusNode, this.onHover, this.onFocusChange, this.padding, this.shortcuts, this.actions});
+  /// Button content, usually a label.
   final Widget child;
-  /// Called when the button is pressed. If `null`, the button is disabled.
+  /// Called on tap; null disables unless [enabled] is true.
   final VoidCallback? onPressed;
-  /// Whether the button is enabled. Overrides the `onPressed` check if provided.
+  /// Enabled override; null means `onPressed != null`.
   final bool? enabled;
-  /// Widget displayed before the [child].
-  final Widget? leading;
-  /// Widget displayed after the [child].
-  final Widget? trailing;
-  /// Alignment of the button's content.
-  final AlignmentGeometry? alignment;
-  /// Size variant of the button (defaults to [ButtonSize.normal]).
-  final ButtonSize size;
-  /// Density variant affecting spacing (defaults to [ButtonDensity.normal]).
-  final ButtonDensity density;
-  /// Shape of the button (defaults to [ButtonShape.rectangle]).
-  final ButtonShape shape;
-  /// Focus node for keyboard focus management.
+  /// Selected state for assistive tech.
+  final bool selected;
+  /// Focus node; owned internally when null.
   final FocusNode? focusNode;
-  /// Whether to disable style transition animations (defaults to `false`).
-  final bool disableTransition;
-  /// Called when hover state changes.
+  /// Called on hover/focus changes.
   final ValueChanged<bool>? onHover;
-  /// Called when focus state changes.
-  final ValueChanged<bool>? onFocus;
-  /// Whether to enable haptic/audio feedback.
-  final bool? enableFeedback;
-  /// Called when primary tap down occurs.
-  final GestureTapDownCallback? onTapDown;
-  /// Called when primary tap up occurs.
-  final GestureTapUpCallback? onTapUp;
-  /// Called when primary tap is cancelled.
-  final GestureTapCancelCallback? onTapCancel;
-  /// Called when secondary tap down occurs.
-  final GestureTapDownCallback? onSecondaryTapDown;
-  /// Called when secondary tap up occurs.
-  final GestureTapUpCallback? onSecondaryTapUp;
-  /// Called when secondary tap is cancelled.
-  final GestureTapCancelCallback? onSecondaryTapCancel;
-  /// Called when tertiary tap down occurs.
-  final GestureTapDownCallback? onTertiaryTapDown;
-  /// Called when tertiary tap up occurs.
-  final GestureTapUpCallback? onTertiaryTapUp;
-  /// Called when tertiary tap is cancelled.
-  final GestureTapCancelCallback? onTertiaryTapCancel;
-  /// Called when long press starts.
-  final GestureLongPressStartCallback? onLongPressStart;
-  /// Called when long press is released.
-  final GestureLongPressUpCallback? onLongPressUp;
-  /// Called when long press moves.
-  final GestureLongPressMoveUpdateCallback? onLongPressMoveUpdate;
-  /// Called when long press ends.
-  final GestureLongPressEndCallback? onLongPressEnd;
-  /// Called when secondary long press completes.
-  final GestureLongPressUpCallback? onSecondaryLongPress;
-  /// Called when tertiary long press completes.
-  final GestureLongPressUpCallback? onTertiaryLongPress;
-  /// Creates a tab button with the specified properties.
-  const TabButton({super.key, required this.child, this.onPressed, this.enabled, this.leading, this.trailing, this.alignment, this.size = ButtonSize.normal, this.density = ButtonDensity.normal, this.shape = ButtonShape.rectangle, this.focusNode, this.disableTransition = false, this.onHover, this.onFocus, this.enableFeedback, this.onTapDown, this.onTapUp, this.onTapCancel, this.onSecondaryTapDown, this.onSecondaryTapUp, this.onSecondaryTapCancel, this.onTertiaryTapDown, this.onTertiaryTapUp, this.onTertiaryTapCancel, this.onLongPressStart, this.onLongPressUp, this.onLongPressMoveUpdate, this.onLongPressEnd, this.onSecondaryLongPress, this.onTertiaryLongPress});
+  /// Called when the focus state changes.
+  final ValueChanged<bool>? onFocusChange;
+  /// Padding around [child]; null means none.
+  final EdgeInsetsGeometry? padding;
+  /// Extra keyboard shortcuts (arrow-key maps go here).
+  final Map<LogicalKeySet, Intent>? shortcuts;
+  /// Actions for [shortcuts].
+  final Map<Type, Action<Intent>>? actions;
   Widget build(BuildContext context);
 }
 ```

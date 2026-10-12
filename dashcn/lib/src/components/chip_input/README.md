@@ -98,5 +98,5 @@ placeholders (chips, mentions, tags) can reuse it, and it knows nothing about
 submission, backspace-removes-a-chip, the remove button and its localized
 label, delimited paste, copy serialization, suggestion acceptance, arrow-key
 navigation across tokens, controlled/uncontrolled value, disabled/read-only,
-the four theme-precedence legs, the shadcn h-9 minimum height, light/dark, and
+the four theme-precedence legs, the dashcn h-9 minimum height, light/dark, and
 unit tests for `token_editing`, `token_span` and `token_clipboard`.

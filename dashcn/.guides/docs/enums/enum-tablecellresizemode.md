@@ -1,15 +1,16 @@
 ---
 title: "Enum: TableCellResizeMode"
-description: "Reference for TableCellResizeMode"
+description: "How a table cell resizes when its handle is dragged."
 ---
 
 ```dart
+/// How a table cell resizes when its handle is dragged.
 enum TableCellResizeMode {
-  /// The cell size will expand when resized
+  /// Only the dragged cell grows.
   expand,
-  /// The cell size will expand when resized, but the other cells will shrink
+  /// The dragged cell grows and its neighbour shrinks.
   reallocate,
-  /// Disables resizing
+  /// Resizing is disabled.
   none,
 }
 ```

@@ -9,8 +9,8 @@ import 'localizations_form.dart';
 import 'localizations_misc.dart';
 import 'localizations_overlay.dart';
 
-// Keeps `ShadcnLocalizations.delegate`, `ShadcnLocalizationsDelegate` and
-// `lookupShadcnLocalizations` reachable from this one import, and exposes the
+// Keeps `ComponentLocalizations.delegate`, `ComponentLocalizationsDelegate` and
+// `lookupComponentLocalizations` reachable from this one import, and exposes the
 // domain mixins the class is built from.
 export 'localizations_date_time.dart';
 export 'localizations_delegate.dart';
@@ -25,29 +25,31 @@ export 'localizations_overlay.dart';
 /// One instance per locale, reached with [of]. The values here are the English
 /// defaults, grouped by domain into the `localizations_<domain>.dart` mixins
 /// this class applies; locales with translated data subclass it and override
-/// what they translate (see [lookupShadcnLocalizations]).
+/// what they translate (see [lookupComponentLocalizations]).
 ///
 /// ```dart
 /// Localizations.override(
 ///   context: context,
-///   delegates: ShadcnLocalizations.localizationsDelegates,
+///   delegates: ComponentLocalizations.localizationsDelegates,
 ///   child: child,
 /// );
-/// Text(ShadcnLocalizations.of(context).formLengthLessThan(4));
+/// Text(ComponentLocalizations.of(context).formLengthLessThan(4));
 /// ```
-class ShadcnLocalizations
+class ComponentLocalizations
     with
-        ShadcnLocalizationsForm,
-        ShadcnLocalizationsOverlay,
-        ShadcnLocalizationsDateTime,
-        ShadcnLocalizationsFiles,
-        ShadcnLocalizationsMisc,
-        ShadcnLocalizationsError {
-  const ShadcnLocalizations(this.locale);
+        ComponentLocalizationsForm,
+        ComponentLocalizationsOverlay,
+        ComponentLocalizationsDateTime,
+        ComponentLocalizationsFiles,
+        ComponentLocalizationsMisc,
+        ComponentLocalizationsError {
+  const ComponentLocalizations(this.locale);
 
   /// The English defaults, for code that has no [BuildContext] to call [of]
   /// on.
-  static const ShadcnLocalizations english = ShadcnLocalizations(Locale('en'));
+  static const ComponentLocalizations english = ComponentLocalizations(
+    Locale('en'),
+  );
 
   /// The locale these strings belong to.
   final Locale locale;
@@ -55,20 +57,20 @@ class ShadcnLocalizations
   /// [locale] in the form `intl` expects: `language[-COUNTRY][-SCRIPT]`.
   String get localeName => intl.Intl.canonicalizedLocale(locale.toString());
 
-  /// Loads [ShadcnLocalizations] for [context]'s locale.
+  /// Loads [ComponentLocalizations] for [context]'s locale.
   ///
   /// Falls back to English when no delegate was installed.
-  static ShadcnLocalizations of(BuildContext context) {
-    return Localizations.of<ShadcnLocalizations>(
+  static ComponentLocalizations of(BuildContext context) {
+    return Localizations.of<ComponentLocalizations>(
           context,
-          ShadcnLocalizations,
+          ComponentLocalizations,
         ) ??
         english;
   }
 
   /// Delegate to add to an app's `localizationsDelegates`.
-  static const LocalizationsDelegate<ShadcnLocalizations> delegate =
-      ShadcnLocalizationsDelegate();
+  static const LocalizationsDelegate<ComponentLocalizations> delegate =
+      ComponentLocalizationsDelegate();
 
   /// [delegate] on its own, ready to spread into `localizationsDelegates`.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =

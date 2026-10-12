@@ -1,18 +1,21 @@
 ---
 title: "Enum: DatePart"
-description: "Represents a part of a date (year, month, or day)."
+description: "One component of a calendar date."
 ---
 
 ```dart
-/// Represents a part of a date (year, month, or day).
+/// One component of a calendar date.
 ///
-/// Provides metadata and operations for individual date components.
+/// Date pickers use it to order and label their fields, and as the key type of
+/// the "which components are set" map. The concepts here are language-neutral;
+/// their *labels* are locale data, via
+/// [ComponentLocalizationsExtensions.getDatePartAbbreviation].
 enum DatePart {
-  /// Year component (4 digits).
+  /// The year, conventionally written with four digits.
   year,
-  /// Month component.
+  /// The month, 1-12.
   month,
-  /// Day component.
+  /// The day of the month.
   day,
 }
 ```

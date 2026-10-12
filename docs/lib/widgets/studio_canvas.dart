@@ -7,7 +7,7 @@
 // sliders, selects, tables, calendars, switches, badges, progress bars and
 // charts.
 //
-// The canvas wraps itself in `AnimatedShadcnTheme`, so a rail edit tweens the
+// The canvas wraps itself in `AnimatedTheme`, so a rail edit tweens the
 // whole preview over 300 ms (reduced motion: instant, see `MotionScope`).
 
 import 'dart:math' as math;
@@ -17,11 +17,11 @@ import 'package:flutter/widgets.dart';
 import '../../motion/ease.dart';
 import '../../motion/motion_scope.dart';
 import '../../state/docs_state.dart';
-import '../../ui/shadcn/theme/color_tokens.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../../ui/shadcn/primitives/masonry_layout.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/theme/color_tokens.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../../ui/dashcn/primitives/masonry_layout.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'studio_blocks/studio_form.dart';
 import 'studio_blocks/studio_forms.dart';
 import 'studio_blocks/studio_list.dart';
@@ -62,7 +62,7 @@ class ThemeCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: Padding(
@@ -74,7 +74,7 @@ class ThemeCanvas extends StatelessWidget {
               Positioned.fill(
                 child: ColoredBox(
                   color: theme.colors.card,
-                  child: AnimatedShadcnTheme(
+                  child: AnimatedTheme(
                     data: state.theme,
                     duration: context.motionDuration(kDurationTheme),
                     curve: kEaseOutExpo,
@@ -140,7 +140,7 @@ class _CanvasScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth - _kCanvasPadding * 2;

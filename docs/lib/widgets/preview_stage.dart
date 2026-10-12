@@ -3,7 +3,7 @@
 //  * The frame is `R:card` with `padding: 0`, `borderWidth: 1` and no shadow
 //    — the registry card supports border-only, no-padding surfaces, so the
 //    old plan's `D:PreviewFrame` is NOT needed (spec §6 open question 3).
-//    P7-D1: the corner radius is `rounded-lg` (the shadcn card radius).
+//    P7-D1: the corner radius is `rounded-lg` (the upstream card radius).
 //  * [PreviewStage] is the centered stage that hosts the deferred
 //    `preview.dart` export (D4 wires the loader). P7-D1: responsive padding
 //    (`p-10` desktop / `p-4` mobile), a configurable minimum height (350 px
@@ -28,9 +28,9 @@ import 'dart:ui' show ImageFilter, PointMode;
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/card/card.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/card/card.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
 /// The bordered, rounded preview card frame (640×~399 at 1440).
@@ -50,7 +50,7 @@ class PreviewFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final ThemedColor themedBorder = ThemedColor.value(theme.colors.border);
     final Color border = theme.colors.border;
     final BorderRadius radius = theme.borderRadiusLg;
@@ -118,7 +118,7 @@ class PreviewStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     if (chromeless) {
       return child ?? const SizedBox.shrink();
     }
@@ -224,7 +224,7 @@ const double kPreviewDotRadius = 1;
 /// would differ from their backdrop; user feedback ("blurred, not grey")
 /// reverted it: no tint, components separate through their own
 /// border/shadow tokens, and the blurred dot pattern supplies the texture.
-Color previewCanvasColor(ShadcnColors colors) => colors.background;
+Color previewCanvasColor(ThemeColors colors) => colors.background;
 
 /// Edge-strength dot alpha (P7-D2): 8% of foreground in light, 10% in dark.
 double previewDotAlpha(Brightness brightness) =>
@@ -236,7 +236,7 @@ double previewDotAlpha(Brightness brightness) =>
 /// foregrounds stay correct. Dots toward the centre paint fainter (radial
 /// fade in [PreviewDotGridPainter]); this is the outer-edge strength the
 /// widget tests assert.
-Color previewDotColor(ShadcnColors colors) => colors.foreground.withValues(
+Color previewDotColor(ThemeColors colors) => colors.foreground.withValues(
   alpha: colors.foreground.a * previewDotAlpha(colors.brightness),
 );
 

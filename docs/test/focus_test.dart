@@ -5,7 +5,7 @@
 // Every one of them is a registry `Clickable` (or `Button`), which owns the
 // keyboard activation contract; this test proves the wiring end to end.
 
-import 'package:docs/ui/shadcn/primitives/focus_outline.dart';
+import 'package:docs/ui/dashcn/primitives/focus_outline.dart';
 import 'package:docs/widgets/component_link_grid.dart';
 import 'package:docs/widgets/docs_footer.dart';
 import 'package:docs/widgets/docs_header.dart';

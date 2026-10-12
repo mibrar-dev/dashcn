@@ -1,62 +1,36 @@
 ---
 title: "Class: MenuGroupData"
-description: "Reference for MenuGroupData"
+description: "Shared state of one [RovingGroup]: hierarchy links and the close fan-out."
 ---
 
 ```dart
+/// Shared state of one [RovingGroup]: hierarchy links and the close fan-out.
 class MenuGroupData {
-  /// Parent menu group, null for root menus.
+  /// Creates group data.
+  MenuGroupData({this.parent, this.hasLeading = false, this.direction = Axis.vertical, this.itemPadding = EdgeInsets.zero, this.subMenuOffset, this.onDismissed});
+  /// Parent group; null for the root group of a menu.
   final MenuGroupData? parent;
-  /// Child menu items' data.
-  final List<MenuData> children;
-  /// Whether any child items have leading widgets.
+  /// Whether any row reserves a leading gutter.
   final bool hasLeading;
-  /// Offset for positioning submenus relative to parent.
-  final Offset? subMenuOffset;
-  /// Callback when menu is dismissed.
-  final VoidCallback? onDismissed;
-  /// Region group ID for tap region management.
-  final Object? regionGroupId;
-  /// Layout direction (horizontal or vertical).
+  /// Layout direction of the rows.
   final Axis direction;
-  /// Padding around menu items.
+  /// Extra padding added to every row.
   final EdgeInsets itemPadding;
-  /// Focus scope state for keyboard navigation.
-  final SubFocusScopeState focusScope;
-  /// Creates menu group data.
-  ///
-  /// Parameters:
-  /// - [parent] (MenuGroupData?): Parent group
-  /// - [children] (`List<MenuData>`): Child items
-  /// - [hasLeading] (bool): Whether items have leading widgets
-  /// - [subMenuOffset] (Offset?): Submenu offset
-  /// - [onDismissed] (VoidCallback?): Dismissal callback
-  /// - [regionGroupId] (Object?): Region group ID
-  /// - [direction] (Axis): Layout direction
-  /// - [itemPadding] (EdgeInsets): Item padding
-  /// - [focusScope] (SubFocusScopeState): Focus scope
-  MenuGroupData(this.parent, this.children, this.hasLeading, this.subMenuOffset, this.onDismissed, this.regionGroupId, this.direction, this.itemPadding, this.focusScope);
-  /// Checks if any child menu items have open popovers.
-  ///
-  /// Returns true if at least one child has an open submenu popover.
+  /// Nested-level offset; null resolves the caller's default.
+  final Offset? subMenuOffset;
+  /// Called when the root group closes.
+  final VoidCallback? onDismissed;
+  /// Traversal slots, in child order.
+  final List<MenuNavSlot> slots;
+  /// Open child groups, for subtree closes.
+  final List<MenuGroupData> subgroups;
+  /// Whether any tracked nested level is open.
   bool get hasOpenPopovers;
-  /// Closes all open popovers in child menu items.
-  ///
-  /// Iterates through children and closes any open submenu popovers.
+  /// Closes this level and every open level below it.
   void closeOthers();
-  /// Closes all menus in the hierarchy by bubbling up to root.
-  ///
-  /// Recursively closes popovers in parent groups and invokes the
-  /// dismissal callback at the root level.
+  /// Closes the whole menu by bubbling to the root.
   void closeAll();
-  bool operator ==(Object other);
-  /// Gets the root menu group in the hierarchy.
-  ///
-  /// Traverses up the parent chain to find the topmost menu group.
-  ///
-  /// Returns the root [MenuGroupData].
+  /// The root group of this menu.
   MenuGroupData get root;
-  int get hashCode;
-  String toString();
 }
 ```

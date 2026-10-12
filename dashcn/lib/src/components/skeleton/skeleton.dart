@@ -1,7 +1,7 @@
 // The `skeleton` component: a widgets-only loading placeholder with a
 // repeating shimmer, replacing `package:skeletonizer` (banned).
 //
-// The old module was `ShadcnSkeletonizerConfigLayer` plus a `Widget` extension
+// The old module was `UpstreamSkeletonizerConfigLayer` plus a `Widget` extension
 // (`asSkeleton`, `asSkeletonSliver`, `ignoreSkeleton`, `excludeSkeleton`).
 // Fixes, all verified against the old source:
 //   * `package:skeletonizer/skeletonizer.dart` and `package:flutter/material.dart`
@@ -88,7 +88,7 @@ class Skeleton extends StatelessWidget {
   }
 
   BorderRadius _defaultRadius(BuildContext context) {
-    return ShadcnTheme.of(context).borderRadiusMd;
+    return Theme.of(context).borderRadiusMd;
   }
 }
 
@@ -112,7 +112,7 @@ class _Shimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Color fromColor = from?.resolve(theme.colors) ?? theme.colors.muted;
     final Color toColor = to?.resolve(theme.colors) ?? theme.colors.accent;
     return ClipRRect(

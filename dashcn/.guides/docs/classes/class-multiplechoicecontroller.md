@@ -1,28 +1,12 @@
 ---
 title: "Class: MultipleChoiceController"
-description: "A controller for managing [ControlledMultipleChoice] selection programmatically."
+description: "Holds the value of an uncontrolled [MultipleChoice]."
 ---
 
 ```dart
-/// A controller for managing [ControlledMultipleChoice] selection programmatically.
-///
-/// This controller extends `ValueNotifier<T?>` to provide reactive state
-/// management for single-choice components. It implements [ComponentController]
-/// to integrate with the controlled component system, allowing external control
-/// and listening to selection changes.
-///
-/// Example:
-/// ```dart
-/// final controller = MultipleChoiceController<String>('option1');
-/// controller.addListener(() {
-///   print('Selected item: ${controller.value}');
-/// });
-/// ```
+/// Holds the value of an uncontrolled [MultipleChoice].
 class MultipleChoiceController<T> extends ValueNotifier<T?> with ComponentController<T?> {
-  /// Creates a [MultipleChoiceController] with an optional initial selection.
-  ///
-  /// Parameters:
-  /// - [value] (T?, optional): Initial selected item
+  /// Creates a controller holding a single selected item.
   MultipleChoiceController([super.value]);
 }
 ```

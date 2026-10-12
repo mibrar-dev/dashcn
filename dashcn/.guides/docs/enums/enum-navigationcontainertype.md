@@ -1,16 +1,16 @@
 ---
 title: "Enum: NavigationContainerType"
-description: "Enumeration defining the type of navigation container."
+description: "Which navigation container to render."
 ---
 
 ```dart
-/// Enumeration defining the type of navigation container.
+/// Which navigation container to render.
 enum NavigationContainerType {
-  /// Vertical rail navigation, typically positioned at the side.
-  rail,
-  /// Horizontal bar navigation, typically positioned at the top or bottom.
+  /// Horizontal bar (top/bottom navigation).
   bar,
-  /// Expandable sidebar navigation with more space for content.
+  /// Vertical compact rail (side navigation).
+  rail,
+  /// Vertical sidebar with room for labels.
   sidebar,
 }
 ```

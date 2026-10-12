@@ -1,40 +1,32 @@
 ---
 title: "Class: DatePicker"
-description: "A date picker widget for selecting dates."
+description: "A single-date field: a trigger showing the value (or the localized  placeholder) that opens a [DatePickerDialog] in a dialog or a popover."
 ---
 
 ```dart
-/// A date picker widget for selecting dates.
+/// A single-date field: a trigger showing the value (or the localized
+/// placeholder) that opens a [DatePickerDialog] in a dialog or a popover.
 ///
-/// Provides a date selection interface with calendar view in either
-/// popover or dialog mode.
+/// The trigger hugs its content (at least 240 upstream px, `w-[240px]`): the
+/// calendar icon leads, the label is left-aligned, the placeholder is muted.
+/// Pass [expand] for a full-width field.
 class DatePicker extends StatelessWidget {
-  /// The currently selected date value.
+  const DatePicker({super.key, required this.value, this.onChanged, this.placeholder, this.mode, this.initialView, this.initialViewType, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.dialogTitle, this.stateBuilder, this.enabled, this.expand = false, this.theme});
   final DateTime? value;
-  /// Callback invoked when the selected date changes.
   final ValueChanged<DateTime?>? onChanged;
-  /// Placeholder widget shown when no date is selected.
   final Widget? placeholder;
-  /// The display mode for the date picker (popover or dialog).
   final PromptMode? mode;
-  /// The initial calendar view to display.
   final CalendarView? initialView;
-  /// Alignment of the popover relative to the anchor.
-  final AlignmentGeometry? popoverAlignment;
-  /// Anchor alignment for the popover.
-  final AlignmentGeometry? popoverAnchorAlignment;
-  /// Padding inside the popover.
-  final EdgeInsetsGeometry? popoverPadding;
-  /// Title widget for the dialog mode.
-  final Widget? dialogTitle;
-  /// The initial calendar view type (date, month, or year).
   final CalendarViewType? initialViewType;
-  /// Builder function to determine the state of each date.
+  final AlignmentGeometry? popoverAlignment;
+  final AlignmentGeometry? popoverAnchorAlignment;
+  final EdgeInsetsGeometry? popoverPadding;
+  final Widget? dialogTitle;
   final DateStateBuilder? stateBuilder;
-  /// Whether the date picker is enabled.
   final bool? enabled;
-  /// Creates a date picker.
-  const DatePicker({super.key, required this.value, this.onChanged, this.placeholder, this.mode, this.initialView, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.dialogTitle, this.initialViewType, this.stateBuilder, this.enabled});
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
+  final DatePickerTheme? theme;
   Widget build(BuildContext context);
 }
 ```

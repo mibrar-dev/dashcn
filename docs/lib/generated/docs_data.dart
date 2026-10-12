@@ -36,7 +36,7 @@ class DocsComponent {
   /// One-line description from the manifest.
   final String description;
 
-  /// `flutter_shadcn add <id>` from the manifest.
+  /// `dashcn add <id>` from the manifest.
   final String install;
 
   /// Corrected import line for the installed layout.
@@ -118,7 +118,7 @@ class DocsStats {
   final int modes;
 }
 
-/// One global theme token: the shadcn CSS variable name in camelCase.
+/// One global theme token: the dashcn CSS variable name in camelCase.
 class DocsThemeToken {
   /// Creates a token entry.
   const DocsThemeToken({required this.name, required this.cssVar});
@@ -126,7 +126,7 @@ class DocsThemeToken {
   /// camelCase token name (`cardForeground`).
   final String name;
 
-  /// shadcn CSS variable (`--card-foreground`).
+  /// dashcn CSS variable (`--card-foreground`).
   final String cssVar;
 }
 
@@ -138,9 +138,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Animation & Effects',
     description:
         'Animated gradient border around a child: sweep ring, travelling tracers, determinate progress or a static outline.',
-    install: 'flutter_shadcn add border_loading',
+    install: 'dashcn add border_loading',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/border_loading/border_loading.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -151,9 +151,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Animation & Effects',
     description:
         'Animated row or column of dots showing the active index of a carousel, stepper or pager.',
-    install: 'flutter_shadcn add dot_indicator',
+    install: 'dashcn add dot_indicator',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -164,9 +164,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Animation & Effects',
     description:
         'Stream-aware animated text renderer for incremental updates, plus a streaming markdown tail.',
-    install: 'flutter_shadcn add text_animate',
+    install: 'dashcn add text_animate',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -177,9 +177,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Buttons & Actions',
     description:
         'Pressable action control with seven variants and five fixed sizes, plus a connected ButtonGroup.',
-    install: 'flutter_shadcn add button',
+    install: 'dashcn add button',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/button/button.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/button/button.dart';",
     fileCount: 4,
     stability: 'stable',
     listed: true,
@@ -190,9 +190,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Buttons & Actions',
     description:
         'On/off button with a controlled and a controller-driven mode, plus form participation.',
-    install: 'flutter_shadcn add toggle',
+    install: 'dashcn add toggle',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -203,9 +203,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Color',
     description:
         'Full colour picker: HSV/HSL pad, hue/alpha bars, RGB/HSL/HSV/HEX fields, optional alpha, colour history and screen sampling.',
-    install: 'flutter_shadcn add color_picker',
+    install: 'dashcn add color_picker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -216,9 +216,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Image or initials tile with an optional badge and overlapping group.',
-    install: 'flutter_shadcn add avatar',
+    install: 'dashcn add avatar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -229,9 +229,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Small rounded label or status dot with four variants, optionally pressable.',
-    install: 'flutter_shadcn add badge',
+    install: 'dashcn add badge',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -242,9 +242,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Paged carousel with a sliding or fading transition, drag, autoplay and a controller that drives the dot row.',
-    install: 'flutter_shadcn add carousel',
+    install: 'dashcn add carousel',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -255,8 +255,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Chat bubbles and groups: plain, tailed or sharp-corner bubbles aligned to their side of the row, with optional avatars.',
-    install: 'flutter_shadcn add chat',
-    import: "import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';",
+    install: 'dashcn add chat',
+    import: "import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -267,8 +267,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Compact deletable-token control plus the borderless control embedded inside a chip.',
-    install: 'flutter_shadcn add chip',
-    import: "import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';",
+    install: 'dashcn add chip',
+    import: "import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -279,9 +279,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Flag tile for a country looked up by ISO code, currency or dial prefix, with an emoji fallback.',
-    install: 'flutter_shadcn add country_flag',
+    install: 'dashcn add country_flag',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/country_flag/country_flag.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/country_flag/country_flag.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -292,9 +292,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Themed rule in either orientation, optionally carrying a centred label.',
-    install: 'flutter_shadcn add divider',
+    install: 'dashcn add divider',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -305,9 +305,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'A block that stands in for missing content: muted icon, title, description and up to three actions, in an inline or route-level scale.',
-    install: 'flutter_shadcn add empty_state',
+    install: 'dashcn add empty_state',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/empty_state/empty_state.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -318,9 +318,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Animated feature-card carousel with autoplay, swipe, keyboard navigation, nav arrows and a call to action.',
-    install: 'flutter_shadcn add feature_carousel',
+    install: 'dashcn add feature_carousel',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/feature_carousel/feature_carousel.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -331,9 +331,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Renders unified or split file diffs with line gutters, coloured additions/deletions, collapsible unchanged hunks and a copy-patch action.',
-    install: 'flutter_shadcn add file_diff_viewer',
+    install: 'dashcn add file_diff_viewer',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/file_diff_viewer/file_diff_viewer.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/file_diff_viewer/file_diff_viewer.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -344,9 +344,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Renders a keyboard shortcut as a row of small key caps, from explicit keys or from a ShortcutActivator, with an optional app-wide label override.',
-    install: 'flutter_shadcn add keyboard_shortcut',
+    install: 'dashcn add keyboard_shortcut',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -357,9 +357,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Animated number with a formatter or custom builder, plus flip-clock character rollers.',
-    install: 'flutter_shadcn add number_ticker',
+    install: 'dashcn add number_ticker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/number_ticker/number_ticker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/number_ticker/number_ticker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -370,9 +370,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'In-tree sheet that slides in from an edge, drags, and snaps between snap stages.',
-    install: 'flutter_shadcn add pinned_sheet',
+    install: 'dashcn add pinned_sheet',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -383,9 +383,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Themed data grid with span-aware cells, frozen rows/columns, scrolling and optional column/row resizing.',
-    install: 'flutter_shadcn add table',
+    install: 'dashcn add table',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/table/table.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/table/table.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -396,9 +396,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Vertical three-column event timeline: time label, indicator dot with connector, title and content.',
-    install: 'flutter_shadcn add timeline',
+    install: 'dashcn add timeline',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/timeline/timeline.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -409,9 +409,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'A row of coloured activity segments, each with a hover tooltip.',
-    install: 'flutter_shadcn add tracker',
+    install: 'dashcn add tracker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/tracker/tracker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -422,8 +422,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Data Display',
     description:
         'Immutable hierarchical list with expand/collapse, selection and themed indent guides.',
-    install: 'flutter_shadcn add tree',
-    import: "import 'package:<your_app>/ui/shadcn/components/tree/tree.dart';",
+    install: 'dashcn add tree',
+    import: "import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -434,9 +434,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Date & Time',
     description:
         'Date, month and year grids with single, range and multi selection, roving-tabindex keyboard navigation and per-day semantic dates; the selection value types live in the date_math primitive.',
-    install: 'flutter_shadcn add calendar',
+    install: 'dashcn add calendar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -447,9 +447,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Date & Time',
     description:
         'Single-date and date-span fields opening a calendar sheet (DatePickerDialog with month/year stepper) in a dialog or a popover, wired into the form system.',
-    install: 'flutter_shadcn add date_picker',
+    install: 'dashcn add date_picker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -460,9 +460,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Date & Time',
     description:
         'Clock-time and duration fields opening digit-field sheets (hour/minute/second plus AM/PM, day/hour/minute/second) in a dialog or a popover, wired into the form system.',
-    install: 'flutter_shadcn add time_picker',
+    install: 'dashcn add time_picker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/time_picker/time_picker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -473,9 +473,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Feedback',
     description:
         'Bordered callout banner with base and destructive variants, a leading slot, title, content and trailing slot.',
-    install: 'flutter_shadcn add alert',
+    install: 'dashcn add alert',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/alert/alert.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -486,9 +486,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Feedback',
     description:
         'Determinate and indeterminate linear progress bar, widgets-only.',
-    install: 'flutter_shadcn add progress',
+    install: 'dashcn add progress',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/progress/progress.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -499,9 +499,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Feedback',
     description:
         'Widgets-only loading placeholder with a repeating shimmer sweep; replaces the banned skeletonizer package.',
-    install: 'flutter_shadcn add skeleton',
+    install: 'dashcn add skeleton',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/skeleton/skeleton.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -512,9 +512,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Feedback',
     description:
         'Indeterminate circular indicator with a rotating arc, widgets-only.',
-    install: 'flutter_shadcn add spinner',
+    install: 'dashcn add spinner',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/spinner/spinner.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/spinner/spinner.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -525,9 +525,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Feedback',
     description:
         'Transient, non-blocking notifications anchored to a screen edge.',
-    install: 'flutter_shadcn add toast',
+    install: 'dashcn add toast',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/toast/toast.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -538,9 +538,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Input feature that turns the field text into a popover-backed suggestion list with keyboard navigation and three replacement modes.',
-    install: 'flutter_shadcn add autocomplete',
+    install: 'dashcn add autocomplete',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -551,9 +551,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Tri-state form checkbox with controlled and controller-driven modes, keyboard activation and form participation.',
-    install: 'flutter_shadcn add checkbox',
+    install: 'dashcn add checkbox',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -564,9 +564,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Token field: a widgets-only input whose values render as removable chips, with suggestion, validation and clipboard round-trips.',
-    install: 'flutter_shadcn add chip_input',
+    install: 'dashcn add chip_input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -577,9 +577,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'An upload surface: outline, upload icon, localized status line, optional hint and a browse button. Presentational — it takes a state, it does not listen to a drag stream.',
-    install: 'flutter_shadcn add dropzone',
+    install: 'dashcn add dropzone',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -590,9 +590,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'File selection surface (dropzone, tile or compact trigger) with validation, a concurrent upload queue and the FileUploadRow list — list or grid layout, caller-keyed groups, per-file icons.',
-    install: 'flutter_shadcn add file_picker',
+    install: 'dashcn add file_picker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/file_picker/file_picker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -602,9 +602,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Form',
     category: 'Forms & Inputs',
     description:
-        'ShadcnForm scope, labelled field layouts, validators, controller and submission flow.',
-    install: 'flutter_shadcn add form',
-    import: "import 'package:<your_app>/ui/shadcn/components/form/form.dart';",
+        'FormScope scope, labelled field layouts, validators, controller and submission flow.',
+    install: 'dashcn add form',
+    import: "import 'package:<your_app>/ui/dashcn/components/form/form.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -615,9 +615,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Masked/segmented field (phone, date, card) built from static separators and small editable parts.',
-    install: 'flutter_shadcn add formatted_input',
+    install: 'dashcn add formatted_input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';",
     fileCount: 4,
     stability: 'stable',
     listed: true,
@@ -628,9 +628,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Widgets-only text field wrapping EditableText, with a pluggable feature system, form participation and a widgets-only selection menu.',
-    install: 'flutter_shadcn add input',
+    install: 'dashcn add input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/input/input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/input/input.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -641,9 +641,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'One-time-password input: one hidden field drives a row of character slots, with separators, obscuring, validation and form participation.',
-    install: 'flutter_shadcn add input_otp',
+    install: 'dashcn add input_otp',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/input_otp/input_otp.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -654,9 +654,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Field that edits a value by picking one item from a grid or list, in a dialog or popover.',
-    install: 'flutter_shadcn add item_picker',
+    install: 'dashcn add item_picker',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/item_picker/item_picker.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/item_picker/item_picker.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -667,9 +667,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'A multi-selection dropdown built on select: checkbox popup rows (menu MenuCheckboxItem) that stay open while toggling, and removable chips in the trigger.',
-    install: 'flutter_shadcn add multi_select',
+    install: 'dashcn add multi_select',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/multi_select/multi_select.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -680,9 +680,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Typed date, time and duration fields: locale-ordered numeric segments with a calendar dialog behind the date field.',
-    install: 'flutter_shadcn add object_input',
+    install: 'dashcn add object_input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/object_input/object_input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/object_input/object_input.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -693,9 +693,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Searchable country selector (flag + dial code) with a national-number field, wired into the form system.',
-    install: 'flutter_shadcn add phone_input',
+    install: 'dashcn add phone_input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/phone_input/phone_input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/phone_input/phone_input.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -706,9 +706,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Single-select group with controlled and controller-driven modes, row and card item shapes, roving arrow-key traversal and form participation.',
-    install: 'flutter_shadcn add radio_group',
+    install: 'dashcn add radio_group',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/radio_group/radio_group.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -719,9 +719,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
-    install: 'flutter_shadcn add select',
+    install: 'dashcn add select',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/select/select.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/select/select.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -732,9 +732,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Single- and range-value sliders with snap strategies, four visual variants, and keyboard/form support. Built on widgets gestures and CustomPaint — no Material Slider.',
-    install: 'flutter_shadcn add slider',
+    install: 'dashcn add slider',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/slider/slider.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/slider/slider.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -745,9 +745,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Interactive star rating with half-star snapping, keyboard stepping, drag preview and form participation.',
-    install: 'flutter_shadcn add star_rating',
+    install: 'dashcn add star_rating',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/star_rating/star_rating.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -758,9 +758,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Boolean form switch with controlled and controller-driven modes, sliding thumb, keyboard activation and form participation.',
-    install: 'flutter_shadcn add switch',
+    install: 'dashcn add switch',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/switch/switch.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -771,9 +771,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Forms & Inputs',
     description:
         'Multi-line text input: an Input with three-line defaults, a multiline keyboard and vertically centred content.',
-    install: 'flutter_shadcn add text_area',
+    install: 'dashcn add text_area',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -784,9 +784,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Single-expansion accordion with animated items, themed dividers and a keyboard-accessible trigger.',
-    install: 'flutter_shadcn add accordion',
+    install: 'dashcn add accordion',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/accordion/accordion.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -796,9 +796,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Card',
     category: 'Layout',
     description:
-        'Rounded bordered surface with the shadcn header, title, description, content and footer slots.',
-    install: 'flutter_shadcn add card',
-    import: "import 'package:<your_app>/ui/shadcn/components/card/card.dart';",
+        'Rounded bordered surface with the dashcn header, title, description, content and footer slots.',
+    install: 'dashcn add card',
+    import: "import 'package:<your_app>/ui/dashcn/components/card/card.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -809,9 +809,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'A pressable card pairing an image with a leading/title/subtitle/trailing text block.',
-    install: 'flutter_shadcn add card_image',
+    install: 'dashcn add card_image',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/card_image/card_image.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -822,9 +822,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Expandable section with a trigger, hidden content panes and controlled or uncontrolled expansion.',
-    install: 'flutter_shadcn add collapsible',
+    install: 'dashcn add collapsible',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/collapsible/collapsible.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/collapsible/collapsible.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -835,9 +835,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Search, sort, date-range, custom filters and chips in one bar, with a clear action and a mobile sheet presentation; backed by a typed filter engine.',
-    install: 'flutter_shadcn add filter_bar',
+    install: 'dashcn add filter_bar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/filter_bar/filter_bar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -848,9 +848,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.',
-    install: 'flutter_shadcn add overflow_marquee',
+    install: 'dashcn add overflow_marquee',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -861,9 +861,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Split panes with draggable dividers, absolute or flexible sizing, min/max constraints, collapse and external controllers.',
-    install: 'flutter_shadcn add resizable',
+    install: 'dashcn add resizable',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/resizable/resizable.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/resizable/resizable.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -874,9 +874,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'App screen shell with header/footer bars, a loading bar and keyboard avoidance, plus the AppBar title bar.',
-    install: 'flutter_shadcn add scaffold',
+    install: 'dashcn add scaffold',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/scaffold/scaffold.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -887,9 +887,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    install: 'flutter_shadcn add scrollbar',
+    install: 'dashcn add scrollbar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/scrollbar/scrollbar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/scrollbar/scrollbar.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -900,9 +900,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Layout',
     description:
         'Drag-and-drop reordering primitives: a SortableLayer coordinates pan-driven sessions and renders the ghost, while Sortable<T> reports per-edge drop intents.',
-    install: 'flutter_shadcn add sortable',
+    install: 'dashcn add sortable',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/sortable/sortable.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/sortable/sortable.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -912,9 +912,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Steps',
     category: 'Layout',
     description: 'Vertical numbered step list joined by a connector line.',
-    install: 'flutter_shadcn add steps',
+    install: 'dashcn add steps',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/steps/steps.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -925,9 +925,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Menus',
     description:
         'Command palette with a debounced async result stream, keyboard navigation and a dialog entry point.',
-    install: 'flutter_shadcn add command',
+    install: 'dashcn add command',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/command/command.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/command/command.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -937,10 +937,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Context Menu',
     category: 'Menus',
     description:
-        'A menu shown at the pointer on right-click (long-press on touch platforms), plus the showShadcnContextMenu helper. Rows, traversal and the popup surface come from the menu component.',
-    install: 'flutter_shadcn add context_menu',
+        'A menu shown at the pointer on right-click (long-press on touch platforms), plus the showContextMenu helper. Rows, traversal and the popup surface come from the menu component.',
+    install: 'dashcn add context_menu',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/context_menu/context_menu.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -950,10 +950,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Dropdown Menu',
     category: 'Menus',
     description:
-        'A menu surface anchored below the widget that opened it, plus the showShadcnDropdown helper. Rows, traversal and the popup surface come from the menu component.',
-    install: 'flutter_shadcn add dropdown_menu',
+        'A menu surface anchored below the widget that opened it, plus the showDropdown helper. Rows, traversal and the popup surface come from the menu component.',
+    install: 'dashcn add dropdown_menu',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -963,9 +963,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Menu',
     category: 'Menus',
     description:
-        'Keyboard-navigable menu family: MenuGroup with roving focus and typeahead; MenuButton, MenuCheckboxItem, MenuRadioItem, MenuLabel, MenuShortcut, MenuSeparator and MenuSub rows; showShadcnMenu helper; MenuPopup surface. Owns MenuPopupTheme and MenubarTheme for the wave-D menu consumers.',
-    install: 'flutter_shadcn add menu',
-    import: "import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';",
+        'Keyboard-navigable menu family: MenuGroup with roving focus and typeahead; MenuButton, MenuCheckboxItem, MenuRadioItem, MenuLabel, MenuShortcut, MenuSeparator and MenuSub rows; showMenu helper; MenuPopup surface. Owns MenuPopupTheme and MenubarTheme for the wave-D menu consumers.',
+    install: 'dashcn add menu',
+    import: "import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -976,9 +976,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Menus',
     description:
         "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    install: 'flutter_shadcn add menubar',
+    install: 'dashcn add menubar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/menubar/menubar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/menubar/menubar.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -989,9 +989,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Horizontal trail of crumbs with a chevron or slash separator.',
-    install: 'flutter_shadcn add breadcrumb',
+    install: 'dashcn add breadcrumb',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/breadcrumb/breadcrumb.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1002,9 +1002,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Navigation container for bars, rails and sidebars: selectable items with labels, groups, collapsibles, dividers, slots and arrow-key roving.',
-    install: 'flutter_shadcn add navigation_bar',
+    install: 'dashcn add navigation_bar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/navigation_bar/navigation_bar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1015,9 +1015,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Horizontal navigation bar whose entries open themed popover content on hover or press.',
-    install: 'flutter_shadcn add navigation_menu',
+    install: 'dashcn add navigation_menu',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1028,9 +1028,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Previous/next controls with a clamped window of page buttons.',
-    install: 'flutter_shadcn add pagination',
+    install: 'dashcn add pagination',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/pagination/pagination.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/pagination/pagination.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1041,9 +1041,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Multi-step flow with numbered indicators and connectors, horizontal or vertical, controlled or controller-driven.',
-    install: 'flutter_shadcn add stepper',
+    install: 'dashcn add stepper',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/stepper/stepper.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1054,8 +1054,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Navigation',
     description:
         'Pill tab strip with roving arrow-key navigation, plus a sortable IDE-style tab pane over a content card.',
-    install: 'flutter_shadcn add tabs',
-    import: "import 'package:<your_app>/ui/shadcn/components/tabs/tabs.dart';",
+    install: 'dashcn add tabs',
+    import: "import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1065,10 +1065,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Alert Dialog',
     category: 'Overlays',
     description:
-        'Shadcn alert dialog: icon, title, description and an action footer on top of the dialog route.',
-    install: 'flutter_shadcn add alert_dialog',
+        'Dashcn alert dialog: icon, title, description and an action footer on top of the dialog route.',
+    install: 'dashcn add alert_dialog',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1078,9 +1078,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Dialog',
     category: 'Overlays',
     description: 'Modal dialog route and themed card shell.',
-    install: 'flutter_shadcn add dialog',
+    install: 'dashcn add dialog',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1091,9 +1091,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Overlays',
     description:
         'Modal panel that slides in from a screen edge, plus an expanding sheet variant.',
-    install: 'flutter_shadcn add drawer',
+    install: 'dashcn add drawer',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1104,9 +1104,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Overlays',
     description:
         'Gooey-style transient notifications: a compact tab-shaped pill that grows a wider body below it through concave shoulders, anchored to the window edge.',
-    install: 'flutter_shadcn add gooey_toast',
+    install: 'dashcn add gooey_toast',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';",
     fileCount: 7,
     stability: 'stable',
     listed: true,
@@ -1117,9 +1117,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Overlays',
     description:
         'Rich preview card shown while the pointer rests on its child, presented through the popover machinery with themed timing and placement.',
-    install: 'flutter_shadcn add hover_card',
+    install: 'dashcn add hover_card',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/hover_card/hover_card.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1129,10 +1129,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Popup',
     category: 'Overlays',
     description:
-        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showShadcnPopup, a generic helper with Escape/outside-tap dismissal.",
-    install: 'flutter_shadcn add popup',
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    install: 'dashcn add popup',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/popup/popup.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: true,
@@ -1143,9 +1143,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Overlays',
     description:
         'Pull-to-refresh wrapper for any scrollable, with a themed indicator pill and programmatic refresh.',
-    install: 'flutter_shadcn add refresh_trigger',
+    install: 'dashcn add refresh_trigger',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/refresh_trigger/refresh_trigger.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/refresh_trigger/refresh_trigger.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1156,9 +1156,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Overlays',
     description:
         'Delayed hover label presented through the popover machinery, plus the themed TooltipContainer surface and the tooltip overlay handler.',
-    install: 'flutter_shadcn add tooltip',
+    install: 'dashcn add tooltip',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1169,9 +1169,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Typography & Media',
     description:
         'Scrollable code block with optional top-right action buttons.',
-    install: 'flutter_shadcn add code_snippet',
+    install: 'dashcn add code_snippet',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1182,9 +1182,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Typography & Media',
     description:
         'Themed rounded image slot with a placeholder while loading and a caller-supplied error slot on failure.',
-    install: 'flutter_shadcn add image',
+    install: 'dashcn add image',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/image/image.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/image/image.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1194,10 +1194,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Markdown',
     category: 'Typography & Media',
     description:
-        'Text-only markdown renderer with a shadcn theme, tap callbacks and an image preview overlay.',
-    install: 'flutter_shadcn add markdown',
+        'Text-only markdown renderer with a dashcn theme, tap callbacks and an image preview overlay.',
+    install: 'dashcn add markdown',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/markdown/markdown.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/markdown/markdown.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1207,9 +1207,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Alpha',
     category: 'Utilities (building blocks)',
     description: 'Checkerboard painter for transparency indicators.',
-    install: 'flutter_shadcn add alpha',
+    install: 'dashcn add alpha',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/alpha/alpha.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/alpha/alpha.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1220,9 +1220,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Describes the point an overlay positions itself against and tracks it while it moves.',
-    install: 'flutter_shadcn add anchor',
+    install: 'dashcn add anchor',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/anchor/anchor.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/anchor/anchor.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1232,9 +1232,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'App',
     category: 'Utilities (building blocks)',
     description:
-        'App shell over WidgetsApp that installs ShadcnTheme, ComponentThemes, the overlay manager and shadcn localizations, plus the ShadcnUI default text/icon scope.',
-    install: 'flutter_shadcn add app',
-    import: "import 'package:<your_app>/ui/shadcn/components/app/app.dart';",
+        'App shell over WidgetsApp that installs Theme, ComponentThemes, the overlay manager and dashcn localizations, plus the default text/icon scope.',
+    install: 'dashcn add app',
+    import: "import 'package:<your_app>/ui/dashcn/components/app/app.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1245,9 +1245,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Renders a value that may already be available or may still be loading through one builder.',
-    install: 'flutter_shadcn add async',
+    install: 'dashcn add async',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/async/async.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/async/async.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1258,9 +1258,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Strategy describing how the content behind a sheet or drawer is transformed while it opens.',
-    install: 'flutter_shadcn add backdrop_transform',
+    install: 'dashcn add backdrop_transform',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/backdrop_transform/backdrop_transform.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/backdrop_transform/backdrop_transform.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1271,9 +1271,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'The ColorDerivative colour model shared by the colour components: space-preserving RGB/HSV/HSL edits and hex parsing.',
-    install: 'flutter_shadcn add color',
+    install: 'dashcn add color',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/color/color.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/color/color.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1284,9 +1284,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Custom-painted HSV/HSL gradient area with an optional transparency checkerboard and a themed ring.',
-    install: 'flutter_shadcn add color_field',
+    install: 'dashcn add color_field',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1297,9 +1297,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Compact colour field: a colour well plus an editable hex text input that opens the full color_picker in a popover (desktop) or dialog.',
-    install: 'flutter_shadcn add color_input',
+    install: 'dashcn add color_input',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/color_input/color_input.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1310,9 +1310,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Reusable drawer/sheet chrome (edge border, outer corners, drag handle, barrier wash) for pinned sheets and drawer overlays.',
-    install: 'flutter_shadcn add drawer_container',
+    install: 'dashcn add drawer_container',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1323,9 +1323,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Structured error models, rule-based mapping, app/screen error channels and the matching UI surfaces.',
-    install: 'flutter_shadcn add error_system',
+    install: 'dashcn add error_system',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/error_system/error_system.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/error_system/error_system.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1336,9 +1336,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Samples any pixel of the wrapped subtree with a magnified preview and reports the picked colour (optionally into a colour history).',
-    install: 'flutter_shadcn add eye_dropper',
+    install: 'dashcn add eye_dropper',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1349,9 +1349,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Reusable text input formatters (uppercase/lowercase, numeric, math, HEX, time) plus selection clipping helpers.',
-    install: 'flutter_shadcn add formatter',
+    install: 'dashcn add formatter',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/formatter/formatter.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/formatter/formatter.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1362,9 +1362,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Absolute-position layout surface that places children at explicit offsets and sizes.',
-    install: 'flutter_shadcn add group',
+    install: 'dashcn add group',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/group/group.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/group/group.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1374,9 +1374,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'History',
     category: 'Utilities (building blocks)',
     description: 'Recent-colour storage plus the swatch grid that reuses them.',
-    install: 'flutter_shadcn add history',
+    install: 'dashcn add history',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/history/history.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/history/history.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1387,8 +1387,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Gradient slider that controls hue, saturation, lightness, or alpha for HSL colours.',
-    install: 'flutter_shadcn add hsl',
-    import: "import 'package:<your_app>/ui/shadcn/components/hsl/hsl.dart';",
+    install: 'dashcn add hsl',
+    import: "import 'package:<your_app>/ui/dashcn/components/hsl/hsl.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1399,8 +1399,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Gradient slider that controls hue, saturation, value, or alpha for HSV colours.',
-    install: 'flutter_shadcn add hsv',
-    import: "import 'package:<your_app>/ui/shadcn/components/hsv/hsv.dart';",
+    install: 'dashcn add hsv',
+    import: "import 'package:<your_app>/ui/dashcn/components/hsv/hsv.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1411,8 +1411,8 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Theme-driven icon size/colour modifiers and a filled icon container.',
-    install: 'flutter_shadcn add icon',
-    import: "import 'package:<your_app>/ui/shadcn/components/icon/icon.dart';",
+    install: 'dashcn add icon',
+    import: "import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1423,9 +1423,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Byte-size formatting against a configurable unit table (decimal, binary or custom).',
-    install: 'flutter_shadcn add locale_utils',
+    install: 'dashcn add locale_utils',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/locale_utils/locale_utils.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/locale_utils/locale_utils.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1436,9 +1436,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Shows one child while the viewport width is inside a range and another when it is not.',
-    install: 'flutter_shadcn add media_query',
+    install: 'dashcn add media_query',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/media_query/media_query.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/media_query/media_query.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1449,9 +1449,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Selection scopes for single-choice and multi-choice trees, controlled or controller-driven.',
-    install: 'flutter_shadcn add multiple_choice',
+    install: 'dashcn add multiple_choice',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/multiple_choice/multiple_choice.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/multiple_choice/multiple_choice.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1462,9 +1462,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Animated outlined surface with token-derived border, optional translucency and backdrop blur, plus dashed border helpers.',
-    install: 'flutter_shadcn add outlined_container',
+    install: 'dashcn add outlined_container',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/outlined_container/outlined_container.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1475,9 +1475,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Describe what overlay to show and how (popover, drawer, sheet, dialog, tooltip) behind one configuration object, plus showOverlay and OverlayController.',
-    install: 'flutter_shadcn add overlay_configuration',
+    install: 'dashcn add overlay_configuration',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/overlay_configuration/overlay_configuration.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/overlay_configuration/overlay_configuration.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1487,10 +1487,10 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Page Route',
     category: 'Utilities (building blocks)',
     description:
-        'Widgets-only page route and declarative Page with the shadcn fade + slide transition.',
-    install: 'flutter_shadcn add page_route',
+        'Widgets-only page route and declarative Page with the dashcn fade + slide transition.',
+    install: 'dashcn add page_route',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/page_route/page_route.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/page_route/page_route.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1501,9 +1501,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Counts consecutive taps inside a time and distance window for double/triple-click gestures.',
-    install: 'flutter_shadcn add patch',
+    install: 'dashcn add patch',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/patch/patch.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/patch/patch.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1514,9 +1514,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Notification-driven edge-fade viewport for any scrollable subtree.',
-    install: 'flutter_shadcn add scrollable',
+    install: 'dashcn add scrollable',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/scrollable/scrollable.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/scrollable/scrollable.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1527,9 +1527,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Two-dimensional scroll surface with a builder that receives the current offset and viewport size.',
-    install: 'flutter_shadcn add scrollable_client',
+    install: 'dashcn add scrollable_client',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/scrollable_client/scrollable_client.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/scrollable_client/scrollable_client.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1540,9 +1540,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Middle-button drag-to-scroll interceptor for desktop and web pointer devices.',
-    install: 'flutter_shadcn add scrollview',
+    install: 'dashcn add scrollview',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/scrollview/scrollview.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/scrollview/scrollview.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1553,9 +1553,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Read-only selectable text with widgets-only selection controls.',
-    install: 'flutter_shadcn add selectable',
+    install: 'dashcn add selectable',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/selectable/selectable.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1566,9 +1566,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Menu-backed toolbar for the spell check replacements of the misspelled word under an editable text cursor: up to three suggestion rows in the menu popup surface.',
-    install: 'flutter_shadcn add spell_check_suggestions_toolbar',
+    install: 'dashcn add spell_check_suggestions_toolbar',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1579,9 +1579,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Responsive container that snaps content to breakpoint widths.',
-    install: 'flutter_shadcn add stage_container',
+    install: 'dashcn add stage_container',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/stage_container/stage_container.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/stage_container/stage_container.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1591,9 +1591,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Swiper',
     category: 'Utilities (building blocks)',
     description: 'Swipe-to-open wrapper that reveals a drawer or sheet panel.',
-    install: 'flutter_shadcn add swiper',
+    install: 'dashcn add swiper',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/swiper/swiper.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/swiper/swiper.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1604,9 +1604,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Swipeable view that animates between child widgets along a chosen axis.',
-    install: 'flutter_shadcn add switcher',
+    install: 'dashcn add switcher',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/switcher/switcher.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/switcher/switcher.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1617,9 +1617,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         "Typed keyframe timeline: turns an AnimationController's 0..1 progress into values segment by segment.",
-    install: 'flutter_shadcn add timeline_animation',
+    install: 'dashcn add timeline_animation',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/timeline_animation/timeline_animation.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/timeline_animation/timeline_animation.dart';",
     fileCount: 1,
     stability: 'stable',
     listed: false,
@@ -1629,9 +1629,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Triple Dots',
     category: 'Utilities (building blocks)',
     description: 'Row or column of small round dots, used as an ellipsis.',
-    install: 'flutter_shadcn add triple_dots',
+    install: 'dashcn add triple_dots',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/triple_dots/triple_dots.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,
@@ -1642,9 +1642,9 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     category: 'Utilities (building blocks)',
     description:
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    install: 'flutter_shadcn add window',
+    install: 'dashcn add window',
     import:
-        "import 'package:<your_app>/ui/shadcn/components/window/window.dart';",
+        "import 'package:<your_app>/ui/dashcn/components/window/window.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: false,

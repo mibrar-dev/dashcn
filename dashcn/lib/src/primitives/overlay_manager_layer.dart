@@ -13,7 +13,7 @@ import 'popover_overlay_state.dart';
 
 /// Installs an [OverlayManager] into the tree.
 ///
-/// See [ShadcnLayer] for a wrapper that only installs this layer when the app
+/// See [AppLayer] for a wrapper that only installs this layer when the app
 /// does not already have a manager.
 class OverlayManagerLayer extends StatefulWidget {
   /// Handler for popover overlays.

@@ -86,7 +86,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
             child: SingleChildScrollView(
               primary: false,
               child: SelectableRegion(
-                selectionControls: ShadcnSelectionControls(),
+                selectionControls: SelectionControls(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -133,7 +133,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
   }
 
   Widget _buildHeader(FileDiffSurface surface, FileDiff file, int fileIndex) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String key = '$fileIndex:${file.path}';
     return Container(
       color: surface.headerBackground,
@@ -192,7 +192,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
                     onPressed: () => _copyPatch(key, file),
                     child: _copiedFiles.contains(key)
                         ? Icon(RadixIcons.check, size: 14 * theme.scaling)
-                        : Text(ShadcnLocalizations.of(context).menuCopy),
+                        : Text(ComponentLocalizations.of(context).menuCopy),
                   ),
               ],
             ),
@@ -241,7 +241,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
     int fileIndex,
     int hunkIndex,
   ) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final TextStyle headerStyle = surface.codeStyle.copyWith(
       color: theme.colors.accentForeground,
       fontWeight: FontWeight.w600,
@@ -370,7 +370,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
   }
 
   Widget _buildGutter(FileDiffSurface surface, int? number) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       width: surface.gutterWidth,
       decoration: BoxDecoration(
@@ -391,7 +391,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
     String marker,
     FileDiffLineType? type,
   ) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Color? accent = type == null ? null : surface.lineAccent(type);
     return SizedBox(
       width: 32 * theme.scaling,
@@ -413,7 +413,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
       child: Text.rich(
         TextSpan(text: line.content),
         style: surface.codeStyle.copyWith(
-          color: ShadcnTheme.of(context).colors.foreground,
+          color: Theme.of(context).colors.foreground,
         ),
       ),
     );

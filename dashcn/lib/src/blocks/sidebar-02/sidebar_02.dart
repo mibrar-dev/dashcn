@@ -52,7 +52,7 @@ class _Sidebar02State extends State<Sidebar02> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -115,7 +115,7 @@ class _Sidebar02Bar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: theme.spacing.md,

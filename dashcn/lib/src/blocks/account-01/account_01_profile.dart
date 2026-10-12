@@ -131,9 +131,9 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
         onSubmit: _handleValidSubmit,
         child: Column(
@@ -177,7 +177,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Gap(theme.spacing.lg),
             LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                final Widget name = ShadcnFormField<String>(
+                final Widget name = FormItem<String>(
                   key: _nameKey,
                   label: const Text('Name'),
                   validator:
@@ -191,7 +191,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                     onSubmitted: (_) => _usernameFocus.requestFocus(),
                   ),
                 );
-                final Widget username = ShadcnFormField<String>(
+                final Widget username = FormItem<String>(
                   key: _usernameKey,
                   label: const Text('Username'),
                   hint: const Text('Lowercase letters, digits, underscores.'),
@@ -224,7 +224,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
               },
             ),
             Gap(theme.spacing.lg),
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _bioKey,
               label: const Text('Bio'),
               hint: const Text('Up to 160 characters.'),

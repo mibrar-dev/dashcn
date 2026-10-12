@@ -1,7 +1,7 @@
 # Badge
 
 A small rounded label or status dot with four variants, optionally pressable.
-shadcn's badge is a `div` (or an `asChild` link), not a button, so this
+dashcn's badge is a `div` (or an `asChild` link), not a button, so this
 component builds its own small surface on the `Clickable` primitive and never
 enters the focus tree unless it has an `onPressed`.
 
@@ -49,7 +49,7 @@ Badge(showAsDot: true, child: const SizedBox.shrink());
 | `onPressed` | `VoidCallback?` | null | presence makes the badge interactive |
 | `onHover` / `onFocusChange` | `ValueChanged<bool>?` | null | observation only |
 | `focusNode` / `autofocus` | | null / false | as in `Button` |
-| `showAsDot` | `bool` | false | shadcn `showAsDot` |
+| `showAsDot` | `bool` | false | dashcn `showAsDot` |
 | `theme` | `BadgeStyle?` | null | widget leg of the resolver |
 
 ## Theme resolution
@@ -64,9 +64,9 @@ that only sets `hovered` keeps the default `rest` colour.
 | `secondary` | `secondary` fill / `secondaryForeground`, hover+press `@0.8` |
 | `outline` | no fill, 1px `border`, `foreground` label |
 | `destructive` | `destructive` fill / `destructiveForeground`, hover+press `@0.9` |
-| `textStyle` | 12px (shadcn `text-xs`) |
-| `padding` | 8 x 2 (shadcn `px-2 py-0.5`) |
-| `borderRadius` | ambient `radiusMd` (shadcn `rounded-md`) |
+| `textStyle` | 12px (dashcn `text-xs`) |
+| `padding` | 8 x 2 (dashcn `px-2 py-0.5`) |
+| `borderRadius` | ambient `radiusMd` (dashcn `rounded-md`) |
 
 There is no `disabled` row: a static badge is not a disabled button, it is a
 plain token painted at full strength.

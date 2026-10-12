@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Bengali (`bn`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsBn extends ShadcnLocalizations {
+class ComponentLocalizationsBn extends ComponentLocalizations {
   /// Creates the Bengali strings.
-  const ShadcnLocalizationsBn([super.locale = const Locale('bn')]);
+  const ComponentLocalizationsBn([super.locale = const Locale('bn')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

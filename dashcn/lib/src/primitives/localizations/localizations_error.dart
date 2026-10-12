@@ -1,4 +1,4 @@
-// Error-system strings for [ShadcnLocalizations]: the `error_handling`
+// Error-system strings for [ComponentLocalizations]: the `error_handling`
 // primitive's default titles, messages and action labels, and the
 // `error_system` component's dismissal affordance.
 //
@@ -7,11 +7,11 @@
 // nothing is copied (or invented) here. `dialogDismiss` (the overlay mixin,
 // Flutter's `modalBarrierDismissLabel`) is reused for dismiss actions.
 
-/// Error text for [ShadcnLocalizations].
+/// Error text for [ComponentLocalizations].
 ///
-/// Applied by `ShadcnLocalizations`; every getter has an English default and
+/// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it.
-mixin ShadcnLocalizationsError {
+mixin ComponentLocalizationsError {
   /// Default title of an error with no more specific mapping.
   String get errorSomethingWentWrong => 'Something went wrong';
 

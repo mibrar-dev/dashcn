@@ -1,11 +1,13 @@
 ---
 title: "Class: MediaQueryPreview"
-description: "Reference for MediaQueryPreview"
+description: "Preview entry point used by the docs gallery."
 ---
 
 ```dart
-class MediaQueryPreview extends StatelessWidget {
+/// Preview entry point used by the docs gallery.
+class MediaQueryPreview extends StatefulWidget {
+  /// Creates the preview.
   const MediaQueryPreview({super.key});
-  Widget build(BuildContext context);
+  State<MediaQueryPreview> createState();
 }
 ```

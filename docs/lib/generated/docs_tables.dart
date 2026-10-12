@@ -93,7 +93,7 @@ class DocsCliCommand {
     required this.flags,
   });
 
-  /// Invocation without `--help` (`flutter_shadcn add`).
+  /// Invocation without `--help` (`dashcn add`).
   final String label;
 
   /// Full invocation line.
@@ -1347,30 +1347,30 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
 /// Parsed cli_snapshot.txt command sections.
 const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
   DocsCliCommand(
-    label: 'flutter_shadcn',
-    invocation: 'flutter_shadcn --help',
-    usage: 'flutter_shadcn <command> [arguments]',
-    summary: 'Component manager for the shadcn_flutter_kit registry.',
+    label: 'dashcn',
+    invocation: 'dashcn --help',
+    usage: 'dashcn <command> [arguments]',
+    summary: 'Component manager for the dashcn registry.',
     helpText:
-        'Component manager for the shadcn_flutter_kit registry.\n\nUsage: flutter_shadcn <command> [arguments]\n-h, --help       Print this usage information.\n    --version    Print the CLI version.\n\nAvailable commands:\n  init       Install the layer core and pick a theme preset.\n  add        Add components and their dependency closure.\n  remove     Remove registry-owned files (user-owned files stay).\n  update     Pull upstream registry changes for installed files.\n  list       List every component in the registry manifest.\n  search     Search components by name, tag or description.\n  info       Show dependency closure, files and theme class for one component.\n  theme      List or apply theme presets.\n  doctor     Check the install closure, lock drift and user-owned files.\n  validate   Validate the registry manifest against the v2 schema.\n\nRun "flutter_shadcn help <command>" for more information about a command.',
+        'Component manager for the dashcn registry.\n\nUsage: dashcn <command> [arguments]\n-h, --help       Print this usage information.\n    --version    Print the CLI version.\n\nAvailable commands:\n  init       Install the layer core and pick a theme preset.\n  add        Add components and their dependency closure.\n  remove     Remove registry-owned files (user-owned files stay).\n  update     Pull upstream registry changes for installed files.\n  list       List every component in the registry manifest.\n  search     Search components by name, tag or description.\n  info       Show dependency closure, files and theme class for one component.\n  theme      List or apply theme presets.\n  doctor     Check the install closure, lock drift and user-owned files.\n  validate   Validate the registry manifest against the v2 schema.\n\nRun "dashcn help <command>" for more information about a command.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--version', description: 'Print the CLI version.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn init',
-    invocation: 'flutter_shadcn init --help',
-    usage: 'flutter_shadcn init [arguments]',
+    label: 'dashcn init',
+    invocation: 'dashcn init --help',
+    usage: 'dashcn init [arguments]',
     summary:
         'Install the registry layer core (foundation + theme) into a project and choose',
     helpText:
-        'Install the registry layer core (foundation + theme) into a project and choose\na theme preset. Writes .shadcn/config.json and shadcn.lock v2; installs no\ncomponent.\n\nUsage: flutter_shadcn init [arguments]\n-h, --help         Print this usage information.\n    --dir=<path>   Install root (default: lib/ui/shadcn or the path recorded in .shadcn/config.json).\n    --theme=<id>   Preset id from themes/index.json; interactive list when omitted.\n    --yes          Accept defaults without prompting.\n    --json         Print the result as JSON.',
+        'Install the registry layer core (foundation + theme) into a project and choose\na theme preset. Writes .dashcn/config.json and dashcn.lock v2; installs no\ncomponent.\n\nUsage: dashcn init [arguments]\n-h, --help         Print this usage information.\n    --dir=<path>   Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).\n    --theme=<id>   Preset id from themes/index.json; interactive list when omitted.\n    --yes          Accept defaults without prompting.\n    --json         Print the result as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--dir',
         placeholder: '<path>',
         description:
-            'Install root (default: lib/ui/shadcn or the path recorded in .shadcn/config.json).',
+            'Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).',
       ),
       DocsCliFlag(
         name: '--theme',
@@ -1386,13 +1386,13 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn add',
-    invocation: 'flutter_shadcn add --help',
-    usage: 'flutter_shadcn add <ids...> [arguments]',
+    label: 'dashcn add',
+    invocation: 'dashcn add --help',
+    usage: 'dashcn add <ids...> [arguments]',
     summary:
         'Add components and the transitive dependency closure (components -> primitives',
     helpText:
-        'Add components and the transitive dependency closure (components -> primitives\n-> foundation/theme). Existing user-owned files are never overwritten. Refuses\nto install when a symbol would be defined twice (single-owner preflight).\n\nUsage: flutter_shadcn add <ids...> [arguments]\n-h, --help             Print this usage information.\n    --dry-run          Print the plan without writing files.\n    --json             Print the plan or result as JSON.\n    --force            Continue past non-fatal preflight warnings.\n    --all              Add every component in the registry manifest.\n    --include-preview  Also copy preview.dart files (default: never).',
+        'Add components and the transitive dependency closure (components -> primitives\n-> foundation/theme). Existing user-owned files are never overwritten. Refuses\nto install when a symbol would be defined twice (single-owner preflight).\n\nUsage: dashcn add <ids...> [arguments]\n-h, --help             Print this usage information.\n    --dry-run          Print the plan without writing files.\n    --json             Print the plan or result as JSON.\n    --force            Continue past non-fatal preflight warnings.\n    --all              Add every component in the registry manifest.\n    --include-preview  Also copy preview.dart files (default: never).',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--dry-run',
@@ -1417,13 +1417,13 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn update',
-    invocation: 'flutter_shadcn update --help',
-    usage: 'flutter_shadcn update [ids...] [arguments]',
+    label: 'dashcn update',
+    invocation: 'dashcn update --help',
+    usage: 'dashcn update [ids...] [arguments]',
     summary:
         'Hash-based update of registry-owned files. Unchanged files are overwritten,',
     helpText:
-        'Hash-based update of registry-owned files. Unchanged files are overwritten,\nlocally modified files are reported and skipped, user-owned files are never\ntouched. Regenerates theme/app_theme.dart from the locked preset.\n\nUsage: flutter_shadcn update [ids...] [arguments]\n-h, --help    Print this usage information.\n    --all     Update every installed component.\n    --check   Report only; exit 1 when anything is behind or modified.\n    --json    Print the result as JSON.',
+        'Hash-based update of registry-owned files. Unchanged files are overwritten,\nlocally modified files are reported and skipped, user-owned files are never\ntouched. Regenerates theme/app_theme.dart from the locked preset.\n\nUsage: dashcn update [ids...] [arguments]\n-h, --help    Print this usage information.\n    --all     Update every installed component.\n    --check   Report only; exit 1 when anything is behind or modified.\n    --json    Print the result as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--all',
@@ -1437,13 +1437,13 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn remove',
-    invocation: 'flutter_shadcn remove --help',
-    usage: 'flutter_shadcn remove [ids...] [arguments]',
+    label: 'dashcn remove',
+    invocation: 'dashcn remove --help',
+    usage: 'dashcn remove [ids...] [arguments]',
     summary:
         'Remove registry-owned files for the given components. Refuses when another',
     helpText:
-        'Remove registry-owned files for the given components. Refuses when another\ninstalled component depends on the target.\n\nUsage: flutter_shadcn remove [ids...] [arguments]\n-h, --help               Print this usage information.\n    --purge-user-themes  Also delete the user-owned *_theme.dart files.\n    --json               Print the result as JSON.',
+        'Remove registry-owned files for the given components. Refuses when another\ninstalled component depends on the target.\n\nUsage: dashcn remove [ids...] [arguments]\n-h, --help               Print this usage information.\n    --purge-user-themes  Also delete the user-owned *_theme.dart files.\n    --json               Print the result as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--purge-user-themes',
@@ -1453,59 +1453,59 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn list',
-    invocation: 'flutter_shadcn list --help',
-    usage: 'flutter_shadcn list [arguments]',
+    label: 'dashcn list',
+    invocation: 'dashcn list --help',
+    usage: 'dashcn list [arguments]',
     summary: 'List every component in the registry manifest.',
     helpText:
-        'List every component in the registry manifest.\n\nUsage: flutter_shadcn list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the list as JSON.',
+        'List every component in the registry manifest.\n\nUsage: dashcn list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the list as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--json', description: 'Print the list as JSON.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn search',
-    invocation: 'flutter_shadcn search --help',
-    usage: 'flutter_shadcn search <query> [arguments]',
+    label: 'dashcn search',
+    invocation: 'dashcn search --help',
+    usage: 'dashcn search <query> [arguments]',
     summary:
         'Search the registry manifest by component id, name, tag or description.',
     helpText:
-        'Search the registry manifest by component id, name, tag or description.\n\nUsage: flutter_shadcn search <query> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the matches as JSON.',
+        'Search the registry manifest by component id, name, tag or description.\n\nUsage: dashcn search <query> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the matches as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--json', description: 'Print the matches as JSON.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn info',
-    invocation: 'flutter_shadcn info --help',
-    usage: 'flutter_shadcn info <id> [arguments]',
+    label: 'dashcn info',
+    invocation: 'dashcn info --help',
+    usage: 'dashcn info <id> [arguments]',
     summary:
         'Show the dependency closure, files, API symbols and theme class for one',
     helpText:
-        'Show the dependency closure, files, API symbols and theme class for one\ncomponent.\n\nUsage: flutter_shadcn info <id> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.',
+        'Show the dependency closure, files, API symbols and theme class for one\ncomponent.\n\nUsage: dashcn info <id> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--json', description: 'Print the report as JSON.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn theme list',
-    invocation: 'flutter_shadcn theme list --help',
-    usage: 'flutter_shadcn theme list [arguments]',
+    label: 'dashcn theme list',
+    invocation: 'dashcn theme list --help',
+    usage: 'dashcn theme list [arguments]',
     summary: 'List the theme presets recorded in the registry manifest.',
     helpText:
-        'List the theme presets recorded in the registry manifest.\n\nUsage: flutter_shadcn theme list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the presets as JSON.',
+        'List the theme presets recorded in the registry manifest.\n\nUsage: dashcn theme list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the presets as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--json', description: 'Print the presets as JSON.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn theme apply',
-    invocation: 'flutter_shadcn theme apply --help',
-    usage: 'flutter_shadcn theme apply <preset> [arguments]',
+    label: 'dashcn theme apply',
+    invocation: 'dashcn theme apply --help',
+    usage: 'dashcn theme apply <preset> [arguments]',
     summary:
         'Generate theme/app_theme.dart from a preset JSON (values-only file, full',
     helpText:
-        'Generate theme/app_theme.dart from a preset JSON (values-only file, full\nrewrite; no regex patching). Updates the lock\'s theme section.\n\nUsage: flutter_shadcn theme apply <preset> [arguments]\n-h, --help      Print this usage information.\n    --refresh   Re-read the preset JSON even when the lock hash matches.\n    --json      Print the result as JSON.',
+        'Generate theme/app_theme.dart from a preset JSON (values-only file, full\nrewrite; no regex patching). Updates the lock\'s theme section.\n\nUsage: dashcn theme apply <preset> [arguments]\n-h, --help      Print this usage information.\n    --refresh   Re-read the preset JSON even when the lock hash matches.\n    --json      Print the result as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--refresh',
@@ -1515,24 +1515,24 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn doctor',
-    invocation: 'flutter_shadcn doctor --help',
-    usage: 'flutter_shadcn doctor [arguments]',
+    label: 'dashcn doctor',
+    invocation: 'dashcn doctor --help',
+    usage: 'dashcn doctor [arguments]',
     summary:
         'Check the manifest, the installed closure, lock drift, user-owned files and',
     helpText:
-        'Check the manifest, the installed closure, lock drift, user-owned files and\nrelative imports escaping the install root.\n\nUsage: flutter_shadcn doctor [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.\nExit codes: 0 clean, 1 drift or modified files, 2 broken closure,\n3 invalid manifest.',
+        'Check the manifest, the installed closure, lock drift, user-owned files and\nrelative imports escaping the install root.\n\nUsage: dashcn doctor [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.\nExit codes: 0 clean, 1 drift or modified files, 2 broken closure,\n3 invalid manifest.',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--json', description: 'Print the report as JSON.'),
     ],
   ),
   DocsCliCommand(
-    label: 'flutter_shadcn validate',
-    invocation: 'flutter_shadcn validate --help',
-    usage: 'flutter_shadcn validate [arguments]',
+    label: 'dashcn validate',
+    invocation: 'dashcn validate --help',
+    usage: 'dashcn validate [arguments]',
     summary: 'Validate lib/src/manifests/registry.json against the v2 schema.',
     helpText:
-        'Validate lib/src/manifests/registry.json against the v2 schema.\n\nUsage: flutter_shadcn validate [arguments]\n-h, --help    Print this usage information.\n    --json    Print the validation report as JSON.',
+        'Validate lib/src/manifests/registry.json against the v2 schema.\n\nUsage: dashcn validate [arguments]\n-h, --help    Print this usage information.\n    --json    Print the validation report as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--json',

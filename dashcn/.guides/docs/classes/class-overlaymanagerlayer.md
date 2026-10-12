@@ -1,13 +1,13 @@
 ---
 title: "Class: OverlayManagerLayer"
-description: "Layer widget managing different overlay handlers for the application."
+description: "Installs an [OverlayManager] into the tree."
 ---
 
 ```dart
-/// Layer widget managing different overlay handlers for the application.
+/// Installs an [OverlayManager] into the tree.
 ///
-/// Provides centralized overlay management for popovers, tooltips, and menus
-/// with customizable handlers for each type.
+/// See [AppLayer] for a wrapper that only installs this layer when the app
+/// does not already have a manager.
 class OverlayManagerLayer extends StatefulWidget {
   /// Handler for popover overlays.
   final OverlayHandler popoverHandler;
@@ -15,15 +15,9 @@ class OverlayManagerLayer extends StatefulWidget {
   final OverlayHandler tooltipHandler;
   /// Handler for menu overlays.
   final OverlayHandler menuHandler;
-  /// Child widget wrapped by overlay management.
+  /// The wrapped subtree.
   final Widget child;
   /// Creates an overlay manager layer.
-  ///
-  /// Parameters:
-  /// - [popoverHandler] (OverlayHandler, required): Handler for popover overlays
-  /// - [tooltipHandler] (OverlayHandler, required): Handler for tooltip overlays
-  /// - [menuHandler] (OverlayHandler, required): Handler for menu overlays
-  /// - [child] (Widget, required): Child widget
   const OverlayManagerLayer({super.key, required this.popoverHandler, required this.tooltipHandler, required this.menuHandler, required this.child});
   State<OverlayManagerLayer> createState();
 }

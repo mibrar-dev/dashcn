@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Ukrainian (`uk`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsUk extends ShadcnLocalizations {
+class ComponentLocalizationsUk extends ComponentLocalizations {
   /// Creates the Ukrainian strings.
-  const ShadcnLocalizationsUk([super.locale = const Locale('uk')]);
+  const ComponentLocalizationsUk([super.locale = const Locale('uk')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

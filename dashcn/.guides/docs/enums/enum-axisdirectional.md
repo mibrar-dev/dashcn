@@ -1,11 +1,11 @@
 ---
 title: "Enum: AxisDirectional"
-description: "Represents a directional axis (up/down/start/end) that can be resolved to  a concrete [AxisDirection] based on [TextDirection]."
+description: "A directional axis (up/down/start/end) that resolves to a concrete  [AxisDirection] based on [TextDirection]."
 ---
 
 ```dart
-/// Represents a directional axis (up/down/start/end) that can be resolved to
-/// a concrete [AxisDirection] based on [TextDirection].
+/// A directional axis (up/down/start/end) that resolves to a concrete
+/// [AxisDirection] based on [TextDirection].
 enum AxisDirectional {
   up,
   down,

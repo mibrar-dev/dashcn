@@ -1,9 +1,9 @@
 ---
 title: "Function: openDrawerOverlay"
-description: "Top-level function openDrawerOverlay"
+description: "Opens a drawer and returns a handle to it."
 ---
 
 Signature
 ```dart
-DrawerOverlayCompleter<T?> openDrawerOverlay<T>({required BuildContext context, required WidgetBuilder builder, required OverlayPosition position, bool expands = false, bool draggable = true, bool barrierDismissible = true, WidgetBuilder? backdropBuilder, bool useSafeArea = true, bool? showDragHandle, BorderRadiusGeometry? borderRadius, Size? dragHandleSize, bool transformBackdrop = true, double? surfaceOpacity, double? surfaceBlur, Color? barrierColor, AnimationController? animationController, bool autoOpen = true, BoxConstraints? constraints, AlignmentGeometry? alignment});
+DrawerOverlayCompleter<T?> openDrawerOverlay<T>({required BuildContext context, required WidgetBuilder builder, OverlayPosition position = OverlayPosition.end, bool expands = false, bool draggable = true, bool barrierDismissible = true, bool useSafeArea = true, bool? showDragHandle, BorderRadius? borderRadius, double? maxSize, String? barrierLabel, bool useRootNavigator = true, RouteSettings? routeSettings, DrawerTheme? theme});
 ```

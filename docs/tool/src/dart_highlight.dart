@@ -148,7 +148,7 @@ bool _bashWordIsKeyword(String code, int start, int end) {
   ).firstMatch(before);
   return previous != null &&
       const <String>{
-        'flutter_shadcn',
+        'dashcn',
         'flutter',
         'dart',
         'sh',

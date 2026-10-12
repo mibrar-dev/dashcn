@@ -29,12 +29,12 @@ const List<FeatureCarouselItem> _items = <FeatureCarouselItem>[
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
   final Widget body = SizedBox(width: width == null ? 480 : null, child: child);
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -58,14 +58,14 @@ void main() {
     tester,
   ) async {
     for (final preview in featureCarouselPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -93,10 +93,10 @@ void main() {
       _frame(FeatureCarousel(items: _items, controller: controller)),
     );
     await tester.pump();
-    expect(_textColor(tester, 'Fast'), ShadcnColors.lightFallback.foreground);
+    expect(_textColor(tester, 'Fast'), ThemeColors.lightFallback.foreground);
     expect(
       _textColor(tester, 'Ship in seconds.'),
-      ShadcnColors.lightFallback.mutedForeground,
+      ThemeColors.lightFallback.mutedForeground,
     );
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -172,7 +172,7 @@ void main() {
         SingleChildScrollView(
           child: FeatureCarousel(items: _items, controller: controller),
         ),
-        data: const ShadcnThemeData(scaling: 2),
+        data: const ThemeData(scaling: 2),
       ),
     );
     await tester.pump();

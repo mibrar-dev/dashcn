@@ -1,12 +1,12 @@
 ---
 title: "Class: ChipSubmitIntent"
-description: "Intent for submitting a chip in the chip input."
+description: "Turns the word at the caret into a chip; bound to <kbd>Enter</kbd>."
 ---
 
 ```dart
-/// Intent for submitting a chip in the chip input.
+/// Turns the word at the caret into a chip; bound to <kbd>Enter</kbd>.
 class ChipSubmitIntent extends Intent {
-  /// Creates a chip submit intent.
+  /// Creates a chip-submit intent.
   const ChipSubmitIntent();
 }
 ```

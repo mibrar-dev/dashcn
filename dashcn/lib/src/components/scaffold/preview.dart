@@ -55,7 +55,7 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -103,7 +103,7 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
   }
 
   void _openMenu() {
-    showShadcnDropdown<void>(
+    showDropdown<void>(
       context: context,
       children: <Widget>[
         MenuButton(

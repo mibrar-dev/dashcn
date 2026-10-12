@@ -1,6 +1,6 @@
 ---
 title: "Function: invokeActionOnFocusedWidget"
-description: "Top-level function invokeActionOnFocusedWidget"
+description: "Invokes [intent] on the action of the currently focused widget."
 ---
 
 Signature

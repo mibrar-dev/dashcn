@@ -11,7 +11,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/primitives/text_editing/text_editing.dart';
+import '../ui/dashcn/primitives/text_editing/text_editing.dart';
 
 /// Wraps [child] in a `SelectableRegion` when an `Overlay` exists.
 class SelectableCode extends StatelessWidget {
@@ -27,7 +27,7 @@ class SelectableCode extends StatelessWidget {
       return child;
     }
     return SelectableRegion(
-      selectionControls: ShadcnSelectionControls(),
+      selectionControls: SelectionControls(),
       child: child,
     );
   }

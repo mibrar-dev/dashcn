@@ -1,4 +1,4 @@
-// The `alert_dialog` component: [AlertDialog], the shadcn title / description
+// The `alert_dialog` component: [AlertDialog], the upstream title / description
 // / action composition, and [showAlertDialog] which pushes it through the
 // `dialog` component's route.
 //
@@ -52,7 +52,7 @@ class AlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AlertDialogTheme style =
         resolveComponentStyle<AlertDialogTheme, AlertDialogTheme>(
           context,
@@ -117,9 +117,9 @@ class AlertDialog extends StatelessWidget {
       row.add(
         IconTheme.merge(
           data: IconThemeData(
-            size: 20 * ShadcnTheme.of(context).scaling,
+            size: 20 * Theme.of(context).scaling,
             color: (style.iconColor ?? alertDialogDefaults.iconColor!).resolve(
-              ShadcnTheme.of(context).colors,
+              Theme.of(context).colors,
             ),
           ),
           child: icon!,
@@ -194,7 +194,7 @@ class AlertDialog extends StatelessWidget {
 ///
 /// Thin composition over the `dialog` component: the route, the focus trap,
 /// the Escape key and the live theme all come from
-/// [showShadcnDialog], so the alert stays restyled by a light/dark or preset
+/// [showDialog], so the alert stays restyled by a light/dark or preset
 /// change while it is open.
 ///
 /// ```dart
@@ -231,7 +231,7 @@ Future<T?> showAlertDialog<T>({
   AlignmentGeometry alignment = Alignment.center,
   RouteSettings? routeSettings,
 }) {
-  return showShadcnDialog<T>(
+  return showDialog<T>(
     context: context,
     useRootNavigator: useRootNavigator,
     barrierDismissible: barrierDismissible,

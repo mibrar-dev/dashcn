@@ -1,12 +1,12 @@
 // Action, refresh, color, table and empty-state strings for
-// [ShadcnLocalizations].
+// [ComponentLocalizations].
 
 /// Shared action, refresh, color-picker, table and empty-state text for
-/// [ShadcnLocalizations].
+/// [ComponentLocalizations].
 ///
-/// Applied by `ShadcnLocalizations`; every getter has an English default and
+/// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it.
-mixin ShadcnLocalizationsMisc {
+mixin ComponentLocalizationsMisc {
   String get buttonCancel => 'Cancel';
 
   String get buttonSave => 'Save';

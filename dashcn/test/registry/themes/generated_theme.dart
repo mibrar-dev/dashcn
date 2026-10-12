@@ -16,7 +16,7 @@ import 'package:dashcn/src/theme/tokens.dart';
 
 import '../../../tool/rearch/gen_app_theme.dart' as gen;
 
-/// The `ShadcnColors`, `ShadcnTokens` and `ShadcnFonts` values of one generated
+/// The `ThemeColors`, `DesignTokens` and `ThemeFonts` values of one generated
 /// `app_theme.dart`.
 class GeneratedTheme {
   GeneratedTheme({
@@ -38,47 +38,47 @@ class GeneratedTheme {
   final String prefix;
 
   /// Light colour tokens as written in the file.
-  final ShadcnColors lightColors;
+  final ThemeColors lightColors;
 
   /// Dark colour tokens as written in the file.
-  final ShadcnColors darkColors;
+  final ThemeColors darkColors;
 
   /// Light non-colour tokens as written in the file.
-  final ShadcnTokens lightTokens;
+  final DesignTokens lightTokens;
 
   /// Dark non-colour tokens as written in the file.
-  final ShadcnTokens darkTokens;
+  final DesignTokens darkTokens;
 
   /// Font families, or null when the preset names none.
-  final ShadcnFonts? fonts;
+  final ThemeFonts? fonts;
 
   /// Name of the emitted factory, e.g. `buildAmberMinimalTheme`.
   final String buildFunction;
 
   /// Mirrors what the generated `build<Id>Theme` returns.
-  ShadcnThemeDataView view(Brightness brightness) => ShadcnThemeDataView(
+  ThemeDataView view(Brightness brightness) => ThemeDataView(
     colors: brightness == Brightness.dark ? darkColors : lightColors,
     tokens: brightness == Brightness.dark ? darkTokens : lightTokens,
-    fonts: fonts ?? ShadcnFonts.empty,
+    fonts: fonts ?? ThemeFonts.empty,
   );
 }
 
-/// Colors plus tokens plus fonts, the three inputs of `ShadcnThemeData`.
-class ShadcnThemeDataView {
-  const ShadcnThemeDataView({
+/// Colors plus tokens plus fonts, the three inputs of `ThemeData`.
+class ThemeDataView {
+  const ThemeDataView({
     required this.colors,
     required this.tokens,
     required this.fonts,
   });
 
   /// Colour tokens for one brightness.
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   /// Non-colour tokens for one brightness.
-  final ShadcnTokens tokens;
+  final DesignTokens tokens;
 
   /// Mode-independent families.
-  final ShadcnFonts fonts;
+  final ThemeFonts fonts;
 }
 
 /// Renders [presetPath] with the generator and reads the values back.
@@ -115,27 +115,27 @@ GeneratedTheme parseGeneratedTheme(String source) {
   }
 
   String? prefix;
-  final colors = <String, ShadcnColors>{};
-  final tokenValues = <String, ShadcnTokens>{};
-  ShadcnFonts? fonts;
+  final colors = <String, ThemeColors>{};
+  final tokenValues = <String, DesignTokens>{};
+  ThemeFonts? fonts;
   for (final entry in variables.entries) {
     final call = _callOf(entry.value);
     if (call == null) continue;
     final name = _calledName(call);
     final args = _namedArguments(call);
     switch (name) {
-      case 'ShadcnColors':
+      case 'ThemeColors':
         final mode = entry.key.endsWith('LightColors') ? 'light' : 'dark';
         prefix ??= entry.key.substring(
           0,
           entry.key.length - 'LightColors'.length,
         );
         colors[mode] = _colorsFrom(args);
-      case 'ShadcnTokens':
+      case 'DesignTokens':
         final mode = entry.key.endsWith('LightTokens') ? 'light' : 'dark';
         tokenValues[mode] = _tokensFrom(args);
-      case 'ShadcnFonts':
-        fonts = ShadcnFonts(
+      case 'ThemeFonts':
+        fonts = ThemeFonts(
           fontSans: args['fontSans'] == null
               ? null
               : _string(args['fontSans']!),
@@ -200,14 +200,14 @@ Map<String, Expression> _namedArguments(Expression call) {
   };
 }
 
-ShadcnColors _colorsFrom(Map<String, Expression> args) {
+ThemeColors _colorsFrom(Map<String, Expression> args) {
   Color token(String key) {
     final argument = args[key];
     if (argument == null) throw StateError('generated colours miss "$key"');
     return Color(_intOf(argument));
   }
 
-  return ShadcnColors(
+  return ThemeColors(
     brightness: _string(args['brightness']!) == 'Brightness.light'
         ? Brightness.light
         : Brightness.dark,
@@ -246,12 +246,12 @@ ShadcnColors _colorsFrom(Map<String, Expression> args) {
   );
 }
 
-ShadcnTokens _tokensFrom(Map<String, Expression> args) {
+DesignTokens _tokensFrom(Map<String, Expression> args) {
   final shadows = args['shadows'];
   if (shadows == null) throw StateError('generated tokens miss "shadows"');
   final call = _callOf(shadows)!;
   final atoms = _namedArguments(call);
-  return ShadcnTokens(
+  return DesignTokens(
     radius: _doubleOf(args['radius']!),
     spacingBase: _doubleOf(args['spacingBase']!),
     trackingNormal: _doubleOf(args['trackingNormal']!),

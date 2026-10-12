@@ -123,14 +123,14 @@ class _Otp01State extends State<Otp01> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String email = widget.email ?? 'ada@example.com';
     final Widget body = Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 384),
         child: Card(
           padding: EdgeInsets.all(theme.spacing.xl),
-          child: ShadcnForm(
+          child: FormScope(
             controller: _controller,
             onSubmit: _handleValidSubmit,
             child: Column(
@@ -149,7 +149,7 @@ class _Otp01State extends State<Otp01> {
                 Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 320),
-                    child: ShadcnFormField<String>(
+                    child: FormItem<String>(
                       key: _codeKey,
                       label: const Text('Code'),
                       validator: _codeValidator,
@@ -242,7 +242,7 @@ class _Otp01Resend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Flexible(

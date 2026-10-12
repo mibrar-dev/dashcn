@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Row or column of small round dots, used as an ellipsis.",
   "tier": "component",
-  "install": "flutter_shadcn add triple_dots",
-  "import": "import 'package:<your_app>/ui/shadcn/components/triple_dots/triple_dots.dart';",
+  "install": "dashcn add triple_dots",
+  "import": "import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';",
   "tags": ["display", "dots", "ellipsis", "pagination"],
   "deps": {
     "foundation": [],

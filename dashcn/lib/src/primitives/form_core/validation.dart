@@ -299,7 +299,8 @@ class NotValidator<T> extends Validator<T> {
     T? value,
     FormValidationMode lifecycle,
   ) {
-    final String text = message ?? ShadcnLocalizations.of(context).invalidValue;
+    final String text =
+        message ?? ComponentLocalizations.of(context).invalidValue;
     final FutureOr<ValidationResult?> result = validator.validate(
       context,
       value,

@@ -4,8 +4,8 @@
   "category": "Overlays",
   "description": "Rich preview card shown while the pointer rests on its child, presented through the popover machinery with themed timing and placement.",
   "tier": "component",
-  "install": "flutter_shadcn add hover_card",
-  "import": "import 'package:<your_app>/ui/shadcn/components/hover_card/hover_card.dart';",
+  "install": "dashcn add hover_card",
+  "import": "import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';",
   "tags": ["overlay", "hover", "preview", "card"],
   "deps": {
     "foundation": [],

@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Indonesian (`id`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsId extends ShadcnLocalizations {
+class ComponentLocalizationsId extends ComponentLocalizations {
   /// Creates the Indonesian strings.
-  const ShadcnLocalizationsId([super.locale = const Locale('id')]);
+  const ComponentLocalizationsId([super.locale = const Locale('id')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

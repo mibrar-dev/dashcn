@@ -34,11 +34,11 @@ Widget _optionBuilder(BuildContext context, String value) {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -56,8 +56,8 @@ Widget _page(
   TextDirection direction = TextDirection.ltr,
   required void Function(BuildContext context) onHost,
 }) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: direction,
       child: Navigator(
@@ -78,14 +78,14 @@ void main() {
     tester,
   ) async {
     for (final preview in itemPickerPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();

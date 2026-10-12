@@ -48,9 +48,9 @@ class RadioGroupTheme extends ComponentThemeData
   /// Row styling for this group's items.
   final SelectableRadioTheme? items;
 
-  /// Space between two items; null resolves 12 (shadcn `gap-3`).
+  /// Space between two items; null resolves 12 (upstream `gap-3`).
   ///
-  /// A shadcn pixel value at the default density: the widget scales it with
+  /// A upstream pixel value at the default density: the widget scales it with
   /// the ambient density and scaling, like every other spacing it derives.
   final double? itemsGap;
 
@@ -108,7 +108,7 @@ const RadioGroupTheme radioGroupDefaults = RadioGroupTheme(
   card: selectableCardDefaults,
 );
 
-/// Gap between two items of a [ShadcnRadioGroup]: shadcn `gap-3` (12) at the
+/// Gap between two items of a [RadioSet]: upstream `gap-3` (12) at the
 /// default density, scaled by the ambient density.
 const double radioGroupItemsGap = 12;
 

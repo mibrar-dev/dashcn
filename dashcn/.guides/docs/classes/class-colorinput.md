@@ -1,68 +1,57 @@
 ---
 title: "Class: ColorInput"
-description: "A color input widget that allows users to select and edit colors."
+description: "A compact colour field: a colour well and an editable hex text field."
 ---
 
 ```dart
-/// A color input widget that allows users to select and edit colors.
+/// A compact colour field: a colour well and an editable hex text field.
 ///
-/// [ColorInput] provides a comprehensive color selection interface with support
-/// for multiple color spaces (HSV, HSL), alpha channel control, and eye dropper
-/// functionality. The widget can be displayed in a popover or modal dialog.
+/// Tapping the well (or Enter/Space while it is focused) opens a full
+/// [ColorPicker] — in a popover on desktop widths, in a dialog below 768 px —
+/// and the hex field edits the value directly. The widget is controlled:
+/// [value] is the source of truth and every edit reports through [onChanged]
+/// (live drag previews through [onChanging]). It participates in forms as a
+/// `ColorDerivative` field.
 ///
-/// The color picker supports:
-/// - Multiple color representation modes (HSV, HSL)
-/// - Optional alpha/opacity control
-/// - Screen color sampling with eye dropper
-/// - Customizable layout orientation
-/// - Flexible positioning via popovers or dialogs
-///
-/// Example:
 /// ```dart
 /// ColorInput(
-///   value: ColorDerivative.fromColor(Colors.blue),
-///   onChanged: (color) {
-///     print('Selected color: ${color.toColor()}');
-///   },
+///   value: ColorDerivative.fromColor(const Color(0xFF2563EB)),
 ///   showAlpha: true,
-///   enableEyeDropper: true,
+///   onChanged: (value) => setState(() => _color = value),
 /// )
 /// ```
 class ColorInput extends StatefulWidget {
-  /// The current color value.
+  /// Creates a colour input.
+  const ColorInput({super.key, required this.value, this.onChanged, this.onChanging, this.showAlpha, this.initialMode, this.enableEyeDropper, this.showHistory, this.mode, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.dialogTitle, this.enabled, this.theme});
+  /// The current colour.
   final ColorDerivative value;
-  /// Called when the color is being changed (while dragging sliders, etc.).
-  final ValueChanged<ColorDerivative>? onChanging;
-  /// Called when the color change is complete (after releasing sliders, etc.).
+  /// Called with every committed colour.
   final ValueChanged<ColorDerivative>? onChanged;
-  /// Whether to show alpha (opacity) controls.
+  /// Called while a picker drag is in flight (live preview).
+  final ValueChanged<ColorDerivative>? onChanging;
+  /// Whether the picker edits alpha; null resolves true.
   final bool? showAlpha;
-  /// The initial color picker mode (HSV, HSL, etc.).
+  /// Channel mode the picker opens in; null resolves `rgb`.
   final ColorPickerMode? initialMode;
-  /// Whether to enable the eye dropper (screen color sampling) feature.
+  /// Whether the picker offers screen sampling; null resolves true.
   final bool? enableEyeDropper;
-  /// The alignment of the popover relative to the anchor.
+  /// Whether the picker's history toggle is shown; null resolves true.
+  final bool? showHistory;
+  /// Prompt presentation; null resolves popover at 768 px and wider, dialog
+  /// below.
+  final PromptMode? mode;
+  /// Popover placement relative to the trigger; null resolves top-start.
   final AlignmentGeometry? popoverAlignment;
-  /// The alignment point on the anchor widget for popover positioning.
+  /// Anchor edge in popover mode; null resolves bottom-start.
   final AlignmentGeometry? popoverAnchorAlignment;
-  /// Internal padding for the popover content.
+  /// Padding inside the popover surface; null resolves the primitive's 16.
   final EdgeInsetsGeometry? popoverPadding;
-  /// Widget displayed when no color is selected.
-  final Widget? placeholder;
-  /// The mode for presenting the color picker (popover or modal).
-  final PromptMode? promptMode;
-  /// Title widget for the dialog when using modal mode.
+  /// Optional heading above the picker in dialog mode.
   final Widget? dialogTitle;
-  /// Whether to show color value labels.
-  final bool? showLabel;
-  /// Whether the color input is enabled.
+  /// Overrides the enabled state; null means `onChanged != null`.
   final bool? enabled;
-  /// The layout orientation of the color input.
-  final Axis? orientation;
-  /// Whether to show the color history button.
-  final bool showHistory;
-  /// Creates a [ColorInput] widget.
-  const ColorInput({super.key, required this.value, this.onChanging, this.onChanged, this.showAlpha, this.initialMode, this.enableEyeDropper = true, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.placeholder, this.promptMode, this.dialogTitle, this.showLabel, this.orientation, this.enabled, this.showHistory = true});
+  /// Widget-leg style override, merged on top of the component/app/defaults.
+  final ColorInputTheme? theme;
   State<ColorInput> createState();
 }
 ```

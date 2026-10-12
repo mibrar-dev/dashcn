@@ -1,35 +1,41 @@
 ---
 title: "Class: AccordionTheme"
-description: "Theme data used by [Accordion], [AccordionItem], and [AccordionTrigger]."
+description: "Theme container for the accordion component."
 ---
 
 ```dart
-/// Theme data used by [Accordion], [AccordionItem], and [AccordionTrigger].
-class AccordionTheme extends ComponentThemeData {
+/// Theme container for the accordion component.
+///
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class AccordionTheme extends ComponentThemeData implements Mergeable<AccordionTheme> {
   /// Creates an accordion theme.
-  const AccordionTheme({this.duration, this.curve, this.reverseCurve, this.padding, this.iconGap, this.dividerHeight, this.dividerColor, this.arrowIcon, this.arrowIconColor});
-  /// Animation duration when expanding/collapsing items.
+  const AccordionTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.duration, this.curve, this.reverseCurve, this.padding, this.iconGap, this.dividerHeight, this.dividerColor, this.arrowIcon, this.arrowIconColor});
+  /// Expand/collapse animation duration. Default: 200 ms.
   final Duration? duration;
-  /// Curve applied when expanding.
+  /// Curve applied while expanding. Default: easeIn.
   final Curve? curve;
-  /// Curve applied when collapsing.
+  /// Curve applied while collapsing. Default: easeOut.
   final Curve? reverseCurve;
-  /// Vertical padding around the trigger and content.
+  /// Vertical padding around triggers and content. Default: content density.
   final double? padding;
-  /// Spacing between the trigger content and the arrow icon.
+  /// Space between the trigger label and the arrow. Default: 16 × scaling.
   final double? iconGap;
-  /// Height of the dividers between items.
+  /// Height of the divider between items. Default: 1 × scaling.
   final double? dividerHeight;
-  /// Color of the dividers between items.
-  final Color? dividerColor;
-  /// Icon data used for the expand/collapse indicator.
+  /// Colour of the divider between items. Default: the `muted` token.
+  final ThemedColor? dividerColor;
+  /// Expand/collapse indicator. Default: Lucide `chevronUp`.
   final IconData? arrowIcon;
-  /// Color of the expand/collapse icon.
-  final Color? arrowIconColor;
-  /// Creates a copy of this theme with selective overrides.
-  AccordionTheme copyWith({ValueGetter<Duration?>? duration, ValueGetter<Curve?>? curve, ValueGetter<Curve?>? reverseCurve, ValueGetter<double?>? padding, ValueGetter<double?>? iconGap, ValueGetter<double?>? dividerHeight, ValueGetter<Color?>? dividerColor, ValueGetter<IconData?>? arrowIcon, ValueGetter<Color?>? arrowIconColor});
+  /// Colour of the indicator. Default: the `mutedForeground` token.
+  final ThemedColor? arrowIconColor;
+  /// Returns a copy with the given fields replaced.
+  AccordionTheme copyWith({ValueGetter<Duration?>? duration, ValueGetter<Curve?>? curve, ValueGetter<Curve?>? reverseCurve, ValueGetter<double?>? padding, ValueGetter<double?>? iconGap, ValueGetter<double?>? dividerHeight, ValueGetter<ThemedColor?>? dividerColor, ValueGetter<IconData?>? arrowIcon, ValueGetter<ThemedColor?>? arrowIconColor});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  AccordionTheme merge(AccordionTheme? fallback);
+  /// Curves, icons and colours step at `t = 0.5`; dimensions are lerped.
+  static AccordionTheme lerp(AccordionTheme a, AccordionTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  String toString();
 }
 ```

@@ -41,6 +41,26 @@ Found: docs app crashes at startup when the browser reports no locale (`RangeErr
 provided`) — pre-existing; fix queued for P9-Z.
 Infra fixes: launchers auto-continue until the report has `## RESULT`; unique `__AGENT_EXIT__` sentinel.
 
+## P8-2 plain-name rename — ACCEPTED
+Map approved by the orchestrator (33 proposed entries; comments citing the upstream design → "upstream"; locals
+`shadcn` → `themeData`). Codemod `tool/rename_api*.dart` (token-exact, unresolved AST, 16 tests) + guardrail
+`tool/check_names.dart` (wired into qa_gate) + inventory `rearch/plans/api_inventory.json`. Mirrors renamed to
+`ui/dashcn` and regenerated, not codemodded.
+Incidents: (1) `maskAllow` kept the matched text → infinite loop on the first allow-listed file (looked like
+"slowness" for ~3 h); found by the orchestrator. (2) first apply renamed half of each pair and was hand-patched
+(`this.theme`) — tree reset to HEAD, valuable tools kept, fresh agent redid it cleanly. (3) OpenCode hung 18 min
+compacting a huge context — killed, session resumed.
+Orchestrator QA fixes: string rule had turned the real repo name `shadcn_flutter_kit` into `dashcn_kit` (Pages base
+path → broken routing on the live site; skills install URLs → non-existent repo; `pub add dashcn_kit` on every
+component page) — restored/fixed, repo name allow-listed until the repo is renamed; "matches dashcn/ui" →
+"the upstream web kit"; CI workflow paths (`flutter_shadcn_kit`, `lib/registry`) fixed — CI had been broken since P8-1;
+docs analyzer exclude → `ui/dashcn`.
+Gates (orchestrator): kit +4518/+42, tool +16, rename --check none pending, check_names 0, generators --check, docs
++232, gen/sync --check, build web; site title "dashcn", renders.
+Open for later: pub dry-run warns "13 checked-in files ignored by .gitignore" (git itself finds none) → P8-6;
+docs config/README/pubspec still say flutter_shadcn_kit → P8-4; `flutter_cli_verification_example/.shadcn/` CLI cache
+→ P8-3.
+
 ## Next
-1. P8-2 plain-name rename (opencode-go/muse-spark-1.3-contributor#xhigh) — stops at the rename map; orchestrator approves.
-2. P8-3 CLI ∥ P9 Wave A, then B → C → D → Z per features plan.
+1. P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
+2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

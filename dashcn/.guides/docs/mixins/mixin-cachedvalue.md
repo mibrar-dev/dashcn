@@ -1,12 +1,12 @@
 ---
 title: "Mixin: CachedValue"
-description: "Mixin for values that need custom rebuild logic."
+description: "A value that decides whether a dependent must rebuild when it changes."
 ---
 
 ```dart
-/// Mixin for values that need custom rebuild logic.
+/// A value that decides whether a dependent must rebuild when it changes.
 mixin CachedValue {
-  /// Determines if the widget should rebuild when value changes.
+  /// Whether a cached dependent must rebuild when [oldValue] is replaced.
   bool shouldRebuild(covariant CachedValue oldValue);
 }
 ```

@@ -21,7 +21,7 @@ int _overlayGeneration = 0;
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TrackerTheme? scoped,
   double width = 320,
@@ -30,7 +30,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<TrackerTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -110,7 +110,7 @@ void main() {
       );
       expect(
         clip.borderRadius,
-        BorderRadius.circular(const ShadcnThemeData().radiusMd),
+        BorderRadius.circular(const ThemeData().radiusMd),
       );
     });
 
@@ -126,10 +126,10 @@ void main() {
     testWidgets('each level paints its default fill', (tester) async {
       await tester.pumpWidget(_frame(const Tracker(data: _data)));
       final List<ColoredBox> segments = _segments(tester);
-      // `fine` / `warning` have no shadcn token of their own, so they borrow
+      // `fine` / `warning` have no upstream token of their own, so they borrow
       // the green and amber slots of the categorical scale (chart2 / chart4);
-      // `critical` / `unknown` keep shadcn's own tokens.
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      // `critical` / `unknown` keep upstream's own tokens.
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(segments[0].color, trackerDefaults.fine!.resolve(colors));
       expect(segments[1].color, trackerDefaults.warning!.resolve(colors));
       expect(segments[2].color, colors.destructive);
@@ -142,12 +142,12 @@ void main() {
       await tester.pumpWidget(
         _frame(
           const Tracker(data: _data),
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
         ),
       );
       final List<ColoredBox> segments = _segments(tester);
-      expect(segments[2].color, ShadcnColors.darkFallback.destructive);
-      expect(segments[3].color, ShadcnColors.darkFallback.mutedForeground);
+      expect(segments[2].color, ThemeColors.darkFallback.destructive);
+      expect(segments[3].color, ThemeColors.darkFallback.mutedForeground);
     });
   });
 
@@ -255,7 +255,7 @@ void main() {
 
   group('defaults table', () {
     test('the token rows match the tracker levels', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(
         trackerDefaults.forLevel(TrackerLevel.critical)?.resolve(colors),
         colors.destructive,

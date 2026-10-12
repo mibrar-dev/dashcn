@@ -1,28 +1,22 @@
 ---
 title: "Mixin: Choice"
-description: "A mixin that provides choice selection functionality."
+description: "The selection protocol every choice item reads from its scope."
 ---
 
 ```dart
-/// A mixin that provides choice selection functionality.
+/// The selection protocol every choice item reads from its scope.
 ///
-/// [Choice] defines the interface for widgets that support item selection,
-/// typically used in multiple choice or single choice scenarios. It provides
-/// static methods to interact with choice widgets in the widget tree.
+/// Items call [Choice.choose] / [Choice.getValue] with the nearest scope; any
+/// widget can be a choice item as long as it does that.
 mixin Choice<T> {
-  /// Selects an item in the nearest [Choice] ancestor.
-  ///
-  /// Parameters:
-  /// - [context]: The build context to search for Choice widget.
-  /// - [item]: The item to select.
+  /// Selects (or toggles) [item] in the nearest scope.
   static void choose<T>(BuildContext context, T item);
-  /// Gets the current selected value(s) from the nearest [Choice] ancestor.
-  ///
-  /// Returns: The currently selected items, or null if none selected.
+  /// The selected items of the nearest scope, or null when there is none.
   static Iterable<T>? getValue<T>(BuildContext context);
-  /// Selects the specified item.
+  /// Applies one user selection to this scope.
   void selectItem(T item);
-  /// Gets the currently selected items.
+  /// The current selection: one item for [MultipleChoice], all items for
+  /// [MultipleAnswer].
   Iterable<T>? get value;
 }
 ```

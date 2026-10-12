@@ -68,15 +68,15 @@ class Density {
   final double baseContentPadding;
 
   /// Scale of this density relative to [defaultDensity]: exactly 1 at the
-  /// shadcn reference density (16/16/8), 0.5 at compact, 1.25 at comfortable.
+  /// upstream reference density (16/16/8), 0.5 at compact, 1.25 at comfortable.
   ///
-  /// The `button` size table scales every shadcn px value with this factor
+  /// The `button` size table scales every upstream px value with this factor
   /// (`_buttonMetricsFor`); [EdgeInsetsDensity.pxSymmetric] is the const
   /// spelling of the same rule for theme defaults.
   double get scale =>
       baseContentPadding / Density.defaultDensity.baseContentPadding;
 
-  /// Density base at [defaultDensity]: the divisor that turns a shadcn px
+  /// Density base at [defaultDensity]: the divisor that turns a upstream px
   /// value into an [EdgeInsetsDensity] multiplier.
   static const double pxBase = 16.0;
 
@@ -173,11 +173,11 @@ class EdgeInsetsDensity extends EdgeInsets
     super.horizontal = 0.0,
   }) : super.symmetric();
 
-  /// Padding whose sides are shadcn px values at the default density.
+  /// Padding whose sides are upstream px values at the default density.
   ///
-  /// `EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 2)` is shadcn
+  /// `EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 2)` is upstream
   /// `px-2 py-0.5`: every side resolves to `px * base / 16`, so at
-  /// [Density.defaultDensity] the padding measures exactly the shadcn value
+  /// [Density.defaultDensity] the padding measures exactly the upstream value
   /// and every other density scales it by [Density.scale] — the rule the
   /// `button` size table spells out per size.
   const EdgeInsetsDensity.pxSymmetric({
@@ -190,7 +190,7 @@ class EdgeInsetsDensity extends EdgeInsets
          bottom: vertical / Density.pxBase,
        );
 
-  /// `EdgeInsets.all` in shadcn px at the default density.
+  /// `EdgeInsets.all` in upstream px at the default density.
   const EdgeInsetsDensity.pxAll(double px)
     : super.only(
         left: px / Density.pxBase,
@@ -236,7 +236,7 @@ class DensityContentPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: resolveEdgeInsets(
         padding,
@@ -260,7 +260,7 @@ class DensityContainerPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: resolveEdgeInsets(
         padding,
@@ -294,8 +294,8 @@ class AdaptiveScaling {
   });
 
   /// Returns a copy of [theme] with radius/sizing/typography/icon sizes
-  /// scaled. Takes [ShadcnThemeData] (new tree) — same factors as before.
-  ShadcnThemeData scale(ShadcnThemeData theme) {
+  /// scaled. Takes [ThemeData] (new tree) — same factors as before.
+  ThemeData scale(ThemeData theme) {
     return theme.copyWith(
       tokens: radiusScaling == 1
           ? null
@@ -337,11 +337,11 @@ class AdaptiveScaler extends StatelessWidget {
 
   /// Mobile scaling on iOS/Android, desktop elsewhere.
   static AdaptiveScaling defaultScalingOf(BuildContext context) {
-    return defaultScaling(ShadcnTheme.of(context));
+    return defaultScaling(Theme.of(context));
   }
 
   /// Mobile scaling on iOS/Android, desktop elsewhere.
-  static AdaptiveScaling defaultScaling(ShadcnThemeData theme) {
+  static AdaptiveScaling defaultScaling(ThemeData theme) {
     switch (theme.platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.android:
@@ -356,7 +356,7 @@ class AdaptiveScaler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return ShadcnTheme(data: scaling.scale(theme), child: child);
+    final theme = Theme.of(context);
+    return Theme(data: scaling.scale(theme), child: child);
   }
 }

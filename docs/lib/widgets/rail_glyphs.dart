@@ -7,7 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../theme/theme_document.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'theme_rail.dart' show docsRailText;
 
 class RailAaGlyph extends StatelessWidget {
@@ -31,7 +31,7 @@ class RailAaGlyph extends StatelessWidget {
 class RailRadiusGlyph extends StatelessWidget {
   const RailRadiusGlyph({super.key, required this.theme});
 
-  final ShadcnThemeData theme;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -49,7 +49,7 @@ class RailRadiusGlyph extends StatelessWidget {
 class RailSpacingGlyph extends StatelessWidget {
   const RailSpacingGlyph({super.key, required this.theme});
 
-  final ShadcnThemeData theme;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -96,7 +96,7 @@ class RailShadowGlyph extends StatelessWidget {
 
 /// The muted foreground a glyph paints in.
 Color railGlyphMuted(BuildContext context) =>
-    ShadcnTheme.of(context).colors.mutedForeground;
+    Theme.of(context).colors.mutedForeground;
 
 /// The first family of a CSS family list.
 String? railFirstFamilyOf(String? spec) {

@@ -65,7 +65,7 @@ class CommandTheme extends ComponentThemeData
   /// Text/icon colour while an item is highlighted.
   final ThemedColor? itemHighlightForeground;
 
-  /// Padding inside one result row: shadcn `px-2 py-1.5` (8/6) as density
+  /// Padding inside one result row: upstream `px-2 py-1.5` (8/6) as density
   /// multipliers.
   ///
   /// `Command` never builds the rows — the app supplies them through
@@ -239,7 +239,7 @@ class CommandTheme extends ComponentThemeData
   }
 }
 
-/// Default item padding: shadcn `px-2 py-1.5` as density multipliers, to be
+/// Default item padding: upstream `px-2 py-1.5` as density multipliers, to be
 /// resolved by the host of the row that paints it (`Command` never builds the
 /// rows, the app's `CommandBuilder` does).
 const EdgeInsetsGeometry commandDefaultItemPadding =
@@ -266,7 +266,7 @@ const CommandTheme commandDefaults = CommandTheme(
 
 /// A keyboard-shortcut label for a command row.
 ///
-/// shadcn's `CommandShortcut`: extra-small type, wide tracking, muted colour,
+/// upstream's `CommandShortcut`: extra-small type, wide tracking, muted colour,
 /// right-aligned. Pass it as the `trailing` widget of a `SubFocusListItem`
 /// (the expanded title pushes it to the trailing edge); keyboard-*key* visuals
 /// beyond this text belong to the `keyboard_shortcut` component.
@@ -279,7 +279,7 @@ class CommandShortcut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final CommandTheme resolved =
         resolveComponentStyle<CommandTheme, CommandTheme>(
           context,
@@ -296,7 +296,7 @@ class CommandShortcut extends StatelessWidget {
         textAlign: TextAlign.end,
         style: theme.typography.xSmall.copyWith(
           color: color,
-          // shadcn `tracking-widest` (0.1em); preset tracking wins when set.
+          // upstream `tracking-widest` (0.1em); preset tracking wins when set.
           letterSpacing: theme.tracking.wide ?? 1.2,
         ),
       ),

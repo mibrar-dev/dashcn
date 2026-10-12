@@ -122,7 +122,7 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ColorPickerTheme style = _style(context);
     final ColorDerivative value = _value;
     final ColorHistoryStorage? history = Data.maybeFind<ColorHistoryStorage>(
@@ -320,7 +320,7 @@ class ColorPickerControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     final bool historyToggle = showHistoryButton && history != null;
     final List<Widget> fields = colorPickerFields(
       context,
@@ -393,7 +393,7 @@ class ColorPickerControls extends StatelessWidget {
 }
 
 /// Localized tab label of [mode] (`RGB` / `HSL` / `HSV` / `HEX`).
-String _modeLabel(ShadcnLocalizations l10n, ColorPickerMode mode) =>
+String _modeLabel(ComponentLocalizations l10n, ColorPickerMode mode) =>
     switch (mode) {
       ColorPickerMode.rgb => l10n.colorPickerTabRGB,
       ColorPickerMode.hsl => l10n.colorPickerTabHSL,

@@ -43,7 +43,7 @@ class Sidebar01Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,7 +111,7 @@ class _Sidebar01Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final int columns = constraints.maxWidth >= 640 ? 3 : 1;
@@ -160,7 +160,7 @@ class _Sidebar01Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Kara moved Design review to Thursday', '2h ago'),
       ('Billing sent Invoice 4821', 'Yesterday'),
@@ -205,7 +205,7 @@ class _Sidebar01Row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.md),
       child: Column(

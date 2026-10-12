@@ -1,31 +1,17 @@
 ---
 title: "Class: StepItem"
-description: "A vertical step indicator widget that displays a step's title and content."
+description: "A step's title plus its content rows."
 ---
 
 ```dart
-/// A vertical step indicator widget that displays a step's title and content.
-///
-/// Typically used as children within [Steps] to create a multi-step
-/// process visualization. Displays a title in bold followed by content items.
-///
-/// Example:
-/// ```dart
-/// StepItem(
-///   title: Text('Step Title'),
-///   content: [
-///     Text('Step description'),
-///     Text('Additional details'),
-///   ],
-/// )
-/// ```
+/// A step's title plus its content rows.
 class StepItem extends StatelessWidget {
-  /// The title of this step, displayed prominently.
-  final Widget title;
-  /// List of content widgets to display under the title.
-  final List<Widget> content;
-  /// Creates a [StepItem].
+  /// Creates a step item.
   const StepItem({super.key, required this.title, required this.content});
+  /// The step title, rendered as a level-4 heading.
+  final Widget title;
+  /// Content rows shown under the title.
+  final List<Widget> content;
   Widget build(BuildContext context);
 }
 ```

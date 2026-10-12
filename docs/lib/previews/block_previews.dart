@@ -11,37 +11,37 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'package:docs/ui/shadcn/blocks/login-01/login_01.dart'
+import 'package:docs/ui/dashcn/blocks/login-01/login_01.dart'
     deferred as block_login_01;
-import 'package:docs/ui/shadcn/blocks/login-02/login_02.dart'
+import 'package:docs/ui/dashcn/blocks/login-02/login_02.dart'
     deferred as block_login_02;
-import 'package:docs/ui/shadcn/blocks/login-03/login_03.dart'
+import 'package:docs/ui/dashcn/blocks/login-03/login_03.dart'
     deferred as block_login_03;
-import 'package:docs/ui/shadcn/blocks/otp-01/otp_01.dart'
+import 'package:docs/ui/dashcn/blocks/otp-01/otp_01.dart'
     deferred as block_otp_01;
-import 'package:docs/ui/shadcn/blocks/signup-01/signup_01.dart'
+import 'package:docs/ui/dashcn/blocks/signup-01/signup_01.dart'
     deferred as block_signup_01;
-import 'package:docs/ui/shadcn/blocks/signup-02/signup_02.dart'
+import 'package:docs/ui/dashcn/blocks/signup-02/signup_02.dart'
     deferred as block_signup_02;
-import 'package:docs/ui/shadcn/blocks/calendar-01/calendar_01.dart'
+import 'package:docs/ui/dashcn/blocks/calendar-01/calendar_01.dart'
     deferred as block_calendar_01;
-import 'package:docs/ui/shadcn/blocks/calendar-02/calendar_02.dart'
+import 'package:docs/ui/dashcn/blocks/calendar-02/calendar_02.dart'
     deferred as block_calendar_02;
-import 'package:docs/ui/shadcn/blocks/dashboard-01/dashboard_01.dart'
+import 'package:docs/ui/dashcn/blocks/dashboard-01/dashboard_01.dart'
     deferred as block_dashboard_01;
-import 'package:docs/ui/shadcn/blocks/dashboard-02/dashboard_02.dart'
+import 'package:docs/ui/dashcn/blocks/dashboard-02/dashboard_02.dart'
     deferred as block_dashboard_02;
-import 'package:docs/ui/shadcn/blocks/pricing-01/pricing_01.dart'
+import 'package:docs/ui/dashcn/blocks/pricing-01/pricing_01.dart'
     deferred as block_pricing_01;
-import 'package:docs/ui/shadcn/blocks/account-01/account_01.dart'
+import 'package:docs/ui/dashcn/blocks/account-01/account_01.dart'
     deferred as block_account_01;
-import 'package:docs/ui/shadcn/blocks/account-02/account_02.dart'
+import 'package:docs/ui/dashcn/blocks/account-02/account_02.dart'
     deferred as block_account_02;
-import 'package:docs/ui/shadcn/blocks/sidebar-01/sidebar_01.dart'
+import 'package:docs/ui/dashcn/blocks/sidebar-01/sidebar_01.dart'
     deferred as block_sidebar_01;
-import 'package:docs/ui/shadcn/blocks/sidebar-02/sidebar_02.dart'
+import 'package:docs/ui/dashcn/blocks/sidebar-02/sidebar_02.dart'
     deferred as block_sidebar_02;
-import 'package:docs/ui/shadcn/blocks/sidebar-03/sidebar_03.dart'
+import 'package:docs/ui/dashcn/blocks/sidebar-03/sidebar_03.dart'
     deferred as block_sidebar_03;
 
 /// Loads the preview widget for [blockId], fetching its deferred

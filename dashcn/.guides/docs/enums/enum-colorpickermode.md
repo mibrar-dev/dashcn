@@ -1,10 +1,11 @@
 ---
 title: "Enum: ColorPickerMode"
-description: "Supported modes for the color picker inputs and sliders."
+description: "Which colour space the picker's numeric fields and pad use: `hsl` drives  an HSL saturation/lightness pad, the others the HSV saturation/value pad."
 ---
 
 ```dart
-/// Supported modes for the color picker inputs and sliders.
+/// Which colour space the picker's numeric fields and pad use: `hsl` drives
+/// an HSL saturation/lightness pad, the others the HSV saturation/value pad.
 enum ColorPickerMode {
   rgb,
   hsl,

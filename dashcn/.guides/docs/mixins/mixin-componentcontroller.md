@@ -1,18 +1,13 @@
 ---
 title: "Mixin: ComponentController"
-description: "A mixin that defines the interface for controlling component values."
+description: "The value interface a component exposes so it can be driven from outside."
 ---
 
 ```dart
-/// A mixin that defines the interface for controlling component values.
+/// The value interface a component exposes so it can be driven from outside.
 ///
-/// This mixin combines the capabilities of [ValueNotifier] to provide
-/// a standardized way for widgets to expose their current value and
-/// notify listeners of changes. Components that implement this interface
-/// can be controlled programmatically and integrated with form validation
-/// systems.
-///
-/// The generic type [T] represents the type of value this controller manages.
+/// Adds nothing to [ValueNotifier]; it names the role so a form or a screen
+/// can hold a controller for any controlled component without knowing its type.
 mixin ComponentController<T> implements ValueNotifier<T> {
 }
 ```

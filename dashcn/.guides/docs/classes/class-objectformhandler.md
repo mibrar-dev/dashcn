@@ -1,25 +1,21 @@
 ---
 title: "Class: ObjectFormHandler"
-description: "Abstract interface for controlling an object form field's state."
+description: "Controls an open object editor from inside `editorBuilder`."
 ---
 
 ```dart
-/// Abstract interface for controlling an object form field's state.
-///
-/// [ObjectFormHandler] provides methods to interact with an object form field,
-/// including getting/setting values and controlling the editor visibility.
+/// Controls an open object editor from inside `editorBuilder`.
 abstract class ObjectFormHandler<T> {
-  /// Gets the current value.
+  /// The value the editor is working on.
   T? get value;
-  /// Sets the current value.
+  /// Updates the editor's working value.
   set value(T? value);
-  /// Opens the editor with an optional initial value.
+  /// Opens another prompt with [value].
   void prompt([T? value]);
-  /// Closes the editor.
+  /// Closes the editor; completes when its route/overlay is gone.
   Future<void> close();
-  /// Finds the [ObjectFormHandler] in the widget tree.
+  /// Nearest handler (`find` returns null instead of asserting).
   static ObjectFormHandler<T> of<T>(BuildContext context);
-  /// Finds the [ObjectFormHandler] in the widget tree (alternative method).
-  static ObjectFormHandler<T> find<T>(BuildContext context);
+  static ObjectFormHandler<T>? find<T>(BuildContext context);
 }
 ```

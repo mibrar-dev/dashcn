@@ -61,7 +61,7 @@ class _ControllerSwitchState extends State<_ControllerSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Wrap(
       spacing: spacing.lg,
       runSpacing: spacing.sm,
@@ -83,7 +83,7 @@ Widget _switchRows(BuildContext context) => const _SwitchRows();
 
 /// On and off switches with no callback, so both are disabled.
 Widget _disabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.md,
@@ -94,7 +94,7 @@ Widget _disabled(BuildContext context) {
   );
 }
 
-/// A stack of switch rows: the group gap (shadcn `gap-3`) between them, the
+/// A stack of switch rows: the group gap (upstream `gap-3`) between them, the
 /// same one the radio group and a checkbox list use.
 class _SwitchRows extends StatefulWidget {
   const _SwitchRows();
@@ -109,7 +109,7 @@ class _SwitchRowsState extends State<_SwitchRows> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

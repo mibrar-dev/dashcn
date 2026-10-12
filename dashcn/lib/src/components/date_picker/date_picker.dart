@@ -55,13 +55,13 @@ DatePickerTheme _resolveDatePickerTheme(
 
 /// Card padding of the date picker prompt: `p-0`.
 ///
-/// The calendar paints its own `p-3` shell (shadcn puts `p-3` on the
+/// The calendar paints its own `p-3` shell (upstream puts `p-3` on the
 /// `DayPicker` root and `p-0` on the popover), so an extra card padding would
 /// show up as a second, uneven frame around the grid. The footer carries the
-/// only separator, exactly as shadcn's picker dialogs do.
+/// only separator, exactly as upstream's picker dialogs do.
 const EdgeInsetsGeometry datePickerDialogPadding = EdgeInsets.zero;
 
-/// Footer row padding of the date picker prompt: shadcn `p-3`, painted with a
+/// Footer row padding of the date picker prompt: upstream `p-3`, painted with a
 /// hairline top border so the action row is visually separate from the grid.
 final EdgeInsetsGeometry datePickerDialogFooterPadding =
     EdgeInsetsDensity.pxAll(12);
@@ -69,7 +69,7 @@ final EdgeInsetsGeometry datePickerDialogFooterPadding =
 /// A single-date field: a trigger showing the value (or the localized
 /// placeholder) that opens a [DatePickerDialog] in a dialog or a popover.
 ///
-/// The trigger hugs its content (at least 240 shadcn px, `w-[240px]`): the
+/// The trigger hugs its content (at least 240 upstream px, `w-[240px]`): the
 /// calendar icon leads, the label is left-aligned, the placeholder is muted.
 /// Pass [expand] for a full-width field.
 class DatePicker extends StatelessWidget {
@@ -109,8 +109,8 @@ class DatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     return ObjectFormField<DateTime>(
       value: value,
       onChanged: onChanged,
@@ -123,7 +123,7 @@ class DatePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
-      // shadcn's date trigger is `w-[240px]`; longer labels still grow.
+      // upstream's date trigger is `w-[240px]`; longer labels still grow.
       triggerMinWidth: 240,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
@@ -194,8 +194,8 @@ class DateRangePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     return ObjectFormField<DateTimeRange>(
       value: value,
       onChanged: onChanged,
@@ -322,7 +322,7 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
     };
   });
 
-  String _header(ShadcnLocalizations strings) => switch (_viewType) {
+  String _header(ComponentLocalizations strings) => switch (_viewType) {
     CalendarViewType.date => '${strings.getMonth(_view.month)} ${_view.year}',
     CalendarViewType.month => '${_view.year}',
     CalendarViewType.year => strings.datePickerSelectYear,
@@ -359,12 +359,12 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // shadcn's caption row: `h-8` chevrons either side of a `text-sm`
+        // upstream's caption row: `h-8` chevrons either side of a `text-sm`
         // caption. `mainAxisSize.min` and a caption that hugs its label keep
         // the row's width to the caption, so a shrink-wrapping dialog card is
         // sized by the calendar grid (the widest child) and nothing else.
@@ -407,9 +407,9 @@ class _HeaderButton extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double scale = theme.density.scale * theme.scaling;
-    // shadcn's caption row: the two step buttons are `size-(--cell-size)`
+    // upstream's caption row: the two step buttons are `size-(--cell-size)`
     // (32) with `p-0`, and the caption itself is `h-8 px-2 text-sm`. Both
     // resolve to the same box, so the header row keeps the grid's pitch.
     final double slot = calendarDayCellSize * scale;

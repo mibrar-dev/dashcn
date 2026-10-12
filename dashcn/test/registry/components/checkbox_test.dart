@@ -33,7 +33,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CheckboxTheme? scopedTheme,
   FormFieldHandle? formHandle,
@@ -45,7 +45,7 @@ Widget _frame({
   if (formHandle != null) {
     body = Data<FormFieldHandle>.inherit(data: formHandle, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -140,8 +140,8 @@ void main() {
         expect(
           _decoration(tester, const <WidgetState>{}).color,
           value == CheckboxValue.unchecked
-              ? _alpha(ShadcnColors.lightFallback.input, 0)
-              : ShadcnColors.lightFallback.primary,
+              ? _alpha(ThemeColors.lightFallback.input, 0)
+              : ThemeColors.lightFallback.primary,
         );
       }
     });
@@ -149,7 +149,7 @@ void main() {
     testWidgets('checked uses primary fill and primaryForeground indicator', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Checkbox(value: CheckboxValue.checked)),
       );
@@ -160,7 +160,7 @@ void main() {
     });
 
     testWidgets('unchecked is unfilled with an input border', (tester) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Checkbox(value: CheckboxValue.unchecked)),
       );
@@ -375,7 +375,7 @@ void main() {
       await tester.pump();
       expect(
         _decoration(tester, const <WidgetState>{}).color,
-        _alpha(ShadcnColors.lightFallback.input, 0),
+        _alpha(ThemeColors.lightFallback.input, 0),
       );
     });
 
@@ -494,12 +494,12 @@ void main() {
         ),
       );
       // Rest paints the primary token; the hovered row is primary @0.9.
-      expect(_box(tester).color, ShadcnColors.lightFallback.primary);
+      expect(_box(tester).color, ThemeColors.lightFallback.primary);
       final Color? hovered = checkboxDefaults.checked?.background
           ?.resolve(const <WidgetState>{WidgetState.hovered})
-          ?.resolve(ShadcnColors.lightFallback);
+          ?.resolve(ThemeColors.lightFallback);
       expect(hovered, isNotNull);
-      expect(hovered!.a, lessThan(ShadcnColors.lightFallback.primary.a));
+      expect(hovered!.a, lessThan(ThemeColors.lightFallback.primary.a));
     });
   });
 
@@ -675,7 +675,7 @@ void main() {
           child: const Checkbox(value: CheckboxValue.checked, onChanged: _noop),
         ),
       );
-      expect(_box(tester).color, ShadcnColors.lightFallback.primary);
+      expect(_box(tester).color, ThemeColors.lightFallback.primary);
       // The hovered row comes from the override leg (merged over defaults).
       const CheckboxStyle override = CheckboxStyle(
         background: StateValue(hovered: ThemedColor.value(_green)),
@@ -684,7 +684,7 @@ void main() {
           .merge(checkboxDefaults.checked)
           .background
           ?.resolve(const <WidgetState>{WidgetState.hovered})
-          ?.resolve(ShadcnColors.lightFallback);
+          ?.resolve(ThemeColors.lightFallback);
       expect(hovered, _green);
     });
 
@@ -704,23 +704,23 @@ void main() {
       );
       expect(
         _decoration(tester, const <WidgetState>{}).color,
-        ShadcnColors.lightFallback.primary,
+        ThemeColors.lightFallback.primary,
       );
       await tester.tap(find.byType(Checkbox));
       await tester.pump();
       expect(
         _decoration(tester, const <WidgetState>{}).color,
-        _alpha(ShadcnColors.lightFallback.input, 0),
+        _alpha(ThemeColors.lightFallback.input, 0),
       );
     });
   });
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Checkbox(value: CheckboxValue.checked, onChanged: _noop),
         ),
       );
@@ -732,7 +732,7 @@ void main() {
     testWidgets('regression: disabled keeps the rest colours at 50% opacity', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(child: const Checkbox(value: CheckboxValue.checked)),
       );

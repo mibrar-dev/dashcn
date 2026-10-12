@@ -47,10 +47,10 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -82,9 +82,9 @@ Command _command({
 
 void main() {
   testWidgets('renders streamed results and the empty state', (tester) async {
-    for (final ShadcnThemeData data in <ShadcnThemeData>[
-      const ShadcnThemeData(),
-      const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+    for (final ThemeData data in <ThemeData>[
+      const ThemeData(),
+      const ThemeData(colors: ThemeColors.darkFallback),
     ]) {
       await tester.pumpWidget(
         _frame(
@@ -105,9 +105,9 @@ void main() {
   testWidgets('CommandShortcut renders muted, tracked and right-aligned', (
     tester,
   ) async {
-    for (final ShadcnThemeData data in <ShadcnThemeData>[
-      const ShadcnThemeData(),
-      const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+    for (final ThemeData data in <ThemeData>[
+      const ThemeData(),
+      const ThemeData(colors: ThemeColors.darkFallback),
     ]) {
       await tester.pumpWidget(
         _frame(

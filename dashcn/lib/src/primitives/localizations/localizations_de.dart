@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// German (`de`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsDe extends ShadcnLocalizations {
+class ComponentLocalizationsDe extends ComponentLocalizations {
   /// Creates the German strings.
-  const ShadcnLocalizationsDe([super.locale = const Locale('de')]);
+  const ComponentLocalizationsDe([super.locale = const Locale('de')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

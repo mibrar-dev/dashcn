@@ -1,78 +1,51 @@
 ---
 title: "Class: MultiSelect"
-description: "A customizable dropdown selection widget for multi-value selection."
+description: "A multi-selection dropdown."
 ---
 
 ```dart
-/// A customizable dropdown selection widget for multi-value selection.
+/// A multi-selection dropdown.
 ///
-/// Extends the base select functionality to support selecting multiple items
-/// simultaneously. Displays selected items as removable chips within the trigger.
-///
-/// Example:
-/// ```dart
-/// MultiSelect<String>(
-///   value: selectedItems,
-///   onChanged: (items) => setState(() => selectedItems = items),
-///   popup: SelectPopup.menu(children: [...]),
-///   multiItemBuilder: (context, item) => Text(item),
-/// )
-/// ```
-class MultiSelect<T> extends StatelessWidget with SelectBase<Iterable<T>> {
-  final ValueChanged<Iterable<T>?>? onChanged;
-  final Widget? placeholder;
-  final bool filled;
-  final FocusNode? focusNode;
-  final BoxConstraints? constraints;
-  final BoxConstraints? popupConstraints;
-  final PopoverConstraint popupWidthConstraint;
-  /// The currently selected values.
+/// [_itemBuilder] renders one selected value in the trigger (usually a
+/// [MultiSelectChip]); the popup rows are [MultiSelectItem]s built from
+/// [items] or the asynchronous [builder]. Picking a row toggles it and keeps
+/// the popup open; a chip's remove control clears its value.
+class MultiSelect<T> extends StatelessWidget {
+  /// Creates a multi-selection dropdown.
+  const MultiSelect({super.key, required this.itemBuilder, this.value, this.onChanged, this.enabled, this.placeholder, this.items, this.builder, this.searchPlaceholder, this.focusNode, this.expandIcon = const Icon(LucideIcons.chevronsUpDown), this.canUnselect = true, this.autoClose = false, this.popupConstraints, this.valueSelectionHandler, this.valueSelectionPredicate, this.theme});
+  /// Builds one selected value in the trigger (usually a `MultiSelectChip`).
+  final SelectValueBuilder<T> itemBuilder;
+  /// The selected values.
   final Iterable<T>? value;
-  final BorderRadiusGeometry? borderRadius;
-  final EdgeInsetsGeometry? padding;
-  final AlignmentGeometry popoverAlignment;
-  final AlignmentGeometry? popoverAnchorAlignment;
-  final bool disableHoverEffect;
-  final bool canUnselect;
-  final bool? autoClosePopover;
-  /// Whether the multi-select is enabled for user interaction.
+  /// Called with the next selection; null disables the select.
+  final ValueChanged<Iterable<T>?>? onChanged;
+  /// Overrides the enabled state; null means `onChanged != null`.
   final bool? enabled;
-  final SelectPopupBuilder popup;
-  SelectValueBuilder<Iterable<T>> get itemBuilder;
+  /// Shown in the trigger while no value is selected.
+  final Widget? placeholder;
+  /// The popup rows; ignored when [builder] is set.
+  final FutureOr<List<Widget>>? items;
+  /// Builds the popup rows for a search query; enables the search field.
+  final SelectItemsBuilder? builder;
+  /// Placeholder of the search field (shown when [builder] is set).
+  final Widget? searchPlaceholder;
+  /// Trigger focus node.
+  final FocusNode? focusNode;
+  /// Trigger trailing icon; null hides it.
+  final Widget? expandIcon;
+  /// Whether picking a selected item removes it. Default: true.
+  final bool canUnselect;
+  /// Whether picking an item closes the popup. Default: false, so several
+  /// values can be toggled in a row.
+  final bool autoClose;
+  /// Popup size constraints; null resolves `SelectTheme.constraints`.
+  final BoxConstraints? popupConstraints;
+  /// Custom selection mapping; null toggles the item.
   final SelectValueSelectionHandler<Iterable<T>>? valueSelectionHandler;
+  /// Custom selection test; null is `value.contains(test)`.
   final SelectValueSelectionPredicate<Iterable<T>>? valueSelectionPredicate;
-  /// Builder for rendering individual items in the chip display.
-  final SelectValueBuilder<T> multiItemBuilder;
-  final Predicate<Iterable<T>>? showValuePredicate;
-  /// Creates a multi-selection dropdown widget.
-  ///
-  /// Allows selecting multiple items from a dropdown list, displaying them as chips.
-  /// The [value], [popup], and [itemBuilder] parameters are required.
-  ///
-  /// Parameters:
-  /// - [key] (Key?): Widget key for controlling widget identity
-  /// - [onChanged] (`ValueChanged<Iterable<T>?>?`): Callback when selection changes; if null, widget is disabled
-  /// - [placeholder] (Widget?): Widget shown when no values are selected
-  /// - [filled] (bool): Whether to use filled background style, defaults to false
-  /// - [focusNode] (FocusNode?): Focus node for keyboard interaction
-  /// - [constraints] (BoxConstraints?): Size constraints for the select button
-  /// - [popupConstraints] (BoxConstraints?): Size constraints for the popup menu
-  /// - [popupWidthConstraint] (PopoverConstraint): Width constraint mode for popup, defaults to `PopoverConstraint.anchorFixedSize`
-  /// - [value] (`Iterable<T>`): Required currently selected values
-  /// - [disableHoverEffect] (bool): Whether to disable hover visual feedback, defaults to false
-  /// - [borderRadius] (BorderRadiusGeometry?): Custom border radius
-  /// - [padding] (EdgeInsetsGeometry?): Custom padding
-  /// - [popoverAlignment] (AlignmentGeometry): Popup alignment, defaults to `Alignment.topCenter`
-  /// - [popoverAnchorAlignment] (AlignmentGeometry?): Anchor alignment for popup positioning
-  /// - [canUnselect] (bool): Whether user can deselect items, defaults to true
-  /// - [autoClosePopover] (bool?): Whether popup closes after selection, defaults to false
-  /// - [enabled] (bool?): Whether multi-select is enabled for interaction
-  /// - [valueSelectionHandler] (`SelectValueSelectionHandler<Iterable<T>>?`): Custom selection logic
-  /// - [valueSelectionPredicate] (`SelectValueSelectionPredicate<Iterable<T>>?`): Predicate for allowing selection
-  /// - [showValuePredicate] (`Predicate<Iterable<T>>?`): Predicate for showing items
-  /// - [popup] (SelectPopupBuilder): Required builder for popup content
-  /// - [itemBuilder] (`SelectValueBuilder<T>`): Required builder for individual chip items
-  const MultiSelect({super.key, this.onChanged, this.placeholder, this.filled = false, this.focusNode, this.constraints, this.popupConstraints, this.popupWidthConstraint = PopoverConstraint.anchorFixedSize, required this.value, this.disableHoverEffect = false, this.borderRadius, this.padding, this.popoverAlignment = Alignment.topCenter, this.popoverAnchorAlignment, this.canUnselect = true, this.autoClosePopover = false, this.enabled, this.valueSelectionHandler, this.valueSelectionPredicate, this.showValuePredicate, required this.popup, required SelectValueBuilder<T> itemBuilder});
+  /// Widget-leg theme override, merged over the component/app/defaults legs.
+  final SelectTheme? theme;
   Widget build(BuildContext context);
 }
 ```

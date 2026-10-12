@@ -2,10 +2,10 @@
 //
 // Keep every signature identical to `web_bridge_web.dart`.
 
-/// Emits the `shadcn_flutter_app_ready` DOM event; no-op off web.
+/// Emits the `dashcn_app_ready` DOM event; no-op off web.
 void dispatchWebAppReady() {}
 
-/// Emits the `shadcn_flutter_theme_changed` DOM event; no-op off web.
+/// Emits the `dashcn_theme_changed` DOM event; no-op off web.
 void dispatchWebThemeChanged(Map<String, String> colors) {}
 
 /// `prefers-reduced-motion: reduce` in the browser; false off web.

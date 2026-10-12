@@ -29,23 +29,18 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 Widget _imageDefault(BuildContext context) {
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: ShadcnImage(
-      image: _imagePhoto,
-      width: 96,
-      height: 96,
-      aspectRatio: 1,
-    ),
+    child: Picture(image: _imagePhoto, width: 96, height: 96, aspectRatio: 1),
   );
 }
 
 /// The placeholder and error slots, and the theme legs.
 Widget _imageSlots(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      ShadcnImage(
+      Picture(
         image: _imagePhoto,
         width: 96,
         height: 96,
@@ -57,7 +52,7 @@ Widget _imageSlots(BuildContext context) {
             const Center(child: Icon(LucideIcons.imageOff, size: 20)),
       ),
       Gap(spacing.lg),
-      ShadcnImage(
+      Picture(
         image: _imagePhoto,
         width: 96,
         height: 96,
@@ -69,7 +64,7 @@ Widget _imageSlots(BuildContext context) {
         data: const ImageTheme(
           background: ThemedColor.ref(ColorRef.accent, alpha: 0.5),
         ),
-        child: ShadcnImage(
+        child: Picture(
           image: _imagePhoto,
           width: 96,
           height: 96,
@@ -82,10 +77,10 @@ Widget _imageSlots(BuildContext context) {
 
 /// The default image with the theme border radius.
 Widget _imageRounded(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: ShadcnImage(
+    child: Picture(
       image: _imagePhoto,
       width: 96,
       height: 96,

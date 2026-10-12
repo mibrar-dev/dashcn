@@ -266,7 +266,7 @@ void main() {
     ) async {
       await pumpForm(tester, const Dashboard01());
       Finder inTable(String text) => find.descendant(
-        of: find.byType(ShadcnTable),
+        of: find.byType(TableView),
         matching: find.text(text),
       );
       expect(inTable('Isabella Nguyen'), findsOneWidget);

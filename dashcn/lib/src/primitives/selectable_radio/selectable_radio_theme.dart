@@ -13,13 +13,13 @@ import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Default indicator side: shadcn `size-4`.
+/// Default indicator side: upstream `size-4`.
 const double radioDefaultIndicatorSize = 16;
 
 /// Duration of the indicator colour and dot animations.
 const Duration radioDefaultDuration = Duration(milliseconds: 120);
 
-/// Fallback label text style (shadcn `text-sm` = 14).
+/// Fallback label text style (upstream `text-sm` = 14).
 const TextStyle radioDefaultTextStyle = TextStyle(fontSize: 14);
 
 /// The circle: its outline, fill and dot.
@@ -200,7 +200,7 @@ class SelectableRadioTheme extends ComponentThemeData
 // its `rest` entry and the whole item is dimmed once, by the widget.
 // ---------------------------------------------------------------------------
 
-/// shadcn unchecked: `border-input` outline, transparent fill.
+/// upstream unchecked: `border-input` outline, transparent fill.
 const RadioIndicatorStyle _radioUnselected = RadioIndicatorStyle(
   borderColor: StateValue(
     rest: ThemedColor.ref(ColorRef.input),
@@ -212,7 +212,7 @@ const RadioIndicatorStyle _radioUnselected = RadioIndicatorStyle(
   duration: radioDefaultDuration,
 );
 
-/// shadcn checked: `border-primary` outline, `bg-primary` dot.
+/// upstream checked: `border-primary` outline, `bg-primary` dot.
 const RadioIndicatorStyle _radioSelected = RadioIndicatorStyle(
   borderColor: StateValue(
     rest: ThemedColor.ref(ColorRef.primary),
@@ -234,7 +234,7 @@ const SelectableRadioTheme selectableRadioDefaults = SelectableRadioTheme(
   unselected: _radioUnselected,
   selected: _radioSelected,
   gap: 8,
-  // shadcn radio-group row `p-0.5`, density-scaled.
+  // upstream radio-group row `p-0.5`, density-scaled.
   itemPadding: EdgeInsetsDensity.pxAll(2),
   labelStyle: radioDefaultTextStyle,
 );

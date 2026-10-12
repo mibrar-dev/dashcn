@@ -355,7 +355,7 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
           removeTop: true,
           child: Builder(
             builder: (context) {
-              final theme = ShadcnTheme.of(context);
+              final theme = Theme.of(context);
               final scaling = theme.scaling;
               return PopoverLayout(
                 alignment: _alignment.optionallyResolve(context),

@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../state/docs_state.dart';
 import 'docs_footer.dart';
 import 'docs_header.dart';
@@ -149,7 +149,7 @@ class _DocsAppShellState extends State<DocsAppShell> {
         // no scaffold, so unpainted gaps would otherwise show the dark
         // `index.html` first-paint background in light mode.
         final Widget painted = ColoredBox(
-          color: ShadcnTheme.of(context).colors.background,
+          color: Theme.of(context).colors.background,
           child: content,
         );
         // Escape closes the popper. The binding lives at the shell level (an

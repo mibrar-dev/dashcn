@@ -1,56 +1,36 @@
 ---
 title: "Class: TableLayoutResult"
-description: "Reference for TableLayoutResult"
+description: "Result of one table layout pass."
 ---
 
 ```dart
+/// Result of one table layout pass.
 class TableLayoutResult {
-  /// Computed widths for each column.
-  final List<double> columnWidths;
-  /// Computed heights for each row.
-  final List<double> rowHeights;
-  /// Remaining width after layout.
-  final double remainingWidth;
-  /// Remaining height after layout.
-  final double remainingHeight;
-  /// Remaining loose width for flex items.
-  final double remainingLooseWidth;
-  /// Remaining loose height for flex items.
-  final double remainingLooseHeight;
-  /// Whether tight flex sizing is used for width.
-  final bool hasTightFlexWidth;
-  /// Whether tight flex sizing is used for height.
-  final bool hasTightFlexHeight;
-  /// Creates a [TableLayoutResult].
+  /// Creates a layout result.
   TableLayoutResult({required this.columnWidths, required this.rowHeights, required this.remainingWidth, required this.remainingHeight, required this.remainingLooseWidth, required this.remainingLooseHeight, required this.hasTightFlexWidth, required this.hasTightFlexHeight});
-  /// Calculates the top-left offset of a cell at the given position.
-  ///
-  /// Computes the cumulative offset by summing all column widths before
-  /// the target column and all row heights before the target row.
-  ///
-  /// Parameters:
-  /// - [column] (int, required): Zero-based column index
-  /// - [row] (int, required): Zero-based row index
-  ///
-  /// Returns [Offset] representing the cell's position relative to table origin.
+  /// Computed width of each column.
+  final List<double> columnWidths;
+  /// Computed height of each row.
+  final List<double> rowHeights;
+  /// Width left after fixed and flex columns.
+  final double remainingWidth;
+  /// Height left after fixed and flex rows.
+  final double remainingHeight;
+  /// Loose width left for loose flex columns.
+  final double remainingLooseWidth;
+  /// Loose height left for loose flex rows.
+  final double remainingLooseHeight;
+  /// Whether any column is tightly flexible.
+  final bool hasTightFlexWidth;
+  /// Whether any row is tightly flexible.
+  final bool hasTightFlexHeight;
+  /// Top-left offset of the cell at [column], [row].
   Offset getOffset(int column, int row);
-  /// Returns the sum of all column widths and row heights.
+  /// Total size of the table.
   Size get size;
-  /// Gets the total width of the table.
-  ///
-  /// Calculates the sum of all column widths to determine the table's
-  /// total horizontal extent. This is the natural width the table would
-  /// occupy without any constraints.
-  ///
-  /// Returns total table width in logical pixels as a double.
+  /// Sum of all column widths.
   double get width;
-  /// Gets the total height of the table.
-  ///
-  /// Calculates the sum of all row heights to determine the table's
-  /// total vertical extent. This is the natural height the table would
-  /// occupy without any constraints.
-  ///
-  /// Returns total table height in logical pixels as a double.
+  /// Sum of all row heights.
   double get height;
 }
 ```

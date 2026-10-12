@@ -4,8 +4,8 @@
   "category": "Navigation",
   "description": "Navigation container for bars, rails and sidebars: selectable items with labels, groups, collapsibles, dividers, slots and arrow-key roving.",
   "tier": "component",
-  "install": "flutter_shadcn add navigation_bar",
-  "import": "import 'package:<your_app>/ui/shadcn/components/navigation_bar/navigation_bar.dart';",
+  "install": "dashcn add navigation_bar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';",
   "tags": [
     "navigation",
     "bar",

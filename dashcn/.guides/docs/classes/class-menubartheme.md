@@ -1,69 +1,32 @@
 ---
 title: "Class: MenubarTheme"
-description: "Theme configuration for [Menubar] appearance and layout."
+description: "Bar contract for the `menubar` component (B20 imports this; it owns only  `MenubarState`)."
 ---
 
 ```dart
-/// Theme configuration for [Menubar] appearance and layout.
-///
-/// MenubarTheme defines the visual styling for menubar components including
-/// borders, colors, positioning, and spacing. All properties are optional
-/// and fall back to theme defaults when not specified.
-///
-/// The theme controls both the menubar container appearance and the behavior
-/// of submenu positioning when menu items are opened.
-///
-/// Example:
-/// ```dart
-/// ComponentTheme<MenubarTheme>(
-///   data: MenubarTheme(
-///     border: true,
-///     backgroundColor: Colors.white,
-///     borderColor: Colors.grey,
-///     borderRadius: BorderRadius.circular(8),
-///     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-///     subMenuOffset: Offset(0, 8),
-///   ),
-///   child: Menubar(...),
-/// )
-/// ```
-/// Theme for [Menubar].
-class MenubarTheme extends ComponentThemeData {
-  /// Whether to draw a border around the menubar container.
-  ///
-  /// Type: `bool?`. If null, uses the widget's border property. When true,
-  /// the menubar is wrapped with an outlined container with customizable
-  /// border color and radius.
+/// Bar contract for the `menubar` component (B20 imports this; it owns only
+/// `MenubarState`). Bordered by default (upstream `border bg-background`).
+class MenubarTheme extends ComponentThemeData implements Mergeable<MenubarTheme> {
+  /// Creates a menubar theme.
+  const MenubarTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.border, this.background, this.borderColor, this.borderWidth, this.borderRadius, this.padding, this.subMenuOffset});
+  /// Whether the bar draws its border; null resolves true.
   final bool? border;
-  /// Positioning offset for submenu popovers when menu items are opened.
-  ///
-  /// Type: `Offset?`. If null, uses calculated defaults based on border
-  /// presence. Controls where submenus appear relative to their parent items.
-  final Offset? subMenuOffset;
-  /// Internal padding within the menubar container.
-  ///
-  /// Type: `EdgeInsetsGeometry?`. If null, uses 4 logical pixels on all sides
-  /// scaled by theme scaling. Applied inside the border when present.
-  final EdgeInsetsGeometry? padding;
-  /// Color of the border when [border] is enabled.
-  ///
-  /// Type: `Color?`. If null, uses the theme's border color. Only visible
-  /// when [border] is true.
-  final Color? borderColor;
-  /// Background color of the menubar container.
-  ///
-  /// Type: `Color?`. If null, uses the theme's background color. Applied
-  /// to the menubar's container element.
-  final Color? backgroundColor;
-  /// Border radius for the menubar container corners.
-  ///
-  /// Type: `BorderRadiusGeometry?`. If null, uses the theme's medium border
-  /// radius. Only visible when [border] is true.
+  /// Bar fill; null resolves the `background` token.
+  final ThemedColor? background;
+  /// Border colour; null resolves the `border` token.
+  final ThemedColor? borderColor;
+  /// Border width; null resolves 1.0.
+  final double? borderWidth;
+  /// Corner radius; null resolves `borderRadiusMd`.
   final BorderRadiusGeometry? borderRadius;
-  /// Creates a [MenubarTheme].
-  const MenubarTheme({this.border, this.subMenuOffset, this.padding, this.borderColor, this.backgroundColor, this.borderRadius});
-  /// Returns a copy of this theme with the given fields replaced.
-  MenubarTheme copyWith({ValueGetter<bool?>? border, ValueGetter<Offset?>? subMenuOffset, ValueGetter<EdgeInsetsGeometry?>? padding, ValueGetter<Color?>? borderColor, ValueGetter<Color?>? backgroundColor, ValueGetter<BorderRadiusGeometry?>? borderRadius});
+  /// Inner padding; null resolves 4 on all sides.
+  final EdgeInsetsGeometry? padding;
+  /// Submenu offset; null resolves Offset(-4, 8).
+  final Offset? subMenuOffset;
+  /// Returns a copy with the given fields replaced.
+  MenubarTheme copyWith({ValueGetter<bool?>? border, ValueGetter<ThemedColor?>? background, ValueGetter<ThemedColor?>? borderColor, ValueGetter<double?>? borderWidth, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<EdgeInsetsGeometry?>? padding, ValueGetter<Offset?>? subMenuOffset});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  MenubarTheme merge(MenubarTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

@@ -12,12 +12,12 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_blocks.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/announcement.dart';
 import '../widgets/block_card.dart';
 import '../widgets/copy_button.dart';
@@ -66,9 +66,7 @@ class BlocksIndexPage extends StatelessWidget {
                             style: docsText(
                               context,
                               size: 15,
-                              color: ShadcnTheme.of(
-                                context,
-                              ).colors.mutedForeground,
+                              color: Theme.of(context).colors.mutedForeground,
                             ),
                           ),
                         ),
@@ -102,7 +100,7 @@ class _BlocksHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
     return Padding(
@@ -218,7 +216,7 @@ class _FamilyPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Clickable(
       onPressed: () => DocsRouterScope.of(context).go(context, location),
       decoration: WidgetStateProperty.resolveWith<Decoration?>((
@@ -316,7 +314,7 @@ class _BlockPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -366,7 +364,7 @@ class _Dependencies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Urdu (`ur`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsUr extends ShadcnLocalizations {
+class ComponentLocalizationsUr extends ComponentLocalizations {
   /// Creates the Urdu strings.
-  const ShadcnLocalizationsUr([super.locale = const Locale('ur')]);
+  const ComponentLocalizationsUr([super.locale = const Locale('ur')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

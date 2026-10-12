@@ -6,15 +6,15 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/input/input.dart';
-import '../../ui/shadcn/components/select/select.dart';
-import '../../ui/shadcn/components/slider/slider.dart';
-import '../../ui/shadcn/components/switch/switch.dart';
-import '../../ui/shadcn/components/text_area/text_area.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/input/input.dart';
+import '../../ui/dashcn/components/select/select.dart';
+import '../../ui/dashcn/components/slider/slider.dart';
+import '../../ui/dashcn/components/switch/switch.dart';
+import '../../ui/dashcn/components/text_area/text_area.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
 
 /// `Payout Threshold`: a select, a slider with a live amount and a textarea.
@@ -38,7 +38,7 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return StudioCard(
       title: 'Payout Threshold',
       subtitle: 'Set the minimum balance before a payout is triggered.',
@@ -150,7 +150,7 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return StudioCard(
       title: 'Buy Investment',
       subtitle: 'A strategy for building wealth over time.',
@@ -218,7 +218,7 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
   }
 }
 
-/// `Report an Issue`: a select plus a textarea, as shadcn's form cards do.
+/// `Report an Issue`: a select plus a textarea, as upstream's form cards do.
 class StudioReportIssueCard extends StatefulWidget {
   /// Creates the card.
   const StudioReportIssueCard({super.key});
@@ -291,7 +291,7 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
   }
 }
 
-/// `Create Account`: the shadcn email/password signup card.
+/// `Create Account`: the upstream email/password signup card.
 class StudioCreateAccountCard extends StatefulWidget {
   /// Creates the card.
   const StudioCreateAccountCard({super.key});

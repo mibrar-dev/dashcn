@@ -1,15 +1,20 @@
 ---
 title: "Class: ComponentThemeData"
-description: "A base class for component-specific theme data."
+description: "Base of every `<Name>Theme` component theme class."
 ---
 
 ```dart
-/// A base class for component-specific theme data.
-///
-/// This class is used as a base class for component-specific theme data,
-/// whether as super class or as interface.
+/// Base of every `<Name>Theme` component theme class. Carries optional
+/// density/spacing/shadow overrides scoped to that component.
 abstract class ComponentThemeData {
-  /// Creates a [ComponentThemeData].
-  const ComponentThemeData();
+  const ComponentThemeData({this.themeDensity, this.themeSpacing, this.themeShadows});
+  /// Optional density override for this component theme.
+  final Density? themeDensity;
+  /// Optional spacing override for this component theme.
+  final SpacingScale? themeSpacing;
+  /// Optional shadow override for this component theme.
+  final ShadowScale? themeShadows;
+  bool operator ==(Object other);
+  int get hashCode;
 }
 ```

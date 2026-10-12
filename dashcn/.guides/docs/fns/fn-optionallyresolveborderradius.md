@@ -1,6 +1,6 @@
 ---
 title: "Function: optionallyResolveBorderRadius"
-description: "Resolves a BorderRadiusGeometry to BorderRadius if needed."
+description: "Resolves [radius] to a [BorderRadius] with the ambient [Directionality],  or returns null when [radius] is null."
 ---
 
 Signature

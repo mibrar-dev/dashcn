@@ -2,10 +2,10 @@
   "id": "card",
   "name": "Card",
   "category": "Layout",
-  "description": "Rounded bordered surface with the shadcn header, title, description, content and footer slots.",
+  "description": "Rounded bordered surface with the dashcn header, title, description, content and footer slots.",
   "tier": "component",
-  "install": "flutter_shadcn add card",
-  "import": "import 'package:<your_app>/ui/shadcn/components/card/card.dart';",
+  "install": "dashcn add card",
+  "import": "import 'package:<your_app>/ui/dashcn/components/card/card.dart';",
   "tags": ["layout", "card", "surface", "panel"],
   "deps": {
     "foundation": [],

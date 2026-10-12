@@ -21,7 +21,7 @@ import 'selectable_radio_theme.dart';
 
 export 'selectable_radio_theme.dart';
 
-/// Opacity applied to a whole item while disabled (shadcn `opacity-50`).
+/// Opacity applied to a whole item while disabled (upstream `opacity-50`).
 const double selectableItemDisabledOpacity = 0.5;
 
 /// Cursor for an enabled item; the system arrow while disabled.
@@ -206,7 +206,7 @@ class _RadioItemState<T> extends State<RadioItem<T>> {
     RadioIndicatorStyle indicator,
     bool selected,
   ) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double gap =
         (container.gap ?? 8) * theme.density.scale * theme.scaling;
     final Widget? label = widget.label;
@@ -255,7 +255,7 @@ class RadioIndicator extends StatelessWidget {
     final double size = resolved.size ?? radioDefaultIndicatorSize;
     final double dotSize = resolved.dotSize ?? size / 2;
     final Duration duration = resolved.duration ?? radioDefaultDuration;
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return AnimatedContainer(
       key: kRadioIndicatorKey,
       duration: duration,
@@ -289,12 +289,12 @@ class RadioIndicator extends StatelessWidget {
 
 /// Lookup key of the radio indicator circle.
 const ValueKey<String> kRadioIndicatorKey = ValueKey<String>(
-  'shadcn.radio_group.indicator',
+  'dashcn.radio_group.indicator',
 );
 
 /// Lookup key of the radio indicator dot.
 const ValueKey<String> kRadioIndicatorDotKey = ValueKey<String>(
-  'shadcn.radio_group.dot',
+  'dashcn.radio_group.dot',
 );
 
 /// A single-select group of radio items.

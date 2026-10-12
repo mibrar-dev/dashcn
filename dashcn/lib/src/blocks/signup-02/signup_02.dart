@@ -161,7 +161,7 @@ class _Signup02State extends State<Signup02> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(

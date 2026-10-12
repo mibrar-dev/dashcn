@@ -16,7 +16,7 @@ import '../../../dashcn/tool/rearch/gen_app_theme.dart' as kit;
 
 /// The docs mirror's theme library (sibling `color_tokens.dart`/`tokens.dart`
 /// are derived from it by the kit generator).
-const String kDocsThemeImport = 'package:docs/ui/shadcn/theme/theme.dart';
+const String kDocsThemeImport = 'package:docs/ui/dashcn/theme/theme.dart';
 
 /// Renders `lib/generated/docs_snippets.dart`.
 String renderDocsSnippets(DocsModel model) {
@@ -270,9 +270,9 @@ String renderAppTheme(
     ..writeln()
     ..writeln("import 'package:flutter/widgets.dart';")
     ..writeln()
-    ..writeln("import 'package:docs/ui/shadcn/theme/color_tokens.dart';")
-    ..writeln("import 'package:docs/ui/shadcn/theme/theme.dart';")
-    ..writeln("import 'package:docs/ui/shadcn/theme/tokens.dart';")
+    ..writeln("import 'package:docs/ui/dashcn/theme/color_tokens.dart';")
+    ..writeln("import 'package:docs/ui/dashcn/theme/theme.dart';")
+    ..writeln("import 'package:docs/ui/dashcn/theme/tokens.dart';")
     ..writeln();
 
   for (final PresetFacts preset in scan.presets) {
@@ -296,7 +296,7 @@ String renderAppTheme(
     )
     ..writeln('/// build) fall back to [kDocsDefaultPresetId].')
     ..writeln(
-      'ShadcnThemeData buildDocsTheme('
+      'ThemeData buildDocsTheme('
       'String presetId, Brightness brightness) {',
     )
     ..writeln('  return switch (presetId) {');

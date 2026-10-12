@@ -2,12 +2,12 @@
 // ("Default") in its own Preview | Code card.
 //
 // The remaining examples render below Usage in `ComponentExamplesSection` —
-// one `### <Name>` + card each (the shadcn docs layout). Components without
+// one `### <Name>` + card each (the upstream docs layout). Components without
 // named examples (building blocks with a gallery preview class) keep a
 // bare stage with no toolbar.
 //
-// The stage inherits the site theme (no nested default `ShadcnApp`/
-// `ShadcnTheme`), so preset and mode switches re-theme it. The deferred
+// The stage inherits the site theme (no nested default `DashcnApp`/
+// `Theme`), so preset and mode switches re-theme it. The deferred
 // chunk loads once per component and is shared by every card on the page.
 //
 // Split out of `pages/component_page.dart` for the ~400-line rule.
@@ -16,7 +16,7 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_example_sources.dart';
 import '../previews/component_previews.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'example_preview_card.dart';
 import 'preview_stage.dart';
@@ -115,7 +115,7 @@ class PreviewExampleLoaderState extends State<PreviewExampleLoader> {
             style: docsText(
               context,
               size: 13,
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
             ),
           );
         }

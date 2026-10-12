@@ -39,10 +39,10 @@ class DarkModePage extends StatelessWidget {
           TypesetParagraph.rich(<InlineSpan>[
             const TextSpan(
               text:
-                  'ShadcnColors carries the resolved brightness, so any '
+                  'ThemeColors carries the resolved brightness, so any '
                   'widget below the app shell can read the mode with ',
             ),
-            typesetInlineCodeSpan('ShadcnTheme.of(context).brightness'),
+            typesetInlineCodeSpan('Theme.of(context).brightness'),
             const TextSpan(
               text:
                   '. Components use that value only for behaviour, never to '
@@ -61,7 +61,7 @@ class DarkModePage extends StatelessWidget {
             const TextSpan(text: 'Pass a theme per brightness and a '),
             typesetInlineCodeSpan('ThemeMode'),
             const TextSpan(
-              text: ' to ShadcnApp. The mode is system, light or dark; with ',
+              text: ' to DashcnApp. The mode is system, light or dark; with ',
             ),
             typesetInlineCodeSpan('ThemeMode.system'),
             const TextSpan(

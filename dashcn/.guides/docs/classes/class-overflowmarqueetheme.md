@@ -1,52 +1,34 @@
 ---
 title: "Class: OverflowMarqueeTheme"
-description: "Theme configuration for [OverflowMarquee] scrolling text displays."
+description: "Direction, timing and edge fade of one marquee."
 ---
 
 ```dart
-/// Theme configuration for [OverflowMarquee] scrolling text displays.
+/// Direction, timing and edge fade of one marquee.
 ///
-/// Provides comprehensive styling and behavior options for marquee animations
-/// including scroll direction, timing, fade effects, and animation curves.
-/// All properties are optional and will fall back to default values when not specified.
-///
-/// Animation Properties:
-/// - [direction]: Horizontal or vertical scrolling axis
-/// - [duration]: Complete cycle time for one full scroll
-/// - [delayDuration]: Pause time before restarting animation
-/// - [curve]: Easing function for smooth animation transitions
-///
-/// Visual Properties:
-/// - [step]: Pixel step size for scroll speed calculation
-/// - [fadePortion]: Edge fade effect intensity (0.0 to 1.0)
-///
-/// Example:
-/// ```dart
-/// OverflowMarqueeTheme(
-///   direction: Axis.horizontal,
-///   duration: Duration(seconds: 5),
-///   delayDuration: Duration(seconds: 1),
-///   fadePortion: 0.1,
-///   curve: Curves.easeInOut,
-/// )
-/// ```
-class OverflowMarqueeTheme extends ComponentThemeData {
-  /// Scrolling direction of the marquee.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class OverflowMarqueeTheme extends ComponentThemeData implements Mergeable<OverflowMarqueeTheme> {
+  /// Creates a marquee theme.
+  const OverflowMarqueeTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.direction, this.duration, this.delayDuration, this.step, this.fadePortion, this.curve});
+  /// Scroll axis; null resolves `Axis.horizontal`.
   final Axis? direction;
-  /// Duration of one full scroll cycle.
+  /// Time of one `step` run; null resolves `1s`.
   final Duration? duration;
-  /// Delay before scrolling starts again.
+  /// Pause at each end of a run; null resolves `500ms`.
   final Duration? delayDuration;
-  /// Step size used to compute scroll speed.
+  /// Pixels per [duration]; null resolves `100`.
   final double? step;
-  /// Portion of the child to fade at the edges.
+  /// Edge fade as a fraction of the visible extent; null resolves `0.1`.
   final double? fadePortion;
-  /// Animation curve of the scroll.
+  /// Easing of each run; null resolves `Curves.linear`.
   final Curve? curve;
-  /// Creates an [OverflowMarqueeTheme].
-  const OverflowMarqueeTheme({this.direction, this.duration, this.delayDuration, this.step, this.fadePortion, this.curve});
-  /// Creates a copy of this theme with the given fields replaced.
+  /// Returns a copy with the given fields replaced.
   OverflowMarqueeTheme copyWith({ValueGetter<Axis?>? direction, ValueGetter<Duration?>? duration, ValueGetter<Duration?>? delayDuration, ValueGetter<double?>? step, ValueGetter<double?>? fadePortion, ValueGetter<Curve?>? curve});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  OverflowMarqueeTheme merge(OverflowMarqueeTheme? fallback);
+  /// Discrete values step at t < 0.5; scalars are lerped.
+  static OverflowMarqueeTheme lerp(OverflowMarqueeTheme a, OverflowMarqueeTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

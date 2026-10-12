@@ -38,7 +38,7 @@ class _ChipInputControlledChipsState extends State<_ChipInputControlledChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -81,7 +81,7 @@ class _ChipInputReadOnlyChips extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ChipInput<String>(
       hintText: 'Tokens without a remove button',
-      initialChips: <String>['flutter', 'shadcn'],
+      initialChips: <String>['flutter', 'dashcn'],
       theme: ChipInputTheme(removable: false),
       onChipSubmit: _chipInputReject,
     );

@@ -22,7 +22,7 @@ int _overlayGeneration = 0;
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   NavigationMenuTheme? scoped,
 }) {
@@ -30,7 +30,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<NavigationMenuTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,

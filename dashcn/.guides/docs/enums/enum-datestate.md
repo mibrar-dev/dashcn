@@ -1,16 +1,13 @@
 ---
 title: "Enum: DateState"
-description: "Represents the interactive state of a date in the calendar."
+description: "Whether one date cell can be picked."
 ---
 
 ```dart
-/// Represents the interactive state of a date in the calendar.
-///
-/// Controls whether a specific date can be selected or interacted with.
+/// Whether one date cell can be picked. A [disabled] cell is dimmed, ignores
+/// taps and is skipped by keyboard navigation.
 enum DateState {
-  /// Date cannot be selected or clicked.
   disabled,
-  /// Date is fully interactive and selectable.
   enabled,
 }
 ```

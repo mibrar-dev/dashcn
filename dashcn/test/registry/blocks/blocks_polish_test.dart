@@ -1,6 +1,6 @@
 // P6-P2 polish tests: single-token bar charts, stat suffixes and the login
 // label alignment. P6-Z1 adds the trailing-link contract: link/text buttons
-// carry zero horizontal padding (plain shadcn anchors), every forgot-type row
+// carry zero horizontal padding (plain upstream anchors), every forgot-type row
 // meets the field's right edge, and calendar steppers are icon buttons.
 // Uses the shared block harness (bounded stages, no overflow, both presets ×
 // both brightnesses for the render contract are covered by blocks_render_test;
@@ -128,7 +128,7 @@ void main() {
 
   group('P6-Z1 trailing links and steppers', () {
     test('link and text variants carry zero horizontal padding', () {
-      // shadcn links are plain ml-auto anchors: no horizontal padding, so an
+      // upstream links are plain ml-auto anchors: no horizontal padding, so an
       // end-aligned link's text meets the field's right edge.
       expect(
         buttonDefaults.forVariant(ButtonVariant.link)!.padding,

@@ -16,12 +16,12 @@ import 'package:flutter_test/flutter_test.dart';
 const Color _red = Color(0xFFFF0000);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -56,8 +56,8 @@ Finder _painter() => find.byWidgetPredicate(
 );
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   testWidgets('style defaults: 2px stroke, radius 12, 1200ms, linear', (
     tester,

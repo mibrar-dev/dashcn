@@ -8,10 +8,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/card/card.dart';
-import '../../ui/shadcn/components/progress/progress.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/card/card.dart';
+import '../../ui/dashcn/components/progress/progress.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/theme/theme.dart';
 
 /// The default inner padding of a canvas card.
 const EdgeInsets kStudioCardPadding = EdgeInsets.all(20);
@@ -51,7 +51,7 @@ class StudioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Widget? header = title == null
         ? null
         : Column(
@@ -110,7 +110,7 @@ class StudioCaption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Text(
       text.toUpperCase(),
       style: theme.typography.xSmall.copyWith(
@@ -134,7 +134,7 @@ class StudioValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Text(
       text,
       maxLines: 1,
@@ -161,7 +161,7 @@ class StudioRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -192,7 +192,7 @@ class StudioRow extends StatelessWidget {
   }
 }
 
-/// A form label styled the way shadcn labels a field (`Preferred Currency`).
+/// A form label styled the way upstream labels a field (`Preferred Currency`).
 class StudioFieldLabel extends StatelessWidget {
   /// Creates a field label.
   const StudioFieldLabel(this.text, {super.key});
@@ -202,7 +202,7 @@ class StudioFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Text(
       text,
       style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
@@ -220,7 +220,7 @@ class StudioHelper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Text(
       text,
       style: theme.typography.small.copyWith(
@@ -255,7 +255,7 @@ class StudioStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

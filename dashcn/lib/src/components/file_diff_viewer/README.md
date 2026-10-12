@@ -68,7 +68,7 @@ multiplied to 18%, stat badges to 14% — alpha multiplies, never replaces.
 - Code rows always lay out LTR (gutter + marker + content order is positional),
   and the gutter divider is directional.
 
-- The "Copy" label comes from `ShadcnLocalizations` (`menuCopy`); the
+- The "Copy" label comes from `ComponentLocalizations` (`menuCopy`); the
   confirmation reuses a check icon instead of an unlocalised "Copied" string.
 - The code font/size come from the ambient `fontMono` / `xSmall` styles (the
   old copy hardcoded `GeistMono`/`12.0`).

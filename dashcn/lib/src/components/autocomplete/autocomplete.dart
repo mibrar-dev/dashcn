@@ -79,7 +79,7 @@ class AutoCompleteFeature extends InputFeature {
   /// Called after a suggestion was written into the field.
   final ValueChanged<String>? onSuggestionSelected;
 
-  /// Builds one suggestion row; null renders the shadcn default.
+  /// Builds one suggestion row; null renders the upstream default.
   final SuggestionRowBuilder? itemBuilder;
 
   /// Widget-leg theme override for the suggestion list.
@@ -166,7 +166,7 @@ class AutoCompleteFeature extends InputFeature {
     AutoCompleteTheme theme,
     _AutoCompleteSlot slot,
   ) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final List<String> items = slot.items;
     // The shared menu surface hugs the widest suggestion (never narrower
     // than the field through the anchor-minimum sizing) and scrolls past
@@ -228,7 +228,7 @@ class AutoCompleteFeature extends InputFeature {
     String suggestion,
     bool highlighted,
   ) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final TextStyle base = theme.itemTextStyle ?? autocompleteDefaultTextStyle;
     final TextStyle rowStyle = base.copyWith(
       fontFamily: ambient.fonts.fontSans,

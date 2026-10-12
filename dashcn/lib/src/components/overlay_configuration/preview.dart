@@ -17,12 +17,12 @@ class OverlayConfigurationPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 14),
-        child: ShadcnLayer(
+        child: AppLayer(
           child: Navigator(
             onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
               settings: settings,
@@ -40,7 +40,7 @@ class _OverlayConfigGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SingleChildScrollView(
@@ -155,7 +155,7 @@ class _OverlayConfigBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('Overlay content'),
-          Gap(ShadcnTheme.of(context).spacing.sm),
+          Gap(Theme.of(context).spacing.sm),
           Text(
             configuration == null
                 ? 'no configuration'

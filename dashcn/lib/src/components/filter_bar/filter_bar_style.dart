@@ -51,7 +51,7 @@ class FilterBarSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     return SizedBox(
       width: width,
       child: Semantics(
@@ -104,7 +104,7 @@ class FilterBarSortControl extends StatelessWidget {
       child: Select<String>(
         value: value,
         onChanged: onChanged,
-        placeholder: Text(ShadcnLocalizations.of(context).filterSort),
+        placeholder: Text(ComponentLocalizations.of(context).filterSort),
         itemBuilder: (context, value) => Text(_label(value)),
         items: <Widget>[
           for (final FilterSortOption option in options)
@@ -161,7 +161,7 @@ class FilterBarDateControl extends StatelessWidget {
                 range.end ?? range.start!,
               ),
         mode: PromptMode.popover,
-        placeholder: Text(ShadcnLocalizations.of(context).filterDateRange),
+        placeholder: Text(ComponentLocalizations.of(context).filterDateRange),
         onChanged: (DateTimeRange? next) => onChanged(
           next == null
               ? null
@@ -197,7 +197,7 @@ class FilterBarClearButton extends StatelessWidget {
       variant: ButtonVariant.ghost,
       size: dense ? ButtonSize.sm : ButtonSize.md,
       onPressed: enabled ? onPressed : null,
-      child: Text(ShadcnLocalizations.of(context).filterClearAll),
+      child: Text(ComponentLocalizations.of(context).filterClearAll),
     );
   }
 }
@@ -223,7 +223,7 @@ class FilterBarSheetTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String label = ShadcnLocalizations.of(context).filterFilters;
+    final String label = ComponentLocalizations.of(context).filterFilters;
     return Button(
       variant: ButtonVariant.secondary,
       size: dense ? ButtonSize.sm : ButtonSize.md,
@@ -270,7 +270,7 @@ class FilterBarSheetScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double scale = ambient.scaling;
     return SafeArea(
       child: Padding(

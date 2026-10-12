@@ -127,7 +127,7 @@ class CollapsibleTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final CollapsibleTheme resolved =
         resolveComponentStyle<CollapsibleTheme, CollapsibleTheme>(
           context,
@@ -160,7 +160,7 @@ class CollapsibleTrigger extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            // The whole label toggles, like shadcn's `CollapsibleTrigger`;
+            // The whole label toggles, like upstream's `CollapsibleTrigger`;
             // the icon `Button` stays a sibling (never nested), so a tap
             // lands on exactly one of the two controls.
             Expanded(

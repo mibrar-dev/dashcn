@@ -99,12 +99,12 @@ Widget _phoneHost(WidgetBuilder builder) {
 Future<void> _pump(
   WidgetTester tester,
   ComponentPreview example,
-  ShadcnThemeDataView theme,
+  ThemeDataView theme,
   Widget host,
 ) async {
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(
+    Theme(
+      data: ThemeData(
         colors: theme.colors,
         tokens: theme.tokens,
         fonts: theme.fonts,
@@ -131,7 +131,7 @@ void main() {
       final String path =
           '${Directory.current.path}/lib/src/components/$id/preview.dart';
       expect(
-        File(path).readAsStringSync().contains('ShadcnThemeData('),
+        File(path).readAsStringSync().contains('ThemeData('),
         isFalse,
         reason: '$id/preview.dart hard-codes a theme',
       );
@@ -154,7 +154,7 @@ void main() {
 
       for (final String preset in _presets) {
         for (final Brightness brightness in _brightnesses) {
-          final ShadcnThemeDataView theme = loadGeneratedTheme(
+          final ThemeDataView theme = loadGeneratedTheme(
             '$_themesDir/$preset.json',
           ).view(brightness);
           final String brightnessName = brightness.name;

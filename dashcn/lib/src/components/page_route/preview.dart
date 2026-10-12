@@ -1,6 +1,6 @@
 // Widgets-only preview gallery for the `page_route` component.
 //
-// Pushes and pops a real `ShadcnPageRoute` on a nested `Navigator`, and also
+// Pushes and pops a real `AppPageRoute` on a nested `Navigator`, and also
 // pushes the `dialog` component on top of the page to show the exit transition
 // that the old `canTransitionTo` used to suppress.
 
@@ -31,14 +31,14 @@ class _PageRoutePreviewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ColoredBox(
       color: colors.background,
       child: SizedBox(
         width: 320,
         height: 220,
         child: Navigator(
-          onGenerateRoute: (settings) => ShadcnPageRoute<void>(
+          onGenerateRoute: (settings) => AppPageRoute<void>(
             settings: settings,
             builder: (context) => _HomePage(),
           ),
@@ -52,7 +52,7 @@ class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ShadcnTheme.of(context).colors.background,
+      color: Theme.of(context).colors.background,
       child: Center(
         child: Wrap(
           spacing: 12,
@@ -61,24 +61,24 @@ class _HomePage extends StatelessWidget {
           children: <Widget>[
             Button(
               onPressed: () => Navigator.of(context).push(
-                ShadcnPageRoute<void>(
+                AppPageRoute<void>(
                   settings: const RouteSettings(name: 'detail'),
                   builder: (context) => const _DetailPage(),
                 ),
               ),
-              child: const Text('push ShadcnPageRoute'),
+              child: const Text('push AppPageRoute'),
             ),
             Button(
               variant: ButtonVariant.outline,
-              onPressed: () => showShadcnDialog<void>(
+              onPressed: () => showDialog<void>(
                 context: context,
                 builder: (context) => const _RouteDialogBody(),
               ),
               child: const Text('dialog over the page'),
             ),
-            const ShadcnPageTransition(
+            const AppPageTransition(
               animation: AlwaysStoppedAnimation<double>(1),
-              child: Text('ShadcnPageTransition (t = 1)'),
+              child: Text('AppPageTransition (t = 1)'),
             ),
           ],
         ),
@@ -93,7 +93,7 @@ class _DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ShadcnTheme.of(context).colors.card,
+      color: Theme.of(context).colors.card,
       child: Center(
         child: Button(
           variant: ButtonVariant.ghost,

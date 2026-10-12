@@ -1,14 +1,14 @@
 ---
 title: "Class: ToastController"
-description: "Controller that displays toast entries using Overlay."
+description: "Owns a toast stack and exposes a small `show` surface over [ToastQueue]."
 ---
 
 ```dart
-/// Controller that displays toast entries using Overlay.
-class ToastController {
-  final Duration defaultDuration;
-  final Duration animationDuration;
-  ToastController({this.defaultDuration = const Duration(seconds: 3), this.animationDuration = const Duration(milliseconds: 250)});
-  void show({required BuildContext context, required WidgetBuilder builder, Duration? duration, double? spacing});
+/// Owns a toast stack and exposes a small `show` surface over [ToastQueue].
+class ToastController extends ToastQueue<ToastBuilder> {
+  /// Creates a controller.
+  ToastController({super.defaultDuration = const Duration(seconds: 3), super.singlePerSlot = true});
+  /// Shows a toast and returns its id.
+  String showToast({required ToastBuilder builder, ToastPlacement placement = ToastPlacement.bottomTrailing, Duration? duration, bool autoDismiss = true, String? id, VoidCallback? onDismissed});
 }
 ```

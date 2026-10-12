@@ -30,8 +30,8 @@ const Key _stableOverlayKey = Key('stable-overlay');
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
-  ValueNotifier<ShadcnThemeData>? theme,
+  ThemeData data = const ThemeData(),
+  ValueNotifier<ThemeData>? theme,
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TooltipTheme? scoped,
   OverlayHandler? tooltipHandler,
@@ -51,13 +51,13 @@ Widget _frame(
     ),
   );
   Widget wrapped = theme == null
-      ? ShadcnTheme(
+      ? Theme(
           data: data,
           child: ComponentThemes(themes: app, child: overlayHost),
         )
-      : ValueListenableBuilder<ShadcnThemeData>(
+      : ValueListenableBuilder<ThemeData>(
           valueListenable: theme,
-          builder: (context, value, _) => ShadcnTheme(
+          builder: (context, value, _) => Theme(
             data: value,
             child: ComponentThemes(themes: app, child: overlayHost),
           ),
@@ -227,7 +227,7 @@ void main() {
       await tester.pumpWidget(
         _frame(const TooltipContainer(child: Text('hi'))),
       );
-      final ShadcnColors colors = const ShadcnThemeData().colors;
+      final ThemeColors colors = const ThemeData().colors;
       expect(_containerDecoration(tester).color, colors.primary);
     });
 
@@ -239,10 +239,7 @@ void main() {
         find.byType(DefaultTextStyle),
       );
       expect(style.style.fontSize, 12);
-      expect(
-        style.style.color,
-        const ShadcnThemeData().colors.primaryForeground,
-      );
+      expect(style.style.color, const ThemeData().colors.primaryForeground);
     });
 
     testWidgets('regression: a caller padding is applied once', (tester) async {
@@ -254,7 +251,7 @@ void main() {
             padding: EdgeInsets.all(20),
             child: Text('hi'),
           ),
-          data: const ShadcnThemeData(scaling: 4),
+          data: const ThemeData(scaling: 4),
         ),
       );
       final Padding padding = tester.widget<Padding>(
@@ -282,15 +279,15 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive the surface', (tester) async {
         await tester.pumpWidget(
           _frame(
             const TooltipContainer(child: Text('hi')),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         expect(_containerDecoration(tester).color, colors.primary);
@@ -386,10 +383,9 @@ void main() {
       // The overlay must capture the theme at show time and re-resolve it, so
       // a light -> dark switch repaints an open tooltip. A hand-rolled handler
       // (the old `FixedTooltipOverlayHandler`) can easily forget to.
-      final ValueNotifier<ShadcnThemeData> switcher =
-          ValueNotifier<ShadcnThemeData>(
-            const ShadcnThemeData(colors: ShadcnColors.lightFallback),
-          );
+      final ValueNotifier<ThemeData> switcher = ValueNotifier<ThemeData>(
+        const ThemeData(colors: ThemeColors.lightFallback),
+      );
       addTearDown(switcher.dispose);
       await tester.pumpWidget(
         _frame(
@@ -405,18 +401,18 @@ void main() {
       expect(find.byType(TooltipContainer), findsOneWidget);
       expect(
         _containerDecoration(tester).color,
-        ShadcnColors.lightFallback.primary,
+        ThemeColors.lightFallback.primary,
       );
 
       // Switch the tokens without rebuilding the overlay: the captured theme
       // must re-resolve into the open popover.
-      switcher.value = const ShadcnThemeData(colors: ShadcnColors.darkFallback);
+      switcher.value = const ThemeData(colors: ThemeColors.darkFallback);
       await tester.pump();
       await tester.pump();
       expect(find.byType(TooltipContainer), findsOneWidget);
       expect(
         _containerDecoration(tester).color,
-        ShadcnColors.darkFallback.primary,
+        ThemeColors.darkFallback.primary,
       );
     });
   });

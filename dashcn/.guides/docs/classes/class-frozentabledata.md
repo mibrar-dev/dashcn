@@ -1,19 +1,20 @@
 ---
 title: "Class: FrozenTableData"
-description: "Reference for FrozenTableData"
+description: "Frozen rows and columns of a table."
 ---
 
 ```dart
+/// Frozen rows and columns of a table.
 class FrozenTableData {
-  /// Rows that should be frozen during vertical scrolling.
+  /// Creates frozen row/column ranges.
+  const FrozenTableData({this.frozenRows = const <TableRef>[], this.frozenColumns = const <TableRef>[]});
+  /// Rows kept visible during vertical scrolling.
   final Iterable<TableRef> frozenRows;
-  /// Columns that should be frozen during horizontal scrolling.
+  /// Columns kept visible during horizontal scrolling.
   final Iterable<TableRef> frozenColumns;
-  /// Creates a [FrozenTableData].
-  const FrozenTableData({this.frozenRows = const [], this.frozenColumns = const []});
-  /// Tests if a row at the given index and span is frozen.
+  /// Whether the row at [index] with [span] is frozen.
   bool testRow(int index, int span);
-  /// Tests if a column at the given index and span is frozen.
+  /// Whether the column at [index] with [span] is frozen.
   bool testColumn(int index, int span);
 }
 ```

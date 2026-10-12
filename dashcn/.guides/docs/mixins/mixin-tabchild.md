@@ -1,18 +1,12 @@
 ---
 title: "Mixin: TabChild"
-description: "Mixin for widgets that can be used as tab children."
+description: "Marker for widgets that can live in a [TabContainer]."
 ---
 
 ```dart
-/// Mixin for widgets that can be used as tab children.
-///
-/// Provides the interface for tab child widgets, indicating whether
-/// the child participates in indexed tab selection.
+/// Marker for widgets that can live in a [TabContainer].
 mixin TabChild on Widget {
-  /// Whether this tab child uses indexed positioning.
-  ///
-  /// When `true`, the tab's position in the list determines its index.
-  /// When `false`, the tab may use a custom key for identification.
+  /// Whether the container assigns this child an index.
   bool get indexed;
 }
 ```

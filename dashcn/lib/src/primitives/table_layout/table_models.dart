@@ -11,12 +11,12 @@ import 'package:flutter/widgets.dart';
 import 'table_cells.dart';
 
 /// One row of a `table`.
-class ShadcnTableRow implements TableRowLike<ShadcnTableCell> {
+class TableViewRow implements TableRowLike<TableViewCell> {
   /// Creates a row.
-  const ShadcnTableRow({required this.cells, this.selected = false});
+  const TableViewRow({required this.cells, this.selected = false});
 
   @override
-  final List<ShadcnTableCell> cells;
+  final List<TableViewCell> cells;
 
   @override
   final bool selected;
@@ -24,7 +24,7 @@ class ShadcnTableRow implements TableRowLike<ShadcnTableCell> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShadcnTableRow &&
+      other is TableViewRow &&
           listEquals(other.cells, cells) &&
           other.selected == selected;
 
@@ -32,22 +32,22 @@ class ShadcnTableRow implements TableRowLike<ShadcnTableCell> {
   int get hashCode => Object.hash(Object.hashAll(cells), selected);
 }
 
-/// A header row of a `table` (shadcn `TableHead` styling).
-class ShadcnTableHeader extends ShadcnTableRow {
+/// A header row of a `table` (upstream `TableHead` styling).
+class TableViewHeader extends TableViewRow {
   /// Creates a header row.
-  const ShadcnTableHeader({required super.cells});
+  const TableViewHeader({required super.cells});
 }
 
 /// A footer row of a `table` (muted text, no border).
-class ShadcnTableFooter extends ShadcnTableRow {
+class TableViewFooter extends TableViewRow {
   /// Creates a footer row.
-  const ShadcnTableFooter({required super.cells});
+  const TableViewFooter({required super.cells});
 }
 
 /// One cell of a `table`.
-class ShadcnTableCell implements TableCellLike {
+class TableViewCell implements TableCellLike {
   /// Creates a cell.
-  const ShadcnTableCell({
+  const TableViewCell({
     this.columnSpan = 1,
     this.rowSpan = 1,
     required this.child,
@@ -76,7 +76,7 @@ class ShadcnTableCell implements TableCellLike {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShadcnTableCell &&
+      other is TableViewCell &&
           other.columnSpan == columnSpan &&
           other.rowSpan == rowSpan &&
           other.child == child &&

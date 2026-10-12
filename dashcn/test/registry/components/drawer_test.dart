@@ -18,7 +18,7 @@ final FocusNode _openerNode = FocusNode(debugLabel: 'opener');
 
 Future<void> _pumpApp(
   WidgetTester tester, {
-  ShadcnThemeData? theme,
+  ThemeData? theme,
   DrawerTheme? appTheme,
   DrawerTheme? scopedTheme,
 }) async {
@@ -57,9 +57,7 @@ Future<void> _pumpApp(
   if (appTheme != null) {
     app = ComponentThemes(themes: <ComponentThemeData>[appTheme], child: app);
   }
-  await tester.pumpWidget(
-    ShadcnTheme(data: theme ?? const ShadcnThemeData(), child: app),
-  );
+  await tester.pumpWidget(Theme(data: theme ?? const ThemeData(), child: app));
   _openerNode.requestFocus();
 }
 
@@ -90,7 +88,7 @@ Color? _panelColor(WidgetTester tester) {
 FocusNode get _primary => FocusManager.instance.primaryFocus!;
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   tearDown(() {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -296,9 +294,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the panel', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await _pumpApp(tester, theme: dark);
     openDrawer<void>(
       context: _host,

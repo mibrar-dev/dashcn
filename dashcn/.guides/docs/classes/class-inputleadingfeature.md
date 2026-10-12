@@ -1,34 +1,15 @@
 ---
 title: "Class: InputLeadingFeature"
-description: "Adds a custom widget to the leading (left) side of the input field."
+description: "Adds a widget before the editable text."
 ---
 
 ```dart
-/// Adds a custom widget to the leading (left) side of the input field.
-///
-/// Allows you to place any widget before the input text, such as icons,
-/// labels, or other decorative elements.
-///
-/// Example:
-/// ```dart
-/// TextField(
-///   features: [
-///     InputLeadingFeature(
-///       Icon(Icons.search),
-///     ),
-///   ],
-/// )
-/// ```
+/// Adds a widget before the editable text.
 class InputLeadingFeature extends InputFeature {
-  /// The widget to display on the leading side.
+  /// Creates a leading feature.
+  const InputLeadingFeature(this.prefix, {super.visibility});
+  /// The widget shown before the editable text.
   final Widget prefix;
-  /// Creates an [InputLeadingFeature].
-  ///
-  /// Parameters:
-  /// - [prefix] (`Widget`, required): The widget to show before the input.
-  /// - [visibility] (`InputFeatureVisibility`, optional): Controls visibility.
-  /// - [skipFocusTraversal] (`bool`, optional): Whether to skip in focus order.
-  const InputLeadingFeature(this.prefix, {super.visibility, super.skipFocusTraversal});
-  InputFeatureState createState();
+  Iterable<Widget> buildLeading(InputFeatureState state, BuildContext context);
 }
 ```

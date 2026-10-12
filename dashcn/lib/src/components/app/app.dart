@@ -1,9 +1,9 @@
-// The `app` component: [ShadcnApp], the app shell that wires WidgetsApp with
-// the shadcn theme, component-theme overrides, overlay manager and
-// localizations, plus [ShadcnUI], the default text/icon style scope.
+// The `app` component: [DashcnApp], the app shell that wires WidgetsApp with
+// the upstream theme, component-theme overrides, overlay manager and
+// localizations, plus the default text/icon style scope below the theme.
 //
 // Ported from `layout/app/**` (old tree). The old shell wrapped Material's
-// `ThemeData`/`Theme`; the new tree's root is `ShadcnThemeData`/`ShadcnTheme`
+// `ThemeData`/`Theme`; the new tree's root is `ThemeData`/`Theme`
 // (plus `ComponentThemes` for user overrides), and this component exists only
 // to install them — it does not duplicate them.
 //
@@ -35,48 +35,19 @@ import '../../primitives/overlay_manager_layer.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Default text and icon style scope for shadcn apps.
-///
-/// Applies the theme's sans typography (in the `foreground` colour) as the
-/// default text style and the `foreground` colour to icons.
-class ShadcnUI extends StatelessWidget {
-  /// Creates a style scope.
-  const ShadcnUI({super.key, this.textStyle, required this.child});
-
-  /// Overrides the default text style.
-  final TextStyle? textStyle;
-
-  /// The wrapped subtree.
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return DefaultTextStyle(
-      style:
-          textStyle ??
-          theme.typography.sans.copyWith(color: theme.colors.foreground),
-      child: IconTheme(
-        data: IconThemeData(color: theme.colors.foreground),
-        child: child,
-      ),
-    );
-  }
-}
-
-/// A shadcn-themed application shell.
+/// A upstream-themed application shell.
 ///
 /// ```dart
-/// ShadcnApp(
+/// DashcnApp(
 ///   title: 'My App',
 ///   theme: appTheme,
 ///   darkTheme: appDarkTheme,
 ///   home: const HomePage(),
 /// );
 /// ```
-class ShadcnApp extends StatelessWidget {
-  /// Creates a shadcn app.
-  const ShadcnApp({
+class DashcnApp extends StatelessWidget {
+  /// Creates a upstream app.
+  const DashcnApp({
     super.key,
     this.navigatorKey,
     this.home,
@@ -90,7 +61,7 @@ class ShadcnApp extends StatelessWidget {
     this.builder,
     this.title,
     this.color,
-    this.theme = const ShadcnThemeData(),
+    this.theme = const ThemeData(),
     this.darkTheme,
     this.themeMode = ThemeMode.system,
     this.componentThemes = const <ComponentThemeData>[],
@@ -99,7 +70,7 @@ class ShadcnApp extends StatelessWidget {
     this.localizationsDelegates,
     this.localeListResolutionCallback,
     this.localeResolutionCallback,
-    this.supportedLocales = ShadcnLocalizations.supportedLocales,
+    this.supportedLocales = ComponentLocalizations.supportedLocales,
     this.showPerformanceOverlay = false,
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = true,
@@ -150,10 +121,10 @@ class ShadcnApp extends StatelessWidget {
   final Color? color;
 
   /// The light (or only) theme.
-  final ShadcnThemeData theme;
+  final ThemeData theme;
 
   /// The dark theme; falls back to [theme] when null.
-  final ShadcnThemeData? darkTheme;
+  final ThemeData? darkTheme;
 
   /// Which theme [theme]/[darkTheme] to use.
   final ThemeMode themeMode;
@@ -168,7 +139,7 @@ class ShadcnApp extends StatelessWidget {
   /// See [WidgetsApp.locale].
   final Locale? locale;
 
-  /// Extra localization delegates, merged with the shadcn delegates.
+  /// Extra localization delegates, merged with the upstream delegates.
   final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
 
   /// See [WidgetsApp.localeListResolutionCallback].
@@ -179,8 +150,8 @@ class ShadcnApp extends StatelessWidget {
 
   /// See [WidgetsApp.supportedLocales].
   ///
-  /// Defaults to [ShadcnLocalizations.supportedLocales] — the locales the
-  /// shadcn delegate can load. (The delegate does not declare `en`: English
+  /// Defaults to [ComponentLocalizations.supportedLocales] — the locales the
+  /// upstream delegate can load. (The delegate does not declare `en`: English
   /// is the class fallback, not a translated table — see the README.)
   final Iterable<Locale> supportedLocales;
 
@@ -198,7 +169,7 @@ class ShadcnApp extends StatelessWidget {
   /// `WidgetsApp` *replaces* its defaults when a map is supplied: an app that
   /// passes a single shortcut would otherwise lose Tab traversal
   /// (`NextFocusIntent`), activation (`Enter`/`Space` → `ActivateIntent`) and
-  /// dismissal (`Escape` → `DismissIntent`) app-wide. `ShadcnApp` therefore
+  /// dismissal (`Escape` → `DismissIntent`) app-wide. `DashcnApp` therefore
   /// merges, and caller entries win.
   final Map<ShortcutActivator, Intent>? shortcuts;
 
@@ -219,7 +190,7 @@ class ShadcnApp extends StatelessWidget {
   /// Handler for menu overlays installed by [OverlayManagerLayer].
   final OverlayHandler menuHandler;
 
-  /// Animates theme changes with [AnimatedShadcnTheme] when true.
+  /// Animates theme changes with [AnimatedTheme] when true.
   final bool enableThemeAnimation;
 
   /// [WidgetsApp] replaces its defaults when `shortcuts`/`actions` are
@@ -249,7 +220,7 @@ class ShadcnApp extends StatelessWidget {
     final List<LocalizationsDelegate<dynamic>> delegates =
         <LocalizationsDelegate<dynamic>>[
           ...?localizationsDelegates,
-          ...ShadcnLocalizations.localizationsDelegates,
+          ...ComponentLocalizations.localizationsDelegates,
           GlobalWidgetsLocalizations.delegate,
         ];
     final Set<Type> seen = <Type>{};
@@ -266,17 +237,17 @@ class ShadcnApp extends StatelessWidget {
 
   /// Default locale resolution: language code first, then script/country,
   /// falling back to the first `supportedLocales` entry (`en`). See
-  /// [ShadcnLocalizations.resolveLocale].
+  /// [ComponentLocalizations.resolveLocale].
   static Locale? _resolveLocale(
     Locale? locale,
     Iterable<Locale> supportedLocales,
   ) {
     return locale == null
         ? null
-        : ShadcnLocalizations.resolveLocale(locale, supportedLocales);
+        : ComponentLocalizations.resolveLocale(locale, supportedLocales);
   }
 
-  ShadcnThemeData _resolveTheme(BuildContext context) {
+  ThemeData _resolveTheme(BuildContext context) {
     final Brightness platformBrightness =
         MediaQuery.maybeOf(context)?.platformBrightness ??
         WidgetsBinding.instance.platformDispatcher.platformBrightness;
@@ -292,19 +263,31 @@ class ShadcnApp extends StatelessWidget {
   }
 
   Widget _buildApp(BuildContext context, Widget? child) {
-    final ShadcnThemeData data = _resolveTheme(context);
+    final ThemeData data = _resolveTheme(context);
     Widget result = child ?? const SizedBox.shrink();
     if (builder != null) {
       result = builder!(context, result);
     }
-    result = ShadcnUI(child: result);
+    // Default text/icon style scope, read from the ambient theme at this
+    // position (above the theme installed below).
+    final Widget content = result;
+    result = Builder(
+      builder: (BuildContext context) {
+        final ThemeData ambient = Theme.of(context);
+        return DefaultTextStyle(
+          style: ambient.typography.sans.copyWith(
+            color: ambient.colors.foreground,
+          ),
+          child: IconTheme(
+            data: IconThemeData(color: ambient.colors.foreground),
+            child: content,
+          ),
+        );
+      },
+    );
     result = enableThemeAnimation
-        ? AnimatedShadcnTheme(
-            data: data,
-            duration: kDefaultDuration,
-            child: result,
-          )
-        : ShadcnTheme(data: data, child: result);
+        ? AnimatedTheme(data: data, duration: kDefaultDuration, child: result)
+        : Theme(data: data, child: result);
     result = ComponentThemes(themes: componentThemes, child: result);
     return OverlayManagerLayer(
       popoverHandler: popoverHandler,

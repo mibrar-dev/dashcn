@@ -3,7 +3,7 @@
 Keyboard-navigable menu family: `MenuGroup` (roving focus + typeahead),
 actionable rows (`MenuButton`, `MenuCheckboxItem`, `MenuRadioItem`),
 static rows (`MenuLabel`, `MenuShortcut`, `MenuSeparator`), submenus
-(`MenuSub`), the `showShadcnMenu` helper, and the `MenuPopup` surface.
+(`MenuSub`), the `showMenu` helper, and the `MenuPopup` surface.
 Owns `MenuPopupTheme` and `MenubarTheme` for the wave-D consumers
 (`menubar`, `context_menu`, `dropdown_menu`, `popup`).
 
@@ -16,7 +16,7 @@ use `command`; for a delayed hover label use `tooltip`.
 
 ```dart
 // A popup menu anchored to a button (needs an Overlay above).
-await showShadcnMenu<void>(
+await showMenu<void>(
   context: context,
   children: [
     MenuButton(child: Text('Cut'), onPressed: (_) {}),
@@ -71,7 +71,7 @@ MenuRadioGroup<String>(
 | `MenuSeparator` | — |
 | `MenuSub` | `trigger`, `children`, `enabled`, `theme` |
 | `MenuPopup` | `children`, `theme: MenuPopupTheme?` |
-| `showShadcnMenu` | `context`, `children`, `alignment`, `anchorAlignment`, `offset`, `theme`, `popupTheme` |
+| `showMenu` | `context`, `children`, `alignment`, `anchorAlignment`, `offset`, `theme`, `popupTheme` |
 
 Keyboard: one tab stop per group; arrows move and wrap; Home/End jump;
 Enter/Space activates (toggles checkbox/radio); ArrowRight opens the
@@ -95,7 +95,7 @@ popover surface, 1px border, radius md, padding 4, min-width 192.
 `MenuPopupSurface`, `showMenuPopover`, `MenuLabel`, `MenuShortcut`,
 `MenuSeparator`, `columnMenuBuilder`) live in primitives and are
 re-exported here; every row resolves its four theme legs in `menu.dart`.
-B20/F1: rows measure the shadcn h-8 = 32 (padding is reserved inside the
+B20/F1: rows measure the dashcn h-8 = 32 (padding is reserved inside the
 minimum) and paint `focus:bg-accent focus:text-accent-foreground`;
 `RovingRow` lives in `primitives/roving_row.dart`, re-exported by
 `menu_rows.dart`.

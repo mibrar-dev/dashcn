@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Recent-colour storage plus the swatch grid that reuses them.",
   "tier": "component",
-  "install": "flutter_shadcn add history",
-  "import": "import 'package:<your_app>/ui/shadcn/components/history/history.dart';",
+  "install": "dashcn add history",
+  "import": "import 'package:<your_app>/ui/dashcn/components/history/history.dart';",
   "tags": [
     "color",
     "history",

@@ -5,8 +5,8 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../web_bridge.dart';
 import 'docs_tokens.dart';
 
@@ -26,7 +26,7 @@ class DocsFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final TextStyle base = docsText(
       context,
@@ -87,7 +87,7 @@ class _FooterLinkState extends State<_FooterLink> {
           widget.label,
           style: widget.style.copyWith(
             color: _hovered
-                ? ShadcnTheme.of(context).colors.foreground
+                ? Theme.of(context).colors.foreground
                 : widget.style.color,
           ),
         ),

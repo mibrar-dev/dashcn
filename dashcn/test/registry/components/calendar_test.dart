@@ -1,7 +1,7 @@
 // Widget tests for the `calendar` component.
 //
 // Covers the three view types, the four selection modes, the value lookups,
-// keyboard navigation and its roving focus, the shadcn cell size, light and
+// keyboard navigation and its roving focus, the upstream cell size, light and
 // dark tokens, all four precedence legs, plus a regression per bug fixed.
 
 import 'package:flutter/services.dart';
@@ -25,7 +25,7 @@ final DateTime _today = DateTime(2024, 3, 14);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CalendarTheme? scoped,
 }) {
@@ -33,7 +33,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<CalendarTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -44,7 +44,7 @@ Widget _frame(
           // `Localizations` insists on a widgets delegate, so both are needed.
           delegates: const <LocalizationsDelegate<dynamic>>[
             DefaultWidgetsLocalizations.delegate,
-            ShadcnLocalizations.delegate,
+            ComponentLocalizations.delegate,
           ],
           child: Align(alignment: Alignment.topLeft, child: body),
         ),
@@ -84,7 +84,7 @@ Container _cellOf(WidgetTester tester, String label) =>
     tester.widget<Container>(_cellFinder(tester, label));
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
   const CalendarView march = CalendarView(2024, 3);
 
   group('date grid', () {
@@ -573,15 +573,15 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors palette) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors palette) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive an unselected cell', (tester) async {
         await tester.pumpWidget(
           _frame(
             const Calendar(view: march),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_fillOf(tester, '5'), const Color(0x00000000));
@@ -599,7 +599,7 @@ void main() {
               now: _today,
               value: SingleCalendarValue(DateTime(2024, 3, 5)),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_fillOf(tester, '14'), palette.secondary);
@@ -616,7 +616,7 @@ void main() {
                 DateTime(2024, 3, 9),
               ),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_fillOf(tester, '5'), palette.secondary);
@@ -720,7 +720,7 @@ void main() {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
       expect(
         (_cellOf(tester, '5').decoration! as BoxDecoration).borderRadius,
-        const ShadcnThemeData().borderRadiusMd,
+        const ThemeData().borderRadiusMd,
       );
     });
 
@@ -1070,7 +1070,7 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('a day cell is 32x32, shadcn size-8', (tester) async {
+    testWidgets('a day cell is 32x32, dashcn size-8', (tester) async {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
       expect(tester.getSize(_cellFinder(tester, '14')), const Size(32, 32));
       expect(tester.getSize(_cellFinder(tester, '1')), const Size(32, 32));
@@ -1178,8 +1178,8 @@ void main() {
   });
 
   group('narrow columns', () {
-    Widget narrowFrame(double width, Widget child) => ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Widget narrowFrame(double width, Widget child) => Theme(
+      data: const ThemeData(),
       child: ComponentThemes(
         themes: const <ComponentThemeData>[],
         child: Directionality(
@@ -1188,7 +1188,7 @@ void main() {
             locale: const Locale('en'),
             delegates: const <LocalizationsDelegate<dynamic>>[
               DefaultWidgetsLocalizations.delegate,
-              ShadcnLocalizations.delegate,
+              ComponentLocalizations.delegate,
             ],
             child: Align(
               alignment: Alignment.topLeft,

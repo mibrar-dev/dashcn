@@ -6,7 +6,7 @@
 //
 // Fixes against the old theme:
 //   * `SkeletonThemeDefaults` hard-coded `0x0D171717` / `0x1A171717` while
-//     `ShadcnSkeletonizerConfigLayer` defaulted to `primary.scaleAlpha(0.05)`
+//     `UpstreamSkeletonizerConfigLayer` defaulted to `primary.scaleAlpha(0.05)`
 //     and `primary.scaleAlpha(0.1)` — two different fills for one component.
 //     Both are tokens now (`muted` → `accent`).
 //   * `fromColor`/`toColor` were `Color?`, so an override could not follow a

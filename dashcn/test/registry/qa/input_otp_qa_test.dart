@@ -50,14 +50,14 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
   final Widget body = width == null
       ? child
       : SizedBox(width: width, child: child);
-  return ShadcnTheme(
+  return Theme(
     data: data,
     // Directionality sits above the Overlay, as the contract requires.
     child: Directionality(
@@ -79,14 +79,14 @@ void main() {
     tester,
   ) async {
     for (final preview in inputOtpPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();

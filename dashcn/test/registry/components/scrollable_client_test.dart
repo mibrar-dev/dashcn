@@ -21,8 +21,8 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<ScrollableClientTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: ComponentThemes(
       themes: app,
       child: Directionality(

@@ -1,6 +1,6 @@
-# flutter_shadcn CLI reference snapshot (hand-maintained).
+# dashcn CLI reference snapshot (hand-maintained).
 #
-# The new CLI (P5, `shadcn_flutter_cli` branch `refactor/rearchitecture`) does
+# The new CLI (P5, `dashcn_cli` branch `refactor/rearchitecture`) does
 # not ship real `--help` text yet; this file is the documented command surface
 # from rearch/reports/P5_CLI_PLAN.md §2 and MUST be re-pasted when the CLI
 # lands. docs/tool/gen_docs_data.dart parses it into `kCliCommands`
@@ -14,10 +14,10 @@
 #     `-s, ` alias may precede the long flag);
 #   * `#` lines are comments for this file and never reach the page.
 
-$ flutter_shadcn --help
-Component manager for the shadcn_flutter_kit registry.
+$ dashcn --help
+Component manager for the dashcn registry.
 
-Usage: flutter_shadcn <command> [arguments]
+Usage: dashcn <command> [arguments]
 -h, --help       Print this usage information.
     --version    Print the CLI version.
 
@@ -33,26 +33,26 @@ Available commands:
   doctor     Check the install closure, lock drift and user-owned files.
   validate   Validate the registry manifest against the v2 schema.
 
-Run "flutter_shadcn help <command>" for more information about a command.
+Run "dashcn help <command>" for more information about a command.
 
-$ flutter_shadcn init --help
+$ dashcn init --help
 Install the registry layer core (foundation + theme) into a project and choose
-a theme preset. Writes .shadcn/config.json and shadcn.lock v2; installs no
+a theme preset. Writes .dashcn/config.json and dashcn.lock v2; installs no
 component.
 
-Usage: flutter_shadcn init [arguments]
+Usage: dashcn init [arguments]
 -h, --help         Print this usage information.
-    --dir=<path>   Install root (default: lib/ui/shadcn or the path recorded in .shadcn/config.json).
+    --dir=<path>   Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).
     --theme=<id>   Preset id from themes/index.json; interactive list when omitted.
     --yes          Accept defaults without prompting.
     --json         Print the result as JSON.
 
-$ flutter_shadcn add --help
+$ dashcn add --help
 Add components and the transitive dependency closure (components -> primitives
 -> foundation/theme). Existing user-owned files are never overwritten. Refuses
 to install when a symbol would be defined twice (single-owner preflight).
 
-Usage: flutter_shadcn add <ids...> [arguments]
+Usage: dashcn add <ids...> [arguments]
 -h, --help             Print this usage information.
     --dry-run          Print the plan without writing files.
     --json             Print the plan or result as JSON.
@@ -60,77 +60,77 @@ Usage: flutter_shadcn add <ids...> [arguments]
     --all              Add every component in the registry manifest.
     --include-preview  Also copy preview.dart files (default: never).
 
-$ flutter_shadcn update --help
+$ dashcn update --help
 Hash-based update of registry-owned files. Unchanged files are overwritten,
 locally modified files are reported and skipped, user-owned files are never
 touched. Regenerates theme/app_theme.dart from the locked preset.
 
-Usage: flutter_shadcn update [ids...] [arguments]
+Usage: dashcn update [ids...] [arguments]
 -h, --help    Print this usage information.
     --all     Update every installed component.
     --check   Report only; exit 1 when anything is behind or modified.
     --json    Print the result as JSON.
 
-$ flutter_shadcn remove --help
+$ dashcn remove --help
 Remove registry-owned files for the given components. Refuses when another
 installed component depends on the target.
 
-Usage: flutter_shadcn remove [ids...] [arguments]
+Usage: dashcn remove [ids...] [arguments]
 -h, --help               Print this usage information.
     --purge-user-themes  Also delete the user-owned *_theme.dart files.
     --json               Print the result as JSON.
 
-$ flutter_shadcn list --help
+$ dashcn list --help
 List every component in the registry manifest.
 
-Usage: flutter_shadcn list [arguments]
+Usage: dashcn list [arguments]
 -h, --help    Print this usage information.
     --json    Print the list as JSON.
 
-$ flutter_shadcn search --help
+$ dashcn search --help
 Search the registry manifest by component id, name, tag or description.
 
-Usage: flutter_shadcn search <query> [arguments]
+Usage: dashcn search <query> [arguments]
 -h, --help    Print this usage information.
     --json    Print the matches as JSON.
 
-$ flutter_shadcn info --help
+$ dashcn info --help
 Show the dependency closure, files, API symbols and theme class for one
 component.
 
-Usage: flutter_shadcn info <id> [arguments]
+Usage: dashcn info <id> [arguments]
 -h, --help    Print this usage information.
     --json    Print the report as JSON.
 
-$ flutter_shadcn theme list --help
+$ dashcn theme list --help
 List the theme presets recorded in the registry manifest.
 
-Usage: flutter_shadcn theme list [arguments]
+Usage: dashcn theme list [arguments]
 -h, --help    Print this usage information.
     --json    Print the presets as JSON.
 
-$ flutter_shadcn theme apply --help
+$ dashcn theme apply --help
 Generate theme/app_theme.dart from a preset JSON (values-only file, full
 rewrite; no regex patching). Updates the lock's theme section.
 
-Usage: flutter_shadcn theme apply <preset> [arguments]
+Usage: dashcn theme apply <preset> [arguments]
 -h, --help      Print this usage information.
     --refresh   Re-read the preset JSON even when the lock hash matches.
     --json      Print the result as JSON.
 
-$ flutter_shadcn doctor --help
+$ dashcn doctor --help
 Check the manifest, the installed closure, lock drift, user-owned files and
 relative imports escaping the install root.
 
-Usage: flutter_shadcn doctor [arguments]
+Usage: dashcn doctor [arguments]
 -h, --help    Print this usage information.
     --json    Print the report as JSON.
 Exit codes: 0 clean, 1 drift or modified files, 2 broken closure,
 3 invalid manifest.
 
-$ flutter_shadcn validate --help
+$ dashcn validate --help
 Validate lib/src/manifests/registry.json against the v2 schema.
 
-Usage: flutter_shadcn validate [arguments]
+Usage: dashcn validate [arguments]
 -h, --help    Print this usage information.
     --json    Print the validation report as JSON.

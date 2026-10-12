@@ -107,7 +107,7 @@ String renderDocsTables(DocsModel model) {
     ..writeln('    required this.flags,')
     ..writeln('  });')
     ..writeln()
-    ..writeln('  /// Invocation without `--help` (`flutter_shadcn add`).')
+    ..writeln('  /// Invocation without `--help` (`dashcn add`).')
     ..writeln('  final String label;')
     ..writeln()
     ..writeln('  /// Full invocation line.')

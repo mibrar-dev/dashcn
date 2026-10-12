@@ -4,8 +4,8 @@
   "category": "Animation & Effects",
   "description": "Animated gradient border around a child: sweep ring, travelling tracers, determinate progress or a static outline.",
   "tier": "component",
-  "install": "flutter_shadcn add border_loading",
-  "import": "import 'package:<your_app>/ui/shadcn/components/border_loading/border_loading.dart';",
+  "install": "dashcn add border_loading",
+  "import": "import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';",
   "tags": ["display", "loading", "progress", "border", "gradient"],
   "deps": {
     "foundation": [],

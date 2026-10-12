@@ -1,13 +1,17 @@
 ---
 title: "Class: TrackerData"
-description: "Data for a single tracker segment."
+description: "One segment of a [Tracker]: a level (its colour) and the tooltip shown  while the pointer rests on it."
 ---
 
 ```dart
-/// Data for a single tracker segment.
+/// One segment of a [Tracker]: a level (its colour) and the tooltip shown
+/// while the pointer rests on it.
 class TrackerData {
-  final Widget tooltip;
-  final TrackerLevel level;
+  /// Creates a tracker segment.
   const TrackerData({required this.tooltip, required this.level});
+  /// Tooltip content; the `Tooltip` component supplies the surface.
+  final Widget tooltip;
+  /// Activity level of this segment.
+  final TrackerLevel level;
 }
 ```

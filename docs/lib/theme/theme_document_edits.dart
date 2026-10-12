@@ -3,7 +3,7 @@
 // Split out of `theme_document.dart` purely for the ~400-line rule: an
 // extension resolves across libraries, so callers import both files. Every
 // method returns a new document, which is what lets the Theme Studio drive
-// one `AnimatedShadcnTheme` tween per edit while the document itself stays
+// one `AnimatedTheme` tween per edit while the document itself stays
 // the single source of truth for the live site, localStorage and the export.
 
 import 'package:flutter/widgets.dart';

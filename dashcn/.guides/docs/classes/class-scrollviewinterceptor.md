@@ -1,14 +1,23 @@
 ---
 title: "Class: ScrollViewInterceptor"
-description: "Widget that intercepts scroll events to simulate middle-button drag scrolling."
+description: "Wraps [child] with middle-button autoscroll."
 ---
 
 ```dart
-/// Widget that intercepts scroll events to simulate middle-button drag scrolling.
+/// Wraps [child] with middle-button autoscroll.
+///
+/// ```dart
+/// ScrollViewInterceptor(
+///   child: SingleChildScrollView(child: content),
+/// );
+/// ```
 class ScrollViewInterceptor extends StatefulWidget {
-  final Widget child;
-  final bool enabled;
+  /// Creates an interceptor around [child].
   const ScrollViewInterceptor({super.key, required this.child, this.enabled = true});
+  /// The subtree that receives the synthetic scroll events.
+  final Widget child;
+  /// When false the child renders untouched and no pointer is intercepted.
+  final bool enabled;
   State<ScrollViewInterceptor> createState();
 }
 ```

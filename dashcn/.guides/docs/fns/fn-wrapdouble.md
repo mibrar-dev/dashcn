@@ -1,6 +1,6 @@
 ---
 title: "Function: wrapDouble"
-description: "Wraps a value within a specified range."
+description: "Wraps [value] into the `[min, max)` range."
 ---
 
 Signature

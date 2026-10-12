@@ -2,7 +2,7 @@
 // [KeyboardShortcutTheme] cap styling and the token-derived
 // [keyboardShortcutDefaults].
 //
-// shadcn shortcut hint: one small rounded cap per key, a translucent background
+// upstream shortcut hint: one small rounded cap per key, a translucent background
 // so overlapping surfaces read through, and no shadow. User-owned overrides
 // live in `keyboard_shortcut_theme.dart`.
 
@@ -12,20 +12,20 @@ import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Default horizontal gap between two caps (shadcn `gap-0.5` = 2).
+/// Default horizontal gap between two caps (upstream `gap-0.5` = 2).
 const double keyboardShortcutDefaultSpacing = 2;
 
-/// Default padding inside one cap: shadcn `px-1.5 py-0.5`, density-scaled.
+/// Default padding inside one cap: upstream `px-1.5 py-0.5`, density-scaled.
 ///
 /// Typed [EdgeInsets] (the value an override leg is compared against) but
-/// built as an [EdgeInsetsDensity]: its stored sides are shadcn-px multipliers
+/// built as an [EdgeInsetsDensity]: its stored sides are upstream-px multipliers
 /// (6/16, 4/16), so [KeyboardKeyCap] resolves it against
 /// `density.baseContentPadding * scaling` and a literal override passes
 /// through unchanged.
 const EdgeInsets keyboardShortcutDefaultKeyPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 6, vertical: 4);
 
-/// Fallback label text style (shadcn `text-xs` = 12).
+/// Fallback label text style (upstream `text-xs` = 12).
 const TextStyle keyboardShortcutDefaultTextStyle = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class KeyboardShortcutTheme extends ComponentThemeData
   /// Label text style; null resolves [keyboardShortcutDefaultTextStyle].
   final TextStyle? keyTextStyle;
 
-  /// Shadows under one cap; null draws none (the shadcn look).
+  /// Shadows under one cap; null draws none (the upstream look).
   final List<BoxShadow>? keyShadows;
 
   /// First-non-null-wins merge; the receiver (higher-priority leg) wins.

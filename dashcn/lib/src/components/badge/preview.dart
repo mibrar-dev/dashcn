@@ -20,7 +20,7 @@ Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Badge(variant: variant, child: Text(label)),
-      Gap(ShadcnTheme.of(context).spacing.md),
+      Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),

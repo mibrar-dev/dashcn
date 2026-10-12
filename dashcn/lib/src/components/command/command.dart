@@ -146,7 +146,7 @@ class _CommandState extends State<Command> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final CommandTheme resolved =
         resolveComponentStyle<CommandTheme, CommandTheme>(
           context,
@@ -154,7 +154,9 @@ class _CommandState extends State<Command> {
           select: (t) => t,
           defaults: commandDefaults,
         );
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final bool canPop = Navigator.maybeOf(context)?.canPop() ?? false;
     final Color background =
         resolved.background?.resolve(theme.colors) ?? theme.colors.popover;
@@ -239,7 +241,7 @@ class _CommandState extends State<Command> {
                           padding: EdgeInsetsDensity.only(
                             right: 8 / Density.pxBase,
                           ),
-                          // shadcn `size-4 ... opacity-50`.
+                          // upstream `size-4 ... opacity-50`.
                           child: Opacity(
                             opacity: 0.5,
                             child: Icon(LucideIcons.search, size: 16),
@@ -339,7 +341,9 @@ class CommandEmpty extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Text(ShadcnLocalizations.of(context).commandEmpty).small.muted,
+        child: Text(
+          ComponentLocalizations.of(context).commandEmpty,
+        ).small.muted,
       ),
     );
   }
@@ -365,7 +369,7 @@ Future<T?> showCommandDialog<T>({
         select: (t) => t,
         defaults: commandDefaults,
       );
-  return showShadcnDialog<T>(
+  return showDialog<T>(
     context: context,
     theme: const DialogTheme(
       background: ThemedColor.value(Color(0x00000000)),

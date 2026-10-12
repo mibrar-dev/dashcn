@@ -1,17 +1,14 @@
 ---
 title: "Extension: FormMapValuesExtension"
-description: "Extension methods for [FormMapValues]."
+description: "Typed reads over [FormMapValues]."
 ---
 
 ```dart
-/// Extension methods for [FormMapValues].
+/// Typed reads over [FormMapValues].
 extension FormMapValuesExtension on FormMapValues {
-  /// Retrieves a typed value for a specific form key.
+  /// Returns the value stored under [key], or null when absent.
   ///
-  /// Parameters:
-  /// - [key] (`FormKey<T>`, required): The form key to look up.
-  ///
-  /// Returns: `T?` — the value if found and correctly typed, null otherwise.
+  /// In debug builds a stored value of the wrong type trips an assertion.
   T? getValue<T>(FormKey<T> key);
 }
 ```

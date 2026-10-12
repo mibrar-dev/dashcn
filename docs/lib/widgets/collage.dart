@@ -9,8 +9,8 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/primitives/masonry_layout.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/primitives/masonry_layout.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards_controls.dart';
 import 'collage_cards_forms.dart';
 import 'collage_cards_info.dart';
@@ -83,7 +83,7 @@ class _CollageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool dark = theme.colors.brightness == Brightness.dark;
     final double width = MediaQuery.sizeOf(context).width;
     final double bottomFade = width >= 1280 ? 256 : (width >= 1024 ? 320 : 192);

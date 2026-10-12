@@ -1,38 +1,30 @@
 ---
 title: "Class: TimePicker"
-description: "A time picker widget for selecting time values."
+description: "A clock-time field opening a [TimePickerDialog] sheet."
 ---
 
 ```dart
-/// A time picker widget for selecting time values.
+/// A clock-time field opening a [TimePickerDialog] sheet.
 ///
-/// Provides time selection interface with hours, minutes, and optional
-/// seconds in either popover or dialog mode.
+/// The trigger hugs its content (at least 140 upstream px): the clock icon
+/// leads, the label is left-aligned, the placeholder is muted. Pass [expand]
+/// for a full-width field.
 class TimePicker extends StatelessWidget {
-  /// The currently selected time value.
+  const TimePicker({super.key, required this.value, this.onChanged, this.mode, this.placeholder, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.use24HourFormat, this.showSeconds = false, this.dialogTitle, this.enabled, this.expand = false, this.theme});
   final TimeOfDay? value;
-  /// Callback invoked when the selected time changes.
   final ValueChanged<TimeOfDay?>? onChanged;
-  /// The display mode for the time picker (popover or dialog).
-  final PromptMode mode;
-  /// Placeholder widget shown when no time is selected.
+  final PromptMode? mode;
   final Widget? placeholder;
-  /// Alignment of the popover relative to the anchor.
   final AlignmentGeometry? popoverAlignment;
-  /// Anchor alignment for the popover.
   final AlignmentGeometry? popoverAnchorAlignment;
-  /// Padding inside the popover.
   final EdgeInsetsGeometry? popoverPadding;
-  /// Whether to use 24-hour format.
   final bool? use24HourFormat;
-  /// Whether to show seconds selection.
   final bool showSeconds;
-  /// Title widget for the dialog mode.
   final Widget? dialogTitle;
-  /// Whether the time picker is enabled.
   final bool? enabled;
-  /// Creates a time picker.
-  const TimePicker({super.key, required this.value, this.onChanged, this.mode = PromptMode.dialog, this.placeholder, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.use24HourFormat, this.showSeconds = false, this.dialogTitle, this.enabled});
+  /// Whether the trigger stretches to the available width.
+  final bool expand;
+  final TimePickerTheme? theme;
   Widget build(BuildContext context);
 }
 ```

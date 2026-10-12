@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   DatePickerTheme? scoped,
 }) {
@@ -30,7 +30,7 @@ Widget _frame(
     popoverHandler: OverlayHandler.popover,
     tooltipHandler: OverlayHandler.popover,
     menuHandler: OverlayHandler.popover,
-    child: ShadcnTheme(
+    child: Theme(
       data: data,
       child: ComponentThemes(
         themes: app,
@@ -89,7 +89,7 @@ void main() {
       expect(opacity.opacity, 0.5);
     });
 
-    testWidgets('trigger is at least 36 high (shadcn h-9)', (tester) async {
+    testWidgets('trigger is at least 36 high (dashcn h-9)', (tester) async {
       await tester.pumpWidget(
         _frame(DatePicker(value: null, onChanged: (_) {})),
       );

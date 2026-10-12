@@ -13,13 +13,13 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const ShadcnColors _light = ShadcnColors.lightFallback;
-const ShadcnColors _dark = ShadcnColors.darkFallback;
+const ThemeColors _light = ThemeColors.lightFallback;
+const ThemeColors _dark = ThemeColors.darkFallback;
 
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  ShadcnColors colors = _light,
+  ThemeColors colors = _light,
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TabsTheme? scoped,
   TabPaneTheme? paneScoped,
@@ -32,8 +32,8 @@ Future<void> _pump(
     body = ComponentTheme<TabPaneTheme>(data: paneScoped, child: body);
   }
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(colors: colors),
+    Theme(
+      data: ThemeData(colors: colors),
       child: ComponentThemes(
         themes: app,
         child: Directionality(

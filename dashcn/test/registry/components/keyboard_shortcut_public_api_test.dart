@@ -19,8 +19,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Wraps [child] in the theme the caps resolve their colours from.
 Widget _frame(Widget child) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Center(child: child),

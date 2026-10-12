@@ -14,8 +14,8 @@
 
 import 'package:docs/generated/docs_example_sources.dart';
 import 'package:docs/generated/docs_previews.dart';
-import 'package:docs/ui/shadcn/components/calendar/calendar.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/components/calendar/calendar.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/code_figure.dart';
 import 'package:docs/widgets/example_preview_card.dart';
 import 'package:docs/widgets/get_code_dialog.dart';
@@ -85,7 +85,7 @@ void main() {
             reason: 'claude ${brightness.name} primary is $primary',
           );
           // The previews read the ambient site theme, not a nested default.
-          final ShadcnThemeData ambient = ShadcnTheme.of(
+          final ThemeData ambient = Theme.of(
             tester.element(find.byType(Calendar).first),
           );
           expect(ambient.colors.primary.toARGB32(), primary.toARGB32());
@@ -160,7 +160,7 @@ void main() {
       // The install figure, the usage figures and the teasers all render
       // SelectableRegions; highlighting keeps the plain text intact.
       expect(find.byType(SelectableRegion), findsWidgets);
-      expect(find.textContaining('flutter_shadcn add button'), findsWidgets);
+      expect(find.textContaining('dashcn add button'), findsWidgets);
     });
 
     testWidgets('expanded teaser stays selectable with a copy button', (
@@ -259,8 +259,8 @@ void main() {
     ) async {
       const String code = 'final x = 42; // answer';
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Overlay.wrap(

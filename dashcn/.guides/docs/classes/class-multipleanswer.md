@@ -1,51 +1,36 @@
 ---
 title: "Class: MultipleAnswer"
-description: "A widget for multiple-selection choice scenarios."
+description: "A multi-selection scope."
 ---
 
 ```dart
-/// A widget for multiple-selection choice scenarios.
+/// A multi-selection scope.
 ///
-/// [MultipleAnswer] manages multiple selected values from a set of options.
-/// It allows users to select and deselect multiple items independently.
+/// Two modes:
+/// * uncontrolled — pass a [controller]; `value`/`onChanged` must be null;
+/// * controlled — pass `value` and `onChanged` (null `onChanged` disables).
 ///
-/// This widget is typically used with choice items like [ChoiceChip] or
-/// [ChoiceButton] which integrate with the inherited [Choice] data.
-///
-/// Example:
-/// ```dart
-/// MultipleAnswer<String>(
-///   value: selectedOptions,
-///   onChanged: (values) => setState(() => selectedOptions = values),
-///   child: Wrap(
-///     children: [
-///       ChoiceChip(value: 'A', child: Text('Option A')),
-///       ChoiceChip(value: 'B', child: Text('Option B')),
-///       ChoiceChip(value: 'C', child: Text('Option C')),
-///     ],
-///   ),
-/// )
-/// ```
+/// Child items select through `Choice.choose(context, item)`.
 class MultipleAnswer<T> extends StatefulWidget {
-  /// The child widget tree containing choice items.
+  /// Creates a multi-selection scope.
+  const MultipleAnswer({super.key, required this.child, this.value, this.controller, this.onChanged, this.enabled, this.allowUnselect, this.theme});
+  /// The widget tree containing the choice items.
   final Widget child;
-  /// The currently selected values.
+  /// Current selection in controlled mode.
   final Iterable<T>? value;
-  /// Callback when the selection changes.
+  /// Controller mode: the controller owns the selection.
+  final MultipleAnswerController<T>? controller;
+  /// Called with the next selection in controlled mode.
   final ValueChanged<Iterable<T>?>? onChanged;
-  /// Whether choices are enabled.
+  /// Overrides the enabled state; null means "interactive when controlled or
+  /// controller-driven".
   final bool? enabled;
-  /// Whether all selections can be unselected.
+  /// Whether picking a selected item again removes it; null falls back to the
+  /// resolved theme (default `true`).
   final bool? allowUnselect;
-  /// Creates a [MultipleAnswer].
-  ///
-  /// Parameters:
-  /// - [child] (`Widget`, required): Widget tree with choice items.
-  /// - [value] (`Iterable<T>?`, optional): Currently selected values.
-  /// - [onChanged] (`ValueChanged<Iterable<T>?>?`, optional): Selection callback.
-  /// - [enabled] (`bool?`, optional): Whether choices are enabled.
-  /// - [allowUnselect] (`bool?`, optional): Allow deselecting all choices.
-  const MultipleAnswer({super.key, required this.child, this.value, this.onChanged, this.enabled, this.allowUnselect});
+  /// Widget-leg theme override, merged over the component/app/defaults.
+  final MultipleChoiceTheme? theme;
+  /// Creates the state object for this widget.
   State<MultipleAnswer<T>> createState();
 }
 ```

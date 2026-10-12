@@ -13,11 +13,11 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -180,9 +180,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the icons', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(
         data: dark,
@@ -205,8 +203,8 @@ void main() {
       Pagination child,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: const <ComponentThemeData>[],
             child: Directionality(

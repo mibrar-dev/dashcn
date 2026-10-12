@@ -6,8 +6,8 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
 /// An alphabetical grid of component page links.
@@ -65,7 +65,7 @@ class _ComponentLinkState extends State<_ComponentLink> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),

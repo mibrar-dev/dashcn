@@ -14,7 +14,7 @@ import 'collapsible.dart';
 
 /// One muted row of the branch list.
 Widget _collapsibleRow(BuildContext context, String label) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return DecoratedBox(
     decoration: BoxDecoration(
       color: theme.colors.muted,
@@ -30,14 +30,14 @@ class _CollapsibleUncontrolled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(
         children: <Widget>[
           const CollapsibleTrigger(child: Text('Recent activity')),
           Gap(spacing.sm),
-          _collapsibleRow(context, '@mibrar-dev/shadcn_flutter_kit'),
+          _collapsibleRow(context, '@mibrar-dev/dashcn'),
           CollapsibleContent(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,7 +69,7 @@ class _CollapsibleControlledState extends State<_CollapsibleControlled> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(

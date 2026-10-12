@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Persian (`fa`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsFa extends ShadcnLocalizations {
+class ComponentLocalizationsFa extends ComponentLocalizations {
   /// Creates the Persian strings.
-  const ShadcnLocalizationsFa([super.locale = const Locale('fa')]);
+  const ComponentLocalizationsFa([super.locale = const Locale('fa')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

@@ -13,241 +13,241 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'package:docs/ui/shadcn/components/border_loading/preview.dart'
+import 'package:docs/ui/dashcn/components/border_loading/preview.dart'
     deferred as preview_border_loading;
-import 'package:docs/ui/shadcn/components/dot_indicator/preview.dart'
+import 'package:docs/ui/dashcn/components/dot_indicator/preview.dart'
     deferred as preview_dot_indicator;
-import 'package:docs/ui/shadcn/components/text_animate/preview.dart'
+import 'package:docs/ui/dashcn/components/text_animate/preview.dart'
     deferred as preview_text_animate;
-import 'package:docs/ui/shadcn/components/button/preview.dart'
+import 'package:docs/ui/dashcn/components/button/preview.dart'
     deferred as preview_button;
-import 'package:docs/ui/shadcn/components/toggle/preview.dart'
+import 'package:docs/ui/dashcn/components/toggle/preview.dart'
     deferred as preview_toggle;
-import 'package:docs/ui/shadcn/components/color_picker/preview.dart'
+import 'package:docs/ui/dashcn/components/color_picker/preview.dart'
     deferred as preview_color_picker;
-import 'package:docs/ui/shadcn/components/avatar/preview.dart'
+import 'package:docs/ui/dashcn/components/avatar/preview.dart'
     deferred as preview_avatar;
-import 'package:docs/ui/shadcn/components/badge/preview.dart'
+import 'package:docs/ui/dashcn/components/badge/preview.dart'
     deferred as preview_badge;
-import 'package:docs/ui/shadcn/components/carousel/preview.dart'
+import 'package:docs/ui/dashcn/components/carousel/preview.dart'
     deferred as preview_carousel;
-import 'package:docs/ui/shadcn/components/chat/preview.dart'
+import 'package:docs/ui/dashcn/components/chat/preview.dart'
     deferred as preview_chat;
-import 'package:docs/ui/shadcn/components/chip/preview.dart'
+import 'package:docs/ui/dashcn/components/chip/preview.dart'
     deferred as preview_chip;
-import 'package:docs/ui/shadcn/components/country_flag/preview.dart'
+import 'package:docs/ui/dashcn/components/country_flag/preview.dart'
     deferred as preview_country_flag;
-import 'package:docs/ui/shadcn/components/divider/preview.dart'
+import 'package:docs/ui/dashcn/components/divider/preview.dart'
     deferred as preview_divider;
-import 'package:docs/ui/shadcn/components/empty_state/preview.dart'
+import 'package:docs/ui/dashcn/components/empty_state/preview.dart'
     deferred as preview_empty_state;
-import 'package:docs/ui/shadcn/components/feature_carousel/preview.dart'
+import 'package:docs/ui/dashcn/components/feature_carousel/preview.dart'
     deferred as preview_feature_carousel;
-import 'package:docs/ui/shadcn/components/file_diff_viewer/preview.dart'
+import 'package:docs/ui/dashcn/components/file_diff_viewer/preview.dart'
     deferred as preview_file_diff_viewer;
-import 'package:docs/ui/shadcn/components/keyboard_shortcut/preview.dart'
+import 'package:docs/ui/dashcn/components/keyboard_shortcut/preview.dart'
     deferred as preview_keyboard_shortcut;
-import 'package:docs/ui/shadcn/components/number_ticker/preview.dart'
+import 'package:docs/ui/dashcn/components/number_ticker/preview.dart'
     deferred as preview_number_ticker;
-import 'package:docs/ui/shadcn/components/pinned_sheet/preview.dart'
+import 'package:docs/ui/dashcn/components/pinned_sheet/preview.dart'
     deferred as preview_pinned_sheet;
-import 'package:docs/ui/shadcn/components/table/preview.dart'
+import 'package:docs/ui/dashcn/components/table/preview.dart'
     deferred as preview_table;
-import 'package:docs/ui/shadcn/components/timeline/preview.dart'
+import 'package:docs/ui/dashcn/components/timeline/preview.dart'
     deferred as preview_timeline;
-import 'package:docs/ui/shadcn/components/tracker/preview.dart'
+import 'package:docs/ui/dashcn/components/tracker/preview.dart'
     deferred as preview_tracker;
-import 'package:docs/ui/shadcn/components/tree/preview.dart'
+import 'package:docs/ui/dashcn/components/tree/preview.dart'
     deferred as preview_tree;
-import 'package:docs/ui/shadcn/components/calendar/preview.dart'
+import 'package:docs/ui/dashcn/components/calendar/preview.dart'
     deferred as preview_calendar;
-import 'package:docs/ui/shadcn/components/date_picker/preview.dart'
+import 'package:docs/ui/dashcn/components/date_picker/preview.dart'
     deferred as preview_date_picker;
-import 'package:docs/ui/shadcn/components/time_picker/preview.dart'
+import 'package:docs/ui/dashcn/components/time_picker/preview.dart'
     deferred as preview_time_picker;
-import 'package:docs/ui/shadcn/components/alert/preview.dart'
+import 'package:docs/ui/dashcn/components/alert/preview.dart'
     deferred as preview_alert;
-import 'package:docs/ui/shadcn/components/progress/preview.dart'
+import 'package:docs/ui/dashcn/components/progress/preview.dart'
     deferred as preview_progress;
-import 'package:docs/ui/shadcn/components/skeleton/preview.dart'
+import 'package:docs/ui/dashcn/components/skeleton/preview.dart'
     deferred as preview_skeleton;
-import 'package:docs/ui/shadcn/components/spinner/preview.dart'
+import 'package:docs/ui/dashcn/components/spinner/preview.dart'
     deferred as preview_spinner;
-import 'package:docs/ui/shadcn/components/toast/preview.dart'
+import 'package:docs/ui/dashcn/components/toast/preview.dart'
     deferred as preview_toast;
-import 'package:docs/ui/shadcn/components/autocomplete/preview.dart'
+import 'package:docs/ui/dashcn/components/autocomplete/preview.dart'
     deferred as preview_autocomplete;
-import 'package:docs/ui/shadcn/components/checkbox/preview.dart'
+import 'package:docs/ui/dashcn/components/checkbox/preview.dart'
     deferred as preview_checkbox;
-import 'package:docs/ui/shadcn/components/chip_input/preview.dart'
+import 'package:docs/ui/dashcn/components/chip_input/preview.dart'
     deferred as preview_chip_input;
-import 'package:docs/ui/shadcn/components/dropzone/preview.dart'
+import 'package:docs/ui/dashcn/components/dropzone/preview.dart'
     deferred as preview_dropzone;
-import 'package:docs/ui/shadcn/components/file_picker/preview.dart'
+import 'package:docs/ui/dashcn/components/file_picker/preview.dart'
     deferred as preview_file_picker;
-import 'package:docs/ui/shadcn/components/form/preview.dart'
+import 'package:docs/ui/dashcn/components/form/preview.dart'
     deferred as preview_form;
-import 'package:docs/ui/shadcn/components/formatted_input/preview.dart'
+import 'package:docs/ui/dashcn/components/formatted_input/preview.dart'
     deferred as preview_formatted_input;
-import 'package:docs/ui/shadcn/components/input/preview.dart'
+import 'package:docs/ui/dashcn/components/input/preview.dart'
     deferred as preview_input;
-import 'package:docs/ui/shadcn/components/input_otp/preview.dart'
+import 'package:docs/ui/dashcn/components/input_otp/preview.dart'
     deferred as preview_input_otp;
-import 'package:docs/ui/shadcn/components/item_picker/preview.dart'
+import 'package:docs/ui/dashcn/components/item_picker/preview.dart'
     deferred as preview_item_picker;
-import 'package:docs/ui/shadcn/components/multi_select/preview.dart'
+import 'package:docs/ui/dashcn/components/multi_select/preview.dart'
     deferred as preview_multi_select;
-import 'package:docs/ui/shadcn/components/object_input/preview.dart'
+import 'package:docs/ui/dashcn/components/object_input/preview.dart'
     deferred as preview_object_input;
-import 'package:docs/ui/shadcn/components/phone_input/preview.dart'
+import 'package:docs/ui/dashcn/components/phone_input/preview.dart'
     deferred as preview_phone_input;
-import 'package:docs/ui/shadcn/components/radio_group/preview.dart'
+import 'package:docs/ui/dashcn/components/radio_group/preview.dart'
     deferred as preview_radio_group;
-import 'package:docs/ui/shadcn/components/select/preview.dart'
+import 'package:docs/ui/dashcn/components/select/preview.dart'
     deferred as preview_select;
-import 'package:docs/ui/shadcn/components/slider/preview.dart'
+import 'package:docs/ui/dashcn/components/slider/preview.dart'
     deferred as preview_slider;
-import 'package:docs/ui/shadcn/components/star_rating/preview.dart'
+import 'package:docs/ui/dashcn/components/star_rating/preview.dart'
     deferred as preview_star_rating;
-import 'package:docs/ui/shadcn/components/switch/preview.dart'
+import 'package:docs/ui/dashcn/components/switch/preview.dart'
     deferred as preview_switch;
-import 'package:docs/ui/shadcn/components/text_area/preview.dart'
+import 'package:docs/ui/dashcn/components/text_area/preview.dart'
     deferred as preview_text_area;
-import 'package:docs/ui/shadcn/components/accordion/preview.dart'
+import 'package:docs/ui/dashcn/components/accordion/preview.dart'
     deferred as preview_accordion;
-import 'package:docs/ui/shadcn/components/card/preview.dart'
+import 'package:docs/ui/dashcn/components/card/preview.dart'
     deferred as preview_card;
-import 'package:docs/ui/shadcn/components/card_image/preview.dart'
+import 'package:docs/ui/dashcn/components/card_image/preview.dart'
     deferred as preview_card_image;
-import 'package:docs/ui/shadcn/components/collapsible/preview.dart'
+import 'package:docs/ui/dashcn/components/collapsible/preview.dart'
     deferred as preview_collapsible;
-import 'package:docs/ui/shadcn/components/filter_bar/preview.dart'
+import 'package:docs/ui/dashcn/components/filter_bar/preview.dart'
     deferred as preview_filter_bar;
-import 'package:docs/ui/shadcn/components/overflow_marquee/preview.dart'
+import 'package:docs/ui/dashcn/components/overflow_marquee/preview.dart'
     deferred as preview_overflow_marquee;
-import 'package:docs/ui/shadcn/components/resizable/preview.dart'
+import 'package:docs/ui/dashcn/components/resizable/preview.dart'
     deferred as preview_resizable;
-import 'package:docs/ui/shadcn/components/scaffold/preview.dart'
+import 'package:docs/ui/dashcn/components/scaffold/preview.dart'
     deferred as preview_scaffold;
-import 'package:docs/ui/shadcn/components/scrollbar/preview.dart'
+import 'package:docs/ui/dashcn/components/scrollbar/preview.dart'
     deferred as preview_scrollbar;
-import 'package:docs/ui/shadcn/components/sortable/preview.dart'
+import 'package:docs/ui/dashcn/components/sortable/preview.dart'
     deferred as preview_sortable;
-import 'package:docs/ui/shadcn/components/steps/preview.dart'
+import 'package:docs/ui/dashcn/components/steps/preview.dart'
     deferred as preview_steps;
-import 'package:docs/ui/shadcn/components/command/preview.dart'
+import 'package:docs/ui/dashcn/components/command/preview.dart'
     deferred as preview_command;
-import 'package:docs/ui/shadcn/components/context_menu/preview.dart'
+import 'package:docs/ui/dashcn/components/context_menu/preview.dart'
     deferred as preview_context_menu;
-import 'package:docs/ui/shadcn/components/dropdown_menu/preview.dart'
+import 'package:docs/ui/dashcn/components/dropdown_menu/preview.dart'
     deferred as preview_dropdown_menu;
-import 'package:docs/ui/shadcn/components/menu/preview.dart'
+import 'package:docs/ui/dashcn/components/menu/preview.dart'
     deferred as preview_menu;
-import 'package:docs/ui/shadcn/components/menubar/preview.dart'
+import 'package:docs/ui/dashcn/components/menubar/preview.dart'
     deferred as preview_menubar;
-import 'package:docs/ui/shadcn/components/breadcrumb/preview.dart'
+import 'package:docs/ui/dashcn/components/breadcrumb/preview.dart'
     deferred as preview_breadcrumb;
-import 'package:docs/ui/shadcn/components/navigation_bar/preview.dart'
+import 'package:docs/ui/dashcn/components/navigation_bar/preview.dart'
     deferred as preview_navigation_bar;
-import 'package:docs/ui/shadcn/components/navigation_menu/preview.dart'
+import 'package:docs/ui/dashcn/components/navigation_menu/preview.dart'
     deferred as preview_navigation_menu;
-import 'package:docs/ui/shadcn/components/pagination/preview.dart'
+import 'package:docs/ui/dashcn/components/pagination/preview.dart'
     deferred as preview_pagination;
-import 'package:docs/ui/shadcn/components/stepper/preview.dart'
+import 'package:docs/ui/dashcn/components/stepper/preview.dart'
     deferred as preview_stepper;
-import 'package:docs/ui/shadcn/components/tabs/preview.dart'
+import 'package:docs/ui/dashcn/components/tabs/preview.dart'
     deferred as preview_tabs;
-import 'package:docs/ui/shadcn/components/alert_dialog/preview.dart'
+import 'package:docs/ui/dashcn/components/alert_dialog/preview.dart'
     deferred as preview_alert_dialog;
-import 'package:docs/ui/shadcn/components/dialog/preview.dart'
+import 'package:docs/ui/dashcn/components/dialog/preview.dart'
     deferred as preview_dialog;
-import 'package:docs/ui/shadcn/components/drawer/preview.dart'
+import 'package:docs/ui/dashcn/components/drawer/preview.dart'
     deferred as preview_drawer;
-import 'package:docs/ui/shadcn/components/gooey_toast/preview.dart'
+import 'package:docs/ui/dashcn/components/gooey_toast/preview.dart'
     deferred as preview_gooey_toast;
-import 'package:docs/ui/shadcn/components/hover_card/preview.dart'
+import 'package:docs/ui/dashcn/components/hover_card/preview.dart'
     deferred as preview_hover_card;
-import 'package:docs/ui/shadcn/components/popup/preview.dart'
+import 'package:docs/ui/dashcn/components/popup/preview.dart'
     deferred as preview_popup;
-import 'package:docs/ui/shadcn/components/refresh_trigger/preview.dart'
+import 'package:docs/ui/dashcn/components/refresh_trigger/preview.dart'
     deferred as preview_refresh_trigger;
-import 'package:docs/ui/shadcn/components/tooltip/preview.dart'
+import 'package:docs/ui/dashcn/components/tooltip/preview.dart'
     deferred as preview_tooltip;
-import 'package:docs/ui/shadcn/components/code_snippet/preview.dart'
+import 'package:docs/ui/dashcn/components/code_snippet/preview.dart'
     deferred as preview_code_snippet;
-import 'package:docs/ui/shadcn/components/image/preview.dart'
+import 'package:docs/ui/dashcn/components/image/preview.dart'
     deferred as preview_image;
-import 'package:docs/ui/shadcn/components/markdown/preview.dart'
+import 'package:docs/ui/dashcn/components/markdown/preview.dart'
     deferred as preview_markdown;
-import 'package:docs/ui/shadcn/components/alpha/preview.dart'
+import 'package:docs/ui/dashcn/components/alpha/preview.dart'
     deferred as preview_alpha;
-import 'package:docs/ui/shadcn/components/anchor/preview.dart'
+import 'package:docs/ui/dashcn/components/anchor/preview.dart'
     deferred as preview_anchor;
-import 'package:docs/ui/shadcn/components/app/preview.dart'
+import 'package:docs/ui/dashcn/components/app/preview.dart'
     deferred as preview_app;
-import 'package:docs/ui/shadcn/components/async/preview.dart'
+import 'package:docs/ui/dashcn/components/async/preview.dart'
     deferred as preview_async;
-import 'package:docs/ui/shadcn/components/backdrop_transform/preview.dart'
+import 'package:docs/ui/dashcn/components/backdrop_transform/preview.dart'
     deferred as preview_backdrop_transform;
-import 'package:docs/ui/shadcn/components/color/preview.dart'
+import 'package:docs/ui/dashcn/components/color/preview.dart'
     deferred as preview_color;
-import 'package:docs/ui/shadcn/components/color_field/preview.dart'
+import 'package:docs/ui/dashcn/components/color_field/preview.dart'
     deferred as preview_color_field;
-import 'package:docs/ui/shadcn/components/color_input/preview.dart'
+import 'package:docs/ui/dashcn/components/color_input/preview.dart'
     deferred as preview_color_input;
-import 'package:docs/ui/shadcn/components/drawer_container/preview.dart'
+import 'package:docs/ui/dashcn/components/drawer_container/preview.dart'
     deferred as preview_drawer_container;
-import 'package:docs/ui/shadcn/components/error_system/preview.dart'
+import 'package:docs/ui/dashcn/components/error_system/preview.dart'
     deferred as preview_error_system;
-import 'package:docs/ui/shadcn/components/eye_dropper/preview.dart'
+import 'package:docs/ui/dashcn/components/eye_dropper/preview.dart'
     deferred as preview_eye_dropper;
-import 'package:docs/ui/shadcn/components/formatter/preview.dart'
+import 'package:docs/ui/dashcn/components/formatter/preview.dart'
     deferred as preview_formatter;
-import 'package:docs/ui/shadcn/components/group/preview.dart'
+import 'package:docs/ui/dashcn/components/group/preview.dart'
     deferred as preview_group;
-import 'package:docs/ui/shadcn/components/history/preview.dart'
+import 'package:docs/ui/dashcn/components/history/preview.dart'
     deferred as preview_history;
-import 'package:docs/ui/shadcn/components/hsl/preview.dart'
+import 'package:docs/ui/dashcn/components/hsl/preview.dart'
     deferred as preview_hsl;
-import 'package:docs/ui/shadcn/components/hsv/preview.dart'
+import 'package:docs/ui/dashcn/components/hsv/preview.dart'
     deferred as preview_hsv;
-import 'package:docs/ui/shadcn/components/icon/preview.dart'
+import 'package:docs/ui/dashcn/components/icon/preview.dart'
     deferred as preview_icon;
-import 'package:docs/ui/shadcn/components/locale_utils/preview.dart'
+import 'package:docs/ui/dashcn/components/locale_utils/preview.dart'
     deferred as preview_locale_utils;
-import 'package:docs/ui/shadcn/components/media_query/preview.dart'
+import 'package:docs/ui/dashcn/components/media_query/preview.dart'
     deferred as preview_media_query;
-import 'package:docs/ui/shadcn/components/multiple_choice/preview.dart'
+import 'package:docs/ui/dashcn/components/multiple_choice/preview.dart'
     deferred as preview_multiple_choice;
-import 'package:docs/ui/shadcn/components/outlined_container/preview.dart'
+import 'package:docs/ui/dashcn/components/outlined_container/preview.dart'
     deferred as preview_outlined_container;
-import 'package:docs/ui/shadcn/components/overlay_configuration/preview.dart'
+import 'package:docs/ui/dashcn/components/overlay_configuration/preview.dart'
     deferred as preview_overlay_configuration;
-import 'package:docs/ui/shadcn/components/page_route/preview.dart'
+import 'package:docs/ui/dashcn/components/page_route/preview.dart'
     deferred as preview_page_route;
-import 'package:docs/ui/shadcn/components/patch/preview.dart'
+import 'package:docs/ui/dashcn/components/patch/preview.dart'
     deferred as preview_patch;
-import 'package:docs/ui/shadcn/components/scrollable/preview.dart'
+import 'package:docs/ui/dashcn/components/scrollable/preview.dart'
     deferred as preview_scrollable;
-import 'package:docs/ui/shadcn/components/scrollable_client/preview.dart'
+import 'package:docs/ui/dashcn/components/scrollable_client/preview.dart'
     deferred as preview_scrollable_client;
-import 'package:docs/ui/shadcn/components/scrollview/preview.dart'
+import 'package:docs/ui/dashcn/components/scrollview/preview.dart'
     deferred as preview_scrollview;
-import 'package:docs/ui/shadcn/components/selectable/preview.dart'
+import 'package:docs/ui/dashcn/components/selectable/preview.dart'
     deferred as preview_selectable;
-import 'package:docs/ui/shadcn/components/spell_check_suggestions_toolbar/preview.dart'
+import 'package:docs/ui/dashcn/components/spell_check_suggestions_toolbar/preview.dart'
     deferred as preview_spell_check_suggestions_toolbar;
-import 'package:docs/ui/shadcn/components/stage_container/preview.dart'
+import 'package:docs/ui/dashcn/components/stage_container/preview.dart'
     deferred as preview_stage_container;
-import 'package:docs/ui/shadcn/components/swiper/preview.dart'
+import 'package:docs/ui/dashcn/components/swiper/preview.dart'
     deferred as preview_swiper;
-import 'package:docs/ui/shadcn/components/switcher/preview.dart'
+import 'package:docs/ui/dashcn/components/switcher/preview.dart'
     deferred as preview_switcher;
-import 'package:docs/ui/shadcn/components/timeline_animation/preview.dart'
+import 'package:docs/ui/dashcn/components/timeline_animation/preview.dart'
     deferred as preview_timeline_animation;
-import 'package:docs/ui/shadcn/components/triple_dots/preview.dart'
+import 'package:docs/ui/dashcn/components/triple_dots/preview.dart'
     deferred as preview_triple_dots;
-import 'package:docs/ui/shadcn/components/window/preview.dart'
+import 'package:docs/ui/dashcn/components/window/preview.dart'
     deferred as preview_window;
 
 /// Loads the preview widget for [componentId] and [exampleIndex],

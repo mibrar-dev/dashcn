@@ -15,30 +15,30 @@ import 'package:flutter_test/flutter_test.dart';
 const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
-List<ShadcnTableRow> _rows() {
-  return <ShadcnTableRow>[
-    const ShadcnTableHeader(
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text('Name')),
-        ShadcnTableCell(child: Text('Role')),
+List<TableViewRow> _rows() {
+  return <TableViewRow>[
+    const TableViewHeader(
+      cells: <TableViewCell>[
+        TableViewCell(child: Text('Name')),
+        TableViewCell(child: Text('Role')),
       ],
     ),
-    const ShadcnTableRow(
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text('Avery')),
-        ShadcnTableCell(child: Text('Designer')),
+    const TableViewRow(
+      cells: <TableViewCell>[
+        TableViewCell(child: Text('Avery')),
+        TableViewCell(child: Text('Designer')),
       ],
     ),
-    const ShadcnTableRow(
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text('Jordan')),
-        ShadcnTableCell(child: Text('Engineer'), enabled: false),
+    const TableViewRow(
+      cells: <TableViewCell>[
+        TableViewCell(child: Text('Jordan')),
+        TableViewCell(child: Text('Engineer'), enabled: false),
       ],
     ),
-    const ShadcnTableFooter(
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text('Total')),
-        ShadcnTableCell(child: Text('2')),
+    const TableViewFooter(
+      cells: <TableViewCell>[
+        TableViewCell(child: Text('Total')),
+        TableViewCell(child: Text('2')),
       ],
     ),
   ];
@@ -46,7 +46,7 @@ List<ShadcnTableRow> _rows() {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TableTheme? scoped,
   Size size = const Size(400, 300),
@@ -55,7 +55,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<TableTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -70,12 +70,12 @@ Widget _frame({
 }
 
 Widget _table({
-  List<ShadcnTableRow>? rows,
+  List<TableViewRow>? rows,
   Map<int, TableSize>? columnWidths,
   ResizableTableController? resizeController,
   TableTheme? theme,
 }) {
-  return ShadcnTable(
+  return TableView(
     rows: rows ?? _rows(),
     columnWidths: columnWidths,
     resizeController: resizeController,
@@ -88,7 +88,7 @@ Widget _scrolledTable({
   Map<int, TableSize>? columnWidths,
   FrozenTableData? frozenCells,
 }) {
-  return ShadcnTable(
+  return TableView(
     rows: _rows(),
     columnWidths: columnWidths,
     resizeController: resizeController,
@@ -123,7 +123,7 @@ TextStyle _cellTextStyle(WidgetTester tester, String text) {
 BoxDecoration _tableDecoration(WidgetTester tester) {
   final Container container = tester.widget<Container>(
     find.descendant(
-      of: find.byType(ShadcnTable),
+      of: find.byType(TableView),
       matching: find.byType(Container),
     ),
   );
@@ -139,7 +139,7 @@ void main() {
   });
 
   testWidgets('uses card fill and border-token bottom border', (tester) async {
-    final ShadcnColors colors = ShadcnColors.lightFallback;
+    final ThemeColors colors = ThemeColors.lightFallback;
     await tester.pumpWidget(_frame(child: _table()));
     expect(_tableDecoration(tester).color, colors.card);
     final BoxDecoration cell = _cellDecoration(tester, 'Avery');
@@ -152,7 +152,7 @@ void main() {
   testWidgets('header cells are medium foreground, footer has no border', (
     tester,
   ) async {
-    final ShadcnColors colors = ShadcnColors.lightFallback;
+    final ThemeColors colors = ThemeColors.lightFallback;
     await tester.pumpWidget(_frame(child: _table()));
     expect(_cellTextStyle(tester, 'Name').fontWeight, FontWeight.w500);
     expect(_cellTextStyle(tester, 'Name').color, colors.foreground);
@@ -189,16 +189,16 @@ void main() {
     await tester.pumpWidget(
       _frame(
         child: _table(
-          rows: <ShadcnTableRow>[
-            const ShadcnTableRow(
-              cells: <ShadcnTableCell>[
-                ShadcnTableCell(columnSpan: 2, child: Text('Wide')),
+          rows: <TableViewRow>[
+            const TableViewRow(
+              cells: <TableViewCell>[
+                TableViewCell(columnSpan: 2, child: Text('Wide')),
               ],
             ),
-            const ShadcnTableRow(
-              cells: <ShadcnTableCell>[
-                ShadcnTableCell(child: Text('A')),
-                ShadcnTableCell(child: Text('B')),
+            const TableViewRow(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('A')),
+                TableViewCell(child: Text('B')),
               ],
             ),
           ],
@@ -220,10 +220,10 @@ void main() {
   testWidgets('regression: dark tables use the card token, not white', (
     tester,
   ) async {
-    const ShadcnColors dark = ShadcnColors.darkFallback;
+    const ThemeColors dark = ThemeColors.darkFallback;
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: _table(),
       ),
     );
@@ -232,7 +232,7 @@ void main() {
   });
 
   testWidgets('hovering a cell highlights its row', (tester) async {
-    final ShadcnColors colors = ShadcnColors.lightFallback;
+    final ThemeColors colors = ThemeColors.lightFallback;
     await tester.pumpWidget(_frame(child: _table()));
     final TestGesture gesture = await tester.createGesture(
       kind: PointerDeviceKind.mouse,
@@ -249,7 +249,7 @@ void main() {
   });
 
   testWidgets('a disabled cell uses the muted foreground', (tester) async {
-    final ShadcnColors colors = ShadcnColors.lightFallback;
+    final ThemeColors colors = ThemeColors.lightFallback;
     await tester.pumpWidget(_frame(child: _table()));
     expect(_cellTextStyle(tester, 'Engineer').color, colors.mutedForeground);
   });
@@ -301,7 +301,7 @@ void main() {
           child: _table(),
         ),
       );
-      expect(_tableDecoration(tester).color, ShadcnColors.lightFallback.card);
+      expect(_tableDecoration(tester).color, ThemeColors.lightFallback.card);
     });
   });
 

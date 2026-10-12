@@ -1,26 +1,22 @@
 ---
 title: "Class: StagedBreakpoint"
-description: "A breakpoint that uses predefined stage values."
+description: "A breakpoint that snaps width to the nearest value in [breakpoints]."
 ---
 
 ```dart
-/// A breakpoint that uses predefined stage values.
-///
-/// Maps container widths to the nearest breakpoint value from a list.
-/// Commonly used for responsive design with specific breakpoints like
-/// mobile (576), tablet (768), desktop (992), etc.
-class StagedBreakpoint implements StageBreakpoint {
-  /// List of breakpoint width values in ascending order.
-  final List<double> breakpoints;
-  /// Creates a [StagedBreakpoint] with custom breakpoints.
+/// A breakpoint that snaps width to the nearest value in [breakpoints].
+class StagedBreakpoint extends StageBreakpoint {
+  /// Creates a staged breakpoint from ascending [breakpoints].
   ///
-  /// Requires at least 2 breakpoints.
+  /// [breakpoints] must not be empty; [minSize] / [maxSize] read its ends.
   const StagedBreakpoint(this.breakpoints);
-  /// Creates a [StagedBreakpoint] with default responsive breakpoints.
+  /// Creates a staged breakpoint with the default responsive values.
   const StagedBreakpoint.defaultBreakpoints();
-  double getMinWidth(double width);
-  double getMaxWidth(double width);
+  /// Ascending breakpoint widths.
+  final List<double> breakpoints;
   double get minSize;
   double get maxSize;
+  double getMinWidth(double width);
+  double getMaxWidth(double width);
 }
 ```

@@ -1,7 +1,7 @@
 // Registry-owned theme data for the `card` component: the [CardTheme]
 // container and its token-derived `cardDefaults`.
 //
-// shadcn card: `bg-card text-card-foreground flex flex-col rounded-xl border
+// upstream card: `bg-card text-card-foreground flex flex-col rounded-xl border
 // py-6`. Glass (`surfaceOpacity` / `surfaceBlur`) is not a token, so it is gone
 // from the new API; a card that needs a blurred surface belongs to the
 // `outlined_container` / `popover` components. User-owned overrides live in
@@ -50,7 +50,7 @@ class CardTheme extends ComponentThemeData implements Mergeable<CardTheme> {
   /// Corner radius; null resolves the ambient `radiusXl` at build.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Inner padding; null resolves the shadcn `p-6` (24) default at build, as an
+  /// Inner padding; null resolves the upstream `p-6` (24) default at build, as an
   /// [EdgeInsetsDensity] that scales with density. A literal override passes
   /// through unchanged.
   final EdgeInsetsGeometry? padding;
@@ -155,7 +155,7 @@ class CardTheme extends ComponentThemeData implements Mergeable<CardTheme> {
   );
 }
 
-/// Default card padding: shadcn `p-6` (`py-6` plus the horizontal gutter) as
+/// Default card padding: upstream `p-6` (`py-6` plus the horizontal gutter) as
 /// density multipliers, resolved by `Card` against
 /// `density.baseContentPadding * scaling`.
 const EdgeInsetsGeometry cardDefaultPadding = EdgeInsetsDensity.pxAll(24);

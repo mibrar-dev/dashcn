@@ -4,8 +4,8 @@
   "category": "Typography & Media",
   "description": "Scrollable code block with optional top-right action buttons.",
   "tier": "component",
-  "install": "flutter_shadcn add code_snippet",
-  "import": "import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';",
+  "install": "dashcn add code_snippet",
+  "import": "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",
   "tags": ["display", "code", "snippet", "pre"],
   "deps": {
     "foundation": ["gap"],

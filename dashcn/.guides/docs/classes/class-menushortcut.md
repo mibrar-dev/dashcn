@@ -1,20 +1,16 @@
 ---
 title: "Class: MenuShortcut"
-description: "Reference for MenuShortcut"
+description: "A keyboard-shortcut hint: text-xs, widest tracking, muted, end-aligned  (compose as a row's trailing)."
 ---
 
 ```dart
+/// A keyboard-shortcut hint: text-xs, widest tracking, muted, end-aligned
+/// (compose as a row's trailing).
 class MenuShortcut extends StatelessWidget {
-  /// The keyboard shortcut to display.
-  final ShortcutActivator activator;
-  /// Widget to display between multiple keys.
-  final Widget? combiner;
-  /// Creates a [MenuShortcut].
-  ///
-  /// Parameters:
-  /// - [activator] (`ShortcutActivator`, required): The shortcut to display.
-  /// - [combiner] (`Widget?`, optional): Separator between keys (default: " + ").
-  const MenuShortcut({super.key, required this.activator, this.combiner});
+  /// Creates a shortcut hint.
+  const MenuShortcut({super.key, required this.shortcut});
+  /// Hint text, e.g. '⇧⌘P'.
+  final String shortcut;
   Widget build(BuildContext context);
 }
 ```

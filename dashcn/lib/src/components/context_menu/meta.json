@@ -2,10 +2,10 @@
   "id": "context_menu",
   "name": "ContextMenu",
   "category": "Menus",
-  "description": "A menu shown at the pointer on right-click (long-press on touch platforms), plus the showShadcnContextMenu helper. Rows, traversal and the popup surface come from the menu component.",
+  "description": "A menu shown at the pointer on right-click (long-press on touch platforms), plus the showContextMenu helper. Rows, traversal and the popup surface come from the menu component.",
   "tier": "component",
-  "install": "flutter_shadcn add context_menu",
-  "import": "import 'package:<your_app>/ui/shadcn/components/context_menu/context_menu.dart';",
+  "install": "dashcn add context_menu",
+  "import": "import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';",
   "tags": [
     "overlay",
     "context-menu",
@@ -36,7 +36,7 @@
       "ContextMenu"
     ],
     "functions": [
-      "showShadcnContextMenu"
+      "showContextMenu"
     ]
   },
   "theme": {
@@ -44,7 +44,7 @@
     "owner": "menu",
     "userFile": "menu/menu_theme.dart",
     "defaults": "menuDefaults",
-    "note": "ContextMenu and showShadcnContextMenu take MenuTheme/MenuPopupTheme as widget-leg overrides; no theme of their own."
+    "note": "ContextMenu and showContextMenu take MenuTheme/MenuPopupTheme as widget-leg overrides; no theme of their own."
   },
   "accessibility": {
     "keyboard": "menu traversal (ArrowUp/Down, Home/End, ArrowRight/Left for submenus, Escape, typeahead); Escape or an outside tap closes the menu",
@@ -57,9 +57,9 @@
   },
   "notes": [
     "ContextMenuTheme (surfaceOpacity/surfaceBlur only) is deleted with the surface* fields; MenuPopupTheme covers the surface.",
-    "The old desktop/mobile editable-text context menus (DesktopEditableTextContextMenu, MobileEditableTextContextMenu, buildEditableTextContextMenu) are not ported: the widgets-only editable text menu lives in primitives/text_editing (defaultShadcnContextMenuBuilder), so context_menu stays a pointer-positioned row menu.",
+    "The old desktop/mobile editable-text context menus (DesktopEditableTextContextMenu, MobileEditableTextContextMenu, buildEditableTextContextMenu) are not ported: the widgets-only editable text menu lives in primitives/text_editing (defaultContextMenuBuilder), so context_menu stays a pointer-positioned row menu.",
     "The drawer dependency is gone; sheet-overlay detection uses primitives/sheet_overlay.dart.",
-    "The old module imported material.dart for TargetPlatform and platform heuristics; widgets' TargetPlatform and ShadcnThemeData.platform replace it.",
+    "The old module imported material.dart for TargetPlatform and platform heuristics; widgets' TargetPlatform and ThemeData.platform replace it.",
     "The old ValueNotifier children dance (post-frame item updates) is gone: a stateless wrapper reads the current items at tap time."
   ]
 }

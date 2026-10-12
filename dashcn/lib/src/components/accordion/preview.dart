@@ -72,7 +72,7 @@ Widget _accordionExpanded(BuildContext context) {
 
 /// Two accordions stacked, so more than one can be open at a time.
 Widget _accordionMultiple(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,

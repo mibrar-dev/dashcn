@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Italian (`it`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsIt extends ShadcnLocalizations {
+class ComponentLocalizationsIt extends ComponentLocalizations {
   /// Creates the Italian strings.
-  const ShadcnLocalizationsIt([super.locale = const Locale('it')]);
+  const ComponentLocalizationsIt([super.locale = const Locale('it')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

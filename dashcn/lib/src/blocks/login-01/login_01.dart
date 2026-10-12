@@ -142,7 +142,7 @@ class _Login01State extends State<Login01> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double spacing = theme.spacing.lg;
     return ColoredBox(
       color: theme.colors.background,
@@ -154,7 +154,7 @@ class _Login01State extends State<Login01> {
                 constraints: const BoxConstraints(maxWidth: 384),
                 child: Card(
                   padding: EdgeInsets.all(theme.spacing.xl),
-                  child: ShadcnForm(
+                  child: FormScope(
                     controller: _controller,
                     onSubmit: _handleValidSubmit,
                     child: Column(
@@ -170,7 +170,7 @@ class _Login01State extends State<Login01> {
                           ),
                         ),
                         Gap(theme.spacing.xl),
-                        ShadcnFormField<String>(
+                        FormItem<String>(
                           key: _emailKey,
                           label: const Text('Email'),
                           validator:
@@ -189,7 +189,7 @@ class _Login01State extends State<Login01> {
                           ),
                         ),
                         Gap(theme.spacing.md),
-                        ShadcnFormField<String>(
+                        FormItem<String>(
                           key: _passwordKey,
                           label: const Text('Password'),
                           trailingLabel: Button(
@@ -213,7 +213,7 @@ class _Login01State extends State<Login01> {
                           ),
                         ),
                         Gap(theme.spacing.md),
-                        ShadcnFormField<CheckboxValue>(
+                        FormItem<CheckboxValue>(
                           key: _rememberKey,
                           // The checkbox carries its own inline label; the
                           // field label stays empty so no text is duplicated.

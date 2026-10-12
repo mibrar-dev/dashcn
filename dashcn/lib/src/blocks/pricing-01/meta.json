@@ -4,8 +4,8 @@
   "category": "Marketing",
   "description": "A pricing section with three plans, a highlighted middle tier and a validated promo-code form.",
   "viewport": "desktop",
-  "install": "flutter_shadcn add pricing-01",
-  "import": "import 'package:<your_app>/ui/shadcn/blocks/pricing-01/pricing_01.dart';",
+  "install": "dashcn add pricing-01",
+  "import": "import 'package:<your_app>/ui/dashcn/blocks/pricing-01/pricing_01.dart';",
   "tags": [
     "pricing01",
     "pricing"

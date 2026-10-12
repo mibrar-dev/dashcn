@@ -73,7 +73,7 @@ Rare gestures (`onTapDown`, secondary/tertiary clicks) go through an outer
 | `lg` | 24 | 14 / w500 | 40 |
 | `icon` | 0 | — | 36 x 36 |
 
-Heights match shadcn `h-7`/`h-8`/`h-9`/`h-10`; the height comes from
+Heights match dashcn `h-7`/`h-8`/`h-9`/`h-10`; the height comes from
 `minHeight` (vertical padding is zero so outline borders do not inflate
 it). All sizes use 14 / w500 text.
 
@@ -86,7 +86,7 @@ override `padding` and `textStyle` per variant.
 (button_theme.dart through ComponentThemes) > buttonDefaults`, merged per
 field and per state with receiver-wins `Mergeable.merge`. Disabled is not a
 colour row: every `StateValue` falls back to `rest` and the whole button is
-drawn at `opacity 0.5` (shadcn `disabled:opacity-50`).
+drawn at `opacity 0.5` (dashcn `disabled:opacity-50`).
 
 | `ButtonTheme` field | Default |
 |---|---|
@@ -122,7 +122,7 @@ Fixed (not ported):
 
 - Destructive text was hardcoded `Colors.white` — now the
   `destructiveForeground` token.
-- Hover alphas follow shadcn (`/90` primary+destructive, `/80` secondary);
+- Hover alphas follow dashcn (`/90` primary+destructive, `/80` secondary);
   destructive rest was `@0.5`, now the full token.
 - Disabled colors were unreadable combinations (primary `mutedForeground`
   background); now rest colours + whole-button opacity.
@@ -131,8 +131,8 @@ Fixed (not ported):
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add button`) or copy the folder into
-   `lib/ui/shadcn/button/`.
+1. Install the component (`dashcn add button`) or copy the folder into
+   `lib/ui/dashcn/button/`.
 2. Import `button.dart` — it re-exports the style surface (`ButtonVariant`,
    `ButtonSize`, `ButtonTheme`, `ButtonVariantStyle`, `buttonDefaults`).
 3. App-wide overrides go in the user-owned `button_theme.dart` and are listed

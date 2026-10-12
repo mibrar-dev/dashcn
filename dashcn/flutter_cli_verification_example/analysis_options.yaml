@@ -12,7 +12,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude:
     # Vendored install output. Analyze the canonical registry package instead.
-    - lib/ui/shadcn/**
+    - lib/ui/dashcn/**
 
 linter:
   # The lint rules applied to this project can be customized in the

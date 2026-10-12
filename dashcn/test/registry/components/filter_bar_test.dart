@@ -22,7 +22,7 @@ final FilterField<String> _statusField = FilterField<String>(
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   FilterBarTheme? scoped,
 }) {
@@ -30,7 +30,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<FilterBarTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -72,7 +72,7 @@ Future<void> _pump(
   FilterBarPresentation presentation = FilterBarPresentation.inline,
   double sheetBreakpoint = 720,
   double width = 800,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   FilterBarTheme? scoped,
   FilterBarTheme? widgetTheme,
@@ -119,9 +119,9 @@ Finder _searchEditable() => find.descendant(
 void main() {
   group('rendering', () {
     testWidgets('renders in light and dark with real sizes', (tester) async {
-      for (final ShadcnThemeData data in <ShadcnThemeData>[
-        const ShadcnThemeData(),
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      for (final ThemeData data in <ThemeData>[
+        const ThemeData(),
+        const ThemeData(colors: ThemeColors.darkFallback),
       ]) {
         await _pump(
           tester,

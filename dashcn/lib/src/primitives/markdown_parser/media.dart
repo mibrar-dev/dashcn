@@ -157,7 +157,7 @@ Widget buildMarkdownImage(
       ),
     );
   }
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   Widget framed = ConstrainedBox(
     constraints: const BoxConstraints(maxHeight: 280),
     child: picture,

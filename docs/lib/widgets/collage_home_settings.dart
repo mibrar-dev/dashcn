@@ -7,15 +7,15 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/select/select.dart';
-import '../ui/shadcn/components/switch/switch.dart';
-import '../ui/shadcn/foundation/gap.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/select/select.dart';
+import '../ui/dashcn/components/switch/switch.dart';
+import '../ui/dashcn/foundation/gap.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
-/// `Notifications`: switch rows, the way shadcn's settings cards read.
+/// `Notifications`: switch rows, the way upstream's settings cards read.
 class HomeNotificationsCard extends StatefulWidget {
   /// Creates the card.
   const HomeNotificationsCard({super.key});

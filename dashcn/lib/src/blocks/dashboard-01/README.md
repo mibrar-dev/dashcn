@@ -15,11 +15,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add dashboard-01
+dashcn add dashboard-01
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/dashboard-01/dashboard_01.dart';
+import 'package:<your_app>/ui/dashcn/blocks/dashboard-01/dashboard_01.dart';
 
 void main() => runApp(const Dashboard01());
 ```
@@ -36,4 +36,4 @@ The block installs with exactly these layers on top of it:
 
 ## Notes
 
-Replace the four `_Dashboard01` tuples with your own metrics, and the `series` list in the chart card with real numbers. The table is a plain `ShadcnTable`, so it takes any `ShadcnTableRow` list.
+Replace the four `_Dashboard01` tuples with your own metrics, and the `series` list in the chart card with real numbers. The table is a plain `TableView`, so it takes any `TableViewRow` list.

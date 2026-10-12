@@ -1,7 +1,7 @@
 // The block card's Code view (P6-B3): the CLI install command with a copy
 // button, the block's file tree, and the selected file's highlighted,
 // selectable source — the same three things the reference `/blocks` code tab
-// shows for `npx shadcn add <id>`.
+// shows for `npx upstream add <id>`.
 //
 // Sources come from the generated `kBlockFileSources` (verbatim registry
 // source + 4-class highlight map), never from a re-typed copy.
@@ -10,12 +10,12 @@ import 'package:flutter/widgets.dart';
 
 import '../blocks/block_sources.dart';
 import '../generated/docs_blocks.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/divider/divider.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'code_spans.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
@@ -83,14 +83,14 @@ class _BlockCodePanelState extends State<BlockCodePanel> {
         message,
         style: TextStyle(
           fontSize: 13,
-          color: ShadcnTheme.of(context).colors.mutedForeground,
+          color: Theme.of(context).colors.mutedForeground,
         ),
       ),
     );
   }
 }
 
-/// The `flutter_shadcn add <id>` row with a copy button.
+/// The `dashcn add <id>` row with a copy button.
 class _InstallRow extends StatelessWidget {
   const _InstallRow({required this.command});
 
@@ -98,7 +98,7 @@ class _InstallRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
@@ -139,7 +139,7 @@ class _SourcePane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     final bool dark = site.codeSurface == const Color(0xFF161616);
     final TextStyle base = theme.typography.mono.copyWith(
@@ -226,7 +226,7 @@ class _FileRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Clickable(
       onPressed: onPressed,
       decoration: WidgetStateProperty.resolveWith<Decoration?>((
@@ -278,7 +278,7 @@ class _VerticalRule extends StatelessWidget {
     return SizedBox(
       width: 1,
       child: ColoredBox(
-        color: ShadcnTheme.of(context).colors.border.withValues(alpha: 0.3),
+        color: Theme.of(context).colors.border.withValues(alpha: 0.3),
       ),
     );
   }

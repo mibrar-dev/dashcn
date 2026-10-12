@@ -11,7 +11,7 @@ class DashcnExampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnApp(
+    return DashcnApp(
       // <!-- P8-2 --> becomes DashcnApp.
       title: 'dashcn example',
       home: Button(onPressed: () {}, child: const Text('Hello dashcn')),

@@ -154,11 +154,11 @@ class _Builder {
     return <String, Object?>{
       'schemaVersion': 2,
       'registry': <String, Object?>{
-        'name': 'shadcn_flutter',
+        'name': 'dashcn',
         'version': _pubspec['version'] as String,
       },
       'install': <String, Object?>{
-        'root': 'lib/ui/shadcn',
+        'root': 'lib/ui/dashcn',
         'componentsDir': 'components',
         'blocksDir': 'blocks',
         'layerDirs': <String, Object?>{
@@ -401,10 +401,10 @@ class _Builder {
       }
       final import = component.meta['import'];
       if (import is! String ||
-          !import.contains('/ui/shadcn/components/${component.id}/')) {
+          !import.contains('/ui/dashcn/components/${component.id}/')) {
         throw ManifestBuildException(
           "component '${component.id}' meta import must use "
-          'ui/shadcn/components/<id>/',
+          'ui/dashcn/components/<id>/',
         );
       }
     }

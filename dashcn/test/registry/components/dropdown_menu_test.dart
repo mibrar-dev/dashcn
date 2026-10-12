@@ -1,5 +1,5 @@
 // Widget tests for the `dropdown_menu` component: the standalone surface,
-// the showShadcnDropdown helper, dismissal, theme legs, sheet padding and
+// the showDropdown helper, dismissal, theme legs, sheet padding and
 // real sizes (row 32, surface min width 128).
 
 import 'package:flutter/services.dart';
@@ -17,10 +17,10 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -53,7 +53,7 @@ DropdownMenu _menu({MenuPopupTheme? theme}) {
 
 void main() {
   testWidgets('renders the rows on a popup surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     await tester.pumpWidget(_frame(_menu()));
     await tester.pump();
     expect(find.text('Profile'), findsOneWidget);
@@ -72,16 +72,14 @@ void main() {
     expect((surface.decoration! as BoxDecoration).color, theme.colors.popover);
   });
 
-  testWidgets('rows are 32 high (shadcn h-8)', (tester) async {
+  testWidgets('rows are 32 high (dashcn h-8)', (tester) async {
     await tester.pumpWidget(_frame(_menu()));
     await tester.pump();
     expect(tester.getSize(find.byType(RovingRow).first).height, 32);
   });
 
   testWidgets('dark tokens drive the surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData theme = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(_frame(_menu(), data: theme));
     await tester.pump();
     final Container surface = tester.widget<Container>(
@@ -217,7 +215,7 @@ void main() {
     expect(pressed, isTrue);
   });
 
-  group('showShadcnDropdown', () {
+  group('showDropdown', () {
     testWidgets('opens anchored and closes on Escape', (tester) async {
       late BuildContext host;
       await tester.pumpWidget(
@@ -231,7 +229,7 @@ void main() {
         ),
       );
       await tester.pump();
-      final opened = showShadcnDropdown<void>(
+      final opened = showDropdown<void>(
         context: host,
         children: <Widget>[
           MenuButton(child: const Text('Profile'), onPressed: (_) {}),
@@ -260,7 +258,7 @@ void main() {
         ),
       );
       await tester.pump();
-      final opened = showShadcnDropdown<void>(
+      final opened = showDropdown<void>(
         context: host,
         children: <Widget>[
           MenuButton(

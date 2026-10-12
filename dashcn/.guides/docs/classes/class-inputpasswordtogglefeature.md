@@ -1,46 +1,21 @@
 ---
 title: "Class: InputPasswordToggleFeature"
-description: "Adds a password visibility toggle feature to the input field."
+description: "Toggles between obscured and plain text."
 ---
 
 ```dart
-/// Adds a password visibility toggle feature to the input field.
-///
-/// Provides a button that allows users to toggle between showing and hiding
-/// password text. Supports both hold-to-reveal and toggle modes.
-///
-/// Example:
-/// ```dart
-/// TextField(
-///   obscureText: true,
-///   features: [
-///     InputPasswordToggleFeature(
-///       mode: PasswordPeekMode.toggle,
-///     ),
-///   ],
-/// )
-/// ```
-class InputPasswordToggleFeature extends InputFeature {
-  /// The mode for password peeking behavior.
+/// Toggles between obscured and plain text.
+class InputPasswordToggleFeature extends InputIconFeature {
+  /// Creates a password toggle button.
+  const InputPasswordToggleFeature({super.position, super.visibility, this.mode = PasswordPeekMode.toggle, this.icon, this.iconShow});
+  /// Hold-to-peek or toggle behaviour.
   final PasswordPeekMode mode;
-  /// Position of the toggle button.
-  final InputFeaturePosition position;
-  /// Icon to display when password is hidden.
+  /// Icon while the text is hidden; defaults to `LucideIcons.eye`.
   final Widget? icon;
-  /// Icon to display when password is shown.
+  /// Icon while the text is shown; defaults to `LucideIcons.eyeOff`.
   final Widget? iconShow;
-  /// Creates an [InputPasswordToggleFeature].
-  ///
-  /// Parameters:
-  /// - [mode] (`PasswordPeekMode`, default: `PasswordPeekMode.toggle`):
-  ///   Toggle or hold behavior.
-  /// - [position] (`InputFeaturePosition`, default: `InputFeaturePosition.trailing`):
-  ///   Where to place the toggle.
-  /// - [icon] (`Widget?`, optional): Custom icon for hidden state.
-  /// - [iconShow] (`Widget?`, optional): Custom icon for visible state.
-  /// - [visibility] (`InputFeatureVisibility`, optional): Controls visibility.
-  /// - [skipFocusTraversal] (`bool`, optional): Whether to skip in focus order.
-  const InputPasswordToggleFeature({super.visibility, this.icon, this.iconShow, this.mode = PasswordPeekMode.toggle, this.position = InputFeaturePosition.trailing, super.skipFocusTraversal});
-  InputFeatureState createState();
+  Widget buildIcon(BuildContext context);
+  void onPressed(InputFeatureState state, BuildContext context);
+  Widget buildButton(InputFeatureState state, BuildContext context);
 }
 ```

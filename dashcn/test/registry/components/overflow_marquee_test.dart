@@ -13,13 +13,13 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   bool disableAnimations = false,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -112,7 +112,7 @@ void main() {
 
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: const OverflowMarquee(child: Text('fits')),
       ),
     );

@@ -4,8 +4,8 @@ Read-only text that users can select, copy and long-press. Built on the
 widgets-layer `EditableText`, so no Material or Cupertino is involved.
 
 The old component delegated to Material's `SelectableText`; this port reuses
-`primitives/text_editing` (`ShadcnSelectionControls` handles and the
-`defaultShadcnContextMenuBuilder` Cut/Copy/Paste toolbar), which is the same
+`primitives/text_editing` (`SelectionControls` handles and the
+`defaultContextMenuBuilder` Cut/Copy/Paste toolbar), which is the same
 selection machinery `Input` uses.
 
 ## When to use
@@ -42,8 +42,8 @@ SelectableText.rich(
 | `cursorWidth` / `cursorHeight` / `cursorRadius` / `cursorColor` | theme | caret |
 | `selectionHeightStyle` / `selectionWidthStyle` | tight | selection boxes |
 | `enableInteractiveSelection` | true | |
-| `selectionControls` | `ShadcnSelectionControls` | |
-| `contextMenuBuilder` | shadcn toolbar | |
+| `selectionControls` | `SelectionControls` | |
+| `contextMenuBuilder` | dashcn toolbar | |
 | `onTap` / `onSelectionChanged` | null | |
 | `semanticsLabel` | null | replaces the text semantics |
 | `theme` | null | widget-leg `SelectableTextTheme` |

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'tokens.dart';
 
-/// Full shadcn text-style set: family bases, size ramp, weight ramp and
+/// Full upstream text-style set: family bases, size ramp, weight ramp and
 /// semantic styles. Family wiring comes from [applyFonts]; tracking stays
 /// data on [TrackingScale] (as before: no component consumed it directly).
 class Typography {
@@ -334,7 +334,7 @@ class Typography {
   /// Wires [fonts] families in: fontSans into [sans], fontMono into [mono]
   /// and [inlineCode]. Null/empty specs keep the current style. `"A, B"`
   /// splits into family A plus fallback B.
-  Typography applyFonts(ShadcnFonts fonts) {
+  Typography applyFonts(ThemeFonts fonts) {
     return copyWith(
       sans: _withFamily(sans, fonts.fontSans),
       mono: _withFamily(mono, fonts.fontMono),

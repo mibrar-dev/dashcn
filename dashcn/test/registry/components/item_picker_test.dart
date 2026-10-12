@@ -24,7 +24,7 @@ Widget _optionBuilder(BuildContext context, String value) {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ItemPickerTheme? scoped,
 }) {
@@ -32,7 +32,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<ItemPickerTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -51,8 +51,8 @@ Future<void> _pumpPage(WidgetTester tester, Widget child) async {
   await tester.pumpWidget(
     Directionality(
       textDirection: TextDirection.ltr,
-      child: ShadcnTheme(
-        data: const ShadcnThemeData(),
+      child: Theme(
+        data: const ThemeData(),
         child: Navigator(
           onGenerateRoute: (settings) => PageRouteBuilder<void>(
             settings: settings,

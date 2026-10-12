@@ -1,31 +1,37 @@
 ---
 title: "Class: NavigationBarTheme"
-description: "Theme data for customizing [NavigationBar] widget appearance."
+description: "Container-level theme for the navigation bar family."
 ---
 
 ```dart
-/// Theme data for customizing [NavigationBar] widget appearance.
-class NavigationBarTheme extends ComponentThemeData {
-  /// Background color of the navigation bar.
-  final Color? backgroundColor;
-  /// Alignment of navigation items.
-  final NavigationBarAlignment? alignment;
-  /// Layout direction (horizontal or vertical).
+/// Container-level theme for the navigation bar family.
+class NavigationBarTheme extends ComponentThemeData implements Mergeable<NavigationBarTheme> {
+  /// Creates a navigation bar theme.
+  const NavigationBarTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.backgroundColor, this.alignment, this.direction, this.spacing, this.labelType, this.labelPosition, this.labelSize, this.padding, this.itemStyle, this.activeItemStyle});
+  /// Container fill; null resolves the `background` token for bar/rail and
+  /// draws nothing for sidebars.
+  final ThemedColor? backgroundColor;
+  /// Main-axis distribution of the bar.
+  final MainAxisAlignment? alignment;
+  /// Layout direction; null resolves from the container type.
   final Axis? direction;
-  /// Spacing between navigation items.
+  /// Space between items.
   final double? spacing;
-  /// Type of label display (e.g., always show, hide, etc.).
+  /// When labels are shown.
   final NavigationLabelType? labelType;
-  /// Position of labels relative to icons.
+  /// Where labels sit relative to icons.
   final NavigationLabelPosition? labelPosition;
-  /// Size variant for labels.
+  /// Label text size.
   final NavigationLabelSize? labelSize;
-  /// Internal padding of the navigation bar.
+  /// Container padding; null resolves 12x8 (`px-3 py-2`), density-scaled
+  /// through [navigationBarDefaultPadding].
   final EdgeInsetsGeometry? padding;
-  /// Creates a [NavigationBarTheme].
-  const NavigationBarTheme({this.backgroundColor, this.alignment, this.direction, this.spacing, this.labelType, this.labelPosition, this.labelSize, this.padding});
-  /// Creates a copy of this theme with the given fields replaced.
-  NavigationBarTheme copyWith({ValueGetter<Color?>? backgroundColor, ValueGetter<NavigationBarAlignment?>? alignment, ValueGetter<Axis?>? direction, ValueGetter<double?>? spacing, ValueGetter<NavigationLabelType?>? labelType, ValueGetter<NavigationLabelPosition?>? labelPosition, ValueGetter<NavigationLabelSize?>? labelSize, ValueGetter<EdgeInsetsGeometry?>? padding});
+  /// Style of an unselected item.
+  final NavigationItemStyle? itemStyle;
+  /// Style of the selected item.
+  final NavigationItemStyle? activeItemStyle;
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  NavigationBarTheme merge(NavigationBarTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

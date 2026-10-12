@@ -4,8 +4,8 @@
   "category": "Buttons & Actions",
   "description": "Pressable action control with seven variants and five fixed sizes, plus a connected ButtonGroup.",
   "tier": "component",
-  "install": "flutter_shadcn add button",
-  "import": "import 'package:<your_app>/ui/shadcn/components/button/button.dart';",
+  "install": "dashcn add button",
+  "import": "import 'package:<your_app>/ui/dashcn/components/button/button.dart';",
   "tags": [
     "control",
     "button",

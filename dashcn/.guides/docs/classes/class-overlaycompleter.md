@@ -1,25 +1,22 @@
 ---
 title: "Class: OverlayCompleter"
-description: "Abstract interface for overlay operation completion tracking."
+description: "Handle to a presented overlay: removal, completion and animation futures."
 ---
 
 ```dart
-/// Abstract interface for overlay operation completion tracking.
-///
-/// Provides lifecycle management and status tracking for overlay operations,
-/// including completion state, animation state, and dismissal.
+/// Handle to a presented overlay: removal, completion and animation futures.
 abstract class OverlayCompleter<T> {
   /// Removes the overlay from the screen.
   void remove();
-  /// Disposes resources associated with the overlay.
+  /// Disposes the overlay resources.
   void dispose();
-  /// Whether the overlay operation has completed.
+  /// Whether the overlay result future has completed.
   bool get isCompleted;
-  /// Whether the overlay's animation has completed.
+  /// Whether the overlay animation has completed.
   bool get isAnimationCompleted;
-  /// Future that completes with the overlay's result value.
+  /// Completes with the overlay result value.
   Future<T?> get future;
-  /// Future that completes when the overlay animation finishes.
+  /// Completes when the overlay animation finishes.
   Future<void> get animationFuture;
 }
 ```

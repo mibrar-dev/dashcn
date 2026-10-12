@@ -1,49 +1,34 @@
 ---
 title: "Class: RefreshTriggerTheme"
-description: "Theme configuration for [RefreshTrigger]."
+description: "Theme of the pull-to-refresh trigger."
 ---
 
 ```dart
-/// Theme configuration for [RefreshTrigger].
+/// Theme of the pull-to-refresh trigger.
 ///
-/// Example usage:
-/// ```dart
-/// ComponentTheme(
-///   data: RefreshTriggerTheme(
-///     minExtent: 100.0,
-///     maxExtent: 200.0,
-///     curve: Curves.easeInOut,
-///     completeDuration: Duration(milliseconds: 800),
-///   ),
-///   child: RefreshTrigger(
-///     onRefresh: () async {
-///       // Refresh logic here
-///     },
-///     child: ListView(
-///       children: [
-///         // List items
-///       ],
-///     ),
-///   ),
-/// )
-/// ```
-class RefreshTriggerTheme extends ComponentThemeData {
-  /// Minimum pull extent required to trigger refresh.
+/// Every field is nullable: `null` means "inherit", and the resolver fills
+/// the gap from the next leg (defaults < app < scoped < widget). Extents
+/// are logical pixels multiplied by the ambient scaling at resolve time.
+class RefreshTriggerTheme extends ComponentThemeData implements Mergeable<RefreshTriggerTheme> {
+  /// Creates a refresh trigger theme.
+  const RefreshTriggerTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.minExtent, this.maxExtent, this.indicatorBuilder, this.curve, this.completeDuration});
+  /// Pull distance arming the refresh. Default: 75.
   final double? minExtent;
-  /// Maximum pull extent allowed.
+  /// Maximum pull distance. Default: 150.
   final double? maxExtent;
-  /// Builder for the refresh indicator.
+  /// Indicator for a [RefreshTriggerStage]; null uses the default pill.
   final RefreshIndicatorBuilder? indicatorBuilder;
-  /// Animation curve for the refresh trigger.
+  /// Animation curve for extent changes. Default: `Curves.easeOutSine`.
   final Curve? curve;
-  /// Duration for the completion animation.
+  /// How long the completion state shows. Default: 500ms.
   final Duration? completeDuration;
-  /// Creates a [RefreshTriggerTheme].
-  const RefreshTriggerTheme({this.minExtent, this.maxExtent, this.indicatorBuilder, this.curve, this.completeDuration});
-  /// Creates a copy of this theme but with the given fields replaced.
+  /// Returns a copy with the given fields replaced.
   RefreshTriggerTheme copyWith({ValueGetter<double?>? minExtent, ValueGetter<double?>? maxExtent, ValueGetter<RefreshIndicatorBuilder?>? indicatorBuilder, ValueGetter<Curve?>? curve, ValueGetter<Duration?>? completeDuration});
+  /// Receiver wins per field; [fallback] only fills null cells.
+  RefreshTriggerTheme merge(RefreshTriggerTheme? fallback);
+  /// Scalars interpolate; the rest steps at `t = 0.5`.
+  static RefreshTriggerTheme lerp(RefreshTriggerTheme a, RefreshTriggerTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  String toString();
 }
 ```

@@ -1,63 +1,37 @@
 ---
 title: "Class: TableCellTheme"
-description: "Reference for TableCellTheme"
+description: "State-aware styling of one table cell."
 ---
 
 ```dart
-class TableCellTheme {
-  /// State-aware border configuration for table cells.
-  ///
-  /// Type: `WidgetStateProperty<Border?>?`. Defines cell borders that can
-  /// change based on interactive states. Useful for highlighting selected
-  /// or hovered cells.
-  final WidgetStateProperty<Border?>? border;
-  /// State-aware background color for table cells.
-  ///
-  /// Type: `WidgetStateProperty<Color?>?`. Controls cell background colors
-  /// that can change based on hover, selection, or other states.
-  final WidgetStateProperty<Color?>? backgroundColor;
-  /// State-aware text styling for table cell content.
-  ///
-  /// Type: `WidgetStateProperty<TextStyle?>?`. Controls text appearance
-  /// including color, weight, size that can change based on cell states.
-  final WidgetStateProperty<TextStyle?>? textStyle;
-  /// Creates a [TableCellTheme].
-  ///
-  /// All parameters are optional and use [WidgetStateProperty] for
-  /// state-aware styling.
-  ///
-  /// Parameters:
-  /// - [border] (`WidgetStateProperty<Border?>?`, optional): State-aware borders
-  /// - [backgroundColor] (`WidgetStateProperty<Color?>?`, optional): State-aware background
-  /// - [textStyle] (`WidgetStateProperty<TextStyle?>?`, optional): State-aware text styling
-  ///
-  /// Example:
-  /// ```dart
-  /// TableCellTheme(
-  ///   border: WidgetStateProperty.all(
-  ///     Border.all(color: Colors.grey.shade300),
-  ///   ),
-  ///   backgroundColor: WidgetStateProperty.resolveWith((states) {
-  ///     return states.contains(WidgetState.selected) ? Colors.blue.shade100 : null;
-  ///   }),
-  /// );
-  /// ```
-  const TableCellTheme({this.border, this.backgroundColor, this.textStyle});
+/// State-aware styling of one table cell.
+///
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining states/fields.
+class TableCellTheme implements Mergeable<TableCellTheme> {
+  /// Creates a cell theme.
+  const TableCellTheme({this.background, this.foreground, this.borderColor, this.borderWidth, this.textStyle, this.padding, this.minHeight});
+  /// Per-state fill of the cell.
+  final StateValue<ThemedColor>? background;
+  /// Per-state text colour.
+  final StateValue<ThemedColor>? foreground;
+  /// Per-state bottom-border colour; null draws no border.
+  final StateValue<ThemedColor>? borderColor;
+  /// Bottom-border width used when [borderColor] resolves non-null.
+  final double? borderWidth;
+  /// Text style override; its colour is ignored (taken from [foreground]).
+  final TextStyle? textStyle;
+  /// Inner padding; null adds none.
+  final EdgeInsetsGeometry? padding;
+  /// Minimum cell height; null adds none.
+  final double? minHeight;
+  /// Returns a copy with the given fields replaced.
+  TableCellTheme copyWith({ValueGetter<StateValue<ThemedColor>?>? background, ValueGetter<StateValue<ThemedColor>?>? foreground, ValueGetter<StateValue<ThemedColor>?>? borderColor, ValueGetter<double?>? borderWidth, ValueGetter<TextStyle?>? textStyle, ValueGetter<EdgeInsetsGeometry?>? padding, ValueGetter<double?>? minHeight});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  TableCellTheme merge(TableCellTheme? fallback);
+  /// State scales step at `t < 0.5`; dimensions are lerped.
+  static TableCellTheme lerp(TableCellTheme a, TableCellTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  /// Creates a copy of this cell theme with the given values replaced.
-  ///
-  /// Returns a new [TableCellTheme] instance with the same state properties
-  /// as this theme, except for any parameters that are explicitly provided.
-  /// Use [ValueGetter] functions to specify new state properties.
-  ///
-  /// Example:
-  /// ```dart
-  /// final newTheme = originalTheme.copyWith(
-  ///   backgroundColor: () => WidgetStateProperty.all(Colors.yellow.shade50),
-  ///   textStyle: () => WidgetStateProperty.all(TextStyle(fontWeight: FontWeight.bold)),
-  /// );
-  /// ```
-  TableCellTheme copyWith({ValueGetter<WidgetStateProperty<Border>?>? border, ValueGetter<WidgetStateProperty<Color>?>? backgroundColor, ValueGetter<WidgetStateProperty<TextStyle>?>? textStyle});
 }
 ```

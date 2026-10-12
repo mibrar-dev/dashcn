@@ -1,22 +1,22 @@
 ---
 title: "Class: ValidationResult"
-description: "Abstract base class representing the result of a validation operation."
+description: "The outcome of validating one form field."
 ---
 
 ```dart
-/// Abstract base class representing the result of a validation operation.
+/// The outcome of validating one form field.
 ///
-/// [ValidationResult] encapsulates the outcome of validating a form field value.
-/// Subclasses include [InvalidResult] for validation failures and [ValidResult]
-/// for successful validation.
+/// The [state] records which [FormValidationMode] triggered the run, so
+/// consumers can tell an on-submit failure from a live keystroke failure.
+/// Subclasses such as `ReplaceResult` carry the payload.
 abstract class ValidationResult {
-  /// The form validation mode that triggered this result.
-  final FormValidationMode state;
-  /// Creates a [ValidationResult] with the specified validation state.
+  /// Creates a result produced during [state].
   const ValidationResult({required this.state});
-  /// The form field key associated with this validation result.
+  /// The validation mode that produced this result.
+  final FormValidationMode state;
+  /// The field this result belongs to.
   FormKey get key;
-  /// Attaches a form field key to this validation result.
+  /// Returns a copy of this result bound to [key].
   ValidationResult attach(FormKey key);
 }
 ```

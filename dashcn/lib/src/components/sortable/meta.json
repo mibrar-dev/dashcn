@@ -4,8 +4,8 @@
   "category": "Layout",
   "description": "Drag-and-drop reordering primitives: a SortableLayer coordinates pan-driven sessions and renders the ghost, while Sortable<T> reports per-edge drop intents.",
   "tier": "component",
-  "install": "flutter_shadcn add sortable",
-  "import": "import 'package:<your_app>/ui/shadcn/components/sortable/sortable.dart';",
+  "install": "dashcn add sortable",
+  "import": "import 'package:<your_app>/ui/dashcn/components/sortable/sortable.dart';",
   "tags": [
     "layout",
     "sortable",

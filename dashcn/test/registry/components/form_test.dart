@@ -47,10 +47,10 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -64,8 +64,8 @@ Widget _frame({
 
 /// Frame with a real [Navigator] for tests that push routes.
 Widget _navigatorFrame({required Widget child}) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Navigator(
@@ -100,8 +100,8 @@ class _SubmittedOnly extends Validator<String> {
 
 const FormKey<String> _emailKey = FormKey<String>('email');
 
-ShadcnForm _form(FormController controller, List<Widget> fields) {
-  return ShadcnForm(
+FormScope _form(FormController controller, List<Widget> fields) {
+  return FormScope(
     controller: controller,
     child: Column(children: fields),
   );
@@ -111,9 +111,9 @@ void main() {
   testWidgets('a field error renders, clears and dims under both token sets', (
     tester,
   ) async {
-    for (final ShadcnThemeData data in <ShadcnThemeData>[
-      const ShadcnThemeData(),
-      const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+    for (final ThemeData data in <ThemeData>[
+      const ThemeData(),
+      const ThemeData(colors: ThemeColors.darkFallback),
     ]) {
       final FormController controller = FormController();
       addTearDown(controller.dispose);
@@ -121,7 +121,7 @@ void main() {
         _frame(
           data: data,
           child: _form(controller, <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _emailKey,
               label: const Text('Email'),
               hint: const Text('Hint'),
@@ -152,7 +152,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         child: _form(controller, <Widget>[
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: _emailKey,
             label: const Text('Email'),
             validator: const _SubmittedOnly(),
@@ -161,7 +161,7 @@ void main() {
         ]),
       ),
     );
-    final BuildContext context = tester.element(find.byType(ShadcnForm));
+    final BuildContext context = tester.element(find.byType(FormScope));
     await tester.enterText(find.byType(EditableText), 'value');
     await tester.pump();
     await tester.pump();
@@ -183,10 +183,10 @@ void main() {
     FormMapValues? submitted;
     await tester.pumpWidget(
       _frame(
-        child: ShadcnForm(
+        child: FormScope(
           controller: controller,
           onSubmit: (values) => submitted = values,
-          child: ShadcnFormField<String>(
+          child: FormItem<String>(
             key: _emailKey,
             label: const Text('Email'),
             validator: const NotEmptyValidator(),
@@ -195,7 +195,7 @@ void main() {
         ),
       ),
     );
-    final BuildContext context = tester.element(find.byType(ShadcnForm));
+    final BuildContext context = tester.element(find.byType(FormScope));
     await tester.pump();
     await tester.pump();
 
@@ -218,7 +218,7 @@ void main() {
     Widget build({required bool withField}) => _frame(
       child: _form(controller, <Widget>[
         if (withField)
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: _emailKey,
             label: const Text('Email'),
             child: const Input(),
@@ -242,7 +242,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         child: _form(controller, <Widget>[
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: _emailKey,
             label: const Text('Email'),
             validator: const NotEmptyValidator(),
@@ -258,7 +258,7 @@ void main() {
     await tester.pump();
     expect(find.text('This field cannot be empty.'), findsNothing);
 
-    final BuildContext context = tester.element(find.byType(ShadcnForm));
+    final BuildContext context = tester.element(find.byType(FormScope));
     await controller.submit(context);
     await tester.pump();
     await tester.pump();
@@ -275,12 +275,12 @@ void main() {
     await tester.pumpWidget(
       _frame(
         child: _form(controller, <Widget>[
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: passwordKey,
             label: const Text('Password'),
             child: const Input(),
           ),
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: confirmKey,
             label: const Text('Confirm'),
             validator: const CompareWith<String>(
@@ -334,7 +334,7 @@ void main() {
       return _frame(
         app: app ?? const <ComponentThemeData>[],
         child: _form(controller, <Widget>[
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: _emailKey,
             label: const Text('Email'),
             theme: widget,
@@ -346,7 +346,7 @@ void main() {
 
     // Defaults: foreground.
     await tester.pumpWidget(build());
-    final ShadcnColors light = const ShadcnThemeData().colors;
+    final ThemeColors light = const ThemeData().colors;
     expect(labelColor(), light.foreground);
 
     // App leg beats defaults.
@@ -368,7 +368,7 @@ void main() {
         child: ComponentTheme<FormTheme>(
           data: const FormTheme(labelColor: ThemedColor.ref(ColorRef.primary)),
           child: _form(controller, <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _emailKey,
               label: const Text('Email'),
               child: const Text('field'),
@@ -385,7 +385,7 @@ void main() {
         child: ComponentTheme<FormTheme>(
           data: const FormTheme(labelColor: ThemedColor.ref(ColorRef.primary)),
           child: _form(controller, <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _emailKey,
               label: const Text('Email'),
               theme: const FormTheme(
@@ -415,8 +415,8 @@ void main() {
             child: const Input(),
           ),
           FormTableLayout(
-            rows: <ShadcnFormField<Object?>>[
-              ShadcnFormField<Object?>(
+            rows: <FormItem<Object?>>[
+              FormItem<Object?>(
                 key: const FormKey<Object?>('table'),
                 label: const Text('Table label'),
                 validator: const NonNullValidator<Object?>(),
@@ -436,7 +436,7 @@ void main() {
     expect(controller.errors.length, 2);
   });
 
-  testWidgets('Validated works without a ShadcnForm scope', (tester) async {
+  testWidgets('Validated works without a FormScope scope', (tester) async {
     await tester.pumpWidget(
       _frame(
         child: Validated<String>(

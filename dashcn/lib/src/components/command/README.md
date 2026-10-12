@@ -86,6 +86,6 @@ transparent `DialogTheme` so the palette paints its own surface.
   `surfaceBlur` params (glass was removed in the pilots).
 - The search field is the `input` component (close button via `Button`), not a
   themed `TextField`, so the palette installs with its declared component deps.
-- `CommandShortcut` is ported as a text-only widget (shadcn's
+- `CommandShortcut` is ported as a text-only widget (dashcn's
   `text-xs tracking-widest` label); keyboard-key visuals are owned by the
   `keyboard_shortcut` component (B08).

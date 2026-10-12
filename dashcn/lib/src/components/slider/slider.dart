@@ -246,7 +246,7 @@ class _SliderState extends State<Slider>
         ? widget.rangeValue
         : SliderValue.single(widget.value);
 
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final SliderStyle resolved =
         resolveComponentStyle<SliderTheme, SliderStyle>(
           context,

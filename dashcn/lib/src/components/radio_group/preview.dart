@@ -23,7 +23,7 @@ class _RowsDemoState extends State<_RowsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnRadioGroup<String>(
+    return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
       items: const <Widget>[
@@ -48,7 +48,7 @@ class _CardsDemoState extends State<_CardsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnRadioGroup<String>(
+    return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
       items: <Widget>[

@@ -172,8 +172,10 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
           select: (ResizableTheme t) => t,
           defaults: resizableDefaults,
         );
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
-    final String handleLabel = ShadcnLocalizations.of(context).resizableHandle;
+    final ThemeColors colors = Theme.of(context).colors;
+    final String handleLabel = ComponentLocalizations.of(
+      context,
+    ).resizableHandle;
     final bool horizontal = widget.direction == Axis.horizontal;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -309,7 +311,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   Color _dividerColor(
     ResizableHandle handle,
     ResizableTheme theme,
-    ShadcnColors colors,
+    ThemeColors colors,
     int index,
   ) {
     return resolveResizableHandleColor(

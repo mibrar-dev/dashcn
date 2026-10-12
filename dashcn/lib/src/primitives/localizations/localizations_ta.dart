@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Tamil (`ta`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsTa extends ShadcnLocalizations {
+class ComponentLocalizationsTa extends ComponentLocalizations {
   /// Creates the Tamil strings.
-  const ShadcnLocalizationsTa([super.locale = const Locale('ta')]);
+  const ComponentLocalizationsTa([super.locale = const Locale('ta')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

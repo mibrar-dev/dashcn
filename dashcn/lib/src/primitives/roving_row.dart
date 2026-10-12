@@ -97,7 +97,7 @@ class RovingRow extends StatefulWidget {
   final Color? fill;
 
   /// Resolved fill while hovered/focused/pressed; null resolves the `accent`
-  /// token. Rows always show a hover/focus highlight (shadcn
+  /// token. Rows always show a hover/focus highlight (upstream
   /// `focus:bg-accent`).
   final Color? highlightFill;
 
@@ -105,7 +105,7 @@ class RovingRow extends StatefulWidget {
   final Color? foreground;
 
   /// Resolved label/icon colour while hovered/focused/pressed; null resolves
-  /// the `accentForeground` token (shadcn `focus:text-accent-foreground`).
+  /// the `accentForeground` token (upstream `focus:text-accent-foreground`).
   final Color? highlightForeground;
 
   /// Resolved corner radius; null resolves `borderRadiusSm`.
@@ -145,7 +145,7 @@ class _RovingRowState extends State<RovingRow> {
 
   /// Leading with the 16px box and gutter reservation applied.
   ///
-  /// 16 is shadcn `size-4`, the fixed icon envelope the check/caret glyphs
+  /// 16 is upstream `size-4`, the fixed icon envelope the check/caret glyphs
   /// live in — like the button table's unscaled `minHeight`, not spacing.
   Widget? get _resolvedLeading {
     if (widget.leading != null) {
@@ -214,7 +214,7 @@ class _RovingRowState extends State<RovingRow> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     final Color baseForeground = widget.foreground ?? app.colors.foreground;
     final Color highlightForeground =
         widget.highlightForeground ?? app.colors.accentForeground;
@@ -224,7 +224,7 @@ class _RovingRowState extends State<RovingRow> {
     final TextStyle text = widget.textStyle ?? const TextStyle(fontSize: 14);
     // `minHeight` is a border-box total: the Clickable padding wraps the
     // ConstrainedBox, so a plain minimum would measure padding + minHeight
-    // (44 instead of the shadcn h-8 = 32). The inner minimum reserves the
+    // (44 instead of the upstream h-8 = 32). The inner minimum reserves the
     // padding, like the button component's `_innerMin`.
     final EdgeInsets resolvedPadding =
         (widget.padding ??

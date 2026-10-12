@@ -19,7 +19,7 @@ export 'calendar_style.dart';
 typedef DateStateBuilder = DateState Function(DateTime date);
 
 /// A date, month or year grid. Controlled: it paints [value] and reports every
-/// change through [onChanged], like shadcn/ui's `React.Calendar`.
+/// change through [onChanged], like the upstream web kit's `React.Calendar`.
 ///
 /// Keyboard: one tab stop, not 42 — the roving-tabindex model. Arrows move a day
 /// (wrapping at the row edge) or a week, `Home`/`End` the ends of the week,
@@ -211,7 +211,7 @@ class _CalendarState extends State<Calendar> {
           defaults: calendarDefaults,
         );
     final bool days = widget.viewType == CalendarViewType.date;
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final EdgeInsets padding = resolveEdgeInsets(
       calendarPadding,
       ambient.density.baseContentPadding * ambient.scaling,
@@ -225,7 +225,7 @@ class _CalendarState extends State<Calendar> {
       // available width (down to a ~7x32 px minimum footprint). Unbounded
       // widths keep the nominal cell sizes.
       //
-      // The `p-3` shell (shadcn puts it on the `DayPicker` root) is inside the
+      // The `p-3` shell (upstream puts it on the `DayPicker` root) is inside the
       // `LayoutBuilder`, so the grid is fitted against the width it really
       // has; the hug proxy outside reports the natural size to a
       // shrink-wrapping parent — the picker dialogs size themselves to it.
@@ -307,7 +307,7 @@ class _CalendarState extends State<Calendar> {
       today: _same(date, widget.now),
       enabled: _enabled(date),
       focused: _same(date, _focused),
-      // Outside the shown month, shadcn draws the day at half strength.
+      // Outside the shown month, upstream draws the day at half strength.
       dimmed: widget.viewType == CalendarViewType.date && !_shown(date),
       wide: widget.viewType != CalendarViewType.date,
       onTap: _interactive ? () => _select(date) : null,
@@ -340,17 +340,16 @@ const double _kMinCalendarCell = 20;
 
 /// Density scale of the ambient theme: 1 at the default density, 0.5 at
 /// compact, 1.25 at comfortable (the kit's documented scaling rule).
-double _densityScale(ShadcnThemeData theme) =>
-    theme.density.scale * theme.scaling;
+double _densityScale(ThemeData theme) => theme.density.scale * theme.scaling;
 
 /// Nominal cell side of the day grid, density-scaled.
-double calendarDayCellWidthOf(CalendarTheme style, ShadcnThemeData theme) =>
+double calendarDayCellWidthOf(CalendarTheme style, ThemeData theme) =>
     (style.cellWidth ?? style.cellHeight ?? calendarDayCellSize) *
     _densityScale(theme);
 
-/// Density-scaled grid gap: `CalendarTheme.gap` (4, the shadcn cell pitch) or
+/// Density-scaled grid gap: `CalendarTheme.gap` (4, the upstream cell pitch) or
 /// `density.baseGap` when the theme leaves it unset.
-double calendarGapOf(CalendarTheme style, ShadcnThemeData theme) =>
+double calendarGapOf(CalendarTheme style, ThemeData theme) =>
     (style.gap ?? 4) * _densityScale(theme);
 
 /// Natural (unshrunk) width of a day grid plus its `p-3` shell.
@@ -360,7 +359,7 @@ double calendarGapOf(CalendarTheme style, ShadcnThemeData theme) =>
 /// narrower and still fit.
 double calendarGridWidth(
   CalendarTheme style,
-  ShadcnThemeData theme,
+  ThemeData theme,
   EdgeInsets padding,
 ) {
   final double cell = calendarDayCellWidthOf(style, theme);
@@ -375,7 +374,7 @@ double calendarGridWidth(
 /// a shrink-wrapping parent measures.
 double calendarGridHeight(
   CalendarTheme style,
-  ShadcnThemeData theme,
+  ThemeData theme,
   EdgeInsets padding,
   int slotCount, {
   List<String>? weekdays,
@@ -483,7 +482,7 @@ Widget _grid({
   List<String>? weekdays,
   double maxWidth = double.infinity,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final double scale = _densityScale(theme);
   final double size = (style.cellHeight ?? calendarDayCellSize) * scale;
   final double gap = calendarGapOf(style, theme);
@@ -559,7 +558,7 @@ Widget _calendarCell(
   CalendarTheme style, {
   double? cellWidth,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final ({Color fill, Color foreground}) colors = calendarCellColors(
     lookup: slot.lookup,
     today: slot.today,
@@ -583,7 +582,7 @@ Widget _calendarCell(
   return Semantics(
     container: true,
     label:
-        '${ShadcnLocalizations.of(context).getAbbreviatedMonth(slot.date.month)} '
+        '${ComponentLocalizations.of(context).getAbbreviatedMonth(slot.date.month)} '
         '${slot.date.day}, ${slot.date.year}',
     button: true,
     enabled: slot.enabled,

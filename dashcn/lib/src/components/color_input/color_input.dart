@@ -177,7 +177,7 @@ class _ColorInputState extends State<ColorInput>
   }
 
   void _presentPopover(ColorDerivative value) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     _popovers.show<void>(
       context: context,
       alignment:
@@ -215,7 +215,7 @@ class _ColorInputState extends State<ColorInput>
     showGeneralDialog<ObjectFormFieldDialogResult<ColorDerivative>>(
       context: context,
       barrierDismissible: true,
-      barrierLabel: ShadcnLocalizations.of(context).dialogDismiss,
+      barrierLabel: ComponentLocalizations.of(context).dialogDismiss,
       barrierColor: const Color(0x80000000),
       transitionDuration: const Duration(milliseconds: 150),
       pageBuilder:

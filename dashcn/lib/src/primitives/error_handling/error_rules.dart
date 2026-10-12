@@ -111,7 +111,7 @@ List<ErrorRule> apiRules({
   required VoidCallback onRetry,
   required VoidCallback onReport,
   required VoidCallback onBack,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   return <ErrorRule>[
     rule<ApiException>(
@@ -153,7 +153,7 @@ List<ErrorRule> authRules({
   required VoidCallback onLogin,
   required VoidCallback onRetry,
   required VoidCallback onReport,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   return <ErrorRule>[
     rule<AuthException>(
@@ -180,7 +180,7 @@ List<ErrorRule> authRules({
 List<ErrorRule> validationRules({
   required VoidCallback onRetry,
   required VoidCallback onReport,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   return <ErrorRule>[
     rule<ValidationException>(
@@ -207,7 +207,7 @@ List<ErrorRule> validationRules({
 List<ErrorRule> platformRules({
   required VoidCallback onRetry,
   required VoidCallback onReport,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   return <ErrorRule>[
     rule<PlatformException>(
@@ -239,7 +239,7 @@ AppErrorCode _mapStatusToCode(int statusCode) {
   return AppErrorCode.unknown;
 }
 
-String _titleForStatus(ShadcnLocalizations s, int statusCode) =>
+String _titleForStatus(ComponentLocalizations s, int statusCode) =>
     switch (statusCode) {
       400 => s.errorBadRequest,
       401 => s.errorUnauthorized,
@@ -251,7 +251,7 @@ String _titleForStatus(ShadcnLocalizations s, int statusCode) =>
       _ => s.errorServerError,
     };
 
-String _messageForStatus(ShadcnLocalizations s, int statusCode) =>
+String _messageForStatus(ComponentLocalizations s, int statusCode) =>
     switch (statusCode) {
       400 => s.errorBadRequestMessage,
       401 => s.errorLoginRequiredMessage,

@@ -54,7 +54,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -77,7 +77,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
           _status,
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],

@@ -1,29 +1,27 @@
 ---
 title: "Class: ColorHistoryGrid"
-description: "A grid widget that displays a history of previously used colors."
+description: "Grid view over a [ColorHistoryStorage]."
 ---
 
 ```dart
-/// A grid widget that displays a history of previously used colors.
-///
-/// [ColorHistoryGrid] presents colors from a [ColorHistoryStorage] in a grid
-/// layout, allowing users to quickly reuse recently selected colors. The grid
-/// can highlight the currently selected color and supports custom layouts.
+/// Grid view over a [ColorHistoryStorage].
 class ColorHistoryGrid extends StatelessWidget {
-  /// The storage containing the color history.
+  /// Creates the grid.
+  const ColorHistoryGrid({super.key, required this.storage, this.onColorPicked, this.spacing, this.crossAxisCount = 10, this.selectedColor, this.maxTotalColors, this.theme});
+  /// Backing storage.
   final ColorHistoryStorage storage;
-  /// Called when a color from the history is picked.
+  /// Called when a swatch is tapped.
   final ValueChanged<Color>? onColorPicked;
-  /// Spacing between grid items.
+  /// Gap between swatches; null uses the theme default.
   final double? spacing;
-  /// Number of columns in the grid.
+  /// Swatches per row.
   final int crossAxisCount;
-  /// The currently selected color to highlight.
+  /// Colour highlighted with the selection ring.
   final Color? selectedColor;
-  /// The amount of colors to display in the history.
+  /// Caps the number of rendered slots.
   final int? maxTotalColors;
-  /// Creates a [ColorHistoryGrid].
-  const ColorHistoryGrid({super.key, required this.storage, this.onColorPicked, this.spacing, this.crossAxisCount = 10, this.selectedColor, this.maxTotalColors});
+  /// Widget-leg theme override.
+  final HistoryTheme? theme;
   Widget build(BuildContext context);
 }
 ```

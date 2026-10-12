@@ -24,7 +24,7 @@ class _DrawerDrawerContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const Text('Drawer content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Gap(Theme.of(context).spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
@@ -46,7 +46,7 @@ class _DrawerSheetContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const Text('Sheet content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Gap(Theme.of(context).spacing.lg),
         Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
@@ -80,9 +80,9 @@ class _DrawerDrawerTrigger extends StatelessWidget {
   }
 }
 
-/// Side drawers, one row (shadcn shows the four edges together).
+/// Side drawers, one row (upstream shows the four edges together).
 Widget _drawerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.sm,
     runSpacing: spacing.sm,

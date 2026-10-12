@@ -1,7 +1,7 @@
-// Size audit B: already-accepted components vs shadcn/ui new-york v4.
+// Size audit B: already-accepted components vs the upstream web kit new-york v4.
 //
 // Same conventions as `size_audit_a_test.dart`: every expectation cites the
-// shadcn class it mirrors, kit-specific controls assert their documented
+// upstream class it mirrors, kit-specific controls assert their documented
 // structure.
 
 import 'package:flutter/widgets.dart';
@@ -23,8 +23,8 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({required Widget child}) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Center(child: child),
@@ -95,7 +95,7 @@ void main() {
       );
       expect(box.padding, const EdgeInsets.all(8));
       final BoxDecoration decoration = box.decoration! as BoxDecoration;
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusMd);
+      expect(decoration.borderRadius, const ThemeData().borderRadiusMd);
     });
   });
 
@@ -104,8 +104,8 @@ void main() {
       // No ambient DefaultTextStyle: EditableText ignores inheritance, so
       // without the resolver the style would carry no font at all.
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Center(child: SelectableText('Select me')),
@@ -117,7 +117,7 @@ void main() {
       );
       expect(
         editable.style.fontFamily,
-        const ShadcnThemeData().typography.sans.fontFamily,
+        const ThemeData().typography.sans.fontFamily,
       );
     });
   });
@@ -173,12 +173,12 @@ void main() {
             .first,
       );
       final BoxDecoration decoration = box.decoration! as BoxDecoration;
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusXl);
+      expect(decoration.borderRadius, const ThemeData().borderRadiusXl);
       expect(box.padding, EdgeInsets.zero);
     });
   });
 
-  group('collapsible (unstyled in shadcn; kit content padding 16)', () {
+  group('collapsible (unstyled in dashcn; kit content padding 16)', () {
     testWidgets('trigger pads 16 horizontally, content is unpadded', (
       tester,
     ) async {

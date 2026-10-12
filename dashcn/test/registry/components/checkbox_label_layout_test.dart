@@ -19,8 +19,8 @@ import 'package:flutter_test/flutter_test.dart';
 Color _alpha(Color base, double factor) =>
     base.withValues(alpha: base.a * factor);
 
-Widget _loose(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
-  return ShadcnTheme(
+Widget _loose(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -31,11 +31,8 @@ Widget _loose(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
 
 /// Stretch harness: a 400px column that forces tight cross-axis widths,
 // like login-01's `Column(crossAxisAlignment: stretch)`.
-Widget _stretch(
-  Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
-}) {
-  return ShadcnTheme(
+Widget _stretch(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -77,11 +74,11 @@ void _expectLabelBesideBox(
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   group('checkbox label layout (loose)', () {
-    for (final (String name, ShadcnColors palette) in <(String, ShadcnColors)>[
+    for (final (String name, ThemeColors palette) in <(String, ThemeColors)>[
       ('light', light),
       ('dark', dark),
     ]) {
@@ -93,7 +90,7 @@ void main() {
               onChanged: (_) {},
               label: const Text('Remember me'),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_box(tester).color, palette.primary);
@@ -115,7 +112,7 @@ void main() {
               onChanged: (_) {},
               label: const Text('Remember me'),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_box(tester).color, _alpha(palette.input, 0));
@@ -170,7 +167,7 @@ void main() {
   });
 
   group('checkbox label layout (stretch)', () {
-    for (final (String name, ShadcnColors palette) in <(String, ShadcnColors)>[
+    for (final (String name, ThemeColors palette) in <(String, ThemeColors)>[
       ('light', light),
       ('dark', dark),
     ]) {
@@ -182,7 +179,7 @@ void main() {
               onChanged: (_) {},
               label: const Text('Remember me'),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         // The box stays 16px: no full-width grey bar.
@@ -218,7 +215,7 @@ void main() {
               onChanged: (_) {},
               label: const Text('Remember me'),
             ),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_box(tester).color, _alpha(palette.input, 0));
@@ -244,12 +241,13 @@ void main() {
     });
 
     testWidgets('radio indicator keeps its size under stretch', (tester) async {
-      final ShadcnRadioGroupController<String> controller =
-          ShadcnRadioGroupController<String>('a');
+      final RadioSetController<String> controller = RadioSetController<String>(
+        'a',
+      );
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _stretch(
-          ShadcnRadioGroup<String>(
+          RadioSet<String>(
             controller: controller,
             items: const <Widget>[
               RadioItem<String>(value: 'a', label: Text('Option A')),

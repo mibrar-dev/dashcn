@@ -1,21 +1,20 @@
 ---
 title: "Class: ReplaceResult"
-description: "A validation result that indicates a value should be replaced."
+description: "A validation result that asks the field to replace its value."
 ---
 
 ```dart
-/// A validation result that indicates a value should be replaced.
+/// A validation result that asks the field to replace its value.
 ///
-/// [ReplaceResult] is used when validation determines that the submitted
-/// value should be transformed or replaced with a different value. For example,
-/// trimming whitespace or formatting input.
+/// Validators use it to normalise input (trimming, formatting, upper-casing)
+/// while still reporting through the normal validation channel.
 class ReplaceResult<T> extends ValidationResult {
-  /// The replacement value to use.
-  final T value;
-  /// Creates a [ReplaceResult] with the specified replacement value.
+  /// Creates an unattached replacement of [value].
   const ReplaceResult(this.value, {required super.state});
-  /// Creates a [ReplaceResult] already attached to a form field key.
-  const ReplaceResult.attached(this.value, {required FormKey key, required super.state});
+  /// Creates a replacement of [value] already bound to [_key].
+  const ReplaceResult.attached(this.value, {required FormKey this._key, required super.state});
+  /// The replacement value.
+  final T value;
   FormKey get key;
   ReplaceResult<T> attach(FormKey key);
 }

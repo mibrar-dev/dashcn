@@ -5,11 +5,11 @@ Widgets-only; no Material/Cupertino. No deprecated aliases or shims.
 
 ## Files
 
-- `color_tokens.dart` — `ShadcnColors` (32 tokens + brightness),
+- `color_tokens.dart` — `ThemeColors` (32 tokens + brightness),
   `ColorRef`, `ThemedColor` (literal | ref + alpha multiply), `StateValue`.
-- `tokens.dart` — `ShadcnTokens`, `ShadcnFonts` (mode-independent),
+- `tokens.dart` — `DesignTokens`, `ThemeFonts` (mode-independent),
   `SpacingScale`, `TrackingScale`, `ShadowScale` (+`derive`, `defaultShadowScale`).
-- `theme.dart` — `ShadcnThemeData`, `ShadcnTheme`, `AnimatedShadcnTheme`,
+- `theme.dart` — `ThemeData`, `Theme`, `AnimatedTheme`,
   `ComponentThemeData`, `ComponentTheme<T>`, `ComponentThemes` (app leg),
   `Mergeable`, `resolveComponentStyle`, `ThemeMode`.
 - `typography.dart` — `Typography` (+`applyFonts`), `IconThemeProperties`.
@@ -43,7 +43,7 @@ class ButtonVariantStyle implements Mergeable<ButtonVariantStyle> {
 }
 const buttonDefaults = ButtonTheme(primary: …); // refs only, registry-owned
 const buttonThemeOverrides = ButtonTheme(primary: …); // user-owned file
-// Generated once per app; ShadcnApp puts it at the root:
+// Generated once per app; DashcnApp puts it at the root:
 const appComponentThemes = <ComponentThemeData>[buttonThemeOverrides];
 final style = resolveComponentStyle<ButtonTheme, ButtonVariantStyle>(context,
   widget: widget.theme, select: (t) => t.forVariant(variant),

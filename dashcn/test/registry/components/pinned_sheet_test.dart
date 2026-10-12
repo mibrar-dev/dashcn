@@ -21,8 +21,8 @@ const List<SheetStage> _two = <SheetStage>[
 
 Future<void> _pump(WidgetTester tester, Widget child) {
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Center(child: SizedBox(width: 300, height: 600, child: child)),
@@ -228,8 +228,8 @@ void main() {
   ) async {
     final SheetController controller = SheetController();
     addTearDown(controller.dispose);
-    Widget sheet(double height) => ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Widget sheet(double height) => Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Center(
@@ -272,8 +272,8 @@ void main() {
     await _pump(tester, probe());
     expect(captured, OverlayPosition.left);
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Center(

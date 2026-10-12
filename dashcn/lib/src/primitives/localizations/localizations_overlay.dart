@@ -1,11 +1,11 @@
-// Dialog, menu and command-palette strings for [ShadcnLocalizations].
+// Dialog, menu and command-palette strings for [ComponentLocalizations].
 
-/// Overlay text for [ShadcnLocalizations]: dialogs, menus, the command palette
+/// Overlay text for [ComponentLocalizations]: dialogs, menus, the command palette
 /// and popover affordances.
 ///
-/// Applied by `ShadcnLocalizations`; every getter has an English default and
+/// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it.
-mixin ShadcnLocalizationsOverlay {
+mixin ComponentLocalizationsOverlay {
   String get commandEmpty => 'No results found';
 
   String get commandSearch => 'Type a command or search...';

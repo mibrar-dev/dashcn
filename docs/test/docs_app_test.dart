@@ -2,7 +2,7 @@ import 'package:docs/main.dart';
 import 'package:docs/motion/ease.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -108,8 +108,8 @@ void main() {
     final DocsState state = await _pumpApp(tester);
     addTearDown(state.dispose);
 
-    final AnimatedShadcnTheme animated = tester.widget<AnimatedShadcnTheme>(
-      find.byType(AnimatedShadcnTheme),
+    final AnimatedTheme animated = tester.widget<AnimatedTheme>(
+      find.byType(AnimatedTheme),
     );
     expect(animated.duration, kDurationTheme);
     expect(animated.curve, kEaseOutExpo);
@@ -117,8 +117,8 @@ void main() {
 
     state.toggleBrightness();
     await tester.pumpAndSettle();
-    final AnimatedShadcnTheme updated = tester.widget<AnimatedShadcnTheme>(
-      find.byType(AnimatedShadcnTheme),
+    final AnimatedTheme updated = tester.widget<AnimatedTheme>(
+      find.byType(AnimatedTheme),
     );
     expect(updated.data.brightness, Brightness.light);
     expect(state.followsSystem, isFalse);

@@ -1,26 +1,18 @@
 ---
 title: "Class: OverlayBarrier"
-description: "Configuration for overlay modal barriers."
+description: "Visual configuration of the modal barrier behind an overlay."
 ---
 
 ```dart
-/// Configuration for overlay modal barriers.
-///
-/// Defines the visual appearance and spacing of the barrier displayed
-/// behind modal overlays.
+/// Visual configuration of the modal barrier behind an overlay.
 class OverlayBarrier {
   /// Padding around the barrier.
   final EdgeInsetsGeometry padding;
-  /// Border radius for the barrier shape.
+  /// Border radius of the barrier shape.
   final BorderRadiusGeometry borderRadius;
-  /// Color of the barrier (typically semi-transparent).
+  /// Barrier color (typically semi-transparent).
   final Color? barrierColor;
   /// Creates an overlay barrier configuration.
-  ///
-  /// Parameters:
-  /// - [padding] (EdgeInsetsGeometry): Barrier padding, defaults to zero
-  /// - [borderRadius] (BorderRadiusGeometry): Border radius, defaults to zero
-  /// - [barrierColor] (Color?): Barrier color
   const OverlayBarrier({this.padding = EdgeInsets.zero, this.borderRadius = BorderRadius.zero, this.barrierColor});
 }
 ```

@@ -14,17 +14,13 @@ import '../themes/generated_theme.dart';
 
 final Map<String, GeneratedTheme> _presets = <String, GeneratedTheme>{};
 
-ShadcnThemeData _theme(String preset, Brightness brightness) {
+ThemeData _theme(String preset, Brightness brightness) {
   final GeneratedTheme theme = _presets.putIfAbsent(
     preset,
     () => loadGeneratedTheme('lib/src/themes/$preset.json'),
   );
   final view = theme.view(brightness);
-  return ShadcnThemeData(
-    colors: view.colors,
-    tokens: view.tokens,
-    fonts: view.fonts,
-  );
+  return ThemeData(colors: view.colors, tokens: view.tokens, fonts: view.fonts);
 }
 
 Future<void> _pumpPreview(
@@ -36,7 +32,7 @@ Future<void> _pumpPreview(
   double width = 360,
 }) async {
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: _theme(preset, brightness),
       child: Directionality(
         textDirection: direction,

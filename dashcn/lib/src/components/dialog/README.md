@@ -19,7 +19,7 @@ Avoid when a non-modal popover, a sheet or an inline card is enough.
 Minimal:
 
 ```dart
-await showShadcnDialog<void>(
+await showDialog<void>(
   context: context,
   builder: (context) => const Text('Hello dialog'),
 );
@@ -29,7 +29,7 @@ With a result (actions are caller supplied widgets — the dialog never imports
 a button component):
 
 ```dart
-final confirmed = await showShadcnDialog<bool>(
+final confirmed = await showDialog<bool>(
   context: context,
   builder: (context) => Column(
     mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ final confirmed = await showShadcnDialog<bool>(
 Full screen, custom theme leg:
 
 ```dart
-await showShadcnDialog<void>(
+await showDialog<void>(
   context: context,
   fullScreen: true,
   theme: const DialogTheme(maxWidth: 640, shadows: <BoxShadow>[]),
@@ -53,7 +53,7 @@ await showShadcnDialog<void>(
 );
 ```
 
-## `showShadcnDialog` API
+## `showDialog` API
 
 | Parameter | Default | Notes |
 |---|---|---|
@@ -61,7 +61,7 @@ await showShadcnDialog<void>(
 | `useRootNavigator` | `true` | passed to `Navigator.of` |
 | `barrierDismissible` | `true` | barrier tap **and** Escape |
 | `barrierColor` | theme value | `ThemedColor`; null uses `DialogTheme.barrierColor` |
-| `barrierLabel` | `ShadcnLocalizations.dialogDismiss` | semantic label of the dismissible barrier |
+| `barrierLabel` | `ComponentLocalizations.dialogDismiss` | semantic label of the dismissible barrier |
 | `useSafeArea` | `true` | wraps the card in `SafeArea` |
 | `routeSettings` | null | forwarded to the route |
 | `traversalEdgeBehavior` | `closedLoop` | Tab wraps inside the dialog instead of leaving it |
@@ -77,7 +77,7 @@ await showShadcnDialog<void>(
 | `borderColor` | `border` token |
 | `borderWidth` | `1.0` |
 | `borderRadius` | ambient `radiusLg` |
-| `padding` | card padding: `padMd` x density content padding (shadcn `p-6`, 24px) |
+| `padding` | card padding: `padMd` x density content padding (dashcn `p-6`, 24px) |
 | `insetPadding` | screen edge inset: `padSm` x density content padding (16px); `EdgeInsets.zero` when `fullScreen` |
 | `barrierColor` | black at 50% |
 | `maxWidth` | `480` (null = unconstrained) |
@@ -91,7 +91,7 @@ Resolution order is `defaults < app (ComponentThemes) < scoped
 
 ## Live theme
 
-The card and the barrier resolve `DialogTheme` and the shadcn colors on every
+The card and the barrier resolve `DialogTheme` and the dashcn colors on every
 build, inside themes captured from the caller, so a light/dark switch or a
 preset change restyles a dialog that is already open. The themes and data
 captured at show time are re-injected into the route; the app leg
@@ -117,22 +117,22 @@ Deleted:
 
 Renamed / changed:
 
-- `showDialog` -> `showShadcnDialog` (no clash with the widgets `showDialog`).
-- `DialogRoute` -> `ShadcnDialogRoute`, extending the widgets `ModalRoute`
+- `showDialog` -> `showDialog` (no clash with the widgets `showDialog`).
+- `DialogRoute` -> `DialogRoute`, extending the widgets `ModalRoute`
   instead of `RawDialogRoute`; it takes a builder instead of a
   `pageBuilder` + `transitionBuilder` pair and resolves `DialogTheme` itself.
   The old `anchorPoint` parameter is gone: widgets `ModalRoute` has no anchor
   point, so it could only ever have been carried.
 - `ModalBackdropTheme` -> `DialogTheme`, with `padding` split into the card
-  padding (shadcn `p-6`) and the new `insetPadding` screen inset.
+  padding (dashcn `p-6`) and the new `insetPadding` screen inset.
 - `ModalContainer` / `ModalBackdrop` are gone; the shell paints the card itself.
 
 Fixed (not ported):
 
 - Default barrier was transparent, so a "modal" dialog looked non-modal. The
-  default is now black at 50% (shadcn `bg-black/50`).
+  default is now black at 50% (dashcn `bg-black/50`).
 - `barrierLabel` was a hardcoded English string; it now reads
-  `ShadcnLocalizations.dialogDismiss`, translated in every shipped locale with
+  `ComponentLocalizations.dialogDismiss`, translated in every shipped locale with
   the word Flutter itself uses for `modalBarrierDismissLabel`.
 
 Behaviour added:

@@ -58,7 +58,7 @@ Widget _frame({
   GooeyToastTheme? theme,
   TextDirection direction = TextDirection.ltr,
 }) {
-  return ShadcnApp(
+  return DashcnApp(
     home: Directionality(
       textDirection: direction,
       child: GooeyToastLayer(
@@ -72,7 +72,7 @@ Widget _frame({
 
 /// Forces reduced motion at the platform level and restores it afterwards.
 ///
-/// The toast's overlay entry sits above every widget below `ShadcnApp`, so a
+/// The toast's overlay entry sits above every widget below `DashcnApp`, so a
 /// `MediaQuery` inside the test tree is invisible to it; the platform dispatcher
 /// is what `MediaQuery.fromView` reads instead.
 void testReducedMotion(
@@ -206,7 +206,7 @@ void main() {
       await tester.pumpWidget(_frame(controller: controller));
       final BuildContext context = tester.element(find.byType(GooeyToastLayer));
       final GooeyToastTheme theme = gooeyToastThemeOf(context);
-      final colors = ShadcnTheme.of(context).colors;
+      final colors = Theme.of(context).colors;
       final Set<Color> tones = <Color>{
         for (final GooeyToastState state in GooeyToastState.values)
           state.tone(theme, colors),
@@ -231,7 +231,7 @@ void main() {
         icon.color,
         GooeyToastState.success.tone(
           gooeyToastThemeOf(context),
-          ShadcnTheme.of(context).colors,
+          Theme.of(context).colors,
         ),
       );
       controller.dispose();

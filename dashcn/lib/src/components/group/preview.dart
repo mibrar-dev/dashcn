@@ -15,7 +15,7 @@ class GroupPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: DefaultTextStyle(
@@ -36,7 +36,7 @@ class GroupPreview extends StatelessWidget {
     );
   }
 
-  Widget _stage(ShadcnThemeData theme) {
+  Widget _stage(ThemeData theme) {
     return SizedBox(
       width: 260,
       height: 160,
@@ -68,7 +68,7 @@ class GroupPreview extends StatelessWidget {
     );
   }
 
-  Widget _chip(ShadcnThemeData theme, String label) {
+  Widget _chip(ThemeData theme, String label) {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.card,
@@ -90,7 +90,7 @@ class GroupPreview extends StatelessWidget {
           title,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        Gap(ShadcnTheme.of(context).spacing.sm),
+        Gap(Theme.of(context).spacing.sm),
         child,
       ],
     );

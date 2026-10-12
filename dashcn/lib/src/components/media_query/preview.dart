@@ -31,7 +31,7 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return MediaQuery(
       data: MediaQueryData(size: Size(_width, 640)),
       child: ColoredBox(
@@ -43,23 +43,23 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('viewport width: ${_width.round()}'),
-              SizedBox(height: ShadcnTheme.of(context).spacing.sm),
+              SizedBox(height: Theme.of(context).spacing.sm),
               _widthSlider(),
-              SizedBox(height: ShadcnTheme.of(context).spacing.xl),
+              SizedBox(height: Theme.of(context).spacing.xl),
               _visibility(),
-              SizedBox(height: ShadcnTheme.of(context).spacing.xl),
+              SizedBox(height: Theme.of(context).spacing.xl),
               _visibility(
                 minWidth: 600,
                 alternateChild: const Text('below the min bound'),
                 child: const Text('at or above the min bound'),
               ),
-              SizedBox(height: ShadcnTheme.of(context).spacing.lg),
+              SizedBox(height: Theme.of(context).spacing.lg),
               _visibility(
                 maxWidth: 400,
                 alternateChild: const Text('above the max bound'),
                 child: const Text('at or below the max bound'),
               ),
-              SizedBox(height: ShadcnTheme.of(context).spacing.lg),
+              SizedBox(height: Theme.of(context).spacing.lg),
               const Text('scoped theme leg (min 600 / max 1000)'),
               ComponentTheme<MediaQueryVisibilityTheme>(
                 data: const MediaQueryVisibilityTheme(
@@ -71,10 +71,10 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
                   child: const Text('scoped: inside 600..1000'),
                 ),
               ),
-              SizedBox(height: ShadcnTheme.of(context).spacing.xl),
+              SizedBox(height: Theme.of(context).spacing.xl),
               Builder(
                 builder: (context) => ColoredBox(
-                  color: ShadcnTheme.of(context).colors.background,
+                  color: Theme.of(context).colors.background,
                   child: _visibility(
                     minWidth: 600,
                     alternateChild: const Text('dark: mobile'),
@@ -92,7 +92,7 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
   Widget _widthSlider() => GestureDetector(
     onHorizontalDragUpdate: (details) =>
         setState(() => _width = (_width + details.delta.dx).clamp(240, 1200)),
-    child: Container(height: 8, color: ShadcnColors.lightFallback.muted),
+    child: Container(height: 8, color: ThemeColors.lightFallback.muted),
   );
 
   Widget _visibility({

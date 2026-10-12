@@ -6,13 +6,13 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/select/select.dart';
-import '../ui/shadcn/components/slider/slider.dart';
-import '../ui/shadcn/components/text_area/text_area.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/select/select.dart';
+import '../ui/dashcn/components/slider/slider.dart';
+import '../ui/dashcn/components/text_area/text_area.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -37,7 +37,7 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Payout Threshold',
       subtitle: 'Set the minimum balance before a payout is triggered.',
@@ -124,7 +124,7 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
   }
 }
 
-/// `Report an Issue`: a select plus a textarea, as shadcn's form cards do.
+/// `Report an Issue`: a select plus a textarea, as upstream's form cards do.
 class HomeReportCard extends StatefulWidget {
   /// Creates the card.
   const HomeReportCard({super.key});

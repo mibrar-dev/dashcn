@@ -170,12 +170,12 @@ void _writeMainDart({
   final mainFile = File(_join(kitRoot.path, 'lib/main.dart'));
   mainFile.writeAsStringSync(
     "import 'package:flutter/widgets.dart';\n"
-    "import 'package:flutter_shadcn_kit/registry/components/$category/$componentId/preview.dart';\n"
+    "import 'package:dashcn/registry/components/$category/$componentId/preview.dart';\n"
     '\n'
-    "import 'package:flutter_shadcn_kit/registry/components/layout/app/app.dart';\n"
-    "import 'package:flutter_shadcn_kit/registry/components/display/empty_state/preview.dart';\n"
-    "import 'package:flutter_shadcn_kit/registry/components/utility/shadcn_localizations/shadcn_localizations.dart';\n"
-    "import 'package:flutter_shadcn_kit/registry/shared/theme/theme.dart' as shadcn;\n"
+    "import 'package:dashcn/registry/components/layout/app/app.dart';\n"
+    "import 'package:dashcn/registry/components/display/empty_state/preview.dart';\n"
+    "import 'package:dashcn/registry/components/utility/dashcn_localizations/dashcn_localizations.dart';\n"
+    "import 'package:dashcn/registry/shared/theme/theme.dart' as dashcn;\n"
     '\n'
     'void main() {\n'
     '  runApp(const _RegistryApp());\n'
@@ -186,11 +186,11 @@ void _writeMainDart({
     '\n'
     '  @override\n'
     '  Widget build(BuildContext context) {\n'
-    '    return ShadcnApp(\n'
+    '    return DashcnApp(\n'
     "      title: '$title Preview',\n"
-    '      theme: const shadcn.ThemeData(),\n'
-    '      localizationsDelegates: ShadcnLocalizations.localizationsDelegates,\n'
-    '      supportedLocales: ShadcnLocalizations.supportedLocales,\n'
+    '      theme: const dashcn.ThemeData(),\n'
+    '      localizationsDelegates: ComponentLocalizations.localizationsDelegates,\n'
+    '      supportedLocales: ComponentLocalizations.supportedLocales,\n'
     '      home: const $previewClassName(),\n'
     '    );\n'
     '  }\n'

@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Telugu (`te`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsTe extends ShadcnLocalizations {
+class ComponentLocalizationsTe extends ComponentLocalizations {
   /// Creates the Telugu strings.
-  const ShadcnLocalizationsTe([super.locale = const Locale('te')]);
+  const ComponentLocalizationsTe([super.locale = const Locale('te')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

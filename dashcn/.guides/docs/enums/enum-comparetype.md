@@ -1,22 +1,20 @@
 ---
 title: "Enum: CompareType"
-description: "Defines comparison operators for numeric validation."
+description: "Comparison operators used by [CompareTo] and [CompareWith]."
 ---
 
 ```dart
-/// Defines comparison operators for numeric validation.
-///
-/// Used by [CompareValidator] to specify the type of comparison to perform.
+/// Comparison operators used by [CompareTo] and [CompareWith].
 enum CompareType {
-  /// Value must be greater than the compared value.
+  /// Value must be greater.
   greater,
-  /// Value must be greater than or equal to the compared value.
+  /// Value must be greater or equal.
   greaterOrEqual,
-  /// Value must be less than the compared value.
+  /// Value must be less.
   less,
-  /// Value must be less than or equal to the compared value.
+  /// Value must be less or equal.
   lessOrEqual,
-  /// Value must be equal to the compared value.
+  /// Values must be equal.
   equal,
 }
 ```

@@ -14,11 +14,11 @@ export '../menu/menu.dart' show MenuPopup, MenuPopupTheme, menuPopupDefaults;
 
 /// Shows [builder]'s content on a [MenuPopup] surface anchored to [context].
 ///
-/// This is the generic popup: unlike `showShadcnMenu` the content is not a
-/// menu (no roving focus, no rows), and unlike [showShadcnContextMenu] it is
+/// This is the generic popup: unlike `showMenu` the content is not a
+/// menu (no roving focus, no rows), and unlike [showContextMenu] it is
 /// anchored rather than pointer-positioned. Escape and an outside tap close
 /// it while [modal] keeps the content behind non-interactive.
-Future<T?> showShadcnPopup<T>({
+Future<T?> showPopup<T>({
   required BuildContext context,
   required WidgetBuilder builder,
   AlignmentGeometry alignment = Alignment.topCenter,

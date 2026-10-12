@@ -208,7 +208,7 @@ class _HSLColorSliderState extends State<HSLColorSlider>
   @override
   Widget build(BuildContext context) {
     formValue = widget.color;
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final HSLSliderStyle resolved =
         resolveComponentStyle<HSLSliderTheme, HSLSliderStyle>(
           context,

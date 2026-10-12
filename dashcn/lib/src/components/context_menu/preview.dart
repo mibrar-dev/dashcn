@@ -31,7 +31,7 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,

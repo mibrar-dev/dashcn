@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Russian (`ru`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsRu extends ShadcnLocalizations {
+class ComponentLocalizationsRu extends ComponentLocalizations {
   /// Creates the Russian strings.
-  const ShadcnLocalizationsRu([super.locale = const Locale('ru')]);
+  const ComponentLocalizationsRu([super.locale = const Locale('ru')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

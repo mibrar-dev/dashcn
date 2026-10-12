@@ -140,7 +140,7 @@ void main() {
               child: testCase.build(),
             );
 
-            final data = ShadcnTheme.of(
+            final data = Theme.of(
               tester.element(find.byType(Directionality).first),
             );
             final painted = allRenderedColors(tester);
@@ -180,7 +180,7 @@ void main() {
               child: testCase.build(),
             );
 
-            final data = ShadcnTheme.of(
+            final data = Theme.of(
               tester.element(find.byType(Directionality).first),
             );
             final color = testCase.themeColor!;

@@ -14,14 +14,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/input/input.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/primitives/input_features/adornment_features.dart';
-import '../ui/shadcn/primitives/input_features/input_features.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/input/input.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/primitives/input_features/adornment_features.dart';
+import '../ui/dashcn/primitives/input_features/input_features.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'palette_model.dart';
 
@@ -117,7 +117,7 @@ class _DocsPaletteState extends State<DocsPalette> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     final Size size = MediaQuery.sizeOf(context);
     final double top = size.height * DocsMetrics.paletteTopFraction;
@@ -200,7 +200,7 @@ class _DocsPaletteState extends State<DocsPalette> {
   }
 
   Widget _results(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String query = _query.text.trim();
     final List<PaletteEntry> visible = _visible;
     return ConstrainedBox(
@@ -240,7 +240,7 @@ class _DocsPaletteState extends State<DocsPalette> {
     PaletteGroup group,
     List<PaletteEntry> visible,
   ) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final List<PaletteEntry> groupItems = visible
         .where((PaletteEntry item) => item.group == group)
         .toList();
@@ -302,7 +302,7 @@ class _SubHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 12, 2),
       child: Text(
@@ -334,8 +334,8 @@ class _PaletteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     return SizedBox(
       height: 36,
       child: Clickable(
@@ -398,7 +398,7 @@ class _Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -459,7 +459,7 @@ class _KeyCap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: theme.colors.border),

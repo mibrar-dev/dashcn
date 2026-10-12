@@ -9,10 +9,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -28,14 +28,14 @@ void main() {
     tester,
   ) async {
     for (final preview in alertPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pumpAndSettle();
@@ -56,7 +56,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('padding matches shadcn px-4 py-3 at default density', (
+  testWidgets('padding matches dashcn px-4 py-3 at default density', (
     tester,
   ) async {
     await tester.pumpWidget(

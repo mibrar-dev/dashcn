@@ -17,7 +17,7 @@ import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'card.dart';
 
-/// The full shadcn slot composition.
+/// The full upstream slot composition.
 //
 // P7-D1b: capped at 320 px (not fixed) so narrow phones shrink it instead of
 // overflowing; the stage centres it.
@@ -33,7 +33,7 @@ class _CardDefaultState extends State<_CardDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -93,7 +93,7 @@ class _CardDefaultState extends State<_CardDefault> {
           _status,
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],
@@ -103,7 +103,7 @@ class _CardDefaultState extends State<_CardDefault> {
 
 /// A card whose header carries a clipped media band.
 Widget _cardWithMedia(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 320),
     child: Card(
@@ -156,7 +156,7 @@ class _CardWithFooterState extends State<_CardWithFooter> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

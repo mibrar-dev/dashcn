@@ -123,7 +123,7 @@ class ColorFieldTheme extends ComponentThemeData
 
 /// Token-derived baseline values; unset override fields fall through here.
 ///
-/// shadcn-swapper styling: a 1px `border` ring and `rounded-md` around the
+/// upstream-swapper styling: a 1px `border` ring and `rounded-md` around the
 /// gradient area, with the transparency checkerboard enabled.
 const ColorFieldTheme colorFieldDefaults = ColorFieldTheme(
   borderColor: ThemedColor.ref(ColorRef.border),

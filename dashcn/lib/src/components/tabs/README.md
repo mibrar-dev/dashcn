@@ -55,7 +55,7 @@ TabPane<String>(
 ## Differences from old tabs / tab_container / tab_pane
 
 - Three dirs merge into one; `TabList` (underline look) is deleted —
-  shadcn default is the pill. The 21 shared names are defined once in
+  dashcn default is the pill. The 21 shared names are defined once in
   `primitives/tab_container.dart`.
 - `TabPane` fixes: reorder copies the list (old mutated `widget.items`
   in place); the scroll controller is disposed; focus tracking compares

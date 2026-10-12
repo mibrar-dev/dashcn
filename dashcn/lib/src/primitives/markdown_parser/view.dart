@@ -1,6 +1,6 @@
 // Block dispatch: [buildMarkdownBlock] renders any block, [wrapMarkdownBlock]
 // adds anchor keys plus heading/element tap targets, and
-// [markdownSelectionMenu] is the shadcn selection toolbar for regions.
+// [markdownSelectionMenu] is the upstream selection toolbar for regions.
 
 import 'package:flutter/widgets.dart';
 
@@ -26,7 +26,7 @@ Widget buildMarkdownBlock({
   required Set<String> failedUrls,
   required Widget Function(BuildContext context, MarkdownBlock block) nested,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   return switch (block.kind) {
     MarkdownBlockKind.blank => SizedBox(height: theme.spacing.sm),
     MarkdownBlockKind.paragraph => markdownRichText(
@@ -176,7 +176,7 @@ Widget wrapMarkdownBlock({
   );
 }
 
-/// Shadcn selection toolbar for [SelectableRegion]: same filtered items and
+/// Upstream selection toolbar for [SelectableRegion]: same filtered items and
 /// anchors as the editable-text menu, adapted to region state.
 Widget markdownSelectionMenu(
   BuildContext context,
@@ -184,10 +184,10 @@ Widget markdownSelectionMenu(
 ) {
   final anchors = state.contextMenuAnchors;
   final items = state.contextMenuButtonItems
-      .where((item) => kShadcnContextMenuTypes.contains(item.type))
+      .where((item) => kContextMenuTypes.contains(item.type))
       .toList(growable: false);
   if (items.isEmpty) return const SizedBox.shrink();
-  return ShadcnTextSelectionToolbar(
+  return SelectionToolbar(
     anchorAbove: anchors.primaryAnchor,
     anchorBelow: anchors.secondaryAnchor ?? anchors.primaryAnchor,
     buttonItems: items,

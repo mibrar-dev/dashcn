@@ -34,10 +34,10 @@ class _DefaultFormState extends State<_DefaultForm> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return SizedBox(
       width: 320,
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
         onSubmit: (values) =>
             setState(() => _result = 'Submitted ${values.length} value(s)'),
@@ -45,7 +45,7 @@ class _DefaultFormState extends State<_DefaultForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _emailKey,
               label: const Text('Email'),
               hint: const Text('We never share it.'),
@@ -90,9 +90,9 @@ class _ValidatingFormState extends State<_ValidatingForm> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
-        child: ShadcnFormField<String>(
+        child: FormItem<String>(
           key: _emailKey,
           label: const Text('Email'),
           validator: const NotEmptyValidator() & const EmailValidator(),

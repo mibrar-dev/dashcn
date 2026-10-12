@@ -192,7 +192,7 @@ class TimelineSurface {
   final double contentStart;
 
   /// Ambient colour tokens, used to resolve per-entry colours.
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   /// The colour an entry with [entryColor] paints its indicator/connector in.
   Color indicatorFor(ThemedColor? entryColor) {
@@ -207,7 +207,7 @@ TimelineSurface resolveTimelineSurface(
   TimelineTheme? widgetTheme,
   BoxConstraints? timeConstraints,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final TimelineTheme resolved =
       resolveComponentStyle<TimelineTheme, TimelineTheme>(
         context,

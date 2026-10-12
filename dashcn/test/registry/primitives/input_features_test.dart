@@ -49,13 +49,13 @@ class _OverlayHostState extends State<_OverlayHost> {
 }
 
 Widget _frame({required Widget child}) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: MediaQuery(
       data: const MediaQueryData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnLayer(child: _OverlayHost(child: child)),
+        child: AppLayer(child: _OverlayHost(child: child)),
       ),
     ),
   );

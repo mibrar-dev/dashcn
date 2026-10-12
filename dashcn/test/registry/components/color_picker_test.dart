@@ -37,7 +37,7 @@ final Finder _hslPad = find.byWidgetPredicate(
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorPickerTheme? scoped,
 }) {
@@ -45,7 +45,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<ColorPickerTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -73,7 +73,7 @@ Future<void> _pump(
   bool showAlpha = false,
   bool showHistoryButton = true,
   bool initialShowHistory = false,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorPickerTheme? scoped,
   ColorPickerTheme? widgetTheme,
@@ -129,9 +129,9 @@ void main() {
     testWidgets('pad, hue bar, fields and buttons render in light and dark', (
       tester,
     ) async {
-      for (final ShadcnThemeData data in <ShadcnThemeData>[
-        const ShadcnThemeData(),
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      for (final ThemeData data in <ThemeData>[
+        const ThemeData(),
+        const ThemeData(colors: ThemeColors.darkFallback),
       ]) {
         await _pump(tester, data: data);
         expect(find.byType(ColorPicker), findsOneWidget);

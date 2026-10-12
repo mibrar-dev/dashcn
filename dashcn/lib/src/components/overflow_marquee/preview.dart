@@ -19,7 +19,7 @@ const String _line =
 
 /// A horizontal ticker in a bordered band.
 Widget _horizontal(BuildContext context) {
-  final ShadcnColors colors = ShadcnTheme.of(context).colors;
+  final ThemeColors colors = Theme.of(context).colors;
   return SizedBox(
     width: 320,
     child: DecoratedBox(
@@ -28,7 +28,7 @@ Widget _horizontal(BuildContext context) {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.sm),
+        padding: EdgeInsets.all(Theme.of(context).spacing.sm),
         child: const OverflowMarquee(
           duration: Duration(seconds: 6),
           child: Text(_line),

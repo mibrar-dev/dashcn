@@ -16,12 +16,12 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -45,7 +45,7 @@ SpinnerSurface _surface(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('token surface: 24px, 2px stroke, primary arc', (tester) async {
     await tester.pumpWidget(_frame(child: const Spinner()));
@@ -63,9 +63,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the arc', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(_frame(data: dark, child: const Spinner()));
     expect(_surface(tester).color, dark.colors.primary);
   });

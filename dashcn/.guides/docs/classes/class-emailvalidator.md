@@ -1,26 +1,16 @@
 ---
 title: "Class: EmailValidator"
-description: "A validator that checks if a string is a valid email address."
+description: "Requires a string to look like an e-mail address (`local@domain."
 ---
 
 ```dart
-/// A validator that checks if a string is a valid email address.
-///
-/// [EmailValidator] uses the email_validator package to validate email
-/// addresses according to standard email format rules.
-///
-/// Example:
-/// ```dart
-/// EmailValidator(
-///   message: 'Please enter a valid email address',
-/// )
-/// ```
+/// Requires a string to look like an e-mail address (`local@domain.tld`).
 class EmailValidator extends Validator<String> {
-  /// Custom error message, or null to use default localized message.
-  final String? message;
-  /// Creates an [EmailValidator] with an optional custom message.
+  /// Creates an e-mail validator.
   const EmailValidator({this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode state);
+  /// Failure text; null uses `invalidEmail`.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode lifecycle);
   bool operator ==(Object other);
   int get hashCode;
 }

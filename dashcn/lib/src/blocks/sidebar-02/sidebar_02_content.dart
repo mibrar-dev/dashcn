@@ -22,7 +22,7 @@ class Sidebar02Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,7 +92,7 @@ class _Sidebar02Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final int columns = constraints.maxWidth >= 560 ? 3 : 1;
@@ -141,7 +141,7 @@ class _Sidebar02Files extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const List<(String, String, String)> files = <(String, String, String)>[
       ('SM', 'Summer lookbook.pdf', '2.4 MB · edited 3m ago'),
       ('BR', 'Brand tokens.json', '18 KB · edited 1h ago'),
@@ -190,7 +190,7 @@ class _Sidebar02Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Ada deployed Marketing site to production', '12m ago'),
       ('Bjarne invited Sofia to Design system', '1h ago'),

@@ -1,4 +1,4 @@
-// Radius token derivation vs shadcn v4 (`globals.css`): `lg` is the rem
+// Radius token derivation vs upstream v4 (`globals.css`): `lg` is the rem
 // value in px (`radius * 16`); `sm`/`md` step down 4/2 px and `xl` steps
 // up 4 px, clamped at zero. `xs`/`xxl` are kit extensions on the old
 // linear steps and are pinned here so a change is deliberate.
@@ -8,13 +8,13 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:dashcn/src/theme/tokens.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-ShadcnThemeData _theme(double radius) =>
-    ShadcnThemeData(tokens: ShadcnTokens(radius: radius));
+ThemeData _theme(double radius) =>
+    ThemeData(tokens: DesignTokens(radius: radius));
 
 void main() {
-  group('radius steps follow shadcn v4', () {
+  group('radius steps follow dashcn v4', () {
     test('radius 0 clamps every step to 0', () {
-      final ShadcnThemeData theme = _theme(0);
+      final ThemeData theme = _theme(0);
       expect(theme.radiusXs, 0);
       expect(theme.radiusSm, 0);
       expect(theme.radiusMd, 0);
@@ -25,7 +25,7 @@ void main() {
     });
 
     test('radius 0.5 (kit default): 2/4/6/8/12/12', () {
-      final ShadcnThemeData theme = _theme(0.5);
+      final ThemeData theme = _theme(0.5);
       expect(theme.radiusXs, 2);
       expect(theme.radiusSm, 4);
       expect(theme.radiusMd, 6);
@@ -34,8 +34,8 @@ void main() {
       expect(theme.radiusXxl, 12);
     });
 
-    test('radius 0.625 (shadcn default 10px): 2.5/6/8/10/14/15', () {
-      final ShadcnThemeData theme = _theme(0.625);
+    test('radius 0.625 (dashcn default 10px): 2.5/6/8/10/14/15', () {
+      final ThemeData theme = _theme(0.625);
       expect(theme.radiusXs, 2.5);
       expect(theme.radiusSm, 6);
       expect(theme.radiusMd, 8);
@@ -46,7 +46,7 @@ void main() {
     });
 
     test('radius 1.0 (large): 4/12/14/16/20/24', () {
-      final ShadcnThemeData theme = _theme(1.0);
+      final ThemeData theme = _theme(1.0);
       expect(theme.radiusXs, 4);
       expect(theme.radiusSm, 12);
       expect(theme.radiusMd, 14);
@@ -57,7 +57,7 @@ void main() {
 
     test('small radius 0.125 clamps sm/md instead of going negative', () {
       // lg = 2: sm would be -2 and md 0 without the clamp.
-      final ShadcnThemeData theme = _theme(0.125);
+      final ThemeData theme = _theme(0.125);
       expect(theme.radiusLg, 2);
       expect(theme.radiusSm, 0);
       expect(theme.radiusMd, 0);

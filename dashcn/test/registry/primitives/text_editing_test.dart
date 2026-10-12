@@ -13,8 +13,8 @@ import 'package:flutter_test/flutter_test.dart';
 const Color _ring = Color(0xFF123456);
 
 Widget _frame({required Widget child}) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: MediaQuery(
       data: const MediaQueryData(),
       child: Directionality(
@@ -28,31 +28,25 @@ Widget _frame({required Widget child}) {
 void main() {
   test('selection controls compare by value, not identity', () {
     // EditableText disposes and recreates its selection overlay whenever
-    // selectionControls !=. Fields build a fresh ShadcnSelectionControls per
+    // selectionControls !=. Fields build a fresh SelectionControls per
     // build, so equal configs must compare equal — otherwise every rebuild
     // churns the overlay entries and a popover rebuild can dispose them
     // mid-build (zombie OverlayEntry crash on field tap).
-    expect(ShadcnSelectionControls(), ShadcnSelectionControls());
+    expect(SelectionControls(), SelectionControls());
     expect(
-      ShadcnSelectionControls(color: _ring, handleSize: 18),
-      ShadcnSelectionControls(color: _ring, handleSize: 18),
+      SelectionControls(color: _ring, handleSize: 18),
+      SelectionControls(color: _ring, handleSize: 18),
     );
+    expect(SelectionControls(color: _ring), isNot(SelectionControls()));
     expect(
-      ShadcnSelectionControls(color: _ring),
-      isNot(ShadcnSelectionControls()),
+      SelectionControls(handleSize: 18),
+      isNot(SelectionControls(handleSize: 20)),
     );
-    expect(
-      ShadcnSelectionControls(handleSize: 18),
-      isNot(ShadcnSelectionControls(handleSize: 20)),
-    );
-    expect(
-      ShadcnSelectionControls().hashCode,
-      ShadcnSelectionControls().hashCode,
-    );
+    expect(SelectionControls().hashCode, SelectionControls().hashCode);
   });
 
   test('handle size and anchor stay off the text line', () {
-    final controls = ShadcnSelectionControls(handleSize: 20);
+    final controls = SelectionControls(handleSize: 20);
     expect(controls.getHandleSize(14), const Size(20, 20));
     expect(
       controls.getHandleAnchor(TextSelectionHandleType.left, 14),
@@ -82,7 +76,7 @@ void main() {
         ),
       ),
     );
-    final controls = ShadcnSelectionControls(color: _ring, handleSize: 18);
+    final controls = SelectionControls(color: _ring, handleSize: 18);
     final handle = controls.buildHandle(
       context,
       TextSelectionHandleType.right,
@@ -100,7 +94,7 @@ void main() {
     final pressed = <String>[];
     await tester.pumpWidget(
       _frame(
-        child: ShadcnTextSelectionToolbar(
+        child: SelectionToolbar(
           anchorAbove: const Offset(100, 100),
           anchorBelow: const Offset(100, 140),
           buttonItems: <ContextMenuButtonItem>[
@@ -137,7 +131,7 @@ void main() {
   testWidgets('toolbar keeps custom labels', (tester) async {
     await tester.pumpWidget(
       _frame(
-        child: ShadcnTextSelectionToolbar(
+        child: SelectionToolbar(
           anchorAbove: const Offset(10, 10),
           anchorBelow: const Offset(10, 30),
           buttonItems: <ContextMenuButtonItem>[
@@ -184,7 +178,7 @@ void main() {
             return EditableText(
               controller: controller,
               focusNode: focusNode,
-              selectionControls: ShadcnSelectionControls(),
+              selectionControls: SelectionControls(),
               style: const TextStyle(color: Color(0xFF000000)),
               cursorColor: const Color(0xFF000000),
               backgroundCursorColor: const Color(0xFF000000),
@@ -200,7 +194,7 @@ void main() {
     await tester.pump();
 
     final state = tester.state<EditableTextState>(find.byType(EditableText));
-    final menu = defaultShadcnContextMenuBuilder(context, state);
+    final menu = defaultContextMenuBuilder(context, state);
     await tester.pumpWidget(_frame(child: menu));
     expect(find.text('Cut'), findsOneWidget);
     expect(find.text('Copy'), findsOneWidget);
@@ -244,7 +238,7 @@ void main() {
               controller: controller,
               focusNode: focusNode,
               readOnly: true,
-              selectionControls: ShadcnSelectionControls(),
+              selectionControls: SelectionControls(),
               style: const TextStyle(color: Color(0xFF000000)),
               cursorColor: const Color(0xFF000000),
               backgroundCursorColor: const Color(0xFF000000),
@@ -258,7 +252,7 @@ void main() {
     await tester.pump();
 
     final state = tester.state<EditableTextState>(find.byType(EditableText));
-    final menu = defaultShadcnContextMenuBuilder(context, state);
+    final menu = defaultContextMenuBuilder(context, state);
     await tester.pumpWidget(_frame(child: menu));
     expect(find.text('Cut'), findsNothing);
     expect(find.text('Paste'), findsNothing);
@@ -282,7 +276,7 @@ void main() {
             return EditableText(
               controller: controller,
               focusNode: focusNode,
-              selectionControls: ShadcnSelectionControls(),
+              selectionControls: SelectionControls(),
               style: const TextStyle(color: Color(0xFF000000)),
               cursorColor: const Color(0xFF000000),
               backgroundCursorColor: const Color(0xFF000000),
@@ -292,7 +286,7 @@ void main() {
       ),
     );
     final state = tester.state<EditableTextState>(find.byType(EditableText));
-    final menu = defaultShadcnContextMenuBuilder(context, state);
+    final menu = defaultContextMenuBuilder(context, state);
     await tester.pumpWidget(_frame(child: menu));
     expect(find.text('Cut'), findsNothing);
     expect(find.text('Copy'), findsNothing);
@@ -309,8 +303,8 @@ void main() {
     }) async {
       late TextStyle resolved;
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: DefaultTextStyle(
@@ -339,10 +333,7 @@ void main() {
         base: const TextStyle(fontSize: 14),
         color: const Color(0xFF111111),
       );
-      expect(
-        style.fontFamily,
-        const ShadcnThemeData().typography.sans.fontFamily,
-      );
+      expect(style.fontFamily, const ThemeData().typography.sans.fontFamily);
       expect(style.fontSize, 14);
       expect(style.color, const Color(0xFF111111));
     });

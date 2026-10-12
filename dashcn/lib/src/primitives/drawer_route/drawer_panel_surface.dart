@@ -71,8 +71,8 @@ class DrawerPanelSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeData ambient = Theme.of(context);
+    final ThemeColors colors = ambient.colors;
 
     // The drawer/sheet panel is a container: `theme.padding` defaults to a
     // density-multiplier value (see `drawerDefaultPadding`), so it is resolved

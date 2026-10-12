@@ -23,7 +23,7 @@ class _InputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: theme.spacing.xs),
       child: Text(
@@ -73,7 +73,7 @@ class _InputWithIconState extends State<_InputWithIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Column(
@@ -143,7 +143,7 @@ Widget _inputHintPopup(BuildContext context) => const Text('Extra information');
 
 /// A disabled field beside a read-only one.
 Widget _inputDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
     child: Column(

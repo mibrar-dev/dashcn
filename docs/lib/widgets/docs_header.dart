@@ -11,14 +11,14 @@ import 'package:flutter/widgets.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/divider/divider.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../web_bridge.dart';
 import 'docs_footer.dart' show kDocsRepoUrl;
 import 'get_code_dialog.dart';
@@ -53,7 +53,7 @@ class DocsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
     final bool showSearch = width >= 768;
@@ -255,7 +255,7 @@ class _NavLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Button(
       variant: ButtonVariant.ghost,
       size: ButtonSize.sm,
@@ -291,7 +291,7 @@ class _SearchTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return SizedBox(
       key: const ValueKey<String>('docs-search-trigger'),
       width: width,
@@ -305,7 +305,7 @@ class _SearchTrigger extends StatelessWidget {
             color: colors.muted.withValues(
               alpha: states.contains(WidgetState.hovered) ? 0.5 : 1,
             ),
-            borderRadius: ShadcnTheme.of(context).borderRadiusLg,
+            borderRadius: Theme.of(context).borderRadiusLg,
           );
         }),
         padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
@@ -338,7 +338,7 @@ class _BarSeparator extends StatelessWidget {
       child: Divider(
         axis: Axis.vertical,
         thickness: 1,
-        color: ThemedColor.value(ShadcnTheme.of(context).colors.border),
+        color: ThemedColor.value(Theme.of(context).colors.border),
       ),
     );
   }
@@ -366,7 +366,7 @@ class DocsMobileNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final double headerHeight = width >= 1024
         ? DocsMetrics.headerHeightLg
@@ -427,7 +427,7 @@ class _MobileGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

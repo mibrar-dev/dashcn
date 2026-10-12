@@ -3,7 +3,7 @@
 //
 // The old `components/utility/image/` module had an **empty** entry file
 // (`image.dart` held one suppress-all-lints pragma line and nothing else); the only
-// thing it shipped was a Material preview. This is a real shadcn component:
+// thing it shipped was a Material preview. This is a real upstream component:
 // `aspect-square` + `rounded-lg` + `object-cover`, plus the loading/error slots
 // the old preview hand-rolled with `CircularProgressIndicator` and
 // `Icon(Icons.error)`.
@@ -25,18 +25,18 @@ typedef ImageErrorBuilder =
 /// A themed image.
 ///
 /// ```dart
-/// ShadcnImage(image: NetworkImage(url), width: 200, aspectRatio: 1)
+/// Picture(image: NetworkImage(url), width: 200, aspectRatio: 1)
 /// ```
 ///
 /// Give the widget at least one of [width], [height] or [aspectRatio]: with
 /// none of them an unconstrained parent collapses the box to zero.
-class ShadcnImage extends StatefulWidget {
+class Picture extends StatefulWidget {
   /// Creates a themed image.
   ///
-  /// Named `ShadcnImage` rather than `Image`: Flutter's `widgets.dart` also
+  /// Named `Picture` rather than `Image`: Flutter's `widgets.dart` also
   /// exports an `Image`, and a file importing both would not compile without a
-  /// prefix. The prefix follows the same rule as `ShadcnTheme`.
-  const ShadcnImage({
+  /// prefix. The prefix follows the same rule as `Theme`.
+  const Picture({
     super.key,
     required this.image,
     this.width,
@@ -67,7 +67,7 @@ class ShadcnImage extends StatefulWidget {
   /// Box height; null derives it from [width]/[aspectRatio].
   final double? height;
 
-  /// Width / height of the box; shadcn renders a square image.
+  /// Width / height of the box; upstream renders a square image.
   final double? aspectRatio;
 
   /// How the decoded image fills the box.
@@ -102,10 +102,10 @@ class ShadcnImage extends StatefulWidget {
   final ImageTheme? theme;
 
   @override
-  State<ShadcnImage> createState() => _ShadcnImageState();
+  State<Picture> createState() => _PictureState();
 }
 
-class _ShadcnImageState extends State<ShadcnImage> {
+class _PictureState extends State<Picture> {
   ImageStream? _stream;
   ImageStreamListener? _listener;
   ImageInfo? _info;
@@ -121,7 +121,7 @@ class _ShadcnImageState extends State<ShadcnImage> {
   }
 
   @override
-  void didUpdateWidget(covariant ShadcnImage oldWidget) {
+  void didUpdateWidget(covariant Picture oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.image != oldWidget.image) {
       _resolve();
@@ -192,7 +192,7 @@ class _ShadcnImageState extends State<ShadcnImage> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final ImageTheme resolved = resolveComponentStyle<ImageTheme, ImageTheme>(
       context,
       widget: widget.theme,
@@ -255,7 +255,7 @@ class _ShadcnImageState extends State<ShadcnImage> {
     }
     // One side without a ratio would leave the other axis unbounded, which
     // throws under the `StackFit.expand` picture layer in an unbounded parent
-    // (e.g. a width-only image in a `Column`). shadcn renders a square image,
+    // (e.g. a width-only image in a `Column`). upstream renders a square image,
     // so the missing axis defaults to the given one; an explicit axis is
     // never overridden.
     final double effective = (ratio == null || ratio <= 0) ? 1 : ratio;

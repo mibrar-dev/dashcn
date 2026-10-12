@@ -1,23 +1,33 @@
 ---
 title: "Class: RadioCard"
-description: "A card-style radio button with custom content."
+description: "A card-shaped option of a [RadioSet]: the indicator and a whole  block of content."
 ---
 
 ```dart
-/// A card-style radio button with custom content.
+/// A card-shaped option of a [RadioSet]: the indicator and a whole
+/// block of content.
 ///
-/// Provides a larger, card-like selection area within a [RadioGroup].
+/// The border *colour* reacts to selection; its width never changes, so
+/// selecting a card cannot shift its content.
 class RadioCard<T> extends StatefulWidget {
-  /// The child widget displayed in the card.
-  final Widget child;
-  /// The value represented by this radio card.
-  final T value;
-  /// Whether this radio card is enabled.
-  final bool enabled;
-  /// Focus node for keyboard navigation.
-  final FocusNode? focusNode;
   /// Creates a radio card.
-  const RadioCard({super.key, required this.child, required this.value, this.enabled = true, this.focusNode});
+  const RadioCard({super.key, required this.value, required this.child, this.trailing, this.enabled = true, this.focusNode, this.autofocus = false, this.theme, this.cardTheme});
+  /// The value this card stands for.
+  final T value;
+  /// The card content, shown next to the indicator.
+  final Widget child;
+  /// Widget shown after the content.
+  final Widget? trailing;
+  /// Whether this card accepts input.
+  final bool enabled;
+  /// Focus node; created internally when [autofocus] is true and this is null.
+  final FocusNode? focusNode;
+  /// Whether the card takes focus when first built.
+  final bool autofocus;
+  /// Widget-leg override for the indicator slice.
+  final SelectableRadioTheme? theme;
+  /// Widget-leg override for the card surface.
+  final SelectableCardTheme? cardTheme;
   State<RadioCard<T>> createState();
 }
 ```

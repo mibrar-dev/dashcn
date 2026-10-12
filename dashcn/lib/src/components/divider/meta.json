@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Themed rule in either orientation, optionally carrying a centred label.",
   "tier": "component",
-  "install": "flutter_shadcn add divider",
-  "import": "import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';",
+  "install": "dashcn add divider",
+  "import": "import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';",
   "tags": ["display", "divider", "separator", "rule"],
   "deps": {
     "foundation": [],
@@ -37,7 +37,7 @@
     "defaults": "dividerDefaults",
     "fields": {
       "color": "ThemedColor? - border token",
-      "thickness": "double? - 1 (shadcn h-px)",
+      "thickness": "double? - 1 (dashcn h-px)",
       "extent": "double? - 1; cross-axis size (height when horizontal, width when vertical)",
       "indent": "double? - 0, space before the rule",
       "endIndent": "double? - 0, space after the rule",

@@ -105,13 +105,13 @@ void applyAutoCompleteSuggestion(
   }
 }
 
-/// Default height cap of the suggestion list (shadcn `max-h-60` = 240).
+/// Default height cap of the suggestion list (upstream `max-h-60` = 240).
 const double autocompleteDefaultMaxHeight = 240;
 
-/// Fallback text style of a suggestion row (shadcn `text-sm` = 14).
+/// Fallback text style of a suggestion row (upstream `text-sm` = 14).
 const TextStyle autocompleteDefaultTextStyle = TextStyle(fontSize: 14);
 
-/// Fallback row padding: shadcn `px-2 py-1.5` as density multipliers,
+/// Fallback row padding: upstream `px-2 py-1.5` as density multipliers,
 /// resolved by `AutoCompleteFeature` against
 /// `density.baseContentPadding * scaling`.
 const EdgeInsetsGeometry autocompleteDefaultItemPadding =
@@ -189,7 +189,7 @@ class AutoCompleteTheme extends ComponentThemeData
   /// Per-state label colour of a suggestion row.
   final StateValue<ThemedColor>? itemForeground;
 
-  /// Padding of a suggestion row (shadcn `px-2 py-1.5` as density
+  /// Padding of a suggestion row (upstream `px-2 py-1.5` as density
   /// multipliers); null resolves [autocompleteDefaultItemPadding]. The row is
   /// painted by `Clickable`, so `AutoCompleteFeature` resolves it.
   final EdgeInsetsGeometry? itemPadding;
@@ -309,7 +309,7 @@ class AutoCompleteTheme extends ComponentThemeData
 // ---------------------------------------------------------------------------
 // Defaults (registry-owned, tokens only).
 //
-// The rows follow shadcn's `Command` list: a `popover` surface with a `border`
+// The rows follow upstream's `Command` list: a `popover` surface with a `border`
 // at `radiusMd` and rows that fill `accent` while highlighted. Hover/press
 // duplicate the highlight row because `StateValue.resolve` never falls back
 // from one state to another.

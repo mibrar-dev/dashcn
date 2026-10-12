@@ -40,7 +40,7 @@ class _AlertDialogFrameState extends State<_AlertDialogFrame> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -4,33 +4,33 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('ShadcnColors.lerp endpoints return the inputs', () {
-    const a = ShadcnColors.lightFallback;
-    const b = ShadcnColors.darkFallback;
-    expect(ShadcnColors.lerp(a, b, 0.0), a);
-    expect(ShadcnColors.lerp(a, b, 1.0), b);
-    expect(ShadcnColors.lerp(a, b, 0.0).brightness, Brightness.light);
-    expect(ShadcnColors.lerp(a, b, 1.0).brightness, Brightness.dark);
+  test('ThemeColors.lerp endpoints return the inputs', () {
+    const a = ThemeColors.lightFallback;
+    const b = ThemeColors.darkFallback;
+    expect(ThemeColors.lerp(a, b, 0.0), a);
+    expect(ThemeColors.lerp(a, b, 1.0), b);
+    expect(ThemeColors.lerp(a, b, 0.0).brightness, Brightness.light);
+    expect(ThemeColors.lerp(a, b, 1.0).brightness, Brightness.dark);
   });
 
-  test('ShadcnThemeData.lerp endpoints return the inputs', () {
-    const a = ShadcnThemeData();
-    const b = ShadcnThemeData(colors: ShadcnColors.darkFallback);
-    expect(ShadcnThemeData.lerp(a, b, 0.0), a);
-    expect(ShadcnThemeData.lerp(a, b, 1.0), b);
+  test('ThemeData.lerp endpoints return the inputs', () {
+    const a = ThemeData();
+    const b = ThemeData(colors: ThemeColors.darkFallback);
+    expect(ThemeData.lerp(a, b, 0.0), a);
+    expect(ThemeData.lerp(a, b, 1.0), b);
   });
 
-  testWidgets('AnimatedShadcnTheme animates a color', (tester) async {
+  testWidgets('AnimatedTheme animates a color', (tester) async {
     Color? seen;
-    ShadcnThemeData dataFor(Color background) => ShadcnThemeData(
-      colors: ShadcnColors.lightFallback.copyWith(background: background),
+    ThemeData dataFor(Color background) => ThemeData(
+      colors: ThemeColors.lightFallback.copyWith(background: background),
     );
-    Widget frame(ShadcnThemeData data) => AnimatedShadcnTheme(
+    Widget frame(ThemeData data) => AnimatedTheme(
       duration: const Duration(milliseconds: 300),
       data: data,
       child: Builder(
         builder: (context) {
-          seen = ShadcnTheme.of(context).colors.background;
+          seen = Theme.of(context).colors.background;
           return const SizedBox();
         },
       ),

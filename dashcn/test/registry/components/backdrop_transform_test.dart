@@ -13,8 +13,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 const Size _size = Size(300, 200);
 
-Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
-  return ShadcnTheme(
+Widget _frame(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -28,7 +28,7 @@ Widget _wrapped(
   BackdropTransform transform, {
   double t = 1,
   bool isRoot = true,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
 }) {
   return _frame(
     Builder(
@@ -152,9 +152,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrapped(const ScaleBackdropTransform(), data: const ShadcnThemeData()),
+        _wrapped(const ScaleBackdropTransform(), data: const ThemeData()),
       );
-      expect(_clipRadius(tester).topLeft.x, const ShadcnThemeData().radiusXxl);
+      expect(_clipRadius(tester).topLeft.x, const ThemeData().radiusXxl);
     });
 
     testWidgets('an explicit cornerRadius wins', (tester) async {
@@ -171,16 +171,16 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('wraps under $name tokens', (tester) async {
         await tester.pumpWidget(
           _wrapped(
             const ScaleBackdropTransform(),
             t: 0.5,
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         expect(tester.takeException(), isNull);

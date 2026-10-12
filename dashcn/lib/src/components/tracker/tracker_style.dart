@@ -170,9 +170,9 @@ const double trackerDefaultGap = 2;
 /// Default height of a tracker segment.
 const double trackerDefaultItemHeight = 32;
 
-// Status colours: shadcn has no green/amber token, so `fine` and `warning`
+// Status colours: upstream has no green/amber token, so `fine` and `warning`
 // borrow the closest slots in the categorical scale (chart2 / chart4 — green
-// and amber in every preset's ordering); `critical` and `unknown` use shadcn's
+// and amber in every preset's ordering); `critical` and `unknown` use upstream's
 // own `destructive` / `mutedForeground`. All four therefore follow a preset
 // switch instead of staying pinned to a literal.
 const _trackerFine = ThemedColor.ref(ColorRef.chart2);

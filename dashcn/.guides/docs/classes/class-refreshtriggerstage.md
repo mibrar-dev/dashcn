@@ -1,30 +1,22 @@
 ---
 title: "Class: RefreshTriggerStage"
-description: "Immutable snapshot of refresh trigger state."
+description: "Snapshot of refresh state handed to indicator builders."
 ---
 
 ```dart
-/// Immutable snapshot of refresh trigger state.
-///
-/// Provides information about the current refresh stage and pull extent
-/// to indicator builders for rendering appropriate UI.
+/// Snapshot of refresh state handed to indicator builders.
 class RefreshTriggerStage {
-  /// Current stage of the refresh lifecycle.
-  final TriggerStage stage;
-  /// Animated pull extent value.
-  ///
-  /// Range depends on min/max extent configuration. Use [extentValue] for
-  /// current numeric value.
-  final Animation<double> extent;
-  /// Direction of the pull gesture.
-  final Axis direction;
-  /// Whether the pull direction is reversed.
-  final bool reverse;
-  /// Creates a refresh trigger stage snapshot.
+  /// Creates a stage snapshot.
   const RefreshTriggerStage(this.stage, this.extent, this.direction, this.reverse);
-  /// Current numeric value of the pull extent.
-  ///
-  /// Convenience getter for [extent.value].
+  /// Current lifecycle stage.
+  final TriggerStage stage;
+  /// Animated pull extent (0..1 of the arming distance and beyond).
+  final Animation<double> extent;
+  /// Pull gesture direction.
+  final Axis direction;
+  /// Whether the pull direction is inverted.
+  final bool reverse;
+  /// Current numeric pull extent.
   double get extentValue;
 }
 ```

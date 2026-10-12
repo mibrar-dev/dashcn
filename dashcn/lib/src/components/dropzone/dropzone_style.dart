@@ -2,7 +2,7 @@
 // [DropzoneTheme] surface, the [DropzoneState] table and the token-derived
 // [dropzoneDefaults].
 //
-// shadcn dropzone: a dashed-looking outline drawn as a plain 1px border (the kit
+// upstream dropzone: a dashed-looking outline drawn as a plain 1px border (the kit
 // has no dashed primitive), a muted icon, a status line, an optional hint, and
 // an outline browse button. The border colour is the only thing that changes
 // per state, so the whole surface never moves. User-owned overrides live in
@@ -228,7 +228,7 @@ class DropzoneTheme extends ComponentThemeData
 /// Default animation duration for the surface transitions.
 const Duration dropzoneDefaultDuration = Duration(milliseconds: 150);
 
-/// Surface padding: shadcn `p-6` (24px), density-scaled.
+/// Surface padding: upstream `p-6` (24px), density-scaled.
 const EdgeInsetsGeometry dropzoneDefaultPadding = EdgeInsetsDensity.pxAll(24);
 
 /// Token-derived baseline values; unset override fields fall through here.

@@ -184,7 +184,7 @@ class InputTheme extends ComponentThemeData implements Mergeable<InputTheme> {
 // ---------------------------------------------------------------------------
 // Defaults (registry-owned, tokens only).
 //
-// shadcn v4 input: `bg-transparent` in light, `bg-input/30` in dark, always
+// upstream v4 input: `bg-transparent` in light, `bg-input/30` in dark, always
 // with a `border-input` border. The fill is token-based (input @0 in light)
 // so overrides can still hook the row. Disabled is an explicit a0 fill:
 // unlike `Button`, the input is not dimmed with a whole-control opacity, so
@@ -213,7 +213,7 @@ const StateValue<ThemedColor> _inputBorder = StateValue<ThemedColor>(
   rest: ThemedColor.ref(ColorRef.input),
 );
 
-/// Input content padding: shadcn `px-3 py-2`, density-scaled.
+/// Input content padding: upstream `px-3 py-2`, density-scaled.
 const EdgeInsetsGeometry inputDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 12,
   vertical: 8,
@@ -315,7 +315,7 @@ InputSurface resolveInputSurface(
   bool? filled,
   EdgeInsetsGeometry? padding,
 }) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   final colors = theme.colors;
 
   InputTheme? widgetLeg = widgetTheme;
@@ -326,7 +326,7 @@ InputSurface resolveInputSurface(
       ),
     ).merge(widgetLeg);
   }
-  // shadcn v4: transparent in light, input/30 in dark. The per-brightness
+  // upstream v4: transparent in light, input/30 in dark. The per-brightness
   // baseline keeps user overrides working in both modes.
   final InputTheme effectiveDefaults = colors.brightness == Brightness.dark
       ? inputDarkDefaults

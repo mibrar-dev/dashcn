@@ -26,7 +26,7 @@ class _FailingHttpClient extends Fake implements HttpClient {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   MarkdownTheme? scoped,
 }) {
@@ -36,7 +36,7 @@ Widget _frame({
   }
   return Directionality(
     textDirection: TextDirection.ltr,
-    child: ShadcnTheme(
+    child: Theme(
       data: data,
       child: ComponentThemes(
         themes: app,
@@ -252,18 +252,15 @@ void main() {
       );
       expect(
         _linkSpan(tester)?.style?.color,
-        ShadcnColors.lightFallback.primary,
+        ThemeColors.lightFallback.primary,
       );
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: const Markdown(data: '[x](https://e.com)'),
         ),
       );
-      expect(
-        _linkSpan(tester)?.style?.color,
-        ShadcnColors.darkFallback.primary,
-      );
+      expect(_linkSpan(tester)?.style?.color, ThemeColors.darkFallback.primary);
     });
   });
 
@@ -273,7 +270,7 @@ void main() {
       await tester.pumpWidget(_frame(child: const Markdown(data: data)));
       expect(
         _linkSpan(tester)?.style?.color,
-        ShadcnColors.lightFallback.primary,
+        ThemeColors.lightFallback.primary,
       );
     });
 
@@ -286,10 +283,7 @@ void main() {
           child: const Markdown(data: data),
         ),
       );
-      expect(
-        _linkSpan(tester)?.style?.color,
-        ShadcnColors.lightFallback.accent,
-      );
+      expect(_linkSpan(tester)?.style?.color, ThemeColors.lightFallback.accent);
     });
 
     testWidgets('scoped leg beats app leg', (tester) async {
@@ -306,7 +300,7 @@ void main() {
       );
       expect(
         _linkSpan(tester)?.style?.color,
-        ShadcnColors.lightFallback.destructive,
+        ThemeColors.lightFallback.destructive,
       );
     });
 
@@ -322,7 +316,7 @@ void main() {
           ),
         ),
       );
-      expect(_linkSpan(tester)?.style?.color, ShadcnColors.lightFallback.ring);
+      expect(_linkSpan(tester)?.style?.color, ThemeColors.lightFallback.ring);
     });
 
     testWidgets('legs merge per field across theme and body style', (
@@ -337,10 +331,7 @@ void main() {
           child: const Markdown(data: 'plain [x](https://e.com)'),
         ),
       );
-      expect(
-        _linkSpan(tester)?.style?.color,
-        ShadcnColors.lightFallback.accent,
-      );
+      expect(_linkSpan(tester)?.style?.color, ThemeColors.lightFallback.accent);
       final body = _allSpans(
         tester,
       ).firstWhere((span) => span.text == 'plain ');
@@ -437,7 +428,7 @@ void main() {
   });
 
   group('selection and layout', () {
-    testWidgets('selectable wraps in a region with shadcn controls', (
+    testWidgets('selectable wraps in a region with dashcn controls', (
       tester,
     ) async {
       await tester.pumpWidget(_frame(child: const Markdown(data: 'select me')));

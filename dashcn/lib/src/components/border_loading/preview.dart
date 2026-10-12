@@ -17,7 +17,7 @@ import 'border_loading.dart';
 
 /// A labelled card carrying the loading border.
 Widget _borderLoadingCard(BuildContext context, String label, Widget child) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -55,7 +55,7 @@ class _BorderLoadingProgressState extends State<_BorderLoadingProgress> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,

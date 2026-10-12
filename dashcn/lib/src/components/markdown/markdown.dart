@@ -1,4 +1,4 @@
-// The `markdown` component: a widgets-only markdown renderer with a shadcn
+// The `markdown` component: a widgets-only markdown renderer with a upstream
 // theme, tap callbacks and an image preview overlay. Model, parsing and
 // block builders live in `primitives/markdown_parser` (shared with the
 // streaming `text_animate` component). See README for dropped scope.
@@ -279,7 +279,7 @@ class _MarkdownState extends State<Markdown> {
     if (widget.selectable && SelectionContainer.maybeOf(context) == null) {
       content = SelectableRegion(
         focusNode: _selectionFocus,
-        selectionControls: ShadcnSelectionControls(),
+        selectionControls: SelectionControls(),
         contextMenuBuilder: markdownSelectionMenu,
         child: content,
       );

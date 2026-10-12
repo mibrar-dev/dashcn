@@ -22,7 +22,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
@@ -38,7 +38,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
 /// Drawer chrome at the four edges.
 Widget _drawerContainerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.md,
@@ -63,8 +63,8 @@ Widget _drawerContainerDefault(BuildContext context) {
 /// The sheet form, expanded along the cross axis.
 Widget _drawerContainerWithHandle(BuildContext context) {
   return Wrap(
-    spacing: ShadcnTheme.of(context).spacing.md,
-    runSpacing: ShadcnTheme.of(context).spacing.md,
+    spacing: Theme.of(context).spacing.md,
+    runSpacing: Theme.of(context).spacing.md,
     children: const <Widget>[
       _DrawerContainerFrame(
         width: 220,

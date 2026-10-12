@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CodeSnippetTheme? scoped,
 }) {
@@ -26,7 +26,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<CodeSnippetTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -100,8 +100,8 @@ void main() {
         find.byType(Container).first,
       );
       final BoxDecoration decoration = box.decoration! as BoxDecoration;
-      expect(decoration.color, ShadcnColors.lightFallback.card);
-      expect(decoration.border!.top.color, ShadcnColors.lightFallback.border);
+      expect(decoration.color, ThemeColors.lightFallback.card);
+      expect(decoration.border!.top.color, ThemeColors.lightFallback.border);
     });
 
     testWidgets('default padding leaves room on the right', (tester) async {
@@ -172,7 +172,7 @@ void main() {
     testWidgets('dark tokens restyle the surface', (tester) async {
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: const CodeSnippet(code: Text('cmd')),
         ),
       );
@@ -180,7 +180,7 @@ void main() {
         find.byType(Container).first,
       );
       final BoxDecoration decoration = box.decoration! as BoxDecoration;
-      expect(decoration.color, ShadcnColors.darkFallback.card);
+      expect(decoration.color, ThemeColors.darkFallback.card);
     });
   });
 

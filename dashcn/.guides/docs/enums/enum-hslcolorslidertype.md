@@ -1,33 +1,22 @@
 ---
 title: "Enum: HSLColorSliderType"
-description: "Defines available slider types for HSL color pickers."
+description: "Which channel(s) the slider drives."
 ---
 
 ```dart
-/// Defines available slider types for HSL color pickers.
+/// Which channel(s) the slider drives.
 ///
-/// Each slider type controls different aspects of the HSL color model,
-/// allowing fine-tuned control over hue, saturation, luminance, and alpha channels.
+/// `hue`, `sat`, `lum`, `alpha` are single-channel bars; the rest are 2D pads.
 enum HSLColorSliderType {
-  /// Hue slider only.
   hue,
-  /// Combined hue and saturation slider.
   hueSat,
-  /// Combined hue and luminance slider.
   hueLum,
-  /// Combined hue and alpha slider.
   hueAlpha,
-  /// Saturation slider only.
   sat,
-  /// Combined saturation and luminance slider.
   satLum,
-  /// Combined saturation and alpha slider.
   satAlpha,
-  /// Luminance (lightness) slider only.
   lum,
-  /// Combined luminance and alpha slider.
   lumAlpha,
-  /// Alpha (opacity) slider only.
   alpha,
 }
 ```

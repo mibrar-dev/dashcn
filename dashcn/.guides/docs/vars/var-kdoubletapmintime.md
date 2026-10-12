@@ -1,6 +1,6 @@
 ---
 title: "Variable: kDoubleTapMinTime"
-description: "Minimum time interval between taps to be considered a double tap."
+description: "Minimum interval between two taps for them to count as a double tap."
 ---
 
 Signature

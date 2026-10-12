@@ -4,8 +4,8 @@
   "category": "Navigation",
   "description": "Horizontal navigation bar whose entries open themed popover content on hover or press.",
   "tier": "component",
-  "install": "flutter_shadcn add navigation_menu",
-  "import": "import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';",
+  "install": "dashcn add navigation_menu",
+  "import": "import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';",
   "tags": ["navigation", "menu", "popover", "navbar", "dropdown"],
   "deps": {
     "foundation": ["data", "icons"],

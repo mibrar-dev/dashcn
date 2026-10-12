@@ -1,25 +1,33 @@
 ---
 title: "Class: CodeSnippetTheme"
-description: "Theme configuration for [CodeSnippet]."
+description: "Theme of the code snippet container."
 ---
 
 ```dart
-/// Theme configuration for [CodeSnippet].
-class CodeSnippetTheme extends ComponentThemeData {
-  /// Background color of the code snip container.
-  final Color? backgroundColor;
-  /// Border color.
-  final Color? borderColor;
-  /// Border width.
+/// Theme of the code snippet container.
+///
+/// Every field is nullable: `null` means "inherit", and the resolver fills
+/// the gap from the next leg (defaults < app < scoped < widget).
+class CodeSnippetTheme extends ComponentThemeData implements Mergeable<CodeSnippetTheme> {
+  /// Creates a code snippet theme.
+  const CodeSnippetTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.background, this.borderColor, this.borderWidth, this.borderRadius, this.padding});
+  /// Container fill. Default: the `card` token.
+  final ThemedColor? background;
+  /// Border color. Default: the `border` token.
+  final ThemedColor? borderColor;
+  /// Border width, scaled. Default: 1.
   final double? borderWidth;
-  /// Border radius.
+  /// Corner radius. Default: ambient `radiusLg`.
   final BorderRadiusGeometry? borderRadius;
-  /// Padding inside the container.
+  /// Inner padding. Default: one density step on three sides, 3.5 on the
+  /// right (room for the actions row).
   final EdgeInsetsGeometry? padding;
-  /// Creates a theme for [CodeSnippet].
-  const CodeSnippetTheme({this.backgroundColor, this.borderColor, this.borderWidth, this.borderRadius, this.padding});
-  /// Returns a copy with replaced values.
-  CodeSnippetTheme copyWith({ValueGetter<Color?>? backgroundColor, ValueGetter<Color?>? borderColor, ValueGetter<double?>? borderWidth, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<EdgeInsetsGeometry?>? padding});
+  /// Returns a copy with the given fields replaced.
+  CodeSnippetTheme copyWith({ValueGetter<ThemedColor?>? background, ValueGetter<ThemedColor?>? borderColor, ValueGetter<double?>? borderWidth, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<EdgeInsetsGeometry?>? padding});
+  /// Receiver wins per field; [fallback] only fills null cells.
+  CodeSnippetTheme merge(CodeSnippetTheme? fallback);
+  /// Scalars interpolate; the rest steps at `t = 0.5`.
+  static CodeSnippetTheme lerp(CodeSnippetTheme a, CodeSnippetTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

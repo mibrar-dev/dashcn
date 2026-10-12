@@ -49,7 +49,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String needle = _query.trim().toLowerCase();
     List<String> match(List<String> items) => needle.isEmpty
         ? items
@@ -177,7 +177,7 @@ class _Sidebar02Group extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: theme.spacing.lg),
       child: Column(
@@ -219,7 +219,7 @@ class _Sidebar02NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -250,7 +250,7 @@ class _Sidebar02User extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Row(
@@ -263,7 +263,7 @@ class _Sidebar02User extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'shadcn',
+                  'dashcn',
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.sidebarForeground,
                   ),

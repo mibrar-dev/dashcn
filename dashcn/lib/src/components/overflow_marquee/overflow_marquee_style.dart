@@ -220,6 +220,6 @@ MarqueeSurface resolveMarqueeSurface(
     step: step ?? resolved.step ?? 100,
     fadePortion: (fadePortion ?? resolved.fadePortion ?? 0.1).clamp(0.0, 0.5),
     curve: curve ?? resolved.curve ?? Curves.linear,
-    fadeColor: ShadcnTheme.of(context).colors.background,
+    fadeColor: Theme.of(context).colors.background,
   );
 }

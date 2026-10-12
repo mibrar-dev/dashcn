@@ -285,7 +285,7 @@ AnimatedTransitionStyle featureCarouselTransitionStyle(
 List<BoxShadow> featureCarouselCardShadow(
   BuildContext context,
   FeatureCarouselTheme theme,
-) => (theme.themeShadows ?? ShadcnTheme.of(context).tokens.shadows).shadowLg;
+) => (theme.themeShadows ?? Theme.of(context).tokens.shadows).shadowLg;
 
 /// The centre card: a token-filled surface with an accent icon.
 class FeatureCarouselCenterCard extends StatelessWidget {

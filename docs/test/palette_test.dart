@@ -1,5 +1,5 @@
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/input/input.dart';
+import 'package:docs/ui/dashcn/components/input/input.dart';
 import 'package:docs/widgets/palette.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,7 +35,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(_inPalette(find.text('Components')), findsOneWidget);
     expect(_inPalette(find.text('Button')), findsOneWidget);
-    expect(_inPalette(find.text('flutter_shadcn add button')), findsOneWidget);
+    expect(_inPalette(find.text('dashcn add button')), findsOneWidget);
   });
 
   testWidgets('arrow keys move the selection (footer action follows)', (

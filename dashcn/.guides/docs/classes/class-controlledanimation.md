@@ -1,15 +1,19 @@
 ---
 title: "Class: ControlledAnimation"
-description: "A controlled animation that wraps an [AnimationController] and provides  smooth transitions between values using curves."
+description: "Maps an [AnimationController]'s progress onto an animated value."
 ---
 
 ```dart
-/// A controlled animation that wraps an [AnimationController] and provides
-/// smooth transitions between values using curves.
+/// Maps an [AnimationController]'s progress onto an animated value.
+///
+/// [forward] animates from the current value to [to] with an optional curve;
+/// setting [value] snaps without animating.
 class ControlledAnimation extends Animation<double> {
+  /// Creates a controlled animation over [controller].
   ControlledAnimation(this._controller);
-  /// Animates from the current value to the specified target value.
+  /// Animates from the current value to [to] with [curve].
   TickerFuture forward(double to, [Curve? curve]);
+  /// Snaps to [value] without animating.
   set value(double value);
   void addListener(VoidCallback listener);
   void addStatusListener(AnimationStatusListener listener);

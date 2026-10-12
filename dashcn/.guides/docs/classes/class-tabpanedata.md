@@ -1,22 +1,12 @@
 ---
 title: "Class: TabPaneData"
-description: "Data wrapper for tab pane items that extends sortable functionality."
+description: "Sortable data backing one [TabPane] tab."
 ---
 
 ```dart
-/// Data wrapper for tab pane items that extends sortable functionality.
-///
-/// TabPaneData extends SortableData to provide drag-and-drop reordering
-/// capabilities for tab pane items. Each tab item is wrapped in this data
-/// structure to enable sorting operations.
-///
-/// Example:
-/// ```dart
-/// TabPaneData<String>('tab_content')
-/// TabPaneData<TabInfo>(TabInfo(title: 'Tab 1', content: widget))
-/// ```
+/// Sortable data backing one [TabPane] tab.
 class TabPaneData<T> extends SortableData<T> {
-  /// Creates a [TabPaneData] wrapper for tab content.
+  /// Wraps tab [data] for drag-reorder.
   const TabPaneData(super.data);
 }
 ```

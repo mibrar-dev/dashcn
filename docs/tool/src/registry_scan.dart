@@ -87,7 +87,7 @@ class ComponentFacts {
   /// One-line description.
   final String description;
 
-  /// `flutter_shadcn add <id>`.
+  /// `dashcn add <id>`.
   final String install;
 
   /// Corrected user import line for the installed layout.
@@ -174,7 +174,7 @@ class PresetFacts {
   final String file;
 }
 
-/// One global theme token: the shadcn CSS variable name in camelCase plus the
+/// One global theme token: the upstream CSS variable name in camelCase plus the
 /// CSS variable it mirrors (`cardForeground` ↔ `--card-foreground`).
 class ThemeTokenFacts {
   /// Creates a token fact.
@@ -183,7 +183,7 @@ class ThemeTokenFacts {
   /// camelCase token name (`cardForeground`), matching the preset JSON key.
   final String name;
 
-  /// shadcn CSS variable (`--card-foreground`).
+  /// upstream CSS variable (`--card-foreground`).
   final String cssVar;
 }
 
@@ -216,7 +216,7 @@ class RegistryScan {
   /// Presets in `themes/index.json` order.
   final List<PresetFacts> presets;
 
-  /// Global theme tokens in registry declaration order: the 32 `ShadcnColors`
+  /// Global theme tokens in registry declaration order: the 32 `ThemeColors`
   /// colour fields (minus `brightness`) followed by the `radius` token.
   final List<ThemeTokenFacts> themeTokens;
 
@@ -224,7 +224,7 @@ class RegistryScan {
   /// directives found in the registry Dart sources (the stats band's `0`).
   final int materialImports;
 
-  /// Install root recorded in the manifest (`lib/ui/shadcn`).
+  /// Install root recorded in the manifest (`lib/ui/dashcn`).
   final String installRoot;
 }
 
@@ -272,7 +272,7 @@ RegistryScan scanRegistry(String rootPath) {
     presets: presets,
     themeTokens: themeTokens,
     materialImports: imports.materialImports,
-    installRoot: _string(install['root'], 'lib/ui/shadcn'),
+    installRoot: _string(install['root'], 'lib/ui/dashcn'),
   );
 }
 
@@ -314,7 +314,7 @@ ComponentFacts _componentFacts(
     name: _string(manifest['name'] ?? meta['name'], id),
     category: _string(manifest['category'] ?? meta['category'], 'utility'),
     description: _string(manifest['description'] ?? meta['description'], ''),
-    install: fromMeta('install') ?? 'flutter_shadcn add $id',
+    install: fromMeta('install') ?? 'dashcn add $id',
     import: _string(manifest['import'] ?? meta['import'], ''),
     entry: _string(manifest['entry'], 'components/$id/$id.dart'),
     files: _strings(manifest['files'], 'files'),
@@ -424,17 +424,17 @@ PresetFacts _preset(
 }
 
 /// The global theme tokens, parsed from the registry theme layer:
-/// the `ShadcnColors` `Color` fields in declaration order, then the
-/// `ShadcnTokens.radius` field. Names are camelCase of the shadcn CSS
+/// the `ThemeColors` `Color` fields in declaration order, then the
+/// `DesignTokens.radius` field. Names are camelCase of the upstream CSS
 /// variables (PLAN §6.1).
 List<ThemeTokenFacts> _themeTokens(Directory root) {
   final List<({String name, String type})> colors = _classFields(
     '${root.path}/theme/color_tokens.dart',
-    'ShadcnColors',
+    'ThemeColors',
   );
   final List<({String name, String type})> tokens = _classFields(
     '${root.path}/theme/tokens.dart',
-    'ShadcnTokens',
+    'DesignTokens',
   );
   final List<String> names = <String>[
     for (final ({String name, String type}) field in colors)
@@ -491,7 +491,7 @@ List<({String name, String type})> _classFields(String path, String className) {
   return fields;
 }
 
-/// camelCase → shadcn CSS variable (`cardForeground` → `--card-foreground`,
+/// camelCase → upstream CSS variable (`cardForeground` → `--card-foreground`,
 /// `chart1` → `--chart-1`).
 String _cssVarName(String name) {
   final StringBuffer out = StringBuffer('--');

@@ -42,14 +42,14 @@ kExampleSources = <String, List<DocsExampleSource>>{
       name: 'Sweep',
       builder: '_borderLoadingSweep',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/border_loading/border_loading.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';
 
 /// A labelled card carrying the loading border.
 Widget _borderLoadingCard(BuildContext context, String label, Widget child) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -79,14 +79,14 @@ Widget _borderLoadingSweep(BuildContext context) {
       name: 'Progress',
       builder: '_borderLoadingProgressExample',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/border_loading/border_loading.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';
 
 /// A labelled card carrying the loading border.
 Widget _borderLoadingCard(BuildContext context, String label, Widget child) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -113,7 +113,7 @@ class _BorderLoadingProgressState extends State<_BorderLoadingProgress> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -165,14 +165,14 @@ Widget _borderLoadingProgressExample(BuildContext context) =>
       name: 'Outline',
       builder: '_borderLoadingOutline',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/border_loading/border_loading.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';
 
 /// A labelled card carrying the loading border.
 Widget _borderLoadingCard(BuildContext context, String label, Widget child) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -207,10 +207,10 @@ Widget _borderLoadingOutline(BuildContext context) {
       name: 'Default',
       builder: '_dotIndicatorDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
 
 /// Horizontal dots the example taps through.
 class _DotIndicatorHorizontalDots extends StatefulWidget {
@@ -227,7 +227,7 @@ class _DotIndicatorHorizontalDotsState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -262,10 +262,10 @@ Widget _dotIndicatorDefault(BuildContext context) =>
       name: 'Vertical',
       builder: '_dotIndicatorVertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
 
 /// Vertical dots beside the horizontal ones.
 class _DotIndicatorVerticalDots extends StatefulWidget {
@@ -281,7 +281,7 @@ class _DotIndicatorVerticalDotsState extends State<_DotIndicatorVerticalDots> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,10 +312,10 @@ Widget _dotIndicatorVertical(BuildContext context) =>
       name: 'Themed dots',
       builder: '_dotIndicatorThemed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
 
 /// A scoped theme leg: bigger accent dots.
 Widget _dotIndicatorThemed(BuildContext context) {
@@ -338,7 +338,7 @@ Widget _dotIndicatorThemed(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';
+import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
 const String _sample = 'Ship a new build to production.';
 
@@ -352,7 +352,7 @@ Widget _default(BuildContext context) {
       name: 'Slide',
       builder: '_slide',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';
+import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
 const String _sample = 'Ship a new build to production.';
 
@@ -366,7 +366,7 @@ Widget _slide(BuildContext context) {
       name: 'Blur',
       builder: '_blur',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';
+import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
 const String _sample = 'Ship a new build to production.';
 
@@ -380,7 +380,7 @@ Widget _blur(BuildContext context) {
       name: 'Scramble',
       builder: '_scramble',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';
+import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
 const String _sample = 'Ship a new build to production.';
 
@@ -394,7 +394,7 @@ Widget _scramble(BuildContext context) {
       name: 'Words',
       builder: '_words',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';
+import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
 const String _sample = 'Ship a new build to production.';
 
@@ -415,10 +415,10 @@ Widget _words(BuildContext context) {
       name: 'Default',
       builder: '_buttonDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -469,10 +469,10 @@ Widget _buttonDefault(BuildContext context) =>
       name: 'Secondary',
       builder: '_buttonSecondary',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -523,10 +523,10 @@ Widget _buttonSecondary(BuildContext context) =>
       name: 'Outline',
       builder: '_buttonOutline',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -577,10 +577,10 @@ Widget _buttonOutline(BuildContext context) =>
       name: 'Ghost',
       builder: '_buttonGhost',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -631,10 +631,10 @@ Widget _buttonGhost(BuildContext context) =>
       name: 'Link',
       builder: '_buttonLink',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -685,10 +685,10 @@ Widget _buttonLink(BuildContext context) =>
       name: 'Destructive',
       builder: '_buttonDestructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -739,12 +739,12 @@ Widget _buttonDestructive(BuildContext context) =>
       name: 'Icon',
       builder: '_buttonIcon',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
-/// Icon-only button (shadcn `size="icon"`) with the press count beside it.
+/// Icon-only button (upstream `size="icon"`) with the press count beside it.
 class _ButtonIcon extends StatefulWidget {
   const _ButtonIcon();
 
@@ -757,7 +757,7 @@ class _ButtonIconState extends State<_ButtonIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -785,10 +785,10 @@ Widget _buttonIcon(BuildContext context) => const _ButtonIcon();
       name: 'With icon',
       builder: '_buttonWithIcon',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// Leading and trailing icon buttons; both report the press below the row.
 class _ButtonWithIcon extends StatefulWidget {
@@ -803,7 +803,7 @@ class _ButtonWithIconState extends State<_ButtonWithIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -841,12 +841,12 @@ Widget _buttonWithIcon(BuildContext context) => const _ButtonWithIcon();
       name: 'Sizes',
       builder: '_buttonSizes',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
-/// The size scale in one row (shadcn shows the sizes together).
+/// The size scale in one row (upstream shows the sizes together).
 class _ButtonSizes extends StatefulWidget {
   const _ButtonSizes();
 
@@ -859,7 +859,7 @@ class _ButtonSizesState extends State<_ButtonSizes> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -895,12 +895,12 @@ Widget _buttonSizes(BuildContext context) => const _ButtonSizes();
       name: 'Loading',
       builder: '_buttonLoading',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
-/// A pending button: disabled with a loader glyph, the shadcn pattern.
+/// A pending button: disabled with a loader glyph, the upstream pattern.
 Widget _buttonLoading(BuildContext context) {
   return const Align(
     alignment: Alignment.center,
@@ -917,10 +917,10 @@ Widget _buttonLoading(BuildContext context) {
       name: 'Disabled',
       builder: '_buttonDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
@@ -937,10 +937,10 @@ Widget _buttonDisabled(BuildContext context) {
       name: 'Default',
       builder: '_toggleDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';
 
 /// Controlled toggle: the example owns the value.
 class _ToggleControlledToggle extends StatefulWidget {
@@ -974,10 +974,10 @@ Widget _toggleDefault(BuildContext context) => const _ToggleControlledToggle();
       name: 'Group',
       builder: '_toggleGroup',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';
 
 /// A toggle group: one control per member, `gap-3` between the members.
 class _ToggleGroup extends StatefulWidget {
@@ -998,7 +998,7 @@ class _ToggleGroupState extends State<_ToggleGroup> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1028,10 +1028,10 @@ Widget _toggleGroup(BuildContext context) => const _ToggleGroup();
       name: 'Controller',
       builder: '_toggleController',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';
 
 /// Controller-driven toggles: the [ToggleController] is created inside this
 /// state, so two examples can never attach one controller twice.
@@ -1054,7 +1054,7 @@ class _ToggleControllerToggleState extends State<_ToggleControllerToggle> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1078,14 +1078,14 @@ Widget _toggleController(BuildContext context) =>
       name: 'Disabled',
       builder: '_toggleDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';
 
 /// Disabled toggles in both states.
 Widget _toggleDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1104,10 +1104,10 @@ Widget _toggleDisabled(BuildContext context) {
       name: 'Default',
       builder: '_colorPickerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';
 
 /// The colour every example starts from.
 const Color _colorPickerInitial = Color(0xFF2563EB);
@@ -1171,10 +1171,10 @@ Widget _colorPickerDefault(BuildContext context) => const _ColorPickerPicker();
       name: 'With alpha',
       builder: '_colorPickerAlpha',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';
 
 /// The colour every example starts from.
 const Color _colorPickerInitial = Color(0xFF2563EB);
@@ -1239,10 +1239,10 @@ Widget _colorPickerAlpha(BuildContext context) =>
       name: 'HSL',
       builder: '_colorPickerHsl',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';
 
 /// The colour every example starts from.
 const Color _colorPickerInitial = Color(0xFF2563EB);
@@ -1309,10 +1309,10 @@ Widget _colorPickerHsl(BuildContext context) => const _ColorPickerPicker(
       name: 'HSV',
       builder: '_colorPickerHsv',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';
 
 /// The colour every example starts from.
 const Color _colorPickerInitial = Color(0xFF2563EB);
@@ -1377,10 +1377,10 @@ Widget _colorPickerHsv(BuildContext context) =>
       name: 'HEX',
       builder: '_colorPickerHex',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';
 
 /// The colour every example starts from.
 const Color _colorPickerInitial = Color(0xFF2563EB);
@@ -1448,10 +1448,10 @@ Widget _colorPickerHex(BuildContext context) =>
       builder: '_avatarImage',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
@@ -1467,7 +1467,7 @@ final ImageProvider _avatarPhoto = MemoryImage(
 
 /// A photo avatar, with the initials fallback next to it.
 Widget _avatarImage(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1493,14 +1493,14 @@ Widget _avatarImage(BuildContext context) {
       builder: '_avatarInitials',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 
 /// Initials-only avatars at three sizes.
 Widget _avatarInitials(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1520,14 +1520,14 @@ Widget _avatarInitials(BuildContext context) {
       builder: '_avatarBadge',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 
 /// An avatar carrying a status badge.
 Widget _avatarBadge(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1552,10 +1552,10 @@ Widget _avatarBadge(BuildContext context) {
       builder: '_avatarGroup',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 
 /// A stack of avatars.
 Widget _avatarGroup(BuildContext context) {
@@ -1576,10 +1576,10 @@ Widget _avatarGroup(BuildContext context) {
       name: 'Default',
       builder: '_badgeDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
   return Column(
@@ -1587,7 +1587,7 @@ Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Badge(variant: variant, child: Text(label)),
-      Gap(ShadcnTheme.of(context).spacing.md),
+      Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
@@ -1605,10 +1605,10 @@ Widget _badgeDefault(BuildContext context) =>
       name: 'Secondary',
       builder: '_badgeSecondary',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
   return Column(
@@ -1616,7 +1616,7 @@ Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Badge(variant: variant, child: Text(label)),
-      Gap(ShadcnTheme.of(context).spacing.md),
+      Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
@@ -1634,10 +1634,10 @@ Widget _badgeSecondary(BuildContext context) =>
       name: 'Outline',
       builder: '_badgeOutline',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
   return Column(
@@ -1645,7 +1645,7 @@ Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Badge(variant: variant, child: Text(label)),
-      Gap(ShadcnTheme.of(context).spacing.md),
+      Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
@@ -1663,10 +1663,10 @@ Widget _badgeOutline(BuildContext context) =>
       name: 'Destructive',
       builder: '_badgeDestructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
   return Column(
@@ -1674,7 +1674,7 @@ Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Badge(variant: variant, child: Text(label)),
-      Gap(ShadcnTheme.of(context).spacing.md),
+      Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
@@ -1695,17 +1695,17 @@ Widget _badgeDestructive(BuildContext context) =>
       builder: '_carouselDefault',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/constants.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
-import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/constants.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -1792,7 +1792,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,
@@ -1917,17 +1917,17 @@ Widget _carouselDefault(BuildContext context) => const _CarouselShell();
       builder: '_carouselSizes',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/constants.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
-import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/constants.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -2014,7 +2014,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,
@@ -2140,17 +2140,17 @@ Widget _carouselSizes(BuildContext context) =>
       builder: '_carouselVertical',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/constants.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
-import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/constants.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -2237,7 +2237,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,
@@ -2363,17 +2363,17 @@ Widget _carouselVertical(BuildContext context) =>
       builder: '_carouselAutoplay',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/constants.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
-import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/constants.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -2460,7 +2460,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,
@@ -2586,17 +2586,17 @@ Widget _carouselAutoplay(BuildContext context) =>
       builder: '_carouselApi',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/constants.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
-import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/constants.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';
+import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -2683,7 +2683,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,
@@ -2810,10 +2810,10 @@ Widget _carouselApi(BuildContext context) =>
       name: 'Default',
       builder: '_chatDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
 class _ChatAvatar extends StatelessWidget {
@@ -2823,7 +2823,7 @@ class _ChatAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       width: 32,
       height: 32,
@@ -2853,7 +2853,7 @@ class _ChatConversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -2890,10 +2890,10 @@ Widget _chatDefault(BuildContext context) => const _ChatConversation();
       name: 'Incoming',
       builder: '_chatIncoming',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
 class _ChatAvatar extends StatelessWidget {
@@ -2903,7 +2903,7 @@ class _ChatAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       width: 32,
       height: 32,
@@ -2933,7 +2933,7 @@ class _ChatConversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -2989,10 +2989,10 @@ Widget _chatIncoming(BuildContext context) {
       name: 'Outgoing',
       builder: '_chatOutgoing',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
 class _ChatAvatar extends StatelessWidget {
@@ -3002,7 +3002,7 @@ class _ChatAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       width: 32,
       height: 32,
@@ -3032,7 +3032,7 @@ class _ChatConversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -3088,10 +3088,10 @@ Widget _chatOutgoing(BuildContext context) {
       name: 'Grouped',
       builder: '_chatGrouped',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
 class _ChatAvatar extends StatelessWidget {
@@ -3101,7 +3101,7 @@ class _ChatAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       width: 32,
       height: 32,
@@ -3131,7 +3131,7 @@ class _ChatConversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -3175,7 +3175,7 @@ class _ChatGroupedState extends State<_ChatGrouped> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -3236,15 +3236,15 @@ Widget _chatGrouped(BuildContext context) => const _ChatGrouped();
       name: 'Removable',
       builder: '_chipsRemovable',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';
 
 /// Hint line under the interactive rows.
 Widget _hint(BuildContext context, String text) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     text,
     textAlign: TextAlign.center,
@@ -3279,7 +3279,7 @@ class _RemovableChipsState extends State<_RemovableChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3331,11 +3331,11 @@ Widget _chipsRemovable(BuildContext context) => const _RemovableChips();
       name: 'Selectable',
       builder: '_chipsSelectable',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';
 
 /// Filter chips: tap toggles each interest on and off.
 class _FilterChips extends StatefulWidget {
@@ -3357,7 +3357,7 @@ class _FilterChipsState extends State<_FilterChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3398,15 +3398,15 @@ Widget _chipsSelectable(BuildContext context) => const _FilterChips();
       name: 'With icon',
       builder: '_chipsWithIcon',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';
 
 /// Chips with icons: realistic status tokens, static (non-pressable).
 Widget _chipsWithIcon(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Align(
     alignment: Alignment.center,
     child: Wrap(
@@ -3439,15 +3439,15 @@ Widget _chipsWithIcon(BuildContext context) {
       name: 'Variants',
       builder: '_chipsVariants',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/chip/chip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';
 
 /// One chip per button variant plus a larger density.
 Widget _chipsVariants(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -3486,12 +3486,12 @@ Widget _chipsVariants(BuildContext context) {
       name: 'Default',
       builder: '_countryFlagDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/country_flag/country_flag.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/country_flag/country_flag.dart';
 
 /// A row of flags looked up from different keys.
 Widget _countryFlagDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.sm,
@@ -3513,12 +3513,12 @@ Widget _countryFlagDefault(BuildContext context) {
       name: 'Sizes',
       builder: '_countryFlagSizes',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/country_flag/country_flag.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/country_flag/country_flag.dart';
 
 /// The size scale and the rounded shape.
 Widget _countryFlagSizes(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.sm,
@@ -3542,9 +3542,9 @@ Widget _countryFlagSizes(BuildContext context) {
       name: 'Default',
       builder: '_dividerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
 
 /// A plain horizontal rule.
 Widget _dividerDefault(BuildContext context) => const Divider();
@@ -3554,13 +3554,13 @@ Widget _dividerDefault(BuildContext context) => const Divider();
       name: 'Labelled',
       builder: '_dividerLabelled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
 
 /// The labelled form, with the three label alignments.
 Widget _dividerLabelled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
@@ -3585,9 +3585,9 @@ Widget _dividerLabelled(BuildContext context) {
       name: 'Vertical',
       builder: '_dividerVertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
 
 /// Vertical rule between two lines of text.
 Widget _dividerVertical(BuildContext context) {
@@ -3612,10 +3612,10 @@ Widget _dividerVertical(BuildContext context) {
       name: 'No results',
       builder: '_emptyStateNoResults',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/empty_state/empty_state.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';
 
 /// The status line every interactive example writes to.
 class _StatusLine extends StatelessWidget {
@@ -3630,7 +3630,7 @@ class _StatusLine extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 12,
-        color: ShadcnTheme.of(context).colors.mutedForeground,
+        color: Theme.of(context).colors.mutedForeground,
       ),
     );
   }
@@ -3660,7 +3660,7 @@ class _EmptyStateNoResultsState extends State<_EmptyStateNoResults> {
             onPressed: () => setState(() => _status = 'Filters cleared.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -3675,10 +3675,10 @@ Widget _emptyStateNoResults(BuildContext context) =>
       name: 'Empty',
       builder: '_emptyStateEmpty',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/empty_state/empty_state.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';
 
 /// The status line every interactive example writes to.
 class _StatusLine extends StatelessWidget {
@@ -3693,7 +3693,7 @@ class _StatusLine extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 12,
-        color: ShadcnTheme.of(context).colors.mutedForeground,
+        color: Theme.of(context).colors.mutedForeground,
       ),
     );
   }
@@ -3728,7 +3728,7 @@ class _EmptyStateEmptyState extends State<_EmptyStateEmpty> {
             onPressed: () => setState(() => _status = 'Importing a project.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -3742,10 +3742,10 @@ Widget _emptyStateEmpty(BuildContext context) => const _EmptyStateEmpty();
       name: 'Error fallback',
       builder: '_emptyStateError',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/empty_state/empty_state.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';
 
 /// The status line every interactive example writes to.
 class _StatusLine extends StatelessWidget {
@@ -3760,7 +3760,7 @@ class _StatusLine extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 12,
-        color: ShadcnTheme.of(context).colors.mutedForeground,
+        color: Theme.of(context).colors.mutedForeground,
       ),
     );
   }
@@ -3795,7 +3795,7 @@ class _EmptyStateErrorState extends State<_EmptyStateError> {
             onPressed: () => setState(() => _status = 'Report sent.'),
           ),
         ),
-        Gap(ShadcnTheme.of(context).spacing.md),
+        Gap(Theme.of(context).spacing.md),
         _StatusLine(_status),
       ],
     );
@@ -3809,14 +3809,14 @@ Widget _emptyStateError(BuildContext context) => const _EmptyStateError();
       name: 'Compact',
       builder: '_emptyStateCompact',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/empty_state/empty_state.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';
 
 /// The compact scale, with and without the icon container.
 Widget _emptyStateCompact(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -3846,11 +3846,11 @@ Widget _emptyStateCompact(BuildContext context) {
       name: 'Default',
       builder: '_featureCarouselDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/feature_carousel/feature_carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';
 
 /// The full carousel with its default chrome, scrollable when the cards are
 /// taller than the stage.
@@ -3913,11 +3913,11 @@ Widget _featureCarouselDefault(BuildContext context) =>
       name: 'Themed',
       builder: '_featureCarouselThemed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/feature_carousel/feature_carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';
 
 /// A carousel whose theme leg re-colours the accent and card fill.
 Widget _featureCarouselThemed(BuildContext context) {
@@ -3946,11 +3946,11 @@ Widget _featureCarouselThemed(BuildContext context) {
       name: 'Cards only',
       builder: '_featureCarouselCardsOnly',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/feature_carousel/feature_carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';
 
 /// The cards without the CTA and the navigation arrows.
 Widget _featureCarouselCardsOnly(BuildContext context) {
@@ -3998,15 +3998,15 @@ class _FeatureCarouselCardsOnlyCarouselState
       name: 'Labelled',
       builder: '_featureCarouselLabelled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/feature_carousel/feature_carousel.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';
 
 /// A single slide, so the CTA sits under one card.
 Widget _featureCarouselLabelled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -4029,7 +4029,7 @@ Widget _featureCarouselLabelled(BuildContext context) {
           'A single slide, so the CTA sits under one card.',
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],
@@ -4044,7 +4044,7 @@ Widget _featureCarouselLabelled(BuildContext context) {
       name: 'Unified',
       builder: '_unified',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/file_diff_viewer/file_diff_viewer.dart';
+import 'package:<your_app>/ui/dashcn/components/file_diff_viewer/file_diff_viewer.dart';
 
 /// A two-hunk patch; the second hunk starts collapsed.
 const FileDiff _patch = FileDiff(
@@ -4092,7 +4092,7 @@ const FileDiff _patch = FileDiff(
   ],
 );
 
-/// Compact single-column patch (the shadcn default).
+/// Compact single-column patch (the upstream default).
 Widget _unified(BuildContext context) {
   return const FileDiffViewer(maxHeight: 260, files: <FileDiff>[_patch]);
 }
@@ -4102,7 +4102,7 @@ Widget _unified(BuildContext context) {
       name: 'Split',
       builder: '_split',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/file_diff_viewer/file_diff_viewer.dart';
+import 'package:<your_app>/ui/dashcn/components/file_diff_viewer/file_diff_viewer.dart';
 
 /// A two-hunk patch; the second hunk starts collapsed.
 const FileDiff _patch = FileDiff(
@@ -4167,9 +4167,9 @@ Widget _split(BuildContext context) {
       builder: '_keyboardShortcutDefault',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
 /// A chord rendered from an activator.
 Widget _keyboardShortcutDefault(BuildContext context) {
@@ -4187,13 +4187,13 @@ Widget _keyboardShortcutDefault(BuildContext context) {
       builder: '_keyboardShortcutMultipleKeys',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
 /// A chord from explicit keys, in display order.
 Widget _keyboardShortcutMultipleKeys(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -4229,9 +4229,9 @@ Widget _keyboardShortcutMultipleKeys(BuildContext context) {
       builder: '_keyboardShortcutScoped',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
 /// A chord under a custom display scope, plus one bare cap.
 Widget _keyboardShortcutScoped(BuildContext context) {
@@ -4255,9 +4255,9 @@ Widget _keyboardShortcutLabel(BuildContext context, LogicalKeyboardKey key) =>
       builder: '_keyboardShortcutLive',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
 /// A chord the example can really fire.
 class _KeyboardShortcutLive extends StatefulWidget {
@@ -4272,7 +4272,7 @@ class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Shortcuts(
       shortcuts: const <ShortcutActivator, Intent>{
         SingleActivator(LogicalKeyboardKey.keyK, meta: true):
@@ -4328,10 +4328,10 @@ Widget _keyboardShortcutLive(BuildContext context) =>
       name: 'Default',
       builder: '_numberTickerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/number_ticker/number_ticker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/number_ticker/number_ticker.dart';
 
 /// A rolling ticker whose value the example changes on tap.
 class _NumberTickerTicker extends StatefulWidget {
@@ -4346,7 +4346,7 @@ class _NumberTickerTickerState extends State<_NumberTickerTicker> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -4382,10 +4382,10 @@ Widget _numberTickerDefault(BuildContext context) =>
       name: 'Flip clock',
       builder: '_numberTickerFlip',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/number_ticker/number_ticker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/number_ticker/number_ticker.dart';
 
 /// The flip-clock form of the same value.
 class _NumberTickerFlipClock extends StatefulWidget {
@@ -4400,7 +4400,7 @@ class _NumberTickerFlipClockState extends State<_NumberTickerFlipClock> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -4438,11 +4438,11 @@ Widget _numberTickerFlip(BuildContext context) =>
       name: 'Bottom sheet',
       builder: '_sheetBottom',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
-import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';
 
 /// Sheet body with a title and a Close button wired to [controller].
 class _SheetBody extends StatelessWidget {
@@ -4453,7 +4453,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -4516,7 +4516,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;
@@ -4601,11 +4601,11 @@ Widget _sheetBottom(BuildContext context) => const _SheetDemo(
       name: 'Right side',
       builder: '_sheetRight',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
-import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';
 
 /// Sheet body with a title and a Close button wired to [controller].
 class _SheetBody extends StatelessWidget {
@@ -4616,7 +4616,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -4679,7 +4679,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;
@@ -4761,11 +4761,11 @@ Widget _sheetRight(BuildContext context) =>
       name: 'Left side',
       builder: '_sheetLeft',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
-import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';
 
 /// Sheet body with a title and a Close button wired to [controller].
 class _SheetBody extends StatelessWidget {
@@ -4776,7 +4776,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -4839,7 +4839,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;
@@ -4921,11 +4921,11 @@ Widget _sheetLeft(BuildContext context) =>
       name: 'Top sheet',
       builder: '_sheetTop',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
-import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';
 
 /// Sheet body with a title and a Close button wired to [controller].
 class _SheetBody extends StatelessWidget {
@@ -4936,7 +4936,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -4999,7 +4999,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;
@@ -5081,11 +5081,11 @@ Widget _sheetTop(BuildContext context) =>
       name: 'Snap points',
       builder: '_sheetSnapping',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
-import 'package:<your_app>/ui/shadcn/components/pinned_sheet/pinned_sheet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';
 
 /// Sheet body with a title and a Close button wired to [controller].
 class _SheetBody extends StatelessWidget {
@@ -5096,7 +5096,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -5159,7 +5159,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;
@@ -5252,9 +5252,9 @@ Widget _sheetSnapping(BuildContext context) => const _SheetDemo(
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/table/table.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/table/table.dart';
 
 /// The data rows, in display order; the header sits above them in [rows].
 const List<(String, String, String)> _people = <(String, String, String)>[
@@ -5278,28 +5278,28 @@ class _TableDefault extends StatefulWidget {
 class _TableDefaultState extends State<_TableDefault> {
   int? _selected;
 
-  ShadcnTableRow _row((String, String, String) person, bool selected) {
+  TableViewRow _row((String, String, String) person, bool selected) {
     final (String name, String role, String status) = person;
-    return ShadcnTableRow(
+    return TableViewRow(
       selected: selected,
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text(name)),
-        ShadcnTableCell(child: Text(role)),
-        ShadcnTableCell(child: Text(status)),
+      cells: <TableViewCell>[
+        TableViewCell(child: Text(name)),
+        TableViewCell(child: Text(role)),
+        TableViewCell(child: Text(status)),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 460),
-          child: ShadcnTable(
+          child: TableView(
             columnWidths: const <int, TableSize>{
               0: FlexTableSize(flex: 2),
               1: FlexTableSize(),
@@ -5307,20 +5307,20 @@ class _TableDefaultState extends State<_TableDefault> {
             },
             onRowTap: (int index) =>
                 setState(() => _selected = index - _tableHeaderRows),
-            rows: <ShadcnTableRow>[
-              const ShadcnTableHeader(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(child: Text('Name')),
-                  ShadcnTableCell(child: Text('Role')),
-                  ShadcnTableCell(child: Text('Status')),
+            rows: <TableViewRow>[
+              const TableViewHeader(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('Name')),
+                  TableViewCell(child: Text('Role')),
+                  TableViewCell(child: Text('Status')),
                 ],
               ),
               for (int i = 0; i < _people.length; i++)
                 _row(_people[i], _selected == i),
-              const ShadcnTableFooter(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(columnSpan: 2, child: Text('4 people')),
-                  ShadcnTableCell(child: Text('—')),
+              const TableViewFooter(
+                cells: <TableViewCell>[
+                  TableViewCell(columnSpan: 2, child: Text('4 people')),
+                  TableViewCell(child: Text('—')),
                 ],
               ),
             ],
@@ -5345,9 +5345,9 @@ Widget _default(BuildContext context) => const _TableDefault();
       name: 'Resizable',
       builder: '_resizable',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/table/table.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/table/table.dart';
 
 /// A resizable table; owns its resize and scroll controllers. The fixed box
 /// is inherent: the table scrolls internally.
@@ -5379,30 +5379,30 @@ class _ResizableTableState extends State<_ResizableTable> {
     return SizedBox(
       width: 340,
       height: 170,
-      child: ShadcnTable(
+      child: TableView(
         resizeController: _controller,
         verticalController: _vertical,
         horizontalController: _horizontal,
-        rows: const <ShadcnTableRow>[
-          ShadcnTableHeader(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Drag a divider')),
-              ShadcnTableCell(child: Text('Column')),
-              ShadcnTableCell(child: Text('Row')),
+        rows: const <TableViewRow>[
+          TableViewHeader(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Drag a divider')),
+              TableViewCell(child: Text('Column')),
+              TableViewCell(child: Text('Row')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('One')),
-              ShadcnTableCell(child: Text('Two')),
-              ShadcnTableCell(child: Text('Three')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('One')),
+              TableViewCell(child: Text('Two')),
+              TableViewCell(child: Text('Three')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Four')),
-              ShadcnTableCell(child: Text('Five')),
-              ShadcnTableCell(child: Text('Six')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Four')),
+              TableViewCell(child: Text('Five')),
+              TableViewCell(child: Text('Six')),
             ],
           ),
         ],
@@ -5420,9 +5420,9 @@ Widget _resizable(BuildContext context) => const _ResizableTable();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/timeline/timeline.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';
 
 /// Three entries with times, titles and content.
 Widget _default(BuildContext context) {
@@ -5455,9 +5455,9 @@ Widget _default(BuildContext context) {
       name: 'Compact',
       builder: '_compact',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/timeline/timeline.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';
 
 /// Smaller dots and a narrower time column through a scoped theme.
 Widget _compact(BuildContext context) {
@@ -5488,9 +5488,9 @@ Widget _compact(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tracker/tracker.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// All four levels.
 Widget _default(BuildContext context) {
@@ -5514,9 +5514,9 @@ Widget _default(BuildContext context) {
       name: 'Custom size',
       builder: '_customSize',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tracker/tracker.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// Taller segments with a wider gap through the widget leg.
 Widget _customSize(BuildContext context) {
@@ -5538,9 +5538,9 @@ Widget _customSize(BuildContext context) {
       name: 'Themed',
       builder: '_themed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tracker/tracker.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// Fine segments tinted with the primary token through a scoped theme.
 Widget _themed(BuildContext context) {
@@ -5569,12 +5569,12 @@ Widget _themed(BuildContext context) {
       name: 'Default',
       builder: '_treeDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/icon/icon.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
-import 'package:<your_app>/ui/shadcn/components/tree/tree.dart';
+import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';
 
 /// One file-tree entry: folders stay folders even when empty or collapsed.
 class _FileEntry {
@@ -5801,7 +5801,7 @@ class _FileTreeState extends State<_FileTree> {
             tristate: true,
             onChanged: (_) => _toggleSubtree(item),
           ),
-          Gap(ShadcnTheme.of(context).spacing.xs),
+          Gap(Theme.of(context).spacing.xs),
           leading,
         ],
       );
@@ -5811,7 +5811,7 @@ class _FileTreeState extends State<_FileTree> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final Widget tree = Tree<_FileEntry>(
       nodes: _nodes,
       shrinkWrap: widget.height == null,
@@ -5839,7 +5839,7 @@ class _FileTreeState extends State<_FileTree> {
           Text(
             _selectedLabel(_nodes),
             style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
               fontSize: 12,
             ),
           ),
@@ -5858,12 +5858,12 @@ Widget _treeDefault(BuildContext context) =>
       name: 'With selection',
       builder: '_treeSelection',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/icon/icon.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
-import 'package:<your_app>/ui/shadcn/components/tree/tree.dart';
+import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';
 
 /// One file-tree entry: folders stay folders even when empty or collapsed.
 class _FileEntry {
@@ -6090,7 +6090,7 @@ class _FileTreeState extends State<_FileTree> {
             tristate: true,
             onChanged: (_) => _toggleSubtree(item),
           ),
-          Gap(ShadcnTheme.of(context).spacing.xs),
+          Gap(Theme.of(context).spacing.xs),
           leading,
         ],
       );
@@ -6100,7 +6100,7 @@ class _FileTreeState extends State<_FileTree> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final Widget tree = Tree<_FileEntry>(
       nodes: _nodes,
       shrinkWrap: widget.height == null,
@@ -6128,7 +6128,7 @@ class _FileTreeState extends State<_FileTree> {
           Text(
             _selectedLabel(_nodes),
             style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
               fontSize: 12,
             ),
           ),
@@ -6152,12 +6152,12 @@ Widget _treeSelection(BuildContext context) => _FileTree(
       name: 'Multi-select',
       builder: '_treeMulti',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/icon/icon.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
-import 'package:<your_app>/ui/shadcn/components/tree/tree.dart';
+import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';
 
 /// One file-tree entry: folders stay folders even when empty or collapsed.
 class _FileEntry {
@@ -6384,7 +6384,7 @@ class _FileTreeState extends State<_FileTree> {
             tristate: true,
             onChanged: (_) => _toggleSubtree(item),
           ),
-          Gap(ShadcnTheme.of(context).spacing.xs),
+          Gap(Theme.of(context).spacing.xs),
           leading,
         ],
       );
@@ -6394,7 +6394,7 @@ class _FileTreeState extends State<_FileTree> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final Widget tree = Tree<_FileEntry>(
       nodes: _nodes,
       shrinkWrap: widget.height == null,
@@ -6422,7 +6422,7 @@ class _FileTreeState extends State<_FileTree> {
           Text(
             _selectedLabel(_nodes),
             style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
               fontSize: 12,
             ),
           ),
@@ -6445,12 +6445,12 @@ Widget _treeMulti(BuildContext context) => _FileTree(
       name: 'Large',
       builder: '_treeLarge',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/icon/icon.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
-import 'package:<your_app>/ui/shadcn/components/tree/tree.dart';
+import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';
 
 /// One file-tree entry: folders stay folders even when empty or collapsed.
 class _FileEntry {
@@ -6659,7 +6659,7 @@ class _FileTreeState extends State<_FileTree> {
             tristate: true,
             onChanged: (_) => _toggleSubtree(item),
           ),
-          Gap(ShadcnTheme.of(context).spacing.xs),
+          Gap(Theme.of(context).spacing.xs),
           leading,
         ],
       );
@@ -6669,7 +6669,7 @@ class _FileTreeState extends State<_FileTree> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final Widget tree = Tree<_FileEntry>(
       nodes: _nodes,
       shrinkWrap: widget.height == null,
@@ -6697,7 +6697,7 @@ class _FileTreeState extends State<_FileTree> {
           Text(
             _selectedLabel(_nodes),
             style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
               fontSize: 12,
             ),
           ),
@@ -6789,10 +6789,10 @@ Widget _treeLarge(BuildContext context) => const _LargeTree();
       name: 'Single',
       builder: '_calendarSingle',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -6812,7 +6812,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
   CalendarView _view = CalendarView(2024, 3);
   CalendarValue? _value;
 
-  /// A 24x24 stepper, the tap target the shadcn calendar header uses.
+  /// A 24x24 stepper, the tap target the upstream calendar header uses.
   Widget _calendarStep(String label, VoidCallback onPressed) {
     return GestureDetector(
       onTap: onPressed,
@@ -6821,8 +6821,8 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
         height: 24,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: ShadcnTheme.of(context).colors.border),
-          borderRadius: ShadcnTheme.of(context).borderRadiusSm,
+          border: Border.all(color: Theme.of(context).colors.border),
+          borderRadius: Theme.of(context).borderRadiusSm,
         ),
         child: Text(label),
       ),
@@ -6831,7 +6831,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -6867,10 +6867,10 @@ Widget _calendarSingle(BuildContext context) =>
       name: 'Range',
       builder: '_calendarRange',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -6890,7 +6890,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
   CalendarView _view = CalendarView(2024, 3);
   CalendarValue? _value;
 
-  /// A 24x24 stepper, the tap target the shadcn calendar header uses.
+  /// A 24x24 stepper, the tap target the upstream calendar header uses.
   Widget _calendarStep(String label, VoidCallback onPressed) {
     return GestureDetector(
       onTap: onPressed,
@@ -6899,8 +6899,8 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
         height: 24,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: ShadcnTheme.of(context).colors.border),
-          borderRadius: ShadcnTheme.of(context).borderRadiusSm,
+          border: Border.all(color: Theme.of(context).colors.border),
+          borderRadius: Theme.of(context).borderRadiusSm,
         ),
         child: Text(label),
       ),
@@ -6909,7 +6909,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -6945,10 +6945,10 @@ Widget _calendarRange(BuildContext context) =>
       name: 'Multi',
       builder: '_calendarMulti',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -6968,7 +6968,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
   CalendarView _view = CalendarView(2024, 3);
   CalendarValue? _value;
 
-  /// A 24x24 stepper, the tap target the shadcn calendar header uses.
+  /// A 24x24 stepper, the tap target the upstream calendar header uses.
   Widget _calendarStep(String label, VoidCallback onPressed) {
     return GestureDetector(
       onTap: onPressed,
@@ -6977,8 +6977,8 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
         height: 24,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: ShadcnTheme.of(context).colors.border),
-          borderRadius: ShadcnTheme.of(context).borderRadiusSm,
+          border: Border.all(color: Theme.of(context).colors.border),
+          borderRadius: Theme.of(context).borderRadiusSm,
         ),
         child: Text(label),
       ),
@@ -6987,7 +6987,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -7023,10 +7023,10 @@ Widget _calendarMulti(BuildContext context) =>
       name: 'Month grid',
       builder: '_calendarMonthGrid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -7067,10 +7067,10 @@ Widget _calendarMonthGrid(BuildContext context) =>
       name: 'Year grid',
       builder: '_calendarYearGrid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -7110,10 +7110,10 @@ Widget _calendarYearGrid(BuildContext context) =>
       name: 'Read-only',
       builder: '_calendarReadOnly',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
 
 /// The month the examples show.
 final DateTime _calendarToday = DateTime(2024, 3, 14);
@@ -7140,11 +7140,11 @@ Widget _calendarReadOnly(BuildContext context) {
       name: 'Single',
       builder: '_datePickerSingle',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
-import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// A label above a trigger.
 class _DatePickerLabel extends StatelessWidget {
@@ -7154,7 +7154,7 @@ class _DatePickerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Text(
       text,
       style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
@@ -7167,7 +7167,7 @@ final DateTime _datePickerToday = DateTime(2024, 3, 14);
 
 /// The single-date picker, empty and pre-filled.
 Widget _datePickerSingle(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -7188,11 +7188,11 @@ Widget _datePickerSingle(BuildContext context) {
       name: 'Range',
       builder: '_datePickerRange',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
-import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// A label above a trigger.
 class _DatePickerLabel extends StatelessWidget {
@@ -7202,7 +7202,7 @@ class _DatePickerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Text(
       text,
       style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
@@ -7215,7 +7215,7 @@ final DateTime _datePickerToday = DateTime(2024, 3, 14);
 
 /// The range picker, empty and pre-filled.
 Widget _datePickerRange(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -7242,11 +7242,11 @@ Widget _datePickerRange(BuildContext context) {
       name: 'Dialog',
       builder: '_datePickerDialog',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
-import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// The dialog prompt with a title.
 Widget _datePickerDialog(BuildContext context) {
@@ -7263,11 +7263,11 @@ Widget _datePickerDialog(BuildContext context) {
       name: 'Disabled',
       builder: '_datePickerDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
-import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// The disabled trigger.
 Widget _datePickerDisabled(BuildContext context) {
@@ -7279,11 +7279,11 @@ Widget _datePickerDisabled(BuildContext context) {
       name: 'Inline',
       builder: '_datePickerInline',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';
-import 'package:<your_app>/ui/shadcn/components/date_picker/date_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// The inline calendar sheet, without a popover.
 Widget _datePickerInline(BuildContext context) {
@@ -7300,8 +7300,8 @@ Widget _datePickerInline(BuildContext context) {
       name: 'Clock',
       builder: '_clock',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/components/time_picker/time_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';
 
 /// Clock trigger; owns its value.
 class _ClockTrigger extends StatefulWidget {
@@ -7331,8 +7331,8 @@ Widget _clock(BuildContext context) => const _ClockTrigger();
       name: 'Duration',
       builder: '_duration',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/components/time_picker/time_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';
 
 /// Duration trigger; owns its value.
 class _DurationTrigger extends StatefulWidget {
@@ -7361,8 +7361,8 @@ Widget _duration(BuildContext context) => const _DurationTrigger();
       name: 'Clock dialog',
       builder: '_clockDialog',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/components/time_picker/time_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';
 
 /// The inline clock sheet.
 Widget _clockDialog(BuildContext context) {
@@ -7374,8 +7374,8 @@ Widget _clockDialog(BuildContext context) {
       name: 'Duration dialog',
       builder: '_durationDialog',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/components/time_picker/time_picker.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';
 
 /// The inline duration sheet.
 Widget _durationDialog(BuildContext context) {
@@ -7389,11 +7389,11 @@ Widget _durationDialog(BuildContext context) {
       name: 'Default',
       builder: '_alertDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert/alert.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';
 
 /// One alert, stretched to the stage width.
 Widget _alert(
@@ -7432,11 +7432,11 @@ Widget _alertDefault(BuildContext context) => _alert(
       name: 'Destructive',
       builder: '_alertDestructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert/alert.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';
 
 /// One alert, stretched to the stage width.
 Widget _alert(
@@ -7475,11 +7475,11 @@ Widget _alertDestructive(BuildContext context) => _alert(
       name: 'Compact',
       builder: '_alertCompact',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert/alert.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';
 
 /// A compact alert whose trailing button dismisses it.
 class _AlertCompact extends StatefulWidget {
@@ -7494,7 +7494,7 @@ class _AlertCompactState extends State<_AlertCompact> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 512),
       child: Column(
@@ -7539,14 +7539,14 @@ Widget _alertCompact(BuildContext context) => const _AlertCompact();
       name: 'Determinate',
       builder: '_progressDeterminate',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/progress/progress.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';
 
 /// Determinate values at a few fill levels and heights.
 Widget _progressDeterminate(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   final bar = <Widget>[
     const Progress(value: 0.25, semanticsLabel: 'Quarter'),
     Gap(spacing.lg),
@@ -7585,10 +7585,10 @@ Widget _progressDeterminate(BuildContext context) {
       name: 'Live',
       builder: '_progressLive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/progress/progress.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';
 
 /// A bar the example drives between 0 and 100%.
 class _ProgressLive extends StatefulWidget {
@@ -7603,7 +7603,7 @@ class _ProgressLiveState extends State<_ProgressLive> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -7651,10 +7651,10 @@ Widget _progressLive(BuildContext context) => const _ProgressLive();
       name: 'Indeterminate',
       builder: '_progressIndeterminate',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/progress/progress.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';
 
 /// Indeterminate mode.
 Widget _progressIndeterminate(BuildContext context) {
@@ -7668,10 +7668,10 @@ Widget _progressIndeterminate(BuildContext context) {
       name: 'Default',
       builder: '_skeletonDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/skeleton/skeleton.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
 
 /// Tap target that flips the loading state of the example.
 class _SkeletonSkeletonToggle extends StatelessWidget {
@@ -7709,7 +7709,7 @@ class _SkeletonSkeletonBlockState extends State<_SkeletonSkeletonBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -7757,10 +7757,10 @@ Widget _skeletonDefault(BuildContext context) => const _SkeletonSkeletonBlock();
       name: 'Card',
       builder: '_skeletonCard',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/skeleton/skeleton.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
 
 /// A circular skeleton next to two bars.
 class _SkeletonSkeletonCard extends StatelessWidget {
@@ -7768,7 +7768,7 @@ class _SkeletonSkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -7817,13 +7817,13 @@ Widget _skeletonCard(BuildContext context) => const _SkeletonSkeletonCard();
       name: 'Default',
       builder: '_spinnerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/spinner/spinner.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/spinner/spinner.dart';
 
 /// The size scale and a couple of stroke widths in one row.
 Widget _spinnerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.xl,
@@ -7844,13 +7844,13 @@ Widget _spinnerDefault(BuildContext context) {
       name: 'Small',
       builder: '_spinnerSmall',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/spinner/spinner.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/spinner/spinner.dart';
 
 /// A small spinner inside a text row.
 Widget _spinnerSmall(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -7861,7 +7861,7 @@ Widget _spinnerSmall(BuildContext context) {
         'Loading...',
         style: TextStyle(
           fontSize: 13,
-          color: ShadcnTheme.of(context).colors.mutedForeground,
+          color: Theme.of(context).colors.mutedForeground,
         ),
       ),
     ],
@@ -7875,11 +7875,11 @@ Widget _spinnerSmall(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/toast/toast.dart';
 
 /// A persistent toast shown on mount, plus buttons for every placement.
 class _DefaultToast extends StatefulWidget {
@@ -7915,7 +7915,7 @@ class _DefaultToastState extends State<_DefaultToast> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     // The fixed box is inherent: toasts position against the layer, so the
     // layer needs a stage of its own.
     return SizedBox(
@@ -7952,11 +7952,11 @@ Widget _default(BuildContext context) => const _DefaultToast();
       name: 'Destructive',
       builder: '_destructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/toast/toast.dart';
 
 /// A persistent destructive toast tinted with the destructive token.
 class _DestructiveToast extends StatefulWidget {
@@ -8026,11 +8026,11 @@ Widget _destructive(BuildContext context) => const _DestructiveToast();
       name: 'With action',
       builder: '_withAction',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/toast/toast.dart';
 
 /// A persistent toast with an inline action button.
 class _ActionToast extends StatefulWidget {
@@ -8073,7 +8073,7 @@ class _ActionToastState extends State<_ActionToast> {
   }
 
   Widget _toastBody(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Wrap(
       spacing: spacing.md,
       runSpacing: spacing.sm,
@@ -8112,12 +8112,12 @@ class _ActionToastState extends State<_ActionToast> {
               onPressed: _show,
               child: const Text('Show toast with action'),
             ),
-            Gap(ShadcnTheme.of(context).spacing.md),
+            Gap(Theme.of(context).spacing.md),
             Text(
               _lastAction,
               style: TextStyle(
                 fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
+                color: Theme.of(context).colors.mutedForeground,
               ),
             ),
           ],
@@ -8136,11 +8136,11 @@ Widget _withAction(BuildContext context) => const _ActionToast();
       name: 'Default',
       builder: '_autocompleteDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
 const List<String> _autocompleteFruits = <String>[
   'Apple',
@@ -8196,7 +8196,7 @@ class _AutocompleteAutoCompleteFieldState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return SizedBox(
       width: 280,
       child: Column(
@@ -8236,11 +8236,11 @@ Widget _autocompleteDefault(BuildContext context) =>
       name: 'Append',
       builder: '_autocompleteAppend',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
 const List<String> _autocompleteFruits = <String>[
   'Apple',
@@ -8296,7 +8296,7 @@ class _AutocompleteAutoCompleteFieldState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return SizedBox(
       width: 280,
       child: Column(
@@ -8339,11 +8339,11 @@ Widget _autocompleteAppend(BuildContext context) =>
       name: 'Replace all',
       builder: '_autocompleteReplaceAll',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
 const List<String> _autocompleteFruits = <String>[
   'Apple',
@@ -8399,7 +8399,7 @@ class _AutocompleteAutoCompleteFieldState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return SizedBox(
       width: 280,
       child: Column(
@@ -8442,11 +8442,11 @@ Widget _autocompleteReplaceAll(BuildContext context) =>
       name: 'Custom row',
       builder: '_autocompleteCustomRow',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
 const List<String> _autocompleteFruits = <String>[
   'Apple',
@@ -8502,7 +8502,7 @@ class _AutocompleteAutoCompleteFieldState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return SizedBox(
       width: 280,
       child: Column(
@@ -8559,10 +8559,10 @@ Widget _autocompleteBoldWhenSelected(
       name: 'Default',
       builder: '_checkboxDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
 
-/// One labelled checkbox row; the component owns the label gap (shadcn
+/// One labelled checkbox row; the component owns the label gap (upstream
 /// `gap-2`) and makes the whole row clickable.
 Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
   return Checkbox(
@@ -8613,10 +8613,10 @@ Widget _checkboxDefault(BuildContext context) =>
       name: 'Checked',
       builder: '_checkboxChecked',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
 
-/// One labelled checkbox row; the component owns the label gap (shadcn
+/// One labelled checkbox row; the component owns the label gap (upstream
 /// `gap-2`) and makes the whole row clickable.
 Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
   return Checkbox(
@@ -8667,10 +8667,10 @@ Widget _checkboxChecked(BuildContext context) =>
       name: 'Indeterminate',
       builder: '_checkboxIndeterminate',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
 
-/// One labelled checkbox row; the component owns the label gap (shadcn
+/// One labelled checkbox row; the component owns the label gap (upstream
 /// `gap-2`) and makes the whole row clickable.
 Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
   return Checkbox(
@@ -8722,10 +8722,10 @@ Widget _checkboxIndeterminate(BuildContext context) =>
       name: 'Disabled',
       builder: '_checkboxDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';
 
-/// One labelled checkbox row; the component owns the label gap (shadcn
+/// One labelled checkbox row; the component owns the label gap (upstream
 /// `gap-2`) and makes the whole row clickable.
 Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
   return Checkbox(
@@ -8745,7 +8745,7 @@ Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
 
 /// Disabled in both states.
 Widget _checkboxDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -8772,9 +8772,9 @@ Widget _checkboxDisabled(BuildContext context) {
       name: 'Default',
       builder: '_chipInputDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';
 
 /// The controlled field: the example owns the chip list.
 class _ChipInputControlledChips extends StatefulWidget {
@@ -8790,7 +8790,7 @@ class _ChipInputControlledChipsState extends State<_ChipInputControlledChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -8817,9 +8817,9 @@ Widget _chipInputDefault(BuildContext context) =>
       name: 'With suggestions',
       builder: '_chipInputSuggestions',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';
 
 /// Rejects the word at the caret; used where the typed word is irrelevant.
 String? _chipInputReject(String text) => null;
@@ -8858,9 +8858,9 @@ Widget _chipInputSuggestions(BuildContext context) =>
       name: 'Read-only',
       builder: '_chipInputReadOnly',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';
 
 /// Rejects the word at the caret; used where the typed word is irrelevant.
 String? _chipInputReject(String text) => null;
@@ -8873,7 +8873,7 @@ class _ChipInputReadOnlyChips extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ChipInput<String>(
       hintText: 'Tokens without a remove button',
-      initialChips: <String>['flutter', 'shadcn'],
+      initialChips: <String>['flutter', 'dashcn'],
       theme: ChipInputTheme(removable: false),
       onChipSubmit: _chipInputReject,
     );
@@ -8888,9 +8888,9 @@ Widget _chipInputReadOnly(BuildContext context) =>
       name: 'Validated',
       builder: '_chipInputValidated',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';
 
 /// Rejects the word at the caret; used where the typed word is irrelevant.
 String? _chipInputReject(String text) => null;
@@ -8919,9 +8919,9 @@ Widget _chipInputValidated(BuildContext context) =>
       name: 'Disabled',
       builder: '_chipInputDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/chip_input/chip_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';
 
 /// Rejects the word at the caret; used where the typed word is irrelevant.
 String? _chipInputReject(String text) => null;
@@ -8950,10 +8950,10 @@ Widget _chipInputDisabled(BuildContext context) =>
       name: 'Default',
       builder: '_dropzoneDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The interactive zone: browse, hover and state switching all work.
 class _DropzoneDemo extends StatefulWidget {
@@ -8980,7 +8980,7 @@ class _DropzoneDemoState extends State<_DropzoneDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -9026,10 +9026,10 @@ Widget _dropzoneDefault(BuildContext context) => const _DropzoneDemo();
       name: 'Drag over',
       builder: '_dropzoneDragOver',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The zone while a drag hovers over it.
 Widget _dropzoneDragOver(BuildContext context) {
@@ -9047,10 +9047,10 @@ void _dropzoneBrowse() {}
       name: 'Uploading',
       builder: '_dropzoneUploading',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The uploading state, then a success one.
 Widget _dropzoneUploading(BuildContext context) {
@@ -9070,10 +9070,10 @@ Widget _dropzoneUploading(BuildContext context) {
       name: 'Error',
       builder: '_dropzoneError',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The error state plus the disabled one.
 Widget _dropzoneError(BuildContext context) {
@@ -9093,10 +9093,10 @@ Widget _dropzoneError(BuildContext context) {
       name: 'Custom content',
       builder: '_dropzoneCustom',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The zone with a custom hint instead of the default content.
 Widget _dropzoneCustom(BuildContext context) {
@@ -9113,7 +9113,7 @@ Widget _dropzoneCustom(BuildContext context) {
       name: 'Dropzone',
       builder: '_dropzone',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/file_picker/file_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
@@ -9187,7 +9187,7 @@ Widget _dropzone(BuildContext context) => const _DropzoneExample();
       name: 'Tile',
       builder: '_tile',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/file_picker/file_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
@@ -9261,7 +9261,7 @@ Widget _tile(BuildContext context) => const _TileExample();
       name: 'Trigger',
       builder: '_trigger',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/file_picker/file_picker.dart';
+import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
@@ -9297,11 +9297,11 @@ Widget _trigger(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/form/form.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/form/form.dart';
 
 /// A submit flow: one field, a submit button and the result line.
 class _DefaultForm extends StatefulWidget {
@@ -9324,10 +9324,10 @@ class _DefaultFormState extends State<_DefaultForm> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return SizedBox(
       width: 320,
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
         onSubmit: (values) =>
             setState(() => _result = 'Submitted ${values.length} value(s)'),
@@ -9335,7 +9335,7 @@ class _DefaultFormState extends State<_DefaultForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _emailKey,
               label: const Text('Email'),
               hint: const Text('We never share it.'),
@@ -9363,11 +9363,11 @@ Widget _default(BuildContext context) => const _DefaultForm();
       name: 'Validating',
       builder: '_validating',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/form/form.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/form/form.dart';
 
 /// A field validating on every change, so the error shows immediately.
 class _ValidatingForm extends StatefulWidget {
@@ -9391,9 +9391,9 @@ class _ValidatingFormState extends State<_ValidatingForm> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
-        child: ShadcnFormField<String>(
+        child: FormItem<String>(
           key: _emailKey,
           label: const Text('Email'),
           validator: const NotEmptyValidator() & const EmailValidator(),
@@ -9415,9 +9415,9 @@ Widget _validating(BuildContext context) => const _ValidatingForm();
       builder: '_phone',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/form_core.dart';
-import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/form_core.dart';
+import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';
 
 /// A `(555) 123-4567` phone field in controlled mode.
 class _PhoneExample extends StatefulWidget {
@@ -9475,9 +9475,9 @@ Widget _phone(BuildContext context) => const _PhoneExample();
       builder: '_date',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/form_core.dart';
-import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/form_core.dart';
+import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';
 
 /// A date field reporting a validation error while incomplete.
 Widget _date(BuildContext context) {
@@ -9526,9 +9526,9 @@ String? _validateDate(String? text) {
       builder: '_card',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/form_core.dart';
-import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/form_core.dart';
+import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';
 
 /// A 16-digit card field.
 Widget _card(BuildContext context) {
@@ -9576,13 +9576,13 @@ Widget _card(BuildContext context) {
       name: 'Default',
       builder: '_inputDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 
 /// A small section label above a field.
 class _InputSection extends StatelessWidget {
@@ -9592,7 +9592,7 @@ class _InputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: theme.spacing.xs),
       child: Text(
@@ -9628,13 +9628,13 @@ Widget _inputDefault(BuildContext context) {
       name: 'With icon',
       builder: '_inputWithIconExample',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 
 /// A field with a leading icon and the clear/copy features.
 class _InputWithIcon extends StatefulWidget {
@@ -9655,7 +9655,7 @@ class _InputWithIconState extends State<_InputWithIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Column(
@@ -9697,13 +9697,13 @@ Widget _inputWithIconExample(BuildContext context) => const _InputWithIcon();
       name: 'Invalid',
       builder: '_inputInvalid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 
 /// A small section label above a field.
 class _InputSection extends StatelessWidget {
@@ -9713,7 +9713,7 @@ class _InputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: theme.spacing.xs),
       child: Text(
@@ -9764,13 +9764,13 @@ Widget _inputHintPopup(BuildContext context) => const Text('Extra information');
       name: 'Disabled',
       builder: '_inputDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/input_features.dart';
-import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/input_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 
 /// A small section label above a field.
 class _InputSection extends StatelessWidget {
@@ -9780,7 +9780,7 @@ class _InputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: theme.spacing.xs),
       child: Text(
@@ -9795,7 +9795,7 @@ class _InputSection extends StatelessWidget {
 
 /// A disabled field beside a read-only one.
 Widget _inputDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
     child: Column(
@@ -9823,9 +9823,9 @@ Widget _inputDisabled(BuildContext context) {
       name: 'Default',
       builder: '_inputOtpDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input_otp/input_otp.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';
 
 /// The six-slot code field.
 class _InputOtpOtp extends StatefulWidget {
@@ -9848,7 +9848,7 @@ class _InputOtpOtpState extends State<_InputOtpOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -9877,9 +9877,9 @@ Widget _inputOtpDefault(BuildContext context) => const _InputOtpOtp();
       name: 'Separated',
       builder: '_inputOtpSeparated',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input_otp/input_otp.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';
 
 /// The six-slot code field.
 class _InputOtpOtp extends StatefulWidget {
@@ -9902,7 +9902,7 @@ class _InputOtpOtpState extends State<_InputOtpOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -9932,9 +9932,9 @@ Widget _inputOtpSeparated(BuildContext context) =>
       name: 'Obscured',
       builder: '_inputOtpObscured',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input_otp/input_otp.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';
 
 /// The six-slot code field.
 class _InputOtpOtp extends StatefulWidget {
@@ -9957,7 +9957,7 @@ class _InputOtpOtpState extends State<_InputOtpOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -9987,9 +9987,9 @@ Widget _inputOtpObscured(BuildContext context) =>
       name: 'Four slots',
       builder: '_inputOtpFourSlots',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/input_otp/input_otp.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';
 
 /// The six-slot code field.
 class _InputOtpOtp extends StatefulWidget {
@@ -10012,7 +10012,7 @@ class _InputOtpOtpState extends State<_InputOtpOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -10044,8 +10044,8 @@ Widget _inputOtpFourSlots(BuildContext context) =>
       name: 'Grid',
       builder: '_grid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/item_picker/item_picker.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/item_picker/item_picker.dart';
 
 /// Grid body with a live selection.
 class _GridExample extends StatefulWidget {
@@ -10083,8 +10083,8 @@ Widget _grid(BuildContext context) => const _GridExample();
       name: 'List',
       builder: '_list',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/item_picker/item_picker.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/item_picker/item_picker.dart';
 
 /// List body with a swatch per row and a live selection.
 class _ListExample extends StatefulWidget {
@@ -10127,15 +10127,15 @@ class _Swatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
+    final colors = Theme.of(context).colors;
     final Color color = switch (name) {
       'Coral' => colors.chart1,
       'Mint' => colors.chart2,
       _ => colors.chart3,
     };
     return SizedBox(
-      width: ShadcnTheme.of(context).spacing.xl,
-      height: ShadcnTheme.of(context).spacing.xl,
+      width: Theme.of(context).spacing.xl,
+      height: Theme.of(context).spacing.xl,
       child: ColoredBox(color: color, child: const SizedBox()),
     );
   }
@@ -10150,7 +10150,7 @@ Widget _list(BuildContext context) => const _ListExample();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/multi_select/multi_select.dart';
+import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
 const List<String> _options = <String>[
   'Apple',
@@ -10197,7 +10197,7 @@ Widget _default(BuildContext context) => const _DefaultExample();
       name: 'With badges',
       builder: '_withBadges',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/multi_select/multi_select.dart';
+import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
 const List<String> _options = <String>[
   'Apple',
@@ -10244,7 +10244,7 @@ Widget _withBadges(BuildContext context) => const _BadgesExample();
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/multi_select/multi_select.dart';
+import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
 const List<String> _options = <String>[
   'Apple',
@@ -10294,9 +10294,9 @@ Widget _disabled(BuildContext context) => const _DisabledExample();
       name: 'Date',
       builder: '_date',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/object_input/object_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/object_input/object_input.dart';
 
 /// A date field; the value lives in this example's state.
 class _DateDemo extends StatefulWidget {
@@ -10327,9 +10327,9 @@ Widget _date(BuildContext context) => const _DateDemo();
       name: 'Time',
       builder: '_time',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/object_input/object_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/object_input/object_input.dart';
 
 /// A time field; the value lives in this example's state.
 class _TimeDemo extends StatefulWidget {
@@ -10358,9 +10358,9 @@ Widget _time(BuildContext context) => const _TimeDemo();
       name: 'Duration',
       builder: '_duration',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/time_of_day.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/object_input/object_input.dart';
+import 'package:<your_app>/ui/dashcn/foundation/time_of_day.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/object_input/object_input.dart';
 
 /// A duration field; the value lives in this example's state.
 class _DurationDemo extends StatefulWidget {
@@ -10391,9 +10391,9 @@ Widget _duration(BuildContext context) => const _DurationDemo();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/countries.dart';
-import 'package:<your_app>/ui/shadcn/components/form/form.dart';
-import 'package:<your_app>/ui/shadcn/components/phone_input/phone_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/countries.dart';
+import 'package:<your_app>/ui/dashcn/components/form/form.dart';
+import 'package:<your_app>/ui/dashcn/components/phone_input/phone_input.dart';
 
 /// Widths that fit both the 720-wide stage and a 375-wide phone. The country
 /// selector needs 136 logical pixels for its flag, dial code and chevron.
@@ -10433,9 +10433,9 @@ Widget _default(BuildContext context) => const _DefaultPhone();
       name: 'Custom countries',
       builder: '_customCountries',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/countries.dart';
-import 'package:<your_app>/ui/shadcn/components/form/form.dart';
-import 'package:<your_app>/ui/shadcn/components/phone_input/phone_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/countries.dart';
+import 'package:<your_app>/ui/dashcn/components/form/form.dart';
+import 'package:<your_app>/ui/dashcn/components/phone_input/phone_input.dart';
 
 /// Widths that fit both the 720-wide stage and a 375-wide phone. The country
 /// selector needs 136 logical pixels for its flag, dial code and chevron.
@@ -10478,9 +10478,9 @@ Widget _customCountries(BuildContext context) => const _CustomCountriesPhone();
       name: 'Invalid',
       builder: '_invalid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/countries.dart';
-import 'package:<your_app>/ui/shadcn/components/form/form.dart';
-import 'package:<your_app>/ui/shadcn/components/phone_input/phone_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/countries.dart';
+import 'package:<your_app>/ui/dashcn/components/form/form.dart';
+import 'package:<your_app>/ui/dashcn/components/phone_input/phone_input.dart';
 
 /// Widths that fit both the 720-wide stage and a 375-wide phone. The country
 /// selector needs 136 logical pixels for its flag, dial code and chevron.
@@ -10505,8 +10505,8 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnForm(
-      child: ShadcnFormField<PhoneNumber>(
+    return FormScope(
+      child: FormItem<PhoneNumber>(
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
         label: const Text('Phone'),
         validator: const PhoneNumberValidator(),
@@ -10529,7 +10529,7 @@ Widget _invalid(BuildContext context) => const _InvalidPhone();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/radio_group/radio_group.dart';
+import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';
 
 /// A vertical group of row items; the selection lives in this example.
 class _RowsDemo extends StatefulWidget {
@@ -10544,7 +10544,7 @@ class _RowsDemoState extends State<_RowsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnRadioGroup<String>(
+    return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
       items: const <Widget>[
@@ -10563,7 +10563,7 @@ Widget _default(BuildContext context) => const _RowsDemo();
       name: 'Card items',
       builder: '_cardItems',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/radio_group/radio_group.dart';
+import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';
 
 /// A group of card items; the selection lives in this example.
 class _CardsDemo extends StatefulWidget {
@@ -10578,7 +10578,7 @@ class _CardsDemoState extends State<_CardsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnRadioGroup<String>(
+    return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
       items: <Widget>[
@@ -10604,7 +10604,7 @@ Widget _cardItems(BuildContext context) => const _CardsDemo();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/select/select.dart';
+import 'package:<your_app>/ui/dashcn/components/select/select.dart';
 
 /// A controlled fruit picker; the selection lives in this example's state.
 class _FruitSelect extends StatefulWidget {
@@ -10650,7 +10650,7 @@ Widget _default(BuildContext context) => const _FruitSelect();
       name: 'With groups',
       builder: '_withGroups',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/select/select.dart';
+import 'package:<your_app>/ui/dashcn/components/select/select.dart';
 
 /// A picker grouping its rows under disabled header rows.
 class _GroupedSelect extends StatefulWidget {
@@ -10700,7 +10700,7 @@ Widget _withGroups(BuildContext context) => const _GroupedSelect();
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/select/select.dart';
+import 'package:<your_app>/ui/dashcn/components/select/select.dart';
 
 /// A disabled picker showing its selected value.
 Widget _disabled(BuildContext context) {
@@ -10727,8 +10727,8 @@ Widget _disabled(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/slider_value.dart';
-import 'package:<your_app>/ui/shadcn/components/slider/slider.dart';
+import 'package:<your_app>/ui/dashcn/primitives/slider_value.dart';
+import 'package:<your_app>/ui/dashcn/components/slider/slider.dart';
 
 /// A single-value slider; the value lives in this example's state.
 class _SingleSlider extends StatefulWidget {
@@ -10761,8 +10761,8 @@ Widget _default(BuildContext context) => const _SingleSlider();
       name: 'Range',
       builder: '_range',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/slider_value.dart';
-import 'package:<your_app>/ui/shadcn/components/slider/slider.dart';
+import 'package:<your_app>/ui/dashcn/primitives/slider_value.dart';
+import 'package:<your_app>/ui/dashcn/components/slider/slider.dart';
 
 /// A ranged slider; the range lives in this example's state.
 class _RangeSlider extends StatefulWidget {
@@ -10795,8 +10795,8 @@ Widget _range(BuildContext context) => const _RangeSlider();
       name: 'Steps',
       builder: '_steps',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/slider_value.dart';
-import 'package:<your_app>/ui/shadcn/components/slider/slider.dart';
+import 'package:<your_app>/ui/dashcn/primitives/slider_value.dart';
+import 'package:<your_app>/ui/dashcn/components/slider/slider.dart';
 
 /// A stepped slider with dot marks; the value lives in this example's state.
 class _StepsSlider extends StatefulWidget {
@@ -10835,9 +10835,9 @@ Widget _steps(BuildContext context) => const _StepsSlider();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/star_rating/star_rating.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';
 
 /// Interactive rating with half-star steps; owns its value.
 class _InteractiveRating extends StatefulWidget {
@@ -10866,9 +10866,9 @@ Widget _default(BuildContext context) => const _InteractiveRating();
       name: 'Read-only',
       builder: '_readOnly',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/star_rating/star_rating.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';
 
 /// A non-interactive rating.
 Widget _readOnly(BuildContext context) {
@@ -10880,9 +10880,9 @@ Widget _readOnly(BuildContext context) {
       name: 'Vertical',
       builder: '_vertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/star_rating/star_rating.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';
 
 /// A vertical rating that reports the value it settles on.
 class _VerticalRating extends StatefulWidget {
@@ -10897,7 +10897,7 @@ class _VerticalRatingState extends State<_VerticalRating> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -10924,9 +10924,9 @@ Widget _vertical(BuildContext context) => const _VerticalRating();
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/star_rating/star_rating.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';
 
 /// A disabled rating.
 Widget _disabled(BuildContext context) {
@@ -10940,8 +10940,8 @@ Widget _disabled(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/switch/switch.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';
 
 /// Controlled switch; owns its value.
 class _ControlledSwitch extends StatefulWidget {
@@ -10971,12 +10971,12 @@ Widget _default(BuildContext context) => const _ControlledSwitch();
       name: 'Rows',
       builder: '_switchRows',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/switch/switch.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';
 
 Widget _switchRows(BuildContext context) => const _SwitchRows();
 
-/// A stack of switch rows: the group gap (shadcn `gap-3`) between them, the
+/// A stack of switch rows: the group gap (upstream `gap-3`) between them, the
 /// same one the radio group and a checkbox list use.
 class _SwitchRows extends StatefulWidget {
   const _SwitchRows();
@@ -10991,7 +10991,7 @@ class _SwitchRowsState extends State<_SwitchRows> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -11017,8 +11017,8 @@ class _SwitchRowsState extends State<_SwitchRows> {
       name: 'Controller',
       builder: '_controller',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/switch/switch.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';
 
 /// Controller-driven switch; the controller owns the value.
 class _ControllerSwitch extends StatefulWidget {
@@ -11048,7 +11048,7 @@ class _ControllerSwitchState extends State<_ControllerSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Wrap(
       spacing: spacing.lg,
       runSpacing: spacing.sm,
@@ -11071,12 +11071,12 @@ Widget _controller(BuildContext context) => const _ControllerSwitch();
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/switch/switch.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';
 
 /// On and off switches with no callback, so both are disabled.
 Widget _disabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.md,
@@ -11094,8 +11094,8 @@ Widget _disabled(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// The default three-line field.
 Widget _default(BuildContext context) {
@@ -11110,8 +11110,8 @@ Widget _default(BuildContext context) {
       name: 'Placeholder',
       builder: '_placeholder',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A taller field with placeholder text.
 Widget _placeholder(BuildContext context) {
@@ -11129,8 +11129,8 @@ Widget _placeholder(BuildContext context) {
       name: 'Resizable',
       builder: '_resizable',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A field that grows with its content.
 Widget _resizable(BuildContext context) {
@@ -11149,8 +11149,8 @@ Widget _resizable(BuildContext context) {
       name: 'Invalid',
       builder: '_invalid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A validating field; owns the typed value it echoes.
 class _InvalidArea extends StatefulWidget {
@@ -11165,7 +11165,7 @@ class _InvalidAreaState extends State<_InvalidArea> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return SizedBox(
       width: 320,
       child: Column(
@@ -11182,9 +11182,7 @@ class _InvalidAreaState extends State<_InvalidArea> {
           SizedBox(height: spacing.sm),
           Text(
             'typed: ${_code.isEmpty ? '(empty)' : _code}',
-            style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
-            ),
+            style: TextStyle(color: Theme.of(context).colors.mutedForeground),
           ),
         ],
       ),
@@ -11199,8 +11197,8 @@ Widget _invalid(BuildContext context) => const _InvalidArea();
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A disabled field.
 Widget _disabled(BuildContext context) {
@@ -11217,9 +11215,9 @@ Widget _disabled(BuildContext context) {
       name: 'Default',
       builder: '_accordionDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/accordion/accordion.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';
 
 /// The three classic questions, collapsed.
 Widget _accordionDefault(BuildContext context) {
@@ -11255,9 +11253,9 @@ Widget _accordionDefault(BuildContext context) {
       name: 'Expanded',
       builder: '_accordionExpanded',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/accordion/accordion.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';
 
 /// The second item is opened on the first frame.
 Widget _accordionExpanded(BuildContext context) {
@@ -11294,13 +11292,13 @@ Widget _accordionExpanded(BuildContext context) {
       name: 'Multiple',
       builder: '_accordionMultiple',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/accordion/accordion.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';
 
 /// Two accordions stacked, so more than one can be open at a time.
 Widget _accordionMultiple(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
@@ -11345,14 +11343,14 @@ class _AccordionTwoItemAccordion extends StatelessWidget {
       name: 'Default',
       builder: '_cardDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 
-/// The full shadcn slot composition.
+/// The full upstream slot composition.
 //
 // P7-D1b: capped at 320 px (not fixed) so narrow phones shrink it instead of
 // overflowing; the stage centres it.
@@ -11368,7 +11366,7 @@ class _CardDefaultState extends State<_CardDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -11428,7 +11426,7 @@ class _CardDefaultState extends State<_CardDefault> {
           _status,
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],
@@ -11443,16 +11441,16 @@ Widget _cardDefault(BuildContext context) => const _CardDefault();
       name: 'With media',
       builder: '_cardWithMedia',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 
 /// A card whose header carries a clipped media band.
 Widget _cardWithMedia(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 320),
     child: Card(
@@ -11497,12 +11495,12 @@ Widget _cardWithMedia(BuildContext context) {
       name: 'With footer',
       builder: '_cardWithFooter',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 
 /// A bare surface whose footer button is live.
 class _CardWithFooter extends StatefulWidget {
@@ -11517,7 +11515,7 @@ class _CardWithFooterState extends State<_CardWithFooter> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -11568,14 +11566,14 @@ Widget _cardWithFooter(BuildContext context) => const _CardWithFooter();
       name: 'Vertical',
       builder: '_cardImageVertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/card_image/card_image.dart';
 
 /// A palette-derived thumbnail, so the demo follows the selected theme.
 Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     height: height,
     child: ColoredBox(
@@ -11615,7 +11613,7 @@ class _CardImageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -11682,14 +11680,14 @@ Widget _cardImageVertical(BuildContext context) => const _CardImageVertical();
       name: 'Horizontal',
       builder: '_cardImageHorizontal',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/card_image/card_image.dart';
 
 /// A palette-derived thumbnail, so the demo follows the selected theme.
 Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     height: height,
     child: ColoredBox(
@@ -11729,7 +11727,7 @@ class _CardImageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -11793,14 +11791,14 @@ Widget _cardImageHorizontal(BuildContext context) =>
       name: 'Disabled',
       builder: '_cardImageDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/card_image/card_image.dart';
 
 /// A palette-derived thumbnail, so the demo follows the selected theme.
 Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     height: height,
     child: ColoredBox(
@@ -11840,7 +11838,7 @@ class _CardImageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -11885,8 +11883,8 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: ShadcnTheme.of(context).spacing.lg,
-      runSpacing: ShadcnTheme.of(context).spacing.lg,
+      spacing: Theme.of(context).spacing.lg,
+      runSpacing: Theme.of(context).spacing.lg,
       crossAxisAlignment: WrapCrossAlignment.start,
       children: <Widget>[
         _CardImageRow(
@@ -11919,14 +11917,14 @@ Widget _cardImageDisabled(BuildContext context) =>
       name: 'Default',
       builder: '_collapsibleDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/collapsible/collapsible.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/collapsible/collapsible.dart';
 
 /// One muted row of the branch list.
 Widget _collapsibleRow(BuildContext context, String label) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return DecoratedBox(
     decoration: BoxDecoration(
       color: theme.colors.muted,
@@ -11942,14 +11940,14 @@ class _CollapsibleUncontrolled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(
         children: <Widget>[
           const CollapsibleTrigger(child: Text('Recent activity')),
           Gap(spacing.sm),
-          _collapsibleRow(context, '@mibrar-dev/shadcn_flutter_kit'),
+          _collapsibleRow(context, '@mibrar-dev/dashcn'),
           CollapsibleContent(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -11976,14 +11974,14 @@ Widget _collapsibleDefault(BuildContext context) =>
       name: 'Controlled',
       builder: '_collapsibleControlledExample',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/collapsible/collapsible.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/collapsible/collapsible.dart';
 
 /// One muted row of the branch list.
 Widget _collapsibleRow(BuildContext context, String label) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return DecoratedBox(
     decoration: BoxDecoration(
       color: theme.colors.muted,
@@ -12006,7 +12004,7 @@ class _CollapsibleControlledState extends State<_CollapsibleControlled> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(
@@ -12036,7 +12034,7 @@ Widget _collapsibleControlledExample(BuildContext context) =>
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/filter_bar/filter_bar.dart';
+import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
 const List<FilterSortOption> _sortOptions = <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
@@ -12076,7 +12074,7 @@ Widget _default(BuildContext context) => const _DefaultFilterBar();
       name: 'With chips',
       builder: '_withChips',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/filter_bar/filter_bar.dart';
+import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
 const List<FilterSortOption> _sortOptions = <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
@@ -12121,9 +12119,9 @@ Widget _withChips(BuildContext context) => const _ChipsFilterBar();
       name: 'Horizontal',
       builder: '_horizontal',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
 /// Long enough to overflow a narrow container and keep scrolling.
 const String _line =
@@ -12132,7 +12130,7 @@ const String _line =
 
 /// A horizontal ticker in a bordered band.
 Widget _horizontal(BuildContext context) {
-  final ShadcnColors colors = ShadcnTheme.of(context).colors;
+  final ThemeColors colors = Theme.of(context).colors;
   return SizedBox(
     width: 320,
     child: DecoratedBox(
@@ -12141,7 +12139,7 @@ Widget _horizontal(BuildContext context) {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.sm),
+        padding: EdgeInsets.all(Theme.of(context).spacing.sm),
         child: const OverflowMarquee(
           duration: Duration(seconds: 6),
           child: Text(_line),
@@ -12156,9 +12154,9 @@ Widget _horizontal(BuildContext context) {
       name: 'Vertical',
       builder: '_vertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
 /// Long enough to overflow a narrow container and keep scrolling.
 const String _line =
@@ -12185,8 +12183,8 @@ Widget _vertical(BuildContext context) {
       name: 'Absolute',
       builder: '_absolute',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/resizable/resizable.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/resizable/resizable.dart';
 
 /// A muted pane label in theme tokens.
 class _Pane extends StatelessWidget {
@@ -12196,7 +12194,7 @@ class _Pane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8),
@@ -12230,8 +12228,8 @@ Widget _absolute(BuildContext context) {
       name: 'Flexible',
       builder: '_flexible',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/resizable/resizable.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/resizable/resizable.dart';
 
 /// A muted pane label in theme tokens.
 class _Pane extends StatelessWidget {
@@ -12241,7 +12239,7 @@ class _Pane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8),
@@ -12277,13 +12275,13 @@ Widget _flexible(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/scaffold/scaffold.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';
 
 /// One icon action in the app bar: a real `Button` so it is keyboard reachable.
 class _AppBarAction extends StatelessWidget {
@@ -12321,7 +12319,7 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -12369,7 +12367,7 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
   }
 
   void _openMenu() {
-    showShadcnDropdown<void>(
+    showDropdown<void>(
       context: context,
       children: <Widget>[
         MenuButton(
@@ -12399,13 +12397,13 @@ Widget _default(BuildContext context) => const _ScaffoldDefault();
       name: 'With loading',
       builder: '_withLoading',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/scaffold/scaffold.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';
 
 /// A shell showing the loading bar over fetching content.
 Widget _withLoading(BuildContext context) {
@@ -12428,9 +12426,9 @@ Widget _withLoading(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollbar/scrollbar.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollbar/scrollbar.dart';
 
 /// A scrollable list; the controller lives in the example's own state.
 class _ScrollbarDemo extends StatefulWidget {
@@ -12482,9 +12480,9 @@ Widget _default(BuildContext context) => const _ScrollbarDemo();
       name: 'Always visible',
       builder: '_alwaysVisible',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollbar/scrollbar.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollbar/scrollbar.dart';
 
 /// A scrollable list; the controller lives in the example's own state.
 class _ScrollbarDemo extends StatefulWidget {
@@ -12537,9 +12535,9 @@ Widget _alwaysVisible(BuildContext context) =>
       name: 'Themed',
       builder: '_themed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollbar/scrollbar.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollbar/scrollbar.dart';
 
 /// A scrollable list; the controller lives in the example's own state.
 class _ScrollbarDemo extends StatefulWidget {
@@ -12601,10 +12599,10 @@ Widget _themed(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/sortable/sortable.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/sortable/sortable.dart';
 
 /// One draggable row in theme tokens.
 class _Row extends StatelessWidget {
@@ -12615,7 +12613,7 @@ class _Row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -12695,10 +12693,10 @@ Widget _default(BuildContext context) => const _ListDemo();
       name: 'Grid',
       builder: '_grid',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/sortable/sortable.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/sortable/sortable.dart';
 
 /// One draggable tile in theme tokens.
 class _Tile extends StatelessWidget {
@@ -12709,7 +12707,7 @@ class _Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       width: 104,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
@@ -12764,7 +12762,7 @@ class _GridDemoState extends State<_GridDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return SizedBox(
       width: 340,
       child: SortableLayer(
@@ -12801,8 +12799,8 @@ Widget _grid(BuildContext context) => const _GridDemo();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/components/steps/steps.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// The default vertical flow.
 Widget _default(BuildContext context) {
@@ -12829,8 +12827,8 @@ Widget _default(BuildContext context) {
       name: 'Custom indicators',
       builder: '_custom',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/components/steps/steps.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// Larger indicators tinted with the primary token.
 Widget _custom(BuildContext context) {
@@ -12853,8 +12851,8 @@ Widget _custom(BuildContext context) {
       name: 'Single step',
       builder: '_single',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/components/steps/steps.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// A single step.
 Widget _single(BuildContext context) {
@@ -12872,9 +12870,9 @@ Widget _single(BuildContext context) {
       name: 'Default',
       builder: '_commandDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/subfocus_list_item.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/command/command.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -12901,7 +12899,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: SizedBox(
         width: 320,
@@ -12933,7 +12931,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       'Settings',
                     ]) {
                       items.add(
-                        // shadcn group heading: `px-2 py-1.5 text-xs font-medium`
+                        // upstream group heading: `px-2 py-1.5 text-xs font-medium`
                         // in the muted colour.
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -12945,9 +12943,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: ShadcnTheme.of(
-                                context,
-                              ).colors.mutedForeground,
+                              color: Theme.of(context).colors.mutedForeground,
                             ),
                           ),
                         ),
@@ -12977,7 +12973,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   : 'Ran $_lastCommand',
               style: TextStyle(
                 fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
+                color: Theme.of(context).colors.mutedForeground,
               ),
             ),
           ],
@@ -12995,9 +12991,9 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
       name: 'With groups',
       builder: '_commandWithGroups',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/subfocus_list_item.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/command/command.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -13024,7 +13020,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: SizedBox(
         width: 320,
@@ -13056,7 +13052,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       'Settings',
                     ]) {
                       items.add(
-                        // shadcn group heading: `px-2 py-1.5 text-xs font-medium`
+                        // upstream group heading: `px-2 py-1.5 text-xs font-medium`
                         // in the muted colour.
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -13068,9 +13064,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: ShadcnTheme.of(
-                                context,
-                              ).colors.mutedForeground,
+                              color: Theme.of(context).colors.mutedForeground,
                             ),
                           ),
                         ),
@@ -13100,7 +13094,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   : 'Ran $_lastCommand',
               style: TextStyle(
                 fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
+                color: Theme.of(context).colors.mutedForeground,
               ),
             ),
           ],
@@ -13121,11 +13115,11 @@ Widget _commandWithGroups(BuildContext context) =>
       name: 'Default',
       builder: '_contextMenuDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/context_menu/context_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
 
 /// The right-click surface.
 class _ContextMenuSurface extends StatefulWidget {
@@ -13142,7 +13136,7 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -13211,11 +13205,11 @@ Widget _contextMenuDefault(BuildContext context) => const _ContextMenuSurface();
       name: 'With submenu',
       builder: '_contextMenuWithSubmenu',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/context_menu/context_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
 
 /// The right-click surface.
 class _ContextMenuSurface extends StatefulWidget {
@@ -13232,7 +13226,7 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -13304,12 +13298,12 @@ Widget _contextMenuWithSubmenu(BuildContext context) =>
       name: 'Default',
       builder: '_dropdownMenuDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/overlay.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
 
 /// The menu surface, 220px wide like the docs page shows it.
 class _DropdownMenuDropdown extends StatefulWidget {
@@ -13330,7 +13324,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13401,12 +13395,12 @@ Widget _dropdownMenuDefault(BuildContext context) =>
       name: 'With shortcut',
       builder: '_dropdownMenuWithShortcut',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/overlay.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
 
 /// The menu surface, 220px wide like the docs page shows it.
 class _DropdownMenuDropdown extends StatefulWidget {
@@ -13427,7 +13421,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13498,12 +13492,12 @@ Widget _dropdownMenuWithShortcut(BuildContext context) =>
       name: 'With checkbox item',
       builder: '_dropdownMenuWithCheckboxItem',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/overlay.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
 
 /// The menu surface, 220px wide like the docs page shows it.
 class _DropdownMenuDropdown extends StatefulWidget {
@@ -13524,7 +13518,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13595,14 +13589,14 @@ Widget _dropdownMenuWithCheckboxItem(BuildContext context) =>
       name: 'Trigger',
       builder: '_dropdownMenuTriggerExample',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/primitives/overlay.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
 
-/// A trigger that anchors the menu with `showShadcnDropdown`.
+/// A trigger that anchors the menu with `showDropdown`.
 class _DropdownMenuTrigger extends StatelessWidget {
   const _DropdownMenuTrigger();
 
@@ -13611,7 +13605,7 @@ class _DropdownMenuTrigger extends StatelessWidget {
     return Button(
       variant: ButtonVariant.outline,
       size: ButtonSize.sm,
-      onPressed: () => showShadcnDropdown<void>(
+      onPressed: () => showDropdown<void>(
         context: context,
         children: <Widget>[
           MenuButton(
@@ -13646,9 +13640,9 @@ Widget _dropdownMenuTriggerExample(BuildContext context) =>
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
 
 /// Menu rows with a submenu and a disabled row.
 class _MenuDefault extends StatefulWidget {
@@ -13663,7 +13657,7 @@ class _MenuDefaultState extends State<_MenuDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13730,9 +13724,9 @@ Widget _default(BuildContext context) => const _MenuDefault();
       name: 'With checkbox item',
       builder: '_withCheckboxItem',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
 
 /// A labelled group with a live checkbox row.
 class _CheckboxExample extends StatefulWidget {
@@ -13775,9 +13769,9 @@ Widget _withCheckboxItem(BuildContext context) => const _CheckboxExample();
       name: 'With radio group',
       builder: '_withRadioGroup',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
 
 /// A live radio group.
 class _RadioExample extends StatefulWidget {
@@ -13826,10 +13820,10 @@ Widget _withRadioGroup(BuildContext context) => const _RadioExample();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menubar/menubar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menubar/menubar.dart';
 
 /// File / Edit / View triggers, each with a submenu of menu rows.
 class _MenubarDefault extends StatefulWidget {
@@ -13844,7 +13838,7 @@ class _MenubarDefaultState extends State<_MenubarDefault> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13919,10 +13913,10 @@ Widget _default(BuildContext context) => const _MenubarDefault();
       name: 'With submenu',
       builder: '_withSubmenu',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menubar/menubar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menubar/menubar.dart';
 
 /// A nested submenu under the View trigger.
 class _WithSubmenu extends StatelessWidget {
@@ -13960,17 +13954,17 @@ Widget _withSubmenu(BuildContext context) => const _WithSubmenu();
       name: 'Default',
       builder: '_breadcrumbDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/breadcrumb/breadcrumb.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 
 /// Current-page line under a trail, so navigation is visible (and testable).
 Widget _currentLine(BuildContext context, String page) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     'Current page: $page',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
@@ -14001,7 +13995,7 @@ class _DefaultTrailState extends State<_DefaultTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -14030,17 +14024,17 @@ Widget _breadcrumbDefault(BuildContext context) => const _DefaultTrail();
       name: 'With slash',
       builder: '_breadcrumbSlash',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/breadcrumb/breadcrumb.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 
 /// Current-page line under a trail, so navigation is visible (and testable).
 Widget _currentLine(BuildContext context, String page) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     'Current page: $page',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
@@ -14071,7 +14065,7 @@ class _SlashTrailState extends State<_SlashTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -14101,17 +14095,17 @@ Widget _breadcrumbSlash(BuildContext context) => const _SlashTrail();
       name: 'With ellipsis',
       builder: '_breadcrumbEllipsis',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/breadcrumb/breadcrumb.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 
 /// Current-page line under a trail, so navigation is visible (and testable).
 Widget _currentLine(BuildContext context, String page) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     'Current page: $page',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
@@ -14124,7 +14118,7 @@ Future<void> _openHidden(
   List<String> hidden,
   void Function(String crumb) onSelect,
 ) {
-  return showShadcnDropdown<void>(
+  return showDropdown<void>(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
@@ -14168,7 +14162,7 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     // A short trail needs no ellipsis.
     final Widget trail = _path.length <= 3
         ? Breadcrumb(children: _crumbs(_path, (int i) => _goTo(_path[i])))
@@ -14212,17 +14206,17 @@ Widget _breadcrumbEllipsis(BuildContext context) => const _EllipsisTrail();
       name: 'Responsive',
       builder: '_breadcrumbResponsive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/breadcrumb/breadcrumb.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 
 /// Current-page line under a trail, so navigation is visible (and testable).
 Widget _currentLine(BuildContext context, String page) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     'Current page: $page',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
@@ -14235,7 +14229,7 @@ Future<void> _openHidden(
   List<String> hidden,
   void Function(String crumb) onSelect,
 ) {
-  return showShadcnDropdown<void>(
+  return showDropdown<void>(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
@@ -14278,7 +14272,7 @@ class _ResponsiveTrailState extends State<_ResponsiveTrail> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -14330,8 +14324,8 @@ Widget _breadcrumbResponsive(BuildContext context) => const _ResponsiveTrail();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/radix_icons.dart';
-import 'package:<your_app>/ui/shadcn/components/navigation_bar/navigation_bar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
 List<NavigationBarItem> _barItems() => <NavigationBarItem>[
@@ -14381,8 +14375,8 @@ Widget _default(BuildContext context) =>
       name: 'With labels',
       builder: '_withLabels',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/radix_icons.dart';
-import 'package:<your_app>/ui/shadcn/components/navigation_bar/navigation_bar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
 List<NavigationBarItem> _barItems() => <NavigationBarItem>[
@@ -14432,8 +14426,8 @@ Widget _withLabels(BuildContext context) =>
       name: 'Sidebar',
       builder: '_sidebar',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/radix_icons.dart';
-import 'package:<your_app>/ui/shadcn/components/navigation_bar/navigation_bar.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
 List<NavigationBarItem> _barItems() => <NavigationBarItem>[
@@ -14511,9 +14505,9 @@ Widget _sidebar(BuildContext context) => const _SidebarDemo();
       name: 'Bar',
       builder: '_bar',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';
 
 /// A menu bar with plain, dropdown and popover items.
 class _NavigationMenuBar extends StatefulWidget {
@@ -14528,7 +14522,7 @@ class _NavigationMenuBarState extends State<_NavigationMenuBar> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -14582,9 +14576,9 @@ Widget _bar(BuildContext context) => const _NavigationMenuBar();
       name: 'Content list',
       builder: '_contentList',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';
 
 /// A standalone two-column content list.
 Widget _contentList(BuildContext context) {
@@ -14617,7 +14611,7 @@ Widget _contentList(BuildContext context) {
       name: 'Labelled',
       builder: '_labelled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/pagination/pagination.dart';
+import 'package:<your_app>/ui/dashcn/components/pagination/pagination.dart';
 
 /// An interactive labelled pager; the page lives in this example's state.
 class _LabelledPagination extends StatefulWidget {
@@ -14647,7 +14641,7 @@ Widget _labelled(BuildContext context) => const _LabelledPagination();
       name: 'Icon only',
       builder: '_iconOnly',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/pagination/pagination.dart';
+import 'package:<your_app>/ui/dashcn/components/pagination/pagination.dart';
 
 /// Page buttons without the "Page x of y" label; the page lives here too.
 class _IconOnlyPagination extends StatefulWidget {
@@ -14680,9 +14674,9 @@ Widget _iconOnly(BuildContext context) => const _IconOnlyPagination();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stepper/stepper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
 List<StepperStep> _steps() => const <StepperStep>[
   StepperStep(title: Text('Account'), content: Text('Email, password')),
@@ -14722,9 +14716,9 @@ Widget _default(BuildContext context) => const _InteractiveStepper();
       name: 'Vertical',
       builder: '_vertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stepper/stepper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
 List<StepperStep> _steps() => const <StepperStep>[
   StepperStep(title: Text('Account'), content: Text('Email, password')),
@@ -14766,9 +14760,9 @@ Widget _vertical(BuildContext context) {
       name: 'Sizes',
       builder: '_sizes',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stepper/stepper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
 List<StepperStep> _steps() => const <StepperStep>[
   StepperStep(title: Text('Account'), content: Text('Email, password')),
@@ -14790,7 +14784,7 @@ class _SizesStepperState extends State<_SizesStepper> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -14821,9 +14815,9 @@ Widget _sizes(BuildContext context) => const _SizesStepper();
       name: 'Failed step',
       builder: '_failed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stepper/stepper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
 List<StepperStep> _steps() => const <StepperStep>[
   StepperStep(title: Text('Account'), content: Text('Email, password')),
@@ -14869,7 +14863,7 @@ Widget _failed(BuildContext context) => const _FailedStepper();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/tabs/tabs.dart';
+import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';
 
 /// Interactive pill strip; owns its index.
 class _InteractiveTabs extends StatefulWidget {
@@ -14910,7 +14904,7 @@ Widget _default(BuildContext context) {
       name: 'Disabled',
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/tabs/tabs.dart';
+import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';
 
 /// Strip with no callback, so every tab is disabled.
 Widget _disabled(BuildContext context) {
@@ -14928,7 +14922,7 @@ Widget _disabled(BuildContext context) {
       name: 'Tab pane',
       builder: '_pane',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/tabs/tabs.dart';
+import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';
 
 /// Sortable IDE-style pane over a content card; owns its order. The fixed
 /// height is inherent: the content card flexes inside the pane.
@@ -14978,12 +14972,12 @@ Widget _pane(BuildContext context) => const _PaneDemo();
       name: 'Default',
       builder: '_alertDialogDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';
 
 /// A framed alert dialog whose buttons really act.
 class _AlertDialogFrame extends StatefulWidget {
@@ -15008,7 +15002,7 @@ class _AlertDialogFrameState extends State<_AlertDialogFrame> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -15079,12 +15073,12 @@ Widget _alertDialogDefault(BuildContext context) => const _AlertDialogFrame(
       name: 'Destructive',
       builder: '_alertDialogDestructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';
 
 /// A framed alert dialog whose buttons really act.
 class _AlertDialogFrame extends StatefulWidget {
@@ -15109,7 +15103,7 @@ class _AlertDialogFrameState extends State<_AlertDialogFrame> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -15182,12 +15176,12 @@ Widget _alertDialogDestructive(BuildContext context) => const _AlertDialogFrame(
       name: 'Live push',
       builder: '_alertDialogPushed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';
 
 /// A live push through `showAlertDialog`.
 class _AlertDialogPushedDialog extends StatelessWidget {
@@ -15235,11 +15229,11 @@ Widget _alertDialogPushed(BuildContext context) =>
       name: 'Default',
       builder: '_dialogDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog_style.dart';
 
 /// The trigger the example wraps in a [Builder], so it can reach the nearest
 /// Navigator.
@@ -15270,7 +15264,7 @@ class _DialogDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -15311,7 +15305,7 @@ class _DialogDialogExample extends StatelessWidget {
       child: Builder(
         builder: (context) => _DialogTrigger(
           label: label,
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             barrierDismissible: barrierDismissible,
             fullScreen: fullScreen,
@@ -15336,11 +15330,11 @@ Widget _dialogDefault(BuildContext context) =>
       name: 'Full screen',
       builder: '_dialogFullScreen',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog_style.dart';
 
 /// The trigger the example wraps in a [Builder], so it can reach the nearest
 /// Navigator.
@@ -15371,7 +15365,7 @@ class _DialogDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -15412,7 +15406,7 @@ class _DialogDialogExample extends StatelessWidget {
       child: Builder(
         builder: (context) => _DialogTrigger(
           label: label,
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             barrierDismissible: barrierDismissible,
             fullScreen: fullScreen,
@@ -15437,11 +15431,11 @@ Widget _dialogFullScreen(BuildContext context) =>
       name: 'Barrier locked',
       builder: '_dialogLocked',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog_style.dart';
 
 /// The trigger the example wraps in a [Builder], so it can reach the nearest
 /// Navigator.
@@ -15472,7 +15466,7 @@ class _DialogDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -15513,7 +15507,7 @@ class _DialogDialogExample extends StatelessWidget {
       child: Builder(
         builder: (context) => _DialogTrigger(
           label: label,
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             barrierDismissible: barrierDismissible,
             fullScreen: fullScreen,
@@ -15540,11 +15534,11 @@ Widget _dialogLocked(BuildContext context) => const _DialogDialogExample(
       name: 'Themed',
       builder: '_dialogThemed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';
+import 'package:<your_app>/ui/dashcn/components/dialog/dialog_style.dart';
 
 /// The trigger the example wraps in a [Builder], so it can reach the nearest
 /// Navigator.
@@ -15575,7 +15569,7 @@ class _DialogDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -15616,7 +15610,7 @@ class _DialogDialogExample extends StatelessWidget {
       child: Builder(
         builder: (context) => _DialogTrigger(
           label: label,
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             barrierDismissible: barrierDismissible,
             fullScreen: fullScreen,
@@ -15649,11 +15643,11 @@ Widget _dialogThemed(BuildContext context) => _DialogDialogExample(
       name: 'Default',
       builder: '_drawerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 
 /// Panel body used by the drawer examples.
 class _DrawerDrawerContent extends StatelessWidget {
@@ -15666,7 +15660,7 @@ class _DrawerDrawerContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const Text('Drawer content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Gap(Theme.of(context).spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
@@ -15699,9 +15693,9 @@ class _DrawerDrawerTrigger extends StatelessWidget {
   }
 }
 
-/// Side drawers, one row (shadcn shows the four edges together).
+/// Side drawers, one row (upstream shows the four edges together).
 Widget _drawerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.sm,
     runSpacing: spacing.sm,
@@ -15722,11 +15716,11 @@ Widget _drawerDefault(BuildContext context) {
       name: 'Sheet',
       builder: '_drawerSheet',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 
 /// Sheet body used by the sheet example.
 class _DrawerSheetContent extends StatelessWidget {
@@ -15739,7 +15733,7 @@ class _DrawerSheetContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const Text('Sheet content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Gap(Theme.of(context).spacing.lg),
         Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
@@ -15770,11 +15764,11 @@ Widget _drawerSheet(BuildContext context) {
       name: 'Themed',
       builder: '_drawerThemed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 
 /// Panel body used by the drawer examples.
 class _DrawerDrawerContent extends StatelessWidget {
@@ -15787,7 +15781,7 @@ class _DrawerDrawerContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const Text('Drawer content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Gap(Theme.of(context).spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
@@ -15822,11 +15816,11 @@ Widget _drawerThemed(BuildContext context) {
       name: 'Playground',
       builder: '_variants',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -15904,7 +15898,7 @@ class _VariantsDemoState extends State<_VariantsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -15944,11 +15938,11 @@ Widget _variants(BuildContext context) => const _VariantsDemo();
       name: 'Variants',
       builder: '_variants',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16026,7 +16020,7 @@ class _VariantsDemoState extends State<_VariantsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -16066,11 +16060,11 @@ Widget _variants(BuildContext context) => const _VariantsDemo();
       name: 'Success',
       builder: '_success',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16163,11 +16157,11 @@ Widget _success(BuildContext context) =>
       name: 'Error',
       builder: '_error',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16260,11 +16254,11 @@ GooeyToastOptions _failedOptions() => _toast(
       name: 'Warning',
       builder: '_warning',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16357,11 +16351,11 @@ GooeyToastOptions _warningOptions() => _toast(
       name: 'Info',
       builder: '_info',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16454,11 +16448,11 @@ GooeyToastOptions _infoOptions() => _toast(
       name: 'Action',
       builder: '_action',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Reference (`main`) docs-example defaults, applied to every demo toast so the
 // kit matches the published look: canvas 360 wide, base roundness 16, the sharp
@@ -16552,11 +16546,11 @@ GooeyToastOptions _actionOptions() => _toast(
       name: 'Promise',
       builder: '_promise',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// The promise pattern: a loading pill that never expands, then the same toast
 /// morphs into the settled state with its body once the work finishes.
@@ -16634,11 +16628,11 @@ Widget _promise(BuildContext context) => const _PromiseDemo();
       name: 'Positions',
       builder: '_positions',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// Six triggers sharing one controller: one per window position.
 class _PositionsDemo extends StatefulWidget {
@@ -16672,7 +16666,7 @@ class _PositionsDemoState extends State<_PositionsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -16702,11 +16696,11 @@ Widget _positions(BuildContext context) => const _PositionsDemo();
       name: 'Animation presets',
       builder: '_animationPresets',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// One trigger per animation preset, so the curves and durations are directly
 /// comparable. Each preset needs its own controller, because the controller
@@ -16741,7 +16735,7 @@ class _AnimationPresetsDemoState extends State<_AnimationPresetsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -16770,11 +16764,11 @@ Widget _animationPresets(BuildContext context) => const _AnimationPresetsDemo();
       name: 'Body animation',
       builder: '_bodyAnimation',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// One trigger per body-animation preset.
 class _BodyAnimationDemo extends StatefulWidget {
@@ -16795,7 +16789,7 @@ class _BodyAnimationDemoState extends State<_BodyAnimationDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -16832,11 +16826,11 @@ Widget _bodyAnimation(BuildContext context) => const _BodyAnimationDemo();
       name: 'Shapes',
       builder: '_shapes',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// One trigger per corner shape preset.
 class _ShapesDemo extends StatefulWidget {
@@ -16857,7 +16851,7 @@ class _ShapesDemoState extends State<_ShapesDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -16893,11 +16887,11 @@ Widget _shapes(BuildContext context) => const _ShapesDemo();
       name: 'Interactive Reply',
       builder: '_interactiveReply',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// Custom compact + expanded content: a reply composer inside the toast body,
 /// transitioning to the sent state through the same toast id.
@@ -16984,8 +16978,8 @@ class _ReplyFormState extends State<_ReplyForm> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final colors = Theme.of(context).colors;
+    final double gap = Theme.of(context).density.baseGap;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -17021,11 +17015,11 @@ Widget _interactiveReply(BuildContext context) => const _InteractiveReplyDemo();
       name: 'Booking Multi-State',
       builder: '_booking',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// Booking multi-state flow: loading → confirmed → gate update, all in one slot.
 class _BookingDemo extends StatefulWidget {
@@ -17112,11 +17106,11 @@ Widget _booking(BuildContext context) => const _BookingDemo();
       name: 'Tabs + ListView',
       builder: '_tabsList',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 /// A tabbed workspace inside the expanded toast body.
 class _TabsListDemo extends StatefulWidget {
@@ -17189,8 +17183,8 @@ class _WorkspaceState extends State<_Workspace> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final colors = Theme.of(context).colors;
+    final double gap = Theme.of(context).density.baseGap;
     return SizedBox(
       height: 248,
       child: Column(
@@ -17268,18 +17262,18 @@ Widget _tabsList(BuildContext context) => const _TabsListDemo();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/hover_card/hover_card.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';
 
 /// Sample card content.
 Widget _card(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      const Text('@shadcn'),
+      const Text('@dashcn'),
       Gap(theme.spacing.xs),
       Text(
         'Beautifully designed components.',
@@ -17291,7 +17285,7 @@ Widget _card(BuildContext context) {
 
 /// The default card after the hover delay.
 Widget _default(BuildContext context) {
-  return HoverCard(hoverBuilder: _card, child: const Text('@shadcn'));
+  return HoverCard(hoverBuilder: _card, child: const Text('@dashcn'));
 }
 ''',
     ),
@@ -17299,19 +17293,19 @@ Widget _default(BuildContext context) {
       name: 'Rich content',
       builder: '_richContent',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/hover_card/hover_card.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';
 
 /// Rich content: title, bio and follower count.
 Widget _richContent(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return HoverCard(
     hoverBuilder: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('@shadcn'),
+        const Text('@dashcn'),
         Gap(theme.spacing.xs),
         Text(
           'Beautifully designed components that you can copy and paste.',
@@ -17324,7 +17318,7 @@ Widget _richContent(BuildContext context) {
         ),
       ],
     ),
-    child: const Text('@shadcn (rich)'),
+    child: const Text('@dashcn (rich)'),
   );
 }
 ''',
@@ -17335,10 +17329,10 @@ Widget _richContent(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/popup/popup.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';
 
 /// The profile card shown on the popup surface by both examples.
 class _ProfileCard extends StatelessWidget {
@@ -17369,7 +17363,7 @@ class _ProfileCard extends StatelessWidget {
             'Signed in with a passkey',
             style: TextStyle(
               fontSize: 12,
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
             ),
           ),
         ),
@@ -17391,10 +17385,10 @@ Widget _default(BuildContext context) {
       name: 'Anchored',
       builder: '_anchored',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';
-import 'package:<your_app>/ui/shadcn/components/popup/popup.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';
 
 /// The profile card shown on the popup surface by both examples.
 class _ProfileCard extends StatelessWidget {
@@ -17425,7 +17419,7 @@ class _ProfileCard extends StatelessWidget {
             'Signed in with a passkey',
             style: TextStyle(
               fontSize: 12,
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
             ),
           ),
         ),
@@ -17434,7 +17428,7 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
-/// A trigger that anchors the same surface with `showShadcnPopup`.
+/// A trigger that anchors the same surface with `showPopup`.
 class _AnchoredDemo extends StatelessWidget {
   const _AnchoredDemo();
 
@@ -17443,7 +17437,7 @@ class _AnchoredDemo extends StatelessWidget {
     return Button(
       variant: ButtonVariant.secondary,
       size: ButtonSize.sm,
-      onPressed: () => showShadcnPopup(
+      onPressed: () => showPopup(
         context: context,
         builder: (BuildContext context) => const _ProfileCard(),
       ),
@@ -17461,9 +17455,9 @@ Widget _anchored(BuildContext context) => const _AnchoredDemo();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/refresh_trigger/refresh_trigger.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/refresh_trigger/refresh_trigger.dart';
 
 /// A live pull-to-refresh list in a bounded box.
 class _DefaultRefresh extends StatefulWidget {
@@ -17497,7 +17491,7 @@ class _DefaultRefreshState extends State<_DefaultRefresh> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -17530,9 +17524,9 @@ Widget _default(BuildContext context) => const _DefaultRefresh();
       name: 'Refreshing',
       builder: '_refreshing',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/refresh_trigger/refresh_trigger.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/refresh_trigger/refresh_trigger.dart';
 
 /// The pill indicator frozen in its refreshing stage.
 Widget _refreshing(BuildContext context) {
@@ -17553,9 +17547,9 @@ Widget _refreshing(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 
 /// Label tooltip after the default delay.
 Widget _default(BuildContext context) {
@@ -17568,7 +17562,7 @@ Widget _anchor(
   String label, {
   Duration waitDuration = kTooltipWaitDuration,
 }) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Align(
     alignment: AlignmentDirectional.centerStart,
     child: Tooltip(
@@ -17593,9 +17587,9 @@ Widget _anchor(
       name: 'Instant',
       builder: '_instant',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 
 /// Label tooltip with no delay.
 Widget _instant(BuildContext context) {
@@ -17613,7 +17607,7 @@ Widget _anchor(
   String label, {
   Duration waitDuration = kTooltipWaitDuration,
 }) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Align(
     alignment: AlignmentDirectional.centerStart,
     child: Tooltip(
@@ -17638,9 +17632,9 @@ Widget _anchor(
       name: 'Rich content',
       builder: '_rich',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 
 /// Title plus description in one tooltip.
 Widget _rich(BuildContext context) {
@@ -17658,13 +17652,13 @@ Widget _rich(BuildContext context) {
       height: 36,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        border: Border.all(color: ShadcnTheme.of(context).colors.border),
+        border: Border.all(color: Theme.of(context).colors.border),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Icon(
         LucideIcons.rocket,
         size: 16,
-        color: ShadcnTheme.of(context).colors.foreground,
+        color: Theme.of(context).colors.foreground,
       ),
     ),
   );
@@ -17675,9 +17669,9 @@ Widget _rich(BuildContext context) {
       name: 'Container',
       builder: '_container',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 
 /// The container on its own, without hover behaviour.
 Widget _container(BuildContext context) {
@@ -17691,10 +17685,10 @@ Widget _container(BuildContext context) {
       name: 'Default',
       builder: '_codeSnippetDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
 /// A plain snippet.
 Widget _codeSnippetDefault(BuildContext context) {
@@ -17709,10 +17703,10 @@ Widget _codeSnippetDefault(BuildContext context) {
       name: 'With actions',
       builder: '_codeSnippetWithActions',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
 /// A small pill button for the snippet actions row.
 class _CodeSnippetAction extends StatelessWidget {
@@ -17748,7 +17742,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -17771,7 +17765,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
           _status,
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],
@@ -17787,10 +17781,10 @@ Widget _codeSnippetWithActions(BuildContext context) =>
       name: 'Long lines',
       builder: '_codeSnippetLongLines',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
 /// A long line that scrolls inside its bounded box.
 Widget _codeSnippetLongLines(BuildContext context) {
@@ -17815,11 +17809,11 @@ Widget _codeSnippetLongLines(BuildContext context) {
       builder: '_imageDefault',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
@@ -17835,12 +17829,7 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 Widget _imageDefault(BuildContext context) {
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: ShadcnImage(
-      image: _imagePhoto,
-      width: 96,
-      height: 96,
-      aspectRatio: 1,
-    ),
+    child: Picture(image: _imagePhoto, width: 96, height: 96, aspectRatio: 1),
   );
 }
 ''',
@@ -17850,11 +17839,11 @@ Widget _imageDefault(BuildContext context) {
       builder: '_imageRounded',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
@@ -17868,10 +17857,10 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 
 /// The default image with the theme border radius.
 Widget _imageRounded(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: ShadcnImage(
+    child: Picture(
       image: _imagePhoto,
       width: 96,
       height: 96,
@@ -17887,11 +17876,11 @@ Widget _imageRounded(BuildContext context) {
       builder: '_imageSlots',
       code: r'''import 'dart:convert';
 import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
@@ -17905,12 +17894,12 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 
 /// The placeholder and error slots, and the theme legs.
 Widget _imageSlots(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      ShadcnImage(
+      Picture(
         image: _imagePhoto,
         width: 96,
         height: 96,
@@ -17922,7 +17911,7 @@ Widget _imageSlots(BuildContext context) {
             const Center(child: Icon(LucideIcons.imageOff, size: 20)),
       ),
       Gap(spacing.lg),
-      ShadcnImage(
+      Picture(
         image: _imagePhoto,
         width: 96,
         height: 96,
@@ -17934,7 +17923,7 @@ Widget _imageSlots(BuildContext context) {
         data: const ImageTheme(
           background: ThemedColor.ref(ColorRef.accent, alpha: 0.5),
         ),
-        child: ShadcnImage(
+        child: Picture(
           image: _imagePhoto,
           width: 96,
           height: 96,
@@ -17952,13 +17941,13 @@ Widget _imageSlots(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code:
-          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/shadcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/shadcn/components/markdown/markdown.dart\';\n\nconst String _sample = \'\'\'\n## Release notes\n\nBuild 482 ships **faster cold start** and a *smaller bundle*.\n\n- faster cold start\n- smaller bundle\n\n> Quoted from the changelog.\n\n![build graph](https://example.com/graph.png "Build graph")\n\'\'\';\n\n/// Headings, emphasis, a list, a quote and a local image placeholder.\nWidget _default(BuildContext context) {\n  final ShadcnThemeData theme = ShadcnTheme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Markdown(\n      data: _sample,\n      imageBuilder: (imageContext, url, alt) => SizedBox(\n        height: 64,\n        child: DecoratedBox(\n          decoration: BoxDecoration(\n            color: theme.colors.muted,\n            borderRadius: BorderRadius.circular(10),\n          ),\n          child: Center(\n            child: Text(\n              alt,\n              style: TextStyle(\n                color: theme.colors.mutedForeground,\n                fontSize: 12,\n              ),\n            ),\n          ),\n        ),\n      ),\n    ),\n  );\n}\n',
+          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/dashcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/dashcn/components/markdown/markdown.dart\';\n\nconst String _sample = \'\'\'\n## Release notes\n\nBuild 482 ships **faster cold start** and a *smaller bundle*.\n\n- faster cold start\n- smaller bundle\n\n> Quoted from the changelog.\n\n![build graph](https://example.com/graph.png "Build graph")\n\'\'\';\n\n/// Headings, emphasis, a list, a quote and a local image placeholder.\nWidget _default(BuildContext context) {\n  final ThemeData theme = Theme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Markdown(\n      data: _sample,\n      imageBuilder: (imageContext, url, alt) => SizedBox(\n        height: 64,\n        child: DecoratedBox(\n          decoration: BoxDecoration(\n            color: theme.colors.muted,\n            borderRadius: BorderRadius.circular(10),\n          ),\n          child: Center(\n            child: Text(\n              alt,\n              style: TextStyle(\n                color: theme.colors.mutedForeground,\n                fontSize: 12,\n              ),\n            ),\n          ),\n        ),\n      ),\n    ),\n  );\n}\n',
     ),
     DocsExampleSource(
       name: 'Streaming tail',
       builder: '_streamingTail',
       code:
-          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/shadcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/shadcn/components/markdown/markdown.dart\';\n\n/// A mid-stream snapshot: only the stable prefix parses, followed by the\n/// streaming cursor. No timers; the settled text is derived with\n/// `computeStableMarkdownPrefixLength`, the helper the streaming\n/// `text_animate` component shares with this parser.\nconst String _streamSource = \'\'\'\nDrafting the release notes:\n\n- faster cold start\n- smaller bundle\n\n```dart\nvoid main() => print(\'\'\';\n\nWidget _streamingTail(BuildContext context) {\n  final String settled = _streamSource.substring(\n    0,\n    computeStableMarkdownPrefixLength(_streamSource),\n  );\n  final ShadcnThemeData theme = ShadcnTheme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Column(\n      mainAxisSize: MainAxisSize.min,\n      crossAxisAlignment: CrossAxisAlignment.start,\n      children: <Widget>[\n        Markdown(data: settled),\n        Text(\'▍\', style: TextStyle(color: theme.colors.primary)),\n      ],\n    ),\n  );\n}\n',
+          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/dashcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/dashcn/components/markdown/markdown.dart\';\n\n/// A mid-stream snapshot: only the stable prefix parses, followed by the\n/// streaming cursor. No timers; the settled text is derived with\n/// `computeStableMarkdownPrefixLength`, the helper the streaming\n/// `text_animate` component shares with this parser.\nconst String _streamSource = \'\'\'\nDrafting the release notes:\n\n- faster cold start\n- smaller bundle\n\n```dart\nvoid main() => print(\'\'\';\n\nWidget _streamingTail(BuildContext context) {\n  final String settled = _streamSource.substring(\n    0,\n    computeStableMarkdownPrefixLength(_streamSource),\n  );\n  final ThemeData theme = Theme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Column(\n      mainAxisSize: MainAxisSize.min,\n      crossAxisAlignment: CrossAxisAlignment.start,\n      children: <Widget>[\n        Markdown(data: settled),\n        Text(\'▍\', style: TextStyle(color: theme.colors.primary)),\n      ],\n    ),\n  );\n}\n',
     ),
   ],
   'alpha': <DocsExampleSource>[],
@@ -17972,8 +17961,8 @@ Widget _imageSlots(BuildContext context) {
       name: 'Default',
       builder: '_colorFieldDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';
 
 /// A section label above a field.
 class _ColorFieldLabel extends StatelessWidget {
@@ -17983,7 +17972,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
@@ -18023,8 +18012,8 @@ Widget _colorFieldDefault(BuildContext context) {
       name: 'Hue',
       builder: '_colorFieldHue',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';
 
 /// A section label above a field.
 class _ColorFieldLabel extends StatelessWidget {
@@ -18034,7 +18023,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
@@ -18073,8 +18062,8 @@ Widget _colorFieldHue(BuildContext context) {
       name: 'HSL',
       builder: '_colorFieldHsl',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';
 
 /// A section label above a field.
 class _ColorFieldLabel extends StatelessWidget {
@@ -18084,7 +18073,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
@@ -18125,8 +18114,8 @@ Widget _colorFieldHsl(BuildContext context) {
       name: 'Alpha',
       builder: '_colorFieldAlpha',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';
 
 /// A section label above a field.
 class _ColorFieldLabel extends StatelessWidget {
@@ -18136,7 +18125,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
@@ -18177,11 +18166,11 @@ Widget _colorFieldAlpha(BuildContext context) {
       name: 'Default',
       builder: '_colorInputDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_input/color_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';
 
 /// One trigger, with the scopes the colour machinery needs.
 class _ColorInputColorInputExample extends StatefulWidget {
@@ -18243,11 +18232,11 @@ Widget _colorInputDefault(BuildContext context) =>
       name: 'Dialog prompt',
       builder: '_colorInputDialog',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_input/color_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';
 
 /// One trigger, with the scopes the colour machinery needs.
 class _ColorInputColorInputExample extends StatefulWidget {
@@ -18312,11 +18301,11 @@ Widget _colorInputDialog(BuildContext context) =>
       name: 'Alpha + history',
       builder: '_colorInputAlphaHistory',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_input/color_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';
 
 /// One trigger, with the scopes the colour machinery needs.
 class _ColorInputColorInputExample extends StatefulWidget {
@@ -18378,11 +18367,11 @@ Widget _colorInputAlphaHistory(BuildContext context) =>
       name: 'Disabled',
       builder: '_colorInputDisabled',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/primitives/form_core/object_form_field.dart';
-import 'package:<your_app>/ui/shadcn/components/color/color.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
-import 'package:<your_app>/ui/shadcn/components/history/history.dart';
-import 'package:<your_app>/ui/shadcn/components/color_input/color_input.dart';
+import 'package:<your_app>/ui/dashcn/primitives/form_core/object_form_field.dart';
+import 'package:<your_app>/ui/dashcn/components/color/color.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/components/history/history.dart';
+import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';
 
 /// One trigger, with the scopes the colour machinery needs.
 class _ColorInputColorInputExample extends StatefulWidget {
@@ -18446,10 +18435,10 @@ Widget _colorInputDisabled(BuildContext context) =>
       name: 'Default',
       builder: '_drawerContainerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/data.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/data.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
 
 /// A framed box that shows the container's bounds.
 class _DrawerContainerFrame extends StatelessWidget {
@@ -18461,7 +18450,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
@@ -18477,7 +18466,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
 /// Drawer chrome at the four edges.
 Widget _drawerContainerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.md,
@@ -18504,10 +18493,10 @@ Widget _drawerContainerDefault(BuildContext context) {
       name: 'With handle',
       builder: '_drawerContainerWithHandle',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/data.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/data.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
 
 /// A framed box that shows the container's bounds.
 class _DrawerContainerFrame extends StatelessWidget {
@@ -18519,7 +18508,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
@@ -18536,8 +18525,8 @@ class _DrawerContainerFrame extends StatelessWidget {
 /// The sheet form, expanded along the cross axis.
 Widget _drawerContainerWithHandle(BuildContext context) {
   return Wrap(
-    spacing: ShadcnTheme.of(context).spacing.md,
-    runSpacing: ShadcnTheme.of(context).spacing.md,
+    spacing: Theme.of(context).spacing.md,
+    runSpacing: Theme.of(context).spacing.md,
     children: const <Widget>[
       _DrawerContainerFrame(
         width: 220,
@@ -18579,10 +18568,10 @@ Widget _drawerContainerWithHandle(BuildContext context) {
       name: 'Data-driven',
       builder: '_drawerContainerDataDriven',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/data.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/data.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';
 
 /// A framed box that shows the container's bounds.
 class _DrawerContainerFrame extends StatelessWidget {
@@ -18594,7 +18583,7 @@ class _DrawerContainerFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
@@ -18635,10 +18624,10 @@ Widget _drawerContainerDataDriven(BuildContext context) {
       name: 'Default',
       builder: '_eyeDropperDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
 
 /// A swatch the example can pick from.
 class _EyeDropperSwatch extends StatelessWidget {
@@ -18686,7 +18675,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(
@@ -18760,10 +18749,10 @@ Widget _eyeDropperDefault(BuildContext context) => const _EyeDropperPicker();
       name: 'Inline value',
       builder: '_eyeDropperInline',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
 
 /// A swatch the example can pick from.
 class _EyeDropperSwatch extends StatelessWidget {
@@ -18811,7 +18800,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(
@@ -18897,15 +18886,15 @@ Widget _eyeDropperInline(BuildContext context) =>
       name: 'Default',
       builder: '_outlinedContainerDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/outlined_container/outlined_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';
 
 /// Token look: the theme border and card surface at the default radius.
 Widget _outlinedContainerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SizedBox(
     width: 320,
     child: OutlinedContainer(
@@ -18920,11 +18909,11 @@ Widget _outlinedContainerDefault(BuildContext context) {
       name: 'Rounded',
       builder: '_outlinedContainerRounded',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/outlined_container/outlined_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';
 
 /// A wider radius and denser padding.
 Widget _outlinedContainerRounded(BuildContext context) {
@@ -18943,15 +18932,15 @@ Widget _outlinedContainerRounded(BuildContext context) {
       name: 'Translucent',
       builder: '_outlinedContainerTranslucent',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/outlined_container/outlined_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';
 
 /// A translucent fill and a backdrop-blurred surface.
 Widget _outlinedContainerTranslucent(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -18984,15 +18973,15 @@ Widget _outlinedContainerTranslucent(BuildContext context) {
       name: 'Dashed',
       builder: '_outlinedContainerDashed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/outlined_container/outlined_container.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';
 
 /// The dashed outline form.
 Widget _outlinedContainerDashed(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SizedBox(
     width: 320,
     child: Column(
@@ -19022,7 +19011,7 @@ Widget _outlinedContainerDashed(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollable/scrollable.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollable/scrollable.dart';
 
 /// A horizontal strip with edge fades.
 Widget _default(BuildContext context) {
@@ -19047,7 +19036,7 @@ Widget _default(BuildContext context) {
       name: 'Vertical',
       builder: '_vertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollable/scrollable.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollable/scrollable.dart';
 
 /// A vertical list with edge fades.
 Widget _vertical(BuildContext context) {
@@ -19074,13 +19063,13 @@ Widget _vertical(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/scrollview/scrollview.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/scrollview/scrollview.dart';
 
 /// A list wrapped in the middle-button autoscroll interceptor.
 Widget _default(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     width: 360,
     height: 220,
@@ -19109,7 +19098,7 @@ Widget _default(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/selectable/selectable.dart';
+import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';
 
 /// Plain selectable text.
 Widget _default(BuildContext context) {
@@ -19126,7 +19115,7 @@ Widget _default(BuildContext context) {
       name: 'Long text',
       builder: '_longText',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/selectable/selectable.dart';
+import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';
 
 /// A wrapping paragraph showing selection across lines.
 Widget _longText(BuildContext context) {
@@ -19147,7 +19136,7 @@ Widget _longText(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';
+import 'package:<your_app>/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';
 
 void _noop() {}
 
@@ -19172,7 +19161,7 @@ Widget _default(BuildContext context) {
       name: 'No suggestions',
       builder: '_noSuggestions',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';
+import 'package:<your_app>/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';
 
 /// The placeholder row shown when the service has no suggestion.
 Widget _noSuggestions(BuildContext context) {
@@ -19195,8 +19184,8 @@ Widget _noSuggestions(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stage_container/stage_container.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stage_container/stage_container.dart';
 
 /// The content the stage wraps; prints the resolved outer padding.
 class _StageContent extends StatelessWidget {
@@ -19204,7 +19193,7 @@ class _StageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return StageContainer(
       builder: (BuildContext context, EdgeInsets padding) {
         return Container(
@@ -19239,8 +19228,8 @@ Widget _default(BuildContext context) {
       name: 'Narrow',
       builder: '_narrow',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/stage_container/stage_container.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/stage_container/stage_container.dart';
 
 /// The content the stage wraps; prints the resolved outer padding.
 class _StageContent extends StatelessWidget {
@@ -19248,7 +19237,7 @@ class _StageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return StageContainer(
       builder: (BuildContext context, EdgeInsets padding) {
         return Container(
@@ -19289,10 +19278,10 @@ Widget _narrow(BuildContext context) {
       name: 'Default',
       builder: '_drawer',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/swiper/swiper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/swiper/swiper.dart';
 
 /// Drag towards the panel edge to reveal a drawer.
 Widget _drawer(BuildContext context) {
@@ -19316,7 +19305,7 @@ class _SwipeSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -19338,7 +19327,7 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -19349,7 +19338,7 @@ class _Panel extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          Gap(ShadcnTheme.of(context).spacing.sm),
+          Gap(Theme.of(context).spacing.sm),
           Text(hint, style: TextStyle(color: colors.mutedForeground)),
         ],
       ),
@@ -19362,10 +19351,10 @@ class _Panel extends StatelessWidget {
       name: 'Sheet',
       builder: '_sheet',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/swiper/swiper.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/swiper/swiper.dart';
 
 /// Drag up to reveal a sheet.
 Widget _sheet(BuildContext context) {
@@ -19390,7 +19379,7 @@ class _SwipeSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -19412,7 +19401,7 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -19423,7 +19412,7 @@ class _Panel extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          Gap(ShadcnTheme.of(context).spacing.sm),
+          Gap(Theme.of(context).spacing.sm),
           Text(hint, style: TextStyle(color: colors.mutedForeground)),
         ],
       ),
@@ -19438,9 +19427,9 @@ class _Panel extends StatelessWidget {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/switcher/switcher.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/switcher/switcher.dart';
 
 /// Horizontal pager driven by buttons; owns its index.
 class _HorizontalSwitcher extends StatefulWidget {
@@ -19456,7 +19445,7 @@ class _HorizontalSwitcherState extends State<_HorizontalSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -19509,13 +19498,13 @@ Widget _default(BuildContext context) => const _HorizontalSwitcher();
       name: 'Vertical',
       builder: '_vertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/switcher/switcher.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/switcher/switcher.dart';
 
 /// Vertical pager with a slower scoped curve.
 Widget _vertical(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return ComponentTheme<SwitcherTheme>(
     data: const SwitcherTheme(
       duration: Duration(milliseconds: 400),
@@ -19546,13 +19535,13 @@ Widget _vertical(BuildContext context) {
       name: 'Default',
       builder: '_tripleDotsDefault',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/triple_dots/triple_dots.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';
 
 /// Counts, sizes and strokes in one row.
 Widget _tripleDotsDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xxl,
     runSpacing: spacing.md,
@@ -19570,9 +19559,9 @@ Widget _tripleDotsDefault(BuildContext context) {
       name: 'Vertical',
       builder: '_tripleDotsVertical',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/triple_dots/triple_dots.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';
 
 /// The dots stacked vertically.
 Widget _tripleDotsVertical(BuildContext context) {
@@ -19587,9 +19576,9 @@ Widget _tripleDotsVertical(BuildContext context) {
       name: 'Themed dots',
       builder: '_tripleDotsThemed',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/triple_dots/triple_dots.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';
 
 /// A scoped theme leg: coloured, smaller dots.
 Widget _tripleDotsThemed(BuildContext context) {
@@ -19609,8 +19598,8 @@ Widget _tripleDotsThemed(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/window/window.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/window/window.dart';
 
 /// One draggable, resizable window; owns its controller.
 class _SingleWindow extends StatefulWidget {
@@ -19642,7 +19631,7 @@ class _SingleWindowState extends State<_SingleWindow> {
             controller: _notes,
             title: const Text('Notes'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Drag the title bar; resize from any edge.'),
             ),
           ),
@@ -19660,8 +19649,8 @@ Widget _default(BuildContext context) => const _SingleWindow();
       name: 'Maximized',
       builder: '_maximized',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/window/window.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/window/window.dart';
 
 /// A maximized window next to a floating one; owns its controllers.
 class _MaximizedWindow extends StatefulWidget {
@@ -19699,7 +19688,7 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
             controller: _main,
             title: const Text('Editor'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Maximized; restore from the title bar.'),
             ),
           ),
@@ -19707,7 +19696,7 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
             controller: _inspector,
             title: const Text('Inspector'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Always on top.'),
             ),
           ),

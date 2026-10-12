@@ -45,7 +45,7 @@ class _DialogDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class _DialogDialogExample extends StatelessWidget {
       child: Builder(
         builder: (context) => _DialogTrigger(
           label: label,
-          onPressed: () => showShadcnDialog<void>(
+          onPressed: () => showDialog<void>(
             context: context,
             barrierDismissible: barrierDismissible,
             fullScreen: fullScreen,

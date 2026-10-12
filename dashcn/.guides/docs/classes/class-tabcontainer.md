@@ -1,32 +1,29 @@
 ---
 title: "Class: TabContainer"
-description: "Container widget for managing multiple tabs."
+description: "Assigns indices to [TabItem] children and lays them out."
 ---
 
 ```dart
-/// Container widget for managing multiple tabs.
+/// Assigns indices to [TabItem] children and lays them out.
 ///
-/// Provides tab selection and content display with customizable builders.
+/// Non-indexed children render as-is. [Tabs] and [TabPane] supply the upstream
+/// paint through `builder`/`childBuilder`.
 class TabContainer extends StatelessWidget {
-  /// Currently selected tab index.
-  final int selected;
-  /// Callback when tab selection changes.
-  final ValueChanged<int>? onSelect;
-  /// List of tab children to display.
-  final List<TabChild> children;
-  /// Optional custom tab layout builder.
-  final TabBuilder? builder;
-  /// Optional custom child widget builder.
-  final TabChildBuilder? childBuilder;
-  /// Creates a [TabContainer].
+  /// Creates a tab container.
   ///
-  /// Parameters:
-  /// - [selected] (`int`, required): index of the selected tab
-  /// - [onSelect] (`ValueChanged<int>?`, optional): callback when tab changes
-  /// - [children] (`List<TabChild>`, required): list of tab items
-  /// - [builder] (`TabBuilder?`, optional): custom tab layout builder
-  /// - [childBuilder] (`TabChildBuilder?`, optional): custom child builder
+  /// [builder]/[childBuilder] are explicit: app-wide defaults resolve in
+  /// [Tabs]/[TabPane] through `TabContainerTheme` and are forwarded here.
   const TabContainer({super.key, required this.selected, required this.onSelect, required this.children, this.builder, this.childBuilder});
+  /// Currently selected index.
+  final int selected;
+  /// Selection callback; null renders every tab disabled.
+  final ValueChanged<int>? onSelect;
+  /// Tab children in order.
+  final List<TabChild> children;
+  /// Layout override; null lays children in a column.
+  final TabBuilder? builder;
+  /// Per-tab wrapper override; null passes children through.
+  final TabChildBuilder? childBuilder;
   Widget build(BuildContext context);
 }
 ```

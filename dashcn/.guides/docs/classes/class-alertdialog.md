@@ -1,35 +1,29 @@
 ---
 title: "Class: AlertDialog"
-description: "A modal dialog component for displaying alerts, confirmations, and other  focused modal interactions."
+description: "Builds the header row: optional icon, then the title/description column."
 ---
 
 ```dart
-/// A modal dialog component for displaying alerts, confirmations, and other
-/// focused modal interactions.
-///
-/// Provides a configurable header, content area, and action row while keeping
-/// the same polished styling as the rest of the registry (blurred backdrop,
-/// rounded container, spacing/gap helpers).
-class AlertDialog extends StatefulWidget {
-  /// Optional leading widget, typically an icon or graphic.
-  final Widget? leading;
-  /// Optional trailing widget for additional header controls.
-  final Widget? trailing;
-  /// Optional title widget displayed at the start of the dialog body.
+/// Builds the header row: optional icon, then the title/description column.
+class AlertDialog extends StatelessWidget {
+  /// Creates an alert dialog body.
+  ///
+  /// Place it in the `builder` of [showAlertDialog]; the surrounding card,
+  /// padding and barrier come from the `dialog` component.
+  const AlertDialog({super.key, this.title, this.description, this.icon, this.actions = const <Widget>[], this.theme});
+  /// Headline of the dialog. Typically a `Text`.
   final Widget? title;
-  /// Optional content widget placed below the title.
-  final Widget? content;
-  /// Optional list of action buttons displayed at the bottom of the dialog.
-  final List<Widget>? actions;
-  /// Optional blur radius for the modal surface.
-  final double? surfaceBlur;
-  /// Optional opacity for the modal surface.
-  final double? surfaceOpacity;
-  /// Optional barrier color for the backdrop.
-  final Color? barrierColor;
-  /// Optional padding inside the modal container.
-  final EdgeInsetsGeometry? padding;
-  const AlertDialog({super.key, this.leading, this.title, this.content, this.actions, this.trailing, this.surfaceBlur, this.surfaceOpacity, this.barrierColor, this.padding});
-  State<AlertDialog> createState();
+  /// Supporting text below [title]. Typically a `Text`.
+  final Widget? description;
+  /// Leading glyph of the header, usually an `Icon`. It is tinted with
+  /// `AlertDialogTheme.iconColor` (`mutedForeground` by default).
+  final Widget? icon;
+  /// Footer controls, usually buttons. They are laid out in a row aligned by
+  /// `AlertDialogTheme.footerAlignment` (the end of the row by default) and
+  /// separated by `actionGap`.
+  final List<Widget> actions;
+  /// Widget-leg override, merged over the component/app/defaults legs.
+  final AlertDialogTheme? theme;
+  Widget build(BuildContext context);
 }
 ```

@@ -6,7 +6,7 @@
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:dashcn/src/components/card/card.dart' as shadcn;
+import 'package:dashcn/src/components/card/card.dart' as dashcn;
 import 'package:dashcn/src/components/keyboard_shortcut/keyboard_shortcut.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
@@ -17,7 +17,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   KeyboardShortcutTheme? scoped,
 }) {
@@ -25,7 +25,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<KeyboardShortcutTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -38,10 +38,10 @@ Widget _frame({
 }
 
 /// The cap surfaces, in render order.
-List<shadcn.Card> _caps(WidgetTester tester) =>
-    tester.widgetList<shadcn.Card>(find.byKey(keyboardKeyCapKey)).toList();
+List<dashcn.Card> _caps(WidgetTester tester) =>
+    tester.widgetList<dashcn.Card>(find.byKey(keyboardKeyCapKey)).toList();
 
-shadcn.Card _cap(WidgetTester tester) => _caps(tester).first;
+dashcn.Card _cap(WidgetTester tester) => _caps(tester).first;
 
 void main() {
   group('chords', () {
@@ -233,7 +233,7 @@ void main() {
   });
 
   group('tokens', () {
-    testWidgets('sizes match shadcn (px-1.5 py-0.5, text-xs 12)', (
+    testWidgets('sizes match dashcn (px-1.5 py-0.5, text-xs 12)', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -243,7 +243,7 @@ void main() {
           ),
         ),
       );
-      final shadcn.Card card = _cap(tester);
+      final dashcn.Card card = _cap(tester);
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
         const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -259,7 +259,7 @@ void main() {
           )
           .style;
       expect(style.fontSize, 12);
-      expect(style.color, ShadcnColors.lightFallback.mutedForeground);
+      expect(style.color, ThemeColors.lightFallback.mutedForeground);
     });
 
     testWidgets('the cap fill is the background at 70% alpha', (tester) async {
@@ -272,15 +272,15 @@ void main() {
       );
       final Color fill = _cap(
         tester,
-      ).background!.resolve(ShadcnColors.lightFallback);
+      ).background!.resolve(ThemeColors.lightFallback);
       expect(fill.a, closeTo(0.7, 0.001));
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const KeyboardShortcut(
             keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
           ),
@@ -302,10 +302,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const KeyboardShortcut(
             keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
             theme: KeyboardShortcutTheme(
@@ -331,18 +331,18 @@ void main() {
       // to `KeyboardKeyCap` still goes through `resolveEdgeInsets` unchanged.
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(scaling: 2),
+          data: const ThemeData(scaling: 2),
           child: const KeyboardShortcut(
             keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
           ),
         ),
       );
-      final shadcn.Card card = _cap(tester);
+      final dashcn.Card card = _cap(tester);
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       );
-      // The shadcn look: the cap paints no rounding or shadow of its own.
+      // The upstream look: the cap paints no rounding or shadow of its own.
       expect(card.borderRadius, isNull);
       expect(card.shadows, isNull);
     });
@@ -361,7 +361,7 @@ void main() {
         ),
       );
       expect(
-        _cap(tester).background!.resolve(ShadcnColors.lightFallback),
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
         _green,
       );
     });
@@ -381,7 +381,7 @@ void main() {
         ),
       );
       expect(
-        _cap(tester).background!.resolve(ShadcnColors.lightFallback),
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
         _blue,
       );
     });
@@ -401,7 +401,7 @@ void main() {
         ),
       );
       expect(
-        _cap(tester).background!.resolve(ShadcnColors.lightFallback),
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
         _blue,
       );
     });
@@ -444,14 +444,14 @@ void main() {
           ),
         ),
       );
-      final shadcn.Card card = _cap(tester);
+      final dashcn.Card card = _cap(tester);
       // The widget leg's own field...
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
         const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       );
       // ...the scoped leg's background survives...
-      expect(card.background!.resolve(ShadcnColors.lightFallback), _green);
+      expect(card.background!.resolve(ThemeColors.lightFallback), _green);
     });
 
     testWidgets('a per-cap field beats the theme', (tester) async {
@@ -469,7 +469,7 @@ void main() {
         ),
       );
       expect(
-        _cap(tester).background!.resolve(ShadcnColors.lightFallback),
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
         _blue,
       );
     });

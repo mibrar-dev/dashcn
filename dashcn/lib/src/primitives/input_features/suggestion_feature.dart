@@ -80,7 +80,7 @@ class InputAutoCompleteFeature extends InputFeature {
           if (!state.focused || slot.items.isEmpty) {
             return const SizedBox.shrink();
           }
-          final theme = ShadcnTheme.of(context);
+          final theme = Theme.of(context);
           return CompositedTransformFollower(
             link: slot.link,
             showWhenUnlinked: false,

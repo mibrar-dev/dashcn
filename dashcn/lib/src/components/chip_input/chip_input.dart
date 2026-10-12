@@ -239,7 +239,7 @@ class _ChipInputState<T> extends State<ChipInput<T>>
           defaults: chipInputDefaults,
         );
     _style = style;
-    _removeLabel = ShadcnLocalizations.of(context).chipInputRemoveChip;
+    _removeLabel = ComponentLocalizations.of(context).chipInputRemoveChip;
     _controller.spacing = style.spacing ?? chipInputDefaultSpacing;
     _controller.alignment = style.alignment ?? PlaceholderAlignment.middle;
     return Input(

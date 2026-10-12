@@ -1,5 +1,5 @@
 // Registry-owned theme data for the `form` component: the [FormTheme] fields
-// used by `ShadcnFormField` / `FormInline` / `FormTableLayout` plus the token-derived
+// used by `FormItem` / `FormInline` / `FormTableLayout` plus the token-derived
 // `formDefaults`.
 //
 // User-owned overrides live in `form_theme.dart`; CLI updates may replace this
@@ -29,10 +29,10 @@ class FormTheme extends ComponentThemeData implements Mergeable<FormTheme> {
     this.messageColor,
   });
 
-  /// Vertical gap between the label row and the control: shadcn `gap-2` (8).
+  /// Vertical gap between the label row and the control: upstream `gap-2` (8).
   final double? spacing;
 
-  /// Vertical gap between the control and its hint or error text: shadcn
+  /// Vertical gap between the control and its hint or error text: upstream
   /// `gap-1.5` (6).
   final double? messageSpacing;
 
@@ -163,7 +163,7 @@ class FormTheme extends ComponentThemeData implements Mergeable<FormTheme> {
 
 /// Token-derived baseline for form layouts.
 ///
-/// shadcn v4 `Field` rows: the label is `text-sm font-medium`, the description
+/// upstream v4 `Field` rows: the label is `text-sm font-medium`, the description
 /// and the error are `text-sm` (muted and destructive), the label-to-control
 /// gap is `gap-2` (8) and the hint/error gap is `gap-1.5` (6).
 const FormTheme formDefaults = FormTheme(
@@ -210,7 +210,7 @@ class FormResolvedTheme {
 
 /// Resolves [widgetLeg] through all four theme legs and applies token colours.
 FormResolvedTheme resolveFormTheme(BuildContext context, FormTheme? widgetLeg) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   final FormTheme resolved = resolveComponentStyle<FormTheme, FormTheme>(
     context,
     widget: widgetLeg,
@@ -219,7 +219,7 @@ FormResolvedTheme resolveFormTheme(BuildContext context, FormTheme? widgetLeg) {
   );
   TextStyle style(TextStyle? base, ThemedColor? color, TextStyle fallback) =>
       (base ?? fallback).copyWith(color: color?.resolve(theme.colors));
-  // Both gaps are shadcn pixel values at the default density, scaled like every
+  // Both gaps are upstream pixel values at the default density, scaled like every
   // other spacing in the registry.
   final double scale = theme.density.scale * theme.scaling;
   return FormResolvedTheme(

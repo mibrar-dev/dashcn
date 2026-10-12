@@ -12,8 +12,8 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
-  return ShadcnTheme(
+Widget _frame(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -351,15 +351,15 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('builds under $name tokens', (tester) async {
         await tester.pumpWidget(
           _frame(
             const _AnchoredRow(label: 'row', anchorKey: 'k'),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         expect(tester.takeException(), isNull);

@@ -325,7 +325,7 @@ bool _isIconDataInit(String? typeSrc, String? initSrc) {
 
 List<_Topic> _collectApiTopics() {
   final topics = <_Topic>[];
-  final libDir = Directory('lib/registry');
+  final libDir = Directory('lib/src');
   if (!libDir.existsSync()) return topics;
   for (final entity in libDir.listSync(recursive: true)) {
     if (entity is! File || !entity.path.endsWith('.dart')) continue;

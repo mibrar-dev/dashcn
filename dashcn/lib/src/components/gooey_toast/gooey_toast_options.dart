@@ -41,7 +41,7 @@ enum GooeyToastState {
   /// Every state defaults to a fixed tone (identical in every mode and preset);
   /// the tone then passes through [ensureToneContrast], so user overrides and
   /// exotic surfaces keep the 3:1 floor too.
-  Color tone(GooeyToastTheme theme, ShadcnColors colors) {
+  Color tone(GooeyToastTheme theme, ThemeColors colors) {
     final ThemedColor? ref = switch (this) {
       GooeyToastState.success => theme.successTone,
       GooeyToastState.loading => theme.loadingTone,

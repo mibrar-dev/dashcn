@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "Single-select group with controlled and controller-driven modes, row and card item shapes, roving arrow-key traversal and form participation.",
   "tier": "component",
-  "install": "flutter_shadcn add radio_group",
-  "import": "import 'package:<your_app>/ui/shadcn/components/radio_group/radio_group.dart';",
+  "install": "dashcn add radio_group",
+  "import": "import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';",
   "tags": [
     "form",
     "radio",
@@ -40,8 +40,8 @@
   ],
   "api": {
     "classes": [
-      "ShadcnRadioGroup",
-      "ShadcnRadioGroupController",
+      "RadioSet",
+      "RadioSetController",
       "RadioGroupTheme",
       "RadioCard",
       "SelectableCardTheme"

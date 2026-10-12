@@ -56,10 +56,10 @@ Switch(controller: controller, label: const Text('Notifications'));
 |---|---|
 | `on` | `primary` track, `background` thumb, hover+press `@0.9` |
 | `off` | `input` track, `foreground` thumb, hover+press `@0.8` |
-| `trackSize` | 28 x 20 (shadcn `h-5 w-7`) |
-| `thumbSize` | 16 (shadcn `size-4`) |
-| `travel` | track width − thumb − 2 at build (shadcn `translate-x-[calc(100%-2px)]`, 14 by default) |
-| `borderColor` / `borderWidth` | null / 0 (shadcn draws a transparent border) |
+| `trackSize` | 28 x 20 (dashcn `h-5 w-7`) |
+| `thumbSize` | 16 (dashcn `size-4`) |
+| `travel` | track width − thumb − 2 at build (dashcn `translate-x-[calc(100%-2px)]`, 14 by default) |
+| `borderColor` / `borderWidth` | null / 0 (dashcn draws a transparent border) |
 | `gap` | 8 |
 | `labelStyle` | 14px; colour falls back to `foreground` |
 

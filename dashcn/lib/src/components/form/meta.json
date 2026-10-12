@@ -1,11 +1,11 @@
 {
   "id": "form",
-  "name": "ShadcnForm",
+  "name": "FormScope",
   "category": "Forms & Inputs",
-  "description": "ShadcnForm scope, labelled field layouts, validators, controller and submission flow.",
+  "description": "FormScope scope, labelled field layouts, validators, controller and submission flow.",
   "tier": "component",
-  "install": "flutter_shadcn add form",
-  "import": "import 'package:<your_app>/ui/shadcn/components/form/form.dart';",
+  "install": "dashcn add form",
+  "import": "import 'package:<your_app>/ui/dashcn/components/form/form.dart';",
   "tags": [
     "form",
     "validation",
@@ -35,8 +35,8 @@
   ],
   "api": {
     "classes": [
-      "ShadcnForm",
-      "ShadcnFormField<T>",
+      "FormScope",
+      "FormItem<T>",
       "FormInline<T>",
       "FormTableLayout",
       "FormFieldMessages",

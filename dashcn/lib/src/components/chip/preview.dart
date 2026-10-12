@@ -19,7 +19,7 @@ import 'chip.dart';
 
 /// Hint line under the interactive rows.
 Widget _hint(BuildContext context, String text) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Text(
     text,
     textAlign: TextAlign.center,
@@ -54,7 +54,7 @@ class _RemovableChipsState extends State<_RemovableChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +119,7 @@ class _FilterChipsState extends State<_FilterChips> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +155,7 @@ class _FilterChipsState extends State<_FilterChips> {
 
 /// Chips with icons: realistic status tokens, static (non-pressable).
 Widget _chipsWithIcon(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Align(
     alignment: Alignment.center,
     child: Wrap(
@@ -185,7 +185,7 @@ Widget _chipsWithIcon(BuildContext context) {
 
 /// One chip per button variant plus a larger density.
 Widget _chipsVariants(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,

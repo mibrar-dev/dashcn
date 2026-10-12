@@ -4,8 +4,8 @@
   "category": "Animation & Effects",
   "description": "Stream-aware animated text renderer for incremental updates, plus a streaming markdown tail.",
   "tier": "component",
-  "install": "flutter_shadcn add text_animate",
-  "import": "import 'package:<your_app>/ui/shadcn/components/text_animate/text_animate.dart';",
+  "install": "dashcn add text_animate",
+  "import": "import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';",
   "tags": [
     "display",
     "text",

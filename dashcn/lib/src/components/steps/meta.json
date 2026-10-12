@@ -4,8 +4,8 @@
   "category": "Layout",
   "description": "Vertical numbered step list joined by a connector line.",
   "tier": "component",
-  "install": "flutter_shadcn add steps",
-  "import": "import 'package:<your_app>/ui/shadcn/components/steps/steps.dart';",
+  "install": "dashcn add steps",
+  "import": "import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';",
   "tags": [
     "layout",
     "steps",

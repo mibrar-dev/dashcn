@@ -86,5 +86,5 @@ not remount the child.
   class collapse into one private painter, and a zero `width + gap` can no
   longer loop forever. `DashedContainerProperties.lerp` was only reachable
   through the deleted `AnimatedValueBuilder` plumbing, and no component
-  imported any of those names. Like `Divider`, shadcn has no dashed-border
+  imported any of those names. Like `Divider`, dashcn has no dashed-border
   transition, so the paint is direct.

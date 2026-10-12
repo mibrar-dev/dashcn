@@ -122,7 +122,7 @@ class MultiSelect<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final Iterable<T>? selected = (value == null || value!.isEmpty)
         ? null
         : value;

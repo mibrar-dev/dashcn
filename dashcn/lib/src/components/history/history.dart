@@ -185,7 +185,7 @@ class ColorHistoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcn = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final HistoryTheme resolved =
         resolveComponentStyle<HistoryTheme, HistoryTheme>(
           context,
@@ -196,10 +196,10 @@ class ColorHistoryGrid extends StatelessWidget {
     final double gap = spacing ?? resolved.spacing ?? 4;
     final double tile = resolved.tileSize ?? 32;
     final BorderRadiusGeometry radius =
-        resolved.borderRadius ?? shadcn.borderRadiusMd;
+        resolved.borderRadius ?? themeData.borderRadiusMd;
     final Color ringColor =
-        resolved.selectedBorder?.resolve(shadcn.colors) ??
-        shadcn.colors.primary;
+        resolved.selectedBorder?.resolve(themeData.colors) ??
+        themeData.colors.primary;
     final double ringWidth = resolved.selectedBorderWidth ?? 2;
 
     Widget tileFor(Color? color) {

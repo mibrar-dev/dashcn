@@ -1,11 +1,13 @@
 ---
-title: "Class: HsvPreview"
-description: "Reference for HsvPreview"
+title: "Class: HSVPreview"
+description: "Renders the HSV slider gallery."
 ---
 
 ```dart
-class HsvPreview extends StatefulWidget {
-  const HsvPreview({super.key});
-  State<HsvPreview> createState();
+/// Renders the HSV slider gallery.
+class HSVPreview extends StatefulWidget {
+  /// Creates the preview.
+  const HSVPreview({super.key});
+  State<HSVPreview> createState();
 }
 ```

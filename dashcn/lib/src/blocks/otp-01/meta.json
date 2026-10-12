@@ -4,8 +4,8 @@
   "category": "Authentication",
   "description": "A one-time-code verification card with a resend countdown.",
   "viewport": "desktop",
-  "install": "flutter_shadcn add otp-01",
-  "import": "import 'package:<your_app>/ui/shadcn/blocks/otp-01/otp_01.dart';",
+  "install": "dashcn add otp-01",
+  "import": "import 'package:<your_app>/ui/dashcn/blocks/otp-01/otp_01.dart';",
   "tags": [
     "otp01",
     "otp"

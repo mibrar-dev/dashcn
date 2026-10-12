@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://flutter-shadcn.github.io/registry-directory/registry/themes.schema.v2.json",
-  "title": "shadcn theme preset",
-  "description": "One canonical preset: lib/src/themes/<id>.json. Supersedes the schemaVersion 1 files in lib/src/themes_preset/. Design rules: (1) key names are the camelCase of the shadcn CSS variable, no renames (REARCHITECTURE_PLAN.md 6.1); (2) all 32 colour tokens are required in BOTH light and dark - nothing is derived; (3) colours carry an optional alpha channel and it is never flattened; (4) fonts are mode-independent, so they live in one top-level block; (5) radius/spacing/tracking are mode-independent because no preset differs between the two modes; (6) only the six base shadow atoms are stored per mode - the eight derived sizes (shadow2xs..shadow2xl) are ALWAYS recomputed at build time by ShadowScale.derive, never stored, because storing them was the bug this schema removes.",
+  "title": "dashcn theme preset",
+  "description": "One canonical preset: lib/src/themes/<id>.json. Supersedes the schemaVersion 1 files in lib/src/themes_preset/. Design rules: (1) key names are the camelCase of the dashcn CSS variable, no renames (REARCHITECTURE_PLAN.md 6.1); (2) all 32 colour tokens are required in BOTH light and dark - nothing is derived; (3) colours carry an optional alpha channel and it is never flattened; (4) fonts are mode-independent, so they live in one top-level block; (5) radius/spacing/tracking are mode-independent because no preset differs between the two modes; (6) only the six base shadow atoms are stored per mode - the eight derived sizes (shadow2xs..shadow2xl) are ALWAYS recomputed at build time by ShadowScale.derive, never stored, because storing them was the bug this schema removes.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -50,12 +50,12 @@
     "radius": {
       "type": "number",
       "minimum": 0,
-      "description": "The shadcn --radius value in rem with the unit stripped (0.625rem -> 0.625). Unitless in Dart: px = radius * {4,8,12,16,20,24}. See THEME_DESIGN 5.4."
+      "description": "The dashcn --radius value in rem with the unit stripped (0.625rem -> 0.625). Unitless in Dart: px = radius * {4,8,12,16,20,24}. See THEME_DESIGN 5.4."
     },
     "spacing": {
       "type": "number",
       "exclusiveMinimum": 0,
-      "description": "The shadcn --spacing value in rem with the unit stripped (0.25rem -> 0.25). The generator multiplies by 16 to get the Dart SpacingScale base in logical pixels (0.25 -> 4.0)."
+      "description": "The dashcn --spacing value in rem with the unit stripped (0.25rem -> 0.25). The generator multiplies by 16 to get the Dart SpacingScale base in logical pixels (0.25 -> 4.0)."
     },
     "tracking": {
       "$ref": "#/$defs/tracking",
@@ -67,19 +67,19 @@
     },
     "shadowsDerived": {
       "enum": ["cli", "from-legacy"],
-      "description": "Provenance of shadow.light/shadow.dark. 'cli' = the tweakcn atoms in shadcn_flutter_cli/lib/src/shared/theme/preset_theme_data.dart. 'from-legacy' = no atoms existed upstream, so the atoms were recovered from the single legacy shadow entry in lib/src/themes_preset/<id>.json."
+      "description": "Provenance of shadow.light/shadow.dark. 'cli' = the tweakcn atoms in dashcn_cli/lib/src/shared/theme/preset_theme_data.dart. 'from-legacy' = no atoms existed upstream, so the atoms were recovered from the single legacy shadow entry in lib/src/themes_preset/<id>.json."
     }
   },
   "$defs": {
     "colorToken": {
       "type": "string",
       "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$",
-      "description": "sRGB colour as #RRGGBB (alpha implicitly FF) or #RRGGBBAA. Uppercase hex, leading # required, 0x prefix rejected. Alpha is preserved verbatim - a shadcn dark --border of oklch(1 0 0 / 10%) is #FFFFFF1A, never #FFFFFF."
+      "description": "sRGB colour as #RRGGBB (alpha implicitly FF) or #RRGGBBAA. Uppercase hex, leading # required, 0x prefix rejected. Alpha is preserved verbatim - a dashcn dark --border of oklch(1 0 0 / 10%) is #FFFFFF1A, never #FFFFFF."
     },
     "colorMap": {
       "type": "object",
       "additionalProperties": false,
-      "description": "All 32 shadcn colour tokens. Every one is required; there is no derivation step inside a preset file.",
+      "description": "All 32 dashcn colour tokens. Every one is required; there is no derivation step inside a preset file.",
       "required": [
         "background",
         "foreground",
@@ -175,7 +175,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["color", "opacity", "blur", "spread", "offsetX", "offsetY"],
-      "description": "The six tweakcn/shadcn v4 base atoms. ShadowScale.derive multiplies color alpha by opacity, then applies per-size multipliers, so a colour that already carries alpha stays correct.",
+      "description": "The six tweakcn/dashcn v4 base atoms. ShadowScale.derive multiplies color alpha by opacity, then applies per-size multipliers, so a colour that already carries alpha stays correct.",
       "properties": {
         "color": { "$ref": "#/$defs/colorToken" },
         "opacity": { "type": "number", "minimum": 0, "maximum": 1, "description": "Base alpha in 0..1. Multiplied with the colour's own alpha." },

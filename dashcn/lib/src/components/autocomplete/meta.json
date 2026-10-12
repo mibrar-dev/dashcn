@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "Input feature that turns the field text into a popover-backed suggestion list with keyboard navigation and three replacement modes.",
   "tier": "component",
-  "install": "flutter_shadcn add autocomplete",
-  "import": "import 'package:<your_app>/ui/shadcn/components/autocomplete/autocomplete.dart';",
+  "install": "dashcn add autocomplete",
+  "import": "import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';",
   "tags": [
     "form",
     "autocomplete",
@@ -80,14 +80,14 @@
       "containerBorderColor": "ThemedColor? - null draws no border",
       "containerBorderWidth": "double? - used when the border resolves",
       "containerBorderRadius": "BorderRadiusGeometry? - null = ambient radiusMd",
-      "containerPadding": "EdgeInsetsGeometry? - shadcn p-1, so 4 all round",
+      "containerPadding": "EdgeInsetsGeometry? - dashcn p-1, so 4 all round",
       "itemBackground": "StateValue<ThemedColor>? - accent on hover/press/highlight",
       "itemForeground": "StateValue<ThemedColor>? - accentForeground while active",
-      "itemPadding": "EdgeInsetsGeometry? - shadcn px-2 py-1.5",
+      "itemPadding": "EdgeInsetsGeometry? - dashcn px-2 py-1.5",
       "itemRadius": "BorderRadiusGeometry? - null = ambient radiusSm",
       "itemTextStyle": "TextStyle? - null = text-sm (14), colour from itemForeground",
       "gap": "double? - vertical space between rows, 0 by default",
-      "maxHeight": "double? - list height cap, shadcn max-h-60 = 240"
+      "maxHeight": "double? - list height cap, dashcn max-h-60 = 240"
     }
   },
   "notes": [

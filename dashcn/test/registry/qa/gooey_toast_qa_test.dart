@@ -3,7 +3,7 @@
 // cleanly (P7-Q1 batch E contract).
 //
 // The ported controller portals into the ROOT overlay, so every preview test
-// pumps a `ShadcnApp` (that is where the root overlay comes from) and asserts
+// pumps a `DashcnApp` (that is where the root overlay comes from) and asserts
 // on the overlay tree rather than on the preview box.
 
 import 'package:flutter/widgets.dart';
@@ -20,9 +20,9 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
     for (final ComponentPreview example in gooeyToastPreviews) {
       await tester.pumpWidget(
-        ShadcnApp(
-          home: ShadcnTheme(
-            data: const ShadcnThemeData(),
+        DashcnApp(
+          home: Theme(
+            data: const ThemeData(),
             child: Builder(
               builder: (BuildContext context) => example.builder(context),
             ),
@@ -45,9 +45,9 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
     for (final ComponentPreview example in gooeyToastPreviews) {
       await tester.pumpWidget(
-        ShadcnApp(
-          home: ShadcnTheme(
-            data: const ShadcnThemeData(),
+        DashcnApp(
+          home: Theme(
+            data: const ThemeData(),
             child: Builder(
               builder: (BuildContext context) => example.builder(context),
             ),
@@ -97,9 +97,9 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
     for (final ComponentPreview example in gooeyToastPreviews) {
       await tester.pumpWidget(
-        ShadcnApp(
-          home: ShadcnTheme(
-            data: const ShadcnThemeData(),
+        DashcnApp(
+          home: Theme(
+            data: const ThemeData(),
             child: Builder(
               builder: (BuildContext context) => example.builder(context),
             ),

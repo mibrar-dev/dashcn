@@ -20,12 +20,12 @@ const Color _blue = Color(0xFF0000FF);
 const Color _yellow = Color(0xFFFFFF00);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -40,7 +40,7 @@ Widget _frame({
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
 }) {
@@ -85,7 +85,7 @@ _Probe _probe(WidgetTester tester, [Finder? root]) {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
   const rest = <WidgetState>{};
   const hovered = <WidgetState>{WidgetState.hovered};
   const pressed = <WidgetState>{WidgetState.pressed};
@@ -206,11 +206,11 @@ void main() {
     expect(probe.padding(), EdgeInsets.zero);
     expect(tester.getSize(find.byType(Button)), const Size(36, 36));
 
-    const ShadcnColors dark = ShadcnColors.darkFallback;
+    const ThemeColors dark = ThemeColors.darkFallback;
     await _pump(
       tester,
       Button(onPressed: () {}, child: const Text('Dark')),
-      data: const ShadcnThemeData(colors: dark),
+      data: const ThemeData(colors: dark),
     );
     probe = _probe(tester);
     expect(probe.decoration(rest)!.color, dark.primary);
@@ -530,7 +530,7 @@ void main() {
   });
 
   group('size table (F1: a border never adds height)', () {
-    testWidgets('outline, secondary and ghost measure their shadcn height', (
+    testWidgets('outline, secondary and ghost measure their dashcn height', (
       tester,
     ) async {
       const Map<ButtonSize, double> heights = <ButtonSize, double>{

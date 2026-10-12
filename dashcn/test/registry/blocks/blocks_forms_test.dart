@@ -1,5 +1,5 @@
 // P7-B1 form contract (auth blocks): every form validates through the
-// kit's `ShadcnForm`, shows inline messages on an invalid submit without
+// kit's `FormScope`, shows inline messages on an invalid submit without
 // calling `onSubmit`, and on a valid submit calls `onSubmit` once with typed
 // data after a loading state, then shows a success alert.
 

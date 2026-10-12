@@ -14,7 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 late BuildContext _host;
 
-Future<void> _pump(WidgetTester tester, {ShadcnThemeData? theme}) async {
+Future<void> _pump(WidgetTester tester, {ThemeData? theme}) async {
   final Widget page = Builder(
     builder: (BuildContext context) {
       _host = context;
@@ -22,8 +22,8 @@ Future<void> _pump(WidgetTester tester, {ShadcnThemeData? theme}) async {
     },
   );
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: theme ?? const ShadcnThemeData(platform: TargetPlatform.macOS),
+    Theme(
+      data: theme ?? const ThemeData(platform: TargetPlatform.macOS),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: MediaQuery(
@@ -79,19 +79,13 @@ void main() {
   testWidgets('adaptiveConversion maps a popover to a drawer on mobile', (
     tester,
   ) async {
-    await _pump(
-      tester,
-      theme: const ShadcnThemeData(platform: TargetPlatform.iOS),
-    );
+    await _pump(tester, theme: const ThemeData(platform: TargetPlatform.iOS));
     const PopoverConfiguration popover = PopoverConfiguration(
       alignment: Alignment.center,
     );
     expect(popover.adaptiveConversion(_host), isA<DrawerConfiguration>());
 
-    await _pump(
-      tester,
-      theme: const ShadcnThemeData(platform: TargetPlatform.macOS),
-    );
+    await _pump(tester, theme: const ThemeData(platform: TargetPlatform.macOS));
     expect(popover.adaptiveConversion(_host), isA<PopoverConfiguration>());
     expect(popover.nonAdaptive, same(popover));
   });
@@ -165,10 +159,7 @@ void main() {
   });
 
   testWidgets('showOverlay honours adaptive: false', (tester) async {
-    await _pump(
-      tester,
-      theme: const ShadcnThemeData(platform: TargetPlatform.iOS),
-    );
+    await _pump(tester, theme: const ThemeData(platform: TargetPlatform.iOS));
     OverlayConfiguration? seen;
     showOverlay<void>(
       _host,

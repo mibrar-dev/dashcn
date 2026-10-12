@@ -7,13 +7,13 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/table/table.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/table/table.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
@@ -117,7 +117,7 @@ class CollageInstallCard extends StatelessWidget {
                     install,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: ShadcnTheme.of(
+                    style: Theme.of(
                       context,
                     ).typography.mono.copyWith(fontSize: 12.5),
                   ),
@@ -137,7 +137,7 @@ class CollageTooltipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Tooltips',
       children: <Widget>[
@@ -176,7 +176,7 @@ class CollagePagesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final List<DocsNavLink> links = kDocsSections.take(4).toList();
     return CollageCard(
       title: 'Pages',
@@ -216,28 +216,28 @@ class CollageTableCard extends StatelessWidget {
       title: 'Table',
       subtitle: 'Rows, columns and widths from one widget',
       children: <Widget>[
-        ShadcnTable(
+        TableView(
           defaultColumnWidth: FlexTableSize(),
-          rows: <ShadcnTableRow>[
-            ShadcnTableHeader(
-              cells: <ShadcnTableCell>[
-                ShadcnTableCell(child: Text('Name')),
-                ShadcnTableCell(child: Text('Role')),
-                ShadcnTableCell(child: Text('Status')),
+          rows: <TableViewRow>[
+            TableViewHeader(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Name')),
+                TableViewCell(child: Text('Role')),
+                TableViewCell(child: Text('Status')),
               ],
             ),
-            ShadcnTableRow(
-              cells: <ShadcnTableCell>[
-                ShadcnTableCell(child: Text('Maya')),
-                ShadcnTableCell(child: Text('Admin')),
-                ShadcnTableCell(child: Text('Active')),
+            TableViewRow(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Maya')),
+                TableViewCell(child: Text('Admin')),
+                TableViewCell(child: Text('Active')),
               ],
             ),
-            ShadcnTableRow(
-              cells: <ShadcnTableCell>[
-                ShadcnTableCell(child: Text('Leo')),
-                ShadcnTableCell(child: Text('Editor')),
-                ShadcnTableCell(child: Text('Invited')),
+            TableViewRow(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Leo')),
+                TableViewCell(child: Text('Editor')),
+                TableViewCell(child: Text('Invited')),
               ],
             ),
           ],

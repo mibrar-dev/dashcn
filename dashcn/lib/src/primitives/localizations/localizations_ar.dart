@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Arabic (`ar`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsAr extends ShadcnLocalizations {
+class ComponentLocalizationsAr extends ComponentLocalizations {
   /// Creates the Arabic strings.
-  const ShadcnLocalizationsAr([super.locale = const Locale('ar')]);
+  const ComponentLocalizationsAr([super.locale = const Locale('ar')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

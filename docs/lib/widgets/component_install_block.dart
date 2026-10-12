@@ -5,13 +5,13 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_snippets.dart';
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/primitives/syntax_highlight/syntax_highlight.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/primitives/syntax_highlight/syntax_highlight.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
 import 'heading_anchor.dart';
@@ -34,16 +34,16 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
   int _pillTab = 0;
 
   static const List<String> _packageManagers = <String>[
-    'flutter_shadcn',
+    'dashcn',
     'dart',
     'flutter',
   ];
 
   String get _command {
     final String pm = _packageManagers[_pillTab];
-    return pm == 'flutter_shadcn'
-        ? 'flutter_shadcn add ${widget.componentId}'
-        : '$pm pub add shadcn_flutter_kit';
+    return pm == 'dashcn'
+        ? 'dashcn add ${widget.componentId}'
+        : '$pm pub add dashcn';
   }
 
   @override
@@ -102,7 +102,7 @@ class _InstallFigure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DocsSiteColors site = DocsSiteColors.of(context);
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         color: site.codeSurface,
@@ -164,7 +164,7 @@ class _InstallFigure extends StatelessWidget {
   }
 
   static const List<String> _packageManagers = <String>[
-    'flutter_shadcn',
+    'dashcn',
     'dart',
     'flutter',
   ];
@@ -185,7 +185,7 @@ class _InstallBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     if (lineTab == 0) {
       // The command is a shell snippet: highlight it with the theme's
       // `syntax` token group. Selection/copy still yields the plain text.
@@ -272,7 +272,7 @@ class _LineTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Clickable(
       onPressed: onTap,
       child: Container(
@@ -314,7 +314,7 @@ class _PillTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Clickable(
       onPressed: onTap,
       child: Container(

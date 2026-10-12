@@ -3,8 +3,8 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 
 /// A pill badge with a trailing arrow, used at the top of the landing page.
 class Announcement extends StatelessWidget {

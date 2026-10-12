@@ -5,7 +5,7 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// Every switch reports into a `ShadcnForm` (value-only fields — a preference
+// Every switch reports into a `FormScope` (value-only fields — a preference
 // has no invalid state), so Save validates the form, shows loading, then a
 // success alert, and Reset restores the defaults. The shell is capped at
 // 768px (max-w-3xl). The content shrink-wraps so the docs frame sizes to its
@@ -143,14 +143,14 @@ class _Account02State extends State<Account02> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // Align loosens the width: a bare ConstrainedBox under the scroll view
     // would receive tight width and its maxWidth cap would be clamped away.
     final Widget body = Align(
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 768),
-        child: ShadcnForm(
+        child: FormScope(
           controller: _controller,
           onSubmit: _handleValidSubmit,
           child: Column(
@@ -306,7 +306,7 @@ class _Account02Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -350,8 +350,8 @@ class _Account02SwitchRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return ShadcnFormField<bool>(
+    final ThemeData theme = Theme.of(context);
+    return FormItem<bool>(
       key: formKey,
       label: const SizedBox.shrink(),
       showErrors: const <FormValidationMode>{

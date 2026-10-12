@@ -1,19 +1,31 @@
 ---
 title: "Class: Collapsible"
-description: "Expandable layout that keeps its own open/close state by default."
+description: "An expandable section."
 ---
 
 ```dart
-/// Expandable layout that keeps its own open/close state by default.
+/// An expandable section.
+///
+/// ```dart
+/// Collapsible(
+///   children: <Widget>[
+///     const CollapsibleTrigger(child: Text('Recent activity')),
+///     CollapsibleContent(child: activityList),
+///   ],
+/// );
+/// ```
 class Collapsible extends StatefulWidget {
-  /// Creates a widget that expands/collapses a set of children.
-  const Collapsible({super.key, required this.children, this.isExpanded, this.onExpansionChanged});
-  /// Children are usually a trigger followed by one or more content widgets.
+  /// Creates a collapsible section.
+  const Collapsible({super.key, required this.children, this.isExpanded, this.onExpansionChanged, this.theme});
+  /// Usually one [CollapsibleTrigger] followed by [CollapsibleContent]s.
   final List<Widget> children;
-  /// Controls the initial expansion for uncontrolled mode.
+  /// Expanded state. Non-null makes the widget controlled; null lets it keep
+  /// its own state.
   final bool? isExpanded;
-  /// Called when the user toggles the collapse state.
+  /// Called with the **new** expansion state when the trigger is tapped.
   final ValueChanged<bool>? onExpansionChanged;
+  /// Widget-leg style override, merged on top of the other resolver legs.
+  final CollapsibleTheme? theme;
   State<Collapsible> createState();
 }
 ```

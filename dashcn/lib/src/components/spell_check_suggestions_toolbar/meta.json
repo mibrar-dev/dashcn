@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Menu-backed toolbar for the spell check replacements of the misspelled word under an editable text cursor: up to three suggestion rows in the menu popup surface.",
   "tier": "component",
-  "install": "flutter_shadcn add spell_check_suggestions_toolbar",
-  "import": "import 'package:<your_app>/ui/shadcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';",
+  "install": "dashcn add spell_check_suggestions_toolbar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';",
   "tags": [
     "overlay",
     "spellcheck",
@@ -49,7 +49,7 @@
     "toolbar": "up to 3 rows; no icon or shortcut column"
   },
   "notes": [
-    "A misspelled word without suggestions shows one disabled row labelled from ShadcnLocalizations.spellCheckNoSuggestions (English fallback; no ARB equivalent).",
+    "A misspelled word without suggestions shows one disabled row labelled from ComponentLocalizations.spellCheckNoSuggestions (English fallback; no ARB equivalent).",
     "MenuPopup/MenuButton come from the menu component; the toolbar declares no copy of them.",
     "Anchoring is the same TextFieldTapRegion + Stack/Positioned contract the framework's toolbar builder expects."
   ]

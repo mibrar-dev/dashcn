@@ -91,8 +91,8 @@ class Signup02Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return ShadcnForm(
+    final ThemeData theme = Theme.of(context);
+    return FormScope(
       controller: controller,
       onSubmit: onValidSubmit,
       child: Column(
@@ -110,7 +110,7 @@ class Signup02Form extends StatelessWidget {
           Gap(theme.spacing.xl),
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              final Widget first = ShadcnFormField<String>(
+              final Widget first = FormItem<String>(
                 key: firstNameKey,
                 label: const Text('First name'),
                 validator:
@@ -124,7 +124,7 @@ class Signup02Form extends StatelessWidget {
                   onSubmitted: (_) => lastNameFocus.requestFocus(),
                 ),
               );
-              final Widget last = ShadcnFormField<String>(
+              final Widget last = FormItem<String>(
                 key: lastNameKey,
                 label: const Text('Last name'),
                 validator:
@@ -158,7 +158,7 @@ class Signup02Form extends StatelessWidget {
             },
           ),
           Gap(theme.spacing.md),
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: emailKey,
             label: const Text('Work email'),
             validator: const NotEmptyValidator() & const EmailValidator(),
@@ -172,7 +172,7 @@ class Signup02Form extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.md),
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: passwordKey,
             label: const Text('Password'),
             hint: const Text('At least 8 characters.'),
@@ -191,7 +191,7 @@ class Signup02Form extends StatelessWidget {
           Gap(theme.spacing.sm),
           _Signup02Strength(password: password),
           Gap(theme.spacing.md),
-          ShadcnFormField<CheckboxValue>(
+          FormItem<CheckboxValue>(
             key: termsKey,
             label: const SizedBox.shrink(),
             validator: const _Signup02TermsValidator(),
@@ -319,7 +319,7 @@ class _Signup02Strength extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final int score = password.isEmpty ? 0 : passwordStrength(password);
     const List<String> labels = <String>[
       'Enter a password',

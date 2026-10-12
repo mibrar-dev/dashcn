@@ -2,7 +2,7 @@
 // the `prefers-reduced-motion` probe.
 //
 // The custom events are the embedder contract kept from the old docs site
-// (`shadcn_flutter_app_ready`, `shadcn_flutter_theme_changed`); they are
+// (`dashcn_app_ready`, `dashcn_theme_changed`); they are
 // harmless when nothing listens. All calls are wrapped: the docs shell must
 // never crash because a browser API is unavailable (private mode, iframe).
 
@@ -13,7 +13,7 @@ import 'package:web/web.dart' as web;
 /// Fires the ready event once the shell has painted its first frame.
 void dispatchWebAppReady() {
   try {
-    web.window.dispatchEvent(web.CustomEvent('shadcn_flutter_app_ready'));
+    web.window.dispatchEvent(web.CustomEvent('dashcn_app_ready'));
   } catch (_) {
     // Not available; embedders simply do not get the event.
   }
@@ -24,7 +24,7 @@ void dispatchWebThemeChanged(Map<String, String> colors) {
   try {
     web.window.dispatchEvent(
       web.CustomEvent(
-        'shadcn_flutter_theme_changed',
+        'dashcn_theme_changed',
         web.CustomEventInit(detail: colors.jsify()),
       ),
     );

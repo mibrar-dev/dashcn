@@ -19,7 +19,7 @@ const Color _blue = Color(0xFF0000FF);
 Widget _frame({
   required Widget child,
   Axis axis = Axis.horizontal,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   DividerTheme? scopedTheme,
 }) {
@@ -38,7 +38,7 @@ Widget _frame({
           ),
         )
       : SizedBox(height: 80, child: Row(children: <Widget>[body]));
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -72,7 +72,7 @@ void main() {
     testWidgets('horizontal rule uses the border token at 1px', (tester) async {
       await tester.pumpWidget(_frame(child: const Divider()));
       final Paint paint = _paint(tester);
-      expect(_hex(paint.color), _hex(ShadcnColors.lightFallback.border));
+      expect(_hex(paint.color), _hex(ThemeColors.lightFallback.border));
       expect(paint.strokeWidth, dividerDefaultThickness);
     });
 
@@ -131,7 +131,7 @@ void main() {
           )
           .first
           .style;
-      expect(style.color, ShadcnColors.lightFallback.mutedForeground);
+      expect(style.color, ThemeColors.lightFallback.mutedForeground);
       expect(style.fontSize, dividerDefaultLabelStyle.fontSize);
     });
 
@@ -263,17 +263,17 @@ void main() {
       expect(_paint(tester).strokeWidth, 2);
       expect(
         _hex(_paint(tester).color),
-        _hex(ShadcnColors.lightFallback.border),
+        _hex(ThemeColors.lightFallback.border),
       );
     });
   });
 
   group('tokens', () {
     testWidgets('dark palette drives the same slot', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Divider(label: Text('dark')),
         ),
       );
@@ -291,10 +291,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Divider(
             theme: DividerTheme(
               color: ThemedColor.ref(ColorRef.border, alpha: 0.5),
@@ -307,8 +307,8 @@ void main() {
   });
 
   group('defaults table', () {
-    test('token-derived rows match the shadcn separator', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+    test('token-derived rows match the dashcn separator', () {
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(dividerDefaults.color?.resolve(colors), colors.border);
       expect(dividerDefaults.thickness, 1);
       expect(dividerDefaults.labelAlignment, DividerLabelAlignment.center);

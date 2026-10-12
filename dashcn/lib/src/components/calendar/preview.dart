@@ -33,7 +33,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
   CalendarView _view = CalendarView(2024, 3);
   CalendarValue? _value;
 
-  /// A 24x24 stepper, the tap target the shadcn calendar header uses.
+  /// A 24x24 stepper, the tap target the upstream calendar header uses.
   Widget _calendarStep(String label, VoidCallback onPressed) {
     return GestureDetector(
       onTap: onPressed,
@@ -42,8 +42,8 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
         height: 24,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: ShadcnTheme.of(context).colors.border),
-          borderRadius: ShadcnTheme.of(context).borderRadiusSm,
+          border: Border.all(color: Theme.of(context).colors.border),
+          borderRadius: Theme.of(context).borderRadiusSm,
         ),
         child: Text(label),
       ),
@@ -52,7 +52,7 @@ class _CalendarCalendarPanelState extends State<_CalendarCalendarPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,

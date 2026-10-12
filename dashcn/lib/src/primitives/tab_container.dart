@@ -315,7 +315,7 @@ class KeyedTabItem<T> extends TabItem with KeyedTabChild<T> {
 
 /// Assigns indices to [TabItem] children and lays them out.
 ///
-/// Non-indexed children render as-is. [Tabs] and [TabPane] supply the shadcn
+/// Non-indexed children render as-is. [Tabs] and [TabPane] supply the upstream
 /// paint through `builder`/`childBuilder`.
 class TabContainer extends StatelessWidget {
   /// Creates a tab container.

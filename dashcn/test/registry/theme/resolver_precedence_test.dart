@@ -40,9 +40,9 @@ _BoxStyle _resolve(BuildContext context, {_BoxStyle? widget}) {
 /// Wraps [child] in the ambient theme plus the app-leg widget carrying
 /// [app] overrides (fresh key per pump so the probe always rebuilds).
 Widget _frame({_BoxTheme? app, required Widget child}) {
-  return ShadcnTheme(
+  return Theme(
     key: UniqueKey(),
-    data: const ShadcnThemeData(),
+    data: const ThemeData(),
     child: ComponentThemes(
       themes: app == null
           ? const <ComponentThemeData>[]
@@ -64,7 +64,7 @@ void main() {
 
     // Defaults only.
     await tester.pumpWidget(_frame(child: probe()));
-    expect(seen!.color!.resolve({})!.resolve(ShadcnColors.lightFallback), _red);
+    expect(seen!.color!.resolve({})!.resolve(ThemeColors.lightFallback), _red);
 
     // App leg overrides defaults.
     await tester.pumpWidget(
@@ -76,7 +76,7 @@ void main() {
       ),
     );
     expect(
-      seen!.color!.resolve({})!.resolve(ShadcnColors.lightFallback),
+      seen!.color!.resolve({})!.resolve(ThemeColors.lightFallback),
       _green,
     );
 
@@ -94,10 +94,7 @@ void main() {
         ),
       ),
     );
-    expect(
-      seen!.color!.resolve({})!.resolve(ShadcnColors.lightFallback),
-      _blue,
-    );
+    expect(seen!.color!.resolve({})!.resolve(ThemeColors.lightFallback), _blue);
 
     // Widget leg overrides scoped.
     await tester.pumpWidget(
@@ -118,7 +115,7 @@ void main() {
       ),
     );
     expect(
-      seen!.color!.resolve({})!.resolve(ShadcnColors.lightFallback),
+      seen!.color!.resolve({})!.resolve(ThemeColors.lightFallback),
       _yellow,
     );
   });
@@ -143,7 +140,7 @@ void main() {
         ),
       ),
     );
-    final colors = ShadcnColors.lightFallback;
+    final colors = ThemeColors.lightFallback;
     expect(seen!.color!.resolve({})!.resolve(colors), _green);
     expect(
       seen!.color!.resolve({WidgetState.hovered})!.resolve(colors),

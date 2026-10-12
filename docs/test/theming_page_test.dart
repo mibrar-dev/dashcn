@@ -8,9 +8,9 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:docs/generated/app_theme.dart';
 import 'package:docs/generated/docs_data.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/app/app.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/components/app/app.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/docs_samples.dart';
 import 'package:docs/widgets/theme_token_table.dart';
 import 'package:flutter/widgets.dart';
@@ -43,7 +43,7 @@ void main() {
       expect(find.text('--radius'), findsWidgets);
       expect(find.byType(ThemeTokenTable), findsOneWidget);
       // The preset command from the sample.
-      expect(find.text('flutter_shadcn theme apply neutral'), findsOneWidget);
+      expect(find.text('dashcn theme apply neutral'), findsOneWidget);
     });
 
     test('every generated token has a docs description', () {
@@ -99,15 +99,15 @@ void main() {
     testWidgets('the snippet APIs compile and run against the registry', (
       WidgetTester tester,
     ) async {
-      final ShadcnThemeData light = buildDocsTheme('neutral', Brightness.light);
-      final ShadcnThemeData dark = buildDocsTheme('neutral', Brightness.dark);
-      late ShadcnThemeData resolved;
+      final ThemeData light = buildDocsTheme('neutral', Brightness.light);
+      final ThemeData dark = buildDocsTheme('neutral', Brightness.dark);
+      late ThemeData resolved;
       await tester.pumpWidget(
-        ShadcnApp(
+        DashcnApp(
           theme: light,
           darkTheme: dark,
           themeMode: ThemeMode.light,
-          home: AnimatedShadcnTheme(
+          home: AnimatedTheme(
             data: light,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOutCubic,
@@ -115,7 +115,7 @@ void main() {
               data: const ButtonTheme(primary: ButtonVariantStyle()),
               child: Builder(
                 builder: (BuildContext context) {
-                  resolved = ShadcnTheme.of(context);
+                  resolved = Theme.of(context);
                   return Button(
                     variant: ButtonVariant.primary,
                     theme: const ButtonVariantStyle(padding: EdgeInsets.zero),

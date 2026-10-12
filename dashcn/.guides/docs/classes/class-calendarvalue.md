@@ -1,30 +1,23 @@
 ---
 title: "Class: CalendarValue"
-description: "Reference for CalendarValue"
+description: "A selection in a calendar: one date, a start/end pair, or a list."
 ---
 
 ```dart
-abstract class CalendarValue {
-  /// Looks up whether the specified date is part of this calendar value.
-  ///
-  /// Returns a [CalendarValueLookup] indicating the relationship of the
-  /// queried date to this value (none, selected, start, end, or inRange).
-  CalendarValueLookup lookup(int year, [int? month = 1, int? day = 1]);
-  /// Creates a base calendar value.
+/// A selection in a calendar: one date, a start/end pair, or a list. The three
+/// `lookup` methods answer the same question at three granularities, so all
+/// three grids share one paint path. Sealed, so nobody invents a fourth shape.
+class CalendarValue {
   const CalendarValue();
-  /// Factory constructor to create a single date value.
-  static SingleCalendarValue single(DateTime date);
-  /// Factory constructor to create a date range value.
-  static RangeCalendarValue range(DateTime start, DateTime end);
-  /// Factory constructor to create a multi-date value.
-  static MultiCalendarValue multi(List<DateTime> dates);
-  /// Converts this value to a single calendar value.
-  SingleCalendarValue toSingle();
-  /// Converts this value to a range calendar value.
-  RangeCalendarValue toRange();
-  /// Converts this value to a multi calendar value.
-  MultiCalendarValue toMulti();
-  /// Returns the calendar view associated with this value.
-  CalendarView get view;
+  /// One selected date.
+  factory CalendarValue.single(DateTime date);
+  /// A range; [end] is normalised to be on or after [start].
+  factory CalendarValue.range(DateTime start, DateTime end);
+  /// Any number of selected dates.
+  factory CalendarValue.multi(List<DateTime> dates);
+  /// How [date], the month ([year], [month]) or [year] relates to this value.
+  CalendarValueLookup lookupDate(DateTime date);
+  CalendarValueLookup lookupMonth(int year, int month);
+  CalendarValueLookup lookupYear(int year);
 }
 ```

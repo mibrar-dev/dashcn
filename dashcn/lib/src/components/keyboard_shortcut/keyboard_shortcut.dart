@@ -140,7 +140,7 @@ class KeyboardKeyCap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final KeyboardShortcutTheme container =
         resolveComponentStyle<KeyboardShortcutTheme, KeyboardShortcutTheme>(
           context,
@@ -151,7 +151,7 @@ class KeyboardKeyCap extends StatelessWidget {
     final ThemedColor fill =
         background ??
         container.keyBackground ??
-        ThemedColor.value(shadcnTheme.colors.background.withValues(alpha: 0.7));
+        ThemedColor.value(themeData.colors.background.withValues(alpha: 0.7));
     final ThemedColor ink =
         foreground ??
         container.keyForeground ??
@@ -161,14 +161,14 @@ class KeyboardKeyCap extends StatelessWidget {
       key: keyboardKeyCapKey,
       padding: resolveEdgeInsets(
         padding ?? container.keyPadding ?? keyboardShortcutDefaultKeyPadding,
-        shadcnTheme.density.baseContentPadding * shadcnTheme.scaling,
+        themeData.density.baseContentPadding * themeData.scaling,
       ),
       background: fill,
       borderRadius: borderRadius ?? container.keyBorderRadius,
       shadows: shadows ?? container.keyShadows,
       child: DefaultTextStyle.merge(
         style: (container.keyTextStyle ?? keyboardShortcutDefaultTextStyle)
-            .copyWith(color: ink.resolve(shadcnTheme.colors)),
+            .copyWith(color: ink.resolve(themeData.colors)),
         child:
             Data.maybeOf<KeyboardShortcutDisplayHandle>(
               context,
@@ -181,7 +181,7 @@ class KeyboardKeyCap extends StatelessWidget {
 
 /// Lookup key of one key cap.
 const ValueKey<String> keyboardKeyCapKey = ValueKey<String>(
-  'shadcn.keyboard_shortcut.cap',
+  'dashcn.keyboard_shortcut.cap',
 );
 
 /// A whole shortcut chord, drawn as a row of caps.
@@ -219,7 +219,7 @@ class KeyboardShortcut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final KeyboardShortcutTheme container =
         resolveComponentStyle<KeyboardShortcutTheme, KeyboardShortcutTheme>(
           context,
@@ -239,7 +239,7 @@ class KeyboardShortcut extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         for (int i = 0; i < keys.length; i++) ...<Widget>[
-          if (i > 0) Gap(gap * shadcnTheme.scaling),
+          if (i > 0) Gap(gap * themeData.scaling),
           KeyboardKeyCap(keyboardKey: keys[i], theme: theme),
         ],
       ],
@@ -249,5 +249,5 @@ class KeyboardShortcut extends StatelessWidget {
 
 /// Lookup key of the whole chord.
 const ValueKey<String> keyboardShortcutKey = ValueKey<String>(
-  'shadcn.keyboard_shortcut.row',
+  'dashcn.keyboard_shortcut.row',
 );

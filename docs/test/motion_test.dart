@@ -1,7 +1,7 @@
 import 'package:docs/motion/ease.dart';
 import 'package:docs/motion/motion_scope.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/heading_anchor.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/app_harness.dart';
 
 void main() {
-  test('durations match the amended motion spec (shadcn-site)', () {
+  test('durations match the amended motion spec (dashcn-site)', () {
     expect(kDurationFast, const Duration(milliseconds: 150));
     expect(kDurationPopper, const Duration(milliseconds: 100));
     expect(kDurationPalette, const Duration(milliseconds: 200));
@@ -112,8 +112,8 @@ void main() {
         const FakeAccessibilityFeatures(disableAnimations: true);
     addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
     await pumpDocsApp(tester);
-    final AnimatedShadcnTheme theme = tester.widget<AnimatedShadcnTheme>(
-      find.byType(AnimatedShadcnTheme).first,
+    final AnimatedTheme theme = tester.widget<AnimatedTheme>(
+      find.byType(AnimatedTheme).first,
     );
     expect(theme.duration, kDurationFast);
   });

@@ -1,38 +1,24 @@
 ---
 title: "Class: Tabs"
-description: "Reference for Tabs"
+description: "A upstream pill tab strip on a muted container."
 ---
 
 ```dart
-class Tabs extends StatelessWidget {
-  /// The index of the currently selected tab (0-indexed).
-  ///
-  /// Must be between 0 and `children.length - 1` inclusive.
+/// A upstream pill tab strip on a muted container.
+///
+/// Controlled: [index] selects, [onChanged] reports taps and arrow keys;
+/// null [onChanged] disables the strip. Arrow keys walk enabled tabs and
+/// activate on landing.
+class Tabs extends StatefulWidget {
+  /// Creates a tab strip.
+  const Tabs({super.key, required this.index, required this.children, this.onChanged, this.expand = false, this.theme, this.containerTheme});
   final int index;
-  /// Used to expand children horizontally
+  final List<TabItem> children;
+  final ValueChanged<int>? onChanged;
   final bool expand;
-  /// Callback invoked when the user selects a different tab.
-  ///
-  /// Called with the new tab index when the user taps a tab header.
-  final ValueChanged<int> onChanged;
-  /// List of tab children defining tab headers and content.
-  ///
-  /// Each [TabChild] contains a tab header widget and the associated
-  /// content panel widget. The list must not be empty.
-  final List<TabChild> children;
-  /// Optional padding around individual tabs.
-  ///
-  /// Overrides the theme's tab padding if provided. If `null`,
-  /// uses the padding from [TabsTheme].
-  final EdgeInsetsGeometry? padding;
-  /// Creates a tabs widget.
-  ///
-  /// Parameters:
-  /// - [index]: Currently selected tab index (required)
-  /// - [onChanged]: Tab selection callback (required)
-  /// - [children]: List of tab children (required, non-empty)
-  /// - [padding]: Custom tab padding (optional)
-  const Tabs({super.key, required this.index, required this.onChanged, required this.children, this.padding, this.expand = false});
-  Widget build(BuildContext context);
+  final TabsTheme? theme;
+  /// Container layout defaults; resolved and forwarded to [TabContainer].
+  final TabContainerTheme? containerTheme;
+  State<Tabs> createState();
 }
 ```

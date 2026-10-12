@@ -11,7 +11,7 @@ import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../menu/menu.dart';
 
-/// Bar contract (shadcn menubar: `rounded-md border bg-background p-1`,
+/// Bar contract (upstream menubar: `rounded-md border bg-background p-1`,
 /// radius md) resolved through widget > tree > app > defaults.
 ///
 /// Every row inside the bar resolves the menu's `MenuTheme`, so menus opened
@@ -37,7 +37,7 @@ class Menubar extends StatelessWidget {
   final bool? border;
 
   /// Submenu offset; null resolves `MenubarTheme.subMenuOffset`
-  /// (`Offset(-4, 8)`), matching shadcn's submenu placement below the bar.
+  /// (`Offset(-4, 8)`), matching upstream's submenu placement below the bar.
   final Offset? popoverOffset;
 
   /// Widget-leg theme override, merged over the component/app/defaults legs.
@@ -45,7 +45,7 @@ class Menubar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final MenubarTheme style =
         resolveComponentStyle<MenubarTheme, MenubarTheme>(
           context,

@@ -1,54 +1,34 @@
 ---
 title: "Class: ClickDetector"
-description: "A widget that detects and reports click events with multi-click support."
+description: "Counts consecutive taps inside a time and distance window."
 ---
 
 ```dart
-/// A widget that detects and reports click events with multi-click support.
+/// Counts consecutive taps inside a time and distance window.
 ///
-/// Wraps a child widget and detects tap gestures, tracking consecutive clicks
-/// within a configurable threshold duration. Useful for implementing double-click,
-/// triple-click, or other multi-click interactions.
+/// ```dart
+/// ClickDetector(
+///   threshold: const Duration(milliseconds: 300),
+///   onClick: (ClickDetails details) => print(details.clickCount),
+///   child: tile,
+/// )
+/// ```
 ///
-/// Features:
-/// - **Click Count Tracking**: Automatically counts consecutive clicks
-/// - **Configurable Threshold**: Set maximum time between clicks
-/// - **Flexible Behavior**: Customize hit test behavior
-/// - **Simple Integration**: Wraps any widget with tap detection
-///
-/// The widget calls [onClick] with [ClickDetails] containing the click count
-/// each time a tap is detected. The count resets to 1 if taps are spaced
-/// beyond the [threshold] duration.
+/// A click is part of the current sequence when it arrives within
+/// [threshold] of the previous one **and** within [kDoubleTapSlop] of it. The
+/// first click of a sequence reports `clickCount: 1`.
 class ClickDetector extends StatefulWidget {
-  /// Callback invoked when the child widget is clicked.
-  ///
-  /// Called with [ClickDetails] containing the current click count.
-  /// If `null`, the detector is effectively disabled (no taps detected).
+  /// Creates a click counter.
+  const ClickDetector({super.key, this.onClick, required this.child, this.behavior = HitTestBehavior.deferToChild, this.threshold = const Duration(milliseconds: 300)});
+  /// Called for every tap with the running click count. A null callback
+  /// disables the detector, so no gesture recogniser is built.
   final ClickCallback<ClickDetails>? onClick;
-  /// The widget that receives click detection.
-  ///
-  /// This widget will be wrapped with gesture detection capabilities.
+  /// The widget that receives the clicks.
   final Widget child;
   /// How to behave during hit testing.
-  ///
-  /// Determines whether this detector should participate in hit testing
-  /// and how it should behave. Defaults to [HitTestBehavior.deferToChild].
   final HitTestBehavior behavior;
-  /// Maximum time between clicks to count as consecutive.
-  ///
-  /// When clicks occur within this duration, they increment the click count.
-  /// When clicks are spaced beyond this duration, the count resets to 1.
-  ///
-  /// Defaults to 300 milliseconds, which is a common double-click threshold.
+  /// Longest gap between two clicks that still counts as consecutive.
   final Duration threshold;
-  /// Creates a click detector widget.
-  ///
-  /// Parameters:
-  /// - [child]: The widget to wrap with click detection (required)
-  /// - [onClick]: Callback for click events (optional)
-  /// - [behavior]: Hit test behavior (defaults to [HitTestBehavior.deferToChild])
-  /// - [threshold]: Max time between consecutive clicks (defaults to 300ms)
-  const ClickDetector({super.key, this.onClick, required this.child, this.behavior = HitTestBehavior.deferToChild, this.threshold = const Duration(milliseconds: 300)});
   State<ClickDetector> createState();
 }
 ```

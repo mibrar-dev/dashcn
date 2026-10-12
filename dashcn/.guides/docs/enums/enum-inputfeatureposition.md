@@ -5,13 +5,14 @@ description: "Position where an input feature is displayed."
 
 ```dart
 /// Position where an input feature is displayed.
-///
-/// Determines whether an input feature (icon, button, widget) appears on
-/// the leading (left/start) or trailing (right/end) side of the input.
 enum InputFeaturePosition {
-  /// Display the feature on the leading side.
+  /// Before the editable text (start side).
   leading,
-  /// Display the feature on the trailing side.
+  /// After the editable text (end side).
   trailing,
+  /// Above the decorated field.
+  above,
+  /// Below the decorated field.
+  below,
 }
 ```

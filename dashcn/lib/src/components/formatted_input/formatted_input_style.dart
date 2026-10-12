@@ -53,7 +53,7 @@ class FormattedInputTheme extends ComponentThemeData
   /// Inner padding. Default: 8 horizontal, 4 vertical (scaled).
   final EdgeInsetsGeometry? padding;
 
-  /// Minimum field height. Default: 36 (the shadcn input height).
+  /// Minimum field height. Default: 36 (the upstream input height).
   final double? height;
 
   /// Segment text style; null takes the theme mono at `text-sm`.
@@ -146,9 +146,9 @@ class FormattedInputTheme extends ComponentThemeData
   ]);
 }
 
-/// Inner padding of the field: shadcn `px-2 py-1`, density-scaled.
+/// Inner padding of the field: upstream `px-2 py-1`, density-scaled.
 ///
-/// A const whose stored sides are shadcn-px multipliers (8/16, 4/16), resolved
+/// A const whose stored sides are upstream-px multipliers (8/16, 4/16), resolved
 /// by [resolveFormattedInputSurface] against
 /// `density.baseContentPadding * scaling`.
 const EdgeInsetsGeometry formattedInputDefaultPadding =
@@ -220,8 +220,8 @@ FormattedInputSurface resolveFormattedInputSurface(
   Set<WidgetState> states = const <WidgetState>{},
   TextStyle? textStyle,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
-  final ShadcnColors colors = theme.colors;
+  final ThemeData theme = Theme.of(context);
+  final ThemeColors colors = theme.colors;
   final FormattedInputTheme resolved =
       resolveComponentStyle<FormattedInputTheme, FormattedInputTheme>(
         context,

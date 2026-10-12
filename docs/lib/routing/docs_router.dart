@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_blocks.dart';
 import '../motion/motion_scope.dart';
 import '../state/docs_state.dart';
-import '../ui/shadcn/components/page_route/page_route.dart';
+import '../ui/dashcn/components/page_route/page_route.dart';
 import 'palette_route.dart';
 
 export 'palette_route.dart';
@@ -19,7 +19,7 @@ List<String> get blockCategorySlugs => <String>[
   for (final DocsBlockCategory category in kBlockCategories) category.slug,
 ];
 
-/// Logical pages of the docs site (shadcn-site sitemap, P6 spec §1).
+/// Logical pages of the docs site (upstream-site sitemap, P6 spec §1).
 enum DocsRoute {
   /// `/` — landing.
   landing,
@@ -152,7 +152,7 @@ class DocsRouteConfiguration {
       DocsRouteConfiguration._(DocsRoute.notFound, raw: location);
 
   /// The base-href the site is deployed under (GitHub Pages:
-  /// `/shadcn_flutter_kit/`).
+  /// `/shadcn_flutter_kit/`; follows the GitHub repo name).
   static const String kDocsBasePath = 'shadcn_flutter_kit';
 
   /// Parses [location] (query/fragment ignored).
@@ -234,7 +234,7 @@ class DocsRouteConfiguration {
 
   /// Human label (pager, document title).
   String get title => switch (route) {
-    DocsRoute.landing => 'shadcn_flutter_kit',
+    DocsRoute.landing => 'dashcn',
     DocsRoute.introduction => 'Introduction',
     DocsRoute.installation => 'Getting started',
     DocsRoute.theming => 'Theming',
@@ -349,7 +349,7 @@ class DocsRouterHost extends StatelessWidget {
   }
 }
 
-/// A [RouterDelegate] over a page stack, using the registry [ShadcnPageRoute]
+/// A [RouterDelegate] over a page stack, using the registry [AppPageRoute]
 /// transition for every page.
 ///
 /// In-app links call [navigate] (which reports a browser history entry through
@@ -451,7 +451,7 @@ class DocsRouterDelegate extends RouterDelegate<DocsRouteConfiguration>
         key: navigatorKey,
         pages: <Page<dynamic>>[
           for (final _RouteEntry entry in _stack)
-            ShadcnPage<void>(
+            AppPage<void>(
               key: entry.key,
               // The reference site has no route transition (spec §5.2):
               // in-app navigation is instant. The registry page stays for

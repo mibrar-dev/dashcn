@@ -9,19 +9,19 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/accordion/accordion.dart';
-import '../../ui/shadcn/components/badge/badge.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/breadcrumb/breadcrumb.dart';
-import '../../ui/shadcn/components/empty_state/empty_state.dart';
-import '../../ui/shadcn/components/divider/divider.dart';
-import '../../ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
-import '../../ui/shadcn/components/pagination/pagination.dart';
-import '../../ui/shadcn/components/stepper/stepper.dart';
-import '../../ui/shadcn/components/table/table.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/accordion/accordion.dart';
+import '../../ui/dashcn/components/badge/badge.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/breadcrumb/breadcrumb.dart';
+import '../../ui/dashcn/components/empty_state/empty_state.dart';
+import '../../ui/dashcn/components/divider/divider.dart';
+import '../../ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import '../../ui/dashcn/components/pagination/pagination.dart';
+import '../../ui/dashcn/components/stepper/stepper.dart';
+import '../../ui/dashcn/components/table/table.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
 
 /// `Frequently asked questions`: the registry accordion with three items.
@@ -123,7 +123,7 @@ class _StudioPlan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Expanded(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -302,28 +302,28 @@ class StudioTableCard extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       title: 'Team',
       subtitle: 'Who can access this workspace.',
-      child: const ShadcnTable(
+      child: const TableView(
         defaultColumnWidth: FlexTableSize(),
-        rows: <ShadcnTableRow>[
-          ShadcnTableHeader(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Member')),
-              ShadcnTableCell(child: Text('Role')),
-              ShadcnTableCell(child: Text('Status')),
+        rows: <TableViewRow>[
+          TableViewHeader(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Member')),
+              TableViewCell(child: Text('Role')),
+              TableViewCell(child: Text('Status')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Maya Okafor')),
-              ShadcnTableCell(child: Text('Admin')),
-              ShadcnTableCell(child: Text('Active')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Maya Okafor')),
+              TableViewCell(child: Text('Admin')),
+              TableViewCell(child: Text('Active')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Leo Marchetti')),
-              ShadcnTableCell(child: Text('Editor')),
-              ShadcnTableCell(child: Text('Invited')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Leo Marchetti')),
+              TableViewCell(child: Text('Editor')),
+              TableViewCell(child: Text('Invited')),
             ],
           ),
         ],

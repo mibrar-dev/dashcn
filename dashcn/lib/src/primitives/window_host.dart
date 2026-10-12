@@ -296,7 +296,7 @@ class WindowActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final WindowHandle? handle = Data.maybeOf<WindowHandle>(context);
     final WindowViewport? viewport = Data.maybeOf<WindowViewport>(context);
     Widget action(IconData icon, VoidCallback? onPressed) {

@@ -61,7 +61,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(

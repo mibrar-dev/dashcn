@@ -8,9 +8,9 @@
 import 'package:docs/generated/docs_blocks.dart';
 import 'package:docs/generated/docs_data.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/input/input.dart';
-import 'package:docs/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/components/input/input.dart';
+import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/block_card.dart';
 import 'package:docs/widgets/block_viewport.dart';
 import 'package:docs/widgets/docs_sidebar.dart';
@@ -74,7 +74,7 @@ void main() {
       }
       expect(find.byType(BlockCard), findsNWidgets(kBlocks.length));
       // Every card shows its full install command in the toolbar chip.
-      expect(find.text('flutter_shadcn add dashboard-01'), findsOneWidget);
+      expect(find.text('dashcn add dashboard-01'), findsOneWidget);
     });
 
     testWidgets('category route filters to that family', (
@@ -112,7 +112,7 @@ void main() {
       // The install command lives in the card's Code tab: open it.
       await tester.tap(find.text('Code'));
       await tester.pumpAndSettle();
-      expect(find.text('flutter_shadcn add dashboard-01'), findsWidgets);
+      expect(find.text('dashcn add dashboard-01'), findsWidgets);
       expect(tester.takeException(), isNull);
     });
 
@@ -193,10 +193,10 @@ void main() {
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/blocks');
-      expect(find.text('flutter_shadcn add dashboard-01'), findsOneWidget);
+      expect(find.text('dashcn add dashboard-01'), findsOneWidget);
       // The chip text renders on one untruncated line at desktop width.
       final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
-        find.text('flutter_shadcn add dashboard-01'),
+        find.text('dashcn add dashboard-01'),
       );
       expect(paragraph.didExceedMaxLines, isFalse);
       expect(tester.takeException(), isNull);
@@ -211,16 +211,16 @@ void main() {
         height: 900,
       );
       await goTo(tester, delegate, '/blocks');
-      expect(find.text('flutter_shadcn add dashboard-01'), findsOneWidget);
+      expect(find.text('dashcn add dashboard-01'), findsOneWidget);
       final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
-        find.text('flutter_shadcn add dashboard-01'),
+        find.text('dashcn add dashboard-01'),
       );
       expect(paragraph.didExceedMaxLines, isFalse);
       expect(tester.takeException(), isNull);
 
       delegate = await pumpDocsApp(tester, width: 375, height: 812);
       await goTo(tester, delegate, '/blocks');
-      expect(find.text('flutter_shadcn add dashboard-01'), findsOneWidget);
+      expect(find.text('dashcn add dashboard-01'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
@@ -324,7 +324,7 @@ void main() {
       );
       final DecoratedBox box = tester.widget<DecoratedBox>(frame);
       final Color? fill = (box.decoration as BoxDecoration).color;
-      final Color background = ShadcnTheme.of(
+      final Color background = Theme.of(
         tester.element(frame),
       ).colors.background;
       expect(fill, background);

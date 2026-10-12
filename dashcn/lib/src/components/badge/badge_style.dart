@@ -14,15 +14,15 @@ import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Visual variants of the badge component (shadcn `default | secondary |
+/// Visual variants of the badge component (upstream `default | secondary |
 /// destructive | outline`).
 enum BadgeVariant { primary, secondary, outline, destructive }
 
 /// Fallback text style before the [BadgeTheme.textStyle] row narrows it.
 ///
-/// shadcn `text-xs`: 12px on a 16px (`1rem`) line, i.e. height 4/3, so the
+/// upstream `text-xs`: 12px on a 16px (`1rem`) line, i.e. height 4/3, so the
 /// badge measures 16 + py-0.5 (4) = 20 borderless, 22 with the 1px border
-/// (shadcn `h` ≈ 22 border-box).
+/// (upstream `h` ≈ 22 border-box).
 const TextStyle badgeDefaultTextStyle = TextStyle(fontSize: 12, height: 4 / 3);
 
 /// One variant's state-aware styling slice.
@@ -263,14 +263,14 @@ class BadgeTheme extends ComponentThemeData implements Mergeable<BadgeTheme> {
 // ---------------------------------------------------------------------------
 // Defaults (registry-owned, tokens only).
 //
-// shadcn badge: `rounded-md border px-2 py-0.5 text-xs font-medium w-fit`. The
+// upstream badge: `rounded-md border px-2 py-0.5 text-xs font-medium w-fit`. The
 // border is transparent unless a variant paints one. Disabled states are
 // intentionally absent: `StateValue` falls back to `rest` and `Badge` dims the
 // whole control to 50% opacity. Pressed duplicates hovered because
 // `StateValue.resolve` never falls back from one state to another.
 // ---------------------------------------------------------------------------
 
-/// Default badge padding: shadcn `px-2 py-0.5`, density-scaled.
+/// Default badge padding: upstream `px-2 py-0.5`, density-scaled.
 const EdgeInsetsGeometry badgeDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
   vertical: 2,

@@ -7,10 +7,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme_document.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/primitives/overlay.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/primitives/overlay.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'rail_picker_rows.dart';
 import 'rail_picker_slider.dart';
@@ -57,7 +57,7 @@ Future<void> showShadowPicker(
         (applied.offsetY - preset.offsetY).abs() < 0.25;
   }
 
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: StatefulBuilder(
@@ -131,9 +131,7 @@ Future<void> showShadowPicker(
                           style: docsText(
                             context,
                             size: 12,
-                            color: ShadcnTheme.of(
-                              context,
-                            ).colors.mutedForeground,
+                            color: Theme.of(context).colors.mutedForeground,
                           ),
                         ),
                       ],
@@ -167,7 +165,7 @@ Future<void> showShadowPicker(
                 style: docsText(
                   context,
                   size: 12,
-                  color: ShadcnTheme.of(context).colors.mutedForeground,
+                  color: Theme.of(context).colors.mutedForeground,
                 ),
               ),
               const Gap(4),

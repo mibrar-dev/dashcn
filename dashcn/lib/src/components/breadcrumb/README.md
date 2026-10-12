@@ -67,8 +67,8 @@ per field with receiver-wins `Mergeable.merge`.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add breadcrumb`) or copy the folder
-   into `lib/ui/shadcn/breadcrumb/`.
+1. Install the component (`dashcn add breadcrumb`) or copy the folder
+   into `lib/ui/dashcn/breadcrumb/`.
 2. Import `breadcrumb.dart`; it re-exports `BreadcrumbTheme` and
    `breadcrumbDefaults`.
 3. App-wide overrides go in `breadcrumb_theme.dart`; per-subtree overrides use

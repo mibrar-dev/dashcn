@@ -129,7 +129,7 @@ Fixed (not ported):
   so a themed compact variant crashed at runtime.
 - The default title, description and icon were plain functions returning
   hard-coded English (`defaultEmptyStateTitle(variant)` and friends). They are
-  `ShadcnLocalizations` getters now, so the component translates.
+  `ComponentLocalizations` getters now, so the component translates.
 - The button used `theme.density.baseGap * scaling * gapMd` for its spacing, so
   a non-default density silently changed the *action spacing* while the rest of
   the block stayed on the size table. Every gap is on the same scale now.

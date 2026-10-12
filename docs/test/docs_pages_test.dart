@@ -1,10 +1,10 @@
 import 'package:docs/generated/app_theme.dart';
 import 'package:docs/generated/docs_data.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/app/app.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/components/switch/switch.dart';
-import 'package:docs/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/ui/dashcn/components/app/app.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/components/switch/switch.dart';
+import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:docs/widgets/collage.dart';
 import 'package:docs/widgets/copy_button.dart';
 import 'package:docs/widgets/docs_footer.dart';
@@ -205,10 +205,10 @@ void main() {
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         theme: buildDocsTheme('vercel', Brightness.light),
         home: Center(
-          child: CopyButton(text: 'flutter_shadcn add button', showLabel: true),
+          child: CopyButton(text: 'dashcn add button', showLabel: true),
         ),
       ),
     );

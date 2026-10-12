@@ -17,7 +17,7 @@ import 'progress.dart';
 
 /// Determinate values at a few fill levels and heights.
 Widget _progressDeterminate(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   final bar = <Widget>[
     const Progress(value: 0.25, semanticsLabel: 'Quarter'),
     Gap(spacing.lg),
@@ -69,7 +69,7 @@ class _ProgressLiveState extends State<_ProgressLive> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

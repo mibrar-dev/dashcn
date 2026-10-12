@@ -1,4 +1,4 @@
-// One example's Preview | Code card (P7-D1, shadcn docs layout).
+// One example's Preview | Code card (P7-D1, upstream docs layout).
 //
 // Every named preview example gets its own framed card: a toolbar row with
 // keyboard-accessible Preview/Code tabs on the left (the registry `Tabs`
@@ -16,13 +16,13 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_example_sources.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/tabs/tabs.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/syntax_highlight/syntax_highlight.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/tabs/tabs.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/syntax_highlight/syntax_highlight.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'code_teaser.dart';
 import 'component_preview_card.dart' show PreviewExampleLoader;
 import 'copy_button.dart';
@@ -92,7 +92,7 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
         );
         final Widget body = _tab == 0
             ? (_inverted
-                  ? ShadcnTheme(
+                  ? Theme(
                       data: state.themeModel.themeFor(stageBrightness),
                       child: stage,
                     )
@@ -294,7 +294,7 @@ class ExampleSnippetCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DocsSiteColors site = DocsSiteColors.of(context);
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool dark = site.codeSurface == const Color(0xFF161616);
     final TextStyle style = theme.typography.mono.copyWith(
       fontSize: 14,

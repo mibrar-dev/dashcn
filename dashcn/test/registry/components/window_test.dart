@@ -20,7 +20,7 @@ const Color _green = Color(0xFF00FF00);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   WindowTheme? scoped,
 }) {
@@ -28,7 +28,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<WindowTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -95,8 +95,8 @@ Future<void> _dragBy(
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   group('chrome', () {
     testWidgets('renders title/content with the token card', (tester) async {
@@ -478,7 +478,7 @@ void main() {
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: _stage(controller),
         ),
       );
@@ -549,7 +549,7 @@ void main() {
     });
 
     test('defaults table matches the old chrome metrics', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(windowDefaults.titleBarHeight, 32);
       expect(windowDefaults.resizeThickness, 8);
       expect(windowDefaults.titleColor?.resolve(colors), colors.foreground);

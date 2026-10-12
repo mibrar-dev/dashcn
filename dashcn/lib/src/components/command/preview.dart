@@ -39,7 +39,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Center(
       child: SizedBox(
         width: 320,
@@ -71,7 +71,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       'Settings',
                     ]) {
                       items.add(
-                        // shadcn group heading: `px-2 py-1.5 text-xs font-medium`
+                        // upstream group heading: `px-2 py-1.5 text-xs font-medium`
                         // in the muted colour.
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -83,9 +83,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: ShadcnTheme.of(
-                                context,
-                              ).colors.mutedForeground,
+                              color: Theme.of(context).colors.mutedForeground,
                             ),
                           ),
                         ),
@@ -115,7 +113,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   : 'Ran $_lastCommand',
               style: TextStyle(
                 fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
+                color: Theme.of(context).colors.mutedForeground,
               ),
             ),
           ],

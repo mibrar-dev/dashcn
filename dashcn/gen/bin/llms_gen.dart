@@ -54,7 +54,7 @@ For example files:
 void readAllDocs(void Function(String content) writer) {
   // Walk lib/ and extract class-like API surfaces with dartdoc comments.
   // Only signatures are emitted (no bodies), matching the format sketched above.
-  final libDir = Directory('lib/registry');
+  final libDir = Directory('lib/src');
   if (!libDir.existsSync()) return;
 
   // Helper to convert a documentation comment to lines prefixed with '///'.

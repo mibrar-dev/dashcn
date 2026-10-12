@@ -1,10 +1,10 @@
 // P6-D9b: density scaling of every listed user-facing component.
 //
-// Target rule (user requirement 2026-10-10): padding = the shadcn value x
+// Target rule (user requirement 2026-10-10): padding = the upstream value x
 // density. The kit's own wording of that rule is `_buttonMetricsFor` in
 // `button.dart`: `scale = density.baseContentPadding /
 // Density.defaultDensity.baseContentPadding`, so at the default density the
-// scale is exactly 1 and every component measures its shadcn value.
+// scale is exactly 1 and every component measures its upstream value.
 //
 // A test whose assertion fails today is a FINDING; the previous audit shipped
 // them with `skip: true` and the fix removed both. P6-F1 fixed them all, so
@@ -32,8 +32,9 @@ import 'layout_audit_support.dart';
 double scaleAt(Density density) =>
     density.baseContentPadding / Density.defaultDensity.baseContentPadding;
 
-/// A shadcn value scaled by [density].
-double scaled(double shadcn, Density density) => shadcn * scaleAt(density);
+/// A upstream value scaled by [density].
+double scaled(double themeData, Density density) =>
+    themeData * scaleAt(density);
 
 /// Renders [child] under every audited density and collects its padding.
 Future<List<EdgeInsets>> measurePadding(
@@ -82,7 +83,7 @@ void expectMonotonic(List<EdgeInsets> measured, String label) {
   }
 }
 
-/// Asserts every measured padding equals the shadcn value scaled by density.
+/// Asserts every measured padding equals the upstream value scaled by density.
 void expectScaled(
   List<EdgeInsets> measured, {
   required double horizontal,
@@ -181,8 +182,8 @@ void main() {
       for (final Density density in auditDensities) {
         late BuildContext host;
         await tester.pumpWidget(
-          ShadcnTheme(
-            data: const ShadcnThemeData().copyWith(density: () => density),
+          Theme(
+            data: const ThemeData().copyWith(density: () => density),
             child: ComponentThemes(
               themes: const <ComponentThemeData>[],
               child: Directionality(
@@ -202,10 +203,7 @@ void main() {
             ),
           ),
         );
-        showShadcnDialog<void>(
-          context: host,
-          builder: (_) => const Text('body'),
-        );
+        showDialog<void>(context: host, builder: (_) => const Text('body'));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 200));
         measured.add(cardPadding());
@@ -283,7 +281,7 @@ void main() {
         _select(),
         Select<String>,
       );
-      // shadcn `px-3` is 12; the trigger's 1px border is a hairline that
+      // upstream `px-3` is 12; the trigger's 1px border is a hairline that
       // never scales with density, and it is inset from the content padding
       // per side, so the measured padding is `12 * scale - 1` rather than
       // `(12 - 1) * scale`.
@@ -320,7 +318,7 @@ void main() {
       expect(
         toastDefaults.padding,
         const EdgeInsetsDensity.pxAll(16),
-        reason: 'shadcn p-4',
+        reason: 'dashcn p-4',
       );
       expect(
         resolveEdgeInsets(

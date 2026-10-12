@@ -319,7 +319,7 @@ class _FlipperGradientMask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double edge = gradientHeight.clamp(0.0, 0.5);
-    final Color surface = ShadcnTheme.of(context).colors.background;
+    final Color surface = Theme.of(context).colors.background;
     return ShaderMask(
       blendMode: BlendMode.dstIn,
       shaderCallback: (bounds) {

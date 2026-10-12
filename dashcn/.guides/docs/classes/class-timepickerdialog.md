@@ -1,24 +1,17 @@
 ---
 title: "Class: TimePickerDialog"
-description: "Dialog widget for interactive time selection."
+description: "The clock sheet: hour/minute(/second) digit fields plus AM/PM in 12-hour  mode."
 ---
 
 ```dart
-/// Dialog widget for interactive time selection.
-///
-/// Displays input fields for hours, minutes, and optional seconds
-/// with AM/PM toggle for 12-hour format.
+/// The clock sheet: hour/minute(/second) digit fields plus AM/PM in 12-hour
+/// mode. Edits clamp into range and report live.
 class TimePickerDialog extends StatefulWidget {
-  /// The initial time value.
-  final TimeOfDay? initialValue;
-  /// Callback invoked when the time changes.
-  final ValueChanged<TimeOfDay?>? onChanged;
-  /// Whether to use 24-hour format.
-  final bool use24HourFormat;
-  /// Whether to show seconds input.
-  final bool showSeconds;
-  /// Creates a time picker dialog.
   const TimePickerDialog({super.key, this.initialValue, this.onChanged, required this.use24HourFormat, this.showSeconds = false});
+  final TimeOfDay? initialValue;
+  final ValueChanged<TimeOfDay?>? onChanged;
+  final bool use24HourFormat;
+  final bool showSeconds;
   State<TimePickerDialog> createState();
 }
 ```

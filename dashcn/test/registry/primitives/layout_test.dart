@@ -9,7 +9,7 @@ import 'package:dashcn/src/theme/theme.dart';
 Widget _wrap(Widget child) {
   return Directionality(
     textDirection: TextDirection.ltr,
-    child: ShadcnTheme(data: const ShadcnThemeData(), child: child),
+    child: Theme(data: const ThemeData(), child: child),
   );
 }
 
@@ -200,8 +200,8 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: direction,
-            child: ShadcnTheme(
-              data: const ShadcnThemeData(),
+            child: Theme(
+              data: const ThemeData(),
               child: const Center(
                 child: SizedBox(
                   width: 300,

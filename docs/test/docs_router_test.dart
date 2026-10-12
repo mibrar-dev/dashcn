@@ -82,14 +82,14 @@ void main() {
       final DocsRouterDelegate delegate = await _pumpRouter(tester);
       addTearDown(delegate.dispose);
 
-      expect(find.text('shadcn_flutter_kit'), findsOneWidget);
+      expect(find.text('dashcn'), findsOneWidget);
       await delegate.setNewRoutePath(
         DocsRouteConfiguration.component('button'),
       );
       await tester.pumpAndSettle();
 
       expect(find.text('button'), findsOneWidget);
-      expect(find.text('shadcn_flutter_kit'), findsNothing);
+      expect(find.text('dashcn'), findsNothing);
       expect(
         delegate.currentConfiguration,
         DocsRouteConfiguration.component('button'),
@@ -112,7 +112,7 @@ void main() {
 
       await delegate.popRoute();
       await tester.pumpAndSettle();
-      expect(find.text('shadcn_flutter_kit'), findsOneWidget);
+      expect(find.text('dashcn'), findsOneWidget);
       expect(delegate.currentConfiguration, DocsRouteConfiguration.landing);
     });
 

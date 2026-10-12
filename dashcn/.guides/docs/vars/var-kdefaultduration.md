@@ -1,6 +1,6 @@
 ---
 title: "Variable: kDefaultDuration"
-description: "Top-level variable kDefaultDuration"
+description: "Default animation duration used across components."
 ---
 
 Signature

@@ -21,7 +21,7 @@ class _DatePickerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Text(
       text,
       style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
@@ -34,7 +34,7 @@ final DateTime _datePickerToday = DateTime(2024, 3, 14);
 
 /// The single-date picker, empty and pre-filled.
 Widget _datePickerSingle(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -52,7 +52,7 @@ Widget _datePickerSingle(BuildContext context) {
 
 /// The range picker, empty and pre-filled.
 Widget _datePickerRange(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,

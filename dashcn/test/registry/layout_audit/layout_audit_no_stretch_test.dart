@@ -7,7 +7,7 @@
 //   a 600px wide parent, an intrinsic-size component keeps its own width.
 //   Components documented as full-width (a card surface) may grow.
 // * never compacted: a long label inside a tight box still carries the full
-//   shadcn padding — the padding is never squeezed away to fit the text.
+//   upstream padding — the padding is never squeezed away to fit the text.
 //
 // Note on the harness: `flutter_test` gives the root tight constraints equal
 // to the surface size, so a `SizedBox` must be wrapped in a `Center` (loose

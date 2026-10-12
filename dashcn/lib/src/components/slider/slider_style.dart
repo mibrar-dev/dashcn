@@ -278,7 +278,7 @@ class SliderTheme extends ComponentThemeData implements Mergeable<SliderTheme> {
 //
 // Disabled states are intentionally absent: every `StateValue` falls back to
 // its `rest` entry, and `Slider` dims the whole control to 50% opacity when
-// disabled (shadcn `disabled:opacity-50`).
+// disabled (upstream `disabled:opacity-50`).
 // ---------------------------------------------------------------------------
 
 const _standardRow = SliderStyle(
@@ -286,7 +286,7 @@ const _standardRow = SliderStyle(
   fill: StateValue(rest: ThemedColor.ref(ColorRef.primary)),
   thumb: StateValue(rest: ThemedColor.ref(ColorRef.primary)),
   mark: StateValue(rest: ThemedColor.ref(ColorRef.mutedForeground)),
-  // shadcn track `h-1.5` = 6, thumb `size-4` = 16.
+  // upstream track `h-1.5` = 6, thumb `size-4` = 16.
   trackHeight: 6,
   thumbSize: Size(16, 16),
   thumbShape: SliderThumbShape.bar,

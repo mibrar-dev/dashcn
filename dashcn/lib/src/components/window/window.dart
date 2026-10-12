@@ -146,7 +146,7 @@ class _WindowState extends State<Window> implements WindowHandle {
   void close() => _closed.value = true;
 
   Widget _titleBar(
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     WindowTheme style,
     double titleBarHeight,
   ) {
@@ -264,7 +264,7 @@ class _WindowState extends State<Window> implements WindowHandle {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final WindowTheme style = resolveComponentStyle<WindowTheme, WindowTheme>(
       context,
       widget: widget.theme,
@@ -378,7 +378,7 @@ class WindowNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final WindowTheme style = resolveComponentStyle<WindowTheme, WindowTheme>(
       context,
       widget: theme,

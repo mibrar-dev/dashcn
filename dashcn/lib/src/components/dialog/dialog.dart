@@ -11,7 +11,7 @@ import 'dialog_style.dart';
 
 /// Lookup key of the decorated surface of the dialog card.
 const ValueKey<String> kDialogSurfaceKey = ValueKey<String>(
-  'shadcn.dialog.surface',
+  'dashcn.dialog.surface',
 );
 
 /// Barrier color used when neither the call nor any theme leg sets one.
@@ -33,7 +33,7 @@ Widget _wrapCaptured(Widget child, CapturedThemes? themes, CapturedData? data) {
   return child;
 }
 
-/// Pushes a shadcn modal dialog on a [Navigator] and returns its result.
+/// Pushes a upstream modal dialog on a [Navigator] and returns its result.
 ///
 /// The returned future completes with whatever the dialog passes to
 /// [Navigator.pop], or `null` when it is dismissed through the barrier, the
@@ -43,14 +43,14 @@ Widget _wrapCaptured(Widget child, CapturedThemes? themes, CapturedData? data) {
 /// [DialogTheme] on every build, so a light/dark or preset change restyles it.
 ///
 /// ```dart
-/// final confirmed = await showShadcnDialog<bool>(
+/// final confirmed = await showDialog<bool>(
 ///   context: context,
 ///   builder: (context) => MyContent(
 ///     onConfirm: () => Navigator.pop(context, true),
 ///   ),
 /// );
 /// ```
-Future<T?> showShadcnDialog<T>({
+Future<T?> showDialog<T>({
   required BuildContext context,
   required WidgetBuilder builder,
   bool useRootNavigator = true,
@@ -72,7 +72,7 @@ Future<T?> showShadcnDialog<T>({
   final style = _resolve(context, theme);
   final duration = style.transitionDuration ?? kDefaultDuration;
   return navigator.push(
-    ShadcnDialogRoute<T>(
+    DialogRoute<T>(
       builder: builder,
       widgetTheme: theme,
       duration: duration,
@@ -91,16 +91,16 @@ Future<T?> showShadcnDialog<T>({
   );
 }
 
-/// Modal route of a shadcn dialog.
+/// Modal route of a upstream dialog.
 ///
 /// Extends the widgets [ModalRoute] directly: the modal scope, the initial
 /// focus and the barrier plumbing all come from the framework route. The card
 /// is built by [_DialogShell], the barrier by [_DialogBarrier], and the
 /// transition is a scale plus a fade. Both private widgets read this route.
-class ShadcnDialogRoute<T> extends ModalRoute<T> {
+class DialogRoute<T> extends ModalRoute<T> {
   /// Creates a dialog route. Only [duration] is resolved by the caller; every
   /// other value is read from this route's subtree on each build.
-  ShadcnDialogRoute({
+  DialogRoute({
     required this.builder,
     required this.widgetTheme,
     required this.duration,
@@ -135,7 +135,7 @@ class ShadcnDialogRoute<T> extends ModalRoute<T> {
   final bool barrierDismissible;
 
   /// Semantic label of the dismissible barrier; `null` resolves
-  /// [ShadcnLocalizations.dialogDismiss].
+  /// [ComponentLocalizations.dialogDismiss].
   @override
   final String? barrierLabel;
 
@@ -225,7 +225,7 @@ class _DialogBarrier extends StatelessWidget {
     required this.curve,
   });
 
-  final ShadcnDialogRoute<dynamic> route;
+  final DialogRoute<dynamic> route;
 
   /// Route animation driving the fade in of the barrier color.
   final Animation<double>? animation;
@@ -235,7 +235,7 @@ class _DialogBarrier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     final style = _resolve(context, route.widgetTheme);
     final resolved =
         (route.barrierColorOverride ?? style.barrierColor)?.resolve(
@@ -252,7 +252,8 @@ class _DialogBarrier extends StatelessWidget {
       color: fade,
       dismissible: route.barrierDismissible,
       semanticsLabel:
-          route.barrierLabel ?? ShadcnLocalizations.of(context).dialogDismiss,
+          route.barrierLabel ??
+          ComponentLocalizations.of(context).dialogDismiss,
       barrierSemanticsDismissible: true,
     );
     return barrier;
@@ -263,16 +264,16 @@ class _DialogBarrier extends StatelessWidget {
 class _DialogShell extends StatefulWidget {
   const _DialogShell(this.route);
 
-  final ShadcnDialogRoute<dynamic> route;
+  final DialogRoute<dynamic> route;
 
   @override
   State<_DialogShell> createState() => _DialogShellState();
 }
 
 class _DialogShellState extends State<_DialogShell> {
-  final FocusScopeNode _focusNode = FocusScopeNode(debugLabel: 'ShadcnDialog');
+  final FocusScopeNode _focusNode = FocusScopeNode(debugLabel: 'DashcnDialog');
 
-  ShadcnDialogRoute<dynamic> get route => widget.route;
+  DialogRoute<dynamic> get route => widget.route;
 
   @override
   void dispose() {
@@ -290,7 +291,7 @@ class _DialogShellState extends State<_DialogShell> {
 
   @override
   Widget build(BuildContext context) {
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     final style = _resolve(context, route.widgetTheme);
     final colors = ambient.colors;
     final density = ambient.density.baseContentPadding * ambient.scaling;

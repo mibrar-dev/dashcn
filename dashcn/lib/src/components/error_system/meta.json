@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Structured error models, rule-based mapping, app/screen error channels and the matching UI surfaces.",
   "tier": "component",
-  "install": "flutter_shadcn add error_system",
-  "import": "import 'package:<your_app>/ui/shadcn/components/error_system/error_system.dart';",
+  "install": "dashcn add error_system",
+  "import": "import 'package:<your_app>/ui/dashcn/components/error_system/error_system.dart';",
   "tags": ["utility", "error", "handling", "repository", "ui"],
   "deps": {
     "foundation": ["gap", "icons"],
@@ -83,6 +83,6 @@
     "`components/error_system/` keeps only the visual widgets, the theme and the style.",
     "`showErrorSnackbar` uses the `toast` component's `showToast` (the old code inserted raw `OverlayEntry`s and kept a static entry list).",
     "`ErrorSnackbar`'s static entry list and the old `ErrorDialog.show` / `ErrorSnackbar.show` statics are gone (clean break); use `showErrorDialog` / `showErrorSnackbar`.",
-    "User-facing strings come from `primitives/localizations` (new error getters, English fallback only; only the dismiss label reuses Flutter's translated `modalBarrierDismissLabel` via `dialogDismiss`). `ErrorAction` factories and the built-in rule builders accept an optional `ShadcnLocalizations` table and default to English."
+    "User-facing strings come from `primitives/localizations` (new error getters, English fallback only; only the dismiss label reuses Flutter's translated `modalBarrierDismissLabel` via `dialogDismiss`). `ErrorAction` factories and the built-in rule builders accept an optional `ComponentLocalizations` table and default to English."
   ]
 }

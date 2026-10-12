@@ -1,15 +1,16 @@
 ---
 title: "Class: ConstrainedTableSize"
-description: "Reference for ConstrainedTableSize"
+description: "Minimum and maximum extent for a resizable column or row."
 ---
 
 ```dart
+/// Minimum and maximum extent for a resizable column or row.
 class ConstrainedTableSize {
-  /// Minimum allowed size. Defaults to negative infinity (no minimum).
-  final double min;
-  /// Maximum allowed size. Defaults to positive infinity (no maximum).
-  final double max;
-  /// Creates a [ConstrainedTableSize] with optional min and max values.
+  /// Creates constraints; the defaults are unbounded.
   const ConstrainedTableSize({this.min = double.negativeInfinity, this.max = double.infinity});
+  /// Minimum extent.
+  final double min;
+  /// Maximum extent.
+  final double max;
 }
 ```

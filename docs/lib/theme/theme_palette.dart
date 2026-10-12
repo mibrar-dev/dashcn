@@ -4,7 +4,7 @@
 // The reference's customizer lets you drag one base colour and one accent
 // colour and regenerates the whole neutral/accent ramp; our preset schema has
 // no ramps, only 32 flat tokens per mode, so the ramp has to be derived here.
-// The lightness steps follow shadcn's neutral scale (`background` 100 %,
+// The lightness steps follow upstream's neutral scale (`background` 100 %,
 // `muted`/`accent` 97 %, `border` 92 %, `foreground` 8 %; dark: 6 / 12 / 18 /
 // 24 / 98) with the seed hue desaturated, which is what makes a slate seed
 // read as "slate" rather than as grey.
@@ -47,7 +47,7 @@ const List<String> kDocsAccentColorTokens = <String>[
   'sidebarRing',
 ];
 
-/// The neutral lightness steps per mode (percentages, as in shadcn's neutral).
+/// The neutral lightness steps per mode (percentages, as in upstream's neutral).
 const List<double> _baseLightSteps = <double>[
   1.0, // background
   0.98, // card / popover

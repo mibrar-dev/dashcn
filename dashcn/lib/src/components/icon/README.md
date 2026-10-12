@@ -35,7 +35,7 @@ const IconContainer(icon: Icon(LucideIcons.check));
 | `iconLarge()` | 24px |
 | `iconMutedForeground()` | `mutedForeground` colour |
 
-The size members read `ShadcnTheme.iconTheme`, so they follow the ambient
+The size members read `Theme.iconTheme`, so they follow the ambient
 scaling factor. The colour member wins over an ambient `IconTheme` colour
 (the old helper merged the other way around).
 

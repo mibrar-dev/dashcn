@@ -3,7 +3,7 @@ import UIKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-  private let markdownLinkChannelName = "shadcn_flutter_kit/markdown_link_opener"
+  private let markdownLinkChannelName = "dashcn/markdown_link_opener"
 
   override func application(
     _ application: UIApplication,

@@ -9,9 +9,9 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _frame({required Widget child, ShadcnThemeData? data}) {
-  return ShadcnTheme(
-    data: data ?? const ShadcnThemeData(),
+Widget _frame({required Widget child, ThemeData? data}) {
+  return Theme(
+    data: data ?? const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Center(
@@ -33,9 +33,9 @@ void main() {
   testWidgets('renders leading, title and trailing under both token sets', (
     tester,
   ) async {
-    for (final ShadcnThemeData data in <ShadcnThemeData>[
-      const ShadcnThemeData(),
-      const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+    for (final ThemeData data in <ThemeData>[
+      const ThemeData(),
+      const ThemeData(colors: ThemeColors.darkFallback),
     ]) {
       await tester.pumpWidget(
         _frame(

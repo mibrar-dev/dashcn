@@ -4,8 +4,8 @@
   "category": "Dashboard",
   "description": "A dashboard with stat tiles, a bar chart and a recent transactions table.",
   "viewport": "desktop",
-  "install": "flutter_shadcn add dashboard-01",
-  "import": "import 'package:<your_app>/ui/shadcn/blocks/dashboard-01/dashboard_01.dart';",
+  "install": "dashcn add dashboard-01",
+  "import": "import 'package:<your_app>/ui/dashcn/blocks/dashboard-01/dashboard_01.dart';",
   "tags": [
     "dashboard01",
     "dashboard"

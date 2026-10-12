@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   OutlinedContainerTheme? scoped,
 }) {
@@ -21,7 +21,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<OutlinedContainerTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -74,15 +74,12 @@ void main() {
     );
 
     final BoxDecoration decoration = _decoration(tester);
-    expect(
-      _hex(decoration.color!),
-      _hex(ShadcnColors.lightFallback.background),
-    );
+    expect(_hex(decoration.color!), _hex(ThemeColors.lightFallback.background));
     final Border border = decoration.border! as Border;
-    expect(_hex(border.top.color), _hex(ShadcnColors.lightFallback.muted));
+    expect(_hex(border.top.color), _hex(ThemeColors.lightFallback.muted));
     expect(border.top.width, 1);
     final BorderRadius radius = decoration.borderRadius! as BorderRadius;
-    // Default radius 0.5: xl = 0.5 * 16 + 4 = 12 (shadcn v4 scale).
+    // Default radius 0.5: xl = 0.5 * 16 + 4 = 12 (upstream v4 scale).
     expect(radius.topLeft.x, 12);
     expect(_surface(tester).padding, EdgeInsets.zero);
   });
@@ -90,15 +87,15 @@ void main() {
   testWidgets('dark palette drives the same slots', (tester) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: const OutlinedContainer(child: Text('body')),
       ),
     );
 
     final BoxDecoration decoration = _decoration(tester);
-    expect(_hex(decoration.color!), _hex(ShadcnColors.darkFallback.background));
+    expect(_hex(decoration.color!), _hex(ThemeColors.darkFallback.background));
     final Border border = decoration.border! as Border;
-    expect(_hex(border.top.color), _hex(ShadcnColors.darkFallback.muted));
+    expect(_hex(border.top.color), _hex(ThemeColors.darkFallback.muted));
   });
 
   testWidgets('all four theme legs override per field', (tester) async {

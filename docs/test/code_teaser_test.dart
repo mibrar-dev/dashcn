@@ -2,8 +2,8 @@
 // centred `View Code` button, the expansion to the full 289 px pane with the
 // copy button, and the language pass-through to the syntax highlighter.
 
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:docs/widgets/code_teaser.dart';
 import 'package:docs/widgets/docs_tokens.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const String _dartCode = '''
-ShadcnApp(
+DashcnApp(
   theme: buildNeutralTheme(Brightness.light),
   home: const HomePage(),
 )''';

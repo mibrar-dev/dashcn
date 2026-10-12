@@ -9,7 +9,7 @@ component.
 Use to attach commands to an arbitrary area (canvas, list row, preview).
 For a menu owned by a button use `dropdown_menu`; for a menu bar use
 `menubar`; for editable text use `primitives/text_editing`
-(`defaultShadcnContextMenuBuilder`), which the `input` component wires.
+(`defaultContextMenuBuilder`), which the `input` component wires.
 
 ## Snippets
 
@@ -26,7 +26,7 @@ ContextMenu(
 
 ```dart
 // Explicit position (e.g. from a custom gesture or a canvas hit):
-await showShadcnContextMenu<void>(
+await showContextMenu<void>(
   context: context,
   position: pointerPosition,
   children: [MenuButton(child: Text('Inspect'), onPressed: (_) {})],
@@ -38,7 +38,7 @@ await showShadcnContextMenu<void>(
 | Member | Props |
 |---|---|
 | `ContextMenu` | `child`, `items`, `behavior` (translucent), `direction` (vertical), `enabled`, `theme: MenuTheme`, `popupTheme: MenuPopupTheme?` |
-| `showShadcnContextMenu<T>` | `context`, `position` (global), `children`, `direction`, `theme`, `popupTheme` |
+| `showContextMenu<T>` | `context`, `position` (global), `children`, `direction`, `theme`, `popupTheme` |
 
 Keyboard: the menu's own engine: arrows, Home/End, Enter/Space, Escape and
 typeahead. An outside tap closes the menu without reaching the content

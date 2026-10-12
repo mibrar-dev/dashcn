@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Small rounded label or status dot with four variants, optionally pressable.",
   "tier": "component",
-  "install": "flutter_shadcn add badge",
-  "import": "import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';",
+  "install": "dashcn add badge",
+  "import": "import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';",
   "tags": ["display", "badge", "label", "status", "chip"],
   "deps": {
     "foundation": ["gap"],

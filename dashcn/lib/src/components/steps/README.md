@@ -71,8 +71,8 @@ with receiver-wins `Mergeable.merge`.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add steps`) or copy the folder into
-   `lib/ui/shadcn/steps/`.
+1. Install the component (`dashcn add steps`) or copy the folder into
+   `lib/ui/dashcn/steps/`.
 2. Import `steps.dart`; it re-exports `StepsTheme` and `stepsDefaults`.
 3. App-wide overrides go in `steps_theme.dart`; per-subtree overrides use
    `ComponentTheme<StepsTheme>(data: ..., child: ...)`.

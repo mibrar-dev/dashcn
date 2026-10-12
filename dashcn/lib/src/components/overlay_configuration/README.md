@@ -7,13 +7,13 @@ popover, drawer, sheet, dialog or tooltip by swapping the configuration.
 ## Install
 
 ```bash
-flutter_shadcn add overlay_configuration
+dashcn add overlay_configuration
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/overlay_configuration/overlay_configuration.dart';
+import 'package:<your_app>/ui/dashcn/overlay_configuration/overlay_configuration.dart';
 ```
 
 ## Minimal example

@@ -12,7 +12,7 @@ import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
-/// Item-row contract: shadcn `px-2 py-1.5 text-sm rounded-sm`, hover fill
+/// Item-row contract: upstream `px-2 py-1.5 text-sm rounded-sm`, hover fill
 /// `accent` with `accentForeground` text. Disabled rows are never themed:
 /// the row dims to 50% opacity instead.
 class MenuTheme extends ComponentThemeData implements Mergeable<MenuTheme> {
@@ -114,7 +114,7 @@ class MenuTheme extends ComponentThemeData implements Mergeable<MenuTheme> {
   );
 }
 
-/// Popup-surface contract (shadcn popover: `bg-popover`, 1px `border`,
+/// Popup-surface contract (upstream popover: `bg-popover`, 1px `border`,
 /// `rounded-md`, `shadow-md`, `p-1`, min-width 8rem).
 class MenuPopupTheme extends ComponentThemeData
     implements Mergeable<MenuPopupTheme> {
@@ -233,7 +233,7 @@ class MenuPopupTheme extends ComponentThemeData
 }
 
 /// Bar contract for the `menubar` component (B20 imports this; it owns only
-/// `MenubarState`). Bordered by default (shadcn `border bg-background`).
+/// `MenubarState`). Bordered by default (upstream `border bg-background`).
 class MenubarTheme extends ComponentThemeData
     implements Mergeable<MenubarTheme> {
   /// Creates a menubar theme.
@@ -359,7 +359,7 @@ const MenuTheme menuDefaults = MenuTheme(
   itemPadding: menuItemDefaultPadding,
 );
 
-/// Default row padding: shadcn `px-2 py-1.5`, density-scaled.
+/// Default row padding: upstream `px-2 py-1.5`, density-scaled.
 const EdgeInsetsGeometry menuItemDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
   vertical: 6,
@@ -371,7 +371,7 @@ const MenuPopupTheme menuPopupDefaults = MenuPopupTheme(
   foreground: ThemedColor.ref(ColorRef.popoverForeground),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
-  // shadcn `p-1` around the row list, density-scaled.
+  // upstream `p-1` around the row list, density-scaled.
   padding: EdgeInsetsDensity.pxAll(4),
   minWidth: 128,
 );
@@ -382,7 +382,7 @@ const MenubarTheme menubarDefaults = MenubarTheme(
   background: ThemedColor.ref(ColorRef.background),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
-  // shadcn `p-1` around the row list, density-scaled.
+  // upstream `p-1` around the row list, density-scaled.
   padding: EdgeInsetsDensity.pxAll(4),
   subMenuOffset: Offset(-4, 8),
 );

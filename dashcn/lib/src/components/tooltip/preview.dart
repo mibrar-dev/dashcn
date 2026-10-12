@@ -42,13 +42,13 @@ Widget _rich(BuildContext context) {
       height: 36,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        border: Border.all(color: ShadcnTheme.of(context).colors.border),
+        border: Border.all(color: Theme.of(context).colors.border),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Icon(
         LucideIcons.rocket,
         size: 16,
-        color: ShadcnTheme.of(context).colors.foreground,
+        color: Theme.of(context).colors.foreground,
       ),
     ),
   );
@@ -65,7 +65,7 @@ Widget _anchor(
   String label, {
   Duration waitDuration = kTooltipWaitDuration,
 }) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Align(
     alignment: AlignmentDirectional.centerStart,
     child: Tooltip(

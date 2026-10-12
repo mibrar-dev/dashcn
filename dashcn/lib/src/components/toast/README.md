@@ -17,7 +17,7 @@ Place a `ToastLayer` under the theme and above the navigator so toasts sit over
 every route:
 
 ```dart
-ShadcnTheme(
+Theme(
   data: theme,
   child: ToastLayer(child: myApp),
 );
@@ -101,8 +101,8 @@ with receiver-wins `Mergeable.merge`.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add toast`) or copy the folder into
-   `lib/ui/shadcn/toast/`.
+1. Install the component (`dashcn add toast`) or copy the folder into
+   `lib/ui/dashcn/toast/`.
 2. Wrap the app in `ToastLayer`; import `toast.dart` (re-exports
    `ToastTheme`, `ToastPlacement`, `toastDefaults`).
 3. App-wide overrides go in `toast_theme.dart`; per-subtree overrides use

@@ -1,10 +1,10 @@
-// Calendar, date, time and duration strings for [ShadcnLocalizations].
+// Calendar, date, time and duration strings for [ComponentLocalizations].
 
-/// Calendar, date, time and duration text for [ShadcnLocalizations].
+/// Calendar, date, time and duration text for [ComponentLocalizations].
 ///
-/// Applied by `ShadcnLocalizations`; every getter has an English default and
+/// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it.
-mixin ShadcnLocalizationsDateTime {
+mixin ComponentLocalizationsDateTime {
   String get datePickerSelectYear => 'Select a year';
 
   String get placeholderDatePicker => 'Pick a date';

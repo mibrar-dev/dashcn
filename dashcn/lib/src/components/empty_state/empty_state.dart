@@ -143,8 +143,8 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ThemeData themeData = Theme.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     final EmptyStateTheme container =
         resolveComponentStyle<EmptyStateTheme, EmptyStateTheme>(
           context,
@@ -152,7 +152,7 @@ class EmptyState extends StatelessWidget {
           select: (EmptyStateTheme t) => t,
           defaults: emptyStateDefaults,
         );
-    final EmptyStateMetrics metrics = container.metricsFor(size, shadcnTheme);
+    final EmptyStateMetrics metrics = container.metricsFor(size, themeData);
 
     final Widget content = Column(
       mainAxisSize: MainAxisSize.min,
@@ -204,7 +204,7 @@ class EmptyState extends StatelessWidget {
     EmptyStateTheme container,
     EmptyStateMetrics metrics,
   ) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     final Widget resolved =
         icon ??
         Icon(
@@ -297,13 +297,13 @@ class EmptyState extends StatelessWidget {
     );
   }
 
-  String _defaultTitle(ShadcnLocalizations l10n) => switch (variant) {
+  String _defaultTitle(ComponentLocalizations l10n) => switch (variant) {
     EmptyStateVariant.empty => l10n.emptyStateEmptyTitle,
     EmptyStateVariant.noResults => l10n.emptyStateNoResultsTitle,
     EmptyStateVariant.errorFallback => l10n.emptyStateErrorTitle,
   };
 
-  String _defaultDescription(ShadcnLocalizations l10n) => switch (variant) {
+  String _defaultDescription(ComponentLocalizations l10n) => switch (variant) {
     EmptyStateVariant.empty => l10n.emptyStateEmptyDescription,
     EmptyStateVariant.noResults => l10n.emptyStateNoResultsDescription,
     EmptyStateVariant.errorFallback => l10n.emptyStateErrorDescription,
@@ -312,10 +312,10 @@ class EmptyState extends StatelessWidget {
 
 /// Lookup key of the muted icon container.
 const ValueKey<String> emptyStateIconContainerKey = ValueKey<String>(
-  'shadcn.empty_state.icon_container',
+  'dashcn.empty_state.icon_container',
 );
 
 /// Lookup key of the wrapped action row.
 const ValueKey<String> emptyStateActionsKey = ValueKey<String>(
-  'shadcn.empty_state.actions',
+  'dashcn.empty_state.actions',
 );

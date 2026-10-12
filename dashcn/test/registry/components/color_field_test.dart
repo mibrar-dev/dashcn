@@ -17,7 +17,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorFieldTheme? scopedTheme,
 }) {
@@ -25,7 +25,7 @@ Widget _frame({
   if (scopedTheme != null) {
     body = ComponentTheme<ColorFieldTheme>(data: scopedTheme, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -40,7 +40,7 @@ Widget _frame({
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ColorFieldTheme? scopedTheme,
 }) {
@@ -85,7 +85,7 @@ BoxDecoration _foregroundDecoration(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
 
   group('surface', () {
     testWidgets('fills the box it is given', (tester) async {
@@ -110,7 +110,7 @@ void main() {
       final BoxDecoration decoration = _foregroundDecoration(tester);
       expect(decoration.border!.top.color, light.border);
       expect(decoration.border!.top.width, 1);
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusMd);
+      expect(decoration.borderRadius, const ThemeData().borderRadiusMd);
     });
   });
 
@@ -311,17 +311,17 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the ring', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await _pump(
         tester,
         const SizedBox(width: 40, height: 40, child: ColorField(color: _blue)),
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
       );
       expect(_foregroundDecoration(tester).border!.top.color, dark.border);
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await _pump(
         tester,
         const SizedBox(
@@ -334,7 +334,7 @@ void main() {
             ),
           ),
         ),
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
       );
       expect(
         _foregroundDecoration(tester).border!.top.color.a,
@@ -345,7 +345,7 @@ void main() {
 
   group('defaults table', () {
     test('token-derived values match the field ring', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(colorFieldDefaults.borderColor?.resolve(colors), colors.border);
       expect(colorFieldDefaults.borderWidth, 1);
       expect(colorFieldDefaults.checkerboard, isTrue);

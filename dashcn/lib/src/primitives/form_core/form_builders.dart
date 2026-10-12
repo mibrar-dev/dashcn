@@ -129,8 +129,8 @@ typedef ValidatedBuilder =
 
 /// Wraps a field with its own validator and exposes the result to [builder].
 ///
-/// Creates a private controller, so it works without an enclosing `ShadcnForm`
-/// (the old `validated` component wrapped a local `ShadcnForm`; this is equivalent
+/// Creates a private controller, so it works without an enclosing `FormScope`
+/// (the old `validated` component wrapped a local `FormScope`; this is equivalent
 /// without the extra widget).
 class Validated<T> extends StatefulWidget {
   /// Creates a validated field.

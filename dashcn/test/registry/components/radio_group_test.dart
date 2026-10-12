@@ -28,7 +28,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   SelectableRadioTheme? scopedItems,
   FormFieldHandle? formHandle,
@@ -40,7 +40,7 @@ Widget _frame({
   if (formHandle != null) {
     body = Data<FormFieldHandle>.inherit(data: formHandle, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -57,7 +57,7 @@ Widget _rows({
   required String? value,
   required ValueChanged<String>? onChanged,
   Axis direction = Axis.vertical,
-  ShadcnRadioGroupController<String>? controller,
+  RadioSetController<String>? controller,
 }) {
   final List<Widget> items = <Widget>[
     // The arrow keys act on the focused member, so the first row takes focus.
@@ -65,7 +65,7 @@ Widget _rows({
     const RadioItem<String>(value: 'b', label: Text('Beta')),
     const RadioItem<String>(value: 'c', label: Text('Gamma'), enabled: false),
   ];
-  return ShadcnRadioGroup<String>(
+  return RadioSet<String>(
     value: value,
     controller: controller,
     onChanged: onChanged,
@@ -139,7 +139,7 @@ void main() {
   group('rows', () {
     // The reported bug: the docs gallery passed a plain `Column`, so the rows
     // touched (radio-group-no-gap.png). The group now owns the gap.
-    testWidgets('shadcn grid gap-3 (12) separates the stacked items', (
+    testWidgets('dashcn grid gap-3 (12) separates the stacked items', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -171,7 +171,7 @@ void main() {
       ]) {
         await tester.pumpWidget(
           _frame(
-            data: const ShadcnThemeData().copyWith(density: () => density),
+            data: const ThemeData().copyWith(density: () => density),
             child: _rows(value: 'b', onChanged: _noop),
           ),
         );
@@ -191,7 +191,7 @@ void main() {
         ),
       );
       final BoxDecoration decoration = _indicator(tester);
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.input);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.input);
       expect(decoration.color, isNull);
     });
 
@@ -202,7 +202,7 @@ void main() {
         ),
       );
       final BoxDecoration decoration = _indicator(tester);
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.input);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.input);
       expect(decoration.color, isNull);
     });
 
@@ -220,8 +220,8 @@ void main() {
                   )
                   .decoration!
               as BoxDecoration;
-      expect(decoration.color, ShadcnColors.lightFallback.primary);
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.primary);
+      expect(decoration.color, ThemeColors.lightFallback.primary);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.primary);
       expect(
         tester
             .widget<AnimatedContainer>(find.byKey(kRadioIndicatorDotKey).at(1))
@@ -231,7 +231,7 @@ void main() {
       );
     });
 
-    testWidgets('sizes match shadcn (size-4 circle, size-2 dot)', (
+    testWidgets('sizes match dashcn (size-4 circle, size-2 dot)', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -288,7 +288,7 @@ void main() {
       String? seen;
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'a',
             onChanged: (String v) => seen = v,
             items: const <Widget>[
@@ -317,7 +317,7 @@ void main() {
       );
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'a',
             onChanged: _noop,
             items: const <Widget>[
@@ -338,7 +338,7 @@ void main() {
       final Rect before = tester.getRect(find.byKey(kRadioCardKey).last);
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'b',
             onChanged: _noop,
             items: const <Widget>[
@@ -391,7 +391,7 @@ void main() {
       int calls = 0;
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             enabled: false,
             value: 'a',
             onChanged: (String _) => calls++,
@@ -410,8 +410,8 @@ void main() {
 
   group('controller', () {
     testWidgets('drives the widget and rejects onChanged', (tester) async {
-      final ShadcnRadioGroupController<String> controller =
-          ShadcnRadioGroupController<String>();
+      final RadioSetController<String> controller =
+          RadioSetController<String>();
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _frame(
@@ -428,12 +428,12 @@ void main() {
                   )
                   .decoration!
               as BoxDecoration;
-      expect(decoration.color, ShadcnColors.lightFallback.primary);
+      expect(decoration.color, ThemeColors.lightFallback.primary);
     });
 
     testWidgets('tapping a row writes the controller', (tester) async {
-      final ShadcnRadioGroupController<String> controller =
-          ShadcnRadioGroupController<String>();
+      final RadioSetController<String> controller =
+          RadioSetController<String>();
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _frame(
@@ -447,8 +447,8 @@ void main() {
 
     testWidgets('rejects onChanged alongside a controller', (tester) async {
       expect(
-        () => ShadcnRadioGroup<String>(
-          controller: ShadcnRadioGroupController<String>(),
+        () => RadioSet<String>(
+          controller: RadioSetController<String>(),
           onChanged: _noop,
           items: const <Widget>[SizedBox.shrink()],
         ),
@@ -485,7 +485,7 @@ void main() {
       addTearDown(node.dispose);
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'a',
             onChanged: (String v) => seen = v,
             items: <Widget>[
@@ -509,8 +509,9 @@ void main() {
     });
 
     testWidgets('arrow keys skip the disabled item and wrap', (tester) async {
-      final ShadcnRadioGroupController<String> controller =
-          ShadcnRadioGroupController<String>('b');
+      final RadioSetController<String> controller = RadioSetController<String>(
+        'b',
+      );
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _frame(
@@ -532,8 +533,9 @@ void main() {
       // The old intents were registered by every item and both selected *that*
       // item, so the arrow keys never moved anywhere. Controller-driven, so the
       // selection really advances between presses.
-      final ShadcnRadioGroupController<String> controller =
-          ShadcnRadioGroupController<String>('a');
+      final RadioSetController<String> controller = RadioSetController<String>(
+        'a',
+      );
       addTearDown(controller.dispose);
       await tester.pumpWidget(
         _frame(
@@ -578,7 +580,7 @@ void main() {
       String? seen;
       await tester.pumpWidget(
         _frame(
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'a',
             onChanged: (String v) => seen = v,
             items: <Widget>[
@@ -721,7 +723,7 @@ void main() {
               background: StateValue(rest: ThemedColor.value(_green)),
             ),
           ),
-          child: ShadcnRadioGroup<String>(
+          child: RadioSet<String>(
             value: 'a',
             onChanged: _noop,
             items: const <Widget>[
@@ -778,16 +780,16 @@ void main() {
                   )
                   .decoration!
               as BoxDecoration;
-      expect(checked.color, ShadcnColors.lightFallback.primary);
+      expect(checked.color, ThemeColors.lightFallback.primary);
     });
   });
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: _rows(value: 'a', onChanged: _noop),
         ),
       );
@@ -802,11 +804,11 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
-          child: ShadcnRadioGroup<String>(
+          data: const ThemeData(colors: dark),
+          child: RadioSet<String>(
             value: 'a',
             onChanged: _noop,
             items: const <Widget>[

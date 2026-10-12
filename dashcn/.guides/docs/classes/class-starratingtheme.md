@@ -1,28 +1,21 @@
 ---
 title: "Class: StarRatingTheme"
-description: "Theme data for customizing [StarRating] widget appearance."
+description: "Theme container for the star rating component."
 ---
 
 ```dart
-/// Theme data for customizing [StarRating] widget appearance.
-///
-/// This class defines the visual properties that can be applied to
-/// [StarRating] widgets, including colors for filled and unfilled stars,
-/// star sizing, and spacing between stars. These properties can be set
-/// at the theme level to provide consistent styling across the application.
-class StarRatingTheme extends ComponentThemeData {
-  /// The color of the filled portion of the stars.
-  final Color? activeColor;
-  /// The color of the unfilled portion of the stars.
-  final Color? backgroundColor;
-  /// The size of each star.
-  final double? starSize;
-  /// The spacing between stars.
-  final double? starSpacing;
-  /// Creates a [StarRatingTheme].
-  const StarRatingTheme({this.activeColor, this.backgroundColor, this.starSize, this.starSpacing});
-  /// Returns a copy of this theme with the given fields replaced.
-  StarRatingTheme copyWith({ValueGetter<Color?>? activeColor, ValueGetter<Color?>? backgroundColor, ValueGetter<double?>? starSize, ValueGetter<double?>? starSpacing});
+/// Theme container for the star rating component.
+class StarRatingTheme extends ComponentThemeData implements Mergeable<StarRatingTheme> {
+  /// Creates a star rating theme.
+  const StarRatingTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.style});
+  /// The star appearance slice; null in a leg that does not restyle stars.
+  final StarRatingStyle? style;
+  /// Returns a copy with the given field replaced.
+  StarRatingTheme copyWith({ValueGetter<StarRatingStyle?>? style});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  StarRatingTheme merge(StarRatingTheme? fallback);
+  /// Lerps each field; the colour reference steps at t < 0.5.
+  static StarRatingTheme lerp(StarRatingTheme a, StarRatingTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

@@ -54,7 +54,7 @@ class _InvalidAreaState extends State<_InvalidArea> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return SizedBox(
       width: 320,
       child: Column(
@@ -71,9 +71,7 @@ class _InvalidAreaState extends State<_InvalidArea> {
           SizedBox(height: spacing.sm),
           Text(
             'typed: ${_code.isEmpty ? '(empty)' : _code}',
-            style: TextStyle(
-              color: ShadcnTheme.of(context).colors.mutedForeground,
-            ),
+            style: TextStyle(color: Theme.of(context).colors.mutedForeground),
           ),
         ],
       ),

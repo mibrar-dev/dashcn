@@ -14,7 +14,7 @@ import '../../theme/theme.dart';
 
 /// Whether re-selecting the current choice clears it, per widget kind.
 ///
-/// A single [MultipleChoice] keeps a selection once made (shadcn radio
+/// A single [MultipleChoice] keeps a selection once made (upstream radio
 /// behaviour), while a [MultipleAnswer] toggles items off.
 class MultipleChoiceTheme extends ComponentThemeData
     implements Mergeable<MultipleChoiceTheme> {

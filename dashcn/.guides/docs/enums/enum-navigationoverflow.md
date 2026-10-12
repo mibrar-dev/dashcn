@@ -1,18 +1,18 @@
 ---
 title: "Enum: NavigationOverflow"
-description: "Overflow behavior for navigation item labels."
+description: "How a label handles text that overflows its row."
 ---
 
 ```dart
-/// Overflow behavior for navigation item labels.
+/// How a label handles text that overflows its row.
 enum NavigationOverflow {
-  /// Clip text that exceeds bounds
+  /// Clip.
   clip,
-  /// Scroll text horizontally when too long
+  /// Scroll the text horizontally.
   marquee,
-  /// Show ellipsis (...) for overflow
+  /// Ellipsis.
   ellipsis,
-  /// No overflow handling
+  /// Let it overflow.
   none,
 }
 ```

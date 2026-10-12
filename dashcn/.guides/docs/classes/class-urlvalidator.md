@@ -1,26 +1,16 @@
 ---
 title: "Class: URLValidator"
-description: "A validator that checks if a string is a valid URL."
+description: "Requires a string with a scheme and a host."
 ---
 
 ```dart
-/// A validator that checks if a string is a valid URL.
-///
-/// [URLValidator] validates URLs using Dart's Uri parsing capabilities
-/// to ensure the string represents a valid web address.
-///
-/// Example:
-/// ```dart
-/// URLValidator(
-///   message: 'Please enter a valid URL',
-/// )
-/// ```
+/// Requires a string with a scheme and a host.
 class URLValidator extends Validator<String> {
-  /// Custom error message, or null to use default localized message.
-  final String? message;
-  /// Creates a [URLValidator] with an optional custom message.
+  /// Creates a URL validator.
   const URLValidator({this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode state);
+  /// Failure text; null uses `invalidURL`.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, String? value, FormValidationMode lifecycle);
   bool operator ==(Object other);
   int get hashCode;
 }

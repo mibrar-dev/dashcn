@@ -1,17 +1,14 @@
 ---
 title: "Class: NavigationBarItem"
-description: "Base class for navigation bar items."
+description: "A widget that can live in a `NavigationBar`."
 ---
 
 ```dart
-/// Base class for navigation bar items.
-///
-/// Abstract widget class that all navigation items must extend.
-/// Provides common interface for items within [NavigationBar].
+/// A widget that can live in a `NavigationBar`.
 abstract class NavigationBarItem extends Widget {
-  /// Creates a [NavigationBarItem].
+  /// Creates a navigation bar item.
   const NavigationBarItem({super.key});
-  /// Whether this item can be selected.
+  /// Whether the container numbers this child for index-based selection.
   bool get selectable;
 }
 ```

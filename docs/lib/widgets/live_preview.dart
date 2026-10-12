@@ -1,5 +1,5 @@
 // The live preview area of the themes page (spec §2.7): a dense grid of
-// registry cards that re-themes live through AnimatedShadcnTheme when the
+// registry cards that re-themes live through AnimatedTheme when the
 // preset, mode or radius changes. The reference's customizer fills its preview
 // pane with a multi-column card wall, so this pane reuses the landing collage
 // cards (all registry components) instead of one isolated demo card.
@@ -7,7 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../state/docs_state.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
 import 'collage_cards_controls.dart';
@@ -24,7 +24,7 @@ class LivePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedShadcnTheme(
+    return AnimatedTheme(
       data: state.theme,
       duration: context.motionDuration(kDurationTheme),
       curve: kEaseOutExpo,

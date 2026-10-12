@@ -23,10 +23,10 @@ class DocsSample {
 /// Theming-page samples, keyed by stable id.
 const Map<String, DocsSample> kThemingSamples = <String, DocsSample>{
   'token-read': DocsSample('dart', r'''
-import 'package:your_app/ui/shadcn/theme/theme.dart';
+import 'package:your_app/ui/dashcn/theme/theme.dart';
 
-// Every colour token is a field on ShadcnColors.
-final ShadcnThemeData theme = ShadcnTheme.of(context);
+// Every colour token is a field on ThemeColors.
+final ThemeData theme = Theme.of(context);
 final Color surface = theme.colors.background;
 final Color ink = theme.colors.foreground;
 final Color brand = theme.colors.primary;
@@ -49,10 +49,10 @@ final double sm = theme.radiusSm; // lg - 4 px, clamped at 0
 final double md = theme.radiusMd; // lg - 2 px, clamped at 0
 final double xl = theme.radiusXl; // lg + 4 px (0 stays square)
 '''),
-  'preset-apply': DocsSample('bash', 'flutter_shadcn theme apply neutral'),
+  'preset-apply': DocsSample('bash', 'dashcn theme apply neutral'),
   'component-theme': DocsSample('dart', r'''
-import 'package:your_app/ui/shadcn/components/button/button.dart';
-import 'package:your_app/ui/shadcn/theme/theme.dart';
+import 'package:your_app/ui/dashcn/components/button/button.dart';
+import 'package:your_app/ui/dashcn/theme/theme.dart';
 
 // 1. A widget argument wins over every other leg.
 final Widget primary = Button(
@@ -68,13 +68,13 @@ final Widget scoped = ComponentTheme<ButtonTheme>(
 );
 
 // 3. The app leg: the user-owned button_theme.dart registered at the root
-//    through ShadcnApp(componentThemes: appComponentThemes).
+//    through DashcnApp(componentThemes: appComponentThemes).
 '''),
   'animated': DocsSample('dart', r'''
-import 'package:your_app/ui/shadcn/theme/theme.dart';
+import 'package:your_app/ui/dashcn/theme/theme.dart';
 
-// AnimatedShadcnTheme tweens ShadcnThemeData changes (colour-only lerp).
-final Widget app = AnimatedShadcnTheme(
+// AnimatedTheme tweens ThemeData changes (colour-only lerp).
+final Widget app = AnimatedTheme(
   data: next,
   duration: const Duration(milliseconds: 300),
   curve: Curves.easeOutCubic,
@@ -87,13 +87,13 @@ final Widget app = AnimatedShadcnTheme(
 const Map<String, DocsSample> kDarkModeSamples = <String, DocsSample>{
   'read-brightness': DocsSample('dart', r'''
 // Read the resolved brightness anywhere below the app shell.
-final bool dark = ShadcnTheme.of(context).brightness == Brightness.dark;
+final bool dark = Theme.of(context).brightness == Brightness.dark;
 '''),
   'app-themes': DocsSample('dart', r'''
-import 'package:your_app/ui/shadcn/components/app/app.dart';
+import 'package:your_app/ui/dashcn/components/app/app.dart';
 
 // One theme per brightness; ThemeMode picks which one is active.
-final Widget app = ShadcnApp(
+final Widget app = DashcnApp(
   theme: lightTheme,
   darkTheme: darkTheme,
   themeMode: ThemeMode.system, // system | light | dark

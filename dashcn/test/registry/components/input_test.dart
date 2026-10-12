@@ -65,12 +65,12 @@ class _OverlayHostState extends State<_OverlayHost> {
 }
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -78,7 +78,7 @@ Widget _frame({
         data: const MediaQueryData(),
         child: Directionality(
           textDirection: textDirection,
-          child: ShadcnLayer(
+          child: AppLayer(
             child: Shortcuts(
               shortcuts: const <ShortcutActivator, Intent>{
                 SingleActivator(LogicalKeyboardKey.tab): NextFocusIntent(),
@@ -155,17 +155,17 @@ class _FocusRecordingFeature extends InputFeature {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('renders hint text with the token surface', (tester) async {
     await tester.pumpWidget(_frame(child: const Input(hintText: 'Email')));
     expect(find.text('Email'), findsOneWidget);
 
     final surface = _surface(tester);
-    // shadcn v4: transparent in light (input @0), input/30 in dark.
+    // upstream v4: transparent in light (input @0), input/30 in dark.
     expect(surface.color, _alpha(colors.input, 0));
     expect(surface.border, Border.all(color: colors.input));
-    expect(surface.borderRadius, const ShadcnThemeData().borderRadiusMd);
+    expect(surface.borderRadius, const ThemeData().borderRadiusMd);
   });
 
   testWidgets('rejects controller + initialValue together', (tester) async {
@@ -398,7 +398,7 @@ void main() {
   ) async {
     await tester.pumpWidget(_frame(child: const Input(hintText: 'x')));
     final editable = _editable(tester);
-    expect(editable.selectionControls, isA<ShadcnSelectionControls>());
+    expect(editable.selectionControls, isA<SelectionControls>());
     expect(editable.contextMenuBuilder, isNotNull);
   });
 
@@ -473,9 +473,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the surface', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(
         data: dark,
@@ -495,7 +493,7 @@ void main() {
     final editable = _editable(tester);
     expect(
       editable.style.fontFamily,
-      const ShadcnThemeData().typography.sans.fontFamily,
+      const ThemeData().typography.sans.fontFamily,
       reason: 'typed text must render in the theme font, not the default',
     );
     expect(editable.style.fontSize, 14);

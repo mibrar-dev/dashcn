@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Responsive container that snaps content to breakpoint widths.",
   "tier": "component",
-  "install": "flutter_shadcn add stage_container",
-  "import": "import 'package:<your_app>/ui/shadcn/components/stage_container/stage_container.dart';",
+  "install": "dashcn add stage_container",
+  "import": "import 'package:<your_app>/ui/dashcn/components/stage_container/stage_container.dart';",
   "tags": [
     "layout",
     "responsive",

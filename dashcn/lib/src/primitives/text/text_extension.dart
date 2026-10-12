@@ -8,7 +8,7 @@ import 'text.dart';
 /// The fluent text-styling API.
 ///
 /// Every getter returns a [TextModifier], so calls chain and read left to
-/// right. Modifiers resolve against the ambient [ShadcnTheme], so the same
+/// right. Modifiers resolve against the ambient [Theme], so the same
 /// chain restyles itself when the theme changes.
 ///
 /// ```dart
@@ -219,7 +219,7 @@ extension TextExtension on Widget {
       padding: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: ShadcnTheme.of(context).colors.border),
+          bottom: BorderSide(color: Theme.of(context).colors.border),
         ),
       ),
       child: child,
@@ -254,10 +254,7 @@ extension TextExtension on Widget {
       padding: const EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
         border: Border(
-          left: BorderSide(
-            color: ShadcnTheme.of(context).colors.border,
-            width: 2,
-          ),
+          left: BorderSide(color: Theme.of(context).colors.border, width: 2),
         ),
       ),
       child: child,
@@ -270,7 +267,7 @@ extension TextExtension on Widget {
     wrapper: (context, child) {
       final depth = Data.maybeOf<UnorderedListData>(context)?.depth ?? 0;
       final style = DefaultTextStyle.of(context).style;
-      final theme = ShadcnTheme.of(context);
+      final theme = Theme.of(context);
       final size = (style.fontSize ?? 12) / 16 * 6;
       return IntrinsicWidth(
         child: Row(
@@ -299,7 +296,7 @@ extension TextExtension on Widget {
     style: (context, theme) => theme.typography.inlineCode,
     wrapper: (context, child) {
       final fontSize = DefaultTextStyle.of(context).style.fontSize ?? 14;
-      final theme = ShadcnTheme.of(context);
+      final theme = Theme.of(context);
       return Container(
         padding: EdgeInsets.symmetric(
           vertical: fontSize * 0.2,

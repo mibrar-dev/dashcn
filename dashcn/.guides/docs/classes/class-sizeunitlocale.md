@@ -1,37 +1,42 @@
 ---
 title: "Class: SizeUnitLocale"
-description: "Configuration for file size unit formatting."
+description: "Unit table and digit-grouping rules for byte-size formatting."
 ---
 
 ```dart
-/// Configuration for file size unit formatting.
+/// Unit table and digit-grouping rules for byte-size formatting.
 ///
-/// Defines the base (1024 for binary) and unit labels for formatting
-/// file sizes and data volumes.
+/// ```dart
+/// SizeUnitLocale.fileBytes.format(1536); // '1.5 KB'
+/// const SizeUnitLocale(1000, ['B', 'kB'], separator: ' ').format(1234567);
+/// // '1 234.6 kB'
+/// ```
 class SizeUnitLocale {
-  /// Base for unit conversion (typically 1024 for binary units).
-  final int base;
-  /// List of unit labels (e.g., ['B', 'KB', 'MB', 'GB']).
-  final List<String> units;
-  /// Separator for digit grouping (e.g., ',' for 1,000,000).
-  final String separator;
-  /// Creates a [SizeUnitLocale].
+  /// Creates a unit table.
   ///
-  /// Parameters:
-  /// - [base] (`int`, required): Base for unit conversion.
-  /// - [units] (`List<String>`, required): Unit labels.
-  /// - [separator] (`String`, default: ','): Digit separator.
+  /// [base] is the conversion factor between units (1024 for binary,
+  /// 1000 for decimal), [units] are the labels from smallest to largest and
+  /// [separator] groups the digits of the integer part (empty disables
+  /// grouping).
   const SizeUnitLocale(this.base, this.units, {this.separator = ','});
-  /// Standard file size units in bytes (B, KB, MB, GB, etc.).
-  static const SizeUnitLocale fileBytes = _fileByteUnits;
-  /// Binary file size units (Bi, KiB, MiB, GiB, etc.).
-  static const SizeUnitLocale fileBits = _fileBitUnits;
-  /// Gets the appropriate unit label for a value.
+  /// Conversion factor between two neighbouring units.
+  final int base;
+  /// Unit labels from smallest ([units] first) to largest.
+  final List<String> units;
+  /// Separator inserted between digit groups of the integer part.
+  final String separator;
+  /// Byte units with the conventional short labels (`B`, `KB`, `MB`, …).
+  static const SizeUnitLocale fileBytes = SizeUnitLocale(1024, <String>['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']);
+  /// Binary byte units with IEC labels (`B`, `KiB`, `MiB`, …).
   ///
-  /// Parameters:
-  /// - [value] (`int`, required): The value to get unit for.
+  /// Replaces the old `fileBits`, whose labels started at `Bi` and described
+  /// binary *bytes*; the renamed table keeps a single `B` for whole bytes.
+  static const SizeUnitLocale binaryBytes = SizeUnitLocale(1024, <String>['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']);
+  /// Formats [bytes] using this table.
   ///
-  /// Returns: `String` — the unit label.
-  String getUnit(int value);
+  /// Zero and negative counts read `0 <unit>`. Values past the largest unit
+  /// stay in that unit instead of overflowing the table (the old top-level
+  /// formatter indexed past the end and threw a `RangeError`).
+  String format(int bytes);
 }
 ```

@@ -118,7 +118,7 @@ class FileUploadTheme extends ComponentThemeData
   );
 }
 
-/// Tile padding: shadcn `px-4 py-3`, density-scaled.
+/// Tile padding: upstream `px-4 py-3`, density-scaled.
 const EdgeInsetsGeometry fileUploadDefaultPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 16, vertical: 12);
 

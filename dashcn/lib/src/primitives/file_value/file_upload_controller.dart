@@ -20,7 +20,7 @@ typedef FileUploadFn = Stream<double> Function(FileValue file);
 
 /// Builds the user-facing message for a rejection.
 ///
-/// The component passes `ShadcnLocalizations` wording; the default is the
+/// The component passes `ComponentLocalizations` wording; the default is the
 /// English fallback (no translated ARB equivalent exists for these strings).
 typedef FileUploadMessage =
     String Function(FileErrorCode code, FileValue? file);

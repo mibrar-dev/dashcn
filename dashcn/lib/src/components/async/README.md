@@ -16,7 +16,7 @@ declares it).
 ## Getting started
 
 ```dart
-import 'package:my_app/ui/shadcn/async/async.dart';
+import 'package:my_app/ui/dashcn/async/async.dart';
 
 FutureOrBuilder<User>(
   future: repository.load(id),

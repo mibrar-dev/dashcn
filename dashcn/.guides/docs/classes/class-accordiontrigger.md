@@ -1,15 +1,17 @@
 ---
 title: "Class: AccordionTrigger"
-description: "Tappable header that controls its parent [AccordionItem]."
+description: "The tappable header of an [AccordionItem]."
 ---
 
 ```dart
-/// Tappable header that controls its parent [AccordionItem].
-class AccordionTrigger extends StatefulWidget {
-  /// Creates a trigger for the accordion section.
-  const AccordionTrigger({super.key, required this.child});
-  /// Content displayed inside the trigger row.
+/// The tappable header of an [AccordionItem].
+class AccordionTrigger extends StatelessWidget {
+  /// Creates a trigger with [child] as its label.
+  const AccordionTrigger({super.key, required this.child, this.theme});
+  /// Content shown next to the indicator.
   final Widget child;
-  State<AccordionTrigger> createState();
+  /// Widget-leg style override, merged on top of the other resolver legs.
+  final AccordionTheme? theme;
+  Widget build(BuildContext context);
 }
 ```

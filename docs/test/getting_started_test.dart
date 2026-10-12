@@ -19,8 +19,8 @@ void main() {
       expect(find.text('Choose a preset'), findsOneWidget);
       // Code figures.
       expect(find.text('flutter create my_app'), findsOneWidget);
-      expect(find.text('flutter_shadcn init'), findsOneWidget);
-      expect(find.textContaining('flutter_shadcn add button'), findsWidgets);
+      expect(find.text('dashcn init'), findsOneWidget);
+      expect(find.textContaining('dashcn add button'), findsWidgets);
     });
   });
 
@@ -32,9 +32,9 @@ void main() {
       await goTo(tester, delegate, '/docs/cli');
       expect(find.text('CLI reference'), findsWidgets);
       // First command section heading.
-      expect(find.text('flutter_shadcn'), findsWidgets);
+      expect(find.text('dashcn'), findsWidgets);
       // Flags table for add command.
-      expect(find.text('flutter_shadcn add'), findsWidgets);
+      expect(find.text('dashcn add'), findsWidgets);
       expect(find.textContaining('--dry-run'), findsWidgets);
       expect(find.text('--json'), findsWidgets);
       expect(find.textContaining('--all'), findsWidgets);
@@ -43,7 +43,7 @@ void main() {
     testWidgets('renders theme apply command', (WidgetTester tester) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/docs/cli');
-      expect(find.text('flutter_shadcn theme apply'), findsWidgets);
+      expect(find.text('dashcn theme apply'), findsWidgets);
       expect(find.textContaining('--refresh'), findsWidgets);
     });
   });

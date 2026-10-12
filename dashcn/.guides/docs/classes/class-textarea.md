@@ -1,22 +1,68 @@
 ---
 title: "Class: TextArea"
-description: "Multi-line text input with resizable dimensions."
+description: "A multi-line text input."
 ---
 
 ```dart
-/// Multi-line text input with resizable dimensions.
-class TextArea extends TextInputStatefulWidget {
-  final bool expandableHeight;
-  final bool expandableWidth;
-  final double initialHeight;
-  final double initialWidth;
-  final ValueChanged<double>? onHeightChanged;
-  final ValueChanged<double>? onWidthChanged;
-  final double minWidth;
-  final double minHeight;
-  final double maxWidth;
-  final double maxHeight;
-  const TextArea({super.key, super.groupId, super.controller, super.focusNode, super.decoration, super.padding, super.placeholder, super.crossAxisAlignment, super.clearButtonSemanticLabel, super.keyboardType, super.textInputAction, super.textCapitalization, super.style, super.strutStyle, super.textAlign, super.textAlignVertical, super.textDirection, super.readOnly, super.showCursor, super.autofocus, super.obscuringCharacter, super.obscureText, super.autocorrect, super.smartDashesType, super.smartQuotesType, super.enableSuggestions, super.maxLines, super.minLines, super.expands, super.maxLength, super.maxLengthEnforcement, super.onChanged, super.onEditingComplete, super.onSubmitted, super.onTapOutside, super.onTapUpOutside, super.inputFormatters, super.enabled, super.cursorWidth, super.cursorHeight, super.cursorRadius, super.cursorOpacityAnimates, super.cursorColor, super.selectionHeightStyle, super.selectionWidthStyle, super.keyboardAppearance, super.scrollPadding, super.enableInteractiveSelection, super.selectionControls, super.dragStartBehavior, super.scrollController, super.scrollPhysics, super.onTap, super.autofillHints, super.clipBehavior, super.restorationId, super.stylusHandwritingEnabled, super.enableIMEPersonalizedLearning, super.contentInsertionConfiguration, super.contextMenuBuilder, super.initialValue, super.hintText, super.border, super.borderRadius, super.filled, super.statesController, super.magnifierConfiguration, super.spellCheckConfiguration, super.undoController, super.features, super.submitFormatters, super.skipInputFeatureFocusTraversal, this.expandableHeight = false, this.expandableWidth = false, this.initialHeight = 100, this.initialWidth = double.infinity, this.onHeightChanged, this.onWidthChanged, this.minWidth = 100, this.minHeight = 100, this.maxWidth = double.infinity, this.maxHeight = double.infinity});
-  State<TextArea> createState();
+/// A multi-line text input.
+///
+/// A thin, opinionated [Input]: three lines tall, vertically centred content,
+/// and a multiline keyboard. Everything else — controller, validation, form
+/// participation, features, the focus ring, the theme legs — is `Input`'s.
+///
+/// ```dart
+/// TextArea(hintText: 'Type your message here...', minLines: 3);
+/// ```
+///
+/// The old drag-resize handle is gone: resizing a field is a layout decision
+/// (`minLines`/`maxLines`/`expands`) that a rebuild already expresses, and the
+/// handle could not work in the direction the box was not laid out in.
+class TextArea extends StatelessWidget {
+  /// Creates a multi-line text input.
+  const TextArea({super.key, this.controller, this.initialValue, this.focusNode, this.undoController, this.statesController, this.hintText, this.placeholder, this.textAlign = TextAlign.start, this.textCapitalization = TextCapitalization.sentences, this.style, this.keyboardType, this.minLines = textAreaMinLines, this.maxLines = textAreaMaxLines, this.expands = false, this.maxLength, this.maxLengthEnforcement, this.padding, this.decoration, this.border, this.borderRadius, this.filled, this.readOnly = false, this.enabled = true, this.autofocus = false, this.autocorrect = true, this.enableSuggestions = true, this.cursorColor, this.scrollPadding = const EdgeInsets.all(20), this.features = const <InputFeature>[], this.validator, this.autovalidateMode = FormValidationMode.changed, this.onChanged, this.onSubmitted, this.onEditingComplete, this.theme});
+  /// Lines shown when neither is given.
+  static const int textAreaMinLines = 3;
+  /// Cap of the auto-grown field; null lets it grow with the content.
+  static const int? textAreaMaxLines = null;
+  final TextEditingController? controller;
+  final String? initialValue;
+  final FocusNode? focusNode;
+  final UndoHistoryController? undoController;
+  final WidgetStatesController? statesController;
+  final String? hintText;
+  final Widget? placeholder;
+  final TextAlign textAlign;
+  final TextCapitalization textCapitalization;
+  final TextStyle? style;
+  final TextInputType? keyboardType;
+  /// Smallest height, in lines; defaults to [textAreaMinLines].
+  final int? minLines;
+  /// Largest height, in lines; defaults to [textAreaMaxLines].
+  final int? maxLines;
+  /// Whether the field fills its parent instead of growing.
+  final bool expands;
+  final int? maxLength;
+  final MaxLengthEnforcement? maxLengthEnforcement;
+  final EdgeInsetsGeometry? padding;
+  final BoxDecoration? decoration;
+  final Border? border;
+  final BorderRadiusGeometry? borderRadius;
+  final bool? filled;
+  final bool readOnly;
+  final bool enabled;
+  final bool autofocus;
+  final bool autocorrect;
+  final bool enableSuggestions;
+  final Color? cursorColor;
+  final EdgeInsets scrollPadding;
+  final List<InputFeature> features;
+  final String? Function(String? value)? validator;
+  final FormValidationMode autovalidateMode;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final VoidCallback? onEditingComplete;
+  /// Widget-leg [InputTheme] override.
+  final InputTheme? theme;
+  Widget build(BuildContext context);
 }
 ```

@@ -1,20 +1,15 @@
 ---
 title: "Class: DurationPickerDialog"
-description: "Dialog widget for interactive duration selection."
+description: "The duration sheet: day/hour/minute/second digit fields clamping into  range and reporting live."
 ---
 
 ```dart
-/// Dialog widget for interactive duration selection.
-///
-/// Displays input fields for days, hours, minutes, and seconds
-/// for selecting durations.
+/// The duration sheet: day/hour/minute/second digit fields clamping into
+/// range and reporting live.
 class DurationPickerDialog extends StatefulWidget {
-  /// The initial duration value.
-  final Duration? initialValue;
-  /// Callback invoked when the duration changes.
-  final ValueChanged<Duration?>? onChanged;
-  /// Creates a duration picker dialog.
   const DurationPickerDialog({super.key, this.initialValue, this.onChanged});
+  final Duration? initialValue;
+  final ValueChanged<Duration?>? onChanged;
   State<DurationPickerDialog> createState();
 }
 ```

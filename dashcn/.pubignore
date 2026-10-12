@@ -27,4 +27,3 @@ tool/output/
 
 # Repo maintenance artifacts kept next to the package.
 gen/
-dart_analyze_flutter_shadcn_kit.txt

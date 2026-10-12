@@ -1,9 +1,9 @@
 ---
 title: "Function: openDrawer"
-description: "Opens a drawer and returns a future that completes when dismissed."
+description: "Opens a drawer and completes with the value passed to `closeDrawer`."
 ---
 
 Signature
 ```dart
-Future<T?> openDrawer<T>({required BuildContext context, required WidgetBuilder builder, required OverlayPosition position, bool expands = false, bool draggable = true, bool barrierDismissible = true, WidgetBuilder? backdropBuilder, bool useSafeArea = true, bool? showDragHandle, BorderRadiusGeometry? borderRadius, Size? dragHandleSize, bool transformBackdrop = true, double? surfaceOpacity, double? surfaceBlur, Color? barrierColor, AnimationController? animationController, BoxConstraints? constraints, AlignmentGeometry? alignment});
+Future<T?> openDrawer<T>({required BuildContext context, required WidgetBuilder builder, OverlayPosition position = OverlayPosition.end, bool expands = false, bool draggable = true, bool barrierDismissible = true, bool useSafeArea = true, bool? showDragHandle, BorderRadius? borderRadius, double? maxSize, String? barrierLabel, bool useRootNavigator = true, RouteSettings? routeSettings, DrawerTheme? theme});
 ```

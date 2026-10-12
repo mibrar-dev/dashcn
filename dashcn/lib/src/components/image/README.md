@@ -1,27 +1,27 @@
 # image
 
-A themed, rounded image slot: shadcn's `aspect-square` + `rounded-lg` +
+A themed, rounded image slot: dashcn's `aspect-square` + `rounded-lg` +
 `object-cover`, plus the loading and error slots the old preview hand-rolled.
 
-The widget is `ShadcnImage` because `package:flutter/widgets.dart` exports an
+The widget is `Picture` because `package:flutter/widgets.dart` exports an
 `Image` of its own; nothing else in this component needs a prefix.
 
 ## Getting started
 
 ```dart
-ShadcnImage(image: NetworkImage(url), width: 200, aspectRatio: 1)
+Picture(image: NetworkImage(url), width: 200, aspectRatio: 1)
 ```
 
-> The widget is `ShadcnImage`, not `Image`: `package:flutter/widgets.dart`
+> The widget is `Picture`, not `Image`: `package:flutter/widgets.dart`
 > already exports an `Image`, so an unprefixed `Image` would make any file
 > importing both libraries fail to compile. The prefix follows the same rule as
-> `ShadcnTheme`. `ImageTheme` needs no prefix — no Flutter library declares
+> `Theme`. `ImageTheme` needs no prefix — no Flutter library declares
 > that name.
 
 Placeholders and failures:
 
 ```dart
-ShadcnImage(
+Picture(
   image: NetworkImage(url),
   width: 200,
   aspectRatio: 1,
@@ -37,7 +37,7 @@ ShadcnImage(
 |---|---|---|
 | `image` | `ImageProvider<Object>` | Required. The stream is resolved by the component, so the bytes stay cached across rebuilds. |
 | `width` / `height` | `double?` | At least one is required — `aspectRatio` alone leaves an axis unbounded. When only one side is given and `aspectRatio` is null, the box defaults to square (the missing side equals the given one). |
-| `aspectRatio` | `double?` | shadcn renders a square image (`1`); also the default when a single side is given without one. |
+| `aspectRatio` | `double?` | dashcn renders a square image (`1`); also the default when a single side is given without one. |
 | `fit` | `BoxFit` | Defaults to `BoxFit.cover`. |
 | `borderRadius` | `BorderRadiusGeometry?` | null = `ImageTheme.borderRadius`, then `radiusLg`. |
 | `background` | `Color?` | Fill behind the image; also the default placeholder. |

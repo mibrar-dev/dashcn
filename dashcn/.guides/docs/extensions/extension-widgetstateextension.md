@@ -1,38 +1,22 @@
 ---
 title: "Extension: WidgetStateExtension"
-description: "Extension on `Set<WidgetState>` providing convenient boolean getters for common states."
+description: "Boolean state getters for a `Set<WidgetState>`."
 ---
 
 ```dart
-/// Extension on `Set<WidgetState>` providing convenient boolean getters for common states.
-///
-/// This extension simplifies checking for widget states by providing readable
-/// property accessors instead of using `contains()` calls.
-///
-/// ## Example
-///
-/// ```dart
-/// Set<WidgetState> states = {WidgetState.hovered, WidgetState.focused};
-///
-/// if (states.hovered) {
-///   // Handle hover state
-/// }
-/// if (states.disabled) {
-///   // Handle disabled state
-/// }
-/// ```
+/// Boolean state getters for a `Set<WidgetState>`.
 extension WidgetStateExtension on Set<WidgetState> {
-  /// Whether the widget is in a disabled state.
+  /// Whether the widget is disabled.
   bool get disabled;
   /// Whether the widget is in an error state.
   bool get error;
-  /// Whether the widget is in a selected state.
+  /// Whether the widget is selected.
   bool get selected;
-  /// Whether the widget is in a pressed state.
+  /// Whether the widget is pressed.
   bool get pressed;
-  /// Whether the widget is in a hovered state.
+  /// Whether the widget is hovered.
   bool get hovered;
-  /// Whether the widget is in a focused state.
+  /// Whether the widget is focused.
   bool get focused;
 }
 ```

@@ -1,21 +1,22 @@
 ---
 title: "Class: FormEntryErrorBuilder"
-description: "Widget builder for displaying form entry validation errors."
+description: "Renders [builder] with the nearest field's validation result."
 ---
 
 ```dart
-/// Widget builder for displaying form entry validation errors.
+/// Renders [builder] with the nearest field's validation result.
 ///
-/// Conditionally renders error messages based on validation state and modes.
+/// [modes] filters which [FormValidationMode] a result is shown for; results
+/// from other modes read as valid.
 class FormEntryErrorBuilder extends StatelessWidget {
-  /// Builder function that creates the error display widget.
-  final Widget Function(BuildContext context, ValidationResult? error, Widget? child) builder;
-  /// Optional child widget passed to the builder.
-  final Widget? child;
-  /// Validation modes that trigger error display.
-  final Set<FormValidationMode>? modes;
-  /// Creates a form entry error builder.
+  /// Creates an error builder over the nearest field.
   const FormEntryErrorBuilder({super.key, required this.builder, this.child, this.modes});
+  /// Builds the field from its validation result.
+  final Widget Function(BuildContext context, ValidationResult? error, Widget? child) builder;
+  /// Passed through to [builder].
+  final Widget? child;
+  /// Validation modes that surface the error.
+  final Set<FormValidationMode>? modes;
   Widget build(BuildContext context);
 }
 ```

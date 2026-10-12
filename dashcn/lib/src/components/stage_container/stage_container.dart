@@ -52,7 +52,7 @@ class StageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     // Direct widget args win over the `theme:` widget leg, which fills the
     // rest; both sit above the scoped and app legs.
     final StageContainerTheme widgetTheme = StageContainerTheme(

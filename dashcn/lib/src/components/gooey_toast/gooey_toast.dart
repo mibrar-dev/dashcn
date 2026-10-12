@@ -178,9 +178,9 @@ class GooeyToastCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GooeyToastPayload payload = this.payload;
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final GooeyToastTheme theme = gooeyToastThemeOf(context);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     // Resolve the tone against a theme that carries only this toast's fill:
     // the global `ComponentThemes` leg still supplies the tone refs.
     final GooeyToastTheme toneTheme = gooeyToastThemeOf(

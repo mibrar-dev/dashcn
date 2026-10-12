@@ -92,8 +92,8 @@ Given a container width `size` and a breakpoint strategy `bp`:
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add stage_container`) or copy the
-   folder into `lib/ui/shadcn/stage_container/`.
+1. Install the component (`dashcn add stage_container`) or copy the
+   folder into `lib/ui/dashcn/stage_container/`.
 2. Import `stage_container.dart`; it re-exports `StageBreakpoint`,
    `ConstantBreakpoint`, `StagedBreakpoint` and `stageContainerDefaults`.
 3. App-wide overrides go in `stage_container_theme.dart`; per-subtree overrides

@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Paged carousel with a sliding or fading transition, drag, autoplay and a controller that drives the dot row.",
   "tier": "component",
-  "install": "flutter_shadcn add carousel",
-  "import": "import 'package:<your_app>/ui/shadcn/components/carousel/carousel.dart';",
+  "install": "dashcn add carousel",
+  "import": "import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';",
   "tags": ["display", "carousel", "slider", "pages", "autoplay"],
   "deps": {
     "foundation": ["constants", "util"],

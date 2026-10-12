@@ -21,7 +21,7 @@ import 'carousel.dart';
 
 /// One numbered card slide.
 Widget _slideCard(BuildContext context, int index) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Container(
     decoration: BoxDecoration(
       color: theme.colors.card,
@@ -108,7 +108,7 @@ class _CarouselShellState extends State<_CarouselShell> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
     final Widget viewport = GestureDetector(
       onTap: _keys.requestFocus,

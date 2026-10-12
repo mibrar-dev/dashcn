@@ -17,7 +17,7 @@ int _overlayGeneration = 0;
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   HoverCardTheme? scoped,
 }) {
@@ -25,7 +25,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<HoverCardTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -135,11 +135,11 @@ void main() {
 
   group('surface', () {
     testWidgets('paints the popover token surface', (tester) async {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           _card(wait: Duration.zero),
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
         ),
       );
       final TestGesture mouse = await _mouse(tester);
@@ -158,11 +158,11 @@ void main() {
     });
 
     testWidgets('dark tokens drive the surface', (tester) async {
-      const ShadcnColors colors = ShadcnColors.darkFallback;
+      const ThemeColors colors = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
           _card(wait: Duration.zero),
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
         ),
       );
       final TestGesture mouse = await _mouse(tester);

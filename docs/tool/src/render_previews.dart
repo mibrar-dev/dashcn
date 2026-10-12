@@ -67,7 +67,7 @@ String renderDocsPreviews(DocsModel model) {
 
 /// Renders `lib/previews/component_previews.dart`: the deferred preview
 /// registry D4's component pages load. Preview files arrive in the docs app
-/// through the registry mirror (`lib/ui/shadcn/components/<id>/preview.dart`,
+/// through the registry mirror (`lib/ui/dashcn/components/<id>/preview.dart`,
 /// synced by `tool/sync_registry.sh` and hash-covered by the manifest).
 String renderComponentPreviews(
   RegistryScan scan,
@@ -93,7 +93,7 @@ String renderComponentPreviews(
     ..writeln();
   for (final ComponentFacts component in scan.components) {
     out.writeln(
-      "import 'package:docs/ui/shadcn/components/${component.id}/preview.dart' deferred as ${_prefix(component.id)};",
+      "import 'package:docs/ui/dashcn/components/${component.id}/preview.dart' deferred as ${_prefix(component.id)};",
     );
   }
   out
@@ -169,7 +169,7 @@ String renderBlockPreviews(
     ..writeln();
   for (final BlockFacts block in scan.blocks) {
     out.writeln(
-      "import 'package:docs/ui/shadcn/blocks/${block.id}/${_blockFile(block)}' deferred as ${_blockPrefix(block.id)};",
+      "import 'package:docs/ui/dashcn/blocks/${block.id}/${_blockFile(block)}' deferred as ${_blockPrefix(block.id)};",
     );
   }
   out

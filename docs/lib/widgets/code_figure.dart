@@ -6,9 +6,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/primitives/syntax_highlight/syntax_highlight.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/primitives/syntax_highlight/syntax_highlight.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
 import 'selectable_code.dart';
@@ -35,7 +35,7 @@ class DocsCodeFigure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DocsSiteColors site = DocsSiteColors.of(context);
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool dark = site.codeSurface == const Color(0xFF161616);
     final Color ink = dark ? const Color(0xFFE5E5E5) : const Color(0xFF262626);
     final TextStyle style = theme.typography.mono.copyWith(

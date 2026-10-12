@@ -6,10 +6,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/card/card.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/card/card.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
 /// Base card: 24 px radius, card fill, `shadow-sm` + 5 % foreground ring.
@@ -32,7 +32,7 @@ class CollageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       padding: const EdgeInsets.all(20),
       background: ThemedColor.ref(ColorRef.card),

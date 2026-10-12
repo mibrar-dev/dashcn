@@ -35,7 +35,7 @@ class DropdownMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     // Inside a sheet overlay the menu keeps the sheet's horizontal gutter.
     final EdgeInsets itemPadding = SheetOverlayHandler.isSheetOverlay(context)
         ? EdgeInsets.symmetric(horizontal: ambient.spacing.sm)
@@ -62,7 +62,7 @@ class DropdownMenu extends StatelessWidget {
 /// through the menu's own traversal engine. The opened menu takes focus so
 /// keyboard traversal works immediately. Completes with the value passed
 /// to [closeOverlay] or `null` when dismissed.
-Future<T?> showShadcnDropdown<T>({
+Future<T?> showDropdown<T>({
   required BuildContext context,
   required List<Widget> children,
   AlignmentGeometry alignment = AlignmentDirectional.topStart,

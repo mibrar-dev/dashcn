@@ -54,7 +54,7 @@ class ToastTheme extends ComponentThemeData implements Mergeable<ToastTheme> {
   /// Corner radius; null resolves the ambient `radiusMd` at build.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Inner padding. Default: [toastDefaultPadding] (shadcn `p-4`).
+  /// Inner padding. Default: [toastDefaultPadding] (upstream `p-4`).
   final EdgeInsetsGeometry? padding;
 
   /// Maximum card width. Default: `380`.
@@ -247,5 +247,5 @@ const ToastTheme toastDefaults = ToastTheme(
   offset: EdgeInsets.all(24),
 );
 
-/// Default toast card padding: shadcn `p-4`, density-scaled.
+/// Default toast card padding: upstream `p-4`, density-scaled.
 const EdgeInsetsGeometry toastDefaultPadding = EdgeInsetsDensity.pxAll(16);

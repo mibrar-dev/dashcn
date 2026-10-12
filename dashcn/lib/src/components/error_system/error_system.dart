@@ -52,9 +52,9 @@ class ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ErrorSystemTheme style = _errorSystemStyle(context, theme);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final Widget resolvedIcon =
         icon ??
         Icon(
@@ -126,8 +126,8 @@ class InlineError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeData ambient = Theme.of(context);
+    final ThemeColors colors = ambient.colors;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -170,8 +170,8 @@ class AppErrorBanner extends StatelessWidget {
   }
 
   Widget _banner(BuildContext context, AppError error, ErrorSystemTheme style) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
-    final ShadcnColors colors = ambient.colors;
+    final ThemeData ambient = Theme.of(context);
+    final ThemeColors colors = ambient.colors;
     final ThemedColor border = style.bannerBorder!;
     final Widget? action = error.actions.isEmpty
         ? null
@@ -241,7 +241,7 @@ Future<T?> showErrorDialog<T>({
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).maybePop(),
-            child: Text(ShadcnLocalizations.of(context).dialogDismiss),
+            child: Text(ComponentLocalizations.of(context).dialogDismiss),
           ),
         ]
       : <Widget>[
@@ -267,8 +267,8 @@ String showErrorSnackbar(
     context,
     duration: duration,
     builder: (BuildContext context) {
-      final ShadcnThemeData ambient = ShadcnTheme.of(context);
-      final ShadcnColors colors = ambient.colors;
+      final ThemeData ambient = Theme.of(context);
+      final ThemeColors colors = ambient.colors;
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -305,7 +305,7 @@ class AppErrorGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ValueListenableBuilder<AppError?>(
       valueListenable: notifier,
       builder: (BuildContext context, AppError? error, Widget? _) {

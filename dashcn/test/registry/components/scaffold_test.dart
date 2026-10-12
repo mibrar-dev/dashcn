@@ -16,7 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ScaffoldTheme? scopedScaffold,
   AppBarTheme? scopedAppBar,
@@ -28,7 +28,7 @@ Widget _frame({
   if (scopedScaffold != null) {
     body = ComponentTheme<ScaffoldTheme>(data: scopedScaffold, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -256,14 +256,14 @@ void main() {
     testWidgets('dark tokens restyle the shell', (tester) async {
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: Scaffold(child: const Text('body')),
         ),
       );
       final ColoredBox box = tester.widget<ColoredBox>(
         find.byType(ColoredBox).first,
       );
-      expect(box.color, ShadcnColors.darkFallback.background);
+      expect(box.color, ThemeColors.darkFallback.background);
     });
   });
 }

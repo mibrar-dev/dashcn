@@ -1,21 +1,21 @@
 ---
 title: "Class: BiDirectionalConvert"
-description: "Converts between two value types using the provided converters."
+description: "A pair of opposite conversions between [A] and [B]."
 ---
 
 ```dart
-/// Converts between two value types using the provided converters.
+/// A pair of opposite conversions between [A] and [B].
 class BiDirectionalConvert<A, B> {
   /// Converts from A to B.
-  final B Function(A) aToB;
+  final Convert<A, B> aToB;
   /// Converts from B to A.
-  final A Function(B) bToA;
-  /// Creates a [BiDirectionalConvert].
+  final Convert<B, A> bToA;
   BiDirectionalConvert(this.aToB, this.bToA);
-  /// Converts A to B.
+  /// Converts [value] from A to B.
   B convertA(A value);
-  /// Converts B to A.
+  /// Converts [value] from B to A.
   A convertB(B value);
+  String toString();
   bool operator ==(Object other);
   int get hashCode;
 }

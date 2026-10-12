@@ -1,21 +1,25 @@
 ---
 title: "Enum: OverlayPosition"
-description: "Reference for OverlayPosition"
+description: "Edge a drawer or sheet slides in from."
 ---
 
 ```dart
+/// Edge a drawer or sheet slides in from.
+///
+/// `start`/`end` follow the ambient [TextDirection]; [resolve] maps them to a
+/// physical edge before the shell builds.
 enum OverlayPosition {
-  /// Positioned on the left edge
+  /// Left edge.
   left,
-  /// Positioned on the right edge
+  /// Right edge.
   right,
-  /// Positioned on the top edge
+  /// Top edge.
   top,
-  /// Positioned on the bottom edge
+  /// Bottom edge.
   bottom,
-  /// Positioned at the start (left in LTR, right in RTL)
+  /// Leading edge (left in LTR, right in RTL).
   start,
-  /// Positioned at the end (right in LTR, left in RTL)
+  /// Trailing edge (right in LTR, left in RTL).
   end,
 }
 ```

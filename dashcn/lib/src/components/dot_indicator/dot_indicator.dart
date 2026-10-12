@@ -84,7 +84,7 @@ class DotIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData appTheme = ShadcnTheme.of(context);
+    final ThemeData appTheme = Theme.of(context);
     final DotIndicatorTheme resolved =
         resolveComponentStyle<DotIndicatorTheme, DotIndicatorTheme>(
           context,
@@ -138,7 +138,7 @@ class DotIndicator extends StatelessWidget {
 
   Widget _dot(
     BuildContext context,
-    ShadcnThemeData appTheme,
+    ThemeData appTheme,
     DotIndicatorTheme theme,
     int position,
     double gap,
@@ -218,7 +218,7 @@ class _DotBox extends StatelessWidget {
 BoxDecoration _dotDecoration(
   DotStyle style,
   Set<WidgetState> states,
-  ShadcnColors colors,
+  ThemeColors colors,
   double scaling,
 ) {
   final double size = style.size ?? 12 * scaling;

@@ -6,10 +6,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
 /// A rail row: label over value, with a trailing swatch or glyph.
@@ -45,7 +45,7 @@ class RailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: ClickableCard(
@@ -114,7 +114,7 @@ class RailSwatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Center(
       child: Container(
         width: 16,
@@ -187,7 +187,7 @@ class ClickableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Clickable(
       onPressed: onPressed,
       behavior: HitTestBehavior.opaque,

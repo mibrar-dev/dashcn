@@ -50,7 +50,7 @@ class NavigationGroup extends StatelessWidget implements NavigationBarItem {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
       context,
     );
@@ -110,7 +110,7 @@ class NavigationLabel extends StatelessWidget implements NavigationBarItem {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
       context,
     );
@@ -148,7 +148,7 @@ class NavigationDivider extends StatelessWidget implements NavigationBarItem {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final Axis direction =
         Data.maybeOf<NavigationControlData>(context)?.direction ??
         Axis.vertical;

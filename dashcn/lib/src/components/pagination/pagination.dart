@@ -144,7 +144,7 @@ class Pagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final PaginationTheme style =
         resolveComponentStyle<PaginationTheme, PaginationTheme>(
           context,
@@ -154,7 +154,9 @@ class Pagination extends StatelessWidget {
         );
     final double spacing = (gap ?? style.gap ?? 4) * ambient.scaling;
     final bool withLabel = showLabel ?? style.showLabel ?? true;
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final double iconSize = 12 * ambient.scaling;
 
     // A masonry column (~300 px) or a phone (375 px minus padding) cannot hold
@@ -287,7 +289,7 @@ class Pagination extends StatelessWidget {
   }
 
   Widget _previous(
-    ShadcnLocalizations localizations,
+    ComponentLocalizations localizations,
     bool withLabel,
     double iconSize,
   ) {
@@ -315,7 +317,7 @@ class Pagination extends StatelessWidget {
   }
 
   Widget _next(
-    ShadcnLocalizations localizations,
+    ComponentLocalizations localizations,
     bool withLabel,
     double iconSize,
   ) {

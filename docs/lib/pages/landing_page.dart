@@ -7,9 +7,9 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/announcement.dart';
 import '../widgets/collage.dart';
 import '../widgets/docs_footer.dart';
@@ -22,7 +22,7 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool xl = width >= 1280;
     return SingleChildScrollView(
@@ -129,11 +129,11 @@ class _PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // The reference CTAs are 35/36 px pills (radius 26). The registry button
     // derives its radius from the `radius` token, so the token is scoped to
     // this subtree: radiusMd = 1.25 * 16 - 2 = 18 = half of the 36 px box.
-    return ShadcnTheme(
+    return Theme(
       data: theme.copyWith(tokens: () => theme.tokens.copyWith(radius: 1.25)),
       child: Button(
         variant: primary ? ButtonVariant.primary : ButtonVariant.secondary,

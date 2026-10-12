@@ -1,6 +1,6 @@
 ---
 title: "Function: isMobile"
-description: "Top-level function isMobile"
+description: "Whether [platform] is a mobile target (Android, iOS or Fuchsia)."
 ---
 
 Signature

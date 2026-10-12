@@ -1,18 +1,21 @@
 ---
 title: "Enum: DurationPart"
-description: "Represents a part of a duration (day, hour, minute, or second)."
+description: "One component of a duration."
 ---
 
 ```dart
-/// Represents a part of a duration (day, hour, minute, or second).
+/// One component of a duration.
+///
+/// Used to order and label the fields of a duration picker; see [DatePart] for
+/// the same idea applied to dates.
 enum DurationPart {
-  /// Day component.
+  /// Whole days.
   day,
-  /// Hour component.
+  /// Hours within the day.
   hour,
-  /// Minute component.
+  /// Minutes within the hour.
   minute,
-  /// Second component.
+  /// Seconds within the minute.
   second,
 }
 ```

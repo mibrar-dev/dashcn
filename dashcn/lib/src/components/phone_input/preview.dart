@@ -93,8 +93,8 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnForm(
-      child: ShadcnFormField<PhoneNumber>(
+    return FormScope(
+      child: FormItem<PhoneNumber>(
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
         label: const Text('Phone'),
         validator: const PhoneNumberValidator(),

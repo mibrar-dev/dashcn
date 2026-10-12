@@ -34,7 +34,7 @@ void main() {
   test('the surface fill stays light against a dark colour scheme', () {
     // In dark site mode the toast is still the light reference surface.
     final Color resolved = gooeyToastDefaults.fill!.resolve(
-      ShadcnColors.darkFallback,
+      ThemeColors.darkFallback,
     );
     expect(resolved, _kRefSurface);
     expect(resolved.computeLuminance(), greaterThan(0.8));
@@ -45,7 +45,7 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(1440, 900));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         home: GooeyToastLayer(
           controller: controller,
           child: const SizedBox.shrink(),
@@ -75,7 +75,7 @@ void main() {
   testWidgets('the action variant renders the Confirm button', (tester) async {
     final GooeyToastController controller = GooeyToastController();
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         home: GooeyToastLayer(
           controller: controller,
           child: const SizedBox.shrink(),
@@ -100,7 +100,7 @@ void main() {
   testWidgets('no close button exists at any phase', (tester) async {
     final GooeyToastController controller = GooeyToastController();
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         home: GooeyToastLayer(
           controller: controller,
           child: const SizedBox.shrink(),

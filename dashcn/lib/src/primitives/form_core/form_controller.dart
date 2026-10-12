@@ -67,7 +67,7 @@ class _ResultStash {
   final FormValidationMode mode;
 }
 
-/// Coordinates every field inside a `ShadcnForm`.
+/// Coordinates every field inside a `FormScope`.
 ///
 /// Fields attach when they mount (through `FormEntry`), report values, run
 /// their validators and detach when they unmount. The controller never touches
@@ -82,7 +82,7 @@ class FormController extends ChangeNotifier {
 
   /// Called by [submit] after a successful validation.
   ///
-  /// The `ShadcnForm` widget installs its `onSubmit` callback here while attached.
+  /// The `FormScope` widget installs its `onSubmit` callback here while attached.
   FormSubmitCallback? onSubmit;
 
   /// The nearest controller, or null outside a form.

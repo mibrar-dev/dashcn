@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "An upload surface: outline, upload icon, localized status line, optional hint and a browse button. Presentational — it takes a state, it does not listen to a drag stream.",
   "tier": "component",
-  "install": "flutter_shadcn add dropzone",
-  "import": "import 'package:<your_app>/ui/shadcn/components/dropzone/dropzone.dart';",
+  "install": "dashcn add dropzone",
+  "import": "import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';",
   "tags": [
     "form",
     "upload",
@@ -94,7 +94,7 @@
     "`FileDropzone` is now `Dropzone`: the old name implied it owned a file list, which it never did (that is `primitives/file_value/`).",
     "`hotDropEnabled` / `hotDropping` are replaced by `DropzoneState` plus `isDragOver`; the old pair could disagree with each other and with `state`, and `_resolveBorderColor` had to reconcile all three.",
     "`OutlineButton` is `Button(variant: ButtonVariant.outline)`.",
-    "Status strings and the browse label are `ShadcnLocalizations` getters (seven new getters, English fallback only, no invented translations).",
+    "Status strings and the browse label are `ComponentLocalizations` getters (seven new getters, English fallback only, no invented translations).",
     "The border is a plain 1px outline, not a dashed one: the kit has no dashed primitive, so the shape is honest rather than approximated with a repeating image."
   ]
 }

@@ -1,27 +1,31 @@
 ---
 title: "Extension: IconExtension"
-description: "Extension on Widget providing icon theme utilities."
+description: "Icon modifiers that apply the ambient icon theme slots to any [Widget]."
 ---
 
 ```dart
-/// Extension on Widget providing icon theme utilities.
+/// Icon modifiers that apply the ambient icon theme slots to any [Widget].
+///
+/// ```dart
+/// const Icon(LucideIcons.chevronRight).iconSmall();
+/// const Icon(LucideIcons.x).iconSmall().iconMutedForeground();
+/// ```
 extension IconExtension on Widget {
-  WrappedIcon get iconX4Small;
-  WrappedIcon get iconX3Small;
-  WrappedIcon get iconX2Small;
-  WrappedIcon get iconXSmall;
-  WrappedIcon get iconSmall;
-  WrappedIcon get iconMedium;
-  WrappedIcon get iconLarge;
-  WrappedIcon get iconXLarge;
-  WrappedIcon get iconX2Large;
-  WrappedIcon get iconX3Large;
-  WrappedIcon get iconX4Large;
-  WrappedIcon get iconMutedForeground;
-  WrappedIcon get iconDestructiveForeground;
-  WrappedIcon get iconPrimaryForeground;
-  WrappedIcon get iconPrimary;
-  WrappedIcon get iconSecondary;
-  WrappedIcon get iconSecondaryForeground;
+  /// Applies the `x3Small` (8px) icon slot.
+  Widget iconX3Small();
+  /// Applies the `xSmall` (12px) icon slot.
+  Widget iconXSmall();
+  /// Applies the `small` (16px) icon slot.
+  Widget iconSmall();
+  /// Applies the `medium` (20px) icon slot.
+  Widget iconMedium();
+  /// Applies the `large` (24px) icon slot.
+  Widget iconLarge();
+  /// Applies the `mutedForeground` token as the icon colour.
+  ///
+  /// The resolved colour wins over an ambient icon colour (the old helper
+  /// merged the other way around, so an ancestor `IconTheme` colour silently
+  /// swallowed the muted colour).
+  Widget iconMutedForeground();
 }
 ```

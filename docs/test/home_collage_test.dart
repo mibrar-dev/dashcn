@@ -3,8 +3,8 @@
 // 1440 in light and dark, follows the theme, and every overlay trigger
 // opens its real registry overlay.
 
-import 'package:docs/ui/shadcn/primitives/masonry_layout.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/primitives/masonry_layout.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/collage.dart';
 import 'package:docs/widgets/collage_cards.dart';
 import 'package:flutter/services.dart';
@@ -107,7 +107,7 @@ void main() {
 
   testWidgets('wall follows the live theme (light vs dark)', (tester) async {
     await pumpDocsApp(tester, width: 1400);
-    Color background() => ShadcnTheme.of(
+    Color background() => Theme.of(
       tester.element(find.byType(DocsCollage).first),
     ).colors.background;
     docsState.setBrightness(Brightness.light);

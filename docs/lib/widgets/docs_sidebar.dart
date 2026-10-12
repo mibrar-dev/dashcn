@@ -18,10 +18,10 @@ import 'package:flutter/widgets.dart';
 import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'scroll_fade.dart';
 import 'sidebar_groups.dart';
@@ -94,7 +94,7 @@ class _DocsSidebarState extends State<DocsSidebar> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // Spec §2.2: the sidebar sticks at `header + 0.6rem` (10 px) and the
     // first group starts `pt-12` (48 px) below that; the scroll area sits at
     // `pl-2.5` + the container gutter's 8 px, so rows start at x = 26.
@@ -197,7 +197,7 @@ class _GroupLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
       child: SizedBox(
@@ -230,7 +230,7 @@ class _SubGroupLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
       child: Text(
@@ -267,8 +267,8 @@ class _SidebarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     final BorderRadius radius = theme.borderRadiusMd;
     return Padding(
       padding: EdgeInsets.only(bottom: spacing),

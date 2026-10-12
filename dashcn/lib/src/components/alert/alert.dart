@@ -65,14 +65,14 @@ class Alert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AlertStyle style = resolveComponentStyle<AlertTheme, AlertStyle>(
       context,
       widget: theme?.forVariant(variant),
       select: (t) => t.forVariant(variant),
       defaults: alertDefaults.forVariant(variant)!,
     );
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final Color titleColor =
         style.titleColor?.resolve(colors) ?? colors.foreground;
     final Color contentColor =
@@ -91,7 +91,7 @@ class Alert extends StatelessWidget {
         borderRadius: radius,
       ),
       child: Padding(
-        // `alertDefaults.base.padding` is shadcn `px-4 py-3` held as density
+        // `alertDefaults.base.padding` is upstream `px-4 py-3` held as density
         // multipliers; a widget-leg literal resolves to itself here.
         padding: resolveEdgeInsets(
           style.padding ?? EdgeInsets.zero,

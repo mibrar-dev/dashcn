@@ -41,7 +41,7 @@ class _Calendar02State extends State<Calendar02> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -132,7 +132,7 @@ class _Calendar02Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Expanded(
@@ -181,7 +181,7 @@ class _Calendar02Agenda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -232,7 +232,7 @@ class _Calendar02Slots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double spacing = ShadcnTheme.of(context).spacing.sm;
+    final double spacing = Theme.of(context).spacing.sm;
     return Wrap(
       spacing: spacing,
       runSpacing: spacing,
@@ -278,7 +278,7 @@ class _Calendar02Slot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Button(
       variant: taken
           ? ButtonVariant.outline

@@ -7,14 +7,14 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/accordion/accordion.dart';
-import '../ui/shadcn/components/avatar/avatar.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/empty_state/empty_state.dart';
-import '../ui/shadcn/components/select/select.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/accordion/accordion.dart';
+import '../ui/dashcn/components/avatar/avatar.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/empty_state/empty_state.dart';
+import '../ui/dashcn/components/select/select.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 
 /// `Recent Transactions`: a list of avatar rows with a category caption.
@@ -91,7 +91,7 @@ class _TransactionRow extends StatelessWidget {
     final IconData icon = entry.$3;
     final String amount = entry.$4;
     final bool inbound = entry.$5;
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -143,7 +143,7 @@ class _HomeRowDivider extends StatelessWidget {
     return SizedBox(
       height: 1,
       width: double.infinity,
-      child: ColoredBox(color: ShadcnTheme.of(context).colors.border),
+      child: ColoredBox(color: Theme.of(context).colors.border),
     );
   }
 }

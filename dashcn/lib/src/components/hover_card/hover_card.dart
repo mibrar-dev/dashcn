@@ -138,7 +138,7 @@ class _HoverCardSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

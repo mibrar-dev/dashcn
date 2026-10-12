@@ -14,12 +14,12 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'package:docs/ui/shadcn/theme/color_tokens.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
-import 'package:docs/ui/shadcn/theme/tokens.dart';
+import 'package:docs/ui/dashcn/theme/color_tokens.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/tokens.dart';
 
 /// Colour tokens for the Amber Minimal preset, light brightness.
-const ShadcnColors amberMinimalLightColors = ShadcnColors(
+const ThemeColors amberMinimalLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF262626),
@@ -56,7 +56,7 @@ const ShadcnColors amberMinimalLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Amber Minimal preset, dark brightness.
-const ShadcnColors amberMinimalDarkColors = ShadcnColors(
+const ThemeColors amberMinimalDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF171717),
   foreground: Color(0xFFE5E5E5),
@@ -93,7 +93,7 @@ const ShadcnColors amberMinimalDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Amber Minimal preset, light brightness.
-final ShadcnTokens amberMinimalLightTokens = ShadcnTokens(
+final DesignTokens amberMinimalLightTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -108,7 +108,7 @@ final ShadcnTokens amberMinimalLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Amber Minimal preset, dark brightness.
-final ShadcnTokens amberMinimalDarkTokens = ShadcnTokens(
+final DesignTokens amberMinimalDarkTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -123,16 +123,16 @@ final ShadcnTokens amberMinimalDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Amber Minimal preset.
-const ShadcnFonts amberMinimalFonts = ShadcnFonts(
+const ThemeFonts amberMinimalFonts = ThemeFonts(
   fontSans: 'Inter, sans-serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Amber Minimal preset.
-ShadcnThemeData buildAmberMinimalTheme(Brightness brightness) {
+ThemeData buildAmberMinimalTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? amberMinimalDarkColors : amberMinimalLightColors,
     tokens: isDark ? amberMinimalDarkTokens : amberMinimalLightTokens,
     fonts: amberMinimalFonts,
@@ -140,7 +140,7 @@ ShadcnThemeData buildAmberMinimalTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Amethyst Haze preset, light brightness.
-const ShadcnColors amethystHazeLightColors = ShadcnColors(
+const ThemeColors amethystHazeLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF8F7FA),
   foreground: Color(0xFF3D3C4F),
@@ -177,7 +177,7 @@ const ShadcnColors amethystHazeLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Amethyst Haze preset, dark brightness.
-const ShadcnColors amethystHazeDarkColors = ShadcnColors(
+const ThemeColors amethystHazeDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1823),
   foreground: Color(0xFFE0DDEF),
@@ -214,7 +214,7 @@ const ShadcnColors amethystHazeDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Amethyst Haze preset, light brightness.
-final ShadcnTokens amethystHazeLightTokens = ShadcnTokens(
+final DesignTokens amethystHazeLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -229,7 +229,7 @@ final ShadcnTokens amethystHazeLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Amethyst Haze preset, dark brightness.
-final ShadcnTokens amethystHazeDarkTokens = ShadcnTokens(
+final DesignTokens amethystHazeDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -244,16 +244,16 @@ final ShadcnTokens amethystHazeDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Amethyst Haze preset.
-const ShadcnFonts amethystHazeFonts = ShadcnFonts(
+const ThemeFonts amethystHazeFonts = ThemeFonts(
   fontSans: 'Geist, sans-serif',
   fontSerif: '"Lora", Georgia, serif',
   fontMono: '"Fira Code", "Courier New", monospace',
 );
 
 /// Builds the ambient theme for the Amethyst Haze preset.
-ShadcnThemeData buildAmethystHazeTheme(Brightness brightness) {
+ThemeData buildAmethystHazeTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? amethystHazeDarkColors : amethystHazeLightColors,
     tokens: isDark ? amethystHazeDarkTokens : amethystHazeLightTokens,
     fonts: amethystHazeFonts,
@@ -261,7 +261,7 @@ ShadcnThemeData buildAmethystHazeTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Bold Tech preset, light brightness.
-const ShadcnColors boldTechLightColors = ShadcnColors(
+const ThemeColors boldTechLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF312E81),
@@ -298,7 +298,7 @@ const ShadcnColors boldTechLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Bold Tech preset, dark brightness.
-const ShadcnColors boldTechDarkColors = ShadcnColors(
+const ThemeColors boldTechDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0F172A),
   foreground: Color(0xFFE0E7FF),
@@ -335,7 +335,7 @@ const ShadcnColors boldTechDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Bold Tech preset, light brightness.
-final ShadcnTokens boldTechLightTokens = ShadcnTokens(
+final DesignTokens boldTechLightTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -350,7 +350,7 @@ final ShadcnTokens boldTechLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Bold Tech preset, dark brightness.
-final ShadcnTokens boldTechDarkTokens = ShadcnTokens(
+final DesignTokens boldTechDarkTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -365,16 +365,16 @@ final ShadcnTokens boldTechDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Bold Tech preset.
-const ShadcnFonts boldTechFonts = ShadcnFonts(
+const ThemeFonts boldTechFonts = ThemeFonts(
   fontSans: 'Roboto, sans-serif',
   fontSerif: 'Playfair Display, serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Bold Tech preset.
-ShadcnThemeData buildBoldTechTheme(Brightness brightness) {
+ThemeData buildBoldTechTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? boldTechDarkColors : boldTechLightColors,
     tokens: isDark ? boldTechDarkTokens : boldTechLightTokens,
     fonts: boldTechFonts,
@@ -382,7 +382,7 @@ ShadcnThemeData buildBoldTechTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Bubblegum preset, light brightness.
-const ShadcnColors bubblegumLightColors = ShadcnColors(
+const ThemeColors bubblegumLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF6E6EE),
   foreground: Color(0xFF5B5B5B),
@@ -419,7 +419,7 @@ const ShadcnColors bubblegumLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Bubblegum preset, dark brightness.
-const ShadcnColors bubblegumDarkColors = ShadcnColors(
+const ThemeColors bubblegumDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF12242E),
   foreground: Color(0xFFF3E3EA),
@@ -456,7 +456,7 @@ const ShadcnColors bubblegumDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Bubblegum preset, light brightness.
-final ShadcnTokens bubblegumLightTokens = ShadcnTokens(
+final DesignTokens bubblegumLightTokens = DesignTokens(
   radius: 0.4,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -471,7 +471,7 @@ final ShadcnTokens bubblegumLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Bubblegum preset, dark brightness.
-final ShadcnTokens bubblegumDarkTokens = ShadcnTokens(
+final DesignTokens bubblegumDarkTokens = DesignTokens(
   radius: 0.4,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -486,16 +486,16 @@ final ShadcnTokens bubblegumDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Bubblegum preset.
-const ShadcnFonts bubblegumFonts = ShadcnFonts(
+const ThemeFonts bubblegumFonts = ThemeFonts(
   fontSans: 'Poppins, sans-serif',
   fontSerif: 'Lora, serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Bubblegum preset.
-ShadcnThemeData buildBubblegumTheme(Brightness brightness) {
+ThemeData buildBubblegumTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? bubblegumDarkColors : bubblegumLightColors,
     tokens: isDark ? bubblegumDarkTokens : bubblegumLightTokens,
     fonts: bubblegumFonts,
@@ -503,7 +503,7 @@ ShadcnThemeData buildBubblegumTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Caffeine preset, light brightness.
-const ShadcnColors caffeineLightColors = ShadcnColors(
+const ThemeColors caffeineLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF9F9F9),
   foreground: Color(0xFF202020),
@@ -540,7 +540,7 @@ const ShadcnColors caffeineLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Caffeine preset, dark brightness.
-const ShadcnColors caffeineDarkColors = ShadcnColors(
+const ThemeColors caffeineDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF111111),
   foreground: Color(0xFFEEEEEE),
@@ -577,7 +577,7 @@ const ShadcnColors caffeineDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Caffeine preset, light brightness.
-final ShadcnTokens caffeineLightTokens = ShadcnTokens(
+final DesignTokens caffeineLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -592,7 +592,7 @@ final ShadcnTokens caffeineLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Caffeine preset, dark brightness.
-final ShadcnTokens caffeineDarkTokens = ShadcnTokens(
+final DesignTokens caffeineDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -607,16 +607,16 @@ final ShadcnTokens caffeineDarkTokens = ShadcnTokens(
 );
 
 /// Builds the ambient theme for the Caffeine preset.
-ShadcnThemeData buildCaffeineTheme(Brightness brightness) {
+ThemeData buildCaffeineTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? caffeineDarkColors : caffeineLightColors,
     tokens: isDark ? caffeineDarkTokens : caffeineLightTokens,
   );
 }
 
 /// Colour tokens for the Candyland preset, light brightness.
-const ShadcnColors candylandLightColors = ShadcnColors(
+const ThemeColors candylandLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF7F9FA),
   foreground: Color(0xFF333333),
@@ -653,7 +653,7 @@ const ShadcnColors candylandLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Candyland preset, dark brightness.
-const ShadcnColors candylandDarkColors = ShadcnColors(
+const ThemeColors candylandDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1D23),
   foreground: Color(0xFFE5E5E5),
@@ -690,7 +690,7 @@ const ShadcnColors candylandDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Candyland preset, light brightness.
-final ShadcnTokens candylandLightTokens = ShadcnTokens(
+final DesignTokens candylandLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -705,7 +705,7 @@ final ShadcnTokens candylandLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Candyland preset, dark brightness.
-final ShadcnTokens candylandDarkTokens = ShadcnTokens(
+final DesignTokens candylandDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -720,15 +720,15 @@ final ShadcnTokens candylandDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Candyland preset.
-const ShadcnFonts candylandFonts = ShadcnFonts(
+const ThemeFonts candylandFonts = ThemeFonts(
   fontSans: 'Poppins, sans-serif',
   fontMono: 'Roboto Mono, monospace',
 );
 
 /// Builds the ambient theme for the Candyland preset.
-ShadcnThemeData buildCandylandTheme(Brightness brightness) {
+ThemeData buildCandylandTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? candylandDarkColors : candylandLightColors,
     tokens: isDark ? candylandDarkTokens : candylandLightTokens,
     fonts: candylandFonts,
@@ -736,7 +736,7 @@ ShadcnThemeData buildCandylandTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Catppuccin preset, light brightness.
-const ShadcnColors catppuccinLightColors = ShadcnColors(
+const ThemeColors catppuccinLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFEFF1F5),
   foreground: Color(0xFF4C4F69),
@@ -773,7 +773,7 @@ const ShadcnColors catppuccinLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Catppuccin preset, dark brightness.
-const ShadcnColors catppuccinDarkColors = ShadcnColors(
+const ThemeColors catppuccinDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF181825),
   foreground: Color(0xFFCDD6F4),
@@ -810,7 +810,7 @@ const ShadcnColors catppuccinDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Catppuccin preset, light brightness.
-final ShadcnTokens catppuccinLightTokens = ShadcnTokens(
+final DesignTokens catppuccinLightTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -825,7 +825,7 @@ final ShadcnTokens catppuccinLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Catppuccin preset, dark brightness.
-final ShadcnTokens catppuccinDarkTokens = ShadcnTokens(
+final DesignTokens catppuccinDarkTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -840,16 +840,16 @@ final ShadcnTokens catppuccinDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Catppuccin preset.
-const ShadcnFonts catppuccinFonts = ShadcnFonts(
+const ThemeFonts catppuccinFonts = ThemeFonts(
   fontSans: 'Montserrat, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Catppuccin preset.
-ShadcnThemeData buildCatppuccinTheme(Brightness brightness) {
+ThemeData buildCatppuccinTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? catppuccinDarkColors : catppuccinLightColors,
     tokens: isDark ? catppuccinDarkTokens : catppuccinLightTokens,
     fonts: catppuccinFonts,
@@ -857,7 +857,7 @@ ShadcnThemeData buildCatppuccinTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Claude preset, light brightness.
-const ShadcnColors claudeLightColors = ShadcnColors(
+const ThemeColors claudeLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFAF9F5),
   foreground: Color(0xFF3D3929),
@@ -894,7 +894,7 @@ const ShadcnColors claudeLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Claude preset, dark brightness.
-const ShadcnColors claudeDarkColors = ShadcnColors(
+const ThemeColors claudeDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF262624),
   foreground: Color(0xFFC3C0B6),
@@ -931,7 +931,7 @@ const ShadcnColors claudeDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Claude preset, light brightness.
-final ShadcnTokens claudeLightTokens = ShadcnTokens(
+final DesignTokens claudeLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -946,7 +946,7 @@ final ShadcnTokens claudeLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Claude preset, dark brightness.
-final ShadcnTokens claudeDarkTokens = ShadcnTokens(
+final DesignTokens claudeDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -961,16 +961,16 @@ final ShadcnTokens claudeDarkTokens = ShadcnTokens(
 );
 
 /// Builds the ambient theme for the Claude preset.
-ShadcnThemeData buildClaudeTheme(Brightness brightness) {
+ThemeData buildClaudeTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? claudeDarkColors : claudeLightColors,
     tokens: isDark ? claudeDarkTokens : claudeLightTokens,
   );
 }
 
 /// Colour tokens for the Claymorphism preset, light brightness.
-const ShadcnColors claymorphismLightColors = ShadcnColors(
+const ThemeColors claymorphismLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFE7E5E4),
   foreground: Color(0xFF1E293B),
@@ -1007,7 +1007,7 @@ const ShadcnColors claymorphismLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Claymorphism preset, dark brightness.
-const ShadcnColors claymorphismDarkColors = ShadcnColors(
+const ThemeColors claymorphismDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1E1B18),
   foreground: Color(0xFFE2E8F0),
@@ -1044,7 +1044,7 @@ const ShadcnColors claymorphismDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Claymorphism preset, light brightness.
-final ShadcnTokens claymorphismLightTokens = ShadcnTokens(
+final DesignTokens claymorphismLightTokens = DesignTokens(
   radius: 1.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1059,7 +1059,7 @@ final ShadcnTokens claymorphismLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Claymorphism preset, dark brightness.
-final ShadcnTokens claymorphismDarkTokens = ShadcnTokens(
+final DesignTokens claymorphismDarkTokens = DesignTokens(
   radius: 1.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1074,16 +1074,16 @@ final ShadcnTokens claymorphismDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Claymorphism preset.
-const ShadcnFonts claymorphismFonts = ShadcnFonts(
+const ThemeFonts claymorphismFonts = ThemeFonts(
   fontSans: 'Plus Jakarta Sans, sans-serif',
   fontSerif: 'Lora, serif',
   fontMono: 'Roboto Mono, monospace',
 );
 
 /// Builds the ambient theme for the Claymorphism preset.
-ShadcnThemeData buildClaymorphismTheme(Brightness brightness) {
+ThemeData buildClaymorphismTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? claymorphismDarkColors : claymorphismLightColors,
     tokens: isDark ? claymorphismDarkTokens : claymorphismLightTokens,
     fonts: claymorphismFonts,
@@ -1091,7 +1091,7 @@ ShadcnThemeData buildClaymorphismTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Clean Slate preset, light brightness.
-const ShadcnColors cleanSlateLightColors = ShadcnColors(
+const ThemeColors cleanSlateLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF8FAFC),
   foreground: Color(0xFF1E293B),
@@ -1128,7 +1128,7 @@ const ShadcnColors cleanSlateLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Clean Slate preset, dark brightness.
-const ShadcnColors cleanSlateDarkColors = ShadcnColors(
+const ThemeColors cleanSlateDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0F172A),
   foreground: Color(0xFFE2E8F0),
@@ -1165,7 +1165,7 @@ const ShadcnColors cleanSlateDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Clean Slate preset, light brightness.
-final ShadcnTokens cleanSlateLightTokens = ShadcnTokens(
+final DesignTokens cleanSlateLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1180,7 +1180,7 @@ final ShadcnTokens cleanSlateLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Clean Slate preset, dark brightness.
-final ShadcnTokens cleanSlateDarkTokens = ShadcnTokens(
+final DesignTokens cleanSlateDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1195,16 +1195,16 @@ final ShadcnTokens cleanSlateDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Clean Slate preset.
-const ShadcnFonts cleanSlateFonts = ShadcnFonts(
+const ThemeFonts cleanSlateFonts = ThemeFonts(
   fontSans: 'Inter, sans-serif',
   fontSerif: 'Merriweather, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Clean Slate preset.
-ShadcnThemeData buildCleanSlateTheme(Brightness brightness) {
+ThemeData buildCleanSlateTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? cleanSlateDarkColors : cleanSlateLightColors,
     tokens: isDark ? cleanSlateDarkTokens : cleanSlateLightTokens,
     fonts: cleanSlateFonts,
@@ -1212,7 +1212,7 @@ ShadcnThemeData buildCleanSlateTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Cosmic Night preset, light brightness.
-const ShadcnColors cosmicNightLightColors = ShadcnColors(
+const ThemeColors cosmicNightLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF5F5FF),
   foreground: Color(0xFF2A2A4A),
@@ -1249,7 +1249,7 @@ const ShadcnColors cosmicNightLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Cosmic Night preset, dark brightness.
-const ShadcnColors cosmicNightDarkColors = ShadcnColors(
+const ThemeColors cosmicNightDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0F0F1A),
   foreground: Color(0xFFE2E2F5),
@@ -1286,7 +1286,7 @@ const ShadcnColors cosmicNightDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Cosmic Night preset, light brightness.
-final ShadcnTokens cosmicNightLightTokens = ShadcnTokens(
+final DesignTokens cosmicNightLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1301,7 +1301,7 @@ final ShadcnTokens cosmicNightLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Cosmic Night preset, dark brightness.
-final ShadcnTokens cosmicNightDarkTokens = ShadcnTokens(
+final DesignTokens cosmicNightDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1316,16 +1316,16 @@ final ShadcnTokens cosmicNightDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Cosmic Night preset.
-const ShadcnFonts cosmicNightFonts = ShadcnFonts(
+const ThemeFonts cosmicNightFonts = ThemeFonts(
   fontSans: 'Inter, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Cosmic Night preset.
-ShadcnThemeData buildCosmicNightTheme(Brightness brightness) {
+ThemeData buildCosmicNightTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? cosmicNightDarkColors : cosmicNightLightColors,
     tokens: isDark ? cosmicNightDarkTokens : cosmicNightLightTokens,
     fonts: cosmicNightFonts,
@@ -1333,7 +1333,7 @@ ShadcnThemeData buildCosmicNightTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Cyberpunk preset, light brightness.
-const ShadcnColors cyberpunkLightColors = ShadcnColors(
+const ThemeColors cyberpunkLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF8F9FA),
   foreground: Color(0xFF0C0C1D),
@@ -1370,7 +1370,7 @@ const ShadcnColors cyberpunkLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Cyberpunk preset, dark brightness.
-const ShadcnColors cyberpunkDarkColors = ShadcnColors(
+const ThemeColors cyberpunkDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0C0C1D),
   foreground: Color(0xFFECEFF4),
@@ -1407,7 +1407,7 @@ const ShadcnColors cyberpunkDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Cyberpunk preset, light brightness.
-final ShadcnTokens cyberpunkLightTokens = ShadcnTokens(
+final DesignTokens cyberpunkLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1422,7 +1422,7 @@ final ShadcnTokens cyberpunkLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Cyberpunk preset, dark brightness.
-final ShadcnTokens cyberpunkDarkTokens = ShadcnTokens(
+final DesignTokens cyberpunkDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1437,15 +1437,15 @@ final ShadcnTokens cyberpunkDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Cyberpunk preset.
-const ShadcnFonts cyberpunkFonts = ShadcnFonts(
+const ThemeFonts cyberpunkFonts = ThemeFonts(
   fontSans: 'Outfit, sans-serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Cyberpunk preset.
-ShadcnThemeData buildCyberpunkTheme(Brightness brightness) {
+ThemeData buildCyberpunkTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? cyberpunkDarkColors : cyberpunkLightColors,
     tokens: isDark ? cyberpunkDarkTokens : cyberpunkLightTokens,
     fonts: cyberpunkFonts,
@@ -1453,7 +1453,7 @@ ShadcnThemeData buildCyberpunkTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Darkmatter preset, light brightness.
-const ShadcnColors darkmatterLightColors = ShadcnColors(
+const ThemeColors darkmatterLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF111827),
@@ -1490,7 +1490,7 @@ const ShadcnColors darkmatterLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Darkmatter preset, dark brightness.
-const ShadcnColors darkmatterDarkColors = ShadcnColors(
+const ThemeColors darkmatterDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF121113),
   foreground: Color(0xFFC1C1C1),
@@ -1527,7 +1527,7 @@ const ShadcnColors darkmatterDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Darkmatter preset, light brightness.
-final ShadcnTokens darkmatterLightTokens = ShadcnTokens(
+final DesignTokens darkmatterLightTokens = DesignTokens(
   radius: 0.75,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -1542,7 +1542,7 @@ final ShadcnTokens darkmatterLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Darkmatter preset, dark brightness.
-final ShadcnTokens darkmatterDarkTokens = ShadcnTokens(
+final DesignTokens darkmatterDarkTokens = DesignTokens(
   radius: 0.75,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -1557,16 +1557,16 @@ final ShadcnTokens darkmatterDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Darkmatter preset.
-const ShadcnFonts darkmatterFonts = ShadcnFonts(
+const ThemeFonts darkmatterFonts = ThemeFonts(
   fontSans: 'Geist Mono, ui-monospace, monospace',
   fontSerif: 'serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Darkmatter preset.
-ShadcnThemeData buildDarkmatterTheme(Brightness brightness) {
+ThemeData buildDarkmatterTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? darkmatterDarkColors : darkmatterLightColors,
     tokens: isDark ? darkmatterDarkTokens : darkmatterLightTokens,
     fonts: darkmatterFonts,
@@ -1574,7 +1574,7 @@ ShadcnThemeData buildDarkmatterTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Doom 64 preset, light brightness.
-const ShadcnColors doom64LightColors = ShadcnColors(
+const ThemeColors doom64LightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFCCCCCC),
   foreground: Color(0xFF1F1F1F),
@@ -1611,7 +1611,7 @@ const ShadcnColors doom64LightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Doom 64 preset, dark brightness.
-const ShadcnColors doom64DarkColors = ShadcnColors(
+const ThemeColors doom64DarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1A1A),
   foreground: Color(0xFFE0E0E0),
@@ -1648,7 +1648,7 @@ const ShadcnColors doom64DarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Doom 64 preset, light brightness.
-final ShadcnTokens doom64LightTokens = ShadcnTokens(
+final DesignTokens doom64LightTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -1663,7 +1663,7 @@ final ShadcnTokens doom64LightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Doom 64 preset, dark brightness.
-final ShadcnTokens doom64DarkTokens = ShadcnTokens(
+final DesignTokens doom64DarkTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -1678,16 +1678,16 @@ final ShadcnTokens doom64DarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Doom 64 preset.
-const ShadcnFonts doom64Fonts = ShadcnFonts(
+const ThemeFonts doom64Fonts = ThemeFonts(
   fontSans: '"Oxanium", sans-serif',
   fontSerif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
   fontMono: '"Source Code Pro", monospace',
 );
 
 /// Builds the ambient theme for the Doom 64 preset.
-ShadcnThemeData buildDoom64Theme(Brightness brightness) {
+ThemeData buildDoom64Theme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? doom64DarkColors : doom64LightColors,
     tokens: isDark ? doom64DarkTokens : doom64LightTokens,
     fonts: doom64Fonts,
@@ -1695,7 +1695,7 @@ ShadcnThemeData buildDoom64Theme(Brightness brightness) {
 }
 
 /// Colour tokens for the Elegant Luxury preset, light brightness.
-const ShadcnColors elegantLuxuryLightColors = ShadcnColors(
+const ThemeColors elegantLuxuryLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFAF7F5),
   foreground: Color(0xFF1A1A1A),
@@ -1732,7 +1732,7 @@ const ShadcnColors elegantLuxuryLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Elegant Luxury preset, dark brightness.
-const ShadcnColors elegantLuxuryDarkColors = ShadcnColors(
+const ThemeColors elegantLuxuryDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1C1917),
   foreground: Color(0xFFF5F5F4),
@@ -1769,7 +1769,7 @@ const ShadcnColors elegantLuxuryDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Elegant Luxury preset, light brightness.
-final ShadcnTokens elegantLuxuryLightTokens = ShadcnTokens(
+final DesignTokens elegantLuxuryLightTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1784,7 +1784,7 @@ final ShadcnTokens elegantLuxuryLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Elegant Luxury preset, dark brightness.
-final ShadcnTokens elegantLuxuryDarkTokens = ShadcnTokens(
+final DesignTokens elegantLuxuryDarkTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1799,16 +1799,16 @@ final ShadcnTokens elegantLuxuryDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Elegant Luxury preset.
-const ShadcnFonts elegantLuxuryFonts = ShadcnFonts(
+const ThemeFonts elegantLuxuryFonts = ThemeFonts(
   fontSans: 'Poppins, sans-serif',
   fontSerif: 'Libre Baskerville, serif',
   fontMono: 'IBM Plex Mono, monospace',
 );
 
 /// Builds the ambient theme for the Elegant Luxury preset.
-ShadcnThemeData buildElegantLuxuryTheme(Brightness brightness) {
+ThemeData buildElegantLuxuryTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? elegantLuxuryDarkColors : elegantLuxuryLightColors,
     tokens: isDark ? elegantLuxuryDarkTokens : elegantLuxuryLightTokens,
     fonts: elegantLuxuryFonts,
@@ -1816,7 +1816,7 @@ ShadcnThemeData buildElegantLuxuryTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Graphite preset, light brightness.
-const ShadcnColors graphiteLightColors = ShadcnColors(
+const ThemeColors graphiteLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF0F0F0),
   foreground: Color(0xFF333333),
@@ -1853,7 +1853,7 @@ const ShadcnColors graphiteLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Graphite preset, dark brightness.
-const ShadcnColors graphiteDarkColors = ShadcnColors(
+const ThemeColors graphiteDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1A1A),
   foreground: Color(0xFFD9D9D9),
@@ -1890,7 +1890,7 @@ const ShadcnColors graphiteDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Graphite preset, light brightness.
-final ShadcnTokens graphiteLightTokens = ShadcnTokens(
+final DesignTokens graphiteLightTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1905,7 +1905,7 @@ final ShadcnTokens graphiteLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Graphite preset, dark brightness.
-final ShadcnTokens graphiteDarkTokens = ShadcnTokens(
+final DesignTokens graphiteDarkTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -1920,16 +1920,16 @@ final ShadcnTokens graphiteDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Graphite preset.
-const ShadcnFonts graphiteFonts = ShadcnFonts(
+const ThemeFonts graphiteFonts = ThemeFonts(
   fontSans: 'Montserrat, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Graphite preset.
-ShadcnThemeData buildGraphiteTheme(Brightness brightness) {
+ThemeData buildGraphiteTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? graphiteDarkColors : graphiteLightColors,
     tokens: isDark ? graphiteDarkTokens : graphiteLightTokens,
     fonts: graphiteFonts,
@@ -1937,7 +1937,7 @@ ShadcnThemeData buildGraphiteTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Kodama Grove preset, light brightness.
-const ShadcnColors kodamaGroveLightColors = ShadcnColors(
+const ThemeColors kodamaGroveLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFE4D7B0),
   foreground: Color(0xFF5C4B3E),
@@ -1974,7 +1974,7 @@ const ShadcnColors kodamaGroveLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Kodama Grove preset, dark brightness.
-const ShadcnColors kodamaGroveDarkColors = ShadcnColors(
+const ThemeColors kodamaGroveDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF3A3529),
   foreground: Color(0xFFEDE4D4),
@@ -2011,7 +2011,7 @@ const ShadcnColors kodamaGroveDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Kodama Grove preset, light brightness.
-final ShadcnTokens kodamaGroveLightTokens = ShadcnTokens(
+final DesignTokens kodamaGroveLightTokens = DesignTokens(
   radius: 0.425,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2026,7 +2026,7 @@ final ShadcnTokens kodamaGroveLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Kodama Grove preset, dark brightness.
-final ShadcnTokens kodamaGroveDarkTokens = ShadcnTokens(
+final DesignTokens kodamaGroveDarkTokens = DesignTokens(
   radius: 0.425,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2041,16 +2041,16 @@ final ShadcnTokens kodamaGroveDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Kodama Grove preset.
-const ShadcnFonts kodamaGroveFonts = ShadcnFonts(
+const ThemeFonts kodamaGroveFonts = ThemeFonts(
   fontSans: 'Merriweather, serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Kodama Grove preset.
-ShadcnThemeData buildKodamaGroveTheme(Brightness brightness) {
+ThemeData buildKodamaGroveTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? kodamaGroveDarkColors : kodamaGroveLightColors,
     tokens: isDark ? kodamaGroveDarkTokens : kodamaGroveLightTokens,
     fonts: kodamaGroveFonts,
@@ -2058,7 +2058,7 @@ ShadcnThemeData buildKodamaGroveTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Midnight Bloom preset, light brightness.
-const ShadcnColors midnightBloomLightColors = ShadcnColors(
+const ThemeColors midnightBloomLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF9F9F9),
   foreground: Color(0xFF333333),
@@ -2095,7 +2095,7 @@ const ShadcnColors midnightBloomLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Midnight Bloom preset, dark brightness.
-const ShadcnColors midnightBloomDarkColors = ShadcnColors(
+const ThemeColors midnightBloomDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1D23),
   foreground: Color(0xFFE5E5E5),
@@ -2132,7 +2132,7 @@ const ShadcnColors midnightBloomDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Midnight Bloom preset, light brightness.
-final ShadcnTokens midnightBloomLightTokens = ShadcnTokens(
+final DesignTokens midnightBloomLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2147,7 +2147,7 @@ final ShadcnTokens midnightBloomLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Midnight Bloom preset, dark brightness.
-final ShadcnTokens midnightBloomDarkTokens = ShadcnTokens(
+final DesignTokens midnightBloomDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2162,16 +2162,16 @@ final ShadcnTokens midnightBloomDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Midnight Bloom preset.
-const ShadcnFonts midnightBloomFonts = ShadcnFonts(
+const ThemeFonts midnightBloomFonts = ThemeFonts(
   fontSans: 'Montserrat, sans-serif',
   fontSerif: 'Playfair Display, serif',
   fontMono: 'Source Code Pro, monospace',
 );
 
 /// Builds the ambient theme for the Midnight Bloom preset.
-ShadcnThemeData buildMidnightBloomTheme(Brightness brightness) {
+ThemeData buildMidnightBloomTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? midnightBloomDarkColors : midnightBloomLightColors,
     tokens: isDark ? midnightBloomDarkTokens : midnightBloomLightTokens,
     fonts: midnightBloomFonts,
@@ -2179,7 +2179,7 @@ ShadcnThemeData buildMidnightBloomTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Mocha Mousse preset, light brightness.
-const ShadcnColors mochaMousseLightColors = ShadcnColors(
+const ThemeColors mochaMousseLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF1F0E5),
   foreground: Color(0xFF56453F),
@@ -2216,7 +2216,7 @@ const ShadcnColors mochaMousseLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Mocha Mousse preset, dark brightness.
-const ShadcnColors mochaMousseDarkColors = ShadcnColors(
+const ThemeColors mochaMousseDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF2D2521),
   foreground: Color(0xFFF1F0E5),
@@ -2253,7 +2253,7 @@ const ShadcnColors mochaMousseDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Mocha Mousse preset, light brightness.
-final ShadcnTokens mochaMousseLightTokens = ShadcnTokens(
+final DesignTokens mochaMousseLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2268,7 +2268,7 @@ final ShadcnTokens mochaMousseLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Mocha Mousse preset, dark brightness.
-final ShadcnTokens mochaMousseDarkTokens = ShadcnTokens(
+final DesignTokens mochaMousseDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2283,16 +2283,16 @@ final ShadcnTokens mochaMousseDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Mocha Mousse preset.
-const ShadcnFonts mochaMousseFonts = ShadcnFonts(
+const ThemeFonts mochaMousseFonts = ThemeFonts(
   fontSans: 'DM Sans, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Menlo, monospace',
 );
 
 /// Builds the ambient theme for the Mocha Mousse preset.
-ShadcnThemeData buildMochaMousseTheme(Brightness brightness) {
+ThemeData buildMochaMousseTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? mochaMousseDarkColors : mochaMousseLightColors,
     tokens: isDark ? mochaMousseDarkTokens : mochaMousseLightTokens,
     fonts: mochaMousseFonts,
@@ -2300,7 +2300,7 @@ ShadcnThemeData buildMochaMousseTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Modern Minimal preset, light brightness.
-const ShadcnColors modernMinimalLightColors = ShadcnColors(
+const ThemeColors modernMinimalLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF333333),
@@ -2337,7 +2337,7 @@ const ShadcnColors modernMinimalLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Modern Minimal preset, dark brightness.
-const ShadcnColors modernMinimalDarkColors = ShadcnColors(
+const ThemeColors modernMinimalDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF171717),
   foreground: Color(0xFFE5E5E5),
@@ -2374,7 +2374,7 @@ const ShadcnColors modernMinimalDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Modern Minimal preset, light brightness.
-final ShadcnTokens modernMinimalLightTokens = ShadcnTokens(
+final DesignTokens modernMinimalLightTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2389,7 +2389,7 @@ final ShadcnTokens modernMinimalLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Modern Minimal preset, dark brightness.
-final ShadcnTokens modernMinimalDarkTokens = ShadcnTokens(
+final DesignTokens modernMinimalDarkTokens = DesignTokens(
   radius: 0.375,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2404,16 +2404,16 @@ final ShadcnTokens modernMinimalDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Modern Minimal preset.
-const ShadcnFonts modernMinimalFonts = ShadcnFonts(
+const ThemeFonts modernMinimalFonts = ThemeFonts(
   fontSans: 'Inter, sans-serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Modern Minimal preset.
-ShadcnThemeData buildModernMinimalTheme(Brightness brightness) {
+ThemeData buildModernMinimalTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? modernMinimalDarkColors : modernMinimalLightColors,
     tokens: isDark ? modernMinimalDarkTokens : modernMinimalLightTokens,
     fonts: modernMinimalFonts,
@@ -2421,7 +2421,7 @@ ShadcnThemeData buildModernMinimalTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Mono preset, light brightness.
-const ShadcnColors monoLightColors = ShadcnColors(
+const ThemeColors monoLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF0A0A0A),
@@ -2458,7 +2458,7 @@ const ShadcnColors monoLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Mono preset, dark brightness.
-const ShadcnColors monoDarkColors = ShadcnColors(
+const ThemeColors monoDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0A0A0A),
   foreground: Color(0xFFFAFAFA),
@@ -2495,7 +2495,7 @@ const ShadcnColors monoDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Mono preset, light brightness.
-final ShadcnTokens monoLightTokens = ShadcnTokens(
+final DesignTokens monoLightTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2510,7 +2510,7 @@ final ShadcnTokens monoLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Mono preset, dark brightness.
-final ShadcnTokens monoDarkTokens = ShadcnTokens(
+final DesignTokens monoDarkTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2525,16 +2525,16 @@ final ShadcnTokens monoDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Mono preset.
-const ShadcnFonts monoFonts = ShadcnFonts(
+const ThemeFonts monoFonts = ThemeFonts(
   fontSans: 'Geist Mono, monospace',
   fontSerif: 'Geist Mono, monospace',
   fontMono: 'Geist Mono, monospace',
 );
 
 /// Builds the ambient theme for the Mono preset.
-ShadcnThemeData buildMonoTheme(Brightness brightness) {
+ThemeData buildMonoTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? monoDarkColors : monoLightColors,
     tokens: isDark ? monoDarkTokens : monoLightTokens,
     fonts: monoFonts,
@@ -2542,7 +2542,7 @@ ShadcnThemeData buildMonoTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Nature preset, light brightness.
-const ShadcnColors natureLightColors = ShadcnColors(
+const ThemeColors natureLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF8F5F0),
   foreground: Color(0xFF3E2723),
@@ -2579,7 +2579,7 @@ const ShadcnColors natureLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Nature preset, dark brightness.
-const ShadcnColors natureDarkColors = ShadcnColors(
+const ThemeColors natureDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1C2A1F),
   foreground: Color(0xFFF0EBE5),
@@ -2616,7 +2616,7 @@ const ShadcnColors natureDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Nature preset, light brightness.
-final ShadcnTokens natureLightTokens = ShadcnTokens(
+final DesignTokens natureLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2631,7 +2631,7 @@ final ShadcnTokens natureLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Nature preset, dark brightness.
-final ShadcnTokens natureDarkTokens = ShadcnTokens(
+final DesignTokens natureDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2646,16 +2646,16 @@ final ShadcnTokens natureDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Nature preset.
-const ShadcnFonts natureFonts = ShadcnFonts(
+const ThemeFonts natureFonts = ThemeFonts(
   fontSans: 'Montserrat, sans-serif',
   fontSerif: 'Merriweather, serif',
   fontMono: 'Source Code Pro, monospace',
 );
 
 /// Builds the ambient theme for the Nature preset.
-ShadcnThemeData buildNatureTheme(Brightness brightness) {
+ThemeData buildNatureTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? natureDarkColors : natureLightColors,
     tokens: isDark ? natureDarkTokens : natureLightTokens,
     fonts: natureFonts,
@@ -2663,7 +2663,7 @@ ShadcnThemeData buildNatureTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Neo Brutalism preset, light brightness.
-const ShadcnColors neoBrutalismLightColors = ShadcnColors(
+const ThemeColors neoBrutalismLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF000000),
@@ -2700,7 +2700,7 @@ const ShadcnColors neoBrutalismLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Neo Brutalism preset, dark brightness.
-const ShadcnColors neoBrutalismDarkColors = ShadcnColors(
+const ThemeColors neoBrutalismDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF000000),
   foreground: Color(0xFFFFFFFF),
@@ -2737,7 +2737,7 @@ const ShadcnColors neoBrutalismDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Neo Brutalism preset, light brightness.
-final ShadcnTokens neoBrutalismLightTokens = ShadcnTokens(
+final DesignTokens neoBrutalismLightTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2752,7 +2752,7 @@ final ShadcnTokens neoBrutalismLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Neo Brutalism preset, dark brightness.
-final ShadcnTokens neoBrutalismDarkTokens = ShadcnTokens(
+final DesignTokens neoBrutalismDarkTokens = DesignTokens(
   radius: 0.0,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2767,15 +2767,15 @@ final ShadcnTokens neoBrutalismDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Neo Brutalism preset.
-const ShadcnFonts neoBrutalismFonts = ShadcnFonts(
+const ThemeFonts neoBrutalismFonts = ThemeFonts(
   fontSans: 'DM Sans, sans-serif',
   fontMono: 'Space Mono, monospace',
 );
 
 /// Builds the ambient theme for the Neo Brutalism preset.
-ShadcnThemeData buildNeoBrutalismTheme(Brightness brightness) {
+ThemeData buildNeoBrutalismTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? neoBrutalismDarkColors : neoBrutalismLightColors,
     tokens: isDark ? neoBrutalismDarkTokens : neoBrutalismLightTokens,
     fonts: neoBrutalismFonts,
@@ -2783,7 +2783,7 @@ ShadcnThemeData buildNeoBrutalismTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Neutral preset, light brightness.
-const ShadcnColors neutralLightColors = ShadcnColors(
+const ThemeColors neutralLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF0A0A0A),
@@ -2820,7 +2820,7 @@ const ShadcnColors neutralLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Neutral preset, dark brightness.
-const ShadcnColors neutralDarkColors = ShadcnColors(
+const ThemeColors neutralDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0A0A0A),
   foreground: Color(0xFFFAFAFA),
@@ -2857,7 +2857,7 @@ const ShadcnColors neutralDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Neutral preset, light brightness.
-final ShadcnTokens neutralLightTokens = ShadcnTokens(
+final DesignTokens neutralLightTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -2872,7 +2872,7 @@ final ShadcnTokens neutralLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Neutral preset, dark brightness.
-final ShadcnTokens neutralDarkTokens = ShadcnTokens(
+final DesignTokens neutralDarkTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -2887,16 +2887,16 @@ final ShadcnTokens neutralDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Neutral preset.
-const ShadcnFonts neutralFonts = ShadcnFonts(
+const ThemeFonts neutralFonts = ThemeFonts(
   fontSans: 'Geist, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Geist Mono, monospace',
 );
 
 /// Builds the ambient theme for the Neutral preset.
-ShadcnThemeData buildNeutralTheme(Brightness brightness) {
+ThemeData buildNeutralTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? neutralDarkColors : neutralLightColors,
     tokens: isDark ? neutralDarkTokens : neutralLightTokens,
     fonts: neutralFonts,
@@ -2904,7 +2904,7 @@ ShadcnThemeData buildNeutralTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Northern Lights preset, light brightness.
-const ShadcnColors northernLightsLightColors = ShadcnColors(
+const ThemeColors northernLightsLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF9F9FA),
   foreground: Color(0xFF333333),
@@ -2941,7 +2941,7 @@ const ShadcnColors northernLightsLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Northern Lights preset, dark brightness.
-const ShadcnColors northernLightsDarkColors = ShadcnColors(
+const ThemeColors northernLightsDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1D23),
   foreground: Color(0xFFE5E5E5),
@@ -2978,7 +2978,7 @@ const ShadcnColors northernLightsDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Northern Lights preset, light brightness.
-final ShadcnTokens northernLightsLightTokens = ShadcnTokens(
+final DesignTokens northernLightsLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -2993,7 +2993,7 @@ final ShadcnTokens northernLightsLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Northern Lights preset, dark brightness.
-final ShadcnTokens northernLightsDarkTokens = ShadcnTokens(
+final DesignTokens northernLightsDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3008,16 +3008,16 @@ final ShadcnTokens northernLightsDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Northern Lights preset.
-const ShadcnFonts northernLightsFonts = ShadcnFonts(
+const ThemeFonts northernLightsFonts = ThemeFonts(
   fontSans: 'Plus Jakarta Sans, sans-serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Northern Lights preset.
-ShadcnThemeData buildNorthernLightsTheme(Brightness brightness) {
+ThemeData buildNorthernLightsTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? northernLightsDarkColors : northernLightsLightColors,
     tokens: isDark ? northernLightsDarkTokens : northernLightsLightTokens,
     fonts: northernLightsFonts,
@@ -3025,7 +3025,7 @@ ShadcnThemeData buildNorthernLightsTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Notebook preset, light brightness.
-const ShadcnColors notebookLightColors = ShadcnColors(
+const ThemeColors notebookLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF9F9F9),
   foreground: Color(0xFF3A3A3A),
@@ -3062,7 +3062,7 @@ const ShadcnColors notebookLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Notebook preset, dark brightness.
-const ShadcnColors notebookDarkColors = ShadcnColors(
+const ThemeColors notebookDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF2B2B2B),
   foreground: Color(0xFFDCDCDC),
@@ -3099,7 +3099,7 @@ const ShadcnColors notebookDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Notebook preset, light brightness.
-final ShadcnTokens notebookLightTokens = ShadcnTokens(
+final DesignTokens notebookLightTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 4.0,
   trackingNormal: 0.5,
@@ -3114,7 +3114,7 @@ final ShadcnTokens notebookLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Notebook preset, dark brightness.
-final ShadcnTokens notebookDarkTokens = ShadcnTokens(
+final DesignTokens notebookDarkTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 4.0,
   trackingNormal: 0.5,
@@ -3129,16 +3129,16 @@ final ShadcnTokens notebookDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Notebook preset.
-const ShadcnFonts notebookFonts = ShadcnFonts(
+const ThemeFonts notebookFonts = ThemeFonts(
   fontSans: 'Architects Daughter, sans-serif',
   fontSerif: '"Times New Roman", Times, serif',
   fontMono: '"Courier New", Courier, monospace',
 );
 
 /// Builds the ambient theme for the Notebook preset.
-ShadcnThemeData buildNotebookTheme(Brightness brightness) {
+ThemeData buildNotebookTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? notebookDarkColors : notebookLightColors,
     tokens: isDark ? notebookDarkTokens : notebookLightTokens,
     fonts: notebookFonts,
@@ -3146,7 +3146,7 @@ ShadcnThemeData buildNotebookTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Ocean Breeze preset, light brightness.
-const ShadcnColors oceanBreezeLightColors = ShadcnColors(
+const ThemeColors oceanBreezeLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF0F8FF),
   foreground: Color(0xFF374151),
@@ -3183,7 +3183,7 @@ const ShadcnColors oceanBreezeLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Ocean Breeze preset, dark brightness.
-const ShadcnColors oceanBreezeDarkColors = ShadcnColors(
+const ThemeColors oceanBreezeDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0F172A),
   foreground: Color(0xFFD1D5DB),
@@ -3220,7 +3220,7 @@ const ShadcnColors oceanBreezeDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Ocean Breeze preset, light brightness.
-final ShadcnTokens oceanBreezeLightTokens = ShadcnTokens(
+final DesignTokens oceanBreezeLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3235,7 +3235,7 @@ final ShadcnTokens oceanBreezeLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Ocean Breeze preset, dark brightness.
-final ShadcnTokens oceanBreezeDarkTokens = ShadcnTokens(
+final DesignTokens oceanBreezeDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3250,16 +3250,16 @@ final ShadcnTokens oceanBreezeDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Ocean Breeze preset.
-const ShadcnFonts oceanBreezeFonts = ShadcnFonts(
+const ThemeFonts oceanBreezeFonts = ThemeFonts(
   fontSans: 'DM Sans, sans-serif',
   fontSerif: 'Lora, serif',
   fontMono: 'IBM Plex Mono, monospace',
 );
 
 /// Builds the ambient theme for the Ocean Breeze preset.
-ShadcnThemeData buildOceanBreezeTheme(Brightness brightness) {
+ThemeData buildOceanBreezeTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? oceanBreezeDarkColors : oceanBreezeLightColors,
     tokens: isDark ? oceanBreezeDarkTokens : oceanBreezeLightTokens,
     fonts: oceanBreezeFonts,
@@ -3267,7 +3267,7 @@ ShadcnThemeData buildOceanBreezeTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Pastel Dreams preset, light brightness.
-const ShadcnColors pastelDreamsLightColors = ShadcnColors(
+const ThemeColors pastelDreamsLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF7F3F9),
   foreground: Color(0xFF374151),
@@ -3304,7 +3304,7 @@ const ShadcnColors pastelDreamsLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Pastel Dreams preset, dark brightness.
-const ShadcnColors pastelDreamsDarkColors = ShadcnColors(
+const ThemeColors pastelDreamsDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1C1917),
   foreground: Color(0xFFE0E7FF),
@@ -3341,7 +3341,7 @@ const ShadcnColors pastelDreamsDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Pastel Dreams preset, light brightness.
-final ShadcnTokens pastelDreamsLightTokens = ShadcnTokens(
+final DesignTokens pastelDreamsLightTokens = DesignTokens(
   radius: 1.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3356,7 +3356,7 @@ final ShadcnTokens pastelDreamsLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Pastel Dreams preset, dark brightness.
-final ShadcnTokens pastelDreamsDarkTokens = ShadcnTokens(
+final DesignTokens pastelDreamsDarkTokens = DesignTokens(
   radius: 1.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3371,16 +3371,16 @@ final ShadcnTokens pastelDreamsDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Pastel Dreams preset.
-const ShadcnFonts pastelDreamsFonts = ShadcnFonts(
+const ThemeFonts pastelDreamsFonts = ThemeFonts(
   fontSans: 'Open Sans, sans-serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'IBM Plex Mono, monospace',
 );
 
 /// Builds the ambient theme for the Pastel Dreams preset.
-ShadcnThemeData buildPastelDreamsTheme(Brightness brightness) {
+ThemeData buildPastelDreamsTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? pastelDreamsDarkColors : pastelDreamsLightColors,
     tokens: isDark ? pastelDreamsDarkTokens : pastelDreamsLightTokens,
     fonts: pastelDreamsFonts,
@@ -3388,7 +3388,7 @@ ShadcnThemeData buildPastelDreamsTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Perpetuity preset, light brightness.
-const ShadcnColors perpetuityLightColors = ShadcnColors(
+const ThemeColors perpetuityLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFE8F0F0),
   foreground: Color(0xFF0A4A55),
@@ -3425,7 +3425,7 @@ const ShadcnColors perpetuityLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Perpetuity preset, dark brightness.
-const ShadcnColors perpetuityDarkColors = ShadcnColors(
+const ThemeColors perpetuityDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0A1A20),
   foreground: Color(0xFF4DE8E8),
@@ -3462,7 +3462,7 @@ const ShadcnColors perpetuityDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Perpetuity preset, light brightness.
-final ShadcnTokens perpetuityLightTokens = ShadcnTokens(
+final DesignTokens perpetuityLightTokens = DesignTokens(
   radius: 0.125,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3477,7 +3477,7 @@ final ShadcnTokens perpetuityLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Perpetuity preset, dark brightness.
-final ShadcnTokens perpetuityDarkTokens = ShadcnTokens(
+final DesignTokens perpetuityDarkTokens = DesignTokens(
   radius: 0.125,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3492,16 +3492,16 @@ final ShadcnTokens perpetuityDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Perpetuity preset.
-const ShadcnFonts perpetuityFonts = ShadcnFonts(
+const ThemeFonts perpetuityFonts = ThemeFonts(
   fontSans: 'Courier New, monospace',
   fontSerif: 'Courier New, monospace',
   fontMono: 'Courier New, monospace',
 );
 
 /// Builds the ambient theme for the Perpetuity preset.
-ShadcnThemeData buildPerpetuityTheme(Brightness brightness) {
+ThemeData buildPerpetuityTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? perpetuityDarkColors : perpetuityLightColors,
     tokens: isDark ? perpetuityDarkTokens : perpetuityLightTokens,
     fonts: perpetuityFonts,
@@ -3509,7 +3509,7 @@ ShadcnThemeData buildPerpetuityTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Quantum Rose preset, light brightness.
-const ShadcnColors quantumRoseLightColors = ShadcnColors(
+const ThemeColors quantumRoseLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFF0F8),
   foreground: Color(0xFF91185C),
@@ -3546,7 +3546,7 @@ const ShadcnColors quantumRoseLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Quantum Rose preset, dark brightness.
-const ShadcnColors quantumRoseDarkColors = ShadcnColors(
+const ThemeColors quantumRoseDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A0922),
   foreground: Color(0xFFFFB3FF),
@@ -3583,7 +3583,7 @@ const ShadcnColors quantumRoseDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Quantum Rose preset, light brightness.
-final ShadcnTokens quantumRoseLightTokens = ShadcnTokens(
+final DesignTokens quantumRoseLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3598,7 +3598,7 @@ final ShadcnTokens quantumRoseLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Quantum Rose preset, dark brightness.
-final ShadcnTokens quantumRoseDarkTokens = ShadcnTokens(
+final DesignTokens quantumRoseDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3613,16 +3613,16 @@ final ShadcnTokens quantumRoseDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Quantum Rose preset.
-const ShadcnFonts quantumRoseFonts = ShadcnFonts(
+const ThemeFonts quantumRoseFonts = ThemeFonts(
   fontSans: 'Poppins, sans-serif',
   fontSerif: 'Playfair Display, serif',
   fontMono: 'Space Mono, monospace',
 );
 
 /// Builds the ambient theme for the Quantum Rose preset.
-ShadcnThemeData buildQuantumRoseTheme(Brightness brightness) {
+ThemeData buildQuantumRoseTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? quantumRoseDarkColors : quantumRoseLightColors,
     tokens: isDark ? quantumRoseDarkTokens : quantumRoseLightTokens,
     fonts: quantumRoseFonts,
@@ -3630,7 +3630,7 @@ ShadcnThemeData buildQuantumRoseTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Retro Arcade preset, light brightness.
-const ShadcnColors retroArcadeLightColors = ShadcnColors(
+const ThemeColors retroArcadeLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFDF6E3),
   foreground: Color(0xFF073642),
@@ -3667,7 +3667,7 @@ const ShadcnColors retroArcadeLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Retro Arcade preset, dark brightness.
-const ShadcnColors retroArcadeDarkColors = ShadcnColors(
+const ThemeColors retroArcadeDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF002B36),
   foreground: Color(0xFF93A1A1),
@@ -3704,7 +3704,7 @@ const ShadcnColors retroArcadeDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Retro Arcade preset, light brightness.
-final ShadcnTokens retroArcadeLightTokens = ShadcnTokens(
+final DesignTokens retroArcadeLightTokens = DesignTokens(
   radius: 0.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3719,7 +3719,7 @@ final ShadcnTokens retroArcadeLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Retro Arcade preset, dark brightness.
-final ShadcnTokens retroArcadeDarkTokens = ShadcnTokens(
+final DesignTokens retroArcadeDarkTokens = DesignTokens(
   radius: 0.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -3734,15 +3734,15 @@ final ShadcnTokens retroArcadeDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Retro Arcade preset.
-const ShadcnFonts retroArcadeFonts = ShadcnFonts(
+const ThemeFonts retroArcadeFonts = ThemeFonts(
   fontSans: 'Outfit, sans-serif',
   fontMono: 'Space Mono, monospace',
 );
 
 /// Builds the ambient theme for the Retro Arcade preset.
-ShadcnThemeData buildRetroArcadeTheme(Brightness brightness) {
+ThemeData buildRetroArcadeTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? retroArcadeDarkColors : retroArcadeLightColors,
     tokens: isDark ? retroArcadeDarkTokens : retroArcadeLightTokens,
     fonts: retroArcadeFonts,
@@ -3750,7 +3750,7 @@ ShadcnThemeData buildRetroArcadeTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Sage Garden preset, light brightness.
-const ShadcnColors sageGardenLightColors = ShadcnColors(
+const ThemeColors sageGardenLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF8F7F4),
   foreground: Color(0xFF1A1F2E),
@@ -3787,7 +3787,7 @@ const ShadcnColors sageGardenLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Sage Garden preset, dark brightness.
-const ShadcnColors sageGardenDarkColors = ShadcnColors(
+const ThemeColors sageGardenDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF0A0A0A),
   foreground: Color(0xFFF5F5F5),
@@ -3824,7 +3824,7 @@ const ShadcnColors sageGardenDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Sage Garden preset, light brightness.
-final ShadcnTokens sageGardenLightTokens = ShadcnTokens(
+final DesignTokens sageGardenLightTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.68,
   trackingNormal: 0.0,
@@ -3839,7 +3839,7 @@ final ShadcnTokens sageGardenLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Sage Garden preset, dark brightness.
-final ShadcnTokens sageGardenDarkTokens = ShadcnTokens(
+final DesignTokens sageGardenDarkTokens = DesignTokens(
   radius: 0.35,
   spacingBase: 3.68,
   trackingNormal: 0.0,
@@ -3854,16 +3854,16 @@ final ShadcnTokens sageGardenDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Sage Garden preset.
-const ShadcnFonts sageGardenFonts = ShadcnFonts(
+const ThemeFonts sageGardenFonts = ThemeFonts(
   fontSans: 'Antic, ui-sans-serif, sans-serif, system-ui',
   fontSerif: 'Signifier, Georgia, serif',
   fontMono: 'JetBrains Mono, Courier New, monospace',
 );
 
 /// Builds the ambient theme for the Sage Garden preset.
-ShadcnThemeData buildSageGardenTheme(Brightness brightness) {
+ThemeData buildSageGardenTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? sageGardenDarkColors : sageGardenLightColors,
     tokens: isDark ? sageGardenDarkTokens : sageGardenLightTokens,
     fonts: sageGardenFonts,
@@ -3871,7 +3871,7 @@ ShadcnThemeData buildSageGardenTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Soft Pop preset, light brightness.
-const ShadcnColors softPopLightColors = ShadcnColors(
+const ThemeColors softPopLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF7F9F3),
   foreground: Color(0xFF000000),
@@ -3908,7 +3908,7 @@ const ShadcnColors softPopLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Soft Pop preset, dark brightness.
-const ShadcnColors softPopDarkColors = ShadcnColors(
+const ThemeColors softPopDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF000000),
   foreground: Color(0xFFFFFFFF),
@@ -3945,7 +3945,7 @@ const ShadcnColors softPopDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Soft Pop preset, light brightness.
-final ShadcnTokens softPopLightTokens = ShadcnTokens(
+final DesignTokens softPopLightTokens = DesignTokens(
   radius: 1.0,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -3960,7 +3960,7 @@ final ShadcnTokens softPopLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Soft Pop preset, dark brightness.
-final ShadcnTokens softPopDarkTokens = ShadcnTokens(
+final DesignTokens softPopDarkTokens = DesignTokens(
   radius: 1.0,
   spacingBase: 4.0,
   trackingNormal: 0.0,
@@ -3975,16 +3975,16 @@ final ShadcnTokens softPopDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Soft Pop preset.
-const ShadcnFonts softPopFonts = ShadcnFonts(
+const ThemeFonts softPopFonts = ThemeFonts(
   fontSans: 'DM Sans, sans-serif',
   fontSerif: 'DM Sans, sans-serif',
   fontMono: 'Space Mono, monospace',
 );
 
 /// Builds the ambient theme for the Soft Pop preset.
-ShadcnThemeData buildSoftPopTheme(Brightness brightness) {
+ThemeData buildSoftPopTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? softPopDarkColors : softPopLightColors,
     tokens: isDark ? softPopDarkTokens : softPopLightTokens,
     fonts: softPopFonts,
@@ -3992,7 +3992,7 @@ ShadcnThemeData buildSoftPopTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Solar Dusk preset, light brightness.
-const ShadcnColors solarDuskLightColors = ShadcnColors(
+const ThemeColors solarDuskLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFDFBF7),
   foreground: Color(0xFF4A3B33),
@@ -4029,7 +4029,7 @@ const ShadcnColors solarDuskLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Solar Dusk preset, dark brightness.
-const ShadcnColors solarDuskDarkColors = ShadcnColors(
+const ThemeColors solarDuskDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1C1917),
   foreground: Color(0xFFF5F5F4),
@@ -4066,7 +4066,7 @@ const ShadcnColors solarDuskDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Solar Dusk preset, light brightness.
-final ShadcnTokens solarDuskLightTokens = ShadcnTokens(
+final DesignTokens solarDuskLightTokens = DesignTokens(
   radius: 0.3,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4081,7 +4081,7 @@ final ShadcnTokens solarDuskLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Solar Dusk preset, dark brightness.
-final ShadcnTokens solarDuskDarkTokens = ShadcnTokens(
+final DesignTokens solarDuskDarkTokens = DesignTokens(
   radius: 0.3,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4096,16 +4096,16 @@ final ShadcnTokens solarDuskDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Solar Dusk preset.
-const ShadcnFonts solarDuskFonts = ShadcnFonts(
+const ThemeFonts solarDuskFonts = ThemeFonts(
   fontSans: 'Oxanium, sans-serif',
   fontSerif: 'Merriweather, serif',
   fontMono: 'Fira Code, monospace',
 );
 
 /// Builds the ambient theme for the Solar Dusk preset.
-ShadcnThemeData buildSolarDuskTheme(Brightness brightness) {
+ThemeData buildSolarDuskTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? solarDuskDarkColors : solarDuskLightColors,
     tokens: isDark ? solarDuskDarkTokens : solarDuskLightTokens,
     fonts: solarDuskFonts,
@@ -4113,7 +4113,7 @@ ShadcnThemeData buildSolarDuskTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Starry Night preset, light brightness.
-const ShadcnColors starryNightLightColors = ShadcnColors(
+const ThemeColors starryNightLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF5F7FA),
   foreground: Color(0xFF1A2238),
@@ -4150,7 +4150,7 @@ const ShadcnColors starryNightLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Starry Night preset, dark brightness.
-const ShadcnColors starryNightDarkColors = ShadcnColors(
+const ThemeColors starryNightDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF181A24),
   foreground: Color(0xFFE6EAF3),
@@ -4187,7 +4187,7 @@ const ShadcnColors starryNightDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Starry Night preset, light brightness.
-final ShadcnTokens starryNightLightTokens = ShadcnTokens(
+final DesignTokens starryNightLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4202,7 +4202,7 @@ final ShadcnTokens starryNightLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Starry Night preset, dark brightness.
-final ShadcnTokens starryNightDarkTokens = ShadcnTokens(
+final DesignTokens starryNightDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4217,14 +4217,14 @@ final ShadcnTokens starryNightDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Starry Night preset.
-const ShadcnFonts starryNightFonts = ShadcnFonts(
+const ThemeFonts starryNightFonts = ThemeFonts(
   fontSans: 'Libre Baskerville, serif',
 );
 
 /// Builds the ambient theme for the Starry Night preset.
-ShadcnThemeData buildStarryNightTheme(Brightness brightness) {
+ThemeData buildStarryNightTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? starryNightDarkColors : starryNightLightColors,
     tokens: isDark ? starryNightDarkTokens : starryNightLightTokens,
     fonts: starryNightFonts,
@@ -4232,7 +4232,7 @@ ShadcnThemeData buildStarryNightTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Sunset Horizon preset, light brightness.
-const ShadcnColors sunsetHorizonLightColors = ShadcnColors(
+const ThemeColors sunsetHorizonLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFF9F5),
   foreground: Color(0xFF3D3436),
@@ -4269,7 +4269,7 @@ const ShadcnColors sunsetHorizonLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Sunset Horizon preset, dark brightness.
-const ShadcnColors sunsetHorizonDarkColors = ShadcnColors(
+const ThemeColors sunsetHorizonDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF2A2024),
   foreground: Color(0xFFF2E9E4),
@@ -4306,7 +4306,7 @@ const ShadcnColors sunsetHorizonDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Sunset Horizon preset, light brightness.
-final ShadcnTokens sunsetHorizonLightTokens = ShadcnTokens(
+final DesignTokens sunsetHorizonLightTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4321,7 +4321,7 @@ final ShadcnTokens sunsetHorizonLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Sunset Horizon preset, dark brightness.
-final ShadcnTokens sunsetHorizonDarkTokens = ShadcnTokens(
+final DesignTokens sunsetHorizonDarkTokens = DesignTokens(
   radius: 0.625,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4336,16 +4336,16 @@ final ShadcnTokens sunsetHorizonDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Sunset Horizon preset.
-const ShadcnFonts sunsetHorizonFonts = ShadcnFonts(
+const ThemeFonts sunsetHorizonFonts = ThemeFonts(
   fontSans: 'Montserrat, sans-serif',
   fontSerif: 'Merriweather, serif',
   fontMono: 'Ubuntu Mono, monospace',
 );
 
 /// Builds the ambient theme for the Sunset Horizon preset.
-ShadcnThemeData buildSunsetHorizonTheme(Brightness brightness) {
+ThemeData buildSunsetHorizonTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? sunsetHorizonDarkColors : sunsetHorizonLightColors,
     tokens: isDark ? sunsetHorizonDarkTokens : sunsetHorizonLightTokens,
     fonts: sunsetHorizonFonts,
@@ -4353,7 +4353,7 @@ ShadcnThemeData buildSunsetHorizonTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Supabase preset, light brightness.
-const ShadcnColors supabaseLightColors = ShadcnColors(
+const ThemeColors supabaseLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFCFCFC),
   foreground: Color(0xFF171717),
@@ -4390,7 +4390,7 @@ const ShadcnColors supabaseLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Supabase preset, dark brightness.
-const ShadcnColors supabaseDarkColors = ShadcnColors(
+const ThemeColors supabaseDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF121212),
   foreground: Color(0xFFE2E8F0),
@@ -4427,7 +4427,7 @@ const ShadcnColors supabaseDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Supabase preset, light brightness.
-final ShadcnTokens supabaseLightTokens = ShadcnTokens(
+final DesignTokens supabaseLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.4,
@@ -4442,7 +4442,7 @@ final ShadcnTokens supabaseLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Supabase preset, dark brightness.
-final ShadcnTokens supabaseDarkTokens = ShadcnTokens(
+final DesignTokens supabaseDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.4,
@@ -4457,16 +4457,16 @@ final ShadcnTokens supabaseDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Supabase preset.
-const ShadcnFonts supabaseFonts = ShadcnFonts(
+const ThemeFonts supabaseFonts = ThemeFonts(
   fontSans: 'Outfit, sans-serif',
   fontSerif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
   fontMono: 'monospace',
 );
 
 /// Builds the ambient theme for the Supabase preset.
-ShadcnThemeData buildSupabaseTheme(Brightness brightness) {
+ThemeData buildSupabaseTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? supabaseDarkColors : supabaseLightColors,
     tokens: isDark ? supabaseDarkTokens : supabaseLightTokens,
     fonts: supabaseFonts,
@@ -4474,7 +4474,7 @@ ShadcnThemeData buildSupabaseTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the T3 Chat preset, light brightness.
-const ShadcnColors t3ChatLightColors = ShadcnColors(
+const ThemeColors t3ChatLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFAF5FA),
   foreground: Color(0xFF501854),
@@ -4511,7 +4511,7 @@ const ShadcnColors t3ChatLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the T3 Chat preset, dark brightness.
-const ShadcnColors t3ChatDarkColors = ShadcnColors(
+const ThemeColors t3ChatDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF221D27),
   foreground: Color(0xFFD2C4DE),
@@ -4548,7 +4548,7 @@ const ShadcnColors t3ChatDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the T3 Chat preset, light brightness.
-final ShadcnTokens t3ChatLightTokens = ShadcnTokens(
+final DesignTokens t3ChatLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4563,7 +4563,7 @@ final ShadcnTokens t3ChatLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the T3 Chat preset, dark brightness.
-final ShadcnTokens t3ChatDarkTokens = ShadcnTokens(
+final DesignTokens t3ChatDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4578,16 +4578,16 @@ final ShadcnTokens t3ChatDarkTokens = ShadcnTokens(
 );
 
 /// Builds the ambient theme for the T3 Chat preset.
-ShadcnThemeData buildT3ChatTheme(Brightness brightness) {
+ThemeData buildT3ChatTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? t3ChatDarkColors : t3ChatLightColors,
     tokens: isDark ? t3ChatDarkTokens : t3ChatLightTokens,
   );
 }
 
 /// Colour tokens for the Tangerine preset, light brightness.
-const ShadcnColors tangerineLightColors = ShadcnColors(
+const ThemeColors tangerineLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFE8EBED),
   foreground: Color(0xFF333333),
@@ -4624,7 +4624,7 @@ const ShadcnColors tangerineLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Tangerine preset, dark brightness.
-const ShadcnColors tangerineDarkColors = ShadcnColors(
+const ThemeColors tangerineDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1C2433),
   foreground: Color(0xFFE5E5E5),
@@ -4661,7 +4661,7 @@ const ShadcnColors tangerineDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Tangerine preset, light brightness.
-final ShadcnTokens tangerineLightTokens = ShadcnTokens(
+final DesignTokens tangerineLightTokens = DesignTokens(
   radius: 0.75,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4676,7 +4676,7 @@ final ShadcnTokens tangerineLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Tangerine preset, dark brightness.
-final ShadcnTokens tangerineDarkTokens = ShadcnTokens(
+final DesignTokens tangerineDarkTokens = DesignTokens(
   radius: 0.75,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4691,16 +4691,16 @@ final ShadcnTokens tangerineDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Tangerine preset.
-const ShadcnFonts tangerineFonts = ShadcnFonts(
+const ThemeFonts tangerineFonts = ThemeFonts(
   fontSans: 'Inter, sans-serif',
   fontSerif: 'Source Serif 4, serif',
   fontMono: 'JetBrains Mono, monospace',
 );
 
 /// Builds the ambient theme for the Tangerine preset.
-ShadcnThemeData buildTangerineTheme(Brightness brightness) {
+ThemeData buildTangerineTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? tangerineDarkColors : tangerineLightColors,
     tokens: isDark ? tangerineDarkTokens : tangerineLightTokens,
     fonts: tangerineFonts,
@@ -4708,7 +4708,7 @@ ShadcnThemeData buildTangerineTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Twitter preset, light brightness.
-const ShadcnColors twitterLightColors = ShadcnColors(
+const ThemeColors twitterLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF0F1419),
@@ -4745,7 +4745,7 @@ const ShadcnColors twitterLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Twitter preset, dark brightness.
-const ShadcnColors twitterDarkColors = ShadcnColors(
+const ThemeColors twitterDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF000000),
   foreground: Color(0xFFE7E9EA),
@@ -4782,7 +4782,7 @@ const ShadcnColors twitterDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Twitter preset, light brightness.
-final ShadcnTokens twitterLightTokens = ShadcnTokens(
+final DesignTokens twitterLightTokens = DesignTokens(
   radius: 1.3,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4797,7 +4797,7 @@ final ShadcnTokens twitterLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Twitter preset, dark brightness.
-final ShadcnTokens twitterDarkTokens = ShadcnTokens(
+final DesignTokens twitterDarkTokens = DesignTokens(
   radius: 1.3,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4812,16 +4812,16 @@ final ShadcnTokens twitterDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Twitter preset.
-const ShadcnFonts twitterFonts = ShadcnFonts(
+const ThemeFonts twitterFonts = ThemeFonts(
   fontSans: 'Open Sans, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Menlo, monospace',
 );
 
 /// Builds the ambient theme for the Twitter preset.
-ShadcnThemeData buildTwitterTheme(Brightness brightness) {
+ThemeData buildTwitterTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? twitterDarkColors : twitterLightColors,
     tokens: isDark ? twitterDarkTokens : twitterLightTokens,
     fonts: twitterFonts,
@@ -4829,7 +4829,7 @@ ShadcnThemeData buildTwitterTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Vercel preset, light brightness.
-const ShadcnColors vercelLightColors = ShadcnColors(
+const ThemeColors vercelLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF000000),
@@ -4866,7 +4866,7 @@ const ShadcnColors vercelLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Vercel preset, dark brightness.
-const ShadcnColors vercelDarkColors = ShadcnColors(
+const ThemeColors vercelDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF000000),
   foreground: Color(0xFFFFFFFF),
@@ -4903,7 +4903,7 @@ const ShadcnColors vercelDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Vercel preset, light brightness.
-final ShadcnTokens vercelLightTokens = ShadcnTokens(
+final DesignTokens vercelLightTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4918,7 +4918,7 @@ final ShadcnTokens vercelLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Vercel preset, dark brightness.
-final ShadcnTokens vercelDarkTokens = ShadcnTokens(
+final DesignTokens vercelDarkTokens = DesignTokens(
   radius: 0.5,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -4933,16 +4933,16 @@ final ShadcnTokens vercelDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Vercel preset.
-const ShadcnFonts vercelFonts = ShadcnFonts(
+const ThemeFonts vercelFonts = ThemeFonts(
   fontSans: 'Geist, sans-serif',
   fontSerif: 'Georgia, serif',
   fontMono: 'Geist Mono, monospace',
 );
 
 /// Builds the ambient theme for the Vercel preset.
-ShadcnThemeData buildVercelTheme(Brightness brightness) {
+ThemeData buildVercelTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? vercelDarkColors : vercelLightColors,
     tokens: isDark ? vercelDarkTokens : vercelLightTokens,
     fonts: vercelFonts,
@@ -4950,7 +4950,7 @@ ShadcnThemeData buildVercelTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Vintage Paper preset, light brightness.
-const ShadcnColors vintagePaperLightColors = ShadcnColors(
+const ThemeColors vintagePaperLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFF5F1E6),
   foreground: Color(0xFF4A3F35),
@@ -4987,7 +4987,7 @@ const ShadcnColors vintagePaperLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Vintage Paper preset, dark brightness.
-const ShadcnColors vintagePaperDarkColors = ShadcnColors(
+const ThemeColors vintagePaperDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF2D2621),
   foreground: Color(0xFFECE5D8),
@@ -5024,7 +5024,7 @@ const ShadcnColors vintagePaperDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Vintage Paper preset, light brightness.
-final ShadcnTokens vintagePaperLightTokens = ShadcnTokens(
+final DesignTokens vintagePaperLightTokens = DesignTokens(
   radius: 0.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -5039,7 +5039,7 @@ final ShadcnTokens vintagePaperLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Vintage Paper preset, dark brightness.
-final ShadcnTokens vintagePaperDarkTokens = ShadcnTokens(
+final DesignTokens vintagePaperDarkTokens = DesignTokens(
   radius: 0.25,
   spacingBase: 3.84,
   trackingNormal: 0.0,
@@ -5054,16 +5054,16 @@ final ShadcnTokens vintagePaperDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Vintage Paper preset.
-const ShadcnFonts vintagePaperFonts = ShadcnFonts(
+const ThemeFonts vintagePaperFonts = ThemeFonts(
   fontSans: 'Libre Baskerville, serif',
   fontSerif: 'Lora, serif',
   fontMono: 'IBM Plex Mono, monospace',
 );
 
 /// Builds the ambient theme for the Vintage Paper preset.
-ShadcnThemeData buildVintagePaperTheme(Brightness brightness) {
+ThemeData buildVintagePaperTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? vintagePaperDarkColors : vintagePaperLightColors,
     tokens: isDark ? vintagePaperDarkTokens : vintagePaperLightTokens,
     fonts: vintagePaperFonts,
@@ -5071,7 +5071,7 @@ ShadcnThemeData buildVintagePaperTheme(Brightness brightness) {
 }
 
 /// Colour tokens for the Violet Bloom preset, light brightness.
-const ShadcnColors violetBloomLightColors = ShadcnColors(
+const ThemeColors violetBloomLightColors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFDFDFD),
   foreground: Color(0xFF000000),
@@ -5108,7 +5108,7 @@ const ShadcnColors violetBloomLightColors = ShadcnColors(
 );
 
 /// Colour tokens for the Violet Bloom preset, dark brightness.
-const ShadcnColors violetBloomDarkColors = ShadcnColors(
+const ThemeColors violetBloomDarkColors = ThemeColors(
   brightness: Brightness.dark,
   background: Color(0xFF1A1B1E),
   foreground: Color(0xFFF0F0F0),
@@ -5145,7 +5145,7 @@ const ShadcnColors violetBloomDarkColors = ShadcnColors(
 );
 
 /// Non-colour tokens for the Violet Bloom preset, light brightness.
-final ShadcnTokens violetBloomLightTokens = ShadcnTokens(
+final DesignTokens violetBloomLightTokens = DesignTokens(
   radius: 1.4,
   spacingBase: 4.32,
   trackingNormal: -0.4,
@@ -5160,7 +5160,7 @@ final ShadcnTokens violetBloomLightTokens = ShadcnTokens(
 );
 
 /// Non-colour tokens for the Violet Bloom preset, dark brightness.
-final ShadcnTokens violetBloomDarkTokens = ShadcnTokens(
+final DesignTokens violetBloomDarkTokens = DesignTokens(
   radius: 1.4,
   spacingBase: 4.32,
   trackingNormal: -0.4,
@@ -5175,16 +5175,16 @@ final ShadcnTokens violetBloomDarkTokens = ShadcnTokens(
 );
 
 /// Mode-independent font families for the Violet Bloom preset.
-const ShadcnFonts violetBloomFonts = ShadcnFonts(
+const ThemeFonts violetBloomFonts = ThemeFonts(
   fontSans: 'Plus Jakarta Sans, sans-serif',
   fontSerif: 'Lora, serif',
   fontMono: 'IBM Plex Mono, monospace',
 );
 
 /// Builds the ambient theme for the Violet Bloom preset.
-ShadcnThemeData buildVioletBloomTheme(Brightness brightness) {
+ThemeData buildVioletBloomTheme(Brightness brightness) {
   final isDark = brightness == Brightness.dark;
-  return ShadcnThemeData(
+  return ThemeData(
     colors: isDark ? violetBloomDarkColors : violetBloomLightColors,
     tokens: isDark ? violetBloomDarkTokens : violetBloomLightTokens,
     fonts: violetBloomFonts,
@@ -5199,7 +5199,7 @@ const String kDocsDefaultPresetId = 'neutral';
 ///
 /// Unknown ids (a stale localStorage preference from an older docs
 /// build) fall back to [kDocsDefaultPresetId].
-ShadcnThemeData buildDocsTheme(String presetId, Brightness brightness) {
+ThemeData buildDocsTheme(String presetId, Brightness brightness) {
   return switch (presetId) {
     'amber-minimal' => buildAmberMinimalTheme(brightness),
     'amethyst-haze' => buildAmethystHazeTheme(brightness),

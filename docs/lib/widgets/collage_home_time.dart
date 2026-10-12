@@ -6,15 +6,15 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/calendar/calendar.dart';
-import '../ui/shadcn/components/date_picker/date_picker.dart';
-import '../ui/shadcn/components/time_picker/time_picker.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/foundation/time_of_day.dart';
-import '../ui/shadcn/primitives/date_math.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/calendar/calendar.dart';
+import '../ui/dashcn/components/date_picker/date_picker.dart';
+import '../ui/dashcn/components/time_picker/time_picker.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/foundation/time_of_day.dart';
+import '../ui/dashcn/primitives/date_math.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -104,7 +104,7 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Standup time',
       subtitle: 'Daily at ${_format(_time)}',

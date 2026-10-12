@@ -1,20 +1,20 @@
 ---
 title: "Enum: NavigationLabelType"
-description: "Determines when labels are shown in navigation items."
+description: "When navigation labels are shown."
 ---
 
 ```dart
-/// Determines when labels are shown in navigation items.
+/// When navigation labels are shown.
 enum NavigationLabelType {
-  /// No labels displayed.
+  /// Never.
   none,
-  /// Labels shown only for selected items.
+  /// Only on the selected item.
   selected,
-  /// Labels always shown for all items.
+  /// Always.
   all,
-  /// Labels shown as tooltips on hover.
+  /// As a tooltip on hover.
   tooltip,
-  /// Labels shown when navigation is expanded.
+  /// Only while the container is expanded.
   expanded,
 }
 ```

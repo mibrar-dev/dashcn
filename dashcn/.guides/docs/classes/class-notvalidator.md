@@ -1,31 +1,20 @@
 ---
 title: "Class: NotValidator"
-description: "A validator that negates the result of another validator."
+description: "Passes when the wrapped validator fails."
 ---
 
 ```dart
-/// A validator that negates the result of another validator.
-///
-/// [NotValidator] inverts the validation logic - it passes when the wrapped
-/// validator fails and fails when the wrapped validator passes. Useful for
-/// creating exclusion rules.
-///
-/// Example:
-/// ```dart
-/// NotValidator(
-///   EmailValidator(),
-///   message: 'Must not be an email address',
-/// )
-/// ```
+/// Passes when the wrapped validator fails.
 class NotValidator<T> extends Validator<T> {
-  /// The validator whose result will be negated.
-  final Validator<T> validator;
-  /// Custom error message, or null to use default localized message.
-  final String? message;
-  /// Creates a [NotValidator] that negates the result of another validator.
+  /// Creates a negation of [validator].
   const NotValidator(this.validator, {this.message});
-  FutureOr<ValidationResult?> validate(BuildContext context, T? value, FormValidationMode state);
-  void operator ==(Object other);
+  /// The validator to negate.
+  final Validator<T> validator;
+  /// Failure text; null uses the localized generic message.
+  final String? message;
+  FutureOr<ValidationResult?> validate(BuildContext context, T? value, FormValidationMode lifecycle);
+  bool shouldRevalidate(FormKey source);
+  bool operator ==(Object other);
   int get hashCode;
 }
 ```

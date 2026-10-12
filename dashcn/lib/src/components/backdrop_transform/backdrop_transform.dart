@@ -16,7 +16,7 @@
 //     curves), shrinking or growing the backdrop past its closed/open bounds.
 //     The progress is clamped.
 //   * `cornerRadius` fell back to `Theme.of(context).radiusXxl`, which is the
-//     old theme object; the new tree reads `ShadcnTheme.of(context)`.
+//     old theme object; the new tree reads `Theme.of(context)`.
 //   * `part` + a suppress-all-lints pragma are gone.
 
 import 'package:flutter/widgets.dart';
@@ -107,7 +107,7 @@ class ScaleBackdropTransform extends BackdropTransform {
     final double progress = t.clamp(0.0, 1.0);
     Widget result = child;
     if (isRoot) {
-      final double radius = cornerRadius ?? ShadcnTheme.of(context).radiusXxl;
+      final double radius = cornerRadius ?? Theme.of(context).radiusXxl;
       result = ClipRRect(
         borderRadius: BorderRadius.circular(radius * progress),
         child: result,

@@ -306,7 +306,7 @@ class CliFlagFacts {
   final String description;
 }
 
-/// One `$ flutter_shadcn …` section of `cli_snapshot.txt`.
+/// One `$ dashcn …` section of `cli_snapshot.txt`.
 class CliCommandFacts {
   /// Creates the command facts.
   const CliCommandFacts({
@@ -321,7 +321,7 @@ class CliCommandFacts {
   /// Full invocation line without the `$ ` prefix.
   final String invocation;
 
-  /// Invocation without the trailing `--help` (`flutter_shadcn add`).
+  /// Invocation without the trailing `--help` (`dashcn add`).
   final String label;
 
   /// The `Usage:` string.

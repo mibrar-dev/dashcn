@@ -3,7 +3,7 @@
 //
 // Replaces Material's text selection controls and
 // `AdaptiveTextSelectionToolbar` with plain `package:flutter/widgets.dart`
-// widgets. The toolbar labels come from `ShadcnLocalizations`; the button list
+// widgets. The toolbar labels come from `ComponentLocalizations`; the button list
 // comes from `EditableTextState.contextMenuButtonItems`, so a read-only field
 // automatically exposes only the Copy / Select-all subset.
 
@@ -14,24 +14,21 @@ import '../clickable.dart';
 import '../localizations/localizations.dart';
 
 /// Default selection handle diameter in logical pixels.
-const double kShadcnSelectionHandleSize = 20;
+const double kSelectionHandleSize = 20;
 
 /// Widgets-only text selection controls.
 ///
 /// Mixes in [TextSelectionHandleControls], which tells [EditableText] to use
-/// `contextMenuBuilder` (see [defaultShadcnContextMenuBuilder]) instead of the
+/// `contextMenuBuilder` (see [defaultContextMenuBuilder]) instead of the
 /// deprecated `buildToolbar`; cut/copy/paste/select-all availability and
 /// behaviour stay with `EditableTextState` itself.
-class ShadcnSelectionControls extends TextSelectionControls
+class SelectionControls extends TextSelectionControls
     with TextSelectionHandleControls {
   /// Creates selection controls.
   ///
   /// [color] defaults to the ambient `ring` token; [handleSize] is the handle
   /// diameter.
-  ShadcnSelectionControls({
-    this.color,
-    this.handleSize = kShadcnSelectionHandleSize,
-  });
+  SelectionControls({this.color, this.handleSize = kSelectionHandleSize});
 
   /// Handle color; null uses the ambient `ring` token.
   final Color? color;
@@ -49,7 +46,7 @@ class ShadcnSelectionControls extends TextSelectionControls
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShadcnSelectionControls &&
+      other is SelectionControls &&
           other.color == color &&
           other.handleSize == handleSize;
 
@@ -78,7 +75,7 @@ class ShadcnSelectionControls extends TextSelectionControls
     double textLineHeight, [
     VoidCallback? onTap,
   ]) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return _SelectionHandle(
       size: handleSize,
       color: color ?? theme.colors.ring,
@@ -139,31 +136,30 @@ class _SelectionHandlePainter extends CustomPainter {
   }
 }
 
-/// Context-menu button types the shadcn toolbar renders.
-const Set<ContextMenuButtonType> kShadcnContextMenuTypes =
-    <ContextMenuButtonType>{
-      ContextMenuButtonType.cut,
-      ContextMenuButtonType.copy,
-      ContextMenuButtonType.paste,
-      ContextMenuButtonType.selectAll,
-    };
+/// Context-menu button types the upstream toolbar renders.
+const Set<ContextMenuButtonType> kContextMenuTypes = <ContextMenuButtonType>{
+  ContextMenuButtonType.cut,
+  ContextMenuButtonType.copy,
+  ContextMenuButtonType.paste,
+  ContextMenuButtonType.selectAll,
+};
 
-/// Builds the default shadcn context menu for an [EditableText].
+/// Builds the default upstream context menu for an [EditableText].
 ///
 /// Filters `contextMenuButtonItems` down to
-/// [kShadcnContextMenuTypes] and positions them at the selection anchors.
-Widget defaultShadcnContextMenuBuilder(
+/// [kContextMenuTypes] and positions them at the selection anchors.
+Widget defaultContextMenuBuilder(
   BuildContext context,
   EditableTextState editableTextState,
 ) {
   final anchors = editableTextState.contextMenuAnchors;
   final items = editableTextState.contextMenuButtonItems
-      .where((item) => kShadcnContextMenuTypes.contains(item.type))
+      .where((item) => kContextMenuTypes.contains(item.type))
       .toList(growable: false);
   if (items.isEmpty) {
     return const SizedBox.shrink();
   }
-  return ShadcnTextSelectionToolbar(
+  return SelectionToolbar(
     anchorAbove: anchors.primaryAnchor,
     anchorBelow: anchors.secondaryAnchor ?? anchors.primaryAnchor,
     buttonItems: items,
@@ -174,9 +170,9 @@ Widget defaultShadcnContextMenuBuilder(
 ///
 /// Placed by `EditableText.contextMenuBuilder` in the app overlay; the anchors
 /// are global coordinates, which is what the overlay uses too.
-class ShadcnTextSelectionToolbar extends StatelessWidget {
+class SelectionToolbar extends StatelessWidget {
   /// Creates a selection toolbar.
-  const ShadcnTextSelectionToolbar({
+  const SelectionToolbar({
     super.key,
     required this.anchorAbove,
     required this.anchorBelow,
@@ -211,8 +207,8 @@ class _ToolbarSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    final localizations = ShadcnLocalizations.of(context);
+    final theme = Theme.of(context);
+    final localizations = ComponentLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
         color: theme.colors.popover,
@@ -234,7 +230,7 @@ class _ToolbarSurface extends StatelessWidget {
 
 String _labelFor(
   ContextMenuButtonItem item,
-  ShadcnLocalizations localizations,
+  ComponentLocalizations localizations,
 ) {
   return switch (item.type) {
     ContextMenuButtonType.cut => localizations.menuCut,
@@ -254,7 +250,7 @@ class _ToolbarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Clickable(
       onPressed: item.onPressed,
       focusOutline: false,

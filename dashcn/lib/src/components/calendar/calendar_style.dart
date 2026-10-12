@@ -146,22 +146,22 @@ const CalendarTheme calendarDefaults = CalendarTheme(
   cellTextStyle: TextStyle(fontSize: 14),
 );
 
-/// Calendar shell padding around the grid: shadcn `p-3` (12), density-scaled.
+/// Calendar shell padding around the grid: upstream `p-3` (12), density-scaled.
 const EdgeInsetsGeometry calendarPadding = EdgeInsetsDensity.pxAll(12);
 
-/// Nominal cell side of a day cell: shadcn `size-(--spacing(8))` = 32, scaled
-/// by the ambient density like every other shadcn px value in the registry.
+/// Nominal cell side of a day cell: upstream `size-(--spacing(8))` = 32, scaled
+/// by the ambient density like every other upstream px value in the registry.
 ///
 /// The month and year grids use [calendarMonthCellWidth] /
 /// [calendarMonthCellHeight] instead; both are overridable through
 /// [CalendarTheme.cellWidth] and [CalendarTheme.cellHeight].
 const double calendarDayCellSize = 32;
 
-/// Nominal cell size of the month and year grids (shadcn `size-14` / h-10).
+/// Nominal cell size of the month and year grids (upstream `size-14` / h-10).
 const double calendarMonthCellWidth = 56;
 const double calendarMonthCellHeight = 40;
 
-/// One keyboard move, as shadcn / react-day-picker defines it.
+/// One keyboard move, as upstream / react-day-picker defines it.
 enum CalendarGridMove {
   previousDay,
   nextDay,
@@ -260,7 +260,7 @@ Map<ShortcutActivator, Intent> calendarGridShortcuts() =>
 
 /// The seven weekday names a date grid starts at [firstDayOfWeek].
 List<String> calendarWeekdayLabels(BuildContext context, int firstDayOfWeek) {
-  final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+  final ComponentLocalizations strings = ComponentLocalizations.of(context);
   return <String>[
     for (int i = 0; i < 7; i++)
       strings.getAbbreviatedWeekday((firstDayOfWeek - 1 + i) % 7 + 1),
@@ -347,7 +347,7 @@ CalendarValue? _extendRange(RangeCalendarValue range, DateTime date) =>
   required CalendarValueLookup lookup,
   required bool today,
   required CalendarTheme style,
-  required ShadcnColors colors,
+  required ThemeColors colors,
 }) {
   const Set<WidgetState> rest = <WidgetState>{};
   final Color label =
@@ -380,7 +380,7 @@ String calendarCellLabel(
 ) => switch (viewType) {
   CalendarViewType.date => '${date.day}',
   CalendarViewType.year => '${date.year}',
-  CalendarViewType.month => ShadcnLocalizations.of(
+  CalendarViewType.month => ComponentLocalizations.of(
     context,
   ).getAbbreviatedMonth(date.month),
 };

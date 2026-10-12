@@ -1,7 +1,7 @@
 // The built-in field validators.
 //
 // Ported from the old `form` component's `_impl/core` validator files. The
-// messages come from `ShadcnLocalizations` (the keys already existed in the
+// messages come from `ComponentLocalizations` (the keys already existed in the
 // primitives layer). Two checks are local implementations instead of third-
 // party packages:
 //
@@ -37,7 +37,7 @@ class NonNullValidator<T> extends Validator<T> {
   ) {
     if (value == null) {
       return InvalidResult(
-        message ?? ShadcnLocalizations.of(context).formNotEmpty,
+        message ?? ComponentLocalizations.of(context).formNotEmpty,
         state: lifecycle,
       );
     }
@@ -65,7 +65,7 @@ class NotEmptyValidator extends NonNullValidator<String> {
   ) {
     if (value == null || value.isEmpty) {
       return InvalidResult(
-        message ?? ShadcnLocalizations.of(context).formNotEmpty,
+        message ?? ComponentLocalizations.of(context).formNotEmpty,
         state: lifecycle,
       );
     }
@@ -100,7 +100,9 @@ class LengthValidator extends Validator<String> {
     String? value,
     FormValidationMode lifecycle,
   ) {
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final int? minimum = min;
     if (value == null) {
       return minimum == null
@@ -174,7 +176,9 @@ class RangeValidator<T extends num> extends Validator<T> {
     if (!outside) {
       return null;
     }
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final String fallback = inclusive
         ? localizations.formBetweenInclusively(
             describeValue(min),
@@ -220,7 +224,7 @@ class RegexValidator extends Validator<String> {
       return null;
     }
     return InvalidResult(
-      message ?? ShadcnLocalizations.of(context).invalidValue,
+      message ?? ComponentLocalizations.of(context).invalidValue,
       state: lifecycle,
     );
   }
@@ -253,7 +257,7 @@ class EmailValidator extends Validator<String> {
       return null;
     }
     return InvalidResult(
-      message ?? ShadcnLocalizations.of(context).invalidEmail,
+      message ?? ComponentLocalizations.of(context).invalidEmail,
       state: lifecycle,
     );
   }
@@ -288,7 +292,7 @@ class URLValidator extends Validator<String> {
       return null;
     }
     return InvalidResult(
-      message ?? ShadcnLocalizations.of(context).invalidURL,
+      message ?? ComponentLocalizations.of(context).invalidURL,
       state: lifecycle,
     );
   }
@@ -324,7 +328,9 @@ class MinValidator<T extends num> extends Validator<T> {
     if (value == null || (inclusive ? value >= min : value > min)) {
       return null;
     }
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     return InvalidResult(
       message ??
           (inclusive
@@ -368,7 +374,9 @@ class MaxValidator<T extends num> extends Validator<T> {
     if (value == null || (inclusive ? value <= max : value < max)) {
       return null;
     }
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     return InvalidResult(
       message ??
           (inclusive

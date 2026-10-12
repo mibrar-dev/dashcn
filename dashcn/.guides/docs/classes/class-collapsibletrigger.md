@@ -1,15 +1,17 @@
 ---
 title: "Class: CollapsibleTrigger"
-description: "Interactive trigger row used by [Collapsible]."
+description: "The tappable header of a [Collapsible]."
 ---
 
 ```dart
-/// Interactive trigger row used by [Collapsible].
+/// The tappable header of a [Collapsible].
 class CollapsibleTrigger extends StatelessWidget {
-  /// Creates a trigger with [child] content.
-  const CollapsibleTrigger({super.key, required this.child});
-  /// Content shown alongside the indicator icon.
+  /// Creates a trigger with [child] as its label.
+  const CollapsibleTrigger({super.key, required this.child, this.theme});
+  /// Content shown next to the expand/collapse icon.
   final Widget child;
+  /// Widget-leg style override, merged on top of the other resolver legs.
+  final CollapsibleTheme? theme;
   Widget build(BuildContext context);
 }
 ```

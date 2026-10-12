@@ -4,8 +4,8 @@
   "category": "Navigation",
   "description": "Previous/next controls with a clamped window of page buttons.",
   "tier": "component",
-  "install": "flutter_shadcn add pagination",
-  "import": "import 'package:<your_app>/ui/shadcn/components/pagination/pagination.dart';",
+  "install": "dashcn add pagination",
+  "import": "import 'package:<your_app>/ui/dashcn/components/pagination/pagination.dart';",
   "tags": [
     "navigation",
     "pagination",

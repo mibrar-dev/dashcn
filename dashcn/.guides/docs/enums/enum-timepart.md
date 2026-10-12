@@ -1,16 +1,19 @@
 ---
 title: "Enum: TimePart"
-description: "Represents a part of a time (hour, minute, or second)."
+description: "One component of a clock time."
 ---
 
 ```dart
-/// Represents a part of a time (hour, minute, or second).
+/// One component of a clock time.
+///
+/// Used to order and label the fields of a time picker; see [DatePart] for the
+/// same idea applied to dates.
 enum TimePart {
-  /// Hour component.
+  /// The hour, 0-23.
   hour,
-  /// Minute component.
+  /// The minute, 0-59.
   minute,
-  /// Second component.
+  /// The second, 0-59.
   second,
 }
 ```

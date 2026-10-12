@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ScrollableTheme? scoped,
   ScrollableTheme? widgetTheme,
@@ -21,7 +21,7 @@ Widget _frame({
   if (scoped != null) {
     viewport = ComponentTheme<ScrollableTheme>(data: scoped, child: viewport);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -57,8 +57,8 @@ void main() {
   ) async {
     late ({double fadeExtent, double fadeSize}) geometry;
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Builder(
@@ -77,8 +77,8 @@ void main() {
   testWidgets('all four theme legs override per field', (tester) async {
     late ({double fadeExtent, double fadeSize}) geometry;
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: ComponentThemes(
           themes: <ComponentThemeData>[const ScrollableTheme(fadeExtent: 30)],
           child: Directionality(
@@ -110,8 +110,8 @@ void main() {
   ) async {
     late ({double fadeExtent, double fadeSize}) geometry;
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: ComponentThemes(
           themes: <ComponentThemeData>[const ScrollableTheme(fadeExtent: 36)],
           child: Directionality(
@@ -214,7 +214,7 @@ void main() {
   testWidgets('dark palette drives the same surface', (tester) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: const Text('content'),
       ),
     );

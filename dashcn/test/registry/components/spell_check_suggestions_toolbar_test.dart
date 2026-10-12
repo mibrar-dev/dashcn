@@ -10,8 +10,8 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
-  return ShadcnTheme(
+Widget _frame(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -51,7 +51,7 @@ void _noop() {}
 
 void main() {
   testWidgets('renders the suggestions on a popup surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     await tester.pumpWidget(_frame(_toolbar()));
     await tester.pump();
     expect(find.text('receipt'), findsOneWidget);
@@ -68,7 +68,7 @@ void main() {
     expect((surface.decoration! as BoxDecoration).color, theme.colors.popover);
   });
 
-  testWidgets('rows are 32 high (shadcn h-8)', (tester) async {
+  testWidgets('rows are 32 high (dashcn h-8)', (tester) async {
     await tester.pumpWidget(_frame(_toolbar()));
     await tester.pump();
     expect(tester.getSize(find.byType(RovingRow).first).height, 32);
@@ -187,7 +187,7 @@ void main() {
     tester,
   ) async {
     expect(
-      ShadcnLocalizations.english.spellCheckNoSuggestions,
+      ComponentLocalizations.english.spellCheckNoSuggestions,
       'No suggestions',
     );
     await tester.pumpWidget(
@@ -214,9 +214,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the toolbar surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData theme = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(_frame(_toolbar(), data: theme));
     await tester.pump();
     final Container surface = tester.widget<Container>(

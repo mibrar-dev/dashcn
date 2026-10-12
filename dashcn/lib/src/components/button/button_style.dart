@@ -300,7 +300,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
 //
 // Disabled states are intentionally absent: every `StateValue` falls back to
 // its `rest` entry, and `Button` dims the whole control to 50% opacity when
-// disabled (shadcn `disabled:opacity-50`). Pressed duplicates hovered because
+// disabled (upstream `disabled:opacity-50`). Pressed duplicates hovered because
 // `StateValue.resolve` never falls back from one state to another.
 // ---------------------------------------------------------------------------
 
@@ -352,7 +352,7 @@ const _linkRow = ButtonVariantStyle(
     hovered: TextDecoration.underline,
     pressed: TextDecoration.underline,
   ),
-  // shadcn link is a plain anchor (ml-auto): no horizontal padding, so an
+  // upstream link is a plain anchor (ml-auto): no horizontal padding, so an
   // end-aligned link's text meets the field's right edge.
   padding: EdgeInsets.zero,
 );

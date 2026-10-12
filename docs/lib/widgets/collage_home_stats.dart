@@ -6,12 +6,12 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/progress/progress.dart';
-import '../ui/shadcn/components/select/select.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/progress/progress.dart';
+import '../ui/dashcn/components/select/select.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 import 'studio_blocks/studio_paint.dart';
@@ -32,7 +32,7 @@ class HomeContributionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Contribution History',
       subtitle: 'Last 6 months of activity',
@@ -140,7 +140,7 @@ class _HomeUsageCardState extends State<HomeUsageCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Power Usage',
       subtitle: 'Whole home',

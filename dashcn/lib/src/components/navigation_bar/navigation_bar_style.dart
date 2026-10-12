@@ -129,9 +129,9 @@ class NavigationBarTheme extends ComponentThemeData
   ]);
 }
 
-/// Padding around the bar body: shadcn `px-3 py-2`, density-scaled.
+/// Padding around the bar body: upstream `px-3 py-2`, density-scaled.
 ///
-/// A const whose stored sides are shadcn-px multipliers (12/16, 8/16), so it
+/// A const whose stored sides are upstream-px multipliers (12/16, 8/16), so it
 /// measures exactly `px-3 py-2` at the default density and every other
 /// density scales it.
 const EdgeInsetsGeometry navigationBarDefaultPadding =

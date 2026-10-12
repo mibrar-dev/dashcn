@@ -1,4 +1,4 @@
-// The Examples section of component pages (P7-D1, shadcn docs layout).
+// The Examples section of component pages (P7-D1, upstream docs layout).
 //
 // After Installation and Usage, every remaining named example renders as
 // `### <Name>` + optional description + its own Preview | Code card. The
@@ -9,7 +9,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_example_sources.dart';
-import '../ui/shadcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/gap.dart';
 import 'example_preview_card.dart';
 import 'heading_anchor.dart';
 import 'typeset.dart';

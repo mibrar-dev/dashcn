@@ -8,9 +8,9 @@
 //   * nothing overflows at 375 / 768 / 1440, in light and dark.
 
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/card/card.dart';
-import 'package:docs/ui/shadcn/primitives/masonry_layout.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/components/card/card.dart';
+import 'package:docs/ui/dashcn/primitives/masonry_layout.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/studio_canvas.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -193,7 +193,7 @@ void main() {
             reason: 'canvas overflow at $width ($brightness)',
           );
           expect(
-            find.byType(AnimatedShadcnTheme),
+            find.byType(AnimatedTheme),
             findsWidgets,
             reason: 'the canvas re-themes live at $width',
           );

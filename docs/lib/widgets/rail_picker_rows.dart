@@ -2,7 +2,7 @@
 //
 // Split out of `rail_pickers.dart` for the ~400-line rule: the fixed-width
 // panel, one selectable row, one colour swatch and the hex field. The popup
-// chrome (`showShadcnPicker`) and the scroll area (`RailPickerScroll`) live
+// chrome (`showPicker`) and the scroll area (`RailPickerScroll`) live
 // in their own files.
 //
 // Apply-on-select: hovering, scrolling or moving keyboard focus never touches
@@ -13,11 +13,11 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme_document.dart';
-import '../../ui/shadcn/components/input/input.dart';
-import '../../ui/shadcn/components/tooltip/tooltip.dart';
-import '../../ui/shadcn/primitives/clickable.dart';
-import '../../ui/shadcn/theme/color_tokens.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/input/input.dart';
+import '../../ui/dashcn/components/tooltip/tooltip.dart';
+import '../../ui/dashcn/primitives/clickable.dart';
+import '../../ui/dashcn/theme/color_tokens.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'rail_picker_scroll.dart';
 
@@ -66,7 +66,7 @@ class RailPickerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Clickable(
@@ -145,7 +145,7 @@ class RailSeedSwatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Tooltip(
       tooltip: (BuildContext context) => Text(name),
       child: Clickable(

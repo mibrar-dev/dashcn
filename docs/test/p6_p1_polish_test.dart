@@ -1,12 +1,12 @@
 // P6-P1 polish gates: no menu focus steal, no scroll workarounds, 6-slot
 // OTP, enabled showcase CTAs, edge-aligned payout labels.
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/components/calendar/calendar.dart';
-import 'package:docs/ui/shadcn/components/input_otp/input_otp.dart';
-import 'package:docs/ui/shadcn/components/menu/menu.dart';
-import 'package:docs/ui/shadcn/components/pagination/pagination.dart';
-import 'package:docs/ui/shadcn/components/slider/slider.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/components/calendar/calendar.dart';
+import 'package:docs/ui/dashcn/components/input_otp/input_otp.dart';
+import 'package:docs/ui/dashcn/components/menu/menu.dart';
+import 'package:docs/ui/dashcn/components/pagination/pagination.dart';
+import 'package:docs/ui/dashcn/components/slider/slider.dart';
 import 'package:docs/widgets/collage_home_forms.dart';
 import 'package:docs/widgets/docs_header.dart';
 import 'package:docs/widgets/studio_blocks/studio_forms.dart';

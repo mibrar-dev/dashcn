@@ -10,9 +10,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
 import 'selectable_code.dart';
@@ -156,7 +156,7 @@ class CodePaneDivider extends StatelessWidget {
     return SizedBox(
       height: 1,
       child: ColoredBox(
-        color: ShadcnTheme.of(context).colors.border.withValues(alpha: 0.3),
+        color: Theme.of(context).colors.border.withValues(alpha: 0.3),
       ),
     );
   }

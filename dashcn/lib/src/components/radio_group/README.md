@@ -15,7 +15,7 @@ an overlay, and `toggle` for a toolbar-style on/off control.
 ## Snippets
 
 ```dart
-ShadcnRadioGroup<String>(
+RadioSet<String>(
   value: plan,
   onChanged: (value) => setState(() => plan = value),
   child: Column(
@@ -31,15 +31,15 @@ ShadcnRadioGroup<String>(
 Controller-driven (fires no `onChanged`; the controller is the source of truth):
 
 ```dart
-final controller = ShadcnRadioGroupController<String>('pro');
-ShadcnRadioGroup<String>(controller: controller, child: items);
+final controller = RadioSetController<String>('pro');
+RadioSet<String>(controller: controller, child: items);
 // controller.select('free');
 ```
 
 Card options:
 
 ```dart
-ShadcnRadioGroup<String>(
+RadioSet<String>(
   value: plan,
   onChanged: (value) => setState(() => plan = value),
   child: Column(children: <Widget>[
@@ -48,19 +48,19 @@ ShadcnRadioGroup<String>(
 )
 ```
 
-## `ShadcnRadioGroup` API
+## `RadioSet` API
 
 | Parameter | Type | Default | Notes |
 |---|---|---|---|
 | `child` | `Widget` | required | the items, laid out by the caller |
 | `value` | `T?` | null | required in controlled mode |
-| `controller` | `ShadcnRadioGroupController<T>?` | null | controller mode; `onChanged` must be null (asserted) |
+| `controller` | `RadioSetController<T>?` | null | controller mode; `onChanged` must be null (asserted) |
 | `onChanged` | `ValueChanged<T>?` | null | null disables the group |
 | `enabled` | `bool?` | null | null means "interactive when driven" |
 | `direction` | `Axis` | vertical | arrow-key reading order |
 | `theme` | `RadioGroupTheme?` | null | widget leg of the resolver |
 
-`ShadcnRadioGroupController<T> extends ValueNotifier<T?>` with `select(T?)`.
+`RadioSetController<T> extends ValueNotifier<T?>` with `select(T?)`.
 The class is prefixed because Flutter 3.47 exports its own `RadioGroup` from
 `package:flutter/widgets.dart`; the kit never asks a user to `hide` a name.
 
@@ -93,13 +93,13 @@ group without changing the value.
 | `items` (`SelectableRadioTheme`) | `unselected`: `input` border, transparent fill; `selected`: `primary` border + `primary` fill + `primaryForeground` dot; `gap` 8; `itemPadding` 2 all round; `labelStyle` `text-sm` (14) |
 | `card` (`SelectableCardTheme`) | rest border `border`, hover `accent`, selected border `primary`; `borderWidth` 1; `padding` 16; `gap` 12 |
 
-Sizes are shadcn's: a 16 px circle (`size-4`) with an 8 px dot (`size-2`).
+Sizes are dashcn's: a 16 px circle (`size-4`) with an 8 px dot (`size-2`).
 Disabled is the rest style plus whole-item `Opacity(0.5)`.
 
 ## Differences from the old `form/radio_group`
 
 - `ControlledRadioGroup` and the `ControlledComponent` adapter are deleted: one
-  widget with two modes. `ShadcnRadioGroupController` replaces
+  widget with two modes. `RadioSetController` replaces
   `RadioGroupController`.
 - `RadioCard` is now a themed card item (`RadioCard<T>`) rather than a separate
   widget with its own border arithmetic, and `Radio` becomes `RadioIndicator`,

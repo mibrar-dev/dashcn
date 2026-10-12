@@ -5,7 +5,7 @@
 // densities mirror `Density` in `registry/theme/density.dart`:
 //
 //   compact      baseContainerPadding 8,  baseContentPadding 8,  baseGap 4
-//   default      16 / 16 / 8   (the shadcn reference size)
+//   default      16 / 16 / 8   (the upstream reference size)
 //   comfortable  20 / 20 / 10
 //
 // `Density.copyWith` also re-derives `spacing` from `baseGap` (`baseGap / 2`),
@@ -20,7 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// `Density.compactDensity` — 8 / 8 / 4.
 const Density auditCompact = Density.compactDensity;
 
-/// `Density.defaultDensity` — 16 / 16 / 8; the shadcn reference size.
+/// `Density.defaultDensity` — 16 / 16 / 8; the upstream reference size.
 const Density auditDefault = Density.defaultDensity;
 
 /// `Density.spaciousDensity` — 20 / 20 / 10.
@@ -47,14 +47,12 @@ Widget auditFrame({
   TextDirection textDirection = TextDirection.ltr,
   Widget? parent,
 }) {
-  final ShadcnThemeData data = const ShadcnThemeData().copyWith(
-    density: () => density,
-  );
+  final ThemeData data = const ThemeData().copyWith(density: () => density);
   Widget body = Directionality(
     textDirection: textDirection,
     child: parent ?? child,
   );
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(themes: const <ComponentThemeData>[], child: body),
   );

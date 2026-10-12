@@ -50,12 +50,12 @@ abstract class ObjectFormHandler<T> {
 }
 
 /// The result a dialog prompt pops with.
-/// Object-form trigger padding: shadcn `px-3 py-2` (12/8) as density
+/// Object-form trigger padding: upstream `px-3 py-2` (12/8) as density
 /// multipliers, resolved at build.
 const EdgeInsetsGeometry objectFormPromptPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8);
 
-/// Minimum trigger height: the shadcn input height (h-9, 36) shared with the
+/// Minimum trigger height: the upstream input height (h-9, 36) shared with the
 /// `input` and `formatted_input` fields. The trigger padding lives inside
 /// this height (like `EditableTextShell`), so the total matches text fields.
 const double objectFormTriggerMinHeight = 36;
@@ -133,7 +133,7 @@ class ObjectFormField<T> extends StatefulWidget {
   /// A tight parent fills either way.
   final bool expand;
 
-  /// Minimum trigger width in shadcn px (240 date, 140 time pickers).
+  /// Minimum trigger width in upstream px (240 date, 140 time pickers).
   final double triggerMinWidth;
 
   /// Title of the dialog prompt.
@@ -210,7 +210,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     showGeneralDialog<ObjectFormFieldDialogResult<T>>(
       context: context,
       barrierDismissible: true,
-      barrierLabel: ShadcnLocalizations.of(context).dialogDismiss,
+      barrierLabel: ComponentLocalizations.of(context).dialogDismiss,
       barrierColor: const Color(0x80000000),
       transitionDuration: const Duration(milliseconds: 150),
       pageBuilder: (context, animation, secondaryAnimation) {
@@ -262,7 +262,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
   void _showPopover([T? initial]) {
     final T? value = initial ?? formValue;
     T? delayed = value;
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     _popoverController
         .show<void>(
           context: context,
@@ -307,7 +307,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
   @override
   Widget build(BuildContext context) {
     formValue = widget.value;
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool enabled = _enabled;
     final Color foreground = theme.colors.foreground;
     final Color muted = theme.colors.mutedForeground;

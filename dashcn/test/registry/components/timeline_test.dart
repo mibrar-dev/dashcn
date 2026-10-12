@@ -16,12 +16,12 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -63,8 +63,8 @@ bool _isDot(Widget widget) {
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   testWidgets('token surface: 120px column, 12px dot, primary indicator', (
     tester,
@@ -89,7 +89,7 @@ void main() {
   testWidgets('dark tokens drive the indicator', (tester) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: Timeline(data: _entries(count: 1)),
       ),
     );

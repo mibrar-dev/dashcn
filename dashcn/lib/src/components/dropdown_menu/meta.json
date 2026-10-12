@@ -2,10 +2,10 @@
   "id": "dropdown_menu",
   "name": "DropdownMenu",
   "category": "Menus",
-  "description": "A menu surface anchored below the widget that opened it, plus the showShadcnDropdown helper. Rows, traversal and the popup surface come from the menu component.",
+  "description": "A menu surface anchored below the widget that opened it, plus the showDropdown helper. Rows, traversal and the popup surface come from the menu component.",
   "tier": "component",
-  "install": "flutter_shadcn add dropdown_menu",
-  "import": "import 'package:<your_app>/ui/shadcn/components/dropdown_menu/dropdown_menu.dart';",
+  "install": "dashcn add dropdown_menu",
+  "import": "import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';",
   "tags": [
     "overlay",
     "dropdown",
@@ -36,7 +36,7 @@
       "DropdownMenu"
     ],
     "functions": [
-      "showShadcnDropdown"
+      "showDropdown"
     ]
   },
   "theme": {
@@ -58,6 +58,6 @@
     "DropdownMenuTheme (surfaceOpacity/surfaceBlur only) is deleted: the surface* fields were dropped with the dialog pilot and MenuPopup owns the surface tokens.",
     "DropdownMenuData (regionGroupId plumbing) is deleted; one popover per menu no longer needs region grouping.",
     "The drawer dependency is gone: the sheet-overlay marker comes from primitives/sheet_overlay.dart, not the drawer component.",
-    "showShadcnDropdown returns a Future<T?> instead of the old OverlayCompleter; showShadcnMenu remains the row-menu helper for submenus inside menus."
+    "showDropdown returns a Future<T?> instead of the old OverlayCompleter; showMenu remains the row-menu helper for submenus inside menus."
   ]
 }

@@ -69,7 +69,7 @@ class SubFocusListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool isEnabled = enabled ?? (onTap != null);
     final Color highlight = highlightColor ?? theme.colors.accent;
     final Color onHighlight =

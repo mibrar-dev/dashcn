@@ -4,8 +4,8 @@
   "category": "Data Display",
   "description": "Image or initials tile with an optional badge and overlapping group.",
   "tier": "component",
-  "install": "flutter_shadcn add avatar",
-  "import": "import 'package:<your_app>/ui/shadcn/components/avatar/avatar.dart';",
+  "install": "dashcn add avatar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';",
   "tags": ["display", "avatar", "profile", "user", "image"],
   "deps": {
     "foundation": [],

@@ -58,7 +58,7 @@ AutoCompleteFeature(
 | `mode` | `AutoCompleteMode?` | null | null = `AutoCompleteTheme.mode` = `replaceWord` |
 | `completer` | `AutoCompleteCompleter` | identity | post-processes the suggestion before it is written |
 | `onSuggestionSelected` | `ValueChanged<String>?` | null | called after the field text changed |
-| `itemBuilder` | `SuggestionRowBuilder?` | null | null renders the shadcn row (highlighted text) |
+| `itemBuilder` | `SuggestionRowBuilder?` | null | null renders the dashcn row (highlighted text) |
 | `theme` | `AutoCompleteTheme?` | null | widget leg of the resolver |
 
 The list opens while typing and closes when the query yields nothing. The field
@@ -88,11 +88,11 @@ state.
 | `popoverAnchorAlignment` / `popoverAlignment` | `bottomStart` / `topStart` |
 | `containerBackground` / `containerForeground` | `popover` / `popoverForeground` |
 | `containerBorderColor` / `containerBorderWidth` | `border` / 1 |
-| `containerPadding` | 4 all round (shadcn `p-1`) |
+| `containerPadding` | 4 all round (dashcn `p-1`) |
 | `itemBackground` / `itemForeground` | `accent` / `accentForeground` on hover, press and highlight |
-| `itemPadding` | 8 x 6 (shadcn `px-2 py-1.5`) |
+| `itemPadding` | 8 x 6 (dashcn `px-2 py-1.5`) |
 | `itemTextStyle` | `text-sm` (14) |
-| `maxHeight` | 240 (shadcn `max-h-60`) |
+| `maxHeight` | 240 (dashcn `max-h-60`) |
 
 ## Differences from the old `form/autocomplete`
 

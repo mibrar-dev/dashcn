@@ -1,7 +1,7 @@
 // Entry point of the docs web app (P6 rebuild).
 //
 // Composition: a root `Router` owns URL/history (delegate + parser in
-// `routing/docs_router.dart`); the delegate builds the registry `ShadcnApp`
+// `routing/docs_router.dart`); the delegate builds the registry `DashcnApp`
 // shell around a docs navigator. The shell installs the theme (with a
 // 300ms ease-out-expo colour tween on preset/mode switches), the global
 // keyboard shortcuts and the web-bridge events.
@@ -29,10 +29,10 @@ import 'pages/theming_page.dart';
 import 'routing/deferred_page.dart';
 import 'routing/docs_router.dart';
 import 'state/docs_state.dart';
-import 'ui/shadcn/components/app/app.dart';
-import 'ui/shadcn/components/gooey_toast/gooey_toast.dart';
-import 'ui/shadcn/theme/color_tokens.dart';
-import 'ui/shadcn/theme/theme.dart';
+import 'ui/dashcn/components/app/app.dart';
+import 'ui/dashcn/components/gooey_toast/gooey_toast.dart';
+import 'ui/dashcn/theme/color_tokens.dart';
+import 'ui/dashcn/theme/theme.dart';
 import 'web_bridge.dart';
 import 'widgets/docs_shell.dart';
 import 'widgets/palette.dart';
@@ -121,15 +121,15 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
 
   Widget _buildShell(BuildContext context, Widget navigator) {
     final DocsState state = widget.state;
-    return ShadcnApp(
-      title: 'shadcn_flutter_kit docs',
+    return DashcnApp(
+      title: 'dashcn',
       debugShowCheckedModeBanner: false,
       color: state.theme.colors.primary,
       theme: state.theme,
       themeMode: state.brightness == Brightness.dark
           ? ThemeMode.dark
           : ThemeMode.light,
-      // ShadcnApp merges `shortcuts`/`actions` over the WidgetsApp defaults
+      // DashcnApp merges `shortcuts`/`actions` over the WidgetsApp defaults
       // (Tab traversal, Enter/Space activation, Escape dismissal survive), so
       // only the docs-specific bindings are listed here.
       shortcuts: docsShortcuts,
@@ -143,7 +143,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       },
       builder: (BuildContext context, Widget? child) => MotionScope(
         child: Builder(
-          builder: (BuildContext context) => AnimatedShadcnTheme(
+          builder: (BuildContext context) => AnimatedTheme(
             data: state.theme,
             // The preset/mode colour tween is our documented deviation; under
             // reduced motion it caps to 150 ms (plan §4) instead of 300 ms.
@@ -185,7 +185,7 @@ class OpenDocsPaletteIntent extends Intent {
   const OpenDocsPaletteIntent();
 }
 
-/// Global shortcut map handed to [ShadcnApp].
+/// Global shortcut map handed to [DashcnApp].
 const Map<ShortcutActivator, Intent> docsShortcuts =
     <ShortcutActivator, Intent>{
       SingleActivator(LogicalKeyboardKey.keyK, meta: true):
@@ -243,8 +243,8 @@ Widget buildDocsPalette(BuildContext context, VoidCallback close) {
 // Web-bridge helpers.
 // ---------------------------------------------------------------------------
 
-Map<String, String> _themeEventColors(ShadcnThemeData data) {
-  final ShadcnColors c = data.colors;
+Map<String, String> _themeEventColors(ThemeData data) {
+  final ThemeColors c = data.colors;
   return <String, String>{
     'background': _hex(c.background),
     'foreground': _hex(c.foreground),

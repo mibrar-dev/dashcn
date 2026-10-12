@@ -5,11 +5,11 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/avatar/avatar.dart';
-import '../ui/shadcn/components/hover_card/hover_card.dart';
-import '../ui/shadcn/components/timeline/timeline.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/avatar/avatar.dart';
+import '../ui/dashcn/components/hover_card/hover_card.dart';
+import '../ui/dashcn/components/timeline/timeline.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -20,7 +20,7 @@ class HomeContributorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Contributors',
       subtitle: 'Seven people shipped this release.',

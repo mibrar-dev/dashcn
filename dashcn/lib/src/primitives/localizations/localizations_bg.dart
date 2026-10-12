@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Bulgarian (`bg`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsBg extends ShadcnLocalizations {
+class ComponentLocalizationsBg extends ComponentLocalizations {
   /// Creates the Bulgarian strings.
-  const ShadcnLocalizationsBg([super.locale = const Locale('bg')]);
+  const ComponentLocalizationsBg([super.locale = const Locale('bg')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

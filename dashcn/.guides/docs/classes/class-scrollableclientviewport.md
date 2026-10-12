@@ -6,10 +6,11 @@ description: "Viewport widget for [ScrollableClient] with two-dimensional scroll
 ```dart
 /// Viewport widget for [ScrollableClient] with two-dimensional scrolling.
 class ScrollableClientViewport extends TwoDimensionalViewport {
-  /// Whether overscroll effects are enabled.
+  /// Whether the offset may move past the content edges.
   final bool overscroll;
-  /// Creates a [ScrollableClientViewport].
-  const ScrollableClientViewport({super.key, required super.verticalOffset, required super.verticalAxisDirection, required super.horizontalOffset, required super.horizontalAxisDirection, required super.delegate, required super.mainAxis, super.cacheExtent, super.clipBehavior = Clip.hardEdge, required this.overscroll});
+  /// Creates a viewport for a [ScrollableClient].
+  const ScrollableClientViewport({super.key, required super.verticalOffset, required super.verticalAxisDirection, required super.horizontalOffset, required super.horizontalAxisDirection, required super.delegate, required super.mainAxis, super.scrollCacheExtent, super.clipBehavior = Clip.hardEdge, required this.overscroll});
   RenderTwoDimensionalViewport createRenderObject(BuildContext context);
+  void updateRenderObject(BuildContext context, RenderScrollableClientViewport renderObject);
 }
 ```

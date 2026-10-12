@@ -2,14 +2,14 @@ import '../../foundation/time_of_day.dart';
 import 'locale_parts.dart';
 import 'localizations.dart';
 
-/// Formatting helpers built on the [ShadcnLocalizations] strings.
+/// Formatting helpers built on the [ComponentLocalizations] strings.
 ///
 /// The words come from the localizations instance; the separators, padding and
 /// 12/24-hour convention come from the arguments.
-extension ShadcnLocalizationsExtensions on ShadcnLocalizations {
+extension ComponentLocalizationsExtensions on ComponentLocalizations {
   /// The order date fields are presented in unless the app overrides it.
   ///
-  /// Month/day/year, matching the shadcn and platform defaults.
+  /// Month/day/year, matching the upstream and platform defaults.
   List<DatePart> get datePartsOrder => const [
     DatePart.month,
     DatePart.day,

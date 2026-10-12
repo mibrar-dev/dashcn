@@ -242,9 +242,9 @@ class _FilterBarState extends State<FilterBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final FilterBarTheme style = _style(context);
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     final FilterState current = _current;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -288,10 +288,10 @@ class _FilterBarState extends State<FilterBar> {
     BuildContext context,
     FilterState current,
     FilterBarTheme style,
-    ShadcnLocalizations l10n, {
+    ComponentLocalizations l10n, {
     required bool inSheet,
   }) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final String? sortValue =
         widget.sortOptions.any(
           (FilterSortOption option) => option.id == current.sortId,
@@ -383,7 +383,7 @@ class _FilterBarState extends State<FilterBar> {
     );
   }
 
-  String? _counterText(FilterState current, ShadcnLocalizations l10n) {
+  String? _counterText(FilterState current, ComponentLocalizations l10n) {
     if (widget.resultsCount != null) {
       return l10n.filterResultsCount(widget.resultsCount!);
     }
@@ -398,7 +398,7 @@ class _FilterBarState extends State<FilterBar> {
       useRootNavigator: widget.useRootNavigator,
       builder: (BuildContext sheetContext) {
         return FilterBarSheetScaffold(
-          title: ShadcnLocalizations.of(sheetContext).filterFilters,
+          title: ComponentLocalizations.of(sheetContext).filterFilters,
           contentPadding: widget.sheetContentPadding,
           onClose: () => closeSheet(sheetContext),
           child: ValueListenableBuilder<FilterState>(
@@ -407,7 +407,9 @@ class _FilterBarState extends State<FilterBar> {
               // Resolved from the sheet's own context so a theme change while
               // the sheet is open is live instead of a stale snapshot.
               final FilterBarTheme style = _style(context);
-              final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+              final ComponentLocalizations l10n = ComponentLocalizations.of(
+                context,
+              );
               return _content(context, current, style, l10n, inSheet: true);
             },
           ),

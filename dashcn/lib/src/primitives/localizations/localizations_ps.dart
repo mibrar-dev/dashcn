@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Pashto (`ps`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsPs extends ShadcnLocalizations {
+class ComponentLocalizationsPs extends ComponentLocalizations {
   /// Creates the Pashto strings.
-  const ShadcnLocalizationsPs([super.locale = const Locale('ps')]);
+  const ComponentLocalizationsPs([super.locale = const Locale('ps')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

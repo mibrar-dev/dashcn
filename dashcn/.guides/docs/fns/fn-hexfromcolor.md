@@ -1,9 +1,9 @@
 ---
 title: "Function: hexFromColor"
-description: "Converts a Flutter [Color] to hexadecimal string representation."
+description: "Hex string for [color] (`#RRGGBB`, or `#AARRGGBB` when [showAlpha])."
 ---
 
 Signature
 ```dart
-String hexFromColor(Color color);
+String hexFromColor(Color color, [bool showAlpha = false]);
 ```

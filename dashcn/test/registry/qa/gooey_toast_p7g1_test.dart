@@ -21,7 +21,7 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(1440, 900));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         home: GooeyToastLayer(
           controller: controller,
           child: child ?? const SizedBox.shrink(),
@@ -150,7 +150,7 @@ void main() {
     final BuildContext context = tester.element(find.text('Saved'));
     final Color tone = GooeyToastState.error.tone(
       gooeyToastThemeOf(context),
-      ShadcnTheme.of(context).colors,
+      Theme.of(context).colors,
     );
     expect((tester.widget<Text>(find.text('Saved')).style?.color), isNotNull);
     // The tone is the error red, lifted for contrast against the surface.
@@ -159,7 +159,7 @@ void main() {
       isNot(
         GooeyToastState.success.tone(
           gooeyToastThemeOf(context),
-          ShadcnTheme.of(context).colors,
+          Theme.of(context).colors,
         ),
       ),
     );

@@ -8,7 +8,7 @@ import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'docs_tokens.dart';
 
 class PaletteEntry {
@@ -133,9 +133,8 @@ List<PaletteEntry> buildPaletteEntries() {
   return items;
 }
 
-/// `flutter_shadcn add <id>` for [componentId].
-String installCommandOf(String componentId) =>
-    'flutter_shadcn add $componentId';
+/// `dashcn add <id>` for [componentId].
+String installCommandOf(String componentId) => 'dashcn add $componentId';
 
 /// Installed Dart file count for [componentId].
 int fileCountOf(String componentId) => kComponents

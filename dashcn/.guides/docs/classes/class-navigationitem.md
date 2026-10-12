@@ -1,50 +1,29 @@
 ---
 title: "Class: NavigationItem"
-description: "Selectable navigation item with selection state management."
+description: "One selectable navigation item, or an action when [onPressed] is set."
 ---
 
 ```dart
-/// Selectable navigation item with selection state management.
+/// One selectable navigation item, or an action when [onPressed] is set.
 ///
-/// Represents a clickable navigation item that can be selected. Supports
-/// custom styling for selected/unselected states, labels, and icons.
-///
-/// Example:
 /// ```dart
-/// NavigationItem(
-///   index: 0,
-///   label: Text('Home'),
-///   child: Icon(Icons.home),
-///   selected: selectedIndex == 0,
-///   onChanged: (selected) => setState(() => selectedIndex = 0),
-/// )
+/// NavigationItem(child: Icon(RadixIcons.home), label: Text('Home'))
+/// NavigationItem(child: Icon(RadixIcons.gear), onPressed: _openSettings)
 /// ```
-class NavigationItem extends AbstractNavigationButton {
-  /// Custom style when item is selected.
-  final AbstractButtonStyle? selectedStyle;
-  /// Whether this item is currently selected.
-  final bool? selected;
-  /// Callback when selection state changes.
-  final ValueChanged<bool>? onChanged;
-  /// Optional index for selection management.
-  final int? index;
+class NavigationItem extends StatelessWidget implements NavigationBarItem {
   /// Creates a navigation item.
-  ///
-  /// Parameters:
-  /// - [child] (Widget, required): Icon or content widget
-  /// - [selectedStyle] (AbstractButtonStyle?): Style when selected
-  /// - [selected] (bool?): Current selection state
-  /// - [onChanged] (`ValueChanged<bool>?`): Selection change callback
-  /// - [index] (int?): Item index for selection
-  /// - [label] (Widget?): Optional label text
-  /// - [spacing] (double?): Space between icon and label
-  /// - [style] (AbstractButtonStyle?): Default style
-  /// - [alignment] (AlignmentGeometry?): Content alignment
-  /// - [enabled] (bool?): Whether enabled for interaction
-  /// - [overflow] (TextOverflow?): Label overflow behavior
-  /// - [marginAlignment] (AlignmentGeometry?): Margin alignment
-  const NavigationItem({super.key, this.selectedStyle, this.selected, this.onChanged, super.label, super.spacing, super.style, super.alignment, this.index, super.enabled, super.overflow, super.marginAlignment, required super.child});
+  const NavigationItem({super.key, required this.child, this.label, this.index, this.selected, this.onChanged, this.onPressed, this.enabled, this.overflow = NavigationOverflow.ellipsis, this.style, this.activeStyle});
+  final Widget child;
+  final Widget? label;
+  final int? index;
+  final bool? selected;
+  final ValueChanged<bool>? onChanged;
+  final VoidCallback? onPressed;
+  final bool? enabled;
+  final NavigationOverflow overflow;
+  final NavigationItemStyle? style;
+  final NavigationItemStyle? activeStyle;
   bool get selectable;
-  State<AbstractNavigationButton> createState();
+  Widget build(BuildContext context);
 }
 ```

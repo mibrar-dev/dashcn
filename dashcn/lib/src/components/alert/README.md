@@ -24,7 +24,7 @@ Alert(
 | `variant` | `AlertVariant.base` (default) or `AlertVariant.destructive` |
 | `theme` | widget-leg `AlertTheme` override |
 
-shadcn variants are `default` / `destructive`; `default` is a Dart reserved
+dashcn variants are `default` / `destructive`; `default` is a Dart reserved
 word, so the row is called `base` here.
 
 ## Theme
@@ -39,7 +39,7 @@ const AlertTheme alertThemeOverrides = AlertTheme(
 );
 ```
 
-Defaults (shadcn new-york): `bg-card`, 1px `border`, `rounded-lg`
+Defaults (dashcn new-york): `bg-card`, 1px `border`, `rounded-lg`
 (`radiusLg`), padding 16/12, title 14/w500, content 14 `mutedForeground`,
 12px icon gap, 16px leading icon.
 

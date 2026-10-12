@@ -1,9 +1,9 @@
 ---
 title: "Function: showDropdown"
-description: "Top-level function showDropdown"
+description: "Shows [children] as a dropdown menu anchored to [context]."
 ---
 
 Signature
 ```dart
-OverlayCompleter<T?> showDropdown<T>({required BuildContext context, required WidgetBuilder builder, Offset? position, AlignmentGeometry? anchorAlignment, PopoverConstraint widthConstraint = PopoverConstraint.flexible, PopoverConstraint heightConstraint = PopoverConstraint.flexible, Key? key, bool rootOverlay = true, bool modal = true, Clip clipBehavior = Clip.none, Object? regionGroupId, Offset? offset, AlignmentGeometry? transitionAlignment, AlignmentGeometry? alignment, EdgeInsetsGeometry? margin, bool follow = true, bool consumeOutsideTaps = false, ValueChanged<PopoverOverlayWidgetState>? onTickFollow, bool allowInvertHorizontal = true, bool allowInvertVertical = true, bool dismissBackdropFocus = true, Duration? showDuration, Duration? dismissDuration});
+Future<T?> showDropdown<T>({required BuildContext context, required List<Widget> children, AlignmentGeometry alignment = AlignmentDirectional.topStart, AlignmentGeometry anchorAlignment = AlignmentDirectional.bottomStart, Offset offset = const Offset(0, 4), PopoverConstraint widthConstraint = PopoverConstraint.anchorFixedSize, PopoverConstraint heightConstraint = PopoverConstraint.flexible, MenuPopupTheme? theme});
 ```

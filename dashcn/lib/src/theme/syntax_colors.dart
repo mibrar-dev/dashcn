@@ -1,13 +1,13 @@
 // The `syntax` token group: colors for syntax-highlighted code.
 //
-// A global token group (like `ShadcnFonts`), not a per-component theme: every
+// A global token group (like `ThemeFonts`), not a per-component theme: every
 // code surface in the kit (`code_snippet`, markdown code blocks, docs code
 // figures) shares one palette, so a Studio user edits one place. Light and
-// dark values follow the shadcn/ui site (shiki github-light / github-dark).
+// dark values follow the upstream web kit site (shiki github-light / github-dark).
 //
-// The group is deliberately NOT part of `ShadcnColors`: preset JSONs stay
+// The group is deliberately NOT part of `ThemeColors`: preset JSONs stay
 // untouched, and the palette switches with the ambient brightness. A preset
-// never needs to override it; an app can via `ShadcnThemeData.copyWith(syntax: …)`.
+// never needs to override it; an app can via `ThemeData.copyWith(syntax: …)`.
 
 import 'package:flutter/widgets.dart';
 
@@ -60,7 +60,7 @@ enum SyntaxTokenKind {
 ///
 /// Const-constructible so user-owned theme files stay values-only. Colors are
 /// transcribed from shiki's github-light / github-dark themes (the palette
-/// the shadcn/ui site uses for code blocks).
+/// the upstream web kit site uses for code blocks).
 @immutable
 class SyntaxColors {
   /// Creates a palette. Every kind has a color; [plain] is the text color.
@@ -177,7 +177,7 @@ class SyntaxColors {
   }
 
   /// Steps at `t = 0.5` (colors cannot lerp mid-flight); mirrors
-  /// `ShadcnFonts.lerp`.
+  /// `ThemeFonts.lerp`.
   static SyntaxColors lerp(SyntaxColors a, SyntaxColors b, double t) =>
       t < 0.5 ? a : b;
 

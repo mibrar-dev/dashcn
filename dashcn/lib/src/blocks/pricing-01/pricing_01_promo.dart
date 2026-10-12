@@ -83,10 +83,10 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 384),
-      child: ShadcnForm(
+      child: FormScope(
         controller: _controller,
         onSubmit: _handleValidSubmit,
         child: Column(
@@ -101,7 +101,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
               ),
             ),
             Gap(theme.spacing.md),
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: _codeKey,
               label: const Text('Promo code'),
               validator: _codeValidator,

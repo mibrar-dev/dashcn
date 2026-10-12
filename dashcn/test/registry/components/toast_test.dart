@@ -13,11 +13,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   ToastController controller, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   Widget? child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -58,7 +58,7 @@ Future<void> _clear(WidgetTester tester, ToastController controller) async {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   testWidgets('renders only the child when there are no toasts', (
     tester,
@@ -217,8 +217,8 @@ void main() {
 
     Future<void> pumpWith(ToastTheme? widgetTheme) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: const <ComponentThemeData>[
               ToastTheme(background: ThemedColor.value(red)),
@@ -253,9 +253,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the card', (tester) async {
-    const ShadcnThemeData dark = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
     final controller = ToastController();
     addTearDown(controller.dispose);
     await tester.pumpWidget(_frame(controller, data: dark));

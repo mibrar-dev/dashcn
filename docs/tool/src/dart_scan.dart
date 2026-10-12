@@ -52,7 +52,7 @@ class DartScanException implements Exception {
 ///  1. a class named exactly after the display name or the directory id;
 ///  2. a widget class from the manifest `api.classes` list;
 ///  3. the primary top-level function (function-first components: dialog →
-///     `showShadcnDialog`, popup → `showShadcnPopup`, drawer → `openDrawer`);
+///     `showDialog`, popup → `showPopup`, drawer → `openDrawer`);
 ///  4. the manifest `api.classes` fallback list, in this order:
 ///     a. a class that cannot be instantiated publicly and owns declared
 ///        entries — the factory set (`formatter` → `TextInputFormatters`,
@@ -289,7 +289,7 @@ List<DeclaredSource> declaredSources(
 /// Extracts the API facts from a function-first component's primary function.
 ///
 /// The primary function is the public top-level function whose name contains
-/// the component's PascalCase name (e.g. `showShadcnDialog` for `dialog`,
+/// the component's PascalCase name (e.g. `showDialog` for `dialog`,
 /// `openDrawer` for `drawer`). When several match, `show*` wins over `open*`,
 /// then the first declaration.
 ApiFacts _functionApiFacts(

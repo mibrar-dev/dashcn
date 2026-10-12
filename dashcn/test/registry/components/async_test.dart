@@ -13,8 +13,8 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
-  return ShadcnTheme(
+Widget _frame(Widget child, {ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -129,11 +129,10 @@ void main() {
   });
 
   group('renders with tokens', () {
-    for (final (String name, ShadcnThemeData data)
-        in <(String, ShadcnThemeData)>[
-          ('light', const ShadcnThemeData()),
-          ('dark', const ShadcnThemeData(colors: ShadcnColors.darkFallback)),
-        ]) {
+    for (final (String name, ThemeData data) in <(String, ThemeData)>[
+      ('light', const ThemeData()),
+      ('dark', const ThemeData(colors: ThemeColors.darkFallback)),
+    ]) {
       testWidgets('$name tokens build the component', (tester) async {
         await tester.pumpWidget(
           _frame(

@@ -156,10 +156,10 @@ class SelectableText extends StatefulWidget {
   /// Whether drag/double-tap/long-press selection is enabled.
   final bool? enableInteractiveSelection;
 
-  /// Selection controls override; defaults to `ShadcnSelectionControls`.
+  /// Selection controls override; defaults to `SelectionControls`.
   final TextSelectionControls? selectionControls;
 
-  /// Context menu builder override; defaults to the shadcn toolbar.
+  /// Context menu builder override; defaults to the upstream toolbar.
   final EditableTextContextMenuBuilder? contextMenuBuilder;
 
   /// Called when the text is tapped.
@@ -293,8 +293,8 @@ class _SelectableTextState extends State<SelectableText>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     final resolved =
         resolveComponentStyle<SelectableTextTheme, SelectableTextTheme>(
           context,
@@ -337,10 +337,10 @@ class _SelectableTextState extends State<SelectableText>
       backgroundCursorColor: colors.border,
       selectionColor: selectionColor,
       selectionControls: _selectionEnabled
-          ? widget.selectionControls ?? ShadcnSelectionControls()
+          ? widget.selectionControls ?? SelectionControls()
           : null,
       contextMenuBuilder:
-          widget.contextMenuBuilder ?? defaultShadcnContextMenuBuilder,
+          widget.contextMenuBuilder ?? defaultContextMenuBuilder,
       selectionHeightStyle:
           widget.selectionHeightStyle ??
           resolved.selectionHeightStyle ??

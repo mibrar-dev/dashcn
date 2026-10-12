@@ -1,35 +1,28 @@
 ---
 title: "Class: ValidatorBuilder"
-description: "A validator that uses a custom builder function for validation logic."
+description: "Builds a custom validator from a function."
 ---
 
 ```dart
-/// A validator that uses a custom builder function for validation logic.
+/// Builds a custom validator from a function.
 ///
-/// [ValidatorBuilder] provides a flexible way to create validators using
-/// inline functions or custom validation logic without extending the Validator class.
-///
-/// Example:
 /// ```dart
 /// ValidatorBuilder<String>(
-///   (value) {
-///     if (value != null && value.contains('@')) {
-///       return null; // Valid
-///     }
-///     return InvalidResult('Must contain @');
-///   },
-/// )
+///   (value) => (value?.contains('@') ?? false)
+///       ? null
+///       : const InvalidResult('Must contain @', state: FormValidationMode.changed),
+/// );
 /// ```
 class ValidatorBuilder<T> extends Validator<T> {
-  /// The function that performs the validation.
+  /// Creates a validator around [builder].
+  const ValidatorBuilder(this.builder, {this.dependencies = const <FormKey>[]});
+  /// The function performing the check.
   final ValidatorBuilderFunction<T> builder;
-  /// List of form field keys this validator depends on.
+  /// Keys this validator re-runs for when their value changes.
   final List<FormKey> dependencies;
-  /// Creates a [ValidatorBuilder] with the specified builder function.
-  const ValidatorBuilder(this.builder, {this.dependencies = const []});
   FutureOr<ValidationResult?> validate(BuildContext context, T? value, FormValidationMode lifecycle);
-  bool shouldRevalidate(FormKey<dynamic> source);
-  void operator ==(Object other);
+  bool shouldRevalidate(FormKey source);
+  bool operator ==(Object other);
   int get hashCode;
 }
 ```

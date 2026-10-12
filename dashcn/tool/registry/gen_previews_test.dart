@@ -94,7 +94,7 @@ void main(List<String> args) {
 /// Runs `dart format` over [source] and returns the formatted text.
 String _format(String source) {
   final scratch = File(
-    '${Directory.systemTemp.path}/shadcn_gen_previews_test.dart',
+    '${Directory.systemTemp.path}/dashcn_gen_previews_test.dart',
   );
   scratch.writeAsStringSync(source);
   final result = Process.runSync('dart', <String>['format', scratch.path]);
@@ -230,12 +230,12 @@ Widget _phoneHost(WidgetBuilder builder) {
 Future<void> _pump(
   WidgetTester tester,
   ComponentPreview example,
-  ShadcnThemeDataView theme,
+  ThemeDataView theme,
   Widget host,
 ) async {
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(
+    Theme(
+      data: ThemeData(
         colors: theme.colors,
         tokens: theme.tokens,
         fonts: theme.fonts,
@@ -306,7 +306,7 @@ void main() {
       final file = File('\$appRoot/lib/src/components/\$id/preview.dart');
       expect(file.existsSync(), isTrue, reason: '\$id has no preview.dart');
       expect(
-        file.readAsStringSync().contains('ShadcnThemeData('),
+        file.readAsStringSync().contains('ThemeData('),
         isFalse,
         reason: '\$id/preview.dart hard-codes a theme',
       );
@@ -335,7 +335,7 @@ void main() {
 
       for (final String preset in _presets) {
         for (final Brightness brightness in _brightnesses) {
-          final ShadcnThemeDataView theme = loadGeneratedTheme(
+          final ThemeDataView theme = loadGeneratedTheme(
             '\$_themesDir/\$preset.json',
           ).view(brightness);
           testWidgets('\$preset / \${brightness.name}', (

@@ -8,13 +8,13 @@ calls the matching accept callback on drop.
 ## Install
 
 ```bash
-flutter_shadcn add sortable
+dashcn add sortable
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/sortable/sortable.dart';
+import 'package:<your_app>/ui/dashcn/sortable/sortable.dart';
 ```
 
 ## Minimal example

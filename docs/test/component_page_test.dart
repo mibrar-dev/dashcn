@@ -9,8 +9,8 @@ import 'package:docs/generated/docs_example_sources.dart';
 import 'package:docs/generated/docs_previews.dart';
 import 'package:docs/routing/docs_nav.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/badge/badge.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/components/badge/badge.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
 import 'package:docs/widgets/docs_toc.dart';
 import 'package:docs/widgets/example_preview_card.dart';
 import 'package:docs/widgets/preview_stage.dart';
@@ -77,9 +77,9 @@ void main() {
         find.byType(ExamplePreviewCard),
         findsNWidgets(kComponentPreviews['dialog']!.length),
       );
-      // Function-first API: showShadcnDialog params.
+      // Function-first API: showDialog params.
       expect(find.text('API Reference'), findsWidgets);
-      expect(find.textContaining('showShadcnDialog'), findsWidgets);
+      expect(find.textContaining('showDialog'), findsWidgets);
       expect(find.textContaining('barrierDismissible'), findsWidgets);
       expect(find.textContaining('fullScreen'), findsWidgets);
     });
@@ -98,7 +98,7 @@ void main() {
       );
       expect(find.byType(PreviewStage), findsWidgets);
       expect(find.text('Installation'), findsWidgets);
-      expect(find.textContaining('flutter_shadcn add command'), findsWidgets);
+      expect(find.textContaining('dashcn add command'), findsWidgets);
     });
 
     testWidgets('install block Manual tab shows generated file list', (
@@ -114,11 +114,11 @@ void main() {
       await tester.tap(find.text('Manual'));
       await tester.pumpAndSettle();
       expect(
-        find.text('lib/ui/shadcn/components/button/button.dart'),
+        find.text('lib/ui/dashcn/components/button/button.dart'),
         findsOneWidget,
       );
       expect(
-        find.text('lib/ui/shadcn/components/button/button_theme.dart'),
+        find.text('lib/ui/dashcn/components/button/button_theme.dart'),
         findsOneWidget,
       );
       expect(find.text('user-owned'), findsOneWidget);

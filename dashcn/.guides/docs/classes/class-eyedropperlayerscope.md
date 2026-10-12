@@ -1,29 +1,19 @@
 ---
 title: "Class: EyeDropperLayerScope"
-description: "Provides access to eye dropper functionality in the widget tree."
+description: "Eye-dropper sessions managed by an [EyeDropperLayer]."
 ---
 
 ```dart
-/// Provides access to eye dropper functionality in the widget tree.
-///
-/// [EyeDropperLayerScope] is an abstract interface that allows widgets to
-/// request color picking functionality from an ancestor [EyeDropperLayer].
-/// Use the static methods to find the scope in the widget tree.
+/// Eye-dropper sessions managed by an [EyeDropperLayer].
 abstract class EyeDropperLayerScope {
-  /// Prompts the user to pick a color from the screen.
+  /// Prompts the user to pick a colour from the wrapped subtree.
   ///
-  /// Parameters:
-  /// - [historyStorage]: Optional storage for color picking history.
-  ///
-  /// Returns: A [Future] that completes with the picked color, or null if cancelled.
+  /// Completes with the sampled colour, or null when the session is cancelled
+  /// (Escape). When [historyStorage] is given the colour is also pushed to it.
   Future<Color?> promptPickColor([ColorHistoryStorage? historyStorage]);
-  /// Finds the root [EyeDropperLayerScope] in the widget tree.
-  ///
-  /// Searches up the tree to find the topmost eye dropper scope.
+  /// Finds the outermost [EyeDropperLayerScope] above [context].
   static EyeDropperLayerScope findRoot(BuildContext context);
-  /// Finds the nearest [EyeDropperLayerScope] in the widget tree.
-  ///
-  /// Searches up the tree to find the closest eye dropper scope.
+  /// Finds the nearest [EyeDropperLayerScope] above [context].
   static EyeDropperLayerScope find(BuildContext context);
 }
 ```

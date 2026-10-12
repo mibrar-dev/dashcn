@@ -1,5 +1,5 @@
 // Tests that the `error_handling` built-ins take their user-facing text from
-// the supplied `ShadcnLocalizations` table (English when none is given).
+// the supplied `ComponentLocalizations` table (English when none is given).
 
 import 'dart:async';
 
@@ -88,7 +88,7 @@ void main() {
   });
 }
 
-class _TestStrings extends ShadcnLocalizations {
+class _TestStrings extends ComponentLocalizations {
   const _TestStrings() : super(const Locale('it'));
 
   @override

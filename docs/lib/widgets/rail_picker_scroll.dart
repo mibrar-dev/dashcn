@@ -6,7 +6,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/primitives/fade_scroll.dart';
+import '../../ui/dashcn/primitives/fade_scroll.dart';
 
 /// The scroll area of every picker popup: its own scrollable with the fixed
 /// registry edge fade, capped by the popup chrome above.

@@ -6,7 +6,7 @@ the reusable field machinery live in `primitives/text_editing/`, the feature
 system in `primitives/input_features/`, and form participation in
 `primitives/form_core`.
 
-`input` merges the old `input` + `text_field` components and owns the shadcn
+`input` merges the old `input` + `text_field` components and owns the dashcn
 name; `autocomplete` (later) depends on `input`, never the other way around.
 
 ## When to use
@@ -19,7 +19,7 @@ name; `autocomplete` (later) depends on `input`, never the other way around.
 ## Quick start
 
 ```dart
-import 'package:<your_app>/ui/shadcn/input/input.dart';
+import 'package:<your_app>/ui/dashcn/input/input.dart';
 
 const Input(hintText: 'Email');
 ```
@@ -27,7 +27,7 @@ const Input(hintText: 'Email');
 Features are primitives, so import the file that owns the ones you use:
 
 ```dart
-import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
 
 Input(
   hintText: 'Password',
@@ -40,7 +40,7 @@ Input(
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
+import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
 
 Input(
   keyboardType: TextInputType.number,
@@ -109,8 +109,8 @@ state.
 
 ## Primitives this component installs
 
-- `primitives/text_editing/` — `ShadcnSelectionControls`,
-  `defaultShadcnContextMenuBuilder`, `EditableTextHost` (controller/focus/state
+- `primitives/text_editing/` — `SelectionControls`,
+  `defaultContextMenuBuilder`, `EditableTextHost` (controller/focus/state
   ownership + gesture builder), `EditableTextShell` (surface/gesture/disabled
   scaffold), `EditableTextFieldRow`, `EditableTextValidation`. Reused by
   `text_area`, `number_input`, `formatted_input` and `autocomplete`.
@@ -124,9 +124,9 @@ state.
 - One component. The old `text_field` barrel, `TextInputStatefulWidget`,
   `TextInput` mixin, custom gesture/menu glue (~2.5k LOC) and the `part`/`_impl`
   layout are gone.
-- Selection handles + context menu are widgets-only (`ShadcnSelectionControls`,
-  `defaultShadcnContextMenuBuilder`): Cut/Copy/Paste/Select-all labels come from
-  `ShadcnLocalizations`; a read-only field shows the Copy/Select-all subset.
+- Selection handles + context menu are widgets-only (`SelectionControls`,
+  `defaultContextMenuBuilder`): Cut/Copy/Paste/Select-all labels come from
+  `ComponentLocalizations`; a read-only field shows the Copy/Select-all subset.
 - Dropped `EditableText` params (plain defaults apply): spell-check
   configuration, magnifier configuration, content-insertion configuration,
   `enableIMEPersonalizedLearning`, `stylusHandwritingEnabled`,

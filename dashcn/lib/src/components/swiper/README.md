@@ -103,8 +103,8 @@ a swiped panel and an `openDrawer` panel.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add swiper`) or copy the folder into
-   `lib/ui/shadcn/swiper/`; `drawer` and `primitives/drawer_route` install
+1. Install the component (`dashcn add swiper`) or copy the folder into
+   `lib/ui/dashcn/swiper/`; `drawer` and `primitives/drawer_route` install
    automatically.
 2. Import `swiper.dart`; it re-exports `SwiperTheme`, `SwiperVariant`,
    `SwiperController` and `swiperDefaults`.

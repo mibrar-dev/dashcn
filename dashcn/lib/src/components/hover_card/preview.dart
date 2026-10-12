@@ -13,12 +13,12 @@ import 'hover_card.dart';
 
 /// Sample card content.
 Widget _card(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      const Text('@shadcn'),
+      const Text('@dashcn'),
       Gap(theme.spacing.xs),
       Text(
         'Beautifully designed components.',
@@ -30,18 +30,18 @@ Widget _card(BuildContext context) {
 
 /// The default card after the hover delay.
 Widget _default(BuildContext context) {
-  return HoverCard(hoverBuilder: _card, child: const Text('@shadcn'));
+  return HoverCard(hoverBuilder: _card, child: const Text('@dashcn'));
 }
 
 /// Rich content: title, bio and follower count.
 Widget _richContent(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return HoverCard(
     hoverBuilder: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('@shadcn'),
+        const Text('@dashcn'),
         Gap(theme.spacing.xs),
         Text(
           'Beautifully designed components that you can copy and paste.',
@@ -54,7 +54,7 @@ Widget _richContent(BuildContext context) {
         ),
       ],
     ),
-    child: const Text('@shadcn (rich)'),
+    child: const Text('@dashcn (rich)'),
   );
 }
 

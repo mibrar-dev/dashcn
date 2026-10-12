@@ -1,6 +1,6 @@
 ---
 title: "Function: tweenValue"
-description: "Top-level function tweenValue"
+description: "Interpolates `begin -> end` at [t] for `num`-like values."
 ---
 
 Signature

@@ -25,7 +25,7 @@ class _HorizontalSwitcherState extends State<_HorizontalSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ Widget _default(BuildContext context) => const _HorizontalSwitcher();
 
 /// Vertical pager with a slower scoped curve.
 Widget _vertical(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return ComponentTheme<SwitcherTheme>(
     data: const SwitcherTheme(
       duration: Duration(milliseconds: 400),

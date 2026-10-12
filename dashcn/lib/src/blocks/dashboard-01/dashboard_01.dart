@@ -27,7 +27,7 @@ class Dashboard01 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -84,7 +84,7 @@ class _Dashboard01Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class _Dashboard01Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double spacing = ShadcnTheme.of(context).spacing.lg;
+    final double spacing = Theme.of(context).spacing.lg;
     const List<_Dashboard01Stat> stats = <_Dashboard01Stat>[
       _Dashboard01Stat('Total revenue', '\$45,231.89', '+20.1%'),
       _Dashboard01Stat('Subscriptions', '+2,350', '+180.1%'),
@@ -155,7 +155,7 @@ class _Dashboard01StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -187,7 +187,7 @@ class _Dashboard01Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // One series, one token: every bar uses `chart1`, the way the
     // reference area chart fills a single series.
     const List<double> series = <double>[
@@ -252,7 +252,7 @@ class _Dashboard01Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -289,7 +289,7 @@ class _Dashboard01Sale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Avatar(initials: _Dashboard01Initials.of(name)),

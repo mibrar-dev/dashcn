@@ -1,5 +1,5 @@
 // Widget tests for the `popup` component: the re-exported MenuPopup surface,
-// showShadcnPopup anchoring/dismissal, theme legs, dark tokens and sizes.
+// showPopup anchoring/dismissal, theme legs, dark tokens and sizes.
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -13,10 +13,10 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -52,7 +52,7 @@ void main() {
   testWidgets('MenuPopup is the re-exported surface with a 192 minimum', (
     tester,
   ) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     await tester.pumpWidget(
       _frame(const MenuPopup(children: <Widget>[Text('Content')])),
     );
@@ -74,9 +74,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData theme = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(
       _frame(const MenuPopup(children: <Widget>[Text('Content')]), data: theme),
     );
@@ -92,12 +90,12 @@ void main() {
     expect((surface.decoration! as BoxDecoration).color, theme.colors.popover);
   });
 
-  group('showShadcnPopup', () {
+  group('showPopup', () {
     testWidgets('anchors the content below the trigger', (tester) async {
       late BuildContext host;
       await tester.pumpWidget(_frame(_trigger((c) => host = c)));
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         builder: (context) =>
             const Padding(padding: EdgeInsets.all(8), child: Text('Signed in')),
@@ -118,7 +116,7 @@ void main() {
       late BuildContext host;
       await tester.pumpWidget(_frame(_trigger((c) => host = c)));
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         builder: (context) => const Text('Signed in'),
       );
@@ -133,7 +131,7 @@ void main() {
       late BuildContext host;
       await tester.pumpWidget(_frame(_trigger((c) => host = c)));
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         builder: (context) => const Text('Signed in'),
       );
@@ -155,7 +153,7 @@ void main() {
         ),
       );
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         theme: const MenuPopupTheme(background: ThemedColor.value(_green)),
         builder: (context) => const Text('Signed in'),
@@ -187,7 +185,7 @@ void main() {
         ),
       );
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         builder: (context) => const Text('Signed in'),
       );
@@ -215,7 +213,7 @@ void main() {
         ),
       );
       await tester.pump();
-      showShadcnPopup<void>(
+      showPopup<void>(
         context: host,
         builder: (context) => const Text('Signed in'),
       );

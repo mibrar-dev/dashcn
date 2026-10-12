@@ -6,7 +6,7 @@ Linear progress bar with determinate and indeterminate modes, painted with
 This component replaces both old components `progress` (the min/max wrapper)
 and `linear_progress_indicator` (the raw bar with indeterminate mode and
 sparks). There was no visual delta between them: both drew the same
-horizontal bar. `progress` keeps the shadcn name and absorbs the
+horizontal bar. `progress` keeps the dashcn name and absorbs the
 indeterminate sweep and the optional sparks.
 
 ## When to use

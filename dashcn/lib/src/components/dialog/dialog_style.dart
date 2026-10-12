@@ -44,7 +44,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
   /// Corner radius of the dialog card. Default: ambient `radiusLg`.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Padding between the card border and its content (shadcn `p-6`).
+  /// Padding between the card border and its content (upstream `p-6`).
   /// Resolved against the density content padding when it is a density
   /// padding. Default: `padMd` x density content padding (24px at default
   /// density). Full-screen dialogs keep this padding.
@@ -189,11 +189,11 @@ const DialogTheme dialogDefaults = DialogTheme(
   background: ThemedColor.ref(ColorRef.card),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1.0,
-  // shadcn `p-6` inside the card, 16px (`padSm`) between card and screen edge.
+  // upstream `p-6` inside the card, 16px (`padSm`) between card and screen edge.
   padding: EdgeInsetsDensity.all(padMd),
   insetPadding: EdgeInsetsDensity.all(padSm),
   barrierColor: ThemedColor.value(Color(0x80000000)),
-  // shadcn `sm:max-w-lg` = 512.
+  // upstream `sm:max-w-lg` = 512.
   maxWidth: 512.0,
   transitionDuration: kDefaultDuration,
 );

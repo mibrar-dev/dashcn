@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "Masked/segmented field (phone, date, card) built from static separators and small editable parts.",
   "tier": "component",
-  "install": "flutter_shadcn add formatted_input",
-  "import": "import 'package:<your_app>/ui/shadcn/components/formatted_input/formatted_input.dart';",
+  "install": "dashcn add formatted_input",
+  "import": "import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';",
   "tags": [
     "form",
     "input",

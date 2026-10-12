@@ -141,7 +141,7 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationBarTheme style =
         resolveComponentStyle<NavigationBarTheme, NavigationBarTheme>(
           context,
@@ -219,7 +219,7 @@ class _NavigationBarState extends State<NavigationBar> {
   }
 
   Widget _body(
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     NavigationContainerType container,
     Axis direction,
     MainAxisAlignment alignment,
@@ -277,7 +277,7 @@ class _NavigationBarState extends State<NavigationBar> {
   }
 
   Widget _surface(
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     NavigationBarTheme style,
     NavigationContainerType container,
     Widget child,

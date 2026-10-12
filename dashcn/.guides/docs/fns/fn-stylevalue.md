@@ -1,6 +1,6 @@
 ---
 title: "Function: styleValue"
-description: "A style helper function that returns the value from the widget, theme, or default value."
+description: "Picks the first non-null style value: widget override, theme value, then  the default."
 ---
 
 Signature

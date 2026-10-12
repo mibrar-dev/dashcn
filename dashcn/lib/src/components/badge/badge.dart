@@ -18,7 +18,7 @@ import 'badge_style.dart';
 
 export 'badge_style.dart';
 
-/// Diameter of the dot drawn when [Badge.showAsDot] is true (shadcn
+/// Diameter of the dot drawn when [Badge.showAsDot] is true (upstream
 /// `size-2.5 rounded-full` = 10).
 const double badgeDotSize = 10;
 
@@ -78,7 +78,7 @@ class Badge extends StatelessWidget {
   /// Whether a pressable badge requests focus when first built.
   final bool autofocus;
 
-  /// Draws a fixed-size dot instead of [child] (shadcn `showAsDot`).
+  /// Draws a fixed-size dot instead of [child] (upstream `showAsDot`).
   final bool showAsDot;
 
   /// Widget-leg style override, merged over the component/app/defaults.
@@ -89,7 +89,7 @@ class Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final BadgeTheme container = resolveComponentStyle<BadgeTheme, BadgeTheme>(
       context,
       select: (t) => t,
@@ -111,7 +111,7 @@ class Badge extends StatelessWidget {
     Color? colorFor(StateValue<ThemedColor>? value, Set<WidgetState> states) =>
         value?.resolve(states)?.resolve(ambient.colors);
 
-    // A dot is always round and never bordered; shadcn paints it from the
+    // A dot is always round and never bordered; upstream paints it from the
     // variant fill alone.
     BoxDecoration dotDecoration(Set<WidgetState> states) => BoxDecoration(
       color: colorFor(resolved.background, states),
@@ -175,13 +175,13 @@ class Badge extends StatelessWidget {
       );
     }
     // The padding wraps the whole row, so a leading/trailing icon keeps the
-    // same edge distance as the label (shadcn `px-2`) and never touches it.
+    // same edge distance as the label (upstream `px-2`) and never touches it.
     content = Padding(padding: padding, child: content);
 
     if (!isInteractive) {
       // The static badge still sets the variant text/icon style: without
       // this the label would inherit whatever ambient size surrounds it
-      // instead of shadcn `text-xs` (same wrap the chip builds).
+      // instead of upstream `text-xs` (same wrap the chip builds).
       return DecoratedBox(
         decoration: decorationFor(const <WidgetState>{}),
         child: DefaultTextStyle.merge(

@@ -48,7 +48,7 @@ class _DefaultToastState extends State<_DefaultToast> {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     // The fixed box is inherent: toasts position against the layer, so the
     // layer needs a stage of its own.
     return SizedBox(
@@ -184,7 +184,7 @@ class _ActionToastState extends State<_ActionToast> {
   }
 
   Widget _toastBody(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     return Wrap(
       spacing: spacing.md,
       runSpacing: spacing.sm,
@@ -223,12 +223,12 @@ class _ActionToastState extends State<_ActionToast> {
               onPressed: _show,
               child: const Text('Show toast with action'),
             ),
-            Gap(ShadcnTheme.of(context).spacing.md),
+            Gap(Theme.of(context).spacing.md),
             Text(
               _lastAction,
               style: TextStyle(
                 fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
+                color: Theme.of(context).colors.mutedForeground,
               ),
             ),
           ],

@@ -1,20 +1,19 @@
 ---
 title: "Class: SubmissionResult"
-description: "Result of a form submission containing values and validation errors."
+description: "Outcome of [FormController."
 ---
 
 ```dart
-/// Result of a form submission containing values and validation errors.
-///
-/// Returned when a form is submitted, containing all field values
-/// and any validation errors that occurred.
+/// Outcome of [FormController.submit].
 class SubmissionResult {
-  /// Map of form field values keyed by their FormKey.
-  final Map<FormKey, Object?> values;
-  /// Map of validation errors keyed by their FormKey.
-  final Map<FormKey, ValidationResult> errors;
   /// Creates a submission result.
-  const SubmissionResult(this.values, this.errors);
+  const SubmissionResult({required this.values, required this.errors});
+  /// The values of every attached field at submit time.
+  final FormMapValues values;
+  /// The validation failures at submit time.
+  final Map<FormKey, ValidationResult> errors;
+  /// Whether the form passed validation.
+  bool get isValid;
   String toString();
   bool operator ==(Object other);
   int get hashCode;

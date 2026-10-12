@@ -56,7 +56,7 @@ class _Sidebar03State extends State<Sidebar03> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -134,7 +134,7 @@ class _Sidebar03Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: theme.spacing.md,
@@ -224,7 +224,7 @@ class Sidebar03Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         color: theme.colors.sidebar,
@@ -310,7 +310,7 @@ class _Sidebar03NavRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Color foreground = selected
         ? theme.colors.sidebarAccentForeground
         : theme.colors.sidebarForeground;
@@ -355,7 +355,7 @@ class _Sidebar03Bar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Progress(
       value: 0.62,
       height: theme.spacing.xs,

@@ -7,13 +7,13 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/breadcrumb/breadcrumb.dart';
-import '../ui/shadcn/components/checkbox/checkbox.dart';
-import '../ui/shadcn/components/divider/divider.dart';
-import '../ui/shadcn/components/pagination/pagination.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/breadcrumb/breadcrumb.dart';
+import '../ui/dashcn/components/checkbox/checkbox.dart';
+import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/components/pagination/pagination.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -60,7 +60,7 @@ class _HomeNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: BoxDecoration(

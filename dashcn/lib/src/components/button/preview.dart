@@ -77,7 +77,7 @@ Widget _buttonLink(BuildContext context) =>
 Widget _buttonDestructive(BuildContext context) =>
     _buttonExample(context, ButtonVariant.destructive, 'Delete');
 
-/// Icon-only button (shadcn `size="icon"`) with the press count beside it.
+/// Icon-only button (upstream `size="icon"`) with the press count beside it.
 class _ButtonIcon extends StatefulWidget {
   const _ButtonIcon();
 
@@ -90,7 +90,7 @@ class _ButtonIconState extends State<_ButtonIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,7 +124,7 @@ class _ButtonWithIconState extends State<_ButtonWithIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -155,7 +155,7 @@ class _ButtonWithIconState extends State<_ButtonWithIcon> {
   }
 }
 
-/// The size scale in one row (shadcn shows the sizes together).
+/// The size scale in one row (upstream shows the sizes together).
 class _ButtonSizes extends StatefulWidget {
   const _ButtonSizes();
 
@@ -168,7 +168,7 @@ class _ButtonSizesState extends State<_ButtonSizes> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -197,7 +197,7 @@ class _ButtonSizesState extends State<_ButtonSizes> {
   }
 }
 
-/// A pending button: disabled with a loader glyph, the shadcn pattern.
+/// A pending button: disabled with a loader glyph, the upstream pattern.
 Widget _buttonLoading(BuildContext context) {
   return const Align(
     alignment: Alignment.center,

@@ -15,8 +15,8 @@ void main() {
     late BuildContext pageContext;
     final GlobalKey<NavigatorState> inner = GlobalKey<NavigatorState>();
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           // Root navigator (the app) hosting a nested navigator (the router).

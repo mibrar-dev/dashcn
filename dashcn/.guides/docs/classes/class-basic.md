@@ -1,54 +1,41 @@
 ---
 title: "Class: Basic"
-description: "A versatile layout widget for arranging leading, title, subtitle, content, and trailing elements."
+description: "Leading / title / subtitle / content / trailing row with default text  styles applied to title and subtitle."
 ---
 
 ```dart
-/// A versatile layout widget for arranging leading, title, subtitle, content, and trailing elements.
-///
-/// Provides a flexible row-based layout commonly used for list items, cards, or
-/// any UI requiring a structured arrangement of multiple content sections. Each
-/// section can be independently aligned and spaced.
-///
-/// Example:
-/// ```dart
-/// Basic(
-///   leading: Icon(Icons.person),
-///   title: Text('John Doe'),
-///   subtitle: Text('john@example.com'),
-///   trailing: Icon(Icons.chevron_right),
-/// )
-/// ```
+/// Leading / title / subtitle / content / trailing row with default text
+/// styles applied to title and subtitle.
 class Basic extends StatelessWidget {
-  /// Leading widget, typically an icon or avatar.
+  /// Leading widget (icon/avatar).
   final Widget? leading;
-  /// Primary title widget.
+  /// Primary title.
   final Widget? title;
-  /// Secondary subtitle widget, displayed below title.
+  /// Secondary subtitle below the title.
   final Widget? subtitle;
-  /// Main content widget, displayed below title/subtitle.
+  /// Content below title/subtitle.
   final Widget? content;
-  /// Trailing widget, typically an icon or action button.
+  /// Trailing widget (icon/action).
   final Widget? trailing;
-  /// Alignment for the [leading] widget.
+  /// Alignment for [leading].
   final AlignmentGeometry? leadingAlignment;
-  /// Alignment for the [trailing] widget.
+  /// Alignment for [trailing].
   final AlignmentGeometry? trailingAlignment;
-  /// Alignment for the [title] widget.
+  /// Alignment for [title].
   final AlignmentGeometry? titleAlignment;
-  /// Alignment for the [subtitle] widget.
+  /// Alignment for [subtitle].
   final AlignmentGeometry? subtitleAlignment;
-  /// Alignment for the [content] widget.
+  /// Alignment for [content].
   final AlignmentGeometry? contentAlignment;
-  /// Spacing between content elements (default: 16).
+  /// Spacing between content elements.
   final double? contentSpacing;
-  /// Spacing between title and subtitle (default: 4).
+  /// Spacing between title and subtitle.
   final double? titleSpacing;
   /// Main axis alignment for the overall layout.
   final MainAxisAlignment? mainAxisAlignment;
-  /// Padding around the entire widget.
+  /// Padding around the whole widget.
   final EdgeInsetsGeometry? padding;
-  /// Creates a [Basic] layout widget.
+  /// Creates a [Basic] layout.
   const Basic({super.key, this.leading, this.title, this.subtitle, this.content, this.trailing, this.leadingAlignment, this.trailingAlignment, this.titleAlignment, this.subtitleAlignment, this.contentAlignment, this.contentSpacing, this.titleSpacing, this.mainAxisAlignment, this.padding});
   Widget build(BuildContext context);
 }

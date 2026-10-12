@@ -3,7 +3,7 @@
 /// Date pickers use it to order and label their fields, and as the key type of
 /// the "which components are set" map. The concepts here are language-neutral;
 /// their *labels* are locale data, via
-/// [ShadcnLocalizationsExtensions.getDatePartAbbreviation].
+/// [ComponentLocalizationsExtensions.getDatePartAbbreviation].
 enum DatePart {
   /// The year, conventionally written with four digits.
   year,

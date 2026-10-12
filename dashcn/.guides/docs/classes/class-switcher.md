@@ -1,55 +1,47 @@
 ---
 title: "Class: Switcher"
-description: "A swipeable container that transitions between multiple child widgets."
+description: "A swipeable container that transitions between child widgets."
 ---
 
 ```dart
-/// A swipeable container that transitions between multiple child widgets.
+/// A swipeable container that transitions between child widgets.
 ///
-/// [Switcher] provides smooth animated transitions between different views
-/// with gesture-based navigation. Users can swipe to change the active view,
-/// and the component supports all four axis directions for transitions.
-///
-/// Features include:
-/// - Gesture-based drag navigation between views
-/// - Smooth animated transitions with configurable duration and curve
-/// - Support for all axis directions (up, down, left, right)
-/// - Automatic snapping to the nearest index after dragging
-/// - Programmatic control via index changes
-///
-/// The component uses a custom render object to handle smooth interpolation
-/// between child sizes and positions during transitions.
-///
-/// **Note: This component is experimental and may change in future versions.**
-///
-/// Example:
 /// ```dart
 /// Switcher(
 ///   index: currentIndex,
 ///   direction: AxisDirection.right,
-///   onIndexChanged: (newIndex) => setState(() => currentIndex = newIndex),
-///   children: [
-///     Container(color: Colors.red, child: Center(child: Text('Page 1'))),
-///     Container(color: Colors.blue, child: Center(child: Text('Page 2'))),
-///     Container(color: Colors.green, child: Center(child: Text('Page 3'))),
-///   ],
-/// );
+///   onIndexChanged: (int index) => setState(() => currentIndex = index),
+///   children: pages,
+/// )
 /// ```
+///
+/// The fractional position lives in an [AnimationController]: a drag writes its
+/// value directly and a release animates it to the nearest integer. Setting
+/// [index] from outside cancels any in-flight drag.
 class Switcher extends StatefulWidget {
-  /// Current active child index.
+  /// Creates a switcher.
+  const Switcher({super.key, this.index = 0, required this.direction, required this.children, this.onIndexChanged, this.duration, this.curve, this.theme});
+  /// Index of the active child; values outside `0..children.length - 1` are
+  /// clamped.
   final int index;
-  /// Callback invoked when the active index changes through gestures.
+  /// Called when a drag snaps to an index other than the current one.
   final ValueChanged<int>? onIndexChanged;
-  /// Direction of the swipe transition animation.
+  /// Axis the transition runs along; `right` means "the next child enters from
+  /// the right".
   final AxisDirection direction;
-  /// List of child widgets to switch between.
+  /// The pages to switch between; never empty.
+  ///
+  /// The **length** must not change after the first build: the position lives
+  /// in an [AnimationController] whose range is fixed when it is created.
+  /// Changing it asserts in debug; build a new [KeyedSubtree] (or give the
+  /// [Switcher] a new `Key`) to swap the page list.
   final List<Widget> children;
-  /// Duration of the transition animation.
-  final Duration duration;
-  /// Animation curve for the transition.
-  final Curve curve;
-  /// Creates a [Switcher].
-  const Switcher({super.key, this.index = 0, required this.direction, required this.children, this.onIndexChanged, this.duration = const Duration(milliseconds: 300), this.curve = Curves.easeInOut});
+  /// Snap-back duration; null uses [SwitcherTheme.duration].
+  final Duration? duration;
+  /// Snap-back curve; null uses [SwitcherTheme.curve].
+  final Curve? curve;
+  /// Widget-leg theme override, merged on top of the other legs.
+  final SwitcherTheme? theme;
   State<Switcher> createState();
 }
 ```

@@ -1,58 +1,37 @@
 ---
 title: "Class: WindowTheme"
-description: "Theme configuration for window components."
+description: "Chrome metrics and snap-preview colours of a window."
 ---
 
 ```dart
-/// Theme configuration for window components.
+/// Chrome metrics and snap-preview colours of a window.
 ///
-/// Provides styling options for window elements including title bar height
-/// and resize border thickness. Used to customize the visual appearance
-/// of window components within the application.
-///
-/// Example:
-/// ```dart
-/// WindowTheme(
-///   titleBarHeight: 32.0,
-///   resizeThickness: 4.0,
-/// )
-/// ```
-class WindowTheme extends ComponentThemeData {
-  /// Height of the window's title bar in logical pixels.
-  ///
-  /// Determines the vertical space allocated for the title bar which typically
-  /// contains the window title, control buttons (minimize, maximize, close),
-  /// and any custom action widgets.
-  ///
-  /// If `null`, uses the default title bar height from the theme.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class WindowTheme extends ComponentThemeData implements Mergeable<WindowTheme> {
+  /// Creates a window theme.
+  const WindowTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.titleBarHeight, this.resizeThickness, this.titleBarPadding, this.titleColor, this.snapOverlayColor, this.snapOverlayOpacity, this.snapOverlayBlur});
+  /// Height of the title bar. Default: 32 (scaled).
   final double? titleBarHeight;
-  /// Thickness of the window's resize border in logical pixels.
-  ///
-  /// Defines the width of the interactive area along window edges that
-  /// allows users to resize the window by dragging. A larger value makes
-  /// it easier to grab the edge for resizing.
-  ///
-  /// If `null`, uses the default resize border thickness from the theme.
+  /// Grab thickness of the resize edges. Default: 8 (scaled).
   final double? resizeThickness;
-  /// Creates a window theme with optional title bar and resize border settings.
-  ///
-  /// Both parameters are optional. When `null`, the corresponding values
-  /// will fall back to theme defaults.
-  const WindowTheme({this.titleBarHeight, this.resizeThickness});
-  /// Creates a copy of this theme with optionally replaced values.
-  ///
-  /// Uses [ValueGetter] functions to allow nullable value replacement.
-  /// If a parameter is `null`, the current value is retained. If provided,
-  /// the getter function is called to retrieve the new value.
-  ///
-  /// Parameters:
-  /// - [titleBarHeight]: Optional getter for new title bar height
-  /// - [resizeThickness]: Optional getter for new resize thickness
-  ///
-  /// Returns a new [WindowTheme] instance with updated values.
-  WindowTheme copyWith({ValueGetter<double?>? titleBarHeight, ValueGetter<double?>? resizeThickness});
+  /// Padding inside the title bar. Default: 8 horizontal, density-scaled.
+  final EdgeInsetsGeometry? titleBarPadding;
+  /// Title colour. Default: the `foreground` token.
+  final ThemedColor? titleColor;
+  /// Fill of the snap preview. Default: the `card` token.
+  final ThemedColor? snapOverlayColor;
+  /// Fill opacity of the snap preview. Default: 0.8.
+  final double? snapOverlayOpacity;
+  /// Backdrop blur sigma of the snap preview. Default: 8; 0 disables it.
+  final double? snapOverlayBlur;
+  /// Returns a copy with the given fields replaced.
+  WindowTheme copyWith({ValueGetter<double?>? titleBarHeight, ValueGetter<double?>? resizeThickness, ValueGetter<EdgeInsetsGeometry?>? titleBarPadding, ValueGetter<ThemedColor?>? titleColor, ValueGetter<ThemedColor?>? snapOverlayColor, ValueGetter<double?>? snapOverlayOpacity, ValueGetter<double?>? snapOverlayBlur});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  WindowTheme merge(WindowTheme? fallback);
+  /// Colours and flags step at `t = 0.5`; dimensions are lerped.
+  static WindowTheme lerp(WindowTheme a, WindowTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  String toString();
 }
 ```

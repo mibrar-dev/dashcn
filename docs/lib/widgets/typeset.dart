@@ -7,9 +7,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
 /// A prose paragraph: 15/26.25, 18.75 px top margin.
@@ -53,7 +53,7 @@ class TypesetInlineCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
@@ -109,7 +109,7 @@ class _TypesetLinkState extends State<TypesetLink> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Color base = theme.colors.foreground;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -136,7 +136,7 @@ class TypesetRule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 36, bottom: 8),
       child: SizedBox(height: 1, child: ColoredBox(color: theme.colors.border)),
@@ -154,7 +154,7 @@ class TypesetBullets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final TextStyle style = docsText(context, size: 15, height: 26.25 / 15);
     return Padding(
       padding: const EdgeInsets.only(top: 18.75, left: 24),

@@ -1,13 +1,13 @@
-// File picker, dropzone and upload strings for [ShadcnLocalizations].
+// File picker, dropzone and upload strings for [ComponentLocalizations].
 
-/// File-picker, dropzone and upload text for [ShadcnLocalizations].
+/// File-picker, dropzone and upload text for [ComponentLocalizations].
 ///
 /// Flutter's ARB files have no file-upload equivalents, so these are English
 /// fallbacks only: a locale may override them, but nothing else is copied in
 /// here.
 ///
-/// Applied by `ShadcnLocalizations`.
-mixin ShadcnLocalizationsFiles {
+/// Applied by `ComponentLocalizations`.
+mixin ComponentLocalizationsFiles {
   /// `dropzone` status line while nothing is happening.
   ///
   /// No Flutter ARB equivalent exists, so this is the English fallback only.

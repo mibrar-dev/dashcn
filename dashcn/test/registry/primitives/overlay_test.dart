@@ -13,15 +13,15 @@ const contentKey = ValueKey<String>('popover-content');
 const anchorKey = ValueKey<String>('anchor');
 
 void main() {
-  testWidgets('ShadcnLayer installs an OverlayManager', (tester) async {
+  testWidgets('AppLayer installs an OverlayManager', (tester) async {
     OverlayManager? fromTree;
     OverlayManager? fromOf;
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
-          child: ShadcnLayer(
+        child: Theme(
+          data: const ThemeData(),
+          child: AppLayer(
             child: Builder(
               builder: (context) {
                 fromTree = Data.maybeOf<OverlayManager>(context);
@@ -169,9 +169,9 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
-          child: ShadcnLayer(
+        child: Theme(
+          data: const ThemeData(),
+          child: AppLayer(
             child: Overlay(
               initialEntries: [
                 OverlayEntry(

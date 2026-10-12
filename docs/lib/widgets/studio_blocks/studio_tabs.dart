@@ -7,16 +7,16 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/badge/badge.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/calendar/calendar.dart';
-import '../../ui/shadcn/components/date_picker/date_picker.dart';
-import '../../ui/shadcn/primitives/date_math.dart';
-import '../../ui/shadcn/components/radio_group/radio_group.dart';
-import '../../ui/shadcn/components/select/select.dart';
-import '../../ui/shadcn/components/switch/switch.dart';
-import '../../ui/shadcn/components/tabs/tabs.dart';
-import '../../ui/shadcn/foundation/gap.dart';
+import '../../ui/dashcn/components/badge/badge.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/calendar/calendar.dart';
+import '../../ui/dashcn/components/date_picker/date_picker.dart';
+import '../../ui/dashcn/primitives/date_math.dart';
+import '../../ui/dashcn/components/radio_group/radio_group.dart';
+import '../../ui/dashcn/components/select/select.dart';
+import '../../ui/dashcn/components/switch/switch.dart';
+import '../../ui/dashcn/components/tabs/tabs.dart';
+import '../../ui/dashcn/foundation/gap.dart';
 import 'studio_card.dart';
 
 /// A three-tab block with a live body, so radius/spacing edits show up in the
@@ -337,7 +337,7 @@ class _StudioPaymentMethodCardState extends State<StudioPaymentMethodCard> {
     return StudioCard(
       title: 'Payment Method',
       subtitle: 'How royalties are paid out.',
-      child: ShadcnRadioGroup<String>(
+      child: RadioSet<String>(
         value: _method,
         onChanged: (String next) => setState(() => _method = next),
         items: <Widget>[

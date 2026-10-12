@@ -1,6 +1,6 @@
 ---
 title: "Function: subtractByBorder"
-description: "Subtracts a border width from a border radius."
+description: "Subtracts [borderWidth] from every corner of [radius], never going below  zero."
 ---
 
 Signature

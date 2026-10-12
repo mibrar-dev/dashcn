@@ -306,7 +306,7 @@ class _ToastCardState extends State<_ToastCard>
 
   @override
   Widget build(BuildContext context) {
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     final colors = ambient.colors;
     final theme = widget.theme;
     final border = theme.borderColor?.resolve(colors);

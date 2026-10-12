@@ -280,7 +280,7 @@ class _SelectState<T> extends State<Select<T>>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final SelectTheme style = _style(context);
     final bool enabled = _enabled;
     final ButtonVariant variant = style.variant ?? ButtonVariant.outline;
@@ -396,7 +396,7 @@ class SelectItem<T> extends StatelessWidget {
     );
     return SelectRow(
       selected: selected,
-      // shadcn reserves `pr-8` for the check on every option, so rows never
+      // upstream reserves `pr-8` for the check on every option, so rows never
       // shift when the first value is picked.
       reserveIndicator: true,
       enabled: enabled && (data?.enabled ?? true),

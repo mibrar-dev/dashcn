@@ -13,7 +13,7 @@ import 'spinner.dart';
 
 /// The size scale and a couple of stroke widths in one row.
 Widget _spinnerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.xl,
@@ -31,7 +31,7 @@ Widget _spinnerDefault(BuildContext context) {
 
 /// A small spinner inside a text row.
 Widget _spinnerSmall(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +42,7 @@ Widget _spinnerSmall(BuildContext context) {
         'Loading...',
         style: TextStyle(
           fontSize: 13,
-          color: ShadcnTheme.of(context).colors.mutedForeground,
+          color: Theme.of(context).colors.mutedForeground,
         ),
       ),
     ],

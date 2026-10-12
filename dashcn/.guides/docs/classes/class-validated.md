@@ -1,44 +1,23 @@
 ---
 title: "Class: Validated"
-description: "A widget that displays validation feedback for form entries."
+description: "Wraps a field with its own validator and exposes the result to [builder]."
 ---
 
 ```dart
-/// A widget that displays validation feedback for form entries.
+/// Wraps a field with its own validator and exposes the result to [builder].
 ///
-/// Wraps a form entry with a custom builder that receives validation results,
-/// allowing you to customize the visual presentation of validation errors and
-/// success states.
-///
-/// Example:
-/// ```dart
-/// Validated<String>(
-///   validator: (value) => value.isEmpty ? ValidationResult.error('Required') : null,
-///   builder: (context, error, child) {
-///     return Column(
-///       children: [
-///         child!,
-///         if (error != null) Text(error.message, style: TextStyle(color: Colors.red)),
-///       ],
-///     );
-///   },
-///   child: TextField(),
-/// )
-/// ```
+/// Creates a private controller, so it works without an enclosing `FormScope`
+/// (the old `validated` component wrapped a local `FormScope`; this is equivalent
+/// without the extra widget).
 class Validated<T> extends StatefulWidget {
-  /// Builder function that creates the widget based on validation state.
-  final ValidatedBuilder builder;
-  /// The validator to apply to the form entry.
-  final Validator<T> validator;
-  /// Optional child widget to display.
-  final Widget? child;
-  /// Creates a [Validated].
-  ///
-  /// Parameters:
-  /// - [builder] (`ValidatedBuilder`, required): Builds widget with validation feedback.
-  /// - [validator] (`Validator<T>`, required): Validation logic.
-  /// - [child] (`Widget?`, optional): Child widget to wrap.
+  /// Creates a validated field.
   const Validated({super.key, required this.builder, required this.validator, this.child});
-  State<Validated> createState();
+  /// Builds the field from its validation result.
+  final ValidatedBuilder builder;
+  /// The field's validator.
+  final Validator<T> validator;
+  /// The field subtree.
+  final Widget? child;
+  State<Validated<T>> createState();
 }
 ```

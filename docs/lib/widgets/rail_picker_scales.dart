@@ -3,18 +3,18 @@
 // requirement 5). The shadow picker lives in `rail_picker_shadow.dart`.
 //
 // Split out of `rail_pickers.dart` for the ~400-line rule; the popup chrome
-// (`showShadcnPicker`), the rows (`RailPickerPanel`, `RailPickerRow`) and the
+// (`showPicker`), the rows (`RailPickerPanel`, `RailPickerRow`) and the
 // scroll reveal (`revealSelectedOnMount`) are shared from their own files.
 
 import 'package:flutter/widgets.dart';
 
 import '../../state/site_theme_model.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/tooltip/tooltip.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/theme/syntax_colors.dart';
-import '../../ui/shadcn/primitives/overlay.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/tooltip/tooltip.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/theme/syntax_colors.dart';
+import '../../ui/dashcn/primitives/overlay.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'rail_picker_rows.dart';
 import 'rail_picker_scroll.dart';
@@ -56,7 +56,7 @@ Future<void> showFontPicker(
     return revealSelectedOnMount(selected: committed == spec, child: line);
   }
 
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: Column(
@@ -74,7 +74,7 @@ Future<void> showFontPicker(
                 style: docsText(
                   context,
                   size: 16,
-                  color: ShadcnTheme.of(context).colors.mutedForeground,
+                  color: Theme.of(context).colors.mutedForeground,
                 ).copyWith(fontFamily: railFirstFamily(option)),
               ),
             ),
@@ -85,7 +85,7 @@ Future<void> showFontPicker(
   );
 }
 
-/// Radius presets (px), after the shadcn scale: 0, 0.25, 0.5, the 0.625 rem
+/// Radius presets (px), after the upstream scale: 0, 0.25, 0.5, the 0.625 rem
 /// neutral default, 0.75 and a full 1 rem.
 const List<(String, double)> kRadiusPresets = <(String, double)>[
   ('None', 0),
@@ -118,7 +118,7 @@ Future<void> showRadiusPicker(
   double shown = applied;
   final GlobalKey<DraftSliderState> sliderKey = GlobalKey<DraftSliderState>();
   bool near(double preset) => (applied - preset).abs() < 0.25;
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: StatefulBuilder(
@@ -169,7 +169,7 @@ Future<void> showRadiusPicker(
                       style: docsText(
                         context,
                         size: 12,
-                        color: ShadcnTheme.of(context).colors.mutedForeground,
+                        color: Theme.of(context).colors.mutedForeground,
                       ),
                     ),
                   ),
@@ -218,7 +218,7 @@ Future<void> showSpacingPicker(
   double shown = applied;
   final GlobalKey<DraftSliderState> sliderKey = GlobalKey<DraftSliderState>();
   bool near(double preset) => (applied - preset).abs() < 0.005;
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: StatefulBuilder(
@@ -269,7 +269,7 @@ Future<void> showSpacingPicker(
                       style: docsText(
                         context,
                         size: 12,
-                        color: ShadcnTheme.of(context).colors.mutedForeground,
+                        color: Theme.of(context).colors.mutedForeground,
                       ),
                     ),
                   ),
@@ -316,7 +316,7 @@ class SyntaxPalettePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final SyntaxColors syntax = theme.syntaxColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

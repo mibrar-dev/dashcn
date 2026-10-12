@@ -1,18 +1,18 @@
 ---
 title: "Class: AnimationRequest"
-description: "Animation request payload for queue-driven animations."
+description: "A single queued animation target."
 ---
 
 ```dart
-/// Animation request payload for queue-driven animations.
+/// A single queued animation target.
 class AnimationRequest {
   /// The target value to animate to.
   final double target;
-  /// The duration of the animation.
+  /// Duration of the animation.
   final Duration duration;
-  /// The easing curve to apply during the animation.
+  /// Curve applied during the animation.
   final Curve curve;
-  /// Creates an animation request with the specified parameters.
+  /// Creates an animation request.
   AnimationRequest(this.target, this.duration, this.curve);
 }
 ```

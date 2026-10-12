@@ -188,7 +188,7 @@ void writeReport(
       'computed': 'expression over parameters, not a literal (COMPLIANT)',
       'border_hairline': '1px border or divider — allowed by the audit rules',
       'icon_size': 'icon glyph size owned by the component theme — allowed',
-      'shadcn_fixed': 'size pinned by shadcn in a box context — allowed',
+      'theme_fixed': 'size pinned by dashcn in a box context — allowed',
       'layout_cap': 'width/height layout cap, not padding — allowed',
       'raw': 'literal padding/gap/spacing that does not scale — FINDING',
     },

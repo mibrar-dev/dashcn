@@ -6,15 +6,15 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/badge/badge.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/chat/chat.dart';
-import '../../ui/shadcn/components/dropzone/dropzone.dart';
-import '../../ui/shadcn/components/input_otp/input_otp.dart';
-import '../../ui/shadcn/components/text_area/text_area.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/badge/badge.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/chat/chat.dart';
+import '../../ui/dashcn/components/dropzone/dropzone.dart';
+import '../../ui/dashcn/components/input_otp/input_otp.dart';
+import '../../ui/dashcn/components/text_area/text_area.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
 import 'studio_paint.dart';
 
@@ -25,7 +25,7 @@ class StudioShareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return StudioCard(
       title: 'Share this release',
       subtitle: 'Open the Ledger mobile app and scan this code to link.',

@@ -112,7 +112,7 @@ String renderDocsApi(DocsModel model) {
     ..writeln('  final String componentId;')
     ..writeln()
     ..writeln(
-      '  /// Primary class name (`Button`) or function name (`showShadcnDialog`).',
+      '  /// Primary class name (`Button`) or function name (`showDialog`).',
     )
     ..writeln('  final String symbol;')
     ..writeln()

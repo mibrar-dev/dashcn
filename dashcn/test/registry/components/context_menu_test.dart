@@ -16,10 +16,10 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -128,7 +128,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         _wrapped(),
-        data: const ShadcnThemeData(platform: TargetPlatform.android),
+        data: const ThemeData(platform: TargetPlatform.android),
       ),
     );
     await tester.pump();
@@ -140,10 +140,7 @@ void main() {
 
   testWidgets('desktop platforms do not open on long-press', (tester) async {
     await tester.pumpWidget(
-      _frame(
-        _wrapped(),
-        data: const ShadcnThemeData(platform: TargetPlatform.macOS),
-      ),
+      _frame(_wrapped(), data: const ThemeData(platform: TargetPlatform.macOS)),
     );
     await tester.pump();
     await tester.longPressAt(const Offset(120, 120));
@@ -155,7 +152,7 @@ void main() {
   testWidgets('rows are 32 high and the surface uses the popover token', (
     tester,
   ) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     await tester.pumpWidget(_frame(_wrapped(), data: theme));
     await tester.pump();
     await _openAt(tester, const Offset(100, 100));

@@ -107,7 +107,7 @@ class FileUploadItemsView extends StatelessWidget {
     if (items.isEmpty) {
       return const SizedBox.shrink();
     }
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double spacing = (gap ?? 12) * ambient.scaling;
     final String Function(FileItem)? key = groupKey;
     final Widget content = key != null
@@ -158,7 +158,7 @@ class FileUploadItemsView extends StatelessWidget {
 
   Widget _grouped(
     BuildContext context,
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     double spacing,
     String Function(FileItem) key,
   ) {

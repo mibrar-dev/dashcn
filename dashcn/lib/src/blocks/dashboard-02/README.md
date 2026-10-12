@@ -15,11 +15,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add dashboard-02
+dashcn add dashboard-02
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/dashboard-02/dashboard_02.dart';
+import 'package:<your_app>/ui/dashcn/blocks/dashboard-02/dashboard_02.dart';
 
 void main() => runApp(const Dashboard02());
 ```

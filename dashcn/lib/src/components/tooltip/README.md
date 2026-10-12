@@ -89,7 +89,7 @@ TooltipContainer(
 | Old | New |
 |---|---|
 | `Tooltip(child:, tooltip:)` | unchanged |
-| `Tooltip(adaptiveOverlay: true)` | removed; install `ShadcnLayer(tooltipHandler: ...)` instead |
+| `Tooltip(adaptiveOverlay: true)` | removed; install `AppLayer(tooltipHandler: ...)` instead |
 | `InstantTooltip(child:, tooltipBuilder:)` | `Tooltip(waitDuration: Duration.zero, child:, tooltip:)` |
 | `TooltipContainer(child:)` | unchanged |
 | `TooltipContainer(surfaceOpacity:, surfaceBlur:, backgroundColor:)` | `TooltipContainer(theme: TooltipTheme(...))`; `backgroundColor` is a `ThemedColor` now |

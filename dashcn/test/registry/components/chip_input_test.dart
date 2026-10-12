@@ -5,7 +5,7 @@
 // the last chip, the remove button (and its localized label), delimited paste,
 // suggestion acceptance, keyboard navigation across chips, controlled vs
 // uncontrolled value, disabled, read-only, the four theme-precedence legs,
-// the shadcn h-9 (36) minimum height, light and dark, and one regression test
+// the upstream h-9 (36) minimum height, light and dark, and one regression test
 // per defect fixed in the port (see `components/chip_input/README.md`).
 
 import 'package:flutter/foundation.dart';
@@ -32,7 +32,7 @@ int _frameId = 0;
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   ChipInputTheme? scoped,
   // The theatre behind `Overlay` lays its entries out at a *tight* size, which
@@ -50,7 +50,7 @@ Widget _frame({
       initialEntries: <OverlayEntry>[OverlayEntry(builder: (_) => entry)],
     );
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -168,7 +168,7 @@ Color? _chipBackground(WidgetTester tester) {
 Future<Color?> _backgroundOf(
   WidgetTester tester,
   Widget body, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
 }) async {
   await tester.pumpWidget(_frame(data: data, child: body));
   return _chipBackground(tester);
@@ -323,7 +323,7 @@ void main() {
       expect(icon.semanticLabel, isNotNull);
       expect(
         icon.semanticLabel,
-        const ShadcnLocalizations(Locale('en')).chipInputRemoveChip,
+        const ComponentLocalizations(Locale('en')).chipInputRemoveChip,
       );
       expect(icon.semanticLabel, _enDeleteLabel);
     });
@@ -348,14 +348,14 @@ void main() {
   group('clipboard', () {
     testWidgets('pasting a delimited string splits into chips', (tester) async {
       _mockClipboard(tester);
-      _clipboard = 'flutter, shadcn';
+      _clipboard = 'flutter, dashcn';
       await tester.pumpWidget(
         _frame(child: ChipInput<String>(onChipSubmit: (String text) => text)),
       );
       await _focusAtEnd(tester);
       await _modifiedKey(tester, LogicalKeyboardKey.keyV);
       await tester.pump();
-      expect(_chips(tester), <String>['flutter', 'shadcn']);
+      expect(_chips(tester), <String>['flutter', 'dashcn']);
       expect(_plain(tester), isEmpty);
     });
 
@@ -366,7 +366,7 @@ void main() {
       await tester.pumpWidget(
         _frame(
           child: ChipInput<String>(
-            initialChips: const <String>['flutter', 'shadcn'],
+            initialChips: const <String>['flutter', 'dashcn'],
             onChipSubmit: (String t) => t,
           ),
         ),
@@ -381,7 +381,7 @@ void main() {
       await _modifiedKey(tester, LogicalKeyboardKey.keyC);
       expect(
         _clipboard,
-        'flutter, shadcn',
+        'flutter, dashcn',
         reason: 'the old default glued chips into one unreadable string',
       );
       expect(
@@ -411,7 +411,7 @@ void main() {
 
     testWidgets('paste is inert on a read-only field', (tester) async {
       _mockClipboard(tester);
-      _clipboard = 'flutter, shadcn';
+      _clipboard = 'flutter, dashcn';
       await tester.pumpWidget(
         _frame(
           child: ChipInput<String>(
@@ -708,7 +708,7 @@ void main() {
     });
   });
 
-  group('sizes vs shadcn', () {
+  group('sizes vs dashcn', () {
     testWidgets('an empty field is 36 high (h-9)', (tester) async {
       await tester.pumpWidget(
         _frame(overlay: false, child: ChipInput<String>(onChipSubmit: _reject)),
@@ -760,9 +760,7 @@ void main() {
     });
 
     testWidgets('the dark theme changes the chip background', (tester) async {
-      const ShadcnThemeData dark = ShadcnThemeData(
-        colors: ShadcnColors.darkFallback,
-      );
+      const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
       final Color? light = await _backgroundOf(
         tester,
         const Chip(child: Text('a')),
@@ -1002,11 +1000,11 @@ void main() {
       const PlainTokenClipboardHandler<String> split =
           PlainTokenClipboardHandler<String>(chipDeserializer: _parse);
       final List<TokenFragment<String>> out = split.deserializeClipboard(
-        ' flutter , shadcn ',
+        ' flutter , dashcn ',
       );
       expect(out, hasLength(2));
       expect((out[0] as TokenValueFragment<String>).value, 'flutter');
-      expect((out[1] as TokenValueFragment<String>).value, 'shadcn');
+      expect((out[1] as TokenValueFragment<String>).value, 'dashcn');
 
       // A piece the parser rejects stays text instead of vanishing.
       const PlainTokenClipboardHandler<String> guarded =

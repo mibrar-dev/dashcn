@@ -1,6 +1,6 @@
 # Markdown
 
-Text-only markdown renderer with a shadcn theme, tap callbacks and a
+Text-only markdown renderer with a dashcn theme, tap callbacks and a
 widgets-only image preview overlay. This is the `markdown` display component;
 the id stays `markdown` to match the component directory.
 
@@ -39,7 +39,7 @@ ComponentTheme<MarkdownTheme>(
 | Parameter | Type | Default | Notes |
 |---|---|---|---|
 | `data` | `String` | required | the markdown source (text only) |
-| `selectable` | `bool` | `true` | wraps in a `SelectableRegion` with shadcn handles |
+| `selectable` | `bool` | `true` | wraps in a `SelectableRegion` with dashcn handles |
 | `style` | `TextStyle?` | null | base body style; color falls back to `foreground` |
 | `onTapLink` / `onTapLinkDetails` | callbacks | null | link taps; no automatic URL opening |
 | `onTapImage` / `onTapHeading` / `onTapElement` | callbacks | null | image, heading and generic element taps |
@@ -58,7 +58,7 @@ ComponentTheme<MarkdownTheme>(
 `widget theme > ComponentTheme<MarkdownTheme> in tree > app overrides
 in markdown_theme.dart > markdownDefaults`. Every color is a `ThemedColor`
 token reference; style colors are ignored in favor of tokens. Geometry
-(paddings, radii, indents, image bounds) is fixed at shadcn values.
+(paddings, radii, indents, image bounds) is fixed at dashcn values.
 
 ## Supported syntax
 
@@ -87,7 +87,7 @@ via anchor scrolling; reference links resolve case-insensitively.
   but cells hold inline runs only. Reference and footnote definitions inside
   quote or details bodies are ignored (inline references still resolve).
   Footnote markers have no return backlink.
-- Dropped theme knobs (fixed at shadcn consts in the renderer): quote/cell
+- Dropped theme knobs (fixed at dashcn consts in the renderer): quote/cell
   text styles (inherit body), paddings, radii, indents, image bounds.
 - Dropped machinery: chunked progressive rendering (parses synchronously),
   `compute` isolate, static failed-image cache (now per-state),
@@ -96,6 +96,6 @@ via anchor scrolling; reference links resolve case-insensitively.
   `fontMono`), hardcoded link blue (now the `primary` token), Material
   `Dialog` / `IconButton` / `TextButton` / `CircularProgressIndicator` /
   `Divider` / `SelectionArea` (widgets `showGeneralDialog`, `SelectableRegion`
-  with shadcn handles, painted rule).
+  with dashcn handles, painted rule).
 - `MarkdownTapElementKind` covers every rendered block; anchor scrolling
   keeps slug deduplication but no chunk warmup.

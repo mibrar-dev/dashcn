@@ -182,7 +182,7 @@ class GooeyToastController extends ChangeNotifier {
     assert(
       overlay != null,
       'showGooeyToast needs an Overlay: wrap the app in a Navigator '
-      '(ShadcnApp does).',
+      '(DashcnApp does).',
     );
     if (overlay == null) {
       return toastId;

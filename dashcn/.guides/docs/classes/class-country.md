@@ -1,16 +1,19 @@
 ---
 title: "Class: Country"
-description: "Simplified country metadata for phone numbers."
+description: "ISO country descriptor for a phone number."
 ---
 
 ```dart
-/// Simplified country metadata for phone numbers.
+/// ISO country descriptor for a phone number.
 class Country {
-  /// The international dial code (e.g. "+1").
+  /// International dial code, e.g. `+1`.
   final String dialCode;
-  /// The ISO 2-letter country code.
+  /// ISO 3166-1 alpha-2 country code, e.g. `US`.
   final String code;
-  /// Creates a [Country] descriptor.
+  /// Creates a [Country].
   const Country({required this.dialCode, required this.code});
+  bool operator ==(Object other);
+  int get hashCode;
+  String toString();
 }
 ```

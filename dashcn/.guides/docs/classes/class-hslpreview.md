@@ -1,11 +1,13 @@
 ---
-title: "Class: HslPreview"
-description: "Reference for HslPreview"
+title: "Class: HSLPreview"
+description: "Renders the HSL slider gallery."
 ---
 
 ```dart
-class HslPreview extends StatefulWidget {
-  const HslPreview({super.key});
-  State<HslPreview> createState();
+/// Renders the HSL slider gallery.
+class HSLPreview extends StatefulWidget {
+  /// Creates the preview.
+  const HSLPreview({super.key});
+  State<HSLPreview> createState();
 }
 ```

@@ -1,33 +1,29 @@
 ---
 title: "Class: SliderTheme"
-description: "Theme for [Slider]."
+description: "Per-variant theme container for the slider component."
 ---
 
 ```dart
-/// Theme for [Slider].
-class SliderTheme extends ComponentThemeData {
-  /// Height of the track.
-  final double? trackHeight;
-  /// Color of the inactive track.
-  final Color? trackColor;
-  /// Color of the active portion of the track.
-  final Color? valueColor;
-  /// Color of the inactive track when disabled.
-  final Color? disabledTrackColor;
-  /// Color of the active track when disabled.
-  final Color? disabledValueColor;
-  /// Background color of the thumb.
-  final Color? thumbColor;
-  /// Border color of the thumb.
-  final Color? thumbBorderColor;
-  /// Border color of the thumb when focused.
-  final Color? thumbFocusedBorderColor;
-  /// Size of the thumb.
-  final double? thumbSize;
-  /// Creates a [SliderTheme].
-  const SliderTheme({this.trackHeight, this.trackColor, this.valueColor, this.disabledTrackColor, this.disabledValueColor, this.thumbColor, this.thumbBorderColor, this.thumbFocusedBorderColor, this.thumbSize});
-  /// Returns a copy of this theme with the given fields replaced.
-  SliderTheme copyWith({ValueGetter<double?>? trackHeight, ValueGetter<Color?>? trackColor, ValueGetter<Color?>? valueColor, ValueGetter<Color?>? disabledTrackColor, ValueGetter<Color?>? disabledValueColor, ValueGetter<Color?>? thumbColor, ValueGetter<Color?>? thumbBorderColor, ValueGetter<Color?>? thumbFocusedBorderColor, ValueGetter<double?>? thumbSize});
+/// Per-variant theme container for the slider component.
+class SliderTheme extends ComponentThemeData implements Mergeable<SliderTheme> {
+  /// Creates a slider theme with one nullable slice per variant.
+  const SliderTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.standard, this.soft, this.dots, this.wave});
+  /// Style for [SliderVariant.standard].
+  final SliderStyle? standard;
+  /// Style for [SliderVariant.soft].
+  final SliderStyle? soft;
+  /// Style for [SliderVariant.dots].
+  final SliderStyle? dots;
+  /// Style for [SliderVariant.wave].
+  final SliderStyle? wave;
+  /// The slice for [variant], or null when this leg leaves it unset.
+  SliderStyle? forVariant(SliderVariant variant);
+  /// Returns a copy with the given variant rows replaced.
+  SliderTheme copyWith({ValueGetter<SliderStyle?>? standard, ValueGetter<SliderStyle?>? soft, ValueGetter<SliderStyle?>? dots, ValueGetter<SliderStyle?>? wave});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  SliderTheme merge(SliderTheme? fallback);
+  /// Lerps each row; state scales step at t < 0.5.
+  static SliderTheme lerp(SliderTheme a, SliderTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
 }

@@ -1,47 +1,31 @@
 ---
 title: "Class: EyeDropperLayer"
-description: "A layer widget that provides eye dropper (color picking) functionality."
+description: "Wraps a subtree and enables sampling colours from it."
 ---
 
 ```dart
-/// A layer widget that provides eye dropper (color picking) functionality.
+/// Wraps a subtree and enables sampling colours from it.
 ///
-/// [EyeDropperLayer] wraps its child widget and enables screen color sampling.
-/// When active, it displays a magnified preview of the area under the cursor
-/// and allows users to pick colors directly from the screen.
-///
-/// Features:
-/// - Magnified preview of screen area
-/// - Customizable preview size and scale
-/// - Optional color label display
-/// - Flexible preview positioning
-///
-/// Example:
-/// ```dart
-/// EyeDropperLayer(
-///   child: MyApp(),
-///   showPreview: true,
-///   previewScale: 10,
-///   previewLabelBuilder: (context, color) {
-///     return Text('Color: ${colorToHex(color)}');
-///   },
-/// )
-/// ```
+/// While a picking session is active the layer freezes a screenshot of the
+/// subtree, follows the pointer with a magnified preview and completes the
+/// session on tap (or cancels it with Escape).
 class EyeDropperLayer extends StatefulWidget {
-  /// The child widget to wrap.
+  /// Creates an eye-dropper layer.
+  const EyeDropperLayer({super.key, required this.child, this.previewAlignment, this.showPreview, this.previewSize, this.previewScale, this.previewLabelBuilder, this.theme});
+  /// The subtree that can be sampled.
   final Widget child;
-  /// Alignment of the preview overlay.
+  /// Pins the preview to this alignment; null makes it follow the pointer.
   final AlignmentGeometry? previewAlignment;
-  /// Whether to show the magnified preview.
-  final bool showPreview;
-  /// Size of the preview overlay.
+  /// Whether the magnified preview is shown. Default: theme value (true).
+  final bool? showPreview;
+  /// Preview size override. Default: theme value (100x100), scaled.
   final Size? previewSize;
-  /// Magnification scale of the preview.
-  final double previewScale;
-  /// Builder for custom preview label widgets.
+  /// Magnification override. Default: theme value (8).
+  final double? previewScale;
+  /// Custom label under the preview; defaults to the hex value.
   final PreviewLabelBuilder? previewLabelBuilder;
-  /// Creates an [EyeDropperLayer].
-  const EyeDropperLayer({super.key, required this.child, this.previewAlignment, this.showPreview = true, this.previewSize, this.previewScale = 8, this.previewLabelBuilder});
+  /// Widget-leg style override, merged on top of the component/app/defaults.
+  final EyeDropperTheme? theme;
   State<EyeDropperLayer> createState();
 }
 ```

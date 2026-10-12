@@ -1,16 +1,11 @@
 ---
 title: "Class: TextInputFormatters"
-description: "Provides factory methods for common text input formatters."
+description: "Factory methods for common text input formatters."
 ---
 
 ```dart
-/// Provides factory methods for common text input formatters.
+/// Factory methods for common text input formatters.
 ///
-/// [TextInputFormatters] is a utility class that creates various pre-configured
-/// [TextInputFormatter] instances for common formatting needs like uppercase/lowercase
-/// conversion, numeric input, time formatting, and more.
-///
-/// Example:
 /// ```dart
 /// TextField(
 ///   inputFormatters: [
@@ -21,36 +16,18 @@ description: "Provides factory methods for common text input formatters."
 /// ```
 class TextInputFormatters {
   /// Converts all input text to uppercase.
-  static const TextInputFormatter toUpperCase = _ToUpperCaseTextFormatter();
+  static const TextInputFormatter toUpperCase = ToUpperCaseTextFormatter();
   /// Converts all input text to lowercase.
-  static const TextInputFormatter toLowerCase = _ToLowerCaseTextFormatter();
-  /// Creates a formatter for time input with leading zeros.
-  ///
-  /// Parameters:
-  /// - [length]: The fixed length of the time string.
+  static const TextInputFormatter toLowerCase = ToLowerCaseTextFormatter();
+  /// Creates a time formatter padded left with zeros to [length].
   static TextInputFormatter time({required int length});
-  /// Creates a formatter that only allows integer input with optional min/max bounds.
-  ///
-  /// Parameters:
-  /// - [min]: Optional minimum value.
-  /// - [max]: Optional maximum value.
+  /// Creates an integer-only formatter with optional bounds.
   static TextInputFormatter integerOnly({int? min, int? max});
-  /// Creates a formatter that only allows decimal numeric input.
-  ///
-  /// Parameters:
-  /// - [min]: Optional minimum value.
-  /// - [max]: Optional maximum value.
-  /// - [decimalDigits]: Optional fixed number of decimal places.
+  /// Creates a decimal formatter with optional bounds and fixed places.
   static TextInputFormatter digitsOnly({double? min, double? max, int? decimalDigits});
-  /// Creates a formatter that evaluates mathematical expressions.
-  ///
-  /// Parameters:
-  /// - [context]: Optional context variables for expression evaluation.
+  /// Creates a math-expression evaluator formatter.
   static TextInputFormatter mathExpression({Map<String, dynamic>? context});
-  /// Creates a formatter for hexadecimal input.
-  ///
-  /// Parameters:
-  /// - [hashPrefix]: Whether to require/add a '#' prefix.
+  /// Creates a hex-only formatter.
   static TextInputFormatter hex({bool hashPrefix = false});
 }
 ```

@@ -7,7 +7,7 @@
 // Fixes against the old theme:
 //   * `backgroundColor` was a raw `Color?`, so an override could not follow a
 //     preset switch; it is a [ThemedColor] now and the default is the `primary`
-//     token (shadcn's tooltip uses `bg-primary text-primary-foreground`).
+//     token (upstream's tooltip uses `bg-primary text-primary-foreground`).
 //   * `surfaceOpacity` and `surfaceBlur` were only reachable through the
 //     `TooltipContainer` fields, never through the app/scoped legs, and
 //     `copyWith` dropped the `ComponentThemeData` slots.
@@ -148,7 +148,7 @@ class TooltipTheme extends ComponentThemeData
   );
 }
 
-/// Default label style: small, medium weight (shadcn `text-xs`).
+/// Default label style: small, medium weight (upstream `text-xs`).
 const TextStyle tooltipDefaultTextStyle = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w500,

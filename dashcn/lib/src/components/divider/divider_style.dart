@@ -1,7 +1,7 @@
 // Registry-owned theme data for the `divider` component: the [DividerTheme]
 // container and its token-derived `dividerDefaults`.
 //
-// shadcn separator: `bg-border shrink-0 h-px w-full` (or `h-full w-px` for a
+// upstream separator: `bg-border shrink-0 h-px w-full` (or `h-full w-px` for a
 // vertical one). User-owned overrides live in `divider_theme.dart`.
 
 import 'dart:ui' show lerpDouble;
@@ -15,7 +15,7 @@ import '../../theme/theme.dart';
 /// Where a [Divider.label] sits on the cross axis.
 enum DividerLabelAlignment { start, center, end }
 
-/// Default rule thickness: shadcn `h-px`.
+/// Default rule thickness: upstream `h-px`.
 const double dividerDefaultThickness = 1;
 
 /// Default rule size when no explicit extent is given.
@@ -61,7 +61,7 @@ class DividerTheme extends ComponentThemeData
   /// Space after the rule, measured from the trailing edge. Default: 0.
   final double? endIndent;
 
-  /// Padding around [Divider.label]: shadcn's `px-2` label gutter (8) as
+  /// Padding around [Divider.label]: upstream's `px-2` label gutter (8) as
   /// density multipliers, resolved by `Divider`. Default:
   /// [dividerDefaultLabelPadding].
   final EdgeInsetsGeometry? labelPadding;
@@ -179,8 +179,8 @@ class DividerTheme extends ComponentThemeData
   );
 }
 
-/// Default padding around a divider label: shadcn's separator label gutter,
-/// 8 logical pixels on both sides (shadcn `px-2`), stored as density
+/// Default padding around a divider label: upstream's separator label gutter,
+/// 8 logical pixels on both sides (upstream `px-2`), stored as density
 /// multipliers and resolved by `Divider` against
 /// `density.baseContentPadding * scaling`.
 const EdgeInsetsGeometry dividerDefaultLabelPadding =

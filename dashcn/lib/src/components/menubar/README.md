@@ -8,7 +8,7 @@ menu in the app.
 ## When to use
 
 Use for application-level menu bars (File / Edit / View). For a menu
-anchored to one button use `showShadcnMenu`; for right-click use
+anchored to one button use `showMenu`; for right-click use
 `context_menu`.
 
 ## Snippets

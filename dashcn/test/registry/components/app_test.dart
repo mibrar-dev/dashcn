@@ -1,7 +1,7 @@
 // Widget tests for the `app` component.
 //
 // Covers the shell wiring (theme, ComponentThemes, overlay manager,
-// localizations, ShadcnUI) and the old-bug regression: `ThemeMode.system`
+// localizations, default text style) and the old-bug regression: `ThemeMode.system`
 // never resolved the dark theme because the old app read MediaQuery above
 // WidgetsApp.
 
@@ -32,10 +32,10 @@ class OpenPaletteIntent extends Intent {
 
 /// Everything the shell installs, captured at the home context.
 class _Seen {
-  ShadcnThemeData? theme;
+  ThemeData? theme;
   bool hasOverlayManager = false;
   bool hasProbe = false;
-  bool hasShadcnLocalizations = false;
+  bool hasComponentLocalizations = false;
   TextStyle defaultTextStyle = const TextStyle();
   Color? iconColor;
 }
@@ -44,13 +44,13 @@ Widget _home(_Seen seen) {
   return Builder(
     builder: (BuildContext context) {
       seen
-        ..theme = ShadcnTheme.of(context)
+        ..theme = Theme.of(context)
         ..hasOverlayManager = Data.maybeOf<OverlayManager>(context) != null
         ..hasProbe = ComponentThemes.maybeOf<_ProbeTheme>(context)?.value == 42
-        ..hasShadcnLocalizations =
-            Localizations.of<ShadcnLocalizations>(
+        ..hasComponentLocalizations =
+            Localizations.of<ComponentLocalizations>(
               context,
-              ShadcnLocalizations,
+              ComponentLocalizations,
             ) !=
             null
         ..defaultTextStyle = DefaultTextStyle.of(context).style
@@ -62,12 +62,12 @@ Widget _home(_Seen seen) {
 
 Future<_Seen> _pumpApp(
   WidgetTester tester, {
-  ShadcnApp Function(_Seen seen)? buildApp,
+  DashcnApp Function(_Seen seen)? buildApp,
 }) async {
   final _Seen seen = _Seen();
   await tester.pumpWidget(
     buildApp?.call(seen) ??
-        ShadcnApp(
+        DashcnApp(
           componentThemes: const <ComponentThemeData>[_ProbeTheme(42)],
           home: _home(seen),
         ),
@@ -76,8 +76,8 @@ Future<_Seen> _pumpApp(
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   testWidgets('installs theme, component themes, overlay and l10n', (
     tester,
@@ -86,15 +86,15 @@ void main() {
     expect(seen.theme!.colors, light);
     expect(seen.hasProbe, isTrue);
     expect(seen.hasOverlayManager, isTrue);
-    expect(seen.hasShadcnLocalizations, isTrue);
+    expect(seen.hasComponentLocalizations, isTrue);
   });
 
-  testWidgets('installs the shadcn delegate and resolves translated locales', (
+  testWidgets('installs the dashcn delegate and resolves translated locales', (
     tester,
   ) async {
     late Locale resolved;
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         locale: const Locale('de'),
         home: Builder(
           builder: (BuildContext context) {
@@ -106,9 +106,9 @@ void main() {
     );
     expect(resolved.languageCode, 'de');
     expect(
-      Localizations.of<ShadcnLocalizations>(
+      Localizations.of<ComponentLocalizations>(
         tester.element(find.byType(SizedBox)),
-        ShadcnLocalizations,
+        ComponentLocalizations,
       )?.locale.languageCode,
       'de',
     );
@@ -123,7 +123,7 @@ void main() {
     addTearDown(tester.platformDispatcher.clearLocalesTestValue);
     late Locale resolved;
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         home: Builder(
           builder: (BuildContext context) {
             resolved = Localizations.localeOf(context);
@@ -135,15 +135,15 @@ void main() {
     expect(resolved, const Locale('en'));
     expect(tester.takeException(), isNull);
     expect(
-      Localizations.of<ShadcnLocalizations>(
+      Localizations.of<ComponentLocalizations>(
         tester.element(find.byType(SizedBox)),
-        ShadcnLocalizations,
+        ComponentLocalizations,
       )?.locale,
       const Locale('en'),
     );
   });
 
-  testWidgets('ShadcnUI provides the default text and icon style', (
+  testWidgets('DashcnApp provides the default text and icon style', (
     tester,
   ) async {
     final _Seen seen = await _pumpApp(tester);
@@ -158,9 +158,9 @@ void main() {
   testWidgets('themeMode.dark uses darkTheme', (tester) async {
     final _Seen seen = await _pumpApp(
       tester,
-      buildApp: (_Seen seen) => ShadcnApp(
-        theme: const ShadcnThemeData(),
-        darkTheme: const ShadcnThemeData(colors: dark),
+      buildApp: (_Seen seen) => DashcnApp(
+        theme: const ThemeData(),
+        darkTheme: const ThemeData(colors: dark),
         themeMode: ThemeMode.dark,
         home: _home(seen),
       ),
@@ -177,9 +177,9 @@ void main() {
     addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
     final _Seen seen = await _pumpApp(
       tester,
-      buildApp: (_Seen seen) => ShadcnApp(
-        theme: const ShadcnThemeData(),
-        darkTheme: const ShadcnThemeData(colors: dark),
+      buildApp: (_Seen seen) => DashcnApp(
+        theme: const ThemeData(),
+        darkTheme: const ThemeData(colors: dark),
         home: _home(seen),
       ),
     );
@@ -190,7 +190,7 @@ void main() {
     final _Seen seen = await _pumpApp(
       tester,
       buildApp: (_Seen seen) =>
-          ShadcnApp(scaling: const AdaptiveScaling(2), home: _home(seen)),
+          DashcnApp(scaling: const AdaptiveScaling(2), home: _home(seen)),
     );
     expect(seen.theme!.scaling, 2);
   });
@@ -198,7 +198,7 @@ void main() {
   testWidgets('builder wraps the navigator child', (tester) async {
     final _Seen seen = _Seen();
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         builder: (BuildContext context, Widget? child) =>
             ColoredBox(color: const Color(0xFF123456), child: child!),
         home: _home(seen),
@@ -218,7 +218,7 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         initialRoute: '/second',
         routes: <String, WidgetBuilder>{
           '/': (BuildContext context) =>
@@ -232,21 +232,16 @@ void main() {
     expect(find.byKey(const ValueKey<String>('second')), findsOneWidget);
   });
 
-  testWidgets('ShadcnUI is usable on its own', (tester) async {
+  testWidgets('DashcnApp installs the default text style', (tester) async {
     late TextStyle style;
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(colors: dark),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: ShadcnUI(
-            child: Builder(
-              builder: (BuildContext context) {
-                style = DefaultTextStyle.of(context).style;
-                return const SizedBox(width: 1, height: 1);
-              },
-            ),
-          ),
+      DashcnApp(
+        theme: const ThemeData(colors: dark),
+        home: Builder(
+          builder: (BuildContext context) {
+            style = DefaultTextStyle.of(context).style;
+            return const SizedBox(width: 1, height: 1);
+          },
         ),
       ),
     );
@@ -258,7 +253,7 @@ void main() {
   //
   // `WidgetsApp` REPLACES its defaults when either map is supplied, so an app
   // that passes one binding would otherwise lose Tab traversal, Enter/Space
-  // activation and Escape dismissal app-wide. `ShadcnApp` merges instead.
+  // activation and Escape dismissal app-wide. `DashcnApp` merges instead.
   // -------------------------------------------------------------------------
 
   /// One extra shortcut, which used to displace every framework default.
@@ -283,7 +278,7 @@ void main() {
     addTearDown(first.dispose);
     addTearDown(second.dispose);
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         shortcuts: customShortcuts,
         actions: customActions,
         home: Column(
@@ -335,7 +330,7 @@ void main() {
     final FocusNode node = FocusNode();
     addTearDown(node.dispose);
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         shortcuts: customShortcuts,
         actions: customActions,
         home: Button(
@@ -360,10 +355,10 @@ void main() {
   ) async {
     // `RawDialogRoute` only installs the `DismissIntent` ACTION; the Escape
     // key binding comes from `WidgetsApp.defaultShortcuts`, so this is the
-    // app-level proof. (The shadcn `Dialog` binds Escape itself and is covered
+    // app-level proof. (The upstream `Dialog` binds Escape itself and is covered
     // separately below.)
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         shortcuts: customShortcuts,
         actions: customActions,
         home: Builder(
@@ -403,19 +398,19 @@ void main() {
     );
   });
 
-  testWidgets('a shadcn Dialog still closes on Escape', (tester) async {
+  testWidgets('a dashcn Dialog still closes on Escape', (tester) async {
     // The component installs its own Escape binding, so it never depended on
     // the app-level map — worth pinning so the merge does not change it.
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         shortcuts: customShortcuts,
         actions: customActions,
         home: Builder(
           builder: (BuildContext context) => Button(
-            onPressed: () => showShadcnDialog<void>(
+            onPressed: () => showDialog<void>(
               context: context,
               builder: (BuildContext context) => const SizedBox(
-                key: ValueKey<String>('shadcn-dialog-body'),
+                key: ValueKey<String>('dashcn-dialog-body'),
                 width: 200,
                 height: 200,
               ),
@@ -429,14 +424,14 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     expect(
-      find.byKey(const ValueKey<String>('shadcn-dialog-body')),
+      find.byKey(const ValueKey<String>('dashcn-dialog-body')),
       findsOneWidget,
     );
 
     await tester.sendKeyEvent(LogicalKeyboardKey.escape);
     await tester.pumpAndSettle();
     expect(
-      find.byKey(const ValueKey<String>('shadcn-dialog-body')),
+      find.byKey(const ValueKey<String>('dashcn-dialog-body')),
       findsNothing,
     );
   });
@@ -472,7 +467,7 @@ void main() {
     final FocusNode node = FocusNode();
     addTearDown(node.dispose);
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         // Rebind Tab on purpose: the framework's Tab -> NextFocusIntent
         // default must lose to the caller's entry.
         shortcuts: const <ShortcutActivator, Intent>{
@@ -507,7 +502,7 @@ void main() {
     final FocusNode node = FocusNode();
     addTearDown(node.dispose);
     await tester.pumpWidget(
-      ShadcnApp(
+      DashcnApp(
         shortcuts: customShortcuts,
         actions: customActions,
         home: Actions(
@@ -555,7 +550,7 @@ void main() {
   });
 }
 
-/// Pumps a [ShadcnApp] with a single focusable [Button] and returns the build
+/// Pumps a [DashcnApp] with a single focusable [Button] and returns the build
 /// context below the shell (inside `Shortcuts`/`Actions`).
 Future<BuildContext> _pumpContext(
   WidgetTester tester, {
@@ -565,7 +560,7 @@ Future<BuildContext> _pumpContext(
 }) async {
   late BuildContext captured;
   await tester.pumpWidget(
-    ShadcnApp(
+    DashcnApp(
       shortcuts: shortcuts,
       actions: actions,
       home: Column(

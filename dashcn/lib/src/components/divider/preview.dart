@@ -16,7 +16,7 @@ Widget _dividerDefault(BuildContext context) => const Divider();
 
 /// The labelled form, with the three label alignments.
 Widget _dividerLabelled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,

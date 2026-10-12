@@ -113,7 +113,7 @@ localized date** ("Mar 14, 2024"), not the number painted in the box, and marked
 
 ## Sizes
 
-A day cell is **32 x 32**, shadcn's `size-8`; a month or year cell is 56 x 40;
+A day cell is **32 x 32**, dashcn's `size-8`; a month or year cell is 56 x 40;
 the weekday header is the same 32-wide box as a day cell, so both grids keep one
 column pitch. `cellWidth` and `cellHeight` override the defaults.
 
@@ -156,7 +156,7 @@ and years). All four legs work: widget arg → nearest `ComponentTheme` → app
 | `cellTextStyle` | 14 px | colour comes from the colour rows |
 
 A disabled cell is the whole cell at 50%, and a day outside the shown month is
-also 50% — shadcn's `opacity-50`, not a fourth colour.
+also 50% — dashcn's `opacity-50`, not a fourth colour.
 
 ## Fixed bugs
 

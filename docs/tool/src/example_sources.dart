@@ -339,7 +339,7 @@ String _header(
     if (resolved == null) {
       continue;
     }
-    rewritten.add("import 'package:<your_app>/ui/shadcn/$resolved';");
+    rewritten.add("import 'package:<your_app>/ui/dashcn/$resolved';");
   }
   if (rewritten.isEmpty) {
     // Unreachable in practice (every preview imports its component), but

@@ -1,7 +1,7 @@
 // Copy/export payloads of the Theme Studio (spec §2.7 requirement 3).
 //
 //  * `Get Code` → Dart — the exact `app_theme.dart` that
-//    `flutter_shadcn theme apply <id>` writes into an installed project. It is
+//    `dashcn theme apply <id>` writes into an installed project. It is
 //    rendered from the live document by `themeDartSource`, the port of the kit
 //    generator that `theme_dart_source_test.dart` pins byte-for-byte against
 //    the generated per-preset sources.
@@ -14,28 +14,27 @@ import 'theme_dart_source.dart' show camelCaseId;
 import 'theme_document.dart';
 
 /// The command that regenerates `app_theme.dart` for a registry preset.
-String themeApplyCommand(String presetId) =>
-    'flutter_shadcn theme apply $presetId';
+String themeApplyCommand(String presetId) => 'dashcn theme apply $presetId';
 
 /// The CLI tab of the `Get Code` dialog.
 String themeCliGuide(ThemeDocument document) {
   final String? matched = _matchedPresetId(document);
   final StringBuffer out = StringBuffer()
     ..writeln('# 1. Install the theme layer')
-    ..writeln('flutter pub add flutter_shadcn_kit')
+    ..writeln('flutter pub add dashcn')
     ..writeln()
     ..writeln('# 2. Write the generated file into your project');
   if (matched != null) {
-    out.writeln('flutter_shadcn theme apply $matched');
+    out.writeln('dashcn theme apply $matched');
   } else {
     out.writeln('# Not a registry preset: save the JSON tab as');
     out.writeln('# lib/src/themes/${document.id}.json in your project, then');
-    out.writeln('flutter_shadcn theme apply ${document.id}');
+    out.writeln('dashcn theme apply ${document.id}');
   }
   out
     ..writeln()
     ..writeln('# 3. Use it')
-    ..writeln('runApp(ShadcnApp(theme: build${_classPrefix(document.id)}Theme(')
+    ..writeln('runApp(DashcnApp(theme: build${_classPrefix(document.id)}Theme(')
     ..writeln(
       '  WidgetsBinding.instance.platformDispatcher.platformBrightness,',
     )

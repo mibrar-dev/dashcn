@@ -37,7 +37,7 @@ class PhoneInputTheme extends ComponentThemeData
     this.countryGap,
   });
 
-  /// Padding inside the number field; density-scaled (shadcn `px-3 py-2`).
+  /// Padding inside the number field; density-scaled (upstream `px-3 py-2`).
   final EdgeInsetsGeometry? inputPadding;
 
   /// Maximum width of the number field.
@@ -147,7 +147,7 @@ class PhoneInputTheme extends ComponentThemeData
 /// Token-derived defaults: 200px number field, 24x18 flags, 8px flag gap,
 /// 8px field gap, 16px country gap, 250x300 popup.
 const PhoneInputTheme phoneInputDefaults = PhoneInputTheme(
-  // shadcn `px-3 py-2` — the same rule as `inputDefaultPadding`, resolved by
+  // upstream `px-3 py-2` — the same rule as `inputDefaultPadding`, resolved by
   // the `Input` this value feeds.
   inputPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
   maxWidth: 200,

@@ -4,9 +4,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_article.dart';
 import 'docs_tokens.dart';
 import 'scroll_fade.dart';
@@ -24,7 +24,7 @@ class DocsToc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return SizedBox(
       width: DocsMetrics.tocWidth,
       // Spec §2.2: the column sticks at `header + 1px`, then the
@@ -90,7 +90,7 @@ class _TocLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(
         left: heading.level >= 4 ? 24 : (heading.level == 3 ? 16 : 0),

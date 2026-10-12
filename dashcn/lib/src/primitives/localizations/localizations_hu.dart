@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Hungarian (`hu`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsHu extends ShadcnLocalizations {
+class ComponentLocalizationsHu extends ComponentLocalizations {
   /// Creates the Hungarian strings.
-  const ShadcnLocalizationsHu([super.locale = const Locale('hu')]);
+  const ComponentLocalizationsHu([super.locale = const Locale('hu')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

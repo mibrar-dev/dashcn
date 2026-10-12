@@ -1,6 +1,6 @@
 ---
 title: "Function: unlerpDouble"
-description: "Top-level function unlerpDouble"
+description: "Maps [value] from a `[min, max]` range back to `0."
 ---
 
 Signature

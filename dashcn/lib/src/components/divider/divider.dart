@@ -20,7 +20,7 @@ export 'divider_style.dart';
 
 /// A one-pixel themed rule separating content, with an optional label.
 ///
-/// One widget for both orientations: shadcn's `Separator` is the same element
+/// One widget for both orientations: upstream's `Separator` is the same element
 /// with `orientation: horizontal | vertical`. The label splits the rule and is
 /// placed with [DividerLabelAlignment].
 class Divider extends StatelessWidget {
@@ -62,7 +62,7 @@ class Divider extends StatelessWidget {
   final Widget? label;
 
   /// Padding around [label]; null falls back to `DividerTheme.labelPadding`, a
-  /// density-scaled shadcn `px-2` that this widget resolves against
+  /// density-scaled upstream `px-2` that this widget resolves against
   /// `density.baseContentPadding * scaling`. A literal override passes
   /// through unchanged.
   final EdgeInsetsGeometry? labelPadding;
@@ -76,7 +76,7 @@ class Divider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final DividerTheme style =
         resolveComponentStyle<DividerTheme, DividerTheme>(
           context,

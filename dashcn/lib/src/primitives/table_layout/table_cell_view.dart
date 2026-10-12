@@ -4,7 +4,7 @@
 // Extracted from the old `TableCell.build` / `_CellResizer` overlay so the
 // `table` component files stay within the 400-line limit. Theme-agnostic: the
 // cell takes already-merged `StateValue<ThemedColor>` fields and resolves them
-// against the ambient `ShadcnColors`.
+// against the ambient `ThemeColors`.
 
 import 'package:flutter/widgets.dart';
 
@@ -84,7 +84,7 @@ class TableCellView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return MouseRegion(
       onEnter: (_) {
         if (enabled) {
@@ -154,7 +154,7 @@ class TableCellView extends StatelessWidget {
     );
   }
 
-  TextStyle? _textStyle(ShadcnThemeData theme, Set<WidgetState> states) {
+  TextStyle? _textStyle(ThemeData theme, Set<WidgetState> states) {
     final TextStyle? base = textStyle;
     final Color? color = foreground?.resolve(states)?.resolve(theme.colors);
     if (base == null && color == null) {

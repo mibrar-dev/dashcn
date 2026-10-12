@@ -1,64 +1,28 @@
 ---
 title: "Class: WidgetStatesProvider"
-description: "A widget that provides widget state information to descendants via `Data`."
+description: "Provides [WidgetStatesData] to descendants through `Data`."
 ---
 
 ```dart
-/// A widget that provides widget state information to descendants via `Data`.
+/// Provides [WidgetStatesData] to descendants through `Data`.
 ///
-/// [WidgetStatesProvider] manages and propagates widget states (like hovered,
-/// pressed, disabled) down the widget tree using the Data inheritance mechanism.
-/// It supports both static state sets and dynamic controller-based states.
-///
-/// ## Overview
-///
-/// Use [WidgetStatesProvider] to:
-/// - Share widget states with descendant widgets
-/// - Control states programmatically via [WidgetStatesController]
-/// - Inherit states from ancestor providers
-/// - Create state boundaries to isolate state contexts
-///
-/// ## Example
-///
-/// ```dart
-/// WidgetStatesProvider(
-///   states: {WidgetState.hovered},
-///   child: StatedWidget(
-///     child: Text('Normal'),
-///     hovered: Text('Hovered'),
-///   ),
-/// )
-/// ```
+/// Combines static [states], an optional [controller] and (unless [inherit]
+/// is false) the states of an ancestor provider. [WidgetStatesProvider.
+/// boundary] stops inheritance entirely.
 class WidgetStatesProvider extends StatelessWidget {
-  /// Optional controller for programmatic state management.
+  /// Optional controller whose states are merged in.
   final WidgetStatesController? controller;
-  /// Static set of widget states to provide.
+  /// Static states to provide.
   final Set<WidgetState>? states;
-  /// The child widget that can access the provided states.
+  /// The child that can read the provided states.
   final Widget child;
-  /// Whether to inherit states from ancestor providers.
-  ///
-  /// When `true`, combines local states with inherited states.
+  /// Whether ancestor provider states are merged in.
   final bool inherit;
-  /// Whether this provider acts as a state boundary.
+  /// Whether this provider blocks ancestor states.
   final bool boundary;
-  /// Creates a widget states provider with optional controller and states.
-  ///
-  /// ## Parameters
-  ///
-  /// * [controller] - Optional controller for dynamic state management.
-  /// * [child] - The descendant widget that can access states.
-  /// * [states] - Static set of states to provide. Defaults to empty set.
-  /// * [inherit] - Whether to inherit from ancestors. Defaults to `true`.
+  /// Creates a states provider.
   const WidgetStatesProvider({super.key, this.controller, required this.child, this.states = const {}, this.inherit = true});
-  /// Creates a widget states provider that acts as a state boundary.
-  ///
-  /// A boundary provider blocks state inheritance from ancestors, creating
-  /// an isolated state context for its descendants.
-  ///
-  /// ## Parameters
-  ///
-  /// * [child] - The descendant widget.
+  /// Creates a provider that blocks ancestor states.
   const WidgetStatesProvider.boundary({super.key, required this.child});
   Widget build(BuildContext context);
 }

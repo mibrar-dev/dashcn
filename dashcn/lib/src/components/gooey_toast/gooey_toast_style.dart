@@ -83,7 +83,7 @@ enum GooeyToastBodyAnimationStyle {
 /// Fixed status tones: the reference gooey-toast hues, tuned so every one of
 /// them clears 3:1 against BOTH the light and the dark `popover` fill.
 ///
-/// shadcn ships no success/warning/info tokens, and the chart tokens change hue
+/// upstream ships no success/warning/info tokens, and the chart tokens change hue
 /// per preset and mode (success read blue in dark, orange in light), so the
 /// status tones are fixed constants instead of token references: the same
 /// green, red, amber, blue, indigo and grey in every mode and preset.

@@ -17,7 +17,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AlertTheme? scopedTheme,
 }) {
@@ -25,7 +25,7 @@ Widget _frame({
   if (scopedTheme != null) {
     body = ComponentTheme<AlertTheme>(data: scopedTheme, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -40,7 +40,7 @@ Widget _frame({
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AlertTheme? scopedTheme,
 }) {
@@ -91,7 +91,7 @@ IconThemeData _leadingIconTheme(WidgetTester tester) {
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
 
   group('base variant', () {
     testWidgets('renders all four slots', (tester) async {
@@ -116,7 +116,7 @@ void main() {
       expect(decoration.color, light.card);
       expect(decoration.border!.top.color, light.border);
       expect(decoration.border!.top.width, 1);
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusLg);
+      expect(decoration.borderRadius, const ThemeData().borderRadiusLg);
     });
 
     testWidgets('padding is 16/12 and the icon is 16px', (tester) async {
@@ -264,7 +264,7 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await _pump(
         tester,
         const Alert(
@@ -273,7 +273,7 @@ void main() {
           title: Text('title'),
           content: Text('content'),
         ),
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
       );
       expect(_decoration(tester).color, dark.card);
       expect(_decoration(tester).border!.top.color, dark.border);
@@ -283,7 +283,7 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await _pump(
         tester,
         const Alert(
@@ -294,15 +294,15 @@ void main() {
             ),
           ),
         ),
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
       );
       expect(_decoration(tester).color!.a, closeTo(dark.card.a * 0.5, 0.001));
     });
   });
 
   group('defaults table', () {
-    test('token-derived rows match the shadcn alert', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+    test('token-derived rows match the dashcn alert', () {
+      const ThemeColors colors = ThemeColors.lightFallback;
       final AlertStyle base = alertDefaults.forVariant(AlertVariant.base)!;
       expect(base.background?.resolve(colors), colors.card);
       expect(base.borderColor?.resolve(colors), colors.border);

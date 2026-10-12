@@ -2,10 +2,10 @@
   "id": "menu",
   "name": "Menu",
   "category": "Menus",
-  "description": "Keyboard-navigable menu family: MenuGroup with roving focus and typeahead; MenuButton, MenuCheckboxItem, MenuRadioItem, MenuLabel, MenuShortcut, MenuSeparator and MenuSub rows; showShadcnMenu helper; MenuPopup surface. Owns MenuPopupTheme and MenubarTheme for the wave-D menu consumers.",
+  "description": "Keyboard-navigable menu family: MenuGroup with roving focus and typeahead; MenuButton, MenuCheckboxItem, MenuRadioItem, MenuLabel, MenuShortcut, MenuSeparator and MenuSub rows; showMenu helper; MenuPopup surface. Owns MenuPopupTheme and MenubarTheme for the wave-D menu consumers.",
   "tier": "component",
-  "install": "flutter_shadcn add menu",
-  "import": "import 'package:<your_app>/ui/shadcn/components/menu/menu.dart';",
+  "install": "dashcn add menu",
+  "import": "import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';",
   "tags": [
     "overlay",
     "menu",
@@ -131,7 +131,7 @@
     "semantics": "rows are buttons through Clickable; disabled rows dim to 50% opacity"
   },
   "sizes": {
-    "row": "min-height 32 (shadcn h-8), padding px-2 py-1.5",
+    "row": "min-height 32 (dashcn h-8), padding px-2 py-1.5",
     "popup": "min-width 128 (8rem), hugs content up to the viewport, padding 4, 1px border, radius md, shadow-md"
   },
   "notes": [
@@ -144,6 +144,6 @@
     "Checkbox/radio rows keep the menu open (autoClose false) vs radio picks dismiss (autoClose true); both are overridable.",
     "Arrow keys reach the roving engine because the row surface rebinds them to an unbound intent; the Clickable framework traversal would otherwise swallow them (no wrap, no disabled-skip, no submenu keys).",
     "Row painting lives in primitives: `roving_row.dart` (RovingRow: hover/focus accent paint, padding reserved inside the 32px minimum) and `menu_rows.dart` (MenuPopupSurface, showMenuPopover, static rows), both re-exported from menu.dart.",
-    "B20/F1 fix: rows now measure the shadcn h-8 = 32 and paint `focus:bg-accent focus:text-accent-foreground` (previously the padding stacked to 44 and the fill was state-static)."
+    "B20/F1 fix: rows now measure the dashcn h-8 = 32 and paint `focus:bg-accent focus:text-accent-foreground` (previously the padding stacked to 44 and the fill was state-static)."
   ]
 }

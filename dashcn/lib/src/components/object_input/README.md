@@ -75,7 +75,7 @@ DurationInput(
 - `NullableDate`/`NullableTimeOfDay` middle layers are gone; segments parse
   straight to `DateTime`/`TimeOfDay`/`Duration`.
 - Material `TimeOfDay` and `showDatePicker` are replaced by
-  `foundation/time_of_day.dart` and a calendar prompt: a `showShadcnDialog`
+  `foundation/time_of_day.dart` and a calendar prompt: a `showDialog`
   route in dialog mode, an anchored `PopoverController` popover in popover
   mode (resolved by width unless `mode` is set).
 - Old `Card` chrome, `form_field` wrapper and `locale_utils` import are

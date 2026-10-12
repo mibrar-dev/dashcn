@@ -11,7 +11,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/slider/slider.dart';
+import '../ui/dashcn/components/slider/slider.dart';
 
 /// A single-value slider that commits once per interaction.
 class DraftSlider extends StatefulWidget {

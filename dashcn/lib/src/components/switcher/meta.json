@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Swipeable view that animates between child widgets along a chosen axis.",
   "tier": "component",
-  "install": "flutter_shadcn add switcher",
-  "import": "import 'package:<your_app>/ui/shadcn/components/switcher/switcher.dart';",
+  "install": "dashcn add switcher",
+  "import": "import 'package:<your_app>/ui/dashcn/components/switcher/switcher.dart';",
   "tags": ["navigation", "swipe", "carousel", "pages", "transition"],
   "deps": {
     "foundation": ["constants"],

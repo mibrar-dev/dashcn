@@ -17,7 +17,7 @@ import 'card_image.dart';
 
 /// A palette-derived thumbnail, so the demo follows the selected theme.
 Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     height: height,
     child: ColoredBox(
@@ -57,7 +57,7 @@ class _CardImageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -156,8 +156,8 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: ShadcnTheme.of(context).spacing.lg,
-      runSpacing: ShadcnTheme.of(context).spacing.lg,
+      spacing: Theme.of(context).spacing.lg,
+      runSpacing: Theme.of(context).spacing.lg,
       crossAxisAlignment: WrapCrossAlignment.start,
       children: <Widget>[
         _CardImageRow(

@@ -10,12 +10,12 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_blocks.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/divider/divider.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/primitives/clickable.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'block_code_panel.dart';
 import 'block_viewport.dart';
 import 'copy_button.dart';
@@ -67,7 +67,7 @@ class _BlockCardState extends State<BlockCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // The border is painted in the foreground: the edge-to-edge viewport is
     // opaque and would otherwise cover it below the tab row.
     return DecoratedBox(
@@ -155,7 +155,7 @@ class _HeaderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
       child: LayoutBuilder(
@@ -238,9 +238,9 @@ class _TabRow extends StatelessWidget {
   final BlockCardTab tab;
   final ValueChanged<BlockCardTab> onTab;
 
-  /// The full `flutter_shadcn add <id>` command, never truncated: it rides in
+  /// The full `dashcn add <id>` command, never truncated: it rides in
   /// its own copyable chip on the right of the toolbar (like the reference's
-  /// `npx shadcn add <id>` button) and wraps below the tabs under 560 px.
+  /// `npx upstream add <id>` button) and wraps below the tabs under 560 px.
   final String command;
 
   @override
@@ -289,8 +289,8 @@ class _TabRow extends StatelessWidget {
   }
 }
 
-/// The full install command as a copyable chip (shadcn style): bordered,
-/// mono, with a copy button — always the complete `flutter_shadcn add <id>`.
+/// The full install command as a copyable chip (upstream style): bordered,
+/// mono, with a copy button — always the complete `dashcn add <id>`.
 class BlockCommandChip extends StatelessWidget {
   /// Creates the chip for [command].
   const BlockCommandChip({super.key, required this.command});
@@ -300,7 +300,7 @@ class BlockCommandChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted.withValues(alpha: 0.4),
@@ -356,7 +356,7 @@ class _LineTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Clickable(
       onPressed: onTap,
       child: Container(

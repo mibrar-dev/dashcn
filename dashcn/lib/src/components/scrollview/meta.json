@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Middle-button drag-to-scroll interceptor for desktop and web pointer devices.",
   "tier": "component",
-  "install": "flutter_shadcn add scrollview",
-  "import": "import 'package:<your_app>/ui/shadcn/components/scrollview/scrollview.dart';",
+  "install": "dashcn add scrollview",
+  "import": "import 'package:<your_app>/ui/dashcn/components/scrollview/scrollview.dart';",
   "tags": ["control", "scroll", "autoscroll", "desktop"],
   "deps": {
     "foundation": [],

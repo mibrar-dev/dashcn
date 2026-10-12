@@ -18,7 +18,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   SkeletonTheme? scoped,
 }) {
@@ -26,7 +26,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<SkeletonTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -135,20 +135,20 @@ void main() {
 
     testWidgets('the radius falls back to borderRadiusMd', (tester) async {
       await tester.pumpWidget(_frame(const Skeleton(child: _content)));
-      expect(_clipRadius(tester), const ShadcnThemeData().borderRadiusMd);
+      expect(_clipRadius(tester), const ThemeData().borderRadiusMd);
     });
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive the sweep', (tester) async {
         await tester.pumpWidget(
           _frame(
             const Skeleton(child: _content),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         expect(_sweepColors(tester), <Color?>[
@@ -266,7 +266,7 @@ void main() {
       // `SkeletonThemeDefaults` said 0x0D171717/0x1A171717 while the config
       // layer said primary@5%/primary@10% for the same two fields.
       await tester.pumpWidget(_frame(const Skeleton(child: _content)));
-      final ShadcnColors colors = const ShadcnThemeData().colors;
+      final ThemeColors colors = const ThemeData().colors;
       expect(_sweepColors(tester), <Color?>[
         colors.muted,
         colors.accent,

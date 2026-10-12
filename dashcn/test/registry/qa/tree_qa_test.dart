@@ -18,19 +18,19 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const List<ShadcnColors> _modes = <ShadcnColors>[
-  ShadcnColors.lightFallback,
-  ShadcnColors.darkFallback,
+const List<ThemeColors> _modes = <ThemeColors>[
+  ThemeColors.lightFallback,
+  ThemeColors.darkFallback,
 ];
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double width = 360,
   Key? key,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -48,7 +48,7 @@ Widget _frame(
 Future<void> _pumpPreview(
   WidgetTester tester,
   ComponentPreview preview, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double width = 360,
 }) async {
@@ -91,7 +91,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: _modes[i]),
+            data: ThemeData(colors: _modes[i]),
             key: ValueKey<String>('${preview.name}-$i'),
           ),
         );
@@ -169,7 +169,7 @@ void main() {
     tester,
   ) async {
     await _pumpPreview(tester, treePreviews[0]);
-    final double scaling = ShadcnTheme.of(
+    final double scaling = Theme.of(
       tester.element(find.byType(TreeRow).first),
     ).scaling;
     // `report.pdf` is one level deep, so its row carries exactly one guide:

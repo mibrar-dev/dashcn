@@ -136,7 +136,7 @@ class _OutlinedContainerState extends State<OutlinedContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final OutlinedContainerTheme resolved =
         resolveComponentStyle<OutlinedContainerTheme, OutlinedContainerTheme>(
           context,
@@ -316,7 +316,7 @@ class DashedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     return CustomPaint(
       painter: _DashedPainter(
         width: strokeWidth ?? 8 * ambient.scaling,
@@ -358,7 +358,7 @@ class DashedLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     return CustomPaint(
       painter: _DashedPainter(
         width: width ?? 8 * ambient.scaling,

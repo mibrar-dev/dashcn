@@ -1,14 +1,14 @@
 # form
 
-ShadcnForm state for a subtree: `ShadcnForm` publishes a `FormController`,
-`ShadcnFormField` / `FormInline` / `FormTableLayout` render labelled fields, and
+FormScope state for a subtree: `FormScope` publishes a `FormController`,
+`FormItem` / `FormInline` / `FormTableLayout` render labelled fields, and
 `FormEntry` wires any value supplier (`Input`, `Checkbox`, `StarRating`,
 `ObjectFormField`, …) to the controller for validation and submission.
 
-The widgets are `ShadcnForm` / `ShadcnFormField`, not `Form` / `FormField`:
+The widgets are `FormScope` / `FormItem`, not `Form` / `FormField`:
 `package:flutter/widgets.dart` exports both of those names, so the plain names
 would make any file importing both libraries fail to compile. Same rule as
-`ShadcnTheme` / `ShadcnImage` / `ShadcnTable`.
+`Theme` / `Picture` / `TableView`.
 
 ## When to use
 
@@ -21,12 +21,12 @@ would make any file importing both libraries fail to compile. Same rule as
 final controller = FormController();
 const emailKey = FormKey<String>('email');
 
-ShadcnForm(
+FormScope(
   controller: controller,
   onSubmit: (values) => save(values),
   child: Column(
     children: <Widget>[
-      ShadcnFormField<String>(
+      FormItem<String>(
         key: emailKey,
         label: const Text('Email'),
         validator: const NotEmptyValidator() & const EmailValidator(),
@@ -45,7 +45,7 @@ Inline and table layouts:
 
 ```dart
 FormInline<String>(key: key, label: const Text('Name'), child: const Input());
-FormTableLayout(rows: <ShadcnFormField<Object?>>[titleRow, slugRow]);
+FormTableLayout(rows: <FormItem<Object?>>[titleRow, slugRow]);
 ```
 
 Object fields (dialog or popover editor):
@@ -68,13 +68,13 @@ ObjectFormField<DateTime>(
 
 | Member | Purpose |
 |---|---|
-| `ShadcnForm` | Publishes a `FormController`; `ShadcnForm.of` / `ShadcnForm.maybeOf` |
+| `FormScope` | Publishes a `FormController`; `FormScope.of` / `FormScope.maybeOf` |
 | `FormController` | `values`, `errors`, `pending`, `getValue`, `attach`, `detach`, `revalidateAll`, `submit` |
-| `ShadcnFormField<T>` | Label row + hint + error message; per-field validator |
+| `FormItem<T>` | Label row + hint + error message; per-field validator |
 | `FormInline<T>` | Label beside the field |
-| `FormTableLayout` | Two-column table of `ShadcnFormField`s |
+| `FormTableLayout` | Two-column table of `FormItem`s |
 | `FormFieldMessages` | The hint/message column, reusable in custom layouts |
-| `Validated<T>` | One validated field with its own controller (no `ShadcnForm` needed) |
+| `Validated<T>` | One validated field with its own controller (no `FormScope` needed) |
 | `FormEntry<T>` | Low-level `FormKey` + validator registration |
 | `FormEntryErrorBuilder` / `FormErrorBuilder` / `FormPending` | Error/pending views |
 | `FormKey<T>` | Typed field identity (also a `LocalKey`) |

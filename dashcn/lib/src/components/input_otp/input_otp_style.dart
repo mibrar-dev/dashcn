@@ -200,9 +200,9 @@ const StateValue<ThemedColor> _otpBorder = StateValue<ThemedColor>(
   rest: ThemedColor.ref(ColorRef.input),
 );
 
-/// Inner padding of one slot: shadcn `px-1.5`, density-scaled.
+/// Inner padding of one slot: upstream `px-1.5`, density-scaled.
 ///
-/// A const whose stored sides are shadcn-px multipliers (6/16, 0/16), so it
+/// A const whose stored sides are upstream-px multipliers (6/16, 0/16), so it
 /// measures exactly `px-1.5 py-0` at the default density and scales with it.
 const EdgeInsetsGeometry inputOtpDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 6,

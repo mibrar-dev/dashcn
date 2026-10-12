@@ -78,7 +78,7 @@ class HSVSliderTheme extends ComponentThemeData
   }
 }
 
-/// Token-derived defaults (the shadcn look).
+/// Token-derived defaults (the upstream look).
 const HSVSliderTheme hsvSliderDefaults = HSVSliderTheme(
   slider: HSVSliderStyle(
     cursorColor: ThemedColor.value(Color(0xFFFFFFFF)),

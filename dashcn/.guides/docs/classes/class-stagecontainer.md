@@ -1,43 +1,24 @@
 ---
 title: "Class: StageContainer"
-description: "A responsive container that adapts to screen size using breakpoints."
+description: "A responsive container that constrains content to breakpoint widths."
 ---
 
 ```dart
-/// A responsive container that adapts to screen size using breakpoints.
+/// A responsive container that constrains content to breakpoint widths.
 ///
-/// Constrains child width based on breakpoint strategy and adds padding.
-/// Useful for creating centered, responsive layouts that adapt smoothly
-/// across different screen sizes.
-///
-/// Example:
-/// ```dart
-/// StageContainer(
-///   breakpoint: StageBreakpoint.defaultBreakpoints,
-///   padding: EdgeInsets.symmetric(horizontal: 24),
-///   builder: (context, padding) {
-///     return Container(
-///       padding: padding,
-///       child: Text('Responsive content'),
-///     );
-///   },
-/// )
-/// ```
+/// The [builder] receives the outer padding to apply; [StageContainer] does
+/// not wrap the child itself, so the caller controls the box.
 class StageContainer extends StatelessWidget {
-  /// The breakpoint strategy for determining container width.
-  ///
-  /// Defaults to [StageBreakpoint.defaultBreakpoints].
-  final StageBreakpoint breakpoint;
-  /// Builder function that receives context and calculated padding.
-  ///
-  /// The padding parameter accounts for responsive adjustments.
-  final Widget Function(BuildContext context, EdgeInsets padding) builder;
-  /// Base padding for the container.
-  ///
-  /// Defaults to `EdgeInsets.symmetric(horizontal: 72)`.
-  final EdgeInsets padding;
-  /// Creates a [StageContainer].
-  const StageContainer({super.key, this.breakpoint = StageBreakpoint.defaultBreakpoints, required this.builder, this.padding = const EdgeInsets.symmetric(horizontal: 72)});
+  /// Creates a stage container.
+  const StageContainer({super.key, required this.builder, this.breakpoint, this.padding, this.theme});
+  /// Builds the content; receives the resolved outer padding.
+  final StageContainerBuilder builder;
+  /// Width strategy; null resolves the theme, then the default breakpoints.
+  final StageBreakpoint? breakpoint;
+  /// Base padding; null resolves the theme, then the density default.
+  final EdgeInsetsGeometry? padding;
+  /// Widget-leg theme override.
+  final StageContainerTheme? theme;
   Widget build(BuildContext context);
 }
 ```

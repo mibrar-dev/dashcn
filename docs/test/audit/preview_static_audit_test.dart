@@ -5,7 +5,7 @@
 //   * does it export a named-example list (`const List<ComponentPreview>`)?
 //     -> `examples` (P6-F3 contract, first entry is the default)
 //   * does it still ship the old single gallery class? -> `previewClass`
-//   * does it hard-code a `ShadcnTheme` and therefore ignore the site mode?
+//   * does it hard-code a `Theme` and therefore ignore the site mode?
 //     -> `rootOverride` line (must be 0)
 //   * does it dump every enum variant at once? -> `variantDumps` (must be empty)
 //
@@ -45,7 +45,7 @@ class Row {
   /// `preview.dart` line that pins the root theme, or 0.
   int rootOverride = 0;
 
-  /// `preview.dart` lines with a nested hard-coded dark `ShadcnThemeData`.
+  /// `preview.dart` lines with a nested hard-coded dark `ThemeData`.
   final List<int> darkSections = <int>[];
 
   /// `X.values` loops that dump every variant at once.
@@ -59,7 +59,7 @@ class Row {
 }
 
 void main() {
-  final Directory root = Directory('lib/ui/shadcn/components');
+  final Directory root = Directory('lib/ui/dashcn/components');
   final List<Row> rows = <Row>[];
   final List<String> errors = <String>[];
 
@@ -174,7 +174,7 @@ Row _analyse(String id, CompilationUnit unit) {
   }
 
   for (final InstanceCreationExpression ic in countVisitor.nodes) {
-    if (ic.constructorName.type.name.lexeme != 'ShadcnThemeData') continue;
+    if (ic.constructorName.type.name.lexeme != 'ThemeData') continue;
     if (ic.argumentList.arguments.isEmpty) continue;
     final bool hasDark = ic.toSource().contains('darkFallback');
     final bool hasColors = ic.argumentList.arguments.any(
@@ -195,7 +195,7 @@ Row _analyse(String id, CompilationUnit unit) {
   if (row.rootOverride > 0) {
     row.issues.add(
       'ROOT-THEME-HARD-CODED preview.dart:${row.rootOverride} — build() '
-      'returns a ShadcnTheme with explicit data, so the preview ignores the '
+      'returns a Theme with explicit data, so the preview ignores the '
       'site light/dark mode.',
     );
   }
@@ -294,7 +294,7 @@ bool _isWidget(ClassDeclaration declaration) {
   return base == 'StatelessWidget' || base == 'StatefulWidget';
 }
 
-/// Line of a `ShadcnThemeData(` constructor returned directly from any
+/// Line of a `ThemeData(` constructor returned directly from any
 /// `build` method, or 0 when previews read the ambient theme.
 int _rootOverrideLine(CompilationUnit unit) {
   for (final Declaration declaration in unit.declarations) {
@@ -313,13 +313,13 @@ int _rootOverrideLine(CompilationUnit unit) {
     final String bare = src.startsWith('const ')
         ? src.substring('const '.length).trimLeft()
         : src;
-    if (!bare.startsWith('ShadcnTheme(')) {
+    if (!bare.startsWith('Theme(')) {
       continue;
     }
     final _CreationVisitor v = _CreationVisitor();
     body.accept(v);
     for (final InstanceCreationExpression ic in v.nodes) {
-      if (ic.constructorName.type.name.lexeme == 'ShadcnThemeData') {
+      if (ic.constructorName.type.name.lexeme == 'ThemeData') {
         return unit.lineInfo.getLocation(ic.offset).lineNumber;
       }
     }

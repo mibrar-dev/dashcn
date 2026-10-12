@@ -3,7 +3,7 @@
 Field that edits a value by picking one item from a collection. The trigger
 shows the current pick (or a placeholder); tapping it opens a dialog (the
 default) or popover prompt where a tap selects and closes. Built on the
-`ObjectFormField` primitive, so it reports values to `ShadcnForm` like any
+`ObjectFormField` primitive, so it reports values to `FormScope` like any
 other field. Widgets-only.
 
 ## When to use

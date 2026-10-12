@@ -4,7 +4,7 @@
 //
 // Absorbs `tab_container` (byte-identical) and `tab_pane` (reconciled to the
 // `tabs` copy); `tab_list` is deleted, its underline look with it — the
-// shadcn default is the pill. Arrow keys walk tabs via `roving_group`;
+// upstream default is the pill. Arrow keys walk tabs via `roving_group`;
 // reorder via `sortable`; overflow fades via `FadeScroll`.
 
 import 'package:flutter/widgets.dart';
@@ -21,7 +21,7 @@ export '../../primitives/tab_container.dart'
     show TabButton, TabContainer, TabContainerData, TabItem, TabShell;
 export 'tabs_style.dart';
 
-/// A shadcn pill tab strip on a muted container.
+/// A upstream pill tab strip on a muted container.
 ///
 /// Controlled: [index] selects, [onChanged] reports taps and arrow keys;
 /// null [onChanged] disables the strip. Arrow keys walk enabled tabs and
@@ -65,7 +65,7 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     final style = resolveComponentStyle<TabsTheme, TabsTheme>(
       context,
       widget: widget.theme,
@@ -121,7 +121,7 @@ class _TabsState extends State<Tabs> {
   }
 
   Widget _tab(
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     TabsTheme style,
     TabContainerData data,
     Widget label,
@@ -261,7 +261,7 @@ class _TabPaneState<T> extends State<TabPane<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     final style = resolveComponentStyle<TabPaneTheme, TabPaneTheme>(
       context,
       widget: widget.theme,

@@ -16,7 +16,7 @@ class Dashboard02Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<double> series = <double>[
       0.28,
@@ -91,7 +91,7 @@ class _Dashboard02Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Container(
@@ -121,7 +121,7 @@ class Dashboard02Sources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<_Dashboard02Source> sources = <_Dashboard02Source>[
       _Dashboard02Source('Direct', 0.38),
@@ -162,7 +162,7 @@ class Dashboard02Devices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<_Dashboard02Device> devices = <_Dashboard02Device>[
       _Dashboard02Device('Desktop', 0.52, 0),
@@ -205,7 +205,7 @@ class _Dashboard02DeviceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,

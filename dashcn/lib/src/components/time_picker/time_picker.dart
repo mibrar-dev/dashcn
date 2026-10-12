@@ -36,9 +36,9 @@ String _two(int value) => value.toString().padLeft(2, '0');
 
 /// Lookup key of one digit column, named by its caption label.
 ValueKey<String> kTimeColumnKey(String label) =>
-    ValueKey<String>('shadcn.time_picker.column.\$label');
+    ValueKey<String>('dashcn.time_picker.column.\$label');
 
-/// Shell padding of a picker sheet: shadcn `p-3` (12), density-scaled.
+/// Shell padding of a picker sheet: upstream `p-3` (12), density-scaled.
 ///
 /// The sheet carries it, not the dialog card, so a `p-0` card plus this shell
 /// is exactly one frame of breathing room — the same rule the `calendar`
@@ -49,7 +49,7 @@ final EdgeInsetsGeometry timePickerEditorPadding = EdgeInsetsDensity.pxAll(12);
 /// own shell and the footer paints the only separator.
 const EdgeInsetsGeometry timePickerDialogPadding = EdgeInsets.zero;
 
-/// Footer row padding of a picker prompt: shadcn `p-3`, with a hairline top
+/// Footer row padding of a picker prompt: upstream `p-3`, with a hairline top
 /// border separating the actions from the columns.
 final EdgeInsetsGeometry timePickerDialogFooterPadding =
     EdgeInsetsDensity.pxAll(12);
@@ -63,7 +63,7 @@ const double _timeColumnMinWidth = 48;
 
 /// A clock-time field opening a [TimePickerDialog] sheet.
 ///
-/// The trigger hugs its content (at least 140 shadcn px): the clock icon
+/// The trigger hugs its content (at least 140 upstream px): the clock icon
 /// leads, the label is left-aligned, the placeholder is muted. Pass [expand]
 /// for a full-width field.
 class TimePicker extends StatelessWidget {
@@ -101,8 +101,8 @@ class TimePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TimePickerTheme style = _resolveTimePickerTheme(context, theme);
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     final bool clock24 =
         use24HourFormat ??
         style.use24HourFormat ??
@@ -214,10 +214,10 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
-      // The sheet paints its own shell (shadcn `p-3`), so the dialog card
+      // The sheet paints its own shell (upstream `p-3`), so the dialog card
       // around it is `p-0` and the dialog hugs the columns exactly.
       padding: resolveEdgeInsets(
         timePickerEditorPadding,
@@ -246,7 +246,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> {
                   child: Text(strings.timeAM),
                 ),
                 // A gap, not a layout cap: it spaces the AM/PM stack
-                // (shadcn `gap-1` = 4 = `spacing.xs`), so it tracks the scale.
+                // (upstream `gap-1` = 4 = `spacing.xs`), so it tracks the scale.
                 Gap(theme.spacing.xs),
                 Button(
                   size: ButtonSize.sm,
@@ -292,8 +292,8 @@ class DurationPicker extends StatelessWidget {
   final bool expand;
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final ThemeData ambient = Theme.of(context);
     return ObjectFormField<Duration>(
       value: value,
       onChanged: onChanged,
@@ -373,7 +373,7 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnLocalizations strings = ShadcnLocalizations.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
     final List<(TextEditingController, String)> fields =
         <(TextEditingController, String)>[
           (_day, strings.durationDay),
@@ -381,7 +381,7 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
           (_minute, strings.durationMinute),
           (_second, strings.durationSecond),
         ];
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       // Same shell as [TimePickerDialog], so both dialogs read as one control.
       padding: resolveEdgeInsets(
@@ -431,7 +431,7 @@ class _DigitsField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double scale = theme.density.scale * theme.scaling;
     // `w-18` at the default density, and it may shrink (down to `_timeColumn
     // MinWidth`) when the row is tight: the dialog hugs the columns when it
@@ -439,7 +439,7 @@ class _DigitsField extends StatelessWidget {
     // overflowing a 375px phone.
     return ConstrainedBox(
       // Lookup key of one digit column; the label makes it unique per column.
-      key: ValueKey<String>('shadcn.time_picker.column.\$label'),
+      key: ValueKey<String>('dashcn.time_picker.column.\$label'),
       constraints: BoxConstraints(
         minWidth: _timeColumnMinWidth * scale,
         maxWidth: _timeColumnWidth * scale,
@@ -475,7 +475,7 @@ class _Colon extends StatelessWidget {
   const _Colon();
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double scale = theme.density.scale * theme.scaling;
     // The caption sits below the field, so the colon is lifted by the input
     // height plus that caption block to centre itself on the digits.

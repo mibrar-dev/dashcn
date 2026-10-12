@@ -36,11 +36,11 @@ const List<(String, Brightness)> _skins = <(String, Brightness)>[
 ];
 
 /// Theme data of [preset] at [brightness], at [density].
-ShadcnThemeData _theme(String preset, Brightness brightness, Density density) {
-  final ShadcnThemeDataView view = loadGeneratedTheme(
+ThemeData _theme(String preset, Brightness brightness, Density density) {
+  final ThemeDataView view = loadGeneratedTheme(
     'lib/src/themes/$preset.json',
   ).view(brightness);
-  return ShadcnThemeData(
+  return ThemeData(
     colors: view.colors,
     tokens: view.tokens,
     fonts: view.fonts,
@@ -50,14 +50,14 @@ ShadcnThemeData _theme(String preset, Brightness brightness, Density density) {
 /// A tracked picker inside a navigator, so the dialog has somewhere to push.
 Widget _frame(
   Widget child, {
-  required ShadcnThemeData data,
+  required ThemeData data,
   Size size = const Size(390, 780),
 }) {
   return OverlayManagerLayer(
     popoverHandler: OverlayHandler.popover,
     tooltipHandler: OverlayHandler.popover,
     menuHandler: OverlayHandler.popover,
-    child: ShadcnTheme(
+    child: Theme(
       data: data,
       child: ComponentThemes(
         themes: const <ComponentThemeData>[],
@@ -117,7 +117,7 @@ void main() {
         // The card is exactly the calendar wide: the `p-3` shell lives on the
         // calendar, the card padding is `p-0`.
         expect(card.width, moreOrLessEquals(grid.width, epsilon: 0.01));
-        // shadcn's reference bounds for a picker dialog.
+        // upstream's reference bounds for a picker dialog.
         expect(card.width, lessThanOrEqualTo(360));
         expect(card.height, lessThanOrEqualTo(420));
         expect(tester.takeException(), isNull);
@@ -220,7 +220,7 @@ void main() {
         await tester.tap(find.text('Save'));
         await tester.pumpAndSettle();
       }
-      // shadcn `size-8` (32) cells, scaled: 16 / 32 / 40.
+      // upstream `size-8` (32) cells, scaled: 16 / 32 / 40.
       expect(cells, <double>[16, 32, 40]);
       // compact < default < comfortable, all within the reference bounds.
       expect(widths[0], lessThan(widths[1]));
@@ -287,8 +287,8 @@ void main() {
       ]) {
         await tester.pumpWidget(
           _frame(
-            ShadcnForm(
-              child: ShadcnFormField<String>(
+            FormScope(
+              child: FormItem<String>(
                 key: const FormKey<String>('name'),
                 label: const Text('Name'),
                 child: const InputProbe(),
@@ -309,8 +309,8 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
-          ShadcnForm(
-            child: ShadcnFormField<String>(
+          FormScope(
+            child: FormItem<String>(
               key: const FormKey<String>('name'),
               label: const Text('Name'),
               hint: const Text('As it appears on the card'),
@@ -334,7 +334,7 @@ void main() {
           )
           .style;
       expect(style.fontSize, 14);
-      final ShadcnColors colors = ShadcnTheme.of(
+      final ThemeColors colors = Theme.of(
         tester.element(find.text('As it appears on the card')),
       ).colors;
       expect(style.color, colors.mutedForeground);
@@ -346,7 +346,7 @@ void main() {
 /// and not the text inside it.
 const ValueKey<String> kFormControlKey = ValueKey<String>('p7u2.field');
 
-/// A stand-in for the `input` component: the shadcn `h-9` box, so the form
+/// A stand-in for the `input` component: the upstream `h-9` box, so the form
 /// spacing is measured without a text field's own inner padding.
 class InputProbe extends StatelessWidget {
   const InputProbe({super.key});

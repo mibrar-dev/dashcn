@@ -1,23 +1,25 @@
 ---
 title: "Class: HSVColorSliderPainter"
-description: "A custom painter for rendering HSV color slider gradients."
+description: "Painter for [HSVColorSlider]; the gradient comes from the shared engine in  `primitives/color_field_paint."
 ---
 
 ```dart
-/// A custom painter for rendering HSV color slider gradients.
-///
-/// [HSVColorSliderPainter] draws the gradient background for HSV color sliders,
-/// showing the range of possible colors for the selected slider type. The
-/// gradient updates based on the current color and slider configuration.
+/// Painter for [HSVColorSlider]; the gradient comes from the shared engine in
+/// `primitives/color_field_paint.dart`.
 class HSVColorSliderPainter extends CustomPainter {
-  /// The type of slider being painted.
-  final HSVColorSliderType sliderType;
-  /// The current HSV color.
+  /// Creates the painter.
+  const HSVColorSliderPainter({required this.color, required this.hueAxis, required this.saturationAxis, required this.valueAxis, required this.alphaAxis});
+  /// The colour the gradient is derived from; the alpha channel passes
+  /// through only when [alphaAxis] varies.
   final HSVColor color;
-  /// Whether the gradient direction is reversed.
-  final bool reverse;
-  /// Creates an [HSVColorSliderPainter].
-  HSVColorSliderPainter({required this.sliderType, required this.color, this.reverse = false});
+  /// Axis the hue varies along.
+  final ColorFieldAxis hueAxis;
+  /// Axis the saturation varies along.
+  final ColorFieldAxis saturationAxis;
+  /// Axis the value varies along.
+  final ColorFieldAxis valueAxis;
+  /// Axis the alpha varies along.
+  final ColorFieldAxis alphaAxis;
   void paint(Canvas canvas, Size size);
   bool shouldRepaint(covariant HSVColorSliderPainter oldDelegate);
 }

@@ -1,18 +1,14 @@
 ---
 title: "Enum: ChatBubbleCorner"
-description: "Defines the corner of a [ChatBubble] where a tail might be attached."
+description: "Concrete corner of a bubble, after RTL resolution."
 ---
 
 ```dart
-/// Defines the corner of a [ChatBubble] where a tail might be attached.
+/// Concrete corner of a bubble, after RTL resolution.
 enum ChatBubbleCorner {
-  /// The top-left corner.
   topLeft,
-  /// The top-right corner.
   topRight,
-  /// The bottom-left corner.
   bottomLeft,
-  /// The bottom-right corner.
   bottomRight,
 }
 ```

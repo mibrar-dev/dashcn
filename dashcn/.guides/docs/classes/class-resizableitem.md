@@ -1,9 +1,10 @@
 ---
 title: "Class: ResizableItem"
-description: "Reference for ResizableItem"
+description: "One item managed by a [Resizer]."
 ---
 
 ```dart
+/// One item managed by a [Resizer].
 class ResizableItem {
   /// Minimum size this item can be resized to.
   final double min;
@@ -15,25 +16,22 @@ class ResizableItem {
   final double? collapsedSize;
   /// Whether this item can be resized.
   final bool resizable;
-  /// Creates a resizable item with the given constraints.
-  ///
-  /// [value] is the initial size of the item.
-  /// [min] is the minimum size (defaults to 0).
-  /// [max] is the maximum size (defaults to infinity).
-  /// [collapsed] indicates if the item starts collapsed.
-  /// [collapsedSize] is the size when collapsed (defaults to 0 if null).
-  /// [resizable] indicates if the item can be resized (defaults to true).
-  ResizableItem({required double value, this.min = 0, this.max = double.infinity, this.collapsed = false, this.collapsedSize, this.resizable = true});
-  /// Whether this item is collapsed after resizing operations.
+  ResizableItem({required this._value, this.min = 0, this.max = double.infinity, this.collapsed = false, this.collapsedSize, this.resizable = true});
+  /// Whether this item is collapsed after pending resize operations.
   bool get newCollapsed;
-  /// The size of this item after resizing operations.
+  /// The size of this item after pending resize operations.
   double get newValue;
-  /// The current size of this item before any resize operations.
+  /// The current committed size of this item.
   double get value;
+  /// Whether a pending value was set by a resize operation.
   bool get hasPendingValue;
+  /// Sets the pending size of this item.
   void setNewValue(double? value);
+  /// Sets the pending collapsed state of this item.
   void setNewCollapsed(bool? value);
+  /// Commits [value] as the new current size.
   void setValue(double value);
+  /// Clears pending size/collapsed values.
   void resetPending();
   String toString();
 }

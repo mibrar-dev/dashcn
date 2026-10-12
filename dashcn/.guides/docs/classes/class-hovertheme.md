@@ -1,47 +1,27 @@
 ---
 title: "Class: HoverTheme"
-description: "Theme configuration for hover-related widgets and behaviors."
+description: "Timing and hit-test configuration for the hover primitives."
 ---
 
 ```dart
-/// Theme configuration for hover-related widgets and behaviors.
-///
-/// [HoverTheme] provides configurable durations and behaviors for hover
-/// interactions throughout the application. It can be registered in the
-/// component theme system to customize hover behavior globally.
-///
-/// Example:
-/// ```dart
-/// HoverTheme(
-///   debounceDuration: Duration(milliseconds: 100),
-///   hitTestBehavior: HitTestBehavior.opaque,
-/// )
-/// ```
-class HoverTheme extends ComponentThemeData {
+/// Timing and hit-test configuration for the hover primitives.
+class HoverTheme extends ComponentThemeData implements Mergeable<HoverTheme> {
   /// Debounce duration for repeated hover events.
-  ///
-  /// When set, hover callbacks are throttled to fire at most once per this duration.
   final Duration? debounceDuration;
-  /// Hit test behavior for hover detection.
-  ///
-  /// Determines how the widget participates in hit testing for mouse events.
+  /// Hit-test behavior used by [HoverActivity].
   final HitTestBehavior? hitTestBehavior;
-  /// Wait duration before showing hover feedback (e.g., tooltips).
-  ///
-  /// Delays the appearance of hover-triggered UI to avoid flashing on quick passes.
+  /// Delay before hover feedback is shown.
   final Duration? waitDuration;
-  /// Minimum duration to keep hover feedback visible once shown.
-  ///
-  /// Prevents hover UI from disappearing too quickly.
+  /// Minimum time hover feedback stays visible after leaving.
   final Duration? minDuration;
-  /// Duration for hover feedback show animations.
+  /// Duration of the hide animation after [minDuration].
   final Duration? showDuration;
-  /// Creates a [HoverTheme] with optional configuration values.
-  const HoverTheme({this.debounceDuration, this.hitTestBehavior, this.waitDuration, this.minDuration, this.showDuration});
-  /// Creates a copy of this theme with selectively replaced properties.
-  ///
-  /// Parameters are [ValueGetter] functions to allow setting values to `null`.
+  /// Creates a [HoverTheme].
+  const HoverTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.debounceDuration, this.hitTestBehavior, this.waitDuration, this.minDuration, this.showDuration});
+  /// Returns a copy with the given fields replaced.
   HoverTheme copyWith({ValueGetter<Duration?>? debounceDuration, ValueGetter<HitTestBehavior?>? hitTestBehavior, ValueGetter<Duration?>? waitDuration, ValueGetter<Duration?>? minDuration, ValueGetter<Duration?>? showDuration});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  HoverTheme merge(HoverTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

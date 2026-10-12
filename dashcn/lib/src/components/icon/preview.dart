@@ -29,7 +29,7 @@ class _IconPreviewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ColoredBox(
       color: colors.background,
       child: Center(
@@ -37,19 +37,19 @@ class _IconPreviewBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Icon(LucideIcons.star).iconX3Small(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconXSmall(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconSmall(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconMedium(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconLarge(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconSmall().iconMutedForeground(),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             const IconContainer(icon: Icon(LucideIcons.check)),
-            SizedBox(width: ShadcnTheme.of(context).spacing.xl),
+            SizedBox(width: Theme.of(context).spacing.xl),
             ComponentTheme<IconContainerTheme>(
               data: const IconContainerTheme(
                 backgroundColor: ThemedColor.ref(ColorRef.secondary),

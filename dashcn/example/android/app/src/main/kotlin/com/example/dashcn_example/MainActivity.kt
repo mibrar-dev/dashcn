@@ -46,6 +46,6 @@ class MainActivity : FlutterActivity() {
     }
 
     private companion object {
-        const val CHANNEL_NAME = "shadcn_flutter_kit/markdown_link_opener"
+        const val CHANNEL_NAME = "dashcn/markdown_link_opener"
     }
 }

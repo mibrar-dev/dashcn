@@ -12,13 +12,13 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const ShadcnColors _light = ShadcnColors.lightFallback;
-const ShadcnColors _dark = ShadcnColors.darkFallback;
+const ThemeColors _light = ThemeColors.lightFallback;
+const ThemeColors _dark = ThemeColors.darkFallback;
 
 Future<void> _pump(
   WidgetTester tester,
   Widget group, {
-  ShadcnThemeData? theme,
+  ThemeData? theme,
   ResizableTheme? app,
   ResizableTheme? scoped,
   double width = 300,
@@ -36,9 +36,7 @@ Future<void> _pump(
   if (app != null) {
     body = ComponentThemes(themes: <ComponentThemeData>[app], child: body);
   }
-  await tester.pumpWidget(
-    ShadcnTheme(data: theme ?? const ShadcnThemeData(), child: body),
-  );
+  await tester.pumpWidget(Theme(data: theme ?? const ThemeData(), child: body));
 }
 
 ResizablePanelGroup _group({
@@ -264,7 +262,7 @@ void main() {
     );
     await _pump(tester, group());
     expect(_dividerColor(tester), _light.border);
-    await _pump(tester, group(), theme: const ShadcnThemeData(colors: _dark));
+    await _pump(tester, group(), theme: const ThemeData(colors: _dark));
     expect(_dividerColor(tester), _dark.border);
   });
 

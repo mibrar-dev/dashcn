@@ -14,11 +14,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add calendar-01
+dashcn add calendar-01
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/calendar-01/calendar_01.dart';
+import 'package:<your_app>/ui/dashcn/blocks/calendar-01/calendar_01.dart';
 
 void main() => runApp(const Calendar01());
 ```

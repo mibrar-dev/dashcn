@@ -2,7 +2,7 @@
 //
 // Covers every variant, the localized defaults, the pick -> validate -> upload
 // flow (controlled and uncontrolled), theme precedence on all four legs, light
-// and dark tokens, sizes against the shadcn scale, keyboard activation, and a
+// and dark tokens, sizes against the upstream scale, keyboard activation, and a
 // regression test per old bug that was fixed.
 
 import 'dart:async';
@@ -26,7 +26,7 @@ const Color _green = Color(0xFF00FF00);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   FileUploadTheme? scoped,
   Locale? locale,
@@ -35,7 +35,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<FileUploadTheme>(data: scoped, child: body);
   }
-  Widget root = ShadcnTheme(
+  Widget root = Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -50,7 +50,7 @@ Widget _frame({
       locale: locale,
       delegates: const <LocalizationsDelegate<dynamic>>[
         DefaultWidgetsLocalizations.delegate,
-        ShadcnLocalizations.delegate,
+        ComponentLocalizations.delegate,
       ],
       child: root,
     );
@@ -318,17 +318,17 @@ void main() {
           ),
         ),
       );
-      expect(_tileBorder(tester), ShadcnColors.lightFallback.input);
+      expect(_tileBorder(tester), ThemeColors.lightFallback.input);
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: FileUpload(
             variant: FileUploadVariant.tile,
             pick: (r) => _pickFiles(const []),
           ),
         ),
       );
-      expect(_tileBorder(tester), ShadcnColors.darkFallback.input);
+      expect(_tileBorder(tester), ThemeColors.darkFallback.input);
     });
 
     testWidgets('all four precedence legs resolve in order', (
@@ -349,7 +349,7 @@ void main() {
           ),
         ),
       );
-      expect(_tileBorder(tester), ShadcnColors.lightFallback.input);
+      expect(_tileBorder(tester), ThemeColors.lightFallback.input);
       // App leg.
       await tester.pumpWidget(
         _frame(
@@ -409,7 +409,7 @@ void main() {
       expect(tester.getSize(find.byType(FileUploadRow)).height, 64);
     });
 
-    testWidgets('the mobile trigger is 36 high (shadcn h-9)', (
+    testWidgets('the mobile trigger is 36 high (dashcn h-9)', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(

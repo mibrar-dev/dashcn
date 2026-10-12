@@ -41,7 +41,7 @@ class _SingleWindowState extends State<_SingleWindow> {
             controller: _notes,
             title: const Text('Notes'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Drag the title bar; resize from any edge.'),
             ),
           ),
@@ -90,7 +90,7 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
             controller: _main,
             title: const Text('Editor'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Maximized; restore from the title bar.'),
             ),
           ),
@@ -98,7 +98,7 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
             controller: _inspector,
             title: const Text('Inspector'),
             content: Padding(
-              padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.md),
+              padding: EdgeInsets.all(Theme.of(context).spacing.md),
               child: const Text('Always on top.'),
             ),
           ),

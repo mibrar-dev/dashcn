@@ -6,15 +6,15 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/alert/alert.dart';
-import '../ui/shadcn/components/badge/badge.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/chip/chip.dart';
-import '../ui/shadcn/components/progress/progress.dart';
-import '../ui/shadcn/components/star_rating/star_rating.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/alert/alert.dart';
+import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/chip/chip.dart';
+import '../ui/dashcn/components/progress/progress.dart';
+import '../ui/dashcn/components/star_rating/star_rating.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -91,7 +91,7 @@ class HomeLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Storage',
       subtitle: 'Synced 4 minutes ago.',

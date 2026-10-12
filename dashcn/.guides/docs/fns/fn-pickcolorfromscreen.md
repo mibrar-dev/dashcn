@@ -1,6 +1,6 @@
 ---
 title: "Function: pickColorFromScreen"
-description: "Prompts the user to pick a color from the screen using an eye dropper tool."
+description: "Prompts the user to pick a colour from the screen."
 ---
 
 Signature

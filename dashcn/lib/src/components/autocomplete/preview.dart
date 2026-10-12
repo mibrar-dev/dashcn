@@ -67,7 +67,7 @@ class _AutocompleteAutoCompleteFieldState
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return SizedBox(
       width: 280,
       child: Column(

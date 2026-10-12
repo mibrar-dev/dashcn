@@ -99,17 +99,17 @@ void main() {
     );
     expect(code.where((l) => l.startsWith('const ')).length, 3);
     expect(code.where((l) => l.startsWith('final ')).length, 2);
-    expect(code.where((l) => l.startsWith('ShadcnThemeData build')).length, 1);
-    expect(source, contains('ShadcnThemeData buildAmberMinimalTheme('));
+    expect(code.where((l) => l.startsWith('ThemeData build')).length, 1);
+    expect(source, contains('ThemeData buildAmberMinimalTheme('));
   });
 
   test('a preset without fonts emits no font block', () {
     final source = gen.ThemeValues.fromJson(
       readJsonMap('$themesDir/claude.json'),
     ).toDartSource();
-    expect(source, isNot(contains('ShadcnFonts')));
+    expect(source, isNot(contains('ThemeFonts')));
     expect(source, isNot(contains('fonts:')));
-    expect(source, contains('ShadcnThemeData buildClaudeTheme(Brightness'));
+    expect(source, contains('ThemeData buildClaudeTheme(Brightness'));
   });
 
   test('the theme import can be redirected with --theme-import', () {

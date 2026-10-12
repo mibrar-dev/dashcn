@@ -1,23 +1,20 @@
 ---
 title: "Class: RecentColorsScopeState"
-description: "State class for [RecentColorsScope] implementing color history storage."
+description: "State of [RecentColorsScope], itself the storage implementation."
 ---
 
 ```dart
-/// State class for [RecentColorsScope] implementing color history storage.
-///
-/// Manages the list of recently used colors and provides storage functionality
-/// for color history tracking.
+/// State of [RecentColorsScope], itself the storage implementation.
 class RecentColorsScopeState extends State<RecentColorsScope> implements ColorHistoryStorage {
-  int get capacity;
   void initState();
+  int get capacity;
   List<Color> get recentColors;
   void addHistory(Color color);
-  void dispose();
   void clear();
   void setHistory(List<Color> colors);
-  Widget build(BuildContext context);
   void addListener(VoidCallback listener);
   void removeListener(VoidCallback listener);
+  void dispose();
+  Widget build(BuildContext context);
 }
 ```

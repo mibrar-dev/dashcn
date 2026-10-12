@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: flutter_shadcn_kit
+        working-directory: dashcn
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,9 +38,9 @@ jobs:
 
       - name: Guardrails
         run: |
-          dart run tool/rearch/check_layers.dart --root lib/registry --strict
-          dart run tool/rearch/check_single_owner.dart --root lib/registry
-          dart run tool/rearch/check_user_theme.dart --root lib/registry --strict
+          dart run tool/rearch/check_layers.dart --root lib/src --strict
+          dart run tool/rearch/check_single_owner.dart --root lib/src
+          dart run tool/rearch/check_user_theme.dart --root lib/src --strict
 
       - name: Tests
         run: flutter test test/registry test/rearch

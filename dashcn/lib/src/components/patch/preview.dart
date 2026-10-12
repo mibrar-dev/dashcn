@@ -32,7 +32,7 @@ class _PatchPreviewState extends State<PatchPreview> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ColoredBox(
       color: colors.background,
       child: Padding(
@@ -53,9 +53,9 @@ class _PatchPreviewState extends State<PatchPreview> {
                 child: Text('clicks: $_clicks'),
               ),
             ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.md),
+            SizedBox(height: Theme.of(context).spacing.md),
             Text('last position: ${_lastPosition ?? '-'}'),
-            SizedBox(height: ShadcnTheme.of(context).spacing.md),
+            SizedBox(height: Theme.of(context).spacing.md),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -64,7 +64,7 @@ class _PatchPreviewState extends State<PatchPreview> {
                   onPressed: () => setState(() => _clicks = 0),
                   child: const Text('reset'),
                 ),
-                SizedBox(width: ShadcnTheme.of(context).spacing.md),
+                SizedBox(width: Theme.of(context).spacing.md),
                 const Text('tap fast and near to count up'),
               ],
             ),

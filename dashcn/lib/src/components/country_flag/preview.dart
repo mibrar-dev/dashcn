@@ -12,7 +12,7 @@ import 'country_flag.dart';
 
 /// A row of flags looked up from different keys.
 Widget _countryFlagDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.sm,
@@ -31,7 +31,7 @@ Widget _countryFlagDefault(BuildContext context) {
 
 /// The size scale and the rounded shape.
 Widget _countryFlagSizes(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Wrap(
     spacing: spacing.md,
     runSpacing: spacing.sm,

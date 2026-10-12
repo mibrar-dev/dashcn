@@ -14,11 +14,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -49,14 +49,14 @@ void main() {
     tester,
   ) async {
     for (final preview in emptyStatePreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -115,7 +115,7 @@ void main() {
   testWidgets('the fullPage description measure fits inside the block', (
     tester,
   ) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     final EmptyStateMetrics metrics = emptyStateMetrics(
       EmptyStateSize.fullPage,
       theme,
@@ -136,7 +136,7 @@ void main() {
     );
     final TextStyle style = _titleStyle(tester, 'Nothing here yet');
     expect(style.fontSize, 30);
-    expect(style.color, ShadcnColors.lightFallback.foreground);
+    expect(style.color, ThemeColors.lightFallback.foreground);
   });
 
   testWidgets('a colour-less description override keeps the muted token', (
@@ -154,7 +154,7 @@ void main() {
       'Create your first item to get started.',
     );
     expect(style.fontSize, 30);
-    expect(style.color, ShadcnColors.lightFallback.mutedForeground);
+    expect(style.color, ThemeColors.lightFallback.mutedForeground);
   });
 
   testWidgets('default preview fits 375px with no overflow', (tester) async {

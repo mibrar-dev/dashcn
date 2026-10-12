@@ -10,11 +10,11 @@ import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/tooltip/tooltip.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_toc.dart';
 import 'docs_tokens.dart';
@@ -243,7 +243,7 @@ class _DocsArticleState extends State<DocsArticle> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool showToc = width >= 1280;
     final bool showActions = widget.showTitleActions && width >= 640;
@@ -314,11 +314,7 @@ class _DocsArticleState extends State<DocsArticle> {
     );
   }
 
-  Widget _titleRow(
-    BuildContext context,
-    ShadcnThemeData theme,
-    bool showActions,
-  ) {
+  Widget _titleRow(BuildContext context, ThemeData theme, bool showActions) {
     final double width = MediaQuery.sizeOf(context).width;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

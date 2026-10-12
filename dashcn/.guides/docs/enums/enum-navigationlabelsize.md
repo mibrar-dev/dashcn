@@ -1,14 +1,14 @@
 ---
 title: "Enum: NavigationLabelSize"
-description: "Size variant for navigation item labels."
+description: "Label text size."
 ---
 
 ```dart
-/// Size variant for navigation item labels.
+/// Label text size.
 enum NavigationLabelSize {
-  /// Compact label text
+  /// 12px.
   small,
-  /// Larger label text
+  /// 14px.
   large,
 }
 ```

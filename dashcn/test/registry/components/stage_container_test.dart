@@ -20,7 +20,7 @@ Future<EdgeInsets> _pump(
   StageContainerTheme? theme,
   StageContainerTheme? appTheme,
   StageContainerTheme? scopedTheme,
-  ShadcnThemeData? ambient,
+  ThemeData? ambient,
 }) async {
   // The test surface is 800x600 by default; size it so a tight [width] box is
   // not clamped by the viewport.
@@ -56,7 +56,7 @@ Future<EdgeInsets> _pump(
     app = ComponentThemes(themes: <ComponentThemeData>[appTheme], child: app);
   }
   await tester.pumpWidget(
-    ShadcnTheme(data: ambient ?? const ShadcnThemeData(), child: app),
+    Theme(data: ambient ?? const ThemeData(), child: app),
   );
   return captured;
 }
@@ -145,7 +145,7 @@ void main() {
       final EdgeInsets reduced = await _pump(
         tester,
         width: 1200,
-        ambient: const ShadcnThemeData(density: Density.reducedDensity),
+        ambient: const ThemeData(density: Density.reducedDensity),
       );
       expect(reduced.left, 54); // 12 * 4.5
     });
@@ -244,8 +244,8 @@ void main() {
           textDirection: TextDirection.ltr,
           child: MediaQuery(
             data: const MediaQueryData(),
-            child: ShadcnTheme(
-              data: const ShadcnThemeData(),
+            child: Theme(
+              data: const ThemeData(),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: StageContainer(
@@ -280,7 +280,7 @@ void main() {
     final EdgeInsets dark = await _pump(
       tester,
       width: 1200,
-      ambient: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      ambient: const ThemeData(colors: ThemeColors.darkFallback),
     );
     expect(dark.left, 72);
     expect(tester.takeException(), isNull);

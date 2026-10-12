@@ -106,7 +106,7 @@ class ShadowScale {
   /// ambient layer per size (from [offsetX], [offsetY], [blur], [spread])
   /// plus, for sm..xl, one detail layer with ABSOLUTE geometry
   /// (`Offset(offsetX, y)`, blur `b`, `spread - 1`), so small atoms such as
-  /// a shadcn default base (offsetY 1, blur 3) can never go negative.
+  /// a upstream default base (offsetY 1, blur 3) can never go negative.
   /// Alpha ratios follow tweakcn: 0.5 for 2xs/xs, 1.0 for sm..xl (ambient
   /// and detail alike), 2.5 for 2xl, all relative to [opacity]; rgb channels
   /// come from [color] unchanged. Geometry reproduces [defaultShadowScale]
@@ -323,9 +323,9 @@ const ShadowScale defaultShadowScale = ShadowScale(
 /// per QA P1-D; no per-brightness fonts). Nullable; null falls back to the
 /// bundled default at build. `fontSerif` is stored but currently unwired
 /// (no serif slot in [Typography]; open question in P2B_THEME.md).
-class ShadcnFonts {
-  const ShadcnFonts({this.fontSans, this.fontSerif, this.fontMono});
-  static const ShadcnFonts empty = ShadcnFonts();
+class ThemeFonts {
+  const ThemeFonts({this.fontSans, this.fontSerif, this.fontMono});
+  static const ThemeFonts empty = ThemeFonts();
 
   /// Body/UI family list, e.g. `"Inter, sans-serif"`.
   final String? fontSans;
@@ -336,12 +336,12 @@ class ShadcnFonts {
   /// Code family list.
   final String? fontMono;
 
-  ShadcnFonts copyWith({
+  ThemeFonts copyWith({
     String? Function()? fontSans,
     String? Function()? fontSerif,
     String? Function()? fontMono,
   }) {
-    return ShadcnFonts(
+    return ThemeFonts(
       fontSans: fontSans == null ? this.fontSans : fontSans(),
       fontSerif: fontSerif == null ? this.fontSerif : fontSerif(),
       fontMono: fontMono == null ? this.fontMono : fontMono(),
@@ -349,13 +349,13 @@ class ShadcnFonts {
   }
 
   /// Fonts are strings: lerp steps at t = 0.5.
-  static ShadcnFonts lerp(ShadcnFonts a, ShadcnFonts b, double t) =>
+  static ThemeFonts lerp(ThemeFonts a, ThemeFonts b, double t) =>
       t < 0.5 ? a : b;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShadcnFonts &&
+      other is ThemeFonts &&
           other.fontSans == fontSans &&
           other.fontSerif == fontSerif &&
           other.fontMono == fontMono;
@@ -364,8 +364,8 @@ class ShadcnFonts {
 }
 
 /// Non-color tokens for one brightness.
-class ShadcnTokens {
-  const ShadcnTokens({
+class DesignTokens {
+  const DesignTokens({
     this.radius = 0.5,
     this.spacingBase = 4.0,
     this.trackingNormal = 0,
@@ -376,7 +376,7 @@ class ShadcnTokens {
 
   /// Unitless radius factor: the preset `radius` rem number (e.g. 0.625).
   /// `radiusLg` is its px value (`radius * 16`); `sm`/`md` step down
-  /// 4/2 px and `xl` steps up 4 px from `lg` (shadcn v4), clamped at 0.
+  /// 4/2 px and `xl` steps up 4 px from `lg` (upstream v4), clamped at 0.
   final double radius;
 
   /// Base spacing unit (preset `spacing.base`).
@@ -401,7 +401,7 @@ class ShadcnTokens {
     wide: trackingWide,
   );
 
-  ShadcnTokens copyWith({
+  DesignTokens copyWith({
     double? radius,
     double? spacingBase,
     double? trackingNormal,
@@ -409,7 +409,7 @@ class ShadcnTokens {
     double? Function()? trackingWide,
     ShadowScale? shadows,
   }) {
-    return ShadcnTokens(
+    return DesignTokens(
       radius: radius ?? this.radius,
       spacingBase: spacingBase ?? this.spacingBase,
       trackingNormal: trackingNormal ?? this.trackingNormal,
@@ -421,8 +421,8 @@ class ShadcnTokens {
     );
   }
 
-  static ShadcnTokens lerp(ShadcnTokens a, ShadcnTokens b, double t) {
-    return ShadcnTokens(
+  static DesignTokens lerp(DesignTokens a, DesignTokens b, double t) {
+    return DesignTokens(
       radius: lerpDouble(a.radius, b.radius, t)!,
       spacingBase: lerpDouble(a.spacingBase, b.spacingBase, t)!,
       trackingNormal: lerpDouble(a.trackingNormal, b.trackingNormal, t)!,
@@ -435,7 +435,7 @@ class ShadcnTokens {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShadcnTokens &&
+      other is DesignTokens &&
           other.radius == radius &&
           other.spacingBase == spacingBase &&
           other.trackingNormal == trackingNormal &&

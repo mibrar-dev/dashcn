@@ -7,9 +7,9 @@
 import 'dart:ui';
 
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/shadcn/components/menu/menu.dart';
-import 'package:docs/ui/shadcn/components/slider/slider.dart';
-import 'package:docs/ui/shadcn/primitives/fade_scroll.dart';
+import 'package:docs/ui/dashcn/components/menu/menu.dart';
+import 'package:docs/ui/dashcn/components/slider/slider.dart';
+import 'package:docs/ui/dashcn/primitives/fade_scroll.dart';
 import 'package:docs/widgets/rail_picker_scales.dart';
 import 'package:docs/widgets/rail_picker_slider.dart';
 import 'package:docs/widgets/theme_rail.dart';

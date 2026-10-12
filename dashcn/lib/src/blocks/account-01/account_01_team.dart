@@ -21,7 +21,7 @@ class Account01Team extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const List<(String, String, String)> members = <(String, String, String)>[
       ('AL', 'Ada Lovelace', 'Owner'),
       ('BK', 'Bjarne Kern', 'Admin'),

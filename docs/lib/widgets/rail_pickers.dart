@@ -1,7 +1,7 @@
 // Popup bodies of the Theme Studio rail rows (spec §2.7).
 //
 // Every row opens an anchored `MenuPopup` through the registry `popup`
-// component (`showShadcnPopup`), which owns Escape and outside-tap dismissal.
+// component (`showPopup`), which owns Escape and outside-tap dismissal.
 // The bodies are the reference's: a preset list, a colour grid, a font list,
 // a slider and a shadow panel.
 //
@@ -18,10 +18,10 @@ import 'package:flutter/widgets.dart';
 import '../../generated/docs_data.dart';
 import '../../theme/theme_document.dart';
 import '../../theme/theme_palette.dart';
-import '../../ui/shadcn/components/popup/popup.dart';
-import '../../ui/shadcn/foundation/gap.dart';
-import '../../ui/shadcn/primitives/overlay.dart';
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/components/popup/popup.dart';
+import '../../ui/dashcn/foundation/gap.dart';
+import '../../ui/dashcn/primitives/overlay.dart';
+import '../../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 import 'rail_picker_rows.dart';
 import 'rail_picker_scroll.dart';
@@ -58,7 +58,7 @@ Future<void> showPresetPicker(
   String current, {
   required ValueChanged<String> onChanged,
 }) {
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: Column(
@@ -98,7 +98,7 @@ Future<void> showColorPicker(
   required ValueChanged<Color> onChanged,
 }) {
   final int committed = current.toARGB32();
-  return showShadcnPicker<void>(
+  return showPicker<void>(
     context: context,
     builder: (BuildContext context) => RailPickerPanel(
       child: Column(
@@ -135,17 +135,17 @@ Future<void> showColorPicker(
   );
 }
 
-/// Opens an anchored picker popup (registry `popup` → `showShadcnPopup`).
+/// Opens an anchored picker popup (registry `popup` → `showPopup`).
 ///
 /// The popup is opened with a **nullable** result type on purpose. The
 /// registry's `Popup` closes with a `null` result whenever it is dismissed
 /// without a pick (Escape, outside tap, a "Done" button) and its
 /// `onCloseWithResult` performs `value as T` (see
-/// `ui/shadcn/primitives/popover_overlay_handler.dart`). A non-nullable `T`
+/// `ui/dashcn/primitives/popover_overlay_handler.dart`). A non-nullable `T`
 /// therefore throws `type 'Null' is not a subtype of type 'T'` on every
 /// dismissal. `T?` keeps the picker contract (`null` = "not picked") and the
 /// caller-visible `Future<T?>` unchanged.
-Future<T?> showShadcnPicker<T>({
+Future<T?> showPicker<T>({
   required BuildContext context,
   required WidgetBuilder builder,
   String? title,
@@ -161,7 +161,7 @@ Future<T?> showShadcnPicker<T>({
     final double room = math.max(screen.height - rect.bottom - 8, rect.top - 8);
     maxH = math.min(360.0, room).clamp(160.0, 360.0);
   }
-  return showShadcnPopup<T?>(
+  return showPopup<T?>(
     context: context,
     // Open below the row (like the reference's popovers) and keep the panel
     // inside the 192 px rail: the anchor is the row, so the default
@@ -196,7 +196,7 @@ Future<T?> showShadcnPicker<T>({
                       context,
                       size: 12,
                       weight: FontWeight.w500,
-                      color: ShadcnTheme.of(context).colors.mutedForeground,
+                      color: Theme.of(context).colors.mutedForeground,
                     ),
                   ),
                   const Gap(8),
@@ -210,9 +210,7 @@ Future<T?> showShadcnPicker<T>({
 
 /// The four swatches of a preset's accent family.
 List<Color> _presetSwatches(String presetId, Brightness brightness) {
-  final ShadcnThemeData theme = ThemeDocument.fromPreset(
-    presetId,
-  ).theme(brightness);
+  final ThemeData theme = ThemeDocument.fromPreset(presetId).theme(brightness);
   return <Color>[
     theme.colors.primary,
     theme.colors.secondary,

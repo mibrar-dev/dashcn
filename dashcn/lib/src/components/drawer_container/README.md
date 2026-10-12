@@ -8,13 +8,13 @@ gesture or the route.
 ## Install
 
 ```bash
-flutter_shadcn add drawer_container
+dashcn add drawer_container
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/drawer_container/drawer_container.dart';
+import 'package:<your_app>/ui/dashcn/drawer_container/drawer_container.dart';
 ```
 
 ## Minimal example

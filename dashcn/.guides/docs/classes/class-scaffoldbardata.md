@@ -1,21 +1,20 @@
 ---
 title: "Class: ScaffoldBarData"
-description: "Data class for identifying scaffold bar (header/footer) positioning."
+description: "Position of a bar inside a scaffold shell."
 ---
 
 ```dart
-/// Data class for identifying scaffold bar (header/footer) positioning.
+/// Position of a bar inside a scaffold shell.
 ///
-/// Provides context about a bar's position within the scaffold layout,
-/// including whether it's a header or footer and its index among siblings.
+/// [AppBar] reads it for edge-aware `SafeArea` handling.
 class ScaffoldBarData {
-  /// Whether this bar is in the header section (vs footer).
-  final bool isHeader;
-  /// Zero-based index of this child bar.
-  final int childIndex;
-  /// Total number of children in this section.
-  final int childrenCount;
-  /// Creates [ScaffoldBarData].
+  /// Creates bar position data.
   const ScaffoldBarData({this.isHeader = true, required this.childIndex, required this.childrenCount});
+  /// Whether this bar lives in the header section (else footer).
+  final bool isHeader;
+  /// Zero-based index of this bar among its section siblings.
+  final int childIndex;
+  /// Total number of bars in this bar's section.
+  final int childrenCount;
 }
 ```

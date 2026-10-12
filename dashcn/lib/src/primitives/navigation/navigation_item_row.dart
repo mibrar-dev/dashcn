@@ -176,7 +176,7 @@ class _NavigationItemRowState extends State<NavigationItemRow> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final Set<WidgetState> states = <WidgetState>{
       ..._states.value,
       if (!widget.enabled) WidgetState.disabled,

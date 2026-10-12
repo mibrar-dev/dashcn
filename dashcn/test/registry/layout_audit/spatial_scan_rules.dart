@@ -15,7 +15,7 @@
 //   computed         an expression over parameters, not a literal. COMPLIANT.
 //   border_hairline  1px border / divider — allowed by the audit rules.
 //   icon_size        icon glyph size owned by the component theme — allowed.
-//   shadcn_fixed     a size shadcn pins (`size-4` = 16, `size-2.5` = 10, ...)
+//   theme_fixed     a size upstream pins (`size-4` = 16, `size-2.5` = 10, ...)
 //                    in a box context — allowed, must be justified.
 //   layout_cap       a width/height layout cap, not padding — allowed.
 //   raw              a literal padding/gap that does not scale. FINDING.
@@ -67,10 +67,10 @@ class SpatialSite {
   };
 }
 
-/// shadcn box sizes that are pinned by the upstream Tailwind classes and are
+/// upstream box sizes that are pinned by the upstream Tailwind classes and are
 /// deliberately NOT spacing-scale derived (`size-4` is 16px, `size-2.5` is
 /// 10px, ...). Used in a width/height/min/max context only.
-final Set<double> _shadcnBoxSizes = <double>{
+final Set<double> _boxSizes = <double>{
   2.5,
   4,
   8,
@@ -213,13 +213,13 @@ String classifyValue(String expr, String argName, String kind) {
   }
   if (kind == 'box_constraints') {
     // A width/height cap (`maxWidth: 460`) or a fixed box size, not padding.
-    return _shadcnBoxSizes.contains(literal) ? 'shadcn_fixed' : 'layout_cap';
+    return _boxSizes.contains(literal) ? 'theme_fixed' : 'layout_cap';
   }
   if (kind == 'sized_box' && _spacingScaleValues.contains(literal)) {
     // `SizedBox(height: 8)` used as a spacer is an unscaled gap.
     return 'raw';
   }
-  return _shadcnBoxSizes.contains(literal) ? 'shadcn_fixed' : 'layout_cap';
+  return _boxSizes.contains(literal) ? 'theme_fixed' : 'layout_cap';
 }
 
 /// True for a bare identifier or dotted identifier chain (`gap`,

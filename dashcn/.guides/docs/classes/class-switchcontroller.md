@@ -1,12 +1,14 @@
 ---
 title: "Class: SwitchController"
-description: "Controller for managing switch state."
+description: "Holds the value of an uncontrolled [Switch]."
 ---
 
 ```dart
-/// Controller for managing switch state.
-class SwitchController extends ValueNotifier<bool> with ComponentController<bool> {
+/// Holds the value of an uncontrolled [Switch].
+class SwitchController extends ValueNotifier<bool> {
+  /// Creates a controller, off by default.
   SwitchController([super.value = false]);
+  /// Flips the value.
   void toggle();
 }
 ```

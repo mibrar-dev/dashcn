@@ -94,7 +94,7 @@ class _SegmentTextController extends TextEditingController {
       return const TextSpan();
     }
     final TextStyle? filler = style?.copyWith(
-      color: ShadcnTheme.of(context).colors.mutedForeground,
+      color: Theme.of(context).colors.mutedForeground,
     );
     final String tail = after ?? '';
     final int used = text.length + (inside?.text?.length ?? 0) + tail.length;

@@ -1,9 +1,9 @@
 ---
 title: "Function: formatFileSize"
-description: "Formats a file size in bytes to a human-readable string."
+description: "Formats a byte count the way a file row shows it."
 ---
 
 Signature
 ```dart
-String formatFileSize(int bytes, SizeUnitLocale unit);
+String formatFileSize(int bytes, {int decimals = 1});
 ```

@@ -22,7 +22,7 @@ class Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaling = ShadcnTheme.of(context).scaling;
+    final scaling = Theme.of(context).scaling;
     return IntrinsicWidth(
       child: Row(
         mainAxisSize: MainAxisSize.min,

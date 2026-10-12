@@ -1,4 +1,4 @@
-// The `form` component: the [ShadcnForm] scope and the field layouts ([ShadcnFormField],
+// The `form` component: the [FormScope] scope and the field layouts ([FormItem],
 // [FormInline], [FormTableLayout]); the form machinery lives in
 // `primitives/form_core/` and is re-exported here.
 
@@ -25,8 +25,8 @@ export '../../primitives/form_core/validators_compare.dart';
 export 'form_style.dart';
 
 /// Provides form state and installs [onSubmit] on the controller.
-class ShadcnForm extends StatefulWidget {
-  const ShadcnForm({
+class FormScope extends StatefulWidget {
+  const FormScope({
     super.key,
     required this.child,
     this.controller,
@@ -51,10 +51,10 @@ class ShadcnForm extends StatefulWidget {
       Data.of<FormController>(context);
 
   @override
-  State<ShadcnForm> createState() => _FormState();
+  State<FormScope> createState() => _FormState();
 }
 
-class _FormState extends State<ShadcnForm> {
+class _FormState extends State<FormScope> {
   late FormController _controller = widget.controller ?? FormController();
 
   @override
@@ -64,7 +64,7 @@ class _FormState extends State<ShadcnForm> {
   }
 
   @override
-  void didUpdateWidget(covariant ShadcnForm oldWidget) {
+  void didUpdateWidget(covariant FormScope oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       if (oldWidget.controller == null) {
@@ -91,8 +91,8 @@ class _FormState extends State<ShadcnForm> {
 }
 
 /// A labelled field with hint and validation message.
-class ShadcnFormField<T> extends StatelessWidget {
-  const ShadcnFormField({
+class FormItem<T> extends StatelessWidget {
+  const FormItem({
     required FormKey<T> super.key,
     required this.label,
     required this.child,
@@ -325,7 +325,7 @@ class FormTableLayout extends StatelessWidget {
     this.theme,
   });
 
-  final List<ShadcnFormField<Object?>> rows;
+  final List<FormItem<Object?>> rows;
 
   final double? spacing;
 

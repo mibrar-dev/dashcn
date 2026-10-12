@@ -7,10 +7,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 
-/// Measured layout metrics of the shadcn site (P6 spec §2).
+/// Measured layout metrics of the upstream site (P6 spec §2).
 abstract final class DocsMetrics {
   /// Header height at `lg` and up.
   static const double headerHeightLg = 64;
@@ -114,7 +114,7 @@ class DocsSiteColors {
   const DocsSiteColors(this.colors);
 
   /// The ambient token set.
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   bool get _dark => colors.brightness == Brightness.dark;
 
@@ -141,7 +141,7 @@ class DocsSiteColors {
 
   /// Neutral ring/footer pair for the palette.
   static DocsSiteColors of(BuildContext context) =>
-      DocsSiteColors(ShadcnTheme.of(context).colors);
+      DocsSiteColors(Theme.of(context).colors);
 }
 
 /// A sans text style at the measured site size (Geist, token colour).
@@ -153,7 +153,7 @@ TextStyle docsText(
   double? height,
   double? letterSpacing,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   return theme.typography.sans.copyWith(
     fontSize: size,
     fontWeight: weight,

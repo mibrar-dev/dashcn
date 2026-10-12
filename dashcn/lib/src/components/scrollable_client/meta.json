@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Two-dimensional scroll surface with a builder that receives the current offset and viewport size.",
   "tier": "component",
-  "install": "flutter_shadcn add scrollable_client",
-  "import": "import 'package:<your_app>/ui/shadcn/components/scrollable_client/scrollable_client.dart';",
+  "install": "dashcn add scrollable_client",
+  "import": "import 'package:<your_app>/ui/dashcn/components/scrollable_client/scrollable_client.dart';",
   "tags": ["layout", "scroll", "two-dimensional", "viewport"],
   "deps": {
     "foundation": [],

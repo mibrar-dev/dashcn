@@ -22,7 +22,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CardImageTheme? scoped,
 }) {
@@ -30,7 +30,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<CardImageTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -314,13 +314,13 @@ void main() {
       await tester.pumpWidget(
         _frame(
           CardImage(image: _image(), onPressed: () {}),
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
         ),
       );
       final AnimatedContainer container = _imageSurface(tester);
       expect(
         (container.decoration! as BoxDecoration).borderRadius,
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback).borderRadiusXl,
+        const ThemeData(colors: ThemeColors.darkFallback).borderRadiusXl,
       );
     });
   });

@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Read-only selectable text with widgets-only selection controls.",
   "tier": "component",
-  "install": "flutter_shadcn add selectable",
-  "import": "import 'package:<your_app>/ui/shadcn/components/selectable/selectable.dart';",
+  "install": "dashcn add selectable",
+  "import": "import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';",
   "tags": ["display", "text", "selectable", "copy"],
   "deps": {
     "foundation": [],

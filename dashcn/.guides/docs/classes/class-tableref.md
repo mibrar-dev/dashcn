@@ -1,17 +1,18 @@
 ---
 title: "Class: TableRef"
-description: "Reference for TableRef"
+description: "A pinned row or column range."
 ---
 
 ```dart
+/// A pinned row or column range.
 class TableRef {
-  /// Starting index of the reference.
-  final int index;
-  /// Number of rows/columns spanned. Defaults to 1.
-  final int span;
-  /// Creates a [TableRef].
+  /// Creates a reference to [span] rows/columns starting at [index].
   const TableRef(this.index, [this.span = 1]);
-  /// Tests if this reference includes the given index and span.
+  /// First index of the range.
+  final int index;
+  /// Number of rows/columns in the range.
+  final int span;
+  /// Whether [index] falls inside this range.
   bool test(int index, int span);
 }
 ```

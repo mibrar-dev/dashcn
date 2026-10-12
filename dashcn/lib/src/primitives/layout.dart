@@ -210,7 +210,7 @@ class Basic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaling = ShadcnTheme.of(context).scaling;
+    final scaling = Theme.of(context).scaling;
     final componentTheme = resolveComponentStyle<BasicTheme, BasicTheme>(
       context,
       select: (t) => t,

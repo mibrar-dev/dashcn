@@ -20,7 +20,7 @@ class Sidebar03Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +64,7 @@ class _Sidebar03Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final int columns = constraints.maxWidth >= 640 ? 4 : 2;
@@ -118,7 +118,7 @@ class Sidebar03ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -157,7 +157,7 @@ class _Sidebar03Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Ada pushed 3 commits to Atlas', '3m ago'),
       ('Bjarne commented on Beacon specs', '26m ago'),

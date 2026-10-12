@@ -43,7 +43,7 @@ class _MultipleChoicePreviewState extends State<MultipleChoicePreview> {
               ],
             ),
           ),
-          SizedBox(height: ShadcnTheme.of(context).spacing.lg),
+          SizedBox(height: Theme.of(context).spacing.lg),
           const Text('MultipleAnswer').small.muted,
           MultipleAnswer<String>(
             value: _many,
@@ -71,7 +71,7 @@ class _PreviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool selected =
         Choice.getValue<String>(context)?.contains(value) ?? false;
     return Clickable(

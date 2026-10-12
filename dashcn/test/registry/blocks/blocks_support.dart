@@ -28,7 +28,7 @@ const List<Brightness> blockBrightnesses = <Brightness>[
 ];
 
 /// Theme view of [preset] at [brightness].
-ShadcnThemeDataView blockTheme(String preset, Brightness brightness) =>
+ThemeDataView blockTheme(String preset, Brightness brightness) =>
     loadGeneratedTheme('lib/src/themes/$preset.json').view(brightness);
 
 /// Pumps [child] inside a bounded `width` × [blockStageHeight] stage under
@@ -40,12 +40,12 @@ ShadcnThemeDataView blockTheme(String preset, Brightness brightness) =>
 Future<void> pumpBlock(
   WidgetTester tester,
   Widget child,
-  ShadcnThemeDataView theme,
+  ThemeDataView theme,
   double width,
 ) async {
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(
+    Theme(
+      data: ThemeData(
         colors: theme.colors,
         tokens: theme.tokens,
         fonts: theme.fonts,

@@ -10,15 +10,15 @@
 import 'package:docs/generated/docs_data.dart';
 import 'package:docs/generated/docs_example_sources.dart';
 import 'package:docs/generated/docs_previews.dart';
-import 'package:docs/ui/shadcn/components/accordion/accordion.dart';
-import 'package:docs/ui/shadcn/components/alert/alert.dart';
-import 'package:docs/ui/shadcn/components/badge/badge.dart';
-import 'package:docs/ui/shadcn/components/button/button.dart';
-import 'package:docs/ui/shadcn/components/calendar/calendar.dart';
-import 'package:docs/ui/shadcn/components/card/card.dart';
-import 'package:docs/ui/shadcn/components/input/input.dart';
-import 'package:docs/ui/shadcn/components/table/table.dart';
-import 'package:docs/ui/shadcn/components/tabs/tabs.dart';
+import 'package:docs/ui/dashcn/components/accordion/accordion.dart';
+import 'package:docs/ui/dashcn/components/alert/alert.dart';
+import 'package:docs/ui/dashcn/components/badge/badge.dart';
+import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/ui/dashcn/components/calendar/calendar.dart';
+import 'package:docs/ui/dashcn/components/card/card.dart';
+import 'package:docs/ui/dashcn/components/input/input.dart';
+import 'package:docs/ui/dashcn/components/table/table.dart';
+import 'package:docs/ui/dashcn/components/tabs/tabs.dart';
 import 'package:docs/widgets/component_preview_card.dart';
 import 'package:docs/widgets/example_preview_card.dart';
 import 'package:docs/widgets/preview_stage.dart';
@@ -149,7 +149,7 @@ void main() {
       'button': Button,
       'badge': Badge,
       'input': Input,
-      'table': ShadcnTable,
+      'table': TableView,
       'tabs': Tabs,
       'calendar': Calendar,
       'card': Card,

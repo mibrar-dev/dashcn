@@ -94,7 +94,7 @@ class NavigationMenuState extends State<NavigationMenu> {
   }
 
   void _show(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationMenuTheme style = _resolve(context);
     final double scale = ambient.scaling;
     if (_popovers.hasOpenPopover) {
@@ -150,7 +150,7 @@ class _MenuPopover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double opacity =
         menu.widget.surfaceOpacity ??
         style.surfaceOpacity ??
@@ -359,7 +359,7 @@ class NavigationMenuContentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double scale = ambient.scaling;
     final double gap = spacing ?? ambient.density.baseGap * scale;
     final double rowGap = runSpacing ?? 12 * scale;

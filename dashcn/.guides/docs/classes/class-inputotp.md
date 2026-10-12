@@ -1,72 +1,53 @@
 ---
-title: "Class: InputOTP"
-description: "A specialized input widget for One-Time Password (OTP) and verification code entry."
+title: "Class: InputOtp"
+description: "A one-time-password / verification-code input."
 ---
 
 ```dart
-/// A specialized input widget for One-Time Password (OTP) and verification code entry.
-///
-/// [InputOTP] provides a user-friendly interface for entering OTP codes, verification
-/// numbers, and similar sequential input scenarios. The widget displays a series of
-/// individual input fields that automatically advance focus as the user types,
-/// creating an intuitive experience for multi-digit input.
-///
-/// Key features:
-/// - Sequential character input with automatic focus advancement
-/// - Customizable field layout with separators and spacing
-/// - Support for various character types (digits, letters, symbols)
-/// - Keyboard navigation and clipboard paste support
-/// - Form integration with validation support
-/// - Accessibility features for screen readers
-/// - Theming and visual customization
-///
-/// The widget uses a flexible child system that allows mixing input fields
-/// with separators, spaces, and custom widgets:
-/// - Character input fields for actual OTP digits/letters
-/// - Separators for visual grouping (e.g., dashes, dots)
-/// - Spacing elements for layout control
-/// - Custom widgets for specialized display needs
-///
-/// Common use cases:
-/// - SMS verification codes (e.g., 6-digit codes)
-/// - Two-factor authentication tokens
-/// - Credit card security codes
-/// - License key input
-/// - PIN code entry
-///
-/// Example:
-/// ```dart
-/// InputOTP(
-///   children: [
-///     CharacterInputOTPChild(),
-///     CharacterInputOTPChild(),
-///     CharacterInputOTPChild(),
-///     InputOTPChild.separator,
-///     CharacterInputOTPChild(),
-///     CharacterInputOTPChild(),
-///     CharacterInputOTPChild(),
-///   ],
-///   onChanged: (code) => _handleOTPChange(code),
-///   onSubmitted: (code) => _verifyOTP(code),
-/// );
-/// ```
-class InputOTP extends StatefulWidget {
-  /// The list of children defining input fields, separators, and spaces.
-  final List<InputOTPChild> children;
-  /// Initial OTP codepoint values.
-  final OTPCodepointList? initialValue;
-  /// Called when the OTP value changes.
-  final ValueChanged<OTPCodepointList>? onChanged;
-  /// Called when the user submits the OTP (e.g., presses Enter on last field).
-  final ValueChanged<OTPCodepointList>? onSubmitted;
-  /// Creates an [InputOTP] widget.
-  ///
-  /// Parameters:
-  /// - [children] (`List<InputOTPChild>`, required): The OTP input fields and decorations.
-  /// - [initialValue] (`OTPCodepointList?`, optional): Initial codepoints.
-  /// - [onChanged] (`ValueChanged<OTPCodepointList>?`, optional): Value change callback.
-  /// - [onSubmitted] (`ValueChanged<OTPCodepointList>?`, optional): Submit callback.
-  const InputOTP({super.key, required this.children, this.initialValue, this.onChanged, this.onSubmitted});
-  State<InputOTP> createState();
+/// A one-time-password / verification-code input. The code lives in one hidden
+/// field; the slots are painted from the string (see README.md).
+class InputOtp extends StatefulWidget {
+  /// Creates an OTP input.
+  const InputOtp({super.key, required this.length, this.controller, this.initialValue, this.onChanged, this.onCompleted, this.onSubmitted, this.keyboardType = TextInputType.number, this.obscureText = false, this.readOnly = false, this.enabled = true, this.autofocus = false, this.textCapitalization = TextCapitalization.none, this.autofillHints = const <String>[AutofillHints.oneTimeCode], this.inputFormatters, this.filter, this.separator, this.separatorEvery, this.validator, this.autovalidateMode = FormValidationMode.changed, this.theme});
+  /// Number of slots.
+  final int length;
+  /// Controller for the whole code; created internally when null.
+  final TextEditingController? controller;
+  /// Initial code; ignored when [controller] is given.
+  final String? initialValue;
+  /// Called with the whole code whenever it changes.
+  final ValueChanged<String>? onChanged;
+  /// Called once, the first time every slot is filled.
+  final ValueChanged<String>? onCompleted;
+  /// Called when the field is submitted (Enter / the platform action).
+  final ValueChanged<String>? onSubmitted;
+  /// Keyboard type; digits by default.
+  final TextInputType keyboardType;
+  /// Whether each character is replaced by a dot.
+  final bool obscureText;
+  /// Whether the code can be edited.
+  final bool readOnly;
+  /// Whether the field accepts input; a disabled field is dimmed to 50%.
+  final bool enabled;
+  final bool autofocus;
+  final TextCapitalization textCapitalization;
+  final Iterable<String>? autofillHints;
+  final List<TextInputFormatter>? inputFormatters;
+  /// Rejects a character when it returns false. Null accepts everything.
+  final bool Function(String character)? filter;
+  /// Widget drawn after every [separatorEvery] slots; needs [separatorEvery].
+  final Widget? separator;
+  /// Slots between two separators.
+  final int? separatorEvery;
+  /// Validation of the whole code; the message renders below the row, but only
+  /// once every slot is filled. The validator itself runs on every change
+  /// (per [autovalidateMode]) and sees partial codes along the way.
+  final String? Function(String? code)? validator;
+  /// When [validator] runs: `initial` on mount, `changed` on every change,
+  /// `submitted` on submit; all three also when [validator] itself changes.
+  final FormValidationMode autovalidateMode;
+  /// Widget-leg theme override, merged on top of the other legs.
+  final InputOtpTheme? theme;
+  State<InputOtp> createState();
 }
 ```

@@ -1,32 +1,31 @@
 ---
 title: "Class: TimePickerTheme"
-description: "Theme configuration for [TimePicker] widget appearance and behavior."
+description: "Behaviour contract of the time picker trigger."
 ---
 
 ```dart
-/// Theme configuration for [TimePicker] widget appearance and behavior.
-///
-/// Defines default settings for time picker components including display
-/// format, popover positioning, and dialog customization.
-class TimePickerTheme extends ComponentThemeData {
-  /// Mode for displaying the time picker (popover or dialog).
+/// Behaviour contract of the time picker trigger.
+class TimePickerTheme extends ComponentThemeData implements Mergeable<TimePickerTheme> {
+  /// Creates a time picker theme.
+  const TimePickerTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.mode, this.use24HourFormat, this.showSeconds, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.dialogTitle});
+  /// Dialog or popover presentation; null resolves dialog.
   final PromptMode? mode;
-  /// Alignment of the popover relative to its anchor.
-  final AlignmentGeometry? popoverAlignment;
-  /// Alignment point on the anchor widget for popover positioning.
-  final AlignmentGeometry? popoverAnchorAlignment;
-  /// Padding inside the popover.
-  final EdgeInsetsGeometry? popoverPadding;
-  /// Whether to use 24-hour time format.
+  /// 12/24-hour clock; null resolves the ambient convention.
   final bool? use24HourFormat;
-  /// Whether to show seconds picker.
+  /// Whether the seconds field shows; null resolves false.
   final bool? showSeconds;
-  /// Custom title widget for the time picker dialog.
+  /// Card placement in popover mode; null resolves top-left.
+  final AlignmentGeometry? popoverAlignment;
+  /// Anchor edge in popover mode; null resolves bottom-left.
+  final AlignmentGeometry? popoverAnchorAlignment;
+  /// Padding inside the popover surface; null resolves the primitive default.
+  final EdgeInsetsGeometry? popoverPadding;
+  /// Title of the dialog prompt; null shows no title.
   final Widget? dialogTitle;
-  /// Creates a [TimePickerTheme].
-  const TimePickerTheme({this.mode, this.popoverAlignment, this.popoverAnchorAlignment, this.popoverPadding, this.use24HourFormat, this.showSeconds, this.dialogTitle});
-  /// Creates a copy of this theme with the given fields replaced.
-  TimePickerTheme copyWith({ValueGetter<PromptMode?>? mode, ValueGetter<AlignmentGeometry?>? popoverAlignment, ValueGetter<AlignmentGeometry?>? popoverAnchorAlignment, ValueGetter<EdgeInsetsGeometry?>? popoverPadding, ValueGetter<bool?>? use24HourFormat, ValueGetter<bool?>? showSeconds, ValueGetter<Widget?>? dialogTitle});
+  /// Returns a copy with the given fields replaced.
+  TimePickerTheme copyWith({ValueGetter<PromptMode?>? mode, ValueGetter<bool?>? use24HourFormat, ValueGetter<bool?>? showSeconds, ValueGetter<AlignmentGeometry?>? popoverAlignment, ValueGetter<AlignmentGeometry?>? popoverAnchorAlignment, ValueGetter<EdgeInsetsGeometry?>? popoverPadding, ValueGetter<Widget?>? dialogTitle});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  TimePickerTheme merge(TimePickerTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

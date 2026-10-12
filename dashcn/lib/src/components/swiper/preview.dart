@@ -50,7 +50,7 @@ class _SwipeSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -83,7 +83,7 @@ class _Panel extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          Gap(ShadcnTheme.of(context).spacing.sm),
+          Gap(Theme.of(context).spacing.sm),
           Text(hint, style: TextStyle(color: colors.mutedForeground)),
         ],
       ),

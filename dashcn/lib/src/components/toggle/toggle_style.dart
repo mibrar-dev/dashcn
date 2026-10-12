@@ -46,7 +46,7 @@ class ToggleStyle implements Mergeable<ToggleStyle> {
   final StateValue<TextDecoration>? decoration;
 
   /// Padding override; null falls back to the toggle default padding
-  /// (shadcn `px-2`, density-scaled).
+  /// (upstream `px-2`, density-scaled).
   final EdgeInsetsGeometry? padding;
 
   /// Text style override; its color is ignored (taken from [foreground]).
@@ -202,13 +202,13 @@ class ToggleTheme extends ComponentThemeData implements Mergeable<ToggleTheme> {
       Object.hash(themeDensity, themeSpacing, themeShadows, on, off);
 }
 
-/// Fixed toggle sizes (shadcn `toggleVariants` sizes, new-york default
+/// Fixed toggle sizes (upstream `toggleVariants` sizes, new-york default
 /// density): h-8/h-9/h-10 = 32/36/40. Horizontal padding is px-2 (8);
 /// vertical padding is zero so height comes from `minHeight` + centering
 /// (vertical padding would stack on top of it, as with `Button`).
 enum ToggleSize { sm, md, lg }
 
-/// Default toggle padding before any override (shadcn px-2, border-box),
+/// Default toggle padding before any override (upstream px-2, border-box),
 /// density-scaled.
 const EdgeInsetsGeometry toggleDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,

@@ -38,8 +38,8 @@ Future<void> pumpUnderPreset(
   final theme = loadPreset(presetId);
   final view = theme.view(brightness);
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(
+    Theme(
+      data: ThemeData(
         colors: view.colors,
         tokens: view.tokens,
         fonts: view.fonts,
@@ -53,9 +53,9 @@ Future<void> pumpUnderPreset(
   await tester.pump(kSettleDuration);
 }
 
-/// Reads the resolved [ShadcnThemeData] from the widget tree.
-ShadcnThemeData resolvedTheme(WidgetTester tester) {
-  return ShadcnTheme.of(tester.element(find.byType(Directionality).first));
+/// Reads the resolved [ThemeData] from the widget tree.
+ThemeData resolvedTheme(WidgetTester tester) {
+  return Theme.of(tester.element(find.byType(Directionality).first));
 }
 
 /// Asserts that a [Color] matches the expected token from the theme.
@@ -166,8 +166,8 @@ Future<void> pumpWithOverlay(
 }) async {
   final view = loadPreset(presetId).view(brightness);
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(
+    Theme(
+      data: ThemeData(
         colors: view.colors,
         tokens: view.tokens,
         fonts: view.fonts,

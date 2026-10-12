@@ -73,7 +73,7 @@ class Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcn = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final TimelineSurface surface = resolveTimelineSurface(
       context,
       widgetTheme: theme,
@@ -89,7 +89,7 @@ class Timeline extends StatelessWidget {
           entry: data[i],
           last: i == data.length - 1,
           surface: surface,
-          shadcn: shadcn,
+          themeData: themeData,
         ),
       );
     }
@@ -107,7 +107,7 @@ class _TimelineRow extends StatelessWidget {
     required this.entry,
     required this.last,
     required this.surface,
-    required this.shadcn,
+    required this.themeData,
   });
 
   /// The entry rendered.
@@ -120,7 +120,7 @@ class _TimelineRow extends StatelessWidget {
   final TimelineSurface surface;
 
   /// Ambient theme (dot offset + scaling).
-  final ShadcnThemeData shadcn;
+  final ThemeData themeData;
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +144,8 @@ class _TimelineRow extends StatelessWidget {
               _TimelineDot(
                 color: color,
                 size: surface.dotSize,
-                rounded: shadcn.radius != 0,
-                topMargin: shadcn.density.baseGap * shadcn.scaling * 0.5,
+                rounded: themeData.radius != 0,
+                topMargin: themeData.density.baseGap * themeData.scaling * 0.5,
               ),
               if (!last)
                 Expanded(

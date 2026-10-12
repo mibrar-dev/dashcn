@@ -16,7 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 String _clipboard = '';
 
-Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
+Widget _frame(Widget child, {ThemeData data = const ThemeData()}) {
   // EditableText needs an Overlay ancestor once it takes focus; the Overlay
   // itself needs Directionality above it.
   final Widget entry = Center(
@@ -25,7 +25,7 @@ Widget _frame(Widget child, {ShadcnThemeData data = const ShadcnThemeData()}) {
       child: DefaultTextEditingShortcuts(child: child),
     ),
   );
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -73,14 +73,14 @@ void main() {
     tester,
   ) async {
     for (final preview in chipInputPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pumpAndSettle();
@@ -118,7 +118,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         ChipInput<String>(
-          initialChips: const <String>['flutter', 'shadcn'],
+          initialChips: const <String>['flutter', 'dashcn'],
           onChipSubmit: (String t) => t,
         ),
       ),
@@ -132,6 +132,6 @@ void main() {
     await tester.pump();
     await _modifiedKey(tester, LogicalKeyboardKey.keyX);
     expect(controller.tokens, isEmpty);
-    expect(_clipboard, 'flutter, shadcn');
+    expect(_clipboard, 'flutter, dashcn');
   });
 }

@@ -4,8 +4,8 @@
   "category": "Overlays",
   "description": "Delayed hover label presented through the popover machinery, plus the themed TooltipContainer surface and the tooltip overlay handler.",
   "tier": "component",
-  "install": "flutter_shadcn add tooltip",
-  "import": "import 'package:<your_app>/ui/shadcn/components/tooltip/tooltip.dart';",
+  "install": "dashcn add tooltip",
+  "import": "import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';",
   "tags": ["overlay", "tooltip", "hover", "label"],
   "deps": {
     "foundation": [],
@@ -56,7 +56,7 @@
   "notes": [
     "`InstantTooltip` is deleted: it was a second copy of `Tooltip` with a zero wait duration. Use `Tooltip(waitDuration: Duration.zero)`.",
     "`FixedTooltipOverlayHandler` is deleted: 142 lines re-implementing `PopoverOverlayHandler.show` with zero readers.",
-    "`adaptiveOverlay` is dropped: it reached into the `overlay_configuration` component. An app installs a distinct tooltip handler through `ShadcnLayer(tooltipHandler: ...)` instead, which `TooltipOverlayHandler` routes to.",
+    "`adaptiveOverlay` is dropped: it reached into the `overlay_configuration` component. An app installs a distinct tooltip handler through `AppLayer(tooltipHandler: ...)` instead, which `TooltipOverlayHandler` routes to.",
     "Overlays capture `InheritedTheme` and `Data` through the popover primitive, so a light -> dark switch while a tooltip is open repaints it."
   ]
 }

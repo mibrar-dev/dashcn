@@ -9,8 +9,8 @@ import 'package:dashcn/src/components/slider/slider.dart';
 import 'package:dashcn/src/theme/theme.dart';
 
 Widget _frame(Widget child) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: TapRegionSurface(

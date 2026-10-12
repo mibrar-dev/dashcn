@@ -53,7 +53,7 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   PhoneInputTheme? scoped,
 }) {
@@ -61,7 +61,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<PhoneInputTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -85,7 +85,7 @@ Future<void> _pump(
   PhoneInputTheme? widgetTheme,
   PhoneInputTheme? scoped,
   List<ComponentThemeData> app = const <ComponentThemeData>[],
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
 }) async {
   await tester.pumpWidget(
     _frame(
@@ -121,9 +121,9 @@ Finder _numberField() => find.descendant(
 void main() {
   group('rendering', () {
     testWidgets('renders in light and dark with real sizes', (tester) async {
-      for (final ShadcnThemeData data in <ShadcnThemeData>[
-        const ShadcnThemeData(),
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      for (final ThemeData data in <ThemeData>[
+        const ThemeData(),
+        const ThemeData(colors: ThemeColors.darkFallback),
       ]) {
         await _pump(
           tester,
@@ -435,8 +435,8 @@ void main() {
       PhoneNumber? stored;
       await tester.pumpWidget(
         _frame(
-          ShadcnForm(
-            child: ShadcnFormField<PhoneNumber>(
+          FormScope(
+            child: FormItem<PhoneNumber>(
               key: const FormKey<PhoneNumber>('phone'),
               label: const Text('Phone'),
               validator: const PhoneNumberValidator(),
@@ -461,8 +461,8 @@ void main() {
     testWidgets('validator messages and success paths', (tester) async {
       late BuildContext context;
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Builder(
             builder: (BuildContext ctx) {
               context = ctx;

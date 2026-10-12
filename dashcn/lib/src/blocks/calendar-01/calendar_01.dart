@@ -51,7 +51,7 @@ class _Calendar01State extends State<Calendar01> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Widget body = Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 720),
@@ -150,7 +150,7 @@ class _Calendar01Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String months = twoMonths
         ? '${_monthName(view.month)} - ${_monthName(view.next.month)} '
               '${view.next.year}'
@@ -226,7 +226,7 @@ class _Calendar01Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Expanded(

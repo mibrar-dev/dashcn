@@ -40,7 +40,7 @@ typedef NavigationChildData = ({int? index, int actualIndex});
 
 /// Lookup key of a collapsible's children wrapper (tests, scroll-to).
 const ValueKey<String> navigationCollapsibleChildrenKey = ValueKey<String>(
-  'shadcn.navigationBar.collapsibleChildren',
+  'dashcn.navigationBar.collapsibleChildren',
 );
 
 /// A widget that can live in a `NavigationBar`.
@@ -177,7 +177,7 @@ class _NavigationCollapsibleState extends State<NavigationCollapsible> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
       context,
     );
@@ -282,7 +282,7 @@ class NavigationSlot extends StatelessWidget implements NavigationBarItem {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
       context,
     );
@@ -327,7 +327,7 @@ Widget _navigationRow(
   int? registryValue,
   NavigationOverflow overflow = NavigationOverflow.clip,
 }) {
-  final ShadcnThemeData ambient = ShadcnTheme.of(context);
+  final ThemeData ambient = Theme.of(context);
   final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
     context,
   );

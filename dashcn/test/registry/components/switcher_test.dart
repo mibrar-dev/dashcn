@@ -15,7 +15,7 @@ const List<String> _labels = <String>['one', 'two', 'three'];
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   SwitcherTheme? scoped,
 }) {
@@ -23,7 +23,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<SwitcherTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -181,8 +181,8 @@ void main() {
       // The old widget read `context.size!`; an unbounded parent left the size
       // null and a pan threw.
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: SingleChildScrollView(
@@ -305,13 +305,13 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('builds under $name tokens', (tester) async {
         await tester.pumpWidget(
-          _frame(_switcher(index: 1), data: ShadcnThemeData(colors: colors)),
+          _frame(_switcher(index: 1), data: ThemeData(colors: colors)),
         );
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);

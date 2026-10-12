@@ -1,16 +1,16 @@
 ---
 title: "Enum: CarouselAlignment"
-description: "CarouselAlignment is used to align the carousel items."
+description: "Where the current page sits inside the viewport."
 ---
 
 ```dart
-/// CarouselAlignment is used to align the carousel items.
+/// Where the current page sits inside the viewport.
 enum CarouselAlignment {
-  /// Aligns the carousel items to the start.
+  /// The page is pinned to the leading edge.
   start,
-  /// Aligns the carousel items to the center.
+  /// The page is centred.
   center,
-  /// Aligns the carousel items to the end.
+  /// The page is pinned to the trailing edge.
   end,
 }
 ```

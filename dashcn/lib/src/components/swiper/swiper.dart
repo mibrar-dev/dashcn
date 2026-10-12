@@ -335,7 +335,7 @@ class _SwiperState extends State<Swiper> with SingleTickerProviderStateMixin {
     double routeExtent,
     double t,
   ) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final double extent = _panelExtent(style, routeExtent);
     final bool expands = style.expands ?? false;
     final Offset slide = vertical

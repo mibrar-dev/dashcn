@@ -70,11 +70,11 @@ box look like"; the `StateValue`s inside them answer "how does it react".
 | `checked` | `primary` fill / border, `primaryForeground` indicator, hover+press `@0.9` |
 | `unchecked` | `input@0` fill, `input` border, no indicator |
 | `indeterminate` | `primary` fill / border, dash indicator |
-| `size` | 16 (shadcn `size-4`) |
+| `size` | 16 (dashcn `size-4`) |
 | `borderRadius` | ambient `radiusSm` |
 | `borderWidth` | 1 |
 | `indicatorSize` | `size * 0.75` |
-| `gap` | 8 (shadcn `gap-2`) |
+| `gap` | 8 (dashcn `gap-2`) |
 | `padding` | 2, so the focus ring is never clipped |
 | `labelStyle` | 14px; colour falls back to `foreground` |
 
@@ -95,8 +95,8 @@ The checkbox reports `checked` / `mixed` / `enabled` and, when [label] is a
   `toggleTristate()` (-> `cycle()`).
 - The value enum is `CheckboxValue`, not `CheckboxState`: the old name
   collided with `State<Checkbox>` and made `_CheckboxState` ambiguous.
-- `leading` / `trailing` are replaced by shadcn's single `label`.
-- `AnimatedCheckPainter` is deleted; the indicator is the shadcn `check` /
+- `leading` / `trailing` are replaced by dashcn's single `label`.
+- `AnimatedCheckPainter` is deleted; the indicator is the dashcn `check` /
   `minus` glyph with a 100ms fade.
 
 Fixed (not ported):

@@ -1,9 +1,9 @@
 ---
 title: "Function: closeSheet"
-description: "Top-level function closeSheet"
+description: "Closes the sheet that [context] is inside, with an optional result."
 ---
 
 Signature
 ```dart
-Future<void> closeSheet(BuildContext context);
+Future<void> closeSheet<T>(BuildContext context, [T? result]);
 ```

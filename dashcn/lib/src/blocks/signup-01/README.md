@@ -14,11 +14,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add signup-01
+dashcn add signup-01
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/signup-01/signup_01.dart';
+import 'package:<your_app>/ui/dashcn/blocks/signup-01/signup_01.dart';
 
 void main() => runApp(const Signup01());
 ```

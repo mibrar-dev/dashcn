@@ -20,7 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TimePickerTheme? scoped,
 }) {
@@ -32,7 +32,7 @@ Widget _frame(
     popoverHandler: OverlayHandler.popover,
     tooltipHandler: OverlayHandler.popover,
     menuHandler: OverlayHandler.popover,
-    child: ShadcnTheme(
+    child: Theme(
       data: data,
       child: ComponentThemes(
         themes: app,
@@ -119,7 +119,7 @@ void main() {
       expect(opacity.opacity, 0.5);
     });
 
-    testWidgets('trigger is at least 36 high (shadcn h-9)', (tester) async {
+    testWidgets('trigger is at least 36 high (dashcn h-9)', (tester) async {
       await tester.pumpWidget(
         _frame(TimePicker(value: null, onChanged: (_) {})),
       );
@@ -401,7 +401,7 @@ void main() {
       // The clock sheet holds TimeFormatter digit fields. Tapping one used
       // to kill the overlay: every popover rebuild re-invokes the builder
       // (fresh widgets, by Flutter convention), and a fresh
-      // ShadcnSelectionControls per Input build made EditableText dispose
+      // SelectionControls per Input build made EditableText dispose
       // and recreate its selection overlay mid-build (zombie OverlayEntry,
       // _TypeError in _OverlayEntryWidgetState.initState).
       await tester.pumpWidget(
@@ -428,7 +428,7 @@ void main() {
       // Minimal shape of the original report: a popover builder creating
       // fresh Input instances per build (the standard pattern) plus a field
       // tap. Single/plain variants crash identically without the
-      // ShadcnSelectionControls value-equality fix.
+      // SelectionControls value-equality fix.
       final controller = PopoverController();
       addTearDown(controller.dispose);
       await tester.pumpWidget(

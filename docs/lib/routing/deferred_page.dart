@@ -9,7 +9,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 
 /// Builds [builder] after [load] (a deferred `loadLibrary`) completes.
 class DeferredPage extends StatefulWidget {
@@ -47,7 +47,7 @@ class _DeferredPageState extends State<DeferredPage> {
         // One-frame placeholder while the chunk downloads; painted with the
         // active preset background so there is no flash.
         return ColoredBox(
-          color: ShadcnTheme.of(context).colors.background,
+          color: Theme.of(context).colors.background,
           child: const SizedBox.expand(),
         );
       },
@@ -61,7 +61,7 @@ class _DeferredPageError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(color: theme.colors.background),
       child: Center(

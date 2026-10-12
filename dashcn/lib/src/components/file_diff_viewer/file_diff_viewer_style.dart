@@ -349,8 +349,8 @@ FileDiffSurface resolveFileDiffSurface(
   BorderRadiusGeometry? borderRadius,
   EdgeInsetsGeometry? linePadding,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
-  final ShadcnColors colors = theme.colors;
+  final ThemeData theme = Theme.of(context);
+  final ThemeColors colors = theme.colors;
   final FileDiffViewerTheme resolved =
       resolveComponentStyle<FileDiffViewerTheme, FileDiffViewerTheme>(
         context,

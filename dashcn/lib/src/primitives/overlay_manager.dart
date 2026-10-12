@@ -3,7 +3,7 @@
 // not install one.
 //
 // Ported from `shared/primitives/overlay.dart` + `_impl/core/overlay_manager.dart`,
-// `_impl/core/__fallback_overlay_manager.dart` and `_impl/core/shadcn_layer.dart`.
+// `_impl/core/__fallback_overlay_manager.dart` and `_impl/core/upstream_layer.dart`.
 
 import 'package:flutter/widgets.dart';
 
@@ -17,7 +17,7 @@ import 'popover_overlay_state.dart';
 ///
 /// `OverlayManager.of(context)` finds the nearest manager installed in the
 /// widget tree and returns a per-widget fallback when the app did not install
-/// one (see [ShadcnLayer]). There is deliberately no global registry: a layer
+/// one (see [AppLayer]). There is deliberately no global registry: a layer
 /// is only visible to the subtree it wraps.
 abstract class OverlayManager implements OverlayHandler {
   static bool _didWarnFallback = false;
@@ -33,9 +33,9 @@ abstract class OverlayManager implements OverlayHandler {
         if (!_didWarnFallback) {
           _didWarnFallback = true;
           debugPrint(
-            'shadcn_flutter: No OverlayManagerLayer found. '
+            'dashcn: No OverlayManagerLayer found. '
             'Falling back to per-widget overlay handling. '
-            'Wrap your app with OverlayManagerLayer or ShadcnLayer to avoid '
+            'Wrap your app with OverlayManagerLayer or AppLayer to avoid '
             'multiple overlay stacks and improve performance.',
           );
         }
@@ -324,12 +324,12 @@ class _FallbackOverlayManager implements OverlayManager {
 ///
 /// Install this (or [OverlayManagerLayer]) once at the app root so every
 /// overlay shares a single stack.
-class ShadcnLayer extends StatelessWidget {
+class AppLayer extends StatelessWidget {
   /// The app subtree.
   final Widget child;
 
-  /// Optional shadcn theme data installed above [child].
-  final ShadcnThemeData? theme;
+  /// Optional upstream theme data installed above [child].
+  final ThemeData? theme;
 
   /// Handler for popover overlays.
   final OverlayHandler popoverHandler;
@@ -341,7 +341,7 @@ class ShadcnLayer extends StatelessWidget {
   final OverlayHandler menuHandler;
 
   /// Creates a layer.
-  const ShadcnLayer({
+  const AppLayer({
     super.key,
     required this.child,
     this.theme,
@@ -354,7 +354,7 @@ class ShadcnLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget wrapped = child;
     if (theme != null) {
-      wrapped = ShadcnTheme(data: theme!, child: wrapped);
+      wrapped = Theme(data: theme!, child: wrapped);
     }
     final hasManager = Data.maybeOf<OverlayManager>(context);
     if (hasManager != null) {

@@ -131,7 +131,7 @@ class _VariantsDemoState extends State<_VariantsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -315,7 +315,7 @@ class _PositionsDemoState extends State<_PositionsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -373,7 +373,7 @@ class _AnimationPresetsDemoState extends State<_AnimationPresetsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -416,7 +416,7 @@ class _BodyAnimationDemoState extends State<_BodyAnimationDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -467,7 +467,7 @@ class _ShapesDemoState extends State<_ShapesDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final double gap = Theme.of(context).density.baseGap;
     return GooeyToastLayer(
       controller: _controller,
       child: Wrap(
@@ -583,8 +583,8 @@ class _ReplyFormState extends State<_ReplyForm> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final colors = Theme.of(context).colors;
+    final double gap = Theme.of(context).density.baseGap;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -766,8 +766,8 @@ class _WorkspaceState extends State<_Workspace> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    final double gap = ShadcnTheme.of(context).density.baseGap;
+    final colors = Theme.of(context).colors;
+    final double gap = Theme.of(context).density.baseGap;
     return SizedBox(
       height: 248,
       child: Column(

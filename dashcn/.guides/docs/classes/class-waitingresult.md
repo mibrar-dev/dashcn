@@ -1,16 +1,13 @@
 ---
 title: "Class: WaitingResult"
-description: "Validation result indicating a validation is in progress."
+description: "A validation result indicating the check is still running."
 ---
 
 ```dart
-/// Validation result indicating a validation is in progress.
-///
-/// Used when asynchronous validation is being performed and the result
-/// is not yet available.
+/// A validation result indicating the check is still running.
 class WaitingResult extends ValidationResult {
-  /// Creates a waiting result attached to a form key.
-  const WaitingResult.attached({required FormKey key, required super.state});
+  /// Creates a waiting result bound to [_key].
+  const WaitingResult.attached({required this._key, required super.state});
   FormKey get key;
   WaitingResult attach(FormKey key);
 }

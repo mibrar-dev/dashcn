@@ -105,17 +105,17 @@ Future<void> _loadFonts() async {
   await load('LucideIcons', const <String>['assets/fonts/lucide.ttf']);
 }
 
-/// Shadcn default fallback colours with default tokens.
-ShadcnThemeData _theme(Brightness brightness) => ShadcnThemeData(
+/// Upstream default fallback colours with default tokens.
+ThemeData _theme(Brightness brightness) => ThemeData(
   colors: brightness == Brightness.dark
-      ? ShadcnColors.darkFallback
-      : ShadcnColors.lightFallback,
+      ? ThemeColors.darkFallback
+      : ThemeColors.lightFallback,
 );
 
 /// Wraps [child] in the theme legs, directionality, text style and an
 /// [Overlay], so a prompt has somewhere to push its route.
-Widget _frame(ShadcnThemeData data, Size size, Widget child) {
-  return ShadcnTheme(
+Widget _frame(ThemeData data, Size size, Widget child) {
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: const <ComponentThemeData>[],
@@ -125,7 +125,7 @@ Widget _frame(ShadcnThemeData data, Size size, Widget child) {
           data: const MediaQueryData(devicePixelRatio: _dpr),
           child: Builder(
             builder: (BuildContext context) {
-              final theme = ShadcnTheme.of(context);
+              final theme = Theme.of(context);
               return DefaultTextStyle(
                 style: theme.typography.sans.copyWith(
                   color: theme.colors.foreground,
@@ -250,13 +250,13 @@ Widget _heading(String label) => Padding(
 );
 
 /// Scene: the radio rows and the card items of one group, with the 12px item
-/// gap (shadcn `grid gap-3`) the user reported missing.
+/// gap (upstream `grid gap-3`) the user reported missing.
 class _RadioGroupScene extends StatelessWidget {
   const _RadioGroupScene();
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -285,7 +285,7 @@ class _RadioRowsState extends State<_RadioRows> {
   String _plan = 'pro';
 
   @override
-  Widget build(BuildContext context) => ShadcnRadioGroup<String>(
+  Widget build(BuildContext context) => RadioSet<String>(
     value: _plan,
     onChanged: (String value) => setState(() => _plan = value),
     items: const <Widget>[
@@ -307,7 +307,7 @@ class _RadioCardsState extends State<_RadioCards> {
   String _plan = 'pro';
 
   @override
-  Widget build(BuildContext context) => ShadcnRadioGroup<String>(
+  Widget build(BuildContext context) => RadioSet<String>(
     value: _plan,
     onChanged: (String value) => setState(() => _plan = value),
     items: <Widget>[
@@ -349,28 +349,28 @@ class _FormScene extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
-      child: ShadcnForm(
+      child: FormScope(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: const FormKey<String>('name'),
               label: const Text('Name'),
               hint: const Text('As it appears on the card'),
               child: const Input(placeholder: Text('Ada Lovelace')),
             ),
             SizedBox(height: theme.spacing.md),
-            ShadcnFormField<String>(
+            FormItem<String>(
               key: const FormKey<String>('plan'),
               label: const Text('Plan'),
               child: const _FormRadioGroup(),
             ),
             SizedBox(height: theme.spacing.md),
-            ShadcnFormField<CheckboxValue>(
+            FormItem<CheckboxValue>(
               key: const FormKey<CheckboxValue>('terms'),
               label: const SizedBox.shrink(),
               child: const Checkbox(
@@ -396,7 +396,7 @@ class _FormRadioGroupState extends State<_FormRadioGroup> {
   String _plan = 'pro';
 
   @override
-  Widget build(BuildContext context) => ShadcnRadioGroup<String>(
+  Widget build(BuildContext context) => RadioSet<String>(
     value: _plan,
     onChanged: (String value) => setState(() => _plan = value),
     items: const <Widget>[

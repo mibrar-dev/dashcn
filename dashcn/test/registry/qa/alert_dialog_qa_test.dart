@@ -12,10 +12,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: TextDirection.ltr,
@@ -40,14 +40,14 @@ void main() {
     tester,
   ) async {
     for (final preview in alertDialogPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pumpAndSettle();
@@ -112,8 +112,8 @@ void main() {
   testWidgets('live push opens, returns a result and pops', (tester) async {
     final Widget preview = Builder(builder: alertDialogPreviews[2].builder);
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Navigator(

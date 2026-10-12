@@ -20,7 +20,7 @@ class Dashboard02 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -83,7 +83,7 @@ class _Dashboard02Filters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -135,7 +135,7 @@ class _Dashboard02Tiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
+    final spacing = Theme.of(context).spacing;
     const List<_Dashboard02Tile> tiles = <_Dashboard02Tile>[
       _Dashboard02Tile('Sessions', '12,480', 0.42),
       _Dashboard02Tile('Users', '8,910', 0.63),
@@ -174,7 +174,7 @@ class _Dashboard02TileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final spacing = theme.spacing;
     return Card(
       child: Column(

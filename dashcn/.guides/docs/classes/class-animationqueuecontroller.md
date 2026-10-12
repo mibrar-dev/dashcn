@@ -1,22 +1,26 @@
 ---
 title: "Class: AnimationQueueController"
-description: "Queue-based animation controller used by carousel transitions."
+description: "Plays [AnimationRequest]s in order and exposes the current value."
 ---
 
 ```dart
-/// Queue-based animation controller used by carousel transitions.
+/// Plays [AnimationRequest]s in order and exposes the current value.
+///
+/// `push(request)` queues (or replaces, when `queue` is false) a request;
+/// `tick(delta)` advances the current animation by [delta].
 class AnimationQueueController extends ChangeNotifier {
-  /// Creates an animation queue controller with an optional initial value.
+  /// Creates a controller with an optional [initialValue].
   AnimationQueueController([this._value = 0.0]);
-  /// Adds an animation request to the queue or replaces the current queue.
+  /// Adds [request] to the queue, or replaces the queue when [queue] is
+  /// false.
   void push(AnimationRequest request, [bool queue = true]);
-  /// Sets the current value immediately and clears queued animations.
+  /// Sets the value immediately and clears queued animations.
   set value(double value);
-  /// Returns the current value.
+  /// The current value.
   double get value;
   /// Whether there are pending animations to tick.
   bool get shouldTick;
-  /// Advances the animation by the given delta.
+  /// Advances the animation by [delta].
   void tick(Duration delta);
 }
 ```

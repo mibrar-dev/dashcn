@@ -1,79 +1,45 @@
 ---
 title: "Class: Toggle"
-description: "Simple toggle button with stateful on/off behavior."
+description: "A button that keeps an on/off state."
 ---
 
 ```dart
-/// Simple toggle button with stateful on/off behavior.
+/// A button that keeps an on/off state.
 ///
-/// A basic toggle button widget that maintains its own internal state for
-/// on/off toggling. Provides a simplified interface compared to [ControlledToggle]
-/// for cases where external state management is not required.
-///
-/// ## Features
-///
-/// - **Stateful toggling**: Built-in state management for simple use cases
-/// - **Ghost button styling**: Default ghost button appearance
-/// - **Form integration**: Automatic form field registration with boolean values
-/// - **Accessibility**: Full screen reader and keyboard support
-/// - **Custom styling**: Configurable button style and appearance
-///
-/// The widget automatically cycles between true/false states when pressed
-/// and calls the [onChanged] callback with the new state.
-///
-/// Example:
-/// ```dart
-/// bool isEnabled = false;
-///
-/// Toggle(
-///   value: isEnabled,
-///   onChanged: (enabled) => setState(() => isEnabled = enabled),
-///   child: Text('Enable notifications'),
-/// );
-/// ```
+/// Two modes:
+/// * uncontrolled — pass a [controller]; `value`/`onChanged` must be null;
+/// * controlled — pass `value` and `onChanged` (null `onChanged` disables).
 class Toggle extends StatefulWidget {
-  /// The current toggle state (on/off).
-  final bool value;
-  /// Called when the toggle state changes.
-  ///
-  /// If `null`, the toggle is considered disabled and won't respond to user input.
-  final ValueChanged<bool>? onChanged;
-  /// The widget displayed inside the toggle button.
+  /// Creates a toggle.
+  const Toggle({super.key, this.value, this.controller, required this.child, this.size = ToggleSize.md, this.onChanged, this.enabled, this.style, this.activeStyle, this.theme, this.onHover, this.onFocusChange, this.focusNode, this.autofocus = false});
+  /// Current value in controlled mode; null in controller mode.
+  final bool? value;
+  /// Controller mode: the controller owns the value.
+  final ToggleController? controller;
+  /// Toggle content, usually a `Text` or an icon.
   final Widget child;
-  /// The visual style for the button.
-  ///
-  /// Defaults to ghost style for a subtle appearance.
-  final ButtonStyle style;
-  /// Whether the toggle button is enabled.
-  ///
-  /// If `null`, the button is enabled only when [onChanged] is not `null`.
+  /// Fixed size row. Defaults to [ToggleSize.md] (h-9 = 36).
+  final ToggleSize size;
+  /// Called with the next value in controlled mode.
+  final ValueChanged<bool>? onChanged;
+  /// Overrides the enabled state; null means "interactive when controlled or
+  /// controller-driven".
   final bool? enabled;
-  /// Creates a [Toggle].
-  ///
-  /// The toggle button maintains its own state and calls [onChanged] when
-  /// the state changes. Uses ghost button styling by default.
-  ///
-  /// Parameters:
-  /// - [value] (bool, required): current toggle state
-  /// - [onChanged] (`ValueChanged<bool>?`, optional): callback when state changes
-  /// - [child] (Widget, required): content displayed inside the button
-  /// - [enabled] (bool?, optional): whether button is interactive
-  /// - [style] (ButtonStyle, default: ghost): button styling
-  ///
-  /// Example:
-  /// ```dart
-  /// Toggle(
-  ///   value: isToggled,
-  ///   onChanged: (value) => setState(() => isToggled = value),
-  ///   child: Row(
-  ///     children: [
-  ///       Icon(Icons.notifications),
-  ///       Text('Notifications'),
-  ///     ],
-  ///   ),
-  /// )
-  /// ```
-  const Toggle({super.key, required this.value, this.onChanged, required this.child, this.enabled, this.style = const ButtonStyle.ghost()});
-  ToggleState createState();
+  /// Widget-leg override for the off state (old `SelectedButton.style`).
+  final ToggleStyle? style;
+  /// Widget-leg override for the on state (old `selectedStyle`).
+  final ToggleStyle? activeStyle;
+  /// Generic widget-leg override, merged under [style]/[activeStyle].
+  final ToggleStyle? theme;
+  /// Called when the hover state changes.
+  final ValueChanged<bool>? onHover;
+  /// Called when the focus state changes.
+  final ValueChanged<bool>? onFocusChange;
+  /// Focus node. A node is created internally when [autofocus] is true and
+  /// this is null.
+  final FocusNode? focusNode;
+  /// Whether the toggle requests focus when first built.
+  final bool autofocus;
+  State<Toggle> createState();
 }
 ```

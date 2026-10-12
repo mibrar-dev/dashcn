@@ -338,7 +338,7 @@ class TreeRow extends StatelessWidget {
       select: (t) => t,
       defaults: treeDefaults,
     );
-    final ShadcnThemeData data = ShadcnTheme.of(context);
+    final ThemeData data = Theme.of(context);
     final double scaling = data.scaling;
     final double indent = (style.indentWidth ?? 16) * scaling;
     final double gap = (style.itemGap ?? 8) * scaling;
@@ -395,7 +395,7 @@ class TreeRow extends StatelessWidget {
         ),
       ),
       // IntrinsicHeight bounds the guides: a list row has no height of its own.
-      // The min height is the shadcn tree row (~32px at default density).
+      // The min height is the upstream tree row (~32px at default density).
       child: IntrinsicHeight(
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: 32 * scaling),

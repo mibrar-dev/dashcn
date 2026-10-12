@@ -13,11 +13,11 @@ import 'package:flutter/widgets.dart';
 
 import '../state/site_theme_model.dart';
 import '../theme/theme_document.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/dialog/dialog.dart';
-import '../ui/shadcn/components/text_area/text_area.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/dialog/dialog.dart';
+import '../ui/dashcn/components/text_area/text_area.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 
 /// Shows the `Open Preset` paste dialog; resolves true when a document was
 /// applied.
@@ -25,7 +25,7 @@ Future<bool> showOpenPresetDialog(
   BuildContext context,
   SiteThemeModel model,
 ) async {
-  final bool? applied = await showShadcnDialog<bool>(
+  final bool? applied = await showDialog<bool>(
     context: context,
     builder: (BuildContext context) => _OpenPresetDialog(model: model),
   );
@@ -82,7 +82,7 @@ class _OpenPresetDialogState extends State<_OpenPresetDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Object? decoded = _tryDecode(_controller.text);
     return Padding(
       padding: const EdgeInsets.all(16),

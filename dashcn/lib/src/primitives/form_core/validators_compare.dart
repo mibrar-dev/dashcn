@@ -48,7 +48,9 @@ class SafePasswordValidator extends Validator<String> {
     if (value == null) {
       return null;
     }
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     if (requireDigit && !RegExp(r'\d').hasMatch(value)) {
       return InvalidResult(
         message ?? localizations.formPasswordDigits,
@@ -134,7 +136,9 @@ FutureOr<ValidationResult?> _compareResult<T extends Comparable<T>>(
   FormValidationMode lifecycle,
   String? message,
 ) {
-  final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+  final ComponentLocalizations localizations = ComponentLocalizations.of(
+    context,
+  );
   final String described = describeValue(other);
   final String? failure = switch (type) {
     CompareType.greater when compare <= 0 =>

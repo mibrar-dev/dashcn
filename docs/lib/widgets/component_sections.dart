@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_api.dart';
 import '../generated/docs_snippets.dart';
 import '../generated/docs_tables.dart';
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
 import 'heading_anchor.dart';
@@ -53,7 +53,7 @@ class _SnippetBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DocsSiteColors site = DocsSiteColors.of(context);
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final bool dark = site.codeSurface == const Color(0xFF161616);
     return Padding(
       padding: const EdgeInsets.only(top: 16),

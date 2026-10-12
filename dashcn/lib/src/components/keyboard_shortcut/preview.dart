@@ -31,7 +31,7 @@ class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Shortcuts(
       shortcuts: const <ShortcutActivator, Intent>{
         SingleActivator(LogicalKeyboardKey.keyK, meta: true):
@@ -88,7 +88,7 @@ Widget _keyboardShortcutDefault(BuildContext context) {
 
 /// A chord from explicit keys, in display order.
 Widget _keyboardShortcutMultipleKeys(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,

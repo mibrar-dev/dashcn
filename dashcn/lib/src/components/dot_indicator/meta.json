@@ -4,8 +4,8 @@
   "category": "Animation & Effects",
   "description": "Animated row or column of dots showing the active index of a carousel, stepper or pager.",
   "tier": "component",
-  "install": "flutter_shadcn add dot_indicator",
-  "import": "import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';",
+  "install": "dashcn add dot_indicator",
+  "import": "import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';",
   "tags": ["display", "dots", "carousel", "pager", "indicator"],
   "deps": {
     "foundation": ["constants"],

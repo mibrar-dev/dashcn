@@ -93,7 +93,7 @@ class DocsApiTable {
   /// Owning component id.
   final String componentId;
 
-  /// Primary class name (`Button`) or function name (`showShadcnDialog`).
+  /// Primary class name (`Button`) or function name (`showDialog`).
   final String symbol;
 
   /// Whether a primary constructor or function was found.
@@ -710,7 +710,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'double?',
         isRequired: false,
         doc:
-            'Diameter override; null uses [AvatarTheme.size] then `32 * scaling`\n(shadcn `size-8`).',
+            'Diameter override; null uses [AvatarTheme.size] then `32 * scaling`\n(upstream `size-8`).',
       ),
       DocsApiParam(
         name: 'borderRadius',
@@ -841,7 +841,8 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
-        doc: 'Draws a fixed-size dot instead of [child] (shadcn `showAsDot`).',
+        doc:
+            'Draws a fixed-size dot instead of [child] (upstream `showAsDot`).',
       ),
       DocsApiParam(
         name: 'theme',
@@ -1019,7 +1020,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A compact button shaped like a shadcn chip (`px-2 py-0.5 text-xs`).',
+        'A compact button shaped like a upstream chip (`px-2 py-0.5 text-xs`).',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -1201,7 +1202,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'EdgeInsetsGeometry?',
         isRequired: false,
         doc:
-            'Padding around [label]; null falls back to `DividerTheme.labelPadding`, a\ndensity-scaled shadcn `px-2` that this widget resolves against\n`density.baseContentPadding * scaling`. A literal override passes\nthrough unchanged.',
+            'Padding around [label]; null falls back to `DividerTheme.labelPadding`, a\ndensity-scaled upstream `px-2` that this widget resolves against\n`density.baseContentPadding * scaling`. A literal override passes\nthrough unchanged.',
       ),
       DocsApiParam(
         name: 'labelAlignment',
@@ -1568,15 +1569,15 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'table': DocsApiTable(
     componentId: 'table',
-    symbol: 'ShadcnTable',
+    symbol: 'TableView',
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A themed data grid of [ShadcnTableRow]s (headers, rows, footers) holding [ShadcnTableCell]s, sized by [TableSize] strategies.',
+        'A themed data grid of [TableViewRow]s (headers, rows, footers) holding [TableViewCell]s, sized by [TableSize] strategies.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'rows',
-        type: 'List<ShadcnTableRow>',
+        type: 'List<TableViewRow>',
         isRequired: true,
         doc: 'Rows of the table.',
       ),
@@ -1828,7 +1829,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A date, month or year grid. Controlled: it paints [value] and reports every change through [onChanged], like shadcn/ui\'s `React.Calendar`.',
+        'A date, month or year grid. Controlled: it paints [value] and reports every change through [onChanged], like the upstream web kit\'s `React.Calendar`.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'view',
@@ -2261,7 +2262,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'itemBuilder',
         type: 'SuggestionRowBuilder?',
         isRequired: false,
-        doc: 'Builds one suggestion row; null renders the shadcn default.',
+        doc: 'Builds one suggestion row; null renders the upstream default.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -2706,7 +2707,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'form': DocsApiTable(
     componentId: 'form',
-    symbol: 'ShadcnForm',
+    symbol: 'FormScope',
     hasApiTable: true,
     parseClean: true,
     summary: 'Provides form state and installs [onSubmit] on the controller.',
@@ -3503,7 +3504,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'radio_group': DocsApiTable(
     componentId: 'radio_group',
-    symbol: 'ShadcnRadioGroup',
+    symbol: 'RadioSet',
     hasApiTable: true,
     parseClean: true,
     summary: 'A single-select group of radio items.',
@@ -3522,7 +3523,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'controller',
-        type: 'ShadcnRadioGroupController<T>?',
+        type: 'RadioSetController<T>?',
         isRequired: false,
         doc: 'Controller mode: the controller owns the selection.',
       ),
@@ -4092,7 +4093,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'EdgeInsetsGeometry?',
         isRequired: false,
         doc:
-            'Padding between the card border and its content; null falls back to\n`cardDefaults.padding`, a density-scaled shadcn `p-6` that `Card`\nresolves against `density.baseContentPadding * scaling`. A literal\noverride passes through unchanged.',
+            'Padding between the card border and its content; null falls back to\n`cardDefaults.padding`, a density-scaled upstream `p-6` that `Card`\nresolves against `density.baseContentPadding * scaling`. A literal\noverride passes through unchanged.',
       ),
       DocsApiParam(
         name: 'background',
@@ -4949,7 +4950,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Bar contract (shadcn menubar: `rounded-md border bg-background p-1`, radius md) resolved through widget > tree > app > defaults.',
+        'Bar contract (upstream menubar: `rounded-md border bg-background p-1`, radius md) resolved through widget > tree > app > defaults.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'children',
@@ -4970,7 +4971,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'Offset?',
         isRequired: false,
         doc:
-            'Submenu offset; null resolves `MenubarTheme.subMenuOffset`\n(`Offset(-4, 8)`), matching shadcn\'s submenu placement below the bar.',
+            'Submenu offset; null resolves `MenubarTheme.subMenuOffset`\n(`Offset(-4, 8)`), matching upstream\'s submenu placement below the bar.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -5277,7 +5278,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'Tabs',
     hasApiTable: true,
     parseClean: true,
-    summary: 'A shadcn pill tab strip on a muted container.',
+    summary: 'A upstream pill tab strip on a muted container.',
     params: <DocsApiParam>[
       DocsApiParam(name: 'index', type: 'int', isRequired: true),
       DocsApiParam(name: 'children', type: 'List<TabItem>', isRequired: true),
@@ -5350,11 +5351,11 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'dialog': DocsApiTable(
     componentId: 'dialog',
-    symbol: 'showShadcnDialog',
+    symbol: 'showDialog',
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Pushes a shadcn modal dialog on a [Navigator] and returns its result.',
+        'Pushes a upstream modal dialog on a [Navigator] and returns its result.',
     params: <DocsApiParam>[
       DocsApiParam(name: 'context', type: 'BuildContext', isRequired: true),
       DocsApiParam(name: 'builder', type: 'WidgetBuilder', isRequired: true),
@@ -5569,7 +5570,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'popup': DocsApiTable(
     componentId: 'popup',
-    symbol: 'showShadcnPopup',
+    symbol: 'showPopup',
     hasApiTable: true,
     parseClean: true,
     summary:
@@ -5780,7 +5781,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'image': DocsApiTable(
     componentId: 'image',
-    symbol: 'ShadcnImage',
+    symbol: 'Picture',
     hasApiTable: true,
     parseClean: true,
     summary: 'A themed image.',
@@ -5807,7 +5808,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'aspectRatio',
         type: 'double?',
         isRequired: false,
-        doc: 'Width / height of the box; shadcn renders a square image.',
+        doc: 'Width / height of the box; upstream renders a square image.',
       ),
       DocsApiParam(
         name: 'fit',
@@ -6022,10 +6023,10 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'app': DocsApiTable(
     componentId: 'app',
-    symbol: 'ShadcnApp',
+    symbol: 'DashcnApp',
     hasApiTable: true,
     parseClean: true,
-    summary: 'A shadcn-themed application shell.',
+    summary: 'A upstream-themed application shell.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'navigatorKey',
@@ -6104,14 +6105,14 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'theme',
-        type: 'ShadcnThemeData',
+        type: 'ThemeData',
         isRequired: false,
-        defaultValue: 'const ShadcnThemeData()',
+        defaultValue: 'const ThemeData()',
         doc: 'The light (or only) theme.',
       ),
       DocsApiParam(
         name: 'darkTheme',
-        type: 'ShadcnThemeData?',
+        type: 'ThemeData?',
         isRequired: false,
         doc: 'The dark theme; falls back to [theme] when null.',
       ),
@@ -6146,7 +6147,8 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'localizationsDelegates',
         type: 'Iterable<LocalizationsDelegate<dynamic>>?',
         isRequired: false,
-        doc: 'Extra localization delegates, merged with the shadcn delegates.',
+        doc:
+            'Extra localization delegates, merged with the upstream delegates.',
       ),
       DocsApiParam(
         name: 'localeListResolutionCallback',
@@ -6164,9 +6166,9 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'supportedLocales',
         type: 'Iterable<Locale>',
         isRequired: false,
-        defaultValue: 'ShadcnLocalizations.supportedLocales',
+        defaultValue: 'ComponentLocalizations.supportedLocales',
         doc:
-            'See [WidgetsApp.supportedLocales].\n\nDefaults to [ShadcnLocalizations.supportedLocales] — the locales the\nshadcn delegate can load. (The delegate does not declare `en`: English\nis the class fallback, not a translated table — see the README.)',
+            'See [WidgetsApp.supportedLocales].\n\nDefaults to [ComponentLocalizations.supportedLocales] — the locales the\nupstream delegate can load. (The delegate does not declare `en`: English\nis the class fallback, not a translated table — see the README.)',
       ),
       DocsApiParam(
         name: 'showPerformanceOverlay',
@@ -6194,7 +6196,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'Map<ShortcutActivator, Intent>?',
         isRequired: false,
         doc:
-            'App-wide keyboard shortcuts, merged over [WidgetsApp.defaultShortcuts].\n\n`WidgetsApp` *replaces* its defaults when a map is supplied: an app that\npasses a single shortcut would otherwise lose Tab traversal\n(`NextFocusIntent`), activation (`Enter`/`Space` → `ActivateIntent`) and\ndismissal (`Escape` → `DismissIntent`) app-wide. `ShadcnApp` therefore\nmerges, and caller entries win.',
+            'App-wide keyboard shortcuts, merged over [WidgetsApp.defaultShortcuts].\n\n`WidgetsApp` *replaces* its defaults when a map is supplied: an app that\npasses a single shortcut would otherwise lose Tab traversal\n(`NextFocusIntent`), activation (`Enter`/`Space` → `ActivateIntent`) and\ndismissal (`Escape` → `DismissIntent`) app-wide. `DashcnApp` therefore\nmerges, and caller entries win.',
       ),
       DocsApiParam(
         name: 'actions',
@@ -6235,7 +6237,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
-        doc: 'Animates theme changes with [AnimatedShadcnTheme] when true.',
+        doc: 'Animates theme changes with [AnimatedTheme] when true.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -7421,11 +7423,11 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
   ),
   'page_route': DocsApiTable(
     componentId: 'page_route',
-    symbol: 'ShadcnPageRoute',
+    symbol: 'AppPageRoute',
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A route that displays a full-screen page with the shadcn transition.',
+        'A route that displays a full-screen page with the upstream transition.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'builder',
@@ -7453,7 +7455,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'transitionDuration',
         type: 'Duration',
         isRequired: false,
-        defaultValue: 'kShadcnPageTransitionDuration',
+        defaultValue: 'kPageTransitionDuration',
       ),
       DocsApiParam(name: 'barrierLabel', type: 'String?', isRequired: false),
     ],
@@ -7771,14 +7773,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'selectionControls',
         type: 'TextSelectionControls?',
         isRequired: false,
-        doc:
-            'Selection controls override; defaults to `ShadcnSelectionControls`.',
+        doc: 'Selection controls override; defaults to `SelectionControls`.',
       ),
       DocsApiParam(
         name: 'contextMenuBuilder',
         type: 'EditableTextContextMenuBuilder?',
         isRequired: false,
-        doc: 'Context menu builder override; defaults to the shadcn toolbar.',
+        doc: 'Context menu builder override; defaults to the upstream toolbar.',
       ),
       DocsApiParam(
         name: 'onTap',
@@ -7825,7 +7826,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A shadcn styled toolbar offering replacement suggestions for the misspelled word under the cursor.',
+        'A upstream styled toolbar offering replacement suggestions for the misspelled word under the cursor.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'anchors',
@@ -8782,7 +8783,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'thickness',
         type: 'double?',
-        description: '1 (shadcn h-px)',
+        description: '1 (dashcn h-px)',
       ),
     ],
   ),
@@ -8968,12 +8969,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'keyPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'null = symmetric(6, 4) (shadcn px-1.5 py-0.5)',
+        description: 'null = symmetric(6, 4) (dashcn px-1.5 py-0.5)',
       ),
       DocsThemeField(
         name: 'keyShadows',
         type: 'List<BoxShadow>?',
-        description: 'null = none (the shadcn look)',
+        description: 'null = none (the dashcn look)',
       ),
       DocsThemeField(
         name: 'keyTextStyle',
@@ -8983,7 +8984,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'spacing',
         type: 'double?',
-        description: 'null = 2 (shadcn gap-0.5)',
+        description: 'null = 2 (dashcn gap-0.5)',
       ),
     ],
   ),
@@ -9641,7 +9642,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'containerPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'shadcn p-1, so 4 all round',
+        description: 'dashcn p-1, so 4 all round',
       ),
       DocsThemeField(
         name: 'gap',
@@ -9661,7 +9662,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'itemPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'shadcn px-2 py-1.5',
+        description: 'dashcn px-2 py-1.5',
       ),
       DocsThemeField(
         name: 'itemRadius',
@@ -9676,7 +9677,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'maxHeight',
         type: 'double?',
-        description: 'list height cap, shadcn max-h-60 = 240',
+        description: 'list height cap, dashcn max-h-60 = 240',
       ),
       DocsThemeField(
         name: 'mode',
@@ -10484,7 +10485,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'borderWidth',
         type: 'double?',
-        description: '0 by default (shadcn draws a transparent one)',
+        description: '0 by default (dashcn draws a transparent one)',
       ),
       DocsThemeField(
         name: 'gap',

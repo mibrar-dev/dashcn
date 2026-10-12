@@ -19,7 +19,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   StarRatingTheme? scoped,
   FormFieldHandle? formHandle,
@@ -32,7 +32,7 @@ Widget _frame({
   if (formHandle != null) {
     body = Data<FormFieldHandle>.inherit(data: formHandle, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -95,9 +95,9 @@ void main() {
   testWidgets('renders under light and dark tokens with slider semantics', (
     tester,
   ) async {
-    for (final ShadcnThemeData data in <ShadcnThemeData>[
-      const ShadcnThemeData(),
-      const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+    for (final ThemeData data in <ThemeData>[
+      const ThemeData(),
+      const ThemeData(colors: ThemeColors.darkFallback),
     ]) {
       await tester.pumpWidget(
         _frame(data: data, child: const StarRating(value: 3.5)),

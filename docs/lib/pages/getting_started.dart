@@ -1,14 +1,14 @@
 // `/docs/installation` — getting started (spec §2.6): a typeset page with
 // `.step`-numbered H3 counters and code figures. The steps are the measured
-// shadcn installation flow: create a project, install the layer core, add
+// upstream installation flow: create a project, install the layer core, add
 // components, choose a preset. Every command comes from the CLI snapshot.
 
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/docs_tokens.dart';
@@ -28,7 +28,7 @@ class GettingStartedPage extends StatelessWidget {
       child: DocsArticle(
         title: 'Getting started',
         description:
-            'Install the shadcn_flutter_kit registry into your Flutter project '
+            'Install the dashcn registry into your Flutter project '
             'and start building with widgets-only components.',
         previous: neighbors.previous,
         next: neighbors.next,
@@ -46,17 +46,17 @@ class GettingStartedPage extends StatelessWidget {
           const _StepCounter(
             number: 2,
             title: 'Install the layer core',
-            code: 'flutter_shadcn init',
+            code: 'dashcn init',
           ),
           const _StepCounter(
             number: 3,
             title: 'Add components',
-            code: 'flutter_shadcn add button',
+            code: 'dashcn add button',
           ),
           const _StepCounter(
             number: 4,
             title: 'Choose a preset',
-            code: 'flutter_shadcn theme apply modern-minimal',
+            code: 'dashcn theme apply modern-minimal',
           ),
           const HeadingAnchor(id: 'verify', title: 'Verify'),
           const TypesetParagraph(
@@ -84,7 +84,7 @@ class GettingStartedPage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'shadcn.lock v2 records the exact hashes so updates '
+                      'dashcn.lock v2 records the exact hashes so updates '
                       'stay reviewable.',
                 ),
               ],
@@ -121,7 +121,7 @@ class _StepCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 32),

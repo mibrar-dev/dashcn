@@ -49,7 +49,7 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final String needle = _filter.trim().toLowerCase();
     final List<_Dashboard01Order> rows = needle.isEmpty
         ? _dashboard01Orders
@@ -118,7 +118,7 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
               ),
             )
           else
-            ShadcnTable(
+            TableView(
               defaultRowHeight: const FixedTableSize(48),
               columnWidths: const <int, TableSize>{
                 0: FlexTableSize(flex: 2),
@@ -126,27 +126,27 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                 2: FlexTableSize(),
                 3: FixedTableSize(110),
               },
-              rows: <ShadcnTableRow>[
-                const ShadcnTableHeader(
-                  cells: <ShadcnTableCell>[
-                    ShadcnTableCell(child: Text('Customer')),
-                    ShadcnTableCell(child: Text('Status')),
-                    ShadcnTableCell(child: Text('Method')),
-                    ShadcnTableCell(child: Text('Amount')),
+              rows: <TableViewRow>[
+                const TableViewHeader(
+                  cells: <TableViewCell>[
+                    TableViewCell(child: Text('Customer')),
+                    TableViewCell(child: Text('Status')),
+                    TableViewCell(child: Text('Method')),
+                    TableViewCell(child: Text('Amount')),
                   ],
                 ),
                 for (final _Dashboard01Order order in rows)
-                  ShadcnTableRow(
-                    cells: <ShadcnTableCell>[
-                      ShadcnTableCell(child: Text(order.customer)),
-                      ShadcnTableCell(
+                  TableViewRow(
+                    cells: <TableViewCell>[
+                      TableViewCell(child: Text(order.customer)),
+                      TableViewCell(
                         child: _Dashboard01Pill(
                           order.status,
                           chartIndex: order.chartIndex,
                         ),
                       ),
-                      ShadcnTableCell(child: Text(order.method)),
-                      ShadcnTableCell(child: Text(order.amount)),
+                      TableViewCell(child: Text(order.method)),
+                      TableViewCell(child: Text(order.amount)),
                     ],
                   ),
               ],
@@ -169,7 +169,7 @@ class _Dashboard01Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: theme.spacing.sm,

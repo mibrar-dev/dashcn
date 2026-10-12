@@ -82,7 +82,7 @@ class MenuPopupSurface extends StatelessWidget {
   final List<BoxShadow>? shadows;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     final Color fg = foreground ?? app.colors.popoverForeground;
     final BorderRadius radius =
         borderRadius ?? app.borderRadiusMd.resolve(Directionality.of(context));
@@ -284,7 +284,7 @@ Future<T?> showMenuPopover<T>({
   );
 }
 
-/// A non-interactive section header (shadcn `font-semibold`).
+/// A non-interactive section header (upstream `font-semibold`).
 ///
 /// Plain widget on purpose: headers never take focus, so they stay out of
 /// the `MenuItem` traversal contract and compose into any row list.
@@ -296,7 +296,7 @@ class MenuLabel extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       child: DefaultTextStyle(
@@ -320,7 +320,7 @@ class MenuShortcut extends StatelessWidget {
   final String shortcut;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     return Text(
       shortcut,
       style: app.typography.small.copyWith(
@@ -341,7 +341,7 @@ class MenuSeparator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Container(height: 1, color: ShadcnTheme.of(context).colors.border),
+      child: Container(height: 1, color: Theme.of(context).colors.border),
     );
   }
 }

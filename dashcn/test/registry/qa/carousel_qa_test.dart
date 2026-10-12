@@ -14,12 +14,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
   double? height,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -51,14 +51,14 @@ void main() {
     tester,
   ) async {
     for (final preview in carouselPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         // No pumpAndSettle: autoplay loops forever by design.
@@ -140,8 +140,8 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: ListView(

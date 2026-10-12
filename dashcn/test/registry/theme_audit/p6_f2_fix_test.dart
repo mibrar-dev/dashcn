@@ -46,8 +46,8 @@ Widget buildPresetHost(
   required Widget child,
 }) {
   final view = loadPreset(presetId).view(brightness);
-  return ShadcnTheme(
-    data: ShadcnThemeData(
+  return Theme(
+    data: ThemeData(
       colors: view.colors,
       tokens: view.tokens,
       fonts: view.fonts,
@@ -132,7 +132,7 @@ void main() {
             brightness: brightness,
             child: const SizedBox.shrink(),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           final Color surface = gooeyToastDefaults.fill!.resolve(colors);
           for (final entry in gooeyFixedTones.entries) {
             final Color actual = entry.key.tone(gooeyToastDefaults, colors);
@@ -162,7 +162,7 @@ void main() {
             brightness: brightness,
             child: const SizedBox.shrink(),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           // A fixed light near-white, inverted from the dark site background,
           // identical in every preset and brightness (P7-G3).
           expectColor(
@@ -195,7 +195,7 @@ void main() {
               leading: null,
             ),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           expectColor(
             const GooeySurface(
               title: 'Pill',
@@ -225,7 +225,7 @@ void main() {
               child: SingleChildScrollView(child: Text('scrolling')),
             ),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           final BuildContext context = tester.element(
             find.byType(FadedScrollableViewport),
           );
@@ -257,7 +257,7 @@ void main() {
               child: Text('a much longer piece of marquee content'),
             ),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           final BuildContext context = tester.element(
             find.byType(OverflowMarquee),
           );
@@ -307,7 +307,7 @@ void main() {
             ),
           );
           await tester.pump(const Duration(milliseconds: 250));
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           final ShaderMask mask = tester.widget<ShaderMask>(
             find.byType(ShaderMask).first,
           );
@@ -350,8 +350,8 @@ void main() {
 
       final swap = loadPreset(kClaudePreset).view(Brightness.dark);
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: ShadcnThemeData(
+        Theme(
+          data: ThemeData(
             colors: swap.colors,
             tokens: swap.tokens,
             fonts: swap.fonts,
@@ -402,7 +402,7 @@ void main() {
               ],
             ),
           );
-          final ShadcnColors colors = resolvedTheme(tester).colors;
+          final ThemeColors colors = resolvedTheme(tester).colors;
           expectColor(
             trackerDefaults.fine!.resolve(colors),
             ColorRef.chart2.resolve(colors),
@@ -457,7 +457,7 @@ void main() {
             ),
           );
           await tester.pump(kSettleDuration);
-          final ShadcnThemeData data = resolvedTheme(tester);
+          final ThemeData data = resolvedTheme(tester);
           final List<BoxShadow> expected =
               (featureCarouselDefaults.themeShadows ?? data.tokens.shadows)
                   .shadowLg;

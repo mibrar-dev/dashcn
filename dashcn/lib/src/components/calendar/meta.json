@@ -4,8 +4,8 @@
   "category": "Date & Time",
   "description": "Date, month and year grids with single, range and multi selection, roving-tabindex keyboard navigation and per-day semantic dates; the selection value types live in the date_math primitive.",
   "tier": "component",
-  "install": "flutter_shadcn add calendar",
-  "import": "import 'package:<your_app>/ui/shadcn/components/calendar/calendar.dart';",
+  "install": "dashcn add calendar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';",
   "tags": ["display", "date", "picker", "calendar", "schedule", "keyboard", "a11y"],
   "deps": {
     "foundation": [],
@@ -61,7 +61,7 @@
     "focusRing": "the focused cell alone is wrapped in FocusOutline, so the ring token paints exactly one ring"
   },
   "sizes": {
-    "dayCell": "32x32 (shadcn size-8)",
+    "dayCell": "32x32 (dashcn size-8)",
     "monthCell": "56x40",
     "yearCell": "56x40",
     "weekdayHeader": "32 wide, the same box as a day cell"

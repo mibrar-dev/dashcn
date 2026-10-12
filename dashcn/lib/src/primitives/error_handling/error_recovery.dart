@@ -25,7 +25,7 @@ Future<T?> guard<T>(
   ValueNotifier<AppError?>? channel,
   bool clearBeforeRun = true,
   ErrorMapper? mapper,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) async {
   final ValueNotifier<AppError?> notifier = _resolveScope(scope, channel);
   if (clearBeforeRun) {
@@ -51,7 +51,7 @@ T? guardSync<T>(
   ValueNotifier<AppError?>? channel,
   bool clearBeforeRun = true,
   ErrorMapper? mapper,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 }) {
   final ValueNotifier<AppError?> notifier = _resolveScope(scope, channel);
   if (clearBeforeRun) {
@@ -84,7 +84,7 @@ ValueNotifier<AppError?> _resolveScope(
 AppError _unexpected(
   Object error,
   StackTrace? stackTrace,
-  ShadcnLocalizations strings,
+  ComponentLocalizations strings,
 ) => AppError(
   code: AppErrorCode.unknown,
   title: strings.errorSomethingWentWrong,
@@ -212,7 +212,7 @@ String fingerprintFor(AppError error) {
 AppError fallbackRule(
   Object error, [
   StackTrace? stackTrace,
-  ShadcnLocalizations strings = ShadcnLocalizations.english,
+  ComponentLocalizations strings = ComponentLocalizations.english,
 ]) {
   final String? details = Env.showTechnicalDetails
       ? '$error\n$stackTrace'

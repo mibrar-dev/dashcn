@@ -62,7 +62,7 @@ class PhoneNumberValidator extends Validator<PhoneNumber> {
     PhoneNumber? value,
     FormValidationMode lifecycle,
   ) {
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     if (value == null) {
       return InvalidResult(
         emptyMessage ?? l10n.formPhoneNumberEmpty,
@@ -309,7 +309,7 @@ class _PhoneInputState extends State<PhoneInput>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final PhoneInputTheme style =
         resolveComponentStyle<PhoneInputTheme, PhoneInputTheme>(
           context,
@@ -378,7 +378,7 @@ class _PhoneInputState extends State<PhoneInput>
             Container(
               // Lookup key of the group divider between the country
               // trigger and the number field.
-              key: const ValueKey<String>('shadcn.phone_input.divider'),
+              key: const ValueKey<String>('dashcn.phone_input.divider'),
               width: 1,
               height: 20 * ambient.scaling,
               margin: EdgeInsets.symmetric(horizontal: dividerMargin),

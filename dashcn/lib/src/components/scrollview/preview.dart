@@ -14,7 +14,7 @@ import 'scrollview.dart';
 
 /// A list wrapped in the middle-button autoscroll interceptor.
 Widget _default(BuildContext context) {
-  final theme = ShadcnTheme.of(context);
+  final theme = Theme.of(context);
   return SizedBox(
     width: 360,
     height: 220,

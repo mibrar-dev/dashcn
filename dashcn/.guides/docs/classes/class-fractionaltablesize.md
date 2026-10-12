@@ -1,21 +1,14 @@
 ---
 title: "Class: FractionalTableSize"
-description: "Table size mode that uses a fractional value of the table's size."
+description: "Sizes a column or row to a [fraction] of the table's extent."
 ---
 
 ```dart
-/// Table size mode that uses a fractional value of the table's size.
-///
-/// Sizes the column/row based on a fractional value of the table's size.
-///
-/// Example:
-/// ```dart
-/// FractionalTableSize(0.5) // 50% of table size
-/// ```
+/// Sizes a column or row to a [fraction] of the table's extent.
 class FractionalTableSize extends TableSize {
-  /// The fractional value of the table's size.
-  final double fraction;
-  /// Creates a [FractionalTableSize] with the specified fractional value.
+  /// Creates a fractional size.
   const FractionalTableSize(this.fraction);
+  /// Fraction of the bounded extent.
+  final double fraction;
 }
 ```

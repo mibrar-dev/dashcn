@@ -40,8 +40,8 @@ Future<void> _pump(
         )
       : Align(alignment: Alignment.topLeft, child: child);
   await tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: direction,
         child: MediaQuery(
@@ -227,7 +227,7 @@ void main() {
       await _pump(tester, PhoneInput(onChanged: (_) {}));
       // The divider between the trigger and the field.
       expect(
-        find.byKey(const ValueKey<String>('shadcn.phone_input.divider')),
+        find.byKey(const ValueKey<String>('dashcn.phone_input.divider')),
         findsOneWidget,
       );
       // Exactly one visible bordered box owns the shared border (the inner

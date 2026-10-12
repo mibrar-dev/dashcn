@@ -1,13 +1,13 @@
 ---
 title: "Class: CollapsibleState"
-description: "Tracks the current expansion state and exposes an event for children."
+description: "State of [Collapsible]: owns the uncontrolled flag and the toggle action."
 ---
 
 ```dart
-/// Tracks the current expansion state and exposes an event for children.
+/// State of [Collapsible]: owns the uncontrolled flag and the toggle action.
 class CollapsibleState extends State<Collapsible> {
-  void initState();
-  void didUpdateWidget(covariant Collapsible oldWidget);
+  /// Flips the section and reports the new state.
+  void toggle();
   Widget build(BuildContext context);
 }
 ```

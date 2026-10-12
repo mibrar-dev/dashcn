@@ -288,7 +288,7 @@ class _PinnedSheetState extends State<PinnedSheet>
   Widget build(BuildContext context) {
     final position = _position;
     final vertical = _vertical(position);
-    final ambient = ShadcnTheme.of(context);
+    final ambient = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxExtent = vertical

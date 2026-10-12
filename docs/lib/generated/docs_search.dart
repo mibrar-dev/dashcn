@@ -52,7 +52,7 @@ class DocsSearchEntry {
   /// Extra match terms (display name, tags).
   final List<String> keywords;
 
-  /// Footer action (`flutter_shadcn add <id>`), or null.
+  /// Footer action (`dashcn add <id>`), or null.
   final String? action;
 }
 
@@ -63,7 +63,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/login-01',
     tag: 'block',
-    action: 'flutter_shadcn add login-01',
+    action: 'dashcn add login-01',
     keywords: <String>['login-01', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -71,7 +71,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/login-02',
     tag: 'block',
-    action: 'flutter_shadcn add login-02',
+    action: 'dashcn add login-02',
     keywords: <String>['login-02', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -79,7 +79,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/login-03',
     tag: 'block',
-    action: 'flutter_shadcn add login-03',
+    action: 'dashcn add login-03',
     keywords: <String>['login-03', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -87,7 +87,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/otp-01',
     tag: 'block',
-    action: 'flutter_shadcn add otp-01',
+    action: 'dashcn add otp-01',
     keywords: <String>['otp-01', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -95,7 +95,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/signup-01',
     tag: 'block',
-    action: 'flutter_shadcn add signup-01',
+    action: 'dashcn add signup-01',
     keywords: <String>['signup-01', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -103,7 +103,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/signup-02',
     tag: 'block',
-    action: 'flutter_shadcn add signup-02',
+    action: 'dashcn add signup-02',
     keywords: <String>['signup-02', 'Authentication'],
   ),
   DocsSearchEntry(
@@ -111,7 +111,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/calendar-01',
     tag: 'block',
-    action: 'flutter_shadcn add calendar-01',
+    action: 'dashcn add calendar-01',
     keywords: <String>['calendar-01', 'Calendar & Scheduling'],
   ),
   DocsSearchEntry(
@@ -119,7 +119,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/calendar-02',
     tag: 'block',
-    action: 'flutter_shadcn add calendar-02',
+    action: 'dashcn add calendar-02',
     keywords: <String>['calendar-02', 'Calendar & Scheduling'],
   ),
   DocsSearchEntry(
@@ -127,7 +127,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/dashboard-01',
     tag: 'block',
-    action: 'flutter_shadcn add dashboard-01',
+    action: 'dashcn add dashboard-01',
     keywords: <String>['dashboard-01', 'Dashboard'],
   ),
   DocsSearchEntry(
@@ -135,7 +135,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/dashboard-02',
     tag: 'block',
-    action: 'flutter_shadcn add dashboard-02',
+    action: 'dashcn add dashboard-02',
     keywords: <String>['dashboard-02', 'Dashboard'],
   ),
   DocsSearchEntry(
@@ -143,7 +143,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/pricing-01',
     tag: 'block',
-    action: 'flutter_shadcn add pricing-01',
+    action: 'dashcn add pricing-01',
     keywords: <String>['pricing-01', 'Marketing'],
   ),
   DocsSearchEntry(
@@ -151,7 +151,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/account-01',
     tag: 'block',
-    action: 'flutter_shadcn add account-01',
+    action: 'dashcn add account-01',
     keywords: <String>['account-01', 'Settings & Account'],
   ),
   DocsSearchEntry(
@@ -159,7 +159,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/account-02',
     tag: 'block',
-    action: 'flutter_shadcn add account-02',
+    action: 'dashcn add account-02',
     keywords: <String>['account-02', 'Settings & Account'],
   ),
   DocsSearchEntry(
@@ -167,7 +167,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/sidebar-01',
     tag: 'block',
-    action: 'flutter_shadcn add sidebar-01',
+    action: 'dashcn add sidebar-01',
     keywords: <String>['sidebar-01', 'Sidebar'],
   ),
   DocsSearchEntry(
@@ -175,7 +175,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/sidebar-02',
     tag: 'block',
-    action: 'flutter_shadcn add sidebar-02',
+    action: 'dashcn add sidebar-02',
     keywords: <String>['sidebar-02', 'Sidebar'],
   ),
   DocsSearchEntry(
@@ -183,7 +183,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.block,
     route: '/blocks/sidebar-03',
     tag: 'block',
-    action: 'flutter_shadcn add sidebar-03',
+    action: 'dashcn add sidebar-03',
     keywords: <String>['sidebar-03', 'Sidebar'],
   ),
   DocsSearchEntry(
@@ -716,7 +716,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     route: '/docs/components/form',
     tag: '3 files',
     keywords: <String>[
-      'ShadcnForm',
+      'FormScope',
       'form',
       'field',
       'form',
@@ -1354,7 +1354,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     route: '/docs/components/image',
     tag: '3 files',
     keywords: <String>[
-      'ShadcnImage',
+      'Picture',
       'image',
       'avatar',
       'display',
@@ -1653,7 +1653,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     route: '/docs/components/page_route',
     tag: '1 files',
     keywords: <String>[
-      'ShadcnPageRoute',
+      'AppPageRoute',
       'page_route',
       'navigation',
       'page',
@@ -1833,73 +1833,73 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn',
+    label: 'dashcn',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn init',
+    label: 'dashcn init',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn add',
+    label: 'dashcn add',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn update',
+    label: 'dashcn update',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn remove',
+    label: 'dashcn remove',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn list',
+    label: 'dashcn list',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn search',
+    label: 'dashcn search',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn info',
+    label: 'dashcn info',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn theme list',
+    label: 'dashcn theme list',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn theme apply',
+    label: 'dashcn theme apply',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn doctor',
+    label: 'dashcn doctor',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'flutter_shadcn validate',
+    label: 'dashcn validate',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',

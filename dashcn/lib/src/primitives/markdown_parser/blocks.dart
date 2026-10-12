@@ -117,7 +117,7 @@ Widget buildMarkdownListItem(
   MarkdownCallbacks callbacks,
   MarkdownBlock block,
 ) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  final ThemeData theme = Theme.of(context);
   Widget marker;
   if (block.kind == MarkdownBlockKind.taskList) {
     final checked = block.checked == true;
@@ -184,7 +184,7 @@ Widget buildMarkdownCode(
           code: block.text,
           language: language,
           base: style.mono,
-          colors: ShadcnTheme.of(context).syntaxColors,
+          colors: Theme.of(context).syntaxColors,
         );
   return Container(
     width: double.infinity,

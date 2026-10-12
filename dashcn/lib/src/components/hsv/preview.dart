@@ -23,7 +23,7 @@ class _HSVPreviewState extends State<HSVPreview> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: DefaultTextStyle(

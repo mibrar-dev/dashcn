@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Custom-painted HSV/HSL gradient area with an optional transparency checkerboard and a themed ring.",
   "tier": "component",
-  "install": "flutter_shadcn add color_field",
-  "import": "import 'package:<your_app>/ui/shadcn/components/color_field/color_field.dart';",
+  "install": "dashcn add color_field",
+  "import": "import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';",
   "tags": ["form", "color", "field", "hsv", "hsl"],
   "deps": {
     "foundation": [],

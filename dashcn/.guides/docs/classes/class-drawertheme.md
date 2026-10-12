@@ -1,53 +1,51 @@
 ---
 title: "Class: DrawerTheme"
-description: "Reference for DrawerTheme"
+description: "Surface, border, barrier and sizing contract of a drawer or sheet."
 ---
 
 ```dart
-class DrawerTheme extends ComponentThemeData {
-  /// Surface opacity for backdrop effects.
-  final double? surfaceOpacity;
-  /// Surface blur intensity for backdrop effects.
-  final double? surfaceBlur;
-  /// Color of the barrier behind the drawer.
-  final Color? barrierColor;
-  /// Whether to display the drag handle for draggable drawers.
+/// Surface, border, barrier and sizing contract of a drawer or sheet.
+///
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields.
+class DrawerTheme extends ComponentThemeData implements Mergeable<DrawerTheme>, DrawerRouteTheme {
+  /// Creates a drawer theme.
+  const DrawerTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.background, this.foreground, this.borderColor, this.borderWidth, this.borderRadius, this.padding, this.barrierColor, this.maxSize, this.showDragHandle, this.dragHandleSize, this.dragHandleColor, this.transitionDuration, this.shadows});
+  /// Panel fill. Default: the `background` token.
+  final ThemedColor? background;
+  /// Panel content colour. Default: the `foreground` token.
+  final ThemedColor? foreground;
+  /// Inner-edge border colour; null draws no border. Default: `border`.
+  final ThemedColor? borderColor;
+  /// Border width; `0` hides the border. Default: `1`.
+  final double? borderWidth;
+  /// Inner-corner radius; null resolves the ambient `radiusLg` at build.
+  final BorderRadius? borderRadius;
+  /// Panel padding. Default: upstream `p-6`, density-scaled.
+  final EdgeInsetsGeometry? padding;
+  /// Barrier colour. Default: black at 50%.
+  final ThemedColor? barrierColor;
+  /// Panel extent along its slide axis. Default: `320`; ignored when the call
+  /// expands it.
+  final double? maxSize;
+  /// Whether the drag handle is drawn. Default: `true`.
   final bool? showDragHandle;
-  /// Size of the drag handle when displayed.
+  /// Drag handle size. Default: `Size(36, 4)`.
   final Size? dragHandleSize;
-  /// Creates a [DrawerTheme].
-  ///
-  /// All parameters are optional and will use system defaults when null.
-  ///
-  /// Parameters:
-  /// - [surfaceOpacity] (double?, optional): opacity for backdrop surface effects
-  /// - [surfaceBlur] (double?, optional): blur intensity for backdrop effects
-  /// - [barrierColor] (Color?, optional): color of the modal barrier
-  /// - [showDragHandle] (bool?, optional): whether to show drag handles
-  /// - [dragHandleSize] (Size?, optional): size of the drag handle
-  ///
-  /// Example:
-  /// ```dart
-  /// const DrawerTheme(
-  ///   surfaceOpacity: 0.95,
-  ///   showDragHandle: true,
-  ///   barrierColor: Color.fromRGBO(0, 0, 0, 0.7),
-  /// )
-  /// ```
-  const DrawerTheme({this.surfaceOpacity, this.surfaceBlur, this.barrierColor, this.showDragHandle, this.dragHandleSize});
-  /// Creates a copy of this theme with the given fields replaced.
-  ///
-  /// Parameters:
-  /// - [surfaceOpacity] (`ValueGetter<double?>?`, optional): New surface opacity.
-  /// - [surfaceBlur] (`ValueGetter<double?>?`, optional): New surface blur amount.
-  /// - [barrierColor] (`ValueGetter<Color?>?`, optional): New barrier color.
-  /// - [showDragHandle] (`ValueGetter<bool?>?`, optional): New show drag handle setting.
-  /// - [dragHandleSize] (`ValueGetter<Size?>?`, optional): New drag handle size.
-  ///
-  /// Returns: A new [DrawerTheme] with updated properties.
-  DrawerTheme copyWith({ValueGetter<double?>? surfaceOpacity, ValueGetter<double?>? surfaceBlur, ValueGetter<Color?>? barrierColor, ValueGetter<bool?>? showDragHandle, ValueGetter<Size?>? dragHandleSize});
+  /// Drag handle colour. Default: the `muted` token.
+  final ThemedColor? dragHandleColor;
+  /// Open/close transition duration. Default: `250ms`.
+  final Duration? transitionDuration;
+  /// Drop shadows; null resolves the ambient `shadowLg`, `const []` removes.
+  final List<BoxShadow>? shadows;
+  /// Returns a copy with the given fields replaced.
+  DrawerTheme copyWith({ValueGetter<ThemedColor?>? background, ValueGetter<ThemedColor?>? foreground, ValueGetter<ThemedColor?>? borderColor, ValueGetter<double?>? borderWidth, ValueGetter<BorderRadius?>? borderRadius, ValueGetter<EdgeInsetsGeometry?>? padding, ValueGetter<ThemedColor?>? barrierColor, ValueGetter<double?>? maxSize, ValueGetter<bool?>? showDragHandle, ValueGetter<Size?>? dragHandleSize, ValueGetter<ThemedColor?>? dragHandleColor, ValueGetter<Duration?>? transitionDuration, ValueGetter<List<BoxShadow>?>? shadows});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  DrawerTheme merge(DrawerTheme? fallback);
+  /// Colours, durations and flags step at `t < 0.5`; geometry and shadows
+  /// interpolate.
+  static DrawerTheme lerp(DrawerTheme a, DrawerTheme b, double t);
   bool operator ==(Object other);
   int get hashCode;
-  String toString();
 }
 ```

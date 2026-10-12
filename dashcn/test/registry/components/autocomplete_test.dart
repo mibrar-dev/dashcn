@@ -58,7 +58,7 @@ const Key _stableOverlayKey = Key('stable-overlay');
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AutoCompleteTheme? scoped,
   bool stableOverlay = false,
@@ -67,7 +67,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<AutoCompleteTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -419,19 +419,19 @@ void main() {
       await tester.pump();
       await _type(tester, 'a');
       // 'Apple' is highlighted first.
-      expect(_highlightFill(tester, 0), ShadcnColors.lightFallback.accent);
+      expect(_highlightFill(tester, 0), ThemeColors.lightFallback.accent);
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await _settle(tester);
-      expect(_highlightFill(tester, 1), ShadcnColors.lightFallback.accent);
+      expect(_highlightFill(tester, 1), ThemeColors.lightFallback.accent);
       expect(_highlightFill(tester, 0), isNull);
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
       await _settle(tester);
-      expect(_highlightFill(tester, 0), ShadcnColors.lightFallback.accent);
+      expect(_highlightFill(tester, 0), ThemeColors.lightFallback.accent);
       // Wrapping upwards from the first row lands on the last.
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
       await _settle(tester);
       final int last = _rows(tester).length - 1;
-      expect(_highlightFill(tester, last), ShadcnColors.lightFallback.accent);
+      expect(_highlightFill(tester, last), ThemeColors.lightFallback.accent);
     });
 
     testWidgets('enter applies the highlighted row', (tester) async {
@@ -658,7 +658,7 @@ void main() {
       await tester.pump();
       await _type(tester, 'a');
       // The highlight colour still comes from the defaults row.
-      expect(_highlightFill(tester, 0), ShadcnColors.lightFallback.accent);
+      expect(_highlightFill(tester, 0), ThemeColors.lightFallback.accent);
       // The scoped leg's padding reaches the row: 14px glyph + 20 top + 20
       // bottom.
       expect(tester.getSize(_rowAt(tester, 0)).height, greaterThan(14));
@@ -680,14 +680,14 @@ void main() {
             .first,
       );
       final BoxDecoration decoration = box.decoration as BoxDecoration;
-      expect(decoration.color, ShadcnColors.lightFallback.popover);
+      expect(decoration.color, ThemeColors.lightFallback.popover);
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: _field(suggestions: _filter),
         ),
       );
@@ -711,11 +711,12 @@ void main() {
     ) async {
       // The old popover built its content from the theme captured when it was
       // shown, so a light -> dark switch left the list light.
-      final ValueNotifier<ShadcnThemeData> theme =
-          ValueNotifier<ShadcnThemeData>(const ShadcnThemeData());
+      final ValueNotifier<ThemeData> theme = ValueNotifier<ThemeData>(
+        const ThemeData(),
+      );
       addTearDown(theme.dispose);
       await tester.pumpWidget(
-        ValueListenableBuilder<ShadcnThemeData>(
+        ValueListenableBuilder<ThemeData>(
           valueListenable: theme,
           builder: (context, data, _) => _frame(
             data: data,
@@ -737,21 +738,21 @@ void main() {
       );
       expect(
         (box().decoration as BoxDecoration).color,
-        ShadcnColors.lightFallback.popover,
+        ThemeColors.lightFallback.popover,
       );
-      theme.value = const ShadcnThemeData(colors: ShadcnColors.darkFallback);
+      theme.value = const ThemeData(colors: ThemeColors.darkFallback);
       await _settle(tester);
       expect(
         (box().decoration as BoxDecoration).color,
-        ShadcnColors.darkFallback.popover,
+        ThemeColors.darkFallback.popover,
       );
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: _field(
             suggestions: _filter,
             theme: const AutoCompleteTheme(
@@ -768,7 +769,7 @@ void main() {
       expect(_highlightFill(tester, 0)!.a, closeTo(dark.accent.a * 0.5, 0.001));
     });
 
-    testWidgets('sizes match shadcn (text-sm 14, px-2 py-1.5)', (tester) async {
+    testWidgets('sizes match dashcn (text-sm 14, px-2 py-1.5)', (tester) async {
       await tester.pumpWidget(_frame(child: _field(suggestions: _filter)));
       await tester.tap(find.byType(EditableText));
       await tester.pump();

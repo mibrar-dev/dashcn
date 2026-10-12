@@ -17,12 +17,12 @@ import '../menu/menu.dart';
 export '../button/button.dart' show ButtonVariant, ButtonVariantStyle;
 export '../menu/menu.dart' show MenuPopupTheme;
 
-/// Trigger padding (shadcn `px-3`), density-scaled; the height comes from
+/// Trigger padding (upstream `px-3`), density-scaled; the height comes from
 /// the 36px minimum.
 const EdgeInsetsGeometry selectDefaultTriggerPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 12);
 
-/// Menu row metrics for select options (shadcn `px-2 py-1.5`), density
+/// Menu row metrics for select options (upstream `px-2 py-1.5`), density
 /// scaled: 6 + 20 + 6 = 32 high with the 14px type.
 const EdgeInsetsGeometry selectDefaultItemPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 6);

@@ -3,8 +3,8 @@
 //
 // The Dart file bytes come from the kit generator (the same one that produced
 // `lib/generated/app_theme.dart`), rendered with the CLI's import
-// (`defaultAppThemeImport` in flutter_shadcn_cli = a sibling `theme.dart`),
-// so `Copy Dart` is byte-equal to `flutter_shadcn theme apply <id>`.
+// (`defaultAppThemeImport` in dashcn_cli = a sibling `theme.dart`),
+// so `Copy Dart` is byte-equal to `dashcn theme apply <id>`.
 
 import 'dart:convert';
 
@@ -28,7 +28,7 @@ String renderPresetSources(RegistryScan scan) {
           '`json` is the canonical preset document (registry values, 2-space',
           'indent); the themes rail applies the radius slider value before',
           'copying. `dart` is the byte-exact `app_theme.dart` the CLI writes',
-          'for the preset: `flutter_shadcn theme apply <id>` (import',
+          'for the preset: `dashcn theme apply <id>` (import',
           '"$kCliThemeImport"). gen_docs_data_test.dart re-renders both with',
           'the kit generator and asserts byte equality per preset.',
         ],

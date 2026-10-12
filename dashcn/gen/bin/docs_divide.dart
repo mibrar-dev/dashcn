@@ -32,7 +32,7 @@ void main() async {
   content = content.replaceAll('$projectDir\\', '');
   content = content.replaceAll('$projectDir/', '');
   await analyzeLog.writeAsString(content);
-  // "C:\Users\LQQ\shadcn_flutter\shadcn_flutter\lib\src\animation.dart:385:10"
+  // "C:\Users\LQQ\dashcn\dashcn\lib\src\animation.dart:385:10"
   // group by file path, and then split parts into files (/gen/log/analyze_parts/)
   // but if a part has less than maxLinePerTask lines, then keep adding until it reaches maxLinePerTask
   // tolerate last part to have less than maxLinePerTask lines

@@ -1,7 +1,7 @@
-// Size audit A: already-accepted components vs shadcn/ui new-york v4.
+// Size audit A: already-accepted components vs the upstream web kit new-york v4.
 //
-// Every expectation cites the shadcn class it mirrors. Where the component
-// was fixed, the test pins the shadcn value; kit-specific controls assert
+// Every expectation cites the upstream class it mirrors. Where the component
+// was fixed, the test pins the upstream value; kit-specific controls assert
 // their documented structure (padding inside the decoration, no
 // ConstrainedBox/minHeight stacking outside padding).
 
@@ -18,8 +18,8 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({required Widget child}) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: ComponentThemes(
       themes: const <ComponentThemeData>[],
       child: Directionality(
@@ -33,7 +33,7 @@ Widget _frame({required Widget child}) {
 void main() {
   group('badge (px-2 py-0.5 text-xs, h=22 border-box)', () {
     testWidgets('static badge is 20px tall', (tester) async {
-      // text-xs line-height 1rem (16) + py-0.5 (4) = 20. shadcn reports 22
+      // text-xs line-height 1rem (16) + py-0.5 (4) = 20. upstream reports 22
       // border-box (16 + 4 + the 1px border); Flutter paints the border
       // inside via DecoratedBox, so the static badge measures 20 with or
       // without the outline border. (An *interactive* outline badge goes
@@ -68,7 +68,7 @@ void main() {
         tester.getSize(find.byType(SizedBox).first),
         const Size.square(16),
       );
-      // The box is border-box 16 (shadcn size-4): the 1px border paints
+      // The box is border-box 16 (upstream size-4): the 1px border paints
       // inside the 16, so the control measures exactly 16 (the old Clickable
       // container reserved the border as padding and measured 18).
       expect(tester.getSize(find.byType(Checkbox)).width, 16);
@@ -95,7 +95,7 @@ void main() {
     });
 
     testWidgets('checked thumb stops 2px short (travel 14)', (tester) async {
-      // shadcn `translate-x-[calc(100%-2px)]`: 32 - 16 - 2 = 14.
+      // upstream `translate-x-[calc(100%-2px)]`: 32 - 16 - 2 = 14.
       await tester.pumpWidget(
         _frame(child: Switch(value: true, onChanged: (_) {})),
       );
@@ -142,8 +142,8 @@ void main() {
             .first,
       );
       final BoxDecoration decoration = box.decoration as BoxDecoration;
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusXl);
-      // Default radius 0.5: xl = 0.5 * 16 + 4 = 12 (shadcn v4 scale).
+      expect(decoration.borderRadius, const ThemeData().borderRadiusXl);
+      // Default radius 0.5: xl = 0.5 * 16 + 4 = 12 (upstream v4 scale).
       expect(decoration.borderRadius, BorderRadius.circular(12));
     });
 
@@ -190,8 +190,8 @@ void main() {
       // Navigator host like the component tests: the dialog shell resolves
       // `DialogTheme` inside its own route subtree.
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Navigator(
@@ -290,8 +290,8 @@ void main() {
   group('divider (h-px / w-px = 1)', () {
     testWidgets('horizontal rule is 1px tall', (tester) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(
@@ -312,8 +312,8 @@ void main() {
 
     testWidgets('vertical rule is 1px wide', (tester) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(

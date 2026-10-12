@@ -1,7 +1,7 @@
 // Widget tests for the `page_route` component.
 //
 // Covers push/pop, the transition widget at t = 0 / t = 1, the declarative
-// `ShadcnPage`, the renamed duration constant and two regressions: the old
+// `AppPage`, the renamed duration constant and two regressions: the old
 // `canTransitionTo` suppressed the exit transition when a non-page route was
 // pushed on top, and `debugLabel` printed `PageRoute(null)`.
 
@@ -12,8 +12,8 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _host(Widget child) {
-  return ShadcnTheme(
-    data: const ShadcnThemeData(),
+  return Theme(
+    data: const ThemeData(),
     child: Directionality(
       textDirection: TextDirection.ltr,
       child: Align(alignment: Alignment.topLeft, child: child),
@@ -25,16 +25,16 @@ Widget _navigator({required Widget home}) {
   return _host(
     Navigator(
       onGenerateRoute: (settings) =>
-          ShadcnPageRoute<void>(settings: settings, builder: (context) => home),
+          AppPageRoute<void>(settings: settings, builder: (context) => home),
     ),
   );
 }
 
-Widget _recordingNavigator(List<ShadcnPageRoute<void>> routes) {
+Widget _recordingNavigator(List<AppPageRoute<void>> routes) {
   return _host(
     Navigator(
       onGenerateRoute: (settings) {
-        final ShadcnPageRoute<void> route = ShadcnPageRoute<void>(
+        final AppPageRoute<void> route = AppPageRoute<void>(
           settings: settings,
           builder: (context) => const Text('home'),
         );
@@ -46,14 +46,14 @@ Widget _recordingNavigator(List<ShadcnPageRoute<void>> routes) {
 }
 
 void main() {
-  group('ShadcnPageRoute', () {
+  group('AppPageRoute', () {
     testWidgets('push and pop a page', (tester) async {
       final GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
       await tester.pumpWidget(
         _host(
           Navigator(
             key: navigator,
-            onGenerateRoute: (settings) => ShadcnPageRoute<void>(
+            onGenerateRoute: (settings) => AppPageRoute<void>(
               settings: settings,
               builder: (context) => const Text('page one'),
             ),
@@ -63,29 +63,29 @@ void main() {
       expect(find.text('page one'), findsOneWidget);
 
       navigator.currentState!.push(
-        ShadcnPageRoute<void>(builder: (context) => const Text('page two')),
+        AppPageRoute<void>(builder: (context) => const Text('page two')),
       );
       await tester.pump();
-      await tester.pump(kShadcnPageTransitionDuration);
+      await tester.pump(kPageTransitionDuration);
       expect(find.text('page two'), findsOneWidget);
 
       navigator.currentState!.pop();
       await tester.pump();
-      await tester.pump(kShadcnPageTransitionDuration);
+      await tester.pump(kPageTransitionDuration);
       expect(find.text('page one'), findsOneWidget);
     });
 
     testWidgets('default transition duration is 300ms', (tester) async {
-      final List<ShadcnPageRoute<void>> routes = <ShadcnPageRoute<void>>[];
+      final List<AppPageRoute<void>> routes = <AppPageRoute<void>>[];
       await tester.pumpWidget(_recordingNavigator(routes));
-      expect(routes.single.transitionDuration, kShadcnPageTransitionDuration);
-      expect(kShadcnPageTransitionDuration, const Duration(milliseconds: 300));
+      expect(routes.single.transitionDuration, kPageTransitionDuration);
+      expect(kPageTransitionDuration, const Duration(milliseconds: 300));
     });
 
     testWidgets('opaque and maintainState default to true', (tester) async {
-      final List<ShadcnPageRoute<void>> routes = <ShadcnPageRoute<void>>[];
+      final List<AppPageRoute<void>> routes = <AppPageRoute<void>>[];
       await tester.pumpWidget(_recordingNavigator(routes));
-      final ShadcnPageRoute<void> route = routes.single;
+      final AppPageRoute<void> route = routes.single;
       expect(route.opaque, isTrue);
       expect(route.maintainState, isTrue);
       expect(route.barrierColor, isNull);
@@ -94,13 +94,13 @@ void main() {
     testWidgets('regression: an unnamed route does not print (null)', (
       tester,
     ) async {
-      final List<ShadcnPageRoute<void>> routes = <ShadcnPageRoute<void>>[];
+      final List<AppPageRoute<void>> routes = <AppPageRoute<void>>[];
       await tester.pumpWidget(_recordingNavigator(routes));
       expect(routes.single.debugLabel, isNot(contains('null')));
     });
 
     testWidgets('regression: a named route reports its name', (tester) async {
-      final ShadcnPageRoute<void> named = ShadcnPageRoute<void>(
+      final AppPageRoute<void> named = AppPageRoute<void>(
         settings: const RouteSettings(name: 'detail'),
         builder: (context) => const Text('x'),
       );
@@ -108,23 +108,23 @@ void main() {
     });
 
     testWidgets('regression: any next route may transition in', (tester) async {
-      // The old `canTransitionTo` answered `nextRoute is ShadcnPageRoute`, so
+      // The old `canTransitionTo` answered `nextRoute is AppPageRoute`, so
       // pushing a dialog/drawer over a page skipped the page's exit transition.
-      final ShadcnPageRoute<void> page = ShadcnPageRoute<void>(
+      final AppPageRoute<void> page = AppPageRoute<void>(
         builder: (context) => const Text('page'),
       );
-      final ShadcnPageRoute<void> other = ShadcnPageRoute<void>(
+      final AppPageRoute<void> other = AppPageRoute<void>(
         builder: (context) => const Text('other'),
       );
       expect(page.canTransitionTo(other), isTrue);
     });
   });
 
-  group('ShadcnPageTransition', () {
+  group('AppPageTransition', () {
     testWidgets('at t = 1 the page sits at its final position', (tester) async {
       await tester.pumpWidget(
         _host(
-          const ShadcnPageTransition(
+          const AppPageTransition(
             animation: AlwaysStoppedAnimation<double>(1),
             child: Text('page'),
           ),
@@ -140,7 +140,7 @@ void main() {
     testWidgets('at t = 0 the slide starts 2% low', (tester) async {
       await tester.pumpWidget(
         _host(
-          const ShadcnPageTransition(
+          const AppPageTransition(
             animation: AlwaysStoppedAnimation<double>(0),
             child: Text('page'),
           ),
@@ -153,11 +153,11 @@ void main() {
     });
   });
 
-  group('ShadcnPage', () {
-    testWidgets('creates a ShadcnPageRoute carrying its own duration', (
+  group('AppPage', () {
+    testWidgets('creates a AppPageRoute carrying its own duration', (
       tester,
     ) async {
-      const ShadcnPage<String> page = ShadcnPage<String>(
+      const AppPage<String> page = AppPage<String>(
         key: ValueKey<String>('k'),
         child: Text('body'),
         transitionDuration: Duration(milliseconds: 42),
@@ -173,9 +173,9 @@ void main() {
           ),
         ),
       );
-      expect(route, isA<ShadcnPageRoute<String>>());
+      expect(route, isA<AppPageRoute<String>>());
       expect(
-        (route as ShadcnPageRoute<String>).transitionDuration,
+        (route as AppPageRoute<String>).transitionDuration,
         const Duration(milliseconds: 42),
       );
     });
@@ -187,31 +187,28 @@ void main() {
         _host(
           Navigator(
             pages: const <Page<void>>[
-              ShadcnPage<void>(child: Text('first')),
-              ShadcnPage<void>(
-                key: ValueKey<String>('b'),
-                child: Text('second'),
-              ),
+              AppPage<void>(child: Text('first')),
+              AppPage<void>(key: ValueKey<String>('b'), child: Text('second')),
             ],
             onDidRemovePage: (Page<void> page) {},
           ),
         ),
       );
       await tester.pump();
-      await tester.pump(kShadcnPageTransitionDuration);
+      await tester.pump(kPageTransitionDuration);
       expect(find.text('second'), findsOneWidget);
     });
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors colors) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors colors) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('builds under $name tokens', (tester) async {
         await tester.pumpWidget(
-          ShadcnTheme(
-            data: ShadcnThemeData(colors: colors),
+          Theme(
+            data: ThemeData(colors: colors),
             child: Directionality(
               textDirection: TextDirection.ltr,
               child: _navigator(home: const Text('home')),

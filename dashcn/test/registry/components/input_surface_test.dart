@@ -1,4 +1,4 @@
-// P6-P3 §5: the input surface matches shadcn v4.
+// P6-P3 §5: the input surface matches upstream v4.
 //
 // Light: `bg-transparent` (input @0). Dark: `bg-input/30` (input token is 15%
 // white, @0.3 ≈ 4.5% white). Both: `border-input` 1px. Reads real painted
@@ -15,11 +15,8 @@ import 'package:flutter/services.dart';
 Color _alpha(Color base, double factor) =>
     base.withValues(alpha: base.a * factor);
 
-Widget _frame({
-  required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
-}) {
-  return ShadcnTheme(
+Widget _frame({required Widget child, ThemeData data = const ThemeData()}) {
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: const [],
@@ -27,7 +24,7 @@ Widget _frame({
         data: const MediaQueryData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
-          child: ShadcnLayer(
+          child: AppLayer(
             child: Shortcuts(
               shortcuts: const <ShortcutActivator, Intent>{
                 SingleActivator(LogicalKeyboardKey.tab): NextFocusIntent(),
@@ -62,10 +59,10 @@ void main() {
     testWidgets('light is transparent with a border-input border', (
       tester,
     ) async {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
           child: const Input(hintText: 'Email'),
         ),
       );
@@ -76,10 +73,10 @@ void main() {
     });
 
     testWidgets('dark is input/30 with a border-input border', (tester) async {
-      const ShadcnColors colors = ShadcnColors.darkFallback;
+      const ThemeColors colors = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
           child: const Input(hintText: 'Email'),
         ),
       );

@@ -103,7 +103,7 @@ other 45 locales inherit the English until someone adds a translation.
 Fixed (not ported):
 
 - The status line and the browse label were hard-coded English strings built by
-  `_resolveStatusLabel()`. They are `ShadcnLocalizations` getters now.
+  `_resolveStatusLabel()`. They are `ComponentLocalizations` getters now.
 - `_resolveBorderColor` returned `null` for `idle`, and the outline was then
   painted with `color: null` — which `Border.all` rejects at runtime, so an
   idle dropzone (the default!) crashed instead of drawing a quiet outline. The

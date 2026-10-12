@@ -56,7 +56,7 @@ class _Account01State extends State<Account01> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     // Align loosens the width: a bare ConstrainedBox under the scroll view
     // would receive tight width and its maxWidth cap would be clamped away.
     final Widget body = Align(

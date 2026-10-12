@@ -1,38 +1,23 @@
 ---
 title: "Class: StageBreakpoint"
-description: "Abstract base class for defining stage-based layout breakpoints."
+description: "A width strategy for `StageContainer`: it snaps a measured width to the  minimum and maximum content widths the layout should use."
 ---
 
 ```dart
-/// Abstract base class for defining stage-based layout breakpoints.
-///
-/// Provides strategies for determining minimum and maximum widths based on
-/// container size. Used by [StageContainer] to create responsive layouts
-/// that adapt to screen size in discrete steps.
-abstract class StageBreakpoint {
-  /// Creates a constant breakpoint with uniform stepping.
-  ///
-  /// Parameters:
-  /// - [breakpoint] (`double`, required): Step size for width calculations.
-  /// - [minSize] (`double`, default: `0`): Minimum allowed size.
-  /// - [maxSize] (`double`, default: `double.infinity`): Maximum allowed size.
-  factory StageBreakpoint.constant(double breakpoint, {double minSize = 0, double maxSize = double.infinity});
-  /// Creates staged breakpoints from a list of specific width values.
-  ///
-  /// Parameters:
-  /// - [breakpoints] (`List<double>`, required): List of breakpoint widths.
-  factory StageBreakpoint.staged(List<double> breakpoints);
-  /// Default responsive breakpoints (576, 768, 992, 1200, 1400).
-  ///
-  /// Matches common responsive design breakpoints for mobile, tablet, desktop.
+/// A width strategy for `StageContainer`: it snaps a measured width to the
+/// minimum and maximum content widths the layout should use.
+class StageBreakpoint {
+  /// Const constructor for subclasses.
+  const StageBreakpoint();
+  /// Default responsive breakpoints: 576, 768, 992, 1200, 1400.
   static const StageBreakpoint defaultBreakpoints = StagedBreakpoint.defaultBreakpoints();
-  /// Calculates the minimum width for the given container [width].
-  double getMinWidth(double width);
-  /// Calculates the maximum width for the given container [width].
-  double getMaxWidth(double width);
-  /// Minimum allowed size constraint.
+  /// The minimum width this strategy allows.
   double get minSize;
-  /// Maximum allowed size constraint.
+  /// The maximum width this strategy allows.
   double get maxSize;
+  /// Snapped-down content width for a container of [width].
+  double getMinWidth(double width);
+  /// Snapped-up content width for a container of [width].
+  double getMaxWidth(double width);
 }
 ```

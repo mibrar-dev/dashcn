@@ -37,28 +37,28 @@ class _TableDefault extends StatefulWidget {
 class _TableDefaultState extends State<_TableDefault> {
   int? _selected;
 
-  ShadcnTableRow _row((String, String, String) person, bool selected) {
+  TableViewRow _row((String, String, String) person, bool selected) {
     final (String name, String role, String status) = person;
-    return ShadcnTableRow(
+    return TableViewRow(
       selected: selected,
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text(name)),
-        ShadcnTableCell(child: Text(role)),
-        ShadcnTableCell(child: Text(status)),
+      cells: <TableViewCell>[
+        TableViewCell(child: Text(name)),
+        TableViewCell(child: Text(role)),
+        TableViewCell(child: Text(status)),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 460),
-          child: ShadcnTable(
+          child: TableView(
             columnWidths: const <int, TableSize>{
               0: FlexTableSize(flex: 2),
               1: FlexTableSize(),
@@ -66,20 +66,20 @@ class _TableDefaultState extends State<_TableDefault> {
             },
             onRowTap: (int index) =>
                 setState(() => _selected = index - _tableHeaderRows),
-            rows: <ShadcnTableRow>[
-              const ShadcnTableHeader(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(child: Text('Name')),
-                  ShadcnTableCell(child: Text('Role')),
-                  ShadcnTableCell(child: Text('Status')),
+            rows: <TableViewRow>[
+              const TableViewHeader(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('Name')),
+                  TableViewCell(child: Text('Role')),
+                  TableViewCell(child: Text('Status')),
                 ],
               ),
               for (int i = 0; i < _people.length; i++)
                 _row(_people[i], _selected == i),
-              const ShadcnTableFooter(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(columnSpan: 2, child: Text('4 people')),
-                  ShadcnTableCell(child: Text('—')),
+              const TableViewFooter(
+                cells: <TableViewCell>[
+                  TableViewCell(columnSpan: 2, child: Text('4 people')),
+                  TableViewCell(child: Text('—')),
                 ],
               ),
             ],
@@ -127,30 +127,30 @@ class _ResizableTableState extends State<_ResizableTable> {
     return SizedBox(
       width: 340,
       height: 170,
-      child: ShadcnTable(
+      child: TableView(
         resizeController: _controller,
         verticalController: _vertical,
         horizontalController: _horizontal,
-        rows: const <ShadcnTableRow>[
-          ShadcnTableHeader(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Drag a divider')),
-              ShadcnTableCell(child: Text('Column')),
-              ShadcnTableCell(child: Text('Row')),
+        rows: const <TableViewRow>[
+          TableViewHeader(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Drag a divider')),
+              TableViewCell(child: Text('Column')),
+              TableViewCell(child: Text('Row')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('One')),
-              ShadcnTableCell(child: Text('Two')),
-              ShadcnTableCell(child: Text('Three')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('One')),
+              TableViewCell(child: Text('Two')),
+              TableViewCell(child: Text('Three')),
             ],
           ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Four')),
-              ShadcnTableCell(child: Text('Five')),
-              ShadcnTableCell(child: Text('Six')),
+          TableViewRow(
+            cells: <TableViewCell>[
+              TableViewCell(child: Text('Four')),
+              TableViewCell(child: Text('Five')),
+              TableViewCell(child: Text('Six')),
             ],
           ),
         ],

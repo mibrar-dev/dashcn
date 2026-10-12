@@ -4,8 +4,8 @@
   "category": "Layout",
   "description": "Split panes with draggable dividers, absolute or flexible sizing, min/max constraints, collapse and external controllers.",
   "tier": "component",
-  "install": "flutter_shadcn add resizable",
-  "import": "import 'package:<your_app>/ui/shadcn/components/resizable/resizable.dart';",
+  "install": "dashcn add resizable",
+  "import": "import 'package:<your_app>/ui/dashcn/components/resizable/resizable.dart';",
   "tags": [
     "layout",
     "resizable",

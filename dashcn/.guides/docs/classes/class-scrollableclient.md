@@ -1,37 +1,43 @@
 ---
 title: "Class: ScrollableClient"
-description: "A customizable scrollable widget with two-axis scrolling support."
+description: "A scrollable surface that scrolls on both axes."
 ---
 
 ```dart
-/// A customizable scrollable widget with two-axis scrolling support.
+/// A scrollable surface that scrolls on both axes.
+///
+/// The [builder] receives the current offset and the viewport size, so
+/// content can translate, zoom or virtualise itself. When [overscroll] is
+/// true the offset may leave the content bounds; otherwise it is clamped.
 class ScrollableClient extends StatelessWidget {
-  /// Whether this is the primary scrollable in the widget tree.
+  /// Creates a two-dimensional scrollable client.
+  const ScrollableClient({super.key, this.primary, this.mainAxis = Axis.vertical, this.verticalDetails = const ScrollableDetails.vertical(), this.horizontalDetails = const ScrollableDetails.horizontal(), required this.builder, this.child, this.diagonalDragBehavior, this.dragStartBehavior, this.keyboardDismissBehavior, this.clipBehavior, this.hitTestBehavior, this.overscroll, this.theme});
+  /// Whether this is the primary scrollable of the [mainAxis].
   final bool? primary;
-  /// Primary scrolling axis.
+  /// Axis that inherits the primary controller and the keyboard dismissal.
   final Axis mainAxis;
-  /// Scroll configuration for vertical axis.
+  /// Controller, physics and axis direction of the vertical axis.
   final ScrollableDetails verticalDetails;
-  /// Scroll configuration for horizontal axis.
+  /// Controller, physics and axis direction of the horizontal axis.
   final ScrollableDetails horizontalDetails;
-  /// Builder for creating content with viewport info.
+  /// Builds the content for the current offset and viewport size.
   final ScrollableBuilder builder;
-  /// Optional child widget.
+  /// Optional child handed through to [builder].
   final Widget? child;
-  /// Behavior for diagonal drag gestures.
+  /// How diagonal drags pick an axis.
   final DiagonalDragBehavior? diagonalDragBehavior;
-  /// When drag gestures should start.
+  /// When drag gestures start.
   final DragStartBehavior? dragStartBehavior;
-  /// How keyboard dismissal should behave.
+  /// Keyboard dismissal on drag.
   final ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior;
-  /// How to clip content.
+  /// Viewport clipping.
   final Clip? clipBehavior;
-  /// Hit test behavior.
+  /// Hit-test behaviour of the scrollable.
   final HitTestBehavior? hitTestBehavior;
-  /// Whether overscroll effects are enabled.
+  /// Whether offsets may move past the content edges.
   final bool? overscroll;
-  /// Creates a [ScrollableClient].
-  const ScrollableClient({super.key, this.primary, this.mainAxis = Axis.vertical, this.verticalDetails = const ScrollableDetails.vertical(), this.horizontalDetails = const ScrollableDetails.horizontal(), required this.builder, this.child, this.diagonalDragBehavior, this.dragStartBehavior, this.keyboardDismissBehavior, this.clipBehavior, this.hitTestBehavior, this.overscroll});
+  /// Widget-leg style override, merged on top of the other resolver legs.
+  final ScrollableClientTheme? theme;
   Widget build(BuildContext context);
 }
 ```

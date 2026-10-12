@@ -6,7 +6,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 
 /// Paints background-to-transparent gradients over the scroll edges of
 /// [child].
@@ -38,7 +38,7 @@ class ScrollFade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color base = color ?? ShadcnTheme.of(context).colors.background;
+    final Color base = color ?? Theme.of(context).colors.background;
     return Stack(
       children: <Widget>[
         child,

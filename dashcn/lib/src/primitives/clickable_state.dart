@@ -81,7 +81,7 @@ class ClickableState extends State<Clickable> {
   /// Emits the tap semantics event and plays the platform click sound on
   /// mobile.
   static Future<void> feedbackForTap(BuildContext context) async {
-    final currentPlatform = ShadcnTheme.of(context).platform;
+    final currentPlatform = Theme.of(context).platform;
     context.findRenderObject()!.sendSemanticsEvent(const TapSemanticEvent());
     if (isMobile(currentPlatform)) {
       return SystemSound.play(SystemSoundType.click);
@@ -138,7 +138,7 @@ class ClickableState extends State<Clickable> {
   }
 
   Widget _builder(BuildContext context, Widget? _) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final enabled = widget.enabled;
     var widgetStates = Data.maybeOf<WidgetStatesData>(context)?.states ?? {};
     widgetStates = widgetStates.union(_controller.value);

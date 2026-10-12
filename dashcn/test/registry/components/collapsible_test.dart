@@ -16,7 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CollapsibleTheme? scoped,
 }) {
@@ -24,7 +24,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<CollapsibleTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -221,7 +221,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+        data: const ThemeData(colors: ThemeColors.darkFallback),
         child: Collapsible(
           children: <Widget>[const CollapsibleTrigger(child: Text('title'))],
         ),
@@ -233,7 +233,7 @@ void main() {
           .ancestor(of: find.byType(Icon), matching: find.byType(IconTheme))
           .first,
     );
-    expect(theme.data.color, ShadcnColors.darkFallback.mutedForeground);
+    expect(theme.data.color, ThemeColors.darkFallback.mutedForeground);
   });
 
   testWidgets('keyboard activation toggles the section', (tester) async {

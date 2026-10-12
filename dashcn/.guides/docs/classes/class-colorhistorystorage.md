@@ -1,34 +1,27 @@
 ---
 title: "Class: ColorHistoryStorage"
-description: "An abstract interface for storing and managing color history."
+description: "In-memory store of recently used colours, listenable for changes."
 ---
 
 ```dart
-/// An abstract interface for storing and managing color history.
+/// In-memory store of recently used colours, listenable for changes.
 ///
-/// [ColorHistoryStorage] defines the contract for color history management,
-/// including adding new colors, clearing history, and accessing recent colors.
-/// Implementations should provide storage mechanisms (in-memory, persistent, etc.).
+/// Provide one with [RecentColorsScope], then read it with
+/// [ColorHistoryStorage.of] from a builder below the scope.
 abstract class ColorHistoryStorage implements Listenable {
-  /// Adds a color to the history.
+  /// Adds [color] to the front of the history (most-recent first).
   ///
-  /// Parameters:
-  /// - [color]: The color to add to the history.
+  /// A colour already present moves to the front instead of duplicating.
   void addHistory(Color color);
-  /// Replaces the entire color history with a new list.
-  ///
-  /// Parameters:
-  /// - [colors]: The new list of colors to set as the history.
+  /// Replaces the whole history (clamped to [capacity]).
   void setHistory(List<Color> colors);
-  /// Clears all colors from the history.
+  /// Removes every colour.
   void clear();
-  /// The maximum number of colors that can be stored in the history.
+  /// Maximum number of stored colours.
   int get capacity;
-  /// The list of recent colors, ordered from most to least recent.
+  /// Colours, most-recent first.
   List<Color> get recentColors;
-  /// Finds and listens the [ColorHistoryStorage] in the widget tree.
+  /// The nearest storage above [context]; throws when absent.
   static ColorHistoryStorage of(BuildContext context);
-  /// Finds the [ColorHistoryStorage] in the widget tree.
-  static ColorHistoryStorage find(BuildContext context);
 }
 ```

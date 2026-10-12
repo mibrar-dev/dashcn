@@ -1,6 +1,6 @@
 // Widget tests for the `card` component.
 //
-// Covers the surface tokens, the shadcn slot composition, clipping, the sheet
+// Covers the surface tokens, the upstream slot composition, clipping, the sheet
 // overlay branch, dark tokens and the four theme-precedence legs. The
 // regression tests pin the two deletions the batch asked for: `CardButton` is
 // gone (a pressable card is `Card(child: Clickable(...))`) and the old
@@ -22,7 +22,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CardTheme? scopedTheme,
   bool inSheetOverlay = false,
@@ -37,7 +37,7 @@ Widget _frame({
       child: body,
     );
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -64,7 +64,7 @@ BoxDecoration _decoration(WidgetTester tester) {
 void main() {
   group('surface', () {
     testWidgets('uses card / cardForeground / border tokens', (tester) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(_frame(child: const Card(child: Text('Body'))));
       final BoxDecoration decoration = _decoration(tester);
       expect(decoration.color, colors.card);
@@ -74,9 +74,7 @@ void main() {
 
     testWidgets('corner radius resolves the ambient radiusXl', (tester) async {
       await tester.pumpWidget(_frame(child: const Card(child: Text('Body'))));
-      final ShadcnThemeData theme = ShadcnTheme.of(
-        tester.element(find.byType(Card)),
-      );
+      final ThemeData theme = Theme.of(tester.element(find.byType(Card)));
       expect(_decoration(tester).borderRadius, theme.borderRadiusXl);
     });
 
@@ -91,7 +89,7 @@ void main() {
         padding.padding,
         resolveEdgeInsets(
           cardDefaultPadding,
-          const ShadcnThemeData().density.baseContentPadding,
+          const ThemeData().density.baseContentPadding,
         ),
       );
       expect(padding.padding, const EdgeInsets.all(24));
@@ -135,7 +133,7 @@ void main() {
   });
 
   group('slots', () {
-    testWidgets('renders the shadcn header/title/description composition', (
+    testWidgets('renders the dashcn header/title/description composition', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -194,7 +192,7 @@ void main() {
           )
           .first
           .style;
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       expect(styleOf('Title').color, colors.cardForeground);
       expect(styleOf('Title').fontWeight, FontWeight.w600);
       expect(styleOf('Description').color, colors.mutedForeground);
@@ -314,7 +312,7 @@ void main() {
           child: const Card(child: Text('Body')),
         ),
       );
-      expect(_decoration(tester).color, ShadcnColors.lightFallback.card);
+      expect(_decoration(tester).color, ThemeColors.lightFallback.card);
       final Padding padding = tester.widget<Padding>(
         find.descendant(of: find.byType(Card), matching: find.byType(Padding)),
       );
@@ -324,10 +322,10 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Card(child: Text('Body')),
         ),
       );
@@ -337,10 +335,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Card(
             background: ThemedColor.ref(ColorRef.card, alpha: 0.5),
             child: Text('Body'),

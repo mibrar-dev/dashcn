@@ -4,8 +4,8 @@
   "category": "Forms & Inputs",
   "description": "Widgets-only text field wrapping EditableText, with a pluggable feature system, form participation and a widgets-only selection menu.",
   "tier": "component",
-  "install": "flutter_shadcn add input",
-  "import": "import 'package:<your_app>/ui/shadcn/components/input/input.dart';",
+  "install": "dashcn add input",
+  "import": "import 'package:<your_app>/ui/dashcn/components/input/input.dart';",
   "tags": [
     "form",
     "input",
@@ -45,9 +45,9 @@
     ],
     "providedByPrimitives": {
       "text_editing": [
-        "ShadcnSelectionControls",
-        "ShadcnTextSelectionToolbar",
-        "defaultShadcnContextMenuBuilder",
+        "SelectionControls",
+        "SelectionToolbar",
+        "defaultContextMenuBuilder",
         "EditableTextHost",
         "EditableTextShell",
         "EditableTextFieldRow",

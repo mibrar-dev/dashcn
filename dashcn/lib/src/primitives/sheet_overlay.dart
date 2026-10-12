@@ -1,7 +1,7 @@
 // Minimal sheet-overlay context helper.
 //
 // Ported from `shared/primitives/sheet_overlay.dart`. The old implementation
-// read a `Model` key (`#shadcn_flutter_sheet_overlay`); data_widget's Model
+// read a `Model` key (`#dashcn_sheet_overlay`); data_widget's Model
 // family was not ported to foundation, so the marker is now a dedicated type
 // provided with `Data<SheetOverlayMarker>.inherit`. The future `drawer`
 // component wraps its sheet content in that provider.

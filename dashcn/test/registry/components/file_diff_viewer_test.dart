@@ -55,12 +55,12 @@ const FileDiff _patch = FileDiff(
 );
 
 Widget _frame({
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   TextDirection textDirection = TextDirection.ltr,
   required Widget child,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -103,8 +103,8 @@ bool _isSplitDivider(Widget widget) {
 }
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
-  const ShadcnColors dark = ShadcnColors.darkFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
+  const ThemeColors dark = ThemeColors.darkFallback;
 
   testWidgets('token surface in light and dark', (tester) async {
     await tester.pumpWidget(
@@ -122,7 +122,7 @@ void main() {
     await tester.pumpWidget(const SizedBox());
     await tester.pumpWidget(
       _frame(
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: const FileDiffViewer(files: <FileDiff>[_patch]),
       ),
     );

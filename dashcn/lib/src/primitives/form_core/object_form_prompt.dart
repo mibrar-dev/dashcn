@@ -19,20 +19,20 @@ import 'object_form_field.dart';
 /// Dialog card padding (`p-6`), density multipliers.
 const EdgeInsetsGeometry objectFormDialogPadding = EdgeInsetsDensity.pxAll(24);
 
-/// Object-form popover card padding: shadcn `p-4` (16) as density
+/// Object-form popover card padding: upstream `p-4` (16) as density
 /// multipliers, resolved at build.
 const EdgeInsetsGeometry objectFormPopupPadding = EdgeInsetsDensity.pxAll(16);
 
-/// Object-form action-row padding: shadcn `px-4 py-2` (16/8) as density
+/// Object-form action-row padding: upstream `px-4 py-2` (16/8) as density
 /// multipliers, resolved at build.
 const EdgeInsetsGeometry objectFormButtonPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 16, vertical: 8);
 
 /// Object-form footer row padding when the footer paints its own top border:
-/// shadcn `p-3` (12).
+/// upstream `p-3` (12).
 const EdgeInsetsGeometry objectFormFooterPadding = EdgeInsetsDensity.pxAll(12);
 
-/// Object-form dialog inset from the screen edge: shadcn `p-4` (16).
+/// Object-form dialog inset from the screen edge: upstream `p-4` (16).
 const EdgeInsetsGeometry objectFormScreenPadding = EdgeInsetsDensity.pxAll(16);
 
 /// Narrowest a shrink-wrapping object-form dialog card gets. An editor whose
@@ -41,12 +41,12 @@ const EdgeInsetsGeometry objectFormScreenPadding = EdgeInsetsDensity.pxAll(16);
 /// width, so a picker still hugs its grid exactly.
 const double objectFormDialogMinWidth = 240;
 
-/// Widest an object-form dialog card gets: shadcn `sm:max-w-lg`.
+/// Widest an object-form dialog card gets: upstream `sm:max-w-lg`.
 const double objectFormDialogMaxWidth = 480;
 
 /// Lookup key of the object-form dialog card surface.
 const ValueKey<String> kObjectFormDialogSurfaceKey = ValueKey<String>(
-  'shadcn.object_form.dialog.surface',
+  'dashcn.object_form.dialog.surface',
 );
 
 class ObjectFormPromptDialog<T> extends StatefulWidget {
@@ -75,7 +75,7 @@ class ObjectFormPromptDialog<T> extends StatefulWidget {
   final Widget? dialogTitle;
 
   /// Padding between the card border and the editor; null means the caller
-  /// paints the shell (a `p-0` dialog around a `p-3` calendar, as shadcn
+  /// paints the shell (a `p-0` dialog around a `p-3` calendar, as upstream
   /// does).
   final EdgeInsetsGeometry? padding;
 
@@ -135,8 +135,10 @@ class _ObjectFormPromptDialogState<T> extends State<ObjectFormPromptDialog<T>>
         child: widget.editorBuilder(context, this),
       );
     }
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final double density = theme.density.baseContentPadding * theme.scaling;
     final EdgeInsetsGeometry? cardPadding = widget.padding;
     final EdgeInsetsGeometry? footerPadding = widget.footerPadding;
@@ -160,7 +162,7 @@ class _ObjectFormPromptDialogState<T> extends State<ObjectFormPromptDialog<T>>
       ],
     );
     if (footerPadding != null) {
-      // shadcn's picker dialogs: the action row keeps its own `p-3` and a
+      // upstream's picker dialogs: the action row keeps its own `p-3` and a
       // hairline top border, so the card itself can be `p-0`.
       footer = DecoratedBox(
         decoration: BoxDecoration(
@@ -329,7 +331,7 @@ class _ObjectFormPromptPopupState<T> extends State<ObjectFormPromptPopup<T>>
         child: widget.editorBuilder(context, this),
       );
     }
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Data<ObjectFormHandler<T>>.inherit(
       data: this,
       child: DecoratedBox(
@@ -365,7 +367,7 @@ class _PromptButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final Color background = primary
         ? theme.colors.primary
         : theme.colors.input.withValues(alpha: theme.colors.input.a * 0.3);

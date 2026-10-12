@@ -1,81 +1,44 @@
 ---
 title: "Class: SwiperTheme"
-description: "Theme configuration for swiper overlay behavior and appearance."
+description: "Behavioural configuration of a [Swiper]'s panel and swipe gesture."
 ---
 
 ```dart
-/// Theme configuration for swiper overlay behavior and appearance.
+/// Behavioural configuration of a [Swiper]'s panel and swipe gesture.
 ///
-/// Defines default properties for swiper components including overlay
-/// behavior, drag interaction, surface effects, and visual styling.
-///
-/// Features:
-/// - Configurable drag and expansion behavior
-/// - Surface effects and backdrop styling
-/// - Barrier and interaction customization
-/// - Consistent theming across swiper variants
-///
-/// Example:
-/// ```dart
-/// ComponentThemeData(
-///   data: {
-///     SwiperTheme: SwiperTheme(
-///       expands: true,
-///       draggable: true,
-///       barrierDismissible: true,
-///       transformBackdrop: true,
-///     ),
-///   },
-///   child: MyApp(),
-/// )
-/// ```
-class SwiperTheme extends ComponentThemeData {
-  /// Whether the swiper should expand to fill available space.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields. The panel's colours,
+/// border and handle come from `DrawerTheme`, resolved by the swiper.
+class SwiperTheme extends ComponentThemeData implements Mergeable<SwiperTheme> {
+  /// Creates a swiper theme.
+  const SwiperTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.expands, this.draggable, this.barrierDismissible, this.useSafeArea, this.showDragHandle, this.borderRadius, this.maxSize, this.barrierColor, this.behavior, this.threshold});
+  /// Whether the panel fills its slide axis; null uses the variant default.
   final bool? expands;
-  /// Whether the swiper can be dragged to dismiss.
+  /// Whether the open panel can be dragged away.
   final bool? draggable;
-  /// Whether tapping the barrier dismisses the swiper.
+  /// Whether tapping the barrier dismisses the panel.
   final bool? barrierDismissible;
-  /// Builder for custom backdrop content.
-  final WidgetBuilder? backdropBuilder;
-  /// Whether to respect device safe areas.
+  /// Whether the panel respects the device safe area.
   final bool? useSafeArea;
-  /// Whether to show the drag handle.
+  /// Whether the panel draws a drag handle; null keeps `DrawerTheme`.
   final bool? showDragHandle;
-  /// Border radius for the swiper container.
-  final BorderRadiusGeometry? borderRadius;
-  /// Size of the drag handle when displayed.
-  final Size? dragHandleSize;
-  /// Whether to transform the backdrop when shown.
-  final bool? transformBackdrop;
-  /// Opacity for surface effects.
-  final double? surfaceOpacity;
-  /// Blur intensity for surface effects.
-  final double? surfaceBlur;
-  /// Color of the modal barrier.
-  final Color? barrierColor;
-  /// Hit test behavior for gesture detection.
+  /// Inner-corner radius of the panel; null keeps `DrawerTheme`.
+  final BorderRadius? borderRadius;
+  /// Panel extent along its slide axis; null keeps `DrawerTheme`'s `maxSize`.
+  final double? maxSize;
+  /// Barrier colour; null uses black at 50%.
+  final ThemedColor? barrierColor;
+  /// Hit test behaviour of the swipe gesture.
   final HitTestBehavior? behavior;
-  /// Creates a [SwiperTheme].
-  ///
-  /// All parameters are optional and will use system defaults when null.
-  ///
-  /// Example:
-  /// ```dart
-  /// const SwiperTheme(
-  ///   expands: true,
-  ///   draggable: true,
-  ///   transformBackdrop: true,
-  /// )
-  /// ```
-  const SwiperTheme({this.expands, this.draggable, this.barrierDismissible, this.backdropBuilder, this.useSafeArea, this.showDragHandle, this.borderRadius, this.dragHandleSize, this.transformBackdrop, this.surfaceOpacity, this.surfaceBlur, this.barrierColor, this.behavior});
-  /// Creates a copy of this theme with optionally replaced values.
-  ///
-  /// All parameters are wrapped in [ValueGetter] to allow lazy evaluation
-  /// and dynamic theme changes.
-  SwiperTheme copyWith({ValueGetter<bool?>? expands, ValueGetter<bool?>? draggable, ValueGetter<bool?>? barrierDismissible, ValueGetter<WidgetBuilder?>? backdropBuilder, ValueGetter<bool?>? useSafeArea, ValueGetter<bool?>? showDragHandle, ValueGetter<BorderRadiusGeometry?>? borderRadius, ValueGetter<Size?>? dragHandleSize, ValueGetter<bool?>? transformBackdrop, ValueGetter<double?>? surfaceOpacity, ValueGetter<double?>? surfaceBlur, ValueGetter<Color?>? barrierColor, ValueGetter<HitTestBehavior?>? behavior});
-  int get hashCode;
+  /// Fraction (0..1) of the panel at which a release settles it open.
+  final double? threshold;
+  /// Returns a copy with the given fields replaced.
+  SwiperTheme copyWith({ValueGetter<bool?>? expands, ValueGetter<bool?>? draggable, ValueGetter<bool?>? barrierDismissible, ValueGetter<bool?>? useSafeArea, ValueGetter<bool?>? showDragHandle, ValueGetter<BorderRadius?>? borderRadius, ValueGetter<double?>? maxSize, ValueGetter<ThemedColor?>? barrierColor, ValueGetter<HitTestBehavior?>? behavior, ValueGetter<double?>? threshold});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  SwiperTheme merge(SwiperTheme? fallback);
+  /// Flags and colours step at t < 0.5; geometry and numbers lerp.
+  static SwiperTheme lerp(SwiperTheme a, SwiperTheme b, double t);
   bool operator ==(Object other);
-  String toString();
+  int get hashCode;
 }
 ```

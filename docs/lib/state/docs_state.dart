@@ -14,7 +14,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_storage.dart';
 import 'site_theme_model.dart';
 
@@ -23,7 +23,7 @@ export 'docs_storage.dart'
 export 'site_theme_model.dart'
     show SiteThemeModel, kDefaultResetPresetId, kDocsFontOptions;
 
-/// Preset id selected on a first visit: the official shadcn neutral base
+/// Preset id selected on a first visit: the official upstream neutral base
 /// (`themes/neutral.json`), matching the reference site's palette.
 const String kDefaultDocsPresetId = kDefaultResetPresetId;
 
@@ -70,7 +70,7 @@ class DocsState extends ChangeNotifier {
   double get effectiveRadiusPx => themeModel.radiusPx;
 
   /// The fully-resolved theme for the current state.
-  ShadcnThemeData get theme => themeModel.themeFor(brightness);
+  ThemeData get theme => themeModel.themeFor(brightness);
 
   /// Loads persisted preferences; safe to call once before `runApp`.
   ///

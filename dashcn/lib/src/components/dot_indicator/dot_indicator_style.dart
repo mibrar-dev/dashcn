@@ -117,7 +117,7 @@ class DotIndicatorTheme extends ComponentThemeData
   final double? spacing;
 
   /// Padding around the run of dots; null resolves [dotIndicatorDefaultPadding]
-  /// (shadcn `p-2`, density-scaled).
+  /// (upstream `p-2`, density-scaled).
   final EdgeInsetsGeometry? padding;
 
   /// Duration of the active/inactive morph; null resolves 150 ms.
@@ -243,7 +243,7 @@ const DotStyle _dotIndicatorInactiveRow = DotStyle(
   ),
 );
 
-/// Padding of the run of dots: shadcn `p-2` (8px), density-scaled.
+/// Padding of the run of dots: upstream `p-2` (8px), density-scaled.
 const EdgeInsetsGeometry dotIndicatorDefaultPadding = EdgeInsetsDensity.pxAll(
   8,
 );

@@ -1,10 +1,10 @@
-// Form, validation and input strings for [ShadcnLocalizations].
+// Form, validation and input strings for [ComponentLocalizations].
 
-/// Form, validation and input text for [ShadcnLocalizations].
+/// Form, validation and input text for [ComponentLocalizations].
 ///
-/// Applied by `ShadcnLocalizations`; every getter has an English default and
+/// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it.
-mixin ShadcnLocalizationsForm {
+mixin ComponentLocalizationsForm {
   /// Accessible label of a token chip's remove button.
   ///
   /// Copied from Flutter's `deleteButtonTooltip`, documented there as "the

@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Hebrew (`he`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsHe extends ShadcnLocalizations {
+class ComponentLocalizationsHe extends ComponentLocalizations {
   /// Creates the Hebrew strings.
-  const ShadcnLocalizationsHe([super.locale = const Locale('he')]);
+  const ComponentLocalizationsHe([super.locale = const Locale('he')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

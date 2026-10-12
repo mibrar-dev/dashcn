@@ -1,6 +1,6 @@
 // The edge-panel modal route. Extends the widgets [ModalRoute]; the panel
 // shell lives in `drawer_shell.dart`. The component supplies the live theme
-// through [ShadcnDrawerRoute.themeOf].
+// through [DrawerRoute.themeOf].
 
 import 'package:flutter/widgets.dart';
 
@@ -13,8 +13,8 @@ import 'drawer_shell.dart';
 
 const Color kDrawerFallbackBarrierColor = Color(0x80000000);
 
-class ShadcnDrawerRoute<T> extends ModalRoute<T> {
-  ShadcnDrawerRoute({
+class DrawerRoute<T> extends ModalRoute<T> {
+  DrawerRoute({
     required this.builder,
     required this.position,
     required this.themeOf,
@@ -94,7 +94,7 @@ class ShadcnDrawerRoute<T> extends ModalRoute<T> {
       Builder(
         builder: (BuildContext context) {
           final DrawerRouteTheme style = themeOf(context);
-          final ShadcnColors colors = ShadcnTheme.of(context).colors;
+          final ThemeColors colors = Theme.of(context).colors;
           final Color color =
               style.barrierColor?.resolve(colors) ??
               kDrawerFallbackBarrierColor;
@@ -111,7 +111,8 @@ class ShadcnDrawerRoute<T> extends ModalRoute<T> {
                 ),
             dismissible: barrierDismissible,
             semanticsLabel:
-                barrierLabel ?? ShadcnLocalizations.of(context).dialogDismiss,
+                barrierLabel ??
+                ComponentLocalizations.of(context).dialogDismiss,
             barrierSemanticsDismissible: true,
           );
         },

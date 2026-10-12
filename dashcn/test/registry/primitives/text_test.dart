@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// A distinctive theme, so an assertion can tell "resolved from the theme"
 /// apart from "fell back to a Flutter default".
-const _colors = ShadcnColors(
+const _colors = ThemeColors(
   brightness: Brightness.light,
   background: Color(0xFFFFFFFF),
   foreground: Color(0xFF010101),
@@ -49,9 +49,9 @@ const _colors = ShadcnColors(
 
 const _typography = Typography.geist();
 
-const _theme = ShadcnThemeData(
+const _theme = ThemeData(
   colors: _colors,
-  tokens: ShadcnTokens(radius: 0.5),
+  tokens: DesignTokens(radius: 0.5),
   typography: _typography,
 );
 
@@ -60,7 +60,7 @@ const _probeColor = Color(0xFFAB00CD);
 /// Pumps [child] under [_theme] plus the minimum a [Text] needs to lay out.
 Future<void> pumpInTheme(WidgetTester tester, Widget child) async {
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: _theme,
       child: Directionality(textDirection: TextDirection.ltr, child: child),
     ),
@@ -80,7 +80,7 @@ DefaultTextStyle defaultStyleOf(WidgetTester tester) =>
 TextStyle styleOf(WidgetTester tester) => defaultStyleOf(tester).style;
 
 void main() {
-  group('WrappedText resolves its builders against ShadcnTheme', () {
+  group('WrappedText resolves its builders against Theme', () {
     testWidgets('typography lookups return the theme ramp values', (
       tester,
     ) async {

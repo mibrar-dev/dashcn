@@ -1,4 +1,4 @@
-// The `card` component: the [Card] surface plus the shadcn card slots
+// The `card` component: the [Card] surface plus the upstream card slots
 // ([CardHeader], [CardTitle], [CardDescription], [CardContent],
 // [CardFooter]).
 //
@@ -45,7 +45,7 @@ class Card extends StatelessWidget {
   final Widget child;
 
   /// Padding between the card border and its content; null falls back to
-  /// `cardDefaults.padding`, a density-scaled shadcn `p-6` that `Card`
+  /// `cardDefaults.padding`, a density-scaled upstream `p-6` that `Card`
   /// resolves against `density.baseContentPadding * scaling`. A literal
   /// override passes through unchanged.
   final EdgeInsetsGeometry? padding;
@@ -73,7 +73,7 @@ class Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final CardTheme style = resolveComponentStyle<CardTheme, CardTheme>(
       context,
       widget: theme,
@@ -90,7 +90,7 @@ class Card extends StatelessWidget {
     if (SheetOverlayHandler.isSheetOverlay(context)) {
       return content;
     }
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final Color? border = (borderColor ?? style.borderColor)?.resolve(colors);
     final double width = borderWidth ?? style.borderWidth ?? 0;
     final List<BoxShadow> boxShadow =
@@ -121,7 +121,7 @@ class Card extends StatelessWidget {
   }
 }
 
-/// Vertical container for the card header block (shadcn `CardHeader`).
+/// Vertical container for the card header block (upstream `CardHeader`).
 class CardHeader extends StatelessWidget {
   /// Creates a card header.
   const CardHeader({super.key, required this.child, this.padding});
@@ -145,7 +145,7 @@ class CardHeader extends StatelessWidget {
   }
 }
 
-/// Card heading (shadcn `CardTitle`): semibold, tight tracking.
+/// Card heading (upstream `CardTitle`): semibold, tight tracking.
 class CardTitle extends StatelessWidget {
   /// Creates a card title.
   const CardTitle({super.key, required this.child, this.style});
@@ -164,7 +164,7 @@ class CardTitle extends StatelessWidget {
       defaults: cardDefaults,
     );
     final Color color =
-        theme.foreground?.resolve(ShadcnTheme.of(context).colors) ??
+        theme.foreground?.resolve(Theme.of(context).colors) ??
         _foreground(context);
     return DefaultTextStyle.merge(
       style:
@@ -175,7 +175,7 @@ class CardTitle extends StatelessWidget {
   }
 }
 
-/// Card supporting text (shadcn `CardDescription`): muted, 14px.
+/// Card supporting text (upstream `CardDescription`): muted, 14px.
 class CardDescription extends StatelessWidget {
   /// Creates a card description.
   const CardDescription({super.key, required this.child, this.style});
@@ -190,14 +190,14 @@ class CardDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTextStyle.merge(
       style: (style ?? const TextStyle(fontSize: 14)).copyWith(
-        color: ShadcnTheme.of(context).colors.mutedForeground,
+        color: Theme.of(context).colors.mutedForeground,
       ),
       child: child,
     );
   }
 }
 
-/// Body of the card (shadcn `CardContent`).
+/// Body of the card (upstream `CardContent`).
 class CardContent extends StatelessWidget {
   /// Creates card content.
   const CardContent({super.key, required this.child, this.padding});
@@ -214,7 +214,7 @@ class CardContent extends StatelessWidget {
   }
 }
 
-/// Card footer (shadcn `CardFooter`), aligned to the end by default.
+/// Card footer (upstream `CardFooter`), aligned to the end by default.
 class CardFooter extends StatelessWidget {
   /// Creates a card footer.
   const CardFooter({
@@ -243,4 +243,4 @@ class CardFooter extends StatelessWidget {
 }
 
 Color _foreground(BuildContext context) =>
-    ShadcnTheme.of(context).colors.cardForeground;
+    Theme.of(context).colors.cardForeground;

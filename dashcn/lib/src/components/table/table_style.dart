@@ -270,10 +270,10 @@ class TableTheme extends ComponentThemeData implements Mergeable<TableTheme> {
   );
 }
 
-/// Shared cell padding: shadcn `p-2` (8 px all sides), density-scaled.
+/// Shared cell padding: upstream `p-2` (8 px all sides), density-scaled.
 const EdgeInsetsGeometry tableCellPadding = EdgeInsetsDensity.pxAll(8);
 
-/// Header/footer padding: shadcn `px-2` (the header height comes from
+/// Header/footer padding: upstream `px-2` (the header height comes from
 /// [tableHeaderCellDefaults]' `minHeight`), density-scaled.
 const EdgeInsetsGeometry tableHeadCellPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
@@ -293,7 +293,7 @@ const TableCellTheme tableCellDefaults = TableCellTheme(
   padding: tableCellPadding,
 );
 
-/// Default header-cell styling: shadcn v4 `TableHead` (`h-10 px-2`, medium
+/// Default header-cell styling: upstream v4 `TableHead` (`h-10 px-2`, medium
 /// `foreground` text).
 const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(

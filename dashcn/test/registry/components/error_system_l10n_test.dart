@@ -1,5 +1,5 @@
 // Tests that `showErrorDialog`'s dismiss action reads its label from
-// `ShadcnLocalizations` instead of a hard-coded English string.
+// `ComponentLocalizations` instead of a hard-coded English string.
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,11 +15,11 @@ void main() {
       Localizations(
         locale: const Locale('de'),
         delegates: <LocalizationsDelegate<dynamic>>[
-          ...ShadcnLocalizations.localizationsDelegates,
+          ...ComponentLocalizations.localizationsDelegates,
           GlobalWidgetsLocalizations.delegate,
         ],
-        child: ShadcnTheme(
-          data: const ShadcnThemeData(),
+        child: Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: const <ComponentThemeData>[],
             child: Directionality(

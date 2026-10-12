@@ -7,17 +7,17 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/divider/divider.dart';
-import '../ui/shadcn/components/input/input.dart';
-import '../ui/shadcn/components/input_otp/input_otp.dart';
-import '../ui/shadcn/components/select/select.dart';
-import '../ui/shadcn/components/switch/switch.dart';
-import '../ui/shadcn/foundation/gap.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/components/input/input.dart';
+import '../ui/dashcn/components/input_otp/input_otp.dart';
+import '../ui/dashcn/components/select/select.dart';
+import '../ui/dashcn/components/switch/switch.dart';
+import '../ui/dashcn/foundation/gap.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
-/// `Create Account`: the shadcn email/password signup card.
+/// `Create Account`: the upstream email/password signup card.
 class HomeCreateAccountCard extends StatefulWidget {
   /// Creates the card.
   const HomeCreateAccountCard({super.key});

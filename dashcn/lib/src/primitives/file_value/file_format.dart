@@ -40,8 +40,8 @@ const Set<FileStatus> defaultFileItemLoadingStatuses = <FileStatus>{
 
 /// Labels for the transfer states.
 ///
-/// The defaults are the shadcn English wording; a localized component reads
-/// `ShadcnLocalizations` and passes translated values instead.
+/// The defaults are the upstream English wording; a localized component reads
+/// `ComponentLocalizations` and passes translated values instead.
 class FileStatusLabels {
   /// Creates a label set.
   const FileStatusLabels({

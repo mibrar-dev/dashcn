@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
-import '../ui/shadcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/gap.dart';
 import '../widgets/code_figure.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_samples.dart';
@@ -36,14 +36,14 @@ class ThemingPage extends StatelessWidget {
         children: <Widget>[
           const TypesetParagraph(
             'Build your theme from tokens. Every colour, radius, font and '
-            'shadow a component reads comes from the active ShadcnThemeData, '
+            'shadow a component reads comes from the active ThemeData, '
             'so a preset switch re-themes the whole app without touching '
             'component code.',
           ),
           const HeadingAnchor(id: 'tokens', title: 'Tokens'),
           TypesetParagraph.rich(<InlineSpan>[
             const TextSpan(
-              text: 'Each colour token is named after the shadcn ',
+              text: 'Each colour token is named after the dashcn ',
             ),
             typesetInlineCodeSpan('CSS'),
             const TextSpan(text: ' variable in camelCase: '),
@@ -56,10 +56,10 @@ class ThemingPage extends StatelessWidget {
             typesetInlineCodeSpan('cardForeground'),
             const TextSpan(
               text:
-                  '. The tokens live on ShadcnColors; the resolved theme is '
-                  'ShadcnThemeData, read with ',
+                  '. The tokens live on ThemeColors; the resolved theme is '
+                  'ThemeData, read with ',
             ),
-            typesetInlineCodeSpan('ShadcnTheme.of(context)'),
+            typesetInlineCodeSpan('Theme.of(context)'),
             const TextSpan(text: '.'),
           ]),
           DocsCodeFigure(
@@ -109,7 +109,7 @@ class ThemingPage extends StatelessWidget {
                   ' across light and dark. The CLI uses the neutral preset by '
                   'default; apply another one with ',
             ),
-            typesetInlineCodeSpan('flutter_shadcn theme apply <preset>'),
+            typesetInlineCodeSpan('dashcn theme apply <preset>'),
             const TextSpan(text: '. Try them on the '),
             typesetLinkSpan(
               'Themes page',
@@ -145,7 +145,7 @@ class ThemingPage extends StatelessWidget {
             title: 'Animated Theming',
           ),
           const TypesetParagraph(
-            'AnimatedShadcnTheme animates ShadcnThemeData changes over the '
+            'AnimatedTheme animates ThemeData changes over the '
             'duration and curve you pass. Colours tween; layout does not, so '
             'a preset or mode switch never reflows the page.',
           ),

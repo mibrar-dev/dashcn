@@ -1,43 +1,35 @@
 ---
 title: "Class: HSVColorSlider"
-description: "A slider widget for adjusting HSV color components."
+description: "Interactive slider for one or two HSV channels."
 ---
 
 ```dart
-/// A slider widget for adjusting HSV color components.
-///
-/// [HSVColorSlider] provides an interactive slider for modifying different
-/// aspects of an HSV color (hue, saturation, value, and combinations).
-/// The slider displays a gradient representing the selected color channel(s)
-/// and allows users to drag to adjust values.
-///
-/// Example:
-/// ```dart
-/// HSVColorSlider(
-///   value: HSVColor.fromColor(Colors.blue),
-///   sliderType: HSVColorSliderType.hue,
-///   onChanged: (newColor) {
-///     print('New hue: ${newColor.hue}');
-///   },
-/// )
-/// ```
+/// Interactive slider for one or two HSV channels.
 class HSVColorSlider extends StatefulWidget {
-  /// The current HSV color value.
-  final HSVColor value;
-  /// Called while the slider is being dragged.
-  final ValueChanged<HSVColor>? onChanging;
-  /// Called when the slider interaction is complete.
-  final ValueChanged<HSVColor>? onChanged;
-  /// The type of HSV component(s) this slider controls.
+  /// Creates an HSV slider.
+  const HSVColorSlider({super.key, required this.color, required this.sliderType, this.onChanging, this.onChanged, this.reverse = false, this.radius = const Radius.circular(0), this.padding = EdgeInsets.zero, this.enabled = true, this.style, this.focusNode, this.autofocus = false});
+  /// The current colour.
+  final HSVColor color;
+  /// Which channel(s) this slider drives.
   final HSVColorSliderType sliderType;
-  /// Whether to reverse the slider direction.
+  /// Called while the value changes.
+  final ValueChanged<HSVColor>? onChanging;
+  /// Called when the interaction completes.
+  final ValueChanged<HSVColor>? onChanged;
+  /// Swaps the channel axes (and the cursor orientation).
   final bool reverse;
-  /// Corner radius for the slider.
+  /// Corner radius of the gradient.
   final Radius radius;
-  /// Padding around the slider.
+  /// Padding between gradient and cursor bar edge.
   final EdgeInsets padding;
-  /// Creates an [HSVColorSlider].
-  const HSVColorSlider({super.key, required this.value, this.onChanging, this.onChanged, required this.sliderType, this.reverse = false, this.radius = const Radius.circular(0), this.padding = const EdgeInsets.all(0)});
+  /// Whether gestures/keys are accepted.
+  final bool enabled;
+  /// Widget-leg style override.
+  final HSVSliderStyle? style;
+  /// Focus node; one is created internally when null and [autofocus].
+  final FocusNode? focusNode;
+  /// Request focus on first build.
+  final bool autofocus;
   State<HSVColorSlider> createState();
 }
 ```

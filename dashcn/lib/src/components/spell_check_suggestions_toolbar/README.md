@@ -1,6 +1,6 @@
 # SpellCheckSuggestionsToolbar
 
-A shadcn styled toolbar with the spell check replacements for the misspelled
+A dashcn styled toolbar with the spell check replacements for the misspelled
 word under an editable text cursor. Rows and surface come from the `menu`
 component: up to three suggestion rows inside `MenuPopup`.
 
@@ -46,7 +46,7 @@ resolves `MenuPopupTheme` (both owned by `menu`).
 - The two-old-module split (barrel + `_impl` + `part`) is one file.
 - The no-suggestions row is back: `buildButtonItems` returns a disabled
   placeholder item and the toolbar labels it with
-  `ShadcnLocalizations.spellCheckNoSuggestions` (`No suggestions`; English
+  `ComponentLocalizations.spellCheckNoSuggestions` (`No suggestions`; English
   fallback because Flutter's ARBs have no equivalent).
 - Rows are plain `MenuButton`s inside a `MenuGroup` (the old module relied on
   an ambient `MenuGroupData` it did not provide).

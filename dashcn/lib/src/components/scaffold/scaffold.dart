@@ -80,7 +80,7 @@ class Scaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ScaffoldTheme style = _resolve(context);
     final EdgeInsets viewInsets = MediaQuery.viewInsetsOf(context);
     final bool resize =
@@ -187,7 +187,7 @@ class _BarSection extends StatelessWidget {
     if (bars.isEmpty && loading == null) {
       return const SizedBox.shrink();
     }
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final Color? fill = background?.resolve(ambient.colors);
     final Widget section = RepaintBoundary(
       child: Column(
@@ -274,7 +274,7 @@ class AppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final AppBarTheme style = resolveComponentStyle<AppBarTheme, AppBarTheme>(
       context,
       widget: theme,

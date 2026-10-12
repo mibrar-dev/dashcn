@@ -134,7 +134,7 @@ class _FeatureCarouselCardsOnlyCarouselState
 
 /// A single slide, so the CTA sits under one card.
 Widget _featureCarouselLabelled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +157,7 @@ Widget _featureCarouselLabelled(BuildContext context) {
           'A single slide, so the CTA sits under one card.',
           style: TextStyle(
             fontSize: 12,
-            color: ShadcnTheme.of(context).colors.mutedForeground,
+            color: Theme.of(context).colors.mutedForeground,
           ),
         ),
       ],

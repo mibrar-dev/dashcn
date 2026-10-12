@@ -4,9 +4,9 @@ A themed data grid built on a custom layout render object: span-aware cells,
 per-column/row sizing strategies, frozen rows and columns, optional two-axis
 scrolling and optional interactive column/row resizing. Widgets-only.
 
-The public widgets are prefixed `ShadcnTable*` because `Table`, `TableRow` and
+The public widgets are prefixed `TableView*` because `Table`, `TableRow` and
 `TableCell` are also names in `package:flutter/widgets.dart` (the `image`
-component resolved the same clash by renaming `Image` to `ShadcnImage`). No
+component resolved the same clash by renaming `Image` to `Picture`). No
 `hide` workaround is needed when importing both.
 
 ## When to use
@@ -20,18 +20,18 @@ component resolved the same clash by renaming `Image` to `ShadcnImage`). No
 Basic grid:
 
 ```dart
-ShadcnTable(
+TableView(
   columnWidths: const {0: FlexTableSize(flex: 2), 2: FixedTableSize(90)},
-  rows: <ShadcnTableRow>[
-    const ShadcnTableHeader(cells: <ShadcnTableCell>[
-      ShadcnTableCell(child: Text('Name')),
-      ShadcnTableCell(child: Text('Role')),
-      ShadcnTableCell(child: Text('Status')),
+  rows: <TableViewRow>[
+    const TableViewHeader(cells: <TableViewCell>[
+      TableViewCell(child: Text('Name')),
+      TableViewCell(child: Text('Role')),
+      TableViewCell(child: Text('Status')),
     ]),
-    const ShadcnTableRow(cells: <ShadcnTableCell>[
-      ShadcnTableCell(child: Text('Avery')),
-      ShadcnTableCell(child: Text('Designer')),
-      ShadcnTableCell(child: Text('Active')),
+    const TableViewRow(cells: <TableViewCell>[
+      TableViewCell(child: Text('Avery')),
+      TableViewCell(child: Text('Designer')),
+      TableViewCell(child: Text('Active')),
     ]),
   ],
 );
@@ -40,9 +40,9 @@ ShadcnTable(
 Spanning cell and a footer:
 
 ```dart
-ShadcnTableFooter(cells: <ShadcnTableCell>[
-  ShadcnTableCell(columnSpan: 2, child: const Text('2 people')),
-  const ShadcnTableCell(child: Text('—')),
+TableViewFooter(cells: <TableViewCell>[
+  TableViewCell(columnSpan: 2, child: const Text('2 people')),
+  const TableViewCell(child: Text('—')),
 ]);
 ```
 
@@ -53,7 +53,7 @@ final controller = ResizableTableController(
   defaultColumnWidth: 120,
   defaultRowHeight: 40,
 );
-ShadcnTable(
+TableView(
   resizeController: controller,
   verticalController: scrollController,
   horizontalController: horizontalScrollController,
@@ -64,7 +64,7 @@ ShadcnTable(
 Frozen header row:
 
 ```dart
-ShadcnTable(
+TableView(
   frozenCells: const FrozenTableData(frozenRows: <TableRef>[TableRef(0)]),
   verticalController: controller,
   rows: rows,
@@ -75,7 +75,7 @@ ShadcnTable(
 
 | Member | Notes |
 |---|---|
-| `ShadcnTable.rows` | `List<ShadcnTableRow>` (headers, rows, footers) |
+| `TableView.rows` | `List<TableViewRow>` (headers, rows, footers) |
 | `defaultColumnWidth` / `defaultRowHeight` | `TableSize`, default flex / intrinsic |
 | `columnWidths` / `rowHeights` | per-index `TableSize` overrides |
 | `frozenCells` | `FrozenTableData` of pinned rows/columns |
@@ -96,24 +96,24 @@ ShadcnTable(
 (table_theme.dart) > tableDefaults`, merged per field.
 
 Per cell, `TableTheme.cellTheme` merges over the row default
-(`ShadcnTableHeader` / `ShadcnTableFooter` / body). The row defaults follow
-shadcn: body cells are `p-2` with a bottom border and a `muted/50` row-hover
-fill; header cells are `h-10 px-2` with medium `foreground` text (shadcn v4
+(`TableViewHeader` / `TableViewFooter` / body). The row defaults follow
+dashcn: body cells are `p-2` with a bottom border and a `muted/50` row-hover
+fill; header cells are `h-10 px-2` with medium `foreground` text (dashcn v4
 `TableHead`); footer cells are muted with no border.
 
 ## Differences from the old `layout/table`
 
-- `ResizableTable` is folded into `ShadcnTable` behind `resizeController`; the
+- `ResizableTable` is folded into `TableView` behind `resizeController`; the
   old separate widget and its duplicated cell-flattening state are gone.
-- Public widgets are renamed `ShadcnTable` / `ShadcnTableRow` /
-  `ShadcnTableHeader` / `ShadcnTableFooter` / `ShadcnTableCell` to avoid the
+- Public widgets are renamed `TableView` / `TableViewRow` /
+  `TableViewHeader` / `TableViewFooter` / `TableViewCell` to avoid the
   Flutter `widgets.dart` name clash (clean break; no aliases).
 - The layout engine, cell helpers, resize controller/handles, cell view and
   models live in `primitives/table_layout/` so the component folder holds only
   `table.dart`, `table_style.dart` and `table_theme.dart` (the same split the
   `slider` component uses). The theme classes (`TableTheme` / `TableCellTheme`)
   stay in `table_style.dart`: a primitive must not own a component's theme.
-- The public models (`ShadcnTableRow` / `ShadcnTableCell`) are theme-free so the
+- The public models (`TableViewRow` / `TableViewCell`) are theme-free so the
   primitive never imports a component; the old per-row `cellTheme` and per-cell
   `theme` override fields are dropped. Use `TableTheme.cellTheme` to theme the
   grid, or a `ComponentTheme<TableTheme>` subtree for a region.
@@ -128,7 +128,7 @@ fill; header cells are `h-10 px-2` with medium `foreground` text (shadcn v4
   a fresh `WidgetStateProperty.resolveWith` closure on every row on every
   build; the defaults are now const token rows.
 - **Bug fixed:** cells read the old `Theme.of(context).colorScheme`; they now
-  resolve `ShadcnColors` through `ThemedColor` tokens, so presets and dark mode
+  resolve `ThemeColors` through `ThemedColor` tokens, so presets and dark mode
   follow.
 - **Bug fixed:** `TableTheme.copyWith` silently dropped `borderRadius`.
 - `Data.inherit` (`package:data_widget`) is gone: the state builds the cells
@@ -136,5 +136,5 @@ fill; header cells are `h-10 px-2` with medium `foreground` text (shadcn v4
 - The `_impl/` `part` structure, `ignore_for_file` comments and
   `theme.schema.json` are gone.
 - Resize handles carry a `Semantics` label from
-  `ShadcnLocalizations.tableResizeColumn` / `.tableResizeRow` (English fallback;
+  `ComponentLocalizations.tableResizeColumn` / `.tableResizeRow` (English fallback;
   no Flutter ARB equivalent exists).

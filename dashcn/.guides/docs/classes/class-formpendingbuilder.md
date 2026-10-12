@@ -1,19 +1,21 @@
 ---
 title: "Class: FormPendingBuilder"
-description: "Widget builder for displaying pending form validations."
+description: "Renders [builder] with the form validations that are still in flight."
 ---
 
 ```dart
-/// Widget builder for displaying pending form validations.
+/// Renders [builder] with the form validations that are still in flight.
 ///
-/// Shows feedback while asynchronous validations are in progress.
+/// This primitive has no knowledge of any form controller: it always reports an
+/// empty pending map. A `FormScope` that knows its own controller should drive
+/// pending feedback from that controller directly.
 class FormPendingBuilder extends StatelessWidget {
-  /// Optional child widget passed to the builder.
-  final Widget? child;
-  /// Builder function for creating pending validation display.
-  final FormPendingWidgetBuilder builder;
-  /// Creates a form pending builder.
+  /// Creates a pending builder that invokes [builder] with the pending map.
   const FormPendingBuilder({super.key, required this.builder, this.child});
+  /// Widget handed to [builder] untouched.
+  final Widget? child;
+  /// Builds the pending display.
+  final FormPendingWidgetBuilder builder;
   Widget build(BuildContext context);
 }
 ```

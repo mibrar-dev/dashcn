@@ -19,7 +19,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   DropzoneTheme? scoped,
   Locale? locale,
@@ -28,7 +28,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<DropzoneTheme>(data: scoped, child: body);
   }
-  Widget root = ShadcnTheme(
+  Widget root = Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -44,7 +44,7 @@ Widget _frame({
       // `Localizations` insists on a widgets delegate, so both are needed.
       delegates: const <LocalizationsDelegate<dynamic>>[
         DefaultWidgetsLocalizations.delegate,
-        ShadcnLocalizations.delegate,
+        ComponentLocalizations.delegate,
       ],
       child: root,
     );
@@ -67,16 +67,16 @@ void main() {
     testWidgets('idle draws the ambient border token', (tester) async {
       await tester.pumpWidget(_frame(child: const Dropzone()));
       expect(_status(tester), 'Browse to upload files');
-      expect(_border(tester).top.color, ShadcnColors.lightFallback.border);
+      expect(_border(tester).top.color, ThemeColors.lightFallback.border);
     });
 
     testWidgets('every state paints its own token', (tester) async {
       final Map<DropzoneState, Color> expected = <DropzoneState, Color>{
-        DropzoneState.idle: ShadcnColors.lightFallback.border,
-        DropzoneState.dragging: ShadcnColors.lightFallback.primary,
-        DropzoneState.uploading: ShadcnColors.lightFallback.primary,
-        DropzoneState.success: ShadcnColors.lightFallback.accent,
-        DropzoneState.error: ShadcnColors.lightFallback.destructive,
+        DropzoneState.idle: ThemeColors.lightFallback.border,
+        DropzoneState.dragging: ThemeColors.lightFallback.primary,
+        DropzoneState.uploading: ThemeColors.lightFallback.primary,
+        DropzoneState.success: ThemeColors.lightFallback.accent,
+        DropzoneState.error: ThemeColors.lightFallback.destructive,
       };
       for (final MapEntry<DropzoneState, Color> entry in expected.entries) {
         await tester.pumpWidget(_frame(child: Dropzone(state: entry.key)));
@@ -121,7 +121,7 @@ void main() {
           child: const Dropzone(state: DropzoneState.error, isDragOver: true),
         ),
       );
-      expect(_border(tester).top.color, ShadcnColors.lightFallback.primary);
+      expect(_border(tester).top.color, ThemeColors.lightFallback.primary);
       expect(_status(tester), 'Drop files to upload');
     });
 
@@ -140,7 +140,7 @@ void main() {
         _frame(child: const Dropzone(isDragOver: true, enabled: false)),
       );
       expect(_status(tester), 'File uploads disabled');
-      expect(_border(tester).top.color, ShadcnColors.lightFallback.border);
+      expect(_border(tester).top.color, ThemeColors.lightFallback.border);
     });
   });
 
@@ -302,7 +302,7 @@ void main() {
   });
 
   group('tokens', () {
-    testWidgets('sizes match shadcn (upload icon 28, padding 24)', (
+    testWidgets('sizes match dashcn (upload icon 28, padding 24)', (
       tester,
     ) async {
       await tester.pumpWidget(_frame(child: const Dropzone()));
@@ -314,10 +314,10 @@ void main() {
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Dropzone(state: DropzoneState.error),
         ),
       );
@@ -325,10 +325,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const Dropzone(
             theme: DropzoneTheme(
               borderColor: StateValue(

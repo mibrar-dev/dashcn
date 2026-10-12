@@ -1,25 +1,25 @@
 ---
 title: "Class: FocusOutline"
-description: "Draws a subtle outline around a focused widget."
+description: "Draws an animated focus ring around [child] while [focused] is true."
 ---
 
 ```dart
-/// Draws a subtle outline around a focused widget.
+/// Draws an animated focus ring around [child] while [focused] is true.
 class FocusOutline extends StatelessWidget {
-  /// Creates a focus outline.
-  const FocusOutline({super.key, required this.child, required this.focused, this.borderRadius, this.align, this.border, this.shape});
   /// The wrapped child.
   final Widget child;
-  /// Whether the focus outline is visible.
+  /// Whether the ring is shown.
   final bool focused;
-  /// Custom border radius.
+  /// Corner radius of the ring. Defaults to the child's rectangular edge.
   final BorderRadiusGeometry? borderRadius;
-  /// Custom alignment offset.
+  /// Extra distance between the child edge and the ring. Defaults to 3.
   final double? align;
-  /// Custom border style.
+  /// Ring border. Defaults to a 3px `ring`-colored border at half alpha.
   final Border? border;
-  /// Custom shape (rectangle or circle).
+  /// Ring shape. Defaults to [BoxShape.rectangle].
   final BoxShape? shape;
+  /// Creates a [FocusOutline].
+  const FocusOutline({super.key, required this.child, required this.focused, this.borderRadius, this.align, this.border, this.shape});
   Widget build(BuildContext context);
 }
 ```

@@ -1,4 +1,4 @@
-// The `menu` component: rows, submenus, [showShadcnMenu] and [MenuPopup];
+// The `menu` component: rows, submenus, [showMenu] and [MenuPopup];
 // traversal and row surfaces live in primitives, rows resolve legs here.
 
 import 'package:flutter/widgets.dart';
@@ -197,7 +197,7 @@ RovingRow _plainRow(
   bool reserveLeading = false,
 }) {
   final MenuGroupData? group = Data.maybeOf<MenuGroupData>(context);
-  final ShadcnThemeData app = ShadcnTheme.of(context);
+  final ThemeData app = Theme.of(context);
   final MenuTheme style = _menuThemeOf(context, theme);
   Color? resolvedColor(
     StateValue<ThemedColor>? value,
@@ -282,7 +282,7 @@ class MenuCheckboxItem extends StatelessWidget implements MenuItem {
       theme: theme,
       enabled: enabled,
       onPressed: () => onChanged?.call(context, !value),
-      // The 16px check gutter is shadcn `size-4`, the fixed icon envelope
+      // The 16px check gutter is upstream `size-4`, the fixed icon envelope
       // the check glyph lives in — not spacing, so it does not scale.
       leading: value
           ? const Icon(LucideIcons.check, size: 16)
@@ -391,7 +391,7 @@ class MenuPopup extends StatelessWidget {
   final double? maxHeight;
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData app = ShadcnTheme.of(context);
+    final ThemeData app = Theme.of(context);
     final MenuPopupTheme style =
         resolveComponentStyle<MenuPopupTheme, MenuPopupTheme>(
           context,
@@ -425,7 +425,7 @@ class MenuPopup extends StatelessWidget {
 ///
 /// The opened menu takes focus so keyboard traversal works immediately;
 /// inline [MenuGroup] surfaces stay unfocused unless `autofocus` is true.
-Future<T?> showShadcnMenu<T>({
+Future<T?> showMenu<T>({
   required BuildContext context,
   required List<Widget> children,
   AlignmentGeometry alignment = AlignmentDirectional.topStart,

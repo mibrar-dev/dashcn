@@ -5,13 +5,13 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../ui/shadcn/components/button/button.dart';
-import '../ui/shadcn/components/input/input.dart';
-import '../ui/shadcn/components/radio_group/radio_group.dart';
-import '../ui/shadcn/components/switch/switch.dart';
-import '../ui/shadcn/components/tabs/tabs.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/components/input/input.dart';
+import '../ui/dashcn/components/radio_group/radio_group.dart';
+import '../ui/dashcn/components/switch/switch.dart';
+import '../ui/dashcn/components/tabs/tabs.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'docs_tokens.dart';
 
@@ -84,7 +84,7 @@ class CollageTabsCardState extends State<CollageTabsCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       children: <Widget>[
         Tabs(
@@ -172,7 +172,7 @@ class CollageRadioCardState extends State<CollageRadioCard> {
     return CollageCard(
       title: 'Choose a plan',
       children: <Widget>[
-        ShadcnRadioGroup<String>(
+        RadioSet<String>(
           value: _value,
           onChanged: (String value) => setState(() => _value = value),
           items: const <Widget>[

@@ -26,10 +26,10 @@ import 'dart:io';
 import 'package:docs/generated/docs_data.dart';
 import 'package:docs/generated/docs_previews.dart';
 import 'package:docs/previews/component_previews.dart';
-import 'package:docs/ui/shadcn/components/app/app.dart';
+import 'package:docs/ui/dashcn/components/app/app.dart';
 import 'package:docs/widgets/preview_stage.dart';
-import 'package:docs/ui/shadcn/theme/color_tokens.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/color_tokens.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -191,18 +191,18 @@ Future<_Result> _pump(
 }) async {
   final int before = _capturedErrors.length;
   final GlobalKey key = GlobalKey(debugLabel: label);
-  final ShadcnThemeData data = ShadcnThemeData(
+  final ThemeData data = ThemeData(
     colors: brightness == Brightness.dark
-        ? ShadcnColors.darkFallback
-        : ShadcnColors.lightFallback,
+        ? ThemeColors.darkFallback
+        : ThemeColors.lightFallback,
   );
-  // `ShadcnApp` (not a bare `ShadcnTheme`) so popup-based previews find the
+  // `DashcnApp` (not a bare `Theme`) so popup-based previews find the
   // Navigator/Overlay they get under the real docs shell, and the preview is
   // hosted in the *real* `PreviewStage`, whose constraints are exactly the
   // ones a docs page gives (unbounded height inside a horizontal scroller) —
   // that is what `pinned_sheet` trips over in the browser.
   await tester.pumpWidget(
-    ShadcnApp(
+    DashcnApp(
       title: 'P6-D9a render audit',
       theme: data,
       darkTheme: data,

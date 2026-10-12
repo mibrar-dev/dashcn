@@ -105,9 +105,9 @@ class ItemPickerTheme extends ComponentThemeData
   );
 }
 
-/// Padding around the picker items: shadcn `p-2`, density-scaled.
+/// Padding around the picker items: upstream `p-2`, density-scaled.
 ///
-/// A const whose stored sides are shadcn-px multipliers (8/16 on every side),
+/// A const whose stored sides are upstream-px multipliers (8/16 on every side),
 /// resolved by `ItemPicker` against `density.baseContentPadding * scaling`.
 const EdgeInsetsGeometry itemPickerDefaultPadding = EdgeInsetsDensity.pxAll(8);
 

@@ -49,7 +49,7 @@ class _AnchorPreviewState extends State<AnchorPreview> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     return ColoredBox(
       color: colors.background,
       child: Padding(
@@ -59,7 +59,7 @@ class _AnchorPreviewState extends State<AnchorPreview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(_report),
-            SizedBox(height: ShadcnTheme.of(context).spacing.md),
+            SizedBox(height: Theme.of(context).spacing.md),
             // Both rows register the same key; only their own scope resolves it.
             for (final String label in <String>['first', 'second'])
               Padding(
@@ -77,10 +77,10 @@ class _AnchorPreviewState extends State<AnchorPreview> {
                   ),
                 ),
               ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.md),
+            SizedBox(height: Theme.of(context).spacing.md),
             Builder(
               builder: (context) => ColoredBox(
-                color: ShadcnTheme.of(context).colors.background,
+                color: Theme.of(context).colors.background,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text('dark tokens / $_report'),

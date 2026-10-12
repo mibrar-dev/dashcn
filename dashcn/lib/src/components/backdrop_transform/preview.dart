@@ -31,7 +31,7 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
   }
 
   Widget _body(BuildContext context) {
-    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    final ThemeColors colors = Theme.of(context).colors;
     const ScaleBackdropTransform transform = ScaleBackdropTransform();
     const Size size = Size(300, 160);
     final Size freed = transform.resolveExtraSize(size, _t);
@@ -54,10 +54,10 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
               ),
               child: Container(
                 height: 8,
-                color: ShadcnTheme.of(context).colors.muted,
+                color: Theme.of(context).colors.muted,
               ),
             ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.sm),
+            SizedBox(height: Theme.of(context).spacing.sm),
             Center(
               child: SizedBox(
                 width: size.width,
@@ -88,9 +88,9 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
                 ),
               ),
             ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.lg),
+            SizedBox(height: Theme.of(context).spacing.lg),
             const Text('no transform'),
-            SizedBox(height: ShadcnTheme.of(context).spacing.sm),
+            SizedBox(height: Theme.of(context).spacing.sm),
             SizedBox(
               width: size.width,
               height: 60,
@@ -100,15 +100,15 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
                 _t,
               ),
             ),
-            SizedBox(height: ShadcnTheme.of(context).spacing.lg),
+            SizedBox(height: Theme.of(context).spacing.lg),
             Builder(
               builder: (context) => ColoredBox(
-                color: ShadcnTheme.of(context).colors.background,
+                color: Theme.of(context).colors.background,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(
                     'dark tokens / radiusXxl = '
-                    '${ShadcnTheme.of(context).radiusXxl}',
+                    '${Theme.of(context).radiusXxl}',
                   ),
                 ),
               ),

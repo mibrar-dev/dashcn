@@ -7,14 +7,14 @@ visually identical to every other menu.
 ## When to use
 
 Use when a control (button, caret) owns a menu. For a menu inside a popover
-use `showShadcnMenu`; for right-click use `context_menu`; for a bar use
+use `showMenu`; for right-click use `context_menu`; for a bar use
 `menubar`.
 
 ## Snippets
 
 ```dart
 // Imperative: anchored to the tapped widget.
-await showShadcnDropdown<void>(
+await showDropdown<void>(
   context: context,
   children: [
     MenuButton(child: Text('Profile'), onPressed: (_) {}),
@@ -36,7 +36,7 @@ DropdownMenu(
 | Member | Props |
 |---|---|
 | `DropdownMenu` | `children: List<Widget>`, `theme: MenuPopupTheme?` |
-| `showShadcnDropdown<T>` | `context`, `children`, `alignment` (topCenter), `anchorAlignment`, `offset` (0,4), `widthConstraint` (anchorFixedSize), `heightConstraint`, `theme` |
+| `showDropdown<T>` | `context`, `children`, `alignment` (topCenter), `anchorAlignment`, `offset` (0,4), `widthConstraint` (anchorFixedSize), `heightConstraint`, `theme` |
 
 ## Theme fields
 
@@ -53,7 +53,7 @@ widget-leg override.
 - `DropdownMenuData`/`regionGroupId` are gone (single popover per menu).
 - The `drawer` dependency is gone: sheet-overlay detection reads the
   `primitives/sheet_overlay.dart` marker directly.
-- `showDropdown` became `showShadcnDropdown` and returns `Future<T?>`
+- `showDropdown` became `showDropdown` and returns `Future<T?>`
   instead of an `OverlayCompleter`.
 - The old module imported `material.dart` transitively through menu; the new
   chain is widgets-only.

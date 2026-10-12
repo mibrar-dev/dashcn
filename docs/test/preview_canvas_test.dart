@@ -23,23 +23,23 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:docs/theme/theme_document.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/preview_stage.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-ShadcnThemeData _theme(String preset, Brightness mode) =>
+ThemeData _theme(String preset, Brightness mode) =>
     ThemeDocument.fromPreset(preset).theme(mode);
 
 /// Pumps a bare 400x300 stage (no frame) with an opaque probe as content.
 Future<void> _pumpStage(
   WidgetTester tester,
-  ShadcnThemeData theme,
+  ThemeData theme,
   Color probeColor,
 ) async {
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: theme,
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -74,7 +74,7 @@ void main() {
     for (final String preset in <String>['neutral', 'claude']) {
       for (final Brightness mode in Brightness.values) {
         test('$preset/${mode.name}: canvas is the background token', () {
-          final ShadcnThemeData theme = _theme(preset, mode);
+          final ThemeData theme = _theme(preset, mode);
           expect(
             previewCanvasColor(theme.colors),
             theme.colors.background,
@@ -83,7 +83,7 @@ void main() {
         });
 
         test('$preset/${mode.name}: dot alpha within the soft range', () {
-          final ShadcnThemeData theme = _theme(preset, mode);
+          final ThemeData theme = _theme(preset, mode);
           final double alpha = previewDotColor(theme.colors).a;
           if (mode == Brightness.dark) {
             expect(alpha, inInclusiveRange(0.08, 0.12));
@@ -97,7 +97,7 @@ void main() {
     testWidgets('content is not blurred: filter wraps the pattern only', (
       WidgetTester tester,
     ) async {
-      final ShadcnThemeData theme = _theme('neutral', Brightness.light);
+      final ThemeData theme = _theme('neutral', Brightness.light);
       // Distinct probe colour: neutral-light card == background, so a
       // card-coloured probe would match the stage fill's own ColoredBox.
       const Color probeColor = Color(0xFF134E4A);
@@ -150,9 +150,9 @@ void main() {
     testWidgets('pattern=false renders the canvas with no blur layer', (
       WidgetTester tester,
     ) async {
-      final ShadcnThemeData theme = _theme('neutral', Brightness.light);
+      final ThemeData theme = _theme('neutral', Brightness.light);
       await tester.pumpWidget(
-        ShadcnTheme(
+        Theme(
           data: theme,
           child: const Directionality(
             textDirection: TextDirection.ltr,
@@ -173,7 +173,7 @@ void main() {
     testWidgets('pattern layer paints once: boundary + static paint', (
       WidgetTester tester,
     ) async {
-      final ShadcnThemeData theme = _theme('neutral', Brightness.dark);
+      final ThemeData theme = _theme('neutral', Brightness.dark);
       await _pumpStage(tester, theme, theme.colors.card);
       final CustomPaint paint = _patternPaint(tester);
       expect(paint.isComplex, isTrue, reason: 'hints raster caching');
@@ -214,12 +214,12 @@ void main() {
       testWidgets('pixels: neutral/${mode.name} content exact, dots soft', (
         WidgetTester tester,
       ) async {
-        final ShadcnThemeData theme = _theme('neutral', mode);
+        final ThemeData theme = _theme('neutral', mode);
         final Color canvas = theme.colors.background;
         final Color surface = theme.colors.card;
         final GlobalKey boundary = GlobalKey(debugLabel: 'p7d2b-stage');
         await tester.pumpWidget(
-          ShadcnTheme(
+          Theme(
             data: theme,
             child: Directionality(
               textDirection: TextDirection.ltr,

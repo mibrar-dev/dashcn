@@ -1,29 +1,29 @@
 ---
 title: "Class: ColorPickerTheme"
-description: "Theme configuration for [ColorPicker] widget styling and layout."
+description: "Theme data for the `color_picker` component."
 ---
 
 ```dart
-/// Theme configuration for [ColorPicker] widget styling and layout.
+/// Theme data for the `color_picker` component.
 ///
-/// Defines visual and layout properties for color picker components including
-/// spacing, orientation, and feature availability. Applied globally through
-/// [ComponentTheme] or per-instance.
-class ColorPickerTheme extends ComponentThemeData {
-  /// Spacing between major color picker sections.
+/// Every field is nullable: an override leg sets only what it changes and
+/// [merge] keeps the lower leg's remaining fields. Like `stepper`/`calendar`,
+/// there is no `copyWith`/`lerp`: nothing calls them.
+class ColorPickerTheme extends ComponentThemeData implements Mergeable<ColorPickerTheme> {
+  const ColorPickerTheme({super.themeDensity, super.themeSpacing, super.themeShadows, this.spacing, this.controlSpacing, this.orientation, this.enableEyeDropper, this.sliderSize});
+  /// Gap between the picker's major sections (pad/history, controls).
   final double? spacing;
-  /// Spacing between individual controls within sections.
+  /// Gap between individual controls (sliders, inputs, buttons).
   final double? controlSpacing;
-  /// Layout orientation (horizontal or vertical).
+  /// Stack direction; vertical puts the pad above the fields.
   final Axis? orientation;
-  /// Whether to enable the eye dropper feature.
+  /// Whether the eye-dropper button is shown. The default callback samples
+  /// the screen through the nearest `EyeDropperLayer`.
   final bool? enableEyeDropper;
-  /// The size of color sliders.
+  /// Thickness of the hue and alpha sliders.
   final double? sliderSize;
-  /// Creates a [ColorPickerTheme].
-  const ColorPickerTheme({this.spacing, this.controlSpacing, this.orientation, this.enableEyeDropper, this.sliderSize});
-  /// Creates a copy of this theme with specified properties overridden.
-  ColorPickerTheme copyWith({ValueGetter<double?>? spacing, ValueGetter<double?>? controlSpacing, ValueGetter<Axis?>? orientation, ValueGetter<bool?>? enableEyeDropper, ValueGetter<double?>? sliderSize});
+  /// First-non-null-wins merge; the receiver (higher-priority leg) wins.
+  ColorPickerTheme merge(ColorPickerTheme? fallback);
   bool operator ==(Object other);
   int get hashCode;
 }

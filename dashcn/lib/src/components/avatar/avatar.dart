@@ -50,7 +50,7 @@ class Avatar extends StatelessWidget {
   final ImageProvider? image;
 
   /// Diameter override; null uses [AvatarTheme.size] then `32 * scaling`
-  /// (shadcn `size-8`).
+  /// (upstream `size-8`).
   final double? size;
 
   /// Corner radius override; null uses [AvatarTheme.borderRadius] then a
@@ -103,8 +103,8 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     final resolved = resolveComponentStyle<AvatarTheme, AvatarTheme>(
       context,
       widget: theme,
@@ -112,7 +112,7 @@ class Avatar extends StatelessWidget {
       defaults: avatarDefaults,
     );
     final double effectiveSize =
-        size ?? resolved.size ?? 32 * shadcnTheme.scaling;
+        size ?? resolved.size ?? 32 * themeData.scaling;
     final BorderRadiusGeometry radius =
         borderRadius ??
         resolved.borderRadius ??
@@ -132,7 +132,7 @@ class Avatar extends StatelessWidget {
 
     final Widget tile = image == null
         ? _initialsTile(
-            theme: shadcnTheme,
+            theme: themeData,
             background: background,
             style: effectiveTextStyle,
           )
@@ -140,7 +140,7 @@ class Avatar extends StatelessWidget {
             image: image!,
             fit: fit,
             errorBuilder: (context, error, stackTrace) => _initialsTile(
-              theme: shadcnTheme,
+              theme: themeData,
               background: background,
               style: effectiveTextStyle,
             ),
@@ -175,7 +175,7 @@ class Avatar extends StatelessWidget {
   }
 
   Widget _initialsTile({
-    required ShadcnThemeData theme,
+    required ThemeData theme,
     required Color background,
     required TextStyle style,
   }) {
@@ -221,7 +221,7 @@ class AvatarBadge extends StatelessWidget {
   final Widget? child;
 
   /// Diameter override; null uses [AvatarTheme.badgeSize] then
-  /// `10 * scaling` (shadcn `size-2.5` on the default avatar).
+  /// `10 * scaling` (upstream `size-2.5` on the default avatar).
   final double? size;
 
   /// Corner radius override; null is a full circle.
@@ -239,8 +239,8 @@ class AvatarBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeData themeData = Theme.of(context);
+    final ThemeColors colors = themeData.colors;
     final resolved = resolveComponentStyle<AvatarTheme, AvatarTheme>(
       context,
       widget: theme,
@@ -248,7 +248,7 @@ class AvatarBadge extends StatelessWidget {
       defaults: avatarDefaults,
     );
     final double badgeSize =
-        size ?? resolved.badgeSize ?? 10 * shadcnTheme.scaling;
+        size ?? resolved.badgeSize ?? 10 * themeData.scaling;
     final BorderRadiusGeometry radius =
         borderRadius ??
         resolved.badgeBorderRadius ??
@@ -299,7 +299,7 @@ class AvatarGroup extends StatelessWidget {
   /// Tiles to overlap, first in front; usually [Avatar]s.
   final List<Widget> children;
 
-  /// Tile diameter; null resolves `32 * scaling` (shadcn `size-8`).
+  /// Tile diameter; null resolves `32 * scaling` (upstream `size-8`).
   /// Children are laid out at this size; an inner [Avatar.size] has no
   /// effect.
   final double? size;
@@ -321,7 +321,7 @@ class AvatarGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     if (children.isEmpty) {
       return const SizedBox.shrink();
     }

@@ -1,6 +1,6 @@
 # AlertDialog
 
-The shadcn alert dialog: an optional header icon, a title, a description and a
+The dashcn alert dialog: an optional header icon, a title, a description and a
 row of actions, pushed on the `dialog` component's modal route. Widgets-only.
 
 ## When to use
@@ -36,7 +36,7 @@ final confirmed = await showAlertDialog<bool>(
 );
 ```
 
-Inline (already inside a route, or inside `showShadcnDialog`):
+Inline (already inside a route, or inside `showDialog`):
 
 ```dart
 const AlertDialog(
@@ -63,7 +63,7 @@ closes the dialog) and additionally the `dialog` parameters
 
 ## Theme resolution
 
-Only the header/footer is themed here; the card, its 24px padding (shadcn
+Only the header/footer is themed here; the card, its 24px padding (dashcn
 `p-6`), the radius, the shadow and the barrier belong to `DialogTheme`, so a
 scoped `ComponentTheme<DialogTheme>` restyles an open alert too.
 
@@ -89,7 +89,7 @@ Deleted:
   / `surfaceClip` parameters (glass is not a token; the dialog owns the card).
 - The `AlertDialogState` class: the widget is stateless.
 - `leading` / `trailing` / `content` are renamed to `icon` / `trailing` /
-  `description` (shadcn naming); `trailing` is gone.
+  `description` (dashcn naming); `trailing` is gone.
 - The hard-coded 560px max width: `DialogTheme.maxWidth` (480) applies.
 
 Fixed (not ported):
@@ -110,7 +110,7 @@ Behaviour added:
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add alert_dialog`) or copy the folder.
+1. Install the component (`dashcn add alert_dialog`) or copy the folder.
 2. Import `alert_dialog.dart`; it re-exports `AlertDialogTheme` and
    `alertDialogDefaults`.
 3. App-wide overrides live in the user-owned `alert_dialog_theme.dart`.

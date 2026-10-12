@@ -19,7 +19,7 @@ const Color _blue = Color(0xFF0000FF);
 Future<void> _pump(
   WidgetTester tester, {
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AlertDialogTheme? scopedTheme,
   DialogTheme? scopedDialogTheme,
@@ -43,7 +43,7 @@ Future<void> _pump(
     host = ComponentTheme<DialogTheme>(data: scopedDialogTheme, child: host);
   }
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: ComponentThemes(themes: app, child: host),
     ),
@@ -57,7 +57,7 @@ Future<void> _pumpOpen(
   Widget? description,
   Widget? icon,
   List<Widget> actions = const <Widget>[],
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   AlertDialogTheme? theme,
   DialogTheme? scopedDialogTheme,
@@ -174,7 +174,7 @@ void main() {
     testWidgets('title uses foreground, description mutedForeground', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await _pump(
         tester,
         child: const AlertDialog(
@@ -187,10 +187,10 @@ void main() {
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await _pump(
         tester,
-        data: const ShadcnThemeData(colors: dark),
+        data: const ThemeData(colors: dark),
         child: const AlertDialog(
           title: Text('Title'),
           description: Text('Body'),
@@ -210,7 +210,7 @@ void main() {
           title: Text('Title'),
         ),
       );
-      expect(_iconColor(tester), ShadcnColors.lightFallback.mutedForeground);
+      expect(_iconColor(tester), ThemeColors.lightFallback.mutedForeground);
     });
   });
 
@@ -226,7 +226,7 @@ void main() {
           title: Text('Title'),
         ),
       );
-      expect(_iconColor(tester), ShadcnColors.lightFallback.destructive);
+      expect(_iconColor(tester), ThemeColors.lightFallback.destructive);
     });
 
     testWidgets('scoped leg overrides the app leg', (tester) async {
@@ -273,7 +273,7 @@ void main() {
           ),
         );
         // The untouched icon colour still falls through to the token default.
-        expect(_iconColor(tester), ShadcnColors.lightFallback.mutedForeground);
+        expect(_iconColor(tester), ThemeColors.lightFallback.mutedForeground);
       },
     );
   });

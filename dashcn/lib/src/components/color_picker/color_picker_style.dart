@@ -104,7 +104,7 @@ class ColorPickerTheme extends ComponentThemeData
   );
 }
 
-/// Token-derived defaults (the shadcn look): 12px section gap, 8px control
+/// Token-derived defaults (the upstream look): 12px section gap, 8px control
 /// gap, vertical stack, eye dropper on, 24px sliders.
 const ColorPickerTheme colorPickerDefaults = ColorPickerTheme(
   spacing: 12,
@@ -215,7 +215,7 @@ List<Widget> colorPickerFields(
   required bool showAlpha,
   required ValueChanged<ColorDerivative> onChanged,
 }) {
-  final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+  final ComponentLocalizations l10n = ComponentLocalizations.of(context);
   if (mode == ColorPickerMode.hex) {
     return <Widget>[
       _ColorChannelField(
@@ -315,7 +315,7 @@ Widget _numberField(
 
 /// The alpha row; 0-100 in every mode (old RGB/HEX used 0-255).
 Widget _alphaField(
-  ShadcnLocalizations l10n,
+  ComponentLocalizations l10n,
   ColorDerivative value,
   ValueChanged<ColorDerivative> onChanged,
 ) {
@@ -379,7 +379,7 @@ class _ColorChannelFieldState extends State<_ColorChannelField> {
   @override
   Widget build(BuildContext context) {
     final bool numeric = widget.min != null;
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     // The `px-3 py-2` field gutter, density-resolved like other paddings
     // instead of a literal, so density/scaling legs apply.
     final EdgeInsetsGeometry padding = resolveEdgeInsets(

@@ -32,7 +32,7 @@ class _ChipDeleteIntent extends Intent {
   const _ChipDeleteIntent();
 }
 
-/// A compact button shaped like a shadcn chip (`px-2 py-0.5 text-xs`).
+/// A compact button shaped like a upstream chip (`px-2 py-0.5 text-xs`).
 ///
 /// Without [onPressed] the chip is a static token: it paints the variant's
 /// colours at full strength and never enters the focus tree. The old widget
@@ -98,7 +98,7 @@ class Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ChipTheme style = resolveComponentStyle<ChipTheme, ChipTheme>(
       context,
       widget: theme,
@@ -161,7 +161,7 @@ class Chip extends StatelessWidget {
       );
     }
     // The padding wraps the whole row, so a leading/trailing icon keeps the
-    // same edge distance as the label (shadcn `px-2`), never touching it.
+    // same edge distance as the label (upstream `px-2`), never touching it.
     content = Padding(
       padding: resolveEdgeInsets(
         resolved.padding ?? chipDefaultPadding,
@@ -253,7 +253,7 @@ class ChipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final ChipTheme style = resolveComponentStyle<ChipTheme, ChipTheme>(
       context,
       widget: theme,

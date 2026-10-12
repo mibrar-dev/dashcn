@@ -106,8 +106,8 @@ class Dropzone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
-    final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    final ThemeData themeData = Theme.of(context);
+    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
     final DropzoneTheme container =
         resolveComponentStyle<DropzoneTheme, DropzoneTheme>(
           context,
@@ -115,7 +115,7 @@ class Dropzone extends StatelessWidget {
           select: (DropzoneTheme t) => t,
           defaults: dropzoneDefaults,
         );
-    final ShadcnColors colors = shadcnTheme.colors;
+    final ThemeColors colors = themeData.colors;
     final bool hovering = isDragOver || state == DropzoneState.dragging;
     final bool interactive = enabled && state != DropzoneState.disabled;
     final Duration duration = container.duration ?? dropzoneDefaultDuration;
@@ -127,7 +127,7 @@ class Dropzone extends StatelessWidget {
     };
     final BorderRadiusGeometry radius =
         container.borderRadius ??
-        BorderRadius.circular(shadcnTheme.radiusLg * shadcnTheme.scaling);
+        BorderRadius.circular(themeData.radiusLg * themeData.scaling);
     final Color ringColor =
         (container.focusRingColor ?? dropzoneDefaults.focusRingColor!).resolve(
           colors,
@@ -150,12 +150,12 @@ class Dropzone extends StatelessWidget {
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: (container.minHeight ?? 0) * shadcnTheme.scaling,
+          minHeight: (container.minHeight ?? 0) * themeData.scaling,
         ),
         child: Padding(
           padding: resolveEdgeInsets(
             container.padding ?? dropzoneDefaults.padding!,
-            shadcnTheme.density.baseContentPadding * shadcnTheme.scaling,
+            themeData.density.baseContentPadding * themeData.scaling,
           ),
           // No `Center` here: `Align` expands to fill a bounded parent, which
           // made the surface swallow the whole page instead of hugging its
@@ -165,7 +165,7 @@ class Dropzone extends StatelessWidget {
             children: _buildChildren(
               context,
               container,
-              shadcnTheme,
+              themeData,
               l10n,
               interactive,
               hovering,
@@ -214,7 +214,7 @@ class Dropzone extends StatelessWidget {
   Color? _borderColor(
     DropzoneTheme container,
     Set<WidgetState> states,
-    ShadcnColors colors,
+    ThemeColors colors,
   ) {
     final ThemedColor? token = switch (state) {
       DropzoneState.dragging => ThemedColor.ref(ColorRef.primary),
@@ -246,13 +246,13 @@ class Dropzone extends StatelessWidget {
   List<Widget> _buildChildren(
     BuildContext context,
     DropzoneTheme container,
-    ShadcnThemeData shadcnTheme,
-    ShadcnLocalizations l10n,
+    ThemeData themeData,
+    ComponentLocalizations l10n,
     bool interactive,
     bool hovering,
     Duration duration,
   ) {
-    final double scaling = shadcnTheme.scaling;
+    final double scaling = themeData.scaling;
     final double gap = (container.gap ?? 16) * scaling;
     final Widget? hint = this.hint;
     final Widget? content = this.content;
@@ -266,9 +266,9 @@ class Dropzone extends StatelessWidget {
             icon ??
             Icon(
               RadixIcons.upload,
-              size: (container.iconSize ?? 28) * shadcnTheme.scaling,
+              size: (container.iconSize ?? 28) * themeData.scaling,
               color: (container.iconColor ?? dropzoneDefaults.iconColor)
-                  ?.resolve(shadcnTheme.colors),
+                  ?.resolve(themeData.colors),
             ),
       ),
       Gap(gap),
@@ -279,7 +279,7 @@ class Dropzone extends StatelessWidget {
           style: _scaledText(
             container.statusStyle ?? dropzoneDefaults.statusStyle!,
             scaling,
-          ).copyWith(color: shadcnTheme.colors.mutedForeground),
+          ).copyWith(color: themeData.colors.mutedForeground),
           textAlign: TextAlign.center,
           child: Text(
             _status(l10n),
@@ -289,7 +289,7 @@ class Dropzone extends StatelessWidget {
         ),
       ),
       if (hint != null) ...<Widget>[
-        Gap((container.hintGap ?? 4) * shadcnTheme.scaling),
+        Gap((container.hintGap ?? 4) * themeData.scaling),
         AnimatedOpacity(
           opacity: interactive ? 1 : 0.6,
           duration: duration,
@@ -297,14 +297,14 @@ class Dropzone extends StatelessWidget {
             style: _scaledText(
               container.hintStyle ?? dropzoneDefaults.hintStyle!,
               scaling,
-            ).copyWith(color: shadcnTheme.colors.mutedForeground),
+            ).copyWith(color: themeData.colors.mutedForeground),
             textAlign: TextAlign.center,
             child: hint,
           ),
         ),
       ],
       if (showAction) ...<Widget>[
-        Gap((container.actionGap ?? 24) * shadcnTheme.scaling),
+        Gap((container.actionGap ?? 24) * themeData.scaling),
         AnimatedOpacity(
           opacity: interactive ? 1 : 0.6,
           duration: duration,
@@ -321,7 +321,7 @@ class Dropzone extends StatelessWidget {
     ];
   }
 
-  String _status(ShadcnLocalizations l10n) {
+  String _status(ComponentLocalizations l10n) {
     if (!enabled || state == DropzoneState.disabled) {
       return l10n.dropzoneDisabled;
     }
@@ -341,20 +341,20 @@ class Dropzone extends StatelessWidget {
 
 /// Lookup key of the dropzone surface.
 const ValueKey<String> dropzoneSurfaceKey = ValueKey<String>(
-  'shadcn.dropzone.surface',
+  'dashcn.dropzone.surface',
 );
 
 /// Lookup key of the upload icon.
 const ValueKey<String> dropzoneIconKey = ValueKey<String>(
-  'shadcn.dropzone.icon',
+  'dashcn.dropzone.icon',
 );
 
 /// Lookup key of the status line.
 const ValueKey<String> dropzoneStatusKey = ValueKey<String>(
-  'shadcn.dropzone.status',
+  'dashcn.dropzone.status',
 );
 
 /// Lookup key of the browse action.
 const ValueKey<String> dropzoneActionKey = ValueKey<String>(
-  'shadcn.dropzone.action',
+  'dashcn.dropzone.action',
 );

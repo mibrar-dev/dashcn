@@ -19,8 +19,8 @@ Widget _layout({
 }) {
   return Directionality(
     textDirection: TextDirection.ltr,
-    child: ShadcnTheme(
-      data: const ShadcnThemeData(),
+    child: Theme(
+      data: const ThemeData(),
       child: Center(
         child: SizedBox(
           width: 800,
@@ -51,9 +51,9 @@ Widget _layout({
 Widget _overlayHost(void Function(BuildContext anchorContext) expose) {
   return Directionality(
     textDirection: TextDirection.ltr,
-    child: ShadcnTheme(
-      data: const ShadcnThemeData(),
-      child: ShadcnLayer(
+    child: Theme(
+      data: const ThemeData(),
+      child: AppLayer(
         child: Overlay(
           initialEntries: [
             OverlayEntry(

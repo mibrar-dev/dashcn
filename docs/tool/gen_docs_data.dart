@@ -13,7 +13,7 @@
 //                            (default: lib/blocks/block_sources.dart)
 //     --block-previews <path> deferred block preview registry
 //                            (default: lib/previews/block_previews.dart)
-//     --theme-import <uri>   library exporting ShadcnThemeData for
+//     --theme-import <uri>   library exporting ThemeData for
 //                            app_theme.dart (default: the docs mirror)
 //     --check                regenerate into temp, format and diff against
 //                            the checked-in files; exit 1 on any drift
@@ -65,7 +65,7 @@ const String _usage =
     'lib/blocks/block_sources.dart)\n'
     '  --block-previews <path> deferred block preview registry (default: '
     'lib/previews/block_previews.dart)\n'
-    '  --theme-import <uri>  library exporting ShadcnThemeData '
+    '  --theme-import <uri>  library exporting ThemeData '
     '(default: $kDocsThemeImport)\n'
     '  --check               verify checked-in files are fresh (exit 1 on '
     'drift)\n'

@@ -5,8 +5,8 @@
 // instead of a page-long gallery. The first entry is the default.
 //
 // Rules an example must respect (P6-F3):
-//   * it reads `ShadcnTheme.of(context)` and never hard-codes
-//     `ShadcnThemeData`, so the site light/dark toggle re-themes it;
+//   * it reads `Theme.of(context)` and never hard-codes
+//     `ThemeData`, so the site light/dark toggle re-themes it;
 //   * it shrink-wraps inside a bounded box (720x420 in the tests, 375 wide on
 //     a phone) with no outer fixed height, no `Expanded` and no assumption of
 //     unbounded space;

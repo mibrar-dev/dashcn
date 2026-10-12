@@ -212,7 +212,7 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final EyeDropperTheme style =
         resolveComponentStyle<EyeDropperTheme, EyeDropperTheme>(
           context,
@@ -292,12 +292,12 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
 
   Widget _buildPreview(
     BuildContext context,
-    ShadcnThemeData ambient,
+    ThemeData ambient,
     EyeDropperTheme style,
     Size previewSize,
     ScreenSample preview,
   ) {
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final Widget previewBox = SizedBox(
       width: previewSize.width,
       height: previewSize.height,

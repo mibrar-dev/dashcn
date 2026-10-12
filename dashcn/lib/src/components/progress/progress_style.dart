@@ -204,8 +204,8 @@ ProgressSurface resolveProgressSurface(
   bool? showSparks,
   bool? disableAnimation,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
-  final ShadcnColors colors = theme.colors;
+  final ThemeData theme = Theme.of(context);
+  final ThemeColors colors = theme.colors;
   final resolved = resolveComponentStyle<ProgressTheme, ProgressTheme>(
     context,
     widget: widgetTheme,

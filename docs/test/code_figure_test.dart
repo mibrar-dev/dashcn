@@ -2,9 +2,9 @@
 // with the theme's `syntax` token group (light + dark), an unknown language
 // stays plain, and the copy button still copies the plain text.
 
-import 'package:docs/ui/shadcn/theme/color_tokens.dart';
-import 'package:docs/ui/shadcn/theme/syntax_colors.dart';
-import 'package:docs/ui/shadcn/theme/theme.dart';
+import 'package:docs/ui/dashcn/theme/color_tokens.dart';
+import 'package:docs/ui/dashcn/theme/syntax_colors.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart' as dashcn;
 import 'package:docs/widgets/code_figure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,15 +34,15 @@ void main() {
     required String language,
     required Brightness brightness,
   }) async {
-    final ShadcnColors colors = brightness == Brightness.dark
-        ? ShadcnColors.darkFallback
-        : ShadcnColors.lightFallback;
+    final ThemeColors colors = brightness == Brightness.dark
+        ? ThemeColors.darkFallback
+        : ThemeColors.lightFallback;
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(fontFamily: 'monospace'),
         home: Scaffold(
-          body: ShadcnTheme(
-            data: ShadcnThemeData(colors: colors),
+          body: dashcn.Theme(
+            data: dashcn.ThemeData(colors: colors),
             child: DocsCodeFigure(code: dartSample, language: language),
           ),
         ),

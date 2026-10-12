@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   CarouselTheme? scoped,
   Size size = const Size(320, 96),
@@ -24,7 +24,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<CarouselTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,

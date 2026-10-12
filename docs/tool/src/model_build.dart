@@ -143,7 +143,7 @@ DocsModel buildDocsModel(String registryRoot) {
   );
   if (cliCommands.isEmpty) {
     throw RegistryScanException(
-      'cli_snapshot.txt has no `\$ flutter_shadcn …` sections',
+      'cli_snapshot.txt has no `\$ dashcn …` sections',
     );
   }
 

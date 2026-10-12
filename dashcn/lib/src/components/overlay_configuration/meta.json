@@ -5,8 +5,8 @@
   "listed": false,
   "description": "Describe what overlay to show and how (popover, drawer, sheet, dialog, tooltip) behind one configuration object, plus showOverlay and OverlayController.",
   "tier": "component",
-  "install": "flutter_shadcn add overlay_configuration",
-  "import": "import 'package:<your_app>/ui/shadcn/components/overlay_configuration/overlay_configuration.dart';",
+  "install": "dashcn add overlay_configuration",
+  "import": "import 'package:<your_app>/ui/dashcn/components/overlay_configuration/overlay_configuration.dart';",
   "tags": [
     "overlay",
     "popover",

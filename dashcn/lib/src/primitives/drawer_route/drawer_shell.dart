@@ -13,13 +13,13 @@ import 'drawer_panel.dart';
 import 'drawer_panel_surface.dart';
 import 'drawer_route.dart';
 
-/// The panel shell of a [ShadcnDrawerRoute]; built by the route's page.
+/// The panel shell of a [DrawerRoute]; built by the route's page.
 class DrawerRouteShell extends StatefulWidget {
   /// Creates the shell for [route].
   const DrawerRouteShell(this.route, {super.key});
 
   /// The route whose values drive this shell.
-  final ShadcnDrawerRoute<dynamic> route;
+  final DrawerRoute<dynamic> route;
 
   @override
   State<DrawerRouteShell> createState() => _DrawerRouteShellState();
@@ -27,9 +27,9 @@ class DrawerRouteShell extends StatefulWidget {
 
 class _DrawerRouteShellState extends State<DrawerRouteShell> {
   final GlobalKey _panelKey = GlobalKey();
-  final FocusScopeNode _focusNode = FocusScopeNode(debugLabel: 'ShadcnDrawer');
+  final FocusScopeNode _focusNode = FocusScopeNode(debugLabel: 'DashcnDrawer');
 
-  ShadcnDrawerRoute<dynamic> get route => widget.route;
+  DrawerRoute<dynamic> get route => widget.route;
 
   @override
   void dispose() {

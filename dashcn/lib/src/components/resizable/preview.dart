@@ -19,7 +19,7 @@ class _Pane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8),

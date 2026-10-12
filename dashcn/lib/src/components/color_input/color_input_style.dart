@@ -74,7 +74,7 @@ class ColorInputTheme extends ComponentThemeData
   /// Gap between the colour well and the hex field; null resolves 8.
   final double? gap;
 
-  /// Edge length of the colour well; null resolves 36 (shadcn h-9).
+  /// Edge length of the colour well; null resolves 36 (upstream h-9).
   final double? swatchSize;
 
   /// Corner radius of the well; null resolves the ambient `radiusMd`.
@@ -227,8 +227,8 @@ Widget colorInputTrigger(
   required VoidCallback onPressed,
   required ValueChanged<String> onHexChanged,
 }) {
-  final ShadcnThemeData theme = ShadcnTheme.of(context);
-  final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+  final ThemeData theme = Theme.of(context);
+  final ComponentLocalizations l10n = ComponentLocalizations.of(context);
   final double size = style.swatchSize ?? colorInputDefaults.swatchSize!;
   final BorderRadiusGeometry radius =
       style.swatchBorderRadius ?? theme.borderRadiusMd;

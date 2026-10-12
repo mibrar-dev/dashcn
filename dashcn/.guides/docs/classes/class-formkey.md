@@ -1,32 +1,30 @@
 ---
 title: "Class: FormKey"
-description: "A key that uniquely identifies a form field and its type."
+description: "Identifies one form field and the type of its value."
 ---
 
 ```dart
-/// A key that uniquely identifies a form field and its type.
+/// Identifies one form field and the type of its value.
 ///
-/// [FormKey] extends [LocalKey] and is used throughout the form system to
-/// reference specific form fields. It includes type information to ensure
-/// type-safe access to form values.
+/// The key doubles as a [LocalKey], so it can be handed to widgets, and carries
+/// its type parameter for type-safe value lookup:
 ///
-/// Example:
 /// ```dart
 /// const emailKey = FormKey<String>('email');
-/// const ageKey = FormKey<int>('age');
+/// const agreedKey = FormKey<bool>('agreed');
 /// ```
 class FormKey<T> extends LocalKey {
-  /// The underlying key object.
-  final Object key;
-  /// Creates a [FormKey] with the specified key object.
+  /// Creates a [FormKey] wrapping [key].
   const FormKey(this.key);
-  /// Gets the generic type parameter of this key.
+  /// The underlying identity of this key.
+  final Object key;
+  /// The value type this key addresses.
   Type get type;
-  /// Checks if a dynamic value is an instance of this key's type.
+  /// Whether [value] is of this key's type.
   bool isInstanceOf(dynamic value);
-  /// Gets the value associated with this key from the form values map.
+  /// Reads this key's value out of [values].
   T? getValue(FormMapValues values);
-  /// Operator overload to get the value from form values (same as [getValue]).
+  /// Shorthand for [getValue].
   T? operator [](FormMapValues values);
   bool operator ==(Object other);
   int get hashCode;

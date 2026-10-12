@@ -1,4 +1,4 @@
-// The component page template (spec §2.4, P7-D1 shadcn docs layout): one
+// The component page template (spec §2.4, P7-D1 upstream docs layout): one
 // route for all 118 components.
 //
 // Title row + typeset description, the main demo card (the first named
@@ -17,7 +17,7 @@ import '../generated/docs_api.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
-import '../ui/shadcn/components/badge/badge.dart';
+import '../ui/dashcn/components/badge/badge.dart';
 import '../widgets/component_examples_section.dart';
 import '../widgets/component_install_block.dart';
 import '../widgets/component_preview_card.dart';

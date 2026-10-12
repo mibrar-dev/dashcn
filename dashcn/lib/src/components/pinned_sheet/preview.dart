@@ -25,7 +25,7 @@ class _SheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(theme.spacing.lg),
       child: Column(
@@ -88,7 +88,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     final bool vertical =
         widget.position == OverlayPosition.top ||
         widget.position == OverlayPosition.bottom;

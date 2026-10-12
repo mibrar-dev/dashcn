@@ -7,7 +7,7 @@
 // Two distances are asserted per icon:
 //   * icon edge -> outer edge = the component's horizontal padding;
 //   * icon edge -> label edge = the component's gap token
-//     (`theme.spacing.sm`, shadcn `gap-2`).
+//     (`theme.spacing.sm`, upstream `gap-2`).
 //
 // A component whose icons are laid out outside the padding, or on the wrong
 // side, is a FINDING. P6-F1 fixed chip and badge, so every test here runs.
@@ -26,7 +26,7 @@ const Key _lead = ValueKey<String>('audit-lead');
 const Key _trail = ValueKey<String>('audit-trail');
 const String _label = 'Audit';
 
-/// The gap token a chip/button uses between its children: shadcn `gap-2`
+/// The gap token a chip/button uses between its children: upstream `gap-2`
 /// (`theme.spacing.sm` = 8 at the default spacing base).
 const double gapToken = 8;
 
@@ -73,7 +73,7 @@ void expectIconSlot({
 }
 
 void main() {
-  group('button — shadcn `px-4 gap-2`', () {
+  group('button — dashcn `px-4 gap-2`', () {
     Widget build(TextDirection direction) => Button(
       onPressed: () {},
       leading: const Icon(IconData(0x1), key: _lead),
@@ -145,7 +145,7 @@ void main() {
     });
   });
 
-  group('chip — shadcn `px-2 gap-2`', () {
+  group('chip — dashcn `px-2 gap-2`', () {
     Widget build(TextDirection direction) => const Chip(
       leading: Icon(IconData(0x1), key: _lead),
       trailing: Icon(IconData(0x2), key: _trail),
@@ -154,7 +154,7 @@ void main() {
 
     // Chip geometry: `chip.dart` pads the whole row and emits `leading`
     // before the label, so the icon keeps `px-2` from the chip edge and
-    // `gap-2` from the label (shadcn `px-2 gap-2`).
+    // `gap-2` from the label (upstream `px-2 gap-2`).
     testWidgets('LTR: leading icon renders before the label', (tester) async {
       final Widget chip = build(TextDirection.ltr);
       await tester.pumpWidget(
@@ -207,7 +207,7 @@ void main() {
     });
   });
 
-  group('badge — shadcn `px-2 gap-2`', () {
+  group('badge — dashcn `px-2 gap-2`', () {
     // Badge geometry: `badge.dart` wraps the whole icon row in the padding,
     // so the leading icon keeps `px-2` from the badge edge.
     testWidgets('LTR: leading icon sits inside the padding', (tester) async {
@@ -237,7 +237,7 @@ void main() {
   group('gap token tracks the preset spacing base', () {
     testWidgets('a preset spacing base rescales the icon gap', (tester) async {
       // `theme.spacing.sm` is `base * 2`; the audit default base is 4 => 8.
-      const ShadcnThemeData base4 = ShadcnThemeData();
+      const ThemeData base4 = ThemeData();
       const SpacingScale scale = SpacingScale(8);
       expect(base4.spacing.sm, gapToken);
       expect(scale.sm, 16);

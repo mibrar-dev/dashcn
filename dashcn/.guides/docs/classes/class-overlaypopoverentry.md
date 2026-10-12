@@ -1,29 +1,17 @@
 ---
 title: "Class: OverlayPopoverEntry"
-description: "Implementation of [OverlayCompleter] for popover overlays."
+description: "[OverlayCompleter] implementation for popover overlays."
 ---
 
 ```dart
-/// Implementation of [OverlayCompleter] for popover overlays.
-///
-/// Manages the lifecycle of a popover overlay entry, tracking completion
-/// state and handling overlay/barrier entry disposal.
+/// [OverlayCompleter] implementation for popover overlays.
 class OverlayPopoverEntry<T> implements OverlayCompleter<T> {
-  /// Completer for the popover's result value.
+  /// Completes with the popover result value.
   final Completer<T?> completer;
-  /// Completer that tracks the popover's animation lifecycle.
-  ///
-  /// Completes when the popover's entry and exit animations finish.
-  /// Used internally to coordinate animation timing and cleanup.
+  /// Completes when the popover's entry/exit animation finishes.
   final Completer<T?> animationCompleter;
   bool get isCompleted;
-  /// Initializes the popover entry with overlay entries.
-  ///
-  /// Must be called before the popover can be displayed.
-  ///
-  /// Parameters:
-  /// - [overlayEntry] (OverlayEntry, required): Main overlay entry
-  /// - [barrierEntry] (OverlayEntry?): Optional barrier entry
+  /// Initializes the entry with its overlay entries.
   void initialize(OverlayEntry overlayEntry, [OverlayEntry? barrierEntry]);
   void remove();
   void dispose();

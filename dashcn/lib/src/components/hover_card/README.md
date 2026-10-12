@@ -16,11 +16,11 @@ HoverCard(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('@shadcn'),
+      Text('@dashcn'),
       Text('Beautifully designed components.'),
     ],
   ),
-  child: Text('@shadcn'),
+  child: Text('@dashcn'),
 );
 ```
 

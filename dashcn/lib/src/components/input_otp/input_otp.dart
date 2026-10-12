@@ -237,7 +237,7 @@ class _InputOtpState extends State<InputOtp>
 
   /// The real field: transparent, single line, on top of the painted row. It has
   /// no `onChanged`: the host listener already reports every edit once.
-  Widget _hiddenField(ShadcnThemeData theme) => Positioned.fill(
+  Widget _hiddenField(ThemeData theme) => Positioned.fill(
     child: Opacity(
       opacity: 0,
       child: EditableText(
@@ -257,8 +257,8 @@ class _InputOtpState extends State<InputOtp>
         // Never painted: this field sits inside an `Opacity(0)`.
         style: const TextStyle(height: 0.01),
         inputFormatters: widget.inputFormatters,
-        selectionControls: ShadcnSelectionControls(),
-        contextMenuBuilder: defaultShadcnContextMenuBuilder,
+        selectionControls: SelectionControls(),
+        contextMenuBuilder: defaultContextMenuBuilder,
         onSubmitted: _submit,
       ),
     ),
@@ -272,7 +272,7 @@ class _InputOtpState extends State<InputOtp>
       select: (t) => t,
       defaults: inputOtpDefaults,
     );
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double box = _resolved.boxSize ?? 36;
     final double gap = _resolved.spacing ?? theme.density.baseGap;
 
@@ -330,7 +330,7 @@ class _InputOtpState extends State<InputOtp>
   /// resolved separator style so the slot split reserves exactly what it
   /// costs. A custom [InputOtp.separator] that is a plain [Text] span is
   /// measured directly; anything else falls back to the dash measure.
-  double _separatorReserve(ShadcnThemeData theme) {
+  double _separatorReserve(ThemeData theme) {
     final Widget? custom = widget.separator;
     String? text;
     TextStyle? style;
@@ -351,7 +351,7 @@ class _InputOtpState extends State<InputOtp>
   /// The painted slot row (plus the hidden field and the error, if any).
   Widget _row(
     BuildContext context,
-    ShadcnThemeData theme, {
+    ThemeData theme, {
     required double box,
     required double gap,
   }) {
@@ -415,7 +415,7 @@ class _InputOtpState extends State<InputOtp>
     return error == null ? row : _withError(row, error, theme);
   }
 
-  Widget _withError(Widget row, String error, ShadcnThemeData theme) => Column(
+  Widget _withError(Widget row, String error, ThemeData theme) => Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -442,7 +442,7 @@ class _InputOtpState extends State<InputOtp>
     _host.focusNode.unfocus();
   }
 
-  Widget _separator(ShadcnThemeData theme, double gap) {
+  Widget _separator(ThemeData theme, double gap) {
     final Widget content =
         widget.separator ??
         Text('-', style: _resolved.separatorTextStyle ?? theme.typography.base);
@@ -461,7 +461,7 @@ Widget _slot(
   required bool enabled,
   required InputOtpTheme theme,
 }) {
-  final ShadcnThemeData appTheme = ShadcnTheme.of(context);
+  final ThemeData appTheme = Theme.of(context);
   final Set<WidgetState> states = <WidgetState>{
     if (focused) WidgetState.focused,
     if (!enabled) WidgetState.disabled,

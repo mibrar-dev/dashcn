@@ -1,6 +1,6 @@
 # Tracker
 
-A compact row of coloured activity segments (shadcn has no equivalent). Each
+A compact row of coloured activity segments (dashcn has no equivalent). Each
 segment carries a tooltip shown while the pointer rests on it. Widgets-only; it
 depends on the `tooltip` component and the `gap` foundation primitive.
 
@@ -69,7 +69,7 @@ An empty `data` list renders a zero-size box.
 
 | Field | Default |
 |---|---|
-| `fine` | the `chart2` token (shadcn has no green token) |
+| `fine` | the `chart2` token (dashcn has no green token) |
 | `warning` | the `chart4` token |
 | `critical` | `destructive` token |
 | `unknown` | `mutedForeground` token |
@@ -82,8 +82,8 @@ An empty `data` list renders a zero-size box.
 - `package:flutter/material.dart` (imported for `Colors`) is gone.
 - The four level colours were `static const` literals and could not follow a
   preset; they are `ThemedColor` theme rows now. `critical` and `unknown` map
-  to shadcn's own `destructive` / `mutedForeground`; `fine` and `warning`
-  borrow the `chart2` / `chart4` slots, because shadcn defines no
+  to dashcn's own `destructive` / `mutedForeground`; `fine` and `warning`
+  borrow the `chart2` / `chart4` slots, because dashcn defines no
   green/amber token of its own.
 - `TrackerLevel` is an enum. Its `name` getter is dropped: the widget never
   rendered it (the caller supplies the tooltip), and custom level classes are

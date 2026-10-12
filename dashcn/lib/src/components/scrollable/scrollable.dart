@@ -73,7 +73,7 @@ class FadedScrollableViewport extends StatefulWidget {
   ///
   /// Exposed so custom masks can paint the same surface the built-in one does.
   static Color resolveFadeSurface(BuildContext context) =>
-      ShadcnTheme.of(context).colors.background;
+      Theme.of(context).colors.background;
 
   /// Gradient stops for the fade mask over an axis of [axisExtent].
   ///

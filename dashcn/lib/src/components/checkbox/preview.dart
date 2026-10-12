@@ -10,7 +10,7 @@ import '../../foundation/component_preview.dart';
 import '../../theme/theme.dart';
 import 'checkbox.dart';
 
-/// One labelled checkbox row; the component owns the label gap (shadcn
+/// One labelled checkbox row; the component owns the label gap (upstream
 /// `gap-2`) and makes the whole row clickable.
 Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
   return Checkbox(
@@ -106,7 +106,7 @@ class _CheckboxTristateCheckboxState extends State<_CheckboxTristateCheckbox> {
 
 /// Disabled in both states.
 Widget _checkboxDisabled(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,

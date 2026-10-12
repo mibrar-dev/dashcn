@@ -109,7 +109,7 @@ class HistoryTheme extends ComponentThemeData
   }
 }
 
-/// Token-derived history defaults (the shadcn look).
+/// Token-derived history defaults (the upstream look).
 const HistoryTheme historyDefaults = HistoryTheme(
   selectedBorder: ThemedColor.ref(ColorRef.primary),
   selectedBorderWidth: 2,

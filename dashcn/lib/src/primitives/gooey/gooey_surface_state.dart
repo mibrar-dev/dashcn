@@ -273,7 +273,7 @@ class GooeySurfaceState extends State<GooeySurface>
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double pillHeight = kGooeySurfacePillHeight;
     final double blur = widget.enableGooeyBlur
         ? widget.roundness * kGooeyBlurRatio

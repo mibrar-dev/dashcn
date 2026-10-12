@@ -61,7 +61,7 @@ class DrawerTheme extends ComponentThemeData
   @override
   final BorderRadius? borderRadius;
 
-  /// Panel padding. Default: shadcn `p-6`, density-scaled.
+  /// Panel padding. Default: upstream `p-6`, density-scaled.
   @override
   final EdgeInsetsGeometry? padding;
 
@@ -235,7 +235,7 @@ class DrawerTheme extends ComponentThemeData
   );
 }
 
-/// Panel padding: shadcn `p-6` (24px), density-scaled.
+/// Panel padding: upstream `p-6` (24px), density-scaled.
 const EdgeInsetsGeometry drawerDefaultPadding = EdgeInsetsDensity.pxAll(24);
 
 /// Token-derived baseline; every unset override field falls through here.

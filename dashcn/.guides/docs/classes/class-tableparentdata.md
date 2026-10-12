@@ -1,9 +1,10 @@
 ---
 title: "Class: TableParentData"
-description: "Reference for TableParentData"
+description: "Parent data that positions one cell inside a table layout."
 ---
 
 ```dart
+/// Parent data that positions one cell inside a table layout.
 class TableParentData extends ContainerBoxParentData<RenderBox> {
   /// Column index of this cell.
   int? column;
@@ -13,7 +14,7 @@ class TableParentData extends ContainerBoxParentData<RenderBox> {
   int? columnSpan;
   /// Number of rows this cell spans.
   int? rowSpan;
-  /// Whether to compute size for this cell.
+  /// Whether this cell contributes to column/row sizing.
   bool computeSize;
   /// Whether this cell's row is frozen.
   bool frozenRow;

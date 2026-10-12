@@ -1,18 +1,18 @@
 // The settings blocks of the Theme Studio canvas: switch rows grouped the way
-// shadcn's account pages do them.
+// upstream's account pages do them.
 //
 // `Switch`, `Badge` and `Button` are the registry components; the rows are
 // layout. Split out of `studio_list.dart` to keep every block file short.
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/components/badge/badge.dart';
-import '../../ui/shadcn/components/button/button.dart';
-import '../../ui/shadcn/components/switch/switch.dart';
-import '../../ui/shadcn/foundation/gap.dart';
+import '../../ui/dashcn/components/badge/badge.dart';
+import '../../ui/dashcn/components/button/button.dart';
+import '../../ui/dashcn/components/switch/switch.dart';
+import '../../ui/dashcn/foundation/gap.dart';
 import 'studio_card.dart';
 
-/// `Notifications`: switch rows, the way shadcn's settings cards read.
+/// `Notifications`: switch rows, the way upstream's settings cards read.
 class StudioNotificationsCard extends StatefulWidget {
   /// Creates the card.
   const StudioNotificationsCard({super.key});

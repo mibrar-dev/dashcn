@@ -16,7 +16,7 @@ import '../theme/theme_dart_source.dart';
 import '../theme/theme_document.dart';
 import '../theme/theme_document_edits.dart';
 import '../theme/theme_palette.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'docs_storage.dart';
 
 /// Font family lists offered by the picker, collected from the generated
@@ -83,8 +83,7 @@ class SiteThemeModel extends ChangeNotifier {
   String get dartSource => themeDartSource(_document);
 
   /// The resolved theme for [brightness].
-  ShadcnThemeData themeFor(Brightness brightness) =>
-      _document.theme(brightness);
+  ThemeData themeFor(Brightness brightness) => _document.theme(brightness);
 
   /// Replaces the document with the registry preset [presetId].
   void selectPreset(String presetId) =>
@@ -189,7 +188,7 @@ class SiteThemeModel extends ChangeNotifier {
   }
 }
 
-/// The preset `Reset` returns to: the shadcn neutral base.
+/// The preset `Reset` returns to: the upstream neutral base.
 const String kDefaultResetPresetId = 'neutral';
 
 Color _randomColor(Random rng) => HSLColor.fromAHSL(

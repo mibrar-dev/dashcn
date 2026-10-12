@@ -19,7 +19,7 @@ extension IconExtensions on Widget {
   Widget iconSmall() {
     return Builder(
       builder: (context) {
-        final theme = ShadcnTheme.of(context);
+        final theme = Theme.of(context);
         final inherited = IconTheme.of(context);
         return IconTheme(
           data: theme.iconTheme.small.merge(inherited),
@@ -33,7 +33,7 @@ extension IconExtensions on Widget {
   Widget iconXSmall() {
     return Builder(
       builder: (context) {
-        final theme = ShadcnTheme.of(context);
+        final theme = Theme.of(context);
         final inherited = IconTheme.of(context);
         return IconTheme(
           data: theme.iconTheme.xSmall.merge(inherited),
@@ -47,7 +47,7 @@ extension IconExtensions on Widget {
   Widget iconX3Small() {
     return Builder(
       builder: (context) {
-        final theme = ShadcnTheme.of(context);
+        final theme = Theme.of(context);
         final inherited = IconTheme.of(context);
         return IconTheme(
           data: theme.iconTheme.x3Small.merge(inherited),
@@ -61,7 +61,7 @@ extension IconExtensions on Widget {
   Widget iconMutedForeground() {
     return Builder(
       builder: (context) {
-        final theme = ShadcnTheme.of(context);
+        final theme = Theme.of(context);
         final inherited = IconTheme.of(context);
         return IconTheme(
           data: IconThemeData(

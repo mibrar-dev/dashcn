@@ -38,7 +38,7 @@ the content alone.
 
 None. The transform is a strategy object configured through its constructor;
 the only theme-derived value is the root corner radius, read from
-`ShadcnTheme.of(context)` at wrap time. There is no `<name>_style.dart` /
+`Theme.of(context)` at wrap time. There is no `<name>_style.dart` /
 `<name>_theme.dart` pair.
 
 ## Differences from the old `overlay/backdrop_transform`
@@ -49,5 +49,5 @@ the only theme-derived value is the root corner radius, read from
 | `resolveExtraSize` divided the scaled extent by `minScale` for the root layer, which is `0` at `t = 1` and negative (then clamped to `0`) at every other `t` — the root layer never freed any layout space | one formula, `size * (1 - scale)`, clamped at `0` |
 | `minScale` was unchecked: `0` divided by zero, `> 1` grew the backdrop past its box | asserted to be in `(0, 1]` |
 | `scaleAt(t)` extrapolated outside `0..1` on overshooting curves | progress clamped to `0..1` |
-| `cornerRadius` fell back to the old `Theme.of(context).radiusXxl` | `ShadcnTheme.of(context).radiusXxl` |
+| `cornerRadius` fell back to the old `Theme.of(context).radiusXxl` | `Theme.of(context).radiusXxl` |
 | blank `theme.schema.json` | none |

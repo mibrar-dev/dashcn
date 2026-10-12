@@ -314,15 +314,15 @@ Toggle(controller: controller, child: const Text('Show sidebar'));
       id: 'color_picker.0',
       componentId: 'color_picker',
       language: 'bash',
-      code: r'''flutter_shadcn add color_picker''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkppppppppppppp',
+      code: r'''dashcn add color_picker''',
+      tokenClasses: 'kkkkkkpkkkppppppppppppp',
     ),
     DocsSnippet(
       id: 'color_picker.1',
       componentId: 'color_picker',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/color_picker/color_picker.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/color_picker/color_picker.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -867,34 +867,34 @@ if (controller.stage == SheetStage.expanded() - SheetStage.fixed(100)) { ... }''
       id: 'table.0',
       componentId: 'table',
       language: 'dart',
-      code: r'''ShadcnTable(
+      code: r'''TableView(
   columnWidths: const {0: FlexTableSize(flex: 2), 2: FixedTableSize(90)},
-  rows: <ShadcnTableRow>[
-    const ShadcnTableHeader(cells: <ShadcnTableCell>[
-      ShadcnTableCell(child: Text('Name')),
-      ShadcnTableCell(child: Text('Role')),
-      ShadcnTableCell(child: Text('Status')),
+  rows: <TableViewRow>[
+    const TableViewHeader(cells: <TableViewCell>[
+      TableViewCell(child: Text('Name')),
+      TableViewCell(child: Text('Role')),
+      TableViewCell(child: Text('Status')),
     ]),
-    const ShadcnTableRow(cells: <ShadcnTableCell>[
-      ShadcnTableCell(child: Text('Avery')),
-      ShadcnTableCell(child: Text('Designer')),
-      ShadcnTableCell(child: Text('Active')),
+    const TableViewRow(cells: <TableViewCell>[
+      TableViewCell(child: Text('Avery')),
+      TableViewCell(child: Text('Designer')),
+      TableViewCell(child: Text('Active')),
     ]),
   ],
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppp',
+          'pppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'table.1',
       componentId: 'table',
       language: 'dart',
-      code: r'''ShadcnTableFooter(cells: <ShadcnTableCell>[
-  ShadcnTableCell(columnSpan: 2, child: const Text('2 people')),
-  const ShadcnTableCell(child: Text('—')),
+      code: r'''TableViewFooter(cells: <TableViewCell>[
+  TableViewCell(columnSpan: 2, child: const Text('2 people')),
+  const TableViewCell(child: Text('—')),
 ]);''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppkkkkkpppppppppppppppppppppppppppppsssppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppkkkkkpppppppppppppppppppppppppppsssppppppp',
     ),
     DocsSnippet(
       id: 'table.2',
@@ -904,26 +904,26 @@ if (controller.stage == SheetStage.expanded() - SheetStage.fixed(100)) { ... }''
   defaultColumnWidth: 120,
   defaultRowHeight: 40,
 );
-ShadcnTable(
+TableView(
   resizeController: controller,
   verticalController: scrollController,
   horizontalController: horizontalScrollController,
   rows: rows,
 );''',
       tokenClasses:
-          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'table.3',
       componentId: 'table',
       language: 'dart',
-      code: r'''ShadcnTable(
+      code: r'''TableView(
   frozenCells: const FrozenTableData(frozenRows: <TableRef>[TableRef(0)]),
   verticalController: controller,
   rows: rows,
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'timeline': <DocsSnippet>[
@@ -1260,12 +1260,12 @@ const Spinner(semanticsLabel: 'Loading');''',
       id: 'toast.0',
       componentId: 'toast',
       language: 'dart',
-      code: r'''ShadcnTheme(
+      code: r'''Theme(
   data: theme,
   child: ToastLayer(child: myApp),
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'toast.1',
@@ -1448,12 +1448,12 @@ Checkbox(controller: controller, label: const Text('Remember me'));
       code: r'''final controller = FormController();
 const emailKey = FormKey<String>('email');
 
-ShadcnForm(
+FormScope(
   controller: controller,
   onSubmit: (values) => save(values),
   child: Column(
     children: <Widget>[
-      ShadcnFormField<String>(
+      FormItem<String>(
         key: emailKey,
         label: const Text('Email'),
         validator: const NotEmptyValidator() & const EmailValidator(),
@@ -1467,7 +1467,7 @@ ShadcnForm(
   ),
 );''',
       tokenClasses:
-          'kkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssspppppppppppppppppppppppppp',
+          'kkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssspppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'form.1',
@@ -1475,9 +1475,9 @@ ShadcnForm(
       language: 'dart',
       code:
           r'''FormInline<String>(key: key, label: const Text('Name'), child: const Input());
-FormTableLayout(rows: <ShadcnFormField<Object?>>[titleRow, slugRow]);''',
+FormTableLayout(rows: <FormItem<Object?>>[titleRow, slugRow]);''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'form.2',
@@ -1534,7 +1534,7 @@ FormTableLayout(rows: <ShadcnFormField<Object?>>[titleRow, slugRow]);''',
       id: 'input.0',
       componentId: 'input',
       language: 'dart',
-      code: r'''import 'package:<your_app>/ui/shadcn/input/input.dart';
+      code: r'''import 'package:<your_app>/ui/dashcn/input/input.dart';
 
 const Input(hintText: 'Email');''',
       tokenClasses:
@@ -1545,7 +1545,7 @@ const Input(hintText: 'Email');''',
       componentId: 'input',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/primitives/input_features/adornment_features.dart';
+          r'''import 'package:<your_app>/ui/dashcn/primitives/input_features/adornment_features.dart';
 
 Input(
   hintText: 'Password',
@@ -1563,7 +1563,7 @@ Input(
       componentId: 'input',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/primitives/input_features/numeric_features.dart';
+          r'''import 'package:<your_app>/ui/dashcn/primitives/input_features/numeric_features.dart';
 
 Input(
   keyboardType: TextInputType.number,
@@ -1781,15 +1781,15 @@ DateInput(
       id: 'phone_input.0',
       componentId: 'phone_input',
       language: 'bash',
-      code: r'''flutter_shadcn add phone_input''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkpppppppppppp',
+      code: r'''dashcn add phone_input''',
+      tokenClasses: 'kkkkkkpkkkpppppppppppp',
     ),
     DocsSnippet(
       id: 'phone_input.1',
       componentId: 'phone_input',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/phone_input/phone_input.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/phone_input/phone_input.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -1822,14 +1822,14 @@ DateInput(
       id: 'phone_input.4',
       componentId: 'phone_input',
       language: 'dart',
-      code: r'''ShadcnFormField<PhoneNumber>(
+      code: r'''FormItem<PhoneNumber>(
   key: const FormKey<PhoneNumber>('phone'),
   label: const Text('Phone'),
   validator: const PhoneNumberValidator(),
   child: PhoneInput(onChanged: (value) => setState(() => _phone = value)),
 )''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppsssssssppppppppppppkkkkkppppppsssssssppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppsssssssppppppppppppkkkkkppppppsssssssppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'phone_input.5',
@@ -1864,7 +1864,7 @@ PhoneInput(countries: const <CountryInfo>[
       id: 'radio_group.0',
       componentId: 'radio_group',
       language: 'dart',
-      code: r'''ShadcnRadioGroup<String>(
+      code: r'''RadioSet<String>(
   value: plan,
   onChanged: (value) => setState(() => plan = value),
   child: Column(
@@ -1876,23 +1876,23 @@ PhoneInput(countries: const <CountryInfo>[
   ),
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppsssssspppppppppppppppppppppppppppppppppppsssssppppppppppppppssssspppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppsssssspppppppppppppppppppppppppppppppppppsssssppppppppppppppssssspppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'radio_group.1',
       componentId: 'radio_group',
       language: 'dart',
-      code: r'''final controller = ShadcnRadioGroupController<String>('pro');
-ShadcnRadioGroup<String>(controller: controller, child: items);
+      code: r'''final controller = RadioSetController<String>('pro');
+RadioSet<String>(controller: controller, child: items);
 // controller.select('free');''',
       tokenClasses:
-          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccc',
+          'kkkkkpppppppppppppppppppppppppppppppppppppppppssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccc',
     ),
     DocsSnippet(
       id: 'radio_group.2',
       componentId: 'radio_group',
       language: 'dart',
-      code: r'''ShadcnRadioGroup<String>(
+      code: r'''RadioSet<String>(
   value: plan,
   onChanged: (value) => setState(() => plan = value),
   child: Column(children: <Widget>[
@@ -1900,7 +1900,7 @@ ShadcnRadioGroup<String>(controller: controller, child: items);
   ]),
 )''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssspppppppppkkkkkppppppssssssspssssssppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssspppppppppkkkkkppppppssssssspssssssppppppppppp',
     ),
   ],
   'select': <DocsSnippet>[
@@ -2216,15 +2216,15 @@ Switch(controller: controller, label: const Text('Notifications'));
       id: 'filter_bar.0',
       componentId: 'filter_bar',
       language: 'bash',
-      code: r'''flutter_shadcn add filter_bar''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkppppppppppp',
+      code: r'''dashcn add filter_bar''',
+      tokenClasses: 'kkkkkkpkkkppppppppppp',
     ),
     DocsSnippet(
       id: 'filter_bar.1',
       componentId: 'filter_bar',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/filter_bar/filter_bar.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/filter_bar/filter_bar.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -2352,15 +2352,15 @@ OverflowMarquee(
       id: 'resizable.0',
       componentId: 'resizable',
       language: 'bash',
-      code: r'''flutter_shadcn add resizable''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkpppppppppp',
+      code: r'''dashcn add resizable''',
+      tokenClasses: 'kkkkkkpkkkpppppppppp',
     ),
     DocsSnippet(
       id: 'resizable.1',
       componentId: 'resizable',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/resizable/resizable.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/resizable/resizable.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -2454,15 +2454,15 @@ OverflowMarquee(
       id: 'sortable.0',
       componentId: 'sortable',
       language: 'bash',
-      code: r'''flutter_shadcn add sortable''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkppppppppp',
+      code: r'''dashcn add sortable''',
+      tokenClasses: 'kkkkkkpkkkppppppppp',
     ),
     DocsSnippet(
       id: 'sortable.1',
       componentId: 'sortable',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/sortable/sortable.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/sortable/sortable.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -2582,13 +2582,13 @@ OverflowMarquee(
       language: 'dart',
       code:
           r'''// Explicit position (e.g. from a custom gesture or a canvas hit):
-await showShadcnContextMenu<void>(
+await showContextMenu<void>(
   context: context,
   position: pointerPosition,
   children: [MenuButton(child: Text('Inspect'), onPressed: (_) {})],
 );''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppp',
     ),
   ],
   'dropdown_menu': <DocsSnippet>[
@@ -2597,7 +2597,7 @@ await showShadcnContextMenu<void>(
       componentId: 'dropdown_menu',
       language: 'dart',
       code: r'''// Imperative: anchored to the tapped widget.
-await showShadcnDropdown<void>(
+await showDropdown<void>(
   context: context,
   children: [
     MenuButton(child: Text('Profile'), onPressed: (_) {}),
@@ -2606,7 +2606,7 @@ await showShadcnDropdown<void>(
   ],
 );''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'dropdown_menu.1',
@@ -2626,7 +2626,7 @@ DropdownMenu(
       componentId: 'menu',
       language: 'dart',
       code: r'''// A popup menu anchored to a button (needs an Overlay above).
-await showShadcnMenu<void>(
+await showMenu<void>(
   context: context,
   children: [
     MenuButton(child: Text('Cut'), onPressed: (_) {}),
@@ -2646,7 +2646,7 @@ await showShadcnMenu<void>(
   ],
 );''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssspppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssspppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'menu.1',
@@ -2931,18 +2931,18 @@ controller.setStepState(1, null); // cleared''',
       id: 'dialog.0',
       componentId: 'dialog',
       language: 'dart',
-      code: r'''await showShadcnDialog<void>(
+      code: r'''await showDialog<void>(
   context: context,
   builder: (context) => const Text('Hello dialog'),
 );''',
       tokenClasses:
-          'kkkkkppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssppppp',
+          'kkkkkppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssppppp',
     ),
     DocsSnippet(
       id: 'dialog.1',
       componentId: 'dialog',
       language: 'dart',
-      code: r'''final confirmed = await showShadcnDialog<bool>(
+      code: r'''final confirmed = await showDialog<bool>(
   context: context,
   builder: (context) => Column(
     mainAxisSize: MainAxisSize.min,
@@ -2954,20 +2954,20 @@ controller.setStepState(1, null); // cleared''',
   ),
 );''',
       tokenClasses:
-          'kkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppp',
+          'kkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'dialog.2',
       componentId: 'dialog',
       language: 'dart',
-      code: r'''await showShadcnDialog<void>(
+      code: r'''await showDialog<void>(
   context: context,
   fullScreen: true,
   theme: const DialogTheme(maxWidth: 640, shadows: <BoxShadow>[]),
   builder: (context) => const SettingsPanel(),
 );''',
       tokenClasses:
-          'kkkkkppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppkkkkpppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppp',
+          'kkkkkppppppppppppkkkkpppppppppppppppppppppppppppppppppppppkkkkpppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppp',
     ),
   ],
   'drawer': <DocsSnippet>[
@@ -3010,7 +3010,7 @@ controller.setStepState(1, null); // cleared''',
       componentId: 'gooey_toast',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+          r'''import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Wrap the app once.
 GooeyToastLayer(child: myApp);
@@ -3116,11 +3116,11 @@ await showGooeyToast(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('@shadcn'),
+      Text('@dashcn'),
       Text('Beautifully designed components.'),
     ],
   ),
-  child: Text('@shadcn'),
+  child: Text('@dashcn'),
 );''',
       tokenClasses:
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppsssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppsssssssssppppp',
@@ -3144,7 +3144,7 @@ HoverCard(
       id: 'popup.0',
       componentId: 'popup',
       language: 'dart',
-      code: r'''await showShadcnPopup<void>(
+      code: r'''await showPopup<void>(
   context: context,
   builder: (context) => Padding(
     padding: const EdgeInsets.all(8),
@@ -3152,7 +3152,7 @@ HoverCard(
   ),
 );''',
       tokenClasses:
-          'kkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssspppppppppp',
+          'kkkkkpppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssspppppppppp',
     ),
     DocsSnippet(
       id: 'popup.1',
@@ -3283,15 +3283,15 @@ await key.currentState!.refresh();''',
       componentId: 'image',
       language: 'dart',
       code:
-          r'''ShadcnImage(image: NetworkImage(url), width: 200, aspectRatio: 1)''',
+          r'''Picture(image: NetworkImage(url), width: 200, aspectRatio: 1)''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'image.1',
       componentId: 'image',
       language: 'dart',
-      code: r'''ShadcnImage(
+      code: r'''Picture(
   image: NetworkImage(url),
   width: 200,
   aspectRatio: 1,
@@ -3300,7 +3300,7 @@ await key.currentState!.refresh();''',
       const Center(child: Icon(LucideIcons.imageOff)),
 )''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'markdown': <DocsSnippet>[
@@ -3393,23 +3393,23 @@ renderObject.addPrePaintCallback((_) => subscription.notify());''',
       language: 'dart',
       code: r'''void main() {
   runApp(
-    ShadcnApp(
+    DashcnApp(
       title: 'My App',
-      theme: lightTheme,          // ShadcnThemeData
-      darkTheme: darkTheme,       // ShadcnThemeData
+      theme: lightTheme,          // ThemeData
+      darkTheme: darkTheme,       // ThemeData
       componentThemes: appComponentThemes, // generated `component_themes.dart`
       home: const HomePage(),
     ),
   );
 }''',
       tokenClasses:
-          'kkkkppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppccccccccccccccccccpppppppppppppppppppppppppppppppppppccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppp',
+          'kkkkppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppccccccccccccpppppppppppppppppppppppppppppppppppccccccccccccppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'app.1',
       componentId: 'app',
       language: 'dart',
-      code: r'''ShadcnApp(
+      code: r'''DashcnApp(
   shortcuts: const <ShortcutActivator, Intent>{
     SingleActivator(LogicalKeyboardKey.keyK, meta: true): OpenPaletteIntent(),
   },
@@ -3427,7 +3427,7 @@ renderObject.addPrePaintCallback((_) => subscription.notify());''',
       id: 'async.0',
       componentId: 'async',
       language: 'dart',
-      code: r'''import 'package:my_app/ui/shadcn/async/async.dart';
+      code: r'''import 'package:my_app/ui/dashcn/async/async.dart';
 
 FutureOrBuilder<User>(
   future: repository.load(id),
@@ -3513,15 +3513,15 @@ final hex = colorToHex(shifted.toColor()); // theme/color_utils.dart''',
       id: 'color_input.0',
       componentId: 'color_input',
       language: 'bash',
-      code: r'''flutter_shadcn add color_input''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkpppppppppppp',
+      code: r'''dashcn add color_input''',
+      tokenClasses: 'kkkkkkpkkkpppppppppppp',
     ),
     DocsSnippet(
       id: 'color_input.1',
       componentId: 'color_input',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/color_input/color_input.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/color_input/color_input.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -3558,15 +3558,15 @@ final hex = colorToHex(shifted.toColor()); // theme/color_utils.dart''',
       id: 'drawer_container.0',
       componentId: 'drawer_container',
       language: 'bash',
-      code: r'''flutter_shadcn add drawer_container''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkppppppppppppppppp',
+      code: r'''dashcn add drawer_container''',
+      tokenClasses: 'kkkkkkpkkkppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'drawer_container.1',
       componentId: 'drawer_container',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/drawer_container/drawer_container.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/drawer_container/drawer_container.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -3910,15 +3910,15 @@ DashedLine();''',
       id: 'overlay_configuration.0',
       componentId: 'overlay_configuration',
       language: 'bash',
-      code: r'''flutter_shadcn add overlay_configuration''',
-      tokenClasses: 'kkkkkkkkkkkkkkpkkkpppppppppppppppppppppp',
+      code: r'''dashcn add overlay_configuration''',
+      tokenClasses: 'kkkkkkpkkkpppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'overlay_configuration.1',
       componentId: 'overlay_configuration',
       language: 'dart',
       code:
-          r'''import 'package:<your_app>/ui/shadcn/overlay_configuration/overlay_configuration.dart';''',
+          r'''import 'package:<your_app>/ui/dashcn/overlay_configuration/overlay_configuration.dart';''',
       tokenClasses:
           'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssp',
     ),
@@ -3941,21 +3941,21 @@ DashedLine();''',
       componentId: 'page_route',
       language: 'dart',
       code: r'''Navigator.of(context).push(
-  ShadcnPageRoute(builder: (context) => const SettingsPage()),
+  AppPageRoute(builder: (context) => const SettingsPage()),
 );''',
       tokenClasses:
-          'ppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppp',
+          'ppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'page_route.1',
       componentId: 'page_route',
       language: 'dart',
-      code: r'''ShadcnPage(
+      code: r'''AppPage(
   key: const ValueKey('settings'),
   child: const SettingsPage(),
 )''',
       tokenClasses:
-          'pppppppppppppppppppkkkkkppppppppppssssssssssppppppppppppkkkkkpppppppppppppppppp',
+          'ppppppppppppppppkkkkkppppppppppssssssssssppppppppppppkkkkkpppppppppppppppppp',
     ),
   ],
   'patch': <DocsSnippet>[
@@ -4256,1006 +4256,1006 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
   'border_loading': DocsFileList(
     componentId: 'border_loading',
     files: <String>[
-      'lib/ui/shadcn/components/border_loading/border_loading.dart',
-      'lib/ui/shadcn/components/border_loading/border_loading_style.dart',
+      'lib/ui/dashcn/components/border_loading/border_loading.dart',
+      'lib/ui/dashcn/components/border_loading/border_loading_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/border_loading/border_loading_theme.dart',
+      'lib/ui/dashcn/components/border_loading/border_loading_theme.dart',
     ],
   ),
   'dot_indicator': DocsFileList(
     componentId: 'dot_indicator',
     files: <String>[
-      'lib/ui/shadcn/components/dot_indicator/dot_indicator.dart',
-      'lib/ui/shadcn/components/dot_indicator/dot_indicator_style.dart',
+      'lib/ui/dashcn/components/dot_indicator/dot_indicator.dart',
+      'lib/ui/dashcn/components/dot_indicator/dot_indicator_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/dot_indicator/dot_indicator_theme.dart',
+      'lib/ui/dashcn/components/dot_indicator/dot_indicator_theme.dart',
     ],
   ),
   'text_animate': DocsFileList(
     componentId: 'text_animate',
     files: <String>[
-      'lib/ui/shadcn/components/text_animate/text_animate.dart',
-      'lib/ui/shadcn/components/text_animate/text_animate_style.dart',
+      'lib/ui/dashcn/components/text_animate/text_animate.dart',
+      'lib/ui/dashcn/components/text_animate/text_animate_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/text_animate/text_animate_theme.dart',
+      'lib/ui/dashcn/components/text_animate/text_animate_theme.dart',
     ],
   ),
   'button': DocsFileList(
     componentId: 'button',
     files: <String>[
-      'lib/ui/shadcn/components/button/button.dart',
-      'lib/ui/shadcn/components/button/button_group.dart',
-      'lib/ui/shadcn/components/button/button_style.dart',
+      'lib/ui/dashcn/components/button/button.dart',
+      'lib/ui/dashcn/components/button/button_group.dart',
+      'lib/ui/dashcn/components/button/button_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/button/button_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/button/button_theme.dart'],
   ),
   'toggle': DocsFileList(
     componentId: 'toggle',
     files: <String>[
-      'lib/ui/shadcn/components/toggle/toggle.dart',
-      'lib/ui/shadcn/components/toggle/toggle_style.dart',
+      'lib/ui/dashcn/components/toggle/toggle.dart',
+      'lib/ui/dashcn/components/toggle/toggle_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/toggle/toggle_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/toggle/toggle_theme.dart'],
   ),
   'color_picker': DocsFileList(
     componentId: 'color_picker',
     files: <String>[
-      'lib/ui/shadcn/components/color_picker/color_picker.dart',
-      'lib/ui/shadcn/components/color_picker/color_picker_style.dart',
+      'lib/ui/dashcn/components/color_picker/color_picker.dart',
+      'lib/ui/dashcn/components/color_picker/color_picker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/color_picker/color_picker_theme.dart',
+      'lib/ui/dashcn/components/color_picker/color_picker_theme.dart',
     ],
   ),
   'avatar': DocsFileList(
     componentId: 'avatar',
     files: <String>[
-      'lib/ui/shadcn/components/avatar/avatar.dart',
-      'lib/ui/shadcn/components/avatar/avatar_style.dart',
+      'lib/ui/dashcn/components/avatar/avatar.dart',
+      'lib/ui/dashcn/components/avatar/avatar_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/avatar/avatar_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/avatar/avatar_theme.dart'],
   ),
   'badge': DocsFileList(
     componentId: 'badge',
     files: <String>[
-      'lib/ui/shadcn/components/badge/badge.dart',
-      'lib/ui/shadcn/components/badge/badge_style.dart',
+      'lib/ui/dashcn/components/badge/badge.dart',
+      'lib/ui/dashcn/components/badge/badge_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/badge/badge_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/badge/badge_theme.dart'],
   ),
   'carousel': DocsFileList(
     componentId: 'carousel',
     files: <String>[
-      'lib/ui/shadcn/components/carousel/carousel.dart',
-      'lib/ui/shadcn/components/carousel/carousel_style.dart',
+      'lib/ui/dashcn/components/carousel/carousel.dart',
+      'lib/ui/dashcn/components/carousel/carousel_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/carousel/carousel_theme.dart',
+      'lib/ui/dashcn/components/carousel/carousel_theme.dart',
     ],
   ),
   'chat': DocsFileList(
     componentId: 'chat',
     files: <String>[
-      'lib/ui/shadcn/components/chat/chat.dart',
-      'lib/ui/shadcn/components/chat/chat_style.dart',
+      'lib/ui/dashcn/components/chat/chat.dart',
+      'lib/ui/dashcn/components/chat/chat_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/chat/chat_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/chat/chat_theme.dart'],
   ),
   'chip': DocsFileList(
     componentId: 'chip',
     files: <String>[
-      'lib/ui/shadcn/components/chip/chip.dart',
-      'lib/ui/shadcn/components/chip/chip_style.dart',
+      'lib/ui/dashcn/components/chip/chip.dart',
+      'lib/ui/dashcn/components/chip/chip_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/chip/chip_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/chip/chip_theme.dart'],
   ),
   'country_flag': DocsFileList(
     componentId: 'country_flag',
     files: <String>[
-      'lib/ui/shadcn/components/country_flag/country_flag.dart',
-      'lib/ui/shadcn/components/country_flag/country_flag_style.dart',
+      'lib/ui/dashcn/components/country_flag/country_flag.dart',
+      'lib/ui/dashcn/components/country_flag/country_flag_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/country_flag/country_flag_theme.dart',
+      'lib/ui/dashcn/components/country_flag/country_flag_theme.dart',
     ],
   ),
   'divider': DocsFileList(
     componentId: 'divider',
     files: <String>[
-      'lib/ui/shadcn/components/divider/divider.dart',
-      'lib/ui/shadcn/components/divider/divider_style.dart',
+      'lib/ui/dashcn/components/divider/divider.dart',
+      'lib/ui/dashcn/components/divider/divider_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/divider/divider_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/divider/divider_theme.dart'],
   ),
   'empty_state': DocsFileList(
     componentId: 'empty_state',
     files: <String>[
-      'lib/ui/shadcn/components/empty_state/empty_state.dart',
-      'lib/ui/shadcn/components/empty_state/empty_state_style.dart',
+      'lib/ui/dashcn/components/empty_state/empty_state.dart',
+      'lib/ui/dashcn/components/empty_state/empty_state_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/empty_state/empty_state_theme.dart',
+      'lib/ui/dashcn/components/empty_state/empty_state_theme.dart',
     ],
   ),
   'feature_carousel': DocsFileList(
     componentId: 'feature_carousel',
     files: <String>[
-      'lib/ui/shadcn/components/feature_carousel/feature_carousel.dart',
-      'lib/ui/shadcn/components/feature_carousel/feature_carousel_style.dart',
+      'lib/ui/dashcn/components/feature_carousel/feature_carousel.dart',
+      'lib/ui/dashcn/components/feature_carousel/feature_carousel_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/feature_carousel/feature_carousel_theme.dart',
+      'lib/ui/dashcn/components/feature_carousel/feature_carousel_theme.dart',
     ],
   ),
   'file_diff_viewer': DocsFileList(
     componentId: 'file_diff_viewer',
     files: <String>[
-      'lib/ui/shadcn/components/file_diff_viewer/file_diff_viewer.dart',
-      'lib/ui/shadcn/components/file_diff_viewer/file_diff_viewer_style.dart',
+      'lib/ui/dashcn/components/file_diff_viewer/file_diff_viewer.dart',
+      'lib/ui/dashcn/components/file_diff_viewer/file_diff_viewer_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/file_diff_viewer/file_diff_viewer_theme.dart',
+      'lib/ui/dashcn/components/file_diff_viewer/file_diff_viewer_theme.dart',
     ],
   ),
   'keyboard_shortcut': DocsFileList(
     componentId: 'keyboard_shortcut',
     files: <String>[
-      'lib/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart',
-      'lib/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut_style.dart',
+      'lib/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart',
+      'lib/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut_theme.dart',
+      'lib/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut_theme.dart',
     ],
   ),
   'number_ticker': DocsFileList(
     componentId: 'number_ticker',
     files: <String>[
-      'lib/ui/shadcn/components/number_ticker/number_ticker.dart',
-      'lib/ui/shadcn/components/number_ticker/number_ticker_style.dart',
+      'lib/ui/dashcn/components/number_ticker/number_ticker.dart',
+      'lib/ui/dashcn/components/number_ticker/number_ticker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/number_ticker/number_ticker_theme.dart',
+      'lib/ui/dashcn/components/number_ticker/number_ticker_theme.dart',
     ],
   ),
   'pinned_sheet': DocsFileList(
     componentId: 'pinned_sheet',
-    files: <String>['lib/ui/shadcn/components/pinned_sheet/pinned_sheet.dart'],
+    files: <String>['lib/ui/dashcn/components/pinned_sheet/pinned_sheet.dart'],
     userOwned: <String>[],
   ),
   'table': DocsFileList(
     componentId: 'table',
     files: <String>[
-      'lib/ui/shadcn/components/table/table.dart',
-      'lib/ui/shadcn/components/table/table_style.dart',
+      'lib/ui/dashcn/components/table/table.dart',
+      'lib/ui/dashcn/components/table/table_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/table/table_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/table/table_theme.dart'],
   ),
   'timeline': DocsFileList(
     componentId: 'timeline',
     files: <String>[
-      'lib/ui/shadcn/components/timeline/timeline.dart',
-      'lib/ui/shadcn/components/timeline/timeline_style.dart',
+      'lib/ui/dashcn/components/timeline/timeline.dart',
+      'lib/ui/dashcn/components/timeline/timeline_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/timeline/timeline_theme.dart',
+      'lib/ui/dashcn/components/timeline/timeline_theme.dart',
     ],
   ),
   'tracker': DocsFileList(
     componentId: 'tracker',
     files: <String>[
-      'lib/ui/shadcn/components/tracker/tracker.dart',
-      'lib/ui/shadcn/components/tracker/tracker_style.dart',
+      'lib/ui/dashcn/components/tracker/tracker.dart',
+      'lib/ui/dashcn/components/tracker/tracker_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/tracker/tracker_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/tracker/tracker_theme.dart'],
   ),
   'tree': DocsFileList(
     componentId: 'tree',
     files: <String>[
-      'lib/ui/shadcn/components/tree/tree.dart',
-      'lib/ui/shadcn/components/tree/tree_style.dart',
+      'lib/ui/dashcn/components/tree/tree.dart',
+      'lib/ui/dashcn/components/tree/tree_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/tree/tree_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/tree/tree_theme.dart'],
   ),
   'calendar': DocsFileList(
     componentId: 'calendar',
     files: <String>[
-      'lib/ui/shadcn/components/calendar/calendar.dart',
-      'lib/ui/shadcn/components/calendar/calendar_style.dart',
+      'lib/ui/dashcn/components/calendar/calendar.dart',
+      'lib/ui/dashcn/components/calendar/calendar_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/calendar/calendar_theme.dart',
+      'lib/ui/dashcn/components/calendar/calendar_theme.dart',
     ],
   ),
   'date_picker': DocsFileList(
     componentId: 'date_picker',
     files: <String>[
-      'lib/ui/shadcn/components/date_picker/date_picker.dart',
-      'lib/ui/shadcn/components/date_picker/date_picker_style.dart',
+      'lib/ui/dashcn/components/date_picker/date_picker.dart',
+      'lib/ui/dashcn/components/date_picker/date_picker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/date_picker/date_picker_theme.dart',
+      'lib/ui/dashcn/components/date_picker/date_picker_theme.dart',
     ],
   ),
   'time_picker': DocsFileList(
     componentId: 'time_picker',
     files: <String>[
-      'lib/ui/shadcn/components/time_picker/time_picker.dart',
-      'lib/ui/shadcn/components/time_picker/time_picker_style.dart',
+      'lib/ui/dashcn/components/time_picker/time_picker.dart',
+      'lib/ui/dashcn/components/time_picker/time_picker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/time_picker/time_picker_theme.dart',
+      'lib/ui/dashcn/components/time_picker/time_picker_theme.dart',
     ],
   ),
   'alert': DocsFileList(
     componentId: 'alert',
     files: <String>[
-      'lib/ui/shadcn/components/alert/alert.dart',
-      'lib/ui/shadcn/components/alert/alert_style.dart',
+      'lib/ui/dashcn/components/alert/alert.dart',
+      'lib/ui/dashcn/components/alert/alert_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/alert/alert_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/alert/alert_theme.dart'],
   ),
   'progress': DocsFileList(
     componentId: 'progress',
     files: <String>[
-      'lib/ui/shadcn/components/progress/progress.dart',
-      'lib/ui/shadcn/components/progress/progress_style.dart',
+      'lib/ui/dashcn/components/progress/progress.dart',
+      'lib/ui/dashcn/components/progress/progress_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/progress/progress_theme.dart',
+      'lib/ui/dashcn/components/progress/progress_theme.dart',
     ],
   ),
   'skeleton': DocsFileList(
     componentId: 'skeleton',
     files: <String>[
-      'lib/ui/shadcn/components/skeleton/skeleton.dart',
-      'lib/ui/shadcn/components/skeleton/skeleton_style.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/skeleton/skeleton_theme.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_theme.dart',
     ],
   ),
   'spinner': DocsFileList(
     componentId: 'spinner',
     files: <String>[
-      'lib/ui/shadcn/components/spinner/spinner.dart',
-      'lib/ui/shadcn/components/spinner/spinner_style.dart',
+      'lib/ui/dashcn/components/spinner/spinner.dart',
+      'lib/ui/dashcn/components/spinner/spinner_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/spinner/spinner_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/spinner/spinner_theme.dart'],
   ),
   'toast': DocsFileList(
     componentId: 'toast',
     files: <String>[
-      'lib/ui/shadcn/components/toast/toast.dart',
-      'lib/ui/shadcn/components/toast/toast_style.dart',
+      'lib/ui/dashcn/components/toast/toast.dart',
+      'lib/ui/dashcn/components/toast/toast_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/toast/toast_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/toast/toast_theme.dart'],
   ),
   'autocomplete': DocsFileList(
     componentId: 'autocomplete',
     files: <String>[
-      'lib/ui/shadcn/components/autocomplete/autocomplete.dart',
-      'lib/ui/shadcn/components/autocomplete/autocomplete_style.dart',
+      'lib/ui/dashcn/components/autocomplete/autocomplete.dart',
+      'lib/ui/dashcn/components/autocomplete/autocomplete_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/autocomplete/autocomplete_theme.dart',
+      'lib/ui/dashcn/components/autocomplete/autocomplete_theme.dart',
     ],
   ),
   'checkbox': DocsFileList(
     componentId: 'checkbox',
     files: <String>[
-      'lib/ui/shadcn/components/checkbox/checkbox.dart',
-      'lib/ui/shadcn/components/checkbox/checkbox_style.dart',
+      'lib/ui/dashcn/components/checkbox/checkbox.dart',
+      'lib/ui/dashcn/components/checkbox/checkbox_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/checkbox/checkbox_theme.dart',
+      'lib/ui/dashcn/components/checkbox/checkbox_theme.dart',
     ],
   ),
   'chip_input': DocsFileList(
     componentId: 'chip_input',
     files: <String>[
-      'lib/ui/shadcn/components/chip_input/chip_input.dart',
-      'lib/ui/shadcn/components/chip_input/chip_input_style.dart',
+      'lib/ui/dashcn/components/chip_input/chip_input.dart',
+      'lib/ui/dashcn/components/chip_input/chip_input_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/chip_input/chip_input_theme.dart',
+      'lib/ui/dashcn/components/chip_input/chip_input_theme.dart',
     ],
   ),
   'dropzone': DocsFileList(
     componentId: 'dropzone',
     files: <String>[
-      'lib/ui/shadcn/components/dropzone/dropzone.dart',
-      'lib/ui/shadcn/components/dropzone/dropzone_style.dart',
+      'lib/ui/dashcn/components/dropzone/dropzone.dart',
+      'lib/ui/dashcn/components/dropzone/dropzone_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/dropzone/dropzone_theme.dart',
+      'lib/ui/dashcn/components/dropzone/dropzone_theme.dart',
     ],
   ),
   'file_picker': DocsFileList(
     componentId: 'file_picker',
     files: <String>[
-      'lib/ui/shadcn/components/file_picker/file_picker.dart',
-      'lib/ui/shadcn/components/file_picker/file_picker_style.dart',
+      'lib/ui/dashcn/components/file_picker/file_picker.dart',
+      'lib/ui/dashcn/components/file_picker/file_picker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/file_picker/file_picker_theme.dart',
+      'lib/ui/dashcn/components/file_picker/file_picker_theme.dart',
     ],
   ),
   'form': DocsFileList(
     componentId: 'form',
     files: <String>[
-      'lib/ui/shadcn/components/form/form.dart',
-      'lib/ui/shadcn/components/form/form_style.dart',
+      'lib/ui/dashcn/components/form/form.dart',
+      'lib/ui/dashcn/components/form/form_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/form/form_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/form/form_theme.dart'],
   ),
   'formatted_input': DocsFileList(
     componentId: 'formatted_input',
     files: <String>[
-      'lib/ui/shadcn/components/formatted_input/formatted_input.dart',
-      'lib/ui/shadcn/components/formatted_input/formatted_input_flow.dart',
-      'lib/ui/shadcn/components/formatted_input/formatted_input_style.dart',
+      'lib/ui/dashcn/components/formatted_input/formatted_input.dart',
+      'lib/ui/dashcn/components/formatted_input/formatted_input_flow.dart',
+      'lib/ui/dashcn/components/formatted_input/formatted_input_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/formatted_input/formatted_input_theme.dart',
+      'lib/ui/dashcn/components/formatted_input/formatted_input_theme.dart',
     ],
   ),
   'input': DocsFileList(
     componentId: 'input',
     files: <String>[
-      'lib/ui/shadcn/components/input/input.dart',
-      'lib/ui/shadcn/components/input/input_style.dart',
+      'lib/ui/dashcn/components/input/input.dart',
+      'lib/ui/dashcn/components/input/input_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/input/input_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/input/input_theme.dart'],
   ),
   'input_otp': DocsFileList(
     componentId: 'input_otp',
     files: <String>[
-      'lib/ui/shadcn/components/input_otp/input_otp.dart',
-      'lib/ui/shadcn/components/input_otp/input_otp_style.dart',
+      'lib/ui/dashcn/components/input_otp/input_otp.dart',
+      'lib/ui/dashcn/components/input_otp/input_otp_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/input_otp/input_otp_theme.dart',
+      'lib/ui/dashcn/components/input_otp/input_otp_theme.dart',
     ],
   ),
   'item_picker': DocsFileList(
     componentId: 'item_picker',
     files: <String>[
-      'lib/ui/shadcn/components/item_picker/item_picker.dart',
-      'lib/ui/shadcn/components/item_picker/item_picker_style.dart',
+      'lib/ui/dashcn/components/item_picker/item_picker.dart',
+      'lib/ui/dashcn/components/item_picker/item_picker_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/item_picker/item_picker_theme.dart',
+      'lib/ui/dashcn/components/item_picker/item_picker_theme.dart',
     ],
   ),
   'multi_select': DocsFileList(
     componentId: 'multi_select',
-    files: <String>['lib/ui/shadcn/components/multi_select/multi_select.dart'],
+    files: <String>['lib/ui/dashcn/components/multi_select/multi_select.dart'],
     userOwned: <String>[],
   ),
   'object_input': DocsFileList(
     componentId: 'object_input',
-    files: <String>['lib/ui/shadcn/components/object_input/object_input.dart'],
+    files: <String>['lib/ui/dashcn/components/object_input/object_input.dart'],
     userOwned: <String>[],
   ),
   'phone_input': DocsFileList(
     componentId: 'phone_input',
     files: <String>[
-      'lib/ui/shadcn/components/phone_input/phone_input.dart',
-      'lib/ui/shadcn/components/phone_input/phone_input_style.dart',
+      'lib/ui/dashcn/components/phone_input/phone_input.dart',
+      'lib/ui/dashcn/components/phone_input/phone_input_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/phone_input/phone_input_theme.dart',
+      'lib/ui/dashcn/components/phone_input/phone_input_theme.dart',
     ],
   ),
   'radio_group': DocsFileList(
     componentId: 'radio_group',
     files: <String>[
-      'lib/ui/shadcn/components/radio_group/radio_group.dart',
-      'lib/ui/shadcn/components/radio_group/radio_group_style.dart',
+      'lib/ui/dashcn/components/radio_group/radio_group.dart',
+      'lib/ui/dashcn/components/radio_group/radio_group_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/radio_group/radio_group_theme.dart',
+      'lib/ui/dashcn/components/radio_group/radio_group_theme.dart',
     ],
   ),
   'select': DocsFileList(
     componentId: 'select',
     files: <String>[
-      'lib/ui/shadcn/components/select/select.dart',
-      'lib/ui/shadcn/components/select/select_style.dart',
+      'lib/ui/dashcn/components/select/select.dart',
+      'lib/ui/dashcn/components/select/select_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/select/select_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/select/select_theme.dart'],
   ),
   'slider': DocsFileList(
     componentId: 'slider',
     files: <String>[
-      'lib/ui/shadcn/components/slider/slider.dart',
-      'lib/ui/shadcn/components/slider/slider_style.dart',
+      'lib/ui/dashcn/components/slider/slider.dart',
+      'lib/ui/dashcn/components/slider/slider_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/slider/slider_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/slider/slider_theme.dart'],
   ),
   'star_rating': DocsFileList(
     componentId: 'star_rating',
     files: <String>[
-      'lib/ui/shadcn/components/star_rating/star_rating.dart',
-      'lib/ui/shadcn/components/star_rating/star_rating_style.dart',
+      'lib/ui/dashcn/components/star_rating/star_rating.dart',
+      'lib/ui/dashcn/components/star_rating/star_rating_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/star_rating/star_rating_theme.dart',
+      'lib/ui/dashcn/components/star_rating/star_rating_theme.dart',
     ],
   ),
   'switch': DocsFileList(
     componentId: 'switch',
     files: <String>[
-      'lib/ui/shadcn/components/switch/switch.dart',
-      'lib/ui/shadcn/components/switch/switch_style.dart',
+      'lib/ui/dashcn/components/switch/switch.dart',
+      'lib/ui/dashcn/components/switch/switch_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/switch/switch_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/switch/switch_theme.dart'],
   ),
   'text_area': DocsFileList(
     componentId: 'text_area',
-    files: <String>['lib/ui/shadcn/components/text_area/text_area.dart'],
+    files: <String>['lib/ui/dashcn/components/text_area/text_area.dart'],
     userOwned: <String>[],
   ),
   'accordion': DocsFileList(
     componentId: 'accordion',
     files: <String>[
-      'lib/ui/shadcn/components/accordion/accordion.dart',
-      'lib/ui/shadcn/components/accordion/accordion_style.dart',
+      'lib/ui/dashcn/components/accordion/accordion.dart',
+      'lib/ui/dashcn/components/accordion/accordion_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/accordion/accordion_theme.dart',
+      'lib/ui/dashcn/components/accordion/accordion_theme.dart',
     ],
   ),
   'card': DocsFileList(
     componentId: 'card',
     files: <String>[
-      'lib/ui/shadcn/components/card/card.dart',
-      'lib/ui/shadcn/components/card/card_style.dart',
+      'lib/ui/dashcn/components/card/card.dart',
+      'lib/ui/dashcn/components/card/card_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/card/card_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/card/card_theme.dart'],
   ),
   'card_image': DocsFileList(
     componentId: 'card_image',
     files: <String>[
-      'lib/ui/shadcn/components/card_image/card_image.dart',
-      'lib/ui/shadcn/components/card_image/card_image_style.dart',
+      'lib/ui/dashcn/components/card_image/card_image.dart',
+      'lib/ui/dashcn/components/card_image/card_image_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/card_image/card_image_theme.dart',
+      'lib/ui/dashcn/components/card_image/card_image_theme.dart',
     ],
   ),
   'collapsible': DocsFileList(
     componentId: 'collapsible',
     files: <String>[
-      'lib/ui/shadcn/components/collapsible/collapsible.dart',
-      'lib/ui/shadcn/components/collapsible/collapsible_style.dart',
+      'lib/ui/dashcn/components/collapsible/collapsible.dart',
+      'lib/ui/dashcn/components/collapsible/collapsible_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/collapsible/collapsible_theme.dart',
+      'lib/ui/dashcn/components/collapsible/collapsible_theme.dart',
     ],
   ),
   'filter_bar': DocsFileList(
     componentId: 'filter_bar',
     files: <String>[
-      'lib/ui/shadcn/components/filter_bar/filter_bar.dart',
-      'lib/ui/shadcn/components/filter_bar/filter_bar_style.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/filter_bar/filter_bar_theme.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_theme.dart',
     ],
   ),
   'overflow_marquee': DocsFileList(
     componentId: 'overflow_marquee',
     files: <String>[
-      'lib/ui/shadcn/components/overflow_marquee/overflow_marquee.dart',
-      'lib/ui/shadcn/components/overflow_marquee/overflow_marquee_style.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/overflow_marquee/overflow_marquee_theme.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_theme.dart',
     ],
   ),
   'resizable': DocsFileList(
     componentId: 'resizable',
     files: <String>[
-      'lib/ui/shadcn/components/resizable/resizable.dart',
-      'lib/ui/shadcn/components/resizable/resizable_style.dart',
+      'lib/ui/dashcn/components/resizable/resizable.dart',
+      'lib/ui/dashcn/components/resizable/resizable_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/resizable/resizable_theme.dart',
+      'lib/ui/dashcn/components/resizable/resizable_theme.dart',
     ],
   ),
   'scaffold': DocsFileList(
     componentId: 'scaffold',
     files: <String>[
-      'lib/ui/shadcn/components/scaffold/scaffold.dart',
-      'lib/ui/shadcn/components/scaffold/scaffold_style.dart',
+      'lib/ui/dashcn/components/scaffold/scaffold.dart',
+      'lib/ui/dashcn/components/scaffold/scaffold_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/scaffold/scaffold_theme.dart',
+      'lib/ui/dashcn/components/scaffold/scaffold_theme.dart',
     ],
   ),
   'scrollbar': DocsFileList(
     componentId: 'scrollbar',
     files: <String>[
-      'lib/ui/shadcn/components/scrollbar/scrollbar.dart',
-      'lib/ui/shadcn/components/scrollbar/scrollbar_style.dart',
+      'lib/ui/dashcn/components/scrollbar/scrollbar.dart',
+      'lib/ui/dashcn/components/scrollbar/scrollbar_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/scrollbar/scrollbar_theme.dart',
+      'lib/ui/dashcn/components/scrollbar/scrollbar_theme.dart',
     ],
   ),
   'sortable': DocsFileList(
     componentId: 'sortable',
-    files: <String>['lib/ui/shadcn/components/sortable/sortable.dart'],
+    files: <String>['lib/ui/dashcn/components/sortable/sortable.dart'],
     userOwned: <String>[],
   ),
   'steps': DocsFileList(
     componentId: 'steps',
     files: <String>[
-      'lib/ui/shadcn/components/steps/steps.dart',
-      'lib/ui/shadcn/components/steps/steps_style.dart',
+      'lib/ui/dashcn/components/steps/steps.dart',
+      'lib/ui/dashcn/components/steps/steps_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/steps/steps_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/steps/steps_theme.dart'],
   ),
   'command': DocsFileList(
     componentId: 'command',
     files: <String>[
-      'lib/ui/shadcn/components/command/command.dart',
-      'lib/ui/shadcn/components/command/command_style.dart',
+      'lib/ui/dashcn/components/command/command.dart',
+      'lib/ui/dashcn/components/command/command_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/command/command_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/command/command_theme.dart'],
   ),
   'context_menu': DocsFileList(
     componentId: 'context_menu',
-    files: <String>['lib/ui/shadcn/components/context_menu/context_menu.dart'],
+    files: <String>['lib/ui/dashcn/components/context_menu/context_menu.dart'],
     userOwned: <String>[],
   ),
   'dropdown_menu': DocsFileList(
     componentId: 'dropdown_menu',
     files: <String>[
-      'lib/ui/shadcn/components/dropdown_menu/dropdown_menu.dart',
+      'lib/ui/dashcn/components/dropdown_menu/dropdown_menu.dart',
     ],
     userOwned: <String>[],
   ),
   'menu': DocsFileList(
     componentId: 'menu',
     files: <String>[
-      'lib/ui/shadcn/components/menu/menu.dart',
-      'lib/ui/shadcn/components/menu/menu_style.dart',
+      'lib/ui/dashcn/components/menu/menu.dart',
+      'lib/ui/dashcn/components/menu/menu_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/menu/menu_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/menu/menu_theme.dart'],
   ),
   'menubar': DocsFileList(
     componentId: 'menubar',
-    files: <String>['lib/ui/shadcn/components/menubar/menubar.dart'],
+    files: <String>['lib/ui/dashcn/components/menubar/menubar.dart'],
     userOwned: <String>[],
   ),
   'breadcrumb': DocsFileList(
     componentId: 'breadcrumb',
     files: <String>[
-      'lib/ui/shadcn/components/breadcrumb/breadcrumb.dart',
-      'lib/ui/shadcn/components/breadcrumb/breadcrumb_style.dart',
+      'lib/ui/dashcn/components/breadcrumb/breadcrumb.dart',
+      'lib/ui/dashcn/components/breadcrumb/breadcrumb_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/breadcrumb/breadcrumb_theme.dart',
+      'lib/ui/dashcn/components/breadcrumb/breadcrumb_theme.dart',
     ],
   ),
   'navigation_bar': DocsFileList(
     componentId: 'navigation_bar',
     files: <String>[
-      'lib/ui/shadcn/components/navigation_bar/navigation_bar.dart',
-      'lib/ui/shadcn/components/navigation_bar/navigation_bar_style.dart',
+      'lib/ui/dashcn/components/navigation_bar/navigation_bar.dart',
+      'lib/ui/dashcn/components/navigation_bar/navigation_bar_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/navigation_bar/navigation_bar_theme.dart',
+      'lib/ui/dashcn/components/navigation_bar/navigation_bar_theme.dart',
     ],
   ),
   'navigation_menu': DocsFileList(
     componentId: 'navigation_menu',
     files: <String>[
-      'lib/ui/shadcn/components/navigation_menu/navigation_menu.dart',
-      'lib/ui/shadcn/components/navigation_menu/navigation_menu_style.dart',
+      'lib/ui/dashcn/components/navigation_menu/navigation_menu.dart',
+      'lib/ui/dashcn/components/navigation_menu/navigation_menu_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/navigation_menu/navigation_menu_theme.dart',
+      'lib/ui/dashcn/components/navigation_menu/navigation_menu_theme.dart',
     ],
   ),
   'pagination': DocsFileList(
     componentId: 'pagination',
     files: <String>[
-      'lib/ui/shadcn/components/pagination/pagination.dart',
-      'lib/ui/shadcn/components/pagination/pagination_style.dart',
+      'lib/ui/dashcn/components/pagination/pagination.dart',
+      'lib/ui/dashcn/components/pagination/pagination_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/pagination/pagination_theme.dart',
+      'lib/ui/dashcn/components/pagination/pagination_theme.dart',
     ],
   ),
   'stepper': DocsFileList(
     componentId: 'stepper',
     files: <String>[
-      'lib/ui/shadcn/components/stepper/stepper.dart',
-      'lib/ui/shadcn/components/stepper/stepper_style.dart',
+      'lib/ui/dashcn/components/stepper/stepper.dart',
+      'lib/ui/dashcn/components/stepper/stepper_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/stepper/stepper_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/stepper/stepper_theme.dart'],
   ),
   'tabs': DocsFileList(
     componentId: 'tabs',
     files: <String>[
-      'lib/ui/shadcn/components/tabs/tabs.dart',
-      'lib/ui/shadcn/components/tabs/tabs_style.dart',
+      'lib/ui/dashcn/components/tabs/tabs.dart',
+      'lib/ui/dashcn/components/tabs/tabs_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/tabs/tabs_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/tabs/tabs_theme.dart'],
   ),
   'alert_dialog': DocsFileList(
     componentId: 'alert_dialog',
     files: <String>[
-      'lib/ui/shadcn/components/alert_dialog/alert_dialog.dart',
-      'lib/ui/shadcn/components/alert_dialog/alert_dialog_style.dart',
+      'lib/ui/dashcn/components/alert_dialog/alert_dialog.dart',
+      'lib/ui/dashcn/components/alert_dialog/alert_dialog_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/alert_dialog/alert_dialog_theme.dart',
+      'lib/ui/dashcn/components/alert_dialog/alert_dialog_theme.dart',
     ],
   ),
   'dialog': DocsFileList(
     componentId: 'dialog',
     files: <String>[
-      'lib/ui/shadcn/components/dialog/dialog.dart',
-      'lib/ui/shadcn/components/dialog/dialog_style.dart',
+      'lib/ui/dashcn/components/dialog/dialog.dart',
+      'lib/ui/dashcn/components/dialog/dialog_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/dialog/dialog_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/dialog/dialog_theme.dart'],
   ),
   'drawer': DocsFileList(
     componentId: 'drawer',
     files: <String>[
-      'lib/ui/shadcn/components/drawer/drawer.dart',
-      'lib/ui/shadcn/components/drawer/drawer_style.dart',
+      'lib/ui/dashcn/components/drawer/drawer.dart',
+      'lib/ui/dashcn/components/drawer/drawer_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/drawer/drawer_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/drawer/drawer_theme.dart'],
   ),
   'gooey_toast': DocsFileList(
     componentId: 'gooey_toast',
     files: <String>[
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast.dart',
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_controller.dart',
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_options.dart',
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_payload.dart',
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_stack.dart',
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_style.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_controller.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_options.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_payload.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_stack.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/gooey_toast/gooey_toast_theme.dart',
+      'lib/ui/dashcn/components/gooey_toast/gooey_toast_theme.dart',
     ],
   ),
   'hover_card': DocsFileList(
     componentId: 'hover_card',
     files: <String>[
-      'lib/ui/shadcn/components/hover_card/hover_card.dart',
-      'lib/ui/shadcn/components/hover_card/hover_card_style.dart',
+      'lib/ui/dashcn/components/hover_card/hover_card.dart',
+      'lib/ui/dashcn/components/hover_card/hover_card_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/hover_card/hover_card_theme.dart',
+      'lib/ui/dashcn/components/hover_card/hover_card_theme.dart',
     ],
   ),
   'popup': DocsFileList(
     componentId: 'popup',
-    files: <String>['lib/ui/shadcn/components/popup/popup.dart'],
+    files: <String>['lib/ui/dashcn/components/popup/popup.dart'],
     userOwned: <String>[],
   ),
   'refresh_trigger': DocsFileList(
     componentId: 'refresh_trigger',
     files: <String>[
-      'lib/ui/shadcn/components/refresh_trigger/refresh_trigger.dart',
-      'lib/ui/shadcn/components/refresh_trigger/refresh_trigger_style.dart',
+      'lib/ui/dashcn/components/refresh_trigger/refresh_trigger.dart',
+      'lib/ui/dashcn/components/refresh_trigger/refresh_trigger_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/refresh_trigger/refresh_trigger_theme.dart',
+      'lib/ui/dashcn/components/refresh_trigger/refresh_trigger_theme.dart',
     ],
   ),
   'tooltip': DocsFileList(
     componentId: 'tooltip',
     files: <String>[
-      'lib/ui/shadcn/components/tooltip/tooltip.dart',
-      'lib/ui/shadcn/components/tooltip/tooltip_style.dart',
+      'lib/ui/dashcn/components/tooltip/tooltip.dart',
+      'lib/ui/dashcn/components/tooltip/tooltip_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/tooltip/tooltip_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/tooltip/tooltip_theme.dart'],
   ),
   'code_snippet': DocsFileList(
     componentId: 'code_snippet',
     files: <String>[
-      'lib/ui/shadcn/components/code_snippet/code_snippet.dart',
-      'lib/ui/shadcn/components/code_snippet/code_snippet_style.dart',
+      'lib/ui/dashcn/components/code_snippet/code_snippet.dart',
+      'lib/ui/dashcn/components/code_snippet/code_snippet_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/code_snippet/code_snippet_theme.dart',
+      'lib/ui/dashcn/components/code_snippet/code_snippet_theme.dart',
     ],
   ),
   'image': DocsFileList(
     componentId: 'image',
     files: <String>[
-      'lib/ui/shadcn/components/image/image.dart',
-      'lib/ui/shadcn/components/image/image_style.dart',
+      'lib/ui/dashcn/components/image/image.dart',
+      'lib/ui/dashcn/components/image/image_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/image/image_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/image/image_theme.dart'],
   ),
   'markdown': DocsFileList(
     componentId: 'markdown',
     files: <String>[
-      'lib/ui/shadcn/components/markdown/markdown.dart',
-      'lib/ui/shadcn/components/markdown/markdown_style.dart',
+      'lib/ui/dashcn/components/markdown/markdown.dart',
+      'lib/ui/dashcn/components/markdown/markdown_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/markdown/markdown_theme.dart',
+      'lib/ui/dashcn/components/markdown/markdown_theme.dart',
     ],
   ),
   'alpha': DocsFileList(
     componentId: 'alpha',
-    files: <String>['lib/ui/shadcn/components/alpha/alpha.dart'],
+    files: <String>['lib/ui/dashcn/components/alpha/alpha.dart'],
     userOwned: <String>[],
   ),
   'anchor': DocsFileList(
     componentId: 'anchor',
-    files: <String>['lib/ui/shadcn/components/anchor/anchor.dart'],
+    files: <String>['lib/ui/dashcn/components/anchor/anchor.dart'],
     userOwned: <String>[],
   ),
   'app': DocsFileList(
     componentId: 'app',
-    files: <String>['lib/ui/shadcn/components/app/app.dart'],
+    files: <String>['lib/ui/dashcn/components/app/app.dart'],
     userOwned: <String>[],
   ),
   'async': DocsFileList(
     componentId: 'async',
-    files: <String>['lib/ui/shadcn/components/async/async.dart'],
+    files: <String>['lib/ui/dashcn/components/async/async.dart'],
     userOwned: <String>[],
   ),
   'backdrop_transform': DocsFileList(
     componentId: 'backdrop_transform',
     files: <String>[
-      'lib/ui/shadcn/components/backdrop_transform/backdrop_transform.dart',
+      'lib/ui/dashcn/components/backdrop_transform/backdrop_transform.dart',
     ],
     userOwned: <String>[],
   ),
   'color': DocsFileList(
     componentId: 'color',
-    files: <String>['lib/ui/shadcn/components/color/color.dart'],
+    files: <String>['lib/ui/dashcn/components/color/color.dart'],
     userOwned: <String>[],
   ),
   'color_field': DocsFileList(
     componentId: 'color_field',
     files: <String>[
-      'lib/ui/shadcn/components/color_field/color_field.dart',
-      'lib/ui/shadcn/components/color_field/color_field_style.dart',
+      'lib/ui/dashcn/components/color_field/color_field.dart',
+      'lib/ui/dashcn/components/color_field/color_field_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/color_field/color_field_theme.dart',
+      'lib/ui/dashcn/components/color_field/color_field_theme.dart',
     ],
   ),
   'color_input': DocsFileList(
     componentId: 'color_input',
     files: <String>[
-      'lib/ui/shadcn/components/color_input/color_input.dart',
-      'lib/ui/shadcn/components/color_input/color_input_style.dart',
+      'lib/ui/dashcn/components/color_input/color_input.dart',
+      'lib/ui/dashcn/components/color_input/color_input_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/color_input/color_input_theme.dart',
+      'lib/ui/dashcn/components/color_input/color_input_theme.dart',
     ],
   ),
   'drawer_container': DocsFileList(
     componentId: 'drawer_container',
     files: <String>[
-      'lib/ui/shadcn/components/drawer_container/drawer_container.dart',
+      'lib/ui/dashcn/components/drawer_container/drawer_container.dart',
     ],
     userOwned: <String>[],
   ),
   'error_system': DocsFileList(
     componentId: 'error_system',
     files: <String>[
-      'lib/ui/shadcn/components/error_system/error_system.dart',
-      'lib/ui/shadcn/components/error_system/error_system_style.dart',
+      'lib/ui/dashcn/components/error_system/error_system.dart',
+      'lib/ui/dashcn/components/error_system/error_system_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/error_system/error_system_theme.dart',
+      'lib/ui/dashcn/components/error_system/error_system_theme.dart',
     ],
   ),
   'eye_dropper': DocsFileList(
     componentId: 'eye_dropper',
     files: <String>[
-      'lib/ui/shadcn/components/eye_dropper/eye_dropper.dart',
-      'lib/ui/shadcn/components/eye_dropper/eye_dropper_style.dart',
+      'lib/ui/dashcn/components/eye_dropper/eye_dropper.dart',
+      'lib/ui/dashcn/components/eye_dropper/eye_dropper_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/eye_dropper/eye_dropper_theme.dart',
+      'lib/ui/dashcn/components/eye_dropper/eye_dropper_theme.dart',
     ],
   ),
   'formatter': DocsFileList(
     componentId: 'formatter',
-    files: <String>['lib/ui/shadcn/components/formatter/formatter.dart'],
+    files: <String>['lib/ui/dashcn/components/formatter/formatter.dart'],
     userOwned: <String>[],
   ),
   'group': DocsFileList(
     componentId: 'group',
-    files: <String>['lib/ui/shadcn/components/group/group.dart'],
+    files: <String>['lib/ui/dashcn/components/group/group.dart'],
     userOwned: <String>[],
   ),
   'history': DocsFileList(
     componentId: 'history',
     files: <String>[
-      'lib/ui/shadcn/components/history/history.dart',
-      'lib/ui/shadcn/components/history/history_style.dart',
+      'lib/ui/dashcn/components/history/history.dart',
+      'lib/ui/dashcn/components/history/history_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/history/history_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/history/history_theme.dart'],
   ),
   'hsl': DocsFileList(
     componentId: 'hsl',
     files: <String>[
-      'lib/ui/shadcn/components/hsl/hsl.dart',
-      'lib/ui/shadcn/components/hsl/hsl_style.dart',
+      'lib/ui/dashcn/components/hsl/hsl.dart',
+      'lib/ui/dashcn/components/hsl/hsl_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/hsl/hsl_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/hsl/hsl_theme.dart'],
   ),
   'hsv': DocsFileList(
     componentId: 'hsv',
     files: <String>[
-      'lib/ui/shadcn/components/hsv/hsv.dart',
-      'lib/ui/shadcn/components/hsv/hsv_style.dart',
+      'lib/ui/dashcn/components/hsv/hsv.dart',
+      'lib/ui/dashcn/components/hsv/hsv_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/hsv/hsv_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/hsv/hsv_theme.dart'],
   ),
   'icon': DocsFileList(
     componentId: 'icon',
     files: <String>[
-      'lib/ui/shadcn/components/icon/icon.dart',
-      'lib/ui/shadcn/components/icon/icon_style.dart',
+      'lib/ui/dashcn/components/icon/icon.dart',
+      'lib/ui/dashcn/components/icon/icon_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/icon/icon_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/icon/icon_theme.dart'],
   ),
   'locale_utils': DocsFileList(
     componentId: 'locale_utils',
-    files: <String>['lib/ui/shadcn/components/locale_utils/locale_utils.dart'],
+    files: <String>['lib/ui/dashcn/components/locale_utils/locale_utils.dart'],
     userOwned: <String>[],
   ),
   'media_query': DocsFileList(
     componentId: 'media_query',
     files: <String>[
-      'lib/ui/shadcn/components/media_query/media_query.dart',
-      'lib/ui/shadcn/components/media_query/media_query_style.dart',
+      'lib/ui/dashcn/components/media_query/media_query.dart',
+      'lib/ui/dashcn/components/media_query/media_query_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/media_query/media_query_theme.dart',
+      'lib/ui/dashcn/components/media_query/media_query_theme.dart',
     ],
   ),
   'multiple_choice': DocsFileList(
     componentId: 'multiple_choice',
     files: <String>[
-      'lib/ui/shadcn/components/multiple_choice/multiple_choice.dart',
-      'lib/ui/shadcn/components/multiple_choice/multiple_choice_style.dart',
+      'lib/ui/dashcn/components/multiple_choice/multiple_choice.dart',
+      'lib/ui/dashcn/components/multiple_choice/multiple_choice_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/multiple_choice/multiple_choice_theme.dart',
+      'lib/ui/dashcn/components/multiple_choice/multiple_choice_theme.dart',
     ],
   ),
   'outlined_container': DocsFileList(
     componentId: 'outlined_container',
     files: <String>[
-      'lib/ui/shadcn/components/outlined_container/outlined_container.dart',
-      'lib/ui/shadcn/components/outlined_container/outlined_container_style.dart',
+      'lib/ui/dashcn/components/outlined_container/outlined_container.dart',
+      'lib/ui/dashcn/components/outlined_container/outlined_container_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/outlined_container/outlined_container_theme.dart',
+      'lib/ui/dashcn/components/outlined_container/outlined_container_theme.dart',
     ],
   ),
   'overlay_configuration': DocsFileList(
     componentId: 'overlay_configuration',
     files: <String>[
-      'lib/ui/shadcn/components/overlay_configuration/overlay_configuration.dart',
+      'lib/ui/dashcn/components/overlay_configuration/overlay_configuration.dart',
     ],
     userOwned: <String>[],
   ),
   'page_route': DocsFileList(
     componentId: 'page_route',
-    files: <String>['lib/ui/shadcn/components/page_route/page_route.dart'],
+    files: <String>['lib/ui/dashcn/components/page_route/page_route.dart'],
     userOwned: <String>[],
   ),
   'patch': DocsFileList(
     componentId: 'patch',
-    files: <String>['lib/ui/shadcn/components/patch/patch.dart'],
+    files: <String>['lib/ui/dashcn/components/patch/patch.dart'],
     userOwned: <String>[],
   ),
   'scrollable': DocsFileList(
     componentId: 'scrollable',
     files: <String>[
-      'lib/ui/shadcn/components/scrollable/scrollable.dart',
-      'lib/ui/shadcn/components/scrollable/scrollable_style.dart',
+      'lib/ui/dashcn/components/scrollable/scrollable.dart',
+      'lib/ui/dashcn/components/scrollable/scrollable_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/scrollable/scrollable_theme.dart',
+      'lib/ui/dashcn/components/scrollable/scrollable_theme.dart',
     ],
   ),
   'scrollable_client': DocsFileList(
     componentId: 'scrollable_client',
     files: <String>[
-      'lib/ui/shadcn/components/scrollable_client/scrollable_client.dart',
-      'lib/ui/shadcn/components/scrollable_client/scrollable_client_style.dart',
+      'lib/ui/dashcn/components/scrollable_client/scrollable_client.dart',
+      'lib/ui/dashcn/components/scrollable_client/scrollable_client_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/scrollable_client/scrollable_client_theme.dart',
+      'lib/ui/dashcn/components/scrollable_client/scrollable_client_theme.dart',
     ],
   ),
   'scrollview': DocsFileList(
     componentId: 'scrollview',
-    files: <String>['lib/ui/shadcn/components/scrollview/scrollview.dart'],
+    files: <String>['lib/ui/dashcn/components/scrollview/scrollview.dart'],
     userOwned: <String>[],
   ),
   'selectable': DocsFileList(
     componentId: 'selectable',
     files: <String>[
-      'lib/ui/shadcn/components/selectable/selectable.dart',
-      'lib/ui/shadcn/components/selectable/selectable_style.dart',
+      'lib/ui/dashcn/components/selectable/selectable.dart',
+      'lib/ui/dashcn/components/selectable/selectable_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/selectable/selectable_theme.dart',
+      'lib/ui/dashcn/components/selectable/selectable_theme.dart',
     ],
   ),
   'spell_check_suggestions_toolbar': DocsFileList(
     componentId: 'spell_check_suggestions_toolbar',
     files: <String>[
-      'lib/ui/shadcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart',
+      'lib/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart',
     ],
     userOwned: <String>[],
   ),
   'stage_container': DocsFileList(
     componentId: 'stage_container',
     files: <String>[
-      'lib/ui/shadcn/components/stage_container/stage_container.dart',
-      'lib/ui/shadcn/components/stage_container/stage_container_style.dart',
+      'lib/ui/dashcn/components/stage_container/stage_container.dart',
+      'lib/ui/dashcn/components/stage_container/stage_container_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/stage_container/stage_container_theme.dart',
+      'lib/ui/dashcn/components/stage_container/stage_container_theme.dart',
     ],
   ),
   'swiper': DocsFileList(
     componentId: 'swiper',
     files: <String>[
-      'lib/ui/shadcn/components/swiper/swiper.dart',
-      'lib/ui/shadcn/components/swiper/swiper_style.dart',
+      'lib/ui/dashcn/components/swiper/swiper.dart',
+      'lib/ui/dashcn/components/swiper/swiper_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/swiper/swiper_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/swiper/swiper_theme.dart'],
   ),
   'switcher': DocsFileList(
     componentId: 'switcher',
     files: <String>[
-      'lib/ui/shadcn/components/switcher/switcher.dart',
-      'lib/ui/shadcn/components/switcher/switcher_style.dart',
+      'lib/ui/dashcn/components/switcher/switcher.dart',
+      'lib/ui/dashcn/components/switcher/switcher_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/switcher/switcher_theme.dart',
+      'lib/ui/dashcn/components/switcher/switcher_theme.dart',
     ],
   ),
   'timeline_animation': DocsFileList(
     componentId: 'timeline_animation',
     files: <String>[
-      'lib/ui/shadcn/components/timeline_animation/timeline_animation.dart',
+      'lib/ui/dashcn/components/timeline_animation/timeline_animation.dart',
     ],
     userOwned: <String>[],
   ),
   'triple_dots': DocsFileList(
     componentId: 'triple_dots',
     files: <String>[
-      'lib/ui/shadcn/components/triple_dots/triple_dots.dart',
-      'lib/ui/shadcn/components/triple_dots/triple_dots_style.dart',
+      'lib/ui/dashcn/components/triple_dots/triple_dots.dart',
+      'lib/ui/dashcn/components/triple_dots/triple_dots_style.dart',
     ],
     userOwned: <String>[
-      'lib/ui/shadcn/components/triple_dots/triple_dots_theme.dart',
+      'lib/ui/dashcn/components/triple_dots/triple_dots_theme.dart',
     ],
   ),
   'window': DocsFileList(
     componentId: 'window',
     files: <String>[
-      'lib/ui/shadcn/components/window/window.dart',
-      'lib/ui/shadcn/components/window/window_style.dart',
+      'lib/ui/dashcn/components/window/window.dart',
+      'lib/ui/dashcn/components/window/window_style.dart',
     ],
-    userOwned: <String>['lib/ui/shadcn/components/window/window_theme.dart'],
+    userOwned: <String>['lib/ui/dashcn/components/window/window_theme.dart'],
   ),
 };

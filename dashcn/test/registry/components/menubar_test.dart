@@ -15,7 +15,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   MenubarTheme? scoped,
 }) {
@@ -23,7 +23,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<MenubarTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -94,7 +94,7 @@ void main() {
   testWidgets('paints background, border and radius tokens by default', (
     tester,
   ) async {
-    const ShadcnThemeData theme = ShadcnThemeData();
+    const ThemeData theme = ThemeData();
     await tester.pumpWidget(_frame(_bar(), data: theme));
     await tester.pump();
     final BoxDecoration surface = _surface(tester);
@@ -105,9 +105,7 @@ void main() {
   });
 
   testWidgets('dark tokens drive the bar surface', (tester) async {
-    const ShadcnThemeData theme = ShadcnThemeData(
-      colors: ShadcnColors.darkFallback,
-    );
+    const ThemeData theme = ThemeData(colors: ThemeColors.darkFallback);
     await tester.pumpWidget(_frame(_bar(), data: theme));
     await tester.pump();
     expect(_surface(tester).color, theme.colors.background);
@@ -129,7 +127,7 @@ void main() {
     testWidgets('defaults resolve the tokens', (tester) async {
       await tester.pumpWidget(_frame(_bar()));
       await tester.pump();
-      expect(_surface(tester).color, const ShadcnThemeData().colors.background);
+      expect(_surface(tester).color, const ThemeData().colors.background);
     });
 
     testWidgets('app leg beats the defaults', (tester) async {

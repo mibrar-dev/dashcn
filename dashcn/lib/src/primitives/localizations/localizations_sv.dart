@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Swedish (`sv`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsSv extends ShadcnLocalizations {
+class ComponentLocalizationsSv extends ComponentLocalizations {
   /// Creates the Swedish strings.
-  const ShadcnLocalizationsSv([super.locale = const Locale('sv')]);
+  const ComponentLocalizationsSv([super.locale = const Locale('sv')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

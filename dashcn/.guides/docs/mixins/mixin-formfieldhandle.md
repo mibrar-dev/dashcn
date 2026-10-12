@@ -1,38 +1,27 @@
 ---
 title: "Mixin: FormFieldHandle"
-description: "Interface for form field state management."
+description: "The form-facing side of one field's state."
 ---
 
 ```dart
-/// Interface for form field state management.
+/// The form-facing side of one field's state.
 ///
-/// Provides methods and properties for managing form field lifecycle, validation,
-/// and value reporting. Typically mixed into state classes that participate in
-/// form validation and submission workflows.
-///
-/// Implementations should:
-/// - Track mount state to prevent operations on disposed widgets
-/// - Report value changes to parent forms
-/// - Support both synchronous and asynchronous validation
+/// Mixed into the `State` of every widget that participates in a form, so the
+/// field can report values, be revalidated and expose its validity to the
+/// nearest form.
 mixin FormFieldHandle {
-  /// Whether the widget is currently mounted in the widget tree.
+  /// Whether the field is still mounted.
   bool get mounted;
-  /// The unique key identifying this field within its form.
+  /// The key identifying this field within its form.
   FormKey get formKey;
-  /// Reports a new value to the form and triggers validation.
+  /// Reports [value] to the form and triggers validation.
   ///
-  /// Parameters:
-  /// - [value] (`T?`, required): The new field value.
-  ///
-  /// Returns: `FutureOr<ValidationResult?>` — validation result if applicable.
+  /// Returns the validation result, or a future of it when validation is
+  /// asynchronous.
   FutureOr<ValidationResult?> reportNewFormValue<T>(T? value);
-  /// Re-runs validation on the current value.
-  ///
-  /// Returns: `FutureOr<ValidationResult?>` — validation result if applicable.
+  /// Re-runs validation against the current value.
   FutureOr<ValidationResult?> revalidate();
-  /// A listenable for the current validation state.
-  ///
-  /// Returns `null` if no validation has been performed or if validation passed.
+  /// Listenable for the current validation state; null until validation ran.
   ValueListenable<ValidationResult?>? get validity;
 }
 ```

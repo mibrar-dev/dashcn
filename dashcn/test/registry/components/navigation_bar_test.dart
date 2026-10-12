@@ -3,7 +3,7 @@
 // Covers the three containers, labels (all/selected/tooltip/marquee), groups,
 // the collapsible controlled/uncontrolled flow, selection, disabled and action
 // items, arrow-key roving, theme precedence on all four legs, light and dark
-// tokens, sizes against the shadcn scale, and the old bugs that were fixed.
+// tokens, sizes against the upstream scale, and the old bugs that were fixed.
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/navigation_bar/navigation_bar.dart';
@@ -21,7 +21,7 @@ const Color _green = Color(0xFF00FF00);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   NavigationBarTheme? scoped,
 }) {
@@ -29,7 +29,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<NavigationBarTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -143,8 +143,8 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Align(
@@ -229,7 +229,7 @@ void main() {
           ),
         ),
       );
-      expect(_rowBackground(tester, 1), ShadcnColors.lightFallback.secondary);
+      expect(_rowBackground(tester, 1), ThemeColors.lightFallback.secondary);
       expect(_rowBackground(tester, 0).a, 0);
     });
 
@@ -251,7 +251,7 @@ void main() {
           ),
         ),
       );
-      expect(_rowBackground(tester, 1), ShadcnColors.lightFallback.secondary);
+      expect(_rowBackground(tester, 1), ThemeColors.lightFallback.secondary);
     });
 
     testWidgets('an action item fires and never highlights', (
@@ -449,7 +449,7 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('an item is 36 high (shadcn h-9)', (WidgetTester tester) async {
+    testWidgets('an item is 36 high (dashcn h-9)', (WidgetTester tester) async {
       await tester.pumpWidget(
         _frame(
           child: NavigationBar(children: <NavigationBarItem>[_item('Home')]),
@@ -469,14 +469,14 @@ void main() {
           child: NavigationBar(children: <NavigationBarItem>[_item('Home')]),
         ),
       );
-      expect(_barBackground(tester), ShadcnColors.lightFallback.background);
+      expect(_barBackground(tester), ThemeColors.lightFallback.background);
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: NavigationBar(children: <NavigationBarItem>[_item('Home')]),
         ),
       );
-      expect(_barBackground(tester), ShadcnColors.darkFallback.background);
+      expect(_barBackground(tester), ThemeColors.darkFallback.background);
     });
 
     testWidgets('all four precedence legs resolve in order', (
@@ -493,7 +493,7 @@ void main() {
           child: NavigationBar(children: <NavigationBarItem>[_item('Home')]),
         ),
       );
-      expect(_barBackground(tester), ShadcnColors.lightFallback.background);
+      expect(_barBackground(tester), ThemeColors.lightFallback.background);
       await tester.pumpWidget(
         _frame(
           app: const <ComponentThemeData>[app],

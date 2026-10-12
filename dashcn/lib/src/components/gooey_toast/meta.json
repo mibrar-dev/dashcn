@@ -4,8 +4,8 @@
   "category": "Overlays",
   "description": "Gooey-style transient notifications: a compact tab-shaped pill that grows a wider body below it through concave shoulders, anchored to the window edge.",
   "tier": "component",
-  "install": "flutter_shadcn add gooey_toast",
-  "import": "import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';",
+  "install": "dashcn add gooey_toast",
+  "import": "import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';",
   "tags": [
     "overlay",
     "notification",

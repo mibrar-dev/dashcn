@@ -19,7 +19,7 @@ import '../menu/menu.dart';
 /// quick correction they can hit.
 const int kMaxSpellCheckSuggestions = 3;
 
-/// A shadcn styled toolbar offering replacement suggestions for the
+/// A upstream styled toolbar offering replacement suggestions for the
 /// misspelled word under the cursor.
 ///
 /// Build it from an [EditableTextState] with the `.editableText` constructor
@@ -61,7 +61,7 @@ class SpellCheckSuggestionsToolbar extends StatelessWidget {
   /// Returns an empty list when the cursor is not inside a misspelled span.
   /// A misspelled span without suggestions returns one disabled placeholder
   /// row; the toolbar labels it with
-  /// `ShadcnLocalizations.spellCheckNoSuggestions`.
+  /// `ComponentLocalizations.spellCheckNoSuggestions`.
   static List<ContextMenuButtonItem> buildButtonItems(
     EditableTextState editableTextState,
   ) {
@@ -131,7 +131,9 @@ class SpellCheckSuggestionsToolbar extends StatelessWidget {
     if (buttonItems.isEmpty) {
       return const SizedBox.shrink();
     }
-    final ShadcnLocalizations localizations = ShadcnLocalizations.of(context);
+    final ComponentLocalizations localizations = ComponentLocalizations.of(
+      context,
+    );
     final position = anchors.primaryAnchor + const Offset(8, -8);
     return TextFieldTapRegion(
       child: Stack(

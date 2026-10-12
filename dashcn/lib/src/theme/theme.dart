@@ -10,12 +10,12 @@ import 'syntax_colors.dart';
 import 'tokens.dart';
 import 'typography.dart';
 
-/// Ambient shadcn theme data: colors, tokens, fonts, typography and flags.
-class ShadcnThemeData {
-  const ShadcnThemeData({
-    this.colors = ShadcnColors.lightFallback,
-    this.tokens = const ShadcnTokens(),
-    this.fonts = ShadcnFonts.empty,
+/// Ambient upstream theme data: colors, tokens, fonts, typography and flags.
+class ThemeData {
+  const ThemeData({
+    this.colors = ThemeColors.lightFallback,
+    this.tokens = const DesignTokens(),
+    this.fonts = ThemeFonts.empty,
     this.typography = const Typography.geist(),
     this.iconTheme = const IconThemeProperties(),
     this.scaling = 1,
@@ -30,13 +30,13 @@ class ShadcnThemeData {
   });
 
   /// Color tokens for the current brightness.
-  final ShadcnColors colors;
+  final ThemeColors colors;
 
   /// Non-color tokens (radius factor, spacing base, tracking, shadows).
-  final ShadcnTokens tokens;
+  final DesignTokens tokens;
 
   /// Mode-independent font families.
-  final ShadcnFonts fonts;
+  final ThemeFonts fonts;
 
   /// Text styles.
   final Typography typography;
@@ -87,7 +87,7 @@ class ShadcnThemeData {
 
   /// Base radius factor: the preset `radius` rem number (e.g. 0.625).
   ///
-  /// Derived steps follow shadcn `globals.css`: `lg` is the rem value in
+  /// Derived steps follow upstream `globals.css`: `lg` is the rem value in
   /// px (`radius * 16`); `sm`/`md` step down 4/2 px and `xl` steps up
   /// 4 px, clamped at zero so small radii (and 0) never go negative.
   /// `xl` additionally collapses to 0 when `lg` is 0, so square-corner
@@ -108,10 +108,10 @@ class ShadcnThemeData {
   BorderRadius get borderRadiusXl => BorderRadius.circular(radiusXl);
   BorderRadius get borderRadiusXxl => BorderRadius.circular(radiusXxl);
 
-  ShadcnThemeData copyWith({
-    ValueGetter<ShadcnColors>? colors,
-    ValueGetter<ShadcnTokens>? tokens,
-    ValueGetter<ShadcnFonts>? fonts,
+  ThemeData copyWith({
+    ValueGetter<ThemeColors>? colors,
+    ValueGetter<DesignTokens>? tokens,
+    ValueGetter<ThemeFonts>? fonts,
     ValueGetter<Typography>? typography,
     ValueGetter<IconThemeProperties>? iconTheme,
     ValueGetter<double>? scaling,
@@ -128,7 +128,7 @@ class ShadcnThemeData {
     final nextSpacing = spacing == null
         ? (density == null ? this.spacing : nextDensity.toSpacingScale())
         : spacing();
-    return ShadcnThemeData(
+    return ThemeData(
       colors: colors == null ? this.colors : colors(),
       tokens: tokens == null ? this.tokens : tokens(),
       fonts: fonts == null ? this.fonts : fonts(),
@@ -150,11 +150,11 @@ class ShadcnThemeData {
     );
   }
 
-  static ShadcnThemeData lerp(ShadcnThemeData a, ShadcnThemeData b, double t) {
-    return ShadcnThemeData(
-      colors: ShadcnColors.lerp(a.colors, b.colors, t),
-      tokens: ShadcnTokens.lerp(a.tokens, b.tokens, t),
-      fonts: ShadcnFonts.lerp(a.fonts, b.fonts, t),
+  static ThemeData lerp(ThemeData a, ThemeData b, double t) {
+    return ThemeData(
+      colors: ThemeColors.lerp(a.colors, b.colors, t),
+      tokens: DesignTokens.lerp(a.tokens, b.tokens, t),
+      fonts: ThemeFonts.lerp(a.fonts, b.fonts, t),
       typography: Typography.lerp(a.typography, b.typography, t),
       iconTheme: IconThemeProperties.lerp(a.iconTheme, b.iconTheme, t),
       scaling: lerpDouble(a.scaling, b.scaling, t)!,
@@ -172,7 +172,7 @@ class ShadcnThemeData {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is ShadcnThemeData &&
+    return other is ThemeData &&
         other.colors == colors &&
         other.tokens == tokens &&
         other.fonts == fonts &&
@@ -208,29 +208,29 @@ class ShadcnThemeData {
   );
 }
 
-/// Provides [ShadcnThemeData] to descendants.
-class ShadcnTheme extends InheritedTheme {
-  const ShadcnTheme({super.key, required this.data, required super.child});
+/// Provides [ThemeData] to descendants.
+class Theme extends InheritedTheme {
+  const Theme({super.key, required this.data, required super.child});
 
   /// Theme data for this subtree.
-  final ShadcnThemeData data;
+  final ThemeData data;
 
-  /// Nearest ambient data, defaulting to `const ShadcnThemeData()`.
+  /// Nearest ambient data, defaulting to `const ThemeData()`.
   /// Dark themes pass through readability normalisation.
-  static ShadcnThemeData of(BuildContext context) {
-    final theme = context.dependOnInheritedWidgetOfExactType<ShadcnTheme>();
-    final data = theme?.data ?? const ShadcnThemeData();
+  static ThemeData of(BuildContext context) {
+    final theme = context.dependOnInheritedWidgetOfExactType<Theme>();
+    final data = theme?.data ?? const ThemeData();
     return ensureReadableDarkTheme(data);
   }
 
   /// Patches near-black-on-dark foregrounds against luminance floors.
   /// Fires only for dark themes on dark backgrounds; kept from the old
   /// `Theme._ensureReadableDarkTheme` verbatim (thresholds included).
-  static ShadcnThemeData ensureReadableDarkTheme(ShadcnThemeData data) {
+  static ThemeData ensureReadableDarkTheme(ThemeData data) {
     final scheme = data.colors;
     if (scheme.brightness != Brightness.dark) return data;
     if (scheme.background.computeLuminance() >= 0.5) return data;
-    const defaults = ShadcnColors.darkFallback;
+    const defaults = ThemeColors.darkFallback;
     Color readable(Color color, Color fallback, double minLuminance) {
       return color.computeLuminance() < minLuminance ? fallback : color;
     }
@@ -263,28 +263,26 @@ class ShadcnTheme extends InheritedTheme {
   }
 
   @override
-  bool updateShouldNotify(covariant ShadcnTheme oldWidget) {
+  bool updateShouldNotify(covariant Theme oldWidget) {
     return oldWidget.data != data;
   }
 
   @override
   Widget wrap(BuildContext context, Widget child) {
-    final ancestor = context.findAncestorWidgetOfExactType<ShadcnTheme>();
-    return identical(this, ancestor)
-        ? child
-        : ShadcnTheme(data: data, child: child);
+    final ancestor = context.findAncestorWidgetOfExactType<Theme>();
+    return identical(this, ancestor) ? child : Theme(data: data, child: child);
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<ShadcnThemeData>('data', data));
+    properties.add(DiagnosticsProperty<ThemeData>('data', data));
   }
 }
 
-/// Animates [ShadcnThemeData] changes implicitly.
-class AnimatedShadcnTheme extends ImplicitlyAnimatedWidget {
-  const AnimatedShadcnTheme({
+/// Animates [ThemeData] changes implicitly.
+class AnimatedTheme extends ImplicitlyAnimatedWidget {
+  const AnimatedTheme({
     super.key,
     required this.data,
     required super.duration,
@@ -293,19 +291,17 @@ class AnimatedShadcnTheme extends ImplicitlyAnimatedWidget {
   });
 
   /// Target theme data.
-  final ShadcnThemeData data;
+  final ThemeData data;
 
   /// Widget below this widget in the tree.
   final Widget child;
 
   @override
-  AnimatedWidgetBaseState<AnimatedShadcnTheme> createState() =>
-      _AnimatedShadcnThemeState();
+  AnimatedWidgetBaseState<AnimatedTheme> createState() => _AnimatedThemeState();
 }
 
-class _AnimatedShadcnThemeState
-    extends AnimatedWidgetBaseState<AnimatedShadcnTheme> {
-  ShadcnThemeDataTween? _data;
+class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedTheme> {
+  ThemeDataTween? _data;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
@@ -313,26 +309,25 @@ class _AnimatedShadcnThemeState
         visitor(
               _data,
               widget.data,
-              (dynamic value) =>
-                  ShadcnThemeDataTween(begin: value as ShadcnThemeData),
+              (dynamic value) => ThemeDataTween(begin: value as ThemeData),
             )
-            as ShadcnThemeDataTween?;
+            as ThemeDataTween?;
   }
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnTheme(data: _data!.evaluate(animation), child: widget.child);
+    return Theme(data: _data!.evaluate(animation), child: widget.child);
   }
 }
 
-/// Tween for [ShadcnThemeData].
-class ShadcnThemeDataTween extends Tween<ShadcnThemeData> {
-  ShadcnThemeDataTween({super.begin, super.end});
+/// Tween for [ThemeData].
+class ThemeDataTween extends Tween<ThemeData> {
+  ThemeDataTween({super.begin, super.end});
 
   @override
-  ShadcnThemeData lerp(double t) {
+  ThemeData lerp(double t) {
     if (end == null) return begin!;
-    return ShadcnThemeData.lerp(begin!, end!, t);
+    return ThemeData.lerp(begin!, end!, t);
   }
 }
 

@@ -1,15 +1,12 @@
 ---
 title: "Class: TableSize"
-description: "Base class for table sizing strategies."
+description: "How one column or row is sized inside a table."
 ---
 
 ```dart
-/// Base class for table sizing strategies.
-///
-/// Abstract class that defines how table columns and rows should be sized.
-/// Implementations include fixed, flexible, and intrinsic sizing modes.
+/// How one column or row is sized inside a table.
 abstract class TableSize {
-  /// Creates a [TableSize].
+  /// Const constructor for subclasses.
   const TableSize();
 }
 ```

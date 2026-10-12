@@ -1,10 +1,10 @@
 // Docs-only painters for the Theme Studio canvas (spec §2.7).
 //
-// The registry has no `chart` component (see P6_SHADCN_SITE_SPEC §2.10), so the
+// The registry has no `chart` component (see the P6 site spec §2.10), so the
 // three charts the reference `/create` preview shows — a contribution bar
 // chart, a sparkline and a QR tile — are painted here with `CustomPainter` on
 // theme tokens only. Every colour, radius and stroke width is read from the
-// live `ShadcnThemeData`, so they re-paint with the rail edits exactly like a
+// live `ThemeData`, so they re-paint with the rail edits exactly like a
 // registry component would.
 //
 // These are docs-app painters, not registry primitives: they are neither
@@ -14,7 +14,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
-import '../../ui/shadcn/theme/theme.dart';
+import '../../ui/dashcn/theme/theme.dart';
 
 /// One bar of the contribution chart.
 class ContributionBar {
@@ -38,7 +38,7 @@ class StudioContributionChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Column(
@@ -141,7 +141,7 @@ class StudioSparkline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return SizedBox(
       height: 48,
       width: double.infinity,
@@ -235,7 +235,7 @@ class StudioQrTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
       width: size,
       height: size,

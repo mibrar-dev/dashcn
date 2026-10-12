@@ -1,6 +1,6 @@
 # Card
 
-A rounded, bordered surface with the shadcn slot composition (`CardHeader`,
+A rounded, bordered surface with the dashcn slot composition (`CardHeader`,
 `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`). Widgets-only; it
 imports no other component, so later batches can depend on it freely.
 
@@ -92,10 +92,10 @@ border. Everywhere else the full surface is painted.
   `input` already dropped it; `empty_state`, `radio_group` and `object_input`
   should use `Card` (or plain padding inside a sheet).
 - The `filled` switch is deleted. Its default `fillColor` was the *border*
-  token, so `filled: true` painted a grey block that no shadcn preset defines.
+  token, so `filled: true` painted a grey block that no dashcn preset defines.
   The fill is now always the `card` token unless `background` overrides it.
 - The old widget painted through `OutlinedContainer`, an unported shared
   primitive. `Card` paints its own `DecoratedBox`, so the component installs on
   its own.
-- New: the shadcn slot widgets (`CardHeader` / `CardTitle` / `CardDescription`
+- New: the dashcn slot widgets (`CardHeader` / `CardTitle` / `CardDescription`
   / `CardContent` / `CardFooter`) replace hand-written `Column`s.

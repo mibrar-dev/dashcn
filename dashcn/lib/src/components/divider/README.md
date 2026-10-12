@@ -1,7 +1,7 @@
 # Divider
 
 A themed rule in either orientation, optionally carrying a label. This is
-shadcn's `Separator`; the id stays `divider` to match the component directory.
+dashcn's `Separator`; the id stays `divider` to match the component directory.
 
 ## When to use
 
@@ -44,7 +44,7 @@ const Divider(
 |---|---|---|---|
 | `axis` | `Axis` | `horizontal` | the rule's orientation |
 | `color` | `ThemedColor?` | `border` token | |
-| `thickness` | `double?` | 1 | shadcn `h-px` |
+| `thickness` | `double?` | 1 | dashcn `h-px` |
 | `extent` | `double?` | 1 | cross-axis size (height / width) |
 | `indent` / `endIndent` | `double?` | 0 | insets on the leading/trailing edge |
 | `label` | `Widget?` | null | omit for a plain rule |
@@ -87,4 +87,4 @@ options that read naturally in both orientations and in RTL.
   `shared/utils/axis.dart`) are replaced by one private painter and three
   alignment enum values. Nothing in the new tree imports that file.
 - The old rule was animated through `AnimatedValueBuilder` +
-  `DividerProperties`; shadcn has no divider transition, so the paint is direct.
+  `DividerProperties`; dashcn has no divider transition, so the paint is direct.

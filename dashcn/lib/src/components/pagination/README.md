@@ -75,8 +75,8 @@ per field with receiver-wins `Mergeable.merge`.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add pagination`) or copy the folder
-   into `lib/ui/shadcn/pagination/`.
+1. Install the component (`dashcn add pagination`) or copy the folder
+   into `lib/ui/dashcn/pagination/`.
 2. Import `pagination.dart`; it re-exports `PaginationTheme` and
    `paginationDefaults`.
 3. App-wide overrides go in `pagination_theme.dart`; per-subtree overrides use

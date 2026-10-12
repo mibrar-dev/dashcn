@@ -66,7 +66,7 @@ class _OverlayHostState extends State<_OverlayHost> {
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   InputOtpTheme? scoped,
 }) {
@@ -74,7 +74,7 @@ Widget _frame(
   if (scoped != null) {
     body = ComponentTheme<InputOtpTheme>(data: scoped, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -147,7 +147,7 @@ class _FakeFormHandle with FormFieldHandle {
 }
 
 void main() {
-  const ShadcnColors colors = ShadcnColors.lightFallback;
+  const ThemeColors colors = ThemeColors.lightFallback;
 
   group('rendering', () {
     testWidgets('paints one empty slot per requested character', (
@@ -612,16 +612,13 @@ void main() {
   });
 
   group('tokens', () {
-    for (final (String name, ShadcnColors palette) in <(String, ShadcnColors)>[
-      ('light', ShadcnColors.lightFallback),
-      ('dark', ShadcnColors.darkFallback),
+    for (final (String name, ThemeColors palette) in <(String, ThemeColors)>[
+      ('light', ThemeColors.lightFallback),
+      ('dark', ThemeColors.darkFallback),
     ]) {
       testWidgets('$name tokens drive the slot surface', (tester) async {
         await tester.pumpWidget(
-          _frame(
-            const InputOtp(length: 2),
-            data: ShadcnThemeData(colors: palette),
-          ),
+          _frame(const InputOtp(length: 2), data: ThemeData(colors: palette)),
         );
         final BoxDecoration decoration = _slotDecoration(tester, 0);
         expect(decoration.color, _alpha(palette.input, 0.3));
@@ -632,7 +629,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             const InputOtp(length: 2, enabled: false),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         expect(_slotDecoration(tester, 0).color, _alpha(palette.input, 0));
@@ -642,7 +639,7 @@ void main() {
         await tester.pumpWidget(
           _frame(
             const InputOtp(length: 2, initialValue: '42'),
-            data: ShadcnThemeData(colors: palette),
+            data: ThemeData(colors: palette),
           ),
         );
         final Text label = tester.widget<Text>(
@@ -720,7 +717,7 @@ void main() {
       final BoxDecoration decoration = _slotDecoration(tester, 0);
       expect(decoration.color, _alpha(colors.input, 0.3));
       expect(decoration.border, Border.all(color: colors.input));
-      expect(decoration.borderRadius, const ShadcnThemeData().borderRadiusMd);
+      expect(decoration.borderRadius, const ThemeData().borderRadiusMd);
     });
 
     testWidgets('spacing and radius are theme rows', (tester) async {
@@ -847,8 +844,8 @@ void main() {
 
   group('narrow columns', () {
     Widget narrowFrame(double width, Widget child) {
-      return ShadcnTheme(
-        data: const ShadcnThemeData(),
+      return Theme(
+        data: const ThemeData(),
         child: ComponentThemes(
           themes: const <ComponentThemeData>[],
           child: Directionality(

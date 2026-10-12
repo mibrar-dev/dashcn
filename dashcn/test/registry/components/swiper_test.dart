@@ -14,7 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Future<void> _pumpApp(
   WidgetTester tester, {
-  ShadcnThemeData? theme,
+  ThemeData? theme,
   SwiperTheme? appTheme,
   SwiperTheme? scopedTheme,
   SwiperTheme? widgetTheme,
@@ -58,9 +58,7 @@ Future<void> _pumpApp(
   if (appTheme != null) {
     app = ComponentThemes(themes: <ComponentThemeData>[appTheme], child: app);
   }
-  await tester.pumpWidget(
-    ShadcnTheme(data: theme ?? const ShadcnThemeData(), child: app),
-  );
+  await tester.pumpWidget(Theme(data: theme ?? const ThemeData(), child: app));
 }
 
 Finder get _panel => find.byType(DrawerPanelSurface);
@@ -311,9 +309,7 @@ void main() {
     });
 
     testWidgets('dark tokens drive the panel', (tester) async {
-      const ShadcnThemeData dark = ShadcnThemeData(
-        colors: ShadcnColors.darkFallback,
-      );
+      const ThemeData dark = ThemeData(colors: ThemeColors.darkFallback);
       await _pumpApp(tester, theme: dark);
       await _drag(tester, const Offset(300, 0));
       expect(_panelColor(tester), dark.colors.background);

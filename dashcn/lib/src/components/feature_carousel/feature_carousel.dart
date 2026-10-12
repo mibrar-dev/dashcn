@@ -172,7 +172,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     if (widget.items.isEmpty) {
       return const SizedBox.shrink();
     }
-    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final ThemeData ambient = Theme.of(context);
     final FeatureCarouselTheme theme =
         resolveComponentStyle<FeatureCarouselTheme, FeatureCarouselTheme>(
           context,
@@ -180,7 +180,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           select: (t) => t,
           defaults: featureCarouselDefaults,
         );
-    final ShadcnColors colors = ambient.colors;
+    final ThemeColors colors = ambient.colors;
     final FeatureCarouselItem item = widget.items[_index];
     final double gap = ambient.spacing.sm;
     final double scaling = ambient.scaling;
@@ -236,7 +236,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
 
   Widget _viewport(
     FeatureCarouselTheme theme,
-    ShadcnColors colors,
+    ThemeColors colors,
     FeatureCarouselItem item,
   ) {
     final Color border = theme.cardBorder!.resolve(colors);
@@ -290,7 +290,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     );
   }
 
-  Widget _arrow(bool next, FeatureCarouselTheme theme, ShadcnColors colors) {
+  Widget _arrow(bool next, FeatureCarouselTheme theme, ThemeColors colors) {
     return _control(
       onPressed: () => _go(next ? 1 : -1),
       label: next ? 'Next' : 'Previous',
@@ -306,7 +306,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     );
   }
 
-  Widget _cta(FeatureCarouselTheme theme, ShadcnColors colors, double scaling) {
+  Widget _cta(FeatureCarouselTheme theme, ThemeColors colors, double scaling) {
     return _control(
       onPressed: () {
         if (widget.items.isNotEmpty) {

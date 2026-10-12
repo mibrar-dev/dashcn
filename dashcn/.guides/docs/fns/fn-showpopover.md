@@ -1,6 +1,6 @@
 ---
 title: "Function: showPopover"
-description: "Displays a popover overlay with specified alignment and behavior."
+description: "Shows a popover over [context]."
 ---
 
 Signature

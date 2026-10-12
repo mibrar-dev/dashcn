@@ -22,7 +22,7 @@ int _overlayGeneration = 0;
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   MenuTheme? scopedMenu,
   MenuPopupTheme? scopedPopup,
@@ -34,7 +34,7 @@ Widget _frame(
   if (scopedPopup != null) {
     body = ComponentTheme<MenuPopupTheme>(data: scopedPopup, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -136,7 +136,7 @@ void main() {
       expect(pressed, isFalse);
     });
 
-    testWidgets('a row measures 32 (shadcn h-8)', (tester) async {
+    testWidgets('a row measures 32 (dashcn h-8)', (tester) async {
       await tester.pumpWidget(
         _frame(
           _group(<MenuItem>[
@@ -161,7 +161,7 @@ void main() {
       expect(tester.getSize(box).height, 1);
       expect(
         tester.widget<Container>(box).color,
-        const ShadcnThemeData().colors.border,
+        const ThemeData().colors.border,
       );
     });
   });
@@ -170,11 +170,11 @@ void main() {
     testWidgets('popup is at least 192 wide with popover tokens', (
       tester,
     ) async {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           const MenuPopup(children: <Widget>[Text('x')]),
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
         ),
       );
       await tester.pump();
@@ -194,11 +194,11 @@ void main() {
     });
 
     testWidgets('dark tokens drive the popup', (tester) async {
-      const ShadcnColors colors = ShadcnColors.darkFallback;
+      const ThemeColors colors = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
           const MenuPopup(children: <Widget>[Text('x')]),
-          data: const ShadcnThemeData(colors: colors),
+          data: const ThemeData(colors: colors),
         ),
       );
       await tester.pump();
@@ -578,8 +578,8 @@ void main() {
       final TestGesture gesture = await _hover(tester, find.text('Cut'));
       await tester.pump();
       // Hover focuses the row; the focused state resolves the accent fill and
-      // its label colour (shadcn focus:bg-accent focus:text-accent-foreground).
-      final ShadcnColors colors = const ShadcnThemeData().colors;
+      // its label colour (upstream focus:bg-accent focus:text-accent-foreground).
+      final ThemeColors colors = const ThemeData().colors;
       expect(rowDecoration()!.color, colors.accent);
       final Text label = tester.widget<Text>(find.text('Cut'));
       expect(label.style, isNull); // colour comes from the row's TextTheme.
@@ -765,7 +765,7 @@ void main() {
       await tester.pump();
       final Text text = tester.widget<Text>(find.text('⌘C'));
       expect(text.style!.fontSize, 12);
-      expect(text.style!.color, const ShadcnThemeData().colors.mutedForeground);
+      expect(text.style!.color, const ThemeData().colors.mutedForeground);
     });
 
     testWidgets('separator composes inside submenus', (tester) async {
@@ -856,7 +856,7 @@ void main() {
     });
   });
 
-  group('showShadcnMenu', () {
+  group('showMenu', () {
     testWidgets('opens a root menu and Escape closes it', (tester) async {
       late BuildContext host;
       await tester.pumpWidget(
@@ -870,7 +870,7 @@ void main() {
         ),
       );
       await tester.pump();
-      final Future<bool?> opened = showShadcnMenu<bool>(
+      final Future<bool?> opened = showMenu<bool>(
         context: host,
         children: <Widget>[
           MenuButton(child: const Text('Cut'), onPressed: (_) {}),
@@ -900,7 +900,7 @@ void main() {
       );
       await tester.pump();
       unawaited(
-        showShadcnMenu<void>(
+        showMenu<void>(
           context: host,
           children: <Widget>[
             MenuButton(

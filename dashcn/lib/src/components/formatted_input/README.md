@@ -40,7 +40,7 @@ advances plus the cursor, floored by the placeholder width so labels like
 `MM` never wrap, density-aware); pass `width` only to force a wider box —
 it is never shrunk below what the content needs. The field hugs its content
 (never stretches in a loose parent) and fills a tight parent instead. Its
-height is the shadcn input height (h-9), shared with `Input`.
+height is the dashcn input height (h-9), shared with `Input`.
 
 Controller mode, for a field whose value other widgets also read:
 
@@ -99,7 +99,7 @@ formattedInputDefaults`, merged per field with receiver-wins
 | `borderWidth` | 1 |
 | `borderRadius` | `theme.borderRadiusMd` |
 | `padding` | `8 x 4` (scaled) |
-| `height` | 36 (the shadcn input height) |
+| `height` | 36 (the dashcn input height) |
 | `textStyle` | `text-sm` + `mono` |
 | `placeholderStyle` | `text-sm` muted |
 | `separatorStyle` | the segment style in `mutedForeground` |
@@ -152,7 +152,7 @@ becomes valid instead of sticking.
   `_EditablePartController` styled `textInside` with `TextDecoration.underline`
   and the first port concatenated the three composing spans with no style.
 - The filler `_` padding used `theme.colorScheme.mutedForeground` (a non-token
-  colour) and `max(0, …)`; it now resolves `ShadcnTheme.of(context).colors
+  colour) and `max(0, …)`; it now resolves `Theme.of(context).colors
   .mutedForeground` and clamps.
 - `FormattedObjectInput` (and its `_impl` state + controller) is dropped; see
   below.
@@ -171,15 +171,15 @@ becomes valid instead of sticking.
 - **`onPartsChanged`, `readOnly`, `autofocus`, `maxLengthEnforcement` and the
   per-part widget list.** Read-only comes from `enabled: false`; autofocus is
   not meaningful when the field owns N focus nodes; the length enforcement mode
-  is not used by any shadcn text field.
+  is not used by any dashcn text field.
 - **Cross-part select-all / copy and the `Copy` context-action override.**
   `SegmentedTextController.selectAll`/`selectedText` remain available for a
   caller that wants them.
 
 ## Getting started
 
-1. Install the component (`flutter_shadcn add formatted_input`) or copy the
-   folder into `lib/ui/shadcn/formatted_input/`.
+1. Install the component (`dashcn add formatted_input`) or copy the
+   folder into `lib/ui/dashcn/formatted_input/`.
 2. Import `formatted_input.dart`; it re-exports `SegmentPart`, `SegmentedValue`
    and the theme API.
 3. App-wide overrides go in `formatted_input_theme.dart`; per-field overrides

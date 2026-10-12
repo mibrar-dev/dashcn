@@ -1,4 +1,4 @@
-// The `radio_group` component: [ShadcnRadioGroup] (single-select scope with form
+// The `radio_group` component: [RadioSet] (single-select scope with form
 // participation), [RadioItem] (row or card shape) and [RadioIndicator].
 //
 // Ported from `components/form/radio_group/**` (17 files, 1.6k LOC) into three
@@ -27,10 +27,10 @@ export '../../primitives/selectable_radio/selectable_radio.dart'
     show RadioIndicator, RadioItem;
 export 'radio_group_style.dart';
 
-/// Holds the value of an uncontrolled [ShadcnRadioGroup].
-class ShadcnRadioGroupController<T> extends ValueNotifier<T?> {
+/// Holds the value of an uncontrolled [RadioSet].
+class RadioSetController<T> extends ValueNotifier<T?> {
   /// Creates a controller, with no selection by default.
-  ShadcnRadioGroupController([super.value]);
+  RadioSetController([super.value]);
 
   /// Selects [next].
   void select(T? next) => value = next;
@@ -39,13 +39,13 @@ class ShadcnRadioGroupController<T> extends ValueNotifier<T?> {
 /// A single-select group of radio items.
 ///
 /// Two modes: controlled (`value` + `onChanged`, null `onChanged` disables) or
-/// uncontrolled ([ShadcnRadioGroupController]). The group owns the layout —
+/// uncontrolled ([RadioSetController]). The group owns the layout —
 /// [items] stacks along [direction] with [RadioGroupTheme.itemsGap] between
-/// them (shadcn `grid gap-3`) — plus the selection, the arrow-key traversal and
+/// them (upstream `grid gap-3`) — plus the selection, the arrow-key traversal and
 /// the form value.
-class ShadcnRadioGroup<T> extends StatefulWidget {
+class RadioSet<T> extends StatefulWidget {
   /// Creates a radio group.
-  const ShadcnRadioGroup({
+  const RadioSet({
     super.key,
     required this.items,
     this.value,
@@ -56,7 +56,7 @@ class ShadcnRadioGroup<T> extends StatefulWidget {
     this.theme,
   }) : assert(
          controller == null || onChanged == null,
-         'A controller-driven ShadcnRadioGroup must not also receive onChanged',
+         'A controller-driven RadioSet must not also receive onChanged',
        );
 
   /// The items, stacked by the group along [direction].
@@ -66,7 +66,7 @@ class ShadcnRadioGroup<T> extends StatefulWidget {
   final T? value;
 
   /// Controller mode: the controller owns the selection.
-  final ShadcnRadioGroupController<T>? controller;
+  final RadioSetController<T>? controller;
 
   /// Called with the newly selected value in controlled mode.
   final ValueChanged<T>? onChanged;
@@ -82,12 +82,12 @@ class ShadcnRadioGroup<T> extends StatefulWidget {
   final RadioGroupTheme? theme;
 
   @override
-  State<ShadcnRadioGroup<T>> createState() => _RadioGroupState<T>();
+  State<RadioSet<T>> createState() => _RadioGroupState<T>();
 }
 
-/// The `ShadcnRadioGroup` state.
-class _RadioGroupState<T> extends State<ShadcnRadioGroup<T>>
-    with FormValueSupplier<T, ShadcnRadioGroup<T>> {
+/// The `RadioSet` state.
+class _RadioGroupState<T> extends State<RadioSet<T>>
+    with FormValueSupplier<T, RadioSet<T>> {
   /// The registered items, in tree order, for the arrow-key traversal.
   final RovingGroupRegistry<T> _registry = RovingGroupRegistry<T>();
 
@@ -104,7 +104,7 @@ class _RadioGroupState<T> extends State<ShadcnRadioGroup<T>>
   }
 
   @override
-  void didUpdateWidget(covariant ShadcnRadioGroup<T> oldWidget) {
+  void didUpdateWidget(covariant RadioSet<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_onControllerChanged);
@@ -136,7 +136,7 @@ class _RadioGroupState<T> extends State<ShadcnRadioGroup<T>>
     if (!_enabled) {
       return;
     }
-    final ShadcnRadioGroupController<T>? controller = widget.controller;
+    final RadioSetController<T>? controller = widget.controller;
     if (controller != null) {
       controller.select(value);
     } else {
@@ -184,14 +184,14 @@ class _RadioGroupState<T> extends State<ShadcnRadioGroup<T>>
     );
   }
 
-  /// Stacks [ShadcnRadioGroup.items] along [ShadcnRadioGroup.direction].
+  /// Stacks [RadioSet.items] along [RadioSet.direction].
   ///
-  /// shadcn's radio group is a `grid gap-3`, and the group owns that gap: the
+  /// upstream's radio group is a `grid gap-3`, and the group owns that gap: the
   /// caller used to supply the `Column`, so the gap was whoever wrote the demo
   /// remembered — the docs gallery forgot it and the rows touched. The gap
   /// comes from the theme, so it follows density, scaling and the preset.
   Widget _layout(BuildContext context, RadioGroupTheme group) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final double scale = theme.density.scale * theme.scaling;
     final double gap = (group.itemsGap ?? radioGroupItemsGap) * scale;
     return widget.direction == Axis.horizontal
@@ -210,7 +210,7 @@ class _RadioGroupState<T> extends State<ShadcnRadioGroup<T>>
   }
 }
 
-/// A card-shaped option of a [ShadcnRadioGroup]: the indicator and a whole
+/// A card-shaped option of a [RadioSet]: the indicator and a whole
 /// block of content.
 ///
 /// The border *colour* reacts to selection; its width never changes, so
@@ -338,7 +338,7 @@ class _RadioCardState<T> extends State<RadioCard<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData shadcnTheme = ShadcnTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final SelectableData<T>? group = Data.maybeOf<SelectableData<T>>(context);
     final SelectableRadioTheme rows =
         resolveComponentStyle<SelectableRadioTheme, SelectableRadioTheme>(
@@ -356,7 +356,7 @@ class _RadioCardState<T> extends State<RadioCard<T>> {
         );
     final bool selected = group?.selected == widget.value;
     final bool enabled = widget.enabled && (group?.enabled ?? false);
-    final double scale = shadcnTheme.density.scale * shadcnTheme.scaling;
+    final double scale = themeData.density.scale * themeData.scaling;
     _syncRegistration();
     final Set<WidgetState> states = <WidgetState>{
       if (selected) WidgetState.selected,
@@ -386,16 +386,14 @@ class _RadioCardState<T> extends State<RadioCard<T>> {
             key: kRadioCardKey,
             padding: resolveEdgeInsets(
               card.padding ?? selectableCardDefaults.padding!,
-              shadcnTheme.density.baseContentPadding * shadcnTheme.scaling,
+              themeData.density.baseContentPadding * themeData.scaling,
             ),
             background: card.background?.resolve(states),
             borderColor: card.borderColor?.resolve(states),
             borderWidth: card.borderWidth ?? 1,
             borderRadius:
                 card.borderRadius ??
-                BorderRadius.circular(
-                  shadcnTheme.radiusLg * shadcnTheme.scaling,
-                ),
+                BorderRadius.circular(themeData.radiusLg * themeData.scaling),
             clipBehavior: Clip.antiAlias,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,5 +420,5 @@ class _RadioCardState<T> extends State<RadioCard<T>> {
 
 /// Lookup key of a radio card surface.
 const ValueKey<String> kRadioCardKey = ValueKey<String>(
-  'shadcn.radio_group.card',
+  'dashcn.radio_group.card',
 );

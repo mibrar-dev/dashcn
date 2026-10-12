@@ -11,13 +11,13 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const ShadcnColors _light = ShadcnColors.lightFallback;
-const ShadcnColors _dark = ShadcnColors.darkFallback;
+const ThemeColors _light = ThemeColors.lightFallback;
+const ThemeColors _dark = ThemeColors.darkFallback;
 
-Future<void> _pump(WidgetTester tester, Widget child, {ShadcnColors? colors}) {
+Future<void> _pump(WidgetTester tester, Widget child, {ThemeColors? colors}) {
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: ShadcnThemeData(colors: colors ?? _light),
+    Theme(
+      data: ThemeData(colors: colors ?? _light),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Center(child: SizedBox(width: 200, height: 160, child: child)),

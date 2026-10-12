@@ -16,7 +16,7 @@ import 'outlined_container.dart';
 
 /// Token look: the theme border and card surface at the default radius.
 Widget _outlinedContainerDefault(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SizedBox(
     width: 320,
     child: OutlinedContainer(
@@ -40,7 +40,7 @@ Widget _outlinedContainerRounded(BuildContext context) {
 
 /// A translucent fill and a backdrop-blurred surface.
 Widget _outlinedContainerTranslucent(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -70,7 +70,7 @@ Widget _outlinedContainerTranslucent(BuildContext context) {
 
 /// The dashed outline form.
 Widget _outlinedContainerDashed(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
+  final spacing = Theme.of(context).spacing;
   return SizedBox(
     width: 320,
     child: Column(

@@ -14,9 +14,9 @@ import '../localizations/localizations.dart';
 /// Compile-time flags for the error handling primitive.
 class Env {
   /// Whether [AppError.technicalDetails] is attached by the built-in rules.
-  /// Set with `--dart-define=SHADCN_SHOW_TECHNICAL_ERRORS=true`.
+  /// Set with `--dart-define=DASHCN_SHOW_TECHNICAL_ERRORS=true`.
   static bool showTechnicalDetails = const bool.fromEnvironment(
-    'SHADCN_SHOW_TECHNICAL_ERRORS',
+    'DASHCN_SHOW_TECHNICAL_ERRORS',
     defaultValue: false,
   );
 }
@@ -64,7 +64,7 @@ class ErrorAction {
   /// Retry the failed operation.
   factory ErrorAction.retry(
     VoidCallback onRetry, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionRetry,
     onPressed: onRetry,
@@ -76,7 +76,7 @@ class ErrorAction {
   /// Report the error.
   factory ErrorAction.report(
     VoidCallback onReport, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionReport,
     onPressed: onReport,
@@ -87,7 +87,7 @@ class ErrorAction {
   /// Navigate back.
   factory ErrorAction.back(
     VoidCallback onBack, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionBack,
     onPressed: onBack,
@@ -98,7 +98,7 @@ class ErrorAction {
   /// Log in again.
   factory ErrorAction.login(
     VoidCallback onLogin, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionLogin,
     onPressed: onLogin,
@@ -110,7 +110,7 @@ class ErrorAction {
   /// Open settings.
   factory ErrorAction.settings(
     VoidCallback onSettings, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionSettings,
     onPressed: onSettings,
@@ -121,7 +121,7 @@ class ErrorAction {
   /// Contact support.
   factory ErrorAction.contactSupport(
     VoidCallback onContact, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(
     label: strings.errorActionContactSupport,
     onPressed: onContact,
@@ -131,11 +131,11 @@ class ErrorAction {
 
   /// Dismiss the error.
   ///
-  /// The label is [ShadcnLocalizations.dialogDismiss] - Flutter's translated
+  /// The label is [ComponentLocalizations.dialogDismiss] - Flutter's translated
   /// `modalBarrierDismissLabel` - because the two share the English string.
   factory ErrorAction.dismiss(
     VoidCallback onDismiss, {
-    ShadcnLocalizations strings = ShadcnLocalizations.english,
+    ComponentLocalizations strings = ComponentLocalizations.english,
   }) => ErrorAction(label: strings.dialogDismiss, onPressed: onDismiss);
 
   /// Button label.

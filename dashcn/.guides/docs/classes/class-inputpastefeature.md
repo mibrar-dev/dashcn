@@ -1,38 +1,16 @@
 ---
 title: "Class: InputPasteFeature"
-description: "Adds a paste button to the input field."
+description: "Appends clipboard text at the end of the field."
 ---
 
 ```dart
-/// Adds a paste button to the input field.
-///
-/// Provides a button that pastes content from the clipboard into the input.
-/// Useful for improving user experience when entering copied data.
-///
-/// Example:
-/// ```dart
-/// TextField(
-///   features: [
-///     InputPasteFeature(
-///       position: InputFeaturePosition.trailing,
-///     ),
-///   ],
-/// )
-/// ```
-class InputPasteFeature extends InputFeature {
-  /// Position of the paste button.
-  final InputFeaturePosition position;
-  /// Custom icon for the paste button.
+/// Appends clipboard text at the end of the field.
+class InputPasteFeature extends InputIconFeature {
+  /// Creates a paste button.
+  const InputPasteFeature({super.position, super.visibility, this.icon});
+  /// Custom icon; defaults to `LucideIcons.clipboard`.
   final Widget? icon;
-  /// Creates an [InputPasteFeature].
-  ///
-  /// Parameters:
-  /// - [position] (`InputFeaturePosition`, default: `InputFeaturePosition.trailing`):
-  ///   Where to place the paste button.
-  /// - [icon] (`Widget?`, optional): Custom icon widget.
-  /// - [visibility] (`InputFeatureVisibility`, optional): Controls visibility.
-  /// - [skipFocusTraversal] (`bool`, optional): Whether to skip in focus order.
-  const InputPasteFeature({super.visibility, super.skipFocusTraversal, this.position = InputFeaturePosition.trailing, this.icon});
-  InputFeatureState createState();
+  Widget buildIcon(BuildContext context);
+  void onPressed(InputFeatureState state, BuildContext context);
 }
 ```

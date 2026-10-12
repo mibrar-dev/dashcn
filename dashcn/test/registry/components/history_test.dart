@@ -13,7 +13,7 @@ const Color _green = Color(0xFF00FF00);
 
 Future<void> _pump(
   WidgetTester tester, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   HistoryTheme? widgetTheme,
   List<Color> initial = const <Color>[],
@@ -23,7 +23,7 @@ Future<void> _pump(
   Color? selected,
 }) async {
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: ComponentThemes(
         themes: app,
@@ -105,9 +105,9 @@ void main() {
 
   group('grid', () {
     testWidgets('renders swatches with tokens (light + dark)', (tester) async {
-      for (final data in <ShadcnThemeData>[
-        const ShadcnThemeData(),
-        const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+      for (final data in <ThemeData>[
+        const ThemeData(),
+        const ThemeData(colors: ThemeColors.darkFallback),
       ]) {
         await _pump(tester, data: data, initial: const <Color>[_blue, _red]);
         expect(find.byType(ColorHistoryGrid), findsOneWidget);
@@ -167,8 +167,8 @@ void main() {
       late HistoryTheme tree; // tree vs app, no widget leg
       late HistoryTheme widget; // widget vs tree vs app
       await tester.pumpWidget(
-        ShadcnTheme(
-          data: const ShadcnThemeData(),
+        Theme(
+          data: const ThemeData(),
           child: ComponentThemes(
             themes: const <ComponentThemeData>[HistoryTheme(spacing: 1)],
             child: Directionality(

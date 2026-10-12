@@ -1,18 +1,18 @@
 ---
 title: "Extension: IconExtensions"
-description: "Icon extension utilities used by command and other registry components."
+description: "Applies the ambient theme's icon sizes and muted colour to a widget."
 ---
 
 ```dart
-/// Icon extension utilities used by command and other registry components.
+/// Applies the ambient theme's icon sizes and muted colour to a widget.
 extension IconExtensions on Widget {
-  /// Applies the small icon theme to this widget.
+  /// Applies the small icon theme.
   Widget iconSmall();
-  /// Applies the extra-small icon theme to this widget.
+  /// Applies the extra-small icon theme.
   Widget iconXSmall();
-  /// Applies the extra-extra-extra-small icon theme to this widget.
+  /// Applies the extra-extra-extra-small icon theme.
   Widget iconX3Small();
-  /// Applies the muted foreground icon theme to this widget.
+  /// Applies the muted-foreground colour to the icon theme.
   Widget iconMutedForeground();
 }
 ```

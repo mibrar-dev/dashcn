@@ -5,7 +5,7 @@
 // only; their color is ignored and resolved from tokens at build, so a
 // preset switch recolors every row. Every color field is a [ThemedColor]
 // token reference; alpha multiplies, never replaces. Geometry (paddings,
-// radii, indents, image bounds) is fixed at shadcn values and lives in the
+// radii, indents, image bounds) is fixed at upstream values and lives in the
 // renderer, not here.
 
 import 'dart:ui' show lerpDouble;
@@ -319,7 +319,7 @@ MarkdownRenderStyle resolveMarkdownStyle(
   required Map<String, MarkdownLinkTarget> references,
   required List<String> footnoteOrder,
 }) {
-  final ambient = ShadcnTheme.of(context);
+  final ambient = Theme.of(context);
   final colors = ambient.colors;
   final resolved = resolveComponentStyle<MarkdownTheme, MarkdownTheme>(
     context,
@@ -376,7 +376,7 @@ MarkdownRenderStyle resolveMarkdownStyle(
     rule: resolved.horizontalRuleColor?.resolve(colors) ?? colors.border,
     blockSpacing: resolved.blockSpacing ?? 6,
     selectable: selectable,
-    dismissLabel: ShadcnLocalizations.of(context).dialogDismiss,
+    dismissLabel: ComponentLocalizations.of(context).dialogDismiss,
     onLink: colors.primaryForeground,
     surface: colors.card,
     onSurface: colors.cardForeground,

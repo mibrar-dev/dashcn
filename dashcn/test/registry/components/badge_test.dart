@@ -22,7 +22,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   BadgeTheme? scopedTheme,
 }) {
@@ -30,7 +30,7 @@ Widget _frame({
   if (scopedTheme != null) {
     body = ComponentTheme<BadgeTheme>(data: scopedTheme, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -92,7 +92,7 @@ void main() {
     testWidgets('primary fills primary and labels primaryForeground', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           child: Badge(onPressed: () {}, child: const Text('New')),
@@ -109,7 +109,7 @@ void main() {
     testWidgets('secondary and destructive use their own tokens', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       for (final MapEntry<BadgeVariant, Color> entry in <BadgeVariant, Color>{
         BadgeVariant.secondary: colors.secondary,
         BadgeVariant.destructive: colors.destructive,
@@ -132,7 +132,7 @@ void main() {
     });
 
     testWidgets('outline paints a 1px border and no fill', (tester) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           child: Badge(
@@ -272,7 +272,7 @@ void main() {
       );
       final BoxDecoration decoration = box.decoration as BoxDecoration;
       expect(decoration.shape, BoxShape.circle);
-      expect(decoration.color, ShadcnColors.lightFallback.primary);
+      expect(decoration.color, ThemeColors.lightFallback.primary);
       expect(
         tester.getSize(find.byType(Badge)),
         const Size.square(badgeDotSize),
@@ -365,7 +365,7 @@ void main() {
             child: Badge(onPressed: () {}, child: const Text('Partial')),
           ),
         );
-        final ShadcnColors colors = ShadcnColors.lightFallback;
+        final ThemeColors colors = ThemeColors.lightFallback;
         expect(
           _decoration(tester, const <WidgetState>{}).color,
           colors.primary,
@@ -380,7 +380,7 @@ void main() {
     testWidgets('a variant the theme leaves unset falls back to defaults', (
       tester,
     ) async {
-      final ShadcnColors colors = ShadcnColors.lightFallback;
+      final ThemeColors colors = ThemeColors.lightFallback;
       await tester.pumpWidget(
         _frame(
           scopedTheme: const BadgeTheme(
@@ -418,10 +418,10 @@ void main() {
 
   group('tokens', () {
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: Badge(onPressed: () {}, child: const Text('Dark')),
         ),
       );
@@ -440,7 +440,7 @@ void main() {
         find.descendant(of: find.byType(Badge), matching: find.byType(Padding)),
       );
       // `badgeDefaultPadding` is density multipliers; the built badge holds
-      // the shadcn value (px-2 py-0.5) resolved at the default density.
+      // the upstream value (px-2 py-0.5) resolved at the default density.
       expect(
         padding.padding,
         resolveEdgeInsets(
@@ -451,10 +451,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: Badge(
             variant: BadgeVariant.outline,
             theme: const BadgeStyle(

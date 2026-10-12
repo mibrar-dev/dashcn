@@ -1,20 +1,15 @@
 ---
 title: "Class: UnorderedListData"
-description: "Data class for tracking unordered list nesting depth."
+description: "Nesting depth for an unordered list, provided to descendants by the `li`  modifier."
 ---
 
 ```dart
-/// Data class for tracking unordered list nesting depth.
-///
-/// Used internally by the list item modifier to handle bullet points
-/// and indentation for nested lists.
+/// Nesting depth for an unordered list, provided to descendants by the `li`
+/// modifier.
 class UnorderedListData {
-  /// The nesting depth of the list (0 = top level).
-  final int depth;
-  /// Creates an [UnorderedListData].
-  ///
-  /// Parameters:
-  /// - [depth] (`int`, default: 0): Nesting depth.
+  /// Creates list data at nesting level [depth] (0 = top level).
   const UnorderedListData({this.depth = 0});
+  /// The nesting depth, 0 for a top-level list item.
+  final int depth;
 }
 ```

@@ -1,4 +1,4 @@
-// Tests for the error-domain strings of `ShadcnLocalizations`.
+// Tests for the error-domain strings of `ComponentLocalizations`.
 //
 // These getters are English fallbacks: no Flutter ARB file carries the
 // strings, so nothing is copied (or invented) into the locale tables. The
@@ -11,7 +11,7 @@ import 'package:dashcn/src/primitives/localizations/localizations_de.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const ShadcnLocalizations english = ShadcnLocalizations.english;
+  const ComponentLocalizations english = ComponentLocalizations.english;
 
   group('English defaults', () {
     test('default title and message', () {
@@ -107,7 +107,7 @@ void main() {
 
   group('translated tables', () {
     test('error strings fall back to English (no invented translations)', () {
-      const ShadcnLocalizationsDe german = ShadcnLocalizationsDe();
+      const ComponentLocalizationsDe german = ComponentLocalizationsDe();
       expect(german.errorSomethingWentWrong, 'Something went wrong');
       expect(german.errorActionRetry, 'Retry');
       expect(german.errorServerError, 'Server error');
@@ -128,7 +128,7 @@ void main() {
   });
 }
 
-class _Translated extends ShadcnLocalizations {
+class _Translated extends ComponentLocalizations {
   const _Translated() : super(const Locale('it'));
 
   @override

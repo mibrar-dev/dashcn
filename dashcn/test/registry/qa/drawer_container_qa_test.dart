@@ -15,11 +15,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _frame(
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
   double? width,
 }) {
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: Directionality(
       textDirection: direction,
@@ -33,11 +33,11 @@ Widget _frame(
 Future<void> _pumpSized(
   WidgetTester tester,
   Widget child, {
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   TextDirection direction = TextDirection.ltr,
 }) {
   return tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: Directionality(
         textDirection: direction,
@@ -64,14 +64,14 @@ void main() {
     tester,
   ) async {
     for (final preview in drawerContainerPreviews) {
-      for (final colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         await tester.pumpWidget(
           _frame(
             Builder(builder: preview.builder),
-            data: ShadcnThemeData(colors: colors),
+            data: ThemeData(colors: colors),
           ),
         );
         await tester.pump();
@@ -138,7 +138,7 @@ void main() {
           w is Container &&
           w.decoration is BoxDecoration &&
           (w.decoration! as BoxDecoration).color ==
-              ShadcnColors.lightFallback.muted,
+              ThemeColors.lightFallback.muted,
     );
     expect(handle, findsOneWidget);
     expect(tester.getSize(handle), const Size(36, 4));
@@ -161,13 +161,13 @@ void main() {
             w is Container &&
             w.decoration is BoxDecoration &&
             (w.decoration! as BoxDecoration).color ==
-                ShadcnColors.lightFallback.muted,
+                ThemeColors.lightFallback.muted,
       ),
       findsOneWidget,
     );
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Center(

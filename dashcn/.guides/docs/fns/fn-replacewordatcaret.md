@@ -1,6 +1,6 @@
 ---
 title: "Function: replaceWordAtCaret"
-description: "Replaces the word at the caret position with a new string."
+description: "Replaces the word around [caret] in [text] with [replacement]."
 ---
 
 Signature

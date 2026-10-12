@@ -1,20 +1,12 @@
 ---
 title: "Class: ListItemPickerLayout"
-description: "A list-based layout for item pickers."
+description: "Vertical list arrangement of picker items."
 ---
 
 ```dart
-/// A list-based layout for item pickers.
-///
-/// Displays items in a vertical scrolling list using [ListView.builder].
-///
-/// Example:
-/// ```dart
-/// const ListItemPickerLayout()
-/// ```
+/// Vertical list arrangement of picker items.
 class ListItemPickerLayout extends ItemPickerLayout {
-  /// Creates a [ListItemPickerLayout].
   const ListItemPickerLayout();
-  Widget build(BuildContext context, ItemChildDelegate items, ItemPickerBuilder builder);
+  Widget build<T>(BuildContext context, ItemChildDelegate<T> items, ItemPickerBuilder<T> builder);
 }
 ```

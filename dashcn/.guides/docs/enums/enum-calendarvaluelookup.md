@@ -1,22 +1,20 @@
 ---
 title: "Enum: CalendarValueLookup"
-description: "Result type for calendar value lookup operations."
+description: "Where a queried date, month or year sits relative to a [CalendarValue]."
 ---
 
 ```dart
-/// Result type for calendar value lookup operations.
-///
-/// Indicates the relationship between a queried date and the current calendar selection.
+/// Where a queried date, month or year sits relative to a [CalendarValue].
 enum CalendarValueLookup {
-  /// Date is not part of any selection.
+  /// Not part of the value.
   none,
-  /// Date is directly selected (single mode or exact match).
+  /// Directly selected.
   selected,
-  /// Date is the start of a selected range.
+  /// First day of a range.
   start,
-  /// Date is the end of a selected range.
+  /// Last day of a range.
   end,
-  /// Date falls within a selected range but is not start/end.
+  /// Inside a range, but not an endpoint.
   inRange,
 }
 ```

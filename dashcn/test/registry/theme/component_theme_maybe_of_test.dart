@@ -21,8 +21,8 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      const ShadcnTheme(
-        data: ShadcnThemeData(),
+      const Theme(
+        data: ThemeData(),
         child: ComponentThemes(
           themes: [_BoxTheme(tag: 'app')],
           child: Builder(builder: _probe),
@@ -35,9 +35,9 @@ void main() {
 
     // With a tree ancestor, the ancestor (not the app value) is returned.
     await tester.pumpWidget(
-      ShadcnTheme(
+      Theme(
         key: UniqueKey(),
-        data: const ShadcnThemeData(),
+        data: const ThemeData(),
         child: const ComponentThemes(
           themes: [_BoxTheme(tag: 'app')],
           child: ComponentTheme<_BoxTheme>(

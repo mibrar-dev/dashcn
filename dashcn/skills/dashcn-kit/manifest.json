@@ -1,0 +1,13 @@
+{
+  "skill": {
+    "name": "dashcn-kit",
+    "version": "1.0.0",
+    "source": "dashcn/skills/dashcn-kit"
+  },
+  "files": [
+    "SKILL.md",
+    "INSTALLATION.md",
+    "references/components-catalog.md",
+    "references/example-pages.md"
+  ]
+}

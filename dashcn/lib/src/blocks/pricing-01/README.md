@@ -14,11 +14,11 @@ an app would.
 ## Install
 
 ```sh
-flutter_shadcn add pricing-01
+dashcn add pricing-01
 ```
 
 ```dart
-import 'package:<your_app>/ui/shadcn/blocks/pricing-01/pricing_01.dart';
+import 'package:<your_app>/ui/dashcn/blocks/pricing-01/pricing_01.dart';
 
 void main() => runApp(const Pricing01());
 ```

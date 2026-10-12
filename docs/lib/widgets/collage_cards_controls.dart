@@ -5,10 +5,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
-import '../ui/shadcn/components/progress/progress.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/theme/color_tokens.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/components/progress/progress.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/theme/color_tokens.dart';
+import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'docs_tokens.dart';
 
@@ -17,7 +17,7 @@ class CollageRegistryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return CollageCard(
       title: 'Registry',
       subtitle: 'Counts generated from the manifest',
@@ -67,8 +67,8 @@ class CollagePresetsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final ShadcnColors colors = theme.colors;
+    final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     return CollageCard(
       title: 'Theme presets',
       subtitle: 'Light and dark from one token set',

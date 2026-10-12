@@ -15,13 +15,13 @@ Avoid when a plain text field is enough — use `input`.
 ## Install
 
 ```bash
-flutter_shadcn add phone_input
+dashcn add phone_input
 ```
 
 ## Import
 
 ```dart
-import 'package:<your_app>/ui/shadcn/phone_input/phone_input.dart';
+import 'package:<your_app>/ui/dashcn/phone_input/phone_input.dart';
 ```
 
 ## Minimal example
@@ -50,7 +50,7 @@ PhoneInput(
 ### Form field with validation
 
 ```dart
-ShadcnFormField<PhoneNumber>(
+FormItem<PhoneNumber>(
   key: const FormKey<PhoneNumber>('phone'),
   label: const Text('Phone'),
   validator: const PhoneNumberValidator(),

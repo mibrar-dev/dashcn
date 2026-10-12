@@ -10,15 +10,15 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  for (final entry in <(String, ShadcnThemeData)>[
-    ('light', const ShadcnThemeData()),
-    ('dark', const ShadcnThemeData(colors: ShadcnColors.darkFallback)),
+  for (final entry in <(String, ThemeData)>[
+    ('light', const ThemeData()),
+    ('dark', const ThemeData(colors: ThemeColors.darkFallback)),
   ]) {
     testWidgets('renders behind a translucent fill (${entry.$1})', (
       tester,
     ) async {
       await tester.pumpWidget(
-        ShadcnTheme(
+        Theme(
           data: entry.$2,
           child: const Directionality(
             textDirection: TextDirection.ltr,

@@ -1,8 +1,8 @@
 # Flutter CLI Verification Example
 
-This Flutter app is a smoke-test target for `flutter_shadcn_cli` install flows.
-Its `.shadcn/config.json` points at the hosted GitHub registry under
-`flutter_shadcn_kit/lib` and declares the manifest paths the CLI needs to
+This Flutter app is a smoke-test target for `dashcn_cli` install flows.
+Its `.dashcn/config.json` points at the hosted GitHub registry under
+`dashcn/lib` and declares the manifest paths the CLI needs to
 resolve components, schemas, the component index, theme index, and folder
 structure.
 

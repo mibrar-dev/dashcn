@@ -1,33 +1,21 @@
 ---
 title: "Class: SelectItem"
-description: "Represents a selectable item in a dropdown menu."
+description: "One selectable popup row."
 ---
 
 ```dart
-/// Represents a selectable item in a dropdown menu.
-///
-/// Used within select popups to define individual selectable options.
-/// Automatically applies selected state styling when the item matches
-/// the current selection.
-///
-/// Example:
-/// ```dart
-/// SelectItem(
-///   value: 'option1',
-///   builder: (context) => Text('Option 1'),
-/// )
-/// ```
-class SelectItem extends StatelessWidget {
-  /// Builder for the item's content.
-  final WidgetBuilder builder;
-  /// The value associated with this item.
-  final Object? value;
-  /// Creates a [SelectItem].
-  ///
-  /// Parameters:
-  /// - [value] (`Object?`, required): Item value.
-  /// - [builder] (`WidgetBuilder`, required): Content builder.
-  const SelectItem({super.key, required this.value, required this.builder});
+/// One selectable popup row. Place it in [Select.items] or build it from
+/// [Select.builder]; traversal, hover focus and the check indicator come
+/// from the shared select row.
+class SelectItem<T> extends StatelessWidget {
+  /// Creates a select row.
+  const SelectItem({super.key, required this.value, required this.child, this.enabled = true});
+  /// The value this row selects.
+  final T value;
+  /// Row content.
+  final Widget child;
+  /// Whether the row can be activated (on top of the select's own state).
+  final bool enabled;
   Widget build(BuildContext context);
 }
 ```

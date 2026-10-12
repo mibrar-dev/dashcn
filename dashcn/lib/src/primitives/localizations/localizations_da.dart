@@ -6,12 +6,12 @@ import 'localizations.dart';
 /// Danish (`da`) locale data.
 ///
 /// Translations only: anything this table does not override falls
-/// through to the English default on [ShadcnLocalizations]. Text
+/// through to the English default on [ComponentLocalizations]. Text
 /// direction is not handled here - Flutter resolves it from
 /// [WidgetsLocalizations] and [Directionality].
-class ShadcnLocalizationsDa extends ShadcnLocalizations {
+class ComponentLocalizationsDa extends ComponentLocalizations {
   /// Creates the Danish strings.
-  const ShadcnLocalizationsDa([super.locale = const Locale('da')]);
+  const ComponentLocalizationsDa([super.locale = const Locale('da')]);
 
   /// Formats [value] as a number in this locale, or returns it
   /// verbatim when it is not a number.

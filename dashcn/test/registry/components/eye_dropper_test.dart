@@ -50,7 +50,7 @@ class _MemoryStorage extends ChangeNotifier implements ColorHistoryStorage {
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   EyeDropperTheme? scopedTheme,
 }) {
@@ -58,7 +58,7 @@ Widget _frame({
   if (scopedTheme != null) {
     body = ComponentTheme<EyeDropperTheme>(data: scopedTheme, child: body);
   }
-  return ShadcnTheme(
+  return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -130,7 +130,7 @@ CustomPainter _previewPainter(WidgetTester tester) {
 int _argb(Color? color) => color!.toARGB32();
 
 void main() {
-  const ShadcnColors light = ShadcnColors.lightFallback;
+  const ThemeColors light = ThemeColors.lightFallback;
 
   group('picking', () {
     testWidgets('tap returns the sampled pixel and fills the history', (
@@ -395,11 +395,11 @@ void main() {
 
   group('tokens and regressions', () {
     testWidgets('dark palette drives the preview', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       late EyeDropperLayerScope scope;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: _layer(
             onScope: (s) => scope = s,
             previewSize: const Size(40, 40),
@@ -427,7 +427,7 @@ void main() {
       late EyeDropperLayerScope scope;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: _layer(
             onScope: (s) => scope = s,
             previewSize: const Size(40, 40),
@@ -449,7 +449,7 @@ void main() {
       _previewPainter(tester).paint(recorder, const Size(40, 40));
       expect(
         recorder.ovalColor!.a,
-        closeTo(ShadcnColors.darkFallback.border.a * 0.5, 0.01),
+        closeTo(ThemeColors.darkFallback.border.a * 0.5, 0.01),
       );
       await tester.tapAt(const Offset(20, 20));
       await tester.pump();
@@ -479,7 +479,7 @@ void main() {
       final CustomPainter before = _previewPainter(tester);
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: ShadcnColors.darkFallback),
+          data: const ThemeData(colors: ThemeColors.darkFallback),
           child: _layer(
             onScope: (s) => scope = s,
             previewSize: const Size(40, 40),
@@ -506,7 +506,7 @@ void main() {
     });
 
     test('defaults table matches the old preview defaults', () {
-      const ShadcnColors colors = ShadcnColors.lightFallback;
+      const ThemeColors colors = ThemeColors.lightFallback;
       expect(eyeDropperDefaults.previewSize, const Size(100, 100));
       expect(eyeDropperDefaults.previewScale, 8);
       expect(eyeDropperDefaults.showPreview, isTrue);

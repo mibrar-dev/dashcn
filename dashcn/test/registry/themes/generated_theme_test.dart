@@ -2,7 +2,7 @@
 //
 // `generated_theme.dart` parses the `app_theme.dart` that
 // `tool/rearch/gen_app_theme.dart` emits (via package:analyzer) and rebuilds
-// real `ShadcnColors` / `ShadcnTokens` objects from the literals found in that
+// real `ThemeColors` / `DesignTokens` objects from the literals found in that
 // source, so the values under test are the ones a user app would compile -
 // not objects rebuilt from the preset JSON. The expected values are then
 // recomputed straight from the JSON, so JSON -> Dart -> runtime is checked
@@ -71,17 +71,13 @@ void main() {
         final tokens = view.tokens;
         final atoms = (preset['shadow']! as Map)[mode]! as Map<String, Object?>;
 
-        ShadcnThemeData? resolved;
+        ThemeData? resolved;
         await tester.pumpWidget(
-          ShadcnTheme(
-            data: ShadcnThemeData(
-              colors: colors,
-              tokens: tokens,
-              fonts: view.fonts,
-            ),
+          Theme(
+            data: ThemeData(colors: colors, tokens: tokens, fonts: view.fonts),
             child: Builder(
               builder: (context) {
-                resolved = ShadcnTheme.of(context);
+                resolved = Theme.of(context);
                 return const SizedBox.shrink();
               },
             ),
@@ -102,7 +98,7 @@ void main() {
         );
         expect(data.colors.brightness, brightness);
 
-        // 2. Radius is the unitless rem factor; steps follow shadcn v4
+        // 2. Radius is the unitless rem factor; steps follow upstream v4
         // (lg = rem px, sm/md step down 4/2, xl steps up 4, floored at 0).
         expect(data.tokens.radius, radius, reason: '$id $mode radius');
         final double lg = radius * 16;

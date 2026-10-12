@@ -41,7 +41,7 @@ class _ProfileCard extends StatelessWidget {
             'Signed in with a passkey',
             style: TextStyle(
               fontSize: 12,
-              color: ShadcnTheme.of(context).colors.mutedForeground,
+              color: Theme.of(context).colors.mutedForeground,
             ),
           ),
         ),
@@ -58,7 +58,7 @@ Widget _default(BuildContext context) {
   );
 }
 
-/// A trigger that anchors the same surface with `showShadcnPopup`.
+/// A trigger that anchors the same surface with `showPopup`.
 class _AnchoredDemo extends StatelessWidget {
   const _AnchoredDemo();
 
@@ -67,7 +67,7 @@ class _AnchoredDemo extends StatelessWidget {
     return Button(
       variant: ButtonVariant.secondary,
       size: ButtonSize.sm,
-      onPressed: () => showShadcnPopup(
+      onPressed: () => showPopup(
         context: context,
         builder: (BuildContext context) => const _ProfileCard(),
       ),

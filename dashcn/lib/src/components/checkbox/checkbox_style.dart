@@ -272,7 +272,7 @@ class CheckboxTheme extends ComponentThemeData
 // ---------------------------------------------------------------------------
 // Defaults (registry-owned, tokens only).
 //
-// shadcn checkbox: `size-4 shrink-0 rounded-[4px] border shadow-xs` with
+// upstream checkbox: `size-4 shrink-0 rounded-[4px] border shadow-xs` with
 // `data-[state=checked]:bg-primary data-[state=checked]:border-primary` and a
 // `text-primary-foreground` indicator. Disabled states are intentionally
 // absent: `StateValue` falls back to `rest` and `Checkbox` dims the whole
@@ -280,13 +280,13 @@ class CheckboxTheme extends ComponentThemeData
 // .resolve` never falls back from one state to another.
 // ---------------------------------------------------------------------------
 
-/// Default checkbox box size: shadcn `size-4`.
+/// Default checkbox box size: upstream `size-4`.
 const double checkboxDefaultSize = 16;
 
-/// Default gap between the box and its label: shadcn `gap-2`.
+/// Default gap between the box and its label: upstream `gap-2`.
 const double checkboxDefaultGap = 8;
 
-/// No padding around the control by default: shadcn `size-4` is exactly the
+/// No padding around the control by default: upstream `size-4` is exactly the
 /// 16px box. The focus ring draws in an overflow stack outside the layout
 /// (see `FocusOutline`), so it never clips and needs no inset here.
 const EdgeInsetsGeometry checkboxDefaultPadding = EdgeInsets.zero;

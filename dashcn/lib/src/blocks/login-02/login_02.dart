@@ -110,7 +110,7 @@ class _Login02State extends State<Login02> {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.background,
       child: SafeArea(
@@ -216,8 +216,8 @@ class _Login02Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return ShadcnForm(
+    final ThemeData theme = Theme.of(context);
+    return FormScope(
       controller: controller,
       onSubmit: onValidSubmit,
       child: Column(
@@ -233,7 +233,7 @@ class _Login02Form extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.xl),
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: emailKey,
             label: const Text('Email'),
             validator: const NotEmptyValidator() & const EmailValidator(),
@@ -250,7 +250,7 @@ class _Login02Form extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.md),
-          ShadcnFormField<String>(
+          FormItem<String>(
             key: passwordKey,
             label: const Text('Password'),
             validator:

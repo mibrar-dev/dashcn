@@ -300,7 +300,7 @@ class InputFeatureIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final theme = Theme.of(context);
     return Clickable(
       enabled: enabled,
       onPressed: onPressed,

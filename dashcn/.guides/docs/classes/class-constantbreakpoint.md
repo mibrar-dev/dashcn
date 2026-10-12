@@ -1,20 +1,17 @@
 ---
 title: "Class: ConstantBreakpoint"
-description: "A breakpoint that uses constant step increments."
+description: "A breakpoint that steps width into uniform multiples of [step]."
 ---
 
 ```dart
-/// A breakpoint that uses constant step increments.
-///
-/// Divides width into uniform steps based on [breakpoint] value. For example,
-/// with breakpoint=100, widths 0-99 map to 0, 100-199 map to 100, etc.
-class ConstantBreakpoint implements StageBreakpoint {
-  /// The step size for width calculations.
-  final double breakpoint;
+/// A breakpoint that steps width into uniform multiples of [step].
+class ConstantBreakpoint extends StageBreakpoint {
+  /// Creates a constant-step breakpoint.
+  const ConstantBreakpoint(this.step, {this.minSize = 0, this.maxSize = double.infinity});
+  /// Step size; widths snap to multiples of it.
+  final double step;
   final double minSize;
   final double maxSize;
-  /// Creates a [ConstantBreakpoint].
-  const ConstantBreakpoint(this.breakpoint, {this.minSize = 0, this.maxSize = double.infinity});
   double getMinWidth(double width);
   double getMaxWidth(double width);
 }

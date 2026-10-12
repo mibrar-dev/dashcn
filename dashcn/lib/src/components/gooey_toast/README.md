@@ -9,7 +9,7 @@ instead of two stacked rectangles.
 ## Getting started
 
 ```dart
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';
 
 // Wrap the app once.
 GooeyToastLayer(child: myApp);
@@ -54,7 +54,7 @@ extra states (see the previews).
 
 ### Status tones
 
-shadcn ships no success/warning/info tokens, and the chart tokens change hue per
+dashcn ships no success/warning/info tokens, and the chart tokens change hue per
 preset and mode, so the six status tones are **fixed defaults** declared in
 `gooey_toast_style.dart` and overridable per app through
 `gooey_toast_theme.dart`:

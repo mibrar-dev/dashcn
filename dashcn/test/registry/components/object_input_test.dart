@@ -20,7 +20,7 @@ import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const ShadcnColors _dark = ShadcnColors.darkFallback;
+const ThemeColors _dark = ThemeColors.darkFallback;
 
 /// Echo harness: feeds reported values back as the controlled value.
 class _DateHarness extends StatefulWidget {
@@ -54,8 +54,8 @@ class _DateHarnessState extends State<_DateHarness> {
 Future<void> _pump(WidgetTester tester, Widget child) {
   // EditableText needs an Overlay ancestor once a segment takes focus.
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Overlay(
@@ -73,8 +73,8 @@ Future<void> _pump(WidgetTester tester, Widget child) {
 
 Future<void> _pumpNav(WidgetTester tester, Widget child) {
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: MediaQuery(
@@ -100,8 +100,8 @@ Future<void> _pumpPrompt(
   Size size = const Size(1200, 800),
 }) {
   return tester.pumpWidget(
-    ShadcnTheme(
-      data: const ShadcnThemeData(),
+    Theme(
+      data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: MediaQuery(
@@ -147,8 +147,8 @@ void main() {
 
   testWidgets('dark mode renders', (WidgetTester tester) async {
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(colors: _dark),
+      Theme(
+        data: const ThemeData(colors: _dark),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Center(
@@ -225,8 +225,8 @@ void main() {
     String title = 'a';
     late StateSetter bump;
     await tester.pumpWidget(
-      ShadcnTheme(
-        data: const ShadcnThemeData(),
+      Theme(
+        data: const ThemeData(),
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Overlay(

@@ -1,6 +1,6 @@
 // Theme audit: stale capture detection.
 //
-// Asserts that swapping the ShadcnTheme data at runtime updates the
+// Asserts that swapping the Theme data at runtime updates the
 // rendered colors. A component that captures the theme in initState, stores
 // resolved colors in a field, or bakes a color into a const default would
 // keep the previous preset's token and fail here.

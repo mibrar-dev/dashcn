@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart' show Icons;
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/button/button.dart';
-import 'package:dashcn/src/components/card/card.dart' as shadcn;
+import 'package:dashcn/src/components/card/card.dart' as dashcn;
 import 'package:dashcn/src/components/empty_state/empty_state.dart';
 import 'package:dashcn/src/foundation/icons/radix_icons.dart';
 import 'package:dashcn/src/primitives/localizations/localizations.dart';
@@ -21,7 +21,7 @@ const Color _blue = Color(0xFF0000FF);
 
 Widget _frame({
   required Widget child,
-  ShadcnThemeData data = const ShadcnThemeData(),
+  ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
   EmptyStateTheme? scoped,
   Locale? locale,
@@ -30,7 +30,7 @@ Widget _frame({
   if (scoped != null) {
     body = ComponentTheme<EmptyStateTheme>(data: scoped, child: body);
   }
-  Widget root = ShadcnTheme(
+  Widget root = Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
@@ -46,7 +46,7 @@ Widget _frame({
       // `Localizations` insists on a widgets delegate, so both are needed.
       delegates: const <LocalizationsDelegate<dynamic>>[
         DefaultWidgetsLocalizations.delegate,
-        ShadcnLocalizations.delegate,
+        ComponentLocalizations.delegate,
       ],
       child: root,
     );
@@ -144,7 +144,7 @@ void main() {
           locale: const Locale('en'),
         ),
       );
-      final ShadcnLocalizations l10n = ShadcnLocalizations.of(
+      final ComponentLocalizations l10n = ComponentLocalizations.of(
         tester.element(find.byType(EmptyState)),
       );
       expect(find.text(l10n.emptyStateNoResultsTitle), findsOneWidget);
@@ -169,9 +169,9 @@ void main() {
       await tester.pumpWidget(
         _frame(child: const EmptyState(size: EmptyStateSize.compact)),
       );
-      expect(find.byType(shadcn.Card), findsOneWidget);
+      expect(find.byType(dashcn.Card), findsOneWidget);
       await tester.pumpWidget(_frame(child: const EmptyState()));
-      expect(find.byType(shadcn.Card), findsNothing);
+      expect(find.byType(dashcn.Card), findsNothing);
     });
 
     testWidgets('full page centres the block', (tester) async {
@@ -200,7 +200,7 @@ void main() {
       await tester.pumpWidget(_frame(child: const EmptyState()));
       expect(titleStyle().fontSize, 24);
       expect(titleStyle().fontWeight, FontWeight.w600);
-      expect(titleStyle().color, ShadcnColors.lightFallback.foreground);
+      expect(titleStyle().color, ThemeColors.lightFallback.foreground);
       await tester.pumpWidget(
         _frame(child: const EmptyState(size: EmptyStateSize.compact)),
       );
@@ -214,10 +214,7 @@ void main() {
       // multiplied some of them a second time by `density.baseGap * gapMd`, so
       // the numbers depended on the flags the caller happened to set.
       await tester.pumpWidget(
-        _frame(
-          data: const ShadcnThemeData(scaling: 2),
-          child: const EmptyState(),
-        ),
+        _frame(data: const ThemeData(scaling: 2), child: const EmptyState()),
       );
       // 36 icon + 2 * (24 padding + 24 icon->title + 12 title->desc) + title
       expect(tester.getSize(find.byIcon(RadixIcons.archive)).width, 72);
@@ -233,8 +230,8 @@ void main() {
     testWidgets('uses the muted and border tokens', (tester) async {
       await tester.pumpWidget(_frame(child: const EmptyState()));
       final BoxDecoration decoration = _iconContainer(tester);
-      expect(decoration.color, ShadcnColors.lightFallback.muted);
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.border);
+      expect(decoration.color, ThemeColors.lightFallback.muted);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.border);
     });
 
     testWidgets('showIconContainer: false drops it', (tester) async {
@@ -246,10 +243,10 @@ void main() {
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const EmptyState(),
         ),
       );
@@ -427,7 +424,7 @@ void main() {
       final BoxDecoration decoration = _iconContainer(tester);
       expect(decoration.color, _green);
       // The border still comes from the defaults row.
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.border);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.border);
     });
 
     testWidgets('regression: a leg setting one field keeps the whole rest', (
@@ -443,8 +440,8 @@ void main() {
         ),
       );
       final BoxDecoration decoration = _iconContainer(tester);
-      expect(decoration.color, ShadcnColors.lightFallback.muted);
-      expect(decoration.border?.top.color, ShadcnColors.lightFallback.border);
+      expect(decoration.color, ThemeColors.lightFallback.muted);
+      expect(decoration.border?.top.color, ThemeColors.lightFallback.border);
       expect(tester.getSize(find.byIcon(RadixIcons.archive)).width, 36);
     });
 
@@ -515,10 +512,10 @@ void main() {
     });
 
     testWidgets('alpha multiplies the token alpha', (tester) async {
-      const ShadcnColors dark = ShadcnColors.darkFallback;
+      const ThemeColors dark = ThemeColors.darkFallback;
       await tester.pumpWidget(
         _frame(
-          data: const ShadcnThemeData(colors: dark),
+          data: const ThemeData(colors: dark),
           child: const EmptyState(
             theme: EmptyStateTheme(
               iconContainerBackground: ThemedColor.ref(
@@ -549,8 +546,8 @@ void main() {
         ),
       );
       expect(tester.takeException(), isNull);
-      final shadcn.Card card = tester.widget<shadcn.Card>(
-        find.byType(shadcn.Card),
+      final dashcn.Card card = tester.widget<dashcn.Card>(
+        find.byType(dashcn.Card),
       );
       expect(card.background, isNotNull);
     });

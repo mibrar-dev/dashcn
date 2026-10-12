@@ -2,7 +2,7 @@
 // [SwitchStyle] slice, the [SwitchTheme] container and the token-derived
 // `switchDefaults` rows.
 //
-// shadcn switch: a `h-[1.15rem] w-8 rounded-full` track (`bg-input` off,
+// upstream switch: a `h-[1.15rem] w-8 rounded-full` track (`bg-input` off,
 // `bg-primary` on) with a `size-4 rounded-full bg-background` thumb that
 // slides across. User-owned overrides live in `switch_theme.dart`.
 
@@ -13,10 +13,10 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 
-/// Default switch track size: shadcn `h-[1.15rem] w-8` = 18.4 x 32.
+/// Default switch track size: upstream `h-[1.15rem] w-8` = 18.4 x 32.
 const Size switchDefaultTrackSize = Size(32, 18.4);
 
-/// Default thumb size: shadcn `size-4`.
+/// Default thumb size: upstream `size-4`.
 const double switchDefaultThumbSize = 16;
 
 /// Duration of the track colour and thumb travel.
@@ -62,7 +62,7 @@ class SwitchStyle implements Mergeable<SwitchStyle> {
   final double? thumbSize;
 
   /// Thumb travel between the off and on positions; null derives it from the
-  /// track and thumb sizes at build (track width - thumb - 2, the shadcn
+  /// track and thumb sizes at build (track width - thumb - 2, the upstream
   /// `translate-x-[calc(100%-2px)]` slack, minus any border).
   final double? travel;
 

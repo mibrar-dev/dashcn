@@ -30,11 +30,11 @@ Future<void> _pump(
   tester.view.physicalSize = Size(width, 600);
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
-  final ShadcnThemeData data = density == null
-      ? const ShadcnThemeData()
-      : const ShadcnThemeData().copyWith(density: () => density);
+  final ThemeData data = density == null
+      ? const ThemeData()
+      : const ThemeData().copyWith(density: () => density);
   await tester.pumpWidget(
-    ShadcnTheme(
+    Theme(
       data: data,
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -238,9 +238,9 @@ void main() {
     const Color black = Color(0xFF000000);
 
     test('passing tones return untouched (stable across modes)', () {
-      for (final ShadcnColors colors in <ShadcnColors>[
-        ShadcnColors.lightFallback,
-        ShadcnColors.darkFallback,
+      for (final ThemeColors colors in <ThemeColors>[
+        ThemeColors.lightFallback,
+        ThemeColors.darkFallback,
       ]) {
         final Color surface = colors.popover;
         expect(
@@ -271,11 +271,11 @@ void main() {
       expect(
         GooeyToastState.success.tone(
           gooeyToastDefaults,
-          ShadcnColors.lightFallback,
+          ThemeColors.lightFallback,
         ),
         GooeyToastState.success.tone(
           gooeyToastDefaults,
-          ShadcnColors.darkFallback,
+          ThemeColors.darkFallback,
         ),
       );
     });

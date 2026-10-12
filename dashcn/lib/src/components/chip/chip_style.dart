@@ -16,7 +16,7 @@ import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 
-/// Chip label text style: shadcn chip `text-xs`, medium weight.
+/// Chip label text style: upstream chip `text-xs`, medium weight.
 ///
 /// The 16px (`1rem`) line matches Tailwind's `text-xs` line height, so the
 /// chip measures 16 + `py-0.5` (4) = 20 like the badge.
@@ -26,7 +26,7 @@ const TextStyle chipDefaultTextStyle = TextStyle(
   height: 4 / 3,
 );
 
-/// Padding of a chip: shadcn `px-2 py-0.5`, density-scaled.
+/// Padding of a chip: upstream `px-2 py-0.5`, density-scaled.
 const EdgeInsetsGeometry chipDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
   vertical: 2,

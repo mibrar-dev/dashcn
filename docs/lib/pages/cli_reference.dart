@@ -7,9 +7,9 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
-import '../ui/shadcn/foundation/gap.dart';
-import '../ui/shadcn/foundation/icons/lucide_icons.dart';
-import '../ui/shadcn/theme/theme.dart';
+import '../ui/dashcn/foundation/gap.dart';
+import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/docs_tokens.dart';
@@ -30,7 +30,7 @@ class CliReferencePage extends StatelessWidget {
       child: DocsArticle(
         title: 'CLI reference',
         description:
-            'The flutter_shadcn command installs, updates and validates the '
+            'The dashcn command installs, updates and validates the '
             'registry. Every command is snapshot-derived from the CLI help '
             'text.',
         previous: neighbors.previous,
@@ -58,7 +58,7 @@ class _CommandSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 32),

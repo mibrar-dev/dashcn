@@ -1,29 +1,23 @@
 ---
 title: "Class: DropdownMenu"
-description: "Reference for DropdownMenu"
+description: "A menu surface for a dropdown: the menu's rows inside a [MenuPopup],  dismissing the overlay it is shown in when a row closes the menu."
 ---
 
 ```dart
-class DropdownMenu extends StatefulWidget {
-  /// Opacity of the surface blur effect.
-  ///
-  /// If `null`, uses theme default.
-  final double? surfaceOpacity;
-  /// Amount of blur to apply to the surface.
-  ///
-  /// If `null`, uses theme default.
-  final double? surfaceBlur;
-  /// Menu items to display in the dropdown.
-  ///
-  /// Each item should be a [MenuItem] or similar menu component.
-  final List<MenuItem> children;
-  /// Creates a dropdown menu.
-  ///
-  /// Parameters:
-  /// - [children]: Menu items to display (required)
-  /// - [surfaceOpacity]: Backdrop blur opacity
-  /// - [surfaceBlur]: Amount of surface blur
-  const DropdownMenu({super.key, this.surfaceOpacity, this.surfaceBlur, required this.children});
-  State<DropdownMenu> createState();
+/// A menu surface for a dropdown: the menu's rows inside a [MenuPopup],
+/// dismissing the overlay it is shown in when a row closes the menu.
+///
+/// Inline surfaces never take focus on mount; overlay helpers pass
+/// `autofocus: true` for the opened menu.
+class DropdownMenu extends StatelessWidget {
+  /// Creates a dropdown menu surface.
+  const DropdownMenu({super.key, required this.children, this.theme, this.autofocus = false});
+  /// The menu rows.
+  final List<Widget> children;
+  /// Widget-leg surface override, merged over the popup theme legs.
+  final MenuPopupTheme? theme;
+  /// Whether the group takes focus on mount; true for opened overlays.
+  final bool autofocus;
+  Widget build(BuildContext context);
 }
 ```

@@ -15,7 +15,7 @@ class ColorPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final ThemeData theme = Theme.of(context);
     const base = Color(0xFF0080FF);
     final derivative = ColorDerivative.fromColor(base);
     final muted = derivative.changeToHSVSaturation(0.5);
@@ -66,7 +66,7 @@ class _Swatch extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(width: 48, height: 48, color: color),
-        Gap(ShadcnTheme.of(context).spacing.xs),
+        Gap(Theme.of(context).spacing.xs),
         Text(label),
       ],
     );

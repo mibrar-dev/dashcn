@@ -70,7 +70,7 @@ Scrollbar(
   at build time and hands the values to `RawScrollbar`, which owns the painter.
   The state subclass (119 lines) is deleted.
 - The old `Scrollbar.theme` widget-leg parameter was **never read** (the
-  wrapper dropped it before building `ShadcnScrollbar`); the new widget feeds
+  wrapper dropped it before building `DashcnScrollbar`); the new widget feeds
   it through `resolveComponentStyle`.
 - `minOverscrollLength` is now exposed, resolving P4-PRIM-1 Q1 at the
   component level: `RawScrollbar` owns the shrink, no custom painter math.
