@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_blocks.dart';
+import '../generated/docs_data.dart';
 import '../motion/motion_scope.dart';
 import '../state/docs_state.dart';
 import '../ui/shadcn/components/page_route/page_route.dart';
@@ -207,8 +208,12 @@ class DocsRouteConfiguration {
           if (path.length == 2) {
             return components;
           }
-          if (path.length == 3 && path[2].isNotEmpty) {
-            return component(path[2]);
+          if (path.length == 3) {
+            // shadcn-style URLs use hyphens; component ids use underscores.
+            final String id = path[2].replaceAll('-', '_');
+            if (kComponents.any((DocsComponent c) => c.id == id)) {
+              return component(id);
+            }
           }
       }
     }
