@@ -48,3 +48,11 @@ commands_run: [command -> outcome]   # every gate in your brief, with its final 
 key_findings: [bullets]
 open_questions: [bullets]
 ```
+
+## Process hygiene (added after P8-2/P8-3 incidents)
+- Never leave processes behind: if a test or tool you started hangs or you stop waiting for it, kill it (and its
+  children) before moving on. Orphaned `dart test` runs spinning at 100% CPU starve every other agent.
+- A test that hangs is a bug to diagnose (print progress, bisect), not something to retry with a longer timeout.
+- Keep tool outputs short (pipe through `tail`/`wc`/`head`); huge outputs bloat your context until you hang.
+- Never `sleep` more than 60 s at a time.
+- Test runs rewrite PNGs under `rearch/screenshots/` and `rearch/design/`; those are not your changes.

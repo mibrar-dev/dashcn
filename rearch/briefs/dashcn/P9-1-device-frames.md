@@ -33,3 +33,11 @@ Docs: format, `flutter analyze`, `flutter test`, `gen_docs_data --check`, `sync_
 
 ## Report
 `$KIT/rearch/reports/P9-1.md`
+
+## Notes (orchestrator, after P8-2)
+- Final names/paths: `$APP` = `$KIT/dashcn` (`lib/src/`), docs mirror `$DOCS/lib/ui/dashcn/`, kit theme is
+  `Theme`/`ThemeData` (docs files that also import Material-like names use `as dashcn` where needed).
+- If you change kit sources (platform plumbing), run `bash $DOCS/tool/sync_registry.sh` so the docs mirror follows,
+  then `gen_registry_manifest.dart` and `gen_exports.dart` if needed — the gates check all three.
+- Another agent works in the CLI repo concurrently; CPU is shared, so run focused tests while iterating and the full
+  gates once at the end.
