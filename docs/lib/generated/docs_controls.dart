@@ -2004,6 +2004,13 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: true,
         readOnlyReason: 'widget slot',
       ),
+      ControlSpec(
+        name: 'semanticLabel',
+        label: 'Semantic Label',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+      ),
     ],
   ),
   'tree': ComponentControls(
@@ -4648,6 +4655,13 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: false,
         readOnlyReason: 'callback',
       ),
+      ControlSpec(
+        name: 'semanticLabel',
+        label: 'Semantic Label',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+      ),
     ],
   ),
   'switch': ComponentControls(
@@ -7049,6 +7063,13 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: false,
         defaultValue: 'Duration.zero',
         readOnlyReason: 'complex type',
+      ),
+      ControlSpec(
+        name: 'semanticLabel',
+        label: 'Semantic Label',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
       ),
     ],
   ),

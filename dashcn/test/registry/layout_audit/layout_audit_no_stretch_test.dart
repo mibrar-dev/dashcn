@@ -18,6 +18,7 @@ import 'package:dashcn/src/components/badge/badge.dart';
 import 'package:dashcn/src/components/button/button.dart';
 import 'package:dashcn/src/components/card/card.dart';
 import 'package:dashcn/src/components/chip/chip.dart';
+import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'layout_audit_support.dart';
@@ -108,10 +109,15 @@ void main() {
     testWidgets('an icon button keeps its intrinsic 36x36 square', (
       tester,
     ) async {
-      final Widget button = Button(
-        onPressed: () {},
-        size: ButtonSize.icon,
-        child: const Text('x'),
+      // Desktop platform: the test bed runs as Android, where buttons grow
+      // a transparent touch hit area around the same visuals.
+      final Widget button = Theme(
+        data: const ThemeData(platform: TargetPlatform.macOS),
+        child: Button(
+          onPressed: () {},
+          size: ButtonSize.icon,
+          child: const Text('x'),
+        ),
       );
       await expectIntrinsicWidth(tester, button, Button);
       expect(sizeOf(tester, Button).height, 36, reason: 'h-9');

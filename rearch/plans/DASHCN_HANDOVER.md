@@ -31,14 +31,14 @@ Accepted and pushed:
 | Agent | Worktree, branch | Brief | Report |
 |---|---|---|---|
 | P9-3b flows docs + CLI | main (`dashcn-kit`) + `dashcn-cli`, both `refactor/dashcn` | `rearch/briefs/dashcn/P9-3b-flows-docs-cli.md` | `rearch/reports/P9-3b.md` |
-| KIT-FIX-1 a11y/forms | B (`dashcn-kit-b`), `wip/kit-fix-1` | `rearch/briefs/dashcn/KIT-FIX-1-a11y-forms.md` | `rearch/reports/KIT-FIX-1.md` |
+| P9-6 starters (`dashcn create`) | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p9-6-starters` | `rearch/briefs/dashcn/P9-6-starters.md` | `rearch/reports/P9-6.md` |
 
-P8-4 was accepted at 21:40 UTC. OpenCode sessions: KIT-FIX-1 `ses_ece1ae46cffexWKBiye11E0s3c`. These live in the
-cloud container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there. The agents
-were resumed after a container restart at 21:10 UTC (logs `P8-4r.log`, `KIT-FIX-1r.log`).
+P8-4 was accepted at 21:40 UTC and KIT-FIX-1 at 23:10 UTC. P9-3b's agent works in the main kit worktree, which is
+based on P8-4, and in the CLI. Merge `refactor/dashcn` in before accepting it. OpenCode sessions live in the cloud
+container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
-`wip/autosave-cli` on the CLI repo when it has changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
+`wip/autosave-cli` / `wip/autosave-cli-b` on the CLI repo when they have changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
 top of the worktree's HEAD; its message says which HEAD and when. **These snapshots are unreviewed work in progress.**
 
 If the cloud is gone, recover them like this:
@@ -52,7 +52,7 @@ If the cloud session is still alive, let it finish. Don't run the same phase in 
 
 Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
 
-1. **QA and accept KIT-FIX-1 and P9-3b** (P8-4 done). Run all gates yourself (section 6) and review the diff and screenshots.
+1. **QA and accept P9-3b** (P8-4 and KIT-FIX-1 done). Run all gates yourself (section 6) and review the diff and screenshots.
    - P8-4: commit with explicit paths in main, then merge it into `refactor/dashcn`.
    - KIT-FIX-1: merge `refactor/dashcn` into `wip/kit-fix-1`, regenerate, re-run the gates, then fast-forward push
      `HEAD:refactor/dashcn`.
@@ -60,12 +60,17 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
    - "No account yet?Create one" is missing a space;
    - settings home should be top-aligned;
    - toggle rows are cramped.
-3. **P9-6** (brief to write). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
+3. **P9-6** (running, see section 2). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
 4. **P9-Z** (brief to write). Integration:
    - the component page becomes frames + playground + scorecard;
    - navigation;
    - landing hero;
-   - fix the docs crash in a browser with no locale (`RangeError: Incorrect locale information provided`).
+   - fix the docs crash in a browser with no locale (`RangeError: Incorrect locale information provided`);
+   - KIT-FIX-1 follow-ups:
+     - an opt-out for `TouchHitArea`'s layout growth on phones (like Material's `shrinkWrap` tap-target size), e.g.
+       a theme flag, documented on the Button page;
+     - a decision on the scorecard for `divider` (decorative by design), `menu` (disabled row) and
+       `refresh_trigger` (a measurement artefact): exempt them in the harness, with the reason shown.
 5. **P8-6 final QA.**
    - fresh-app tests for package mode and eject;
    - `dart pub publish --dry-run` / `flutter pub publish --dry-run` for both packages;

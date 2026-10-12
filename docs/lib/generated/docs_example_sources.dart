@@ -1794,22 +1794,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -1818,18 +1822,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(
@@ -2016,22 +2026,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -2040,18 +2054,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(
@@ -2239,22 +2259,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -2263,18 +2287,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(
@@ -2462,22 +2492,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -2486,18 +2520,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(
@@ -2685,22 +2725,26 @@ class _CarouselShellState extends State<_CarouselShell> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     final bool horizontal = widget.direction == Axis.horizontal;
-    final Widget viewport = GestureDetector(
-      onTap: _keys.requestFocus,
-      child: Focus(
-        focusNode: _keys,
-        onKeyEvent: _onKey,
-        child: SizedBox(
-          height: horizontal ? 160 : 280,
-          child: Carousel(
-            itemCount: _slideCount,
-            controller: _controller,
-            viewportFraction: widget.viewportFraction,
-            gap: widget.gap,
-            direction: widget.direction,
-            autoplayInterval: _playing ? const Duration(seconds: 2) : null,
-            onIndexChanged: (int index) => setState(() => _index = index),
-            itemBuilder: _slideCard,
+    // The tap only moves keyboard focus into the viewport: excluded from
+    // semantics so it never reports as an unlabeled action.
+    final Widget viewport = ExcludeSemantics(
+      child: GestureDetector(
+        onTap: _keys.requestFocus,
+        child: Focus(
+          focusNode: _keys,
+          onKeyEvent: _onKey,
+          child: SizedBox(
+            height: horizontal ? 160 : 280,
+            child: Carousel(
+              itemCount: _slideCount,
+              controller: _controller,
+              viewportFraction: widget.viewportFraction,
+              gap: widget.gap,
+              direction: widget.direction,
+              autoplayInterval: _playing ? const Duration(seconds: 2) : null,
+              onIndexChanged: (int index) => setState(() => _index = index),
+              itemBuilder: _slideCard,
+            ),
           ),
         ),
       ),
@@ -2709,18 +2753,24 @@ class _CarouselShellState extends State<_CarouselShell> {
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
-        size: 16,
+      child: Semantics(
+        label: 'Previous',
+        child: Icon(
+          horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
+          size: 16,
+        ),
       ),
     );
     final Widget next = Button(
       size: ButtonSize.icon,
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
-      child: Icon(
-        horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
-        size: 16,
+      child: Semantics(
+        label: 'Next',
+        child: Icon(
+          horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
+          size: 16,
+        ),
       ),
     );
     final Widget dots = DotIndicator(
@@ -2837,7 +2887,8 @@ class _ChatAvatar extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: theme.colors.mutedForeground,
+          // Initials sit on the muted circle: the raw token fails AA on it.
+          color: theme.colors.onMuted,
         ),
       ),
     );
@@ -2917,7 +2968,8 @@ class _ChatAvatar extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: theme.colors.mutedForeground,
+          // Initials sit on the muted circle: the raw token fails AA on it.
+          color: theme.colors.onMuted,
         ),
       ),
     );
@@ -3016,7 +3068,8 @@ class _ChatAvatar extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: theme.colors.mutedForeground,
+          // Initials sit on the muted circle: the raw token fails AA on it.
+          color: theme.colors.onMuted,
         ),
       ),
     );
@@ -3115,7 +3168,8 @@ class _ChatAvatar extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: theme.colors.mutedForeground,
+          // Initials sit on the muted circle: the raw token fails AA on it.
+          color: theme.colors.onMuted,
         ),
       ),
     );
@@ -3294,6 +3348,7 @@ class _RemovableChipsState extends State<_RemovableChips> {
                 onDeleted: () => _remove(tag),
                 trailing: ChipButton(
                   onPressed: () => _remove(tag),
+                  semanticLabel: 'Remove $tag',
                   child: const Icon(LucideIcons.x, size: 12),
                 ),
                 child: Text(tag),
@@ -5497,6 +5552,7 @@ Widget _default(BuildContext context) {
   return const SizedBox(
     width: 320,
     child: Tracker(
+      semanticLabel: 'Activity tracker',
       data: <TrackerData>[
         TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
         TrackerData(tooltip: Text('Degraded'), level: TrackerLevel.warning),
@@ -7739,7 +7795,8 @@ class _SkeletonSkeletonBlockState extends State<_SkeletonSkeletonBlock> {
                 Gap(theme.spacing.sm),
                 Text(
                   'Body copy that keeps its box while loading.',
-                  style: TextStyle(color: theme.colors.mutedForeground),
+                  // Body copy renders over the muted shimmer sweep.
+                  style: TextStyle(color: theme.colors.onMuted),
                 ),
               ],
             ),
@@ -10855,6 +10912,7 @@ class _InteractiveRatingState extends State<_InteractiveRating> {
     return StarRating(
       value: _value,
       onChanged: (double value) => setState(() => _value = value),
+      semanticLabel: 'Rating',
     );
   }
 }
@@ -12202,7 +12260,8 @@ class _Pane extends StatelessWidget {
       child: Text(
         label,
         textAlign: TextAlign.center,
-        style: TextStyle(color: theme.colors.mutedForeground),
+        // The pane fill is muted: the raw token fails AA on it.
+        style: TextStyle(color: theme.colors.onMuted),
       ),
     );
   }
@@ -12247,7 +12306,8 @@ class _Pane extends StatelessWidget {
       child: Text(
         label,
         textAlign: TextAlign.center,
-        style: TextStyle(color: theme.colors.mutedForeground),
+        // The pane fill is muted: the raw token fails AA on it.
+        style: TextStyle(color: theme.colors.onMuted),
       ),
     );
   }
@@ -12301,7 +12361,7 @@ class _AppBarAction extends StatelessWidget {
       size: ButtonSize.icon,
       variant: ButtonVariant.ghost,
       onPressed: onPressed,
-      child: Icon(icon, size: 16),
+      child: Semantics(label: label, child: Icon(icon, size: 16)),
     );
   }
 }
@@ -12632,7 +12692,18 @@ class _Row extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.md),
-          Expanded(child: Text(item)),
+          // Tile text inherits the surface color explicitly so the
+          // rows stay readable outside the app's default text scope.
+          Expanded(
+            child: Text(
+              item,
+              style: TextStyle(
+                color: candidate
+                    ? theme.colors.accentForeground
+                    : theme.colors.cardForeground,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -12727,7 +12798,16 @@ class _Tile extends StatelessWidget {
             ),
           ),
           Gap(theme.spacing.sm),
-          Expanded(child: Text(item)),
+          Expanded(
+            child: Text(
+              item,
+              style: TextStyle(
+                color: candidate
+                    ? theme.colors.accentForeground
+                    : theme.colors.cardForeground,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -17568,6 +17648,7 @@ Widget _anchor(
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),
+      semanticLabel: label,
       child: Container(
         width: 36,
         height: 36,
@@ -17613,6 +17694,7 @@ Widget _anchor(
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),
+      semanticLabel: label,
       child: Container(
         width: 36,
         height: 36,
@@ -17829,7 +17911,13 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 Widget _imageDefault(BuildContext context) {
   return Align(
     alignment: AlignmentDirectional.centerStart,
-    child: Picture(image: _imagePhoto, width: 96, height: 96, aspectRatio: 1),
+    child: Picture(
+      image: _imagePhoto,
+      width: 96,
+      height: 96,
+      aspectRatio: 1,
+      semanticLabel: 'Photo',
+    ),
   );
 }
 ''',

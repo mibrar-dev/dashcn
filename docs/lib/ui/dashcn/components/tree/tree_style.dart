@@ -247,6 +247,7 @@ class TreeRow extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onDoublePressed,
+    this.semanticLabel,
     this.theme,
   });
 
@@ -261,6 +262,10 @@ class TreeRow extends StatelessWidget {
 
   /// Called on a double tap of the row.
   final VoidCallback? onDoublePressed;
+
+  /// Accessible label for the row; null falls back to the content's text
+  /// for expandable rows (whose toggle otherwise splits the merge).
+  final String? semanticLabel;
 
   /// Widget-leg theme override, merged on top of the other legs.
   final TreeTheme? theme;
@@ -355,14 +360,28 @@ class TreeRow extends StatelessWidget {
         ? GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => row.onToggle?.call(!row.expanded),
-            child: RotatedBox(
-              quarterTurns: row.expanded ? 1 : 0,
-              child: const Icon(LucideIcons.chevronRight).iconSmall(),
+            child: Semantics(
+              button: true,
+              expanded: row.expanded,
+              label: row.expanded ? 'Collapse' : 'Expand',
+              child: RotatedBox(
+                quarterTurns: row.expanded ? 1 : 0,
+                child: const Icon(LucideIcons.chevronRight).iconSmall(),
+              ),
             ),
           )
         : const SizedBox.shrink();
 
-    return Clickable(
+    // Expandable rows carry their own toggle node, which splits the row's
+    // semantics merge (the content text would otherwise stay unlabeled next
+    // to the toggle): label the tap node explicitly. Plain rows merge their
+    // text on their own and are left untouched.
+    final String? rowLabel =
+        semanticLabel ??
+        (row != null && row.expandable && child is Text
+            ? (child as Text).data
+            : null);
+    Widget tappable = Clickable(
       onPressed: row?.onSelect,
       onDoubleTap: onDoublePressed,
       focusNode: row?.focusNode,
@@ -422,5 +441,9 @@ class TreeRow extends StatelessWidget {
         ),
       ),
     );
+    if (rowLabel == null) {
+      return tappable;
+    }
+    return Semantics(label: rowLabel, child: tappable);
   }
 }

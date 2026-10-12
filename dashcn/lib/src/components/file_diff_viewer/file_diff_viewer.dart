@@ -16,6 +16,7 @@ import '../../foundation/icons/radix_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/text_editing/text_editing.dart';
+import '../../theme/contrast.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'file_diff_viewer_style.dart';
@@ -163,7 +164,8 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
                     file.oldPath!,
                     overflow: TextOverflow.ellipsis,
                     style: surface.codeStyle.copyWith(
-                      color: theme.colors.mutedForeground,
+                      // Old paths sit on the muted header fill.
+                      color: theme.colors.onMuted,
                     ),
                   ),
               ],
@@ -182,7 +184,8 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
                   file.status,
                   overflow: TextOverflow.ellipsis,
                   style: surface.codeStyle.copyWith(
-                    color: theme.colors.mutedForeground,
+                    // Status sits on the muted header fill.
+                    color: theme.colors.onMuted,
                   ),
                 ),
                 if (widget.showCopyAction)
@@ -219,15 +222,27 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
     setState(() => _copiedFiles.remove(key));
   }
 
+  /// Text color with AA contrast on the translucent [tint] composited over
+  /// the opaque [base] fill it paints on (stat pills, line markers).
+  Color _contrastingOn(Color text, Color tint, Color base) {
+    final ThemeData theme = Theme.of(context);
+    return ensureTextContrast(
+      text,
+      surface: Color.alphaBlend(tint, base),
+      towards: theme.colors.foreground,
+    );
+  }
+
   Widget _buildStat(FileDiffSurface surface, String label, Color color) {
+    final Color pill = color.withValues(alpha: color.a * 0.14);
     final TextStyle style = surface.codeStyle.copyWith(
-      color: color,
+      color: _contrastingOn(color, pill, surface.headerBackground),
       fontWeight: FontWeight.w600,
     );
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: color.a * 0.14),
+        color: pill,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(label, style: style),
@@ -326,6 +341,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
     List<int?> numbers,
   ) {
     final FileDiffLineType type = line?.type ?? FileDiffLineType.context;
+    final Color? rowFill = surface.lineFill(type);
     return _lineBox(
       surface,
       type,
@@ -336,7 +352,8 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             if (widget.showLineNumbers)
-              for (final int? number in numbers) _buildGutter(surface, number),
+              for (final int? number in numbers)
+                _buildGutter(surface, number, rowFill),
             _buildMarker(surface, line?.marker ?? '', type),
             Expanded(
               child: line == null
@@ -369,8 +386,18 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
     );
   }
 
-  Widget _buildGutter(FileDiffSurface surface, int? number) {
+  Widget _buildGutter(FileDiffSurface surface, int? number, Color? rowFill) {
     final ThemeData theme = Theme.of(context);
+    // Gutters sit on their own fill composited over the row fill (tinted on
+    // changed rows) over the card: the plain muted token is not enough there.
+    final Color base = rowFill == null
+        ? surface.background
+        : Color.alphaBlend(rowFill, surface.background);
+    final Color ink = ensureTextContrast(
+      theme.colors.mutedForeground,
+      surface: Color.alphaBlend(surface.gutterFill, base),
+      towards: theme.colors.foreground,
+    );
     return Container(
       width: surface.gutterWidth,
       decoration: BoxDecoration(
@@ -381,7 +408,7 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
       child: Text(
         number?.toString() ?? '',
         textAlign: TextAlign.right,
-        style: surface.codeStyle.copyWith(color: theme.colors.mutedForeground),
+        style: surface.codeStyle.copyWith(color: ink),
       ),
     );
   }
@@ -393,13 +420,21 @@ class _FileDiffViewerState extends State<FileDiffViewer> {
   ) {
     final ThemeData theme = Theme.of(context);
     final Color? accent = type == null ? null : surface.lineAccent(type);
+    // Markers sit on the tinted line fill (or the card for context rows).
+    final Color ink = accent == null
+        ? theme.colors.mutedForeground
+        : _contrastingOn(
+            accent,
+            surface.lineFill(type!) ?? theme.colors.background,
+            surface.background,
+          );
     return SizedBox(
       width: 32 * theme.scaling,
       child: Center(
         child: Text(
           marker,
           style: surface.codeStyle.copyWith(
-            color: accent ?? theme.colors.mutedForeground,
+            color: ink,
             fontWeight: FontWeight.w700,
           ),
         ),

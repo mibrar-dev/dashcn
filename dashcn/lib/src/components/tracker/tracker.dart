@@ -50,10 +50,18 @@ class TrackerData {
 /// ```
 class Tracker extends StatelessWidget {
   /// Creates a tracker.
-  const Tracker({super.key, required this.data, this.theme});
+  const Tracker({
+    super.key,
+    required this.data,
+    this.semanticLabel,
+    this.theme,
+  });
 
   /// Segments, in visual order.
   final List<TrackerData> data;
+
+  /// Accessible label for the row; null leaves it unannotated.
+  final String? semanticLabel;
 
   /// Widget-leg override, merged over the component/app/defaults legs.
   final TrackerTheme? theme;
@@ -100,7 +108,13 @@ class Tracker extends StatelessWidget {
     }
     return ClipRRect(
       borderRadius: radius,
-      child: Row(children: segments),
+      child: semanticLabel == null
+          ? Row(children: segments)
+          : Semantics(
+              container: true,
+              label: semanticLabel,
+              child: Row(children: segments),
+            ),
     );
   }
 }

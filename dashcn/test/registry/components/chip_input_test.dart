@@ -312,20 +312,22 @@ void main() {
           ),
         ),
       );
-      final Icon icon = tester.widget<Icon>(
+      // The label lives on the button's semantics node (it annotates the
+      // tappable), not on the inner icon.
+      final Semantics owner = tester.widget<Semantics>(
         find
             .descendant(
               of: find.byType(ChipButton),
-              matching: find.byType(Icon),
+              matching: find.byType(Semantics),
             )
             .first,
       );
-      expect(icon.semanticLabel, isNotNull);
+      expect(owner.properties.label, isNotNull);
       expect(
-        icon.semanticLabel,
+        owner.properties.label,
         const ComponentLocalizations(Locale('en')).chipInputRemoveChip,
       );
-      expect(icon.semanticLabel, _enDeleteLabel);
+      expect(owner.properties.label, _enDeleteLabel);
     });
 
     testWidgets('a read-only field keeps its chips unremovable', (

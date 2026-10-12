@@ -210,7 +210,15 @@ class CardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: padding ?? EdgeInsets.zero, child: child);
+    // Bare text inherits the card surface color, so content stays readable
+    // even outside the app's default text scope (like `CardTitle`).
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: DefaultTextStyle.merge(
+        style: TextStyle(color: _foreground(context)),
+        child: child,
+      ),
+    );
   }
 }
 

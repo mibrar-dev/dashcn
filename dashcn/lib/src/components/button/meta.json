@@ -24,7 +24,8 @@
       "theme"
     ],
     "primitives": [
-      "clickable"
+      "clickable",
+      "touch_hit_area"
     ],
     "components": []
   },

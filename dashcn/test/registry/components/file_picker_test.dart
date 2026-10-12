@@ -103,6 +103,9 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _frame(
+          // Desktop platform: the test bed runs as Android, where the
+          // button grows a transparent 48px touch hit area.
+          data: const ThemeData(platform: TargetPlatform.macOS),
           child: FileUpload(
             variant: FileUploadVariant.mobile,
             pick: (r) => _pickFiles(const []),
@@ -409,11 +412,14 @@ void main() {
       expect(tester.getSize(find.byType(FileUploadRow)).height, 64);
     });
 
-    testWidgets('the mobile trigger is 36 high (dashcn h-9)', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('the mobile trigger is 36 high (dashcn h-9)', (tester) async {
       await tester.pumpWidget(
-        _frame(child: FileUpload(variant: FileUploadVariant.mobile)),
+        _frame(
+          // Desktop platform: the test bed runs as Android, where the
+          // button grows a transparent 48px touch hit area.
+          data: const ThemeData(platform: TargetPlatform.macOS),
+          child: FileUpload(variant: FileUploadVariant.mobile),
+        ),
       );
       expect(tester.getSize(find.byType(Button)).height, 36);
     });

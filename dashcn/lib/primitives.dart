@@ -209,6 +209,7 @@ export 'src/primitives/toast_queue/toast_entry.dart';
 export 'src/primitives/toast_queue/toast_exit.dart';
 export 'src/primitives/toast_queue/toast_placement.dart';
 export 'src/primitives/toast_queue/toast_queue.dart';
+export 'src/primitives/touch_hit_area.dart';
 export 'src/primitives/tree_selection/tree_nodes.dart';
 export 'src/primitives/tree_selection/tree_selection.dart';
 export 'src/primitives/widget_states.dart';

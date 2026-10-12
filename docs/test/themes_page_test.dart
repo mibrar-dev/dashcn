@@ -324,6 +324,10 @@ void main() {
         await goTo(tester, delegate, '/themes');
         final _ErrorRecorder recorder = _ErrorRecorder.install();
 
+        // The rail scrolls: footer buttons carry touch-sized hit areas on
+        // mobile test beds, so late rows may start below the fold.
+        await tester.ensureVisible(find.byKey(ValueKey<String>(sentinel.key)));
+        await tester.pump();
         await tester.tap(find.byKey(ValueKey<String>(sentinel.key)));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 600));

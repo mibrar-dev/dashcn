@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import 'contrast.dart';
+
 /// The 32 upstream color tokens for one brightness.
 ///
 /// Field names match the preset JSON keys exactly (camelCase of the upstream
@@ -79,6 +81,17 @@ class ThemeColors {
 
   /// Chart series colors in order.
   List<Color> get chartColors => [chart1, chart2, chart3, chart4, chart5];
+
+  /// Text color guaranteed to meet WCAG AA (4.5:1) on [muted] surfaces.
+  ///
+  /// Upstream presets ship `mutedForeground` values that fail on their own
+  /// `muted` fill (neutral light `#737373` on `#F5F5F5` is 4.35:1); the
+  /// preset JSON files stay untouched and the safe color is derived here at
+  /// theme build time. Returns [mutedForeground] untouched when it already
+  /// passes, so passing presets and dark modes stay pixel-identical. Use
+  /// this for any text painted on a `muted` fill.
+  Color get onMuted =>
+      ensureTextContrast(mutedForeground, surface: muted, towards: foreground);
 
   /// All tokens are non-nullable, so copyWith takes plain optional values.
   ThemeColors copyWith({

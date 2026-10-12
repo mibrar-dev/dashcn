@@ -9,7 +9,7 @@
   "tags": ["display", "diff", "code", "review", "git"],
   "deps": {
     "foundation": ["icons"],
-    "theme": ["color_tokens", "theme"],
+    "theme": ["color_tokens", "contrast", "theme"],
     "primitives": ["clickable", "localizations", "text_editing"],
     "components": ["button"]
   },

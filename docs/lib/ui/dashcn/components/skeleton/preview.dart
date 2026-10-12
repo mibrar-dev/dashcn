@@ -78,7 +78,8 @@ class _SkeletonSkeletonBlockState extends State<_SkeletonSkeletonBlock> {
                 Gap(theme.spacing.sm),
                 Text(
                   'Body copy that keeps its box while loading.',
-                  style: TextStyle(color: theme.colors.mutedForeground),
+                  // Body copy renders over the muted shimmer sweep.
+                  style: TextStyle(color: theme.colors.onMuted),
                 ),
               ],
             ),

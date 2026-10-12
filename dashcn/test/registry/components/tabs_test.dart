@@ -116,7 +116,9 @@ void main() {
     expect(_pillColor(tester, 0), _light.background);
     expect(_pillColor(tester, 1), isNull);
     expect(_labelStyle(tester, 'Account').color, _light.foreground);
-    expect(_labelStyle(tester, 'Password').color, _light.mutedForeground);
+    // Unselected labels sit on the muted strip: the derived onMuted, which
+    // meets AA where the raw token does not.
+    expect(_labelStyle(tester, 'Password').color, _light.onMuted);
   });
 
   testWidgets('uses tokens in dark mode', (WidgetTester tester) async {

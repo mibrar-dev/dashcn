@@ -246,6 +246,7 @@ class DateInput extends StatelessWidget {
       trailing: ObjectPromptButton(
         mode: _resolveMode(context),
         enabled: enabled,
+        semanticLabel: strings.placeholderDatePicker,
         contentBuilder: (BuildContext context) =>
             _calendarSheet((CalendarValue? next) {
               if (next is SingleCalendarValue) onChanged?.call(next.date);

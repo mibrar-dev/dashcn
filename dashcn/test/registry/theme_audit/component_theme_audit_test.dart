@@ -102,7 +102,9 @@ void main() {
           TabItem(child: Text('Tab 2')),
         ],
       ),
-      paintTokens: const [ColorRef.muted, ColorRef.mutedForeground],
+      // Unselected labels paint the derived `onMuted` (AA on the muted
+      // strip), asserted below; the strip still paints `muted`.
+      paintTokens: const [ColorRef.muted],
     ),
     ComponentCase(
       'progress',
@@ -165,6 +167,26 @@ void main() {
         }
       }
     }
+
+    testWidgets('tabs unselected labels paint onMuted (neutral light)', (
+      tester,
+    ) async {
+      await pumpUnderPreset(
+        tester,
+        presetId: 'neutral',
+        brightness: Brightness.light,
+        child: Tabs(
+          index: 0,
+          onChanged: (_) {},
+          children: const [
+            TabItem(child: Text('Tab 1')),
+            TabItem(child: Text('Tab 2')),
+          ],
+        ),
+      );
+      final data = Theme.of(tester.element(find.byType(Directionality).first));
+      expect(allRenderedColors(tester).contains(data.colors.onMuted), isTrue);
+    });
   });
 
   group('Component theme audit - theme defaults', () {

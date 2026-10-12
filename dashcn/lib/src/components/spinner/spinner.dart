@@ -50,7 +50,7 @@ class Spinner extends StatelessWidget {
   /// Arc colour override.
   final Color? color;
 
-  /// Semantic label, e.g. `'Loading'`.
+  /// Semantic label; null reads `'Loading'`.
   final String? semanticsLabel;
 
   /// Widget-leg theme override, merged on top of the other legs.
@@ -67,7 +67,7 @@ class Spinner extends StatelessWidget {
     );
 
     return Semantics(
-      label: semanticsLabel,
+      label: semanticsLabel ?? 'Loading',
       child: SizedBox(
         width: surface.size,
         height: surface.size,

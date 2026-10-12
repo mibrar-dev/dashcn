@@ -142,13 +142,23 @@ class _TabsState extends State<Tabs> {
       ),
     );
     final base = style.textStyle ?? tabsDefaults.textStyle ?? const TextStyle();
-    final labelColor =
-        ((selected ? style.selectedLabelColor : style.labelColor) ??
-                (selected
-                    ? tabsDefaults.selectedLabelColor!
-                    : tabsDefaults.labelColor!))
-            .resolve(const <WidgetState>{})!
-            .resolve(ambient.colors);
+    // Unselected labels sit on the muted container: the default
+    // `mutedForeground` token fails AA on it (neutral light is 4.35:1), so the
+    // default look resolves to the derived `onMuted` instead. Any override on
+    // either side keeps working untouched. (The merged style never holds
+    // nulls — defaults fill every leg — so defaultness is tested by value,
+    // not by null.)
+    final bool defaultLook =
+        style.labelColor == tabsDefaults.labelColor &&
+        style.containerColor == tabsDefaults.containerColor;
+    final Color labelColor = !selected && defaultLook
+        ? ambient.colors.onMuted
+        : ((selected ? style.selectedLabelColor : style.labelColor) ??
+                  (selected
+                      ? tabsDefaults.selectedLabelColor!
+                      : tabsDefaults.labelColor!))
+              .resolve(const <WidgetState>{})!
+              .resolve(ambient.colors);
     final button = TabButton(
       selected: selected,
       enabled: enabled,

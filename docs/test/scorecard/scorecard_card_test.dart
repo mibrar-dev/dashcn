@@ -62,8 +62,9 @@ void main() {
   testWidgets('failing component shows Fail badges and the footer', (
     WidgetTester tester,
   ) async {
-    expect(kScorecards.containsKey('button'), isTrue);
-    await tester.pumpWidget(_pumpCard('button'));
+    // `calendar` day cells keep desktop 32px density (documented exception).
+    expect(kScorecards.containsKey('calendar'), isTrue);
+    await tester.pumpWidget(_pumpCard('calendar'));
     await tester.pumpAndSettle();
     expect(find.text('Fail'), findsWidgets);
     expect(find.text('Pass'), findsWidgets);
@@ -87,7 +88,7 @@ void main() {
   testWidgets('failing detail expands to reveal the guideline message', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_pumpCard('button'));
+    await tester.pumpWidget(_pumpCard('calendar'));
     await tester.pumpAndSettle();
     expect(find.textContaining('expected tap target size'), findsNothing);
     await tester.tap(find.text('Show details').first);

@@ -15,6 +15,7 @@ import 'package:dashcn/src/components/input/input.dart';
 import 'package:dashcn/src/components/menu/menu.dart';
 import 'package:dashcn/src/components/table/table.dart';
 import 'package:dashcn/src/theme/density.dart';
+import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'layout_audit_support.dart';
@@ -110,11 +111,15 @@ void main() {
 
     testWidgets('an icon button is square with zero padding', (tester) async {
       // A loose host: an icon button must keep its intrinsic 36x36 square and
-      // never stretch to the parent width.
-      final Widget button = Button(
-        onPressed: () {},
-        size: ButtonSize.icon,
-        child: const Text('x'),
+      // never stretch to the parent width. Desktop platform: the test bed
+      // runs as Android, where buttons grow a transparent touch hit area.
+      final Widget button = Theme(
+        data: const ThemeData(platform: TargetPlatform.macOS),
+        child: Button(
+          onPressed: () {},
+          size: ButtonSize.icon,
+          child: const Text('x'),
+        ),
       );
       await tester.pumpWidget(
         auditFrame(

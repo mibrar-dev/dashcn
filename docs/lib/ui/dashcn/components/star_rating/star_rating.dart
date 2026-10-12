@@ -62,6 +62,7 @@ class StarRating extends StatefulWidget {
     this.autofocus = false,
     this.onHover,
     this.onFocusChange,
+    this.semanticLabel,
     this.theme,
   }) : assert(
          controller == null || (value == null && onChanged == null),
@@ -91,6 +92,9 @@ class StarRating extends StatefulWidget {
   final ValueChanged<bool>? onHover;
 
   final ValueChanged<bool>? onFocusChange;
+
+  /// Accessible label for the slider node; null leaves it unlabeled.
+  final String? semanticLabel;
 
   final StarRatingStyle? theme;
 
@@ -277,6 +281,7 @@ class _StarRatingState extends State<StarRating>
       child: Semantics(
         slider: true,
         enabled: enabled,
+        label: widget.semanticLabel,
         value: _value.toStringAsFixed(1),
         increasedValue: _snap(_value + widget.step).toStringAsFixed(1),
         decreasedValue: _snap(_value - widget.step).toStringAsFixed(1),

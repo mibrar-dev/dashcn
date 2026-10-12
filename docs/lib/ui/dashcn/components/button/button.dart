@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -168,6 +169,13 @@ class _ButtonState extends State<Button> {
         ComponentThemes.maybeOf<ButtonTheme>(context)?.themeDensity ??
         theme.density;
     final _ButtonSizeMetrics metrics = _buttonMetricsFor(widget.size, density);
+    final ButtonGroupData? group = Data.maybeOf<ButtonGroupData>(context);
+    // Touch platforms grow the hit box (transparent padding, never visuals)
+    // to the platform minimum height. Joined groups are excluded: padding
+    // would separate their shared edges.
+    final double touchVertical = group != null
+        ? 0
+        : math.max(0, (touchMinEdge(theme.platform) - metrics.minHeight) / 2);
     final EdgeInsetsGeometry padding = resolved.padding ?? metrics.padding;
     final BorderRadius radius = _borderRadius(context, theme);
     final double borderWidth = resolved.borderWidth ?? 0;
@@ -256,19 +264,22 @@ class _ButtonState extends State<Button> {
       enabled: enabled,
       child: Opacity(
         opacity: enabled ? 1 : _buttonDisabledOpacity,
-        child: Clickable(
-          enabled: enabled,
-          onPressed: enabled ? widget.onPressed : null,
-          onLongPress: enabled ? widget.onLongPress : null,
-          onHover: widget.onHover,
-          onFocus: widget.onFocusChange,
-          focusNode: _focusNode,
-          decoration: WidgetStateProperty.resolveWith(decorationFor),
-          mouseCursor: _buttonMouseCursor,
-          padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(contentPadding),
-          textStyle: WidgetStateProperty.resolveWith(textStyleFor),
-          iconTheme: WidgetStateProperty.resolveWith(iconThemeFor),
-          child: content,
+        child: TouchHitArea(
+          vertical: touchVertical,
+          child: Clickable(
+            enabled: enabled,
+            onPressed: enabled ? widget.onPressed : null,
+            onLongPress: enabled ? widget.onLongPress : null,
+            onHover: widget.onHover,
+            onFocus: widget.onFocusChange,
+            focusNode: _focusNode,
+            decoration: WidgetStateProperty.resolveWith(decorationFor),
+            mouseCursor: _buttonMouseCursor,
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(contentPadding),
+            textStyle: WidgetStateProperty.resolveWith(textStyleFor),
+            iconTheme: WidgetStateProperty.resolveWith(iconThemeFor),
+            child: content,
+          ),
         ),
       ),
     );
