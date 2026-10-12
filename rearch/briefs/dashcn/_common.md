@@ -5,15 +5,15 @@ You are a sub-agent on the **dashcn** project (branch `refactor/dashcn`): turnin
 every line you produce. Accuracy beats speed. When a fact is not verified from the code, write `UNVERIFIED`.
 
 ## Paths (worktrees — the ONLY places you may write)
-- ROOT = /Users/ibrar/Desktop/infinora.noworkspace/shadcn_copy_paste
+- ROOT = {{ROOT}}   (filled in by the launcher: the folder holding dashcn-kit/ and dashcn-cli/)
 - KIT  = $ROOT/dashcn-kit                       (kit repo worktree, branch refactor/dashcn)
 - APP  = $KIT/flutter_shadcn_kit  → becomes $KIT/dashcn after P8-1 (run flutter/dart commands here)
 - REG  = $APP/lib/registry        → becomes $APP/lib/src after P8-1
 - DOCS = $KIT/docs                              (docs Flutter app)
 - CLI  = $ROOT/dashcn-cli                       (CLI repo worktree, branch refactor/dashcn)
 - Plans (binding): $KIT/rearch/plans/DASHCN_PACKAGE_PLAN.md, $KIT/rearch/plans/DASHCN_FEATURES_PLAN.md
-- FORBIDDEN: $ROOT/shadcn_flutter_kit and $ROOT/shadcn_flutter_cli — another session works there. Never read-modify-
-  write, build, or run commands inside them.
+- FORBIDDEN: any `shadcn_flutter_kit/` or `shadcn_flutter_cli/` checkout (another session works there). Never
+  modify, build, or run commands inside them. Work only in $KIT and $CLI.
 
 ## Decisions you must follow
 - Package `dashcn`, CLI package `dashcn_cli`, executable `dashcn`. Version **1.0.0** everywhere.
