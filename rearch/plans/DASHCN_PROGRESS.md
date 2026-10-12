@@ -61,6 +61,16 @@ Open for later: pub dry-run warns "13 checked-in files ignored by .gitignore" (g
 docs config/README/pubspec still say flutter_shadcn_kit → P8-4; `flutter_cli_verification_example/.shadcn/` CLI cache
 → P8-3.
 
+## P9-4a theme bridge core — ACCEPTED
+Pure-Dart `lib/src/theme/interop/` (12 files, no `package:` imports → CLI can vendor): colour spaces (oklch/oklab/
+hsl/bare v3 triplets/rgb/hex, gamut mapping, CIEDE2000 checked vs Sharma ref), web CSS v3/v4 + tweakcn parser,
+Tailwind v3 literal parser, writers (web CSS v4, Tailwind v4, DTCG, dashcn preset), ImportReport. 223 tests; all 43
+presets round-trip with ΔE 0. Orchestrator gates: kit +4741/+42, exports/manifest --check, check_names 0; docs mirror
+was not synced by the agent → synced, docs analyze clean.
+Ruling for P9-4b: interop leaked generic helpers into `package:dashcn/dashcn.dart` → move to a dedicated
+`lib/theme_interop.dart` with a narrow `show` surface (brief P9-4b §1).
+Found during P8-3: its eject tests hang; two orphaned `dart test` runs (15 + 9 min at 100% CPU) killed.
+
 ## Next
 1. P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.
