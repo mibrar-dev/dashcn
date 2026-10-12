@@ -12,7 +12,7 @@ import 'literals.dart';
 import 'registry_scan.dart';
 import 'render_common.dart';
 
-import '../../../flutter_shadcn_kit/tool/rearch/gen_app_theme.dart' as kit;
+import '../../../dashcn/tool/rearch/gen_app_theme.dart' as kit;
 
 /// The import line the CLI's generator uses inside an installed project.
 const String kCliThemeImport = 'theme.dart';
@@ -22,9 +22,7 @@ String renderPresetSources(RegistryScan scan) {
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/themes/*.json',
-        ],
+        sources: const <String>['dashcn/lib/src/themes/*.json'],
         regenerate: kRegenerateCommand,
         notes: <String>[
           '`json` is the canonical preset document (registry values, 2-space',

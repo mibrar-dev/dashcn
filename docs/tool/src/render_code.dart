@@ -12,7 +12,7 @@ import 'render_common.dart';
 // The kit's values-only theme generator is the single source of truth for a
 // preset's Dart blocks; importing its source (a VM-only library) keeps the
 // docs output byte-identical to the CLI output by construction.
-import '../../../flutter_shadcn_kit/tool/rearch/gen_app_theme.dart' as kit;
+import '../../../dashcn/tool/rearch/gen_app_theme.dart' as kit;
 
 /// The docs mirror's theme library (sibling `color_tokens.dart`/`tokens.dart`
 /// are derived from it by the kit generator).
@@ -24,8 +24,8 @@ String renderDocsSnippets(DocsModel model) {
     ..write(
       banner(
         sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/components/<id>/README.md',
-          'flutter_shadcn_kit/lib/registry/manifests/registry.json',
+          'dashcn/lib/src/components/<id>/README.md',
+          'dashcn/lib/src/manifests/registry.json',
         ],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
@@ -253,13 +253,13 @@ String renderAppTheme(
     ..write(
       banner(
         sources: <String>[
-          'flutter_shadcn_kit/lib/registry/themes/*.json '
+          'dashcn/lib/src/themes/*.json '
               '(${scan.presets.length} presets, index.json order)',
         ],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
           'Every per-preset block below is the verbatim output of the kit',
-          'generator flutter_shadcn_kit/tool/rearch/gen_app_theme.dart for',
+          'generator dashcn/tool/rearch/gen_app_theme.dart for',
           'that preset (minus its per-file header and imports).',
           'tool/gen_docs_data_test.dart asserts the byte equality per preset.',
           'buildDocsTheme is the docs-side resolver; the kit tool emits one',

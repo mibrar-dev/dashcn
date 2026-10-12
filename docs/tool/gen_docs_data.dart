@@ -5,7 +5,7 @@
 // Usage:
 //   dart run tool/gen_docs_data.dart [options]
 //     --registry <path>      registry root (default: discovered from the
-//                            checkout: flutter_shadcn_kit/lib/registry)
+//                            checkout: dashcn/lib/src)
 //     --out <dir>            generated data dir (default: lib/generated)
 //     --previews <path>      deferred preview registry
 //                            (default: lib/previews/component_previews.dart)
@@ -72,14 +72,11 @@ const String _usage =
     '  --help                Print this help';
 
 /// Locates the post-cutover registry by walking up from `Directory.current`
-/// (checks `<dir>/flutter_shadcn_kit/lib/registry` and `<dir>/lib/registry`).
+/// (checks `<dir>/dashcn/lib/src` and `<dir>/lib/src`).
 String? findDefaultRegistry() {
   Directory dir = Directory.current.absolute;
   for (int depth = 0; depth < 4; depth++) {
-    for (final String suffix in const <String>[
-      'flutter_shadcn_kit/lib/registry',
-      'lib/registry',
-    ]) {
+    for (final String suffix in const <String>['dashcn/lib/src', 'lib/src']) {
       final Directory candidate = Directory('${dir.path}/$suffix');
       if (File('${candidate.path}/manifests/registry.json').existsSync()) {
         return candidate.path;
@@ -115,7 +112,7 @@ int runDocsGen(List<String> args, {StringSink? out, StringSink? err}) {
         findDefaultRegistry() ??
         (throw _DocsGenException(
           'registry root not found: pass --registry (expected '
-          'flutter_shadcn_kit/lib/registry in the checkout)',
+          'dashcn/lib/src in the checkout)',
         ));
     final DocsModel model = buildDocsModel(registryRoot);
     final Map<String, String> bundle = renderBundle(

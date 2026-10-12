@@ -28,7 +28,7 @@ import 'package:docs/ui/shadcn/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../flutter_shadcn_kit/tool/rearch/gen_app_theme.dart' as kit;
+import '../../dashcn/tool/rearch/gen_app_theme.dart' as kit;
 import 'gen_docs_data.dart';
 
 void main() {
@@ -37,7 +37,7 @@ void main() {
     test('registry discovery', () {
       fail(
         'registry not found; run `flutter test` from docs/ (expected '
-        'flutter_shadcn_kit/lib/registry in the checkout)',
+        'dashcn/lib/src in the checkout)',
       );
     });
     return;

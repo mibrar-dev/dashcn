@@ -29,9 +29,7 @@ String themeCliGuide(ThemeDocument document) {
     out.writeln('flutter_shadcn theme apply $matched');
   } else {
     out.writeln('# Not a registry preset: save the JSON tab as');
-    out.writeln(
-      '# lib/registry/themes/${document.id}.json in your project, then',
-    );
+    out.writeln('# lib/src/themes/${document.id}.json in your project, then');
     out.writeln('flutter_shadcn theme apply ${document.id}');
   }
   out

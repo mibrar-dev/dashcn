@@ -12,8 +12,8 @@ String renderDocsTables(DocsModel model) {
     ..write(
       banner(
         sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/components/<id>/README.md',
-          'flutter_shadcn_kit/lib/registry/manifests/registry.json',
+          'dashcn/lib/src/components/<id>/README.md',
+          'dashcn/lib/src/manifests/registry.json',
           'docs/tool/cli_snapshot.txt',
         ],
         regenerate: kRegenerateCommand,

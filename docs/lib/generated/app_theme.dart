@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND.
 //
 // Sources:
-//   * flutter_shadcn_kit/lib/registry/themes/*.json (43 presets, index.json order)
+//   * dashcn/lib/src/themes/*.json (43 presets, index.json order)
 //
 // Regenerate: dart run tool/gen_docs_data.dart
 //
 // Every per-preset block below is the verbatim output of the kit
-// generator flutter_shadcn_kit/tool/rearch/gen_app_theme.dart for
+// generator dashcn/tool/rearch/gen_app_theme.dart for
 // that preset (minus its per-file header and imports).
 // tool/gen_docs_data_test.dart asserts the byte equality per preset.
 // buildDocsTheme is the docs-side resolver; the kit tool emits one

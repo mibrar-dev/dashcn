@@ -2,7 +2,7 @@
 // writes — byte for byte.
 //
 // `lib/theme/theme_dart_source.dart` is a port of the kit generator
-// (`flutter_shadcn_kit/tool/rearch/gen_app_theme.dart`), which cannot run in
+// (`dashcn/tool/rearch/gen_app_theme.dart`), which cannot run in
 // the web bundle (it imports `dart:io` and lives in the kit package). The
 // generated `docs_preset_sources.dart` holds the generator's real output for
 // every preset, so these tests pin the port to it for all 43 presets and

@@ -12,9 +12,9 @@ String renderDocsApi(DocsModel model) {
     ..write(
       banner(
         sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/manifests/registry.json',
-          'flutter_shadcn_kit/lib/registry/components/<id>/<entry>.dart',
-          'flutter_shadcn_kit/lib/registry/components/<id>/README.md',
+          'dashcn/lib/src/manifests/registry.json',
+          'dashcn/lib/src/components/<id>/<entry>.dart',
+          'dashcn/lib/src/components/<id>/README.md',
         ],
         regenerate: kRegenerateCommand,
         notes: <String>[

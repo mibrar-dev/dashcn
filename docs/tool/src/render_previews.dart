@@ -21,9 +21,7 @@ String renderDocsPreviews(DocsModel model) {
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/components/<id>/preview.dart',
-        ],
+        sources: const <String>['dashcn/lib/src/components/<id>/preview.dart'],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
           'Example labels are read with package:analyzer from the exported',
@@ -79,9 +77,7 @@ String renderComponentPreviews(
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/components/<id>/preview.dart',
-        ],
+        sources: const <String>['dashcn/lib/src/components/<id>/preview.dart'],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
           'One deferred import per component; the chunk is fetched when a',
@@ -159,9 +155,7 @@ String renderBlockPreviews(
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/blocks/<id>/<file>.dart',
-        ],
+        sources: const <String>['dashcn/lib/src/blocks/<id>/<file>.dart'],
         regenerate: kRegenerateCommand,
         notes: <String>[
           'One deferred import per block; the chunk is fetched when a Blocks',

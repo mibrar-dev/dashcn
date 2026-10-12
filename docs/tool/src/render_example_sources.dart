@@ -14,9 +14,7 @@ String renderDocsExampleSources(DocsModel model) {
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/components/<id>/preview.dart',
-        ],
+        sources: const <String>['dashcn/lib/src/components/<id>/preview.dart'],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
           'One display-code entry per ComponentPreview element: the imports',

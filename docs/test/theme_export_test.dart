@@ -86,7 +86,7 @@ void main() {
       state.themeModel.shuffle();
       expect(
         themeCliGuide(state.themeModel.document),
-        contains('lib/registry/themes/shuffled.json'),
+        contains('lib/src/themes/shuffled.json'),
       );
       expect(themeApplyCommand('claude'), 'flutter_shadcn theme apply claude');
     });

@@ -129,7 +129,7 @@ Exit codes: 0 clean, 1 drift or modified files, 2 broken closure,
 3 invalid manifest.
 
 $ flutter_shadcn validate --help
-Validate lib/registry/manifests/registry.json against the v2 schema.
+Validate lib/src/manifests/registry.json against the v2 schema.
 
 Usage: flutter_shadcn validate [arguments]
 -h, --help    Print this usage information.

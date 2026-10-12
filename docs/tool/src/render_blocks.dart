@@ -40,8 +40,8 @@ String renderDocsBlocks(DocsModel model) {
     ..write(
       banner(
         sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/manifests/registry.json',
-          'flutter_shadcn_kit/lib/registry/blocks/<id>/meta.json',
+          'dashcn/lib/src/manifests/registry.json',
+          'dashcn/lib/src/blocks/<id>/meta.json',
         ],
         regenerate: kRegenerateCommand,
         notes: <String>[
@@ -205,9 +205,7 @@ String renderBlockSources(
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/blocks/<id>/<file>.dart',
-        ],
+        sources: const <String>['dashcn/lib/src/blocks/<id>/<file>.dart'],
         regenerate: kRegenerateCommand,
         notes: <String>[
           'The Blocks code view: one file per block, verbatim, with the same',

@@ -6,7 +6,7 @@ d = json.load(open(os.path.join(root, 'reports/p4_batches.json')))
 running = set(sys.argv[1:])
 prims = {'text', 'basic', 'hidden', 'hover', 'popover', 'fade_scroll', 'debug', 'flex'}
 alias = {'linear_progress_indicator': 'progress', 'circular_progress_indicator': 'spinner', 'text_field': 'input'}
-comp_dir = os.path.join(root, '../flutter_shadcn_kit/lib/registry_next/components')
+comp_dir = os.path.join(root, '../dashcn/lib/src/components')
 tracked = subprocess.run(['git', '-C', root, 'ls-files', comp_dir], capture_output=True, text=True).stdout
 committed = {p.split('components/')[1].split('/')[0] for p in tracked.split() if 'components/' in p}
 for b in d['batches']:

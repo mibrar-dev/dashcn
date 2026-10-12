@@ -398,8 +398,8 @@ String renderDocsSearch(DocsModel model) {
     ..write(
       banner(
         sources: const <String>[
-          'flutter_shadcn_kit/lib/registry/manifests/registry.json',
-          'flutter_shadcn_kit/lib/registry/themes/index.json',
+          'dashcn/lib/src/manifests/registry.json',
+          'dashcn/lib/src/themes/index.json',
           'docs/tool/cli_snapshot.txt',
         ],
         regenerate: kRegenerateCommand,

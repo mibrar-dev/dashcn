@@ -2,7 +2,7 @@
 // `flutter_shadcn theme apply <preset>` writes into an installed project.
 //
 // The rendering rules are the kit generator's
-// (`flutter_shadcn_kit/tool/rearch/gen_app_theme.dart`, VM-safe, values-only):
+// (`dashcn/tool/rearch/gen_app_theme.dart`, VM-safe, values-only):
 // one const colour map per brightness, one `final` token block per brightness
 // (`ShadowScale.derive` is a factory, so the blocks cannot be const), an
 // optional const font block, one `build<Id>Theme(Brightness)` factory, and the

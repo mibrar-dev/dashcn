@@ -11,7 +11,7 @@
 #   docs/tool/sync_registry.sh --check   # dry run; exit 1 when out of date
 #
 # Environment:
-#   REGISTRY  registry root (default: <kit>/flutter_shadcn_kit/lib/registry)
+#   REGISTRY  registry root (default: <kit>/dashcn/lib/src)
 #
 # Only `.dart` files are copied: the manifest `fileHashes` list is Dart-only
 # (README.md / meta.json stay in the registry), and the mirror must not contain
@@ -31,7 +31,7 @@
 set -euo pipefail
 
 KIT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SRC="${REGISTRY:-$KIT/flutter_shadcn_kit/lib/registry}"
+SRC="${REGISTRY:-$KIT/dashcn/lib/src}"
 DEST="$KIT/docs/lib/ui/shadcn"
 MODE="mirror"
 if [[ "${1:-}" == "--check" ]]; then

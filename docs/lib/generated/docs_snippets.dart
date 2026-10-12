@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND.
 //
 // Sources:
-//   * flutter_shadcn_kit/lib/registry/components/<id>/README.md
-//   * flutter_shadcn_kit/lib/registry/manifests/registry.json
+//   * dashcn/lib/src/components/<id>/README.md
+//   * dashcn/lib/src/manifests/registry.json
 //
 // Regenerate: dart run tool/gen_docs_data.dart
 //

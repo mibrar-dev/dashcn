@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND.
 //
 // Sources:
-//   * flutter_shadcn_kit/lib/registry/components/<id>/preview.dart
+//   * dashcn/lib/src/components/<id>/preview.dart
 //
 // Regenerate: dart run tool/gen_docs_data.dart
 //

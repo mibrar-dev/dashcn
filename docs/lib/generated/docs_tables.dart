@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND.
 //
 // Sources:
-//   * flutter_shadcn_kit/lib/registry/components/<id>/README.md
-//   * flutter_shadcn_kit/lib/registry/manifests/registry.json
+//   * dashcn/lib/src/components/<id>/README.md
+//   * dashcn/lib/src/manifests/registry.json
 //   * docs/tool/cli_snapshot.txt
 //
 // Regenerate: dart run tool/gen_docs_data.dart
@@ -1530,10 +1530,9 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     label: 'flutter_shadcn validate',
     invocation: 'flutter_shadcn validate --help',
     usage: 'flutter_shadcn validate [arguments]',
-    summary:
-        'Validate lib/registry/manifests/registry.json against the v2 schema.',
+    summary: 'Validate lib/src/manifests/registry.json against the v2 schema.',
     helpText:
-        'Validate lib/registry/manifests/registry.json against the v2 schema.\n\nUsage: flutter_shadcn validate [arguments]\n-h, --help    Print this usage information.\n    --json    Print the validation report as JSON.',
+        'Validate lib/src/manifests/registry.json against the v2 schema.\n\nUsage: flutter_shadcn validate [arguments]\n-h, --help    Print this usage information.\n    --json    Print the validation report as JSON.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--json',

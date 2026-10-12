@@ -3,11 +3,11 @@
 # QA gates scoped to a batch's own folders (other batches may be in flight). Compact output.
 set -u
 KIT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$KIT/flutter_shadcn_kit"
-C=lib/registry/components
+cd "$KIT/dashcn"
+C=lib/src/components
 L=""; T=""; NAMES=""
 for x in "$@"; do
-  if [[ "$x" == primitives/* ]]; then p="lib/registry/$x"; else p="$C/$x"; NAMES="$NAMES $x"; fi
+  if [[ "$x" == primitives/* ]]; then p="lib/src/$x"; else p="$C/$x"; NAMES="$NAMES $x"; fi
   if [ ! -e "$p" ]; then echo "MISSING: $p"; continue; fi
   L="$L $p"
   base=$(basename "${x%.dart}")
@@ -28,7 +28,7 @@ for p in $L $T; do r=$(dart analyze "$p" 2>&1 | tail -1); [ "$r" = "No issues fo
 [ -n "$T" ] && echo "test:    $(flutter test $T 2>&1 | tail -1 | sed 's/.*\(+[0-9]*.*\)/\1/' | cut -c1-100)"
 echo "banned:  $(grep -rlnE "// ignore|^import 'package:flutter/(material|cupertino).dart'|^part |^import 'package:(data_widget|gap)/" $L --include=*.dart 2>/dev/null | tr '\n' ' ')"
 J=$(mktemp)
-dart run tool/rearch/check_layers.dart --root lib/registry --json "$J" >/dev/null 2>&1
+dart run tool/rearch/check_layers.dart --root lib/src --json "$J" >/dev/null 2>&1
 python3 - "$J" "$@" <<'EOF'
 import json, sys
 d = json.load(open(sys.argv[1])); keys = sys.argv[2:]
@@ -37,5 +37,5 @@ print('layers:  ' + ('clean' if not hits else ''))
 for f in hits: print('  ', f['rule'], f['file'], f['message'][:90])
 EOF
 rm -f "$J"
-echo "owner:   $(dart run tool/rearch/check_single_owner.dart --root lib/registry 2>&1 | tail -1)"
-echo "theme:   $(dart run tool/rearch/check_user_theme.dart --root lib/registry --strict 2>&1 | tail -1)"
+echo "owner:   $(dart run tool/rearch/check_single_owner.dart --root lib/src 2>&1 | tail -1)"
+echo "theme:   $(dart run tool/rearch/check_user_theme.dart --root lib/src --strict 2>&1 | tail -1)"
