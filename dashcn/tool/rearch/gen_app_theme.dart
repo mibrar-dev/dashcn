@@ -29,8 +29,7 @@ import 'dart:io';
 import 'src/cli_args.dart';
 
 /// Default library that exports `ThemeData` in the kit itself.
-const String defaultThemeImport =
-    'package:dashcn/src/theme/theme.dart';
+const String defaultThemeImport = 'package:dashcn/src/theme/theme.dart';
 
 /// The 32 colour tokens in `ThemeColors` declaration order (PLAN 6.1).
 ///

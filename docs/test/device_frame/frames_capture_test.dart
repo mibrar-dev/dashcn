@@ -29,7 +29,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'frame_harness.dart';
 
 /// Where the captures land (absolute: the test CWD is the docs package).
-const String kCaptureDir = '/home/user/dashcn-kit/rearch/screenshots/p9-1';
+// Relative to the docs package root (`flutter test` runs there).
+const String kCaptureDir = '../rearch/screenshots/p9-1';
 
 /// One viewport for every capture (fits the widest collage and the tallest
 /// landscape window).
