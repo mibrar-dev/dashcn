@@ -81,6 +81,16 @@ rename --check. Release prerequisite: the CLI's default registry pins `mibrar-de
 the kit must be tagged `v1.0.0` (with the `dashcn/` layout) before a published CLI works with defaults.
 P9-1 incident: agent killed itself with `pkill -f` (OpenCode cmdline = brief text) → _common rule "kill by PID only".
 
+## P9-1 device frames — ACCEPTED
+`docs/lib/widgets/device_frame/`: iPhone (Dynamic Island), Android (punch-hole), desktop window, browser chrome via
+CustomPainter; MediaQuery size/insets/dpr + platform override (kit already routes reads via `Theme.of(context).platform`
+— no kit change); FrameBar (None/iPhone/Android/Desktop/Web/All, rotate for phones only, light/dark); "All" = four live
+frames side by side; choice persisted + `?frame=`/`?orientation=`. 45 tests incl. an overflow matrix (6 previews × 6
+modes × 2 orientations × 2 brightness). Not yet wired into the component page — P9-Z (`FramedPreview`).
+Review: desktop/browser rotated into a portrait window → fixed (`DeviceSpec.rotatable`). Agent earlier killed itself
+with `pkill -f`; widget-test hangs diagnosed (deferred-library loads must pump; captures in runAsync).
+Orchestrator gates: docs format/analyze clean, frames +45, docs +277, gen/sync --check, build web; screenshots reviewed.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

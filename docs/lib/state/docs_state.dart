@@ -15,6 +15,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/theme/theme.dart';
+import '../widgets/device_frame/device_spec.dart';
 import 'docs_storage.dart';
 import 'site_theme_model.dart';
 
@@ -26,6 +27,12 @@ export 'site_theme_model.dart'
 /// Preset id selected on a first visit: the official upstream neutral base
 /// (`themes/neutral.json`), matching the reference site's palette.
 const String kDefaultDocsPresetId = kDefaultResetPresetId;
+
+/// localStorage key of the preview frame choice (P9-1).
+const String kDocsFrameKey = 'docs.preview.frame';
+
+/// localStorage key of the preview orientation (P9-1).
+const String kDocsOrientationKey = 'docs.preview.orientation';
 
 /// The docs site's theme state: the theme document and the mode.
 class DocsState extends ChangeNotifier {
@@ -54,6 +61,9 @@ class DocsState extends ChangeNotifier {
   Brightness? _explicitBrightness;
   Brightness _platformBrightness;
 
+  DeviceFrameId _frame = DeviceFrameId.none;
+  DeviceOrientation _orientation = DeviceOrientation.portrait;
+
   /// The document's id — a registry preset id, or `shuffled` / a pasted id.
   String get presetId => themeModel.presetId;
 
@@ -71,6 +81,59 @@ class DocsState extends ChangeNotifier {
 
   /// The fully-resolved theme for the current state.
   ThemeData get theme => themeModel.themeFor(brightness);
+
+  /// The preview frame choice (P9-1); `none` renders previews unframed.
+  DeviceFrameId get frame => _frame;
+
+  /// Portrait or landscape for the framed previews (P9-1).
+  DeviceOrientation get orientation => _orientation;
+
+  /// The `?frame=` query value, or null when the choice is the default.
+  String? get frameQueryValue =>
+      _frame == DeviceFrameId.none ? null : _frame.queryValue;
+
+  /// The `?orientation=` query value, or null when portrait.
+  String? get orientationQueryValue =>
+      _orientation == DeviceOrientation.portrait
+      ? null
+      : _orientation.queryValue;
+
+  /// Applies one parsed `?frame=` / `?orientation=` pair (deep links and
+  /// browser back/forward arrive here via the router in P9-Z). Unknown
+  /// values fall back to the defaults; every change persists.
+  void applyFrameQuery(String? frameValue, String? orientationValue) {
+    setFrame(DeviceFrameId.parse(frameValue));
+    setOrientation(DeviceOrientation.parse(orientationValue));
+  }
+
+  /// Reads the frame pair out of [uri]'s query parameters.
+  void applyFrameUri(Uri uri) {
+    applyFrameQuery(
+      uri.queryParameters['frame'],
+      uri.queryParameters['orientation'],
+    );
+  }
+
+  /// Copies [uri] with the current frame pair set (nulls removed), so the
+  /// router can report the choice to the browser history in P9-Z.
+  Uri frameUri(Uri uri) {
+    final Map<String, String> params = Map<String, String>.of(
+      uri.queryParameters,
+    );
+    final String? frameValue = frameQueryValue;
+    final String? orientationValue = orientationQueryValue;
+    if (frameValue == null) {
+      params.remove('frame');
+    } else {
+      params['frame'] = frameValue;
+    }
+    if (orientationValue == null) {
+      params.remove('orientation');
+    } else {
+      params['orientation'] = orientationValue;
+    }
+    return uri.replace(queryParameters: params.isEmpty ? null : params);
+  }
 
   /// Loads persisted preferences; safe to call once before `runApp`.
   ///
@@ -92,6 +155,20 @@ class DocsState extends ChangeNotifier {
         _explicitBrightness = parsed;
         changed = true;
       }
+    }
+    final DeviceFrameId frame = DeviceFrameId.parse(
+      storage.read(kDocsFrameKey),
+    );
+    if (frame != _frame) {
+      _frame = frame;
+      changed = true;
+    }
+    final DeviceOrientation orientation = DeviceOrientation.parse(
+      storage.read(kDocsOrientationKey),
+    );
+    if (orientation != _orientation) {
+      _orientation = orientation;
+      changed = true;
     }
     if (changed) {
       notifyListeners();
@@ -127,6 +204,26 @@ class DocsState extends ChangeNotifier {
     setBrightness(
       brightness == Brightness.dark ? Brightness.light : Brightness.dark,
     );
+  }
+
+  /// Selects the preview frame (P9-1) and persists the choice.
+  void setFrame(DeviceFrameId frame) {
+    if (frame == _frame) {
+      return;
+    }
+    _frame = frame;
+    storage.write(kDocsFrameKey, frame.queryValue);
+    notifyListeners();
+  }
+
+  /// Selects the preview orientation (P9-1) and persists the choice.
+  void setOrientation(DeviceOrientation orientation) {
+    if (orientation == _orientation) {
+      return;
+    }
+    _orientation = orientation;
+    storage.write(kDocsOrientationKey, orientation.queryValue);
+    notifyListeners();
   }
 
   @override
