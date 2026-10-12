@@ -42,3 +42,12 @@ Report the before/after count of `shadcn` occurrences per area.
 
 ## Report
 `$KIT/rearch/reports/P8-2.md` (partial at the step-2 stop, final at the end).
+
+## Carry-overs from P8-1 (orchestrator rulings)
+- Delete `dashcn/tool/registry/registry_barrel.dart` and `registry_barrel_generate.dart` (dead; replaced by
+  `tool/gen_exports.dart`) — `git rm` allowed for these two files.
+- `dashcn/example/` platform shells (iOS/macOS/Linux/Windows/web names, bundle ids, window titles) are still branded
+  `flutter_shadcn_kit`: rename to `dashcn_example` / "dashcn example" as part of the string pass.
+- `dashcn/flutter_cli_verification_example/`, `dashcn/gen/`, `dashcn/skills/`, `dashcn/scripts/`: include them in the
+  inventory and rename pass like everything else (no "shadcn" may remain).
+- Test runs rewrite PNGs under `rearch/screenshots/` and `rearch/design/`: never treat those as your changes.
