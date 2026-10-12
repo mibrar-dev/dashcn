@@ -46,6 +46,41 @@ Note: the Dart file stem is the id with `-` replaced by `_`, so
 `dashboard-01` lives in `dashboard_01.dart` — Dart file names must satisfy
 the `file_names` lint.
 
+## Playground overrides (`meta.json`)
+
+A component's `meta.json` may carry an optional `playground` block that tunes
+the docs live-props playground (P9-2). The registry manifest ignores the
+block, so edits here never drift `registry.json`; the docs codegen
+(`docs/tool/gen_docs_data.dart` → `lib/generated/docs_controls.dart`) reads
+it straight from `meta.json`:
+
+```json
+"playground": {
+  "exclude": ["onHover"],
+  "ranges": {"size": {"min": 8, "max": 96, "step": 4}},
+  "defaults": {"placeholder": "Pick one"},
+  "labels": {"child": "Label"}
+}
+```
+
+- `exclude`: parameter names with no control at all (not even read-only).
+- `ranges`: slider bounds per `int`/`double` param (`step` optional).
+  Without an override the generator uses name heuristics (`value`/`progress`
+  → 0..1, page counters → 1..10, `size`/`gap`/… → 0..64 px, thin strokes →
+  0..8, else int 0..100 / double 0..10).
+- `defaults`: default values in Dart-source shape (`true`, `3`,
+  `'Label'`, `ButtonVariant.primary`). Only needed when the constructor
+  default is a non-literal expression the generator cannot decode (it then
+  omits the argument, which stays correct but hides the default).
+- `labels`: control labels per parameter (default: Title Case of the name).
+
+The kind mapping itself is fixed in `docs/tool/src/controls_build.dart`:
+`bool` → toggle, kit `enum` → select, `String` → text, `int`/`double` →
+slider, `Color` → theme-token picker, text-like `Widget` slots → text,
+`onPressed`/`onLongPress` → one shared `enabled` toggle; infrastructure
+params (`key`, `BuildContext`, controllers, theme/style objects) are
+skipped, everything else is read-only with a reason.
+
 ## Public libraries
 
 - `dart run tool/gen_exports.dart` — generates the public entry points from

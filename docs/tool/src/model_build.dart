@@ -13,6 +13,7 @@ import 'render_api.dart';
 import 'render_blocks.dart';
 import 'render_code.dart';
 import 'render_common.dart';
+import 'render_controls.dart';
 import 'render_example_sources.dart';
 import 'render_files.dart';
 import 'render_presets.dart';
@@ -196,6 +197,7 @@ Map<String, String> renderBundle(
   return <String, String>{
     '$outDir/docs_data.dart': renderDocsData(model),
     '$outDir/docs_api.dart': renderDocsApi(model),
+    '$outDir/docs_controls.dart': renderDocsControls(model),
     '$outDir/docs_tables.dart': renderDocsTables(model),
     '$outDir/docs_search.dart': renderDocsSearch(model),
     '$outDir/docs_snippets.dart': renderDocsSnippets(model),
