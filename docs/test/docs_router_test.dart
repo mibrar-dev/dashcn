@@ -17,6 +17,14 @@ void main() {
         DocsRouteConfiguration.installation,
       );
       expect(
+        DocsRouteConfiguration.parse('/docs/package-or-own'),
+        DocsRouteConfiguration.packageOrOwn,
+      );
+      expect(
+        DocsRouteConfiguration.parse('/docs/material'),
+        DocsRouteConfiguration.material,
+      );
+      expect(
         DocsRouteConfiguration.parse('/docs/cli'),
         DocsRouteConfiguration.cli,
       );

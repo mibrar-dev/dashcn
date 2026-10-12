@@ -1,10 +1,7 @@
-.PHONY: docs-generate docs-install docs-refresh docs-barrel
+.PHONY: docs-generate docs-install docs-refresh
 
 docs-generate:
 	python3 scripts/generate_component_pages.py
-
-docs-barrel:
-	python3 scripts/generate_shadcn_barrel.py
 
 docs-install:
 	python3 scripts/install_components.py

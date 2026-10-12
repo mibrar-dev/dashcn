@@ -30,6 +30,12 @@ enum DocsRoute {
   /// `/docs/installation` — getting started.
   installation,
 
+  /// `/docs/package-or-own` — package or own the code?
+  packageOrOwn,
+
+  /// `/docs/material` — using dashcn alongside Material.
+  material,
+
   /// `/docs/theming` — token tables and snippets.
   theming,
 
@@ -103,6 +109,16 @@ class DocsRouteConfiguration {
   /// `/docs/installation`.
   static const DocsRouteConfiguration installation = DocsRouteConfiguration._(
     DocsRoute.installation,
+  );
+
+  /// `/docs/package-or-own`.
+  static const DocsRouteConfiguration packageOrOwn = DocsRouteConfiguration._(
+    DocsRoute.packageOrOwn,
+  );
+
+  /// `/docs/material`.
+  static const DocsRouteConfiguration material = DocsRouteConfiguration._(
+    DocsRoute.material,
   );
 
   /// `/docs/theming`.
@@ -205,6 +221,10 @@ class DocsRouteConfiguration {
       switch (path[1]) {
         case 'installation':
           return installation;
+        case 'package-or-own':
+          return packageOrOwn;
+        case 'material':
+          return material;
         case 'theming':
           return theming;
         case 'dark-mode':
@@ -230,6 +250,8 @@ class DocsRouteConfiguration {
     DocsRoute.landing => '/',
     DocsRoute.introduction => '/docs',
     DocsRoute.installation => '/docs/installation',
+    DocsRoute.packageOrOwn => '/docs/package-or-own',
+    DocsRoute.material => '/docs/material',
     DocsRoute.theming => '/docs/theming',
     DocsRoute.darkMode => '/docs/dark-mode',
     DocsRoute.cli => '/docs/cli',
@@ -248,6 +270,8 @@ class DocsRouteConfiguration {
     DocsRoute.landing => 'dashcn',
     DocsRoute.introduction => 'Introduction',
     DocsRoute.installation => 'Getting started',
+    DocsRoute.packageOrOwn => 'Package or own the code?',
+    DocsRoute.material => 'Using dashcn alongside Material',
     DocsRoute.theming => 'Theming',
     DocsRoute.darkMode => 'Dark mode',
     DocsRoute.cli => 'CLI reference',

@@ -23,6 +23,8 @@ import 'pages/dark_mode_page.dart';
 import 'pages/getting_started.dart';
 import 'pages/introduction_page.dart';
 import 'pages/landing_page.dart';
+import 'pages/material_interop_page.dart';
+import 'pages/package_or_own_page.dart';
 import 'pages/placeholder_page.dart';
 import 'pages/scorecards_page.dart';
 import 'pages/themes.dart';
@@ -199,6 +201,7 @@ const Map<ShortcutActivator, Intent> docsShortcuts =
 ///
 /// D3 provides the landing, introduction and components index; D4 provides
 /// the component template, themes customizer, installation and CLI reference;
+/// P8-4 provides the package-or-own and Material interop pages;
 /// D4b provides theming and dark mode; P6-B3 provides the Blocks index and
 /// block pages (one deferred library, so the block sources never ship with the
 /// landing route). Only unknown URLs fall through to the not-found page.
@@ -214,6 +217,8 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
     ),
     DocsRoute.themes => const ThemesPage(),
     DocsRoute.installation => const GettingStartedPage(),
+    DocsRoute.packageOrOwn => const PackageOrOwnPage(),
+    DocsRoute.material => const MaterialInteropPage(),
     DocsRoute.theming => const ThemingPage(),
     DocsRoute.darkMode => const DarkModePage(),
     DocsRoute.cli => const CliReferencePage(),

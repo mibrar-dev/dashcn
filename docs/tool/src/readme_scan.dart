@@ -337,8 +337,12 @@ class CliCommandFacts {
   final List<CliFlagFacts> flags;
 }
 
+// Flag lines in both shapes the CLI has shipped: the old
+// `  -h, --help       Desc` / `--flag=<value>` style and the current
+// `  --dir <path>     Desc` / `--yes, -y` style (space placeholder, either
+// alias order).
 final RegExp _cliFlagLine = RegExp(
-  r'^\s{2,}(?:(-[A-Za-z]), )?(--[a-z][a-z0-9-]*)(=<[^>]+>)?\s{2,}(.+)$',
+  r'^\s{2,}(?:(-[A-Za-z]), )?(--[a-z][a-z0-9-]*)(?:[ =](<[^>]+>))?(?:, (-[A-Za-z]))?\s{2,}(.+)$',
 );
 
 /// Parses the hand-maintained CLI snapshot; see `cli_snapshot.txt`.
@@ -369,6 +373,9 @@ List<CliCommandFacts> parseCliSnapshot(String text) {
                   !line.startsWith('Usage:') &&
                   !line.startsWith('Available') &&
                   !line.startsWith('Run "') &&
+                  !line.startsWith('Options:') &&
+                  !line.startsWith('Commands:') &&
+                  !line.startsWith(' ') &&
                   !_cliFlagLine.hasMatch(line),
             )
             .map((String line) => line.trim())
@@ -383,9 +390,9 @@ List<CliCommandFacts> parseCliSnapshot(String text) {
       flags.add(
         CliFlagFacts(
           name: match.group(2)!,
-          alias: match.group(1),
-          placeholder: match.group(3)?.substring(1),
-          description: match.group(4)!.trim(),
+          alias: match.group(1) ?? match.group(4),
+          placeholder: match.group(3),
+          description: match.group(5)!.trim(),
         ),
       );
     }

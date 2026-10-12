@@ -1851,13 +1851,19 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'dashcn update',
+    label: 'dashcn eject',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
   ),
   DocsSearchEntry(
     label: 'dashcn remove',
+    kind: DocsSearchKind.command,
+    route: '/docs/cli',
+    tag: 'CLI',
+  ),
+  DocsSearchEntry(
+    label: 'dashcn update',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
@@ -1881,13 +1887,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     tag: 'CLI',
   ),
   DocsSearchEntry(
-    label: 'dashcn theme list',
-    kind: DocsSearchKind.command,
-    route: '/docs/cli',
-    tag: 'CLI',
-  ),
-  DocsSearchEntry(
-    label: 'dashcn theme apply',
+    label: 'dashcn theme',
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',

@@ -160,7 +160,7 @@ void main() {
       // The install figure, the usage figures and the teasers all render
       // SelectableRegions; highlighting keeps the plain text intact.
       expect(find.byType(SelectableRegion), findsWidgets);
-      expect(find.textContaining('dashcn add button'), findsWidgets);
+      expect(find.textContaining('flutter pub add dashcn'), findsWidgets);
     });
 
     testWidgets('expanded teaser stays selectable with a copy button', (

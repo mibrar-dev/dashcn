@@ -103,12 +103,10 @@ void main() {
     );
   });
 
-  testWidgets('install line/pill tabs are tab-reachable', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('install tabs are tab-reachable', (WidgetTester tester) async {
     final delegate = await pumpDocsApp(tester, width: 1400, height: 900);
     await goTo(tester, delegate, '/docs/components/button');
-    await _tabUntil(tester, find.text('Manual'));
+    await _tabUntil(tester, find.text('Own the code'));
   });
 
   testWidgets('TOC links are tab-reachable with a focus ring', (

@@ -1,18 +1,22 @@
 // `/docs/installation` — getting started (spec §2.6): a typeset page with
-// `.step`-numbered H3 counters and code figures. The steps are the measured
-// upstream installation flow: create a project, install the layer core, add
-// components, choose a preset. Every command comes from the CLI snapshot.
+// `.step`-numbered H3 counters and code figures. The install mode tabs
+// (Package | Own the code) share one command source with the component
+// install blocks (`widgets/install_commands.dart`); the steps below walk
+// the own-the-code flow. Every command comes from the CLI snapshot.
 
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/clickable.dart';
 import '../ui/dashcn/theme/theme.dart';
+import '../widgets/code_figure.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/docs_tokens.dart';
 import '../widgets/heading_anchor.dart';
+import '../widgets/install_commands.dart';
 import '../widgets/typeset.dart';
 
 /// `/docs/installation` — getting started.
@@ -34,10 +38,12 @@ class GettingStartedPage extends StatelessWidget {
         next: neighbors.next,
         children: <Widget>[
           const TypesetParagraph(
-            'The kit installs as source: every component is copied into your '
-            'project, so the code is yours to read, edit and extend. There is '
-            'no package dependency and no Material wrapper to fight.',
+            'Use the components two ways, from the same source: depend on '
+            'the published package and update via semver, or copy the '
+            'sources into your project and own them. Pick a tab — the '
+            'steps below walk the own-the-code flow.',
           ),
+          const _InstallModeTabs(),
           const _StepCounter(
             number: 1,
             title: 'Create a Flutter project',
@@ -102,6 +108,101 @@ class GettingStartedPage extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Package | Own the code tabs sharing the install command source.
+class _InstallModeTabs extends StatefulWidget {
+  const _InstallModeTabs();
+
+  @override
+  State<_InstallModeTabs> createState() => _InstallModeTabsState();
+}
+
+class _InstallModeTabsState extends State<_InstallModeTabs> {
+  // 0 = Package, 1 = Own the code.
+  int _tab = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Gap(16),
+        // Narrow screens scroll the tabs instead of overflowing.
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _ModeTab(
+                label: 'Package',
+                selected: _tab == 0,
+                onTap: () => setState(() => _tab = 0),
+              ),
+              _ModeTab(
+                label: 'Own the code',
+                selected: _tab == 1,
+                onTap: () => setState(() => _tab = 1),
+              ),
+            ],
+          ),
+        ),
+        if (_tab == 0)
+          const DocsCodeFigure(code: kPackageGettingStarted, language: 'bash')
+        else
+          const DocsCodeFigure(code: kOwnCodeGettingStarted, language: 'bash'),
+        const TypesetParagraph.rich(<InlineSpan>[
+          TextSpan(
+            text: 'Own-the-code apps stay on the package path too: run ',
+          ),
+          WidgetSpan(child: TypesetInlineCode('dashcn eject button')),
+          TextSpan(text: ' later to turn a package import into owned sources.'),
+        ]),
+      ],
+    );
+  }
+}
+
+class _ModeTab extends StatelessWidget {
+  const _ModeTab({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Clickable(
+      onPressed: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: selected ? theme.colors.primary : const Color(0x00000000),
+              width: 2,
+            ),
+          ),
+        ),
+        child: Text(
+          label,
+          style: docsText(
+            context,
+            size: 14,
+            weight: FontWeight.w500,
+            color: selected
+                ? theme.colors.foreground
+                : theme.colors.mutedForeground,
+          ),
+        ),
       ),
     );
   }
