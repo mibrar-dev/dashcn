@@ -71,6 +71,16 @@ Ruling for P9-4b: interop leaked generic helpers into `package:dashcn/dashcn.dar
 `lib/theme_interop.dart` with a narrow `show` surface (brief P9-4b §1).
 Found during P8-3: its eject tests hang; two orphaned `dart test` runs (15 + 9 min at 100% CPU) killed.
 
+## P8-3 CLI — ACCEPTED, CLI branch pushed (mibrar-dev/flutter_shadcn_cli refactor/dashcn @ 3e0af5f)
+`dashcn_cli` 1.0.0, executable `dashcn`, `.dashcn/config.json` (agent verified `dashcn.yaml` never existed as a config
+— accepted), `dashcn.lock`, `lib/ui/dashcn/`, `DASHCN_*` env; `init --mode package|copy`, `add --package`, `eject`
+(dry-run + conflict guard), analyzer codemod `tool/rename_cli.dart`. Rejected in review: an on-load migration of old
+`.shadcn`/`shadcn.lock` files (clean-break decision) → removed. Remaining "shadcn": 9 real-repo URLs only.
+Orchestrator gates with DASHCN_KIT_ROOT set (e2e really ran): format, analyze, 538 unit, e2e acceptance + package mode,
+rename --check. Release prerequisite: the CLI's default registry pins `mibrar-dev/shadcn_flutter_kit@v<version>` →
+the kit must be tagged `v1.0.0` (with the `dashcn/` layout) before a published CLI works with defaults.
+P9-1 incident: agent killed itself with `pkill -f` (OpenCode cmdline = brief text) → _common rule "kill by PID only".
+
 ## Next
-1. P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
+1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.
