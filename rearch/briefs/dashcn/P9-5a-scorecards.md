@@ -35,3 +35,14 @@ components in this batch.
 
 ## Report
 `$KIT/rearch/reports/P9-5a.md`
+
+## Notes (orchestrator, before launch)
+- Final paths: `$APP` = `$KIT/dashcn`, `lib/src/`, theme `Theme`/`ThemeData`. New source files must pass
+  `check_names` (no "shadcn").
+- The harness pumps ~85 components: NEVER `pumpAndSettle()` on anything that may animate forever (spinner,
+  skeleton/shimmer, marquee, carousel autoplay, progress indeterminate, typing indicator, number ticker). Use
+  `pump()` + `pump(Duration(milliseconds: 500))`, a per-test `Timeout(Duration(seconds: 60))`, and measure one
+  component first before running all (lesson from P9-1).
+- The frame-time metric runs in the test environment: label it exactly "test environment (relative)" and never present
+  it as device performance.
+- Run long test runs in the background with their PID, poll ≤ 60 s, kill by PID if they overrun. Keep outputs short.
