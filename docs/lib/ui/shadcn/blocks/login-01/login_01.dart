@@ -4,9 +4,10 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form.
 
 import 'dart:async';
 
@@ -20,7 +21,6 @@ import '../../components/checkbox/checkbox.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -77,7 +77,6 @@ class _Login01State extends State<Login01> {
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-01 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-01 password');
   CheckboxValue _rememberMe = CheckboxValue.checked;
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -88,27 +87,21 @@ class _Login01State extends State<Login01> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        _focusFirstInvalid(result.errors);
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      _focusFirstInvalid(result.errors);
+      return false;
+    }
+    return true;
   }
 
   void _focusFirstInvalid(Map<FormKey, ValidationResult> errors) {
@@ -149,132 +142,128 @@ class _Login01State extends State<Login01> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final Widget body = Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 384),
-                child: Card(
-                  padding: EdgeInsets.all(theme.spacing.xl),
-                  child: ShadcnForm(
-                    controller: _controller,
-                    onSubmit: _handleValidSubmit,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text('Sign in', style: theme.typography.h3),
-                        Gap(theme.spacing.xs),
-                        Text(
-                          'Enter your credentials to access your workspace.',
-                          style: theme.typography.textMuted.copyWith(
-                            color: theme.colors.mutedForeground,
-                          ),
+            final Widget card = ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 384),
+              child: Card(
+                padding: EdgeInsets.all(theme.spacing.xl),
+                child: ShadcnForm(
+                  controller: _controller,
+                  onSubmit: _handleValidSubmit,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Sign in', style: theme.typography.h3),
+                      Gap(theme.spacing.xs),
+                      Text(
+                        'Enter your credentials to access your workspace.',
+                        style: theme.typography.textMuted.copyWith(
+                          color: theme.colors.mutedForeground,
                         ),
-                        Gap(theme.spacing.xl),
-                        ShadcnFormField<String>(
-                          key: _emailKey,
-                          label: const Text('Email'),
-                          validator:
-                              const NotEmptyValidator() &
-                              const EmailValidator(),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Input(
-                            hintText: 'name@example.com',
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _emailFocus,
-                            onSubmitted: (_) => _passwordFocus.requestFocus(),
-                          ),
+                      ),
+                      Gap(theme.spacing.xl),
+                      ShadcnFormField<String>(
+                        key: _emailKey,
+                        label: const Text('Email'),
+                        validator:
+                            const NotEmptyValidator() & const EmailValidator(),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Input(
+                          hintText: 'name@example.com',
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          focusNode: _emailFocus,
+                          onSubmitted: (_) => _passwordFocus.requestFocus(),
                         ),
-                        Gap(theme.spacing.md),
-                        ShadcnFormField<String>(
-                          key: _passwordKey,
-                          label: const Text('Password'),
-                          trailingLabel: Button(
-                            variant: ButtonVariant.link,
-                            onPressed: widget.onForgotPassword ?? () {},
-                            child: const Text('Forgot password?'),
-                          ),
-                          validator:
-                              const NotEmptyValidator() &
-                              const LengthValidator(min: 8),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Input(
-                            hintText: '••••••••',
-                            obscureText: true,
-                            textInputAction: TextInputAction.done,
-                            focusNode: _passwordFocus,
-                            onSubmitted: (_) => _submit(),
-                          ),
+                      ),
+                      Gap(theme.spacing.md),
+                      ShadcnFormField<String>(
+                        key: _passwordKey,
+                        label: const Text('Password'),
+                        trailingLabel: Button(
+                          variant: ButtonVariant.link,
+                          onPressed: widget.onForgotPassword ?? () {},
+                          child: const Text('Forgot password?'),
                         ),
-                        Gap(theme.spacing.md),
-                        ShadcnFormField<CheckboxValue>(
-                          key: _rememberKey,
-                          // The checkbox carries its own inline label; the
-                          // field label stays empty so no text is duplicated.
-                          label: const SizedBox.shrink(),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Checkbox(
-                            value: _rememberMe,
-                            onChanged: (CheckboxValue value) =>
-                                setState(() => _rememberMe = value),
-                            label: const Text('Remember me'),
-                          ),
+                        validator:
+                            const NotEmptyValidator() &
+                            const LengthValidator(min: 8),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Input(
+                          hintText: '••••••••',
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
+                          focusNode: _passwordFocus,
+                          onSubmitted: (_) => _submit(),
                         ),
-                        Gap(theme.spacing.xl),
-                        Button(
-                          onPressed: _submitting ? null : _submit,
-                          child: _submitting
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Spinner(
-                                      size: 14,
-                                      color: theme.colors.primaryForeground,
-                                    ),
-                                    Gap(theme.spacing.sm),
-                                    const Text('Signing in'),
-                                  ],
-                                )
-                              : const Text('Sign in'),
+                      ),
+                      Gap(theme.spacing.md),
+                      ShadcnFormField<CheckboxValue>(
+                        key: _rememberKey,
+                        // The checkbox carries its own inline label; the
+                        // field label stays empty so no text is duplicated.
+                        label: const SizedBox.shrink(),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Checkbox(
+                          value: _rememberMe,
+                          onChanged: (CheckboxValue value) =>
+                              setState(() => _rememberMe = value),
+                          label: const Text('Remember me'),
                         ),
-                        if (_succeeded) ...<Widget>[
-                          Gap(theme.spacing.lg),
-                          Alert(
-                            content: Text(
-                              'Signed in — welcome back.',
-                              style: theme.typography.textSmall,
-                            ),
-                          ),
-                        ],
+                      ),
+                      Gap(theme.spacing.xl),
+                      Button(
+                        onPressedAsync: () async {
+                          if (!await _submit()) {
+                            throw StateError('Login01: validation failed.');
+                          }
+                        },
+                        child: const Text('Sign in'),
+                      ),
+                      if (_succeeded) ...<Widget>[
                         Gap(theme.spacing.lg),
-                        const Divider(),
-                        Gap(theme.spacing.lg),
-                        Button(
-                          variant: ButtonVariant.outline,
-                          onPressed: widget.onCreateAccount ?? () {},
-                          child: const Text('Create an account'),
+                        Alert(
+                          content: Text(
+                            'Signed in — welcome back.',
+                            style: theme.typography.textSmall,
+                          ),
                         ),
                       ],
-                    ),
+                      Gap(theme.spacing.lg),
+                      const Divider(),
+                      Gap(theme.spacing.lg),
+                      Button(
+                        variant: ButtonVariant.outline,
+                        onPressed: widget.onCreateAccount ?? () {},
+                        child: const Text('Create an account'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             );
             if (!constraints.maxHeight.isFinite) {
-              return Padding(padding: EdgeInsets.all(spacing), child: body);
+              return Padding(
+                padding: EdgeInsets.all(spacing),
+                child: Center(child: card),
+              );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(spacing),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - spacing * 2),
+                child: Center(child: card),
+              ),
             );
           },
         ),

@@ -269,6 +269,50 @@ BorderLoading(
       tokenClasses:
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppp',
     ),
+    DocsSnippet(
+      id: 'button.3',
+      componentId: 'button',
+      language: 'dart',
+      code: r'''Button(
+  onPressedAsync: () async {
+    await save();
+  },
+  successLabel: const Text('Saved'),
+  onAsyncError: (Object error, StackTrace stack) => log(error),
+  child: const Text('Save changes'),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssppppp',
+    ),
+    DocsSnippet(
+      id: 'button.4',
+      componentId: 'button',
+      language: 'dart',
+      code: r'''Button(
+  status: state,
+  onPressed: advance,
+  child: const Text('Checkout'),
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppp',
+    ),
+    DocsSnippet(
+      id: 'button.5',
+      componentId: 'button',
+      language: 'dart',
+      code: r'''Button(
+  onPressedAsync: () async {
+    final SubmissionResult result = await controller.submit(context);
+    if (!result.isValid) {
+      focusFirstInvalid(result.errors);
+      throw StateError('Submit failed: form is invalid.');
+    }
+  },
+  child: const Text('Sign in'),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppkkkkkpppppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppkkkkkppppppsssssssssppppp',
+    ),
   ],
   'toggle': <DocsSnippet>[
     DocsSnippet(
@@ -784,6 +828,20 @@ FileDiffViewer(layout: FileDiffLayout.split, files: files);''',
     ),
     DocsSnippet(
       id: 'keyboard_shortcut.3',
+      componentId: 'keyboard_shortcut',
+      language: 'dart',
+      code: r'''KeyboardShortcut(
+  keys: const <LogicalKeyboardKey>[
+    LogicalKeyboardKey.meta,
+    LogicalKeyboardKey.keyK,
+  ],
+  variant: KbdVariant.ghost,
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'keyboard_shortcut.4',
       componentId: 'keyboard_shortcut',
       language: 'dart',
       code: r'''KeyboardShortcutDisplayScope(
@@ -2759,6 +2817,7 @@ Menubar(
     NavigationMenuItem(onPressed: goHome, child: const Text('Home')),
     NavigationMenuItem(
       content: const NavigationMenuContentList(
+        crossAxisCount: 2,
         children: [
           NavigationMenuContent(title: Text('Web Apps')),
           NavigationMenuContent(title: Text('Mobile Apps')),
@@ -2769,7 +2828,7 @@ Menubar(
   ],
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssspppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppp',
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssspppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'navigation_menu.1',
@@ -4287,8 +4346,15 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'button',
     files: <String>[
       'lib/ui/shadcn/components/button/button.dart',
+      'lib/ui/shadcn/components/button/button_defaults.dart',
       'lib/ui/shadcn/components/button/button_group.dart',
+      'lib/ui/shadcn/components/button/button_layout.dart',
+      'lib/ui/shadcn/components/button/button_status.dart',
+      'lib/ui/shadcn/components/button/button_status_content.dart',
+      'lib/ui/shadcn/components/button/button_status_style.dart',
       'lib/ui/shadcn/components/button/button_style.dart',
+      'lib/ui/shadcn/components/button/button_variant_style.dart',
+      'lib/ui/shadcn/components/button/preview_status.dart',
     ],
     userOwned: <String>['lib/ui/shadcn/components/button/button_theme.dart'],
   ),
@@ -4911,6 +4977,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'drawer',
     files: <String>[
       'lib/ui/shadcn/components/drawer/drawer.dart',
+      'lib/ui/shadcn/components/drawer/drawer_background_scale.dart',
       'lib/ui/shadcn/components/drawer/drawer_style.dart',
     ],
     userOwned: <String>['lib/ui/shadcn/components/drawer/drawer_theme.dart'],
@@ -4948,6 +5015,8 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'refresh_trigger',
     files: <String>[
       'lib/ui/shadcn/components/refresh_trigger/refresh_trigger.dart',
+      'lib/ui/shadcn/components/refresh_trigger/refresh_trigger_indicator.dart',
+      'lib/ui/shadcn/components/refresh_trigger/refresh_trigger_input.dart',
       'lib/ui/shadcn/components/refresh_trigger/refresh_trigger_style.dart',
     ],
     userOwned: <String>[

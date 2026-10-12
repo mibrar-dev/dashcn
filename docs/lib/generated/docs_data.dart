@@ -99,6 +99,7 @@ class DocsStats {
   /// Creates the stats block.
   const DocsStats({
     required this.components,
+    required this.listedComponents,
     required this.presets,
     required this.materialImports,
     required this.modes,
@@ -106,6 +107,11 @@ class DocsStats {
 
   /// Installable component count: manifest `components` entries.
   final int components;
+
+  /// Listed component count: entries with `listed: true` (the docs
+  /// site, sidebar, palette and hero badge count these; hidden building
+  /// blocks are installable but not browsable).
+  final int listedComponents;
 
   /// Preset count: `themes/index.json` entries.
   final int presets;
@@ -176,11 +182,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Button',
     category: 'Buttons & Actions',
     description:
-        'Pressable action control with seven variants and five fixed sizes, plus a connected ButtonGroup.',
+        'Pressable action control with seven variants, five fixed sizes, an async idle/loading/success/failure status machine, plus a connected ButtonGroup.',
     install: 'flutter_shadcn add button',
     import:
         "import 'package:<your_app>/ui/shadcn/components/button/button.dart';",
-    fileCount: 4,
+    fileCount: 11,
     stability: 'stable',
     listed: true,
   ),
@@ -1094,7 +1100,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'flutter_shadcn add drawer',
     import:
         "import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';",
-    fileCount: 3,
+    fileCount: 4,
     stability: 'stable',
     listed: true,
   ),
@@ -1146,7 +1152,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'flutter_shadcn add refresh_trigger',
     import:
         "import 'package:<your_app>/ui/shadcn/components/refresh_trigger/refresh_trigger.dart';",
-    fileCount: 3,
+    fileCount: 5,
     stability: 'stable',
     listed: true,
   ),
@@ -2029,6 +2035,7 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
   components: 118, // manifest entries
+  listedComponents: 83, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes

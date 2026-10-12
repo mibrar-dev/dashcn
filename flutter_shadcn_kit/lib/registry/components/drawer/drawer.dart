@@ -21,6 +21,7 @@ import '../../primitives/drawer_route/drawer_route.dart';
 import '../../theme/theme.dart';
 import 'drawer_style.dart';
 
+export 'drawer_background_scale.dart';
 export 'drawer_style.dart';
 export '../../primitives/drawer_route/drawer_route.dart'
     show DrawerOverlayCompleter, OverlayPosition;

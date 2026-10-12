@@ -1,24 +1,17 @@
 // The `eye_dropper` component: [EyeDropperLayer] wraps a subtree and lets the
-// user sample any pixel on screen; [pickColorFromScreen] opens a picking
-// session through the nearest layer.
+// user sample any pixel on screen, live across the whole app window.
 //
 // Ported from `overlay/eye_dropper/**` (old tree). Screen capture, grid
 // sampling and the magnified-grid painter live in
-// `primitives/screen_capture.dart` (this component's file was over the ~400
-// budget with them inline); the old `data_widget` package became the
+// `primitives/screen_capture.dart`; the old `data_widget` package became the
 // foundation `Data`/`ForwardableData`, and Material's `Colors` became the kit
 // palette.
 //
-// Old bugs fixed, not ported:
-//  * bottom/right edge crash: the picked-colour index came straight from
-//    `floor()` and was never clamped;
-//  * `previewScale == 0` divided the sample size by zero (the grid is capped
-//    now);
-//  * `shouldRepaint` ignored the background colour (fixed in
-//    [PixelGridPainter]);
-//  * a session could never be cancelled (Escape completes it with null);
-//  * a touch tap without a prior hover never completed the session;
-//  * two `package:flutter/material.dart` imports.
+// Whole-app sampling: `ShadcnApp` installs an [EyeDropperLayer] at the root.
+// A nested layer delegates its session to the outermost scope, so the capture
+// is the app root and the loupe + crosshair cover the entire window — above
+// picker popovers too. Without a root layer the session falls back to the
+// layer's own subtree.
 
 import 'dart:async';
 
@@ -36,19 +29,41 @@ import '../history/history.dart';
 import 'eye_dropper_style.dart';
 
 export 'eye_dropper_style.dart';
-export '../../primitives/screen_capture.dart' show ScreenSample;
+export '../../primitives/screen_capture.dart'
+    show ScreenSample, eyeDropperCaptureSupported;
 
 /// Builds a preview label widget for the sampled colour.
 typedef PreviewLabelBuilder =
     Widget Function(BuildContext context, Color color);
 
+/// Called for every live sample while the pointer moves (before commit).
+typedef EyeDropperSampleCallback = void Function(Color color);
+
 /// Eye-dropper sessions managed by an [EyeDropperLayer].
 abstract class EyeDropperLayerScope {
-  /// Prompts the user to pick a colour from the wrapped subtree.
+  /// Prompts the user to pick a colour from the screen.
   ///
   /// Completes with the sampled colour, or null when the session is cancelled
-  /// (Escape). When [historyStorage] is given the colour is also pushed to it.
-  Future<Color?> promptPickColor([ColorHistoryStorage? historyStorage]);
+  /// (Escape / right-click). [onSample] fires live for every hovered pixel so
+  /// a colour picker can update its pad, sliders and hex field while moving.
+  /// When [historyStorage] is given the committed colour is also pushed to it.
+  Future<Color?> promptPickColor([
+    ColorHistoryStorage? historyStorage,
+    EyeDropperSampleCallback? onSample,
+  ]);
+
+  /// Whether screen capture is available on this platform.
+  ///
+  /// `RenderRepaintBoundary.toImage` works on web and desktop, so this is
+  /// always true; the pipette button hides only when no scope exists in the
+  /// tree (the detectable impossibility), not on this flag.
+  static bool get isCaptureSupported => eyeDropperCaptureSupported;
+
+  /// Nearest scope above [context], or null when absent.
+  static EyeDropperLayerScope? maybeFind(BuildContext context) {
+    return Data.maybeFind<EyeDropperLayerScope>(context) ??
+        Data.maybeFindMessenger<EyeDropperLayerScope>(context);
+  }
 
   /// Finds the outermost [EyeDropperLayerScope] above [context].
   static EyeDropperLayerScope findRoot(BuildContext context) {
@@ -60,10 +75,7 @@ abstract class EyeDropperLayerScope {
 
   /// Finds the nearest [EyeDropperLayerScope] above [context].
   static EyeDropperLayerScope find(BuildContext context) {
-    return _resolve(
-      Data.maybeFind<EyeDropperLayerScope>(context) ??
-          Data.maybeFindMessenger<EyeDropperLayerScope>(context),
-    );
+    return _resolve(maybeFind(context));
   }
 
   static EyeDropperLayerScope _resolve(EyeDropperLayerScope? found) {
@@ -80,8 +92,10 @@ abstract class EyeDropperLayerScope {
 /// Wraps a subtree and enables sampling colours from it.
 ///
 /// While a picking session is active the layer freezes a screenshot of the
-/// subtree, follows the pointer with a magnified preview and completes the
-/// session on tap (or cancels it with Escape).
+/// app root (or its own subtree when no root layer exists), follows the
+/// pointer with a magnified loupe + crosshair and completes the session on
+/// tap (click commits, Escape / right-click cancels). Arrow keys nudge 1px,
+/// Enter commits.
 class EyeDropperLayer extends StatefulWidget {
   /// Creates an eye-dropper layer.
   const EyeDropperLayer({
@@ -122,9 +136,10 @@ class EyeDropperLayer extends StatefulWidget {
 
 /// One picking session: the completer plus the storages that joined it.
 class _PickSession {
-  _PickSession(this.completer);
+  _PickSession(this.completer, this.onSample);
 
   final Completer<Color?> completer;
+  final EyeDropperSampleCallback? onSample;
   final Set<ColorHistoryStorage> storages = <ColorHistoryStorage>{};
 }
 
@@ -137,11 +152,22 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
   ScreenSample? _preview;
   Offset? _position;
   _PickSession? _session;
+  Timer? _refreshTimer;
+  bool _recapturing = false;
 
   @override
-  Future<Color?> promptPickColor([ColorHistoryStorage? historyStorage]) async {
-    if (!mounted) {
-      return null;
+  Future<Color?> promptPickColor([
+    ColorHistoryStorage? historyStorage,
+    EyeDropperSampleCallback? onSample,
+  ]) async {
+    if (!mounted) return null;
+    // Nested layers delegate to the app-root scope so the capture and the
+    // loupe cover the whole window, not just this subtree.
+    final EyeDropperLayerScope? root = Data.maybeFindRoot<EyeDropperLayerScope>(
+      context,
+    );
+    if (root != null && root != this) {
+      return root.promptPickColor(historyStorage, onSample);
     }
     final _PickSession? active = _session;
     if (active != null) {
@@ -149,41 +175,136 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
       if (historyStorage == null || !active.storages.add(historyStorage)) {
         return future;
       }
-      // Joined storages are covered by the shared epilogue below, which
-      // iterates every registered storage once — do not chain an extra
-      // `.then(addHistory)` here or the joined storage gets two entries.
       return future;
     }
-    final ScreenCapture? screen = await captureRenderBoundary(_boundaryKey);
-    if (!mounted || screen == null) {
-      // Nothing to sample (the boundary was not paint-ready): fail the session
-      // instead of opening one that can never complete.
-      return null;
-    }
-    final _PickSession session = _PickSession(Completer<Color?>());
-    if (historyStorage != null) {
-      session.storages.add(historyStorage);
-    }
+    final double ratio = MediaQuery.devicePixelRatioOf(context);
+    final ScreenCapture? screen = await captureRenderBoundary(
+      _boundaryKey,
+      pixelRatio: ratio,
+    );
+    if (!mounted || screen == null) return null;
+    final _PickSession session = _PickSession(Completer<Color?>(), onSample);
+    if (historyStorage != null) session.storages.add(historyStorage);
     setState(() {
       _session = session;
       _screen = screen;
+      _position = null;
+      _preview = null;
     });
     _focusNode.requestFocus();
+    _refreshTimer?.cancel();
+    _refreshTimer = Timer.periodic(
+      const Duration(milliseconds: 500),
+      (_) => _refreshCapture(),
+    );
     final Color? color = await session.completer.future;
+    if (!mounted) return color;
     for (final ColorHistoryStorage storage in session.storages) {
-      if (color != null) {
-        storage.addHistory(color);
-      }
+      if (color != null) storage.addHistory(color);
     }
     return color;
   }
 
+  Future<void> _refreshCapture() async {
+    if (_session == null || _recapturing || !mounted) return;
+    _recapturing = true;
+    try {
+      final double ratio = MediaQuery.devicePixelRatioOf(context);
+      final ScreenCapture? screen = await captureRenderBoundary(
+        _boundaryKey,
+        pixelRatio: ratio,
+      );
+      if (!mounted || _session == null || screen == null) {
+        screen?.dispose();
+        return;
+      }
+      final Offset? position = _position;
+      setState(() {
+        _screen?.dispose();
+        _screen = screen;
+        if (position != null) _resample(position);
+      });
+    } finally {
+      _recapturing = false;
+    }
+  }
+
+  Size get _sampleSize {
+    final ShadcnThemeData ambient = ShadcnTheme.of(context);
+    final EyeDropperTheme style =
+        resolveComponentStyle<EyeDropperTheme, EyeDropperTheme>(
+          context,
+          widget: widget.theme,
+          select: (t) => t,
+          defaults: eyeDropperDefaults,
+        );
+    final Size previewSize =
+        (widget.previewSize ?? style.previewSize ?? const Size(100, 100)) *
+        ambient.scaling;
+    final double previewScale = (widget.previewScale ?? style.previewScale ?? 8)
+        .clamp(0.25, 64);
+    return Size(
+      previewSize.width / previewScale,
+      previewSize.height / previewScale,
+    );
+  }
+
+  bool get _showPreview {
+    final EyeDropperTheme style =
+        resolveComponentStyle<EyeDropperTheme, EyeDropperTheme>(
+          context,
+          widget: widget.theme,
+          select: (t) => t,
+          defaults: eyeDropperDefaults,
+        );
+    return widget.showPreview ?? style.showPreview ?? true;
+  }
+
+  void _resample(Offset logical) {
+    final ScreenCapture? screen = _screen;
+    if (_session == null || screen == null) return;
+    _position = logical;
+    if (_showPreview || _session!.onSample != null) {
+      _preview = screen.sampleLogical(logical, _sampleSize);
+    }
+    final EyeDropperSampleCallback? live = _session!.onSample;
+    if (live != null && _preview != null) live(_preview!.pickedColor);
+  }
+
+  void _updatePreview(Offset logical) {
+    if (_session == null || _screen == null || !mounted) return;
+    setState(() => _resample(logical));
+  }
+
+  void _nudge(Offset delta) {
+    final ScreenCapture? screen = _screen;
+    if (_session == null || screen == null || !mounted) return;
+    final double ratio = screen.pixelRatio <= 0 ? 1 : screen.pixelRatio;
+    final Size logicalSize = Size(
+      screen.size.width / ratio,
+      screen.size.height / ratio,
+    );
+    final Offset base =
+        _position ?? Offset(logicalSize.width / 2, logicalSize.height / 2);
+    final Offset next = Offset(
+      (base.dx + delta.dx).clamp(0, logicalSize.width - 1),
+      (base.dy + delta.dy).clamp(0, logicalSize.height - 1),
+    );
+    setState(() => _resample(next));
+  }
+
   void _complete(Color? color) {
     final _PickSession? session = _session;
-    if (session == null) {
+    if (session == null || session.completer.isCompleted) return;
+    session.completer.complete(color);
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+    if (!mounted) {
+      _screen?.dispose();
+      _screen = null;
+      _session = null;
       return;
     }
-    session.completer.complete(color);
     setState(() {
       _session = null;
       _screen?.dispose();
@@ -195,19 +316,46 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
 
   @override
   void dispose() {
-    _session?.completer.complete(null);
+    _refreshTimer?.cancel();
+    if (_session != null && !_session!.completer.isCompleted) {
+      _session!.completer.complete(null);
+    }
     _screen?.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
   KeyEventResult _onKey(FocusNode node, KeyEvent event) {
-    if (event is KeyDownEvent &&
-        event.logicalKey == LogicalKeyboardKey.escape) {
-      _complete(null);
-      return KeyEventResult.handled;
+    if (_session == null) return KeyEventResult.ignored;
+    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    switch (event.logicalKey) {
+      case LogicalKeyboardKey.escape:
+        _complete(null);
+        return KeyEventResult.handled;
+      case LogicalKeyboardKey.enter || LogicalKeyboardKey.numpadEnter:
+        _complete(_preview?.pickedColor ?? _sampleAt(_position)?.pickedColor);
+        return KeyEventResult.handled;
+      case LogicalKeyboardKey.arrowLeft:
+        _nudge(const Offset(-1, 0));
+        return KeyEventResult.handled;
+      case LogicalKeyboardKey.arrowRight:
+        _nudge(const Offset(1, 0));
+        return KeyEventResult.handled;
+      case LogicalKeyboardKey.arrowUp:
+        _nudge(const Offset(0, -1));
+        return KeyEventResult.handled;
+      case LogicalKeyboardKey.arrowDown:
+        _nudge(const Offset(0, 1));
+        return KeyEventResult.handled;
+      default:
+        return KeyEventResult.ignored;
     }
-    return KeyEventResult.ignored;
+  }
+
+  ScreenSample? _sampleAt(Offset? logical) {
+    final ScreenCapture? screen = _screen;
+    if (screen == null || logical == null) return null;
+    return screen.sampleLogical(logical, _sampleSize);
   }
 
   @override
@@ -223,27 +371,12 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
     final Size previewSize =
         (widget.previewSize ?? style.previewSize ?? const Size(100, 100)) *
         ambient.scaling;
-    final double previewScale = (widget.previewScale ?? style.previewScale ?? 8)
-        .clamp(0.25, 64);
     final bool showPreview = widget.showPreview ?? style.showPreview ?? true;
-    final Size sampleSize = Size(
-      previewSize.width / previewScale,
-      previewSize.height / previewScale,
-    );
-
-    void updatePreview(Offset position) {
-      final ScreenCapture? screen = _screen;
-      if (_session == null || !showPreview || screen == null) {
-        return;
-      }
-      setState(() {
-        _position = position;
-        _preview = screen.sample(position, sampleSize);
-      });
-    }
 
     final ScreenCapture? screen = _screen;
     final ScreenSample? preview = _preview;
+    final Offset? position = _position;
+    final bool active = _session != null;
     return ForwardableData<EyeDropperLayerScope>(
       data: this,
       child: Focus(
@@ -253,17 +386,17 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
           behavior: HitTestBehavior.translucent,
           onTapDown: screen == null
               ? null
-              : (TapDownDetails details) => _complete(
-                  screen.sample(details.localPosition, sampleSize).pickedColor,
-                ),
+              : (TapDownDetails details) =>
+                    _complete(_sampleAt(details.localPosition)?.pickedColor),
+          onSecondaryTapDown: active ? (_) => _complete(null) : null,
           child: MouseRegion(
             hitTestBehavior: HitTestBehavior.translucent,
             onHover: _session == null
                 ? null
                 : (PointerHoverEvent event) =>
-                      updatePreview(event.localPosition),
+                      _updatePreview(event.localPosition),
             child: IgnorePointer(
-              ignoring: _session != null,
+              ignoring: active,
               child: Stack(
                 fit: StackFit.passthrough,
                 clipBehavior: Clip.none,
@@ -273,13 +406,29 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
                     Positioned.fill(
                       child: RawImage(image: screen.image, fit: BoxFit.fill),
                     ),
-                  if (showPreview && preview != null)
+                  if (active && position != null)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: _CrosshairPainter(
+                            position: position,
+                            color:
+                                style.selectedBorderColor?.resolve(
+                                  ambient.colors,
+                                ) ??
+                                ambient.colors.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (showPreview && preview != null && position != null)
                     _buildPreview(
                       context,
                       ambient,
                       style,
                       previewSize,
                       preview,
+                      position,
                     ),
                 ],
               ),
@@ -296,6 +445,7 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
     EyeDropperTheme style,
     Size previewSize,
     ScreenSample preview,
+    Offset position,
   ) {
     final ShadcnColors colors = ambient.colors;
     final Widget previewBox = SizedBox(
@@ -316,9 +466,14 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
         ),
       ),
     );
+    final TextDirection dir =
+        Directionality.maybeOf(context) ?? TextDirection.ltr;
     final Widget label =
         widget.previewLabelBuilder?.call(context, preview.pickedColor) ??
-        Text(colorToHex(preview.pickedColor)).small().muted();
+        Directionality(
+          textDirection: dir,
+          child: Text(colorToHex(preview.pickedColor)).small().muted(),
+        );
     final Widget stack = Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.bottomCenter,
@@ -338,17 +493,48 @@ class _EyeDropperLayerState extends State<EyeDropperLayer>
         ),
       );
     }
-    return Positioned(top: _position!.dy, left: _position!.dx, child: stack);
+    return Positioned(top: position.dy, left: position.dx, child: stack);
   }
+}
+
+/// Full-window crosshair through the sampled [position].
+class _CrosshairPainter extends CustomPainter {
+  const _CrosshairPainter({required this.position, required this.color});
+
+  final Offset position;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = 1;
+    canvas.drawLine(
+      Offset(0, position.dy),
+      Offset(size.width, position.dy),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(position.dx, 0),
+      Offset(position.dx, size.height),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _CrosshairPainter old) =>
+      old.position != position || old.color != color;
 }
 
 /// Prompts the user to pick a colour from the screen.
 ///
-/// Uses the nearest [EyeDropperLayer]; optionally pushes the picked colour to
-/// [storage]. Completes with null when the session is cancelled.
+/// Uses the nearest [EyeDropperLayer] (delegating to the app-root scope for a
+/// whole-window capture); optionally pushes the picked colour to [storage] and
+/// streams live samples to [onSample]. Completes with null when cancelled.
 Future<Color?> pickColorFromScreen(
   BuildContext context, [
   ColorHistoryStorage? storage,
+  EyeDropperSampleCallback? onSample,
 ]) {
-  return EyeDropperLayerScope.find(context).promptPickColor(storage);
+  return EyeDropperLayerScope.find(context).promptPickColor(storage, onSample);
 }

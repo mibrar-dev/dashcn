@@ -33,7 +33,16 @@ const Duration kDurationPalette = Duration(milliseconds: 200);
 const Duration kDurationHeadingAnchor = Duration(milliseconds: 200);
 
 /// Theme (preset/mode) colour tween — our deviation, layout untouched.
+///
+/// Kept for the Theme Studio canvas and the themes-page preview, which tween
+/// a small subtree per rail edit. The app shell no longer uses it: it swaps
+/// once per commit under [kDurationThemeSwitch]'s snapshot fade (P7-WD).
 const Duration kDurationTheme = Duration(milliseconds: 300);
+
+/// Shell theme-switch snapshot cross-fade (P7-WD): the old frame fades over
+/// the new one. Reduced motion swaps instantly (`Duration.zero` at the call
+/// site, not this constant).
+const Duration kDurationThemeSwitch = Duration(milliseconds: 250);
 
 /// Copy-button "Copied" feedback; the check icon resets after 2000ms.
 const Duration kDurationCopyFeedback = Duration(milliseconds: 2000);

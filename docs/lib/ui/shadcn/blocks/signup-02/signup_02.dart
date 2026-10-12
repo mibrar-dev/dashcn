@@ -1,14 +1,15 @@
-// The `signup-02` block: a two-column sign-up with a validated form, a
-// password strength meter wired to the password field, and a summary aside.
+// The `signup-02` block: a split sign-up with a validated form, a
+// password strength meter wired to the password field, and a brand panel.
 //
 // A block is layer 4 of the registry: it may import foundation, theme,
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The form and the aside sit side by side from 960px up inside a 1024px
-// shell, and stack below that. The content shrink-wraps so the docs frame
-// sizes to its intrinsic height, and scrolls internally when the host is
-// bounded and shorter than the page.
+// From 900px the page is two equal columns filling the viewport edge to
+// edge: the form column centres the validated form vertically, and the brand
+// panel fills its half full height with the muted token, the product mark
+// top-left, the trial summary and a quote anchored at the bottom. Below
+// 900px the panel is hidden and the form fills the screen.
 
 import 'dart:async';
 
@@ -16,7 +17,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../components/checkbox/checkbox.dart';
 import '../../components/form/form.dart';
-import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'signup_02_aside.dart';
 import 'signup_02_form.dart';
@@ -44,7 +44,7 @@ class Signup02Data {
   final String password;
 }
 
-/// A two-column sign-up: validated form on the left, a plan summary aside.
+/// A split sign-up: validated form beside a full-height brand panel.
 class Signup02 extends StatefulWidget {
   /// Creates the block.
   const Signup02({super.key, this.onSubmit, this.onSignIn});
@@ -78,7 +78,6 @@ class _Signup02State extends State<Signup02> {
   final TextEditingController _passwordController = TextEditingController();
   CheckboxValue _terms = CheckboxValue.unchecked;
   String _password = '';
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -106,27 +105,21 @@ class _Signup02State extends State<Signup02> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        _focusFirstInvalid(result.errors);
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      _focusFirstInvalid(result.errors);
+      return false;
+    }
+    return true;
   }
 
   void _focusFirstInvalid(Map<FormKey, ValidationResult> errors) {
@@ -184,46 +177,78 @@ class _Signup02State extends State<Signup02> {
               terms: _terms,
               onTermsChanged: (CheckboxValue value) =>
                   setState(() => _terms = value),
-              submitting: _submitting,
               succeeded: _succeeded,
               onSubmit: _submit,
               onSignIn: widget.onSignIn,
             );
-            final Widget body;
-            if (constraints.maxWidth >= 960) {
-              body = Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1024),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(flex: 3, child: form),
-                      Gap(theme.spacing.xl),
-                      const Expanded(flex: 2, child: Signup02Aside()),
-                    ],
+            final bool wide = constraints.maxWidth >= 900;
+            final bool bounded = constraints.maxHeight.isFinite;
+            if (!bounded) {
+              if (!wide) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(theme.spacing.lg),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 384),
+                      child: form,
+                    ),
                   ),
+                );
+              }
+              return Padding(
+                padding: EdgeInsets.all(theme.spacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 384),
+                          child: form,
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: Signup02Aside()),
+                  ],
                 ),
               );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
+            }
+            final double pageH = constraints.maxHeight;
+            if (wide) {
+              final double pad = theme.spacing.xl;
+              return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  form,
-                  Gap(theme.spacing.lg),
-                  const Signup02Aside(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(pad),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 384),
+                            child: form,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: Signup02Aside()),
                 ],
               );
             }
-            if (!constraints.maxHeight.isFinite) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
+            final double pad = theme.spacing.lg;
             return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              padding: EdgeInsets.all(pad),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 384),
+                    child: form,
+                  ),
+                ),
+              ),
             );
           },
         ),

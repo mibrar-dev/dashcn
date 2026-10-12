@@ -35,7 +35,8 @@ Widget _default(BuildContext context) {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: theme.colors.muted,
-            borderRadius: BorderRadius.circular(10),
+            // P7-TH1: image stand-ins use the card radius token.
+            borderRadius: theme.borderRadiusLg,
           ),
           child: Center(
             child: Text(

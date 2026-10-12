@@ -2,10 +2,12 @@
 //
 // One focused demo per example; the first entry is the default. Spacing comes
 // from the ambient theme, so the examples follow the selected preset and the
-// site light/dark toggle.
+// site light/dark toggle. Image thumbs are theme-token fills (`chartColors`)
+// with a `card`-coloured glyph, so the grid stays vivid in light and dark.
 //
-// P7-C2: every card example is live — tapping a card selects it and the
-// selection is echoed under the row, so the demo shows what `onPressed` does.
+// P7-WB: `Vertical` is a grid of cards — the component's home is a media tile
+// in a grid. Every card is live: tapping one selects it and the selection is
+// echoed under the grid.
 
 import 'package:flutter/widgets.dart';
 
@@ -15,102 +17,117 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'card_image.dart';
 
-/// A palette-derived thumbnail, so the demo follows the selected theme.
-Widget _cardImageThumb(BuildContext context, double height) {
+/// One grid tile's content.
+class _Tile {
+  const _Tile({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.chart,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  /// Index into `ShadcnColors.chartColors`.
+  final int chart;
+}
+
+const List<_Tile> _tiles = <_Tile>[
+  _Tile(
+    title: 'Sunset',
+    subtitle: '18:42 · Lisbon',
+    icon: LucideIcons.mountain,
+    chart: 0,
+  ),
+  _Tile(
+    title: 'Harbor nights',
+    subtitle: '3:21 · focus mix',
+    icon: LucideIcons.music,
+    chart: 1,
+  ),
+];
+
+/// A theme-token poster thumb: a chart fill with a card-coloured glyph. It
+/// carries no size of its own — the card's aspect-ratio surface sizes it —
+/// so this is also the shape a user `Image` takes.
+Widget _thumb(BuildContext context, _Tile tile) {
   final theme = ShadcnTheme.of(context);
-  return SizedBox(
-    height: height,
-    child: ColoredBox(
-      color: theme.colors.muted,
-      child: Center(
-        child: Icon(
-          LucideIcons.image,
-          size: 28,
-          color: theme.colors.mutedForeground,
-        ),
-      ),
-    ),
+  final List<Color> charts = theme.colors.chartColors;
+  return ColoredBox(
+    color: charts[tile.chart % charts.length],
+    child: Center(child: Icon(tile.icon, size: 36, color: theme.colors.card)),
   );
 }
 
-/// One card row plus the status line the example writes to.
-class _CardImageRow extends StatelessWidget {
-  const _CardImageRow({
-    required this.width,
-    required this.title,
-    required this.subtitle,
-    required this.selected,
-    required this.onPressed,
-    this.image,
-    this.direction = Axis.vertical,
-    this.enabled = true,
-  });
+/// One pressable card for [tile], selected when [selected].
+Widget _tileCard(
+  BuildContext context,
+  _Tile tile,
+  bool selected,
+  VoidCallback onPressed,
+) {
+  return CardImage(
+    image: _thumb(context, tile),
+    title: Text(
+      tile.title,
+      style: TextStyle(
+        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+      ),
+    ),
+    subtitle: Text(tile.subtitle),
+    trailing: const Icon(LucideIcons.chevronRight, size: 16),
+    onPressed: onPressed,
+  );
+}
 
-  final double width;
-  final String title;
-  final String subtitle;
-  final bool selected;
-  final VoidCallback onPressed;
-  final Widget? image;
-  final Axis direction;
-  final bool enabled;
+/// A grid of vertical cards sharing one selection echo.
+class _CardImageGrid extends StatefulWidget {
+  const _CardImageGrid();
+
+  @override
+  State<_CardImageGrid> createState() => _CardImageGridState();
+}
+
+class _CardImageGridState extends State<_CardImageGrid> {
+  int? _opened;
 
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
-          width: width,
-          child: CardImage(
-            theme: CardImageTheme(direction: direction, gap: 12),
-            image: image ?? _cardImageThumb(context, 120),
-            title: Text(
-              title,
-              style: TextStyle(
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-            subtitle: Text(subtitle),
-            enabled: enabled,
-            onPressed: onPressed,
+        ConstrainedBox(
+          // Two cards per row at 200px: the grid stays inside the 720x420
+          // preview stage (three across wraps to a 3+1 layout and overflows).
+          constraints: const BoxConstraints(maxWidth: 424),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: theme.spacing.lg,
+            runSpacing: theme.spacing.lg,
+            children: <Widget>[
+              for (int i = 0; i < _tiles.length; i++)
+                SizedBox(
+                  width: 200,
+                  child: _tileCard(
+                    context,
+                    _tiles[i],
+                    _opened == i,
+                    () => setState(() => _opened = _opened == i ? null : i),
+                  ),
+                ),
+            ],
           ),
         ),
-        Gap(theme.spacing.sm),
+        Gap(theme.spacing.md),
         Text(
-          selected ? 'Opened "$title"' : 'Tap the card to open it',
+          _opened == null
+              ? 'Tap the card to open it'
+              : 'Opened "${_tiles[_opened!].title}"',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
-        ),
-      ],
-    );
-  }
-}
-
-/// Vertical composition: media above the text block.
-class _CardImageVertical extends StatefulWidget {
-  const _CardImageVertical();
-
-  @override
-  State<_CardImageVertical> createState() => _CardImageVerticalState();
-}
-
-class _CardImageVerticalState extends State<_CardImageVertical> {
-  bool _opened = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        _CardImageRow(
-          width: 220,
-          title: 'Sunset',
-          subtitle: '18:42 - Lisbon',
-          selected: _opened,
-          onPressed: () => setState(() => _opened = !_opened),
         ),
       ],
     );
@@ -130,14 +147,37 @@ class _CardImageHorizontalState extends State<_CardImageHorizontal> {
 
   @override
   Widget build(BuildContext context) {
-    return _CardImageRow(
-      width: 320,
-      direction: Axis.horizontal,
-      image: SizedBox(width: 96, child: _cardImageThumb(context, 120)),
-      title: 'Ambient loops',
-      subtitle: '3:21 - focus mix',
-      selected: _opened,
-      onPressed: () => setState(() => _opened = !_opened),
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 320,
+          child: CardImage(
+            theme: const CardImageTheme(direction: Axis.horizontal),
+            image: SizedBox(
+              width: 96,
+              height: 96,
+              child: _thumb(context, _tiles[1]),
+            ),
+            title: Text(
+              _tiles[1].title,
+              style: TextStyle(
+                fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            subtitle: Text(_tiles[1].subtitle),
+            trailing: const Icon(LucideIcons.chevronRight, size: 16),
+            onPressed: () => setState(() => _opened = !_opened),
+          ),
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          _opened ? 'Opened "${_tiles[1].title}"' : 'Tap the card to open it',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
     );
   }
 }
@@ -156,31 +196,42 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      alignment: WrapAlignment.center,
       spacing: ShadcnTheme.of(context).spacing.lg,
       runSpacing: ShadcnTheme.of(context).spacing.lg,
       crossAxisAlignment: WrapCrossAlignment.start,
       children: <Widget>[
-        _CardImageRow(
-          width: 220,
-          title: 'Archived',
-          subtitle: 'read-only',
-          selected: false,
-          enabled: false,
-          onPressed: () {},
+        SizedBox(
+          width: 200,
+          child: CardImage(
+            image: _thumb(context, _tiles[1]),
+            title: const Text('Archived'),
+            subtitle: const Text('read-only'),
+            enabled: false,
+            onPressed: () {},
+          ),
         ),
-        _CardImageRow(
-          width: 220,
-          title: 'In progress',
-          subtitle: 'tap to open',
-          selected: _opened,
-          onPressed: () => setState(() => _opened = !_opened),
+        SizedBox(
+          width: 200,
+          child: CardImage(
+            image: _thumb(context, _tiles[0]),
+            title: Text(
+              'In progress',
+              style: TextStyle(
+                fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            subtitle: const Text('tap to open'),
+            trailing: const Icon(LucideIcons.chevronRight, size: 16),
+            onPressed: () => setState(() => _opened = !_opened),
+          ),
         ),
       ],
     );
   }
 }
 
-Widget _cardImageVertical(BuildContext context) => const _CardImageVertical();
+Widget _cardImageVertical(BuildContext context) => const _CardImageGrid();
 
 Widget _cardImageHorizontal(BuildContext context) =>
     const _CardImageHorizontal();

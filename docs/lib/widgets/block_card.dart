@@ -128,8 +128,15 @@ class _CompactToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      // P7-TH1: toolbar insets follow the theme (lg/md).
+      padding: EdgeInsets.fromLTRB(
+        theme.spacing.lg,
+        theme.spacing.lg,
+        theme.spacing.lg,
+        0,
+      ),
       child: Row(
         children: <Widget>[
           const Spacer(),
@@ -157,7 +164,13 @@ class _HeaderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      // P7-TH1: header insets follow the theme (lg/md).
+      padding: EdgeInsets.fromLTRB(
+        theme.spacing.lg,
+        theme.spacing.lg,
+        theme.spacing.lg,
+        theme.spacing.md,
+      ),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final Widget info = ConstrainedBox(
@@ -174,7 +187,7 @@ class _HeaderRow extends StatelessWidget {
                     height: 1.3,
                   ),
                 ),
-                const Gap(4),
+                Gap(theme.spacing.xs),
                 Text(
                   block.description,
                   style: docsText(
@@ -191,8 +204,9 @@ class _HeaderRow extends StatelessWidget {
           // button do not fit on one line, and a Row would overflow the card.
           final Widget controls = Wrap(
             alignment: WrapAlignment.end,
-            spacing: 8,
-            runSpacing: 8,
+            // P7-TH1: control spacing follows the theme (gap-2).
+            spacing: theme.spacing.sm,
+            runSpacing: theme.spacing.sm,
             children: <Widget>[
               BlockViewportToggle(value: viewport, onChanged: onViewport),
               if (showOpenInNewTab)
@@ -211,14 +225,14 @@ class _HeaderRow extends StatelessWidget {
           if (constraints.maxWidth < 720) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[info, const Gap(12), controls],
+              children: <Widget>[info, Gap(theme.spacing.md), controls],
             );
           }
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(child: info),
-              const Gap(16),
+              Gap(theme.spacing.lg),
               controls,
             ],
           );
@@ -245,8 +259,15 @@ class _TabRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      // P7-TH1: toolbar insets follow the theme (lg/sm).
+      padding: EdgeInsets.fromLTRB(
+        theme.spacing.lg,
+        0,
+        theme.spacing.lg,
+        theme.spacing.sm,
+      ),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final Widget tabs = Row(
@@ -269,7 +290,7 @@ class _TabRow extends StatelessWidget {
           if (constraints.maxWidth < 560) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[tabs, const Gap(8), chip],
+              children: <Widget>[tabs, Gap(theme.spacing.sm), chip],
             );
           }
           // Wide path: the chip hugs the right edge and shrinks with an
@@ -308,7 +329,13 @@ class BlockCommandChip extends StatelessWidget {
         borderRadius: theme.borderRadiusMd,
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 4, 4, 4),
+        // P7-TH1: chip insets follow the theme.
+        padding: EdgeInsets.fromLTRB(
+          10,
+          theme.spacing.xs,
+          theme.spacing.xs,
+          theme.spacing.xs,
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -317,7 +344,7 @@ class BlockCommandChip extends StatelessWidget {
               size: 13,
               color: theme.colors.mutedForeground,
             ),
-            const Gap(8),
+            Gap(theme.spacing.sm),
             Flexible(
               child: Text(
                 command,
@@ -326,7 +353,7 @@ class BlockCommandChip extends StatelessWidget {
                 style: theme.typography.mono.copyWith(fontSize: 12),
               ),
             ),
-            const Gap(4),
+            Gap(theme.spacing.xs),
             CopyButton(
               text: command,
               variant: ButtonVariant.ghost,
@@ -360,7 +387,11 @@ class _LineTab extends StatelessWidget {
     return Clickable(
       onPressed: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        // P7-TH1: tab insets follow the theme.
+        padding: EdgeInsets.symmetric(
+          horizontal: theme.spacing.sm,
+          vertical: theme.spacing.xs,
+        ),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(

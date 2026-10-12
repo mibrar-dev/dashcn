@@ -14,7 +14,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -65,7 +64,6 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
   final FocusNode _nameFocus = FocusNode(debugLabel: 'account-01 name');
   final FocusNode _usernameFocus = FocusNode(debugLabel: 'account-01 username');
   final FocusNode _bioFocus = FocusNode(debugLabel: 'account-01 bio');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -77,37 +75,31 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        for (final MapEntry<FormKey, FocusNode> entry
-            in <MapEntry<FormKey, FocusNode>>[
-              MapEntry<FormKey, FocusNode>(_nameKey, _nameFocus),
-              MapEntry<FormKey, FocusNode>(_usernameKey, _usernameFocus),
-              MapEntry<FormKey, FocusNode>(_bioKey, _bioFocus),
-            ]) {
-          if (result.errors.containsKey(entry.key)) {
-            entry.value.requestFocus();
-            return;
-          }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
+    }
+    if (!result.isValid) {
+      for (final MapEntry<FormKey, FocusNode> entry
+          in <MapEntry<FormKey, FocusNode>>[
+            MapEntry<FormKey, FocusNode>(_nameKey, _nameFocus),
+            MapEntry<FormKey, FocusNode>(_usernameKey, _usernameFocus),
+            MapEntry<FormKey, FocusNode>(_bioKey, _bioFocus),
+          ]) {
+        if (result.errors.containsKey(entry.key)) {
+          entry.value.requestFocus();
+          return false;
         }
       }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+      return false;
     }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -266,20 +258,12 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Align(
               alignment: Alignment.centerLeft,
               child: Button(
-                onPressed: _submitting ? null : _submit,
-                child: _submitting
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Spinner(
-                            size: 14,
-                            color: theme.colors.primaryForeground,
-                          ),
-                          Gap(theme.spacing.sm),
-                          const Text('Saving'),
-                        ],
-                      )
-                    : const Text('Save changes'),
+                onPressedAsync: () async {
+                  if (!await _submit()) {
+                    throw StateError('Account01Profile: validation failed.');
+                  }
+                },
+                child: const Text('Save changes'),
               ),
             ),
             if (_succeeded) ...<Widget>[

@@ -1,8 +1,9 @@
-// QA for `keyboard_shortcut` previews (P7-Q2).
+// QA for `keyboard_shortcut` previews (P7-Q2, P7-WC).
 //
 // Pumps every `keyboardShortcutPreviews` example under neutral/claude x
 // light/dark, RTL and 375px. The component is display-only; this file pins
-// that activator chords, explicit key rows and scoped labels all render.
+// that activator chords, explicit key rows, sequences, the menu-item hint
+// and scoped labels all render centred.
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/keyboard_shortcut/keyboard_shortcut.dart';
@@ -79,21 +80,61 @@ void main() {
     }
   });
 
-  testWidgets('chords render caps for every key', (tester) async {
+  testWidgets('the default chord renders ⌘K', (tester) async {
     await _pumpPreview(tester, keyboardShortcutPreviews[0]);
     expect(find.byType(KeyboardShortcut), findsOneWidget);
-    expect(find.byType(KeyboardKeyCap), findsWidgets);
+    expect(find.byType(KeyboardKeyCap), findsNWidgets(2));
+    expect(find.text('K'), findsOneWidget);
+  });
+
+  testWidgets('the modifiers chord renders Ctrl Shift P in order', (
+    tester,
+  ) async {
     await _pumpPreview(tester, keyboardShortcutPreviews[1]);
-    expect(find.byType(KeyboardShortcut), findsNWidgets(3));
+    expect(find.byType(KeyboardShortcut), findsOneWidget);
+    expect(find.byType(KeyboardKeyCap), findsNWidgets(3));
+    expect(find.text('Ctrl'), findsOneWidget);
+    expect(find.text('Shift'), findsOneWidget);
+    expect(find.text('P'), findsOneWidget);
+    expect(
+      tester.getRect(find.text('Ctrl')).left,
+      lessThan(tester.getRect(find.text('P')).left),
+    );
+  });
+
+  testWidgets('the sequence renders G then H as separate chords', (
+    tester,
+  ) async {
+    await _pumpPreview(tester, keyboardShortcutPreviews[2]);
+    expect(find.byType(KeyboardShortcut), findsNWidgets(2));
+    expect(find.text('G'), findsOneWidget);
+    expect(find.text('H'), findsOneWidget);
+    expect(find.text('then'), findsOneWidget);
+  });
+
+  testWidgets('the menu item trails its ⌘K hint', (tester) async {
+    await _pumpPreview(tester, keyboardShortcutPreviews[3]);
+    expect(find.text('Open command palette'), findsOneWidget);
+    expect(find.byType(KeyboardShortcut), findsOneWidget);
   });
 
   testWidgets('scoped preview uses the custom uppercase labels', (
     tester,
   ) async {
-    await _pumpPreview(tester, keyboardShortcutPreviews[2]);
+    await _pumpPreview(tester, keyboardShortcutPreviews[4]);
     // Alt + F through the scope builder render as uppercase text.
     expect(find.text('ALT'), findsOneWidget);
     expect(find.text('F'), findsOneWidget);
+  });
+
+  testWidgets('the ghost preview paints the same chord with no fill', (
+    tester,
+  ) async {
+    // P7-WC2: the fill-free variant used for hints on filled surfaces.
+    await _pumpPreview(tester, keyboardShortcutPreviews[6]);
+    expect(find.byType(KeyboardShortcut), findsOneWidget);
+    expect(find.byType(KeyboardKeyCap), findsNWidgets(2));
+    expect(find.text('K'), findsOneWidget);
   });
 
   testWidgets('previews mirror in RTL and fit 375px', (tester) async {

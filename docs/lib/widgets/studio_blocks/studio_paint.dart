@@ -12,6 +12,7 @@
 
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../ui/shadcn/theme/theme.dart';
@@ -39,6 +40,7 @@ class StudioContributionChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final List<Color> charts = theme.colors.chartColors;
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Column(
@@ -49,7 +51,12 @@ class StudioContributionChart extends StatelessWidget {
             width: double.infinity,
             child: CustomPaint(
               painter: _ContributionPainter(
-                color: theme.colors.primary,
+                // The chart palette (chart1..5), one per bar — the `Chart
+                // colours` row drives these, not the accent primary.
+                colors: <Color>[
+                  for (int i = 0; i < bars.length; i++)
+                    charts[i % charts.length],
+                ],
                 track: theme.colors.muted,
                 values: <double>[for (final ContributionBar b in bars) b.value],
                 radius: math.max(0, theme.radiusXs),
@@ -82,13 +89,13 @@ class StudioContributionChart extends StatelessWidget {
 class _ContributionPainter extends CustomPainter {
   const _ContributionPainter({
     required this.values,
-    required this.color,
+    required this.colors,
     required this.track,
     required this.radius,
   });
 
   final List<double> values;
-  final Color color;
+  final List<Color> colors;
   final Color track;
   final double radius;
 
@@ -100,7 +107,6 @@ class _ContributionPainter extends CustomPainter {
     final double gap = 8;
     final double slot = size.width / values.length;
     final double barWidth = math.max(4, slot - gap);
-    final Paint fill = Paint()..color = color;
     final Paint faint = Paint()..color = track;
     final Paint barPaint = Paint()..style = PaintingStyle.fill;
     for (int i = 0; i < values.length; i++) {
@@ -121,14 +127,16 @@ class _ContributionPainter extends CustomPainter {
         topLeft: Radius.circular(radius),
         topRight: Radius.circular(radius),
       );
-      barPaint.color = Color.lerp(color, track, 1 - fraction)!;
-      canvas.drawRRect(barRect, fraction > 0.9 ? fill : barPaint);
+      barPaint.color = Color.lerp(colors[i], track, 1 - fraction)!;
+      canvas.drawRRect(barRect, barPaint);
     }
   }
 
   @override
   bool shouldRepaint(_ContributionPainter old) =>
-      old.color != color || old.track != track || old.radius != radius;
+      !listEquals(old.colors, colors) ||
+      old.track != track ||
+      old.radius != radius;
 }
 
 /// The `Yearly Activity` sparkline: a filled area plus its top stroke.
@@ -146,7 +154,12 @@ class StudioSparkline extends StatelessWidget {
       height: 48,
       width: double.infinity,
       child: CustomPaint(
-        painter: _SparklinePainter(values: values, color: theme.colors.primary),
+        painter: _SparklinePainter(
+          values: values,
+          // The chart palette's first series, so the `Chart colours` row
+          // drives the sparkline too.
+          color: theme.colors.chart1,
+        ),
       ),
     );
   }

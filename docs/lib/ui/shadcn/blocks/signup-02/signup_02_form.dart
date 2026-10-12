@@ -13,7 +13,6 @@ import '../../components/checkbox/checkbox.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -56,7 +55,6 @@ class Signup02Form extends StatelessWidget {
     required this.password,
     required this.terms,
     required this.onTermsChanged,
-    required this.submitting,
     required this.succeeded,
     required this.onSubmit,
     required this.onSignIn,
@@ -79,9 +77,8 @@ class Signup02Form extends StatelessWidget {
   final String password;
   final CheckboxValue terms;
   final ValueChanged<CheckboxValue> onTermsChanged;
-  final bool submitting;
   final bool succeeded;
-  final Future<void> Function() onSubmit;
+  final Future<bool> Function() onSubmit;
   final VoidCallback? onSignIn;
 
   static const Set<FormValidationMode> _show = <FormValidationMode>{
@@ -242,17 +239,12 @@ class Signup02Form extends StatelessWidget {
           ),
           Gap(theme.spacing.xl),
           Button(
-            onPressed: submitting ? null : onSubmit,
-            child: submitting
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spinner(size: 14, color: theme.colors.primaryForeground),
-                      Gap(theme.spacing.sm),
-                      const Text('Starting trial'),
-                    ],
-                  )
-                : const Text('Start free trial'),
+            onPressedAsync: () async {
+              if (!await onSubmit()) {
+                throw StateError('Signup02: validation failed.');
+              }
+            },
+            child: const Text('Start free trial'),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),

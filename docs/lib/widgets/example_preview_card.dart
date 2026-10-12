@@ -171,6 +171,7 @@ class _ExampleToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     final Widget tabs = Tabs(
       key: ValueKey<String>('example-tabs-$exampleIndex'),
       index: tab,
@@ -202,7 +203,8 @@ class _ExampleToolbar extends StatelessWidget {
             ),
           ),
         ),
-        const Gap(4),
+        // P7-TH1: gap-2 between the toggle and the copy button.
+        Gap(ShadcnTheme.of(context).spacing.sm),
         CopyButton(
           key: ValueKey<String>('example-copy-$exampleIndex'),
           text: copyText,
@@ -212,7 +214,13 @@ class _ExampleToolbar extends StatelessWidget {
       ],
     );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      // P7-TH1: toolbar insets follow the theme (lg/md).
+      padding: EdgeInsets.fromLTRB(
+        theme.spacing.lg,
+        theme.spacing.md,
+        theme.spacing.lg,
+        theme.spacing.md,
+      ),
       child: Row(
         children: <Widget>[
           // Tabs hug left, actions pin right: the tab strip is tight
@@ -225,7 +233,7 @@ class _ExampleToolbar extends StatelessWidget {
               child: tabs,
             ),
           ),
-          const Gap(8),
+          Gap(theme.spacing.sm),
           actions,
         ],
       ),

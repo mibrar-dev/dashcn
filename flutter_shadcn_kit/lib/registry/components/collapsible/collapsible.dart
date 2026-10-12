@@ -103,6 +103,9 @@ class CollapsibleState extends State<Collapsible> {
       data: _CollapsibleData(isExpanded: _isExpanded, toggle: toggle),
       child: IntrinsicWidth(
         child: Column(
+          // P7-TH1: shrink-wrap so a staged collapsible centres instead of
+          // pinning its trigger to the top of a tall parent.
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment:
               resolved.crossAxisAlignment ?? CrossAxisAlignment.stretch,
           mainAxisAlignment:

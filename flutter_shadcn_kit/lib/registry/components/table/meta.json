@@ -77,12 +77,12 @@
       "resizerColor": "ThemedColor? - primary token"
     },
     "cellFields": {
-      "background": "StateValue<ThemedColor>? - hovered muted/50",
-      "foreground": "StateValue<ThemedColor>? - foreground / mutedForeground",
+      "background": "StateValue<ThemedColor>? - hovered muted/50; selected muted",
+      "foreground": "StateValue<ThemedColor>? - foreground (body); mutedForeground (head, footer, disabled)",
       "borderColor": "StateValue<ThemedColor>? - border token (bottom)",
       "borderWidth": "double? - 1 (body/header), 0 (footer)",
       "textStyle": "TextStyle? - header w500",
-      "padding": "EdgeInsetsGeometry? - p-2 (8)",
+      "padding": "EdgeInsetsGeometry? - p-2 (8) body; px-2 (8) head/footer",
       "minHeight": "double? - header h-10 (40)"
     }
   }

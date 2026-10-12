@@ -32,6 +32,7 @@ class CardImageTheme extends ComponentThemeData
     this.imageBorderColor,
     this.imageRadius,
     this.gap,
+    this.aspectRatio,
   });
 
   /// Axis of the image/text composition. Defaults to [Axis.vertical].
@@ -55,6 +56,11 @@ class CardImageTheme extends ComponentThemeData
   /// Gap between the image and the text block. Defaults to 12.
   final double? gap;
 
+  /// Width/height of the image surface in vertical compositions. Defaults to
+  /// 16/9. The surface fills the card width, so the card never collapses to
+  /// the text width in a bounded parent (P7-WB).
+  final double? aspectRatio;
+
   /// Returns a copy with the given fields replaced.
   CardImageTheme copyWith({
     ValueGetter<Axis?>? direction,
@@ -64,6 +70,7 @@ class CardImageTheme extends ComponentThemeData
     ValueGetter<ThemedColor?>? imageBorderColor,
     ValueGetter<BorderRadiusGeometry?>? imageRadius,
     ValueGetter<double?>? gap,
+    ValueGetter<double?>? aspectRatio,
   }) {
     return CardImageTheme(
       themeDensity: themeDensity,
@@ -80,6 +87,7 @@ class CardImageTheme extends ComponentThemeData
           : imageBorderColor(),
       imageRadius: imageRadius == null ? this.imageRadius : imageRadius(),
       gap: gap == null ? this.gap : gap(),
+      aspectRatio: aspectRatio == null ? this.aspectRatio : aspectRatio(),
     );
   }
 
@@ -100,6 +108,7 @@ class CardImageTheme extends ComponentThemeData
       imageBorderColor: imageBorderColor ?? fallback.imageBorderColor,
       imageRadius: imageRadius ?? fallback.imageRadius,
       gap: gap ?? fallback.gap,
+      aspectRatio: aspectRatio ?? fallback.aspectRatio,
     );
   }
 
@@ -116,6 +125,7 @@ class CardImageTheme extends ComponentThemeData
       imageBorderColor: t < 0.5 ? a.imageBorderColor : b.imageBorderColor,
       imageRadius: t < 0.5 ? a.imageRadius : b.imageRadius,
       gap: lerpDouble(a.gap, b.gap, t),
+      aspectRatio: lerpDouble(a.aspectRatio, b.aspectRatio, t),
     );
   }
 
@@ -134,7 +144,8 @@ class CardImageTheme extends ComponentThemeData
         other.imageBackground == imageBackground &&
         other.imageBorderColor == imageBorderColor &&
         other.imageRadius == imageRadius &&
-        other.gap == gap;
+        other.gap == gap &&
+        other.aspectRatio == aspectRatio;
   }
 
   @override
@@ -149,11 +160,15 @@ class CardImageTheme extends ComponentThemeData
     imageBorderColor,
     imageRadius,
     gap,
+    aspectRatio,
   );
 }
 
 /// Default gap between the image and the text block.
 const double cardImageDefaultGap = 12;
+
+/// Default width/height of the image surface in vertical compositions (16:9).
+const double cardImageDefaultAspectRatio = 16 / 9;
 
 /// Default image scale while hovered.
 const double cardImageDefaultHoverScale = 1.05;
@@ -185,4 +200,5 @@ const CardImageTheme cardImageDefaults = CardImageTheme(
   imageBackground: _cardImageTransparent,
   imageBorderColor: _cardImageTransparent,
   gap: cardImageDefaultGap,
+  aspectRatio: cardImageDefaultAspectRatio,
 );

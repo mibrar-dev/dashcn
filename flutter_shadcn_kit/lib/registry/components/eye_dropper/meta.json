@@ -18,7 +18,7 @@
   "api": {
     "classes": ["EyeDropperLayer", "EyeDropperLayerScope", "EyeDropperResult", "EyeDropperTheme"],
     "enums": [],
-    "typedefs": ["PreviewLabelBuilder"],
+    "typedefs": ["PreviewLabelBuilder", "EyeDropperSampleCallback"],
     "constants": ["eyeDropperDefaults", "eyeDropperThemeOverrides", "pickColorFromScreen"]
   },
   "theme": {

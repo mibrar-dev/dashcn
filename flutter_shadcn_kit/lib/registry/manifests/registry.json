@@ -11,7 +11,6 @@
           "divider",
           "form",
           "input",
-          "spinner",
           "tabs"
         ],
         "foundation": [
@@ -52,7 +51,6 @@
           "card",
           "divider",
           "form",
-          "spinner",
           "switch"
         ],
         "foundation": [
@@ -159,6 +157,7 @@
       "deps": {
         "components": [
           "avatar",
+          "badge",
           "button",
           "card",
           "divider",
@@ -180,6 +179,7 @@
       "entry": "blocks/dashboard-01/dashboard_01.dart",
       "files": [
         "blocks/dashboard-01/dashboard_01.dart",
+        "blocks/dashboard-01/dashboard_01_shell.dart",
         "blocks/dashboard-01/dashboard_01_table.dart"
       ],
       "import": "import 'package:<your_app>/ui/shadcn/blocks/dashboard-01/dashboard_01.dart';",
@@ -238,8 +238,7 @@
           "checkbox",
           "divider",
           "form",
-          "input",
-          "spinner"
+          "input"
         ],
         "foundation": [
           "gap"
@@ -273,8 +272,7 @@
           "alert",
           "button",
           "form",
-          "input",
-          "spinner"
+          "input"
         ],
         "foundation": [
           "gap",
@@ -312,8 +310,7 @@
           "card",
           "divider",
           "form",
-          "input",
-          "spinner"
+          "input"
         ],
         "foundation": [
           "gap",
@@ -350,8 +347,7 @@
           "card",
           "divider",
           "form",
-          "input_otp",
-          "spinner"
+          "input_otp"
         ],
         "foundation": [
           "gap"
@@ -388,8 +384,7 @@
           "card",
           "divider",
           "form",
-          "input_otp",
-          "spinner"
+          "input_otp"
         ],
         "foundation": [
           "gap",
@@ -525,7 +520,8 @@
       "entry": "blocks/sidebar-03/sidebar_03.dart",
       "files": [
         "blocks/sidebar-03/sidebar_03.dart",
-        "blocks/sidebar-03/sidebar_03_content.dart"
+        "blocks/sidebar-03/sidebar_03_content.dart",
+        "blocks/sidebar-03/sidebar_03_sidebar.dart"
       ],
       "import": "import 'package:<your_app>/ui/shadcn/blocks/sidebar-03/sidebar_03.dart';",
       "install": "flutter_shadcn add sidebar-03",
@@ -545,8 +541,7 @@
           "card",
           "checkbox",
           "form",
-          "input",
-          "spinner"
+          "input"
         ],
         "foundation": [
           "gap"
@@ -579,13 +574,11 @@
         "components": [
           "alert",
           "button",
-          "card",
           "checkbox",
           "divider",
           "form",
           "input",
-          "progress",
-          "spinner"
+          "progress"
         ],
         "foundation": [
           "gap",
@@ -908,7 +901,9 @@
       },
       "category": "Utilities (building blocks)",
       "deps": {
-        "components": [],
+        "components": [
+          "eye_dropper"
+        ],
         "foundation": [
           "constants"
         ],
@@ -1384,25 +1379,50 @@
           "ButtonGroup",
           "ButtonGroupData",
           "ButtonTheme",
-          "ButtonVariantStyle"
+          "ButtonVariantStyle",
+          "ButtonStatusStyle",
+          "ButtonStatusController",
+          "ButtonStatusIcon",
+          "ButtonStatusLabel",
+          "ButtonStatusContent",
+          "ButtonPaintScheme",
+          "ButtonSizeMetrics"
         ],
         "constants": [
           "buttonDefaultTextStyle",
           "buttonDefaults",
+          "buttonStatusDefaults",
+          "buttonDefaultStatusReset",
+          "buttonDefaultStatusTransition",
+          "buttonDefaultStatusIconSize",
+          "buttonDefaultSpinnerSize",
+          "buttonDefaultSuccessIcon",
+          "buttonDefaultFailureIcon",
+          "buttonDefaultLoadingIcon",
           "buttonThemeOverrides"
         ],
         "enums": [
           "ButtonVariant",
-          "ButtonSize"
+          "ButtonSize",
+          "ButtonStatus"
+        ],
+        "functions": [
+          "buttonMetricsFor",
+          "buttonInnerMin",
+          "buttonStatusAnnouncement",
+          "resolveButtonStatusIcon"
         ]
       },
       "category": "Buttons & Actions",
       "deps": {
-        "components": [],
+        "components": [
+          "spinner"
+        ],
         "foundation": [
           "data",
           "gap",
-          "geometry"
+          "geometry",
+          "icons"
         ],
         "primitives": [
           "clickable"
@@ -1413,12 +1433,19 @@
           "theme"
         ]
       },
-      "description": "Pressable action control with seven variants and five fixed sizes, plus a connected ButtonGroup.",
+      "description": "Pressable action control with seven variants, five fixed sizes, an async idle/loading/success/failure status machine, plus a connected ButtonGroup.",
       "entry": "components/button/button.dart",
       "files": [
         "components/button/button.dart",
+        "components/button/button_defaults.dart",
         "components/button/button_group.dart",
-        "components/button/button_style.dart"
+        "components/button/button_layout.dart",
+        "components/button/button_status.dart",
+        "components/button/button_status_content.dart",
+        "components/button/button_status_style.dart",
+        "components/button/button_style.dart",
+        "components/button/button_variant_style.dart",
+        "components/button/preview_status.dart"
       ],
       "import": "import 'package:<your_app>/ui/shadcn/components/button/button.dart';",
       "install": "flutter_shadcn add button",
@@ -1428,7 +1455,9 @@
         "control",
         "button",
         "action",
-        "group"
+        "group",
+        "async",
+        "loading"
       ],
       "theme": {
         "class": "ButtonTheme",
@@ -1446,6 +1475,16 @@
           "padding": "EdgeInsetsGeometry? - null = size table, density-scaled",
           "primary": "ButtonVariantStyle? - filled high-emphasis row",
           "secondary": "ButtonVariantStyle? - filled lower-emphasis row",
+          "status": "ButtonStatusStyle? - cross-variant async status visuals",
+          "status.failureColor": "ThemedColor? - null uses destructive (foreground for the destructive variant)",
+          "status.failureIcon": "IconData? - failure glyph, x",
+          "status.loadingColor": "ThemedColor? - null keeps the button foreground",
+          "status.loadingIcon": "IconData? - static loading glyph under reduced motion, loaderCircle",
+          "status.spinnerSize": "double? - loading spinner diameter, 16",
+          "status.statusIconSize": "double? - success/failure glyph size, 16",
+          "status.successColor": "ThemedColor? - null keeps the button foreground",
+          "status.successIcon": "IconData? - success glyph, check",
+          "status.transitionDuration": "Duration? - icon/label cross-fade, 175ms",
           "text": "ButtonVariantStyle? - muted label row",
           "textStyle": "TextStyle? - null = size table"
         },
@@ -1614,6 +1653,7 @@
           "cardImageDefaults",
           "cardImageButtonStyle",
           "cardImageDefaultGap",
+          "cardImageDefaultAspectRatio",
           "cardImageDefaultHoverScale",
           "cardImageThemeOverrides"
         ]
@@ -1657,6 +1697,7 @@
         "class": "CardImageTheme",
         "defaults": "cardImageDefaults",
         "fields": {
+          "aspectRatio": "double? - vertical image width/height; null = 16/9",
           "direction": "Axis? - composition axis; null = vertical",
           "gap": "double? - image/text gap; null = 12",
           "hoverScale": "double? - image scale while hovered; null = 1.05",
@@ -2902,10 +2943,12 @@
       "deps": {
         "components": [],
         "foundation": [
-          "constants"
+          "constants",
+          "data"
         ],
         "primitives": [
-          "clickable"
+          "clickable",
+          "widget_states"
         ],
         "theme": [
           "color_tokens",
@@ -2957,7 +3000,9 @@
       "api": {
         "classes": [
           "DrawerTheme",
-          "DrawerOverlayCompleter"
+          "DrawerOverlayCompleter",
+          "DrawerScaleObserver",
+          "DrawerBackgroundScale"
         ],
         "constants": [
           "drawerDefaultPadding",
@@ -2995,6 +3040,7 @@
       "entry": "components/drawer/drawer.dart",
       "files": [
         "components/drawer/drawer.dart",
+        "components/drawer/drawer_background_scale.dart",
         "components/drawer/drawer_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';",
@@ -3441,7 +3487,8 @@
         ],
         "enums": [],
         "typedefs": [
-          "PreviewLabelBuilder"
+          "PreviewLabelBuilder",
+          "EyeDropperSampleCallback"
         ]
       },
       "category": "Utilities (building blocks)",
@@ -4845,12 +4892,15 @@
           "keyboardShortcutDefaults",
           "keyboardShortcutDefaultSpacing",
           "keyboardShortcutDefaultKeyPadding",
+          "keyboardShortcutDefaultKeyRadius",
           "keyboardShortcutDefaultTextStyle",
           "keyboardShortcutThemeOverrides",
           "keyboardKeyCapKey",
           "keyboardShortcutKey"
         ],
-        "enums": [],
+        "enums": [
+          "KbdVariant"
+        ],
         "functions": [
           "defaultKeyboardKeyLabel"
         ],
@@ -4900,13 +4950,16 @@
         "class": "KeyboardShortcutTheme",
         "defaults": "keyboardShortcutDefaults",
         "fields": {
-          "keyBackground": "ThemedColor? - null = background at 70% alpha",
-          "keyBorderRadius": "BorderRadiusGeometry? - null = the ambient radiusMd",
+          "keyBackground": "ThemedColor? - null = per variant: the muted token (subtle) or none (ghost)",
+          "keyBorderColor": "ThemedColor? - null = border token",
+          "keyBorderRadius": "BorderRadiusGeometry? - null = fixed 4 px (preset-independent kbd rounding)",
+          "keyBorderWidth": "double? - null = 1 (0 hides the border)",
           "keyForeground": "ThemedColor? - null = mutedForeground",
-          "keyPadding": "EdgeInsetsGeometry? - null = symmetric(6, 4) (shadcn px-1.5 py-0.5)",
+          "keyPadding": "EdgeInsetsGeometry? - null = symmetric(6, 2) (shadcn px-1.5 py-0.5; h-5 with the text-xs line)",
           "keyShadows": "List<BoxShadow>? - null = none (the shadcn look)",
-          "keyTextStyle": "TextStyle? - merged onto the default; null = text-xs (12, w500)",
-          "spacing": "double? - null = 2 (shadcn gap-0.5)"
+          "keyTextStyle": "TextStyle? - merged onto the default; null = text-xs (12 on a 16px line, w500) in the ambient mono face",
+          "spacing": "double? - null = 4 (shadcn gap-1)",
+          "variant": "KbdVariant? - null = subtle (muted fill); ghost paints no fill"
         },
         "userFile": "keyboard_shortcut_theme.dart"
       },
@@ -5510,6 +5563,7 @@
           "layout",
           "overlay",
           "popover_controller",
+          "popover_layout",
           "text"
         ],
         "theme": [
@@ -5540,7 +5594,7 @@
         "defaults": "navigationMenuDefaults",
         "fields": {
           "margin": "EdgeInsetsGeometry? - margin around the popover, density gap",
-          "maxWidth": "double? - maximum popover width, unconstrained",
+          "maxWidth": "double? - maximum popover width, 480",
           "offset": "Offset? - popover offset from the trigger, (0, 4)",
           "padding": "EdgeInsetsGeometry? - padding inside the popover, density",
           "surfaceBlur": "double? - popover backdrop blur, ambient or 0",
@@ -6055,7 +6109,9 @@
           "MultipliedSheetStage",
           "DividedSheetStage"
         ],
-        "constants": []
+        "constants": [
+          "sheetHandleKey"
+        ]
       },
       "category": "Data Display",
       "deps": {
@@ -6338,6 +6394,8 @@
       "entry": "components/refresh_trigger/refresh_trigger.dart",
       "files": [
         "components/refresh_trigger/refresh_trigger.dart",
+        "components/refresh_trigger/refresh_trigger_indicator.dart",
+        "components/refresh_trigger/refresh_trigger_input.dart",
         "components/refresh_trigger/refresh_trigger_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/shadcn/components/refresh_trigger/refresh_trigger.dart';",
@@ -7664,12 +7722,12 @@
       ],
       "theme": {
         "cellFields": {
-          "background": "StateValue<ThemedColor>? - hovered muted/50",
+          "background": "StateValue<ThemedColor>? - hovered muted/50; selected muted",
           "borderColor": "StateValue<ThemedColor>? - border token (bottom)",
           "borderWidth": "double? - 1 (body/header), 0 (footer)",
-          "foreground": "StateValue<ThemedColor>? - foreground / mutedForeground",
+          "foreground": "StateValue<ThemedColor>? - foreground (body); mutedForeground (head, footer, disabled)",
           "minHeight": "double? - header h-10 (40)",
-          "padding": "EdgeInsetsGeometry? - p-2 (8)",
+          "padding": "EdgeInsetsGeometry? - p-2 (8) body; px-2 (8) head/footer",
           "textStyle": "TextStyle? - header w500"
         },
         "class": "TableTheme",
@@ -8611,49 +8669,51 @@
   "fileHashes": {
     "blocks/account-01/README.md": "9f72489455f38f108e2ccd975bca9109bc559a8d997c210be2a7580cabc5d82e",
     "blocks/account-01/account_01.dart": "265e43778fdef27af535a7242b94c102a23214152979d2e99ae51f0b2932442f",
-    "blocks/account-01/account_01_password.dart": "623e27ac7d09fbf8e4cf86edfed35f00d3924f63a1c09fa2be1861415a31cbdd",
-    "blocks/account-01/account_01_profile.dart": "afc9691481eb8c2ad7e55fd31ffca35697d2228a91f1a9172176c6fc1f41158b",
+    "blocks/account-01/account_01_password.dart": "e3a6c843ec96875e909ed63d1f836f76e4e09b08b39ab6be38c4fd218758d5a3",
+    "blocks/account-01/account_01_profile.dart": "82fa2028bd283665919db4ec95095e8eabe4b86a1b4a0072ec72fd6607bff833",
     "blocks/account-01/account_01_team.dart": "8a357358b3117f158fb6dc05fed0d454bfb4fed0f06d1245f4f69957d3f4cb5e",
     "blocks/account-02/README.md": "15f45652c46c962c6797dd630c8b839118fcedb6a3f00859f0dbfbef0d7d19f2",
-    "blocks/account-02/account_02.dart": "1b27080a13acaa7de193d98653abf623bef1092ecf3cbb373b6cbaa1ab02db49",
+    "blocks/account-02/account_02.dart": "e765231543ecde1b84ebe3fe2f312650871b9ecf10f2606cec6bb5df11c3941e",
     "blocks/calendar-01/README.md": "381b43d8099ed61a16406d92c1b4a5910bc29584a6b263b5dd9fafc790fc92da",
-    "blocks/calendar-01/calendar_01.dart": "76d1e1b5a9737c2562c65f9104bae88c670491eb2266e9fe11d12a50ba1c3008",
+    "blocks/calendar-01/calendar_01.dart": "ab881eff8266443f123b962b7fb8530a77ee67b2d2718334e72e70d93fd6dcc8",
     "blocks/calendar-02/README.md": "1117184d74a4b8a34c022319ebd4ada3350addf2c8564eb3a5a8a61c63380952",
-    "blocks/calendar-02/calendar_02.dart": "e528f71b455961072678af82557d0a6efb427f9eb50ff6d67ffa17c1ba4515f9",
+    "blocks/calendar-02/calendar_02.dart": "9f62b14360e176f26805532543945ced66fd68f420435a22226daa1dd9c7d754",
     "blocks/dashboard-01/README.md": "aeccb8c340f53f00018d26852b57e8a4e28b5f42c4568fe8d92672a557141486",
-    "blocks/dashboard-01/dashboard_01.dart": "9ac6238580481422092e809c498e75b75e527f0838f3adc626f4e476ae8ad72b",
-    "blocks/dashboard-01/dashboard_01_table.dart": "96478936e79c6025869655199605c895d2772d15b9c79f91b653c40775a8ad8a",
+    "blocks/dashboard-01/dashboard_01.dart": "bccfb9d00c53078baf1221d4a61ac5e3c1bd66f829fd3cacc2cda945ab18a726",
+    "blocks/dashboard-01/dashboard_01_shell.dart": "39cc55d868f12d425d8d06b354f3a1c79b96b4bb14059d035767b166c9b2d36b",
+    "blocks/dashboard-01/dashboard_01_table.dart": "5e1cca397aa0feebca940d19355103899c0e7cf872c0d570e90b3e3c38656ee7",
     "blocks/dashboard-02/README.md": "d61a3f8d3909a36988b88803b564c701dc96e5c6450a23f176baf811ad7bd8ce",
-    "blocks/dashboard-02/dashboard_02.dart": "f12408670860b4747fe54d016ad73f55d6d189aa7886c2c7ab0e6fbcefa6803d",
+    "blocks/dashboard-02/dashboard_02.dart": "a68b0509af049796c71dbcf9bdae6c6390f66e0a1abd88eac6f9e43fb5b9050a",
     "blocks/dashboard-02/dashboard_02_sections.dart": "e61ca6fdff7aefbb2104991aeb1f4a0d3633c3699d45ea078a3ae2cc8ecbb413",
     "blocks/login-01/README.md": "4376dbaaf87c1e95dd6ca3330ba1dea1a4b13ac88015b87356d9c5420aceb411",
-    "blocks/login-01/login_01.dart": "d6d52affba686596a756b29328f936a63097b80de4fdf5062261fc01d7ab3f89",
+    "blocks/login-01/login_01.dart": "47cfaa213c9a46f7fbf642a0c4447791b2574f4af32938d3841e5688e21fbad9",
     "blocks/login-02/README.md": "630d6de8f8c2f490c8e5ba1359409e1480ff3a72e2901676ae07f6806de08c60",
-    "blocks/login-02/login_02.dart": "3bc0f6b83ed1745c289e51c082ba781cd2da9a69fbb55809559f5112aa8b01cd",
-    "blocks/login-02/login_02_panel.dart": "9868b5cfa497b4065b1b7cb359e4092c452bcc2b6923f4c572a8761864737a40",
+    "blocks/login-02/login_02.dart": "91c2ff4e83a041d82674770301af61a3543843657dec9b938b5717b35c2d1848",
+    "blocks/login-02/login_02_panel.dart": "b46f958606ab440b111e2efa99e28bc6b7ae1cd9639385c922d0312a7cf2129a",
     "blocks/login-03/README.md": "f4c3cd09af55d9aa7cf72af3b7f8340ec041c277770c0f02771e200755c0d47a",
-    "blocks/login-03/login_03.dart": "6e79e8ee1b296ce64d292b1314adad04e0a6c4f3add66553c23ba6791580e0b6",
+    "blocks/login-03/login_03.dart": "73d41d728b1ffd1ef84f5c859771fe28f3cbd1ab80713a38c6d2fcf3bef8525d",
     "blocks/otp-01/README.md": "0931062e21fa8b4dc96da75e9518515fe49be8dbb4c85ea93a8ebdb5ab3af07f",
-    "blocks/otp-01/otp_01.dart": "344372c6bcc2788580558450f3d4a14f98a6ca90e927b4fcf0983b955b4613c9",
+    "blocks/otp-01/otp_01.dart": "6405c820477bc17848c60131584dba95e96dd5d9bc8434aa1039105303285b61",
     "blocks/pricing-01/README.md": "a681ca45f41325aadb679971cd8ea085b422e22dd06f17c9b19bc87106bc6872",
     "blocks/pricing-01/pricing_01.dart": "78c91232f6e9a6546e68fc27ae43cdc4c3374d8fb2ac8703d6458722975ad0f8",
-    "blocks/pricing-01/pricing_01_promo.dart": "8d9a67f092ed33276c42a323851d85840b0084583c0681064597e2ce5bec2bf5",
+    "blocks/pricing-01/pricing_01_promo.dart": "f888561b94847d6f89a5c8c9a7aae8a656340e7bf9713a18da234f3e21a363ff",
     "blocks/sidebar-01/README.md": "902a8223a6ccfcdffa95b0652f46ef39e038069cebd7c931fe0900f68bcf0443",
-    "blocks/sidebar-01/sidebar_01.dart": "867dcb533b095508dff1319b5bfd92d608dd403f4e205ae50463aa6befe3066b",
-    "blocks/sidebar-01/sidebar_01_content.dart": "24fbb5d903c944f783823de5a4c3f90efd0e4953d68818ffb2b011541f5ccc12",
+    "blocks/sidebar-01/sidebar_01.dart": "9598ad58ff6c4845cf6c498bed6523fd7cdfbcca7c0451e18b4dc63fd8f2f7ac",
+    "blocks/sidebar-01/sidebar_01_content.dart": "de7d11c7423f5dfe6933a46428f09ff1b39f33fbc5ac3096c8fc1dcd2c6e68eb",
     "blocks/sidebar-02/README.md": "4c5a9f481d3f845b1619f4d76a9632155f03c42b5fc80baca1f140531c855558",
-    "blocks/sidebar-02/sidebar_02.dart": "b95cffb60aef8036c8474ebf8443f46d8dac6ee377ecd35bd71607520606ce31",
+    "blocks/sidebar-02/sidebar_02.dart": "bb5324beb75a888e77b466fe6c30b2075c45b91825ebd7d0c494a91cbbf2ad72",
     "blocks/sidebar-02/sidebar_02_content.dart": "d17d8cac4456b93b0cb714fe7e2ef3cf29c7b543e6a5c6bfd60280a28b91eda9",
     "blocks/sidebar-02/sidebar_02_panel.dart": "8eaff76e8da5ed70d5ec6b39955a3c8c32de7f6bd4e6436df0b6f25eb2f97d71",
     "blocks/sidebar-03/README.md": "65c5e678d05db4a930fe315c993950b7fbbea4e1cd5d1023470b19bb5e41910b",
-    "blocks/sidebar-03/sidebar_03.dart": "69aaa687252366d47ae802e5ad2d7363a976b55350fd06c6912e1988fb8af109",
+    "blocks/sidebar-03/sidebar_03.dart": "9cfbbd2894c9945804638fe764154c14396e64e569521090a1228526a75b8115",
     "blocks/sidebar-03/sidebar_03_content.dart": "b0fc75b22055299f15b935779e0fcbd335cefe22ca6851540c07d7f4b8b78add",
+    "blocks/sidebar-03/sidebar_03_sidebar.dart": "ed1127b8377174434cc01b5902f465b703563f44988c5ec72a953f54d17240bd",
     "blocks/signup-01/README.md": "3c3fcb7eeaaa2e33c9cf0989e15212cf2182a72b9a4da9ae82395bbbad620359",
-    "blocks/signup-01/signup_01.dart": "883974a64663827a179a7f5f9204ba13659a1356285a481e3cdee0b03a216e3a",
+    "blocks/signup-01/signup_01.dart": "695fafe7e32c8b518b3fe904617b5c9ce5dcac423c12358aa84e5cea127788d8",
     "blocks/signup-02/README.md": "6d573310bc0b2019bdec5b45155aa5ae8216997e2532a17a71fdba93b2128531",
-    "blocks/signup-02/signup_02.dart": "7c983a3546208f205d543e5236b956506a6918eedabe296dccd9976a7fe02943",
-    "blocks/signup-02/signup_02_aside.dart": "08671d0be531177637c4bd94e882ce1093e042dabd8a922716421fd0a988590b",
-    "blocks/signup-02/signup_02_form.dart": "d659b41e17def22938f296086c981ef8e8da6b2416b4ba3fb67a285874dc0f03",
+    "blocks/signup-02/signup_02.dart": "d7c09cfd550b362f688eee4308ca8b05eb31d203e633c6f3147eb292c1374a75",
+    "blocks/signup-02/signup_02_aside.dart": "25f2860c20b2715649e74c666a16e71ce9ac3711c03cc52abe19296712ac67e5",
+    "blocks/signup-02/signup_02_form.dart": "150702b15011f1a62448c8c23af21eddc6b4f216835212fa66ff2090b761be55",
     "components/accordion/accordion.dart": "8c5959b402f08782424ff6cfe97e0f15bec01c9a33796ac24074b243f9f3d732",
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
@@ -8662,15 +8722,15 @@
     "components/alert/alert_style.dart": "fe30425868c236b09e281d6f826f4b603de50259e0e19bbe22f843af99f71a33",
     "components/alert/alert_theme.dart": "c0d6deb5deb53267de56ef33059c9493d9c856fa99a402fbee2c9dde5c2d40f1",
     "components/alert/preview.dart": "ffe4c76d4cc5cde02786b469adac27e0ab5aad70c961174647467fa333676ab7",
-    "components/alert_dialog/alert_dialog.dart": "5626c9c63552e055dc0fbd2a5fdfe7d67cc98ada4e290ff708517ac7ee935d9c",
-    "components/alert_dialog/alert_dialog_style.dart": "958a56142f17e01283a7c12b0abb18c481b2dab280a43e335594c1464ef9515e",
+    "components/alert_dialog/alert_dialog.dart": "3c4aa55d275f029ae85a82c3a1582c9bf7b827f9775625335182f0fee0c06d79",
+    "components/alert_dialog/alert_dialog_style.dart": "81d81da5abca1cc4c05bf9e6b8b2537a2bb3edb79bc9bb312cd808eba0d1741e",
     "components/alert_dialog/alert_dialog_theme.dart": "7beef27652cba8a22534698508da833a89cbbad005702959dc71435ad9c15791",
-    "components/alert_dialog/preview.dart": "1d25a8ad96ae79a4874b297a192df6f9f51b9f93f593798b73484129fae8ee58",
+    "components/alert_dialog/preview.dart": "feaa18a613c69d05b192a417d6bcf33f9a43a297cf8880b0359c02f863612120",
     "components/alpha/alpha.dart": "2a5ee7248119735a16dd8c10390ba23719b4db59176280462284e393a0d62bc7",
     "components/alpha/preview.dart": "146a4853448d604a092094f1b283f5a49a33e6a1cc3dabb9a3e1602532133c85",
     "components/anchor/anchor.dart": "44819b2fdf54882b31812260a07716e52c7d7556862f802ddb80cc6e4de85c0b",
     "components/anchor/preview.dart": "cfa9528325e30b22a39b3cfdb38c34ff640194d7ea11be4177e4fce05bbb77cc",
-    "components/app/app.dart": "7b142f7712ab91de0880658bce4a920f0e391ee0ccf53c41f892037d2e9156ed",
+    "components/app/app.dart": "c12ac5b1a33ef3063e100155dbc63573746ef14ccd0faf087d80cf1c5549548f",
     "components/app/preview.dart": "c6f49f283df8c6009d8b1676cb924c61c2874b599b76cd1a116baa3202952eca",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "7f80f2934f1d6a5d5637a39a9fe8e87848825f3ee6135f9a608ab74a076028ef",
@@ -8696,12 +8756,19 @@
     "components/breadcrumb/breadcrumb_style.dart": "2e6efea101aead02fea42ca9abc75992fbc698423909429e18e047171c98d2cc",
     "components/breadcrumb/breadcrumb_theme.dart": "842da6f375e259c45d93d4f0dfbf8d615b957cfa991832d6d1598ad8a528e1cf",
     "components/breadcrumb/preview.dart": "710016d6e7f8113001ed9c54c781b0831e9f321a18449dadb5042f21fa40da1f",
-    "components/button/button.dart": "f25f61e66cec94661c0ec5f5579f2ea6fb3cab70c332c66571cf77f7675d9f91",
+    "components/button/button.dart": "f79ff9815ef26e4fbe7c78c404e433308cea401e0fdc215a85f92bdc3846dde0",
+    "components/button/button_defaults.dart": "f7ddf314617caebaf757a58c8da12cd5e406fb801e28a979877f45785c9f2a26",
     "components/button/button_group.dart": "9b6f20f7d3fd9fb30b144d7f6f14ee3451ed273ee55853f0e01b7612b7461d40",
-    "components/button/button_style.dart": "f0bed4c644577cfd7bdf733d82e0df841fdeeb5621cc89fb0051dac9a570a758",
-    "components/button/button_theme.dart": "99e0fd2148c98f7b98c8581733daf2a6f60e22069defacd5ca5bfc5233262b4c",
-    "components/button/preview.dart": "536f376ac15face551b64f3d223de682d6958098f7221b03f4f1e1bd0f4ac2dc",
-    "components/calendar/calendar.dart": "27ea0c488e1094d43fd13ac455224e3a16df62517a261a3aa4ed79f5ec6e5cdf",
+    "components/button/button_layout.dart": "bea7bae1ef802edb8ad40459239735de595a21b8c40a447a0a3ec9d79b241427",
+    "components/button/button_status.dart": "01f134b3c4d4f5e58af5dcc250129f035997d4897ff3460158b2a9bd81c7f940",
+    "components/button/button_status_content.dart": "86c69ff8e56ed18fb92b22c99c1e481f6fba4f9745372b389c6f916fe231ef54",
+    "components/button/button_status_style.dart": "b39db42311806df5e3eb789205eb3a5182675305bc12d7f04ce546454d5ccf31",
+    "components/button/button_style.dart": "46ea397bfd0622890e6b084c47fcb135d6c1b55a9454e14676acf800a23b85c0",
+    "components/button/button_theme.dart": "a4ceccd77737db86c9e64fef356753d9a68d145102f4c650b5c1b54a99f4510c",
+    "components/button/button_variant_style.dart": "e70449891acbe761e3e28496a26349ee3752cfa4156b88639c5229908bebac4c",
+    "components/button/preview.dart": "b296f8a8ba00304236cdda882b1e51ec5217a56cc64f424e0a5144d373f34f46",
+    "components/button/preview_status.dart": "91d97be03212dfeb437d45f4c365ed47fd6353048fc411655ff48137e64579df",
+    "components/calendar/calendar.dart": "b44997786c0529fd4a64745d23906b4ae00ae129967c43993e10e6387a02d2b8",
     "components/calendar/calendar_style.dart": "03ddc7fef1f5246450b5ea367c66dbca5d437056c7a85e7134a35db58ce91c34",
     "components/calendar/calendar_theme.dart": "53f9eedd84485f6043f6f5384f025265dcfbf42a21653a8931b504fcdf2e1a03",
     "components/calendar/preview.dart": "8d2d152bff05bfa18f045bd4754e98025fbba595b38d756d656c548ec4cca0a0",
@@ -8709,18 +8776,18 @@
     "components/card/card_style.dart": "9bb74b22b2ec7d1ec58159a020e3e2315395075a9b32f6b68545b8f0f222306f",
     "components/card/card_theme.dart": "dc68ea51686fc254fff76c4d2397d0bc579fbd0ebf992130dde845d5eb63ed54",
     "components/card/preview.dart": "fcbd59536d5accafd1fa4c36e5454a9d4b9092bf64c82ebc242bf371c37a36b5",
-    "components/card_image/card_image.dart": "40d55325bafd371270830b414ac8be59e4d0aca0faa70c490f4f12c90bbb8491",
-    "components/card_image/card_image_style.dart": "727284a5d68b4c3f1e245d75ed02e6f894fbb25600d3ea2afe3526227db3684b",
+    "components/card_image/card_image.dart": "f7e4c8b5238f8fe4d9e4c51dbf1c13ae95764794b8463379b866b222058339a8",
+    "components/card_image/card_image_style.dart": "da285701b4c21a9ebbb541dbc2d29d0cb0c0f5568172c5e9d21f1cc90b97c029",
     "components/card_image/card_image_theme.dart": "4934ed979dea72bfbc1736686bed9d533e5c30bda465bd8361acebe9176008db",
-    "components/card_image/preview.dart": "8ce08d62d686d8415ccb4abe18d72fc2e69e45cebeb35b66044641c80eca822a",
+    "components/card_image/preview.dart": "14a5f59859621f56a5b3cc1466f63093d9803f4d6c28989042ce64cf3d580e31",
     "components/carousel/carousel.dart": "17b6aba911d1bf1f7bf654d1b25084630179ecea4d3c648fdc0dcc81f34d7295",
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
-    "components/carousel/preview.dart": "d865fd9ccd9cb415d852db87fe5f1d09c7a915ad277ae53c51022c8b97bb189a",
+    "components/carousel/preview.dart": "2f70401105f9e2816eadb2b05f4c0720e3aaab46a92da6ab115c79037486f7aa",
     "components/chat/chat.dart": "b575e4a77bdfdc5cc35e27ea7ad66c63d08d9991b1969829849df2347b4b3d3c",
     "components/chat/chat_style.dart": "92707cf372c063df541f0255346bbfb6b1679c45ee84562ef48f2f1a09a85e59",
     "components/chat/chat_theme.dart": "4ff153f91c624960b3f5343e29f853ec254d42e8a0f652244e7c347d0617987f",
-    "components/chat/preview.dart": "e9be482e0b775481230e23e52bbc539f028684b99fec2a30182be65883cff769",
+    "components/chat/preview.dart": "f3d9555bfad152eab50c8634d8e0e445d5c392f5eb181e42e60d5e531794b1cd",
     "components/checkbox/checkbox.dart": "2b5371c34bad56e6eac280f5e95308ea55c4a0b16734c32ed2e1a04bba39b449",
     "components/checkbox/checkbox_style.dart": "db4279399477f20dfb07c8c9c436a4a95885a253f1026362297e7ab679285438",
     "components/checkbox/checkbox_theme.dart": "df42943c3de1be7807b4d1f5406183bfd5c063d093e12beb6f48bb792b810381",
@@ -8736,8 +8803,8 @@
     "components/code_snippet/code_snippet.dart": "120fc8ac9632e02fd7d0633f8c1747f091dfe69b2e82d5ac3b87de3f147cb9fc",
     "components/code_snippet/code_snippet_style.dart": "0e21351004640c9ebc1a578ed74eb14847ab0fd07ed92c17239ffa4c13342811",
     "components/code_snippet/code_snippet_theme.dart": "dfd9af928c0f207c3c0504fc6d16b998101614ba5c9203addebe811435fa61ad",
-    "components/code_snippet/preview.dart": "f4ea695b843df8746d184a6bff962d31178b60d01ea8fdbaa7bd836034057bc5",
-    "components/collapsible/collapsible.dart": "f427a472da3a3de0b5e0bc7add1f82c91eee491a2b2d3c5850bc4b48c35bc2b3",
+    "components/code_snippet/preview.dart": "80cbcce5432da876b866b5d17327251f4825a30f8fe1bd2d8d2ea32179f3e1b5",
+    "components/collapsible/collapsible.dart": "7d8c9e2cdc95aaecbb6d56c05482dbfcf495110844a7f70d61d0f4d91e22b6f4",
     "components/collapsible/collapsible_style.dart": "8e191890455c5413b0e2935bc3c0055719cd55391fb09c47b1b65e83436c441e",
     "components/collapsible/collapsible_theme.dart": "1188197762885e137a5259ed54d27644cf69c00c7b76f4a1fde2abe75bfc49c7",
     "components/collapsible/preview.dart": "eea790e946bf3a1d4ef16b336b5711cc4d13c9633b7b699119b61dee192afdff",
@@ -8751,10 +8818,10 @@
     "components/color_input/color_input_style.dart": "0b33c2d7f841bb6a6117ec72c2afbe11c7073a38c281ac8d6f24f8759b3e2bf4",
     "components/color_input/color_input_theme.dart": "3b38dff71789cdb5e15778fb0c103ca19dafc73500f5b2a4d5fb6c7903ab9b4d",
     "components/color_input/preview.dart": "5e1b74cdc1989a540847fff846817df97c49779a42989ab053f6beb3741f3b66",
-    "components/color_picker/color_picker.dart": "e465207ea14887de8de98c8b9e966b8a64c004851b0e4ce9a5c87cd7ebc75c8e",
+    "components/color_picker/color_picker.dart": "97a784dcfc99dabc53703d405a30976a82ffc67546d78660ffda1752ba540e4b",
     "components/color_picker/color_picker_style.dart": "066a9411a03c9c6e4eb2dfc1f40f15a54fee8c173651c8fe72a6e6ff462309b7",
     "components/color_picker/color_picker_theme.dart": "3a1248351dc0a28e4f60e119a98bde091ab5009426a2345125de303e1de37a22",
-    "components/color_picker/preview.dart": "7bb4c7f2bd80fbe8e9cfeda38fefde4a5fac8823b28ce5c9f0f44cfd871eca47",
+    "components/color_picker/preview.dart": "d0cb4a691116a72e3b928e8e7b36c50e8f5a20e92dddefe329187b7a41e64faf",
     "components/command/command.dart": "30243ccd32c83ca68cd4bbd210d0b48301c95272208364b9e153b53ef7758ea1",
     "components/command/command_style.dart": "65b6fb6cc1466d0e519d8fde83e1bb237c2d0154bcba4cce718ba0adff4330eb",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
@@ -8765,30 +8832,31 @@
     "components/country_flag/country_flag_style.dart": "a37d73e15798fc1ab3a3529e0be6225965952a8d915ad67a954c3b09a1fc8a2e",
     "components/country_flag/country_flag_theme.dart": "7f90d6328b6b707afca974525591185ffa7e72bf3b0fe01ead9ec669cae54477",
     "components/country_flag/preview.dart": "f2558e74c3111fc4ee94c6dd97217362e9c5db19ed94548119dd952d148338e4",
-    "components/date_picker/date_picker.dart": "ec59910b0c6b3d2b39caa0ba98e030a23db4ecca5cbdfaaff7f7370af96ecbde",
+    "components/date_picker/date_picker.dart": "b91fc0c9309b5757cc88dcd02c4f365187c9893aef1f6aab648cbbbd16189336",
     "components/date_picker/date_picker_style.dart": "faa1af8d92972e140e4d780252d91c18f498a91ac075a55e9fe7c7c391d4070d",
     "components/date_picker/date_picker_theme.dart": "b5f921a9d3a548532622478bf543ee1939daf90d9dfca035093f78b1ec0e9800",
     "components/date_picker/preview.dart": "2669d08286b63d59864b4211ca89480ecfe062167415bd4202d2cede6f664f4e",
-    "components/dialog/dialog.dart": "16d79ce5a2bafd5fc2ccd4a61034e422f674f045892021ac09c915b227c3d15f",
-    "components/dialog/dialog_style.dart": "d66f5874c91940b806ce3a0c1aa8cfec8381f9e8645b3d54823cd3bf586cec78",
+    "components/dialog/dialog.dart": "04e5ba03eb95d48a852a9307c185f4b89621ce1bf32b8655ee68beffdeb6f0fe",
+    "components/dialog/dialog_style.dart": "01aa2406187fdabdeb5c03ad5e552af497ceeb0cc359eb4ac70002cbd9a392aa",
     "components/dialog/dialog_theme.dart": "347235dc95c013d1d3246efe5c63bd4f8b70dc6f1f27a8c324b0b053c7aec56b",
-    "components/dialog/preview.dart": "fa6e0d24bcf66489b524c9fddffab0d4afbfa4fc64cc68730e8a4a6e77417ee0",
+    "components/dialog/preview.dart": "77f66b15e890c802437156bca7b8f9f04d8a6361aa521c1d1cbf664b9c9851fa",
     "components/divider/divider.dart": "af8071803fa9189f2f9596b68c55f3c7adc9d5dc7b6296cecd80a2a250624522",
     "components/divider/divider_style.dart": "91d386a6d0dddb621820f1842926fa04cdde34fe56c45e708a2d410fc4f1c995",
     "components/divider/divider_theme.dart": "29cd40b1fde48621a6e4c6f8b96e967bb64e7d1466ae36428fdfbfd149003d7a",
     "components/divider/preview.dart": "2a4dbec4bac3068500beae3b663efd79933b791e3dee65755321657292fae62a",
-    "components/dot_indicator/dot_indicator.dart": "c8de6cca5fc95706878060662bb60e47df3ce27f9d3b7cc23700b556fc3753c4",
-    "components/dot_indicator/dot_indicator_style.dart": "c112545ad96d2a552f01b4be45bbb34a3c22d8f227cc4fd9250c2865063b692c",
+    "components/dot_indicator/dot_indicator.dart": "6e8e23aab519ed5c40a1a0a3d672b1b07a9f0c456f7e3afdab0eae3084b0bfc9",
+    "components/dot_indicator/dot_indicator_style.dart": "ac896c45dfaa43bb2aa005be24ea1e20ab07e523122c3efb5565a0463656e132",
     "components/dot_indicator/dot_indicator_theme.dart": "a8981257210250fbf6ac93226e50e4b2c6a3a25f859b59160c5b7205d0b7ad09",
-    "components/dot_indicator/preview.dart": "4d4e4f213d5db6d0eeb35f3764ffeb38f02ade462ed5f286b4fc9287d874d2aa",
-    "components/drawer/drawer.dart": "87694da956d41a5d648c2ebb89a064a28726f31e9f353e24e33a2c3584abd41f",
+    "components/dot_indicator/preview.dart": "8075e7a22682c77c97837b5ddcc3ddb9d4f1c1a99e0f012346acb606727ace63",
+    "components/drawer/drawer.dart": "7d5a980008cd33289b56cfc77b085ba4f68e7d4341e47c6e770f4d323bca6c4f",
+    "components/drawer/drawer_background_scale.dart": "5551e1452902050ddfdbc88da85ff4d546d1870f278f7045309aaef7ea69e4f7",
     "components/drawer/drawer_style.dart": "1a8531d7d17de00edc83f2c0c7a88fc540e30f961718e1662cabe9db9122faee",
     "components/drawer/drawer_theme.dart": "15e9c455b6f0e61ab749756fe70de370a8d51986953894ded476c04608c59e9f",
-    "components/drawer/preview.dart": "d25f6188e7bf3a6868db1fb9128320cfdef8774e017b8a0acad19d9564b35878",
+    "components/drawer/preview.dart": "20ed846c7aad8f0468c4693ee84b959a5c3f2d380889862a9a561acb12cf2615",
     "components/drawer_container/drawer_container.dart": "e84535645434d849965f5166f55bf11e4638b850b551fe3a922b9597acb9d0f7",
     "components/drawer_container/preview.dart": "5017ae85d85f26048e0538f4919a165fb3ecf4520d618da984254dedc6122db8",
     "components/dropdown_menu/dropdown_menu.dart": "0529b4d807fe87f416c67a0d075d2b9d15b4b0ecf51a8011d895c14e96f34abe",
-    "components/dropdown_menu/preview.dart": "c57af4db2530e53319dd83ebc691b0ee87570bbecff78ce9f2f940220cf36439",
+    "components/dropdown_menu/preview.dart": "65341d809bfb041b6132a78470a2982884d72f8794aaadd6508ea8fb40c4982c",
     "components/dropzone/dropzone.dart": "f80f6f4d16fa0d9927b173b44a584156e467e7c75eaeaece1616da3d8c4e29b3",
     "components/dropzone/dropzone_style.dart": "45b1ead2f882f0b1f820d03761f77dcf53423fa29ab178218e5b30eb126e02a9",
     "components/dropzone/dropzone_theme.dart": "f74280420d94eb62255a3990f4169135e22f6d26ede50cec8ac111cf62d7ce24",
@@ -8801,10 +8869,10 @@
     "components/error_system/error_system_style.dart": "570db4b401cc3ccfb77a69ab69cd06ce037c7b964c1e7dae8c499cdb06ab6a5c",
     "components/error_system/error_system_theme.dart": "b4ca5cc8682fe0bbdf3098b5c9f7dc5c212caf8b6a559a5a7ed20f671b9c8209",
     "components/error_system/preview.dart": "22a913c36c89f5c2a9f81f612494ffdd2b8ffac6b75a6a666232bbdc4651c1df",
-    "components/eye_dropper/eye_dropper.dart": "4674fba9234fa7d811317872387617adbfe031bc078a6b5d241ab0d5d2de3f77",
+    "components/eye_dropper/eye_dropper.dart": "9c16f0b986d49441d425dac300c55bfa6e9d43fd4a3d1e6aa5a5ebd3ad353286",
     "components/eye_dropper/eye_dropper_style.dart": "02c3fc7649214d871e26f7b7df386fe58a2d6f33997491a062f930d43c2701e8",
     "components/eye_dropper/eye_dropper_theme.dart": "c499e35f3dadc757d06df59d4d54162777485d73a556e10a964aafd80c5da6fc",
-    "components/eye_dropper/preview.dart": "32c9631b2baf83040a14dc7110ee19f5c87abe99e8d9e2717ee502b53fd742b4",
+    "components/eye_dropper/preview.dart": "2786ed3d90d8079a670aff8079a5bf0b03591917f07e6494623369f874e5dd25",
     "components/feature_carousel/feature_carousel.dart": "5f72abd2d99599669f53a1b375b9ab4a91c8f0885a2d78601606b49254af6e36",
     "components/feature_carousel/feature_carousel_style.dart": "b345decc8361256714d6906807810a6f90046d01bc76313af7d13aa43f47eed9",
     "components/feature_carousel/feature_carousel_theme.dart": "bc401376b9e42c10c783a15c53bcd5e56038815e3c7549db7c3f4bf3aea64e69",
@@ -8821,10 +8889,10 @@
     "components/filter_bar/filter_bar_style.dart": "6504badfbd41d24fd8e3b3db68972d746cb215e4d130ed41a01e3ed3ae85a0b1",
     "components/filter_bar/filter_bar_theme.dart": "23285d875e48fc719a90e5d2c7a319a87930cf0582212aae84a3f0b33ae367d1",
     "components/filter_bar/preview.dart": "e17ee2fc7c31fac73808595d813281a23d2a44a502b296e59e34e569992830ec",
-    "components/form/form.dart": "b2c84068af16850d45fd65b5d4289c7b4d3ea6b20bb2eabdafb4af7787fd8a3f",
+    "components/form/form.dart": "54155787edee89a4acd4c2d5af0e72c81c9e1f298f2dcbef7c93932c9ba2056c",
     "components/form/form_style.dart": "42e6266f3117bdb1b83731926596740930887fa65b9b891c4d0f86ec83c33878",
     "components/form/form_theme.dart": "e6d52bb4896eca6b9b8e4ff457879c2b40ed4866ef87efd5a396a9858236b2b3",
-    "components/form/preview.dart": "7c83347be9863d3dfb7f0322a2fd462c4f0bf9159f6a67924a378db97598dc76",
+    "components/form/preview.dart": "e54091768cb3f0419eb9c6b1835908fbac2e571c8b072cdf2a092da9452ac19a",
     "components/formatted_input/formatted_input.dart": "c5893078f39f49625e6fcae867cc94924e4d909b8969079d9170ddc9172ea4cd",
     "components/formatted_input/formatted_input_flow.dart": "bdcf88d4b8cd595f8bb01cfaedf16bfed643f5ccec5a17b4f06e3dc7e4ec9251",
     "components/formatted_input/formatted_input_style.dart": "78df36cae2f052743599898f551992135cbcdc41599ab57bf628474986bcd3a0",
@@ -8839,7 +8907,7 @@
     "components/gooey_toast/gooey_toast_stack.dart": "0c70b2676fae08ea3e74d02378b4f6ff119b4774ff99480e0f79898539c1add3",
     "components/gooey_toast/gooey_toast_style.dart": "069ae59471d311ff2f81def5666ca80993ff1b5409025a94f6671ba2ff8d7f52",
     "components/gooey_toast/gooey_toast_theme.dart": "e7a7a84b6a2a2804d06339e0bc77c473ebcef55ca09d8e8b7c6f86ccb294d878",
-    "components/gooey_toast/preview.dart": "915eac12c18bf3d1821d4f795b2c55b2e92a8440f06cae81b7e3ece4167cb8f2",
+    "components/gooey_toast/preview.dart": "e84d09c8dd0e39bca793273058e96b50140df5b9b67b233adb7cdd16b2d2a500",
     "components/group/group.dart": "c1eb4895842122466ad2f6ccbf6e1fdade2d73d1158fc122e5dc696ff7ada000",
     "components/group/preview.dart": "93156c922d695147f8b410f39e29beb382cfc29097a1a9e000001d25ede2389f",
     "components/history/history.dart": "5fe5f90b4bc5029396f47eaa8f1ac28c29f34cd946ce2c0a6a0f6f3a6025e6d5",
@@ -8850,11 +8918,11 @@
     "components/hover_card/hover_card_style.dart": "fc45fc39a0f6f740f531bd1083027eff2f28e86fd186e5f65b3d5096df7c1cfd",
     "components/hover_card/hover_card_theme.dart": "1f2fcdefd8f8e801912da245a49b34e195764235fe03dbb92ed144944f2bed59",
     "components/hover_card/preview.dart": "83541ec6898a88a7088e899fd541a91d84cc7d696ea8ece381f59750cdf1e7b7",
-    "components/hsl/hsl.dart": "90d1b7d2a4844228047ae1d0853db5cf8994d14a218df77aa5be137db01f065b",
+    "components/hsl/hsl.dart": "f284a7bb3716341f7e8b939d5bf424c961961b774a996d9dcf170e07a060bb1b",
     "components/hsl/hsl_style.dart": "c24334bcef6039b4f0a00ac5598ae53cebb2addb1656e0cc5b20d9af84f3b2bd",
     "components/hsl/hsl_theme.dart": "812d72ce7924f4cbabe7e70c3e1e0a1ebe3995f414ca0cf8cbeab23f03dce001",
     "components/hsl/preview.dart": "4ba7927d0e8f11620fab8a265b333d697dbf9ea0371362c6ed2e80403f25efa5",
-    "components/hsv/hsv.dart": "115fb2184089e570a88f221a0dc603b9c387c00066304e2b9deded96495a119c",
+    "components/hsv/hsv.dart": "ce77283e43da90953a19fbd480a1ee89264982c6092aa811d76e585a6b219fd7",
     "components/hsv/hsv_style.dart": "a9c729a6b8cde1990fcbdea4234f532d32b505955bf9ae96f9eff72328db69d1",
     "components/hsv/hsv_theme.dart": "671e35d87262a639ae93c3ef4d5e6f215b93448f05490a0c6692dcce92d7f4fe",
     "components/hsv/preview.dart": "7b3d0dd15ce02163ffbabacc200e494a5fce389cfe0cf8d6514366e624a8fb44",
@@ -8865,7 +8933,7 @@
     "components/image/image.dart": "f1747daf7b43642b6e1b65307852be8aa044e1b18564dea85fb51dc42479b369",
     "components/image/image_style.dart": "ad0cd14e484a840aee9d34a8eb57d0c524aa50bd35310cbceb25ea2114ad2f28",
     "components/image/image_theme.dart": "c8890eacb758b9d76e0b14883c63a1abf99bfecbc38e0a43f42f2a3df5c00a23",
-    "components/image/preview.dart": "667cafa171b81cb74e370df674f72b3030d3ddf363169b781b27696eff0ff2b6",
+    "components/image/preview.dart": "9071289cc87e1bba186d41ef4622cb3e85414492cbb58cb02a1079ee45283cfc",
     "components/input/input.dart": "acc3f4c565df3155f0819ee0b92e2f4341462cd534c576c66296dc676427a3c8",
     "components/input/input_style.dart": "4e4f43475d1d024b335586df29194f86601c6f1fab9313ca72e6bf080990c109",
     "components/input/input_theme.dart": "d3ea4501f6b2e86b77eecc28516ad149fae31ab6dd3b9e6242a1b39fd2a3af08",
@@ -8878,16 +8946,16 @@
     "components/item_picker/item_picker_style.dart": "db037c8f8468be3c331bb582a32de0c4776ed9365162b9f94259f2ed5c824aed",
     "components/item_picker/item_picker_theme.dart": "cd2ed01d43b9e21d1d419c79385847fc9a304bdac799c59ca797060e1ee552d1",
     "components/item_picker/preview.dart": "5373d91ba3638ccab87104765427d3346b6bfb1d6dfc732c6b07a3ef80301307",
-    "components/keyboard_shortcut/keyboard_shortcut.dart": "9fcebde64820d75762806b575bde58ba2646959049172598b793e0337b4c5590",
-    "components/keyboard_shortcut/keyboard_shortcut_style.dart": "72401b1ab3dd82244301d936d2a47763f12371705cfd0b32abff19609f657301",
-    "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "91d1905f032edb7bc33affaddcec21164dd2d371615745e419b4ffffe55d2e1d",
-    "components/keyboard_shortcut/preview.dart": "1552835994f8711dd02f71ad51577247d1576af7f717615cb59b60c22fa85a1f",
+    "components/keyboard_shortcut/keyboard_shortcut.dart": "c08d12ddfac4a998468447190a06f879e5cba233b3469b1d904719b59f2815e9",
+    "components/keyboard_shortcut/keyboard_shortcut_style.dart": "255bb1a04f3e1d2c5ea8f380b975387eccf6e1bfe5ab0da1b685dbbf7f9948de",
+    "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "941fa588703a84c03383b57ab34acf6e12bbb1867aaa53a8b8d2ffd55b6b9d20",
+    "components/keyboard_shortcut/preview.dart": "2711238fe868dce144cf620333d969fbca1134abbff5052fe021c97f244f6d36",
     "components/locale_utils/locale_utils.dart": "97b51cf3d2300968c48fa2b0da4eac7f568aca6be602d26385734626b9211297",
     "components/locale_utils/preview.dart": "969368754a4de0168760f6018e08b57745e6068ae2bc1130c68d0543e042480c",
     "components/markdown/markdown.dart": "8affbdafb1e178f338494febc45e33f60f8c97378b22eaae24ff0c4a75164d15",
     "components/markdown/markdown_style.dart": "d90551d0978a652e9b3d1a973db795d3e6addc351efabd72aee8033f167ab98e",
     "components/markdown/markdown_theme.dart": "b556f0c2401c8ce543ba5a7ed2f76664e1a27fc9973ca4ef9290e264cebb0163",
-    "components/markdown/preview.dart": "a5ab4dd6b038e4734faf42b79e4ba789bd9afa7e19182970a7e997adaab401ad",
+    "components/markdown/preview.dart": "12d68044c60cc3ed4537773627190179020fef5a062852f98af02ac1c753c908",
     "components/media_query/media_query.dart": "a57c4a034317d51b4f76a324ad74895fdbbdb7a1c75c862a5bb37427604d64fc",
     "components/media_query/media_query_style.dart": "0eaf6ac048ef55eafbe8c4a0c602372f427101cb379d0a6d29d9006a59c949cd",
     "components/media_query/media_query_theme.dart": "0531f36504a3f2a8a8cc218fbce6bee9a9f26b66d0092566a9aece8bdfa43229",
@@ -8908,10 +8976,10 @@
     "components/navigation_bar/navigation_bar_style.dart": "18c065f962213f323618f11b5c19eedec35a32e1c4932f9a2302fb16ac67a9cc",
     "components/navigation_bar/navigation_bar_theme.dart": "90a8c087d40f57a188d5d55bfa4bbb1db976a914c7c58088572b8eae7368db27",
     "components/navigation_bar/preview.dart": "26db3c5e3948fe3802c629029fb14cd23cdcc143adf185416ca158503177c0af",
-    "components/navigation_menu/navigation_menu.dart": "eec4f300adaf772e3dd0bd1f78bba248b6ce46fb2f2a2d106d8fe3a8df39b23c",
-    "components/navigation_menu/navigation_menu_style.dart": "9e1b20951271247f529d9ade9086507d945d4fbf3fafeaedc496294e05159e11",
+    "components/navigation_menu/navigation_menu.dart": "b82945570f808d54b2addbd76e75073aa046a5e001f1afdf9690b299d71a52f0",
+    "components/navigation_menu/navigation_menu_style.dart": "4f2f8ee3d6833941d537dd53349b2350b22f0bc9d2fbf21a3c81f2d94722f3b8",
     "components/navigation_menu/navigation_menu_theme.dart": "b095750a07d777e23133d8afc9004c2e5a58d3149520df7bf3f762a72102a28c",
-    "components/navigation_menu/preview.dart": "f27ba84a6253abfc2a22e263e7db4c0f55503821199654db891742b3654645f0",
+    "components/navigation_menu/preview.dart": "6f457bc9085f25ec84772a5a0edc6d11f02562eec05b70af203d0fd536088b64",
     "components/number_ticker/number_ticker.dart": "3b96d3b608963a0ff82485a6b0b7a82219a3f026dad9aed4360e731ec9d50eb9",
     "components/number_ticker/number_ticker_style.dart": "bb8a5c47ce5870a3c4f4c489577c7359c11bf63e019bd167b9b1b6c4f2d6edeb",
     "components/number_ticker/number_ticker_theme.dart": "fdd67ef5889f39faf7aba3153494e2004852fdd9f9c759399fefd5423fb498b0",
@@ -8925,7 +8993,7 @@
     "components/overflow_marquee/overflow_marquee.dart": "87218a6a25c3ce90e940d72c54f7e0555352d21eed3ff116e910513e71dbcb12",
     "components/overflow_marquee/overflow_marquee_style.dart": "742e3f96d157c3da4b1880576f2f9f735171cb188b6b70ae42ffd9654e5ee87d",
     "components/overflow_marquee/overflow_marquee_theme.dart": "0de11dcafd93dad41b8d7f9a97a27d457f09659d56a5a303400bc9fa9864ddbe",
-    "components/overflow_marquee/preview.dart": "df3e25d506171727be150ae26a5316c6cb7c8e9b17877de1aea210a168868727",
+    "components/overflow_marquee/preview.dart": "ef0e592268d505e877a7447e5bf91c6a2be656d08195c4d932f3426663c20ad2",
     "components/overlay_configuration/overlay_configuration.dart": "a272b8df002eac6a5a66e28ba0b222ea6e70c0f6f906ecbae565dff184de0e0b",
     "components/overlay_configuration/preview.dart": "e31a81e736839fe92299554729a96430d3fb280daecea9987f8ff82b7e722a4e",
     "components/page_route/page_route.dart": "a8d896ebef5881a9f3408b801f34e948e06ce58a48df94d188d9725dee2d3459",
@@ -8939,8 +9007,8 @@
     "components/phone_input/phone_input.dart": "8f7b03f50a2d4ec76193abd32d4209362ad3d7958a845f03b3dabb520d55eb41",
     "components/phone_input/phone_input_style.dart": "470845b1da70b20002369e84bb5c6ea8620944c8dfdbfc6ba86f85708518abea",
     "components/phone_input/phone_input_theme.dart": "15b4b3fe95d2c87d8b9e6e103420635f80ec704992eac7886f38c5c31f66d82b",
-    "components/phone_input/preview.dart": "bc36732d2622bb3c9dd3d0f6a25059d8dddfca7e67ac689f638b6105cb6dd2cb",
-    "components/pinned_sheet/pinned_sheet.dart": "c199b33dc90b3f512df23c5841ecc9a91cc0c89e8434e882ae896c540f098401",
+    "components/phone_input/preview.dart": "99bc9172e21da86b751b4f8894a0d514481554965aa0afdc16d7064c9ecd8927",
+    "components/pinned_sheet/pinned_sheet.dart": "ba01235e0ca627f1db8e129d5155003ac2198f82bc3feb666cafa9dd14114b62",
     "components/pinned_sheet/preview.dart": "a9ff9eacdd25e635241e5629e55f21b257cb436f58f55ab2ad74865bd6bbb84f",
     "components/popup/popup.dart": "8c21718f7e0ec2b248e319067df956e96e5e88509a26f5a5681bdbd36639aad1",
     "components/popup/preview.dart": "921b908f090daa6a1545203299eceb4ffb800ec868776afbd2ab7a9671de3fbe",
@@ -8953,10 +9021,12 @@
     "components/radio_group/radio_group_style.dart": "54585a63d77444f761c22d595b7845a289d3a358017675031cf2984a38a071dc",
     "components/radio_group/radio_group_theme.dart": "be8a7f96dc93fc49a9e737f8f422b99f7fe5b56935e0b7ea6b675e914549024f",
     "components/refresh_trigger/preview.dart": "6a61167bbd75fe00e05349233c4304255fe7a2ad05d3a4da58fdac42222bf1f0",
-    "components/refresh_trigger/refresh_trigger.dart": "1ed8f376d08573bb6d975e8be474102c31cf5725bcc6ada31aeab340f3c2a66f",
+    "components/refresh_trigger/refresh_trigger.dart": "706a29ce7307393c383e2714af0df7d915026d02e937dca695b3dded2302ee90",
+    "components/refresh_trigger/refresh_trigger_indicator.dart": "40e090a5fdfdd4e138409caaf9886e90664522020122760c00ca9d669e2dc279",
+    "components/refresh_trigger/refresh_trigger_input.dart": "f1d2088c5aa299f7a4d216610ecd2375780a79756c5e32ffb740cf2ace09a9da",
     "components/refresh_trigger/refresh_trigger_style.dart": "f6f7f8ea6bb548f493b56b8cd4436ac4200dee44c2da7749c1e9a4d7e5372d5c",
     "components/refresh_trigger/refresh_trigger_theme.dart": "c35e4d977cfea3b12b5d51ffe1bd27582b549a413504718e24872f0d1e65d8ec",
-    "components/resizable/preview.dart": "583be32acb55ad962cb9771a1e89744bdf5fef767c22724efbcd52725f10a062",
+    "components/resizable/preview.dart": "8ea4f56be4cfcbdd4a3f738a46cd28469cbcadbef526ec314036e79273e10f36",
     "components/resizable/resizable.dart": "29202bfbf4f28185d849358b004b466c50cba7b807ed233611f19185b73b25ed",
     "components/resizable/resizable_style.dart": "10dd16c9aa688cb1f1119784f7692d47aadbbf0834b2616ca35f196b831e2e52",
     "components/resizable/resizable_theme.dart": "532fb9cdd2bcc70b3fcc7d11759939e6620602e202d32aa35a65fab4cdc10021",
@@ -8994,7 +9064,7 @@
     "components/slider/slider.dart": "389728bd26cc1cf7b1102cf947918b6c4c1b99f3177c178714d5c2c9beae67bc",
     "components/slider/slider_style.dart": "097ba09418f2caf2c2888fd9947b28fdfeb3fb82735662759d3c7fd5874a11f6",
     "components/slider/slider_theme.dart": "bc32a519176aef300fe092cdeb6a949ffdbe5f214bad1633152f08783a1058e5",
-    "components/sortable/preview.dart": "c97850961cce96d0db5f9904bd9f59565baaf18723c112ece79ddbf476aef7fa",
+    "components/sortable/preview.dart": "648252265a560f0fac7a4b5275b6d3eaf3105a4346e3e21a0bbaa04151a3e64c",
     "components/sortable/sortable.dart": "eabdc8dfaac4abd765265ac8db87f2f3f580e7f33ef778b9134c0355a60a938d",
     "components/spell_check_suggestions_toolbar/preview.dart": "c8cd19998a670f941f7d8a590620c3765018ce789d9f7428410905fa440f8617",
     "components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart": "a4fbc73aa347109a82ffc1ec9701cef57f52d15e093899b44d1d6a9e7c3f32e3",
@@ -9010,7 +9080,7 @@
     "components/star_rating/star_rating.dart": "95f58bd14e14173579adc7edee1067437225526eac4eb6779c5fe069e34ac62d",
     "components/star_rating/star_rating_style.dart": "087bb4d73b17682d62865613720955a483ea7d5c28dd1844d3b9ea79b66dfd28",
     "components/star_rating/star_rating_theme.dart": "3378906e0da63e8f022bf20b738214fb276bccb74c7098d98a649e8941a284a0",
-    "components/stepper/preview.dart": "86aa6a678ac9252fedfe4a6cfe3db76bd7c1f44101844a0e4b8a36d596ffd2ea",
+    "components/stepper/preview.dart": "3a40b8da9f570caa4269796743f48b6f3f00ac98c97946a40176acaa3e3ea011",
     "components/stepper/stepper.dart": "63dd2b8469d9d5a5da007fde2f0f0cddd40a6fef5dd3be90267851f4879addda",
     "components/stepper/stepper_style.dart": "beed8816d1d43b6252b33145c18f595e579d253ea496f8bb710af83df97fc008",
     "components/stepper/stepper_theme.dart": "c7b9704cff4f8ceb60bef94e3d632244b871e77d367e35c24e34a2275c053445",
@@ -9030,9 +9100,9 @@
     "components/switcher/switcher.dart": "67de1832c3abdca48efdced584a65ad45f1c69c9bd86b8eae8dd180f90fb0363",
     "components/switcher/switcher_style.dart": "57fb558ad95d2e79e9368390fd86f79fad9bf4b0bf2f9cb51746d4ff604e9dd3",
     "components/switcher/switcher_theme.dart": "12ddca42797f97ff480412bcddc162ebedbf0eee5e29c368d9dff1596ba46a16",
-    "components/table/preview.dart": "6303d90a846f2169ed1bf6c60453eb4e96756495e293702c89dc10480fd446f5",
+    "components/table/preview.dart": "395cae6bf3c488889285d34a60afabc89ec7eae22b9777fd2e8fcd1277d6ea66",
     "components/table/table.dart": "7c163dea08cf05b2ac0dff89e362c7007965a001797cd34b63e2d6385bfb270c",
-    "components/table/table_style.dart": "b2e77c46f378e50e8a47da7e97d5996970fad6e87aa6c8f88afb5caefb1e2336",
+    "components/table/table_style.dart": "3f07a70d80daa0ca4d565e91b7ea12c69868aa1d7162f907de2a450287990d87",
     "components/table/table_theme.dart": "873f3a4b284509606bad00a7a82f7b7939fc6b1ef03a5ac7120065f961978309",
     "components/tabs/preview.dart": "e13331460fee672fb8de0d0a3789d91c88b5987f12c7981383c0243fe7eee458",
     "components/tabs/tabs.dart": "64bc784aebf76d015016508d14cd8fc58dfc47014ecbdc4ff3c4e79d18674100",
@@ -9043,9 +9113,9 @@
     "components/text_animate/text_animate_style.dart": "c27060de77783bfe64974531ce353b79e263437f550d4dc3c6c4e938116fbde0",
     "components/text_animate/text_animate_theme.dart": "f8869860e978706b1cf28ad8c2e6111d9d4b8c566bddb3a5bf961e2483a25ef8",
     "components/text_area/preview.dart": "48867121595d1a4ebb0c7223bc3a89093acb4c6a3527c6113391ab71bd52b5b3",
-    "components/text_area/text_area.dart": "8237a1f25f9b23fb99b7f1df61172a42cc2b55c12e4f2af7e305b5b80a5c3343",
+    "components/text_area/text_area.dart": "586ab1232410fd4c56f7c56650dcd2342c0aeb18353271d807c407e227dd1fc0",
     "components/time_picker/preview.dart": "1b69c7042b901018509ae5874fd789e47f7f1a298c68459ed7d41632653c75af",
-    "components/time_picker/time_picker.dart": "2bfd5cf167662facaa90fb691e0d9ecfc0fea15b60cb489f08a9d47510e15c67",
+    "components/time_picker/time_picker.dart": "1ce2c690556ae3a80f1a9f5d5d5eb4303d51e9e0703385caab934b0c3ccabf85",
     "components/time_picker/time_picker_style.dart": "db95f56a4db885eb45bcafcb0c80ec4a6bbc17f4fd739d2d97cc0273bb65f2e0",
     "components/time_picker/time_picker_theme.dart": "c57d5b8995050970a85396b10f36ff0f42880502ae7d02211b3bb69af0d34256",
     "components/timeline/preview.dart": "61a845fd31c4a289e36f529ffa5a0434484543f147703f310f1e4dd05ccd6e49",
@@ -9054,15 +9124,15 @@
     "components/timeline/timeline_theme.dart": "bf5ee9e2191242144faf86f1029231ce9b4b49f0f71e7ce5b43dd32299f4dca3",
     "components/timeline_animation/preview.dart": "9bd1ff83134a91e41745cc0da9ef890c7626c8e6abfed45545bd4c5f54c490eb",
     "components/timeline_animation/timeline_animation.dart": "d51c5214f3d44a54426f58a743dce68829f09c15b299bcc12469ecaa559145e8",
-    "components/toast/preview.dart": "246510813ea83b814863dded7b84ee951840fd9a7a144e524993cfbfc28abf79",
+    "components/toast/preview.dart": "8296e2f947c4fc509f7d353f353e4bbe77fe0e3d7d8fc68fa4a9c3f2f4b14ae7",
     "components/toast/toast.dart": "55fc51c69b0904408c05d6c7a8331cc7bc1b4048870fc4ae5812e388b7026929",
     "components/toast/toast_style.dart": "1ab341404d2e2c8251f5fffdef104f4e9353a04cc5d8a3362e732d6a4012bef0",
     "components/toast/toast_theme.dart": "a1f48f6603741624a5845362cfb2b85c434a91f4df9f82b33fa1ea4bbf5b94e2",
-    "components/toggle/preview.dart": "5bd5e05849d35aa14105de785035a6a229ce888d50969c881d7ca5b33898a59f",
+    "components/toggle/preview.dart": "37384cd6b1872695d0dae3c1b22e3a35dbca9613650df10f031ef8ac0034b8ea",
     "components/toggle/toggle.dart": "1ee675afd905309b864e18706e6c6cb7bbb43ddb9bd184cbe2747540efd8b215",
     "components/toggle/toggle_style.dart": "1a7d70313e40235482635753d92091b3049a6058c57acbd5700376538d972061",
     "components/toggle/toggle_theme.dart": "94686b183df1d6836a145134f26e66f9e3d2ec07ce495b60fe165748c5840520",
-    "components/tooltip/preview.dart": "ea091845b75c5fe7edbdf97f677d448f5835acfda90d2953618079864030faae",
+    "components/tooltip/preview.dart": "75f8aea1d1813696d8ca109b87e9a038afb83024ed45ebb2108cd27b4e063f0a",
     "components/tooltip/tooltip.dart": "64b99f3ebc7bbbba5bdad10e0b2b9bef1ef2f59faea8140ab5145a4bf849e66c",
     "components/tooltip/tooltip_style.dart": "a308940b5cffb172bdb95b4074360470ffc8d4412a3bc42a227db9c0f0286d6e",
     "components/tooltip/tooltip_theme.dart": "7d0180f345a15c3bae80896c71d7e78bda0ce53318cc397e2d9fd3cbffb8d54e",
@@ -9140,14 +9210,14 @@
     "primitives/filter_core/filter_state.dart": "94b6c5f8f7f7eac95e4a87e0bc3290b335bbd99071475129743be87ca0d46dc7",
     "primitives/filter_core/filter_theme.dart": "00a7a05c5b4579507f193eba362d46a66ecb6e53708e6aaf9846a84c3231dd82",
     "primitives/focus_outline.dart": "0dad464e24982fe0b3c806f87c3527a794cfb13f7f4818c34bf228c3b95f66de",
-    "primitives/form_core/form_builders.dart": "fcf147b1258e4515a1f07f8254eb4779779338de715574c067c5e1a43a0828f6",
+    "primitives/form_core/form_builders.dart": "bce735393ce2b013820e3aae8faa674c7f59dce2c79430c72cd48724c3178389",
     "primitives/form_core/form_control.dart": "5cb89ff7ac898e05e8e4b722862056bfd0e992df2c30f2e0dd35d2bd5700ffdc",
-    "primitives/form_core/form_controller.dart": "d1cd65371544d2cb66a38c8a509abf24e0cbf9063542a94c120fb674ee2e08a7",
-    "primitives/form_core/form_core.dart": "660ca1e9f97fdc9f84062824cb5296c38a049650c5b58f334a628b2d488d3d23",
-    "primitives/form_core/form_entry.dart": "a9c1215d7386bcab8d7f46aa4e5d99734ea84118ced26d4c1e52ddb0bfcb293c",
+    "primitives/form_core/form_controller.dart": "aa15d6a3665c5765dfd71b33a45cd2b6c49fa5de6aa3fcff6edbf74cce6e7d95",
+    "primitives/form_core/form_core.dart": "d3c9926bea8d134ea6e333bdbced7d98408ea5d2fe5fc2308e93f37bd03ea4d6",
+    "primitives/form_core/form_entry.dart": "0c359fae2c105c4985bb1d2a405a521976cc845f65fea66ee95b958590a9d265",
     "primitives/form_core/form_value.dart": "0bcf67745e5cfd7bf19fce94243c950e8b8a8e361654d86314379eabf6c21bf0",
-    "primitives/form_core/object_form_field.dart": "b2d17980c7ecaed64d341f51e3ef0663f8cd6ccece9c1294f81852f412394b51",
-    "primitives/form_core/object_form_prompt.dart": "c9bf06801c999274f808b57a1148976c9fbacedfc059caa785e723c2f9c11b63",
+    "primitives/form_core/object_form_field.dart": "e2a0fa647b009337a610bf21a0649b4ff5cbd34ba9f8caa540cbaa2b7bfb5cc3",
+    "primitives/form_core/object_form_prompt.dart": "8b0c0ffb9524d15c2f15d8d4caa650ee9b4e9c57d97e10e576ba540cc3547d5c",
     "primitives/form_core/validation.dart": "09c4b4d908da8b26b4da41a0d1fda0a6b58c24db785532bb21b382f43254a8a0",
     "primitives/form_core/validators.dart": "b9ba7e27fa736fc1a370879a5f63efff9e613b594bb576ae71070e1b3716175c",
     "primitives/form_core/validators_compare.dart": "19159c2bfac52ca56d1c3fe017eb14d33a208d1b35cff829dcfb804301b0dc36",
@@ -9244,7 +9314,7 @@
     "primitives/phone_number.dart": "d6a8e6b60f54f1326a878491e68964d50f3a9f090ce851c2d2eaec960922ce18",
     "primitives/popover.dart": "1abefe4078ed76089374a182b8e2cf90d8dc58d7e90a17f5b1d382a698355951",
     "primitives/popover_controller.dart": "23f61a589894ecfef777abf72c7242960fad1e83e22ba67d8ae2e7a67b21f0cc",
-    "primitives/popover_layout.dart": "9de01e14ca58d99fbe5abb3433df403b188b3a14709a352f69b6a80f256b9682",
+    "primitives/popover_layout.dart": "32c7a1adc919d35a932e6d2a98e0cf21bfa47da3d7ad9f6397b6a42963919522",
     "primitives/popover_layout_render.dart": "6dab492863cb3251d78a2c7a6bf498eb260e5d6c0346afb04a8b26475061745b",
     "primitives/popover_overlay_handler.dart": "269dd80e36c2691b5c342e0b3db9c674e6d2d6c375f8476d9d41d22edeb6a2e4",
     "primitives/popover_overlay_state.dart": "c9f09155b8bfb83fb935b253b9a0abb82815b5a92fbc42c05a9769498453741f",
@@ -9253,7 +9323,7 @@
     "primitives/resizable_pane.dart": "09ef91d97a8af12a24480f44c2f5014bc3efdb65228fb59690a0b67348bf1523",
     "primitives/roving_group.dart": "5cd0bdc9da51b1d427332a55d873238ebfd8773bf7e6235a8b337aabb3c2b465",
     "primitives/roving_row.dart": "667792b2ac2425959da222741b52f33fddb98053caedc8a880287be991bc897c",
-    "primitives/screen_capture.dart": "41ebc0f752a9d572083d56ead28c7edbcffe1ddcce38c137edfd3fbc6d12bf70",
+    "primitives/screen_capture.dart": "56ef6d888f0131c8fb38489366543a1ca20044f569eaffff003787d6692cec38",
     "primitives/scroll_metrics.dart": "7e086da1265c8a75ebc987b59058ba731cd4533973f910eb3e7b5b776f20eb98",
     "primitives/select_popup.dart": "f3775687610044549e1b941c461f5da8a88a5b901b99ff5851e0c8e59a6f2044",
     "primitives/selectable_radio/selectable_radio.dart": "ff9b46fe5b1a9109794294877d8b26c9863e7adf0469820fa3971d40c11dabee",
@@ -9285,14 +9355,15 @@
     "primitives/syntax_highlight/syntax_scanners_script.dart": "d50ac2e0bb3f82df5f7afce1aca4e35a311f2365b5cdf847bd7dd6e474f71f30",
     "primitives/syntax_highlight/syntax_token.dart": "91a048f90587df31e17eda89c9c96f138ddb3a3aefa0dc410111674a1b0361c9",
     "primitives/tab_container.dart": "4091ab7dea0a9dc412912d98873b9d040e90b3443311804341e530fe7cd1fbc7",
-    "primitives/table_layout/table_cell_view.dart": "202f341cbcaf4b8464b4118d743bb7b687274b094d398b47a14c1bd5fcfe67f1",
+    "primitives/table_layout/table_cell_view.dart": "2e3ff7bbde412fd6c76016df860b239c2fb4c517792303e4f151aa68b40d05ed",
     "primitives/table_layout/table_cells.dart": "159eaeef8aa03062b676ad408e5f9ea0d6597b63b52540f8eb76522cd861c2ec",
     "primitives/table_layout/table_layout.dart": "3b9b90443b4a2780b85939a31e376944bbdb0fc41b7ac70c32c153d20c7d60ad",
     "primitives/table_layout/table_layout_render.dart": "c83398917a055111fcc6616b8291b57ab9ef114a22bf70492e311c46729caaf2",
     "primitives/table_layout/table_layout_sizing.dart": "f7c2c2835ae6612d0562d8a308302c32e62e3b73f57d0899a83348184e4c0595",
     "primitives/table_layout/table_models.dart": "79f16e04dcdd05b1198855e6d2cb1c9e12b0bc2343a9aa1744d3057cee0e696b",
-    "primitives/table_layout/table_resize.dart": "ec79b8025b404ef8beb50351a4bd35cfd058f23a0a4d1b194a0a83777270a810",
+    "primitives/table_layout/table_resize.dart": "8b6bcc5fd322b0e066f2c5170109fbb0c1d019541eaaa9eaa279f893345ecce9",
     "primitives/table_layout/table_resize_controller.dart": "b5e9a8a92a1d121287305a8b593a3c375c15d881ad15353cfcd7ed87f3a3e537",
+    "primitives/table_layout/table_resize_keyboard.dart": "5edf96db0b24424fcd55c7fbb6a28ee7ad4c446bf89f5bedc222da9d136994a9",
     "primitives/text/list.dart": "6f6fbe8d43ca7c0d43c5070c22da65db8b5e4394dff44ec3ed40fef78c1ed9fa",
     "primitives/text/text.dart": "1f31639b838fc6e2c682221dc1bbf4d2e0efe43d05aeec9ddf3567aa60de85ac",
     "primitives/text/text_extension.dart": "9aafd0c6ba53304329afef380718db69c0865a3fc756ccd327e0041269c04ff0",
@@ -9322,9 +9393,9 @@
     "theme/color_utils.dart": "250556c16c4bc54be6375229c47f7fe085a90f79b4544c96b7617760ad52c709",
     "theme/density.dart": "29befcb2a63540add7bea0ee15fa2599b49ade3e45e31d7bc78c9664b70e3c76",
     "theme/syntax_colors.dart": "4b11c5c11c6c225e4f0a9700ad6ea67685a96312e89f1d54257ba6c91186665b",
-    "theme/theme.dart": "cea60520eb72f87b05b426918486479ef9e09d8ac52bb39723e6bcbfc5097732",
-    "theme/tokens.dart": "0bf2552a86761bfddb7d7e30fc3e4de6f7d3555d41ba6c7978128e3c2ad55341",
-    "theme/typography.dart": "936da7bfdc6832466d8cd2f4a79d15c93b49b985a7ba181597fb406de0d56f23",
+    "theme/theme.dart": "c42670be04b21a85ee470bcd70c14cfe1bc6bc70218a74717555688ac278f35c",
+    "theme/tokens.dart": "56da99eb31dd35ea0b1a1b5b52070ad98189a07cebce1ef72ef50a445e4a8d19",
+    "theme/typography.dart": "a6a3070f246ef6e549ea69d0e2ec3ca1875bd1993fb48dfa0887ec60e41223ac",
     "themes/amber-minimal.json": "13a12831d4ff5f6d49d5375d631c40ccd4e0db522686e89f5c872e362eca73d1",
     "themes/amethyst-haze.json": "051c69d4e43c5fb451f29cc7cfb1fe03a3f523dfbd0ff96945a46b012e3654fe",
     "themes/bold-tech.json": "3c1b461cff536a4ada29eb062c9d69e077f6407b39f5d082f5a247efd82f6551",
@@ -10256,7 +10327,8 @@
     "table_layout": {
       "deps": {
         "primitives": [
-          "localizations"
+          "localizations",
+          "resizable_handle"
         ]
       },
       "files": [
@@ -10267,7 +10339,8 @@
         "primitives/table_layout/table_layout_sizing.dart",
         "primitives/table_layout/table_models.dart",
         "primitives/table_layout/table_resize.dart",
-        "primitives/table_layout/table_resize_controller.dart"
+        "primitives/table_layout/table_resize_controller.dart",
+        "primitives/table_layout/table_resize_keyboard.dart"
       ]
     },
     "text": {

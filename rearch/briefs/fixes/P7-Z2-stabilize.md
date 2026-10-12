@@ -16,3 +16,9 @@ Known cross-agent breakages:
    block itself at mobile size via the block page's mobile viewport toggle / open-in-new-tab route →
    `rearch/design/ours/screens/p7z2-*-390.png` (login-02, sidebar-02, dashboard-01).
 Fix at the root; don't weaken tests. Report `rearch/reports/P7-Z2.md` with every gate output + `## RESULT`. No git ops.
+
+## Orchestrator note (mid-run, don't revert)
+User feedback applied by the orchestrator while you run: chat replies now start-aligned with a muted incoming bubble
+theme (`_incomingBubble`) in docs collage_home_media / studio_media and registry chat/preview; block page backgrounds
+switched from `muted` (grey, user dislikes) to `background` (login-01/03, otp-01, signup-01) and brand panels to `card`
+(login-02, signup-02). Keep these.

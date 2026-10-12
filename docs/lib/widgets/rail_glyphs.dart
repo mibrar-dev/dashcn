@@ -80,7 +80,8 @@ class RailShadowGlyph extends StatelessWidget {
       height: 14,
       decoration: BoxDecoration(
         color: railGlyphMuted(context),
-        borderRadius: BorderRadius.circular(4),
+        // P7-TH1: glyphs use the small radius token.
+        borderRadius: ShadcnTheme.of(context).borderRadiusSm,
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Color(atoms.color).withValues(alpha: atoms.opacity),

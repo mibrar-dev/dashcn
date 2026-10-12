@@ -2,9 +2,10 @@
 //
 // A 192 px rounded card with a `Menu` header, a scrolling column of picker
 // rows (Preset, Base colour, Theme colour, Chart colours, Heading font, Body
-// font, Radius, Spacing, Shadow, Syntax colours) and the footer actions. The
-// rail owns no state: every row writes to the [SiteThemeModel] behind
-// [DocsState], so an edit re-themes the whole site, not just this canvas.
+// font, Radius, Spacing, Shadow, Syntax colours, Transition) and the footer
+// actions. The rail owns no state: every row writes to the [SiteThemeModel]
+// behind [DocsState], so an edit re-themes the whole site, not just this
+// canvas.
 //
 // The scroll area uses the registry `fade_scroll` primitive, which fades an
 // edge only while there is hidden content in that direction (the reference's
@@ -13,6 +14,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../state/docs_state.dart';
+import '../state/docs_storage.dart';
 import '../theme/theme_document.dart';
 import '../theme/theme_palette.dart';
 import '../ui/shadcn/components/button/button.dart';
@@ -119,20 +121,28 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickHeadingFont(BuildContext row) {
     showFontPicker(
       row,
-      'sans',
-      _model.document.fontOf('sans'),
+      'heading',
+      _model.document.headingFont,
       onChanged: (String spec) =>
-          _model.setFont('sans', spec.isEmpty ? null : spec),
+          _model.setFont('heading', spec.isEmpty ? null : spec),
     );
   }
 
   void _pickBodyFont(BuildContext row) {
     showFontPicker(
       row,
-      'mono',
-      _model.document.fontOf('mono'),
+      'body',
+      _model.document.bodyFont,
       onChanged: (String spec) =>
-          _model.setFont('mono', spec.isEmpty ? null : spec),
+          _model.setFont('body', spec.isEmpty ? null : spec),
+    );
+  }
+
+  void _pickTransition(BuildContext row) {
+    showTransitionPicker(
+      row,
+      _model.transition,
+      onChanged: _model.setTransition,
     );
   }
 
@@ -284,20 +294,16 @@ class _ThemeRailState extends State<ThemeRail> {
                           RailRow(
                             key: const ValueKey<String>('rail-row-heading'),
                             label: 'Heading font',
-                            value: railFamilyLabel(document.fontOf('sans')),
+                            value: railFamilyLabel(document.headingFont),
                             onPressed: _pickHeadingFont,
-                            trailing: RailAaGlyph(
-                              family: document.fontOf('sans'),
-                            ),
+                            trailing: RailAaGlyph(family: document.headingFont),
                           ),
                           RailRow(
                             key: const ValueKey<String>('rail-row-body'),
                             label: 'Body font',
-                            value: railFamilyLabel(document.fontOf('mono')),
+                            value: railFamilyLabel(document.bodyFont),
                             onPressed: _pickBodyFont,
-                            trailing: RailAaGlyph(
-                              family: document.fontOf('mono'),
-                            ),
+                            trailing: RailAaGlyph(family: document.bodyFont),
                           ),
                           RailRow(
                             key: const ValueKey<String>('rail-row-radius'),
@@ -330,6 +336,16 @@ class _ThemeRailState extends State<ThemeRail> {
                             value: 'shiki · ${dark ? 'dark' : 'light'}',
                             onPressed: _showSyntax,
                             trailing: const Icon(LucideIcons.code, size: 16),
+                          ),
+                          RailRow(
+                            key: const ValueKey<String>('rail-row-transition'),
+                            label: 'Transition',
+                            value: docsTransitionLabel(model.transition),
+                            onPressed: _pickTransition,
+                            trailing: const Icon(
+                              LucideIcons.sparkles,
+                              size: 16,
+                            ),
                           ),
                         ],
                       ),

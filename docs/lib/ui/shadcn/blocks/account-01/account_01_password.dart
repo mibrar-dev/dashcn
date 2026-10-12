@@ -13,7 +13,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -54,7 +53,6 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
   );
   final FocusNode _newFocus = FocusNode(debugLabel: 'account-01 new');
   final FocusNode _confirmFocus = FocusNode(debugLabel: 'account-01 confirm');
-  bool _submitting = false;
   bool _succeeded = false;
 
   Validator<String> get _confirmValidator =>
@@ -73,39 +71,33 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
     super.dispose();
   }
 
-  Future<void> _submit([BuildContext? submitContext]) async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit([BuildContext? submitContext]) async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(
-        submitContext ?? context,
-      );
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        for (final MapEntry<FormKey, FocusNode> entry
-            in <MapEntry<FormKey, FocusNode>>[
-              MapEntry<FormKey, FocusNode>(_currentKey, _currentFocus),
-              MapEntry<FormKey, FocusNode>(_newKey, _newFocus),
-              MapEntry<FormKey, FocusNode>(_confirmKey, _confirmFocus),
-            ]) {
-          if (result.errors.containsKey(entry.key)) {
-            entry.value.requestFocus();
-            return;
-          }
+    final SubmissionResult result = await _controller.submit(
+      submitContext ?? context,
+    );
+    if (!mounted) {
+      return false;
+    }
+    if (!result.isValid) {
+      for (final MapEntry<FormKey, FocusNode> entry
+          in <MapEntry<FormKey, FocusNode>>[
+            MapEntry<FormKey, FocusNode>(_currentKey, _currentFocus),
+            MapEntry<FormKey, FocusNode>(_newKey, _newFocus),
+            MapEntry<FormKey, FocusNode>(_confirmKey, _confirmFocus),
+          ]) {
+        if (result.errors.containsKey(entry.key)) {
+          entry.value.requestFocus();
+          return false;
         }
       }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+      return false;
     }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -201,20 +193,14 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Button(
-                    onPressed: _submitting ? null : () => _submit(formContext),
-                    child: _submitting
-                        ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Spinner(
-                                size: 14,
-                                color: theme.colors.primaryForeground,
-                              ),
-                              Gap(theme.spacing.sm),
-                              const Text('Updating'),
-                            ],
-                          )
-                        : const Text('Update password'),
+                    onPressedAsync: () async {
+                      if (!await _submit(formContext)) {
+                        throw StateError(
+                          'Account01Password: validation failed.',
+                        );
+                      }
+                    },
+                    child: const Text('Update password'),
                   ),
                 ),
                 if (_succeeded) ...<Widget>[

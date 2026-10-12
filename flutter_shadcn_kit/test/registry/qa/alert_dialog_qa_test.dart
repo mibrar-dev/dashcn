@@ -6,6 +6,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/alert_dialog/alert_dialog.dart';
 import 'package:flutter_shadcn_kit/registry/components/alert_dialog/preview.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/component_preview.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -110,7 +111,13 @@ void main() {
   });
 
   testWidgets('live push opens, returns a result and pops', (tester) async {
-    final Widget preview = Builder(builder: alertDialogPreviews[2].builder);
+    // P7-WA: the framed examples moved (Delete account / Discard changes /
+    // Session expiring / Success); the live route push is the 'Live push'
+    // example by name, not by index.
+    final ComponentPreview live = alertDialogPreviews.firstWhere(
+      (ComponentPreview preview) => preview.name == 'Live push',
+    );
+    final Widget preview = Builder(builder: live.builder);
     await tester.pumpWidget(
       ShadcnTheme(
         data: const ShadcnThemeData(),

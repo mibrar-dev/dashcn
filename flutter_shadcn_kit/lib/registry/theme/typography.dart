@@ -334,11 +334,20 @@ class Typography {
   /// Wires [fonts] families in: fontSans into [sans], fontMono into [mono]
   /// and [inlineCode]. Null/empty specs keep the current style. `"A, B"`
   /// splits into family A plus fallback B.
+  ///
+  /// [ShadcnFonts.fontHeading] additionally drives the heading styles
+  /// (h1–h4, large), so the Theme Studio `Heading font` row applies
+  /// site-wide without a separate style table.
   Typography applyFonts(ShadcnFonts fonts) {
     return copyWith(
       sans: _withFamily(sans, fonts.fontSans),
       mono: _withFamily(mono, fonts.fontMono),
       inlineCode: _withFamily(inlineCode, fonts.fontMono),
+      h1: _withFamily(h1, fonts.fontHeading),
+      h2: _withFamily(h2, fonts.fontHeading),
+      h3: _withFamily(h3, fonts.fontHeading),
+      h4: _withFamily(h4, fonts.fontHeading),
+      large: _withFamily(large, fonts.fontHeading),
     );
   }
 

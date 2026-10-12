@@ -5,9 +5,10 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form.
 
 import 'dart:async';
 
@@ -20,7 +21,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
@@ -71,7 +71,6 @@ class _Login03State extends State<Login03> {
   final FormKey<String> _passwordKey = const FormKey<String>('password');
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-03 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-03 password');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -82,31 +81,25 @@ class _Login03State extends State<Login03> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        if (result.errors.containsKey(_emailKey)) {
-          _emailFocus.requestFocus();
-        } else if (result.errors.containsKey(_passwordKey)) {
-          _passwordFocus.requestFocus();
-        }
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      if (result.errors.containsKey(_emailKey)) {
+        _emailFocus.requestFocus();
+      } else if (result.errors.containsKey(_passwordKey)) {
+        _passwordFocus.requestFocus();
+      }
+      return false;
+    }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -130,164 +123,175 @@ class _Login03State extends State<Login03> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final Widget body = Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 384),
-                child: Card(
-                  padding: EdgeInsets.all(theme.spacing.xl),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Text('Sign in', style: theme.typography.h2),
-                      Gap(theme.spacing.sm),
-                      Text(
-                        'Pick the way you prefer.',
-                        style: theme.typography.textMuted.copyWith(
-                          color: theme.colors.mutedForeground,
-                        ),
+            final Widget card = ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 384),
+              child: Card(
+                padding: EdgeInsets.all(theme.spacing.xl),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text('Sign in', style: theme.typography.h2),
+                    Gap(theme.spacing.sm),
+                    Text(
+                      'Pick the way you prefer.',
+                      style: theme.typography.textMuted.copyWith(
+                        color: theme.colors.mutedForeground,
                       ),
-                      Gap(theme.spacing.xl),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Button(
+                    ),
+                    Gap(theme.spacing.xl),
+                    LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                            final Widget github = Button(
                               variant: ButtonVariant.outline,
                               onPressed: () =>
                                   widget.onProvider?.call('GitHub'),
                               child: const _Login03ProviderButton('GitHub'),
-                            ),
-                          ),
-                          Gap(theme.spacing.md),
-                          Expanded(
-                            child: Button(
+                            );
+                            final Widget google = Button(
                               variant: ButtonVariant.outline,
                               onPressed: () =>
                                   widget.onProvider?.call('Google'),
                               child: const _Login03ProviderButton('Google'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Gap(theme.spacing.xl),
-                      const Divider(),
-                      Gap(theme.spacing.xl),
-                      ShadcnForm(
-                        controller: _controller,
-                        onSubmit: _handleValidSubmit,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            ShadcnFormField<String>(
-                              key: _emailKey,
-                              label: const Text('Email'),
-                              validator:
-                                  const NotEmptyValidator() &
-                                  const EmailValidator(),
-                              showErrors: const <FormValidationMode>{
-                                FormValidationMode.changed,
-                                FormValidationMode.submitted,
-                              },
-                              child: Input(
-                                hintText: 'name@example.com',
-                                keyboardType: TextInputType.emailAddress,
-                                textInputAction: TextInputAction.next,
-                                focusNode: _emailFocus,
-                                onSubmitted: (_) =>
-                                    _passwordFocus.requestFocus(),
-                              ),
-                            ),
-                            Gap(theme.spacing.md),
-                            ShadcnFormField<String>(
-                              key: _passwordKey,
-                              label: const Text('Password'),
-                              validator:
-                                  const NotEmptyValidator() &
-                                  const LengthValidator(min: 8),
-                              showErrors: const <FormValidationMode>{
-                                FormValidationMode.changed,
-                                FormValidationMode.submitted,
-                              },
-                              child: Input(
-                                hintText: 'Password',
-                                obscureText: true,
-                                textInputAction: TextInputAction.done,
-                                focusNode: _passwordFocus,
-                                onSubmitted: (_) => _submit(),
-                              ),
-                            ),
-                            Gap(theme.spacing.sm),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Button(
-                                variant: ButtonVariant.link,
-                                onPressed: widget.onForgotPassword ?? () {},
-                                child: const Text('Forgot your password?'),
-                              ),
-                            ),
-                            Gap(theme.spacing.md),
-                            Button(
-                              onPressed: _submitting ? null : _submit,
-                              child: _submitting
-                                  ? Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Spinner(
-                                          size: 14,
-                                          color: theme.colors.primaryForeground,
-                                        ),
-                                        Gap(theme.spacing.sm),
-                                        const Text('Signing in'),
-                                      ],
-                                    )
-                                  : const Text('Sign in with email'),
-                            ),
-                            if (_succeeded) ...<Widget>[
-                              Gap(theme.spacing.lg),
-                              Alert(
-                                content: Text(
-                                  'Signed in — welcome back.',
-                                  style: theme.typography.textSmall,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      Gap(theme.spacing.lg),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 4,
+                            );
+                            // Stacked on phones so the provider buttons never
+                            // overflow a 375 px card; side by side otherwise.
+                            if (constraints.maxWidth < 420) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  github,
+                                  Gap(theme.spacing.md),
+                                  google,
+                                ],
+                              );
+                            }
+                            return Row(
+                              children: <Widget>[
+                                Expanded(child: github),
+                                Gap(theme.spacing.md),
+                                Expanded(child: google),
+                              ],
+                            );
+                          },
+                    ),
+                    Gap(theme.spacing.xl),
+                    const Divider(),
+                    Gap(theme.spacing.xl),
+                    ShadcnForm(
+                      controller: _controller,
+                      onSubmit: _handleValidSubmit,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text(
-                            "Don't have an account?",
-                            style: theme.typography.textSmall.copyWith(
-                              color: theme.colors.mutedForeground,
+                          ShadcnFormField<String>(
+                            key: _emailKey,
+                            label: const Text('Email'),
+                            validator:
+                                const NotEmptyValidator() &
+                                const EmailValidator(),
+                            showErrors: const <FormValidationMode>{
+                              FormValidationMode.changed,
+                              FormValidationMode.submitted,
+                            },
+                            child: Input(
+                              hintText: 'name@example.com',
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _emailFocus,
+                              onSubmitted: (_) => _passwordFocus.requestFocus(),
                             ),
                           ),
-                          Button(
-                            variant: ButtonVariant.link,
-                            onPressed: widget.onSignUp ?? () {},
-                            child: const Text('Sign up'),
+                          Gap(theme.spacing.md),
+                          ShadcnFormField<String>(
+                            key: _passwordKey,
+                            label: const Text('Password'),
+                            validator:
+                                const NotEmptyValidator() &
+                                const LengthValidator(min: 8),
+                            showErrors: const <FormValidationMode>{
+                              FormValidationMode.changed,
+                              FormValidationMode.submitted,
+                            },
+                            child: Input(
+                              hintText: 'Password',
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              focusNode: _passwordFocus,
+                              onSubmitted: (_) => _submit(),
+                            ),
                           ),
+                          Gap(theme.spacing.sm),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Button(
+                              variant: ButtonVariant.link,
+                              onPressed: widget.onForgotPassword ?? () {},
+                              child: const Text('Forgot your password?'),
+                            ),
+                          ),
+                          Gap(theme.spacing.md),
+                          Button(
+                            onPressedAsync: () async {
+                              if (!await _submit()) {
+                                throw StateError('Login03: validation failed.');
+                              }
+                            },
+                            child: const Text('Sign in with email'),
+                          ),
+                          if (_succeeded) ...<Widget>[
+                            Gap(theme.spacing.lg),
+                            Alert(
+                              content: Text(
+                                'Signed in — welcome back.',
+                                style: theme.typography.textSmall,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Gap(theme.spacing.lg),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 4,
+                      children: <Widget>[
+                        Text(
+                          "Don't have an account?",
+                          style: theme.typography.textSmall.copyWith(
+                            color: theme.colors.mutedForeground,
+                          ),
+                        ),
+                        Button(
+                          variant: ButtonVariant.link,
+                          onPressed: widget.onSignUp ?? () {},
+                          child: const Text('Sign up'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Center(child: card),
               );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: pageH - theme.spacing.lg * 2,
+                ),
+                child: Center(child: card),
+              ),
             );
           },
         ),
@@ -310,7 +314,11 @@ class _Login03ProviderButton extends StatelessWidget {
       children: <Widget>[
         Icon(LucideIcons.github, size: 16, color: theme.colors.foreground),
         Gap(theme.spacing.sm),
-        Flexible(child: Text(provider, style: theme.typography.textSmall)),
+        Text(
+          provider,
+          style: theme.typography.textSmall,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

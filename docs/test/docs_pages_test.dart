@@ -22,7 +22,7 @@ void main() {
   ) async {
     await pumpDocsApp(tester);
     expect(
-      find.text('${kStats.components} components ready to install'),
+      find.text('${kStats.listedComponents} components ready to install'),
       findsOneWidget,
     );
     expect(find.text('A Flutter component kit you own'), findsOneWidget);
@@ -197,8 +197,8 @@ void main() {
     final TextStyle muted = styleOf(
       find.textContaining('components ready to install'),
     );
-    expect(muted.fontWeight, FontWeight.w500, reason: 'badge 12/500');
-    expect(muted.fontSize, 12);
+    expect(muted.fontWeight, FontWeight.w500, reason: 'badge 14/500');
+    expect(muted.fontSize, 14);
   });
 
   testWidgets('copy button flips to check for exactly 2000 ms', (

@@ -5,6 +5,11 @@
 // field to the nearest controller and owns the per-field validity listenable
 // that error builders read.
 //
+// The entry also owns the difference between "mounted with a value" and "the
+// user changed the value": the first report of a field's life is not an edit,
+// so the field stays in the controller's silent `initial` mode until a later
+// report changes the value. That is what keeps a fresh form free of errors.
+//
 // Ported from the old `form` component's `FormEntry` + `FormEntryState`; the
 // old two-system `SharedFormHandleAdapter` is gone because `form_core` is the
 // single handle type now.
@@ -51,13 +56,34 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
   final ValueNotifier<ValidationResult?> _validity =
       ValueNotifier<ValidationResult?>(null);
   T? _value;
-  int _validityRequest = 0;
+
+  /// The last value this field reported to the controller.
+  Object? _reportedValue;
+  bool _hasReported = false;
+
+  /// Whether reports that arrive now count as user edits.
+  ///
+  /// A supplier reports once while it mounts, and a value a parent seeds in
+  /// `build` lands in that same first frame; counting those as edits would
+  /// make every field dirty before the user touched it. The flag flips in a
+  /// post-frame callback, once the field is settled.
+  bool _acceptsEdits = false;
 
   @override
   FormKey get formKey => widget.key;
 
   @override
   ValueListenable<ValidationResult?>? get validity => _validity;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _acceptsEdits = true;
+      }
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -96,19 +122,9 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
   }
 
   void _pullValidity() {
-    final FutureOr<ValidationResult?>? result = _controller?.getError(
-      widget.key,
-    );
-    final int request = ++_validityRequest;
-    if (result is Future<ValidationResult?>) {
-      result.then((resolved) {
-        if (request == _validityRequest && mounted) {
-          _validity.value = resolved;
-        }
-      });
-      return;
-    }
-    _validity.value = result is ValidationResult ? result : null;
+    // The controller already decides what may be shown (an untouched field
+    // stays silent), so the entry only mirrors that decision.
+    _validity.value = _controller?.getDisplayError(widget.key);
   }
 
   @override
@@ -122,12 +138,23 @@ class _FormEntryState<T> extends State<FormEntry<T>> with FormFieldHandle {
       }
       return null;
     }
+    // The first report of a field's life is the value it starts with, not an
+    // edit; only a later report that actually changes the value is one.
+    final bool edit = _acceptsEdits && _hasReported && _reportedValue != value;
+    _hasReported = true;
+    _reportedValue = value;
     _value = value as T?;
     final FormController? controller = _controller;
     if (controller == null) {
       return null;
     }
-    return controller.attach(context, this, _value, widget.validator);
+    return controller.attach(
+      context,
+      this,
+      _value,
+      widget.validator,
+      dirty: edit,
+    );
   }
 
   @override

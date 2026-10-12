@@ -26,10 +26,13 @@ import 'package:flutter_shadcn_kit/registry/components/command/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/context_menu/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/dialog/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/divider/preview.dart';
+import 'package:flutter_shadcn_kit/registry/components/dot_indicator/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/drawer/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/dropdown_menu/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/dropzone/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/empty_state/preview.dart';
+import 'package:flutter_shadcn_kit/registry/components/input/preview.dart';
+import 'package:flutter_shadcn_kit/registry/components/input_otp/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/keyboard_shortcut/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/menu/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/menubar/preview.dart';
@@ -49,7 +52,10 @@ import 'package:flutter_shadcn_kit/registry/components/stepper/stepper.dart';
 import 'package:flutter_shadcn_kit/registry/components/switch/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/table/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/toast/preview.dart';
+import 'package:flutter_shadcn_kit/registry/components/toast/toast.dart';
 import 'package:flutter_shadcn_kit/registry/foundation/component_preview.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/icons/lucide_icons.dart';
+import 'package:flutter_shadcn_kit/registry/primitives/input_features/input_features.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -69,7 +75,9 @@ ShadcnThemeData _theme(String preset, Brightness brightness) {
 }
 
 /// Pumps one preview the way the docs stage does, inside a real [Overlay] so
-/// overlay-driven examples (menu, dropdown, popup, dialog) can open.
+/// overlay-driven examples (menu, dropdown, popup, dialog) can open. A
+/// [ToastLayer] sits over the page (as in the docs shell) so the trigger-based
+/// toast previews open app-wide instead of asserting on mount.
 Future<void> _pump(
   WidgetTester tester,
   ComponentPreview preview, {
@@ -83,14 +91,17 @@ Future<void> _pump(
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Overlay.wrap(
-          child: Navigator(
-            onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
-              pageBuilder: (BuildContext context, _, _) => Center(
-                child: SizedBox(
-                  width: width,
-                  child: Builder(builder: preview.builder),
-                ),
-              ),
+          child: ToastLayer(
+            child: Navigator(
+              onGenerateRoute: (RouteSettings settings) =>
+                  PageRouteBuilder<void>(
+                    pageBuilder: (BuildContext context, _, _) => Center(
+                      child: SizedBox(
+                        width: width,
+                        child: Builder(builder: preview.builder),
+                      ),
+                    ),
+                  ),
             ),
           ),
         ),
@@ -119,6 +130,21 @@ Future<void> _tapType<T>(WidgetTester tester, int index) async {
 ComponentPreview _example(List<ComponentPreview> list, String name) =>
     list.firstWhere((ComponentPreview preview) => preview.name == name);
 
+/// Taps the input-feature button that renders [icon] (the clear ×, the password
+/// eye, the spinner chevrons) and lets the animation settle.
+Future<void> _tapFeatureIcon(WidgetTester tester, IconData icon) async {
+  await tester.tap(
+    find
+        .ancestor(
+          of: find.byIcon(icon).first,
+          matching: find.byType(InputFeatureIconButton),
+        )
+        .first,
+  );
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 200));
+}
+
 void main() {
   testWidgets('alert: the trailing button dismisses and restores', (
     tester,
@@ -132,11 +158,14 @@ void main() {
   });
 
   testWidgets('alert_dialog: the frame confirms and cancels', (tester) async {
-    await _pump(tester, _example(alertDialogPreviews, 'Default'));
-    await _tap(tester, 'Delete');
+    // P7-WA: the framed examples are named Delete account / Discard changes
+    // / Session expiring / Success now; Delete account keeps the
+    // confirm/cancel/result shape this sweep drives.
+    await _pump(tester, _example(alertDialogPreviews, 'Delete account'));
+    await _tap(tester, 'Delete account');
     expect(find.text('Confirmed.'), findsOneWidget);
     await _tap(tester, 'Show again');
-    expect(find.text('Are you absolutely sure?'), findsOneWidget);
+    expect(find.text('Delete your account?'), findsOneWidget);
     await _tap(tester, 'Cancel');
     expect(find.text('Cancelled.'), findsOneWidget);
   });
@@ -241,9 +270,11 @@ void main() {
   });
 
   testWidgets('dialog: the trigger pushes a dialog', (tester) async {
+    // P7-WA: the first example is the Edit profile form; its trigger opens
+    // the dialog over the whole app and the title renders inside it.
     await _pump(tester, dialogPreviews[0]);
-    await _tap(tester, 'Open dialog');
-    expect(find.text('Delete this project?'), findsWidgets);
+    await _tap(tester, 'Edit profile');
+    expect(find.text('Edit profile'), findsWidgets);
   });
 
   testWidgets('dropdown_menu: the trigger opens a menu', (tester) async {
@@ -287,12 +318,12 @@ void main() {
   });
 
   testWidgets('navigation_menu: a plain item reports the page', (tester) async {
-    await _pump(tester, _example(navigationMenuPreviews, 'Bar'));
-    expect(find.text('Viewing Home'), findsOneWidget);
-    await _tap(tester, 'Home');
-    expect(find.text('Viewing Home'), findsOneWidget);
-    await _tap(tester, 'About');
-    expect(find.text('Viewing About'), findsOneWidget);
+    // Redesigned like shadcn: the bar hosts Getting-started/Components
+    // dropdowns plus a plain Docs link; the plain link reports the page.
+    await _pump(tester, _example(navigationMenuPreviews, 'Default'));
+    expect(find.text('Viewing Getting started'), findsOneWidget);
+    await _tap(tester, 'Docs');
+    expect(find.text('Viewing Documentation'), findsOneWidget);
   });
 
   testWidgets('number_ticker: the value pills roll the ticker', (tester) async {
@@ -385,29 +416,92 @@ void main() {
     expect(find.textContaining('step 3'), findsOneWidget);
   });
 
-  testWidgets('table: a row tap selects it', (tester) async {
-    await _pump(tester, _example(tablePreviews, 'Default'), width: 520);
-    expect(find.text('Tap a row to select it'), findsOneWidget);
-    await _tap(tester, 'Jordan');
-    expect(find.text('Selected Jordan'), findsOneWidget);
-    await _tap(tester, 'Avery');
-    expect(find.text('Selected Avery'), findsOneWidget);
+  testWidgets('table: a checkbox selects its row', (tester) async {
+    await _pump(tester, _example(tablePreviews, 'Data table'), width: 520);
+    expect(find.text('0 of 6 selected'), findsOneWidget);
+    await tester.tap(find.byType(Checkbox).at(1));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('1 of 6 selected'), findsOneWidget);
+    await _tap(tester, 'Next');
+    expect(find.text('2 / 2'), findsOneWidget);
   });
 
-  testWidgets('toast: the inline action dismisses and reports', (tester) async {
+  testWidgets('toast: the trigger shows and the action dismisses', (
+    tester,
+  ) async {
+    // P7-WA: toasts open app-wide through the trigger now (nothing renders
+    // on mount); the View action dismisses the toast.
     await _pump(tester, _example(toastPreviews, 'With action'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('Deployment started.'), findsNothing);
+    await _tap(tester, 'Show toast with action');
     expect(find.text('Deployment started.'), findsOneWidget);
     await _tap(tester, 'View');
-    expect(find.text('Watched the deployment'), findsOneWidget);
+    // Dismiss plays the shared exit animation before the entry leaves.
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text('Deployment started.'), findsNothing);
+  });
+
+  testWidgets('dot_indicator: the themed dots take a tap', (tester) async {
+    await _pump(tester, _example(dotIndicatorPreviews, 'Themed dots'));
+    expect(find.text('index 1'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Page 5 of 5'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('index 4'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Page 1 of 5'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('index 0'), findsOneWidget);
+  });
+
+  testWidgets('input: the feature row types, clears, peeks and steps', (
+    tester,
+  ) async {
+    await _pump(tester, _example(inputPreviews, 'With icon'));
+    EditableText field(int i) =>
+        tester.widget<EditableText>(find.byType(EditableText).at(i));
+    await tester.enterText(find.byType(EditableText).at(0), 'shadcn');
+    await tester.pump();
+    expect(field(0).controller.text, 'shadcn');
+    await _tapFeatureIcon(tester, LucideIcons.x);
+    expect(field(0).controller.text, isEmpty);
+
+    await tester.enterText(find.byType(EditableText).at(1), 'hunter2');
+    await tester.pump();
+    expect(field(1).obscureText, isTrue);
+    await _tapFeatureIcon(tester, LucideIcons.eye);
+    expect(field(1).obscureText, isFalse);
+    await _tapFeatureIcon(tester, LucideIcons.eyeOff);
+    expect(field(1).obscureText, isTrue);
+
+    await tester.enterText(find.byType(EditableText).at(2), '3');
+    await tester.pump();
+    await _tapFeatureIcon(tester, LucideIcons.chevronUp);
+    expect(field(2).controller.text, '4');
+    await _tapFeatureIcon(tester, LucideIcons.chevronDown);
+    expect(field(2).controller.text, '3');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('input_otp: typing fills the slots and the echo', (tester) async {
+    await _pump(tester, _example(inputOtpPreviews, 'Default'));
+    expect(find.text('code: ""'), findsOneWidget);
+    await tester.enterText(find.byType(EditableText), '123456');
+    await tester.pump();
+    expect(find.text('code: "123456"'), findsOneWidget);
+    await tester.enterText(find.byType(EditableText), '');
+    await tester.pump();
+    expect(find.text('code: ""'), findsOneWidget);
   });
 
   testWidgets('interactive previews also work in dark mode', (tester) async {
     for (final ComponentPreview preview in <ComponentPreview>[
       buttonPreviews[0],
       cardPreviews[0],
-      _example(tablePreviews, 'Default'),
+      _example(tablePreviews, 'Data table'),
       _example(progressPreviews, 'Live'),
       _example(menuPreviews, 'Default'),
     ]) {
@@ -457,10 +551,13 @@ const List<List<ComponentPreview>> _sweptPreviews = <List<ComponentPreview>>[
   dialogPreviews,
   keyboardShortcutPreviews,
   dividerPreviews,
+  dotIndicatorPreviews,
   drawerPreviews,
   dropdownMenuPreviews,
   dropzonePreviews,
   emptyStatePreviews,
+  inputPreviews,
+  inputOtpPreviews,
   menuPreviews,
   menubarPreviews,
   navigationMenuPreviews,

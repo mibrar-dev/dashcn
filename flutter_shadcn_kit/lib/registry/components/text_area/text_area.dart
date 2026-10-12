@@ -43,6 +43,7 @@ class TextArea extends StatelessWidget {
     this.textCapitalization = TextCapitalization.sentences,
     this.style,
     this.keyboardType,
+    this.textInputAction,
     this.minLines = textAreaMinLines,
     this.maxLines = textAreaMaxLines,
     this.expands = false,
@@ -90,6 +91,11 @@ class TextArea extends StatelessWidget {
   final TextStyle? style;
   final TextInputType? keyboardType;
 
+  /// Keyboard action button; null leaves the platform default. A chat
+  /// composer sets `TextInputAction.send` so Enter submits instead of
+  /// inserting a newline.
+  final TextInputAction? textInputAction;
+
   /// Smallest height, in lines; defaults to [textAreaMinLines].
   final int? minLines;
 
@@ -136,8 +142,9 @@ class TextArea extends StatelessWidget {
       textCapitalization: textCapitalization,
       style: style,
       // A textarea has no `Enter` to press: the keyboard offers a return key
-      // instead of a submit action.
+      // instead of a submit action (unless `textInputAction` says otherwise).
       keyboardType: keyboardType ?? TextInputType.multiline,
+      textInputAction: textInputAction,
       minLines: minLines,
       maxLines: maxLines,
       expands: expands,

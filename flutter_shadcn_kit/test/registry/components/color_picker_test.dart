@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/button/button.dart';
 import 'package:flutter_shadcn_kit/registry/components/color/color.dart';
 import 'package:flutter_shadcn_kit/registry/components/color_picker/color_picker.dart';
+import 'package:flutter_shadcn_kit/registry/components/eye_dropper/eye_dropper.dart';
 import 'package:flutter_shadcn_kit/registry/components/history/history.dart';
 import 'package:flutter_shadcn_kit/registry/components/hsl/hsl.dart';
 import 'package:flutter_shadcn_kit/registry/components/hsv/hsv.dart';
@@ -97,6 +98,9 @@ Future<void> _pump(
     onEyeDropperRequested: onEyeDropperRequested,
     enableEyeDropper: enableEyeDropper,
   );
+  // The pipette hides without a sampling scope in the tree: provide one so
+  // the default eye-dropper action is available in every pump.
+  picker = EyeDropperLayer(child: picker);
   if (history) {
     picker = RecentColorsScope(
       initialRecentColors: const <Color>[_green],
@@ -505,12 +509,14 @@ void main() {
       addTearDown(tester.view.reset);
       final Widget picker = RecentColorsScope(
         initialRecentColors: const <Color>[_green],
-        child: ColorPicker(
-          value: ColorDerivative.fromColor(_red),
-          showAlpha: showAlpha,
-          onChanged: (_) {},
-          onModeChanged: onModeChanged,
-          onEyeDropperRequested: onEyeDropperRequested,
+        child: EyeDropperLayer(
+          child: ColorPicker(
+            value: ColorDerivative.fromColor(_red),
+            showAlpha: showAlpha,
+            onChanged: (_) {},
+            onModeChanged: onModeChanged,
+            onEyeDropperRequested: onEyeDropperRequested,
+          ),
         ),
       );
       await tester.pumpWidget(const SizedBox.shrink());

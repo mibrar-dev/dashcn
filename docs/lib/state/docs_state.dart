@@ -102,13 +102,17 @@ class DocsState extends ChangeNotifier {
   void setPreset(String presetId) => themeModel.selectPreset(presetId);
 
   /// Sets the explicit brightness and stops following the platform.
+  ///
+  /// Notifies before the synchronous localStorage write (the same order as
+  /// [SiteThemeModel]: one commit, one notification, and the write can neither
+  /// delay the scheduled rebuild nor trigger a second one).
   void setBrightness(Brightness brightness) {
     if (brightness == _explicitBrightness) {
       return;
     }
     _explicitBrightness = brightness;
-    storage.write(kDocsBrightnessKey, brightness.name);
     notifyListeners();
+    storage.write(kDocsBrightnessKey, brightness.name);
   }
 
   /// Records the platform brightness while no explicit mode is stored.

@@ -4,11 +4,11 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// A two-month range calendar (one month on a phone), a live range summary
-// and footer actions. `Calendar` owns no navigation, so the block drives the
-// `CalendarView` itself. The card is capped at 720px and centres itself; the
-// content shrink-wraps so the docs frame sizes to its intrinsic height, and
-// scrolls internally when the host is bounded.
+// A page header plus a two-month range calendar (one month on a phone),
+// a live range summary and footer actions. `Calendar` owns no navigation,
+// so the block drives the `CalendarView` itself. The page is capped at
+// 720px and fills the viewport, scrolling internally when the host is
+// shorter than the content.
 
 import 'package:flutter/widgets.dart';
 
@@ -52,66 +52,86 @@ class _Calendar01State extends State<Calendar01> {
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final Widget body = Center(
+    final Widget body = Align(
+      alignment: Alignment.topCenter,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 720),
-        child: Card(
-          padding: EdgeInsets.all(theme.spacing.lg),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final bool twoMonths = constraints.maxWidth >= 720;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Calendar01Header(
-                    view: _view,
-                    twoMonths: twoMonths,
-                    onShift: _shift,
-                  ),
-                  Gap(theme.spacing.lg),
-                  if (twoMonths)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: _Calendar01Month(
-                            view: _view,
-                            value: _value,
-                            onChanged: (CalendarValue? value) =>
-                                setState(() => _value = value),
-                          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text('Schedule', style: theme.typography.h2),
+            Gap(theme.spacing.xs),
+            Text(
+              'Pick a date range for your report.',
+              style: theme.typography.textMuted.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+            Gap(theme.spacing.lg),
+            Card(
+              padding: EdgeInsets.all(theme.spacing.lg),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  // Two month grids need ~568 px (2 x 272 nominal incl. the p-3
+                  // shell, plus the 24 px gap). 720 could never hold: the card
+                  // caps at 720 and its own padding leaves 688 inside, so the
+                  // second month never rendered and the right half stayed empty.
+                  final bool twoMonths = constraints.maxWidth >= 600;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      _Calendar01Header(
+                        view: _view,
+                        twoMonths: twoMonths,
+                        onShift: _shift,
+                      ),
+                      Gap(theme.spacing.lg),
+                      if (twoMonths)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: _Calendar01Month(
+                                view: _view,
+                                value: _value,
+                                onChanged: (CalendarValue? value) =>
+                                    setState(() => _value = value),
+                              ),
+                            ),
+                            Gap(theme.spacing.xl),
+                            Expanded(
+                              child: _Calendar01Month(
+                                view: _view.next,
+                                value: _value,
+                                onChanged: (CalendarValue? value) =>
+                                    setState(() => _value = value),
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        _Calendar01Month(
+                          view: _view,
+                          value: _value,
+                          onChanged: (CalendarValue? value) =>
+                              setState(() => _value = value),
                         ),
-                        Gap(theme.spacing.xl),
-                        Expanded(
-                          child: _Calendar01Month(
-                            view: _view.next,
-                            value: _value,
-                            onChanged: (CalendarValue? value) =>
-                                setState(() => _value = value),
-                          ),
-                        ),
-                      ],
-                    )
-                  else
-                    _Calendar01Month(
-                      view: _view,
-                      value: _value,
-                      onChanged: (CalendarValue? value) =>
-                          setState(() => _value = value),
-                    ),
-                  Gap(theme.spacing.lg),
-                  const Divider(),
-                  Gap(theme.spacing.lg),
-                  _Calendar01Footer(
-                    value: _value,
-                    onClear: _clear,
-                    onApply: () => widget.onApply?.call(_value),
-                  ),
-                ],
-              );
-            },
-          ),
+                      Gap(theme.spacing.lg),
+                      const Divider(),
+                      Gap(theme.spacing.lg),
+                      _Calendar01Footer(
+                        value: _value,
+                        onClear: _clear,
+                        onApply: () => widget.onApply?.call(_value),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -250,22 +270,51 @@ class _Calendar01Footer extends StatelessWidget {
   }
 }
 
-/// The live range summary for the footer.
+/// The live range summary for the footer: the picked dates first.
 String _summary(CalendarValue? value) {
   final CalendarValue? current = value;
   if (current is RangeCalendarValue) {
     final int nights = current.end.difference(current.start).inDays;
+    final String range = _rangeLabel(current.start, current.end);
     if (nights <= 0) {
-      return 'Same-day stay';
+      return '$range · Same-day stay';
     }
-    return 'Your stay: $nights night${nights == 1 ? '' : 's'}';
+    return '$range · $nights night${nights == 1 ? '' : 's'}';
   }
   if (current is SingleCalendarValue) {
-    return 'Picked ${_monthName(current.date.month)} ${current.date.day} — '
-        'extend it into a range';
+    return '${_shortLabel(current.date)} — '
+        'tap another day to extend the range';
   }
   return 'Pick a date range';
 }
+
+/// Compact range label: `Oct 12–18, 2026`, or `Oct 30 – Nov 2, 2026`.
+String _rangeLabel(DateTime start, DateTime end) {
+  if (start.year == end.year && start.month == end.month) {
+    return '${_shortMonth(start.month)} ${start.day}–${end.day}, '
+        '${start.year}';
+  }
+  return '${_shortLabel(start)} – ${_shortLabel(end)}, ${end.year}';
+}
+
+/// Compact day label: `Oct 12`.
+String _shortLabel(DateTime date) => '${_shortMonth(date.month)} ${date.day}';
+
+String _shortMonth(int month) => switch (month) {
+  1 => 'Jan',
+  2 => 'Feb',
+  3 => 'Mar',
+  4 => 'Apr',
+  5 => 'May',
+  6 => 'Jun',
+  7 => 'Jul',
+  8 => 'Aug',
+  9 => 'Sep',
+  10 => 'Oct',
+  11 => 'Nov',
+  12 => 'Dec',
+  _ => 'M$month',
+};
 
 String _monthName(int month) => switch (month) {
   1 => 'January',

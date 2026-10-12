@@ -54,8 +54,15 @@ final List<String> kDocsChartTokenKeys = List<String>.unmodifiable(
   kDocsColorTokenKeys.where((String key) => key.startsWith('chart')),
 );
 
-/// The font slots of the schema (`sans`, `serif`, `mono`).
-const List<String> kDocsFontSlots = <String>['sans', 'serif', 'mono'];
+/// The font slots of the schema (`sans`, `serif`, `mono`) plus the Theme
+/// Studio's `heading` (h1–h4) and `body` (everything else) slots.
+const List<String> kDocsFontSlots = <String>[
+  'sans',
+  'serif',
+  'mono',
+  'heading',
+  'body',
+];
 
 /// The tracking steps of the schema (`normal` plus the optional pair).
 const List<String> kDocsTrackingSteps = <String>['normal', 'tight', 'wide'];

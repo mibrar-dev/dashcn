@@ -1,9 +1,10 @@
-// The `dashboard-01` block, part 2: the recent-transactions table and the
-// status pill it uses. Imported by `dashboard_01.dart`; a block never imports
-// another block.
+// The `dashboard-01` block, part 2: the recent-transactions table with its
+// working customer filter. Imported by `dashboard_01.dart`; a block never
+// imports another block.
 
 import 'package:flutter/widgets.dart';
 
+import '../../components/badge/badge.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/input/input.dart';
@@ -19,11 +20,11 @@ class _Dashboard01Order {
   final String method;
   final String amount;
 
-  /// Index into `theme.colors.chartColors` for the status pill.
-  int get chartIndex => switch (status) {
-    'Paid' => 1,
-    'Pending' => 2,
-    _ => 0,
+  /// Registry badge variant for the status cell.
+  BadgeVariant get badgeVariant => switch (status) {
+    'Paid' => BadgeVariant.primary,
+    'Pending' => BadgeVariant.secondary,
+    _ => BadgeVariant.outline,
   };
 }
 
@@ -119,7 +120,9 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
             )
           else
             ShadcnTable(
-              defaultRowHeight: const FixedTableSize(48),
+              // shadcn `TableHead` is h-10 (40); body rows hug the same
+              // height so the badge (h-5) centres with even padding.
+              defaultRowHeight: const FixedTableSize(40),
               columnWidths: const <int, TableSize>{
                 0: FlexTableSize(flex: 2),
                 1: FlexTableSize(),
@@ -140,9 +143,14 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                     cells: <ShadcnTableCell>[
                       ShadcnTableCell(child: Text(order.customer)),
                       ShadcnTableCell(
-                        child: _Dashboard01Pill(
-                          order.status,
-                          chartIndex: order.chartIndex,
+                        // Intrinsic width, left-aligned: a bare badge in a
+                        // tight table cell would paint the full column width.
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Badge(
+                            variant: order.badgeVariant,
+                            child: Text(order.status),
+                          ),
                         ),
                       ),
                       ShadcnTableCell(child: Text(order.method)),
@@ -152,40 +160,6 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
               ],
             ),
         ],
-      ),
-    );
-  }
-}
-
-/// A status pill: a chart-token tint on a transparent fill, so it re-themes
-/// with the preset instead of hard-coding a colour.
-class _Dashboard01Pill extends StatelessWidget {
-  const _Dashboard01Pill(this.label, {required this.chartIndex});
-
-  final String label;
-
-  /// Index into `theme.colors.chartColors`.
-  final int chartIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: theme.spacing.sm,
-        vertical: theme.spacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: theme.colors.chartColors[chartIndex % 5].withValues(alpha: 0.16),
-        borderRadius: theme.borderRadiusXl,
-        border: Border.all(color: theme.colors.chartColors[chartIndex % 5]),
-      ),
-      child: Text(
-        label,
-        style: theme.typography.xSmall.copyWith(
-          color: theme.colors.foreground,
-          fontWeight: FontWeight.w500,
-        ),
       ),
     );
   }

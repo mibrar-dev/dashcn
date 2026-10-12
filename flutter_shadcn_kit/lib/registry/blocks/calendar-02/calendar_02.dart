@@ -4,11 +4,11 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// A month calendar with the selected day's agenda beside it (below 960px the
-// agenda moves under the calendar). Time slots are selectable buttons; the
-// Book action enables once a slot is picked. The content shrink-wraps so the
-// docs frame sizes to its intrinsic height, and scrolls internally when the
-// host is bounded.
+// A page header plus a month calendar with the selected day's agenda
+// beside it (below 960px the agenda moves under the calendar). Time slots
+// are selectable buttons; the Book action enables once a slot is picked.
+// The page fills the viewport, scrolling internally when the host is
+// shorter than the content.
 
 import 'package:flutter/widgets.dart';
 
@@ -80,23 +80,50 @@ class _Calendar02State extends State<Calendar02> {
                 }
               },
             );
+            final Widget pageHeader = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Book a meeting', style: theme.typography.h2),
+                Gap(theme.spacing.xs),
+                Text(
+                  'Pick a day, then a time that suits you.',
+                  style: theme.typography.textMuted.copyWith(
+                    color: theme.colors.mutedForeground,
+                  ),
+                ),
+                Gap(theme.spacing.lg),
+              ],
+            );
             final Widget body;
             if (!aside) {
               body = Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[calendar, Gap(theme.spacing.lg), agenda],
+                children: <Widget>[
+                  pageHeader,
+                  calendar,
+                  Gap(theme.spacing.lg),
+                  agenda,
+                ],
               );
             } else {
               body = Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 1080),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Expanded(flex: 3, child: calendar),
-                      Gap(theme.spacing.xl),
-                      Expanded(flex: 2, child: agenda),
+                      pageHeader,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(flex: 3, child: calendar),
+                          Gap(theme.spacing.xl),
+                          Expanded(flex: 2, child: agenda),
+                        ],
+                      ),
                     ],
                   ),
                 ),

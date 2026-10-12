@@ -21,6 +21,18 @@ enum FormValidationMode {
   submitted,
 }
 
+/// The modes a field's validation result is shown for by default.
+///
+/// [FormValidationMode.initial] is deliberately absent: it is the mode a field
+/// validates in while it mounts, and a field the user has not touched must not
+/// show an error on first render. A `changed` result is only produced once the
+/// field is dirty (see `FormEntry`), and `submitted` covers a submit-time
+/// failure of any field.
+const Set<FormValidationMode> defaultShowErrors = <FormValidationMode>{
+  FormValidationMode.changed,
+  FormValidationMode.submitted,
+};
+
 /// Identifies one form field and the type of its value.
 ///
 /// The key doubles as a [LocalKey], so it can be handed to widgets, and carries

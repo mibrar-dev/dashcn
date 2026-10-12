@@ -14,16 +14,22 @@ import 'sortable.dart';
 
 /// One draggable row in theme tokens.
 class _Row extends StatelessWidget {
-  const _Row({required this.item, this.candidate = false});
+  const _Row({required this.item, this.candidate = false, this.last = false});
 
   final String item;
   final bool candidate;
+
+  /// Whether this is the last row of the list: the last row keeps no bottom
+  /// margin, so the staged list centres exactly (P7-TH1).
+  final bool last;
 
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      // Inter-item breathing room lives between rows only — never trailing
+      // the list — so the demo centres in its stage.
+      margin: EdgeInsets.only(bottom: last ? 0 : 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: candidate ? theme.colors.accent : theme.colors.card,
@@ -75,17 +81,17 @@ class _ListDemoState extends State<_ListDemo> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            for (final String item in _items)
+            for (int i = 0; i < _items.length; i++)
               Sortable<String>(
-                key: ValueKey<String>(item),
-                data: SortableData<String>(item),
+                key: ValueKey<String>(_items[i]),
+                data: SortableData<String>(_items[i]),
                 onAcceptTop: (SortableData<String> data) =>
-                    _move(data.data, item, true),
+                    _move(data.data, _items[i], true),
                 onAcceptBottom: (SortableData<String> data) =>
-                    _move(data.data, item, false),
-                candidateFallback: _Row(item: item, candidate: true),
-                fallback: Opacity(opacity: 0.3, child: _Row(item: item)),
-                child: _Row(item: item),
+                    _move(data.data, _items[i], false),
+                candidateFallback: _Row(item: _items[i], candidate: true),
+                fallback: Opacity(opacity: 0.3, child: _Row(item: _items[i])),
+                child: _Row(item: _items[i], last: i == _items.length - 1),
               ),
           ],
         ),
@@ -163,23 +169,32 @@ class _GridDemoState extends State<_GridDemo> {
       width: 340,
       child: SortableLayer(
         lock: true,
-        child: Wrap(
-          spacing: spacing.sm,
-          runSpacing: spacing.sm,
-          children: <Widget>[
-            for (final String item in _items)
-              Sortable<String>(
-                key: ValueKey<String>(item),
-                data: SortableData<String>(item),
-                onAcceptTop: (SortableData<String> data) =>
-                    _move(data.data, item, true),
-                onAcceptBottom: (SortableData<String> data) =>
-                    _move(data.data, item, false),
-                candidateFallback: _Tile(item: item, candidate: true),
-                fallback: Opacity(opacity: 0.3, child: _Tile(item: item)),
-                child: _Tile(item: item),
-              ),
-          ],
+        // P7-TH1: the layer's Stack parks the shrink-wrapped Wrap at the
+        // start; the Center keeps the runs in the middle of the 340px box
+        // at every spacing (the Wrap alignment alone cannot — the Wrap
+        // shrink-wraps to its runs).
+        child: Center(
+          child: Wrap(
+            spacing: spacing.sm,
+            runSpacing: spacing.sm,
+            // P7-TH1: runs centre in the 340px box (the 3-up rows are 328
+            // wide and would otherwise pack left).
+            alignment: WrapAlignment.center,
+            children: <Widget>[
+              for (final String item in _items)
+                Sortable<String>(
+                  key: ValueKey<String>(item),
+                  data: SortableData<String>(item),
+                  onAcceptTop: (SortableData<String> data) =>
+                      _move(data.data, item, true),
+                  onAcceptBottom: (SortableData<String> data) =>
+                      _move(data.data, item, false),
+                  candidateFallback: _Tile(item: item, candidate: true),
+                  fallback: Opacity(opacity: 0.3, child: _Tile(item: item)),
+                  child: _Tile(item: item),
+                ),
+            ],
+          ),
         ),
       ),
     );

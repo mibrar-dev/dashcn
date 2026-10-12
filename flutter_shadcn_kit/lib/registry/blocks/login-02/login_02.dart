@@ -5,12 +5,14 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// From 900px the page is two equal columns: the form column centres a 320px
-// (max-w-xs) validated form, and the panel fills its half with the muted
-// token, a subtle dot pattern drawn from tokens, the product mark and a
-// testimonial quote. Below 900px the panel stacks on top at a fixed 220px.
-// No network images anywhere, so the block renders offline and in tests, and
-// re-themes with every preset in light and dark.
+// From 900px the page is two equal columns filling the viewport edge to
+// edge: the form column centres a 384px (max-w-sm) validated form
+// vertically, and the panel fills its half full height with the muted token,
+// a subtle dot pattern drawn from tokens, the product mark top-left and a
+// testimonial quote anchored at the bottom. Below 900px the panel is hidden
+// and the form fills the screen. No network images anywhere, so the block
+// renders offline and in tests, and re-themes with every preset in light
+// and dark.
 
 import 'dart:async';
 
@@ -21,7 +23,6 @@ import '../../components/alert/alert.dart';
 import '../../components/button/button.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'login_02_panel.dart';
@@ -57,7 +58,6 @@ class _Login02State extends State<Login02> {
   final FormKey<String> _passwordKey = const FormKey<String>('password');
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-02 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-02 password');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -68,31 +68,25 @@ class _Login02State extends State<Login02> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        if (result.errors.containsKey(_emailKey)) {
-          _emailFocus.requestFocus();
-        } else if (result.errors.containsKey(_passwordKey)) {
-          _passwordFocus.requestFocus();
-        }
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      if (result.errors.containsKey(_emailKey)) {
+        _emailFocus.requestFocus();
+      } else if (result.errors.containsKey(_passwordKey)) {
+        _passwordFocus.requestFocus();
+      }
+      return false;
+    }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -123,66 +117,85 @@ class _Login02State extends State<Login02> {
               passwordKey: _passwordKey,
               emailFocus: _emailFocus,
               passwordFocus: _passwordFocus,
-              submitting: _submitting,
               succeeded: _succeeded,
               onSubmit: _submit,
             );
-            final Widget body;
-            // `stretch` fills a bounded host (the app screen) edge to edge;
-            // under unbounded height (the intrinsic docs frame) it would
-            // hand the panel an infinite cross axis, so align to the start
-            // and let both columns size to their content.
+            final bool wide = constraints.maxWidth >= 900;
             final bool bounded = constraints.maxHeight.isFinite;
-            if (constraints.maxWidth >= 900) {
-              body = Row(
-                crossAxisAlignment: bounded
-                    ? CrossAxisAlignment.stretch
-                    : CrossAxisAlignment.start,
+            // Unbounded fallback (never the docs page-size frame, which is
+            // always tight): stack with the panel at natural height so the
+            // tree never hands an infinite cross axis to the Row.
+            if (!bounded) {
+              if (!wide) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(theme.spacing.lg),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 384),
+                      child: form,
+                    ),
+                  ),
+                );
+              }
+              return Padding(
+                padding: EdgeInsets.all(theme.spacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 384),
+                          child: form,
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: Login02Panel()),
+                  ],
+                ),
+              );
+            }
+            final double pageH = constraints.maxHeight;
+            if (wide) {
+              // Full-page split: no outer padding, each half 50% width and
+              // 100% height. The form half scrolls internally and centres
+              // the 384px form vertically; the panel fills its half.
+              final double pad = theme.spacing.xl;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                    child: Center(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(pad),
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 320),
-                        child: form,
+                        constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 384),
+                            child: form,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const Expanded(child: Login02Panel()),
                 ],
               );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  // Natural height: the quote needs more than 220px on a
-                  // phone, and the column scrolls, so never fix it.
-                  const Login02Panel(),
-                  Padding(
-                    padding: EdgeInsets.all(theme.spacing.lg),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 320),
-                        child: form,
-                      ),
-                    ),
+            }
+            // Mobile: the brand panel is hidden; the form fills the screen.
+            final double pad = theme.spacing.lg;
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(pad),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 384),
+                    child: form,
                   ),
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
-            if (constraints.maxWidth >= 900) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
-            return SingleChildScrollView(child: body);
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -199,7 +212,6 @@ class _Login02Form extends StatelessWidget {
     required this.passwordKey,
     required this.emailFocus,
     required this.passwordFocus,
-    required this.submitting,
     required this.succeeded,
     required this.onSubmit,
   });
@@ -210,9 +222,8 @@ class _Login02Form extends StatelessWidget {
   final FormKey<String> passwordKey;
   final FocusNode emailFocus;
   final FocusNode passwordFocus;
-  final bool submitting;
   final bool succeeded;
-  final Future<void> Function() onSubmit;
+  final Future<bool> Function() onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -269,17 +280,12 @@ class _Login02Form extends StatelessWidget {
           ),
           Gap(theme.spacing.xl),
           Button(
-            onPressed: submitting ? null : onSubmit,
-            child: submitting
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spinner(size: 14, color: theme.colors.primaryForeground),
-                      Gap(theme.spacing.sm),
-                      const Text('Signing in'),
-                    ],
-                  )
-                : const Text('Sign in'),
+            onPressedAsync: () async {
+              if (!await onSubmit()) {
+                throw StateError('Login02: validation failed.');
+              }
+            },
+            child: const Text('Sign in'),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),

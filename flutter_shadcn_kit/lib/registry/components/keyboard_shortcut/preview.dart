@@ -1,14 +1,9 @@
 // Named examples for the `keyboard_shortcut` component (P6-F3 preview
 // contract).
 //
-// One focused demo per example; the first entry is the default. Spacing comes
-// from the ambient theme, so the examples follow the selected preset and the
-// site light/dark toggle.
-//
-// P7-C2: the widget itself renders a chord (it is a display component), so the
-// live example wires a real `Shortcuts` entry around it: pressing the chord
-// fires the intent and the example reports the match, which is what the user
-// sees in an app.
+// Centred, theme-driven chords: caps use the ambient muted surface, border,
+// small radius and mono face, so they track the selected preset and the site
+// light/dark toggle. `Ghost` renders the fill-free variant (P7-WC2).
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,22 +11,23 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../card/card.dart';
 import 'keyboard_shortcut.dart';
 
 /// A chord the example can really fire.
-class _KeyboardShortcutLive extends StatefulWidget {
-  const _KeyboardShortcutLive();
+class _KbdLive extends StatefulWidget {
+  const _KbdLive();
 
   @override
-  State<_KeyboardShortcutLive> createState() => _KeyboardShortcutLiveState();
+  State<_KbdLive> createState() => _KbdLiveState();
 }
 
-class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
+class _KbdLiveState extends State<_KbdLive> {
   String _status = 'Press the chord';
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Shortcuts(
       shortcuts: const <ShortcutActivator, Intent>{
         SingleActivator(LogicalKeyboardKey.keyK, meta: true):
@@ -46,7 +42,7 @@ class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
         child: Focus(
           autofocus: true,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const KeyboardShortcut(
@@ -76,72 +72,121 @@ class _OpenPaletteIntent extends Intent {
   const _OpenPaletteIntent();
 }
 
-/// A chord rendered from an activator.
-Widget _keyboardShortcutDefault(BuildContext context) {
+/// The command-palette chord, from an activator.
+Widget _kbdDefault(BuildContext context) {
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: KeyboardShortcut.fromActivator(
       activator: SingleActivator(LogicalKeyboardKey.keyK, meta: true),
     ),
   );
 }
 
-/// A chord from explicit keys, in display order.
-Widget _keyboardShortcutMultipleKeys(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.control,
-          LogicalKeyboardKey.shift,
-          LogicalKeyboardKey.keyP,
-        ],
-      ),
-      Gap(spacing.md),
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.arrowUp,
-          LogicalKeyboardKey.arrowDown,
-        ],
-      ),
-      Gap(spacing.md),
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.alt,
-          LogicalKeyboardKey.keyF,
-        ],
-      ),
-    ],
-  );
-}
-
-/// A chord under a custom display scope, plus one bare cap.
-Widget _keyboardShortcutScoped(BuildContext context) {
-  return const KeyboardShortcutDisplayScope(
-    builder: _keyboardShortcutLabel,
+/// Modifiers first, in the order they are held.
+Widget _kbdModifiers(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
     child: KeyboardShortcut(
       keys: <LogicalKeyboardKey>[
-        LogicalKeyboardKey.alt,
-        LogicalKeyboardKey.keyF,
+        LogicalKeyboardKey.control,
+        LogicalKeyboardKey.shift,
+        LogicalKeyboardKey.keyP,
       ],
     ),
   );
 }
 
-Widget _keyboardShortcutLabel(BuildContext context, LogicalKeyboardKey key) =>
+/// G then H: a two-step sequence, not a chord.
+Widget _kbdSequence(BuildContext context) {
+  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  return Align(
+    alignment: Alignment.center,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const KeyboardShortcut(
+          keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyG],
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          'then',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.sm),
+        const KeyboardShortcut(
+          keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyH],
+        ),
+      ],
+    ),
+  );
+}
+
+/// Inside a menu item: the chord trails the label, as in `command` menus.
+Widget _kbdInMenuItem(BuildContext context) {
+  return Align(
+    alignment: Alignment.center,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 300),
+      child: const Card(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Text('Open command palette')),
+            Gap(16),
+            KeyboardShortcut.fromActivator(
+              activator: SingleActivator(LogicalKeyboardKey.keyK, meta: true),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// A chord under a custom display scope.
+Widget _kbdScoped(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
+    child: KeyboardShortcutDisplayScope(
+      builder: _kbdLabel,
+      child: KeyboardShortcut(
+        keys: <LogicalKeyboardKey>[
+          LogicalKeyboardKey.alt,
+          LogicalKeyboardKey.keyF,
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _kbdLabel(BuildContext context, LogicalKeyboardKey key) =>
     Text(key.keyLabel.toUpperCase());
 
 /// A chord that can really be pressed.
-Widget _keyboardShortcutLive(BuildContext context) =>
-    const _KeyboardShortcutLive();
+Widget _kbdLive(BuildContext context) =>
+    const Align(alignment: Alignment.center, child: _KbdLive());
+
+/// The same chord with no fill: a hint on a coloured surface (P7-WC2).
+Widget _kbdGhost(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
+    child: KeyboardShortcut(
+      variant: KbdVariant.ghost,
+      keys: <LogicalKeyboardKey>[
+        LogicalKeyboardKey.meta,
+        LogicalKeyboardKey.keyK,
+      ],
+    ),
+  );
+}
 
 /// Named docs examples for `keyboard_shortcut`; the first is the default.
 const List<ComponentPreview> keyboardShortcutPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _keyboardShortcutDefault),
-  ComponentPreview('Multiple keys', _keyboardShortcutMultipleKeys),
-  ComponentPreview('Scoped labels', _keyboardShortcutScoped),
-  ComponentPreview('Live chord', _keyboardShortcutLive),
+  ComponentPreview('Default', _kbdDefault),
+  ComponentPreview('Modifiers', _kbdModifiers),
+  ComponentPreview('Sequence', _kbdSequence),
+  ComponentPreview('In menu item', _kbdInMenuItem),
+  ComponentPreview('Scoped labels', _kbdScoped),
+  ComponentPreview('Live chord', _kbdLive),
+  ComponentPreview('Ghost', _kbdGhost),
 ];

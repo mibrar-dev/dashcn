@@ -25,6 +25,7 @@
       "cardImageDefaults",
       "cardImageButtonStyle",
       "cardImageDefaultGap",
+      "cardImageDefaultAspectRatio",
       "cardImageDefaultHoverScale",
       "cardImageThemeOverrides"
     ]
@@ -40,7 +41,8 @@
       "imageBackground": "ThemedColor? - image fill; null = transparent token",
       "imageBorderColor": "ThemedColor? - image border; null = transparent token",
       "imageRadius": "BorderRadiusGeometry? - null = ambient radiusXl",
-      "gap": "double? - image/text gap; null = 12"
+      "gap": "double? - image/text gap; null = 12",
+      "aspectRatio": "double? - vertical image width/height; null = 16/9"
     }
   },
   "notes": [

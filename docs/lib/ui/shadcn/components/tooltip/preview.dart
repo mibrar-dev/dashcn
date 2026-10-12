@@ -66,8 +66,9 @@ Widget _anchor(
   Duration waitDuration = kTooltipWaitDuration,
 }) {
   final theme = ShadcnTheme.of(context);
+  // P7-TH1: the anchor hugs the trigger and sits in the middle of the stage.
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),

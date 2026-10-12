@@ -44,9 +44,10 @@ kBlockFileSources = <String, List<DocsBlockFile>>{
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form.
 
 import 'dart:async';
 
@@ -60,7 +61,6 @@ import '../../components/checkbox/checkbox.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -117,7 +117,6 @@ class _Login01State extends State<Login01> {
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-01 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-01 password');
   CheckboxValue _rememberMe = CheckboxValue.checked;
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -128,27 +127,21 @@ class _Login01State extends State<Login01> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        _focusFirstInvalid(result.errors);
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      _focusFirstInvalid(result.errors);
+      return false;
+    }
+    return true;
   }
 
   void _focusFirstInvalid(Map<FormKey, ValidationResult> errors) {
@@ -189,132 +182,128 @@ class _Login01State extends State<Login01> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final Widget body = Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 384),
-                child: Card(
-                  padding: EdgeInsets.all(theme.spacing.xl),
-                  child: ShadcnForm(
-                    controller: _controller,
-                    onSubmit: _handleValidSubmit,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text('Sign in', style: theme.typography.h3),
-                        Gap(theme.spacing.xs),
-                        Text(
-                          'Enter your credentials to access your workspace.',
-                          style: theme.typography.textMuted.copyWith(
-                            color: theme.colors.mutedForeground,
-                          ),
+            final Widget card = ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 384),
+              child: Card(
+                padding: EdgeInsets.all(theme.spacing.xl),
+                child: ShadcnForm(
+                  controller: _controller,
+                  onSubmit: _handleValidSubmit,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Sign in', style: theme.typography.h3),
+                      Gap(theme.spacing.xs),
+                      Text(
+                        'Enter your credentials to access your workspace.',
+                        style: theme.typography.textMuted.copyWith(
+                          color: theme.colors.mutedForeground,
                         ),
-                        Gap(theme.spacing.xl),
-                        ShadcnFormField<String>(
-                          key: _emailKey,
-                          label: const Text('Email'),
-                          validator:
-                              const NotEmptyValidator() &
-                              const EmailValidator(),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Input(
-                            hintText: 'name@example.com',
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _emailFocus,
-                            onSubmitted: (_) => _passwordFocus.requestFocus(),
-                          ),
+                      ),
+                      Gap(theme.spacing.xl),
+                      ShadcnFormField<String>(
+                        key: _emailKey,
+                        label: const Text('Email'),
+                        validator:
+                            const NotEmptyValidator() & const EmailValidator(),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Input(
+                          hintText: 'name@example.com',
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          focusNode: _emailFocus,
+                          onSubmitted: (_) => _passwordFocus.requestFocus(),
                         ),
-                        Gap(theme.spacing.md),
-                        ShadcnFormField<String>(
-                          key: _passwordKey,
-                          label: const Text('Password'),
-                          trailingLabel: Button(
-                            variant: ButtonVariant.link,
-                            onPressed: widget.onForgotPassword ?? () {},
-                            child: const Text('Forgot password?'),
-                          ),
-                          validator:
-                              const NotEmptyValidator() &
-                              const LengthValidator(min: 8),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Input(
-                            hintText: '••••••••',
-                            obscureText: true,
-                            textInputAction: TextInputAction.done,
-                            focusNode: _passwordFocus,
-                            onSubmitted: (_) => _submit(),
-                          ),
+                      ),
+                      Gap(theme.spacing.md),
+                      ShadcnFormField<String>(
+                        key: _passwordKey,
+                        label: const Text('Password'),
+                        trailingLabel: Button(
+                          variant: ButtonVariant.link,
+                          onPressed: widget.onForgotPassword ?? () {},
+                          child: const Text('Forgot password?'),
                         ),
-                        Gap(theme.spacing.md),
-                        ShadcnFormField<CheckboxValue>(
-                          key: _rememberKey,
-                          // The checkbox carries its own inline label; the
-                          // field label stays empty so no text is duplicated.
-                          label: const SizedBox.shrink(),
-                          showErrors: const <FormValidationMode>{
-                            FormValidationMode.changed,
-                            FormValidationMode.submitted,
-                          },
-                          child: Checkbox(
-                            value: _rememberMe,
-                            onChanged: (CheckboxValue value) =>
-                                setState(() => _rememberMe = value),
-                            label: const Text('Remember me'),
-                          ),
+                        validator:
+                            const NotEmptyValidator() &
+                            const LengthValidator(min: 8),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Input(
+                          hintText: '••••••••',
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
+                          focusNode: _passwordFocus,
+                          onSubmitted: (_) => _submit(),
                         ),
-                        Gap(theme.spacing.xl),
-                        Button(
-                          onPressed: _submitting ? null : _submit,
-                          child: _submitting
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Spinner(
-                                      size: 14,
-                                      color: theme.colors.primaryForeground,
-                                    ),
-                                    Gap(theme.spacing.sm),
-                                    const Text('Signing in'),
-                                  ],
-                                )
-                              : const Text('Sign in'),
+                      ),
+                      Gap(theme.spacing.md),
+                      ShadcnFormField<CheckboxValue>(
+                        key: _rememberKey,
+                        // The checkbox carries its own inline label; the
+                        // field label stays empty so no text is duplicated.
+                        label: const SizedBox.shrink(),
+                        showErrors: const <FormValidationMode>{
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: Checkbox(
+                          value: _rememberMe,
+                          onChanged: (CheckboxValue value) =>
+                              setState(() => _rememberMe = value),
+                          label: const Text('Remember me'),
                         ),
-                        if (_succeeded) ...<Widget>[
-                          Gap(theme.spacing.lg),
-                          Alert(
-                            content: Text(
-                              'Signed in — welcome back.',
-                              style: theme.typography.textSmall,
-                            ),
-                          ),
-                        ],
+                      ),
+                      Gap(theme.spacing.xl),
+                      Button(
+                        onPressedAsync: () async {
+                          if (!await _submit()) {
+                            throw StateError('Login01: validation failed.');
+                          }
+                        },
+                        child: const Text('Sign in'),
+                      ),
+                      if (_succeeded) ...<Widget>[
                         Gap(theme.spacing.lg),
-                        const Divider(),
-                        Gap(theme.spacing.lg),
-                        Button(
-                          variant: ButtonVariant.outline,
-                          onPressed: widget.onCreateAccount ?? () {},
-                          child: const Text('Create an account'),
+                        Alert(
+                          content: Text(
+                            'Signed in — welcome back.',
+                            style: theme.typography.textSmall,
+                          ),
                         ),
                       ],
-                    ),
+                      Gap(theme.spacing.lg),
+                      const Divider(),
+                      Gap(theme.spacing.lg),
+                      Button(
+                        variant: ButtonVariant.outline,
+                        onPressed: widget.onCreateAccount ?? () {},
+                        child: const Text('Create an account'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             );
             if (!constraints.maxHeight.isFinite) {
-              return Padding(padding: EdgeInsets.all(spacing), child: body);
+              return Padding(
+                padding: EdgeInsets.all(spacing),
+                child: Center(child: card),
+              );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(spacing),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - spacing * 2),
+                child: Center(child: card),
+              ),
             );
           },
         ),
@@ -324,7 +313,7 @@ class _Login01State extends State<Login01> {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppkkkkpppppppppppppppkkkkpppppppppppppppppppppppkkkkpppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppsssssssssssspppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppkkkkpppppppppppppppkkkkpppppppppppppppppppppppkkkkpppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppsssssssssssspppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkpppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkpppkkkkkppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'login-02': <DocsBlockFile>[
@@ -338,12 +327,14 @@ class _Login01State extends State<Login01> {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// From 900px the page is two equal columns: the form column centres a 320px
-// (max-w-xs) validated form, and the panel fills its half with the muted
-// token, a subtle dot pattern drawn from tokens, the product mark and a
-// testimonial quote. Below 900px the panel stacks on top at a fixed 220px.
-// No network images anywhere, so the block renders offline and in tests, and
-// re-themes with every preset in light and dark.
+// From 900px the page is two equal columns filling the viewport edge to
+// edge: the form column centres a 384px (max-w-sm) validated form
+// vertically, and the panel fills its half full height with the muted token,
+// a subtle dot pattern drawn from tokens, the product mark top-left and a
+// testimonial quote anchored at the bottom. Below 900px the panel is hidden
+// and the form fills the screen. No network images anywhere, so the block
+// renders offline and in tests, and re-themes with every preset in light
+// and dark.
 
 import 'dart:async';
 
@@ -354,7 +345,6 @@ import '../../components/alert/alert.dart';
 import '../../components/button/button.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'login_02_panel.dart';
@@ -390,7 +380,6 @@ class _Login02State extends State<Login02> {
   final FormKey<String> _passwordKey = const FormKey<String>('password');
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-02 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-02 password');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -401,31 +390,25 @@ class _Login02State extends State<Login02> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        if (result.errors.containsKey(_emailKey)) {
-          _emailFocus.requestFocus();
-        } else if (result.errors.containsKey(_passwordKey)) {
-          _passwordFocus.requestFocus();
-        }
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      if (result.errors.containsKey(_emailKey)) {
+        _emailFocus.requestFocus();
+      } else if (result.errors.containsKey(_passwordKey)) {
+        _passwordFocus.requestFocus();
+      }
+      return false;
+    }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -456,66 +439,85 @@ class _Login02State extends State<Login02> {
               passwordKey: _passwordKey,
               emailFocus: _emailFocus,
               passwordFocus: _passwordFocus,
-              submitting: _submitting,
               succeeded: _succeeded,
               onSubmit: _submit,
             );
-            final Widget body;
-            // `stretch` fills a bounded host (the app screen) edge to edge;
-            // under unbounded height (the intrinsic docs frame) it would
-            // hand the panel an infinite cross axis, so align to the start
-            // and let both columns size to their content.
+            final bool wide = constraints.maxWidth >= 900;
             final bool bounded = constraints.maxHeight.isFinite;
-            if (constraints.maxWidth >= 900) {
-              body = Row(
-                crossAxisAlignment: bounded
-                    ? CrossAxisAlignment.stretch
-                    : CrossAxisAlignment.start,
+            // Unbounded fallback (never the docs page-size frame, which is
+            // always tight): stack with the panel at natural height so the
+            // tree never hands an infinite cross axis to the Row.
+            if (!bounded) {
+              if (!wide) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(theme.spacing.lg),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 384),
+                      child: form,
+                    ),
+                  ),
+                );
+              }
+              return Padding(
+                padding: EdgeInsets.all(theme.spacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 384),
+                          child: form,
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: Login02Panel()),
+                  ],
+                ),
+              );
+            }
+            final double pageH = constraints.maxHeight;
+            if (wide) {
+              // Full-page split: no outer padding, each half 50% width and
+              // 100% height. The form half scrolls internally and centres
+              // the 384px form vertically; the panel fills its half.
+              final double pad = theme.spacing.xl;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                    child: Center(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(pad),
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 320),
-                        child: form,
+                        constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 384),
+                            child: form,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const Expanded(child: Login02Panel()),
                 ],
               );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  // Natural height: the quote needs more than 220px on a
-                  // phone, and the column scrolls, so never fix it.
-                  const Login02Panel(),
-                  Padding(
-                    padding: EdgeInsets.all(theme.spacing.lg),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 320),
-                        child: form,
-                      ),
-                    ),
+            }
+            // Mobile: the brand panel is hidden; the form fills the screen.
+            final double pad = theme.spacing.lg;
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(pad),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 384),
+                    child: form,
                   ),
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
-            if (constraints.maxWidth >= 900) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
-            return SingleChildScrollView(child: body);
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -532,7 +534,6 @@ class _Login02Form extends StatelessWidget {
     required this.passwordKey,
     required this.emailFocus,
     required this.passwordFocus,
-    required this.submitting,
     required this.succeeded,
     required this.onSubmit,
   });
@@ -543,9 +544,8 @@ class _Login02Form extends StatelessWidget {
   final FormKey<String> passwordKey;
   final FocusNode emailFocus;
   final FocusNode passwordFocus;
-  final bool submitting;
   final bool succeeded;
-  final Future<void> Function() onSubmit;
+  final Future<bool> Function() onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -602,17 +602,12 @@ class _Login02Form extends StatelessWidget {
           ),
           Gap(theme.spacing.xl),
           Button(
-            onPressed: submitting ? null : onSubmit,
-            child: submitting
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spinner(size: 14, color: theme.colors.primaryForeground),
-                      Gap(theme.spacing.sm),
-                      const Text('Signing in'),
-                    ],
-                  )
-                : const Text('Sign in'),
+            onPressedAsync: () async {
+              if (!await onSubmit()) {
+                throw StateError('Login02: validation failed.');
+              }
+            },
+            child: const Text('Sign in'),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),
@@ -638,7 +633,7 @@ class _Login02Form extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppkkkkkppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppkkkkkppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkpppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkpppkkkkkpppppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/login-02/login_02_panel.dart',
@@ -652,8 +647,9 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 
-/// The testimonial panel: muted fill, a token-drawn dot pattern, the product
-/// mark and a quote. No images, so it works offline and in every preset.
+/// The testimonial panel: muted fill edge to edge, a token-drawn dot
+/// pattern, the product mark top-left and a quote anchored at the bottom.
+/// No images, so it works offline and in every preset.
 class Login02Panel extends StatelessWidget {
   /// Creates the panel.
   const Login02Panel({super.key});
@@ -662,75 +658,67 @@ class Login02Panel extends StatelessWidget {
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
     final double spacing = theme.spacing.xl;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: theme.colors.muted,
-        borderRadius: theme.borderRadiusLg,
-        border: Border.all(color: theme.colors.border),
-      ),
-      child: ClipRRect(
-        borderRadius: theme.borderRadiusLg,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: CustomPaint(
-                painter: _DotPainter(color: theme.colors.mutedForeground),
-              ),
+    // Edge to edge: no radius, no border. The Row gives this half a tight
+    // full height, so `max` + `spaceBetween` anchors the mark top-left and
+    // the quote at the bottom; under unbounded height it shrink-wraps.
+    return ColoredBox(
+      color: theme.colors.card,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _DotPainter(color: theme.colors.mutedForeground),
             ),
-            Padding(
-              padding: EdgeInsets.all(spacing),
-              // `max` + `spaceBetween` fills a bounded host (the app
-              // screen or the 220px stacked panel) and shrink-wraps an
-              // unbounded one (the intrinsic docs frame): no Spacer, which
-              // would throw under unbounded height.
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: theme.colors.primary,
-                          borderRadius: theme.borderRadiusSm,
-                        ),
-                        child: Icon(
-                          LucideIcons.command,
-                          size: 16,
-                          color: theme.colors.primaryForeground,
-                        ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(spacing * 1.5),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: theme.colors.primary,
+                        borderRadius: theme.borderRadiusSm,
                       ),
-                      Gap(theme.spacing.sm),
-                      Text('Acme Inc', style: theme.typography.textSmall),
-                    ],
-                  ),
-                  Gap(theme.spacing.xl),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        '"The kit paid for itself the week we adopted it. '
-                        'Every screen ships on-brand, light or dark."',
-                        style: theme.typography.textLarge,
+                      child: Icon(
+                        LucideIcons.command,
+                        size: 16,
+                        color: theme.colors.primaryForeground,
                       ),
-                      Gap(theme.spacing.md),
-                      Text(
-                        'Sofia Davis — Design lead, Acme',
-                        style: theme.typography.textSmall.copyWith(
-                          color: theme.colors.mutedForeground,
-                        ),
+                    ),
+                    Gap(theme.spacing.sm),
+                    Text('Acme Inc', style: theme.typography.textSmall),
+                  ],
+                ),
+                Gap(theme.spacing.xl),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '"The kit paid for itself the week we adopted it. '
+                      'Every screen ships on-brand, light or dark."',
+                      style: theme.typography.textLarge,
+                    ),
+                    Gap(theme.spacing.md),
+                    Text(
+                      'Sofia Davis — Design lead, Acme',
+                      style: theme.typography.textSmall.copyWith(
+                        color: theme.colors.mutedForeground,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -758,7 +746,7 @@ class _DotPainter extends CustomPainter {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppkkkkkppppppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppkkkkkppppppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'login-03': <DocsBlockFile>[
@@ -772,9 +760,10 @@ class _DotPainter extends CustomPainter {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form.
 
 import 'dart:async';
 
@@ -787,7 +776,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
@@ -838,7 +826,6 @@ class _Login03State extends State<Login03> {
   final FormKey<String> _passwordKey = const FormKey<String>('password');
   final FocusNode _emailFocus = FocusNode(debugLabel: 'login-03 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'login-03 password');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -849,31 +836,25 @@ class _Login03State extends State<Login03> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        if (result.errors.containsKey(_emailKey)) {
-          _emailFocus.requestFocus();
-        } else if (result.errors.containsKey(_passwordKey)) {
-          _passwordFocus.requestFocus();
-        }
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      if (result.errors.containsKey(_emailKey)) {
+        _emailFocus.requestFocus();
+      } else if (result.errors.containsKey(_passwordKey)) {
+        _passwordFocus.requestFocus();
+      }
+      return false;
+    }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -897,164 +878,175 @@ class _Login03State extends State<Login03> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final Widget body = Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 384),
-                child: Card(
-                  padding: EdgeInsets.all(theme.spacing.xl),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Text('Sign in', style: theme.typography.h2),
-                      Gap(theme.spacing.sm),
-                      Text(
-                        'Pick the way you prefer.',
-                        style: theme.typography.textMuted.copyWith(
-                          color: theme.colors.mutedForeground,
-                        ),
+            final Widget card = ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 384),
+              child: Card(
+                padding: EdgeInsets.all(theme.spacing.xl),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text('Sign in', style: theme.typography.h2),
+                    Gap(theme.spacing.sm),
+                    Text(
+                      'Pick the way you prefer.',
+                      style: theme.typography.textMuted.copyWith(
+                        color: theme.colors.mutedForeground,
                       ),
-                      Gap(theme.spacing.xl),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Button(
+                    ),
+                    Gap(theme.spacing.xl),
+                    LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                            final Widget github = Button(
                               variant: ButtonVariant.outline,
                               onPressed: () =>
                                   widget.onProvider?.call('GitHub'),
                               child: const _Login03ProviderButton('GitHub'),
-                            ),
-                          ),
-                          Gap(theme.spacing.md),
-                          Expanded(
-                            child: Button(
+                            );
+                            final Widget google = Button(
                               variant: ButtonVariant.outline,
                               onPressed: () =>
                                   widget.onProvider?.call('Google'),
                               child: const _Login03ProviderButton('Google'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Gap(theme.spacing.xl),
-                      const Divider(),
-                      Gap(theme.spacing.xl),
-                      ShadcnForm(
-                        controller: _controller,
-                        onSubmit: _handleValidSubmit,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            ShadcnFormField<String>(
-                              key: _emailKey,
-                              label: const Text('Email'),
-                              validator:
-                                  const NotEmptyValidator() &
-                                  const EmailValidator(),
-                              showErrors: const <FormValidationMode>{
-                                FormValidationMode.changed,
-                                FormValidationMode.submitted,
-                              },
-                              child: Input(
-                                hintText: 'name@example.com',
-                                keyboardType: TextInputType.emailAddress,
-                                textInputAction: TextInputAction.next,
-                                focusNode: _emailFocus,
-                                onSubmitted: (_) =>
-                                    _passwordFocus.requestFocus(),
-                              ),
-                            ),
-                            Gap(theme.spacing.md),
-                            ShadcnFormField<String>(
-                              key: _passwordKey,
-                              label: const Text('Password'),
-                              validator:
-                                  const NotEmptyValidator() &
-                                  const LengthValidator(min: 8),
-                              showErrors: const <FormValidationMode>{
-                                FormValidationMode.changed,
-                                FormValidationMode.submitted,
-                              },
-                              child: Input(
-                                hintText: 'Password',
-                                obscureText: true,
-                                textInputAction: TextInputAction.done,
-                                focusNode: _passwordFocus,
-                                onSubmitted: (_) => _submit(),
-                              ),
-                            ),
-                            Gap(theme.spacing.sm),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Button(
-                                variant: ButtonVariant.link,
-                                onPressed: widget.onForgotPassword ?? () {},
-                                child: const Text('Forgot your password?'),
-                              ),
-                            ),
-                            Gap(theme.spacing.md),
-                            Button(
-                              onPressed: _submitting ? null : _submit,
-                              child: _submitting
-                                  ? Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Spinner(
-                                          size: 14,
-                                          color: theme.colors.primaryForeground,
-                                        ),
-                                        Gap(theme.spacing.sm),
-                                        const Text('Signing in'),
-                                      ],
-                                    )
-                                  : const Text('Sign in with email'),
-                            ),
-                            if (_succeeded) ...<Widget>[
-                              Gap(theme.spacing.lg),
-                              Alert(
-                                content: Text(
-                                  'Signed in — welcome back.',
-                                  style: theme.typography.textSmall,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      Gap(theme.spacing.lg),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 4,
+                            );
+                            // Stacked on phones so the provider buttons never
+                            // overflow a 375 px card; side by side otherwise.
+                            if (constraints.maxWidth < 420) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  github,
+                                  Gap(theme.spacing.md),
+                                  google,
+                                ],
+                              );
+                            }
+                            return Row(
+                              children: <Widget>[
+                                Expanded(child: github),
+                                Gap(theme.spacing.md),
+                                Expanded(child: google),
+                              ],
+                            );
+                          },
+                    ),
+                    Gap(theme.spacing.xl),
+                    const Divider(),
+                    Gap(theme.spacing.xl),
+                    ShadcnForm(
+                      controller: _controller,
+                      onSubmit: _handleValidSubmit,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text(
-                            "Don't have an account?",
-                            style: theme.typography.textSmall.copyWith(
-                              color: theme.colors.mutedForeground,
+                          ShadcnFormField<String>(
+                            key: _emailKey,
+                            label: const Text('Email'),
+                            validator:
+                                const NotEmptyValidator() &
+                                const EmailValidator(),
+                            showErrors: const <FormValidationMode>{
+                              FormValidationMode.changed,
+                              FormValidationMode.submitted,
+                            },
+                            child: Input(
+                              hintText: 'name@example.com',
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _emailFocus,
+                              onSubmitted: (_) => _passwordFocus.requestFocus(),
                             ),
                           ),
-                          Button(
-                            variant: ButtonVariant.link,
-                            onPressed: widget.onSignUp ?? () {},
-                            child: const Text('Sign up'),
+                          Gap(theme.spacing.md),
+                          ShadcnFormField<String>(
+                            key: _passwordKey,
+                            label: const Text('Password'),
+                            validator:
+                                const NotEmptyValidator() &
+                                const LengthValidator(min: 8),
+                            showErrors: const <FormValidationMode>{
+                              FormValidationMode.changed,
+                              FormValidationMode.submitted,
+                            },
+                            child: Input(
+                              hintText: 'Password',
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              focusNode: _passwordFocus,
+                              onSubmitted: (_) => _submit(),
+                            ),
                           ),
+                          Gap(theme.spacing.sm),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Button(
+                              variant: ButtonVariant.link,
+                              onPressed: widget.onForgotPassword ?? () {},
+                              child: const Text('Forgot your password?'),
+                            ),
+                          ),
+                          Gap(theme.spacing.md),
+                          Button(
+                            onPressedAsync: () async {
+                              if (!await _submit()) {
+                                throw StateError('Login03: validation failed.');
+                              }
+                            },
+                            child: const Text('Sign in with email'),
+                          ),
+                          if (_succeeded) ...<Widget>[
+                            Gap(theme.spacing.lg),
+                            Alert(
+                              content: Text(
+                                'Signed in — welcome back.',
+                                style: theme.typography.textSmall,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Gap(theme.spacing.lg),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 4,
+                      children: <Widget>[
+                        Text(
+                          "Don't have an account?",
+                          style: theme.typography.textSmall.copyWith(
+                            color: theme.colors.mutedForeground,
+                          ),
+                        ),
+                        Button(
+                          variant: ButtonVariant.link,
+                          onPressed: widget.onSignUp ?? () {},
+                          child: const Text('Sign up'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Center(child: card),
               );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: pageH - theme.spacing.lg * 2,
+                ),
+                child: Center(child: card),
+              ),
             );
           },
         ),
@@ -1077,14 +1069,18 @@ class _Login03ProviderButton extends StatelessWidget {
       children: <Widget>[
         Icon(LucideIcons.github, size: 16, color: theme.colors.foreground),
         Gap(theme.spacing.sm),
-        Flexible(child: Text(provider, style: theme.typography.textSmall)),
+        Text(
+          provider,
+          style: theme.typography.textSmall,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppkkkkpppppppppppppppkkkkpppppppppppppppppkkkkpppppppppppppppppppppppkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkkppppppppppkkkkpppppppppppppppkkkkpppppppppppppppppkkkkpppppppppppppppppppppppkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkpppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'otp-01': <DocsBlockFile>[
@@ -1098,10 +1094,11 @@ class _Login03ProviderButton extends StatelessWidget {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form. The code
-// must be exactly 6 digits; completing all slots submits automatically.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form. The code must be exactly 6 digits; completing all slots
+// submits automatically.
 
 import 'dart:async';
 
@@ -1113,7 +1110,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input_otp/input_otp.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -1153,20 +1149,30 @@ class _Otp01State extends State<Otp01> {
 
   final FormController _controller = FormController();
   final FormKey<String> _codeKey = const FormKey<String>('code');
+  final ButtonStatusController _status = ButtonStatusController();
   Timer? _timer;
   int _secondsLeft = 30;
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
   void initState() {
     super.initState();
+    _status.addListener(_handleStatus);
     _startCountdown();
+  }
+
+  void _handleStatus() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _status
+      ..removeListener(_handleStatus)
+      ..dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -1187,21 +1193,23 @@ class _Otp01State extends State<Otp01> {
     });
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Submits through the shared status machine, so the button press and the
+  /// code-completed auto-submit show the same loading/success/failure. The
+  /// machine maps invalid validation to failure (via the throw) and the
+  /// valid 600ms demo submit to success.
+  Future<void> _submit() {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
+    return _status.run(() async {
+      final SubmissionResult result = await _controller.submit(context);
+      if (!mounted) {
+        return;
       }
-    }
+      if (!result.isValid) {
+        throw StateError('Otp01: validation failed.');
+      }
+    });
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -1218,89 +1226,76 @@ class _Otp01State extends State<Otp01> {
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
     final String email = widget.email ?? 'ada@example.com';
-    final Widget body = Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 384),
-        child: Card(
-          padding: EdgeInsets.all(theme.spacing.xl),
-          child: ShadcnForm(
-            controller: _controller,
-            onSubmit: _handleValidSubmit,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text('Verify your email', style: theme.typography.h2),
-                Gap(theme.spacing.sm),
-                Text(
-                  'We sent a six-digit code to $email.',
-                  style: theme.typography.textMuted.copyWith(
-                    color: theme.colors.mutedForeground,
-                  ),
+    final Widget card = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 384),
+      child: Card(
+        padding: EdgeInsets.all(theme.spacing.xl),
+        child: ShadcnForm(
+          controller: _controller,
+          onSubmit: _handleValidSubmit,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('Verify your email', style: theme.typography.h2),
+              Gap(theme.spacing.sm),
+              Text(
+                'We sent a six-digit code to $email.',
+                style: theme.typography.textMuted.copyWith(
+                  color: theme.colors.mutedForeground,
                 ),
-                Gap(theme.spacing.xl),
-                Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 320),
-                    child: ShadcnFormField<String>(
-                      key: _codeKey,
-                      label: const Text('Code'),
-                      validator: _codeValidator,
-                      showErrors: const <FormValidationMode>{
-                        FormValidationMode.changed,
-                        FormValidationMode.submitted,
-                      },
-                      child: InputOtp(
-                        length: 6,
-                        onCompleted: (_) => _submit(),
-                        onSubmitted: (_) => _submit(),
-                      ),
+              ),
+              Gap(theme.spacing.xl),
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 320),
+                  child: ShadcnFormField<String>(
+                    key: _codeKey,
+                    label: const Text('Code'),
+                    validator: _codeValidator,
+                    showErrors: const <FormValidationMode>{
+                      FormValidationMode.changed,
+                      FormValidationMode.submitted,
+                    },
+                    child: InputOtp(
+                      length: 6,
+                      onCompleted: (_) => _submit(),
+                      onSubmitted: (_) => _submit(),
                     ),
                   ),
                 ),
+              ),
+              Gap(theme.spacing.lg),
+              _Otp01Resend(
+                secondsLeft: _secondsLeft,
+                onResend: _startCountdown,
+              ),
+              Gap(theme.spacing.xl),
+              Button(
+                status: _status.status,
+                onPressed: _submit,
+                child: const Text('Verify'),
+              ),
+              if (_succeeded) ...<Widget>[
                 Gap(theme.spacing.lg),
-                _Otp01Resend(
-                  secondsLeft: _secondsLeft,
-                  onResend: _startCountdown,
-                ),
-                Gap(theme.spacing.xl),
-                Button(
-                  onPressed: _submitting ? null : _submit,
-                  child: _submitting
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Spinner(
-                              size: 14,
-                              color: theme.colors.primaryForeground,
-                            ),
-                            Gap(theme.spacing.sm),
-                            const Text('Verifying'),
-                          ],
-                        )
-                      : const Text('Verify'),
-                ),
-                if (_succeeded) ...<Widget>[
-                  Gap(theme.spacing.lg),
-                  Alert(
-                    content: Text(
-                      'Email verified — you are all set.',
-                      style: theme.typography.textSmall,
-                    ),
-                  ),
-                ],
-                Gap(theme.spacing.lg),
-                const Divider(),
-                Gap(theme.spacing.lg),
-                Center(
-                  child: Button(
-                    variant: ButtonVariant.link,
-                    onPressed: widget.onChangeEmail ?? () {},
-                    child: const Text('Use a different email'),
+                Alert(
+                  content: Text(
+                    'Email verified — you are all set.',
+                    style: theme.typography.textSmall,
                   ),
                 ),
               ],
-            ),
+              Gap(theme.spacing.lg),
+              const Divider(),
+              Gap(theme.spacing.lg),
+              Center(
+                child: Button(
+                  variant: ButtonVariant.link,
+                  onPressed: widget.onChangeEmail ?? () {},
+                  child: const Text('Use a different email'),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -1313,12 +1308,18 @@ class _Otp01State extends State<Otp01> {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Center(child: card),
               );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: pageH - theme.spacing.lg * 2,
+                ),
+                child: Center(child: card),
+              ),
             );
           },
         ),
@@ -1366,7 +1367,7 @@ class _Otp01Resend extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppkkkkkkkkpkkkkppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppkkkkkppppppkkkkppppppppkkkkpppppppppppkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkkkppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppsssssssssssssssssppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssspppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppkkkkkkkkpkkkkppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppkkkkkppppppkkkkppppppppkkkkpppppppppppkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkkkppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccppppppppppkkkkppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkkppppppppppppppppkkkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppsssssssssssssssssppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssspppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'signup-01': <DocsBlockFile>[
@@ -1379,9 +1380,10 @@ class _Otp01Resend extends StatelessWidget {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form.
 
 import 'dart:async';
 
@@ -1394,7 +1396,6 @@ import '../../components/card/card.dart';
 import '../../components/checkbox/checkbox.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -1446,7 +1447,6 @@ class _Signup01State extends State<Signup01> {
   final FocusNode _emailFocus = FocusNode(debugLabel: 'signup-01 email');
   final FocusNode _passwordFocus = FocusNode(debugLabel: 'signup-01 password');
   CheckboxValue _terms = CheckboxValue.unchecked;
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -1458,27 +1458,21 @@ class _Signup01State extends State<Signup01> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        _focusFirstInvalid(result.errors);
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      _focusFirstInvalid(result.errors);
+      return false;
+    }
+    return true;
   }
 
   void _focusFirstInvalid(Map<FormKey, ValidationResult> errors) {
@@ -1512,144 +1506,134 @@ class _Signup01State extends State<Signup01> {
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final Widget body = Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 384),
-        child: Card(
-          padding: EdgeInsets.all(theme.spacing.xl),
-          child: ShadcnForm(
-            controller: _controller,
-            onSubmit: _handleValidSubmit,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text('Create an account', style: theme.typography.h2),
-                Gap(theme.spacing.sm),
-                Text(
-                  'Enter your email below to create your account.',
-                  style: theme.typography.textMuted.copyWith(
-                    color: theme.colors.mutedForeground,
-                  ),
+    final Widget card = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 384),
+      child: Card(
+        padding: EdgeInsets.all(theme.spacing.xl),
+        child: ShadcnForm(
+          controller: _controller,
+          onSubmit: _handleValidSubmit,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('Create an account', style: theme.typography.h2),
+              Gap(theme.spacing.sm),
+              Text(
+                'Enter your email below to create your account.',
+                style: theme.typography.textMuted.copyWith(
+                  color: theme.colors.mutedForeground,
                 ),
-                Gap(theme.spacing.xl),
-                ShadcnFormField<String>(
-                  key: _nameKey,
-                  label: const Text('Name'),
-                  validator:
-                      const NotEmptyValidator() &
-                      const LengthValidator(min: 2, max: 50),
-                  showErrors: const <FormValidationMode>{
-                    FormValidationMode.changed,
-                    FormValidationMode.submitted,
-                  },
-                  child: Input(
-                    hintText: 'Ada Lovelace',
-                    textInputAction: TextInputAction.next,
-                    focusNode: _nameFocus,
-                    onSubmitted: (_) => _emailFocus.requestFocus(),
-                  ),
+              ),
+              Gap(theme.spacing.xl),
+              ShadcnFormField<String>(
+                key: _nameKey,
+                label: const Text('Name'),
+                validator:
+                    const NotEmptyValidator() &
+                    const LengthValidator(min: 2, max: 50),
+                showErrors: const <FormValidationMode>{
+                  FormValidationMode.changed,
+                  FormValidationMode.submitted,
+                },
+                child: Input(
+                  hintText: 'Ada Lovelace',
+                  textInputAction: TextInputAction.next,
+                  focusNode: _nameFocus,
+                  onSubmitted: (_) => _emailFocus.requestFocus(),
                 ),
-                Gap(theme.spacing.md),
-                ShadcnFormField<String>(
-                  key: _emailKey,
-                  label: const Text('Email'),
-                  validator: const NotEmptyValidator() & const EmailValidator(),
-                  showErrors: const <FormValidationMode>{
-                    FormValidationMode.changed,
-                    FormValidationMode.submitted,
-                  },
-                  child: Input(
-                    hintText: 'name@example.com',
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _emailFocus,
-                    onSubmitted: (_) => _passwordFocus.requestFocus(),
-                  ),
+              ),
+              Gap(theme.spacing.md),
+              ShadcnFormField<String>(
+                key: _emailKey,
+                label: const Text('Email'),
+                validator: const NotEmptyValidator() & const EmailValidator(),
+                showErrors: const <FormValidationMode>{
+                  FormValidationMode.changed,
+                  FormValidationMode.submitted,
+                },
+                child: Input(
+                  hintText: 'name@example.com',
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  focusNode: _emailFocus,
+                  onSubmitted: (_) => _passwordFocus.requestFocus(),
                 ),
-                Gap(theme.spacing.md),
-                ShadcnFormField<String>(
-                  key: _passwordKey,
-                  label: const Text('Password'),
-                  hint: const Text('At least 8 characters.'),
-                  validator:
-                      const NotEmptyValidator() & const LengthValidator(min: 8),
-                  showErrors: const <FormValidationMode>{
-                    FormValidationMode.changed,
-                    FormValidationMode.submitted,
-                  },
-                  child: Input(
-                    hintText: 'Password',
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    focusNode: _passwordFocus,
-                    onSubmitted: (_) => _submit(),
-                  ),
+              ),
+              Gap(theme.spacing.md),
+              ShadcnFormField<String>(
+                key: _passwordKey,
+                label: const Text('Password'),
+                hint: const Text('At least 8 characters.'),
+                validator:
+                    const NotEmptyValidator() & const LengthValidator(min: 8),
+                showErrors: const <FormValidationMode>{
+                  FormValidationMode.changed,
+                  FormValidationMode.submitted,
+                },
+                child: Input(
+                  hintText: 'Password',
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  focusNode: _passwordFocus,
+                  onSubmitted: (_) => _submit(),
                 ),
-                Gap(theme.spacing.md),
-                ShadcnFormField<CheckboxValue>(
-                  key: _termsKey,
-                  // The checkbox carries its own inline label; the field
-                  // label stays empty so no text is duplicated.
-                  label: const SizedBox.shrink(),
-                  validator: const _AcceptedValidator(),
-                  showErrors: const <FormValidationMode>{
-                    FormValidationMode.changed,
-                    FormValidationMode.submitted,
-                  },
-                  child: _Signup01Terms(
-                    value: _terms,
-                    onChanged: (CheckboxValue value) =>
-                        setState(() => _terms = value),
-                  ),
+              ),
+              Gap(theme.spacing.md),
+              ShadcnFormField<CheckboxValue>(
+                key: _termsKey,
+                // The checkbox carries its own inline label; the field
+                // label stays empty so no text is duplicated.
+                label: const SizedBox.shrink(),
+                validator: const _AcceptedValidator(),
+                showErrors: const <FormValidationMode>{
+                  FormValidationMode.changed,
+                  FormValidationMode.submitted,
+                },
+                child: _Signup01Terms(
+                  value: _terms,
+                  onChanged: (CheckboxValue value) =>
+                      setState(() => _terms = value),
                 ),
-                Gap(theme.spacing.xl),
-                Button(
-                  onPressed: _submitting ? null : _submit,
-                  child: _submitting
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Spinner(
-                              size: 14,
-                              color: theme.colors.primaryForeground,
-                            ),
-                            Gap(theme.spacing.sm),
-                            const Text('Creating account'),
-                          ],
-                        )
-                      : const Text('Create account'),
-                ),
-                if (_succeeded) ...<Widget>[
-                  Gap(theme.spacing.lg),
-                  Alert(
-                    content: Text(
-                      'Account created — check your inbox to verify it.',
-                      style: theme.typography.textSmall,
-                    ),
-                  ),
-                ],
+              ),
+              Gap(theme.spacing.xl),
+              Button(
+                onPressedAsync: () async {
+                  if (!await _submit()) {
+                    throw StateError('Signup01: validation failed.');
+                  }
+                },
+                child: const Text('Create account'),
+              ),
+              if (_succeeded) ...<Widget>[
                 Gap(theme.spacing.lg),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 4,
-                  children: <Widget>[
-                    Text(
-                      'Already have an account?',
-                      style: theme.typography.textSmall.copyWith(
-                        color: theme.colors.mutedForeground,
-                      ),
-                    ),
-                    Button(
-                      variant: ButtonVariant.link,
-                      onPressed: widget.onSignIn ?? () {},
-                      child: const Text('Sign in'),
-                    ),
-                  ],
+                Alert(
+                  content: Text(
+                    'Account created — check your inbox to verify it.',
+                    style: theme.typography.textSmall,
+                  ),
                 ),
               ],
-            ),
+              Gap(theme.spacing.lg),
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 4,
+                children: <Widget>[
+                  Text(
+                    'Already have an account?',
+                    style: theme.typography.textSmall.copyWith(
+                      color: theme.colors.mutedForeground,
+                    ),
+                  ),
+                  Button(
+                    variant: ButtonVariant.link,
+                    onPressed: widget.onSignIn ?? () {},
+                    child: const Text('Sign in'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -1662,12 +1646,18 @@ class _Signup01State extends State<Signup01> {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Center(child: card),
               );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: pageH - theme.spacing.lg * 2,
+                ),
+                child: Center(child: card),
+              ),
             );
           },
         ),
@@ -1753,24 +1743,25 @@ class _Signup01Terms extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccpkkkkkppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppkkkkkppppppkkkkpppppppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssspppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkppppppppppppkkkkkkppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccpkkkkkppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppkkkkkppppppkkkkpppppppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssspppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkpppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppkkkkkppppppppppppppppppppppppppppppppppkkkkkppppppppppppsssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkppppppppppppkkkkkkppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'signup-02': <DocsBlockFile>[
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/signup-02/signup_02.dart',
       code:
-          r'''// The `signup-02` block: a two-column sign-up with a validated form, a
-// password strength meter wired to the password field, and a summary aside.
+          r'''// The `signup-02` block: a split sign-up with a validated form, a
+// password strength meter wired to the password field, and a brand panel.
 //
 // A block is layer 4 of the registry: it may import foundation, theme,
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The form and the aside sit side by side from 960px up inside a 1024px
-// shell, and stack below that. The content shrink-wraps so the docs frame
-// sizes to its intrinsic height, and scrolls internally when the host is
-// bounded and shorter than the page.
+// From 900px the page is two equal columns filling the viewport edge to
+// edge: the form column centres the validated form vertically, and the brand
+// panel fills its half full height with the muted token, the product mark
+// top-left, the trial summary and a quote anchored at the bottom. Below
+// 900px the panel is hidden and the form fills the screen.
 
 import 'dart:async';
 
@@ -1778,7 +1769,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../components/checkbox/checkbox.dart';
 import '../../components/form/form.dart';
-import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'signup_02_aside.dart';
 import 'signup_02_form.dart';
@@ -1806,7 +1796,7 @@ class Signup02Data {
   final String password;
 }
 
-/// A two-column sign-up: validated form on the left, a plan summary aside.
+/// A split sign-up: validated form beside a full-height brand panel.
 class Signup02 extends StatefulWidget {
   /// Creates the block.
   const Signup02({super.key, this.onSubmit, this.onSignIn});
@@ -1840,7 +1830,6 @@ class _Signup02State extends State<Signup02> {
   final TextEditingController _passwordController = TextEditingController();
   CheckboxValue _terms = CheckboxValue.unchecked;
   String _password = '';
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -1868,27 +1857,21 @@ class _Signup02State extends State<Signup02> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        _focusFirstInvalid(result.errors);
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    if (!result.isValid) {
+      _focusFirstInvalid(result.errors);
+      return false;
+    }
+    return true;
   }
 
   void _focusFirstInvalid(Map<FormKey, ValidationResult> errors) {
@@ -1946,46 +1929,78 @@ class _Signup02State extends State<Signup02> {
               terms: _terms,
               onTermsChanged: (CheckboxValue value) =>
                   setState(() => _terms = value),
-              submitting: _submitting,
               succeeded: _succeeded,
               onSubmit: _submit,
               onSignIn: widget.onSignIn,
             );
-            final Widget body;
-            if (constraints.maxWidth >= 960) {
-              body = Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1024),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(flex: 3, child: form),
-                      Gap(theme.spacing.xl),
-                      const Expanded(flex: 2, child: Signup02Aside()),
-                    ],
+            final bool wide = constraints.maxWidth >= 900;
+            final bool bounded = constraints.maxHeight.isFinite;
+            if (!bounded) {
+              if (!wide) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(theme.spacing.lg),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 384),
+                      child: form,
+                    ),
                   ),
+                );
+              }
+              return Padding(
+                padding: EdgeInsets.all(theme.spacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 384),
+                          child: form,
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: Signup02Aside()),
+                  ],
                 ),
               );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
+            }
+            final double pageH = constraints.maxHeight;
+            if (wide) {
+              final double pad = theme.spacing.xl;
+              return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  form,
-                  Gap(theme.spacing.lg),
-                  const Signup02Aside(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(pad),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 384),
+                            child: form,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: Signup02Aside()),
                 ],
               );
             }
-            if (!constraints.maxHeight.isFinite) {
-              return Padding(
-                padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
-              );
-            }
+            final double pad = theme.spacing.lg;
             return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              padding: EdgeInsets.all(pad),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: pageH - pad * 2),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 384),
+                    child: form,
+                  ),
+                ),
+              ),
             );
           },
         ),
@@ -1995,52 +2010,108 @@ class _Signup02State extends State<Signup02> {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssppkkkkkkpssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppkkkkkppppppkkkkpppppppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssppkkkkkkpssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppkkkkkppppppkkkkpppppppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssspppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkpppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/signup-02/signup_02_aside.dart',
       code:
-          r'''// The `signup-02` block, part 3: the plan summary aside. Imported by
+          r'''// The `signup-02` block, part 3: the full-height brand panel. Imported by
 // `signup_02.dart`; a block never imports another block.
 
 import 'package:flutter/widgets.dart';
 
-import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/progress/progress.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 
-/// The aside that lists what the trial includes.
+/// The brand panel: muted fill edge to edge, the product mark top-left, the
+/// trial summary in the middle and a quote anchored at the bottom. No
+/// images, so it works offline and in every preset.
 class Signup02Aside extends StatelessWidget {
-  /// Creates the summary aside.
+  /// Creates the brand panel.
   const Signup02Aside({super.key});
 
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Card(
-      padding: EdgeInsets.all(theme.spacing.xl),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return ColoredBox(
+      color: theme.colors.card,
+      child: Stack(
         children: <Widget>[
-          Text('What you get', style: theme.typography.h3),
-          Gap(theme.spacing.lg),
-          for (final line in const <String>[
-            'Unlimited projects during the trial',
-            'All component categories',
-            'Priority support',
-          ]) ...<Widget>[_Signup02Bullet(line: line), Gap(theme.spacing.md)],
-          const Divider(),
-          Gap(theme.spacing.lg),
-          const Progress(value: 1, height: 8),
-          Gap(theme.spacing.sm),
-          Text(
-            '14 days left in your trial',
-            style: theme.typography.textSmall.copyWith(
-              color: theme.colors.mutedForeground,
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _Signup02Dots(color: theme.colors.mutedForeground),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(theme.spacing.xl * 1.5),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: theme.colors.primary,
+                        borderRadius: theme.borderRadiusSm,
+                      ),
+                      child: Icon(
+                        LucideIcons.command,
+                        size: 16,
+                        color: theme.colors.primaryForeground,
+                      ),
+                    ),
+                    Gap(theme.spacing.sm),
+                    Text('Acme Inc', style: theme.typography.textSmall),
+                  ],
+                ),
+                Gap(theme.spacing.xl),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('What you get', style: theme.typography.h3),
+                    Gap(theme.spacing.lg),
+                    for (final String line in const <String>[
+                      'Unlimited projects during the trial',
+                      'All component categories',
+                      'Priority support',
+                    ]) ...<Widget>[
+                      _Signup02Bullet(line: line),
+                      Gap(theme.spacing.md),
+                    ],
+                    Gap(theme.spacing.md),
+                    const Divider(),
+                    Gap(theme.spacing.lg),
+                    const Progress(value: 1, height: 8),
+                    Gap(theme.spacing.sm),
+                    Text(
+                      '14 days left in your trial',
+                      style: theme.typography.textSmall.copyWith(
+                        color: theme.colors.mutedForeground,
+                      ),
+                    ),
+                    Gap(theme.spacing.xl),
+                    Text(
+                      '"We onboarded the whole team in an afternoon."',
+                      style: theme.typography.textLarge,
+                    ),
+                    Gap(theme.spacing.md),
+                    Text(
+                      'Ada Lovelace — Engineer, Acme',
+                      style: theme.typography.textSmall.copyWith(
+                        color: theme.colors.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
@@ -2049,9 +2120,12 @@ class Signup02Aside extends StatelessWidget {
   }
 }
 
+/// One trial bullet: a check icon plus the line.
 class _Signup02Bullet extends StatelessWidget {
+  /// Creates a bullet for [line].
   const _Signup02Bullet({required this.line});
 
+  /// The bullet text.
   final String line;
 
   @override
@@ -2067,9 +2141,32 @@ class _Signup02Bullet extends StatelessWidget {
     );
   }
 }
+
+/// A subtle dot grid at 8% opacity of the muted-foreground token.
+class _Signup02Dots extends CustomPainter {
+  /// Creates the painter for [color].
+  const _Signup02Dots({required this.color});
+
+  /// The dot color before the opacity is applied.
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint dot = Paint()..color = color.withValues(alpha: 0.08);
+    const double step = 22;
+    for (double y = step / 2; y < size.height; y += step) {
+      for (double x = step / 2; x < size.width; x += step) {
+        canvas.drawCircle(Offset(x, y), 1.2, dot);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_Signup02Dots oldDelegate) => oldDelegate.color != color;
+}
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppkkpkkkkkpppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssppppppppppppppssssssssssssssssssssssssssppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccpppkkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppkkpkkkkkpppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppssssssssssssssssssssssssssppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppkkkkkkkkpkkkkppppppppppppccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/signup-02/signup_02_form.dart',
@@ -2089,7 +2186,6 @@ import '../../components/checkbox/checkbox.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -2132,7 +2228,6 @@ class Signup02Form extends StatelessWidget {
     required this.password,
     required this.terms,
     required this.onTermsChanged,
-    required this.submitting,
     required this.succeeded,
     required this.onSubmit,
     required this.onSignIn,
@@ -2155,9 +2250,8 @@ class Signup02Form extends StatelessWidget {
   final String password;
   final CheckboxValue terms;
   final ValueChanged<CheckboxValue> onTermsChanged;
-  final bool submitting;
   final bool succeeded;
-  final Future<void> Function() onSubmit;
+  final Future<bool> Function() onSubmit;
   final VoidCallback? onSignIn;
 
   static const Set<FormValidationMode> _show = <FormValidationMode>{
@@ -2318,17 +2412,12 @@ class Signup02Form extends StatelessWidget {
           ),
           Gap(theme.spacing.xl),
           Button(
-            onPressed: submitting ? null : onSubmit,
-            child: submitting
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spinner(size: 14, color: theme.colors.primaryForeground),
-                      Gap(theme.spacing.sm),
-                      const Text('Starting trial'),
-                    ],
-                  )
-                : const Text('Start free trial'),
+            onPressedAsync: () async {
+              if (!await onSubmit()) {
+                throw StateError('Signup02: validation failed.');
+              }
+            },
+            child: const Text('Start free trial'),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),
@@ -2439,7 +2528,7 @@ class _Signup02Strength extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppkkkppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppsssssssspppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppkkkkppkkkkkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssspppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkppppppppppppkkkkkkppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppssssssppppppppssssssppppppppssssssppppppppsssssssspppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppkkkppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppsssssssspppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppkkkkkkkkpppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssspppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkpppkkkkkpppppppppppppppppppppppppppppppkkkkkppppppppppppsssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkppppppppppppkkkkkkppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppssssssppppppppssssssppppppppssssssppppppppsssssssspppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'calendar-01': <DocsBlockFile>[
@@ -2451,11 +2540,11 @@ class _Signup02Strength extends StatelessWidget {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// A two-month range calendar (one month on a phone), a live range summary
-// and footer actions. `Calendar` owns no navigation, so the block drives the
-// `CalendarView` itself. The card is capped at 720px and centres itself; the
-// content shrink-wraps so the docs frame sizes to its intrinsic height, and
-// scrolls internally when the host is bounded.
+// A page header plus a two-month range calendar (one month on a phone),
+// a live range summary and footer actions. `Calendar` owns no navigation,
+// so the block drives the `CalendarView` itself. The page is capped at
+// 720px and fills the viewport, scrolling internally when the host is
+// shorter than the content.
 
 import 'package:flutter/widgets.dart';
 
@@ -2499,66 +2588,86 @@ class _Calendar01State extends State<Calendar01> {
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final Widget body = Center(
+    final Widget body = Align(
+      alignment: Alignment.topCenter,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 720),
-        child: Card(
-          padding: EdgeInsets.all(theme.spacing.lg),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final bool twoMonths = constraints.maxWidth >= 720;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Calendar01Header(
-                    view: _view,
-                    twoMonths: twoMonths,
-                    onShift: _shift,
-                  ),
-                  Gap(theme.spacing.lg),
-                  if (twoMonths)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: _Calendar01Month(
-                            view: _view,
-                            value: _value,
-                            onChanged: (CalendarValue? value) =>
-                                setState(() => _value = value),
-                          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text('Schedule', style: theme.typography.h2),
+            Gap(theme.spacing.xs),
+            Text(
+              'Pick a date range for your report.',
+              style: theme.typography.textMuted.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+            Gap(theme.spacing.lg),
+            Card(
+              padding: EdgeInsets.all(theme.spacing.lg),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  // Two month grids need ~568 px (2 x 272 nominal incl. the p-3
+                  // shell, plus the 24 px gap). 720 could never hold: the card
+                  // caps at 720 and its own padding leaves 688 inside, so the
+                  // second month never rendered and the right half stayed empty.
+                  final bool twoMonths = constraints.maxWidth >= 600;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      _Calendar01Header(
+                        view: _view,
+                        twoMonths: twoMonths,
+                        onShift: _shift,
+                      ),
+                      Gap(theme.spacing.lg),
+                      if (twoMonths)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: _Calendar01Month(
+                                view: _view,
+                                value: _value,
+                                onChanged: (CalendarValue? value) =>
+                                    setState(() => _value = value),
+                              ),
+                            ),
+                            Gap(theme.spacing.xl),
+                            Expanded(
+                              child: _Calendar01Month(
+                                view: _view.next,
+                                value: _value,
+                                onChanged: (CalendarValue? value) =>
+                                    setState(() => _value = value),
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        _Calendar01Month(
+                          view: _view,
+                          value: _value,
+                          onChanged: (CalendarValue? value) =>
+                              setState(() => _value = value),
                         ),
-                        Gap(theme.spacing.xl),
-                        Expanded(
-                          child: _Calendar01Month(
-                            view: _view.next,
-                            value: _value,
-                            onChanged: (CalendarValue? value) =>
-                                setState(() => _value = value),
-                          ),
-                        ),
-                      ],
-                    )
-                  else
-                    _Calendar01Month(
-                      view: _view,
-                      value: _value,
-                      onChanged: (CalendarValue? value) =>
-                          setState(() => _value = value),
-                    ),
-                  Gap(theme.spacing.lg),
-                  const Divider(),
-                  Gap(theme.spacing.lg),
-                  _Calendar01Footer(
-                    value: _value,
-                    onClear: _clear,
-                    onApply: () => widget.onApply?.call(_value),
-                  ),
-                ],
-              );
-            },
-          ),
+                      Gap(theme.spacing.lg),
+                      const Divider(),
+                      Gap(theme.spacing.lg),
+                      _Calendar01Footer(
+                        value: _value,
+                        onClear: _clear,
+                        onApply: () => widget.onApply?.call(_value),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -2697,22 +2806,51 @@ class _Calendar01Footer extends StatelessWidget {
   }
 }
 
-/// The live range summary for the footer.
+/// The live range summary for the footer: the picked dates first.
 String _summary(CalendarValue? value) {
   final CalendarValue? current = value;
   if (current is RangeCalendarValue) {
     final int nights = current.end.difference(current.start).inDays;
+    final String range = _rangeLabel(current.start, current.end);
     if (nights <= 0) {
-      return 'Same-day stay';
+      return '$range · Same-day stay';
     }
-    return 'Your stay: $nights night${nights == 1 ? '' : 's'}';
+    return '$range · $nights night${nights == 1 ? '' : 's'}';
   }
   if (current is SingleCalendarValue) {
-    return 'Picked ${_monthName(current.date.month)} ${current.date.day} — '
-        'extend it into a range';
+    return '${_shortLabel(current.date)} — '
+        'tap another day to extend the range';
   }
   return 'Pick a date range';
 }
+
+/// Compact range label: `Oct 12–18, 2026`, or `Oct 30 – Nov 2, 2026`.
+String _rangeLabel(DateTime start, DateTime end) {
+  if (start.year == end.year && start.month == end.month) {
+    return '${_shortMonth(start.month)} ${start.day}–${end.day}, '
+        '${start.year}';
+  }
+  return '${_shortLabel(start)} – ${_shortLabel(end)}, ${end.year}';
+}
+
+/// Compact day label: `Oct 12`.
+String _shortLabel(DateTime date) => '${_shortMonth(date.month)} ${date.day}';
+
+String _shortMonth(int month) => switch (month) {
+  1 => 'Jan',
+  2 => 'Feb',
+  3 => 'Mar',
+  4 => 'Apr',
+  5 => 'May',
+  6 => 'Jun',
+  7 => 'Jul',
+  8 => 'Aug',
+  9 => 'Sep',
+  10 => 'Oct',
+  11 => 'Nov',
+  12 => 'Dec',
+  _ => 'M$month',
+};
 
 String _monthName(int month) => switch (month) {
   1 => 'January',
@@ -2731,7 +2869,7 @@ String _monthName(int month) => switch (month) {
 };
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppkkkkkppppppkkkkppppppppppkkkkpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppspppppppppppppppppppppppppsssppppppppppppppppppppppppppppppsspppppppppppppppspppppppppppppppppspppppppppppspppppppppppppppppppppppppsppppppppppppsppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssspppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkppppppppppkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppkkkkkkpsssssssssssssssppppppppppppkkkkkkpsssssssssssspppppppssssssppppppppppppppppsspppssspsppppppppkkppppppppppkkppppppppppppppppppppppppppppkkkkkkpsssssssspppppppppppppppppppppppppppppppppspppppppppppppppppppsssspppppppppssssssssssssssssssssssssppppppppkkkkkkpssssssssssssssssssspppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppssssssssspppppppppsssssssssspppppppppssssssspppppppppssssssspppppppppssssspppppppppsssssspppppppppsssssspppppppppsssssssspppppppppsssssssssssppppppppppsssssssssppppppppppssssssssssppppppppppsssssssssspppppppppsssssssppppppsppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppkkkkkppppppkkkkppppppppppkkkkpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppspppppppppppppppppppppppppsssppppppppppppppppppppppppppppppsspppppppppppppppspppppppppppppppppspppppppppppspppppppppppppppppppppppppsppppppppppppsppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssspppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkppppppppppkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppkkkkkkpsppppppsssssssssssssssssppppppppppppkkkkkkpsppppppssspppppppssssssppppppppppppppppsspppssspsppppppppkkppppppppppkkppppppppppppppppppppppppppppkkkkkkpsppppppppppppppppppppppppppppsssspppppppppsssssssssssssssssssssssssssssssssssssppppppppkkkkkkpssssssssssssssssssspppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpspppppppppppppppppppppppppppsppppppppppppsppppppppppssspppppppppspppppppppppppsppppppppkkkkkkpspppppppppppppppppppppssspppppppppppppppppppsspppppppppppspppppccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppsppppppppppppppppppppppppppspppppppppppsppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppssssspppppppppssssspppppppppssssspppppppppssssspppppppppssssspppppppppssssspppppppppssssspppppppppssssspppppppppsssssppppppppppsssssppppppppppsssssppppppppppssssspppppppppssppppppsppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppssssssssspppppppppsssssssssspppppppppssssssspppppppppssssssspppppppppssssspppppppppsssssspppppppppsssssspppppppppsssssssspppppppppsssssssssssppppppppppsssssssssppppppppppssssssssssppppppppppsssssssssspppppppppsssssssppppppsppppp',
     ),
   ],
   'calendar-02': <DocsBlockFile>[
@@ -2743,11 +2881,11 @@ String _monthName(int month) => switch (month) {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// A month calendar with the selected day's agenda beside it (below 960px the
-// agenda moves under the calendar). Time slots are selectable buttons; the
-// Book action enables once a slot is picked. The content shrink-wraps so the
-// docs frame sizes to its intrinsic height, and scrolls internally when the
-// host is bounded.
+// A page header plus a month calendar with the selected day's agenda
+// beside it (below 960px the agenda moves under the calendar). Time slots
+// are selectable buttons; the Book action enables once a slot is picked.
+// The page fills the viewport, scrolling internally when the host is
+// shorter than the content.
 
 import 'package:flutter/widgets.dart';
 
@@ -2819,23 +2957,50 @@ class _Calendar02State extends State<Calendar02> {
                 }
               },
             );
+            final Widget pageHeader = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Book a meeting', style: theme.typography.h2),
+                Gap(theme.spacing.xs),
+                Text(
+                  'Pick a day, then a time that suits you.',
+                  style: theme.typography.textMuted.copyWith(
+                    color: theme.colors.mutedForeground,
+                  ),
+                ),
+                Gap(theme.spacing.lg),
+              ],
+            );
             final Widget body;
             if (!aside) {
               body = Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[calendar, Gap(theme.spacing.lg), agenda],
+                children: <Widget>[
+                  pageHeader,
+                  calendar,
+                  Gap(theme.spacing.lg),
+                  agenda,
+                ],
               );
             } else {
               body = Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 1080),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Expanded(flex: 3, child: calendar),
-                      Gap(theme.spacing.xl),
-                      Expanded(flex: 2, child: agenda),
+                      pageHeader,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(flex: 3, child: calendar),
+                          Gap(theme.spacing.xl),
+                          Expanded(flex: 2, child: agenda),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -3048,7 +3213,7 @@ String _monthName(int month) => switch (month) {
 };
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppkkkkkppppppkkkkppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppkkppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppppppppppppppppppppsppppppppppppspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkkkkpkkkkppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppsssssssspppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssspppppppppkkkkpppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppkkkkpppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkppppppppkkkkpppppppppkkkkkpppppppkkkkkppppppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppssssssssspppppppppsssssssssspppppppppssssssspppppppppssssssspppppppppssssspppppppppsssssspppppppppsssssspppppppppsssssssspppppppppsssssssssssppppppppppsssssssssppppppppppssssssssssppppppppppsssssssssspppppppppsssssssppppppsppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkpppppppppppppkkkkkppppppkkkkppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppkkppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppppppppppppppppppppsppppppppppppspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkkkkpkkkkppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppsssssssspppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssspppppppppkkkkpppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppkkkkpppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppssssssspppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkppppppppkkkkpppppppppkkkkkpppppppkkkkkppppppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppssssssssspppppppppsssssssssspppppppppssssssspppppppppssssssspppppppppssssspppppppppsssssspppppppppsssssspppppppppsssssssspppppppppsssssssssssppppppppppsssssssssppppppppppssssssssssppppppppppsssssssssspppppppppsssssssppppppsppppp',
     ),
   ],
   'dashboard-01': <DocsBlockFile>[
@@ -3072,6 +3237,7 @@ import '../../components/avatar/avatar.dart';
 import '../../components/button/button.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
+import 'dashboard_01_shell.dart';
 import 'dashboard_01_table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
@@ -3121,12 +3287,44 @@ class Dashboard01 extends StatelessWidget {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const Dashboard01ShellBar(),
+                    Gap(theme.spacing.lg),
+                    body,
+                  ],
+                ),
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            // App shell: top header bar fixed, content grid scrolls below
+            // and fills the page.
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    theme.spacing.lg,
+                    theme.spacing.md,
+                    theme.spacing.lg,
+                    0,
+                  ),
+                  child: const Dashboard01ShellBar(),
+                ),
+                Gap(theme.spacing.md),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.lg,
+                      0,
+                      theme.spacing.lg,
+                      theme.spacing.lg,
+                    ),
+                    child: body,
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -3137,7 +3335,6 @@ class Dashboard01 extends StatelessWidget {
 
 class _Dashboard01Header extends StatelessWidget {
   const _Dashboard01Header();
-
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
@@ -3387,17 +3584,92 @@ class _Dashboard01Initials {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppsssssssssssssppssssssssppppppppppppppppppppppppppsssssssssssssssppssssssssppsssssssssppppppppppppppppppppppppppsssssssppsssssssssppssssssssppppppppppppppppppppppppppssssssssssssppssssssppsssssssppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppkkkkppppppppkkkkppppppppkkkkppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppccccccccccccccccccccccccccccccccccccccccccccccpppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssssppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssppsssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssssssppssssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssppsssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkpppppppkkkkpppppppppppppkkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccpppkkkkkkppppppppkkppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppssspppppppkkppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpspppppppppppppppppppppppppppppppppspppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppccccccccccccccccccccccpppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppsssssssssssssppssssssssppppppppppppppppppppppppppsssssssssssssssppssssssssppsssssssssppppppppppppppppppppppppppsssssssppsssssssssppssssssssppppppppppppppppppppppppppssssssssssssppssssssppsssssssppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppkkkkppppppppkkkkppppppppkkkkppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppccccccccccccccccccccccccccccccccccccccccccccccpppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssssppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssppsssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssssssppssssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssssssssssssppsssssssssppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkpppppppkkkkpppppppppppppkkkkkppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccpppkkkkkkppppppppkkppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppssspppppppkkppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpspppppppppppppppppppppppppppppppppspppppppppppppppppppppp',
+    ),
+    DocsBlockFile(
+      path: 'lib/ui/shadcn/blocks/dashboard-01/dashboard_01_shell.dart',
+      code:
+          r'''// The `dashboard-01` block, part 2: the app-shell top bar. Imported by
+// `dashboard_01.dart`; a block never imports another block.
+
+import 'package:flutter/widgets.dart';
+
+import '../../components/avatar/avatar.dart';
+import '../../components/button/button.dart';
+import '../../foundation/gap.dart';
+import '../../theme/theme.dart';
+
+/// The app-shell top bar: product mark, actions and the account avatar.
+class Dashboard01ShellBar extends StatelessWidget {
+  /// Creates the shell bar.
+  const Dashboard01ShellBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 28,
+            height: 28,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: theme.colors.primary,
+              borderRadius: theme.borderRadiusSm,
+            ),
+            child: Text(
+              'A',
+              style: theme.typography.textSmall.copyWith(
+                color: theme.colors.primaryForeground,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Gap(theme.spacing.sm),
+          Text(
+            'Acme Inc',
+            style: theme.typography.textSmall.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const Spacer(),
+          Button(
+            variant: ButtonVariant.outline,
+            size: ButtonSize.sm,
+            onPressed: () {},
+            child: const Text('Share'),
+          ),
+          Gap(theme.spacing.sm),
+          const Avatar(initials: 'AC'),
+        ],
+      ),
+    );
+  }
+}
+''',
+      tokenClasses:
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssspppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/dashboard-01/dashboard_01_table.dart',
       code:
-          r'''// The `dashboard-01` block, part 2: the recent-transactions table and the
-// status pill it uses. Imported by `dashboard_01.dart`; a block never imports
-// another block.
+          r'''// The `dashboard-01` block, part 2: the recent-transactions table with its
+// working customer filter. Imported by `dashboard_01.dart`; a block never
+// imports another block.
 
 import 'package:flutter/widgets.dart';
 
+import '../../components/badge/badge.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/input/input.dart';
@@ -3413,11 +3685,11 @@ class _Dashboard01Order {
   final String method;
   final String amount;
 
-  /// Index into `theme.colors.chartColors` for the status pill.
-  int get chartIndex => switch (status) {
-    'Paid' => 1,
-    'Pending' => 2,
-    _ => 0,
+  /// Registry badge variant for the status cell.
+  BadgeVariant get badgeVariant => switch (status) {
+    'Paid' => BadgeVariant.primary,
+    'Pending' => BadgeVariant.secondary,
+    _ => BadgeVariant.outline,
   };
 }
 
@@ -3513,7 +3785,9 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
             )
           else
             ShadcnTable(
-              defaultRowHeight: const FixedTableSize(48),
+              // shadcn `TableHead` is h-10 (40); body rows hug the same
+              // height so the badge (h-5) centres with even padding.
+              defaultRowHeight: const FixedTableSize(40),
               columnWidths: const <int, TableSize>{
                 0: FlexTableSize(flex: 2),
                 1: FlexTableSize(),
@@ -3534,9 +3808,14 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                     cells: <ShadcnTableCell>[
                       ShadcnTableCell(child: Text(order.customer)),
                       ShadcnTableCell(
-                        child: _Dashboard01Pill(
-                          order.status,
-                          chartIndex: order.chartIndex,
+                        // Intrinsic width, left-aligned: a bare badge in a
+                        // tight table cell would paint the full column width.
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Badge(
+                            variant: order.badgeVariant,
+                            child: Text(order.status),
+                          ),
                         ),
                       ),
                       ShadcnTableCell(child: Text(order.method)),
@@ -3550,43 +3829,9 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
     );
   }
 }
-
-/// A status pill: a chart-token tint on a transparent fill, so it re-themes
-/// with the preset instead of hard-coding a colour.
-class _Dashboard01Pill extends StatelessWidget {
-  const _Dashboard01Pill(this.label, {required this.chartIndex});
-
-  final String label;
-
-  /// Index into `theme.colors.chartColors`.
-  final int chartIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: theme.spacing.sm,
-        vertical: theme.spacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: theme.colors.chartColors[chartIndex % 5].withValues(alpha: 0.16),
-        borderRadius: theme.borderRadiusXl,
-        border: Border.all(color: theme.colors.chartColors[chartIndex % 5]),
-      ),
-      child: Text(
-        label,
-        style: theme.typography.xSmall.copyWith(
-          color: theme.colors.foreground,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-}
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkpppppppppppkkkkpppppppppkkkkpppppppppkkkkpppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppkkkpppppppppppppppkkkkkkppppppppppppppppsssssspppppppppppssssssssspppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppssssssppssssssppsssssssssssspppppppppppppppppppppppsssssssssssssppsssssssssppssssssssssssppssssssssspppppppppppppppppppppppsssssssssssssssssppssssssssssppssssssssppsssssssssspppppppppppppppppppppppsssssssssssssppssssssppssssssppssssssssspppppppppppppppppppppppsssssssssssssppssssssppssssssppsssssssssspppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkppppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppccccccccccccccccccccccccccccccccccpppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppkkkkpppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkpppppppppppkkkkpppppppppkkkkpppppppppkkkkpppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppkkkpppppppppppppppppkkkkkkppppppppppppppppssssssppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppssssssppssssssppsssssssssssspppppppppppppppppppppppsssssssssssssppsssssssssppssssssssssssppssssssssspppppppppppppppppppppppsssssssssssssssssppssssssssssppssssssssppsssssssssspppppppppppppppppppppppsssssssssssssppssssssppssssssppssssssssspppppppppppppppppppppppsssssssssssssppssssssppssssssppsssssssssspppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppkkkkkkkppppppppppppppppppppcccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppccccccccccccccccccccccccccccccccccpppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'dashboard-02': <DocsBlockFile>[
@@ -3658,15 +3903,105 @@ class Dashboard02 extends StatelessWidget {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const _Dashboard02ShellBar(),
+                    Gap(theme.spacing.lg),
+                    body,
+                  ],
+                ),
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    theme.spacing.lg,
+                    theme.spacing.md,
+                    theme.spacing.lg,
+                    0,
+                  ),
+                  child: const _Dashboard02ShellBar(),
+                ),
+                Gap(theme.spacing.md),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.lg,
+                      0,
+                      theme.spacing.lg,
+                      theme.spacing.lg,
+                    ),
+                    child: body,
+                  ),
+                ),
+              ],
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// The app-shell top bar: product mark, a report search and actions.
+class _Dashboard02ShellBar extends StatelessWidget {
+  /// Creates the shell bar.
+  const _Dashboard02ShellBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final bool showSearch = constraints.maxWidth >= 500;
+          return Row(
+            children: <Widget>[
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: theme.colors.primary,
+                  borderRadius: theme.borderRadiusSm,
+                ),
+                child: Text(
+                  'A',
+                  style: theme.typography.textSmall.copyWith(
+                    color: theme.colors.primaryForeground,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Gap(theme.spacing.sm),
+              Text(
+                'Acme Inc',
+                style: theme.typography.textSmall.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Spacer(),
+              if (showSearch) ...<Widget>[
+                const SizedBox(width: 200, child: Input(hintText: 'Search')),
+                Gap(theme.spacing.sm),
+              ],
+              Button(onPressed: () {}, child: const Text('Share')),
+            ],
+          );
+        },
       ),
     );
   }
@@ -3843,7 +4178,7 @@ class _Dashboard02SparkPainter extends CustomPainter {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppssssssssppppppppppppppppppppppppppppppppsssssssppsssssssppppppppppppppppppppppppppppppppsssssssssssssppsssssppppppppppppppppppppppppppppppppssssssssssssssppssssssssppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppkkkkppppppppkkkkppppppppkkkkpppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkkpkkkkppppppppppkkkkkkkkpkkkkpppppppppppppkkkkkpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppssssssssppppppppppppppppppppppppppppppppsssssssppsssssssppppppppppppppppppppppppppppppppsssssssssssssppsssssppppppppppppppppppppppppppppppppssssssssssssssppssssssssppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppkkkkppppppppkkkkppppppppkkkkpppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppkkkkkkkkpkkkkpppppppppppppkkkkkppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/dashboard-02/dashboard_02_sections.dart',
@@ -4527,7 +4862,6 @@ import '../../components/alert/alert.dart';
 import '../../components/button/button.dart';
 import '../../components/form/form.dart';
 import '../../components/input_otp/input_otp.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -4560,7 +4894,6 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
 
   final FormController _controller = FormController();
   final FormKey<String> _codeKey = const FormKey<String>('promoCode');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -4569,21 +4902,17 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
     super.dispose();
   }
 
-  Future<void> _apply() async {
-    if (_submitting) {
-      return;
+  /// Validates and applies; false when invalid. The button maps false to
+  /// its failure state; the keyboard path just surfaces field errors.
+  Future<bool> _apply() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    return result.isValid;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -4635,17 +4964,12 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
             Gap(theme.spacing.lg),
             Button(
               variant: ButtonVariant.outline,
-              onPressed: _submitting ? null : _apply,
-              child: _submitting
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Spinner(size: 14, color: theme.colors.foreground),
-                        Gap(theme.spacing.sm),
-                        const Text('Applying'),
-                      ],
-                    )
-                  : const Text('Apply code'),
+              onPressedAsync: () async {
+                if (!await _apply()) {
+                  throw StateError('Pricing01Promo: validation failed.');
+                }
+              },
+              child: const Text('Apply code'),
             ),
             if (_succeeded) ...<Widget>[
               Gap(theme.spacing.lg),
@@ -4664,7 +4988,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppcccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssssppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkpppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppcccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssspppppppppppppppppppppppkkkkkpppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppkkpppkkkkkpppppppppppppppppppppppppppppppkkkkkppppppppppppsssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'account-01': <DocsBlockFile>[
@@ -4817,7 +5141,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -4858,7 +5181,6 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
   );
   final FocusNode _newFocus = FocusNode(debugLabel: 'account-01 new');
   final FocusNode _confirmFocus = FocusNode(debugLabel: 'account-01 confirm');
-  bool _submitting = false;
   bool _succeeded = false;
 
   Validator<String> get _confirmValidator =>
@@ -4877,39 +5199,33 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
     super.dispose();
   }
 
-  Future<void> _submit([BuildContext? submitContext]) async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit([BuildContext? submitContext]) async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(
-        submitContext ?? context,
-      );
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        for (final MapEntry<FormKey, FocusNode> entry
-            in <MapEntry<FormKey, FocusNode>>[
-              MapEntry<FormKey, FocusNode>(_currentKey, _currentFocus),
-              MapEntry<FormKey, FocusNode>(_newKey, _newFocus),
-              MapEntry<FormKey, FocusNode>(_confirmKey, _confirmFocus),
-            ]) {
-          if (result.errors.containsKey(entry.key)) {
-            entry.value.requestFocus();
-            return;
-          }
+    final SubmissionResult result = await _controller.submit(
+      submitContext ?? context,
+    );
+    if (!mounted) {
+      return false;
+    }
+    if (!result.isValid) {
+      for (final MapEntry<FormKey, FocusNode> entry
+          in <MapEntry<FormKey, FocusNode>>[
+            MapEntry<FormKey, FocusNode>(_currentKey, _currentFocus),
+            MapEntry<FormKey, FocusNode>(_newKey, _newFocus),
+            MapEntry<FormKey, FocusNode>(_confirmKey, _confirmFocus),
+          ]) {
+        if (result.errors.containsKey(entry.key)) {
+          entry.value.requestFocus();
+          return false;
         }
       }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+      return false;
     }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -5005,20 +5321,14 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Button(
-                    onPressed: _submitting ? null : () => _submit(formContext),
-                    child: _submitting
-                        ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Spinner(
-                                size: 14,
-                                color: theme.colors.primaryForeground,
-                              ),
-                              Gap(theme.spacing.sm),
-                              const Text('Updating'),
-                            ],
-                          )
-                        : const Text('Update password'),
+                    onPressedAsync: () async {
+                      if (!await _submit(formContext)) {
+                        throw StateError(
+                          'Account01Password: validation failed.',
+                        );
+                      }
+                    },
+                    child: const Text('Update password'),
                   ),
                 ),
                 if (_succeeded) ...<Widget>[
@@ -5040,7 +5350,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppppcccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssspppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssppppppppppppppppppppsssssssssssssssssssssssssppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppppcccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppkkkkkpppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssspppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssppppppppppppppppppppsssssssssssssssssssssssssppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkpppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppkkpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/account-01/account_01_profile.dart',
@@ -5060,7 +5370,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -5111,7 +5420,6 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
   final FocusNode _nameFocus = FocusNode(debugLabel: 'account-01 name');
   final FocusNode _usernameFocus = FocusNode(debugLabel: 'account-01 username');
   final FocusNode _bioFocus = FocusNode(debugLabel: 'account-01 bio');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -5123,37 +5431,31 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Validates and submits; false when invalid. The button maps false to
+  /// its failure state; keyboard paths just focus the first bad field.
+  Future<bool> _submit() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      final SubmissionResult result = await _controller.submit(context);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isValid) {
-        for (final MapEntry<FormKey, FocusNode> entry
-            in <MapEntry<FormKey, FocusNode>>[
-              MapEntry<FormKey, FocusNode>(_nameKey, _nameFocus),
-              MapEntry<FormKey, FocusNode>(_usernameKey, _usernameFocus),
-              MapEntry<FormKey, FocusNode>(_bioKey, _bioFocus),
-            ]) {
-          if (result.errors.containsKey(entry.key)) {
-            entry.value.requestFocus();
-            return;
-          }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
+    }
+    if (!result.isValid) {
+      for (final MapEntry<FormKey, FocusNode> entry
+          in <MapEntry<FormKey, FocusNode>>[
+            MapEntry<FormKey, FocusNode>(_nameKey, _nameFocus),
+            MapEntry<FormKey, FocusNode>(_usernameKey, _usernameFocus),
+            MapEntry<FormKey, FocusNode>(_bioKey, _bioFocus),
+          ]) {
+        if (result.errors.containsKey(entry.key)) {
+          entry.value.requestFocus();
+          return false;
         }
       }
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+      return false;
     }
+    return true;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -5312,20 +5614,12 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Align(
               alignment: Alignment.centerLeft,
               child: Button(
-                onPressed: _submitting ? null : _submit,
-                child: _submitting
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Spinner(
-                            size: 14,
-                            color: theme.colors.primaryForeground,
-                          ),
-                          Gap(theme.spacing.sm),
-                          const Text('Saving'),
-                        ],
-                      )
-                    : const Text('Save changes'),
+                onPressedAsync: () async {
+                  if (!await _submit()) {
+                    throw StateError('Account01Profile: validation failed.');
+                  }
+                },
+                child: const Text('Save changes'),
               ),
             ),
             if (_succeeded) ...<Widget>[
@@ -5345,7 +5639,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppkkkkkppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppkkkkkkkppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppppppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppkkkkkkppppppppppppppppkkpppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppkkkkkppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppcccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppppkkkkkkkppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppkkkkkppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppppppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkpppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssspppppkkkkkppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppsssssssssspppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssspppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssspppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppppppppppppppppppppkkkkkpppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkpppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppkkkkkkpkkkkkppppppppppppkkkkkkpkkkkppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppppppppppppsspppppppppppppppppppppppppppppppppppppppppsspppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssspppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkpppkkkkkppppppppppppppppppppppppppppppppppkkkkkppppppppppppsssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/account-01/account_01_team.dart',
@@ -5466,7 +5760,6 @@ import '../../components/button/button.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
-import '../../components/spinner/spinner.dart';
 import '../../components/switch/switch.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
@@ -5532,7 +5825,6 @@ class _Account02State extends State<Account02> {
   late Map<String, bool> _push = _defaults();
   bool _quietHours = true;
   bool _digest = true;
-  bool _submitting = false;
   bool _succeeded = false;
 
   FormKey<bool> _key(String channel, String prefix) =>
@@ -5545,20 +5837,10 @@ class _Account02State extends State<Account02> {
   }
 
   Future<void> _save() async {
-    if (_submitting) {
-      return;
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
-    }
+    await _controller.submit(context);
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -5584,6 +5866,9 @@ class _Account02State extends State<Account02> {
       _digest = true;
       _succeeded = false;
     });
+    // Back to the untouched state: the preference rows the reset just
+    // restored are not user edits, so they must not keep showing validation.
+    _controller.reset();
   }
 
   @override
@@ -5680,20 +5965,8 @@ class _Account02State extends State<Account02> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
                   Button(
-                    onPressed: _submitting ? null : _save,
-                    child: _submitting
-                        ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Spinner(
-                                size: 14,
-                                color: theme.colors.primaryForeground,
-                              ),
-                              Gap(theme.spacing.sm),
-                              const Text('Saving'),
-                            ],
-                          )
-                        : const Text('Save preferences'),
+                    onPressedAsync: _save,
+                    child: const Text('Save preferences'),
                   ),
                   Button(
                     variant: ButtonVariant.outline,
@@ -5832,25 +6105,24 @@ class _Account02SwitchRow extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppsssssssspppppssspppppppssssssssssssspppppppppppsssssssssssssssspppppppppppppsspppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppssssssssssssppppppssssssssssssssssssssssppppppsssssssssssssssssppppppsssssssssssppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssppkkkkppppppssssssssssssssssssssssppkkkkppppppsssssssssssssssssppkkkkppppppsssssssssssppkkkkkppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppsppppppppsppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppkkkkkpppppppkkpppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppkkkpppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkkkpppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppsssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppsssssssssppppppppsppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssppppppppppppppppppppppppppppsssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppssssssssppppppppspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppssssssssssssppppppppppppppppppppppppppppppsssssssssssssppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppssssssssssssssppppppppppppppppppppppppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssspppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppcccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssppppppsssssssspppppssspppppppssssssssssssspppppppppppsssssssssssssssspppppppppppppsspppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkppppppkkkkppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppcccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppkkkkppkkkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppppssssssssssssppppppssssssssssssssssssssssppppppsssssssssssssssssppppppsssssssssssppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssppkkkkppppppssssssssssssssssssssssppkkkkppppppsssssssssssssssssppkkkkppppppsssssssssssppkkkkkppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppkkkkppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppspppppppsppppppppsppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkppppppppppkkkkkpppppppkkpppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppkkkkkppppppppkkkkppppppppppkkkkkpppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppkkppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppkkkkppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppkkkkpppppppppppppppppppppkkkkkppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppsssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppsssssssssppppppppsppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssppppppppppppppppppppppppppppsssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppssssssssppppppppspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppssssssssssssppppppppppppppppppppppppppppppsssssssssssssppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppssssssssssssssppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkppppppppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppkkkkkkkkpkkkkppppppppppppppppkkkkppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'sidebar-01': <DocsBlockFile>[
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/sidebar-01/sidebar_01.dart',
       code:
-          r'''// The `sidebar-01` block: a collapsible icon rail beside a mailbox screen.
+          r'''// The `sidebar-01` block: a full-height icon rail beside a mailbox screen.
 //
 // A block is layer 4 of the registry: it may import foundation, theme,
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
 // The rail reads the sidebar tokens (`sidebar`, `sidebarAccent`, …), so it
-// re-themes with every preset. From 720px the rail sits beside the content;
-// below that a menu button opens the navigation as a drawer. The content is
-// a sample mailbox with stats and activity. The layout shrink-wraps so the
-// docs frame sizes to its intrinsic height, and scrolls internally when the
-// host is bounded.
+// re-themes with every preset. From 720px the full-height rail sits beside
+// the content; below that a menu button opens the navigation as a drawer.
+// The content is a sample mailbox with a header bar, stats and activity,
+// filling the rest of the page and scrolling internally.
 
 import 'package:flutter/widgets.dart';
 
@@ -5896,41 +6168,108 @@ class _Sidebar01State extends State<Sidebar01> {
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             final bool vertical = constraints.maxWidth >= 720;
+            final bool bounded = constraints.maxHeight.isFinite;
             final Widget content = Sidebar01Content(selected: _selected);
-            final Widget body;
-            if (!vertical) {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Sidebar01Bar(selected: _selected, onMenu: _openNav),
-                  Gap(theme.spacing.lg),
-                  content,
-                ],
-              );
-            } else {
-              body = Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _Sidebar01Rail(
-                    selected: _selected,
-                    onSelected: (int index) =>
-                        setState(() => _selected = index),
-                  ),
-                  Gap(theme.spacing.lg),
-                  Expanded(child: content),
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
+            // Unbounded fallback: the old shrink-wrap tree, so the block
+            // never hands an infinite cross axis to the Row.
+            if (!bounded) {
+              final Widget body;
+              if (!vertical) {
+                body = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _Sidebar01Bar(selected: _selected, onMenu: _openNav),
+                    Gap(theme.spacing.lg),
+                    content,
+                  ],
+                );
+              } else {
+                body = Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _Sidebar01Rail(
+                      selected: _selected,
+                      onSelected: (int index) =>
+                          setState(() => _selected = index),
+                    ),
+                    Gap(theme.spacing.lg),
+                    Expanded(child: content),
+                  ],
+                );
+              }
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
                 child: body,
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            if (!vertical) {
+              // Mobile: header bar fixed on top, content scrolls below.
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      0,
+                    ),
+                    child: _Sidebar01Bar(selected: _selected, onMenu: _openNav),
+                  ),
+                  Gap(theme.spacing.md),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(
+                        theme.spacing.lg,
+                        0,
+                        theme.spacing.lg,
+                        theme.spacing.lg,
+                      ),
+                      child: content,
+                    ),
+                  ),
+                ],
+              );
+            }
+            // Desktop: full-height rail edge to edge + inset content with a
+            // header bar; the content scrolls internally.
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _Sidebar01Rail(
+                  selected: _selected,
+                  onSelected: (int index) => setState(() => _selected = index),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          theme.spacing.lg,
+                          theme.spacing.md,
+                          theme.spacing.lg,
+                          0,
+                        ),
+                        child: Sidebar01HeaderBar(selected: _selected),
+                      ),
+                      Gap(theme.spacing.md),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.fromLTRB(
+                            theme.spacing.lg,
+                            0,
+                            theme.spacing.lg,
+                            theme.spacing.lg,
+                          ),
+                          child: content,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -5939,7 +6278,8 @@ class _Sidebar01State extends State<Sidebar01> {
   }
 }
 
-/// The icon rail (desktop): one 40px button per destination.
+/// The icon rail (desktop): one 40px button per destination, full height
+/// edge to edge with a trailing border (no floating card).
 class _Sidebar01Rail extends StatelessWidget {
   const _Sidebar01Rail({required this.selected, required this.onSelected});
 
@@ -5949,23 +6289,24 @@ class _Sidebar01Rail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Container(
-      padding: EdgeInsets.all(theme.spacing.sm),
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.sidebar,
-        borderRadius: theme.borderRadiusLg,
-        border: Border.all(color: theme.colors.sidebarBorder),
+        border: Border(right: BorderSide(color: theme.colors.sidebarBorder)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (var i = 0; i < sidebar01Items.length; i++)
-            _Sidebar01RailButton(
-              item: sidebar01Items[i],
-              selected: i == selected,
-              onPressed: () => onSelected(i),
-            ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(theme.spacing.sm),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (var i = 0; i < sidebar01Items.length; i++)
+              _Sidebar01RailButton(
+                item: sidebar01Items[i],
+                selected: i == selected,
+                onPressed: () => onSelected(i),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -6143,7 +6484,7 @@ class _Sidebar01DrawerRow extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkppppppppppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/sidebar-01/sidebar_01_content.dart',
@@ -6377,9 +6718,59 @@ class _Sidebar01Row extends StatelessWidget {
     );
   }
 }
+
+/// The desktop content header bar: the current destination plus icon
+/// actions, inset above the content.
+class Sidebar01HeaderBar extends StatelessWidget {
+  /// Creates the header bar for [selected].
+  const Sidebar01HeaderBar({super.key, required this.selected});
+
+  /// Index of the selected destination; drives the title.
+  final int selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              sidebar01Items[selected].label,
+              style: theme.typography.textSmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.search, size: 16),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.bell, size: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccpkkkkkpppppppppppppppppppccccccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkppppppppkkkkpppppppppppccccccccccccccccccpppkkkkkppppppppppppppppppccccccccccccccpppkkkkkpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppssssssssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppsssssssssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppppppsssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppssssppppppppppppppsssssssssppsssppppppppppppppsssssssssppsssppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssppssssssssppppppppppsssssssssssssssssssssssssssppsssssssssssppppppppppssssssssssssssssssssssssssssssssssssppssssssssppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkppppppppkkkkpppppppppkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccpkkkkkpppppppppppppppppppccccccccccccccccccccccccccpppkkkkkpppppppppppppppkkkkppppppppkkkkpppppppppppccccccccccccccccccpppkkkkkppppppppppppppppppccccccccccccccpppkkkkkpppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssppppppppppppppppppssssssssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppsssssssssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppppppsssssssssssssssppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppssssppppppppppppppsssssssssppsssppppppppppppppsssssssssppsssppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssppssssssssppppppppppsssssssssssssssssssssssssssppsssssssssssppppppppppssssssssssssssssssssssssssssssssssssppssssssssppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppkkkkppppppppkkkkpppppppppkkkkppppppppppppppkkkkkpppppppppppppppppkkkkkppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'sidebar-02': <DocsBlockFile>[
@@ -6394,11 +6785,10 @@ class _Sidebar01Row extends StatelessWidget {
 //
 // The sidebar is inset (rounded, with a gutter to the page background) and
 // its navigation is grouped by section. The search field filters the
-// navigation live. From 840px the sidebar sits beside the content; below
-// that a menu button opens it as a drawer. The content is a sample
-// playground screen with stats, files and activity. The layout shrink-wraps
-// so the docs frame sizes to its intrinsic height, and scrolls internally
-// when the host is bounded.
+// navigation live. From 840px the full-height sidebar sits beside the
+// content; below that a menu button opens it as a drawer. The content is a
+// sample playground screen with a header bar, stats, files and activity,
+// filling the rest of the page and scrolling internally.
 
 import 'package:flutter/widgets.dart';
 
@@ -6446,47 +6836,102 @@ class _Sidebar02State extends State<Sidebar02> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            final bool inset = constraints.maxWidth >= 840;
+            final bool bounded = constraints.maxHeight.isFinite;
             final Widget content = Sidebar02Content(selected: _selected);
-            final Widget body;
-            if (constraints.maxWidth >= 840) {
-              body = Padding(
-                padding: EdgeInsets.all(theme.spacing.md),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 260,
-                      child: Sidebar02Panel(
-                        selected: _selected,
-                        onSelected: (int index) =>
-                            setState(() => _selected = index),
+            if (!bounded) {
+              final Widget body;
+              if (inset) {
+                body = Padding(
+                  padding: EdgeInsets.all(theme.spacing.md),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 260,
+                        child: Sidebar02Panel(
+                          selected: _selected,
+                          onSelected: (int index) =>
+                              setState(() => _selected = index),
+                        ),
                       ),
-                    ),
-                    Gap(theme.spacing.md),
-                    Expanded(child: content),
+                      Gap(theme.spacing.md),
+                      Expanded(child: content),
+                    ],
+                  ),
+                );
+              } else {
+                body = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _Sidebar02Bar(onMenu: _openNav),
+                    Gap(theme.spacing.lg),
+                    content,
                   ],
-                ),
-              );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Sidebar02Bar(onMenu: _openNav),
-                  Gap(theme.spacing.lg),
-                  content,
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
+                );
+              }
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.md),
                 child: body,
               );
             }
-            return SingleChildScrollView(
+            if (!inset) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      0,
+                    ),
+                    child: _Sidebar02Bar(onMenu: _openNav),
+                  ),
+                  Gap(theme.spacing.md),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(
+                        theme.spacing.md,
+                        0,
+                        theme.spacing.md,
+                        theme.spacing.md,
+                      ),
+                      child: content,
+                    ),
+                  ),
+                ],
+              );
+            }
+            // Desktop: inset full-height sidebar + content with a header
+            // bar; the content scrolls internally.
+            return Padding(
               padding: EdgeInsets.all(theme.spacing.md),
-              child: body,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  SizedBox(
+                    width: 260,
+                    child: Sidebar02Panel(
+                      selected: _selected,
+                      onSelected: (int index) =>
+                          setState(() => _selected = index),
+                    ),
+                  ),
+                  Gap(theme.spacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _Sidebar02HeaderBar(selected: _selected),
+                        Gap(theme.spacing.md),
+                        Expanded(child: SingleChildScrollView(child: content)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -6494,6 +6939,64 @@ class _Sidebar02State extends State<Sidebar02> {
     );
   }
 }
+
+/// The desktop content header bar: the section title plus icon actions.
+class _Sidebar02HeaderBar extends StatelessWidget {
+  /// Creates the header bar for [selected].
+  const _Sidebar02HeaderBar({required this.selected});
+
+  /// Index of the selected navigation link; drives the title.
+  final int selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              _sidebar02HeaderTitle(selected),
+              style: theme.typography.textSmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.search, size: 16),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.bell, size: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Mirrors the content heading so the header bar names the section.
+String _sidebar02HeaderTitle(int selected) => switch (selected) {
+  1 => 'Models',
+  2 => 'Documentation',
+  3 => 'Design system',
+  4 => 'Marketing site',
+  _ => 'Playground',
+};
 
 /// The mobile bar: a menu trigger plus the product mark.
 class _Sidebar02Bar extends StatelessWidget {
@@ -6551,7 +7054,7 @@ class _Sidebar02Bar extends StatelessWidget {
 }
 ''',
       tokenClasses:
-          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppsssssssspppppppppssssssssssssssspppppppppssssssssssssssspppppppppsssssssssssssssspppppppppssssssssssssppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppkkkkkkkkpkkkkppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/sidebar-02/sidebar_02_content.dart',
@@ -7090,23 +7593,21 @@ class _Sidebar02User extends StatelessWidget {
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// From 840px the shell is a header row over a grouped sidebar beside the
-// content; below that a menu button in the header opens the sidebar as a
-// drawer. The content is a sample workspace with stats, projects and
-// activity. The layout shrink-wraps so the docs frame sizes to its intrinsic
-// height, and scrolls internally when the host is bounded.
+// From 840px the shell is a header row over a full-height grouped sidebar
+// beside the content; below that a menu button in the header opens the
+// sidebar as a drawer. The content is a sample workspace with stats,
+// projects and activity, filling the rest of the page and scrolling
+// internally.
 
 import 'package:flutter/widgets.dart';
 
 import '../../components/avatar/avatar.dart';
-import '../../components/badge/badge.dart';
 import '../../components/breadcrumb/breadcrumb.dart';
 import '../../components/button/button.dart';
-import '../../components/divider/divider.dart';
 import '../../components/drawer/drawer.dart';
 import '../../components/input/input.dart';
-import '../../components/progress/progress.dart';
 import 'sidebar_03_content.dart';
+import 'sidebar_03_sidebar.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
@@ -7148,52 +7649,124 @@ class _Sidebar03State extends State<Sidebar03> {
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             final bool inset = constraints.maxWidth >= 840;
+            final bool bounded = constraints.maxHeight.isFinite;
             final Widget content = Sidebar03Content(selected: _selected);
-            final Widget body;
-            if (!inset) {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Sidebar03Header(selected: _selected, onMenu: _openNav),
-                  Gap(theme.spacing.md),
-                  content,
-                ],
-              );
-            } else {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Sidebar03Header(selected: _selected),
-                  Gap(theme.spacing.md),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 260,
-                        child: Sidebar03Sidebar(
-                          selected: _selected,
-                          onSelected: (int index) =>
-                              setState(() => _selected = index),
+            if (!bounded) {
+              final Widget body;
+              if (!inset) {
+                body = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _Sidebar03Header(selected: _selected, onMenu: _openNav),
+                    Gap(theme.spacing.md),
+                    content,
+                  ],
+                );
+              } else {
+                body = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _Sidebar03Header(selected: _selected),
+                    Gap(theme.spacing.md),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 260,
+                          child: Sidebar03Sidebar(
+                            selected: _selected,
+                            onSelected: (int index) =>
+                                setState(() => _selected = index),
+                          ),
                         ),
-                      ),
-                      Gap(theme.spacing.md),
-                      Expanded(child: content),
-                    ],
-                  ),
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
+                        Gap(theme.spacing.md),
+                        Expanded(child: content),
+                      ],
+                    ),
+                  ],
+                );
+              }
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.md),
                 child: body,
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.md),
-              child: body,
+            if (!inset) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      0,
+                    ),
+                    child: _Sidebar03Header(
+                      selected: _selected,
+                      onMenu: _openNav,
+                    ),
+                  ),
+                  Gap(theme.spacing.md),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(
+                        theme.spacing.md,
+                        0,
+                        theme.spacing.md,
+                        theme.spacing.md,
+                      ),
+                      child: content,
+                    ),
+                  ),
+                ],
+              );
+            }
+            // Desktop app shell: header fixed on top, sidebar full height
+            // beside content that scrolls internally and fills the rest.
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    theme.spacing.md,
+                    theme.spacing.md,
+                    theme.spacing.md,
+                    0,
+                  ),
+                  child: _Sidebar03Header(selected: _selected),
+                ),
+                Gap(theme.spacing.md),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.md,
+                      0,
+                      theme.spacing.md,
+                      theme.spacing.md,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 260,
+                          child: SingleChildScrollView(
+                            child: Sidebar03Sidebar(
+                              selected: _selected,
+                              onSelected: (int index) =>
+                                  setState(() => _selected = index),
+                            ),
+                          ),
+                        ),
+                        Gap(theme.spacing.md),
+                        Expanded(child: SingleChildScrollView(child: content)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -7287,171 +7860,9 @@ class _Sidebar03Header extends StatelessWidget {
     );
   }
 }
-
-const List<_Sidebar03Link> _sidebar03Links = <_Sidebar03Link>[
-  _Sidebar03Link('Dashboard', LucideIcons.layoutDashboard),
-  _Sidebar03Link('Documents', LucideIcons.fileText),
-  _Sidebar03Link('Reports', LucideIcons.chartBar),
-  _Sidebar03Link('Settings', LucideIcons.settings),
-];
-
-/// The sidebar panel: grouped navigation plus a storage meter. Shared by the
-/// desktop layout and the mobile drawer, so both stay identical.
-class Sidebar03Sidebar extends StatelessWidget {
-  /// Creates the sidebar panel.
-  const Sidebar03Sidebar({super.key, this.selected = 0, this.onSelected});
-
-  /// Index of the selected link; drives the highlight.
-  final int selected;
-
-  /// Called with the tapped link index; null leaves the panel static.
-  final ValueChanged<int>? onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colors.sidebar,
-        borderRadius: theme.borderRadiusXl,
-        border: Border.all(color: theme.colors.sidebarBorder),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(theme.spacing.lg),
-            child: Text(
-              'Navigation',
-              style: theme.typography.textLarge.copyWith(
-                color: theme.colors.sidebarForeground,
-              ),
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: EdgeInsets.all(theme.spacing.sm),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                for (var i = 0; i < _sidebar03Links.length; i++)
-                  _Sidebar03NavRow(
-                    link: _sidebar03Links[i],
-                    selected: i == selected,
-                    onPressed: onSelected == null ? null : () => onSelected!(i),
-                  ),
-              ],
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: EdgeInsets.all(theme.spacing.lg),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Storage',
-                  style: theme.typography.xSmall.copyWith(
-                    color: theme.colors.mutedForeground,
-                  ),
-                ),
-                Gap(theme.spacing.sm),
-                Text(
-                  '12.4 GB of 20 GB',
-                  style: theme.typography.textSmall.copyWith(
-                    color: theme.colors.sidebarForeground,
-                  ),
-                ),
-                Gap(theme.spacing.sm),
-                const _Sidebar03Bar(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Sidebar03Link {
-  const _Sidebar03Link(this.label, this.icon);
-
-  final String label;
-  final IconData icon;
-}
-
-class _Sidebar03NavRow extends StatelessWidget {
-  const _Sidebar03NavRow({
-    required this.link,
-    required this.selected,
-    required this.onPressed,
-  });
-
-  final _Sidebar03Link link;
-  final bool selected;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    final Color foreground = selected
-        ? theme.colors.sidebarAccentForeground
-        : theme.colors.sidebarForeground;
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: theme.spacing.md,
-          vertical: theme.spacing.sm,
-        ),
-        decoration: BoxDecoration(
-          color: selected ? theme.colors.sidebarAccent : null,
-          borderRadius: theme.borderRadiusSm,
-        ),
-        child: Row(
-          children: <Widget>[
-            Icon(link.icon, size: 16, color: foreground),
-            Gap(theme.spacing.sm),
-            Expanded(
-              child: Text(
-                link.label,
-                style: theme.typography.textSmall.copyWith(
-                  color: foreground,
-                  fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-                ),
-              ),
-            ),
-            if (link.label == 'Settings')
-              Badge(
-                variant: BadgeVariant.secondary,
-                child: Text('3', style: theme.typography.xSmall),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Sidebar03Bar extends StatelessWidget {
-  const _Sidebar03Bar();
-
-  @override
-  Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    return Progress(
-      value: 0.62,
-      height: theme.spacing.xs,
-      color: theme.colors.sidebarPrimary,
-      backgroundColor: theme.colors.muted,
-    );
-  }
-}
 ''',
       tokenClasses:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppsssssssssssppppppsssssssssssppppppsssssssssppppppssssssssssppppppppppkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkppppppkkkkpppppppppppppppkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppkkkkppppppppkkkkpppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccpccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppkkkkkkkppppppppppppppppppppccccccccccccccccccccccpppkkkkkppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppkkkkkkkppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkppppppppppppppkkkkkkpkkkkkppppppppppppppppppppppppppppppppppppppsssssssssssppppppsssssssssssppppppsssssssssppppppssssssssssppppppppppkkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkpppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppsssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsBlockFile(
       path: 'lib/ui/shadcn/blocks/sidebar-03/sidebar_03_content.dart',
@@ -7662,6 +8073,186 @@ class _Sidebar03Activity extends StatelessWidget {
 ''',
       tokenClasses:
           'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkppppppkkkkkkkkpkkkkppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkpppppppppppppppppppppssssssssssspppppppppssssssssspppppppppsssssssssspppppppppsssssssssssssssssppppppkkkkkpppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssppsssppppppppppppppsssssssssssssssssppssssppppppppppppppssssssssssssssppsssssssssppppppppppppppsssssssssppsssppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkkkpppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccccccpkkkkkppppppppppppppppppppppkkkkkkkpppppppppppppppppppppcccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppkkkkppppppppkkkkkpppppppppppcccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssssppssssssssppppppppppssssssssssssssssssssssssssssssssssppsssssssssppppppppppsssssssssssssssssssssssssssssppssssssssppppppppppssssssssssssssssssssssssssppssssssssppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppkkkppkkkkkppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsBlockFile(
+      path: 'lib/ui/shadcn/blocks/sidebar-03/sidebar_03_sidebar.dart',
+      code:
+          r'''// The `sidebar-03` block, part 3: the sidebar panel. Imported by
+// `sidebar_03.dart`; a block never imports another block.
+
+import 'package:flutter/widgets.dart';
+
+import '../../components/badge/badge.dart';
+import '../../components/divider/divider.dart';
+import '../../components/progress/progress.dart';
+import '../../foundation/gap.dart';
+import '../../foundation/icons/lucide_icons.dart';
+import '../../theme/theme.dart';
+
+const List<_Sidebar03Link> _sidebar03Links = <_Sidebar03Link>[
+  _Sidebar03Link('Dashboard', LucideIcons.layoutDashboard),
+  _Sidebar03Link('Documents', LucideIcons.fileText),
+  _Sidebar03Link('Reports', LucideIcons.chartBar),
+  _Sidebar03Link('Settings', LucideIcons.settings),
+];
+
+/// The sidebar panel: grouped navigation plus a storage meter. Shared by the
+/// desktop layout and the mobile drawer, so both stay identical.
+class Sidebar03Sidebar extends StatelessWidget {
+  /// Creates the sidebar panel.
+  const Sidebar03Sidebar({super.key, this.selected = 0, this.onSelected});
+
+  /// Index of the selected link; drives the highlight.
+  final int selected;
+
+  /// Called with the tapped link index; null leaves the panel static.
+  final ValueChanged<int>? onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colors.sidebar,
+        borderRadius: theme.borderRadiusXl,
+        border: Border.all(color: theme.colors.sidebarBorder),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(theme.spacing.lg),
+            child: Text(
+              'Navigation',
+              style: theme.typography.textLarge.copyWith(
+                color: theme.colors.sidebarForeground,
+              ),
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: EdgeInsets.all(theme.spacing.sm),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                for (var i = 0; i < _sidebar03Links.length; i++)
+                  _Sidebar03NavRow(
+                    link: _sidebar03Links[i],
+                    selected: i == selected,
+                    onPressed: onSelected == null ? null : () => onSelected!(i),
+                  ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: EdgeInsets.all(theme.spacing.lg),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Storage',
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colors.mutedForeground,
+                  ),
+                ),
+                Gap(theme.spacing.sm),
+                Text(
+                  '12.4 GB of 20 GB',
+                  style: theme.typography.textSmall.copyWith(
+                    color: theme.colors.sidebarForeground,
+                  ),
+                ),
+                Gap(theme.spacing.sm),
+                const _Sidebar03Bar(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Sidebar03Link {
+  const _Sidebar03Link(this.label, this.icon);
+
+  final String label;
+  final IconData icon;
+}
+
+class _Sidebar03NavRow extends StatelessWidget {
+  const _Sidebar03NavRow({
+    required this.link,
+    required this.selected,
+    required this.onPressed,
+  });
+
+  final _Sidebar03Link link;
+  final bool selected;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final Color foreground = selected
+        ? theme.colors.sidebarAccentForeground
+        : theme.colors.sidebarForeground;
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: theme.spacing.md,
+          vertical: theme.spacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: selected ? theme.colors.sidebarAccent : null,
+          borderRadius: theme.borderRadiusSm,
+        ),
+        child: Row(
+          children: <Widget>[
+            Icon(link.icon, size: 16, color: foreground),
+            Gap(theme.spacing.sm),
+            Expanded(
+              child: Text(
+                link.label,
+                style: theme.typography.textSmall.copyWith(
+                  color: foreground,
+                  fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
+                ),
+              ),
+            ),
+            if (link.label == 'Settings')
+              Badge(
+                variant: BadgeVariant.secondary,
+                child: Text('3', style: theme.typography.xSmall),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Sidebar03Bar extends StatelessWidget {
+  const _Sidebar03Bar();
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Progress(
+      value: 0.62,
+      height: theme.spacing.xs,
+      color: theme.colors.sidebarPrimary,
+      backgroundColor: theme.colors.muted,
+    );
+  }
+}
+''',
+      tokenClasses:
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppkkkkkkpsssssssssssssssssssssssssssssspppkkkkkkpsssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssssssppkkkkkkpssssssssssssssssssssssssssssssssssssssssssppkkkkkkpsssssssssssssssssssssssspppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppccccccccccccccccccccccccccccccpppkkkkkpppppppppppppppppppkkkkkppppppkkkkpppppppppppppppkkkkppppppppppppppppppcccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkppkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppkkkkkppppppppppppppppkkkkppppppppkkkkpppppppppppkkkkkpppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkkkkpkkkkpppppppppppkkkkkkkkpkkkkpppppppppppppppkkkkkkkkpkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppkkkkkppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppkkkkkkkpppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppkkpppppppppppppppkkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
 };

@@ -156,9 +156,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -168,7 +170,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -182,7 +183,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(

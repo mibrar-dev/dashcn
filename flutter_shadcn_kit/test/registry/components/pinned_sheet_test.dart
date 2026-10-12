@@ -4,11 +4,15 @@
 // snap to the nearest stage, the modal barrier (alpha multiplies, tap
 // dismisses), peek stages (handle width on horizontal sheets), RTL
 // start/end resolution, the unbounded-then-bounded settle, rapid
-// open/close (cancelled-animation regression) and the `SheetStage` algebra.
+// open/close (cancelled-animation regression), the edge handle position per
+// side (P7-WB: the chrome handle sat on top for every side) and the
+// `SheetStage` algebra.
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/drawer_container/drawer_container.dart';
 import 'package:flutter_shadcn_kit/registry/components/pinned_sheet/pinned_sheet.dart';
+import 'package:flutter_shadcn_kit/registry/components/pinned_sheet/preview.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/component_preview.dart';
 import 'package:flutter_shadcn_kit/registry/foundation/data.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
@@ -322,5 +326,146 @@ void main() {
     await tester.pump();
     expect(controller.stage, const SheetStage.fraction(0.4));
     expect(controller.stage == const SheetStage.expanded(), isFalse);
+  });
+
+  group('edge handle', () {
+    Future<Rect> openHandleRect(
+      WidgetTester tester,
+      OverlayPosition position, {
+      Widget? child,
+    }) async {
+      final SheetController controller = SheetController();
+      addTearDown(controller.dispose);
+      await _pump(
+        tester,
+        PinnedSheet(
+          controller: controller,
+          position: position,
+          initialStage: const SheetStage.expanded(),
+          child: child ?? const SizedBox.expand(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(sheetHandleKey), findsOneWidget);
+      return tester.getRect(find.byKey(sheetHandleKey));
+    }
+
+    Rect stageRect(WidgetTester tester) =>
+        tester.getRect(find.byType(PinnedSheet));
+
+    testWidgets('a bottom sheet keeps the handle at the top', (
+      WidgetTester tester,
+    ) async {
+      final Rect handle = await openHandleRect(tester, OverlayPosition.bottom);
+      final Rect stage = stageRect(tester);
+      expect(handle.size, const Size(36, 4));
+      expect(handle.center.dx, moreOrLessEquals(stage.center.dx));
+      expect(handle.top, greaterThanOrEqualTo(stage.top));
+      expect(handle.center.dy, lessThan(stage.center.dy));
+    });
+
+    testWidgets('a top sheet keeps the handle at the bottom', (
+      WidgetTester tester,
+    ) async {
+      final Rect handle = await openHandleRect(tester, OverlayPosition.top);
+      final Rect stage = stageRect(tester);
+      expect(handle.size, const Size(36, 4));
+      expect(handle.center.dx, moreOrLessEquals(stage.center.dx));
+      expect(handle.bottom, lessThanOrEqualTo(stage.bottom));
+      expect(handle.center.dy, greaterThan(stage.center.dy));
+    });
+
+    testWidgets('a left sheet keeps a vertical handle on the right edge', (
+      WidgetTester tester,
+    ) async {
+      final Rect handle = await openHandleRect(tester, OverlayPosition.left);
+      final Rect stage = stageRect(tester);
+      expect(handle.size, const Size(4, 36));
+      expect(handle.center.dy, moreOrLessEquals(stage.center.dy));
+      expect(handle.right, lessThanOrEqualTo(stage.right));
+      expect(handle.center.dx, greaterThan(stage.center.dx));
+    });
+
+    testWidgets('a right sheet keeps a vertical handle on the left edge', (
+      WidgetTester tester,
+    ) async {
+      final Rect handle = await openHandleRect(tester, OverlayPosition.right);
+      final Rect stage = stageRect(tester);
+      expect(handle.size, const Size(4, 36));
+      expect(handle.center.dy, moreOrLessEquals(stage.center.dy));
+      expect(handle.left, greaterThanOrEqualTo(stage.left));
+      expect(handle.center.dx, lessThan(stage.center.dx));
+    });
+
+    testWidgets('the handle survives the drawer chrome without doubling', (
+      WidgetTester tester,
+    ) async {
+      // The chrome container's own top handle stays suppressed; exactly the
+      // sheet's side-aware handle renders.
+      final Rect handle = await openHandleRect(
+        tester,
+        OverlayPosition.left,
+        child: const DrawerContainer(child: SizedBox.expand()),
+      );
+      final Rect stage = stageRect(tester);
+      expect(handle.size, const Size(4, 36));
+      expect(handle.center.dx, greaterThan(stage.center.dx));
+    });
+
+    testWidgets('showDragHandle false hides the handle', (
+      WidgetTester tester,
+    ) async {
+      final SheetController controller = SheetController();
+      addTearDown(controller.dispose);
+      await _pump(
+        tester,
+        PinnedSheet(
+          controller: controller,
+          showDragHandle: false,
+          initialStage: const SheetStage.expanded(),
+          child: const SizedBox.expand(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(sheetHandleKey), findsNothing);
+    });
+
+    testWidgets('a non-draggable sheet hides the handle', (
+      WidgetTester tester,
+    ) async {
+      final SheetController controller = SheetController();
+      addTearDown(controller.dispose);
+      await _pump(
+        tester,
+        PinnedSheet(
+          controller: controller,
+          draggable: false,
+          initialStage: const SheetStage.expanded(),
+          child: const SizedBox.expand(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(sheetHandleKey), findsNothing);
+    });
+  });
+
+  group('previews', () {
+    testWidgets('every preview example pumps without throwing', (
+      WidgetTester tester,
+    ) async {
+      for (final ComponentPreview preview in pinnedSheetPreviews) {
+        await tester.pumpWidget(
+          ShadcnTheme(
+            data: const ShadcnThemeData(),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Center(child: Builder(builder: preview.builder)),
+            ),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
+    });
   });
 }

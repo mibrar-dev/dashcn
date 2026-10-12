@@ -113,7 +113,8 @@ class DotIndicatorTheme extends ComponentThemeData
   /// Style of every other dot.
   final DotStyle? inactive;
 
-  /// Gap between two dots; null resolves `8 * scaling`.
+  /// Gap between two dots; null resolves the ambient `spacing.sm`
+  /// (shadcn `gap-2`), density-aware and scaled.
   final double? spacing;
 
   /// Padding around the run of dots; null resolves [dotIndicatorDefaultPadding]

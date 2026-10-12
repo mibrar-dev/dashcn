@@ -57,7 +57,8 @@ class TypesetInlineCode extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.muted,
-        borderRadius: BorderRadius.circular(4.46),
+        // P7-TH1: inline code uses the small radius token.
+        borderRadius: theme.borderRadiusSm,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),

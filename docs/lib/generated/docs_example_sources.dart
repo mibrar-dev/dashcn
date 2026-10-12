@@ -229,7 +229,7 @@ class _DotIndicatorHorizontalDotsState
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         DotIndicator(
@@ -318,18 +318,48 @@ import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/dot_indicator/dot_indicator.dart';
 
 /// A scoped theme leg: bigger accent dots.
-Widget _dotIndicatorThemed(BuildContext context) {
-  return ComponentTheme<DotIndicatorTheme>(
-    data: const DotIndicatorTheme(
-      active: DotStyle(
-        background: StateValue(rest: ThemedColor.ref(ColorRef.accent)),
-        size: 18,
-      ),
-      spacing: 14,
-    ),
-    child: DotIndicator(index: 1, length: 5, onChanged: (int value) {}),
-  );
+class _DotIndicatorThemed extends StatefulWidget {
+  const _DotIndicatorThemed();
+
+  @override
+  State<_DotIndicatorThemed> createState() => _DotIndicatorThemedState();
 }
+
+class _DotIndicatorThemedState extends State<_DotIndicatorThemed> {
+  int _index = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ComponentTheme<DotIndicatorTheme>(
+          data: const DotIndicatorTheme(
+            active: DotStyle(
+              background: StateValue(rest: ThemedColor.ref(ColorRef.accent)),
+              size: 18,
+            ),
+            spacing: 14,
+          ),
+          child: DotIndicator(
+            index: _index,
+            length: 5,
+            onChanged: (int value) => setState(() => _index = value),
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'index $_index',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _dotIndicatorThemed(BuildContext context) => const _DotIndicatorThemed();
 ''',
     ),
   ],
@@ -419,6 +449,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -473,6 +504,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -527,6 +559,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -581,6 +614,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -635,6 +669,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -689,6 +724,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -743,6 +779,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// Icon-only button (shadcn `size="icon"`) with the press count beside it.
 class _ButtonIcon extends StatefulWidget {
@@ -789,6 +826,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// Leading and trailing icon buttons; both report the press below the row.
 class _ButtonWithIcon extends StatefulWidget {
@@ -845,6 +883,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// The size scale in one row (shadcn shows the sizes together).
 class _ButtonSizes extends StatefulWidget {
@@ -899,18 +938,51 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
-/// A pending button: disabled with a loader glyph, the shadcn pattern.
-Widget _buttonLoading(BuildContext context) {
-  return const Align(
-    alignment: Alignment.center,
-    child: Button(
-      enabled: false,
-      leading: Icon(LucideIcons.loaderCircle, size: 16),
-      child: Text('Loading...'),
+Widget _buttonLoading(BuildContext context) => const ButtonLoadingPreview();
+''',
     ),
-  );
-}
+    DocsExampleSource(
+      name: 'Async (success)',
+      builder: '_buttonAsyncSuccess',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
+
+Widget _buttonAsyncSuccess(BuildContext context) =>
+    const ButtonAsyncSuccessPreview();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Async (failure)',
+      builder: '_buttonAsyncFailure',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
+
+Widget _buttonAsyncFailure(BuildContext context) =>
+    const ButtonAsyncFailurePreview();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Controlled status',
+      builder: '_buttonControlledStatus',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
+
+Widget _buttonControlledStatus(BuildContext context) =>
+    const ButtonControlledStatusPreview();
 ''',
     ),
     DocsExampleSource(
@@ -921,6 +993,7 @@ import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/button/preview_status.dart';
 
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
@@ -943,26 +1016,36 @@ import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/toggle/toggle.dart';
 
 /// Controlled toggle: the example owns the value.
-class _ToggleControlledToggle extends StatefulWidget {
+class _ToggleControlledToggle extends StatelessWidget {
   const _ToggleControlledToggle();
 
   @override
-  State<_ToggleControlledToggle> createState() =>
-      _ToggleControlledToggleState();
+  Widget build(BuildContext context) {
+    // P7-TH1: centred so the docs stage (and the centred-example audit)
+    // sees the toggle in the middle of the stage, not pinned left.
+    return const Align(
+      alignment: Alignment.center,
+      child: _ToggleControlledInner(),
+    );
+  }
 }
 
-class _ToggleControlledToggleState extends State<_ToggleControlledToggle> {
+class _ToggleControlledInner extends StatefulWidget {
+  const _ToggleControlledInner();
+
+  @override
+  State<_ToggleControlledInner> createState() => _ToggleControlledInnerState();
+}
+
+class _ToggleControlledInnerState extends State<_ToggleControlledInner> {
   bool _value = false;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerStart,
-      child: Toggle(
-        value: _value,
-        onChanged: (bool value) => setState(() => _value = value),
-        child: Text(_value ? 'On' : 'Off'),
-      ),
+    return Toggle(
+      value: _value,
+      onChanged: (bool value) => setState(() => _value = value),
+      child: Text(_value ? 'On' : 'Off'),
     );
   }
 }
@@ -1441,6 +1524,99 @@ Widget _colorPickerHex(BuildContext context) =>
     const _ColorPickerPicker(initialMode: ColorPickerMode.hex);
 ''',
     ),
+    DocsExampleSource(
+      name: 'Eye dropper',
+      builder: '_colorPickerEyeDropper',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/components/color/color.dart';
+import 'package:<your_app>/ui/shadcn/components/eye_dropper/eye_dropper.dart';
+import 'package:<your_app>/ui/shadcn/components/history/history.dart';
+import 'package:<your_app>/ui/shadcn/components/color_picker/color_picker.dart';
+
+/// The colour every example starts from.
+const Color _colorPickerInitial = Color(0xFF2563EB);
+
+/// Recent colours the history button replays.
+const List<Color> _colorPickerRecent = <Color>[
+  Color(0xFF2563EB),
+  Color(0xFF22C55E),
+  Color(0xFFE11D48),
+];
+
+/// Eye-dropper sampling: a known painted scene (primary / success / danger
+/// swatches) above the picker. Inside the docs app the session delegates to
+/// the app-root layer, so the loupe follows the pointer across the whole
+/// window and the pad, hue/alpha bars and hex field update live while moving.
+// Click commits, Escape or right-click cancels and restores the colour.
+class _ColorPickerEyeDropper extends StatefulWidget {
+  const _ColorPickerEyeDropper();
+
+  @override
+  State<_ColorPickerEyeDropper> createState() => _ColorPickerEyeDropperState();
+}
+
+class _ColorPickerEyeDropperState extends State<_ColorPickerEyeDropper> {
+  ColorDerivative _value = ColorDerivative.fromColor(_colorPickerInitial);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 280,
+        child: EyeDropperLayer(
+          child: RecentColorsScope(
+            initialRecentColors: _colorPickerRecent,
+            child: Builder(
+              builder: (BuildContext context) => Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: const <Widget>[
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFFE11D48)),
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFF22C55E)),
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFF2563EB)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ColorPicker(
+                    value: _value,
+                    showAlpha: true,
+                    onChanging: (ColorDerivative value) =>
+                        setState(() => _value = value),
+                    onChanged: (ColorDerivative value) =>
+                        setState(() => _value = value),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The eye-dropper sampling demo.
+Widget _colorPickerEyeDropper(BuildContext context) =>
+    const _ColorPickerEyeDropper();
+''',
+    ),
   ],
   'avatar': <DocsExampleSource>[
     DocsExampleSource(
@@ -1840,9 +2016,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -1852,7 +2030,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -1866,7 +2043,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
@@ -2062,9 +2241,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -2074,7 +2255,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -2088,7 +2268,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
@@ -2285,9 +2467,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -2297,7 +2481,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -2311,7 +2494,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
@@ -2508,9 +2693,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -2520,7 +2707,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -2534,7 +2720,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
@@ -2731,9 +2919,11 @@ class _CarouselShellState extends State<_CarouselShell> {
           _controller.animateTo(page.toDouble(), kDefaultDuration),
     );
 
+    // P7-TH1: the pager fills the 480px box (no `min`): with an `Expanded`
+    // viewport a min-sized row sizes unpredictably and strands 8px, which
+    // reads as off-centre. The outer Column stays min-sized and centred.
     final Widget pager = horizontal
         ? Row(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               prev,
               Gap(spacing.sm),
@@ -2743,7 +2933,6 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           )
         : Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
@@ -2757,7 +2946,9 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
           );
     return Align(
-      alignment: Alignment.topCenter,
+      // P7-TH1: centred on both axes so the stage (and the centred-example
+      // audit) sees the demo in the middle, not pinned to the top.
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
@@ -2809,10 +3000,14 @@ Widget _carouselApi(BuildContext context) =>
     DocsExampleSource(
       name: 'Default',
       builder: '_chatDefault',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
 import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
@@ -2889,10 +3084,14 @@ Widget _chatDefault(BuildContext context) => const _ChatConversation();
     DocsExampleSource(
       name: 'Incoming',
       builder: '_chatIncoming',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
 import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
@@ -2988,10 +3187,14 @@ Widget _chatIncoming(BuildContext context) {
     DocsExampleSource(
       name: 'Outgoing',
       builder: '_chatOutgoing',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
 import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
@@ -3087,10 +3290,14 @@ Widget _chatOutgoing(BuildContext context) {
     DocsExampleSource(
       name: 'Grouped',
       builder: '_chatGrouped',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
 import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
 
 /// A round initials avatar drawn with theme tokens.
@@ -3228,6 +3435,211 @@ class _ChatGroupedState extends State<_ChatGrouped> {
 }
 
 Widget _chatGrouped(BuildContext context) => const _ChatGrouped();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Live',
+      builder: '_chatLive',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/text_area/text_area.dart';
+import 'package:<your_app>/ui/shadcn/components/chat/chat.dart';
+
+Widget _chatLive(BuildContext context) => const _ChatLive();
+
+/// One message of the live demo thread.
+class _LiveMessage {
+  const _LiveMessage(this.text, this.mine);
+
+  final String text;
+  final bool mine;
+}
+
+/// Canned agent replies, cycled in order.
+const List<String> _liveReplies = <String>[
+  'Got it — pulling up your payout history now.',
+  'That month was prorated after the reissue; I can send the breakdown.',
+  'All set — refresh the report to see the corrected split.',
+];
+
+/// A working support thread: typing + Enter/Send appends the user's bubble,
+/// a typing indicator shows after ~800 ms, then a canned agent reply lands.
+/// The list auto-scrolls and Send stays disabled while the field is empty.
+class _ChatLive extends StatefulWidget {
+  const _ChatLive();
+
+  @override
+  State<_ChatLive> createState() => _ChatLiveState();
+}
+
+class _ChatLiveState extends State<_ChatLive> {
+  final List<_LiveMessage> _messages = <_LiveMessage>[
+    const _LiveMessage('Can you re-check the 2026-01 payout?', true),
+    const _LiveMessage('I see it — that month was prorated.', false),
+  ];
+  final TextEditingController _reply = TextEditingController();
+  final ScrollController _scroll = ScrollController();
+  bool _canSend = false;
+  bool _typing = false;
+  int _nextReply = 0;
+  int _sendCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _reply.addListener(_syncSend);
+  }
+
+  @override
+  void dispose() {
+    _reply.dispose();
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  void _syncSend() {
+    final bool next = _reply.text.trim().isNotEmpty;
+    if (next != _canSend) {
+      setState(() => _canSend = next);
+    }
+  }
+
+  void _scrollToEnd() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scroll.hasClients) {
+        return;
+      }
+      _scroll.jumpTo(_scroll.position.maxScrollExtent);
+    });
+  }
+
+  Future<void> _send() async {
+    final String text = _reply.text.trim();
+    if (text.isEmpty || _typing) {
+      return;
+    }
+    final int ticket = ++_sendCount;
+    setState(() {
+      _messages.add(_LiveMessage(text, true));
+      _reply.clear();
+    });
+    _scrollToEnd();
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    if (!mounted || ticket != _sendCount) {
+      return;
+    }
+    setState(() => _typing = true);
+    _scrollToEnd();
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    if (!mounted || ticket != _sendCount) {
+      return;
+    }
+    setState(() {
+      _typing = false;
+      _messages.add(
+        _LiveMessage(_liveReplies[_nextReply % _liveReplies.length], false),
+      );
+      _nextReply++;
+    });
+    _scrollToEnd();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = ShadcnTheme.of(context).spacing;
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 560),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 220),
+              child: SingleChildScrollView(
+                controller: _scroll,
+                child: ChatGroup(
+                  children: <Widget>[
+                    for (final _LiveMessage message in _messages)
+                      ChatBubble(
+                        theme: message.mine ? null : _incomingBubble,
+                        variant: message.mine
+                            ? ChatBubbleVariant.tail
+                            : ChatBubbleVariant.plain,
+                        child: Text(message.text),
+                      ),
+                    if (_typing)
+                      const ChatBubble(
+                        theme: _incomingBubble,
+                        child: _TypingDots(),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            Gap(spacing.md),
+            TextArea(
+              controller: _reply,
+              minLines: 1,
+              maxLines: 4,
+              hintText: 'Write a reply...',
+              textInputAction: TextInputAction.send,
+              onSubmitted: (_) => _send(),
+            ),
+            Gap(spacing.md),
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Button(
+                variant: ButtonVariant.primary,
+                size: ButtonSize.sm,
+                leading: const Icon(LucideIcons.send, size: 14),
+                enabled: _canSend,
+                onPressed: _send,
+                child: const Text('Send'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Three static dots shown while the agent "types" (static: no ticker, so
+/// the ticker-off static collage and the 720x420 preview stage stay still).
+class _TypingDots extends StatelessWidget {
+  const _TypingDots();
+
+  @override
+  Widget build(BuildContext context) {
+    final Color dot = ShadcnTheme.of(context).colors.mutedForeground;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (int i = 0; i < 3; i++)
+          Container(
+            width: 6,
+            height: 6,
+            margin: EdgeInsets.only(left: i == 0 ? 0 : 4),
+            decoration: BoxDecoration(color: dot, shape: BoxShape.circle),
+          ),
+      ],
+    );
+  }
+}
+
+/// Incoming (other side) bubbles: start-aligned on the muted surface.
+const ChatTheme _incomingBubble = ChatTheme(
+  background: ThemedColor.ref(ColorRef.muted),
+  foreground: ThemedColor.ref(ColorRef.foreground),
+  alignment: AlignmentDirectional.centerStart,
+  avatarAlignment: AlignmentDirectional.topStart,
+);
 ''',
     ),
   ],
@@ -4164,17 +4576,18 @@ Widget _split(BuildContext context) {
   'keyboard_shortcut': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
-      builder: '_keyboardShortcutDefault',
+      builder: '_kbdDefault',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
 import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
-/// A chord rendered from an activator.
-Widget _keyboardShortcutDefault(BuildContext context) {
+/// The command-palette chord, from an activator.
+Widget _kbdDefault(BuildContext context) {
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: KeyboardShortcut.fromActivator(
       activator: SingleActivator(LogicalKeyboardKey.keyK, meta: true),
     ),
@@ -4183,96 +4596,153 @@ Widget _keyboardShortcutDefault(BuildContext context) {
 ''',
     ),
     DocsExampleSource(
-      name: 'Multiple keys',
-      builder: '_keyboardShortcutMultipleKeys',
+      name: 'Modifiers',
+      builder: '_kbdModifiers',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
 import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
-/// A chord from explicit keys, in display order.
-Widget _keyboardShortcutMultipleKeys(BuildContext context) {
-  final spacing = ShadcnTheme.of(context).spacing;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.control,
-          LogicalKeyboardKey.shift,
-          LogicalKeyboardKey.keyP,
-        ],
+/// Modifiers first, in the order they are held.
+Widget _kbdModifiers(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
+    child: KeyboardShortcut(
+      keys: <LogicalKeyboardKey>[
+        LogicalKeyboardKey.control,
+        LogicalKeyboardKey.shift,
+        LogicalKeyboardKey.keyP,
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Sequence',
+      builder: '_kbdSequence',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+
+/// G then H: a two-step sequence, not a chord.
+Widget _kbdSequence(BuildContext context) {
+  final ShadcnThemeData theme = ShadcnTheme.of(context);
+  return Align(
+    alignment: Alignment.center,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const KeyboardShortcut(
+          keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyG],
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          'then',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.sm),
+        const KeyboardShortcut(
+          keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyH],
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'In menu item',
+      builder: '_kbdInMenuItem',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+
+/// Inside a menu item: the chord trails the label, as in `command` menus.
+Widget _kbdInMenuItem(BuildContext context) {
+  return Align(
+    alignment: Alignment.center,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 300),
+      child: const Card(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Text('Open command palette')),
+            Gap(16),
+            KeyboardShortcut.fromActivator(
+              activator: SingleActivator(LogicalKeyboardKey.keyK, meta: true),
+            ),
+          ],
+        ),
       ),
-      Gap(spacing.md),
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.arrowUp,
-          LogicalKeyboardKey.arrowDown,
-        ],
-      ),
-      Gap(spacing.md),
-      const KeyboardShortcut(
-        keys: <LogicalKeyboardKey>[
-          LogicalKeyboardKey.alt,
-          LogicalKeyboardKey.keyF,
-        ],
-      ),
-    ],
+    ),
   );
 }
 ''',
     ),
     DocsExampleSource(
       name: 'Scoped labels',
-      builder: '_keyboardShortcutScoped',
+      builder: '_kbdScoped',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
 import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
-/// A chord under a custom display scope, plus one bare cap.
-Widget _keyboardShortcutScoped(BuildContext context) {
-  return const KeyboardShortcutDisplayScope(
-    builder: _keyboardShortcutLabel,
-    child: KeyboardShortcut(
-      keys: <LogicalKeyboardKey>[
-        LogicalKeyboardKey.alt,
-        LogicalKeyboardKey.keyF,
-      ],
+/// A chord under a custom display scope.
+Widget _kbdScoped(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
+    child: KeyboardShortcutDisplayScope(
+      builder: _kbdLabel,
+      child: KeyboardShortcut(
+        keys: <LogicalKeyboardKey>[
+          LogicalKeyboardKey.alt,
+          LogicalKeyboardKey.keyF,
+        ],
+      ),
     ),
   );
 }
 
-Widget _keyboardShortcutLabel(BuildContext context, LogicalKeyboardKey key) =>
+Widget _kbdLabel(BuildContext context, LogicalKeyboardKey key) =>
     Text(key.keyLabel.toUpperCase());
 ''',
     ),
     DocsExampleSource(
       name: 'Live chord',
-      builder: '_keyboardShortcutLive',
+      builder: '_kbdLive',
       code: r'''import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
 import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 
 /// A chord the example can really fire.
-class _KeyboardShortcutLive extends StatefulWidget {
-  const _KeyboardShortcutLive();
+class _KbdLive extends StatefulWidget {
+  const _KbdLive();
 
   @override
-  State<_KeyboardShortcutLive> createState() => _KeyboardShortcutLiveState();
+  State<_KbdLive> createState() => _KbdLiveState();
 }
 
-class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
+class _KbdLiveState extends State<_KbdLive> {
   String _status = 'Press the chord';
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Shortcuts(
       shortcuts: const <ShortcutActivator, Intent>{
         SingleActivator(LogicalKeyboardKey.keyK, meta: true):
@@ -4287,7 +4757,7 @@ class _KeyboardShortcutLiveState extends State<_KeyboardShortcutLive> {
         child: Focus(
           autofocus: true,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const KeyboardShortcut(
@@ -4318,8 +4788,33 @@ class _OpenPaletteIntent extends Intent {
 }
 
 /// A chord that can really be pressed.
-Widget _keyboardShortcutLive(BuildContext context) =>
-    const _KeyboardShortcutLive();
+Widget _kbdLive(BuildContext context) =>
+    const Align(alignment: Alignment.center, child: _KbdLive());
+''',
+    ),
+    DocsExampleSource(
+      name: 'Ghost',
+      builder: '_kbdGhost',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/card/card.dart';
+import 'package:<your_app>/ui/shadcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+
+/// The same chord with no fill: a hint on a coloured surface (P7-WC2).
+Widget _kbdGhost(BuildContext context) {
+  return const Align(
+    alignment: Alignment.center,
+    child: KeyboardShortcut(
+      variant: KbdVariant.ghost,
+      keys: <LogicalKeyboardKey>[
+        LogicalKeyboardKey.meta,
+        LogicalKeyboardKey.keyK,
+      ],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -5249,161 +5744,81 @@ Widget _sheetSnapping(BuildContext context) => const _SheetDemo(
   ],
   'table': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Default',
-      builder: '_default',
+      name: 'Data table',
+      builder: '_dataTable',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
 import 'package:<your_app>/ui/shadcn/components/table/table.dart';
 
-/// The data rows, in display order; the header sits above them in [rows].
-const List<(String, String, String)> _people = <(String, String, String)>[
-  ('Avery', 'Designer', 'Active'),
-  ('Jordan', 'Engineer', 'Active'),
-  ('Casey', 'PM', 'Away'),
-  ('Riley', 'Writer', 'Offline'),
+/// One member row of the data-table example.
+class _Member {
+  const _Member(this.name, this.role, this.status);
+
+  final String name;
+  final String role;
+  final String status;
+}
+
+/// Six rows so pagination has two pages of four.
+const List<_Member> _members = <_Member>[
+  _Member('Avery', 'Designer', 'Active'),
+  _Member('Jordan', 'Engineer', 'Active'),
+  _Member('Casey', 'Manager', 'Away'),
+  _Member('Riley', 'Writer', 'Offline'),
+  _Member('Quinn', 'Engineer', 'Active'),
+  _Member('Skyler', 'Designer', 'Away'),
 ];
 
-/// Rows before the first data row (the header).
-const int _tableHeaderRows = 1;
-
-/// A data grid with a header, a live row selection and a footer.
-class _TableDefault extends StatefulWidget {
-  const _TableDefault();
-
-  @override
-  State<_TableDefault> createState() => _TableDefaultState();
+/// Badge variant for a member status.
+BadgeVariant _statusVariant(String status) {
+  switch (status) {
+    case 'Active':
+      return BadgeVariant.primary;
+    case 'Away':
+      return BadgeVariant.secondary;
+    default:
+      return BadgeVariant.outline;
+  }
 }
 
-class _TableDefaultState extends State<_TableDefault> {
-  int? _selected;
+/// A sortable column header: label plus direction arrow.
+class _SortHeader extends StatelessWidget {
+  const _SortHeader({
+    required this.label,
+    required this.sorted,
+    required this.ascending,
+    required this.onTap,
+  });
 
-  ShadcnTableRow _row((String, String, String) person, bool selected) {
-    final (String name, String role, String status) = person;
-    return ShadcnTableRow(
-      selected: selected,
-      cells: <ShadcnTableCell>[
-        ShadcnTableCell(child: Text(name)),
-        ShadcnTableCell(child: Text(role)),
-        ShadcnTableCell(child: Text(status)),
-      ],
-    );
-  }
+  final String label;
+  final bool sorted;
+  final bool ascending;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 460),
-          child: ShadcnTable(
-            columnWidths: const <int, TableSize>{
-              0: FlexTableSize(flex: 2),
-              1: FlexTableSize(),
-              2: FixedTableSize(90),
-            },
-            onRowTap: (int index) =>
-                setState(() => _selected = index - _tableHeaderRows),
-            rows: <ShadcnTableRow>[
-              const ShadcnTableHeader(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(child: Text('Name')),
-                  ShadcnTableCell(child: Text('Role')),
-                  ShadcnTableCell(child: Text('Status')),
-                ],
-              ),
-              for (int i = 0; i < _people.length; i++)
-                _row(_people[i], _selected == i),
-              const ShadcnTableFooter(
-                cells: <ShadcnTableCell>[
-                  ShadcnTableCell(columnSpan: 2, child: Text('4 people')),
-                  ShadcnTableCell(child: Text('—')),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Gap(theme.spacing.md),
-        Text(
-          _selected == null || _selected! < 0 || _selected! >= _people.length
-              ? 'Tap a row to select it'
-              : 'Selected ${_people[_selected!].$1}',
-          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
-        ),
-      ],
-    );
-  }
-}
-
-Widget _default(BuildContext context) => const _TableDefault();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Resizable',
-      builder: '_resizable',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/table/table.dart';
-
-/// A resizable table; owns its resize and scroll controllers. The fixed box
-/// is inherent: the table scrolls internally.
-class _ResizableTable extends StatefulWidget {
-  const _ResizableTable();
-
-  @override
-  State<_ResizableTable> createState() => _ResizableTableState();
-}
-
-class _ResizableTableState extends State<_ResizableTable> {
-  final ResizableTableController _controller = ResizableTableController(
-    defaultColumnWidth: 120,
-    defaultRowHeight: 40,
-  );
-  final ScrollController _vertical = ScrollController();
-  final ScrollController _horizontal = ScrollController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _vertical.dispose();
-    _horizontal.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 340,
-      height: 170,
-      child: ShadcnTable(
-        resizeController: _controller,
-        verticalController: _vertical,
-        horizontalController: _horizontal,
-        rows: const <ShadcnTableRow>[
-          ShadcnTableHeader(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Drag a divider')),
-              ShadcnTableCell(child: Text('Column')),
-              ShadcnTableCell(child: Text('Row')),
-            ],
-          ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('One')),
-              ShadcnTableCell(child: Text('Two')),
-              ShadcnTableCell(child: Text('Three')),
-            ],
-          ),
-          ShadcnTableRow(
-            cells: <ShadcnTableCell>[
-              ShadcnTableCell(child: Text('Four')),
-              ShadcnTableCell(child: Text('Five')),
-              ShadcnTableCell(child: Text('Six')),
-            ],
+    final ShadcnColors colors = ShadcnTheme.of(context).colors;
+    return Clickable(
+      behavior: HitTestBehavior.opaque,
+      onPressed: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(label),
+          const Gap(4),
+          Icon(
+            sorted
+                ? (ascending ? LucideIcons.arrowUp : LucideIcons.arrowDown)
+                : LucideIcons.chevronsUpDown,
+            size: 12,
+            color: colors.mutedForeground,
           ),
         ],
       ),
@@ -5411,7 +5826,318 @@ class _ResizableTableState extends State<_ResizableTable> {
   }
 }
 
-Widget _resizable(BuildContext context) => const _ResizableTable();
+/// A live data table: sorting, selection, badges, pagination and column
+/// resizing with min/max bounds.
+class _DataTable extends StatefulWidget {
+  const _DataTable();
+
+  @override
+  State<_DataTable> createState() => _DataTableState();
+}
+
+class _DataTableState extends State<_DataTable> {
+  static const int _pageSize = 4;
+  static const int _nameColumn = 1;
+  static const int _roleColumn = 2;
+
+  final ResizableTableController _resize = ResizableTableController(
+    defaultColumnWidth: 120,
+    defaultRowHeight: 44,
+    columnWidths: <int, double>{0: 40},
+    widthConstraints: <int, ConstrainedTableSize>{
+      0: ConstrainedTableSize(min: 32, max: 64),
+      1: ConstrainedTableSize(min: 80, max: 220),
+      2: ConstrainedTableSize(min: 80, max: 220),
+      3: ConstrainedTableSize(min: 80, max: 200),
+    },
+  );
+  final ScrollController _horizontal = ScrollController();
+  final ScrollController _vertical = ScrollController();
+
+  int _sortColumn = _nameColumn;
+  bool _ascending = true;
+  int _page = 0;
+  final Set<String> _selected = <String>{};
+
+  @override
+  void dispose() {
+    _resize.dispose();
+    _horizontal.dispose();
+    _vertical.dispose();
+    super.dispose();
+  }
+
+  List<_Member> get _sorted {
+    final List<_Member> rows = List<_Member>.of(_members);
+    int compare(_Member a, _Member b) => _sortColumn == _roleColumn
+        ? a.role.compareTo(b.role)
+        : a.name.compareTo(b.name);
+    rows.sort(
+      (_Member a, _Member b) => _ascending ? compare(a, b) : compare(b, a),
+    );
+    return rows;
+  }
+
+  void _sort(int column) {
+    setState(() {
+      if (_sortColumn == column) {
+        _ascending = !_ascending;
+      } else {
+        _sortColumn = column;
+        _ascending = true;
+      }
+      _page = 0;
+    });
+  }
+
+  void _toggle(String name) {
+    setState(() {
+      if (!_selected.remove(name)) {
+        _selected.add(name);
+      }
+    });
+  }
+
+  void _togglePage(List<_Member> visible) {
+    final Iterable<String> names = visible.map((_Member m) => m.name);
+    setState(() {
+      if (names.every(_selected.contains)) {
+        _selected.removeAll(names);
+      } else {
+        _selected.addAll(names);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    final List<_Member> sorted = _sorted;
+    final int totalPages = (sorted.length + _pageSize - 1) ~/ _pageSize;
+    final int page = _page.clamp(0, totalPages - 1);
+    final List<_Member> visible = sorted.sublist(
+      page * _pageSize,
+      ((page + 1) * _pageSize).clamp(0, sorted.length),
+    );
+    final bool allChecked =
+        visible.isNotEmpty &&
+        visible.map((_Member m) => m.name).every(_selected.contains);
+    final bool someChecked =
+        !allChecked &&
+        visible.map((_Member m) => m.name).any(_selected.contains);
+    return Center(
+      // Fixed widths sum to 400 (40 + 3 x 120), so the box hugs the grid
+      // exactly and the stage centres it; narrower viewports scroll.
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // Fixed rows (header + page) fill this box exactly: every row is
+            // the controller's 44 px, so narrower viewports scroll instead of
+            // overflowing and the stage centres the box.
+            SizedBox(
+              height: (_pageSize + 1) * 44,
+              child: ShadcnTable(
+                resizeController: _resize,
+                horizontalController: _horizontal,
+                verticalController: _vertical,
+                rows: <ShadcnTableRow>[
+                  ShadcnTableHeader(
+                    cells: <ShadcnTableCell>[
+                      ShadcnTableCell(
+                        child: Checkbox(
+                          tristate: true,
+                          value: allChecked
+                              ? CheckboxValue.checked
+                              : (someChecked
+                                    ? CheckboxValue.indeterminate
+                                    : CheckboxValue.unchecked),
+                          onChanged: (_) => _togglePage(visible),
+                        ),
+                      ),
+                      ShadcnTableCell(
+                        child: _SortHeader(
+                          label: 'Name',
+                          sorted: _sortColumn == _nameColumn,
+                          ascending: _ascending,
+                          onTap: () => _sort(_nameColumn),
+                        ),
+                      ),
+                      ShadcnTableCell(
+                        child: _SortHeader(
+                          label: 'Role',
+                          sorted: _sortColumn == _roleColumn,
+                          ascending: _ascending,
+                          onTap: () => _sort(_roleColumn),
+                        ),
+                      ),
+                      const ShadcnTableCell(child: Text('Status')),
+                    ],
+                  ),
+                  for (final _Member member in visible)
+                    ShadcnTableRow(
+                      selected: _selected.contains(member.name),
+                      cells: <ShadcnTableCell>[
+                        ShadcnTableCell(
+                          child: Checkbox(
+                            value: _selected.contains(member.name)
+                                ? CheckboxValue.checked
+                                : CheckboxValue.unchecked,
+                            onChanged: (_) => _toggle(member.name),
+                          ),
+                        ),
+                        ShadcnTableCell(child: Text(member.name)),
+                        ShadcnTableCell(child: Text(member.role)),
+                        ShadcnTableCell(
+                          child: Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Badge(
+                              variant: _statusVariant(member.status),
+                              child: Text(member.status),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+            Gap(theme.spacing.md),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    '${_selected.length} of ${_members.length} selected',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: theme.colors.mutedForeground,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Button(
+                      variant: ButtonVariant.outline,
+                      size: ButtonSize.sm,
+                      onPressed: page > 0
+                          ? () => setState(() => _page = page - 1)
+                          : null,
+                      leading: const Icon(LucideIcons.chevronLeft, size: 14),
+                      child: const Text('Prev'),
+                    ),
+                    Gap(theme.spacing.sm),
+                    Text(
+                      '${page + 1} / $totalPages',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colors.mutedForeground,
+                      ),
+                    ),
+                    Gap(theme.spacing.sm),
+                    Button(
+                      variant: ButtonVariant.outline,
+                      size: ButtonSize.sm,
+                      onPressed: page + 1 < totalPages
+                          ? () => setState(() => _page = page + 1)
+                          : null,
+                      trailing: const Icon(LucideIcons.chevronRight, size: 14),
+                      child: const Text('Next'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _dataTable(BuildContext context) => const _DataTable();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Invoices',
+      builder: '_invoices',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/checkbox/checkbox.dart';
+import 'package:<your_app>/ui/shadcn/components/table/table.dart';
+
+/// A small static invoice grid with a total footer.
+class _InvoicesTable extends StatelessWidget {
+  const _InvoicesTable();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: ShadcnTable(
+          columnWidths: <int, TableSize>{
+            1: FixedTableSize(80),
+            2: FixedTableSize(80),
+            3: FixedTableSize(90),
+          },
+          rows: <ShadcnTableRow>[
+            ShadcnTableHeader(
+              cells: <ShadcnTableCell>[
+                ShadcnTableCell(child: Text('Invoice')),
+                ShadcnTableCell(child: Text('Status')),
+                ShadcnTableCell(child: Text('Method')),
+                ShadcnTableCell(child: Text('Amount')),
+              ],
+            ),
+            ShadcnTableRow(
+              cells: <ShadcnTableCell>[
+                ShadcnTableCell(child: Text('INV-001')),
+                ShadcnTableCell(child: Text('Paid')),
+                ShadcnTableCell(child: Text('Card')),
+                ShadcnTableCell(child: Text('\$250.00')),
+              ],
+            ),
+            ShadcnTableRow(
+              cells: <ShadcnTableCell>[
+                ShadcnTableCell(child: Text('INV-002')),
+                ShadcnTableCell(child: Text('Pending')),
+                ShadcnTableCell(child: Text('PayPal')),
+                ShadcnTableCell(child: Text('\$150.00')),
+              ],
+            ),
+            ShadcnTableRow(
+              cells: <ShadcnTableCell>[
+                ShadcnTableCell(child: Text('INV-003')),
+                ShadcnTableCell(child: Text('Overdue')),
+                ShadcnTableCell(child: Text('Transfer')),
+                ShadcnTableCell(child: Text('\$350.00')),
+              ],
+            ),
+            ShadcnTableFooter(
+              cells: <ShadcnTableCell>[
+                ShadcnTableCell(columnSpan: 3, child: Text('Total')),
+                ShadcnTableCell(child: Text('\$750.00')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _invoices(BuildContext context) => const _InvoicesTable();
 ''',
     ),
   ],
@@ -7875,250 +8601,132 @@ Widget _spinnerSmall(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
 
-/// A persistent toast shown on mount, plus buttons for every placement.
-class _DefaultToast extends StatefulWidget {
-  const _DefaultToast();
+/// Centred trigger column.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
-  @override
-  State<_DefaultToast> createState() => _DefaultToastState();
-}
-
-class _DefaultToastState extends State<_DefaultToast> {
-  final ToastController _controller = ToastController();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _controller.showToast(
-          placement: ToastPlacement.topCenter,
-          autoDismiss: false,
-          builder: (BuildContext context) =>
-              const Text('Saved to your workspace.'),
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
-    // The fixed box is inherent: toasts position against the layer, so the
-    // layer needs a stage of its own.
-    return SizedBox(
-      width: 360,
-      height: 220,
-      child: ToastLayer(
-        controller: _controller,
-        child: Wrap(
-          spacing: spacing.sm,
-          runSpacing: spacing.sm,
-          children: <Widget>[
-            for (final ToastPlacement placement in ToastPlacement.values)
-              Button(
-                variant: ButtonVariant.outline,
-                size: ButtonSize.sm,
-                onPressed: () => _controller.showToast(
-                  placement: placement,
-                  builder: (BuildContext context) =>
-                      Text('Toast at ${placement.name}.'),
-                ),
-                child: Text(placement.name),
-              ),
-          ],
-        ),
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
       ),
     );
   }
 }
 
-Widget _default(BuildContext context) => const _DefaultToast();
+Widget _default(BuildContext context) => _Trigger(
+  label: 'Show toast',
+  onPressed: () => showToast(
+    context,
+    builder: (context) => const Text('Saved to your workspace.'),
+  ),
+);
 ''',
     ),
     DocsExampleSource(
       name: 'Destructive',
       builder: '_destructive',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
 
-/// A persistent destructive toast tinted with the destructive token.
-class _DestructiveToast extends StatefulWidget {
-  const _DestructiveToast();
+/// Centred trigger column.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
-  @override
-  State<_DestructiveToast> createState() => _DestructiveToastState();
-}
-
-class _DestructiveToastState extends State<_DestructiveToast> {
-  final ToastController _controller = ToastController();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _controller.showToast(
-          placement: ToastPlacement.bottomCenter,
-          autoDismiss: false,
-          builder: (BuildContext context) =>
-              const Text('Could not save the file.'),
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    // The fixed box is inherent: toasts position against the layer, so the
-    // layer needs a stage of its own.
-    return SizedBox(
-      width: 360,
-      height: 220,
-      child: ToastLayer(
-        controller: _controller,
-        theme: const ToastTheme(
-          background: ThemedColor.ref(ColorRef.destructive),
-          foreground: ThemedColor.ref(ColorRef.destructiveForeground),
-        ),
-        child: Button(
-          variant: ButtonVariant.destructive,
-          size: ButtonSize.sm,
-          onPressed: () => _controller.showToast(
-            placement: ToastPlacement.bottomCenter,
-            autoDismiss: false,
-            builder: (BuildContext context) =>
-                const Text('Could not save the file.'),
-          ),
-          child: const Text('Show destructive toast'),
-        ),
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
       ),
     );
   }
 }
 
-Widget _destructive(BuildContext context) => const _DestructiveToast();
+Widget _destructive(BuildContext context) => _Trigger(
+  label: 'Show destructive toast',
+  onPressed: () => showToast(
+    context,
+    placement: ToastPlacement.bottomCenter,
+    builder: (BuildContext toastContext) => Text(
+      'Could not save the file.',
+      style: TextStyle(
+        color: ShadcnTheme.of(toastContext).colors.destructive,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  ),
+);
 ''',
     ),
     DocsExampleSource(
       name: 'With action',
       builder: '_withAction',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
 
-/// A persistent toast with an inline action button.
-class _ActionToast extends StatefulWidget {
-  const _ActionToast();
+/// Centred trigger column.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
-  @override
-  State<_ActionToast> createState() => _ActionToastState();
-}
-
-class _ActionToastState extends State<_ActionToast> {
-  final ToastController _controller = ToastController();
-  String _lastAction = 'The toast action is live: tap View.';
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _controller.showToast(
-          placement: ToastPlacement.bottomTrailing,
-          autoDismiss: false,
-          builder: _toastBody,
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _show() {
-    _controller.showToast(
-      placement: ToastPlacement.bottomTrailing,
-      autoDismiss: false,
-      builder: _toastBody,
-    );
-  }
-
-  Widget _toastBody(BuildContext context) {
-    final spacing = ShadcnTheme.of(context).spacing;
-    return Wrap(
-      spacing: spacing.md,
-      runSpacing: spacing.sm,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: <Widget>[
-        const Text('Deployment started.'),
-        Button(
-          variant: ButtonVariant.secondary,
-          size: ButtonSize.sm,
-          onPressed: () {
-            _controller.dismissAll();
-            setState(() => _lastAction = 'Watched the deployment');
-          },
-          child: const Text('View'),
-        ),
-      ],
-    );
-  }
+  final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    // The fixed box is inherent: toasts position against the layer, so the
-    // layer needs a stage of its own.
-    return SizedBox(
-      width: 360,
-      height: 220,
-      child: ToastLayer(
-        controller: _controller,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+/// Toast with a live inline action.
+class _ActionTrigger extends StatelessWidget {
+  const _ActionTrigger();
+
+  @override
+  Widget build(BuildContext context) {
+    return _Trigger(
+      label: 'Show toast with action',
+      onPressed: () => showToast(
+        context,
+        placement: ToastPlacement.bottomTrailing,
+        builder: (BuildContext toastContext) => Wrap(
+          spacing: ShadcnTheme.of(toastContext).spacing.md,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
+            const Text('Deployment started.'),
             Button(
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
-              onPressed: _show,
-              child: const Text('Show toast with action'),
-            ),
-            Gap(ShadcnTheme.of(context).spacing.md),
-            Text(
-              _lastAction,
-              style: TextStyle(
-                fontSize: 12,
-                color: ShadcnTheme.of(context).colors.mutedForeground,
-              ),
+              onPressed: () => toastControllerOf(toastContext)?.dismissAll(),
+              child: const Text('View'),
             ),
           ],
         ),
@@ -8127,7 +8735,41 @@ class _ActionToastState extends State<_ActionToast> {
   }
 }
 
-Widget _withAction(BuildContext context) => const _ActionToast();
+Widget _withAction(BuildContext context) => const _ActionTrigger();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Positions',
+      builder: '_positions',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/toast/toast.dart';
+
+/// One trigger per window position, all over the app.
+Widget _positions(BuildContext context) {
+  final double gap = ShadcnTheme.of(context).spacing.sm;
+  return Center(
+    child: Wrap(
+      spacing: gap,
+      runSpacing: gap,
+      alignment: WrapAlignment.center,
+      children: <Widget>[
+        for (final ToastPlacement placement in ToastPlacement.values)
+          Button(
+            variant: ButtonVariant.outline,
+            size: ButtonSize.sm,
+            onPressed: () => showToast(
+              context,
+              placement: placement,
+              builder: (context) => Text('Toast at ${placement.name}.'),
+            ),
+            child: Text(placement.name),
+          ),
+      ],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -9369,7 +10011,8 @@ import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/form/form.dart';
 
-/// A field validating on every change, so the error shows immediately.
+/// A field validating on every change: the message appears as soon as the
+/// typed value is invalid, and not a frame sooner.
 class _ValidatingForm extends StatefulWidget {
   const _ValidatingForm();
 
@@ -9396,6 +10039,7 @@ class _ValidatingFormState extends State<_ValidatingForm> {
         child: ShadcnFormField<String>(
           key: _emailKey,
           label: const Text('Email'),
+          hint: const Text('The message shows only once you type.'),
           validator: const NotEmptyValidator() & const EmailValidator(),
           showErrors: const <FormValidationMode>{FormValidationMode.changed},
           child: const Input(),
@@ -10490,6 +11134,11 @@ const PhoneInputTheme _compact = PhoneInputTheme(
 );
 
 /// A phone field showing the validator error for a short number.
+///
+/// The example opts into showing an untouched field's error
+/// ([showErrors] including `initial`): its purpose is to document what the
+/// error state looks like. A real form uses the default modes, where the
+/// message only appears after the user edits the field or submits.
 class _InvalidPhone extends StatefulWidget {
   const _InvalidPhone();
 
@@ -10510,6 +11159,11 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
         label: const Text('Phone'),
         validator: const PhoneNumberValidator(),
+        showErrors: const <FormValidationMode>{
+          FormValidationMode.initial,
+          FormValidationMode.changed,
+          FormValidationMode.submitted,
+        },
         child: PhoneInput(
           initialValue: _value,
           onChanged: (PhoneNumber? value) => setState(() => _value = value),
@@ -11573,72 +12227,116 @@ import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
 
-/// A palette-derived thumbnail, so the demo follows the selected theme.
-Widget _cardImageThumb(BuildContext context, double height) {
+/// One grid tile's content.
+class _Tile {
+  const _Tile({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.chart,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  /// Index into `ShadcnColors.chartColors`.
+  final int chart;
+}
+
+const List<_Tile> _tiles = <_Tile>[
+  _Tile(
+    title: 'Sunset',
+    subtitle: '18:42 · Lisbon',
+    icon: LucideIcons.mountain,
+    chart: 0,
+  ),
+  _Tile(
+    title: 'Harbor nights',
+    subtitle: '3:21 · focus mix',
+    icon: LucideIcons.music,
+    chart: 1,
+  ),
+];
+
+/// A theme-token poster thumb: a chart fill with a card-coloured glyph. It
+/// carries no size of its own — the card's aspect-ratio surface sizes it —
+/// so this is also the shape a user `Image` takes.
+Widget _thumb(BuildContext context, _Tile tile) {
   final theme = ShadcnTheme.of(context);
-  return SizedBox(
-    height: height,
-    child: ColoredBox(
-      color: theme.colors.muted,
-      child: Center(
-        child: Icon(
-          LucideIcons.image,
-          size: 28,
-          color: theme.colors.mutedForeground,
-        ),
-      ),
-    ),
+  final List<Color> charts = theme.colors.chartColors;
+  return ColoredBox(
+    color: charts[tile.chart % charts.length],
+    child: Center(child: Icon(tile.icon, size: 36, color: theme.colors.card)),
   );
 }
 
-/// One card row plus the status line the example writes to.
-class _CardImageRow extends StatelessWidget {
-  const _CardImageRow({
-    required this.width,
-    required this.title,
-    required this.subtitle,
-    required this.selected,
-    required this.onPressed,
-    this.image,
-    this.direction = Axis.vertical,
-    this.enabled = true,
-  });
+/// One pressable card for [tile], selected when [selected].
+Widget _tileCard(
+  BuildContext context,
+  _Tile tile,
+  bool selected,
+  VoidCallback onPressed,
+) {
+  return CardImage(
+    image: _thumb(context, tile),
+    title: Text(
+      tile.title,
+      style: TextStyle(
+        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+      ),
+    ),
+    subtitle: Text(tile.subtitle),
+    trailing: const Icon(LucideIcons.chevronRight, size: 16),
+    onPressed: onPressed,
+  );
+}
 
-  final double width;
-  final String title;
-  final String subtitle;
-  final bool selected;
-  final VoidCallback onPressed;
-  final Widget? image;
-  final Axis direction;
-  final bool enabled;
+/// A grid of vertical cards sharing one selection echo.
+class _CardImageGrid extends StatefulWidget {
+  const _CardImageGrid();
+
+  @override
+  State<_CardImageGrid> createState() => _CardImageGridState();
+}
+
+class _CardImageGridState extends State<_CardImageGrid> {
+  int? _opened;
 
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
-          width: width,
-          child: CardImage(
-            theme: CardImageTheme(direction: direction, gap: 12),
-            image: image ?? _cardImageThumb(context, 120),
-            title: Text(
-              title,
-              style: TextStyle(
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-            subtitle: Text(subtitle),
-            enabled: enabled,
-            onPressed: onPressed,
+        ConstrainedBox(
+          // Two cards per row at 200px: the grid stays inside the 720x420
+          // preview stage (three across wraps to a 3+1 layout and overflows).
+          constraints: const BoxConstraints(maxWidth: 424),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: theme.spacing.lg,
+            runSpacing: theme.spacing.lg,
+            children: <Widget>[
+              for (int i = 0; i < _tiles.length; i++)
+                SizedBox(
+                  width: 200,
+                  child: _tileCard(
+                    context,
+                    _tiles[i],
+                    _opened == i,
+                    () => setState(() => _opened = _opened == i ? null : i),
+                  ),
+                ),
+            ],
           ),
         ),
-        Gap(theme.spacing.sm),
+        Gap(theme.spacing.md),
         Text(
-          selected ? 'Opened "$title"' : 'Tap the card to open it',
+          _opened == null
+              ? 'Tap the card to open it'
+              : 'Opened "${_tiles[_opened!].title}"',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -11646,36 +12344,7 @@ class _CardImageRow extends StatelessWidget {
   }
 }
 
-/// Vertical composition: media above the text block.
-class _CardImageVertical extends StatefulWidget {
-  const _CardImageVertical();
-
-  @override
-  State<_CardImageVertical> createState() => _CardImageVerticalState();
-}
-
-class _CardImageVerticalState extends State<_CardImageVertical> {
-  bool _opened = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        _CardImageRow(
-          width: 220,
-          title: 'Sunset',
-          subtitle: '18:42 - Lisbon',
-          selected: _opened,
-          onPressed: () => setState(() => _opened = !_opened),
-        ),
-      ],
-    );
-  }
-}
-
-Widget _cardImageVertical(BuildContext context) => const _CardImageVertical();
+Widget _cardImageVertical(BuildContext context) => const _CardImageGrid();
 ''',
     ),
     DocsExampleSource(
@@ -11687,77 +12356,48 @@ import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
 
-/// A palette-derived thumbnail, so the demo follows the selected theme.
-Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
-  return SizedBox(
-    height: height,
-    child: ColoredBox(
-      color: theme.colors.muted,
-      child: Center(
-        child: Icon(
-          LucideIcons.image,
-          size: 28,
-          color: theme.colors.mutedForeground,
-        ),
-      ),
-    ),
-  );
-}
-
-/// One card row plus the status line the example writes to.
-class _CardImageRow extends StatelessWidget {
-  const _CardImageRow({
-    required this.width,
+/// One grid tile's content.
+class _Tile {
+  const _Tile({
     required this.title,
     required this.subtitle,
-    required this.selected,
-    required this.onPressed,
-    this.image,
-    this.direction = Axis.vertical,
-    this.enabled = true,
+    required this.icon,
+    required this.chart,
   });
 
-  final double width;
   final String title;
   final String subtitle;
-  final bool selected;
-  final VoidCallback onPressed;
-  final Widget? image;
-  final Axis direction;
-  final bool enabled;
+  final IconData icon;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          width: width,
-          child: CardImage(
-            theme: CardImageTheme(direction: direction, gap: 12),
-            image: image ?? _cardImageThumb(context, 120),
-            title: Text(
-              title,
-              style: TextStyle(
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-            subtitle: Text(subtitle),
-            enabled: enabled,
-            onPressed: onPressed,
-          ),
-        ),
-        Gap(theme.spacing.sm),
-        Text(
-          selected ? 'Opened "$title"' : 'Tap the card to open it',
-          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
-        ),
-      ],
-    );
-  }
+  /// Index into `ShadcnColors.chartColors`.
+  final int chart;
+}
+
+const List<_Tile> _tiles = <_Tile>[
+  _Tile(
+    title: 'Sunset',
+    subtitle: '18:42 · Lisbon',
+    icon: LucideIcons.mountain,
+    chart: 0,
+  ),
+  _Tile(
+    title: 'Harbor nights',
+    subtitle: '3:21 · focus mix',
+    icon: LucideIcons.music,
+    chart: 1,
+  ),
+];
+
+/// A theme-token poster thumb: a chart fill with a card-coloured glyph. It
+/// carries no size of its own — the card's aspect-ratio surface sizes it —
+/// so this is also the shape a user `Image` takes.
+Widget _thumb(BuildContext context, _Tile tile) {
+  final theme = ShadcnTheme.of(context);
+  final List<Color> charts = theme.colors.chartColors;
+  return ColoredBox(
+    color: charts[tile.chart % charts.length],
+    child: Center(child: Icon(tile.icon, size: 36, color: theme.colors.card)),
+  );
 }
 
 /// Horizontal composition: media beside the text block.
@@ -11773,14 +12413,37 @@ class _CardImageHorizontalState extends State<_CardImageHorizontal> {
 
   @override
   Widget build(BuildContext context) {
-    return _CardImageRow(
-      width: 320,
-      direction: Axis.horizontal,
-      image: SizedBox(width: 96, child: _cardImageThumb(context, 120)),
-      title: 'Ambient loops',
-      subtitle: '3:21 - focus mix',
-      selected: _opened,
-      onPressed: () => setState(() => _opened = !_opened),
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 320,
+          child: CardImage(
+            theme: const CardImageTheme(direction: Axis.horizontal),
+            image: SizedBox(
+              width: 96,
+              height: 96,
+              child: _thumb(context, _tiles[1]),
+            ),
+            title: Text(
+              _tiles[1].title,
+              style: TextStyle(
+                fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            subtitle: Text(_tiles[1].subtitle),
+            trailing: const Icon(LucideIcons.chevronRight, size: 16),
+            onPressed: () => setState(() => _opened = !_opened),
+          ),
+        ),
+        Gap(theme.spacing.sm),
+        Text(
+          _opened ? 'Opened "${_tiles[1].title}"' : 'Tap the card to open it',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
     );
   }
 }
@@ -11798,77 +12461,48 @@ import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/card_image/card_image.dart';
 
-/// A palette-derived thumbnail, so the demo follows the selected theme.
-Widget _cardImageThumb(BuildContext context, double height) {
-  final theme = ShadcnTheme.of(context);
-  return SizedBox(
-    height: height,
-    child: ColoredBox(
-      color: theme.colors.muted,
-      child: Center(
-        child: Icon(
-          LucideIcons.image,
-          size: 28,
-          color: theme.colors.mutedForeground,
-        ),
-      ),
-    ),
-  );
-}
-
-/// One card row plus the status line the example writes to.
-class _CardImageRow extends StatelessWidget {
-  const _CardImageRow({
-    required this.width,
+/// One grid tile's content.
+class _Tile {
+  const _Tile({
     required this.title,
     required this.subtitle,
-    required this.selected,
-    required this.onPressed,
-    this.image,
-    this.direction = Axis.vertical,
-    this.enabled = true,
+    required this.icon,
+    required this.chart,
   });
 
-  final double width;
   final String title;
   final String subtitle;
-  final bool selected;
-  final VoidCallback onPressed;
-  final Widget? image;
-  final Axis direction;
-  final bool enabled;
+  final IconData icon;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          width: width,
-          child: CardImage(
-            theme: CardImageTheme(direction: direction, gap: 12),
-            image: image ?? _cardImageThumb(context, 120),
-            title: Text(
-              title,
-              style: TextStyle(
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-            subtitle: Text(subtitle),
-            enabled: enabled,
-            onPressed: onPressed,
-          ),
-        ),
-        Gap(theme.spacing.sm),
-        Text(
-          selected ? 'Opened "$title"' : 'Tap the card to open it',
-          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
-        ),
-      ],
-    );
-  }
+  /// Index into `ShadcnColors.chartColors`.
+  final int chart;
+}
+
+const List<_Tile> _tiles = <_Tile>[
+  _Tile(
+    title: 'Sunset',
+    subtitle: '18:42 · Lisbon',
+    icon: LucideIcons.mountain,
+    chart: 0,
+  ),
+  _Tile(
+    title: 'Harbor nights',
+    subtitle: '3:21 · focus mix',
+    icon: LucideIcons.music,
+    chart: 1,
+  ),
+];
+
+/// A theme-token poster thumb: a chart fill with a card-coloured glyph. It
+/// carries no size of its own — the card's aspect-ratio surface sizes it —
+/// so this is also the shape a user `Image` takes.
+Widget _thumb(BuildContext context, _Tile tile) {
+  final theme = ShadcnTheme.of(context);
+  final List<Color> charts = theme.colors.chartColors;
+  return ColoredBox(
+    color: charts[tile.chart % charts.length],
+    child: Center(child: Icon(tile.icon, size: 36, color: theme.colors.card)),
+  );
 }
 
 /// The disabled card next to a live one, so the pair reads as one row.
@@ -11885,24 +12519,35 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      alignment: WrapAlignment.center,
       spacing: ShadcnTheme.of(context).spacing.lg,
       runSpacing: ShadcnTheme.of(context).spacing.lg,
       crossAxisAlignment: WrapCrossAlignment.start,
       children: <Widget>[
-        _CardImageRow(
-          width: 220,
-          title: 'Archived',
-          subtitle: 'read-only',
-          selected: false,
-          enabled: false,
-          onPressed: () {},
+        SizedBox(
+          width: 200,
+          child: CardImage(
+            image: _thumb(context, _tiles[1]),
+            title: const Text('Archived'),
+            subtitle: const Text('read-only'),
+            enabled: false,
+            onPressed: () {},
+          ),
         ),
-        _CardImageRow(
-          width: 220,
-          title: 'In progress',
-          subtitle: 'tap to open',
-          selected: _opened,
-          onPressed: () => setState(() => _opened = !_opened),
+        SizedBox(
+          width: 200,
+          child: CardImage(
+            image: _thumb(context, _tiles[0]),
+            title: Text(
+              'In progress',
+              style: TextStyle(
+                fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            subtitle: const Text('tap to open'),
+            trailing: const Icon(LucideIcons.chevronRight, size: 16),
+            onPressed: () => setState(() => _opened = !_opened),
+          ),
         ),
       ],
     );
@@ -12118,34 +12763,159 @@ Widget _withChips(BuildContext context) => const _ChipsFilterBar();
   ],
   'overflow_marquee': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Horizontal',
-      builder: '_horizontal',
+      name: 'Now playing',
+      builder: '_nowPlaying',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// Long enough to overflow a narrow container and keep scrolling.
-const String _line =
-    'The quick brown fox jumps over the lazy dog — long enough to overflow '
-    'a narrow container and keep scrolling.';
+/// A bordered band for the ticker-style examples.
+Widget _band(BuildContext context, Widget child) {
+  final theme = ShadcnTheme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
 
-/// A horizontal ticker in a bordered band.
-Widget _horizontal(BuildContext context) {
-  final ShadcnColors colors = ShadcnTheme.of(context).colors;
+/// Now-playing row with a play/pause toggle: long song titles scroll.
+class _NowPlaying extends StatefulWidget {
+  const _NowPlaying();
+
+  @override
+  State<_NowPlaying> createState() => _NowPlayingState();
+}
+
+class _NowPlayingState extends State<_NowPlaying> {
+  bool _playing = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 320,
+          child: _band(
+            context,
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: theme.colors.muted,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      LucideIcons.music,
+                      size: 20,
+                      color: theme.colors.mutedForeground,
+                    ),
+                  ),
+                ),
+                Gap(theme.spacing.sm),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const OverflowMarquee(
+                        duration: Duration(seconds: 6),
+                        child: Text(
+                          'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                        ),
+                      ),
+                      Text(
+                        _playing ? 'Playing · Synthwave' : 'Paused · Synthwave',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.colors.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Gap(theme.spacing.sm),
+                Button(
+                  size: ButtonSize.icon,
+                  variant: ButtonVariant.ghost,
+                  onPressed: () => setState(() => _playing = !_playing),
+                  child: Icon(
+                    _playing ? LucideIcons.pause : LucideIcons.play,
+                    size: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _nowPlaying(BuildContext context) => const _NowPlaying();
+''',
+    ),
+    DocsExampleSource(
+      name: 'News ticker',
+      builder: '_newsTicker',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';
+
+/// A bordered band for the ticker-style examples.
+Widget _band(BuildContext context, Widget child) {
+  final theme = ShadcnTheme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
+/// A live-news band: a LIVE badge plus scrolling headlines.
+Widget _newsTicker(BuildContext context) {
+  final theme = ShadcnTheme.of(context);
   return SizedBox(
     width: 320,
-    child: DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: colors.border),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(ShadcnTheme.of(context).spacing.sm),
-        child: const OverflowMarquee(
-          duration: Duration(seconds: 6),
-          child: Text(_line),
-        ),
+    child: _band(
+      context,
+      Row(
+        children: <Widget>[
+          const Badge(variant: BadgeVariant.destructive, child: Text('LIVE')),
+          Gap(theme.spacing.sm),
+          const Expanded(
+            child: OverflowMarquee(
+              duration: Duration(seconds: 12),
+              child: Text(
+                'shadcn_flutter_kit 1.0 ships 145 components  •  '
+                'pull-to-refresh learns trackpads  •  '
+                'dots keep their gaps  •  '
+                'cards never collapse',
+              ),
+            ),
+          ),
+        ],
       ),
     ),
   );
@@ -12153,27 +12923,57 @@ Widget _horizontal(BuildContext context) {
 ''',
     ),
     DocsExampleSource(
-      name: 'Vertical',
-      builder: '_vertical',
+      name: 'Filename',
+      builder: '_filenameCard',
       code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// Long enough to overflow a narrow container and keep scrolling.
-const String _line =
-    'The quick brown fox jumps over the lazy dog — long enough to overflow '
-    'a narrow container and keep scrolling.';
+/// A bordered band for the ticker-style examples.
+Widget _band(BuildContext context, Widget child) {
+  final theme = ShadcnTheme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
 
-/// A vertical ticker in a short viewport.
-Widget _vertical(BuildContext context) {
-  return const SizedBox(
-    width: 200,
-    height: 120,
-    child: OverflowMarquee(
-      direction: Axis.vertical,
-      duration: Duration(seconds: 3),
-      child: SizedBox(height: 160, child: Text(_line)),
+/// A long filename scrolling inside a fixed-width file card.
+Widget _filenameCard(BuildContext context) {
+  final theme = ShadcnTheme.of(context);
+  return SizedBox(
+    width: 240,
+    child: _band(
+      context,
+      Row(
+        children: <Widget>[
+          Icon(
+            LucideIcons.fileText,
+            size: 16,
+            color: theme.colors.mutedForeground,
+          ),
+          Gap(theme.spacing.sm),
+          const Expanded(
+            child: OverflowMarquee(
+              duration: Duration(seconds: 5),
+              child: Text('quarterly-report-final-v2-ACTUAL-final.pdf'),
+            ),
+          ),
+          Gap(theme.spacing.sm),
+          Text(
+            '2.4 MB',
+            style: TextStyle(fontSize: 11, color: theme.colors.mutedForeground),
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -12212,8 +13012,11 @@ class _Pane extends StatelessWidget {
 
 /// Panes sized in absolute pixels.
 Widget _absolute(BuildContext context) {
+  // P7-TH1: the box hugs the declared sizes (120 + 1px handle + 200) so the
+  // demo centres exactly; a wider box would strand transparent leftover on
+  // the right because absolute panels pack from the start.
   return const SizedBox(
-    width: 360,
+    width: 321,
     height: 140,
     child: ResizablePanelGroup(
       children: <Widget>[
@@ -12608,16 +13411,22 @@ import 'package:<your_app>/ui/shadcn/components/sortable/sortable.dart';
 
 /// One draggable row in theme tokens.
 class _Row extends StatelessWidget {
-  const _Row({required this.item, this.candidate = false});
+  const _Row({required this.item, this.candidate = false, this.last = false});
 
   final String item;
   final bool candidate;
+
+  /// Whether this is the last row of the list: the last row keeps no bottom
+  /// margin, so the staged list centres exactly (P7-TH1).
+  final bool last;
 
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      // Inter-item breathing room lives between rows only — never trailing
+      // the list — so the demo centres in its stage.
+      margin: EdgeInsets.only(bottom: last ? 0 : 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: candidate ? theme.colors.accent : theme.colors.card,
@@ -12669,17 +13478,17 @@ class _ListDemoState extends State<_ListDemo> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            for (final String item in _items)
+            for (int i = 0; i < _items.length; i++)
               Sortable<String>(
-                key: ValueKey<String>(item),
-                data: SortableData<String>(item),
+                key: ValueKey<String>(_items[i]),
+                data: SortableData<String>(_items[i]),
                 onAcceptTop: (SortableData<String> data) =>
-                    _move(data.data, item, true),
+                    _move(data.data, _items[i], true),
                 onAcceptBottom: (SortableData<String> data) =>
-                    _move(data.data, item, false),
-                candidateFallback: _Row(item: item, candidate: true),
-                fallback: Opacity(opacity: 0.3, child: _Row(item: item)),
-                child: _Row(item: item),
+                    _move(data.data, _items[i], false),
+                candidateFallback: _Row(item: _items[i], candidate: true),
+                fallback: Opacity(opacity: 0.3, child: _Row(item: _items[i])),
+                child: _Row(item: _items[i], last: i == _items.length - 1),
               ),
           ],
         ),
@@ -12769,23 +13578,32 @@ class _GridDemoState extends State<_GridDemo> {
       width: 340,
       child: SortableLayer(
         lock: true,
-        child: Wrap(
-          spacing: spacing.sm,
-          runSpacing: spacing.sm,
-          children: <Widget>[
-            for (final String item in _items)
-              Sortable<String>(
-                key: ValueKey<String>(item),
-                data: SortableData<String>(item),
-                onAcceptTop: (SortableData<String> data) =>
-                    _move(data.data, item, true),
-                onAcceptBottom: (SortableData<String> data) =>
-                    _move(data.data, item, false),
-                candidateFallback: _Tile(item: item, candidate: true),
-                fallback: Opacity(opacity: 0.3, child: _Tile(item: item)),
-                child: _Tile(item: item),
-              ),
-          ],
+        // P7-TH1: the layer's Stack parks the shrink-wrapped Wrap at the
+        // start; the Center keeps the runs in the middle of the 340px box
+        // at every spacing (the Wrap alignment alone cannot — the Wrap
+        // shrink-wraps to its runs).
+        child: Center(
+          child: Wrap(
+            spacing: spacing.sm,
+            runSpacing: spacing.sm,
+            // P7-TH1: runs centre in the 340px box (the 3-up rows are 328
+            // wide and would otherwise pack left).
+            alignment: WrapAlignment.center,
+            children: <Widget>[
+              for (final String item in _items)
+                Sortable<String>(
+                  key: ValueKey<String>(item),
+                  data: SortableData<String>(item),
+                  onAcceptTop: (SortableData<String> data) =>
+                      _move(data.data, item, true),
+                  onAcceptBottom: (SortableData<String> data) =>
+                      _move(data.data, item, false),
+                  candidateFallback: _Tile(item: item, candidate: true),
+                  fallback: Opacity(opacity: 0.3, child: _Tile(item: item)),
+                  child: _Tile(item: item),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -13331,9 +14149,13 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    // P7-TH1: centred column — the 220px menu stays centred through the
+    // inner `Center`, and the status line centres under it (a `start`
+    // column would strand the status at x=0 once the `Center` expands the
+    // column to the full stage width).
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Center(
           child: SizedBox(
@@ -13428,9 +14250,13 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    // P7-TH1: centred column — the 220px menu stays centred through the
+    // inner `Center`, and the status line centres under it (a `start`
+    // column would strand the status at x=0 once the `Center` expands the
+    // column to the full stage width).
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Center(
           child: SizedBox(
@@ -13525,9 +14351,13 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    // P7-TH1: centred column — the 220px menu stays centred through the
+    // inner `Center`, and the status line centres under it (a `start`
+    // column would strand the status at x=0 once the `Center` expands the
+    // column to the full stage width).
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Center(
           child: SizedBox(
@@ -14508,59 +15338,152 @@ Widget _sidebar(BuildContext context) => const _SidebarDemo();
   ],
   'navigation_menu': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Bar',
-      builder: '_bar',
+      name: 'Default',
+      builder: '_defaultBar',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/primitives/text/text_extension.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';
 
-/// A menu bar with plain, dropdown and popover items.
-class _NavigationMenuBar extends StatefulWidget {
-  const _NavigationMenuBar();
-
-  @override
-  State<_NavigationMenuBar> createState() => _NavigationMenuBarState();
+/// Featured tile for the Getting-started panel (shadcn's gradient card).
+Widget _featuredTile(ShadcnThemeData theme) {
+  return Button(
+    variant: ButtonVariant.ghost,
+    onPressed: () {},
+    child: Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[theme.colors.muted, theme.colors.accent],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Text('shadcn/ui').small().medium(),
+          const Text('Beautifully designed components').muted().small(),
+        ],
+      ),
+    ),
+  );
 }
 
-class _NavigationMenuBarState extends State<_NavigationMenuBar> {
-  String _page = 'Home';
+/// Getting-started panel: featured tile plus three links.
+Widget _gettingStarted(ShadcnThemeData theme) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      SizedBox(width: 200, child: _featuredTile(theme)),
+      const SizedBox(width: 12),
+      const Expanded(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            NavigationMenuContent(
+              title: Text('Introduction'),
+              content: Text('Re-usable components for your apps'),
+              onPressed: _noop,
+            ),
+            NavigationMenuContent(
+              title: Text('Installation'),
+              content: Text('How to install dependencies and code'),
+              onPressed: _noop,
+            ),
+            NavigationMenuContent(
+              title: Text('Typography'),
+              content: Text('Styles for headings and paragraphs'),
+              onPressed: _noop,
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+void _noop() {}
+
+/// Components panel: two-column grid of six links.
+Widget _componentsGrid() {
+  return const NavigationMenuContentList(
+    crossAxisCount: 2,
+    children: <Widget>[
+      NavigationMenuContent(
+        title: Text('Alert Dialog'),
+        content: Text('A modal dialog that interrupts the user'),
+        onPressed: _noop,
+      ),
+      NavigationMenuContent(
+        title: Text('Hover Card'),
+        content: Text('For sighted users to preview content'),
+        onPressed: _noop,
+      ),
+      NavigationMenuContent(
+        title: Text('Progress'),
+        content: Text('Displays an indicator showing progress'),
+        onPressed: _noop,
+      ),
+      NavigationMenuContent(
+        title: Text('Scroll Area'),
+        content: Text('Visually separates content into sections'),
+        onPressed: _noop,
+      ),
+      NavigationMenuContent(
+        title: Text('Tabs'),
+        content: Text('A set of layered sections of content'),
+        onPressed: _noop,
+      ),
+      NavigationMenuContent(
+        title: Text('Tooltip'),
+        content: Text('A popup that displays information'),
+        onPressed: _noop,
+      ),
+    ],
+  );
+}
+
+/// Default bar: featured Getting-started panel, Components grid, Docs link.
+class _DefaultBar extends StatefulWidget {
+  const _DefaultBar();
+
+  @override
+  State<_DefaultBar> createState() => _DefaultBarState();
+}
+
+class _DefaultBarState extends State<_DefaultBar> {
+  String _page = 'Getting started';
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // Intrinsic width: a fixed box clipped the bar under real text metrics.
+        // Intrinsic width: a fixed box clipped the bar under real text
+        // metrics, and the bar is wider than the 375 phone stage.
         FittedBox(
           fit: BoxFit.scaleDown,
           child: NavigationMenu(
             children: <Widget>[
               NavigationMenuItem(
-                onPressed: () => setState(() => _page = 'Home'),
-                child: const Text('Home'),
+                content: _gettingStarted(theme),
+                child: const Text('Getting started'),
               ),
               NavigationMenuItem(
-                content: NavigationMenuContentList(
-                  children: <Widget>[
-                    NavigationMenuContent(
-                      title: const Text('Web Apps'),
-                      content: const Text('Ship in the browser'),
-                    ),
-                    NavigationMenuContent(
-                      title: const Text('Mobile Apps'),
-                      content: const Text('Ship on the go'),
-                    ),
-                  ],
-                ),
-                child: const Text('Products'),
+                content: _componentsGrid(),
+                child: const Text('Components'),
               ),
               NavigationMenuItem(
-                content: const Text('Company info here'),
-                onPressed: () => setState(() => _page = 'About'),
-                child: const Text('About'),
+                onPressed: () => setState(() => _page = 'Documentation'),
+                child: const Text('Docs'),
               ),
             ],
           ),
@@ -14575,7 +15498,7 @@ class _NavigationMenuBarState extends State<_NavigationMenuBar> {
   }
 }
 
-Widget _bar(BuildContext context) => const _NavigationMenuBar();
+Widget _defaultBar(BuildContext context) => const _DefaultBar();
 ''',
     ),
     DocsExampleSource(
@@ -14583,27 +15506,90 @@ Widget _bar(BuildContext context) => const _NavigationMenuBar();
       builder: '_contentList',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/primitives/text/text_extension.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';
+
+void _noop() {}
 
 /// A standalone two-column content list.
 Widget _contentList(BuildContext context) {
   return const SizedBox(
-    width: 340,
+    width: 360,
     child: NavigationMenuContentList(
       crossAxisCount: 2,
       children: <Widget>[
         NavigationMenuContent(
           title: Text('Dashboard'),
-          content: Text('Analytics and insights'),
+          content: Text('Analytics'),
+          onPressed: _noop,
         ),
         NavigationMenuContent(
           title: Text('Settings'),
           content: Text('Preferences'),
+          onPressed: _noop,
         ),
         NavigationMenuContent(
           title: Text('Billing'),
-          content: Text('Plans and invoices'),
+          content: Text('Plans'),
+          onPressed: _noop,
+        ),
+        NavigationMenuContent(
+          title: Text('Notifications'),
+          content: Text('Alerts'),
+          onPressed: _noop,
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'With icons',
+      builder: '_withIcons',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/primitives/text/text_extension.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/navigation_menu/navigation_menu.dart';
+
+void _noop() {}
+
+/// A standalone list with leading icons.
+Widget _withIcons(BuildContext context) {
+  return const SizedBox(
+    width: 300,
+    child: NavigationMenuContentList(
+      crossAxisCount: 1,
+      children: <Widget>[
+        NavigationMenuContent(
+          leading: Icon(LucideIcons.layoutDashboard, size: 16),
+          title: Text('Dashboard'),
+          content: Text('Analytics'),
+          onPressed: _noop,
+        ),
+        NavigationMenuContent(
+          leading: Icon(LucideIcons.settings, size: 16),
+          title: Text('Settings'),
+          content: Text('Preferences'),
+          onPressed: _noop,
+        ),
+        NavigationMenuContent(
+          leading: Icon(LucideIcons.fileText, size: 16),
+          title: Text('Billing'),
+          content: Text('Invoices'),
+          onPressed: _noop,
+        ),
+        NavigationMenuContent(
+          leading: Icon(LucideIcons.bell, size: 16),
+          title: Text('Notifications'),
+          content: Text('Alerts'),
+          onPressed: _noop,
         ),
       ],
     ),
@@ -14791,9 +15777,11 @@ class _SizesStepperState extends State<_SizesStepper> {
   @override
   Widget build(BuildContext context) {
     final spacing = ShadcnTheme.of(context).spacing;
+    // P7-TH1: centred column — the full-width steppers define the box and
+    // the labels sit under them instead of stranding at x=0.
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         for (final StepperSize size in StepperSize.values) ...<Widget>[
           Text('${size.name} (${size.indicatorSize}px)'),
@@ -14975,9 +15963,10 @@ Widget _pane(BuildContext context) => const _PaneDemo();
   ],
   'alert_dialog': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Default',
-      builder: '_alertDialogDefault',
-      code: r'''import 'package:flutter/widgets.dart';
+      name: 'Delete account',
+      builder: '_deleteAccount',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/density.dart';
@@ -14986,24 +15975,26 @@ import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
 
 /// A framed alert dialog whose buttons really act.
-class _AlertDialogFrame extends StatefulWidget {
-  const _AlertDialogFrame({
+class _AlertFrame extends StatefulWidget {
+  const _AlertFrame({
     required this.icon,
     required this.title,
     required this.description,
+    this.confirmLabel = 'Continue',
     this.destructive = false,
   });
 
   final IconData icon;
   final String title;
   final String description;
+  final String confirmLabel;
   final bool destructive;
 
   @override
-  State<_AlertDialogFrame> createState() => _AlertDialogFrameState();
+  State<_AlertFrame> createState() => _AlertFrameState();
 }
 
-class _AlertDialogFrameState extends State<_AlertDialogFrame> {
+class _AlertFrameState extends State<_AlertFrame> {
   String? _result;
 
   @override
@@ -15042,7 +16033,7 @@ class _AlertDialogFrameState extends State<_AlertDialogFrame> {
                             ? ButtonVariant.destructive
                             : ButtonVariant.primary,
                         onPressed: () => setState(() => _result = 'Confirmed'),
-                        child: const Text('Delete'),
+                        child: Text(widget.confirmLabel),
                       ),
                     ],
                   ),
@@ -15067,121 +16058,23 @@ class _AlertDialogFrameState extends State<_AlertDialogFrame> {
   }
 }
 
-/// The default dialog.
-Widget _alertDialogDefault(BuildContext context) => const _AlertDialogFrame(
+/// Destructive delete-account confirmation.
+Widget _deleteAccount(BuildContext context) => const _AlertFrame(
   icon: LucideIcons.circleAlert,
-  title: 'Are you absolutely sure?',
-  description: 'This permanently deletes the account.',
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Destructive',
-      builder: '_alertDialogDestructive',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/density.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
-
-/// A framed alert dialog whose buttons really act.
-class _AlertDialogFrame extends StatefulWidget {
-  const _AlertDialogFrame({
-    required this.icon,
-    required this.title,
-    required this.description,
-    this.destructive = false,
-  });
-
-  final IconData icon;
-  final String title;
-  final String description;
-  final bool destructive;
-
-  @override
-  State<_AlertDialogFrame> createState() => _AlertDialogFrameState();
-}
-
-class _AlertDialogFrameState extends State<_AlertDialogFrame> {
-  String? _result;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (_result == null)
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: theme.colors.background,
-                borderRadius: theme.borderRadiusLg,
-                border: Border.all(color: theme.colors.border),
-                boxShadow: theme.tokens.shadows.shadowLg,
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 420),
-                child: Padding(
-                  padding: EdgeInsetsDensity.pxAll(24),
-                  child: AlertDialog(
-                    icon: Icon(widget.icon),
-                    title: Text(widget.title),
-                    description: Text(widget.description),
-                    actions: <Widget>[
-                      Button(
-                        size: ButtonSize.sm,
-                        variant: ButtonVariant.outline,
-                        onPressed: () => setState(() => _result = 'Cancelled'),
-                        child: const Text('Cancel'),
-                      ),
-                      Button(
-                        size: ButtonSize.sm,
-                        variant: widget.destructive
-                            ? ButtonVariant.destructive
-                            : ButtonVariant.primary,
-                        onPressed: () => setState(() => _result = 'Confirmed'),
-                        child: const Text('Delete'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          else
-            Text(
-              '$_result.',
-              style: TextStyle(color: theme.colors.mutedForeground),
-            ),
-          Gap(theme.spacing.md),
-          Button(
-            size: ButtonSize.sm,
-            variant: ButtonVariant.outline,
-            onPressed: () => setState(() => _result = null),
-            child: const Text('Show again'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// The destructive dialog.
-Widget _alertDialogDestructive(BuildContext context) => const _AlertDialogFrame(
-  icon: LucideIcons.triangleAlert,
-  title: 'Delete this project?',
+  title: 'Delete your account?',
   description:
-      'This action cannot be undone. The project and its history is removed.',
+      'This permanently deletes your account and all of its data. '
+      'This action cannot be undone.',
+  confirmLabel: 'Delete account',
   destructive: true,
 );
 ''',
     ),
     DocsExampleSource(
-      name: 'Live push',
-      builder: '_alertDialogPushed',
-      code: r'''import 'package:flutter/widgets.dart';
+      name: 'Discard changes',
+      builder: '_discardChanges',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/density.dart';
@@ -15189,14 +16082,344 @@ import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
 
-/// A live push through `showAlertDialog`.
-class _AlertDialogPushedDialog extends StatelessWidget {
-  const _AlertDialogPushedDialog();
+/// A framed alert dialog whose buttons really act.
+class _AlertFrame extends StatefulWidget {
+  const _AlertFrame({
+    required this.icon,
+    required this.title,
+    required this.description,
+    this.confirmLabel = 'Continue',
+    this.destructive = false,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final String confirmLabel;
+  final bool destructive;
+
+  @override
+  State<_AlertFrame> createState() => _AlertFrameState();
+}
+
+class _AlertFrameState extends State<_AlertFrame> {
+  String? _result;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerStart,
+    final theme = ShadcnTheme.of(context);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (_result == null)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: theme.colors.background,
+                borderRadius: theme.borderRadiusLg,
+                border: Border.all(color: theme.colors.border),
+                boxShadow: theme.tokens.shadows.shadowLg,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Padding(
+                  padding: EdgeInsetsDensity.pxAll(24),
+                  child: AlertDialog(
+                    icon: Icon(widget.icon),
+                    title: Text(widget.title),
+                    description: Text(widget.description),
+                    actions: <Widget>[
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: ButtonVariant.outline,
+                        onPressed: () => setState(() => _result = 'Cancelled'),
+                        child: const Text('Cancel'),
+                      ),
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: widget.destructive
+                            ? ButtonVariant.destructive
+                            : ButtonVariant.primary,
+                        onPressed: () => setState(() => _result = 'Confirmed'),
+                        child: Text(widget.confirmLabel),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else
+            Text(
+              '$_result.',
+              style: TextStyle(color: theme.colors.mutedForeground),
+            ),
+          Gap(theme.spacing.md),
+          Button(
+            size: ButtonSize.sm,
+            variant: ButtonVariant.outline,
+            onPressed: () => setState(() => _result = null),
+            child: const Text('Show again'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Discard-changes confirmation.
+Widget _discardChanges(BuildContext context) => const _AlertFrame(
+  icon: LucideIcons.triangleAlert,
+  title: 'Discard unsaved changes?',
+  description:
+      'You have unsaved changes to this document. '
+      'Leaving now will lose them.',
+  confirmLabel: 'Discard',
+  destructive: true,
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Session expiring',
+      builder: '_sessionExpiring',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/density.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+
+/// Session-expiring countdown with an explicit way out.
+class _SessionFrame extends StatefulWidget {
+  const _SessionFrame();
+
+  @override
+  State<_SessionFrame> createState() => _SessionFrameState();
+}
+
+class _SessionFrameState extends State<_SessionFrame> {
+  static const int _total = 90;
+  int _left = _total;
+  Timer? _timer;
+  String? _result;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted || _result != null) return;
+      setState(() => _left = _left > 0 ? _left - 1 : 0);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  String get _clock {
+    final int m = _left ~/ 60;
+    final int s = _left % 60;
+    return '$m:${s.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (_result == null)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: theme.colors.background,
+                borderRadius: theme.borderRadiusLg,
+                border: Border.all(color: theme.colors.border),
+                boxShadow: theme.tokens.shadows.shadowLg,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Padding(
+                  padding: EdgeInsetsDensity.pxAll(24),
+                  child: AlertDialog(
+                    icon: const Icon(LucideIcons.clock),
+                    title: const Text('Session expiring'),
+                    description: Text(
+                      'Your session ends in $_clock. '
+                      'Extend it to keep working.',
+                    ),
+                    actions: <Widget>[
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: ButtonVariant.outline,
+                        onPressed: () => setState(() => _result = 'Signed out'),
+                        child: const Text('Sign out'),
+                      ),
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: ButtonVariant.primary,
+                        onPressed: () => setState(() {
+                          _left = _total;
+                          _result = 'Session extended';
+                        }),
+                        child: const Text('Stay signed in'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else
+            Text(
+              '$_result.',
+              style: TextStyle(color: theme.colors.mutedForeground),
+            ),
+          Gap(theme.spacing.md),
+          Button(
+            size: ButtonSize.sm,
+            variant: ButtonVariant.outline,
+            onPressed: () => setState(() {
+              _left = _total;
+              _result = null;
+            }),
+            child: const Text('Show again'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _sessionExpiring(BuildContext context) => const _SessionFrame();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Success',
+      builder: '_success',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/density.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+
+/// A framed alert dialog whose buttons really act.
+class _AlertFrame extends StatefulWidget {
+  const _AlertFrame({
+    required this.icon,
+    required this.title,
+    required this.description,
+    this.confirmLabel = 'Continue',
+    this.destructive = false,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final String confirmLabel;
+  final bool destructive;
+
+  @override
+  State<_AlertFrame> createState() => _AlertFrameState();
+}
+
+class _AlertFrameState extends State<_AlertFrame> {
+  String? _result;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (_result == null)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: theme.colors.background,
+                borderRadius: theme.borderRadiusLg,
+                border: Border.all(color: theme.colors.border),
+                boxShadow: theme.tokens.shadows.shadowLg,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Padding(
+                  padding: EdgeInsetsDensity.pxAll(24),
+                  child: AlertDialog(
+                    icon: Icon(widget.icon),
+                    title: Text(widget.title),
+                    description: Text(widget.description),
+                    actions: <Widget>[
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: ButtonVariant.outline,
+                        onPressed: () => setState(() => _result = 'Cancelled'),
+                        child: const Text('Cancel'),
+                      ),
+                      Button(
+                        size: ButtonSize.sm,
+                        variant: widget.destructive
+                            ? ButtonVariant.destructive
+                            : ButtonVariant.primary,
+                        onPressed: () => setState(() => _result = 'Confirmed'),
+                        child: Text(widget.confirmLabel),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else
+            Text(
+              '$_result.',
+              style: TextStyle(color: theme.colors.mutedForeground),
+            ),
+          Gap(theme.spacing.md),
+          Button(
+            size: ButtonSize.sm,
+            variant: ButtonVariant.outline,
+            onPressed: () => setState(() => _result = null),
+            child: const Text('Show again'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Success confirmation.
+Widget _success(BuildContext context) => const _AlertFrame(
+  icon: LucideIcons.circleCheck,
+  title: 'Payment successful',
+  description: 'Your subscription is active. A receipt was sent to your inbox.',
+  confirmLabel: 'Done',
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Live push',
+      builder: '_livePush',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/density.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/alert_dialog/alert_dialog.dart';
+
+/// A live push through `showAlertDialog` over the whole app.
+class _LivePush extends StatelessWidget {
+  const _LivePush();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
       child: Button(
         onPressed: () => showAlertDialog<bool>(
           context: context,
@@ -15225,420 +16448,721 @@ class _AlertDialogPushedDialog extends StatelessWidget {
   }
 }
 
-Widget _alertDialogPushed(BuildContext context) =>
-    const _AlertDialogPushedDialog();
+Widget _livePush(BuildContext context) => const _LivePush();
 ''',
     ),
   ],
   'dialog': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Default',
-      builder: '_dialogDefault',
-      code: r'''import 'package:flutter/widgets.dart';
+      name: 'Edit profile',
+      builder: '_editProfile',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
 
-/// The trigger the example wraps in a [Builder], so it can reach the nearest
-/// Navigator.
-class _DialogTrigger extends StatelessWidget {
-  const _DialogTrigger({required this.label, required this.onPressed});
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
   final String label;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector.
-    return Button(
-      variant: ButtonVariant.primary,
-      onPressed: onPressed,
-      child: Text(label),
-    );
-  }
-}
-
-/// The dialog card itself.
-class _DialogDialogBody extends StatelessWidget {
-  const _DialogDialogBody({required this.title, required this.message});
-
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-            color: theme.colors.foreground,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Gap(theme.spacing.lg),
-        Text(message, style: TextStyle(color: theme.colors.mutedForeground)),
-      ],
-    );
-  }
-}
-
-/// A named example driven through a real route push.
-class _DialogDialogExample extends StatelessWidget {
-  const _DialogDialogExample({
-    required this.label,
-    this.barrierDismissible = true,
-    this.fullScreen = false,
-    this.theme,
-  });
-
-  final String label;
-  final bool barrierDismissible;
-  final bool fullScreen;
-  final DialogTheme? theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Builder(
-        builder: (context) => _DialogTrigger(
-          label: label,
-          onPressed: () => showShadcnDialog<void>(
-            context: context,
-            barrierDismissible: barrierDismissible,
-            fullScreen: fullScreen,
-            theme: theme,
-            builder: (context) => _DialogDialogBody(
-              title: 'Delete this project?',
-              message: 'This cannot be undone.',
-            ),
-          ),
-        ),
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
       ),
     );
   }
 }
 
-/// The default modal dialog.
-Widget _dialogDefault(BuildContext context) =>
-    const _DialogDialogExample(label: 'Open dialog');
-''',
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
     ),
-    DocsExampleSource(
-      name: 'Full screen',
-      builder: '_dialogFullScreen',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
-
-/// The trigger the example wraps in a [Builder], so it can reach the nearest
-/// Navigator.
-class _DialogTrigger extends StatelessWidget {
-  const _DialogTrigger({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector.
-    return Button(
-      variant: ButtonVariant.primary,
-      onPressed: onPressed,
-      child: Text(label),
-    );
-  }
+  );
 }
 
-/// The dialog card itself.
-class _DialogDialogBody extends StatelessWidget {
-  const _DialogDialogBody({required this.title, required this.message});
+/// Action row: right-aligned, wraps on narrow cards.
+Widget _actions(BuildContext context, List<Widget> buttons) {
+  return Wrap(
+    alignment: WrapAlignment.end,
+    spacing: 8,
+    runSpacing: 8,
+    children: buttons,
+  );
+}
 
-  final String title;
-  final String message;
+/// Edit-profile form with working Save/Cancel.
+class _EditProfileBody extends StatefulWidget {
+  const _EditProfileBody();
+
+  @override
+  State<_EditProfileBody> createState() => _EditProfileBodyState();
+}
+
+class _EditProfileBodyState extends State<_EditProfileBody> {
+  final TextEditingController _name = TextEditingController(text: 'Ada');
+  final TextEditingController _user = TextEditingController(text: 'ada');
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _user.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
+    final gap = ShadcnTheme.of(context).spacing.md;
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-            color: theme.colors.foreground,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+        _title(context, 'Edit profile'),
+        Gap(gap),
+        Input(controller: _name, placeholder: const Text('Name')),
+        Gap(gap),
+        Input(controller: _user, placeholder: const Text('Username')),
+        Gap(gap * 2),
+        _actions(context, <Widget>[
+          Button(
+            variant: ButtonVariant.outline,
+            size: ButtonSize.sm,
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
           ),
-        ),
-        Gap(theme.spacing.lg),
-        Text(message, style: TextStyle(color: theme.colors.mutedForeground)),
+          Button(
+            size: ButtonSize.sm,
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Save'),
+          ),
+        ]),
       ],
     );
   }
 }
 
-/// A named example driven through a real route push.
-class _DialogDialogExample extends StatelessWidget {
-  const _DialogDialogExample({
-    required this.label,
-    this.barrierDismissible = true,
-    this.fullScreen = false,
-    this.theme,
-  });
-
-  final String label;
-  final bool barrierDismissible;
-  final bool fullScreen;
-  final DialogTheme? theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Builder(
-        builder: (context) => _DialogTrigger(
-          label: label,
-          onPressed: () => showShadcnDialog<void>(
-            context: context,
-            barrierDismissible: barrierDismissible,
-            fullScreen: fullScreen,
-            theme: theme,
-            builder: (context) => _DialogDialogBody(
-              title: 'Delete this project?',
-              message: 'This cannot be undone.',
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A full-screen dialog.
-Widget _dialogFullScreen(BuildContext context) =>
-    const _DialogDialogExample(label: 'Open full screen', fullScreen: true);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Barrier locked',
-      builder: '_dialogLocked',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
-
-/// The trigger the example wraps in a [Builder], so it can reach the nearest
-/// Navigator.
-class _DialogTrigger extends StatelessWidget {
-  const _DialogTrigger({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector.
-    return Button(
-      variant: ButtonVariant.primary,
-      onPressed: onPressed,
-      child: Text(label),
-    );
-  }
-}
-
-/// The dialog card itself.
-class _DialogDialogBody extends StatelessWidget {
-  const _DialogDialogBody({required this.title, required this.message});
-
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-            color: theme.colors.foreground,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Gap(theme.spacing.lg),
-        Text(message, style: TextStyle(color: theme.colors.mutedForeground)),
-      ],
-    );
-  }
-}
-
-/// A named example driven through a real route push.
-class _DialogDialogExample extends StatelessWidget {
-  const _DialogDialogExample({
-    required this.label,
-    this.barrierDismissible = true,
-    this.fullScreen = false,
-    this.theme,
-  });
-
-  final String label;
-  final bool barrierDismissible;
-  final bool fullScreen;
-  final DialogTheme? theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Builder(
-        builder: (context) => _DialogTrigger(
-          label: label,
-          onPressed: () => showShadcnDialog<void>(
-            context: context,
-            barrierDismissible: barrierDismissible,
-            fullScreen: fullScreen,
-            theme: theme,
-            builder: (context) => _DialogDialogBody(
-              title: 'Delete this project?',
-              message: 'This cannot be undone.',
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A barrier-locked dialog.
-Widget _dialogLocked(BuildContext context) => const _DialogDialogExample(
-  label: 'Open locked dialog',
-  barrierDismissible: false,
+Widget _editProfile(BuildContext context) => _Trigger(
+  label: 'Edit profile',
+  onPressed: () => showShadcnDialog<bool>(
+    context: context,
+    builder: (context) => const _EditProfileBody(),
+  ),
 );
 ''',
     ),
     DocsExampleSource(
-      name: 'Themed',
-      builder: '_dialogThemed',
-      code: r'''import 'package:flutter/widgets.dart';
+      name: 'Share link',
+      builder: '_share',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
-import 'package:<your_app>/ui/shadcn/components/dialog/dialog_style.dart';
 
-/// The trigger the example wraps in a [Builder], so it can reach the nearest
-/// Navigator.
-class _DialogTrigger extends StatelessWidget {
-  const _DialogTrigger({required this.label, required this.onPressed});
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
   final String label;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector.
-    return Button(
-      variant: ButtonVariant.primary,
-      onPressed: onPressed,
-      child: Text(label),
-    );
-  }
-}
-
-/// The dialog card itself.
-class _DialogDialogBody extends StatelessWidget {
-  const _DialogDialogBody({required this.title, required this.message});
-
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = ShadcnTheme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-            color: theme.colors.foreground,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Gap(theme.spacing.lg),
-        Text(message, style: TextStyle(color: theme.colors.mutedForeground)),
-      ],
-    );
-  }
-}
-
-/// A named example driven through a real route push.
-class _DialogDialogExample extends StatelessWidget {
-  const _DialogDialogExample({
-    required this.label,
-    this.barrierDismissible = true,
-    this.fullScreen = false,
-    this.theme,
-  });
-
-  final String label;
-  final bool barrierDismissible;
-  final bool fullScreen;
-  final DialogTheme? theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Builder(
-        builder: (context) => _DialogTrigger(
-          label: label,
-          onPressed: () => showShadcnDialog<void>(
-            context: context,
-            barrierDismissible: barrierDismissible,
-            fullScreen: fullScreen,
-            theme: theme,
-            builder: (context) => _DialogDialogBody(
-              title: 'Delete this project?',
-              message: 'This cannot be undone.',
-            ),
-          ),
-        ),
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
       ),
     );
   }
 }
 
-/// A dialog themed from the widget leg.
-Widget _dialogThemed(BuildContext context) => _DialogDialogExample(
-  label: 'Open themed dialog',
-  theme: const DialogTheme(
-    maxWidth: 320,
-    borderRadius: BorderRadius.all(Radius.circular(24)),
-    shadows: <BoxShadow>[],
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+/// Dialog body text in the muted token.
+Widget _body(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(color: ShadcnTheme.of(context).colors.mutedForeground),
+  );
+}
+
+/// Action row: right-aligned, wraps on narrow cards.
+Widget _actions(BuildContext context, List<Widget> buttons) {
+  return Wrap(
+    alignment: WrapAlignment.end,
+    spacing: 8,
+    runSpacing: 8,
+    children: buttons,
+  );
+}
+
+/// Share link with a working copy button.
+class _ShareBody extends StatefulWidget {
+  const _ShareBody();
+
+  @override
+  State<_ShareBody> createState() => _ShareBodyState();
+}
+
+class _ShareBodyState extends State<_ShareBody> {
+  bool _copied = false;
+
+  Future<void> _copy() async {
+    await Clipboard.setData(
+      const ClipboardData(text: 'https://example.com/s/abc123'),
+    );
+    if (mounted) setState(() => _copied = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    final gap = theme.spacing.md;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _title(context, 'Share this document'),
+        Gap(gap),
+        _body(context, 'Anyone with the link can view.'),
+        Gap(gap),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.colors.muted,
+            borderRadius: theme.borderRadiusMd,
+            border: Border.all(color: theme.colors.border),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                const Flexible(child: Text('example.com/s/abc123')),
+                Gap(gap),
+                Button(
+                  variant: ButtonVariant.secondary,
+                  size: ButtonSize.sm,
+                  onPressed: _copy,
+                  child: Text(_copied ? 'Copied!' : 'Copy'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Gap(gap * 2),
+        _actions(context, <Widget>[
+          Button(
+            variant: ButtonVariant.outline,
+            size: ButtonSize.sm,
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+        ]),
+      ],
+    );
+  }
+}
+
+Widget _share(BuildContext context) => _Trigger(
+  label: 'Share link',
+  onPressed: () => showShadcnDialog<void>(
+    context: context,
+    builder: (_) => const _ShareBody(),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Invite members',
+      builder: '_invite',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
+
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+/// Action row: right-aligned, wraps on narrow cards.
+Widget _actions(BuildContext context, List<Widget> buttons) {
+  return Wrap(
+    alignment: WrapAlignment.end,
+    spacing: 8,
+    runSpacing: 8,
+    children: buttons,
+  );
+}
+
+/// Invite team members with a working list.
+class _InviteBody extends StatefulWidget {
+  const _InviteBody();
+
+  @override
+  State<_InviteBody> createState() => _InviteBodyState();
+}
+
+class _InviteBodyState extends State<_InviteBody> {
+  final TextEditingController _email = TextEditingController();
+  final List<String> _invited = <String>['ada@example.com'];
+
+  @override
+  void dispose() {
+    _email.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gap = ShadcnTheme.of(context).spacing.md;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _title(context, 'Invite members'),
+        Gap(gap),
+        Row(
+          children: <Widget>[
+            Flexible(
+              child: Input(controller: _email, hintText: 'Email'),
+            ),
+            Gap(gap),
+            Button(
+              size: ButtonSize.sm,
+              onPressed: () {
+                final String value = _email.text.trim();
+                if (value.isEmpty) return;
+                setState(() {
+                  _invited.add(value);
+                  _email.clear();
+                });
+              },
+              child: const Text('Invite'),
+            ),
+          ],
+        ),
+        Gap(gap),
+        for (final String address in _invited) Text(address),
+        Gap(gap * 2),
+        _actions(context, <Widget>[
+          Button(
+            variant: ButtonVariant.outline,
+            size: ButtonSize.sm,
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Done'),
+          ),
+        ]),
+      ],
+    );
+  }
+}
+
+Widget _invite(BuildContext context) => _Trigger(
+  label: 'Invite members',
+  onPressed: () => showShadcnDialog<void>(
+    context: context,
+    builder: (_) => const _InviteBody(),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Terms',
+      builder: '_terms',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
+
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+/// Dialog body text in the muted token.
+Widget _body(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(color: ShadcnTheme.of(context).colors.mutedForeground),
+  );
+}
+
+/// Action row: right-aligned, wraps on narrow cards.
+Widget _actions(BuildContext context, List<Widget> buttons) {
+  return Wrap(
+    alignment: WrapAlignment.end,
+    spacing: 8,
+    runSpacing: 8,
+    children: buttons,
+  );
+}
+
+/// Scrollable terms with explicit Accept/Decline.
+Widget _termsBody(BuildContext context) {
+  final gap = ShadcnTheme.of(context).spacing.md;
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      _title(context, 'Terms of service'),
+      Gap(gap),
+      ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 220),
+        child: SingleChildScrollView(
+          child: _body(
+            context,
+            '1. Be kind.\n\n2. Ship working software.\n\n'
+            '3. Respect the theme tokens.\n\n4. Prefer composition.\n\n'
+            '5. Test what you ship.\n\n6. Document the contract.',
+          ),
+        ),
+      ),
+      Gap(gap * 2),
+      _actions(context, <Widget>[
+        Button(
+          variant: ButtonVariant.outline,
+          size: ButtonSize.sm,
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text('Decline'),
+        ),
+        Button(
+          size: ButtonSize.sm,
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text('Accept'),
+        ),
+      ]),
+    ],
+  );
+}
+
+Widget _terms(BuildContext context) => _Trigger(
+  label: 'Read terms',
+  onPressed: () => showShadcnDialog<bool>(
+    context: context,
+    builder: (context) => _termsBody(context),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Picker',
+      builder: '_picker',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
+
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+/// Dialog body text in the muted token.
+Widget _body(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(color: ShadcnTheme.of(context).colors.mutedForeground),
+  );
+}
+
+/// Command-like picker with a working filter.
+class _PickerBody extends StatefulWidget {
+  const _PickerBody();
+
+  @override
+  State<_PickerBody> createState() => _PickerBodyState();
+}
+
+class _PickerBodyState extends State<_PickerBody> {
+  final TextEditingController _query = TextEditingController();
+  String _filter = '';
+
+  static const List<String> _items = <String>[
+    'Calendar',
+    'Search Emoji',
+    'Calculator',
+    'Activity',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _query.addListener(() => setState(() => _filter = _query.text));
+  }
+
+  @override
+  void dispose() {
+    _query.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final gap = ShadcnTheme.of(context).spacing.md;
+    final List<String> shown = _items
+        .where(
+          (String item) => item.toLowerCase().contains(_filter.toLowerCase()),
+        )
+        .toList();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _title(context, 'Jump to…'),
+        Gap(gap),
+        Input(controller: _query, hintText: 'Type to filter'),
+        Gap(gap),
+        for (final String item in shown)
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.sm,
+            onPressed: () => Navigator.of(context).pop(item),
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(item),
+            ),
+          ),
+        if (shown.isEmpty) _body(context, 'No matches.'),
+      ],
+    );
+  }
+}
+
+Widget _picker(BuildContext context) => _Trigger(
+  label: 'Open picker',
+  onPressed: () => showShadcnDialog<String>(
+    context: context,
+    builder: (_) => const _PickerBody(),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Barrier locked',
+      builder: '_locked',
+      code: r'''import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/input/input.dart';
+import 'package:<your_app>/ui/shadcn/components/dialog/dialog.dart';
+
+/// Centred trigger button.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+/// Dialog title line in the foreground token.
+Widget _title(BuildContext context, String text) {
+  final theme = ShadcnTheme.of(context);
+  return Text(
+    text,
+    style: TextStyle(
+      color: theme.colors.foreground,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+/// Dialog body text in the muted token.
+Widget _body(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(color: ShadcnTheme.of(context).colors.mutedForeground),
+  );
+}
+
+/// Action row: right-aligned, wraps on narrow cards.
+Widget _actions(BuildContext context, List<Widget> buttons) {
+  return Wrap(
+    alignment: WrapAlignment.end,
+    spacing: 8,
+    runSpacing: 8,
+    children: buttons,
+  );
+}
+
+/// Barrier-locked dialog with an explicit Cancel way out (never traps).
+Widget _lockedBody(BuildContext context) {
+  final gap = ShadcnTheme.of(context).spacing.md;
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      _title(context, 'Delete this project?'),
+      Gap(gap),
+      _body(
+        context,
+        'The barrier is locked: tap outside or press Escape does nothing. '
+        'Use Cancel or Delete to leave.',
+      ),
+      Gap(gap * 2),
+      _actions(context, <Widget>[
+        Button(
+          variant: ButtonVariant.outline,
+          size: ButtonSize.sm,
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text('Cancel'),
+        ),
+        Button(
+          variant: ButtonVariant.destructive,
+          size: ButtonSize.sm,
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text('Delete'),
+        ),
+      ]),
+    ],
+  );
+}
+
+Widget _locked(BuildContext context) => _Trigger(
+  label: 'Open locked dialog',
+  onPressed: () => showShadcnDialog<bool>(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => _lockedBody(context),
   ),
 );
 ''',
@@ -15647,7 +17171,7 @@ Widget _dialogThemed(BuildContext context) => _DialogDialogExample(
   'drawer': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
-      builder: '_drawerDefault',
+      builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
@@ -15656,17 +17180,30 @@ import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
 
 /// Panel body used by the drawer examples.
-class _DrawerDrawerContent extends StatelessWidget {
-  const _DrawerDrawerContent();
+class _DrawerContent extends StatelessWidget {
+  const _DrawerContent();
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Text('Drawer content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Text(
+          'Drawer content',
+          style: TextStyle(
+            color: theme.colors.foreground,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'Slides in from the edge over the whole app.',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
@@ -15678,8 +17215,8 @@ class _DrawerDrawerContent extends StatelessWidget {
 }
 
 /// Opens a drawer at [position].
-class _DrawerDrawerTrigger extends StatelessWidget {
-  const _DrawerDrawerTrigger({required this.position, required this.label});
+class _DrawerTrigger extends StatelessWidget {
+  const _DrawerTrigger({required this.position, required this.label});
 
   final OverlayPosition position;
   final String label;
@@ -15692,7 +17229,7 @@ class _DrawerDrawerTrigger extends StatelessWidget {
       onPressed: () => openDrawer<void>(
         context: context,
         position: position,
-        builder: (BuildContext context) => const _DrawerDrawerContent(),
+        builder: (BuildContext context) => const _DrawerContent(),
       ),
       child: Text(label),
     );
@@ -15700,27 +17237,27 @@ class _DrawerDrawerTrigger extends StatelessWidget {
 }
 
 /// Side drawers, one row (shadcn shows the four edges together).
-Widget _drawerDefault(BuildContext context) {
+Widget _default(BuildContext context) {
   final spacing = ShadcnTheme.of(context).spacing;
-  return Wrap(
-    spacing: spacing.sm,
-    runSpacing: spacing.sm,
-    children: const <Widget>[
-      _DrawerDrawerTrigger(position: OverlayPosition.start, label: 'Open left'),
-      _DrawerDrawerTrigger(position: OverlayPosition.end, label: 'Open right'),
-      _DrawerDrawerTrigger(position: OverlayPosition.top, label: 'Open top'),
-      _DrawerDrawerTrigger(
-        position: OverlayPosition.bottom,
-        label: 'Open bottom',
-      ),
-    ],
+  return Center(
+    child: Wrap(
+      spacing: spacing.sm,
+      runSpacing: spacing.sm,
+      alignment: WrapAlignment.center,
+      children: const <Widget>[
+        _DrawerTrigger(position: OverlayPosition.start, label: 'Open left'),
+        _DrawerTrigger(position: OverlayPosition.end, label: 'Open right'),
+        _DrawerTrigger(position: OverlayPosition.top, label: 'Open top'),
+        _DrawerTrigger(position: OverlayPosition.bottom, label: 'Open bottom'),
+      ],
+    ),
   );
 }
 ''',
     ),
     DocsExampleSource(
       name: 'Sheet',
-      builder: '_drawerSheet',
+      builder: '_sheet',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
@@ -15729,17 +17266,30 @@ import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
 
 /// Sheet body used by the sheet example.
-class _DrawerSheetContent extends StatelessWidget {
-  const _DrawerSheetContent();
+class _SheetContent extends StatelessWidget {
+  const _SheetContent();
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Text('Sheet content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Text(
+          'Sheet content',
+          style: TextStyle(
+            color: theme.colors.foreground,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'An expanding bottom sheet with a drag handle.',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.lg),
         Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
@@ -15752,23 +17302,25 @@ class _DrawerSheetContent extends StatelessWidget {
 }
 
 /// The bottom sheet form.
-Widget _drawerSheet(BuildContext context) {
-  return Button(
-    variant: ButtonVariant.secondary,
-    size: ButtonSize.sm,
-    onPressed: () => openSheet<void>(
-      context: context,
-      draggable: true,
-      builder: (BuildContext context) => const _DrawerSheetContent(),
+Widget _sheet(BuildContext context) {
+  return Center(
+    child: Button(
+      variant: ButtonVariant.secondary,
+      size: ButtonSize.sm,
+      onPressed: () => openSheet<void>(
+        context: context,
+        draggable: true,
+        builder: (BuildContext context) => const _SheetContent(),
+      ),
+      child: const Text('Open sheet'),
     ),
-    child: const Text('Open sheet'),
   );
 }
 ''',
     ),
     DocsExampleSource(
-      name: 'Themed',
-      builder: '_drawerThemed',
+      name: 'Background scale',
+      builder: '_scale',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
 import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
@@ -15777,17 +17329,143 @@ import 'package:<your_app>/ui/shadcn/components/button/button.dart';
 import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
 
 /// Panel body used by the drawer examples.
-class _DrawerDrawerContent extends StatelessWidget {
-  const _DrawerDrawerContent();
+class _DrawerContent extends StatelessWidget {
+  const _DrawerContent();
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Text('Drawer content'),
-        Gap(ShadcnTheme.of(context).spacing.lg),
+        Text(
+          'Drawer content',
+          style: TextStyle(
+            color: theme.colors.foreground,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'Slides in from the edge over the whole app.',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.lg),
+        Button(
+          size: ButtonSize.sm,
+          onPressed: () => closeDrawer(context),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+}
+
+/// Background-scale demo: its own navigator + observer, so the scale reads
+/// inside the stage. Opening the drawer scales the mock app to ≈0.95 with
+/// rounded corners and a dim.
+class _ScaleDemo extends StatefulWidget {
+  const _ScaleDemo();
+
+  @override
+  State<_ScaleDemo> createState() => _ScaleDemoState();
+}
+
+class _ScaleDemoState extends State<_ScaleDemo> {
+  final DrawerScaleObserver _observer = DrawerScaleObserver();
+  final GlobalKey<NavigatorState> _key = GlobalKey<NavigatorState>();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    // A fixed box is inherent: the scale needs a mock app viewport to
+    // transform, like toasts need a layer stage.
+    return Center(
+      child: SizedBox(
+        width: 340,
+        height: 300,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusLg,
+          ),
+          child: ClipRRect(
+            borderRadius: theme.borderRadiusLg,
+            child: Navigator(
+              key: _key,
+              observers: <NavigatorObserver>[_observer],
+              onGenerateRoute: (RouteSettings settings) =>
+                  PageRouteBuilder<void>(
+                    settings: settings,
+                    pageBuilder: (_, _, _) => DrawerBackgroundScale(
+                      observer: _observer,
+                      child: ColoredBox(
+                        color: theme.colors.background,
+                        child: Center(
+                          child: Builder(
+                            builder: (BuildContext context) => Button(
+                              variant: ButtonVariant.outline,
+                              size: ButtonSize.sm,
+                              onPressed: () => openDrawer<void>(
+                                context: context,
+                                useRootNavigator: false,
+                                builder: (_) => const _DrawerContent(),
+                              ),
+                              child: const Text('Open scaled drawer'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _scale(BuildContext context) => const _ScaleDemo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Themed',
+      builder: '_themed',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/foundation/gap.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/shadcn/theme/theme.dart';
+import 'package:<your_app>/ui/shadcn/components/button/button.dart';
+import 'package:<your_app>/ui/shadcn/components/drawer/drawer.dart';
+
+/// Panel body used by the drawer examples.
+class _DrawerContent extends StatelessWidget {
+  const _DrawerContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadcnTheme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          'Drawer content',
+          style: TextStyle(
+            color: theme.colors.foreground,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'Slides in from the edge over the whole app.',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+        Gap(theme.spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
@@ -15799,19 +17477,21 @@ class _DrawerDrawerContent extends StatelessWidget {
 }
 
 /// A drawer themed from the widget leg.
-Widget _drawerThemed(BuildContext context) {
-  return Button(
-    variant: ButtonVariant.secondary,
-    size: ButtonSize.sm,
-    onPressed: () => openDrawer<void>(
-      context: context,
-      theme: const DrawerTheme(
-        maxSize: 280,
-        background: ThemedColor.ref(ColorRef.card),
+Widget _themed(BuildContext context) {
+  return Center(
+    child: Button(
+      variant: ButtonVariant.secondary,
+      size: ButtonSize.sm,
+      onPressed: () => openDrawer<void>(
+        context: context,
+        theme: const DrawerTheme(
+          maxSize: 280,
+          background: ThemedColor.ref(ColorRef.card),
+        ),
+        builder: (BuildContext context) => const _DrawerContent(),
       ),
-      builder: (BuildContext context) => const _DrawerDrawerContent(),
+      child: const Text('Open themed drawer'),
     ),
-    child: const Text('Open themed drawer'),
   );
 }
 ''',
@@ -15820,54 +17500,266 @@ Widget _drawerThemed(BuildContext context) {
   'gooey_toast': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Playground',
-      builder: '_variants',
+      builder: '_playground',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
 import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
 
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
+/// Shared playground config: the single source of look for every demo.
+class _Shared {
+  const _Shared({
+    this.shape = GooeyToastShapeStyle.sharp,
+    this.animation = GooeyToastAnimationStyle.smooth,
+    this.position = GooeyToastPosition.center,
+    this.fill = const ThemedColor.value(gooeySurfaceFill),
+  });
 
-const double _kToastRoundness = 16;
+  final GooeyToastShapeStyle shape;
+  final GooeyToastAnimationStyle animation;
+  final GooeyToastPosition position;
+  final ThemedColor fill;
 
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
+  _Shared copyWith({
+    GooeyToastShapeStyle? shape,
+    GooeyToastAnimationStyle? animation,
+    GooeyToastPosition? position,
+    ThemedColor? fill,
+  }) {
+    return _Shared(
+      shape: shape ?? this.shape,
+      animation: animation ?? this.animation,
+      position: position ?? this.position,
+      fill: fill ?? this.fill,
+    );
+  }
+}
 
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
+/// The one shared config; the Playground mutates it, every demo reads it.
+final ValueNotifier<_Shared> _shared = ValueNotifier<_Shared>(const _Shared());
 
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
+const double _kWidth = 360;
+
+const double _kRoundness = 16;
+
+const GooeyAutopilot _kAutopilot = GooeyAutopilot(
   expandDelay: Duration(milliseconds: 180),
   collapseDelay: Duration(milliseconds: 3200),
 );
 
-/// Builds one demo toast with the reference look for [state].
+/// One demo toast in the shared look for [state].
 GooeyToastOptions _toast({
   required String title,
   required String description,
   required GooeyToastState state,
   GooeyToastAction? action,
 }) {
+  final _Shared shared = _shared.value;
   return GooeyToastOptions(
     title: title,
     description: description,
     state: state,
     action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
+    position: shared.position,
+    width: _kWidth,
+    roundness: _kRoundness,
+    shapeStyle: shared.shape,
+    animationStyle: shared.animation,
+    autopilot: _kAutopilot,
   );
 }
 
-/// Reference default title + description per state.
-(String, String) _variantCopy(GooeyToastState state) => switch (state) {
+/// Layer whose fill follows the shared config.
+class _Layer extends StatefulWidget {
+  const _Layer({required this.child, required this.controller});
+
+  final Widget child;
+  final GooeyToastController controller;
+
+  @override
+  State<_Layer> createState() => _LayerState();
+}
+
+class _LayerState extends State<_Layer> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<_Shared>(
+      valueListenable: _shared,
+      builder: (context, shared, _) => GooeyToastLayer(
+        controller: widget.controller,
+        theme: GooeyToastTheme(fill: shared.fill),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+/// Small option chip used by the controls bar.
+Widget _chip({
+  required String label,
+  required bool selected,
+  required VoidCallback onPressed,
+}) {
+  return Button(
+    variant: selected ? ButtonVariant.primary : ButtonVariant.outline,
+    size: ButtonSize.sm,
+    onPressed: onPressed,
+    child: Text(label),
+  );
+}
+
+/// The Playground: shared controls plus one trigger per variant.
+class _Playground extends StatefulWidget {
+  const _Playground();
+
+  @override
+  State<_Playground> createState() => _PlaygroundState();
+}
+
+class _PlaygroundState extends State<_Playground> {
+  final GooeyToastController _controller = GooeyToastController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _show(GooeyToastState state) {
+    final (String title, String description) = _copy(state);
+    _controller.showGooeyToast(
+      context,
+      _toast(
+        title: title,
+        description: description,
+        state: state,
+        action: state == GooeyToastState.action
+            ? GooeyToastAction(label: 'Confirm', onPressed: () {})
+            : null,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double gap = ShadcnTheme.of(context).density.baseGap;
+    return _Layer(
+      controller: _controller,
+      child: ValueListenableBuilder<_Shared>(
+        valueListenable: _shared,
+        builder: (context, shared, _) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                _chip(
+                  label: 'sharp',
+                  selected: shared.shape == GooeyToastShapeStyle.sharp,
+                  onPressed: () => _shared.value = shared.copyWith(
+                    shape: GooeyToastShapeStyle.sharp,
+                  ),
+                ),
+                _chip(
+                  label: 'soft',
+                  selected: shared.shape == GooeyToastShapeStyle.soft,
+                  onPressed: () => _shared.value = shared.copyWith(
+                    shape: GooeyToastShapeStyle.soft,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: gap),
+            Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                for (final GooeyToastAnimationStyle style
+                    in GooeyToastAnimationStyle.values)
+                  _chip(
+                    label: style.name,
+                    selected: shared.animation == style,
+                    onPressed: () =>
+                        _shared.value = shared.copyWith(animation: style),
+                  ),
+              ],
+            ),
+            SizedBox(height: gap),
+            Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                for (final GooeyToastPosition position
+                    in GooeyToastPosition.values)
+                  _chip(
+                    label: position.name,
+                    selected: shared.position == position,
+                    onPressed: () =>
+                        _shared.value = shared.copyWith(position: position),
+                  ),
+              ],
+            ),
+            SizedBox(height: gap),
+            Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                _chip(
+                  label: 'light fill',
+                  selected:
+                      shared.fill == const ThemedColor.value(gooeySurfaceFill),
+                  onPressed: () => _shared.value = shared.copyWith(
+                    fill: const ThemedColor.value(gooeySurfaceFill),
+                  ),
+                ),
+                _chip(
+                  label: 'dark fill',
+                  selected:
+                      shared.fill == const ThemedColor.value(Color(0xFF232326)),
+                  onPressed: () => _shared.value = shared.copyWith(
+                    fill: const ThemedColor.value(Color(0xFF232326)),
+                  ),
+                ),
+                _chip(
+                  label: 'popover fill',
+                  selected:
+                      shared.fill == const ThemedColor.ref(ColorRef.popover),
+                  onPressed: () => _shared.value = shared.copyWith(
+                    fill: const ThemedColor.ref(ColorRef.popover),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: gap * 2),
+            Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                for (final GooeyToastState state in GooeyToastState.values)
+                  Button(
+                    variant: ButtonVariant.outline,
+                    size: ButtonSize.sm,
+                    onPressed: () => _show(state),
+                    child: Text(state.name),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+(String, String) _copy(GooeyToastState state) => switch (state) {
   GooeyToastState.success => ('Success', 'Workspace settings were saved.'),
   GooeyToastState.loading => ('Processing', 'Please wait while we process.'),
   GooeyToastState.error => ('Error', 'Failed to sync your workspace.'),
@@ -15882,684 +17774,108 @@ GooeyToastOptions _toast({
   ),
 };
 
-/// One demo per gooey variant, sharing a controller.
-class _VariantsDemo extends StatefulWidget {
-  const _VariantsDemo();
-
-  @override
-  State<_VariantsDemo> createState() => _VariantsDemoState();
-}
-
-class _VariantsDemoState extends State<_VariantsDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _show(GooeyToastOptions options) =>
-      _controller.showGooeyToast(context, options);
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastState state in GooeyToastState.values)
-            Button(
-              variant: ButtonVariant.outline,
-              size: ButtonSize.sm,
-              onPressed: () {
-                final (String title, String description) = _variantCopy(state);
-                _show(
-                  _toast(
-                    title: title,
-                    description: description,
-                    state: state,
-                    action: state == GooeyToastState.action
-                        ? GooeyToastAction(label: 'Confirm', onPressed: () {})
-                        : null,
-                  ),
-                );
-              },
-              child: Text(state.name),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _variants(BuildContext context) => const _VariantsDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Variants',
-      builder: '_variants',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// Reference default title + description per state.
-(String, String) _variantCopy(GooeyToastState state) => switch (state) {
-  GooeyToastState.success => ('Success', 'Workspace settings were saved.'),
-  GooeyToastState.loading => ('Processing', 'Please wait while we process.'),
-  GooeyToastState.error => ('Error', 'Failed to sync your workspace.'),
-  GooeyToastState.warning => (
-    'Storage Warning',
-    'You are running out of storage space.',
-  ),
-  GooeyToastState.info => ('Heads up', 'A new update is available.'),
-  GooeyToastState.action => (
-    'Action Required',
-    'Review and confirm this request.',
-  ),
-};
-
-/// One demo per gooey variant, sharing a controller.
-class _VariantsDemo extends StatefulWidget {
-  const _VariantsDemo();
-
-  @override
-  State<_VariantsDemo> createState() => _VariantsDemoState();
-}
-
-class _VariantsDemoState extends State<_VariantsDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _show(GooeyToastOptions options) =>
-      _controller.showGooeyToast(context, options);
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastState state in GooeyToastState.values)
-            Button(
-              variant: ButtonVariant.outline,
-              size: ButtonSize.sm,
-              onPressed: () {
-                final (String title, String description) = _variantCopy(state);
-                _show(
-                  _toast(
-                    title: title,
-                    description: description,
-                    state: state,
-                    action: state == GooeyToastState.action
-                        ? GooeyToastAction(label: 'Confirm', onPressed: () {})
-                        : null,
-                  ),
-                );
-              },
-              child: Text(state.name),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _variants(BuildContext context) => const _VariantsDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Success',
-      builder: '_success',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// One trigger firing toasts through an owned layer.
-///
-/// The layer is a no-op visual wrapper (the controller portals into the root
-/// overlay), so the demo is just its trigger centred in the stage.
-class _ToastDemo extends StatefulWidget {
-  const _ToastDemo({required this.label, required this.makeOptions});
-
-  final String label;
-
-  final GooeyToastOptions Function() makeOptions;
-
-  @override
-  State<_ToastDemo> createState() => _ToastDemoState();
-}
-
-class _ToastDemoState extends State<_ToastDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () =>
-            _controller.showGooeyToast(context, widget.makeOptions()),
-        child: Text(widget.label),
-      ),
-    );
-  }
-}
-
-GooeyToastOptions _savedOptions() => _toast(
-  title: 'Success',
-  description: 'Workspace settings were saved.',
-  state: GooeyToastState.success,
-);
-
-Widget _success(BuildContext context) =>
-    const _ToastDemo(label: 'Show success toast', makeOptions: _savedOptions);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Error',
-      builder: '_error',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// One trigger firing toasts through an owned layer.
-///
-/// The layer is a no-op visual wrapper (the controller portals into the root
-/// overlay), so the demo is just its trigger centred in the stage.
-class _ToastDemo extends StatefulWidget {
-  const _ToastDemo({required this.label, required this.makeOptions});
-
-  final String label;
-
-  final GooeyToastOptions Function() makeOptions;
-
-  @override
-  State<_ToastDemo> createState() => _ToastDemoState();
-}
-
-class _ToastDemoState extends State<_ToastDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () =>
-            _controller.showGooeyToast(context, widget.makeOptions()),
-        child: Text(widget.label),
-      ),
-    );
-  }
-}
-
-Widget _error(BuildContext context) =>
-    const _ToastDemo(label: 'Show error toast', makeOptions: _failedOptions);
-
-GooeyToastOptions _failedOptions() => _toast(
-  title: 'Error',
-  description: 'Failed to sync your workspace.',
-  state: GooeyToastState.error,
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Warning',
-      builder: '_warning',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// One trigger firing toasts through an owned layer.
-///
-/// The layer is a no-op visual wrapper (the controller portals into the root
-/// overlay), so the demo is just its trigger centred in the stage.
-class _ToastDemo extends StatefulWidget {
-  const _ToastDemo({required this.label, required this.makeOptions});
-
-  final String label;
-
-  final GooeyToastOptions Function() makeOptions;
-
-  @override
-  State<_ToastDemo> createState() => _ToastDemoState();
-}
-
-class _ToastDemoState extends State<_ToastDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () =>
-            _controller.showGooeyToast(context, widget.makeOptions()),
-        child: Text(widget.label),
-      ),
-    );
-  }
-}
-
-Widget _warning(BuildContext context) =>
-    const _ToastDemo(label: 'Show warning toast', makeOptions: _warningOptions);
-
-GooeyToastOptions _warningOptions() => _toast(
-  title: 'Storage Warning',
-  description: 'You are running out of storage space.',
-  state: GooeyToastState.warning,
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Info',
-      builder: '_info',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// One trigger firing toasts through an owned layer.
-///
-/// The layer is a no-op visual wrapper (the controller portals into the root
-/// overlay), so the demo is just its trigger centred in the stage.
-class _ToastDemo extends StatefulWidget {
-  const _ToastDemo({required this.label, required this.makeOptions});
-
-  final String label;
-
-  final GooeyToastOptions Function() makeOptions;
-
-  @override
-  State<_ToastDemo> createState() => _ToastDemoState();
-}
-
-class _ToastDemoState extends State<_ToastDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () =>
-            _controller.showGooeyToast(context, widget.makeOptions()),
-        child: Text(widget.label),
-      ),
-    );
-  }
-}
-
-Widget _info(BuildContext context) =>
-    const _ToastDemo(label: 'Show info toast', makeOptions: _infoOptions);
-
-GooeyToastOptions _infoOptions() => _toast(
-  title: 'Heads up',
-  description: 'A new update is available.',
-  state: GooeyToastState.info,
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Action',
-      builder: '_action',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-// Reference (`main`) docs-example defaults, applied to every demo toast so the
-// kit matches the published look: canvas 360 wide, base roundness 16, the sharp
-// silhouette, smooth motion, and the reference autopilot timings. Position
-// stays top-centre (the kit's contract); only the toast's own look is ported.
-const double _kToastWidth = 360;
-
-const double _kToastRoundness = 16;
-
-const GooeyToastShapeStyle _kToastShape = GooeyToastShapeStyle.sharp;
-
-const GooeyToastAnimationStyle _kToastAnimation =
-    GooeyToastAnimationStyle.smooth;
-
-const GooeyAutopilot _kToastAutopilot = GooeyAutopilot(
-  expandDelay: Duration(milliseconds: 180),
-  collapseDelay: Duration(milliseconds: 3200),
-);
-
-/// Builds one demo toast with the reference look for [state].
-GooeyToastOptions _toast({
-  required String title,
-  required String description,
-  required GooeyToastState state,
-  GooeyToastAction? action,
-}) {
-  return GooeyToastOptions(
-    title: title,
-    description: description,
-    state: state,
-    action: action,
-    width: _kToastWidth,
-    roundness: _kToastRoundness,
-    shapeStyle: _kToastShape,
-    animationStyle: _kToastAnimation,
-    autopilot: _kToastAutopilot,
-  );
-}
-
-/// One trigger firing toasts through an owned layer.
-///
-/// The layer is a no-op visual wrapper (the controller portals into the root
-/// overlay), so the demo is just its trigger centred in the stage.
-class _ToastDemo extends StatefulWidget {
-  const _ToastDemo({required this.label, required this.makeOptions});
-
-  final String label;
-
-  final GooeyToastOptions Function() makeOptions;
-
-  @override
-  State<_ToastDemo> createState() => _ToastDemoState();
-}
-
-class _ToastDemoState extends State<_ToastDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () =>
-            _controller.showGooeyToast(context, widget.makeOptions()),
-        child: Text(widget.label),
-      ),
-    );
-  }
-}
-
-Widget _action(BuildContext context) =>
-    const _ToastDemo(label: 'Show action toast', makeOptions: _actionOptions);
-
-GooeyToastOptions _actionOptions() => _toast(
-  title: 'Action Required',
-  description: 'Review and confirm this request.',
-  state: GooeyToastState.action,
-  action: GooeyToastAction(label: 'Confirm', onPressed: () {}),
-);
+Widget _playground(BuildContext context) => const _Playground();
 ''',
     ),
     DocsExampleSource(
       name: 'Promise',
       builder: '_promise',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
 import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
 
-/// The promise pattern: a loading pill that never expands, then the same toast
-/// morphs into the settled state with its body once the work finishes.
+/// Shared playground config: the single source of look for every demo.
+class _Shared {
+  const _Shared({
+    this.shape = GooeyToastShapeStyle.sharp,
+    this.animation = GooeyToastAnimationStyle.smooth,
+    this.position = GooeyToastPosition.center,
+    this.fill = const ThemedColor.value(gooeySurfaceFill),
+  });
+
+  final GooeyToastShapeStyle shape;
+  final GooeyToastAnimationStyle animation;
+  final GooeyToastPosition position;
+  final ThemedColor fill;
+
+  _Shared copyWith({
+    GooeyToastShapeStyle? shape,
+    GooeyToastAnimationStyle? animation,
+    GooeyToastPosition? position,
+    ThemedColor? fill,
+  }) {
+    return _Shared(
+      shape: shape ?? this.shape,
+      animation: animation ?? this.animation,
+      position: position ?? this.position,
+      fill: fill ?? this.fill,
+    );
+  }
+}
+
+/// The one shared config; the Playground mutates it, every demo reads it.
+final ValueNotifier<_Shared> _shared = ValueNotifier<_Shared>(const _Shared());
+
+const double _kWidth = 360;
+
+const double _kRoundness = 16;
+
+const GooeyAutopilot _kAutopilot = GooeyAutopilot(
+  expandDelay: Duration(milliseconds: 180),
+  collapseDelay: Duration(milliseconds: 3200),
+);
+
+/// One demo toast in the shared look for [state].
+GooeyToastOptions _toast({
+  required String title,
+  required String description,
+  required GooeyToastState state,
+  GooeyToastAction? action,
+}) {
+  final _Shared shared = _shared.value;
+  return GooeyToastOptions(
+    title: title,
+    description: description,
+    state: state,
+    action: action,
+    position: shared.position,
+    width: _kWidth,
+    roundness: _kRoundness,
+    shapeStyle: shared.shape,
+    animationStyle: shared.animation,
+    autopilot: _kAutopilot,
+  );
+}
+
+/// Layer whose fill follows the shared config.
+class _Layer extends StatefulWidget {
+  const _Layer({required this.child, required this.controller});
+
+  final Widget child;
+  final GooeyToastController controller;
+
+  @override
+  State<_Layer> createState() => _LayerState();
+}
+
+class _LayerState extends State<_Layer> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<_Shared>(
+      valueListenable: _shared,
+      builder: (context, shared, _) => GooeyToastLayer(
+        controller: widget.controller,
+        theme: GooeyToastTheme(fill: shared.fill),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+/// Promise flow in the shared look.
 class _PromiseDemo extends StatefulWidget {
   const _PromiseDemo();
 
@@ -16578,29 +17894,29 @@ class _PromiseDemoState extends State<_PromiseDemo> {
   }
 
   Future<void> _run() async {
-    if (_running) {
-      return;
-    }
+    if (_running) return;
     setState(() => _running = true);
+    final _Shared shared = _shared.value;
     final String id = _controller.showGooeyToast(
       context,
-      const GooeyToastOptions(
+      GooeyToastOptions(
         title: 'Uploading',
         state: GooeyToastState.loading,
         persistUntilDismissed: true,
-        autopilot: GooeyAutopilot(),
+        autopilot: const GooeyAutopilot(),
+        position: shared.position,
+        shapeStyle: shared.shape,
+        animationStyle: shared.animation,
       ),
       id: 'promise',
       autoDismiss: false,
       duration: const Duration(milliseconds: 400),
     );
     await Future<void>.delayed(const Duration(milliseconds: 1300));
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
     _controller.showGooeyToast(
       context,
-      const GooeyToastOptions(
+      _toast(
         title: 'Upload Complete',
         description: 'Your file is ready.',
         state: GooeyToastState.success,
@@ -16608,20 +17924,20 @@ class _PromiseDemoState extends State<_PromiseDemo> {
       id: id,
       duration: const Duration(milliseconds: 4000),
     );
-    if (mounted) {
-      setState(() => _running = false);
-    }
+    if (mounted) setState(() => _running = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GooeyToastLayer(
+    return _Layer(
       controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: _running ? null : _run,
-        child: Text(_running ? 'Uploading…' : 'Start upload'),
+      child: Center(
+        child: Button(
+          variant: ButtonVariant.outline,
+          size: ButtonSize.sm,
+          onPressed: _running ? null : _run,
+          child: Text(_running ? 'Uploading…' : 'Start upload'),
+        ),
       ),
     );
   }
@@ -16631,284 +17947,112 @@ Widget _promise(BuildContext context) => const _PromiseDemo();
 ''',
     ),
     DocsExampleSource(
-      name: 'Positions',
-      builder: '_positions',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// Six triggers sharing one controller: one per window position.
-class _PositionsDemo extends StatefulWidget {
-  const _PositionsDemo();
-
-  @override
-  State<_PositionsDemo> createState() => _PositionsDemoState();
-}
-
-class _PositionsDemoState extends State<_PositionsDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _show(GooeyToastPosition position, GooeyToastExpandDirection direction) {
-    _controller.showGooeyToast(
-      context,
-      GooeyToastOptions(
-        title: 'Pinned ${position.name}',
-        description: 'Anchored to the ${position.name} edge.',
-        state: GooeyToastState.info,
-        position: position,
-        expandDirection: direction,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastPosition position in GooeyToastPosition.values)
-            for (final GooeyToastExpandDirection direction
-                in GooeyToastExpandDirection.values)
-              Button(
-                variant: ButtonVariant.outline,
-                size: ButtonSize.sm,
-                onPressed: () => _show(position, direction),
-                child: Text('${direction.name}-${position.name}'),
-              ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _positions(BuildContext context) => const _PositionsDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Animation presets',
-      builder: '_animationPresets',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// One trigger per animation preset, so the curves and durations are directly
-/// comparable. Each preset needs its own controller, because the controller
-/// resolves the preset when the toast is shown.
-class _AnimationPresetsDemo extends StatefulWidget {
-  const _AnimationPresetsDemo();
-
-  @override
-  State<_AnimationPresetsDemo> createState() => _AnimationPresetsDemoState();
-}
-
-class _AnimationPresetsDemoState extends State<_AnimationPresetsDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _show(GooeyToastAnimationStyle style) {
-    _controller.showGooeyToast(
-      context,
-      GooeyToastOptions(
-        title: '${style.name} preset',
-        description: 'Open and close with the ${style.name} curve.',
-        state: GooeyToastState.success,
-        animationStyle: style,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastAnimationStyle style
-              in GooeyToastAnimationStyle.values)
-            Button(
-              variant: ButtonVariant.outline,
-              size: ButtonSize.sm,
-              onPressed: () => _show(style),
-              child: Text(style.name),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _animationPresets(BuildContext context) => const _AnimationPresetsDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Body animation',
-      builder: '_bodyAnimation',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// One trigger per body-animation preset.
-class _BodyAnimationDemo extends StatefulWidget {
-  const _BodyAnimationDemo();
-
-  @override
-  State<_BodyAnimationDemo> createState() => _BodyAnimationDemoState();
-}
-
-class _BodyAnimationDemoState extends State<_BodyAnimationDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastBodyAnimationStyle style
-              in GooeyToastBodyAnimationStyle.values)
-            Button(
-              variant: ButtonVariant.outline,
-              size: ButtonSize.sm,
-              onPressed: () => _controller.showGooeyToast(
-                context,
-                GooeyToastOptions(
-                  title: '${style.name} body',
-                  description: 'The body animates with ${style.name}.',
-                  state: GooeyToastState.info,
-                  bodyAnimationStyle: style,
-                ),
-              ),
-              child: Text(style.name),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _bodyAnimation(BuildContext context) => const _BodyAnimationDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Shapes',
-      builder: '_shapes',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// One trigger per corner shape preset.
-class _ShapesDemo extends StatefulWidget {
-  const _ShapesDemo();
-
-  @override
-  State<_ShapesDemo> createState() => _ShapesDemoState();
-}
-
-class _ShapesDemoState extends State<_ShapesDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Wrap(
-        spacing: gap,
-        runSpacing: gap,
-        alignment: WrapAlignment.center,
-        children: <Widget>[
-          for (final GooeyToastShapeStyle style in GooeyToastShapeStyle.values)
-            Button(
-              variant: ButtonVariant.outline,
-              size: ButtonSize.sm,
-              onPressed: () => _controller.showGooeyToast(
-                context,
-                GooeyToastOptions(
-                  title: '${style.name} shape',
-                  description: 'Corners follow the ${style.name} profile.',
-                  state: GooeyToastState.success,
-                  shapeStyle: style,
-                ),
-              ),
-              child: Text(style.name),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _shapes(BuildContext context) => const _ShapesDemo();
-''',
-    ),
-    DocsExampleSource(
       name: 'Interactive Reply',
-      builder: '_interactiveReply',
+      builder: '_reply',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/shadcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/shadcn/theme/theme.dart';
 import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
 import 'package:<your_app>/ui/shadcn/components/input/input.dart';
 import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
 
-/// Custom compact + expanded content: a reply composer inside the toast body,
-/// transitioning to the sent state through the same toast id.
-class _InteractiveReplyDemo extends StatefulWidget {
-  const _InteractiveReplyDemo();
+/// Shared playground config: the single source of look for every demo.
+class _Shared {
+  const _Shared({
+    this.shape = GooeyToastShapeStyle.sharp,
+    this.animation = GooeyToastAnimationStyle.smooth,
+    this.position = GooeyToastPosition.center,
+    this.fill = const ThemedColor.value(gooeySurfaceFill),
+  });
 
-  @override
-  State<_InteractiveReplyDemo> createState() => _InteractiveReplyDemoState();
+  final GooeyToastShapeStyle shape;
+  final GooeyToastAnimationStyle animation;
+  final GooeyToastPosition position;
+  final ThemedColor fill;
+
+  _Shared copyWith({
+    GooeyToastShapeStyle? shape,
+    GooeyToastAnimationStyle? animation,
+    GooeyToastPosition? position,
+    ThemedColor? fill,
+  }) {
+    return _Shared(
+      shape: shape ?? this.shape,
+      animation: animation ?? this.animation,
+      position: position ?? this.position,
+      fill: fill ?? this.fill,
+    );
+  }
 }
 
-class _InteractiveReplyDemoState extends State<_InteractiveReplyDemo> {
+/// The one shared config; the Playground mutates it, every demo reads it.
+final ValueNotifier<_Shared> _shared = ValueNotifier<_Shared>(const _Shared());
+
+const double _kWidth = 360;
+
+const double _kRoundness = 16;
+
+const GooeyAutopilot _kAutopilot = GooeyAutopilot(
+  expandDelay: Duration(milliseconds: 180),
+  collapseDelay: Duration(milliseconds: 3200),
+);
+
+/// One demo toast in the shared look for [state].
+GooeyToastOptions _toast({
+  required String title,
+  required String description,
+  required GooeyToastState state,
+  GooeyToastAction? action,
+}) {
+  final _Shared shared = _shared.value;
+  return GooeyToastOptions(
+    title: title,
+    description: description,
+    state: state,
+    action: action,
+    position: shared.position,
+    width: _kWidth,
+    roundness: _kRoundness,
+    shapeStyle: shared.shape,
+    animationStyle: shared.animation,
+    autopilot: _kAutopilot,
+  );
+}
+
+/// Layer whose fill follows the shared config.
+class _Layer extends StatefulWidget {
+  const _Layer({required this.child, required this.controller});
+
+  final Widget child;
+  final GooeyToastController controller;
+
+  @override
+  State<_Layer> createState() => _LayerState();
+}
+
+class _LayerState extends State<_Layer> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<_Shared>(
+      valueListenable: _shared,
+      builder: (context, shared, _) => GooeyToastLayer(
+        controller: widget.controller,
+        theme: GooeyToastTheme(fill: shared.fill),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+/// Interactive reply in the shared look.
+class _ReplyDemo extends StatefulWidget {
+  const _ReplyDemo();
+
+  @override
+  State<_ReplyDemo> createState() => _ReplyDemoState();
+}
+
+class _ReplyDemoState extends State<_ReplyDemo> {
   final GooeyToastController _controller = GooeyToastController();
 
   @override
@@ -16918,17 +18062,21 @@ class _InteractiveReplyDemoState extends State<_InteractiveReplyDemo> {
   }
 
   void _show() {
+    final _Shared shared = _shared.value;
     _controller.showGooeyToast(
       context,
       GooeyToastOptions(
         title: 'Thread Reply',
         state: GooeyToastState.action,
+        position: shared.position,
+        shapeStyle: shared.shape,
+        animationStyle: shared.animation,
         expandedChild: _ReplyForm(
           onSend: (String message) => _controller.showGooeyToast(
             context,
-            GooeyToastOptions(
+            _toast(
               title: 'Message Sent',
-              description: 'Your reply was sent successfully. "$message"',
+              description: 'Your reply was sent. "$message"',
               state: GooeyToastState.success,
             ),
             id: 'demo-reply',
@@ -16942,19 +18090,20 @@ class _InteractiveReplyDemoState extends State<_InteractiveReplyDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return GooeyToastLayer(
+    return _Layer(
       controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: _show,
-        child: const Text('Interactive Reply Demo'),
+      child: Center(
+        child: Button(
+          variant: ButtonVariant.outline,
+          size: ButtonSize.sm,
+          onPressed: _show,
+          child: const Text('Interactive Reply Demo'),
+        ),
       ),
     );
   }
 }
 
-/// Inline reply composer used as a toast's expanded content.
 class _ReplyForm extends StatefulWidget {
   const _ReplyForm({required this.onSend});
 
@@ -16975,26 +18124,18 @@ class _ReplyFormState extends State<_ReplyForm> {
 
   void _submit() {
     final String message = _controller.text.trim();
-    if (message.length < 3) {
-      return;
-    }
+    if (message.length < 3) return;
     _controller.clear();
     widget.onSend(message);
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
     final double gap = ShadcnTheme.of(context).density.baseGap;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Click reply to respond from this thread.',
-          style: TextStyle(color: colors.mutedForeground),
-        ),
-        SizedBox(height: gap),
         Input(
           controller: _controller,
           placeholder: const Text('Type your reply...'),
@@ -17014,252 +18155,7 @@ class _ReplyFormState extends State<_ReplyForm> {
   }
 }
 
-Widget _interactiveReply(BuildContext context) => const _InteractiveReplyDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Booking Multi-State',
-      builder: '_booking',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// Booking multi-state flow: loading → confirmed → gate update, all in one slot.
-class _BookingDemo extends StatefulWidget {
-  const _BookingDemo();
-
-  @override
-  State<_BookingDemo> createState() => _BookingDemoState();
-}
-
-class _BookingDemoState extends State<_BookingDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _run() {
-    _controller.showGooeyToast(
-      context,
-      const GooeyToastOptions(
-        title: 'Booking In Progress',
-        description: 'Reserving seat and confirming fare class...',
-        state: GooeyToastState.loading,
-        autopilot: GooeyAutopilot(expandDelay: Duration.zero),
-        duration: Duration(milliseconds: 2800),
-      ),
-      id: 'booking',
-      duration: const Duration(milliseconds: 2800),
-    );
-    Future<void>.delayed(const Duration(milliseconds: 1200), () {
-      if (!mounted) {
-        return;
-      }
-      _controller.showGooeyToast(
-        context,
-        const GooeyToastOptions(
-          title: 'Booking Confirmed',
-          description: 'Your itinerary is issued and synced.',
-          state: GooeyToastState.success,
-          duration: Duration(milliseconds: 3200),
-        ),
-        id: 'booking',
-        duration: const Duration(milliseconds: 3200),
-      );
-    });
-    Future<void>.delayed(const Duration(milliseconds: 4200), () {
-      if (!mounted) {
-        return;
-      }
-      _controller.showGooeyToast(
-        context,
-        const GooeyToastOptions(
-          title: 'Gate Updated',
-          description: 'Departure gate changed to A12.',
-          state: GooeyToastState.info,
-          duration: Duration(milliseconds: 3600),
-        ),
-        id: 'booking',
-        duration: const Duration(milliseconds: 3600),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: _run,
-        child: const Text('Booking Multi-State Demo'),
-      ),
-    );
-  }
-}
-
-Widget _booking(BuildContext context) => const _BookingDemo();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Tabs + ListView',
-      builder: '_tabsList',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/shadcn/theme/theme.dart';
-import 'package:<your_app>/ui/shadcn/components/button/button.dart';
-import 'package:<your_app>/ui/shadcn/components/divider/divider.dart';
-import 'package:<your_app>/ui/shadcn/components/input/input.dart';
-import 'package:<your_app>/ui/shadcn/components/gooey_toast/gooey_toast.dart';
-
-/// A tabbed workspace inside the expanded toast body.
-class _TabsListDemo extends StatefulWidget {
-  const _TabsListDemo();
-
-  @override
-  State<_TabsListDemo> createState() => _TabsListDemoState();
-}
-
-class _TabsListDemoState extends State<_TabsListDemo> {
-  final GooeyToastController _controller = GooeyToastController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GooeyToastLayer(
-      controller: _controller,
-      child: Button(
-        variant: ButtonVariant.outline,
-        size: ButtonSize.sm,
-        onPressed: () => _controller.showGooeyToast(
-          context,
-          const GooeyToastOptions(
-            title: 'Interactive Workspace',
-            state: GooeyToastState.info,
-            expandedChild: _Workspace(),
-          ),
-        ),
-        child: const Text('Tabs + ListView Demo'),
-      ),
-    );
-  }
-}
-
-class _Workspace extends StatefulWidget {
-  const _Workspace();
-
-  @override
-  State<_Workspace> createState() => _WorkspaceState();
-}
-
-class _WorkspaceState extends State<_Workspace> {
-  int _tab = 0;
-
-  static const List<String> _tabs = <String>[
-    'Incidents',
-    'Runbook',
-    'Dispatch',
-  ];
-
-  static const List<(String, String, String)> _incidents =
-      <(String, String, String)>[
-        ('SEV-2 API latency', 'eu-west-1', '09:42'),
-        ('Payment retries spike', 'checkout', '09:37'),
-        ('Token refresh errors', 'auth-core', '09:31'),
-        ('Queue backlog above SLO', 'worker-bus', '09:19'),
-      ];
-
-  static const List<String> _runbook = <String>[
-    '1. Enable degraded-mode cache for search endpoints.',
-    '2. Scale worker-bus deployment to 2x replicas.',
-    '3. Pause non-critical cron jobs for 15 minutes.',
-    '4. Post status update in #incident-room.',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = ShadcnTheme.of(context).colors;
-    final double gap = ShadcnTheme.of(context).density.baseGap;
-    return SizedBox(
-      height: 248,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              for (int i = 0; i < _tabs.length; i++)
-                Button(
-                  variant: i == _tab
-                      ? ButtonVariant.primary
-                      : ButtonVariant.ghost,
-                  size: ButtonSize.sm,
-                  onPressed: () => setState(() => _tab = i),
-                  child: Text(_tabs[i]),
-                ),
-            ],
-          ),
-          SizedBox(height: gap),
-          Expanded(
-            child: IndexedStack(
-              index: _tab,
-              children: <Widget>[
-                ListView.separated(
-                  itemCount: _incidents.length,
-                  separatorBuilder: (_, _) => const Divider(),
-                  itemBuilder: (BuildContext context, int index) {
-                    final (String title, String service, String time) =
-                        _incidents[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(title, style: TextStyle(color: colors.foreground)),
-                        Text(
-                          '$service · opened $time',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: colors.mutedForeground,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                ListView.separated(
-                  itemCount: _runbook.length,
-                  separatorBuilder: (_, _) => const Divider(),
-                  itemBuilder: (BuildContext context, int index) => Text(
-                    _runbook[index],
-                    style: TextStyle(color: colors.mutedForeground),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Route the active incident to the escalation channel.',
-                    style: TextStyle(color: colors.mutedForeground),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _tabsList(BuildContext context) => const _TabsListDemo();
+Widget _reply(BuildContext context) => const _ReplyDemo();
 ''',
     ),
   ],
@@ -17569,8 +18465,9 @@ Widget _anchor(
   Duration waitDuration = kTooltipWaitDuration,
 }) {
   final theme = ShadcnTheme.of(context);
+  // P7-TH1: the anchor hugs the trigger and sits in the middle of the stage.
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),
@@ -17614,8 +18511,9 @@ Widget _anchor(
   Duration waitDuration = kTooltipWaitDuration,
 }) {
   final theme = ShadcnTheme.of(context);
+  // P7-TH1: the anchor hugs the trigger and sits in the middle of the stage.
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
       tooltip: (BuildContext context) => Text(label),
@@ -17698,8 +18596,9 @@ import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';
 
 /// A plain snippet.
 Widget _codeSnippetDefault(BuildContext context) {
+  // P7-TH1: centred in the stage (was centerStart).
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: CodeSnippet(code: Text('const greeting = "hello";')),
   );
 }
@@ -17794,8 +18693,9 @@ import 'package:<your_app>/ui/shadcn/components/code_snippet/code_snippet.dart';
 
 /// A long line that scrolls inside its bounded box.
 Widget _codeSnippetLongLines(BuildContext context) {
+  // P7-TH1: the 320px box is centred in the stage (was centerStart).
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: SizedBox(
       width: 320,
       child: CodeSnippet(
@@ -17833,8 +18733,9 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 
 /// The default square avatar-shaped image.
 Widget _imageDefault(BuildContext context) {
+  // P7-TH1: centred in the stage (was centerStart).
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: ShadcnImage(
       image: _imagePhoto,
       width: 96,
@@ -17869,8 +18770,9 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 /// The default image with the theme border radius.
 Widget _imageRounded(BuildContext context) {
   final theme = ShadcnTheme.of(context);
+  // P7-TH1: centred in the stage (was centerStart).
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: ShadcnImage(
       image: _imagePhoto,
       width: 96,
@@ -17952,7 +18854,7 @@ Widget _imageSlots(BuildContext context) {
       name: 'Default',
       builder: '_default',
       code:
-          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/shadcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/shadcn/components/markdown/markdown.dart\';\n\nconst String _sample = \'\'\'\n## Release notes\n\nBuild 482 ships **faster cold start** and a *smaller bundle*.\n\n- faster cold start\n- smaller bundle\n\n> Quoted from the changelog.\n\n![build graph](https://example.com/graph.png "Build graph")\n\'\'\';\n\n/// Headings, emphasis, a list, a quote and a local image placeholder.\nWidget _default(BuildContext context) {\n  final ShadcnThemeData theme = ShadcnTheme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Markdown(\n      data: _sample,\n      imageBuilder: (imageContext, url, alt) => SizedBox(\n        height: 64,\n        child: DecoratedBox(\n          decoration: BoxDecoration(\n            color: theme.colors.muted,\n            borderRadius: BorderRadius.circular(10),\n          ),\n          child: Center(\n            child: Text(\n              alt,\n              style: TextStyle(\n                color: theme.colors.mutedForeground,\n                fontSize: 12,\n              ),\n            ),\n          ),\n        ),\n      ),\n    ),\n  );\n}\n',
+          'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/shadcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/shadcn/components/markdown/markdown.dart\';\n\nconst String _sample = \'\'\'\n## Release notes\n\nBuild 482 ships **faster cold start** and a *smaller bundle*.\n\n- faster cold start\n- smaller bundle\n\n> Quoted from the changelog.\n\n![build graph](https://example.com/graph.png "Build graph")\n\'\'\';\n\n/// Headings, emphasis, a list, a quote and a local image placeholder.\nWidget _default(BuildContext context) {\n  final ShadcnThemeData theme = ShadcnTheme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Markdown(\n      data: _sample,\n      imageBuilder: (imageContext, url, alt) => SizedBox(\n        height: 64,\n        child: DecoratedBox(\n          decoration: BoxDecoration(\n            color: theme.colors.muted,\n            // P7-TH1: image stand-ins use the card radius token.\n            borderRadius: theme.borderRadiusLg,\n          ),\n          child: Center(\n            child: Text(\n              alt,\n              style: TextStyle(\n                color: theme.colors.mutedForeground,\n                fontSize: 12,\n              ),\n            ),\n          ),\n        ),\n      ),\n    ),\n  );\n}\n',
     ),
     DocsExampleSource(
       name: 'Streaming tail',
@@ -18670,11 +19572,25 @@ class _EyeDropperPicker extends StatefulWidget {
 
 class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   Color? _picked;
+  Color? _live;
+  bool _sampling = false;
 
   void _eyeDropperPick() async {
-    final Color? color = await pickColorFromScreen(context);
+    setState(() {
+      _sampling = true;
+      _live = null;
+    });
+    final Color? color = await pickColorFromScreen(context, null, (
+      Color sample,
+    ) {
+      if (mounted) setState(() => _live = sample);
+    });
     if (mounted) {
-      setState(() => _picked = color);
+      setState(() {
+        _picked = color;
+        _live = null;
+        _sampling = false;
+      });
     }
   }
 
@@ -18687,6 +19603,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    final Color? shown = _live ?? _picked;
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(
@@ -18716,7 +19633,11 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                   vertical: 8,
                 ),
                 child: Text(
-                  _picked == null ? 'Pick a colour' : 'Pick again',
+                  _sampling
+                      ? 'Sampling… move to pick'
+                      : _picked == null
+                      ? 'Pick a colour'
+                      : 'Pick again',
                   style: TextStyle(color: theme.colors.primaryForeground),
                 ),
               ),
@@ -18728,7 +19649,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
             children: <Widget>[
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: _picked ?? theme.colors.muted,
+                  color: shown ?? theme.colors.muted,
                   border: Border.all(color: theme.colors.border),
                   borderRadius: theme.borderRadiusSm,
                 ),
@@ -18739,9 +19660,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
               ),
               Gap(theme.spacing.sm),
               Text(
-                _picked == null
+                shown == null
                     ? 'no colour picked'
-                    : '#${_eyeDropperHex(_picked!)}',
+                    : '#${_eyeDropperHex(shown)}',
                 style: TextStyle(color: theme.colors.mutedForeground),
               ),
             ],
@@ -18795,11 +19716,25 @@ class _EyeDropperPicker extends StatefulWidget {
 
 class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   Color? _picked;
+  Color? _live;
+  bool _sampling = false;
 
   void _eyeDropperPick() async {
-    final Color? color = await pickColorFromScreen(context);
+    setState(() {
+      _sampling = true;
+      _live = null;
+    });
+    final Color? color = await pickColorFromScreen(context, null, (
+      Color sample,
+    ) {
+      if (mounted) setState(() => _live = sample);
+    });
     if (mounted) {
-      setState(() => _picked = color);
+      setState(() {
+        _picked = color;
+        _live = null;
+        _sampling = false;
+      });
     }
   }
 
@@ -18812,6 +19747,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    final Color? shown = _live ?? _picked;
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(
@@ -18841,7 +19777,11 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                   vertical: 8,
                 ),
                 child: Text(
-                  _picked == null ? 'Pick a colour' : 'Pick again',
+                  _sampling
+                      ? 'Sampling… move to pick'
+                      : _picked == null
+                      ? 'Pick a colour'
+                      : 'Pick again',
                   style: TextStyle(color: theme.colors.primaryForeground),
                 ),
               ),
@@ -18853,7 +19793,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
             children: <Widget>[
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: _picked ?? theme.colors.muted,
+                  color: shown ?? theme.colors.muted,
                   border: Border.all(color: theme.colors.border),
                   borderRadius: theme.borderRadiusSm,
                 ),
@@ -18864,9 +19804,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
               ),
               Gap(theme.spacing.sm),
               Text(
-                _picked == null
+                shown == null
                     ? 'no colour picked'
-                    : '#${_eyeDropperHex(_picked!)}',
+                    : '#${_eyeDropperHex(shown)}',
                 style: TextStyle(color: theme.colors.mutedForeground),
               ),
             ],

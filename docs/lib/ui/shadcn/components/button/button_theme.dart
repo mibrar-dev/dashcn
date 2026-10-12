@@ -1,8 +1,9 @@
 // User-owned overrides for the `button` component theme.
 //
 // Values only: CLI updates never overwrite this file and Studio rewrites it
-// deterministically. Unset fields fall through to `buttonDefaults` and the
-// global tokens, so an empty override keeps the exact token look.
+// deterministically. Unset fields fall through to `buttonDefaults`,
+// `buttonStatusDefaults` and the global tokens, so an empty override keeps
+// the exact token look.
 //
 // Sparse example (uncomment and complete to customise a variant):
 //
@@ -13,6 +14,9 @@
 //         hovered: ThemedColor.ref(ColorRef.primary, alpha: 0.2),
 //         pressed: ThemedColor.ref(ColorRef.primary, alpha: 0.2),
 //       ),
+//     ),
+//     status: ButtonStatusStyle(
+//       failureColor: ThemedColor.ref(ColorRef.destructive),
 //     ),
 //   );
 

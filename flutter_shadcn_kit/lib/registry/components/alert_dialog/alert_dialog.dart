@@ -75,33 +75,52 @@ class AlertDialog extends StatelessWidget {
               style.descriptionStyle?.color ?? ambient.colors.mutedForeground,
         );
 
-    final Widget? header = _buildHeader(
-      context,
-      style,
-      titleStyle,
-      descriptionStyle,
-      iconGap,
-      headerGap,
-    );
-    final Widget? footer = _buildFooter(
-      style.footerAlignment ?? MainAxisAlignment.end,
-      actionGap,
-      context,
-    );
+    // shadcn `AlertDialogFooter`: `flex-col-reverse sm:flex-row
+    // sm:justify-end gap-2`. Below ~360px the actions stack full-width;
+    // above they sit in a right-aligned row. `LayoutBuilder` reads the
+    // real card width so a 375px phone stacks while the 512px desktop
+    // card keeps the row. Unbounded width (tests) falls back to the row.
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool stacked =
+            constraints.maxWidth.isFinite && constraints.maxWidth < 360;
+        final Widget? header = stacked
+            ? _buildHeaderStacked(titleStyle, descriptionStyle, headerGap)
+            : _buildHeaderRow(
+                context,
+                style,
+                titleStyle,
+                descriptionStyle,
+                iconGap,
+                headerGap,
+              );
+        final Widget? footer = _buildFooter(
+          style.footerAlignment ?? MainAxisAlignment.end,
+          actionGap,
+          stacked: stacked,
+        );
 
-    final List<Widget> children = <Widget>[
-      if (header != null) Flexible(child: header),
-      if (header != null && footer != null) Gap(footerGap),
-      if (footer case final Widget widget) widget,
-    ];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: children,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          // `stretch` is the footer fix: with `start` the action `Wrap`
+          // sized to its content and `WrapAlignment.end` aligned the
+          // buttons to the content's own end (reading as LEFT-aligned,
+          // flush to the border). Stretched, the row spans the card and
+          // the actions truly sit at its end.
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ?header,
+            if (header != null && footer != null) Gap(footerGap),
+            if (footer case final Widget widget) widget,
+          ],
+        );
+      },
     );
   }
 
-  Widget? _buildHeader(
+  /// Wide header: icon and title on one row, icon centred against the
+  /// title line (not top-offset outside it).
+  Widget? _buildHeaderRow(
     BuildContext context,
     AlertDialogTheme style,
     TextStyle titleStyle,
@@ -150,19 +169,65 @@ class AlertDialog extends StatelessWidget {
       );
     }
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: row,
+    );
+  }
+
+  /// Narrow header (centred on mobile): icon above the title, texts centred.
+  Widget? _buildHeaderStacked(
+    TextStyle titleStyle,
+    TextStyle descriptionStyle,
+    double headerGap,
+  ) {
+    if (title == null && description == null && icon == null) {
+      return null;
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        ?icon,
+        if (icon != null && (title != null || description != null))
+          Gap(headerGap),
+        if (title != null)
+          DefaultTextStyle.merge(
+            style: titleStyle,
+            textAlign: TextAlign.center,
+            child: title!,
+          ),
+        if (title != null && description != null) Gap(headerGap),
+        if (description != null)
+          DefaultTextStyle.merge(
+            style: descriptionStyle,
+            textAlign: TextAlign.center,
+            child: description!,
+          ),
+      ],
     );
   }
 
   Widget? _buildFooter(
     MainAxisAlignment alignment,
-    double actionGap,
-    BuildContext context,
-  ) {
+    double actionGap, {
+    required bool stacked,
+  }) {
     if (actions.isEmpty) {
       return null;
+    }
+    // Mobile: stacked full-width actions (`flex-col`).
+    if (stacked) {
+      final List<Widget> column = <Widget>[];
+      for (int i = 0; i < actions.length; i++) {
+        if (i > 0) column.add(Gap(actionGap));
+        column.add(actions[i]);
+      }
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: column,
+      );
     }
     if (actions.length == 1) {
       return Align(
@@ -183,6 +248,7 @@ class AlertDialog extends StatelessWidget {
         MainAxisAlignment.spaceAround => WrapAlignment.spaceAround,
         MainAxisAlignment.spaceEvenly => WrapAlignment.spaceEvenly,
       },
+      runAlignment: WrapAlignment.end,
       spacing: actionGap,
       runSpacing: actionGap,
       children: actions,

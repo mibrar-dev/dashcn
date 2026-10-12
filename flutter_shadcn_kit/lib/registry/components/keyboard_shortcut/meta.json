@@ -26,12 +26,13 @@
       "KeyboardShortcutDisplayScope",
       "KeyboardShortcutTheme"
     ],
-    "enums": [],
+    "enums": ["KbdVariant"],
     "functions": ["defaultKeyboardKeyLabel"],
     "constants": [
       "keyboardShortcutDefaults",
       "keyboardShortcutDefaultSpacing",
       "keyboardShortcutDefaultKeyPadding",
+      "keyboardShortcutDefaultKeyRadius",
       "keyboardShortcutDefaultTextStyle",
       "keyboardShortcutThemeOverrides",
       "keyboardKeyCapKey",
@@ -50,13 +51,16 @@
     "userFile": "keyboard_shortcut_theme.dart",
     "defaults": "keyboardShortcutDefaults",
     "fields": {
-      "spacing": "double? - null = 2 (shadcn gap-0.5)",
-      "keyPadding": "EdgeInsetsGeometry? - null = symmetric(6, 4) (shadcn px-1.5 py-0.5)",
-      "keyBackground": "ThemedColor? - null = background at 70% alpha",
+      "spacing": "double? - null = 4 (shadcn gap-1)",
+      "keyPadding": "EdgeInsetsGeometry? - null = symmetric(6, 2) (shadcn px-1.5 py-0.5; h-5 with the text-xs line)",
+      "keyBackground": "ThemedColor? - null = per variant: the muted token (subtle) or none (ghost)",
       "keyForeground": "ThemedColor? - null = mutedForeground",
-      "keyBorderRadius": "BorderRadiusGeometry? - null = the ambient radiusMd",
-      "keyTextStyle": "TextStyle? - merged onto the default; null = text-xs (12, w500)",
-      "keyShadows": "List<BoxShadow>? - null = none (the shadcn look)"
+      "keyBorderColor": "ThemedColor? - null = border token",
+      "keyBorderWidth": "double? - null = 1 (0 hides the border)",
+      "keyBorderRadius": "BorderRadiusGeometry? - null = fixed 4 px (preset-independent kbd rounding)",
+      "keyTextStyle": "TextStyle? - merged onto the default; null = text-xs (12 on a 16px line, w500) in the ambient mono face",
+      "keyShadows": "List<BoxShadow>? - null = none (the shadcn look)",
+      "variant": "KbdVariant? - null = subtle (muted fill); ghost paints no fill"
     }
   },
   "notes": [

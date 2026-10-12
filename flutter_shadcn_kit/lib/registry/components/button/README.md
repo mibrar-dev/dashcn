@@ -44,6 +44,44 @@ ButtonGroup(
 );
 ```
 
+Async work with the status machine (idle → loading → success/failure):
+
+```dart
+Button(
+  onPressedAsync: () async {
+    await save();
+  },
+  successLabel: const Text('Saved'),
+  onAsyncError: (Object error, StackTrace stack) => log(error),
+  child: const Text('Save changes'),
+);
+```
+
+Controlled status (the parent owns the machine):
+
+```dart
+Button(
+  status: state,
+  onPressed: advance,
+  child: const Text('Checkout'),
+);
+```
+
+Validated form submit (return = success, throw = failure):
+
+```dart
+Button(
+  onPressedAsync: () async {
+    final SubmissionResult result = await controller.submit(context);
+    if (!result.isValid) {
+      focusFirstInvalid(result.errors);
+      throw StateError('Submit failed: form is invalid.');
+    }
+  },
+  child: const Text('Sign in'),
+);
+```
+
 ## `Button` API
 
 | Parameter | Type | Default | Notes |
@@ -52,6 +90,12 @@ ButtonGroup(
 | `variant` | `ButtonVariant` | `primary` | `primary, secondary, outline, ghost, link, text, destructive` |
 | `size` | `ButtonSize` | `md` | `xs, sm, md, lg, icon` (icon = square 36) |
 | `onPressed` | `VoidCallback?` | null | null disables unless `enabled` is set |
+| `onPressedAsync` | `Future<void> Function()?` | null | return = success, throw = failure; loading disables |
+| `status` | `ButtonStatus?` | null | non-null = controlled, parent owns the machine |
+| `successLabel` / `failureLabel` | `Widget?` | null | replaces the label in that state; null keeps `child` |
+| `statusResetDuration` | `Duration?` | 1.5s | auto-reset to idle; null stays on the end state |
+| `onStatusChanged` | `ValueChanged<ButtonStatus>?` | null | every status entered, from either leg |
+| `onAsyncError` | `Function(Object, StackTrace)?` | null | error thrown by `onPressedAsync` |
 | `onLongPress` | `VoidCallback?` | null | ignored while disabled |
 | `onHover` / `onFocusChange` | `ValueChanged<bool>?` | null | observation only |
 | `leading` / `trailing` | `Widget?` | null | auto-spaced with `theme.spacing.sm` |
@@ -80,11 +124,46 @@ it). All sizes use 14 / w500 text.
 Global `Density.baseContentPadding` scales the padding; `ButtonTheme` may
 override `padding` and `textStyle` per variant.
 
+## Status machine
+
+`enum ButtonStatus { idle, loading, success, failure }`.
+
+Uncontrolled (`onPressedAsync`): press enters loading synchronously — the
+button hugs the spinner + gap + label and disables — then success (check
+icon + gap + label, optional `successLabel`) or failure (x icon + gap +
+label, destructive tint for non-destructive variants, optional
+`failureLabel`). The width glides between states (`AnimatedSize` ease-out
+over the status transition; instant under reduced motion); siblings in a
+row move with the animation and full-width buttons keep the parent width.
+A parent narrower than the content shrinks the label (it wraps) instead of
+overflowing; roomy layouts hug the full label exactly as before. The
+thrown error reaches `onAsyncError` and is never rethrown. Success/failure
+auto-reset to idle after `statusResetDuration` (default 1.5s; null stays).
+`onStatusChanged` fires for every transition.
+
+Controlled (`status:`): the button renders the parent-owned status and never
+changes it internally; `onPressedAsync` still runs as the press trigger
+(errors go to `onAsyncError`). Loading still disables the button.
+
+Icon buttons (icon size, no leading/trailing) cross-fade the child itself
+inside the fixed 36 box; `ButtonGroup` items share the same core. `Toggle`
+is a separate component and stays out of this machine.
+
+Motion and a11y: the width glides over 150–200ms (`AnimatedSize` ease-out;
+instant under reduced motion) while the incoming icon/label fades in over
+`ButtonStatusStyle.transitionDuration` (zero under reduced motion, when the
+loading spinner is replaced by a static glyph); the outgoing visual drops
+instantly so no stale spinner or announcement lingers in the tree. Status
+changes announce through a live region (`Loading`/`Success`/`Failure`); the
+row follows text direction (RTL mirrors the icon).
+
 ## Theme resolution
 
 `widget (theme:) > ComponentTheme<ButtonTheme> in tree > app overrides
 (button_theme.dart through ComponentThemes) > buttonDefaults`, merged per
-field and per state with receiver-wins `Mergeable.merge`. Disabled is not a
+field and per state with receiver-wins `Mergeable.merge`. The `status` slice
+resolves through the same legs (`widget` leg carries no status; per-subtree
+and app legs do) against `buttonStatusDefaults`. Disabled is not a
 colour row: every `StateValue` falls back to `rest` and the whole button is
 drawn at `opacity 0.5` (shadcn `disabled:opacity-50`).
 
@@ -96,6 +175,12 @@ drawn at `opacity 0.5` (shadcn `disabled:opacity-50`).
 | `borderColor` / `borderWidth` | outline: `input` / 1.0; others none |
 | `decoration` | link: underline on hover/press |
 | `padding` / `textStyle` | null = size table |
+| `status` | cross-variant async visuals (`ButtonStatusStyle`) |
+| `status.spinnerSize` / `status.statusIconSize` | 16 / 16 |
+| `status.successIcon` / `status.failureIcon` / `status.loadingIcon` | check / x / loaderCircle (static glyph under reduced motion) |
+| `status.successColor` / `status.loadingColor` | null = button foreground |
+| `status.failureColor` | null = destructive (foreground for the destructive variant) |
+| `status.transitionDuration` | 175ms cross-fade |
 
 ## Differences from the old button (`registry/components/control/button`)
 

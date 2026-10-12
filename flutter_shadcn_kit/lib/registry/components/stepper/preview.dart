@@ -64,9 +64,11 @@ class _SizesStepperState extends State<_SizesStepper> {
   @override
   Widget build(BuildContext context) {
     final spacing = ShadcnTheme.of(context).spacing;
+    // P7-TH1: centred column — the full-width steppers define the box and
+    // the labels sit under them instead of stranding at x=0.
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         for (final StepperSize size in StepperSize.values) ...<Widget>[
           Text('${size.name} (${size.indicatorSize}px)'),

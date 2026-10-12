@@ -78,7 +78,7 @@ class IntroductionPage extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'the ${kStats.components} reference pages are built from '
+                      'the ${kStats.listedComponents} reference pages are built from '
                       'the registry manifest, never hand-written.',
                 ),
               ],

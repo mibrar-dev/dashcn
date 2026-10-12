@@ -52,7 +52,8 @@ class AlertDialogTheme extends ComponentThemeData
   /// Space between the title and the description. Default: 8.
   final double? headerGap;
 
-  /// Space between the header block and the footer action row. Default: 24.
+  /// Space between the header block and the footer action row.
+  /// Default: 16 (shadcn `gap-4`).
   final double? footerGap;
 
   /// Space between the footer action buttons. Default: 8.
@@ -200,7 +201,7 @@ const AlertDialogTheme alertDialogDefaults = AlertDialogTheme(
   descriptionStyle: alertDialogDefaultDescriptionStyle,
   iconGap: 16,
   headerGap: 8,
-  footerGap: 24,
+  footerGap: 16,
   actionGap: 8,
   footerAlignment: MainAxisAlignment.end,
 );

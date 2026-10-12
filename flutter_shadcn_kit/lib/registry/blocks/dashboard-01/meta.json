@@ -20,6 +20,7 @@
     "primitives": [],
     "components": [
       "avatar",
+      "badge",
       "button",
       "card",
       "divider",
@@ -30,6 +31,7 @@
   "files": [
     "dashboard_01.dart",
     "dashboard_01_table.dart",
+    "dashboard_01_shell.dart",
     "README.md"
   ]
 }

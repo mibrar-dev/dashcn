@@ -9,6 +9,9 @@
 //
 // P7-C2: every example is live — a press is counted in the button's own label
 // (or in a status line under the row), so the demo shows the callback firing.
+//
+// P7-S1: the status demos live in `preview_status.dart`; each rests at idle
+// (settle-safe: no spinner or timer on the first frame).
 
 import 'package:flutter/widgets.dart';
 
@@ -17,6 +20,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'button.dart';
+import 'preview_status.dart';
 
 /// One button whose label counts the presses the example owns.
 class _PressableButton extends StatefulWidget {
@@ -197,18 +201,6 @@ class _ButtonSizesState extends State<_ButtonSizes> {
   }
 }
 
-/// A pending button: disabled with a loader glyph, the shadcn pattern.
-Widget _buttonLoading(BuildContext context) {
-  return const Align(
-    alignment: Alignment.center,
-    child: Button(
-      enabled: false,
-      leading: Icon(LucideIcons.loaderCircle, size: 16),
-      child: Text('Loading...'),
-    ),
-  );
-}
-
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
   return const Align(
@@ -223,6 +215,17 @@ Widget _buttonWithIcon(BuildContext context) => const _ButtonWithIcon();
 
 Widget _buttonSizes(BuildContext context) => const _ButtonSizes();
 
+Widget _buttonLoading(BuildContext context) => const ButtonLoadingPreview();
+
+Widget _buttonAsyncSuccess(BuildContext context) =>
+    const ButtonAsyncSuccessPreview();
+
+Widget _buttonAsyncFailure(BuildContext context) =>
+    const ButtonAsyncFailurePreview();
+
+Widget _buttonControlledStatus(BuildContext context) =>
+    const ButtonControlledStatusPreview();
+
 /// Named docs examples for `button`; the first entry is the default.
 const List<ComponentPreview> buttonPreviews = <ComponentPreview>[
   ComponentPreview('Default', _buttonDefault),
@@ -235,5 +238,8 @@ const List<ComponentPreview> buttonPreviews = <ComponentPreview>[
   ComponentPreview('With icon', _buttonWithIcon),
   ComponentPreview('Sizes', _buttonSizes),
   ComponentPreview('Loading', _buttonLoading),
+  ComponentPreview('Async (success)', _buttonAsyncSuccess),
+  ComponentPreview('Async (failure)', _buttonAsyncFailure),
+  ComponentPreview('Controlled status', _buttonControlledStatus),
   ComponentPreview('Disabled', _buttonDisabled),
 ];

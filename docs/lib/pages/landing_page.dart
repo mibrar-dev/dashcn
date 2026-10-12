@@ -1,7 +1,10 @@
-// Landing page (spec §2.1): announcement badge → H1 → description → two pill
+// Landing page (spec §2.1): announcement badge → H1 → description → two
 // CTAs → the live collage. The stats band, marquee, feature grid, steps, CTA
 // band and 4-column footer are deleted per spec §5.1; the one-line footer
 // lives in the shell.
+//
+// P7-TH1: the hero CTAs are plain registry `Button`s, so they follow the
+// active theme radius (buttons = radiusMd) instead of forcing pills.
 
 import 'package:flutter/widgets.dart';
 
@@ -41,11 +44,12 @@ class LandingPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Announcement(
-                  label: '${kStats.components} components ready to install',
+                  label:
+                      '${kStats.listedComponents} components ready to install',
                   onPressed: () =>
                       DocsRouterScope.of(context).go(context, '/docs'),
                 ),
-                Gap(xl ? 16 : 8),
+                Gap(xl ? theme.spacing.lg : theme.spacing.sm),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
                   child: Text(
@@ -61,7 +65,7 @@ class LandingPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Gap(xl ? 16 : 8),
+                Gap(xl ? theme.spacing.lg : theme.spacing.sm),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
                   // The reference balances this paragraph into two near-equal
@@ -83,8 +87,9 @@ class LandingPage extends StatelessWidget {
                 const Gap(20),
                 Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 8,
-                  runSpacing: 8,
+                  // P7-TH1: CTA spacing follows the theme (gap-2).
+                  spacing: theme.spacing.sm,
+                  runSpacing: theme.spacing.sm,
                   children: <Widget>[
                     _PillButton(
                       label: 'Get Started',
@@ -129,18 +134,13 @@ class _PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShadcnThemeData theme = ShadcnTheme.of(context);
-    // The reference CTAs are 35/36 px pills (radius 26). The registry button
-    // derives its radius from the `radius` token, so the token is scoped to
-    // this subtree: radiusMd = 1.25 * 16 - 2 = 18 = half of the 36 px box.
-    return ShadcnTheme(
-      data: theme.copyWith(tokens: () => theme.tokens.copyWith(radius: 1.25)),
-      child: Button(
-        variant: primary ? ButtonVariant.primary : ButtonVariant.secondary,
-        size: ButtonSize.md,
-        onPressed: onPressed,
-        child: Text(label),
-      ),
+    // P7-TH1: plain registry buttons — the radius comes from the active
+    // theme (radiusMd), so Theme Studio radius 0 → 1rem reshapes the hero.
+    return Button(
+      variant: primary ? ButtonVariant.primary : ButtonVariant.secondary,
+      size: ButtonSize.md,
+      onPressed: onPressed,
+      child: Text(label),
     );
   }
 }

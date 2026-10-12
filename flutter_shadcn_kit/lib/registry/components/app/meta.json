@@ -12,7 +12,7 @@
     "foundation": ["constants"],
     "theme": ["density", "theme"],
     "primitives": ["localizations", "overlay", "overlay_manager_layer"],
-    "components": []
+    "components": ["eye_dropper"]
   },
   "files": ["app.dart", "preview.dart"],
   "api": {

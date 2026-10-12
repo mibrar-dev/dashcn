@@ -35,8 +35,11 @@ class _Pane extends StatelessWidget {
 
 /// Panes sized in absolute pixels.
 Widget _absolute(BuildContext context) {
+  // P7-TH1: the box hugs the declared sizes (120 + 1px handle + 200) so the
+  // demo centres exactly; a wider box would strand transparent leftover on
+  // the right because absolute panels pack from the start.
   return const SizedBox(
-    width: 360,
+    width: 321,
     height: 140,
     child: ResizablePanelGroup(
       children: <Widget>[

@@ -32,3 +32,50 @@ const String kDocsBrightnessKey = 'docs.theme.brightness';
 /// reload then restores exactly what the user built, including fonts, shadow
 /// atoms and both colour blocks.
 const String kDocsThemeDocumentKey = 'docs.theme.document';
+
+/// localStorage key of the Theme Studio switch animation (P7-TS1).
+///
+/// Chrome, not content: it is stored beside the document (never inside it),
+/// so it survives `Reset` and never leaks into `Get Code` exports.
+const String kDocsTransitionKey = 'docs.theme.transition';
+
+/// How a site-wide theme switch animates (P7-TS1, rail `Transition` row).
+///
+/// Every variant is snapshot based — the content tree builds exactly once
+/// per commit and only the old frame's raster animates — and reduced motion
+/// always swaps instantly regardless of the choice.
+enum DocsThemeTransition {
+  /// Instant swap, no snapshot, no animation.
+  none,
+
+  /// The old frame fades over the new one (~250 ms).
+  fade,
+
+  /// An expanding hole reveals the new frame from the tap point (~350 ms).
+  circular,
+
+  /// The old frame slides away, revealing the new one (~300 ms).
+  wipe,
+
+  /// The old frame blurs as it dissolves into the new one (~300 ms).
+  blur;
+
+  /// Parses a stored [name]; unknown values fall back to [fade].
+  static DocsThemeTransition parse(String? name) => switch (name) {
+    'none' => DocsThemeTransition.none,
+    'circular' => DocsThemeTransition.circular,
+    'wipe' => DocsThemeTransition.wipe,
+    'blur' => DocsThemeTransition.blur,
+    _ => DocsThemeTransition.fade,
+  };
+}
+
+/// The rail label of [transition].
+String docsTransitionLabel(DocsThemeTransition transition) =>
+    switch (transition) {
+      DocsThemeTransition.none => 'None',
+      DocsThemeTransition.fade => 'Fade',
+      DocsThemeTransition.circular => 'Circular',
+      DocsThemeTransition.wipe => 'Wipe',
+      DocsThemeTransition.blur => 'Blur',
+    };

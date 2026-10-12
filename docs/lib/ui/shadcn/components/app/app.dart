@@ -34,6 +34,7 @@ import '../../primitives/overlay.dart';
 import '../../primitives/overlay_manager_layer.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
+import '../eye_dropper/eye_dropper.dart';
 
 /// Default text and icon style scope for shadcn apps.
 ///
@@ -298,6 +299,10 @@ class ShadcnApp extends StatelessWidget {
       result = builder!(context, result);
     }
     result = ShadcnUI(child: result);
+    // Whole-app eye-dropper sampling: the root layer's RepaintBoundary is the
+    // capture source and its loupe + crosshair cover the entire window — above
+    // popovers too. Nested `EyeDropperLayer`s delegate sessions here.
+    result = EyeDropperLayer(child: result);
     result = enableThemeAnimation
         ? AnimatedShadcnTheme(
             data: data,

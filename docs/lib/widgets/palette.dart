@@ -463,7 +463,8 @@ class _KeyCap extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: theme.colors.border),
-        borderRadius: BorderRadius.circular(4),
+        // P7-TH1: key caps use the small radius token.
+        borderRadius: theme.borderRadiusSm,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),

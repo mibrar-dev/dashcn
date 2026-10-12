@@ -27,8 +27,9 @@ final ImageProvider _imagePhoto = MemoryImage(base64Decode(_imagePhotoBase64));
 
 /// The default square avatar-shaped image.
 Widget _imageDefault(BuildContext context) {
+  // P7-TH1: centred in the stage (was centerStart).
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: ShadcnImage(
       image: _imagePhoto,
       width: 96,
@@ -83,8 +84,9 @@ Widget _imageSlots(BuildContext context) {
 /// The default image with the theme border radius.
 Widget _imageRounded(BuildContext context) {
   final theme = ShadcnTheme.of(context);
+  // P7-TH1: centred in the stage (was centerStart).
   return Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: ShadcnImage(
       image: _imagePhoto,
       width: 96,

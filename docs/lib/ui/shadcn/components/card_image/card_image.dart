@@ -12,6 +12,10 @@
 //     matches the old fixed look.
 //   * `_CardImageState` created a `WidgetStatesController` and never disposed
 //     it. The hover state is driven by `Button.onHover` now; no controller.
+//   * P7-WB: the content was wrapped in `IntrinsicWidth` so the card collapsed
+//     to the title's intrinsic width — a tall thin bar even inside a bounded
+//     box. The vertical image surface keeps the theme `aspectRatio` (16/9)
+//     and fills the card width now; the intrinsic wrapper is gone.
 
 import 'package:flutter/widgets.dart';
 
@@ -101,6 +105,8 @@ class _CardImageState extends State<CardImage> {
     final double hoverScale = resolved.hoverScale ?? cardImageDefaultHoverScale;
     final double normalScale = resolved.normalScale ?? 1;
     final double gap = resolved.gap ?? cardImageDefaultGap;
+    final double aspectRatio =
+        resolved.aspectRatio ?? cardImageDefaultAspectRatio;
 
     final Widget image = OutlinedContainer(
       backgroundColor: resolved.imageBackground,
@@ -114,23 +120,38 @@ class _CardImageState extends State<CardImage> {
       ),
     );
 
-    final Widget content = _wrapIntrinsic(
-      Flex(
-        direction: direction,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Flexible(child: image),
-          Gap(gap),
-          Basic(
-            title: widget.title,
-            subtitle: widget.subtitle,
-            trailing: widget.trailing,
-            leading: widget.leading,
-          ),
-        ],
-      ),
-      direction,
+    // Vertical: the image surface keeps the theme aspect ratio and fills the
+    // card width, so the card follows a bounded parent instead of collapsing
+    // to the text width. (P7-WB: the old `IntrinsicWidth` shrank the card to
+    // the title's intrinsic width — a tall thin bar even inside a 220px box.)
+    // A fully unbounded parent (both axes loose, e.g. a `Row`) cannot resolve
+    // a ratio — `RenderAspectRatio` throws there — so the image keeps its
+    // natural size in that case; bound the card's width instead.
+    final Widget media = direction == Axis.vertical
+        ? LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.hasBoundedWidth || constraints.hasBoundedHeight) {
+                return AspectRatio(aspectRatio: aspectRatio, child: image);
+              }
+              return image;
+            },
+          )
+        : image;
+
+    final Widget content = Flex(
+      direction: direction,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (direction == Axis.vertical) media else Flexible(child: media),
+        Gap(gap),
+        Basic(
+          title: widget.title,
+          subtitle: widget.subtitle,
+          trailing: widget.trailing,
+          leading: widget.leading,
+        ),
+      ],
     );
 
     return Button(
@@ -142,7 +163,12 @@ class _CardImageState extends State<CardImage> {
       focusNode: widget.focusNode,
       autofocus: widget.autofocus,
       onHover: _handleHover,
-      child: content,
+      // Horizontal: the stretched children need a bounded height, which the
+      // image's intrinsic height provides (a bare `Row` under an unbounded
+      // parent hands `Gap` an infinite height and throws).
+      child: direction == Axis.horizontal
+          ? IntrinsicHeight(child: content)
+          : content,
     );
   }
 
@@ -151,13 +177,5 @@ class _CardImageState extends State<CardImage> {
       return;
     }
     setState(() => _hovered = hovered);
-  }
-
-  /// Cross-axis intrinsic sizing so the stretched children agree on a width
-  /// (vertical) or a height (horizontal).
-  Widget _wrapIntrinsic(Widget child, Axis direction) {
-    return direction == Axis.horizontal
-        ? IntrinsicHeight(child: child)
-        : IntrinsicWidth(child: child);
   }
 }

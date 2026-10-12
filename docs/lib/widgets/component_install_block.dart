@@ -49,11 +49,13 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
   @override
   Widget build(BuildContext context) {
     final DocsFileList files = kComponentFileLists[widget.componentId]!;
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const HeadingAnchor(id: 'installation', title: 'Installation'),
-        const Gap(16),
+        // P7-TH1: section gaps follow the theme (lg/md).
+        Gap(theme.spacing.lg),
         // Spec §2.4: the Command|Manual line tabs sit ABOVE the figure
         // (`TabsList` is transparent), not inside its header row.
         Row(
@@ -71,7 +73,7 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
             ),
           ],
         ),
-        const Gap(12),
+        Gap(ShadcnTheme.of(context).spacing.md),
         _InstallFigure(
           lineTab: _lineTab,
           pillTab: _pillTab,
@@ -106,7 +108,8 @@ class _InstallFigure extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: site.codeSurface,
-        borderRadius: BorderRadius.circular(18),
+        // P7-TH1: install block uses the card radius token (rounded-lg).
+        borderRadius: theme.borderRadiusLg,
         border: Border.all(color: theme.colors.border.withValues(alpha: 0.3)),
       ),
       child: Column(
@@ -120,7 +123,10 @@ class _InstallFigure extends StatelessWidget {
                 ),
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: theme.spacing.md,
+              vertical: theme.spacing.sm,
+            ),
             child: Row(
               children: <Widget>[
                 Icon(
@@ -128,7 +134,7 @@ class _InstallFigure extends StatelessWidget {
                   size: 16,
                   color: theme.colors.foreground.withValues(alpha: 0.7),
                 ),
-                const Gap(8),
+                Gap(theme.spacing.sm),
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -136,7 +142,8 @@ class _InstallFigure extends StatelessWidget {
                       children: <Widget>[
                         for (int i = 0; i < _packageManagers.length; i++)
                           Padding(
-                            padding: const EdgeInsets.only(left: 4),
+                            // P7-TH1: pill gaps follow the theme (gap-1).
+                            padding: EdgeInsets.only(left: theme.spacing.xs),
                             child: _PillTab(
                               label: _packageManagers[i],
                               selected: pillTab == i,
@@ -147,7 +154,7 @@ class _InstallFigure extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Gap(8),
+                Gap(theme.spacing.sm),
                 CopyButton(
                   text: command,
                   variant: ButtonVariant.ghost,
@@ -217,7 +224,8 @@ class _InstallBody extends StatelessWidget {
           children: <Widget>[
             for (final String file in files.files)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                // P7-TH1: file row gaps follow the theme (gap-1).
+                padding: EdgeInsets.only(bottom: theme.spacing.xs),
                 child: Text(
                   file,
                   style: theme.typography.mono.copyWith(fontSize: 13),
@@ -225,7 +233,7 @@ class _InstallBody extends StatelessWidget {
               ),
             for (final String file in files.userOwned)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                padding: EdgeInsets.only(bottom: theme.spacing.xs),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -235,7 +243,7 @@ class _InstallBody extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Gap(8),
+                    Gap(theme.spacing.sm),
                     Badge(
                       variant: BadgeVariant.outline,
                       child: const Text('user-owned'),
@@ -243,7 +251,7 @@ class _InstallBody extends StatelessWidget {
                   ],
                 ),
               ),
-            const Gap(8),
+            Gap(theme.spacing.sm),
             Text(
               kUserOwnedNote,
               style: docsText(
@@ -276,7 +284,11 @@ class _LineTab extends StatelessWidget {
     return Clickable(
       onPressed: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        // P7-TH1: tab insets follow the theme (sm/xs).
+        padding: EdgeInsets.symmetric(
+          horizontal: theme.spacing.sm,
+          vertical: theme.spacing.xs,
+        ),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -318,13 +330,18 @@ class _PillTab extends StatelessWidget {
     return Clickable(
       onPressed: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        // P7-TH1: tab insets follow the theme (sm/xs).
+        padding: EdgeInsets.symmetric(
+          horizontal: theme.spacing.sm,
+          vertical: theme.spacing.xs,
+        ),
         decoration: BoxDecoration(
           color: selected ? theme.colors.background : const Color(0x00000000),
           border: Border.all(
             color: selected ? theme.colors.input : const Color(0x00000000),
           ),
-          borderRadius: BorderRadius.circular(6),
+          // P7-TH1: pill tabs use the md radius token.
+          borderRadius: theme.borderRadiusMd,
         ),
         child: Text(
           label,

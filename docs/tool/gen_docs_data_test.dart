@@ -473,6 +473,10 @@ void main() {
 
   test('catalog is complete and self-consistent', () {
     expect(kStats.components, kComponents.length);
+    expect(
+      kStats.listedComponents,
+      kComponents.where((DocsComponent c) => c.listed).length,
+    );
     expect(kStats.presets, kPresets.length);
     expect(kStats.presets, 43);
     expect(kStats.materialImports, 0);

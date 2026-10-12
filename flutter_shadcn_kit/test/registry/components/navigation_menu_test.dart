@@ -1,9 +1,9 @@
 // Widget tests for the `navigation_menu` component.
 //
-// Covers bar rendering, hover/click popover presentation, content actions,
+// Covers bar rendering, hover/press popover presentation, content actions,
 // Escape dismissal, the content list grid and the four theme-precedence
-// legs. Regression tests cover the retired pieces: no `overlay_configuration`
-// adaptive path and `Button`-based triggers (no style closures).
+// legs. Geometry tests pin the shadcn contract: the panel hugs its content
+// (never the window width), sits below the bar and starts at the trigger.
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
@@ -69,6 +69,49 @@ NavigationMenu _menu({void Function()? onHome, void Function()? onContent}) {
   );
 }
 
+/// Dropdown-first bar: the open trigger starts at the bar's start edge, so
+/// the panel's left edge must match the bar's.
+NavigationMenu _startMenu() {
+  const List<Widget> entries = <Widget>[
+    NavigationMenuContent(
+      title: Text('Alert Dialog'),
+      content: Text('A modal dialog that interrupts the user'),
+    ),
+    NavigationMenuContent(
+      title: Text('Hover Card'),
+      content: Text('For sighted users to preview content'),
+    ),
+    NavigationMenuContent(
+      title: Text('Progress'),
+      content: Text('Displays an indicator showing progress'),
+    ),
+    NavigationMenuContent(
+      title: Text('Scroll Area'),
+      content: Text('Visually separates content into sections'),
+    ),
+    NavigationMenuContent(
+      title: Text('Tabs'),
+      content: Text('A set of layered sections of content'),
+    ),
+    NavigationMenuContent(
+      title: Text('Tooltip'),
+      content: Text('A popup that displays information'),
+    ),
+  ];
+  return NavigationMenu(
+    children: <Widget>[
+      NavigationMenuItem(
+        content: const NavigationMenuContentList(
+          crossAxisCount: 2,
+          children: entries,
+        ),
+        child: const Text('Components'),
+      ),
+      NavigationMenuItem(onPressed: () {}, child: const Text('Docs')),
+    ],
+  );
+}
+
 /// Parks a mouse pointer ready to move; one gesture per test (a second
 /// simultaneous pointer confuses enter/exit tracking).
 Future<TestGesture> _mouse(WidgetTester tester) async {
@@ -92,6 +135,14 @@ Future<void> _moveTo(
   for (var i = 0; i < frames; i++) {
     await tester.pump(const Duration(milliseconds: 50));
   }
+}
+
+/// Opens the first dropdown of [_startMenu] and returns the panel rect.
+Future<Rect> _openStartPanel(WidgetTester tester) async {
+  await tester.pumpWidget(_frame(child: _startMenu()));
+  final TestGesture mouse = await _mouse(tester);
+  await _moveTo(tester, mouse, find.text('Components'));
+  return tester.getRect(find.byType(OutlinedContainer));
 }
 
 void main() {
@@ -133,12 +184,35 @@ void main() {
       expect(find.text('Web Apps'), findsOneWidget);
     });
 
+    testWidgets('hover waits for the open delay', (tester) async {
+      await tester.pumpWidget(_frame(child: _menu()));
+      final TestGesture mouse = await _mouse(tester);
+      await mouse.moveTo(tester.getCenter(find.text('Products')));
+      await tester.pump(const Duration(milliseconds: 10));
+      expect(find.byType(OutlinedContainer), findsNothing);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.byType(OutlinedContainer), findsOneWidget);
+    });
+
     testWidgets('hovering the action entry closes the popover', (tester) async {
       await tester.pumpWidget(_frame(child: _menu()));
       final TestGesture mouse = await _mouse(tester);
       await _moveTo(tester, mouse, find.text('Products'));
       expect(find.byType(OutlinedContainer), findsOneWidget);
       await _moveTo(tester, mouse, find.text('Home'), frames: 10);
+      expect(find.byType(OutlinedContainer), findsNothing);
+    });
+
+    testWidgets('press toggles the content surface', (tester) async {
+      await tester.pumpWidget(_frame(child: _menu()));
+      await tester.tap(find.text('Products'));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(OutlinedContainer), findsOneWidget);
+      await tester.tap(find.text('Products'));
+      // Two frames: the exit animation starts on the first, removes on the
+      // second.
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       expect(find.byType(OutlinedContainer), findsNothing);
     });
 
@@ -183,7 +257,132 @@ void main() {
     });
   });
 
-  group('keyboard and disabled', () {
+  group('panel geometry', () {
+    testWidgets('hugs the content instead of the window', (tester) async {
+      final Rect panel = await _openStartPanel(tester);
+      expect(panel.width, greaterThan(400));
+      expect(panel.width, lessThan(500));
+      expect(panel.width, lessThan(800));
+    });
+
+    testWidgets('starts at the menu start, below the bar', (tester) async {
+      await tester.pumpWidget(_frame(child: _startMenu()));
+      final Rect bar = tester.getRect(find.byType(NavigationMenu));
+      final Rect panel = await _openStartPanel(tester);
+      expect((panel.left - bar.left).abs(), lessThanOrEqualTo(16));
+      expect(panel.top, greaterThanOrEqualTo(bar.bottom - 1));
+    });
+
+    testWidgets('small content hugs instead of stretching', (tester) async {
+      await tester.pumpWidget(_frame(child: _menu()));
+      final TestGesture mouse = await _mouse(tester);
+      await _moveTo(tester, mouse, find.text('Products'));
+      final Rect panel = tester.getRect(find.byType(OutlinedContainer));
+      expect(panel.width, lessThan(480));
+      expect(panel.width, lessThan(800));
+    });
+
+    testWidgets('fits a narrow viewport', (tester) async {
+      tester.view.physicalSize = const Size(375, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final Rect panel = await _openStartPanel(tester);
+      expect(tester.takeException(), isNull);
+      expect(panel.width, lessThanOrEqualTo(375));
+      expect(panel.left, greaterThanOrEqualTo(0));
+      expect(panel.right, lessThanOrEqualTo(375));
+    });
+  });
+
+  group('keyboard', () {
+    testWidgets('arrows move across triggers and move the panel', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationMenu(
+            children: <Widget>[
+              NavigationMenuItem(onPressed: () {}, child: const Text('Home')),
+              NavigationMenuItem(
+                content: const Text('Panel body'),
+                child: const Text('Products'),
+              ),
+            ],
+          ),
+        ),
+      );
+      final NavigationMenuItemState home = tester.state(
+        find.byType(NavigationMenuItem).first,
+      );
+      final NavigationMenuItemState products = tester.state(
+        find.byType(NavigationMenuItem).last,
+      );
+      home.focusNode.requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Panel body'), findsOneWidget);
+      expect(products.focusNode.hasFocus, isTrue);
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(OutlinedContainer), findsNothing);
+    });
+
+    testWidgets('Down opens the panel from the trigger', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationMenu(
+            children: <Widget>[
+              NavigationMenuItem(
+                content: const Text('Panel body'),
+                child: const Text('Products'),
+              ),
+            ],
+          ),
+        ),
+      );
+      final NavigationMenuItemState products = tester.state(
+        find.byType(NavigationMenuItem),
+      );
+      products.focusNode.requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Panel body'), findsOneWidget);
+    });
+
+    testWidgets('Escape closes and returns focus to the trigger', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationMenu(
+            children: <Widget>[
+              NavigationMenuItem(
+                content: const Text('Panel body'),
+                child: const Text('Products'),
+              ),
+            ],
+          ),
+        ),
+      );
+      final NavigationMenuItemState products = tester.state(
+        find.byType(NavigationMenuItem),
+      );
+      products.focusNode.requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(OutlinedContainer), findsOneWidget);
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(OutlinedContainer), findsNothing);
+      expect(products.focusNode.hasFocus, isTrue);
+    });
+
     testWidgets('Escape closes the open popover', (tester) async {
       await tester.pumpWidget(
         _frame(
@@ -240,6 +439,23 @@ void main() {
       expect(find.text('B'), findsOneWidget);
       expect(find.text('C'), findsOneWidget);
       expect(find.byType(Row), findsWidgets);
+    });
+
+    testWidgets('clamps descriptions to two lines', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationMenuContent(
+            title: const Text('Web Apps'),
+            content: const Text('Ship in the browser'),
+            onPressed: () {},
+          ),
+        ),
+      );
+      final Text description = tester.widget<Text>(
+        find.text('Ship in the browser'),
+      );
+      expect(description.maxLines, 2);
+      expect(description.overflow, TextOverflow.ellipsis);
     });
   });
 

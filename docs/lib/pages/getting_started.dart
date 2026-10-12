@@ -165,7 +165,8 @@ class _StepCounter extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: site.codeSurface,
-              borderRadius: BorderRadius.circular(18),
+              // P7-TH1: code figures use the card radius token (rounded-lg).
+              borderRadius: theme.borderRadiusLg,
               border: Border.all(
                 color: theme.colors.border.withValues(alpha: 0.3),
               ),

@@ -10,7 +10,6 @@ import '../../components/alert/alert.dart';
 import '../../components/button/button.dart';
 import '../../components/form/form.dart';
 import '../../components/input_otp/input_otp.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -43,7 +42,6 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
 
   final FormController _controller = FormController();
   final FormKey<String> _codeKey = const FormKey<String>('promoCode');
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
@@ -52,21 +50,17 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
     super.dispose();
   }
 
-  Future<void> _apply() async {
-    if (_submitting) {
-      return;
+  /// Validates and applies; false when invalid. The button maps false to
+  /// its failure state; the keyboard path just surfaces field errors.
+  Future<bool> _apply() async {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
+    final SubmissionResult result = await _controller.submit(context);
+    if (!mounted) {
+      return false;
     }
+    return result.isValid;
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -118,17 +112,12 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
             Gap(theme.spacing.lg),
             Button(
               variant: ButtonVariant.outline,
-              onPressed: _submitting ? null : _apply,
-              child: _submitting
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Spinner(size: 14, color: theme.colors.foreground),
-                        Gap(theme.spacing.sm),
-                        const Text('Applying'),
-                      ],
-                    )
-                  : const Text('Apply code'),
+              onPressedAsync: () async {
+                if (!await _apply()) {
+                  throw StateError('Pricing01Promo: validation failed.');
+                }
+              },
+              child: const Text('Apply code'),
             ),
             if (_succeeded) ...<Widget>[
               Gap(theme.spacing.lg),

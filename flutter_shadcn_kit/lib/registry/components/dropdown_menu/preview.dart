@@ -38,9 +38,13 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadcnTheme.of(context);
+    // P7-TH1: centred column — the 220px menu stays centred through the
+    // inner `Center`, and the status line centres under it (a `start`
+    // column would strand the status at x=0 once the `Center` expands the
+    // column to the full stage width).
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Center(
           child: SizedBox(

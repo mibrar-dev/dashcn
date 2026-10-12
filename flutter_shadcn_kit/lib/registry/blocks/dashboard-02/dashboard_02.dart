@@ -64,15 +64,105 @@ class Dashboard02 extends StatelessWidget {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const _Dashboard02ShellBar(),
+                    Gap(theme.spacing.lg),
+                    body,
+                  ],
+                ),
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    theme.spacing.lg,
+                    theme.spacing.md,
+                    theme.spacing.lg,
+                    0,
+                  ),
+                  child: const _Dashboard02ShellBar(),
+                ),
+                Gap(theme.spacing.md),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.lg,
+                      0,
+                      theme.spacing.lg,
+                      theme.spacing.lg,
+                    ),
+                    child: body,
+                  ),
+                ),
+              ],
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// The app-shell top bar: product mark, a report search and actions.
+class _Dashboard02ShellBar extends StatelessWidget {
+  /// Creates the shell bar.
+  const _Dashboard02ShellBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final ShadcnThemeData theme = ShadcnTheme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final bool showSearch = constraints.maxWidth >= 500;
+          return Row(
+            children: <Widget>[
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: theme.colors.primary,
+                  borderRadius: theme.borderRadiusSm,
+                ),
+                child: Text(
+                  'A',
+                  style: theme.typography.textSmall.copyWith(
+                    color: theme.colors.primaryForeground,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Gap(theme.spacing.sm),
+              Text(
+                'Acme Inc',
+                style: theme.typography.textSmall.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Spacer(),
+              if (showSearch) ...<Widget>[
+                const SizedBox(width: 200, child: Input(hintText: 'Search')),
+                Gap(theme.spacing.sm),
+              ],
+              Button(onPressed: () {}, child: const Text('Share')),
+            ],
+          );
+        },
       ),
     );
   }

@@ -40,12 +40,23 @@ Future<void> _pumpPreview(
   TextDirection direction = TextDirection.ltr,
   double width = 420,
 }) async {
+  // P7-WA: previews only render a trigger; the toast opens over the whole
+  // app through the app-level `ToastLayer`, so the harness hosts one (as the
+  // docs shell does) and the behaviour tests drive the trigger.
   await tester.pumpWidget(
-    _frame(
-      Builder(builder: preview.builder),
+    ShadcnTheme(
       data: data,
-      direction: direction,
-      width: width,
+      child: Directionality(
+        textDirection: direction,
+        child: ToastLayer(
+          child: Center(
+            child: SizedBox(
+              width: width,
+              child: Builder(builder: preview.builder),
+            ),
+          ),
+        ),
+      ),
     ),
   );
   await tester.pump();
@@ -57,6 +68,10 @@ Future<void> _pumpPreview(
     reason: 'preview "${preview.name}" threw',
   );
 }
+
+ComponentPreview _example(String name) => toastPreviews.firstWhere(
+  (ComponentPreview preview) => preview.name == name,
+);
 
 void main() {
   testWidgets('every preview pumps light + dark with no exception', (
@@ -83,11 +98,18 @@ void main() {
     }
   });
 
-  testWidgets('Default preview: mount toast shows, placement button fires', (
-    tester,
-  ) async {
-    await _pumpPreview(tester, toastPreviews[0]);
+  testWidgets('Default preview: trigger shows the toast', (tester) async {
+    await _pumpPreview(tester, _example('Default'));
+    expect(find.text('Saved to your workspace.'), findsNothing);
+    await tester.tap(find.text('Show toast'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(tester.takeException(), isNull);
     expect(find.text('Saved to your workspace.'), findsOneWidget);
+  });
+
+  testWidgets('Positions preview: placement button fires', (tester) async {
+    await _pumpPreview(tester, _example('Positions'));
     await tester.tap(find.text('bottomCenter'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
@@ -95,16 +117,28 @@ void main() {
     expect(find.textContaining('Toast at bottomCenter'), findsOneWidget);
   });
 
-  testWidgets('Destructive preview: error toast renders', (tester) async {
-    await _pumpPreview(tester, toastPreviews[1]);
+  testWidgets('Destructive preview: trigger shows the error toast', (
+    tester,
+  ) async {
+    await _pumpPreview(tester, _example('Destructive'));
+    expect(find.text('Could not save the file.'), findsNothing);
+    await tester.tap(find.text('Show destructive toast'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(tester.takeException(), isNull);
     expect(find.text('Could not save the file.'), findsOneWidget);
     expect(find.text('Show destructive toast'), findsOneWidget);
   });
 
-  testWidgets('With action preview: inline action button renders', (
+  testWidgets('With action preview: trigger shows the action toast', (
     tester,
   ) async {
-    await _pumpPreview(tester, toastPreviews[2]);
+    await _pumpPreview(tester, _example('With action'));
+    expect(find.text('Deployment started.'), findsNothing);
+    await tester.tap(find.text('Show toast with action'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(tester.takeException(), isNull);
     expect(find.text('Deployment started.'), findsOneWidget);
     expect(find.text('View'), findsOneWidget);
     expect(find.text('Show toast with action'), findsOneWidget);

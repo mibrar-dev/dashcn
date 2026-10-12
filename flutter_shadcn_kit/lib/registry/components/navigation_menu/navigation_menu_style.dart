@@ -43,7 +43,7 @@ class NavigationMenuTheme extends ComponentThemeData
   /// Padding inside the popover. Default: 0.75 density steps all around.
   final EdgeInsetsGeometry? padding;
 
-  /// Maximum popover width before wrapping. Default: unconstrained.
+  /// Maximum popover width before wrapping. Default: 480.
   final double? maxWidth;
 
   /// Returns a copy with the given fields replaced.
@@ -142,4 +142,5 @@ class NavigationMenuTheme extends ComponentThemeData
 const NavigationMenuTheme navigationMenuDefaults = NavigationMenuTheme(
   offset: Offset(0, 4),
   padding: EdgeInsetsDensity.all(0.75),
+  maxWidth: 480,
 );

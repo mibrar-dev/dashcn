@@ -1,10 +1,17 @@
-// Resize handles for the `table` component: the four drag targets around a
+// Resize handles for the `table` component: the drag targets around a
 // cell that resize its column and row boundaries.
 //
 // Ported from the old `cell_resizer.dart` + `cell_resizer_state_part1.dart`.
-// The four near-identical handles are built by one helper instead of four
-// copies, and the cell/table data is passed as arguments instead of read from
+// The near-identical handles are built by one helper instead of copies, and
+// the cell/table data is passed as arguments instead of read from
 // `Data`, so the widget has no hidden context dependency.
+//
+// Every divider paints two handles (the trailing edge of one cell and the
+// leading edge of its neighbour): a divider's exact centre sits on the
+// trailing cell's exclusive hit-test edge, so only the neighbour's handle is
+// hittable there and vice versa. The trailing edge additionally owns keyboard
+// focus (arrows/Home/End via `table_resize_keyboard.dart`), keeping one tab
+// stop per divider.
 
 import 'package:flutter/widgets.dart';
 
@@ -13,6 +20,7 @@ import '../../foundation/resizer.dart';
 import '../localizations/localizations.dart';
 import 'table_layout.dart';
 import 'table_resize_controller.dart';
+import 'table_resize_keyboard.dart';
 
 /// A hovered or dragged resize boundary.
 class TableResizeLine {
@@ -34,6 +42,9 @@ class TableResizeLine {
 
   @override
   int get hashCode => Object.hash(index, direction);
+
+  @override
+  String toString() => 'TableResizeLine($index, $direction)';
 }
 
 /// Reports a hover/drag change on a resize boundary.
@@ -121,6 +132,41 @@ class CellResizer extends StatefulWidget {
 class _CellResizerState extends State<CellResizer> {
   Resizer? _resizer;
   bool? _resizeRow;
+
+  /// Owned focus nodes, one per divider handle, so every divider a pointer
+  /// can drag stays tab-reachable and a test can drive it by node. Keyed by
+  /// axis and cell: every cell paints at most one handle per axis.
+  final Map<(bool, int, int), FocusNode> _focusNodes =
+      <(bool, int, int), FocusNode>{};
+
+  @override
+  void didUpdateWidget(covariant CellResizer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // The grid changed shape: cell positions moved, so drop the old nodes.
+    if (oldWidget.maxRow != widget.maxRow ||
+        oldWidget.maxColumn != widget.maxColumn) {
+      for (final FocusNode node in _focusNodes.values) {
+        node.dispose();
+      }
+      _focusNodes.clear();
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final FocusNode node in _focusNodes.values) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  FocusNode _nodeFor(bool rowAxis) {
+    return _focusNodes.putIfAbsent((
+      rowAxis,
+      widget.row,
+      widget.column,
+    ), () => FocusNode(debugLabel: 'table-resize-$rowAxis-${widget.row}'));
+  }
 
   void _start(bool rowAxis) {
     final List<ResizableItem> items = <ResizableItem>[];
@@ -222,34 +268,39 @@ class _CellResizerState extends State<CellResizer> {
         widget.widthMode == TableCellResizeMode.expand ||
         widget.column + widget.columnSpan <= widget.maxColumn;
     final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
+    // Both edges paint a handle: a divider's exact centre sits on the
+    // trailing cell's exclusive hit-test edge, so only the neighbour's
+    // leading handle is hittable there (and vice versa on its far sliver).
+    // The trailing edge owns keyboard focus; the leading edge mirrors it for
+    // pointers, so every divider keeps exactly one tab stop.
     return Stack(
       children: <Widget>[
         if (widget.row > 0 && canHeight)
           _handle(
             rowAxis: true,
             boundary: widget.row - 1,
-            leading: true,
+            trailing: false,
             label: l10n.tableResizeRow,
           ),
         if (expandHeight && canHeight)
           _handle(
             rowAxis: true,
             boundary: widget.row + widget.rowSpan - 1,
-            leading: false,
+            trailing: true,
             label: l10n.tableResizeRow,
           ),
         if (widget.column > 0 && canWidth)
           _handle(
             rowAxis: false,
             boundary: widget.column - 1,
-            leading: true,
+            trailing: false,
             label: l10n.tableResizeColumn,
           ),
         if (expandWidth && canWidth)
           _handle(
             rowAxis: false,
             boundary: widget.column + widget.columnSpan - 1,
-            leading: false,
+            trailing: true,
             label: l10n.tableResizeColumn,
           ),
       ],
@@ -259,69 +310,98 @@ class _CellResizerState extends State<CellResizer> {
   Widget _handle({
     required bool rowAxis,
     required int boundary,
-    required bool leading,
+    required bool trailing,
     required String label,
   }) {
     final double thickness = widget.thickness;
     final Axis direction = rowAxis ? Axis.horizontal : Axis.vertical;
-    final Widget child = Semantics(
-      label: label,
-      child: MouseRegion(
-        cursor: rowAxis
-            ? SystemMouseCursors.resizeRow
-            : SystemMouseCursors.resizeColumn,
-        hitTestBehavior: HitTestBehavior.translucent,
-        onEnter: (_) => widget.onHover(true, boundary, direction),
-        onExit: (_) => widget.onHover(false, boundary, direction),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onVerticalDragStart: rowAxis ? (_) => _start(true) : null,
-          onVerticalDragUpdate: rowAxis
-              ? (details) => _update(
-                  rowAxis: true,
-                  boundary: boundary,
-                  delta: details.primaryDelta ?? 0,
-                  mode: widget.heightMode,
-                )
-              : null,
-          onVerticalDragEnd: rowAxis ? (_) => _end() : null,
-          onVerticalDragCancel: rowAxis ? _cancel : null,
-          onHorizontalDragStart: rowAxis ? null : (_) => _start(false),
-          onHorizontalDragUpdate: rowAxis
-              ? null
-              : (details) => _update(
-                  rowAxis: false,
-                  boundary: boundary,
-                  delta: _columnDelta(details.primaryDelta ?? 0),
-                  mode: widget.widthMode,
-                ),
-          onHorizontalDragEnd: rowAxis ? null : (_) => _end(),
-          onHorizontalDragCancel: rowAxis ? null : _cancel,
-          child: _bar(boundary, direction),
-        ),
+    final TableCellResizeMode mode = rowAxis
+        ? widget.heightMode
+        : widget.widthMode;
+    final int maxIndex = rowAxis ? widget.maxRow : widget.maxColumn;
+    final Widget interactive = MouseRegion(
+      cursor: rowAxis
+          ? SystemMouseCursors.resizeRow
+          : SystemMouseCursors.resizeColumn,
+      hitTestBehavior: HitTestBehavior.translucent,
+      onEnter: (_) => widget.onHover(true, boundary, direction),
+      onExit: (_) => widget.onHover(false, boundary, direction),
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onVerticalDragStart: rowAxis ? (_) => _start(true) : null,
+        onVerticalDragUpdate: rowAxis
+            ? (details) => _update(
+                rowAxis: true,
+                boundary: boundary,
+                delta: details.primaryDelta ?? 0,
+                mode: widget.heightMode,
+              )
+            : null,
+        onVerticalDragEnd: rowAxis ? (_) => _end() : null,
+        onVerticalDragCancel: rowAxis ? _cancel : null,
+        onHorizontalDragStart: rowAxis ? null : (_) => _start(false),
+        onHorizontalDragUpdate: rowAxis
+            ? null
+            : (details) => _update(
+                rowAxis: false,
+                boundary: boundary,
+                delta: _columnDelta(details.primaryDelta ?? 0),
+                mode: widget.widthMode,
+              ),
+        onHorizontalDragEnd: rowAxis ? null : (_) => _end(),
+        onHorizontalDragCancel: rowAxis ? null : _cancel,
+        child: _bar(boundary, direction),
       ),
     );
+    // Only the trailing edge owns keyboard focus (one tab stop per
+    // divider); the leading edge mirrors it for pointers.
+    Widget wrapped = interactive;
+    if (trailing) {
+      final FocusNode node = _nodeFor(rowAxis);
+      wrapped = Focus(
+        focusNode: node,
+        // Keyboard parity with the `resizable` handle: arrows step the
+        // divider in `resizableHandleStep` increments, Home/End jump the
+        // leading cell to its bound.
+        onKeyEvent: (FocusNode node, KeyEvent event) => handleTableResizeKey(
+          controller: widget.controller,
+          rowAxis: rowAxis,
+          boundary: boundary,
+          maxIndex: maxIndex,
+          mode: mode,
+          textDirection: widget.textDirection,
+          event: event,
+        ),
+        child: Listener(
+          // A pointer press takes focus, so arrows resize right after a
+          // click without a Tab detour (the `resizable` handle behaves so).
+          onPointerDown: (_) => node.requestFocus(),
+          child: interactive,
+        ),
+      );
+    }
+    final Widget child = Semantics(label: label, child: wrapped);
     if (rowAxis) {
-      return leading
+      return trailing
           ? Positioned(
-              top: -thickness / 2,
+              bottom: -thickness / 2,
               left: 0,
               right: 0,
               height: thickness,
               child: child,
             )
           : Positioned(
-              bottom: -thickness / 2,
+              top: -thickness / 2,
               left: 0,
               right: 0,
               height: thickness,
               child: child,
             );
     }
-    return leading
+    return trailing
         ? Positioned.directional(
             textDirection: widget.textDirection,
-            start: -thickness / 2,
+            end: -thickness / 2,
             top: 0,
             bottom: 0,
             width: thickness,
@@ -329,7 +409,7 @@ class _CellResizerState extends State<CellResizer> {
           )
         : Positioned.directional(
             textDirection: widget.textDirection,
-            end: -thickness / 2,
+            start: -thickness / 2,
             top: 0,
             bottom: 0,
             width: thickness,

@@ -51,6 +51,24 @@ class SiteThemeModel extends ChangeNotifier {
   final DocsStorage _storage;
   ThemeDocument _document;
 
+  /// The switch animation (rail `Transition` row, P7-TS1).
+  ///
+  /// Chrome, not content: it lives beside the document, survives `Reset`,
+  /// and never enters `Get Code` exports. Changing it notifies (the rail
+  /// and the shell read it) but resolves no theme, so the swap stays a
+  /// no-op.
+  DocsThemeTransition _transition = DocsThemeTransition.fade;
+
+  /// Resolved themes per brightness, rebuilt on every [_assign].
+  ///
+  /// Resolving parses 32 hex colours, derives the shadow scale and wires the
+  /// font families; the shell reads the live theme several times per build
+  /// (`ShadcnApp` props and the switch transition), so without this every
+  /// rebuild — and every animation frame of the old tween — paid it again.
+  /// Cleared in [_assign], so one commit still means one resolution.
+  final Map<Brightness, ShadcnThemeData> _themeCache =
+      <Brightness, ShadcnThemeData>{};
+
   /// The preference store the document is persisted to.
   DocsStorage get storage => _storage;
 
@@ -83,8 +101,11 @@ class SiteThemeModel extends ChangeNotifier {
   String get dartSource => themeDartSource(_document);
 
   /// The resolved theme for [brightness].
+  ///
+  /// Cached per document: repeated reads within one commit return the
+  /// identical instance (so inherited-theme dependents skip no-op rebuilds).
   ShadcnThemeData themeFor(Brightness brightness) =>
-      _document.theme(brightness);
+      _themeCache.putIfAbsent(brightness, () => _document.theme(brightness));
 
   /// Replaces the document with the registry preset [presetId].
   void selectPreset(String presetId) =>
@@ -116,6 +137,24 @@ class SiteThemeModel extends ChangeNotifier {
   /// Sets the base shadow atoms of one mode.
   void setShadow(Brightness brightness, DocsShadowAtoms atoms) =>
       _assign(_document.withShadow(brightness, atoms));
+
+  /// The switch animation (rail `Transition` row).
+  DocsThemeTransition get transition => _transition;
+
+  /// Sets the switch animation and persists it.
+  ///
+  /// Not a document edit: no theme is resolved and `Reset` keeps it. The
+  /// notification rebuilds the rail and the shell; the resolved theme is
+  /// the identical cached instance, so the transition sees no data change
+  /// and performs no swap.
+  void setTransition(DocsThemeTransition kind) {
+    if (kind == _transition) {
+      return;
+    }
+    _transition = kind;
+    notifyListeners();
+    _storage.write(kDocsTransitionKey, kind.name);
+  }
 
   /// Applies a pasted preset document.
   ///
@@ -159,6 +198,7 @@ class SiteThemeModel extends ChangeNotifier {
 
   /// Loads the persisted document; a broken entry falls back to the default.
   void restore() {
+    _transition = DocsThemeTransition.parse(_storage.read(kDocsTransitionKey));
     final String? stored = _storage.read(kDocsThemeDocumentKey);
     if (stored == null || stored.isEmpty) {
       return;
@@ -181,6 +221,7 @@ class SiteThemeModel extends ChangeNotifier {
       return;
     }
     _document = next;
+    _themeCache.clear();
     // One commit, one notification, one rebuild. The persistence write
     // notifies nothing and runs after the listeners, so it can neither
     // delay the frame's rebuild nor trigger a second one.

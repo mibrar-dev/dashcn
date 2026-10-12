@@ -1,17 +1,22 @@
 // Widget tests for the `dot_indicator` component.
 //
 // Covers both axes, the interactive and read-only forms, tap reporting, the
-// theme rows and all four precedence legs, plus five regressions from the old
+// theme rows and all four precedence legs, plus six regressions from the old
 // module: the dead `DotItem` (so no animation), the click cursor on a
 // read-only run, the double-scaled padding, the `IntrinsicHeight`/`Flexible`
-// layout and the missing token defaults.
+// layout, the missing token defaults, and the P7-WB fused dots (the fill
+// lived on the `Clickable` decoration and painted over the gap padding, so
+// neighbouring dots touched with no visible gap).
 //
-// Painting is asserted on read-only runs: `Clickable` builds its own
-// `AnimatedContainer` around its child, so an interactive run has two
-// animated containers per dot.
+// Painting is asserted on the dot fill boxes (the `AnimatedContainer`s with
+// a `BoxDecoration`): an interactive run adds one transparent tap-target
+// `AnimatedContainer` per dot around its fill box.
 
+import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/dot_indicator/dot_indicator.dart';
+import 'package:flutter_shadcn_kit/registry/components/dot_indicator/preview.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/component_preview.dart';
 import 'package:flutter_shadcn_kit/registry/primitives/clickable.dart';
 import 'package:flutter_shadcn_kit/registry/theme/color_tokens.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
@@ -46,8 +51,18 @@ List<AnimatedContainer> _dots(WidgetTester tester) => tester
     .widgetList<AnimatedContainer>(find.byType(AnimatedContainer))
     .toList();
 
+/// The dot fill boxes: the `AnimatedContainer`s carrying a `BoxDecoration`.
+/// An interactive run wraps each fill box in one transparent tap-target
+/// `AnimatedContainer`, so this filters those out.
+List<AnimatedContainer> _fills(WidgetTester tester) => _dots(
+  tester,
+).where((AnimatedContainer b) => b.decoration is BoxDecoration).toList();
+
 BoxDecoration _decorationAt(WidgetTester tester, int i) =>
-    _dots(tester)[i].decoration! as BoxDecoration;
+    _fills(tester)[i].decoration! as BoxDecoration;
+
+Size _fillSizeAt(WidgetTester tester, int i) =>
+    tester.getSize(find.byWidget(_fills(tester)[i]));
 
 void main() {
   group('rendering', () {
@@ -136,6 +151,87 @@ void main() {
       await tester.pumpWidget(_frame(const DotIndicator(index: 0, length: 2)));
       expect(find.byType(AnimatedContainer), findsNWidgets(2));
     });
+
+    testWidgets('regression: interactive dots keep the theme gap', (
+      tester,
+    ) async {
+      // P7-WB: the fill lived on the `Clickable` decoration and painted over
+      // the gap padding, so neighbouring dots touched. The dot edges must sit
+      // exactly one theme gap (`gap-2` = 8) apart.
+      await tester.pumpWidget(
+        _frame(DotIndicator(index: 0, length: 3, onChanged: (_) {})),
+      );
+      await tester.pumpAndSettle();
+      final List<Rect> fills = _fills(
+        tester,
+      ).map((AnimatedContainer b) => tester.getRect(find.byWidget(b))).toList();
+      expect(fills, hasLength(3));
+      expect(fills[0].width, 12);
+      expect(fills[1].left - fills[0].right, moreOrLessEquals(8));
+      expect(fills[2].left - fills[1].right, moreOrLessEquals(8));
+    });
+
+    testWidgets('regression: read-only dots keep the theme gap', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_frame(const DotIndicator(index: 0, length: 3)));
+      await tester.pumpAndSettle();
+      final List<Rect> fills = _fills(
+        tester,
+      ).map((AnimatedContainer b) => tester.getRect(find.byWidget(b))).toList();
+      expect(fills, hasLength(3));
+      expect(fills[1].left - fills[0].right, moreOrLessEquals(8));
+      expect(fills[2].left - fills[1].right, moreOrLessEquals(8));
+    });
+
+    testWidgets('regression: the vertical run gaps the dots', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          const DotIndicator(index: 0, length: 3, direction: Axis.vertical),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final List<Rect> fills = _fills(
+        tester,
+      ).map((AnimatedContainer b) => tester.getRect(find.byWidget(b))).toList();
+      expect(fills, hasLength(3));
+      expect(fills[1].top - fills[0].bottom, moreOrLessEquals(8));
+      expect(fills[2].top - fills[1].bottom, moreOrLessEquals(8));
+    });
+
+    testWidgets('hover tints the inactive dot with the accent row', (
+      tester,
+    ) async {
+      // The fill moved off the `Clickable` decoration onto the inner dot;
+      // the hovered row must still reach it through the states provider.
+      FocusManager.instance.highlightStrategy =
+          FocusHighlightStrategy.alwaysTraditional;
+      addTearDown(
+        () => FocusManager.instance.highlightStrategy =
+            FocusHighlightStrategy.automatic,
+      );
+      await tester.pumpWidget(
+        _frame(DotIndicator(index: 0, length: 2, onChanged: (_) {})),
+      );
+      expect(_decorationAt(tester, 1).color, ShadcnColors.lightFallback.muted);
+      final TestGesture gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+      await tester.pump();
+      await gesture.moveTo(tester.getCenter(find.byType(Clickable).at(1)));
+      await tester.pump();
+      expect(_decorationAt(tester, 1).color, ShadcnColors.lightFallback.accent);
+      // The active dot keeps its primary fill under the pointer (the active
+      // row tints to 90% on hover).
+      await gesture.moveTo(tester.getCenter(find.byType(Clickable).first));
+      await tester.pump();
+      expect(
+        _decorationAt(tester, 0).color,
+        ShadcnColors.lightFallback.primary.withValues(alpha: 0.9),
+      );
+    });
   });
 
   group('theme', () {
@@ -162,7 +258,7 @@ void main() {
         ),
       );
       expect(_decorationAt(tester, 0).color, _green);
-      expect(_dots(tester).first.constraints!.maxWidth, 20);
+      expect(_fillSizeAt(tester, 0), const Size(20, 20));
     });
 
     testWidgets('the scoped leg wins over the app leg', (tester) async {
@@ -217,7 +313,7 @@ void main() {
           ],
         ),
       );
-      expect(_dots(tester).first.constraints!.maxWidth, 12);
+      expect(_fillSizeAt(tester, 0), const Size(12, 12));
     });
 
     testWidgets('regression: a caller padding is applied once, unscaled', (
@@ -284,6 +380,16 @@ void main() {
         _dots(tester).every((AnimatedContainer b) => b.decoration == null),
         isTrue,
       );
+    });
+  });
+
+  group('previews', () {
+    testWidgets('every preview example pumps without throwing', (tester) async {
+      for (final ComponentPreview preview in dotIndicatorPreviews) {
+        await tester.pumpWidget(_frame(Builder(builder: preview.builder)));
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
     });
   });
 }

@@ -4,11 +4,18 @@
 // custom indicators, pull gating on null `onRefresh` and the four
 // theme-precedence legs. Regression tests cover the retired pieces: no
 // Material progress/arrow widgets, no fake refresh cycle without a callback
-// and no division by zero for a zero arming extent.
+// and no division by zero for a zero arming extent. P7-WB adds the three
+// input paths: touch drags (threshold), mouse drags (trackpad-style gesture
+// the child scrollable never claims) and wheel/trackpad ticks, plus the
+// child scroll lock while a pull is in flight.
 
+import 'package:flutter/gestures.dart'
+    show PointerDeviceKind, PointerScrollEvent;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shadcn_kit/registry/components/card/card.dart';
+import 'package:flutter_shadcn_kit/registry/components/refresh_trigger/preview.dart';
 import 'package:flutter_shadcn_kit/registry/components/refresh_trigger/refresh_trigger.dart';
+import 'package:flutter_shadcn_kit/registry/foundation/component_preview.dart';
 import 'package:flutter_shadcn_kit/registry/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -185,6 +192,229 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       expect(state.stage, TriggerStage.idle);
     });
+
+    testWidgets('a drag below the arming extent never refreshes', (
+      tester,
+    ) async {
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await tester.drag(find.byType(ListView), const Offset(0, 30));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(calls, 0);
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('a drag past the arming extent refreshes on release', (
+      tester,
+    ) async {
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await tester.drag(find.byType(ListView), const Offset(0, 250));
+      await tester.pump();
+      expect(calls, 1);
+      await tester.pump(const Duration(milliseconds: 10));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('a mouse drag past the arming extent refreshes', (
+      tester,
+    ) async {
+      // P7-WB: scrollables never claim mouse drags, so the trigger tracks
+      // them itself. This is the desktop-web drag path.
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await tester.drag(
+        find.byType(ListView),
+        const Offset(0, 250),
+        kind: PointerDeviceKind.mouse,
+      );
+      await tester.pump();
+      expect(calls, 1);
+      await tester.pump(const Duration(milliseconds: 10));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('a short mouse drag snaps back without refreshing', (
+      tester,
+    ) async {
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await tester.drag(
+        find.byType(ListView),
+        const Offset(0, 30),
+        kind: PointerDeviceKind.mouse,
+      );
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(calls, 0);
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('mouse hover moves never arm a pull', (tester) async {
+      // Hover moves carry no buttons; only a pressed drag may pull.
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      final TestGesture gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+      await tester.pump();
+      await gesture.moveTo(tester.getCenter(find.byType(ListView)));
+      await tester.pump();
+      await gesture.moveTo(
+        tester.getCenter(find.byType(ListView)) + const Offset(0, 200),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(calls, 0);
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+  });
+
+  group('wheel pull', () {
+    Future<void> wheel(WidgetTester tester, Offset delta) async {
+      final Offset center = tester.getCenter(find.byType(ListView));
+      await tester.sendEventToBinding(
+        PointerScrollEvent(position: center, scrollDelta: delta),
+      );
+      await tester.pump();
+    }
+
+    testWidgets('wheel ticks at the edge arm and fire the refresh', (
+      tester,
+    ) async {
+      // P7-WB: pointer scrolls bypass the gesture arena, so the trigger
+      // accumulates them itself. This is the trackpad path.
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await wheel(tester, const Offset(0, -120));
+      expect(key.currentState!.stage, TriggerStage.pulling);
+      // The settle timer (150ms) fires the armed pull.
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(calls, 1);
+      await tester.pump(const Duration(milliseconds: 10));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('wheel ticks below the threshold snap back', (tester) async {
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await wheel(tester, const Offset(0, -30));
+      expect(key.currentState!.stage, TriggerStage.pulling);
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(calls, 0);
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
+
+    testWidgets('wheel ticks into content never pull', (tester) async {
+      var calls = 0;
+      final GlobalKey<RefreshTriggerState> key = GlobalKey<RefreshTriggerState>(
+        debugLabel: 'trigger',
+      );
+      await tester.pumpWidget(
+        _frame(
+          child: RefreshTrigger(
+            key: key,
+            onRefresh: () async => calls++,
+            completeDuration: const Duration(milliseconds: 1),
+            child: ListView(children: const <Widget>[Text('row')]),
+          ),
+        ),
+      );
+      await wheel(tester, const Offset(0, 120));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(calls, 0);
+      expect(key.currentState!.stage, TriggerStage.idle);
+    });
   });
 
   group('custom indicator', () {
@@ -272,6 +502,122 @@ void main() {
     });
   });
 
+  group('pull input unit table', () {
+    RefreshPullInput input({
+      required List<String> calls,
+      double minExtent = 75,
+    }) {
+      return RefreshPullInput(
+        minExtent: minExtent,
+        onChanged: () => calls.add('changed'),
+        onFire: () => calls.add('fire'),
+      );
+    }
+
+    test('one transition table serves every path', () {
+      // Touch.
+      final List<String> touch = <String>[];
+      final RefreshPullInput a = input(calls: touch);
+      a.scrollStart();
+      a.scrollDelta(100);
+      expect(a.phase, PullPhase.pulling);
+      expect(a.extent, 100);
+      a.scrollEnd();
+      expect(touch, contains('fire'));
+
+      // Wheel.
+      final List<String> wheel = <String>[];
+      final RefreshPullInput b = input(calls: wheel);
+      b.wheelTick(100);
+      expect(b.phase, PullPhase.pulling);
+      b.dispose();
+
+      // Mouse.
+      final List<String> mouse = <String>[];
+      final RefreshPullInput c = input(calls: mouse);
+      c.mouseDown();
+      c.mouseMove(100, true);
+      expect(c.phase, PullPhase.pulling);
+      c.mouseUp();
+      expect(mouse, contains('fire'));
+    });
+
+    test('below-threshold pulls snap back without firing', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.scrollStart();
+      tracker.scrollDelta(30);
+      tracker.scrollEnd();
+      expect(calls, isNot(contains('fire')));
+      expect(tracker.phase, PullPhase.idle);
+      expect(tracker.extent, 0);
+    });
+
+    test('starting a pull requires the edge', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls)..atEdge = false;
+      tracker.accumulate(100);
+      expect(tracker.phase, PullPhase.idle);
+      expect(calls, isEmpty);
+    });
+
+    test('negative deltas shrink but never fire', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.accumulate(100);
+      tracker.accumulate(-40);
+      expect(tracker.extent, 60);
+      tracker.accumulate(-100);
+      expect(tracker.extent, 0);
+      expect(tracker.phase, PullPhase.pulling);
+      expect(calls, isNot(contains('fire')));
+    });
+
+    test('a drag takes over from wheel and mouse arms', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.wheelTick(100);
+      tracker.mouseDown();
+      tracker.scrollStart();
+      // The drag owns it now: the wheel settle was cancelled.
+      tracker.scrollDelta(10);
+      tracker.scrollEnd();
+      expect(calls, contains('fire'));
+    });
+
+    test('inward wheel abandons only a wheel pull', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.wheelTick(100);
+      tracker.wheelTick(-10);
+      expect(tracker.phase, PullPhase.idle);
+      expect(calls, isNot(contains('fire')));
+      tracker.dispose();
+    });
+
+    test('mouse release below threshold snaps back', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.mouseDown();
+      tracker.mouseMove(10, true);
+      tracker.mouseUp();
+      expect(calls, isNot(contains('fire')));
+      expect(tracker.phase, PullPhase.idle);
+    });
+
+    test('reset returns to idle silently', () {
+      final List<String> calls = <String>[];
+      final RefreshPullInput tracker = input(calls: calls);
+      tracker.wheelTick(100);
+      calls.clear();
+      tracker.reset();
+      expect(tracker.phase, PullPhase.idle);
+      expect(tracker.extent, 0);
+      expect(calls, isEmpty);
+      tracker.dispose();
+    });
+  });
+
   group('regressions', () {
     testWidgets('no Material progress widget in the indicator', (tester) async {
       await tester.pumpWidget(
@@ -288,6 +634,16 @@ void main() {
         ),
         findsNothing,
       );
+    });
+
+    testWidgets('every preview example pumps without throwing', (tester) async {
+      for (final ComponentPreview preview in refreshTriggerPreviews) {
+        await tester.pumpWidget(
+          _frame(child: Builder(builder: preview.builder)),
+        );
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
     });
   });
 }

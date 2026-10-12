@@ -151,19 +151,53 @@ class ShadcnThemeData {
   }
 
   static ShadcnThemeData lerp(ShadcnThemeData a, ShadcnThemeData b, double t) {
+    if (t <= 0.0) {
+      return a;
+    }
+    if (t >= 1.0) {
+      return b;
+    }
+    if (a == b) {
+      return a;
+    }
+    // A light/dark toggle changes colours only: every structural leg below is
+    // identical, so it is reused by identity instead of re-lerping 36 text
+    // styles and 8 shadow lists on every animation frame (P7-WD).
     return ShadcnThemeData(
-      colors: ShadcnColors.lerp(a.colors, b.colors, t),
-      tokens: ShadcnTokens.lerp(a.tokens, b.tokens, t),
-      fonts: ShadcnFonts.lerp(a.fonts, b.fonts, t),
-      typography: Typography.lerp(a.typography, b.typography, t),
-      iconTheme: IconThemeProperties.lerp(a.iconTheme, b.iconTheme, t),
-      scaling: lerpDouble(a.scaling, b.scaling, t)!,
-      density: Density.lerp(a.density, b.density, t),
-      spacing: SpacingScale.lerp(a.spacing, b.spacing, t),
-      tracking: TrackingScale.lerp(a.tracking, b.tracking, t),
+      colors: a.colors == b.colors
+          ? a.colors
+          : ShadcnColors.lerp(a.colors, b.colors, t),
+      tokens: a.tokens == b.tokens
+          ? a.tokens
+          : ShadcnTokens.lerp(a.tokens, b.tokens, t),
+      fonts: a.fonts == b.fonts
+          ? a.fonts
+          : ShadcnFonts.lerp(a.fonts, b.fonts, t),
+      typography: a.typography == b.typography
+          ? a.typography
+          : Typography.lerp(a.typography, b.typography, t),
+      iconTheme: a.iconTheme == b.iconTheme
+          ? a.iconTheme
+          : IconThemeProperties.lerp(a.iconTheme, b.iconTheme, t),
+      scaling: a.scaling == b.scaling
+          ? a.scaling
+          : lerpDouble(a.scaling, b.scaling, t)!,
+      density: a.density == b.density
+          ? a.density
+          : Density.lerp(a.density, b.density, t),
+      spacing: a.spacing == b.spacing
+          ? a.spacing
+          : SpacingScale.lerp(a.spacing, b.spacing, t),
+      tracking: a.tracking == b.tracking
+          ? a.tracking
+          : TrackingScale.lerp(a.tracking, b.tracking, t),
       platform: t < 0.5 ? a._platform : b._platform,
-      surfaceOpacity: lerpDouble(a.surfaceOpacity, b.surfaceOpacity, t),
-      surfaceBlur: lerpDouble(a.surfaceBlur, b.surfaceBlur, t),
+      surfaceOpacity: a.surfaceOpacity == b.surfaceOpacity
+          ? a.surfaceOpacity
+          : lerpDouble(a.surfaceOpacity, b.surfaceOpacity, t),
+      surfaceBlur: a.surfaceBlur == b.surfaceBlur
+          ? a.surfaceBlur
+          : lerpDouble(a.surfaceBlur, b.surfaceBlur, t),
       enableFeedback: t < 0.5 ? a.enableFeedback : b.enableFeedback,
       syntax: t < 0.5 ? a.syntax : b.syntax,
     );

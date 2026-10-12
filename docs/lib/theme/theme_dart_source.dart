@@ -115,10 +115,16 @@ String _tokensSource(ThemeDocument d, String prefix, String mode) {
 }
 
 String _fontsSource(ThemeDocument d, String prefix) {
+  // The slots are mapped exactly like `ThemeDocument.theme` maps them into
+  // `ShadcnFonts`, so the generated file resolves the same families the
+  // site renders: `body` wins over the preset `sans` for `fontSans`, and
+  // `heading` becomes `fontHeading`. Emitting the raw slot names (`fontBody`)
+  // would not compile — `ShadcnFonts` has no `fontBody` parameter.
   final List<String> args = <String>[
-    for (final String slot in kDocsFontSlots)
-      if (d.fonts.containsKey(slot))
-        'font${_capital(slot)}: ${_quote(d.fonts[slot]!)}',
+    if (d.bodyFont != null) 'fontSans: ${_quote(d.bodyFont!)}',
+    if (d.fonts.containsKey('serif')) 'fontSerif: ${_quote(d.fonts['serif']!)}',
+    if (d.monoFont != null) 'fontMono: ${_quote(d.monoFont!)}',
+    if (d.headingFont != null) 'fontHeading: ${_quote(d.headingFont!)}',
   ];
   return '/// Mode-independent font families for the ${d.name} preset.\n'
       "${_call('const ShadcnFonts ${prefix}Fonts = ShadcnFonts', args, suffix: ';')}";

@@ -34,6 +34,7 @@
   "files": [
     "sidebar_03.dart",
     "sidebar_03_content.dart",
+    "sidebar_03_sidebar.dart",
     "README.md"
   ]
 }

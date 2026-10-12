@@ -82,6 +82,16 @@ class _ColorPickerState extends State<ColorPicker> {
 
   ColorDerivative get _value => _changing ?? widget.value;
 
+  @override
+  void didUpdateWidget(covariant ColorPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // An external colour change (eye-dropper live sampling, a history pick)
+    // must reach every control immediately: drop the stale in-progress value.
+    // During a controlled slider drag the parent echoes the drag value back,
+    // so clearing here still shows the drag position via `widget.value`.
+    if (widget.value != oldWidget.value) _changing = null;
+  }
+
   ColorPickerTheme _style(BuildContext context) =>
       resolveComponentStyle<ColorPickerTheme, ColorPickerTheme>(
         context,
@@ -91,11 +101,13 @@ class _ColorPickerState extends State<ColorPicker> {
       );
 
   void _onChanging(ColorDerivative next) {
+    if (!mounted) return;
     setState(() => _changing = next);
     widget.onChanging?.call(next);
   }
 
   void _onChanged(ColorDerivative next) {
+    if (!mounted) return;
     setState(() => _changing = null);
     widget.onChanged?.call(next);
   }
@@ -179,6 +191,7 @@ class _ColorPickerState extends State<ColorPicker> {
             value: value,
             mode: _mode,
             onChanged: _onChanged,
+            onChanging: _onChanging,
             onModeChanged: _setMode,
             onToggleHistory: () => setState(() => _showHistory = !_showHistory),
             showHistory: _showHistory,
@@ -267,6 +280,7 @@ class ColorPickerControls extends StatelessWidget {
     required this.mode,
     required this.onChanged,
     required this.controlSpacing,
+    this.onChanging,
     this.onModeChanged,
     this.onToggleHistory,
     this.showHistory = false,
@@ -285,6 +299,9 @@ class ColorPickerControls extends StatelessWidget {
 
   /// Called when a field, the history grid or the eye dropper commits.
   final ValueChanged<ColorDerivative> onChanged;
+
+  /// Called live while the eye dropper moves (and by nothing else here).
+  final ValueChanged<ColorDerivative>? onChanging;
 
   /// Gap between the controls (resolved by the picker).
   final double controlSpacing;
@@ -314,14 +331,36 @@ class ColorPickerControls extends StatelessWidget {
   final ColorHistoryStorage? history;
 
   Future<void> _pickColor(BuildContext context) async {
-    final Color? picked = await pickColorFromScreen(context, history);
-    if (picked != null) onChanged(value.changeToColor(picked));
+    final ColorDerivative previous = value;
+    Color? latest;
+    final Color? picked = await pickColorFromScreen(context, history, (
+      Color sample,
+    ) {
+      latest = sample;
+      onChanging?.call(previous.changeToColor(sample));
+    });
+    if (!context.mounted) return;
+    if (picked != null) {
+      onChanged(previous.changeToColor(picked));
+    } else if (latest != null) {
+      // Cancel after live samples: restore the colour from before the
+      // session so Escape / right-click undoes the live preview.
+      onChanging?.call(previous);
+      onChanged(previous);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final ShadcnLocalizations l10n = ShadcnLocalizations.of(context);
     final bool historyToggle = showHistoryButton && history != null;
+    // The pipette hides when sampling is impossible (no scope in the tree);
+    // a custom `onEyeDropperRequested` action never needs a scope.
+    final bool pipette =
+        enableEyeDropper &&
+        (onEyeDropperRequested != null ||
+            (EyeDropperLayerScope.isCaptureSupported &&
+                EyeDropperLayerScope.maybeFind(context) != null));
     final List<Widget> fields = colorPickerFields(
       context,
       value: value,
@@ -329,8 +368,7 @@ class ColorPickerControls extends StatelessWidget {
       showAlpha: showAlpha,
       onChanged: onChanged,
     );
-    final int leadingButtons =
-        (enableEyeDropper ? 1 : 0) + (historyToggle ? 1 : 0);
+    final int leadingButtons = (pipette ? 1 : 0) + (historyToggle ? 1 : 0);
     // Capped, not fixed: the one-line width keeps the popover look, while
     // narrower stages (a 375px phone, a dialog) let the Wrap reflow instead
     // of overflowing.
@@ -349,7 +387,7 @@ class ColorPickerControls extends StatelessWidget {
           if (leadingButtons > 0)
             ButtonGroup.horizontal(
               children: <Widget>[
-                if (enableEyeDropper)
+                if (pipette)
                   Button(
                     variant: ButtonVariant.outline,
                     size: ButtonSize.icon,

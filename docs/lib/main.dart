@@ -2,9 +2,10 @@
 //
 // Composition: a root `Router` owns URL/history (delegate + parser in
 // `routing/docs_router.dart`); the delegate builds the registry `ShadcnApp`
-// shell around a docs navigator. The shell installs the theme (with a
-// 300ms ease-out-expo colour tween on preset/mode switches), the global
-// keyboard shortcuts and the web-bridge events.
+// shell around a docs navigator. The shell installs the theme (one swap per
+// commit under a ~250ms snapshot cross-fade on preset/mode switches,
+// instant under reduced motion), the global keyboard shortcuts and the
+// web-bridge events.
 //
 // Brightness defaults to the system (the reference's `next-themes` default);
 // the header toggle stores an explicit mode. The platform listener below
@@ -29,13 +30,19 @@ import 'pages/theming_page.dart';
 import 'routing/deferred_page.dart';
 import 'routing/docs_router.dart';
 import 'state/docs_state.dart';
+import 'state/docs_storage.dart';
+import 'theme/docs_fonts.dart';
+import 'theme/theme_document.dart';
 import 'ui/shadcn/components/app/app.dart';
+import 'ui/shadcn/components/drawer/drawer.dart';
 import 'ui/shadcn/components/gooey_toast/gooey_toast.dart';
+import 'ui/shadcn/components/toast/toast.dart';
 import 'ui/shadcn/theme/color_tokens.dart';
 import 'ui/shadcn/theme/theme.dart';
 import 'web_bridge.dart';
 import 'widgets/docs_shell.dart';
 import 'widgets/palette.dart';
+import 'widgets/theme_switch_transition.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +78,15 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   // Without this the initial URL is never parsed and URL reports are dropped.
   late final PlatformRouteInformationProvider _routeInformationProvider;
 
+  // P7-WA: drawer/sheet background scale. The observer watches the root
+  // navigator for `ShadcnDrawerRoute`s; the wrapper (in `_buildShell`)
+  // scales the shell while one is open.
+  final DrawerScaleObserver _drawerScaleObserver = DrawerScaleObserver();
+
+  /// The last tap point, in global coordinates (P7-TS1: the circular
+  /// reveal expands from here). Written on pointer-down, read on switch.
+  Offset? _switchOrigin;
+
   @override
   void initState() {
     super.initState();
@@ -87,6 +103,17 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       dispatchWebAppReady();
       _onThemeChanged();
     });
+    // A restored document names families the picker loads on demand. Load
+    // them once at startup so a reload paints in the right families.
+    _loadRestoredFonts();
+  }
+
+  /// Lazily loads the families the persisted document names.
+  void _loadRestoredFonts() {
+    final ThemeDocument document = widget.state.themeModel.document;
+    loadDocsFonts(document.headingFont ?? '');
+    loadDocsFonts(document.bodyFont ?? '');
+    loadDocsFonts(document.monoFont ?? '');
   }
 
   @override
@@ -121,11 +148,14 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
 
   Widget _buildShell(BuildContext context, Widget navigator) {
     final DocsState state = widget.state;
+    // Resolved once per build: the model caches per document, so every read
+    // below is the identical instance and unchanged commits stay no-ops.
+    final ShadcnThemeData theme = state.theme;
     return ShadcnApp(
       title: 'shadcn_flutter_kit docs',
       debugShowCheckedModeBanner: false,
-      color: state.theme.colors.primary,
-      theme: state.theme,
+      color: theme.colors.primary,
+      theme: theme,
       themeMode: state.brightness == Brightness.dark
           ? ThemeMode.dark
           : ThemeMode.light,
@@ -143,26 +173,48 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       },
       builder: (BuildContext context, Widget? child) => MotionScope(
         child: Builder(
-          builder: (BuildContext context) => AnimatedShadcnTheme(
-            data: state.theme,
-            // The preset/mode colour tween is our documented deviation; under
-            // reduced motion it caps to 150 ms (plan §4) instead of 300 ms.
-            duration: context.motionDuration(kDurationTheme),
-            curve: kEaseOutExpo,
-            child: child ?? const SizedBox.shrink(),
-          ),
+          builder: (BuildContext context) {
+            final DocsThemeTransition kind = state.themeModel.transition;
+            return Listener(
+              // The tap point the circular reveal expands from (P7-TS1).
+              // One offset write per pointer-down; never a rebuild.
+              onPointerDown: (PointerDownEvent event) =>
+                  _switchOrigin = event.position,
+              child: ThemeSwitchTransition(
+                // One swap per commit, then the picked animation of the old
+                // frame over the new one (P7-WD single swap, P7-TS1 kinds).
+                // Reduced motion swaps instantly whatever is picked.
+                data: theme,
+                duration: context.reduceMotion
+                    ? Duration.zero
+                    : docsTransitionDuration(kind),
+                curve: kEaseOutExpo,
+                kind: kind,
+                origin: _switchOrigin,
+                child: child ?? const SizedBox.shrink(),
+              ),
+            );
+          },
         ),
       ),
       // The home route is deliberately unnamed: the docs navigator must be the
       // only thing reporting URLs to the engine (the Router owns history).
-      // The gooey toast layer is hosted app-wide: its controller portals into
-      // the root overlay, so a toast anchors to the browser window instead of
-      // to the preview card that triggered it.
+      // P7-WA app-level overlay hosting: the gooey layer portals into the
+      // root overlay and the toast layer stacks over the window, so toasts
+      // anchor to the browser window instead of the preview card that
+      // triggered them; the background-scale wrapper dims/scales the shell
+      // while a drawer/sheet route is open.
+      navigatorObservers: <NavigatorObserver>[_drawerScaleObserver],
       home: GooeyToastLayer(
-        child: DocsAppShell(
-          delegate: _delegate,
-          state: state,
-          child: navigator,
+        child: ToastLayer(
+          child: DrawerBackgroundScale(
+            observer: _drawerScaleObserver,
+            child: DocsAppShell(
+              delegate: _delegate,
+              state: state,
+              child: navigator,
+            ),
+          ),
         ),
       ),
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>

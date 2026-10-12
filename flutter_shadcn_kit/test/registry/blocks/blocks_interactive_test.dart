@@ -55,8 +55,12 @@ List<(String, Widget)> _blocks() => const <(String, Widget)>[
   ('signup-02', Signup02()),
 ];
 
+/// Constructor-level enabled state. Mirrors `Button`'s own default:
+/// `enabled ?? (onPressed != null || onPressedAsync != null)` (P7-S1 added
+/// the async leg; loading-disabled is runtime state, not covered here).
 bool _buttonEnabled(Button button) =>
-    button.enabled ?? (button.onPressed != null);
+    button.enabled ??
+    (button.onPressed != null || button.onPressedAsync != null);
 
 bool _checkboxEnabled(Checkbox checkbox) =>
     checkbox.enabled ??

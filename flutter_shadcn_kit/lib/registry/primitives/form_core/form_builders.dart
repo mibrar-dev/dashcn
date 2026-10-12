@@ -13,7 +13,7 @@ import 'validation.dart';
 /// Renders [builder] with the nearest field's validation result.
 ///
 /// [modes] filters which [FormValidationMode] a result is shown for; results
-/// from other modes read as valid.
+/// from other modes read as valid. Null uses [defaultShowErrors].
 class FormEntryErrorBuilder extends StatelessWidget {
   /// Creates an error builder over the nearest field.
   const FormEntryErrorBuilder({
@@ -44,10 +44,11 @@ class FormEntryErrorBuilder extends StatelessWidget {
     if (validity == null) {
       return builder(context, null, child);
     }
+    final Set<FormValidationMode> shown = modes ?? defaultShowErrors;
     return ValueListenableBuilder<ValidationResult?>(
       valueListenable: validity,
       builder: (context, result, _) {
-        if (modes != null && !modes!.contains(result?.state)) {
+        if (!shown.contains(result?.state)) {
           return builder(context, null, child);
         }
         return builder(context, result, child);
