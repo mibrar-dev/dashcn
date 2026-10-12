@@ -31,13 +31,14 @@ Accepted and pushed:
 | Agent | Worktree, branch | Brief | Report |
 |---|---|---|---|
 | P9-3b flows docs + CLI | main (`dashcn-kit`) + `dashcn-cli`, both `refactor/dashcn` | `rearch/briefs/dashcn/P9-3b-flows-docs-cli.md` | `rearch/reports/P9-3b.md` |
+| P9-6 starters (`dashcn create`) | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p9-6-starters` | `rearch/briefs/dashcn/P9-6-starters.md` | `rearch/reports/P9-6.md` |
 
 P8-4 was accepted at 21:40 UTC and KIT-FIX-1 at 23:10 UTC. P9-3b's agent works in the main kit worktree, which is
 based on P8-4, and in the CLI. Merge `refactor/dashcn` in before accepting it. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
-`wip/autosave-cli` on the CLI repo when it has changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
+`wip/autosave-cli` / `wip/autosave-cli-b` on the CLI repo when they have changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
 top of the worktree's HEAD; its message says which HEAD and when. **These snapshots are unreviewed work in progress.**
 
 If the cloud is gone, recover them like this:
@@ -59,7 +60,7 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
    - "No account yet?Create one" is missing a space;
    - settings home should be top-aligned;
    - toggle rows are cramped.
-3. **P9-6** (brief to write). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
+3. **P9-6** (running, see section 2). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
 4. **P9-Z** (brief to write). Integration:
    - the component page becomes frames + playground + scorecard;
    - navigation;
