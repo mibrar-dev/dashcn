@@ -27,6 +27,7 @@ const String _usage =
 const String _ruleList =
     'no-material, no-part, no-ignore-for-file, layer-direction, '
     'undeclared-dependency, block-imports, block-installable, '
+    'flow-imports, flow-installable, '
     'file-too-long, unused-dependency, installable, no-impl-dir';
 
 void main(List<String> args) {

@@ -4095,6 +4095,32 @@ SpellCheckSuggestionsToolbar(
           'ppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
+  'swipe_actions': <DocsSnippet>[
+    DocsSnippet(
+      id: 'swipe_actions.0',
+      componentId: 'swipe_actions',
+      language: 'sh',
+      code: r'''dashcn add swipe_actions''',
+      tokenClasses: 'kkkkkkpkkkpppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'swipe_actions.1',
+      componentId: 'swipe_actions',
+      language: 'dart',
+      code:
+          r'''import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+SwipeActions(
+  actions: <SwipeAction>[
+    SwipeAction(label: 'Delete', destructive: true, onPressed: deleteRow),
+  ],
+  onDismissed: deleteRow,
+  child: const Text('Row content'),
+)''',
+      tokenClasses:
+          'kkkkkkpssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssspppp',
+    ),
+  ],
   'swiper': <DocsSnippet>[
     DocsSnippet(
       id: 'swiper.0',
@@ -5214,6 +5240,13 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     userOwned: <String>[
       'lib/ui/dashcn/components/stage_container/stage_container_theme.dart',
     ],
+  ),
+  'swipe_actions': DocsFileList(
+    componentId: 'swipe_actions',
+    files: <String>[
+      'lib/ui/dashcn/components/swipe_actions/swipe_actions.dart',
+    ],
+    userOwned: <String>[],
   ),
   'swiper': DocsFileList(
     componentId: 'swiper',

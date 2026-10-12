@@ -7879,6 +7879,51 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     ],
     members: <DocsApiMember>[],
   ),
+  'swipe_actions': DocsApiTable(
+    componentId: 'swipe_actions',
+    symbol: 'SwipeActions',
+    hasApiTable: true,
+    parseClean: true,
+    summary:
+        'Swipe a row to reveal trailing [actions]; optionally dismiss-to-delete.',
+    params: <DocsApiParam>[
+      DocsApiParam(
+        name: 'child',
+        type: 'Widget',
+        isRequired: true,
+        doc: 'The row content, slid aside as the actions reveal.',
+      ),
+      DocsApiParam(
+        name: 'actions',
+        type: 'List<SwipeAction>',
+        isRequired: false,
+        defaultValue: 'const <SwipeAction>[]',
+        doc: 'Trailing actions, laid out from the trailing edge inward.',
+      ),
+      DocsApiParam(
+        name: 'onDismissed',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc:
+            'Called on a full swipe (drag past the actions + release). Null disables\ndismissing; the row then settles open at most.',
+      ),
+      DocsApiParam(
+        name: 'actionExtent',
+        type: 'double',
+        isRequired: false,
+        defaultValue: '76',
+        doc:
+            'Width of one action; the revealed run is `actions.length * actionExtent`.',
+      ),
+      DocsApiParam(
+        name: 'controller',
+        type: 'SwipeActionsController?',
+        isRequired: false,
+        doc: 'Programmatic control; a private one is unused when null.',
+      ),
+    ],
+    members: <DocsApiMember>[],
+  ),
   'swiper': DocsApiTable(
     componentId: 'swiper',
     symbol: 'Swiper',
@@ -12637,6 +12682,15 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
             'base outer padding; a density-aware value scales with the preset',
       ),
     ],
+  ),
+  'swipe_actions': DocsThemeTable(
+    componentId: 'swipe_actions',
+    themeClass: '',
+    themeDefaults: '',
+    userFile: '',
+    userOwned: false,
+    hasTheme: false,
+    fields: <DocsThemeField>[],
   ),
   'swiper': DocsThemeTable(
     componentId: 'swiper',

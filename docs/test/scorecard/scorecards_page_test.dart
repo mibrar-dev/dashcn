@@ -1,5 +1,6 @@
 // Scorecards page tests (P9-5b): the "How we measure" page renders its
-// explainer sections and the 83-row overview table, sortable by failures.
+// explainer sections and the overview table (one row per scored component),
+// sortable by failures.
 
 import 'package:docs/generated/docs_scorecards.dart';
 import 'package:docs/routing/docs_router.dart';
@@ -20,7 +21,7 @@ void main() {
     expect(DocsRouteConfiguration.scorecards.title, 'How we measure');
   });
 
-  testWidgets('page renders explainer sections and all 83 rows', (
+  testWidgets('page renders explainer sections and a row per scorecard', (
     WidgetTester tester,
   ) async {
     final DocsRouterDelegate delegate = await pumpDocsApp(tester);
@@ -35,7 +36,9 @@ void main() {
       find.textContaining('dart run tool/gen_scorecards.dart'),
       findsWidgets,
     );
-    expect(kScorecards.length, 83);
+    // Every user-facing component is scored (83 at P9-5b, 84 with
+    // swipe_actions); the page must list all of them, whatever the count.
+    expect(kScorecards, isNotEmpty);
     for (final String id in kScorecards.keys) {
       expect(
         find.byKey(ValueKey<String>('scorecard-row-$id')),
@@ -44,7 +47,10 @@ void main() {
       );
     }
     expect(find.text('Sort by failures'), findsOneWidget);
-    expect(find.textContaining('83 components'), findsOneWidget);
+    expect(
+      find.textContaining('${kScorecards.length} components'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('sorting by failures puts the worst component first', (

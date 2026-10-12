@@ -239,6 +239,8 @@ import 'package:docs/ui/dashcn/components/spell_check_suggestions_toolbar/previe
     deferred as preview_spell_check_suggestions_toolbar;
 import 'package:docs/ui/dashcn/components/stage_container/preview.dart'
     deferred as preview_stage_container;
+import 'package:docs/ui/dashcn/components/swipe_actions/preview.dart'
+    deferred as preview_swipe_actions;
 import 'package:docs/ui/dashcn/components/swiper/preview.dart'
     deferred as preview_swiper;
 import 'package:docs/ui/dashcn/components/switcher/preview.dart'
@@ -751,6 +753,11 @@ Future<Widget> loadComponentPreview(
     (_) => Builder(
       builder:
           preview_stage_container.stageContainerPreviews[exampleIndex].builder,
+    ),
+  ),
+  'swipe_actions' => preview_swipe_actions.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_swipe_actions.swipeActionsPreviews[exampleIndex].builder,
     ),
   ),
   'swiper' => preview_swiper.loadLibrary().then(

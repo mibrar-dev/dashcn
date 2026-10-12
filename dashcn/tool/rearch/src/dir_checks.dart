@@ -1,5 +1,5 @@
-// Directory-level findings: `installable`, `block-installable` and
-// `no-impl-dir`.
+// Directory-level findings: `installable`, `block-installable`,
+// `flow-installable` and `no-impl-dir`.
 //
 // These rules inspect the component directories themselves instead of the
 // parsed Dart files, so they live outside the per-file checks.
@@ -256,6 +256,140 @@ List<LayerFinding> blockInstallableFindings(RegistryScan scan) {
         findings.add(
           LayerFinding(
             rule: 'block-installable',
+            file: relativePath(file.path, scan.root),
+            line: 0,
+            message: '$lines lines (limit $maxFileLines)',
+          ),
+        );
+      }
+    }
+  }
+  findings.sort((a, b) => a.file.compareTo(b.file));
+  return findings;
+}
+
+/// `flow-installable` rule: every flow directory is self-contained.
+///
+/// Per flow it requires a `meta.json` with `type: 'flow'`, `meta['id']`
+/// equal to the directory name, a `README.md`, a non-empty `screens` list,
+/// the entry file `flow.dart`, every path listed in `meta['files']` to exist
+/// on disk, and every Dart file to stay inside the 400-line budget.
+List<LayerFinding> flowInstallableFindings(RegistryScan scan) {
+  final findings = <LayerFinding>[];
+  final flowsDir = Directory(joinPath(scan.root, 'flows'));
+  if (!flowsDir.existsSync()) {
+    return findings;
+  }
+  for (final entity
+      in flowsDir.listSync().toList()
+        ..sort((a, b) => a.path.compareTo(b.path))) {
+    if (entity is! Directory) continue;
+    final relDir = relativePath(entity.path, scan.root);
+    final id = baseName(relDir);
+    final metaFile = File(joinPath(entity.path, 'meta.json'));
+    if (!metaFile.existsSync()) {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: relDir,
+          line: 0,
+          message: 'missing meta.json',
+        ),
+      );
+      continue;
+    }
+    final Map<String, dynamic> meta;
+    try {
+      meta = (jsonDecode(metaFile.readAsStringSync()) as Map)
+          .cast<String, dynamic>();
+    } on FormatException {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: '$relDir/meta.json',
+          line: 0,
+          message: 'meta.json is not valid JSON',
+        ),
+      );
+      continue;
+    }
+    if (meta['id'] is String && meta['id'] != id) {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: '$relDir/meta.json',
+          line: 0,
+          message: "id '${meta['id']}' does not match directory name '$id'",
+        ),
+      );
+    }
+    if (meta['type'] != 'flow') {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: '$relDir/meta.json',
+          line: 0,
+          message: "type '${meta['type']}' is not 'flow'",
+        ),
+      );
+    }
+    if (!File(joinPath(entity.path, 'README.md')).existsSync()) {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: relDir,
+          line: 0,
+          message: 'missing README.md',
+        ),
+      );
+    }
+    final screens = meta['screens'];
+    if (screens is! List || screens.isEmpty) {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: '$relDir/meta.json',
+          line: 0,
+          message: 'screens must be a non-empty list',
+        ),
+      );
+    }
+    if (!File(joinPath(entity.path, 'flow.dart')).existsSync()) {
+      findings.add(
+        LayerFinding(
+          rule: 'flow-installable',
+          file: relDir,
+          line: 0,
+          message: "missing entry file 'flow.dart'",
+        ),
+      );
+    }
+    final listed = meta['files'];
+    if (listed is List) {
+      for (final item in listed) {
+        if (item is! String) continue;
+        if (!File(joinPath(entity.path, item)).existsSync()) {
+          findings.add(
+            LayerFinding(
+              rule: 'flow-installable',
+              file: '$relDir/meta.json',
+              line: 0,
+              message: "listed file '$item' does not exist",
+            ),
+          );
+        }
+      }
+    }
+    for (final file
+        in Directory(entity.path)
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((f) => f.path.endsWith('.dart'))) {
+      final lines = file.readAsLinesSync().length;
+      if (lines > maxFileLines) {
+        findings.add(
+          LayerFinding(
+            rule: 'flow-installable',
             file: relativePath(file.path, scan.root),
             line: 0,
             message: '$lines lines (limit $maxFileLines)',

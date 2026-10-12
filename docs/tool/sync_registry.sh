@@ -25,6 +25,12 @@
 # (`dashboard-01`) lives in a hyphenated directory holding `dashboard_01.dart`
 # (the hyphenated file name is a `file_names` lint error).
 #
+# `flows/` (P9-3a layer 5) is mirrored too: the Flows pages load each flow's
+# public widget — which owns its nested Navigator — from the same tree.
+# The mirror keeps the registry's directory names, so a flow id with a
+# hyphen (`onboarding-01`) lives in a hyphenated directory holding
+# `flow.dart` plus `screens/*.dart`.
+#
 # `theme/app_theme.dart` is excluded from deletion: the CLI generates that file
 # per project (from the chosen preset) and a re-sync must never clobber it.
 
@@ -57,7 +63,7 @@ FLAGS=(-a --delete -i --include='*/' --include='*.dart' --exclude='*'
   --exclude='app_theme.dart')
 
 status=0
-for dir in foundation theme primitives components blocks; do
+for dir in foundation theme primitives components blocks flows; do
   if [[ "$MODE" == "check" ]]; then
     # Compare by content (-c) without times/perms: a fresh checkout (CI) gives
     # every file a new mtime, which -a would otherwise report as drift.

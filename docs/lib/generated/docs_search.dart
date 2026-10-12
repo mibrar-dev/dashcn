@@ -1761,6 +1761,21 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
+    label: 'Swipe Actions',
+    kind: DocsSearchKind.component,
+    route: '/docs/components/swipe_actions',
+    tag: '1 files',
+    keywords: <String>[
+      'SwipeActions',
+      'swipe_actions',
+      'actions',
+      'dismiss',
+      'gesture',
+      'list',
+      'swipe',
+    ],
+  ),
+  DocsSearchEntry(
     label: 'Swiper',
     kind: DocsSearchKind.component,
     route: '/docs/components/swiper',

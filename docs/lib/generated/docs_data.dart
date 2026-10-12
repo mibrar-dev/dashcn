@@ -130,7 +130,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 118 installable components, ordered by category then id.
+/// All 119 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -1587,6 +1587,19 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     listed: false,
   ),
   DocsComponent(
+    id: 'swipe_actions',
+    name: 'Swipe Actions',
+    category: 'Utilities (building blocks)',
+    description:
+        'Swipe a row to reveal trailing actions; dismiss-to-delete; RTL-aware with a keyboard/semantics alternative.',
+    install: 'dashcn add swipe_actions',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
+    fileCount: 1,
+    stability: 'stable',
+    listed: true,
+  ),
+  DocsComponent(
     id: 'swiper',
     name: 'Swiper',
     category: 'Utilities (building blocks)',
@@ -1884,7 +1897,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 118 components as index-grid links, alphabetical by name.
+/// All 119 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -1990,6 +2003,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'star_rating', name: 'Star Rating'),
   DocsComponentLink(id: 'stepper', name: 'Stepper'),
   DocsComponentLink(id: 'steps', name: 'Steps'),
+  DocsComponentLink(id: 'swipe_actions', name: 'Swipe Actions'),
   DocsComponentLink(id: 'swiper', name: 'Swiper'),
   DocsComponentLink(id: 'switch', name: 'Switch'),
   DocsComponentLink(id: 'switcher', name: 'Switcher'),
@@ -2011,7 +2025,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 
 /// Catalog categories, count descending then id.
 const List<DocsCategory> kCategories = <DocsCategory>[
-  DocsCategory(id: 'Utilities (building blocks)', count: 35),
+  DocsCategory(id: 'Utilities (building blocks)', count: 36),
   DocsCategory(id: 'Forms & Inputs', count: 19),
   DocsCategory(id: 'Data Display', count: 17),
   DocsCategory(id: 'Layout', count: 11),
@@ -2028,7 +2042,7 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 118, // manifest entries
+  components: 119, // manifest entries
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2057,7 +2071,7 @@ String componentCategorySlug(String id) {
       .replaceAll(RegExp(r'^-|-$'), '');
 }
 
-/// The 12 component categories with their listed components,
+/// The 13 component categories with their listed components,
 /// count descending then id — the sidebar groups and the index sections.
 const List<DocsComponentCategory> kComponentCategoryGroups =
     <DocsComponentCategory>[
@@ -2202,6 +2216,12 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
         id: 'Color',
         components: <DocsComponentLink>[
           DocsComponentLink(id: 'color_picker', name: 'Color Picker'),
+        ],
+      ),
+      DocsComponentCategory(
+        id: 'Utilities (building blocks)',
+        components: <DocsComponentLink>[
+          DocsComponentLink(id: 'swipe_actions', name: 'Swipe Actions'),
         ],
       ),
     ];

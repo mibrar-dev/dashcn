@@ -88,6 +88,22 @@ class _Block implements _Buildable {
   String get kindLabel => 'block';
 }
 
+/// A flow directory as read from its meta.json.
+class _Flow implements _Buildable {
+  _Flow({required this.id, required this.meta, required this.metaFiles});
+
+  @override
+  final String id;
+  final Map<String, dynamic> meta;
+  final List<String> metaFiles;
+
+  @override
+  Map<String, dynamic> get deps => meta['deps'] as Map<String, dynamic>;
+
+  @override
+  String get kindLabel => 'flow';
+}
+
 class _Builder {
   _Builder(this.appRoot) : root = '$appRoot/lib/src';
 
@@ -115,12 +131,14 @@ class _Builder {
   Map<String, Object?> build() {
     final components = _readComponents();
     final blocks = _readBlocks();
-    final declared = _declaredLayerIds(components, blocks);
+    final flows = _readFlows();
+    final declared = _declaredLayerIds(components, blocks, flows);
     final foundation = scanLayer(root, 'foundation', declared['foundation']!);
     final theme = scanLayer(root, 'theme', declared['theme']!);
     final primitives = scanLayer(root, 'primitives', declared['primitives']!);
     _validateComponentDeps(components, foundation, theme, primitives);
     _validateBlocks(blocks, components, foundation, theme, primitives);
+    _validateFlows(flows, blocks, components, foundation, theme, primitives);
 
     final deps = primitiveDeps(primitives);
     final hashes = <String, String>{};
@@ -132,6 +150,10 @@ class _Builder {
     final blockJson = <String, Object?>{};
     for (final id in blocks.keys.toList()..sort()) {
       blockJson[id] = _blockJson(blocks[id]!, hashes);
+    }
+    final flowJson = <String, Object?>{};
+    for (final id in flows.keys.toList()..sort()) {
+      flowJson[id] = _flowJson(flows[id]!, hashes);
     }
     // Theme presets are hashed too: `themes/<id>.json` is the input the CLI
     // renders into `<installRoot>/theme/app_theme.dart`, so a consumer that
@@ -173,6 +195,7 @@ class _Builder {
       'primitives': _primitivesJson(primitives, deps),
       'components': componentJson,
       'blocks': blockJson,
+      'flows': flowJson,
       'themes': themesJson,
       'fileHashes': hashes,
     };
@@ -246,6 +269,107 @@ class _Builder {
     return blocks;
   }
 
+  Map<String, _Flow> _readFlows() {
+    final dir = Directory('$root/flows');
+    if (!dir.existsSync()) {
+      return const <String, _Flow>{};
+    }
+    final flows = <String, _Flow>{};
+    for (final entity in dir.listSync()) {
+      if (entity is! Directory) continue;
+      final id = _baseName(entity.path);
+      final metaFile = File('${entity.path}/meta.json');
+      if (!metaFile.existsSync()) {
+        throw ManifestBuildException("flow '$id' has no meta.json");
+      }
+      final meta =
+          jsonDecode(metaFile.readAsStringSync()) as Map<String, dynamic>;
+      if (meta['id'] != id) {
+        throw ManifestBuildException("flow '$id' meta.id is '${meta['id']}'");
+      }
+      final files = meta['files'];
+      if (files is! List) {
+        throw ManifestBuildException("flow '$id' has no files list");
+      }
+      flows[id] = _Flow(
+        id: id,
+        meta: meta,
+        metaFiles: files.whereType<String>().toList(),
+      );
+    }
+    return flows;
+  }
+
+  void _validateFlows(
+    Map<String, _Flow> flows,
+    Map<String, _Block> blocks,
+    Map<String, _Component> components,
+    LayerScan foundation,
+    LayerScan theme,
+    LayerScan primitives,
+  ) {
+    for (final flow in flows.values) {
+      final meta = flow.meta;
+      final id = flow.id;
+      if (meta['type'] != 'flow') {
+        throw ManifestBuildException(
+          "flow '$id' type '${meta['type']}' is not 'flow'",
+        );
+      }
+      if (meta['name'] is! String || (meta['name'] as String).isEmpty) {
+        throw ManifestBuildException("flow '$id' has no name");
+      }
+      final description = meta['description'];
+      if (description is! String || description.isEmpty) {
+        throw ManifestBuildException("flow '$id' has no description");
+      }
+      final screens = meta['screens'];
+      if (screens is! List || screens.isEmpty) {
+        throw ManifestBuildException("flow '$id' has no screens list");
+      }
+      final viewport = meta['viewport'];
+      if (viewport is! String || !blockViewports.contains(viewport)) {
+        throw ManifestBuildException(
+          "flow '$id' viewport '$viewport' is not one of "
+          '${blockViewports.join(', ')}',
+        );
+      }
+      if (!File('$root/flows/$id/README.md').existsSync()) {
+        throw ManifestBuildException("flow '$id' has no README.md");
+      }
+      if (!File('$root/flows/$id/flow.dart').existsSync()) {
+        throw ManifestBuildException("flow '$id' has no entry file flow.dart");
+      }
+      final deps = flow.deps;
+      const expectedKeys = <String>{
+        'foundation',
+        'theme',
+        'primitives',
+        'components',
+        'blocks',
+      };
+      if (deps.length != expectedKeys.length ||
+          !expectedKeys.every(deps.containsKey)) {
+        throw ManifestBuildException(
+          "flow '$id' deps must have exactly "
+          'foundation, theme, primitives, components, blocks',
+        );
+      }
+      _checkLayerDeps(flow, 'foundation', foundation.units.keys.toSet());
+      _checkLayerDeps(flow, 'theme', theme.units.keys.toSet());
+      _checkLayerDeps(flow, 'primitives', primitives.units.keys.toSet());
+      _checkLayerDeps(flow, 'components', components.keys.toSet());
+      _checkLayerDeps(flow, 'blocks', blocks.keys.toSet());
+      for (final file in flow.metaFiles) {
+        if (!File('$root/flows/$id/$file').existsSync()) {
+          throw ManifestBuildException(
+            "flow '$id' files entry '$file' does not exist",
+          );
+        }
+      }
+    }
+  }
+
   void _validateBlocks(
     Map<String, _Block> blocks,
     Map<String, _Component> components,
@@ -316,13 +440,14 @@ class _Builder {
   Map<String, Set<String>> _declaredLayerIds(
     Map<String, _Component> components,
     Map<String, _Block> blocks,
+    Map<String, _Flow> flows,
   ) {
     final declared = <String, Set<String>>{
       'foundation': <String>{},
       'theme': <String>{},
       'primitives': <String>{},
     };
-    for (final owner in <Map<String, _Buildable>>[components, blocks]) {
+    for (final owner in <Map<String, _Buildable>>[components, blocks, flows]) {
       for (final unit in owner.values) {
         for (final layer in declared.keys) {
           final list = unit.deps[layer];
@@ -532,6 +657,47 @@ class _Builder {
     final packages = _packagesFor(<String>[
       for (final file in block.metaFiles)
         if (file.endsWith('.dart')) 'blocks/$id/$file',
+    ]);
+    if (packages.isNotEmpty) {
+      json['packages'] = packages;
+    }
+    for (final file in files) {
+      hashes[file] = _sha256(file);
+    }
+    for (final file in docs) {
+      hashes[file] = _sha256(file);
+    }
+    return json;
+  }
+
+  Map<String, Object?> _flowJson(_Flow flow, Map<String, String> hashes) {
+    final id = flow.id;
+    // The entry file is the install target; the README is documentation, so
+    // it is hashed but never copied into the app.
+    final files = <String>[
+      for (final file in flow.metaFiles)
+        if (file.endsWith('.dart')) 'flows/$id/$file',
+    ]..sort();
+    final docs = <String>[
+      if (File('$root/flows/$id/README.md').existsSync()) 'flows/$id/README.md',
+    ];
+    final json = <String, Object?>{
+      'type': 'flow',
+      'name': flow.meta['name'],
+      'description': flow.meta['description'],
+      'viewport': flow.meta['viewport'],
+      'screens': (flow.meta['screens'] as List).whereType<String>().toList(),
+      'entry': 'flows/$id/flow.dart',
+      'files': files,
+      'docs': docs,
+      'deps': flow.meta['deps'],
+      'tags': flow.meta['tags'] ?? const <String>[],
+      'install': flow.meta['install'],
+      'import': flow.meta['import'],
+    };
+    final packages = _packagesFor(<String>[
+      for (final file in flow.metaFiles)
+        if (file.endsWith('.dart')) 'flows/$id/$file',
     ]);
     if (packages.isNotEmpty) {
       json['packages'] = packages;

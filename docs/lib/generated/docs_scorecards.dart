@@ -180,7 +180,7 @@ class DocsScorecard {
   bool get hasFailures => failureCount > 0;
 }
 
-/// All 83 measured components, keyed by id (sorted).
+/// All 84 measured components, keyed by id (sorted).
 const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
   'accordion': DocsScorecard(
     componentId: 'accordion',
@@ -200,8 +200,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.069,
-      p90Ms: 0.112,
+      p50Ms: 0.051,
+      p90Ms: 0.086,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -225,8 +225,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.067,
-      p90Ms: 0.118,
+      p50Ms: 0.08,
+      p90Ms: 0.143,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -262,8 +262,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 191.5,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.078,
-      p90Ms: 0.132,
+      p50Ms: 0.077,
+      p90Ms: 0.129,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -291,8 +291,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 339.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.052,
-      p90Ms: 0.103,
+      p50Ms: 0.049,
+      p90Ms: 0.085,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -316,8 +316,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.049,
-      p90Ms: 0.094,
+      p50Ms: 0.051,
+      p90Ms: 0.105,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -341,8 +341,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.051,
-      p90Ms: 0.099,
+      p50Ms: 0.05,
+      p90Ms: 0.095,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -370,8 +370,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 286.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 1.179,
-      p90Ms: 1.723,
+      p50Ms: 1.214,
+      p90Ms: 1.627,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -399,8 +399,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 536.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.062,
-      p90Ms: 0.111,
+      p50Ms: 0.041,
+      p90Ms: 0.087,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -432,8 +432,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.057,
-      p90Ms: 0.106,
+      p50Ms: 0.056,
+      p90Ms: 0.102,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -465,8 +465,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 455.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.063,
-      p90Ms: 0.134,
+      p50Ms: 0.032,
+      p90Ms: 0.057,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -502,8 +502,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 360.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.034,
-      p90Ms: 0.071,
+      p50Ms: 0.038,
+      p90Ms: 0.068,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -531,8 +531,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 690.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.037,
-      p90Ms: 0.067,
+      p50Ms: 0.043,
+      p90Ms: 0.091,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -568,8 +568,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 778.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.05,
-      p90Ms: 0.096,
+      p50Ms: 0.032,
+      p90Ms: 0.059,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -597,8 +597,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 172.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.052,
-      p90Ms: 0.089,
+      p50Ms: 0.029,
+      p90Ms: 0.057,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -622,8 +622,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 608.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.049,
-      p90Ms: 0.095,
+      p50Ms: 0.029,
+      p90Ms: 0.048,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -663,8 +663,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 572.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.049,
-      p90Ms: 0.105,
+      p50Ms: 0.048,
+      p90Ms: 0.095,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -696,7 +696,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 692.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.049,
+      p50Ms: 0.052,
       p90Ms: 0.096,
       frames: 120,
       label: 'test environment (relative)',
@@ -721,8 +721,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 393.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.045,
-      p90Ms: 0.083,
+      p50Ms: 0.051,
+      p90Ms: 0.09,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -758,8 +758,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 68.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.048,
-      p90Ms: 0.086,
+      p50Ms: 0.028,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -783,8 +783,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 696.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.042,
+      p50Ms: 0.023,
+      p90Ms: 0.041,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -820,8 +820,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 252.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.027,
-      p90Ms: 0.062,
+      p50Ms: 0.025,
+      p90Ms: 0.074,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -849,8 +849,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 293.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.028,
-      p90Ms: 0.043,
+      p50Ms: 0.023,
+      p90Ms: 0.038,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -874,8 +874,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 776.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.036,
+      p50Ms: 0.023,
+      p90Ms: 0.041,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -903,8 +903,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.05,
+      p50Ms: 0.023,
+      p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -928,8 +928,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 323.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.047,
+      p50Ms: 0.024,
+      p90Ms: 0.051,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -956,8 +956,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.046,
+      p50Ms: 0.022,
+      p90Ms: 0.053,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -993,8 +993,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 716.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.034,
+      p50Ms: 0.022,
+      p90Ms: 0.037,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1022,8 +1022,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 662.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.037,
+      p50Ms: 0.022,
+      p90Ms: 0.035,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1051,8 +1051,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 399.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.037,
-      p90Ms: 0.072,
+      p50Ms: 0.036,
+      p90Ms: 0.054,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1088,8 +1088,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 246.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.033,
+      p50Ms: 0.039,
+      p90Ms: 0.06,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1125,8 +1125,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 208.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.022,
-      p90Ms: 0.035,
+      p50Ms: 0.039,
+      p90Ms: 0.063,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1150,8 +1150,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 364.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.038,
+      p50Ms: 0.022,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1179,8 +1179,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 501.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.045,
+      p50Ms: 0.022,
+      p90Ms: 0.035,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1216,8 +1216,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 274.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.036,
+      p50Ms: 0.03,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1253,8 +1253,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 663.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.039,
+      p50Ms: 0.021,
+      p90Ms: 0.031,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1282,7 +1282,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
+      p50Ms: 0.022,
       p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
@@ -1307,8 +1307,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 753.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.066,
+      p50Ms: 0.02,
+      p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1336,8 +1336,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 634.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.051,
+      p50Ms: 0.031,
+      p90Ms: 0.054,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1361,8 +1361,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.031,
-      p90Ms: 0.045,
+      p50Ms: 0.019,
+      p90Ms: 0.025,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1389,8 +1389,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.04,
-      p90Ms: 0.085,
+      p50Ms: 0.019,
+      p90Ms: 0.032,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1418,8 +1418,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.037,
-      p90Ms: 0.069,
+      p50Ms: 0.021,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1447,8 +1447,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.037,
+      p50Ms: 0.019,
+      p90Ms: 0.025,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1476,8 +1476,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 748.5,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.038,
+      p50Ms: 0.032,
+      p90Ms: 0.067,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1505,8 +1505,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 782.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.048,
+      p50Ms: 0.032,
+      p90Ms: 0.06,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1530,8 +1530,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 334.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.033,
+      p50Ms: 0.036,
+      p90Ms: 0.071,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1559,8 +1559,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 745.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.043,
+      p50Ms: 0.034,
+      p90Ms: 0.081,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1597,7 +1597,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.02,
-      p90Ms: 0.033,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1633,8 +1633,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 720.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.036,
-      p90Ms: 0.057,
+      p50Ms: 0.019,
+      p90Ms: 0.027,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1662,8 +1662,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 670.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.044,
+      p50Ms: 0.036,
+      p90Ms: 0.072,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1691,8 +1691,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 728.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.032,
+      p50Ms: 0.034,
+      p90Ms: 0.071,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1728,8 +1728,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 744.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.028,
+      p50Ms: 0.019,
+      p90Ms: 0.05,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1765,7 +1765,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 763.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
+      p50Ms: 0.019,
       p90Ms: 0.029,
       frames: 120,
       label: 'test environment (relative)',
@@ -1790,8 +1790,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: -711.6666666666666,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.904,
-      p90Ms: 1.333,
+      p50Ms: 1.034,
+      p90Ms: 2.378,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1823,8 +1823,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 656.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.036,
+      p50Ms: 0.022,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1860,8 +1860,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 763.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.028,
-      p90Ms: 0.043,
+      p50Ms: 0.018,
+      p90Ms: 0.027,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1889,8 +1889,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 648.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.023,
+      p50Ms: 0.023,
+      p90Ms: 0.037,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1914,8 +1914,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 661.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.035,
-      p90Ms: 0.069,
+      p50Ms: 0.023,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1939,8 +1939,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.034,
-      p90Ms: 0.064,
+      p50Ms: 0.022,
+      p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1968,8 +1968,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 718.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.034,
-      p90Ms: 0.048,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1994,7 +1994,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.018,
-      p90Ms: 0.024,
+      p90Ms: 0.025,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2022,8 +2022,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 691.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.029,
+      p50Ms: 0.031,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2063,8 +2063,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 72.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.03,
+      p50Ms: 0.02,
+      p90Ms: 0.027,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2088,8 +2088,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.034,
-      p90Ms: 0.052,
+      p50Ms: 0.031,
+      p90Ms: 0.057,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2117,8 +2117,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 36.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.065,
+      p50Ms: 0.027,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2146,8 +2146,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 620.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.66,
-      p90Ms: 0.945,
+      p50Ms: 0.776,
+      p90Ms: 0.946,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2171,8 +2171,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.03,
+      p50Ms: 0.03,
+      p90Ms: 0.044,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2200,8 +2200,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 13.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.028,
+      p50Ms: 0.031,
+      p90Ms: 0.048,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2228,8 +2228,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 1.012,
-      p90Ms: 1.551,
+      p50Ms: 1.144,
+      p90Ms: 2.3,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2257,8 +2257,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.029,
+      p50Ms: 0.019,
+      p90Ms: 0.047,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2290,8 +2290,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 646.6666666666667,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.034,
+      p50Ms: 0.03,
+      p90Ms: 0.059,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2315,12 +2315,37 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 779.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.04,
+      p50Ms: 0.029,
+      p90Ms: 0.043,
       frames: 120,
       label: 'test environment (relative)',
     ),
     tests: DocsScorecardTests(count: 7, passed: true),
+  ),
+  'swipe_actions': DocsScorecard(
+    componentId: 'swipe_actions',
+    a11y: DocsScorecardA11y(
+      textContrast: DocsScorecardCheck(passed: true, message: null),
+      labeledTapTarget: DocsScorecardCheck(passed: true, message: null),
+      androidTapTarget: DocsScorecardCheck(passed: true, message: null),
+      iOSTapTarget: DocsScorecardCheck(passed: true, message: null),
+      semantics: DocsScorecardSemantics(present: true, message: null),
+    ),
+    rtl: DocsScorecardRtl(
+      passed: true,
+      renders: true,
+      mirrored: true,
+      message: null,
+      ltrX: 652.0,
+      rtlX: 96.0,
+    ),
+    frames: DocsScorecardFrames(
+      p50Ms: 0.028,
+      p90Ms: 0.038,
+      frames: 120,
+      label: 'test environment (relative)',
+    ),
+    tests: DocsScorecardTests(count: 9, passed: true),
   ),
   'switch': DocsScorecard(
     componentId: 'switch',
@@ -2340,8 +2365,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 576.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.066,
+      p50Ms: 0.018,
+      p90Ms: 0.028,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2377,8 +2402,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 334.6666666666667,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.029,
-      p90Ms: 0.045,
+      p50Ms: 0.019,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2406,8 +2431,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 691.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.033,
+      p50Ms: 0.019,
+      p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2431,8 +2456,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 366.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.029,
+      p50Ms: 0.019,
+      p90Ms: 0.038,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2460,8 +2485,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.03,
+      p50Ms: 0.03,
+      p90Ms: 0.065,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2489,8 +2514,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 693.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.027,
+      p50Ms: 0.024,
+      p90Ms: 0.046,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2518,8 +2543,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 680.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.024,
+      p50Ms: 0.022,
+      p90Ms: 0.037,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2555,8 +2580,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 648.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.028,
+      p50Ms: 0.023,
+      p90Ms: 0.026,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2584,8 +2609,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 750.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.03,
+      p50Ms: 0.026,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2612,8 +2637,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.028,
+      p50Ms: 0.033,
+      p90Ms: 0.057,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2640,8 +2665,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.022,
+      p50Ms: 0.027,
+      p90Ms: 0.053,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2673,8 +2698,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.024,
+      p50Ms: 0.029,
+      p90Ms: 0.041,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2683,13 +2708,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
 };
 
 /// Generator timestamp (UTC ISO) for the card footer.
-const String kScorecardsGeneratedAt = '2026-10-12T17:07:22.731815Z';
+const String kScorecardsGeneratedAt = '2026-10-12T19:44:18.728178Z';
 
 /// Full commit hash at generation time.
-const String kScorecardsCommit = '0ffdb3e38b5db8ab5f4464062b51f171cdd87427';
+const String kScorecardsCommit = '0e261f9e85ee5b168b129aee64305846d8239bb3';
 
 /// Short commit hash (7 chars) for the card footer.
-const String kScorecardsCommitShort = '0ffdb3e';
+const String kScorecardsCommitShort = '0e261f9';
 
 /// Flutter/Dart version at generation time.
 const String kScorecardsFlutter = '3.47.7 / Dart 3.13.5';

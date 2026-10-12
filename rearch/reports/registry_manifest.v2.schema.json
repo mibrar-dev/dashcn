@@ -50,6 +50,9 @@
     },
     "fileHashes": {
       "$ref": "#/$defs/hashMap"
+    },
+    "flows": {
+      "$ref": "#/$defs/flowMap"
     }
   },
   "$defs": {
@@ -555,6 +558,113 @@
           }
         }
       }
+    },
+    "flowDeps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "foundation",
+        "theme",
+        "primitives",
+        "components",
+        "blocks"
+      ],
+      "description": "Exactly the flow meta.json deps block; a flow may import foundation/theme/primitives/components/blocks only, never another flow (check_layers flow-imports).",
+      "properties": {
+        "foundation": {
+          "$ref": "#/$defs/idList"
+        },
+        "theme": {
+          "$ref": "#/$defs/idList"
+        },
+        "primitives": {
+          "$ref": "#/$defs/idList"
+        },
+        "components": {
+          "$ref": "#/$defs/idList"
+        },
+        "blocks": {
+          "$ref": "#/$defs/idList"
+        }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "name",
+        "description",
+        "viewport",
+        "screens",
+        "entry",
+        "files",
+        "docs",
+        "deps",
+        "tags",
+        "install",
+        "import"
+      ],
+      "properties": {
+        "type": {
+          "const": "flow"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "$ref": "#/$defs/blockCategory"
+        },
+        "description": {
+          "type": "string"
+        },
+        "screens": {
+          "$ref": "#/$defs/stringList",
+          "description": "Display names of the flow screens, in walk order."
+        },
+        "viewport": {
+          "enum": [
+            "desktop",
+            "mobile"
+          ],
+          "description": "Layout hint for the docs stage: the block was designed at 1440 (desktop) or 375 (mobile). Both still render at every width."
+        },
+        "entry": {
+          "$ref": "#/$defs/relPath",
+          "description": "flows/<id>/flow.dart - the public flow widget owning the nested Navigator."
+        },
+        "files": {
+          "$ref": "#/$defs/pathList",
+          "description": "Registry-owned installable Dart files of the flow."
+        },
+        "docs": {
+          "$ref": "#/$defs/pathList",
+          "description": "Documentation files of the flow, hashed but never installed."
+        },
+        "deps": {
+          "$ref": "#/$defs/flowDeps"
+        },
+        "tags": {
+          "$ref": "#/$defs/stringList"
+        },
+        "install": {
+          "type": "string"
+        },
+        "import": {
+          "type": "string"
+        },
+        "packages": {
+          "$ref": "#/$defs/packages"
+        }
+      }
+    },
+    "flowMap": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/flow"
+      },
+      "description": "id (== directory name) -> flow. 5 entries at P9-3a."
     }
   }
 }

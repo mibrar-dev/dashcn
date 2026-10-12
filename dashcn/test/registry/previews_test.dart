@@ -89,6 +89,7 @@ import 'package:dashcn/src/components/spinner/preview.dart';
 import 'package:dashcn/src/components/star_rating/preview.dart';
 import 'package:dashcn/src/components/stepper/preview.dart';
 import 'package:dashcn/src/components/steps/preview.dart';
+import 'package:dashcn/src/components/swipe_actions/preview.dart';
 import 'package:dashcn/src/components/switch/preview.dart';
 import 'package:dashcn/src/components/table/preview.dart';
 import 'package:dashcn/src/components/tabs/preview.dart';
@@ -198,6 +199,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'star_rating': starRatingPreviews,
       'stepper': stepperPreviews,
       'steps': stepsPreviews,
+      'swipe_actions': swipeActionsPreviews,
       'switch': switchPreviews,
       'table': tablePreviews,
       'tabs': tabsPreviews,
