@@ -65,7 +65,12 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
    - the component page becomes frames + playground + scorecard;
    - navigation;
    - landing hero;
-   - fix the docs crash in a browser with no locale (`RangeError: Incorrect locale information provided`).
+   - fix the docs crash in a browser with no locale (`RangeError: Incorrect locale information provided`);
+   - KIT-FIX-1 follow-ups:
+     - an opt-out for `TouchHitArea`'s layout growth on phones (like Material's `shrinkWrap` tap-target size), e.g.
+       a theme flag, documented on the Button page;
+     - a decision on the scorecard for `divider` (decorative by design), `menu` (disabled row) and
+       `refresh_trigger` (a measurement artefact): exempt them in the harness, with the reason shown.
 5. **P8-6 final QA.**
    - fresh-app tests for package mode and eject;
    - `dart pub publish --dry-run` / `flutter pub publish --dry-run` for both packages;

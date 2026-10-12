@@ -169,6 +169,18 @@ OpenCode session. Orchestrator fix: the capture harness's RepaintBoundary sat in
 transparent) → boundary now wraps the background. Merged with refactor/dashcn; gates on the merged tree: docs
 gen/sync --check, format, analyze clean, `test tool` +597, build web; check_names 0.
 
+## KIT-FIX-1 accessibility + form validation — ACCEPTED (worktree B, branch wip/kit-fix-1, merged)
+Scorecards (84): textContrast 36→82, labeled tap targets 72→84, touch tap targets 61→70, semantics 78→83.
+`ThemeColors.onMuted` (derived, 4.5:1 guaranteed via new `theme/contrast.dart`; preset JSONs untouched); labels and
+semantics on shared primitives (chip button, stepper, tree, navigation item, …); `TouchHitArea` adds transparent
+padding on phones only (Button, collapsible); `FormValidationMode.changed` no longer fires at mount (pristine/dirty —
+every FormValueSupplier publishes once at mount, so the first report is `initial`). Scorecard harness now measures on
+the app background with the app text style (a large share of the old failures were harness artefacts). Remaining:
+menu (disabled row), refresh_trigger (sampling artefact), divider (decorative), 14 dense tap targets → P9-Z
+decisions + a TouchHitArea opt-out. Merged refactor/dashcn (P8-4) in; gates on the merged tree: qa_gate exit 0
+(+4844/+42), all generators --check, check_names 0, package format clean; docs gen/sync --check, format, analyze,
+`test tool` +598, build web.
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
