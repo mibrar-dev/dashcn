@@ -16,6 +16,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version: '3.47.x'
+          cache: true
 
       - name: Deploy to GitHub Pages
         # Verified D1 (2026-10-09) against stable Flutter 3.47.5:
