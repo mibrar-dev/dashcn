@@ -35,3 +35,12 @@ to the exports generator inputs only if P8-1's tool requires a manifest entry (s
 
 ## Report
 `$KIT/rearch/reports/P9-4a.md`
+
+## Notes (orchestrator, after P8-2)
+- Kit paths/names are final: `$APP` = `$KIT/dashcn`, sources `lib/src/`, `ThemeData`/`ThemeColors`/`DesignTokens`.
+  Presets: verify where (`lib/src/themes/`). Run `rearch/qa_gate.sh` (now includes `names:` — no "shadcn" in new
+  files; the format names "shadcn CSS"/"tweakcn" in identifiers/strings must therefore be spelled as `webCss`,
+  `ShadcnCss…` is NOT allowed — use e.g. `CssThemeParser`, `CssVariant.v3/v4`, and in docs strings "shadcn/ui CSS
+  variables" only where `check_names` allows; if it does not, say "web CSS variables (v3 HSL / v4 OKLCH)").
+- Another agent works in the CLI repo at the same time; you own only the files listed above.
+- Keep tool outputs short; never sleep > 60 s.

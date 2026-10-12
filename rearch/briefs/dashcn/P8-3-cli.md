@@ -44,3 +44,15 @@ In `$CLI`: `dart format --output=none --set-exit-if-changed .`, `dart analyze` (
 
 ## Report
 `$CLI/qa_reports/P8-3.md` (print the RESULT block too).
+
+## Context from P8-1/P8-2 (orchestrator)
+- The kit now lives at `$KIT/dashcn` (package `dashcn` 1.0.0): sources `lib/src/`, public libraries
+  `lib/dashcn.dart`, `lib/components/<id>.dart`, `lib/blocks/<id_with_underscores>.dart`. Registry manifest:
+  `$KIT/dashcn/lib/src/manifests/registry.json` (its `install:`/`import:` strings now say `ui/dashcn`).
+- CLI references to the old paths are listed in `$KIT/rearch/reports/P8-1.md` §7.
+- Public names are final (P8-2): `DashcnApp`, `Theme`, `ThemeData`, `ThemeColors`, `ComponentLocalizations`… — CLI
+  templates/snippets that mention kit symbols must use them (see `$KIT/dashcn/tool/rename_map.yaml`).
+- The real GitHub repo is still `mibrar-dev/shadcn_flutter_kit` (rename pending): default registry URLs must keep
+  pointing at it (raw.githubusercontent.com/mibrar-dev/shadcn_flutter_kit/<branch>/dashcn/lib/src/...), so add a
+  CLI-side allow-list entry for that URL in your grep gate; everything else must say dashcn.
+- Keep tool outputs short (pipe through tail/wc); never sleep > 60 s; no `timeout` wrappers around long tools.
