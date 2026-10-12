@@ -6,9 +6,9 @@ every line you produce. Accuracy beats speed. When a fact is not verified from t
 
 ## Paths (worktrees — the ONLY places you may write)
 - ROOT = {{ROOT}}   (filled in by the launcher: the folder holding dashcn-kit/ and dashcn-cli/)
-- KIT  = $ROOT/dashcn-kit                       (kit repo worktree, branch refactor/dashcn)
-- APP  = $KIT/flutter_shadcn_kit  → becomes $KIT/dashcn after P8-1 (run flutter/dart commands here)
-- REG  = $APP/lib/registry        → becomes $APP/lib/src after P8-1
+- KIT  = {{KIT}}   (this kit worktree; filled in by the launcher — may be a secondary worktree on a wip/ branch)
+- APP  = $KIT/dashcn               (the `dashcn` package; run flutter/dart commands here)
+- REG  = $APP/lib/src              (sources: foundation, theme, primitives, components, blocks)
 - DOCS = $KIT/docs                              (docs Flutter app)
 - CLI  = $ROOT/dashcn-cli                       (CLI repo worktree, branch refactor/dashcn)
 - Plans (binding): $KIT/rearch/plans/DASHCN_PACKAGE_PLAN.md, $KIT/rearch/plans/DASHCN_FEATURES_PLAN.md

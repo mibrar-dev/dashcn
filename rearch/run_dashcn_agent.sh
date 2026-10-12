@@ -27,7 +27,7 @@ REPORT="$(grep -oE '\$(KIT|CLI)/[A-Za-z0-9_./-]*(reports|qa_reports)/[A-Za-z0-9_
   | sed -e "s#\$KIT#$KIT#" -e "s#\$CLI#$ROOT/dashcn-cli#")"
 done_report() { [ -n "$REPORT" ] && grep -q '^## RESULT' "$REPORT" 2>/dev/null; }
 
-PROMPT="$(sed "s#{{ROOT}}#$ROOT#g" rearch/briefs/dashcn/_common.md; echo; echo '---'; echo; cat "$2")"
+PROMPT="$(sed -e "s#{{ROOT}}#$ROOT#g" -e "s#{{KIT}}#$KIT#g" rearch/briefs/dashcn/_common.md; echo; echo '---'; echo; cat "$2")"
 opencode run "${STANDALONE[@]}" --auto --title "dashcn:$3" -m "$MODEL" "${VARIANT[@]}" "$PROMPT" > "$LOG" 2>&1
 code=$?
 SESSION="$(opencode session list 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g' | awk -v t="dashcn:$3" '$0 ~ t {print $1; exit}')"
