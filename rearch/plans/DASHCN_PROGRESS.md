@@ -159,6 +159,16 @@ gen/sync --check, build web.
 Deferred polish → P9-3b: "No account yet?Create one" spacing; settings home vertically centred instead of top;
 cramped toggle rows.
 
+## P8-4 docs content — ACCEPTED
+Brand leftovers (docs pubspec/README/.gitignore/Makefile, root README rewritten as the dashcn README with the brand
+lockup); Package | Own-the-code install tabs from one source of truth (`docs/lib/widgets/install_commands.dart`) on
+component pages and Getting Started; new pages `/docs/package-or-own` and `/docs/material` (every Dart sample parsed
+by a test); CLI reference regenerated from the real `dashcn` 1.0.0 help (readme_scan accepts `--dir <path>` and
+aliases); landing collage card ellipsizes long labels. Interrupted once by a container restart → resumed the same
+OpenCode session. Orchestrator fix: the capture harness's RepaintBoundary sat inside the background (dark captures
+transparent) → boundary now wraps the background. Merged with refactor/dashcn; gates on the merged tree: docs
+gen/sync --check, format, analyze clean, `test tool` +597, build web; check_names 0.
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
