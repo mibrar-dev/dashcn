@@ -10,4 +10,4 @@ VARIANT=()
 STANDALONE=()
 opencode run --help 2>&1 | grep -q -- '--standalone' && STANDALONE=(--standalone)
 opencode run "${STANDALONE[@]}" --auto -s "$1" -m "$MODEL" "${VARIANT[@]}" "$(cat "$3")" > "rearch/logs/$4.log" 2>&1
-echo "exit=$?" >> "rearch/logs/$4.log"
+echo "__AGENT_EXIT__=$?" >> "rearch/logs/$4.log"

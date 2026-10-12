@@ -40,4 +40,4 @@ while [ "$code" -eq 0 ] && ! done_report && [ -n "$SESSION" ] && [ "$n" -lt "$MA
   code=$?
 done
 done_report || echo "--- report missing after $n continues ---" >> "$LOG"
-echo "exit=$code" >> "$LOG"
+echo "__AGENT_EXIT__=$code" >> "$LOG"

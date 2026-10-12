@@ -3,7 +3,7 @@
 # Usage: rearch/watch_dashcn_agents.sh [interval-seconds=60]
 # Prints ONE line per new event (meant for a Monitor):
 #   EVENT <kind> <agent> <detail>
-# kinds: DONE (exit= line written), MODEL_ERROR (provider/model failure in the log tail),
+# kinds: DONE (launcher's __AGENT_EXIT__= line written; agents' own `exit=` echoes are ignored), MODEL_ERROR (provider/model failure in the log tail),
 #        STALL (log unchanged for STALL_MIN), LONG (running > LONG_MIN, repeats every LONG_MIN),
 #        DIED (process gone, no exit= line), HEARTBEAT (every HEARTBEAT_MIN, lists running agents).
 # Agents finished/dead are moved to rearch/logs/.agents/done/ so each fires once.
@@ -35,12 +35,12 @@ while true; do
     log="$KIT/rearch/logs/$name.log"
     state="$KIT/rearch/logs/.agents/.$name.state"
     touch "$state"
-    if [ -f "$log" ] && grep -q '^exit=' "$log"; then
-      echo "EVENT DONE $name $(grep '^exit=' "$log" | tail -1) model=$model mins=$(( (now - start) / 60 ))"
+    if [ -f "$log" ] && grep -q '^__AGENT_EXIT__=' "$log"; then
+      echo "EVENT DONE $name $(grep '^__AGENT_EXIT__=' "$log" | tail -1) model=$model mins=$(( (now - start) / 60 ))"
       mv "$f" "$REG/done/$name"; rm -f "$state"; continue
     fi
     if ! kill -0 "$pid" 2>/dev/null; then
-      echo "EVENT DIED $name pid=$pid model=$model (no exit= line)"
+      echo "EVENT DIED $name pid=$pid model=$model (no __AGENT_EXIT__ line)"
       mv "$f" "$REG/done/$name"; rm -f "$state"; continue
     fi
     running="$running $name"
