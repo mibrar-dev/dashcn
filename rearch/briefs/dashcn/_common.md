@@ -58,3 +58,6 @@ open_questions: [bullets]
 - Keep tool outputs short (pipe through `tail`/`wc`/`head`); huge outputs bloat your context until you hang.
 - Never `sleep` more than 60 s at a time.
 - Test runs rewrite PNGs under `rearch/screenshots/` and `rearch/design/`; those are not your changes.
+- Never hard-code absolute paths (e.g. `/home/user/...`) in code, tests or scripts: CI and Ibrar's Mac have different
+  roots. Resolve paths relative to the package (`flutter test` runs in the package root) or the script's directory.
+- CI (GitHub Actions) formats whole packages: run `dart format --set-exit-if-changed .` in the package, not only lib/.
