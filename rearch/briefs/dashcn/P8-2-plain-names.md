@@ -15,8 +15,9 @@ analyzer-driven codemod. Never hand-rename.
 2. **Rename map** `$KIT/dashcn/tool/rename_map.yaml`: the plan §2 table with `ShadcnApp → DashcnApp`, plus your
    additions for every inventory item (private `_Shadcn…` → plain, localization classes
    `ShadcnLocalizations*` → `ComponentLocalizations*`, `showShadcnX` → `showX`). Flag each addition `proposed: true`;
-   the orchestrator approves the map BEFORE step 3 — stop after writing the map and the inventory, report
-   `status: partial` with the proposed additions. (Orchestrator will resume you.)
+   the orchestrator approves the map BEFORE step 3 — stop after writing the map and the inventory: write
+   `$KIT/rearch/reports/P8-2.md` with a `## RESULT` block, `status: partial`, listing the proposed additions, then stop.
+   (The orchestrator resumes you; on resume, overwrite that report with the final one.)
 3. **Codemod** `$KIT/dashcn/tool/rename_api.dart` (`package:analyzer`, resolved AST via
    `AnalysisContextCollection` so references are exact): renames declarations + all references (incl. named
    constructors, show/hide combinators, doc-comment `[Refs]`), file names (`git mv` allowed for renamed files only),
@@ -40,4 +41,4 @@ Same as P8-1 plus `dart run tool/rename_api.dart --check` (no pending) and `dart
 Report the before/after count of `shadcn` occurrences per area.
 
 ## Report
-`$KIT/rearch/reports/P8-2.md` (step 2 stop → `P8-2-map.md`).
+`$KIT/rearch/reports/P8-2.md` (partial at the step-2 stop, final at the end).
