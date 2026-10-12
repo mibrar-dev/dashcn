@@ -105,6 +105,22 @@ Gates (orchestrator): kit +4741/+42, exports/manifest --check, check_names 0, ba
 gen/sync --check, build web; CLI format/analyze clean, 553 unit, e2e acceptance + package + theme_interop, rename
 --check, sync_interop --check.
 
+## P8-5 release engineering — ACCEPTED (kit 0ffdb3e, CLI 6cb13fe)
+CI on PR + push (main, refactor/**), tag-triggered pub.dev publishing via OIDC (configured, never run), changelogs,
+RELEASING.md (semver, one-time pub.dev setup by Ibrar, release order kit→CLI, repo-rename checklist).
+QA: the kit publish job used dart-lang's reusable workflow (Dart SDK only — cannot publish a Flutter package) →
+replaced with setup-dart (OIDC) + flutter-action + `flutter pub publish`; changelog facts corrected.
+First GitHub CI runs failed → fixed: capture tests hard-coded `/home/user/...`; one unformatted tool file; CLI CI
+analyzed/rename-checked the kit checkout under `dashcn-kit/`. Kit CI green at 8ae6fd9.
+
+## P9-5a trust scorecards generator — ACCEPTED
+`tool/gen_scorecards.dart` + generated harness (83 components) → `lib/src/manifests/scorecards.json`
+(generatedAt/commit/flutter; per component a11y guidelines, RTL, frames "test environment (relative)", test count).
+Findings (measured, nothing invented): 22/83 pass all a11y checks; 47 text-contrast failures — root cause verified by
+the orchestrator: muted-foreground #737373 on muted #F5F5F5 = 4.35:1 (< WCAG AA 4.5; passes on white at 4.74);
+11 unlabeled tappables; 22 below 44/48 px mobile tap targets (32–36 px desktop sizing); 5 missing semantics; RTL 83/83.
+CI now runs test/scorecards + `gen_scorecards --check`. Follow-up queued: A11Y-1 token/semantics fix batch.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

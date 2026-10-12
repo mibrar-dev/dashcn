@@ -32,7 +32,10 @@ jobs:
         run: flutter analyze
 
       - name: Tests
-        run: flutter test test/registry test/rearch test/tool
+        run: flutter test test/registry test/rearch test/tool test/scorecards
+
+      - name: Trust scorecards up to date
+        run: dart run tool/gen_scorecards.dart --check
 
       - name: Generated exports up to date
         run: dart run tool/gen_exports.dart --check
