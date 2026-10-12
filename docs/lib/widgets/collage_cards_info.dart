@@ -188,13 +188,17 @@ class CollagePagesCard extends StatelessWidget {
               children: <Widget>[
                 Icon(_icons[i], size: 14, color: theme.colors.mutedForeground),
                 const Gap(8),
-                Text(
-                  links[i].label,
-                  style: docsText(
-                    context,
-                    size: 13,
-                    weight: FontWeight.w500,
-                    color: theme.colors.cardForeground,
+                Expanded(
+                  child: Text(
+                    links[i].label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: docsText(
+                      context,
+                      size: 13,
+                      weight: FontWeight.w500,
+                      color: theme.colors.cardForeground,
+                    ),
                   ),
                 ),
               ],

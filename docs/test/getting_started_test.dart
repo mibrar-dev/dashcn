@@ -40,11 +40,20 @@ void main() {
       expect(find.textContaining('--all'), findsWidgets);
     });
 
-    testWidgets('renders theme apply command', (WidgetTester tester) async {
+    testWidgets('renders theme command', (WidgetTester tester) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/docs/cli');
-      expect(find.text('dashcn theme apply'), findsWidgets);
+      expect(find.text('dashcn theme'), findsWidgets);
       expect(find.textContaining('--refresh'), findsWidgets);
+      expect(find.textContaining('theme import'), findsWidgets);
+      expect(find.textContaining('theme export'), findsWidgets);
+    });
+
+    testWidgets('renders eject command', (WidgetTester tester) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      await goTo(tester, delegate, '/docs/cli');
+      expect(find.text('dashcn eject'), findsWidgets);
+      expect(find.textContaining('--with-deps'), findsWidgets);
     });
   });
 }

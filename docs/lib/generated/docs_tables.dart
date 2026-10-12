@@ -1360,194 +1360,304 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     label: 'dashcn',
     invocation: 'dashcn --help',
     usage: 'dashcn <command> [arguments]',
-    summary: 'Component manager for the dashcn registry.',
+    summary: 'dashcn CLI',
     helpText:
-        'Component manager for the dashcn registry.\n\nUsage: dashcn <command> [arguments]\n-h, --help       Print this usage information.\n    --version    Print the CLI version.\n\nAvailable commands:\n  init       Install the layer core and pick a theme preset.\n  add        Add components and their dependency closure.\n  remove     Remove registry-owned files (user-owned files stay).\n  update     Pull upstream registry changes for installed files.\n  list       List every component in the registry manifest.\n  search     Search components by name, tag or description.\n  info       Show dependency closure, files and theme class for one component.\n  theme      List or apply theme presets.\n  doctor     Check the install closure, lock drift and user-owned files.\n  validate   Validate the registry manifest against the v2 schema.\n\nRun "dashcn help <command>" for more information about a command.',
+        'dashcn CLI\nUsage: dashcn <command> [arguments]\n\nComponents\n  add                     Install one or more components or blocks and their closure.\n  eject                   Turn a package-mode component into owned sources.\n  remove (alias: rm)      Remove installed components, blocks and orphaned layer files.\n  update                  Update installed components from the registry.\n  dry-run                 Preview what add would install.\n  list (alias: ls)        List available components or blocks, by category.\n  search                  Search components and blocks by name, description or tag.\n  info (alias: i)         Show a component\'s or block\'s closure, files and api.\n\nProject\n  init                    Install the layer core and generate the app theme.\n  registries              List configured and discoverable registries.\n  default                 Set or show the default registry namespace.\n  sync                    Re-apply the installed closure and locked theme.\n  project                 Project repair and cleanup commands.\n  theme                   List and apply registry theme presets.\n\nDiagnostics\n  reset                   Clear global CLI-managed cache and home-directory state.\n  doctor                  Diagnose the manifest, closure, layout and lock drift.\n  validate                Validate the registry manifest against the v2 schema.\n  audit                   Compare installed files against dashcn.lock.\n\nTooling\n  feedback                Submit feedback or report issues.\n  version                 Show the CLI version.\n  upgrade                 Upgrade the CLI to the latest version.\n\nGlobal flags\n  General:\n    --verbose               Verbose logging\n    --version               Show the CLI version\n    --offline               Disable network calls (use cache only)\n\n  Registry Selection:\n    --registry-name         Registry namespace (e.g. dashcn)\n    --registry <path|url>   Registry source override',
     flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--version', description: 'Print the CLI version.'),
+      DocsCliFlag(name: '--verbose', description: 'Verbose logging'),
+      DocsCliFlag(name: '--version', description: 'Show the CLI version'),
+      DocsCliFlag(
+        name: '--offline',
+        description: 'Disable network calls (use cache only)',
+      ),
+      DocsCliFlag(
+        name: '--registry-name',
+        description: 'Registry namespace (e.g. dashcn)',
+      ),
+      DocsCliFlag(
+        name: '--registry',
+        placeholder: '<path|url>',
+        description: 'Registry source override',
+      ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn init',
     invocation: 'dashcn init --help',
-    usage: 'dashcn init [arguments]',
-    summary:
-        'Install the registry layer core (foundation + theme) into a project and choose',
+    usage: 'dashcn init [flags]',
+    summary: 'Installs the always-on foundation + theme core and generates',
     helpText:
-        'Install the registry layer core (foundation + theme) into a project and choose\na theme preset. Writes .dashcn/config.json and dashcn.lock v2; installs no\ncomponent.\n\nUsage: dashcn init [arguments]\n-h, --help         Print this usage information.\n    --dir=<path>   Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).\n    --theme=<id>   Preset id from themes/index.json; interactive list when omitted.\n    --yes          Accept defaults without prompting.\n    --json         Print the result as JSON.',
+        'Usage: dashcn init [flags]\n\nInstalls the always-on foundation + theme core and generates\n<installRoot>/theme/app_theme.dart from a theme preset.\n\nOptions:\n  --dir <path>     Install root (default: lib/ui/dashcn)\n  --theme <id>     Theme preset id (default: neutral)\n  --mode <mode>    `copy` (own the sources) or `package` (pub dep)\n  --yes, -y        Non-interactive; use the default preset\n  --json           Machine-readable output on stdout\n  --help, -h       Show this message',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--dir',
         placeholder: '<path>',
-        description:
-            'Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).',
+        description: 'Install root (default: lib/ui/dashcn)',
       ),
       DocsCliFlag(
         name: '--theme',
         placeholder: '<id>',
-        description:
-            'Preset id from themes/index.json; interactive list when omitted.',
+        description: 'Theme preset id (default: neutral)',
+      ),
+      DocsCliFlag(
+        name: '--mode',
+        placeholder: '<mode>',
+        description: '`copy` (own the sources) or `package` (pub dep)',
       ),
       DocsCliFlag(
         name: '--yes',
-        description: 'Accept defaults without prompting.',
+        alias: '-y',
+        description: 'Non-interactive; use the default preset',
       ),
-      DocsCliFlag(name: '--json', description: 'Print the result as JSON.'),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
+      DocsCliFlag(
+        name: '--help',
+        alias: '-h',
+        description: 'Show this message',
+      ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn add',
     invocation: 'dashcn add --help',
-    usage: 'dashcn add <ids...> [arguments]',
-    summary:
-        'Add components and the transitive dependency closure (components -> primitives',
+    usage: 'dashcn add <component|block...> [flags]',
+    summary: 'Installs the transitive closure of every requested id:',
     helpText:
-        'Add components and the transitive dependency closure (components -> primitives\n-> foundation/theme). Existing user-owned files are never overwritten. Refuses\nto install when a symbol would be defined twice (single-owner preflight).\n\nUsage: dashcn add <ids...> [arguments]\n-h, --help             Print this usage information.\n    --dry-run          Print the plan without writing files.\n    --json             Print the plan or result as JSON.\n    --force            Continue past non-fatal preflight warnings.\n    --all              Add every component in the registry manifest.\n    --include-preview  Also copy preview.dart files (default: never).',
+        'Usage: dashcn add <component|block...> [flags]\n       dashcn add --all [--blocks] [flags]\n\nInstalls the transitive closure of every requested id:\ncomponents, blocks, primitives, and the always-on foundation/theme core.\nA block installs to blocks/<id>/ with the components it uses.\n\nOptions:\n  --all               Install every component in the registry\n  --blocks            With --all, install every block too\n  --dry-run           Print the plan without writing anything\n  --force             Overwrite locally modified registry files\n  --include-preview   Also copy each component preview.dart\n  --package           Depend on the dashcn package, copy no sources\n  --path <dir>        With --package, use a path dependency instead\n  --json              Machine-readable output on stdout\n  --help, -h          Show this message',
     flags: <DocsCliFlag>[
       DocsCliFlag(
-        name: '--dry-run',
-        description: 'Print the plan without writing files.',
+        name: '--all',
+        description: 'Install every component in the registry',
       ),
       DocsCliFlag(
-        name: '--json',
-        description: 'Print the plan or result as JSON.',
+        name: '--blocks',
+        description: 'With --all, install every block too',
+      ),
+      DocsCliFlag(
+        name: '--dry-run',
+        description: 'Print the plan without writing anything',
       ),
       DocsCliFlag(
         name: '--force',
-        description: 'Continue past non-fatal preflight warnings.',
-      ),
-      DocsCliFlag(
-        name: '--all',
-        description: 'Add every component in the registry manifest.',
+        description: 'Overwrite locally modified registry files',
       ),
       DocsCliFlag(
         name: '--include-preview',
-        description: 'Also copy preview.dart files (default: never).',
+        description: 'Also copy each component preview.dart',
+      ),
+      DocsCliFlag(
+        name: '--package',
+        description: 'Depend on the dashcn package, copy no sources',
+      ),
+      DocsCliFlag(
+        name: '--path',
+        placeholder: '<dir>',
+        description: 'With --package, use a path dependency instead',
+      ),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
+      DocsCliFlag(
+        name: '--help',
+        alias: '-h',
+        description: 'Show this message',
+      ),
+    ],
+  ),
+  DocsCliCommand(
+    label: 'dashcn eject',
+    invocation: 'dashcn eject --help',
+    usage: 'dashcn eject <component> [flags]',
+    summary: 'Turns a mode: package component into owned sources in the',
+    helpText:
+        'Usage: dashcn eject <component> [flags]\n\nTurns a mode: package component into owned sources in the\ninstall dir and rewrites the app imports to match.\n\nOptions:\n  --with-deps         Also eject transitive component dependencies\n  --dry-run           Print the plan without writing anything\n  --force             Overwrite locally modified registry files\n  --json              Machine-readable output on stdout\n  --help, -h          Show this message',
+    flags: <DocsCliFlag>[
+      DocsCliFlag(
+        name: '--with-deps',
+        description: 'Also eject transitive component dependencies',
+      ),
+      DocsCliFlag(
+        name: '--dry-run',
+        description: 'Print the plan without writing anything',
+      ),
+      DocsCliFlag(
+        name: '--force',
+        description: 'Overwrite locally modified registry files',
+      ),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
+      DocsCliFlag(
+        name: '--help',
+        alias: '-h',
+        description: 'Show this message',
+      ),
+    ],
+  ),
+  DocsCliCommand(
+    label: 'dashcn remove',
+    invocation: 'dashcn remove --help',
+    usage: 'dashcn remove <component|block...> [flags]',
+    summary: '',
+    helpText:
+        'Usage: dashcn remove <component|block...> [flags]\n       dashcn remove --all [flags]\n\nOptions:\n  --all                 Remove every installed component and block\n  --force               Remove even if dependents remain\n  --purge-user-themes   Also delete <name>_theme.dart user files\n  --json                Machine-readable output on stdout',
+    flags: <DocsCliFlag>[
+      DocsCliFlag(
+        name: '--all',
+        description: 'Remove every installed component and block',
+      ),
+      DocsCliFlag(
+        name: '--force',
+        description: 'Remove even if dependents remain',
+      ),
+      DocsCliFlag(
+        name: '--purge-user-themes',
+        description: 'Also delete <name>_theme.dart user files',
+      ),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
       ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn update',
     invocation: 'dashcn update --help',
-    usage: 'dashcn update [ids...] [arguments]',
-    summary:
-        'Hash-based update of registry-owned files. Unchanged files are overwritten,',
+    usage: 'dashcn update [component...] [flags]',
+    summary: 'Updates installed components to the registry\'s current files.',
     helpText:
-        'Hash-based update of registry-owned files. Unchanged files are overwritten,\nlocally modified files are reported and skipped, user-owned files are never\ntouched. Regenerates theme/app_theme.dart from the locked preset.\n\nUsage: dashcn update [ids...] [arguments]\n-h, --help    Print this usage information.\n    --all     Update every installed component.\n    --check   Report only; exit 1 when anything is behind or modified.\n    --json    Print the result as JSON.',
+        'Usage: dashcn update [component...] [flags]\n       dashcn update --all [flags]\n\nUpdates installed components to the registry\'s current files.\nFiles you edited are reported and left untouched; user-owned\n<name>_theme.dart files are never rewritten.\n\nOptions:\n  --all     Update every installed component\n  --check   Report only; exit 1 when anything is behind or modified\n  --json    Machine-readable output on stdout',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--all',
-        description: 'Update every installed component.',
+        description: 'Update every installed component',
       ),
       DocsCliFlag(
         name: '--check',
-        description: 'Report only; exit 1 when anything is behind or modified.',
+        description: 'Report only; exit 1 when anything is behind or modified',
       ),
-      DocsCliFlag(name: '--json', description: 'Print the result as JSON.'),
-    ],
-  ),
-  DocsCliCommand(
-    label: 'dashcn remove',
-    invocation: 'dashcn remove --help',
-    usage: 'dashcn remove [ids...] [arguments]',
-    summary:
-        'Remove registry-owned files for the given components. Refuses when another',
-    helpText:
-        'Remove registry-owned files for the given components. Refuses when another\ninstalled component depends on the target.\n\nUsage: dashcn remove [ids...] [arguments]\n-h, --help               Print this usage information.\n    --purge-user-themes  Also delete the user-owned *_theme.dart files.\n    --json               Print the result as JSON.',
-    flags: <DocsCliFlag>[
       DocsCliFlag(
-        name: '--purge-user-themes',
-        description: 'Also delete the user-owned *_theme.dart files.',
+        name: '--json',
+        description: 'Machine-readable output on stdout',
       ),
-      DocsCliFlag(name: '--json', description: 'Print the result as JSON.'),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn list',
     invocation: 'dashcn list --help',
-    usage: 'dashcn list [arguments]',
-    summary: 'List every component in the registry manifest.',
+    usage: 'dashcn list [--blocks] [--category <c>] [--json]',
+    summary: 'Lists components (default) or blocks, grouped by category.',
     helpText:
-        'List every component in the registry manifest.\n\nUsage: dashcn list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the list as JSON.',
+        'Usage: dashcn list [--blocks] [--category <c>] [--json]\n\nLists components (default) or blocks, grouped by category.\n\nOptions:\n  --blocks           List the blocks layer instead\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
     flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--json', description: 'Print the list as JSON.'),
+      DocsCliFlag(
+        name: '--blocks',
+        description: 'List the blocks layer instead',
+      ),
+      DocsCliFlag(
+        name: '--category',
+        placeholder: '<name>',
+        description: 'Only entries of that category',
+      ),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn search',
     invocation: 'dashcn search --help',
-    usage: 'dashcn search <query> [arguments]',
-    summary:
-        'Search the registry manifest by component id, name, tag or description.',
+    usage: 'dashcn search <query> [--category <c>] [--json]',
+    summary: 'Searches component and block id, name, description and tags.',
     helpText:
-        'Search the registry manifest by component id, name, tag or description.\n\nUsage: dashcn search <query> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the matches as JSON.',
+        'Usage: dashcn search <query> [--category <c>] [--json]\n\nSearches component and block id, name, description and tags.\n\nOptions:\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
     flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--json', description: 'Print the matches as JSON.'),
+      DocsCliFlag(
+        name: '--category',
+        placeholder: '<name>',
+        description: 'Only entries of that category',
+      ),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn info',
     invocation: 'dashcn info --help',
-    usage: 'dashcn info <id> [arguments]',
+    usage: 'dashcn info <component|block> [--json]',
     summary:
-        'Show the dependency closure, files, API symbols and theme class for one',
+        'Shows the closure, files and api of a component, or the files and closure of a block.',
     helpText:
-        'Show the dependency closure, files, API symbols and theme class for one\ncomponent.\n\nUsage: dashcn info <id> [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.',
-    flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--json', description: 'Print the report as JSON.'),
-    ],
+        'Usage: dashcn info <component|block> [--json]\n\nShows the closure, files and api of a component, or the files and closure of a block.',
+    flags: <DocsCliFlag>[],
   ),
   DocsCliCommand(
-    label: 'dashcn theme list',
-    invocation: 'dashcn theme list --help',
-    usage: 'dashcn theme list [arguments]',
-    summary: 'List the theme presets recorded in the registry manifest.',
-    helpText:
-        'List the theme presets recorded in the registry manifest.\n\nUsage: dashcn theme list [arguments]\n-h, --help    Print this usage information.\n    --json    Print the presets as JSON.',
-    flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--json', description: 'Print the presets as JSON.'),
-    ],
-  ),
-  DocsCliCommand(
-    label: 'dashcn theme apply',
-    invocation: 'dashcn theme apply --help',
-    usage: 'dashcn theme apply <preset> [arguments]',
+    label: 'dashcn theme',
+    invocation: 'dashcn theme --help',
+    usage: 'dashcn theme list [--json]',
     summary:
-        'Generate theme/app_theme.dart from a preset JSON (values-only file, full',
+        'app_theme.dart is yours: without --refresh a locally modified file is',
     helpText:
-        'Generate theme/app_theme.dart from a preset JSON (values-only file, full\nrewrite; no regex patching). Updates the lock\'s theme section.\n\nUsage: dashcn theme apply <preset> [arguments]\n-h, --help      Print this usage information.\n    --refresh   Re-read the preset JSON even when the lock hash matches.\n    --json      Print the result as JSON.',
+        'Usage: dashcn theme list [--json]\n       dashcn theme apply <preset> [--refresh] [--json]\n       dashcn theme import <file|url> [--name <id>] [--apply]\n       dashcn theme export [--format css|tailwind|dtcg|json|dart]\n                           [--out <file>]\n       dashcn theme\n\nCommands:\n  list              Show the presets from the registry manifest\n  apply <preset>    Generate <installRoot>/theme/app_theme.dart\n  import <file|url> Store a web theme as <installRoot>/theme/<id>.json\n  export            Print the current theme in a web format\n\nOptions:\n  --refresh         Overwrite app_theme.dart even when it was edited\n  --json            Machine-readable output on stdout\n  --name <id>       Preset id for an import (default: file name)\n  --apply           Apply an import straight to app_theme.dart\n  --format <name>   Export format: css|tailwind|dtcg|json|dart\n  --out <file>      Write the export to a file instead of stdout\n  --help, -h        Show this message\n\napp_theme.dart is yours: without --refresh a locally modified file is\nreported as drift and left untouched.\n\nAn import needs no registry: CSS, Tailwind v3 configs and preset JSON\nparse into a stored preset; --apply renders it without one either.\n\nLegacy flags --apply/-a and --list still work. --apply-file,\n--apply-url and "theme widget" were removed with the v1 theme\nmanifest; use "theme import <file|url>" instead.',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--refresh',
-        description: 'Re-read the preset JSON even when the lock hash matches.',
+        description: 'Overwrite app_theme.dart even when it was edited',
       ),
-      DocsCliFlag(name: '--json', description: 'Print the result as JSON.'),
+      DocsCliFlag(
+        name: '--json',
+        description: 'Machine-readable output on stdout',
+      ),
+      DocsCliFlag(
+        name: '--name',
+        placeholder: '<id>',
+        description: 'Preset id for an import (default: file name)',
+      ),
+      DocsCliFlag(
+        name: '--apply',
+        description: 'Apply an import straight to app_theme.dart',
+      ),
+      DocsCliFlag(
+        name: '--format',
+        placeholder: '<name>',
+        description: 'Export format: css|tailwind|dtcg|json|dart',
+      ),
+      DocsCliFlag(
+        name: '--out',
+        placeholder: '<file>',
+        description: 'Write the export to a file instead of stdout',
+      ),
+      DocsCliFlag(
+        name: '--help',
+        alias: '-h',
+        description: 'Show this message',
+      ),
     ],
   ),
   DocsCliCommand(
     label: 'dashcn doctor',
     invocation: 'dashcn doctor --help',
-    usage: 'dashcn doctor [arguments]',
-    summary:
-        'Check the manifest, the installed closure, lock drift, user-owned files and',
+    usage: 'dashcn doctor [--json]',
+    summary: 'Diagnoses the registry manifest and the installed project.',
     helpText:
-        'Check the manifest, the installed closure, lock drift, user-owned files and\nrelative imports escaping the install root.\n\nUsage: dashcn doctor [arguments]\n-h, --help    Print this usage information.\n    --json    Print the report as JSON.\nExit codes: 0 clean, 1 drift or modified files, 2 broken closure,\n3 invalid manifest.',
-    flags: <DocsCliFlag>[
-      DocsCliFlag(name: '--json', description: 'Print the report as JSON.'),
-    ],
+        'Usage: dashcn doctor [--json]\n\nDiagnoses the registry manifest and the installed project.',
+    flags: <DocsCliFlag>[],
   ),
   DocsCliCommand(
     label: 'dashcn validate',
     invocation: 'dashcn validate --help',
-    usage: 'dashcn validate [arguments]',
-    summary: 'Validate lib/src/manifests/registry.json against the v2 schema.',
+    usage: 'dashcn validate [--json]',
+    summary: 'Validates manifests/registry.json against the v2 schema.',
     helpText:
-        'Validate lib/src/manifests/registry.json against the v2 schema.\n\nUsage: dashcn validate [arguments]\n-h, --help    Print this usage information.\n    --json    Print the validation report as JSON.',
-    flags: <DocsCliFlag>[
-      DocsCliFlag(
-        name: '--json',
-        description: 'Print the validation report as JSON.',
-      ),
-    ],
+        'Usage: dashcn validate [--json]\n\nValidates manifests/registry.json against the v2 schema.',
+    flags: <DocsCliFlag>[],
   ),
 ];

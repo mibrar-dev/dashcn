@@ -1,136 +1,193 @@
-# dashcn CLI reference snapshot (hand-maintained).
+# dashcn CLI reference snapshot (pasted from the real `--help` output).
 #
-# The new CLI (P5, `dashcn_cli` branch `refactor/rearchitecture`) does
-# not ship real `--help` text yet; this file is the documented command surface
-# from rearch/reports/P5_CLI_PLAN.md §2 and MUST be re-pasted when the CLI
-# lands. docs/tool/gen_docs_data.dart parses it into `kCliCommands`
-# (docs_tables.dart); the CLI page renders each section's text plus a generated
-# flags table. No other file hard-codes command syntax.
+# Regenerate: run each `dashcn <command> --help` against the current CLI
+# (`dashcn-cli`, version 1.0.0) and re-paste the sections below verbatim.
+# docs/tool/gen_docs_data.dart parses this file into `kCliCommands`
+# (docs_tables.dart); the CLI page renders each section's text plus a
+# generated flags table. No other file hard-codes command syntax.
 #
 # Format contract (parser in docs/tool/src/readme_scan.dart):
 #   * a section starts with a `$ <invocation>` line at column 0;
 #   * the first `Usage:` line is the syntax string;
-#   * flag lines match `      --flag=<value>  Description` (an optional
-#     `-s, ` alias may precede the long flag);
+#   * flag lines are `  --flag  Description`, with an optional `<placeholder>`
+#     after a space or `=` and an optional `-s` alias on either side;
 #   * `#` lines are comments for this file and never reach the page.
 
 $ dashcn --help
-Component manager for the dashcn registry.
-
+dashcn CLI
 Usage: dashcn <command> [arguments]
--h, --help       Print this usage information.
-    --version    Print the CLI version.
 
-Available commands:
-  init       Install the layer core and pick a theme preset.
-  add        Add components and their dependency closure.
-  remove     Remove registry-owned files (user-owned files stay).
-  update     Pull upstream registry changes for installed files.
-  list       List every component in the registry manifest.
-  search     Search components by name, tag or description.
-  info       Show dependency closure, files and theme class for one component.
-  theme      List or apply theme presets.
-  doctor     Check the install closure, lock drift and user-owned files.
-  validate   Validate the registry manifest against the v2 schema.
+Components
+  add                     Install one or more components or blocks and their closure.
+  eject                   Turn a package-mode component into owned sources.
+  remove (alias: rm)      Remove installed components, blocks and orphaned layer files.
+  update                  Update installed components from the registry.
+  dry-run                 Preview what add would install.
+  list (alias: ls)        List available components or blocks, by category.
+  search                  Search components and blocks by name, description or tag.
+  info (alias: i)         Show a component's or block's closure, files and api.
 
-Run "dashcn help <command>" for more information about a command.
+Project
+  init                    Install the layer core and generate the app theme.
+  registries              List configured and discoverable registries.
+  default                 Set or show the default registry namespace.
+  sync                    Re-apply the installed closure and locked theme.
+  project                 Project repair and cleanup commands.
+  theme                   List and apply registry theme presets.
+
+Diagnostics
+  reset                   Clear global CLI-managed cache and home-directory state.
+  doctor                  Diagnose the manifest, closure, layout and lock drift.
+  validate                Validate the registry manifest against the v2 schema.
+  audit                   Compare installed files against dashcn.lock.
+
+Tooling
+  feedback                Submit feedback or report issues.
+  version                 Show the CLI version.
+  upgrade                 Upgrade the CLI to the latest version.
+
+Global flags
+  General:
+    --verbose               Verbose logging
+    --version               Show the CLI version
+    --offline               Disable network calls (use cache only)
+
+  Registry Selection:
+    --registry-name         Registry namespace (e.g. dashcn)
+    --registry <path|url>   Registry source override
 
 $ dashcn init --help
-Install the registry layer core (foundation + theme) into a project and choose
-a theme preset. Writes .dashcn/config.json and dashcn.lock v2; installs no
-component.
+Usage: dashcn init [flags]
 
-Usage: dashcn init [arguments]
--h, --help         Print this usage information.
-    --dir=<path>   Install root (default: lib/ui/dashcn or the path recorded in .dashcn/config.json).
-    --theme=<id>   Preset id from themes/index.json; interactive list when omitted.
-    --yes          Accept defaults without prompting.
-    --json         Print the result as JSON.
+Installs the always-on foundation + theme core and generates
+<installRoot>/theme/app_theme.dart from a theme preset.
+
+Options:
+  --dir <path>     Install root (default: lib/ui/dashcn)
+  --theme <id>     Theme preset id (default: neutral)
+  --mode <mode>    `copy` (own the sources) or `package` (pub dep)
+  --yes, -y        Non-interactive; use the default preset
+  --json           Machine-readable output on stdout
+  --help, -h       Show this message
 
 $ dashcn add --help
-Add components and the transitive dependency closure (components -> primitives
--> foundation/theme). Existing user-owned files are never overwritten. Refuses
-to install when a symbol would be defined twice (single-owner preflight).
+Usage: dashcn add <component|block...> [flags]
+       dashcn add --all [--blocks] [flags]
 
-Usage: dashcn add <ids...> [arguments]
--h, --help             Print this usage information.
-    --dry-run          Print the plan without writing files.
-    --json             Print the plan or result as JSON.
-    --force            Continue past non-fatal preflight warnings.
-    --all              Add every component in the registry manifest.
-    --include-preview  Also copy preview.dart files (default: never).
+Installs the transitive closure of every requested id:
+components, blocks, primitives, and the always-on foundation/theme core.
+A block installs to blocks/<id>/ with the components it uses.
 
-$ dashcn update --help
-Hash-based update of registry-owned files. Unchanged files are overwritten,
-locally modified files are reported and skipped, user-owned files are never
-touched. Regenerates theme/app_theme.dart from the locked preset.
+Options:
+  --all               Install every component in the registry
+  --blocks            With --all, install every block too
+  --dry-run           Print the plan without writing anything
+  --force             Overwrite locally modified registry files
+  --include-preview   Also copy each component preview.dart
+  --package           Depend on the dashcn package, copy no sources
+  --path <dir>        With --package, use a path dependency instead
+  --json              Machine-readable output on stdout
+  --help, -h          Show this message
 
-Usage: dashcn update [ids...] [arguments]
--h, --help    Print this usage information.
-    --all     Update every installed component.
-    --check   Report only; exit 1 when anything is behind or modified.
-    --json    Print the result as JSON.
+$ dashcn eject --help
+Usage: dashcn eject <component> [flags]
+
+Turns a mode: package component into owned sources in the
+install dir and rewrites the app imports to match.
+
+Options:
+  --with-deps         Also eject transitive component dependencies
+  --dry-run           Print the plan without writing anything
+  --force             Overwrite locally modified registry files
+  --json              Machine-readable output on stdout
+  --help, -h          Show this message
 
 $ dashcn remove --help
-Remove registry-owned files for the given components. Refuses when another
-installed component depends on the target.
+Usage: dashcn remove <component|block...> [flags]
+       dashcn remove --all [flags]
 
-Usage: dashcn remove [ids...] [arguments]
--h, --help               Print this usage information.
-    --purge-user-themes  Also delete the user-owned *_theme.dart files.
-    --json               Print the result as JSON.
+Options:
+  --all                 Remove every installed component and block
+  --force               Remove even if dependents remain
+  --purge-user-themes   Also delete <name>_theme.dart user files
+  --json                Machine-readable output on stdout
+
+$ dashcn update --help
+Usage: dashcn update [component...] [flags]
+       dashcn update --all [flags]
+
+Updates installed components to the registry's current files.
+Files you edited are reported and left untouched; user-owned
+<name>_theme.dart files are never rewritten.
+
+Options:
+  --all     Update every installed component
+  --check   Report only; exit 1 when anything is behind or modified
+  --json    Machine-readable output on stdout
 
 $ dashcn list --help
-List every component in the registry manifest.
+Usage: dashcn list [--blocks] [--category <c>] [--json]
 
-Usage: dashcn list [arguments]
--h, --help    Print this usage information.
-    --json    Print the list as JSON.
+Lists components (default) or blocks, grouped by category.
+
+Options:
+  --blocks           List the blocks layer instead
+  --category <name>  Only entries of that category
+  --json             Machine-readable output on stdout
 
 $ dashcn search --help
-Search the registry manifest by component id, name, tag or description.
+Usage: dashcn search <query> [--category <c>] [--json]
 
-Usage: dashcn search <query> [arguments]
--h, --help    Print this usage information.
-    --json    Print the matches as JSON.
+Searches component and block id, name, description and tags.
+
+Options:
+  --category <name>  Only entries of that category
+  --json             Machine-readable output on stdout
 
 $ dashcn info --help
-Show the dependency closure, files, API symbols and theme class for one
-component.
+Usage: dashcn info <component|block> [--json]
 
-Usage: dashcn info <id> [arguments]
--h, --help    Print this usage information.
-    --json    Print the report as JSON.
+Shows the closure, files and api of a component, or the files and closure of a block.
 
-$ dashcn theme list --help
-List the theme presets recorded in the registry manifest.
+$ dashcn theme --help
+Usage: dashcn theme list [--json]
+       dashcn theme apply <preset> [--refresh] [--json]
+       dashcn theme import <file|url> [--name <id>] [--apply]
+       dashcn theme export [--format css|tailwind|dtcg|json|dart]
+                           [--out <file>]
+       dashcn theme
 
-Usage: dashcn theme list [arguments]
--h, --help    Print this usage information.
-    --json    Print the presets as JSON.
+Commands:
+  list              Show the presets from the registry manifest
+  apply <preset>    Generate <installRoot>/theme/app_theme.dart
+  import <file|url> Store a web theme as <installRoot>/theme/<id>.json
+  export            Print the current theme in a web format
 
-$ dashcn theme apply --help
-Generate theme/app_theme.dart from a preset JSON (values-only file, full
-rewrite; no regex patching). Updates the lock's theme section.
+Options:
+  --refresh         Overwrite app_theme.dart even when it was edited
+  --json            Machine-readable output on stdout
+  --name <id>       Preset id for an import (default: file name)
+  --apply           Apply an import straight to app_theme.dart
+  --format <name>   Export format: css|tailwind|dtcg|json|dart
+  --out <file>      Write the export to a file instead of stdout
+  --help, -h        Show this message
 
-Usage: dashcn theme apply <preset> [arguments]
--h, --help      Print this usage information.
-    --refresh   Re-read the preset JSON even when the lock hash matches.
-    --json      Print the result as JSON.
+app_theme.dart is yours: without --refresh a locally modified file is
+reported as drift and left untouched.
+
+An import needs no registry: CSS, Tailwind v3 configs and preset JSON
+parse into a stored preset; --apply renders it without one either.
+
+Legacy flags --apply/-a and --list still work. --apply-file,
+--apply-url and "theme widget" were removed with the v1 theme
+manifest; use "theme import <file|url>" instead.
 
 $ dashcn doctor --help
-Check the manifest, the installed closure, lock drift, user-owned files and
-relative imports escaping the install root.
+Usage: dashcn doctor [--json]
 
-Usage: dashcn doctor [arguments]
--h, --help    Print this usage information.
-    --json    Print the report as JSON.
-Exit codes: 0 clean, 1 drift or modified files, 2 broken closure,
-3 invalid manifest.
+Diagnoses the registry manifest and the installed project.
 
 $ dashcn validate --help
-Validate lib/src/manifests/registry.json against the v2 schema.
+Usage: dashcn validate [--json]
 
-Usage: dashcn validate [arguments]
--h, --help    Print this usage information.
-    --json    Print the validation report as JSON.
+Validates manifests/registry.json against the v2 schema.

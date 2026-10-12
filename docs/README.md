@@ -1,45 +1,35 @@
 # docs
 
-Flutter web documentation app for the shadcn Flutter kit.
+Flutter web documentation app for the dashcn kit.
 
 The user-facing install and command walkthrough lives in the website at
-`/#/complete-guide`. Keep that page aligned with the CLI markdown guide in
-`flutter_shadcn_cli/docs/user/complete-guide.md` when command behavior changes.
+`/#/docs/installation`. Keep that page aligned with the CLI markdown guide in
+`dashcn-cli/doc/user/complete-guide.md` when command behavior changes.
 
 ## Registry docs workflow
 
-The docs app consumes the production registry layout:
+The docs app consumes the `dashcn` package registry at
+`dashcn/lib/src`:
 
 - Per-component `meta.json` lives at the component top level.
-- README-derived `<id>.meta.json` lives beside the component README.
-- Per-component `theme.schema.json` lives at the component top level.
-- Nested component `registry/` metadata directories are legacy compatibility output and should be removed when no longer needed.
-- `docs/lib/ui/shadcn` is a generated mirror of the registry. Do not edit files there directly.
+- Per-component `README.md` feeds the usage snippets and keyboard rows.
+- `docs/lib/ui/dashcn` is a generated mirror of the registry. Do not edit
+  files there directly.
 
-Refresh registry metadata and docs snapshots from the package root:
-
-```bash
-dart run tool/registry/registry_readme_meta.dart
-dart run tool/registry/registry_sync_all.dart --force
-dart run tool/registry/registry_index_generate.dart
-dart run tool/registry/registry_verify.dart
-```
-
-Install registry components into this docs app when the generated mirror needs to be rebuilt:
+Refresh the mirror and the generated data from `docs/`:
 
 ```bash
-make docs-install
+bash tool/sync_registry.sh
+dart run tool/gen_docs_data.dart
 ```
 
-Generate the registry barrel and docs component pages:
+Verify without writing:
 
 ```bash
-make docs-barrel
-make docs-generate
+bash tool/sync_registry.sh --check
+dart run tool/gen_docs_data.dart --check
 ```
 
-Or run everything in one step:
-
-```bash
-make docs-refresh
-```
+The CLI reference page renders `tool/cli_snapshot.txt`, which is pasted
+from the current `dashcn` help output. Re-paste it when CLI flags change,
+then re-run the generator.

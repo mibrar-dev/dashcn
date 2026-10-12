@@ -579,7 +579,7 @@ void main() {
     final DocsCliCommand add = kCliCommands.firstWhere(
       (DocsCliCommand command) => command.label == 'dashcn add',
     );
-    expect(add.usage, contains('add <ids...>'));
+    expect(add.usage, contains('add <component|block...>'));
     expect(
       add.flags.map((DocsCliFlag flag) => flag.name).toList(),
       containsAll(<String>['--dry-run', '--json', '--force', '--all']),
@@ -587,7 +587,14 @@ void main() {
     final DocsCliFlag dryRun = add.flags.firstWhere(
       (DocsCliFlag flag) => flag.name == '--dry-run',
     );
-    expect(dryRun.description, 'Print the plan without writing files.');
+    expect(dryRun.description, 'Print the plan without writing anything');
+    final DocsCliFlag package = add.flags.firstWhere(
+      (DocsCliFlag flag) => flag.name == '--package',
+    );
+    expect(
+      package.description,
+      'Depend on the dashcn package, copy no sources',
+    );
     final DocsCliCommand init = kCliCommands.firstWhere(
       (DocsCliCommand command) => command.label == 'dashcn init',
     );
@@ -595,6 +602,19 @@ void main() {
       (DocsCliFlag flag) => flag.name == '--dir',
     );
     expect(dir.placeholder, '<path>');
+    expect(init.flags.map((DocsCliFlag flag) => flag.name), contains('--mode'));
+    final DocsCliCommand eject = kCliCommands.firstWhere(
+      (DocsCliCommand command) => command.label == 'dashcn eject',
+    );
+    expect(
+      eject.flags.map((DocsCliFlag flag) => flag.name),
+      contains('--with-deps'),
+    );
+    final DocsCliCommand theme = kCliCommands.firstWhere(
+      (DocsCliCommand command) => command.label == 'dashcn theme',
+    );
+    expect(theme.helpText, contains('theme import'));
+    expect(theme.helpText, contains('theme export'));
   });
 
   group('app_theme', () {

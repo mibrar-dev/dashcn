@@ -47,6 +47,11 @@ const List<DocsNavLink> kDocsSections = <DocsNavLink>[
   DocsNavLink(label: 'Introduction', location: '/docs'),
   DocsNavLink(label: 'Components', location: '/docs/components'),
   DocsNavLink(label: 'Installation', location: '/docs/installation'),
+  DocsNavLink(
+    label: 'Package or own the code?',
+    location: '/docs/package-or-own',
+  ),
+  DocsNavLink(label: 'Alongside Material', location: '/docs/material'),
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),
@@ -60,6 +65,11 @@ const List<DocsNavLink> kDocsSections = <DocsNavLink>[
 const List<DocsNavLink> kDocsPageChain = <DocsNavLink>[
   DocsNavLink(label: 'Introduction', location: '/docs'),
   DocsNavLink(label: 'Installation', location: '/docs/installation'),
+  DocsNavLink(
+    label: 'Package or own the code?',
+    location: '/docs/package-or-own',
+  ),
+  DocsNavLink(label: 'Alongside Material', location: '/docs/material'),
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),

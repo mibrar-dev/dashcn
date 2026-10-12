@@ -1,31 +1,31 @@
-# Docs app for flutter_shadcn_kit (Flutter web, GitHub Pages).
+# Docs app for dashcn (Flutter web, GitHub Pages).
 #
 # Dependency policy (P6 docs rebuild):
 #  * Widgets-only: nothing here may pull `material.dart` / `cupertino.dart`
 #    into the app; the `grep -rnE` gate in CI enforces it.
 #  * Registry components are NOT pubspec dependencies: they are copied into
-#    `lib/ui/shadcn/` by the CLI (`flutter_shadcn init` + `add --all`). Until
-#    the CLI lands, `tool/sync_registry.sh` mirrors the registry tree.
+#    `lib/ui/dashcn/` by the CLI (`dashcn init` + `add --all`).
+#    `tool/sync_registry.sh` mirrors the registry tree the same way.
 #  * Every dependency below has a one-line justification. Re-adding a removed
 #    dep (go_router, syntax_highlight, shared_preferences, font_awesome, …)
 #    requires the same.
 
 name: docs
-description: Flutter web docs for flutter_shadcn_kit, built on the post-cutover registry.
+description: Flutter web docs for dashcn, built on the post-cutover registry.
 publish_to: none
 version: 1.0.0+1
 
 environment:
   # One SDK floor for the whole kit: the registry's newest language feature is
   # `private-named-parameters` (shipped in Dart 3.12.0). The mirrored registry
-  # sources under lib/ui/shadcn carry no per-library `// @dart=` pins, so this
+  # sources under lib/ui/dashcn carry no per-library `// @dart=` pins, so this
   # package's floor is what every installed component compiles against.
   sdk: ^3.12.0
 
 dependencies:
   flutter:
     sdk: flutter
-  # The registry `app` component installs ShadcnLocalizations and
+  # The registry `app` component installs ComponentLocalizations and
   # GlobalWidgetsLocalizations; without this the shell cannot compile.
   flutter_localizations:
     sdk: flutter

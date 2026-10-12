@@ -51,8 +51,8 @@ void main() {
       expect(find.text('Button'), findsWidgets);
       // Install block.
       expect(find.text('Installation'), findsWidgets);
-      expect(find.text('Command'), findsWidgets);
-      expect(find.text('Manual'), findsWidgets);
+      expect(find.text('Package'), findsWidgets);
+      expect(find.text('Own the code'), findsWidgets);
       // Examples section lists the remaining examples as h3 headings.
       expect(find.text('Examples'), findsWidgets);
       expect(find.text('Destructive'), findsWidgets);
@@ -98,20 +98,28 @@ void main() {
       );
       expect(find.byType(PreviewStage), findsWidgets);
       expect(find.text('Installation'), findsWidgets);
-      expect(find.textContaining('dashcn add command'), findsWidgets);
+      // P8-4 install tabs: Package by default, with the eject note.
+      expect(find.text('Package'), findsOneWidget);
+      expect(find.text('Own the code'), findsOneWidget);
+      expect(find.textContaining('flutter pub add dashcn'), findsWidgets);
+      expect(
+        find.textContaining('package:dashcn/components/command.dart'),
+        findsWidgets,
+      );
+      expect(find.textContaining('dashcn eject command'), findsWidgets);
     });
 
-    testWidgets('install block Manual tab shows generated file list', (
+    testWidgets('install block Own tab shows generated file list', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
-      // Switch to Manual tab. The tabs now sit above the preview figure, so at
+      // Switch to the Own tab. The tabs now sit above the preview figure, so at
       // the 1400x900 test surface they can be below the fold - scroll first.
-      await tester.ensureVisible(find.text('Manual'));
+      await tester.ensureVisible(find.text('Own the code'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Manual'));
+      await tester.tap(find.text('Own the code'));
       await tester.pumpAndSettle();
       expect(
         find.text('lib/ui/dashcn/components/button/button.dart'),
