@@ -33,6 +33,10 @@ Accepted and pushed:
 | P8-4 docs content | main (`dashcn-kit`), `refactor/dashcn` (local ref at 171b51b, behind origin) | `rearch/briefs/dashcn/P8-4-docs-content.md` | `rearch/reports/P8-4.md` |
 | KIT-FIX-1 a11y/forms | B (`dashcn-kit-b`), `wip/kit-fix-1` | `rearch/briefs/dashcn/KIT-FIX-1-a11y-forms.md` | `rearch/reports/KIT-FIX-1.md` |
 
+OpenCode sessions: P8-4 `ses_ece3732ecffeuoxSn4NhvNIOQM`, KIT-FIX-1 `ses_ece1ae46cffexWKBiye11E0s3c`. These live in the
+cloud container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there. The agents
+were resumed after a container restart at 21:10 UTC (logs `P8-4r.log`, `KIT-FIX-1r.log`).
+
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
 `wip/autosave-cli` on the CLI repo when it has changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
 top of the worktree's HEAD; its message says which HEAD and when. **These snapshots are unreviewed work in progress.**
@@ -138,8 +142,11 @@ perl -MPOSIX -e 'POSIX::setsid(); exec @ARGV' nohup bash rearch/run_dashcn_agent
   'opencode-go/muse-spark-1.3-contributor#xhigh' rearch/briefs/dashcn/<BRIEF>.md rearch/logs/<NAME>.log \
   > /dev/null 2>&1 &
 # resume an existing OpenCode session with a nudge (loops until the report says status: done|blocked)
-bash rearch/resume_dashcn_agent.sh <session-id> 'opencode-go/muse-spark-1.3-contributor#xhigh' \
-  <prompt-file> rearch/logs/<NAME>.log rearch/reports/<NAME>.md
+#   (4th arg is a NAME: log goes to rearch/logs/<NAME>.log; `opencode session list` shows ids, titled dashcn:<brief>)
+perl -MPOSIX -e 'POSIX::setsid(); exec @ARGV' nohup bash rearch/resume_dashcn_agent.sh <session-id> \
+  'opencode-go/muse-spark-1.3-contributor#xhigh' <prompt-file> <NAME> rearch/reports/<NAME>.md > /dev/null 2>&1 &
+# after a machine/container restart: agents die but edits and OpenCode sessions survive on disk →
+# resume each session with a "you were restarted, re-check git status, continue" prompt (done once on 2026-10-12)
 # watchdog: prints EVENT DONE|STALL|LONG|DIED|MODEL_ERROR lines (run it under Claude's Monitor tool)
 HEARTBEAT_MIN=100000 bash rearch/watch_dashcn_agents.sh 60
 # snapshot in-flight work to origin (safe any time)
