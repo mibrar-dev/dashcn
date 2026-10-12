@@ -61,3 +61,7 @@ open_questions: [bullets]
 - Never hard-code absolute paths (e.g. `/home/user/...`) in code, tests or scripts: CI and Ibrar's Mac have different
   roots. Resolve paths relative to the package (`flutter test` runs in the package root) or the script's directory.
 - CI (GitHub Actions) formats whole packages: run `dart format --set-exit-if-changed .` in the package, not only lib/.
+- If you change ANYTHING under `$APP/lib/src` (new component, preview, meta.json, comment), the docs site depends on
+  it: also run `cd $DOCS && bash tool/sync_registry.sh && dart run tool/gen_docs_data.dart` and the docs gates
+  (`gen_docs_data --check`, `sync_registry --check`, `flutter analyze`, `flutter test test tool`). Every component
+  needs `README.md`, `meta.json` and `preview.dart` like its siblings.

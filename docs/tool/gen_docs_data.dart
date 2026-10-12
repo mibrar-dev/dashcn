@@ -38,6 +38,9 @@ export 'src/api_model.dart';
 export 'src/ast_docs.dart';
 export 'src/block_class.dart';
 export 'src/block_scan.dart';
+export 'src/controls_build.dart';
+export 'src/controls_decode.dart';
+export 'src/controls_scan.dart';
 export 'src/dart_highlight.dart';
 export 'src/example_sources.dart';
 export 'src/model_build.dart';
@@ -48,11 +51,13 @@ export 'src/render_api.dart';
 export 'src/render_blocks.dart';
 export 'src/render_code.dart';
 export 'src/render_common.dart';
+export 'src/render_controls.dart';
 export 'src/render_example_sources.dart';
 export 'src/render_files.dart';
 export 'src/render_presets.dart';
 export 'src/render_previews.dart';
 export 'src/render_tables.dart';
+export 'src/scorecards.dart';
 
 const String _usage =
     'Usage: dart run tool/gen_docs_data.dart [options]\n'

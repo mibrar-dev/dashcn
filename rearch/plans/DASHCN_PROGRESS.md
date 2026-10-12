@@ -121,6 +121,29 @@ the orchestrator: muted-foreground #737373 on muted #F5F5F5 = 4.35:1 (< WCAG AA 
 11 unlabeled tappables; 22 below 44/48 px mobile tap targets (32–36 px desktop sizing); 5 missing semantics; RTL 83/83.
 CI now runs test/scorecards + `gen_scorecards --check`. Follow-up queued: A11Y-1 token/semantics fix batch.
 
+## P9-5b scorecards on the docs site — ACCEPTED
+`docs_scorecards.dart` generated from scorecards.json; `ScorecardCard(componentId:)` (pass/fail/not-measured badges,
+expandable guideline messages, measured-on footer) — placement on the component page in P9-Z; "How we measure" page
+(`/docs/scorecards`) with metrics, method, limits and an all-components table. Orchestrator gates: docs format/analyze
+clean, +304, gen/sync --check, build web; real-site screenshots (en-US) reviewed — honest labels as briefed.
+
+## P9-2a live props playground — data, code emission, builders — ACCEPTED
+`docs_controls.dart` generated from the API extraction (bool/enum/String/num/colour/child/callback controls; enum
+values resolved from kit enums; optional `meta.json` `playground` overrides — none needed), `PlaygroundValues` with URL
+round-trip (`p.<name>=`), `emitCode` (non-default args only, qualified enums, const when possible, valid Dart — parsed
+in tests), builders for 28/30 requested components (`toggle_group` and `label` do not exist). 220 playground tests.
+Found during QA: the P8-2 comment rule had written "a upstream app/dialog/theme" where "shadcn" meant this kit → fixed
+(separate commit); docs `tool/` generator tests were never run by CI → added.
+Orchestrator gates: kit qa_gate +4741/+42, all generators --check, check_names 0, package format clean; docs
+format/analyze clean, `flutter test test tool` +556, gen/sync --check, build web.
+
+## P9-2b playground panel — ACCEPTED
+`PlaygroundPanel(componentId:)`: preview inside FramedPreview, controls rail ≥1100 px / stacked 600–1100 / bottom
+sheet < 600; live syntax-highlighted code; kit controls only (Switch, Select, Input, Slider, tri-state, token picker);
+dependent ranges as data (`boundedBy`); Reset; values in the URL. Review: playgrounds opened EMPTY (text controls had
+no default, builders fell back to '') → generator now gives text controls meaningful defaults and the code shows them.
+Orchestrator gates: docs format/analyze clean, `flutter test test tool` +593, gen/sync --check, build web.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

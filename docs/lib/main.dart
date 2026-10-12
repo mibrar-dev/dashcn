@@ -24,6 +24,7 @@ import 'pages/getting_started.dart';
 import 'pages/introduction_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/placeholder_page.dart';
+import 'pages/scorecards_page.dart';
 import 'pages/themes.dart';
 import 'pages/theming_page.dart';
 import 'routing/deferred_page.dart';
@@ -216,6 +217,7 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
     DocsRoute.theming => const ThemingPage(),
     DocsRoute.darkMode => const DarkModePage(),
     DocsRoute.cli => const CliReferencePage(),
+    DocsRoute.scorecards => const ScorecardsPage(),
     DocsRoute.blocks => DeferredPage(
       load: blocks_pages.loadLibrary,
       builder: (BuildContext context) => blocks_pages.BlocksIndexPage(),

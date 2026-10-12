@@ -22,7 +22,7 @@ const Duration kPageTransitionDuration = Duration(milliseconds: 300);
 /// `Animatable`s, which cannot be `const`, and a lazily-initialised static
 /// would be global mutable state.
 class AppPageTransition extends StatelessWidget {
-  /// Creates a upstream page transition.
+  /// Creates a dashcn page transition.
   const AppPageTransition({
     super.key,
     required this.animation,

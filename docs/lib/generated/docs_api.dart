@@ -1020,7 +1020,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A compact button shaped like a upstream chip (`px-2 py-0.5 text-xs`).',
+        'A compact button shaped like an upstream chip (`px-2 py-0.5 text-xs`).',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -5355,7 +5355,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Pushes a upstream modal dialog on a [Navigator] and returns its result.',
+        'Pushes a dashcn modal dialog on a [Navigator] and returns its result.',
     params: <DocsApiParam>[
       DocsApiParam(name: 'context', type: 'BuildContext', isRequired: true),
       DocsApiParam(name: 'builder', type: 'WidgetBuilder', isRequired: true),

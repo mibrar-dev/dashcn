@@ -328,7 +328,7 @@ class AppLayer extends StatelessWidget {
   /// The app subtree.
   final Widget child;
 
-  /// Optional upstream theme data installed above [child].
+  /// Optional dashcn theme data installed above [child].
   final ThemeData? theme;
 
   /// Handler for popover overlays.

@@ -13,11 +13,14 @@ import 'render_api.dart';
 import 'render_blocks.dart';
 import 'render_code.dart';
 import 'render_common.dart';
+import 'render_controls.dart';
 import 'render_example_sources.dart';
 import 'render_files.dart';
 import 'render_presets.dart';
 import 'render_previews.dart';
 import 'render_tables.dart';
+import 'render_scorecards.dart';
+import 'scorecard_scan.dart';
 
 /// Fenced languages that become `DocsSnippet`s.
 const Set<String> kSnippetLanguages = <String>{
@@ -178,6 +181,7 @@ DocsModel buildDocsModel(String registryRoot) {
     cliCommands: cliCommands,
     blockSources: blockSources,
     blockClasses: blockClasses,
+    scorecards: scanScorecards(scan.root),
   );
 }
 
@@ -193,6 +197,7 @@ Map<String, String> renderBundle(
   return <String, String>{
     '$outDir/docs_data.dart': renderDocsData(model),
     '$outDir/docs_api.dart': renderDocsApi(model),
+    '$outDir/docs_controls.dart': renderDocsControls(model),
     '$outDir/docs_tables.dart': renderDocsTables(model),
     '$outDir/docs_search.dart': renderDocsSearch(model),
     '$outDir/docs_snippets.dart': renderDocsSnippets(model),
@@ -200,6 +205,7 @@ Map<String, String> renderBundle(
     '$outDir/docs_preset_sources.dart': renderPresetSources(model.scan),
     '$outDir/docs_previews.dart': renderDocsPreviews(model),
     '$outDir/docs_example_sources.dart': renderDocsExampleSources(model),
+    '$outDir/docs_scorecards.dart': renderDocsScorecards(model.scorecards),
     '$outDir/app_theme.dart': renderAppTheme(
       model.scan,
       themeImport: themeImport,
@@ -268,5 +274,7 @@ String describeModel(DocsModel model) {
       'keyboard gaps: ${gaps.join(', ')}\n'
       'parse errors (entry files): '
       '${parseErrors.isEmpty ? 'none' : parseErrors.join(', ')}\n'
-      'previews: ${model.scan.components.length} deferred imports';
+      'previews: ${model.scan.components.length} deferred imports\n'
+      'scorecards: ${model.scorecards.components.length} components '
+      '(${model.scorecards.commitShort} @ ${model.scorecards.generatedAt})';
 }

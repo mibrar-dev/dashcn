@@ -33,7 +33,7 @@ Widget _wrapCaptured(Widget child, CapturedThemes? themes, CapturedData? data) {
   return child;
 }
 
-/// Pushes a upstream modal dialog on a [Navigator] and returns its result.
+/// Pushes a dashcn modal dialog on a [Navigator] and returns its result.
 ///
 /// The returned future completes with whatever the dialog passes to
 /// [Navigator.pop], or `null` when it is dismissed through the barrier, the
@@ -91,7 +91,7 @@ Future<T?> showDialog<T>({
   );
 }
 
-/// Modal route of a upstream dialog.
+/// Modal route of a dashcn dialog.
 ///
 /// Extends the widgets [ModalRoute] directly: the modal scope, the initial
 /// focus and the barrier plumbing all come from the framework route. The card

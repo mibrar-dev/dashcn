@@ -32,7 +32,7 @@ class _ChipDeleteIntent extends Intent {
   const _ChipDeleteIntent();
 }
 
-/// A compact button shaped like a upstream chip (`px-2 py-0.5 text-xs`).
+/// A compact button shaped like an upstream chip (`px-2 py-0.5 text-xs`).
 ///
 /// Without [onPressed] the chip is a static token: it paints the variant's
 /// colours at full strength and never enters the focus tree. The old widget

@@ -92,7 +92,7 @@ jobs:
           bash tool/sync_registry.sh --check
 
       - name: Tests
-        run: flutter test
+        run: flutter test test tool  # tool/ holds the generator tests (goldens)
 
       - name: Build web
         run: flutter build web --release
