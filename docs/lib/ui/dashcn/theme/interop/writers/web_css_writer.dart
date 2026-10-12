@@ -2,9 +2,10 @@
 // `.dark` with `oklch()` colours, the inverse of [parseCssTheme] for the
 // round-trip gate (`parse(write(t))` within ΔE2000 < 0.5, exact radius/fonts).
 
-import '../color_space.dart';
-import '../css_values.dart';
-import '../mapping.dart';
+import '../internal/color_format.dart';
+import '../internal/css_mapping.dart';
+import '../internal/css_syntax.dart';
+import '../internal/token_inventory.dart';
 import '../theme_model.dart';
 
 /// Writes [theme] as `:root` + `.dark` CSS (calls `completed()` first, so

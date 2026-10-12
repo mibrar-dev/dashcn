@@ -133,6 +133,9 @@ class SiteThemeModel extends ChangeNotifier {
     );
   }
 
+  /// Replaces the document wholesale (the web-theme import Apply path).
+  void applyDocument(ThemeDocument document) => _assign(document);
+
   /// Picks a random but always valid combination (the `Shuffle` action).
   ///
   /// The id becomes `shuffled` so a random combination is never mistaken for a

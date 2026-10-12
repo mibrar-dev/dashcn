@@ -22,3 +22,10 @@ void webLocalStorageWrite(String key, String value) {}
 /// Used by the header/footer GitHub links — the app deliberately has no
 /// `url_launcher` dependency (see the pubspec dependency policy).
 void webOpenUrl(String url) {}
+
+/// Opens a file picker for a text file with one of [extensions] (`css`,
+/// `js`, `json`); always null off web (the VM test path pastes instead).
+Future<String?> webPickTextFile(List<String> extensions) async => null;
+
+/// Downloads [text] as [filename]; no-op off web.
+void webDownloadText(String filename, String text) {}

@@ -6,6 +6,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dashcn/src/theme/interop/interop.dart';
+import 'package:dashcn/src/theme/interop/internal/color_format.dart';
+import 'package:dashcn/src/theme/interop/internal/css_mapping.dart';
+import 'package:dashcn/src/theme/interop/internal/token_inventory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String get _themesDir => '${Directory.current.path}/lib/src/themes';

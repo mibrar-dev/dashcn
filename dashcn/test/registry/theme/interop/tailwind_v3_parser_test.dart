@@ -2,6 +2,7 @@
 // and graceful handling of everything that is not a literal.
 
 import 'package:dashcn/src/theme/interop/interop.dart';
+import 'package:dashcn/src/theme/interop/internal/css_mapping.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const Map<String, String> _vars = <String, String>{

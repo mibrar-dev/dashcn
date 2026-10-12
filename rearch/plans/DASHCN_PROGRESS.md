@@ -91,6 +91,20 @@ Review: desktop/browser rotated into a portrait window → fixed (`DeviceSpec.ro
 with `pkill -f`; widget-test hangs diagnosed (deferred-library loads must pump; captures in runAsync).
 Orchestrator gates: docs format/analyze clean, frames +45, docs +277, gen/sync --check, build web; screenshots reviewed.
 
+## P9-4b theme bridge UI + CLI — ACCEPTED (kit + CLI)
+API trim: interop moved out of `dashcn.dart`/`theme.dart` into `package:dashcn/theme_interop.dart` (`show` list;
+helpers in unexported `internal/`). Theme Studio: Import dialog (paste/file, live light+dark preview, ImportReport,
+Apply) + Export tabs (web CSS v4, Tailwind v4, DTCG, preset JSON, Dart; scrollable tab strip — six tabs overflowed by
+328 px, the real cause of the failing widget test). CLI: vendored interop (`tool/sync_interop.sh` + `--check`),
+`dashcn theme import <file|url> [--apply]`, `dashcn theme export --format …`, e2e round trip.
+Agent incidents: provider "backend temporarily unavailable" ×3 on one session (context too large) → fresh session with
+handoff brief. Orchestrator QA fixes (CLI): vendored copy failed the repo-wide format gate (kit 3.12 vs CLI 3.3
+formatter styles) → sync/--check now format with the CLI language version; `DASHCN_KIT_ROOT` accepts the repo root
+(was silently skipping); drift check verified to fail on drift; README format reference protected in rename_cli.
+Gates (orchestrator): kit +4741/+42, exports/manifest --check, check_names 0, barrels export no interop; docs +294,
+gen/sync --check, build web; CLI format/analyze clean, 553 unit, e2e acceptance + package + theme_interop, rename
+--check, sync_interop --check.
+
 ## Next
 1. (done) P8-3 CLI (opencode-go/muse-spark-1.3-contributor#xhigh) ∥ P9 Wave A (P9-1 frames, P9-4a theme bridge, P9-5a scorecards).
 2. Then B → C → D → Z per features plan; P8-4 docs, P8-5 release eng, P8-6 final QA.

@@ -22,6 +22,7 @@ import '../ui/dashcn/primitives/fade_scroll.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'get_code_dialog.dart';
 import 'open_preset_dialog.dart';
+import 'theme_import_dialog.dart';
 import 'rail_footer.dart';
 import 'rail_glyphs.dart';
 import 'rail_picker_scales.dart';
@@ -340,6 +341,7 @@ class _ThemeRailState extends State<ThemeRail> {
               RailFooter(
                 presetId: model.presetId,
                 onOpenPreset: () => showOpenPresetDialog(context, model),
+                onImport: () => showThemeImportDialog(context, model),
                 onShuffle: model.shuffle,
                 onGetCode: () => showGetCodeDialog(context, model),
               ),

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:dashcn/src/theme/interop/interop.dart';
+import 'package:dashcn/src/theme/interop/internal/color_format.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String _fixture(String name) =>

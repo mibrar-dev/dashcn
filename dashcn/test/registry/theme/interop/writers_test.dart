@@ -4,6 +4,8 @@
 import 'dart:convert';
 
 import 'package:dashcn/src/theme/interop/interop.dart';
+import 'package:dashcn/src/theme/interop/internal/color_format.dart';
+import 'package:dashcn/src/theme/interop/internal/token_inventory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 WebTheme _sample() => WebTheme(
@@ -71,31 +73,46 @@ void main() {
   });
 
   group('dtcg writer', () {
-    test('emits colours with light/dark modes plus scalars', () {
+    test('emits one token set per mode plus scalars', () {
       final Map<String, Object?> document =
-          jsonDecode(writeDtcgTokens(_sample(), id: 'demo'))
-              as Map<String, Object?>;
-      final Map<String, Object?> demo =
-          document['demo'] as Map<String, Object?>;
-      final Map<String, Object?> colors = demo['color'] as Map<String, Object?>;
+          jsonDecode(writeDtcgTokens(_sample())) as Map<String, Object?>;
+      // Top-level sets: exactly what Tokens Studio / Figma Variables import
+      // as modes (per-token `$extensions.mode` is ignored by both).
+      expect(document.keys.toSet(), <String>{'light', 'dark'});
+      final Map<String, Object?> light =
+          document['light'] as Map<String, Object?>;
+      final Map<String, Object?> dark =
+          document['dark'] as Map<String, Object?>;
+      final Map<String, Object?> colors =
+          light['color'] as Map<String, Object?>;
       expect(colors.length, 32);
       final Map<String, Object?> primary =
           colors['primary'] as Map<String, Object?>;
       expect(primary[r'$value'], '#FFFFFF');
       expect(primary[r'$type'], 'color');
-      final Map<String, Object?> modes =
-          (primary[r'$extensions'] as Map)['mode'] as Map<String, Object?>;
-      expect(modes['light'], '#FFFFFF');
-      expect(modes['dark'], '#000000');
+      expect(primary.containsKey(r'$extensions'), isFalse);
+      final Map<String, Object?> darkColors =
+          dark['color'] as Map<String, Object?>;
+      expect(
+        (darkColors['primary'] as Map<String, Object?>)[r'$value'],
+        '#000000',
+      );
       final Map<String, Object?> radius =
-          demo['radius'] as Map<String, Object?>;
+          light['radius'] as Map<String, Object?>;
       expect(radius[r'$value'], '8.0px');
       final Map<String, Object?> font =
-          (demo['font'] as Map)['sans'] as Map<String, Object?>;
+          (light['font'] as Map)['sans'] as Map<String, Object?>;
       expect(font[r'$value'], 'Inter, sans-serif');
+      expect(font[r'$type'], 'fontFamily');
       final Map<String, Object?> shadow =
-          (demo['shadow'] as Map)['light'] as Map<String, Object?>;
+          light['shadow'] as Map<String, Object?>;
       expect((shadow['color'] as Map)[r'$value'], '#000000');
+      // Mode-independent scalars are duplicated so each set resolves alone.
+      expect(
+        ((dark['font'] as Map)['sans'] as Map)[r'$value'],
+        'Inter, sans-serif',
+      );
+      expect((dark['radius'] as Map)[r'$value'], '8.0px');
     });
   });
 

@@ -1,65 +1,55 @@
 // W3C Design Tokens writer (pure Dart): a [WebTheme] as a `.tokens.json`
-// document. Colours carry both modes in `$extensions.mode` (`$value` is the
-// light value), so Figma Variables / Tokens Studio can split them into mode
-// sets; scalars use `dimension`/`fontFamily`/`number` types.
+// document with one token set per mode (`light`, `dark`).
+//
+// Why sets and not per-token `$extensions.mode`: the W3C format reserves
+// `$extensions` for vendor-namespaced tool data (which importers must
+// preserve but may ignore), and neither Tokens Studio nor Figma Variables
+// builds modes from it. Both import *token sets* — top-level groups whose
+// names become the mode/sets (`light`, `dark`) — so each set below carries
+// that mode's full token tree. Every token keeps `$value`/`$type`, so the
+// document stays valid W3C DTCG. Mode-independent scalars (fonts) are
+// duplicated into both sets, the standard practice for set-based imports.
 
 import 'dart:convert';
 
-import '../color_space.dart';
+import '../internal/color_format.dart';
+import '../internal/token_inventory.dart';
 import '../theme_model.dart';
 
-/// Writes [theme] as a W3C DTCG `.tokens.json` document.
-String writeDtcgTokens(WebTheme theme, {String id = 'theme'}) {
+/// Writes [theme] as a W3C DTCG `.tokens.json` document: top-level `light`
+/// and `dark` token sets, each with `color/*`, `radius`, `font/*`,
+/// `spacing`, `tracking/*` and the mode's `shadow/*` atoms.
+String writeDtcgTokens(WebTheme theme) {
   final WebTheme complete = theme.completed();
-  final Map<String, Object?> colors = <String, Object?>{};
-  for (final String token in kKitColorTokens) {
-    final int light = complete.light[token]!;
-    final int dark = complete.dark[token]!;
-    colors[token] = <String, Object?>{
-      r'$value': webHexOf(light),
-      r'$type': 'color',
-      r'$extensions': <String, Object?>{
-        'mode': <String, Object?>{
-          'light': webHexOf(light),
-          'dark': webHexOf(dark),
-        },
-      },
-    };
-  }
-  final Map<String, Object?> fonts = <String, Object?>{};
-  for (final MapEntry<String, String> font in complete.fonts.entries) {
-    fonts[font.key] = <String, Object?>{
-      r'$value': font.value,
-      r'$type': 'fontFamily',
-    };
-  }
-  final Map<String, Object?> tracking = <String, Object?>{};
-  for (final MapEntry<String, double> step in complete.tracking.entries) {
-    tracking[step.key] = <String, Object?>{
-      r'$value': '${step.value}em',
-      r'$type': 'dimension',
-    };
-  }
-  Map<String, Object?> shadowAtoms(WebShadowAtoms atoms) => <String, Object?>{
-    'color': <String, Object?>{
-      r'$value': webHexOf(atoms.color),
-      r'$type': 'color',
-    },
-    'opacity': <String, Object?>{r'$value': atoms.opacity, r'$type': 'number'},
-    for (final (String, double) atom in <(String, double)>[
-      ('blur', atoms.blur),
-      ('spread', atoms.spread),
-      ('offsetX', atoms.offsetX),
-      ('offsetY', atoms.offsetY),
-    ])
-      atom.$1: <String, Object?>{
-        r'$value': '${atom.$2}px',
+
+  Map<String, Object?> modeSet(bool isDark) {
+    final Map<String, int> colors = isDark ? complete.dark : complete.light;
+    final Map<String, Object?> colorTokens = <String, Object?>{};
+    for (final String token in kKitColorTokens) {
+      colorTokens[token] = <String, Object?>{
+        r'$value': webHexOf(colors[token]!),
+        r'$type': 'color',
+      };
+    }
+    final Map<String, Object?> fonts = <String, Object?>{};
+    for (final MapEntry<String, String> font in complete.fonts.entries) {
+      fonts[font.key] = <String, Object?>{
+        r'$value': font.value,
+        r'$type': 'fontFamily',
+      };
+    }
+    final Map<String, Object?> tracking = <String, Object?>{};
+    for (final MapEntry<String, double> step in complete.tracking.entries) {
+      tracking[step.key] = <String, Object?>{
+        r'$value': '${step.value}em',
         r'$type': 'dimension',
-      },
-  };
-  final Map<String, Object?> document = <String, Object?>{
-    id: <String, Object?>{
-      'color': colors,
+      };
+    }
+    final WebShadowAtoms atoms = (isDark
+        ? complete.darkShadow
+        : complete.lightShadow)!;
+    return <String, Object?>{
+      'color': colorTokens,
       'radius': <String, Object?>{
         r'$value': '${complete.radius! * 16}px',
         r'$type': 'dimension',
@@ -71,10 +61,31 @@ String writeDtcgTokens(WebTheme theme, {String id = 'theme'}) {
       },
       'tracking': tracking,
       'shadow': <String, Object?>{
-        'light': shadowAtoms(complete.lightShadow!),
-        'dark': shadowAtoms(complete.darkShadow!),
+        'color': <String, Object?>{
+          r'$value': webHexOf(atoms.color),
+          r'$type': 'color',
+        },
+        'opacity': <String, Object?>{
+          r'$value': atoms.opacity,
+          r'$type': 'number',
+        },
+        for (final (String, double) atom in <(String, double)>[
+          ('blur', atoms.blur),
+          ('spread', atoms.spread),
+          ('offsetX', atoms.offsetX),
+          ('offsetY', atoms.offsetY),
+        ])
+          atom.$1: <String, Object?>{
+            r'$value': '${atom.$2}px',
+            r'$type': 'dimension',
+          },
       },
-    },
+    };
+  }
+
+  final Map<String, Object?> document = <String, Object?>{
+    'light': modeSet(false),
+    'dark': modeSet(true),
   };
   return const JsonEncoder.withIndent('  ').convert(document);
 }

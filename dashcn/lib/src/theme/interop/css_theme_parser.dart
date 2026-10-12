@@ -5,8 +5,8 @@
 // Tailwind v4 `@theme { --color-* }` aliases. Never throws: garbage becomes
 // report entries, and the returned theme is always [WebTheme.completed].
 
-import 'css_values.dart';
-import 'mapping.dart';
+import 'internal/css_mapping.dart';
+import 'internal/css_syntax.dart';
 import 'theme_model.dart';
 import 'web_color_parser.dart';
 

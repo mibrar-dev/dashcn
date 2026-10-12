@@ -4,8 +4,8 @@
 // references resolved against caller-supplied CSS variables. Dotted names map
 // to kit tokens (`primary.DEFAULT` → `primary`); the rest is ignored.
 
-import 'css_values.dart';
-import 'mapping.dart';
+import 'internal/css_mapping.dart';
+import 'internal/css_syntax.dart';
 import 'theme_model.dart';
 import 'web_color_parser.dart';
 
@@ -88,30 +88,6 @@ TailwindV3Result _resolveColors(
     ).completed(report),
     report: report,
   );
-}
-
-/// Dotted v3 path to kit token (`primary.DEFAULT` → `primary`,
-/// `primary.foreground` → `primaryForeground`, `chart.1` → `chart1`).
-String? v3PathToKitToken(List<String> path) {
-  final List<String> parts = path
-      .map((String p) => p.trim())
-      .where((String p) => p.isNotEmpty)
-      .toList();
-  if (parts.isEmpty) {
-    return null;
-  }
-  if (parts.length == 1) {
-    return kCssColorToKit[parts[0].toLowerCase()];
-  }
-  final String head = parts[0].toLowerCase();
-  final String tail = parts.sublist(1).join('-').toLowerCase();
-  if (tail == 'default') {
-    return kCssColorToKit[head];
-  }
-  if (head == 'chart' && RegExp(r'^[1-5]$').hasMatch(tail)) {
-    return 'chart$tail';
-  }
-  return kCssColorToKit['$head-$tail'];
 }
 
 void _absorbLeaf(

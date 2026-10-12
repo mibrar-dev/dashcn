@@ -3,6 +3,9 @@
 // with `WebTheme.completed`.
 
 import 'package:dashcn/src/theme/interop/interop.dart';
+import 'package:dashcn/src/theme/interop/internal/css_mapping.dart';
+import 'package:dashcn/src/theme/interop/internal/theme_diagnostics.dart';
+import 'package:dashcn/src/theme/interop/internal/token_inventory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

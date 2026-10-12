@@ -5,7 +5,8 @@
 
 import 'dart:convert';
 
-import '../color_space.dart';
+import '../internal/color_format.dart';
+import '../internal/token_inventory.dart';
 import '../theme_model.dart';
 import '../web_color_parser.dart';
 

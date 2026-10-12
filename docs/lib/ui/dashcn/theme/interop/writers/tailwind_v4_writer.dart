@@ -3,7 +3,8 @@
 // `--color-<name>: var(--<name>)` (the utility surface), fonts, and the
 // radius steps derived from `--radius`.
 
-import '../mapping.dart';
+import '../internal/css_mapping.dart';
+import '../internal/token_inventory.dart';
 import '../theme_model.dart';
 import 'web_css_writer.dart';
 

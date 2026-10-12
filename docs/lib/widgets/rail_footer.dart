@@ -13,13 +13,14 @@ import '../../ui/dashcn/components/input/input.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/theme/theme.dart';
 
-/// The rail footer: preset id field plus the three actions.
+/// The rail footer: preset id field plus the four actions.
 class RailFooter extends StatefulWidget {
   /// Creates the footer.
   const RailFooter({
     super.key,
     required this.presetId,
     required this.onOpenPreset,
+    required this.onImport,
     required this.onShuffle,
     required this.onGetCode,
   });
@@ -29,6 +30,9 @@ class RailFooter extends StatefulWidget {
 
   /// Opens the `Open Preset` paste dialog.
   final VoidCallback onOpenPreset;
+
+  /// Opens the `Import Web Theme` dialog.
+  final VoidCallback onImport;
 
   /// Picks a random valid combination.
   final VoidCallback onShuffle;
@@ -90,6 +94,12 @@ class _RailFooterState extends State<RailFooter> {
           const Gap(8),
           _FooterButton(label: 'Open Preset', onPressed: widget.onOpenPreset),
           const Gap(8),
+          _FooterButton(
+            key: const ValueKey<String>('theme-rail-import'),
+            label: 'Import',
+            onPressed: widget.onImport,
+          ),
+          const Gap(8),
           _FooterButton(label: 'Shuffle', onPressed: widget.onShuffle),
           const Gap(8),
           Button(
@@ -106,7 +116,11 @@ class _RailFooterState extends State<RailFooter> {
 }
 
 class _FooterButton extends StatelessWidget {
-  const _FooterButton({required this.label, required this.onPressed});
+  const _FooterButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
 
   final String label;
   final VoidCallback onPressed;

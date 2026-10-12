@@ -4,6 +4,7 @@
 //                              every component (blocks are NOT included)
 //   lib/foundation.dart        one library per layer (tree-shakeable)
 //   lib/theme.dart
+//   lib/theme_interop.dart     web-theme import/export only (interop.dart)
 //   lib/primitives.dart
 //   lib/components/<id>.dart  one library per component
 //   lib/blocks/<id>.dart       one library per block
@@ -196,7 +197,13 @@ void main(List<String> args) {
   }
 
   final List<String> foundation = sectionFiles('foundation');
-  final List<String> theme = sectionFiles('theme');
+  // The web-theme interop surface is deliberately small (1.0.0): none of
+  // `theme/interop/**` joins `theme.dart` / `dashcn.dart`. It ships as the
+  // dedicated `lib/theme_interop.dart`, which exports only
+  // `src/theme/interop/interop.dart` (itself `show`-restricted).
+  final List<String> theme = sectionFiles(
+    'theme',
+  ).where((String path) => !path.startsWith('theme/interop/')).toList();
   final List<String> primitives = sectionFiles('primitives');
   final List<String> barrel = <String>[...foundation, ...theme, ...primitives];
   for (final String id in componentIds) {
@@ -227,6 +234,8 @@ void main(List<String> args) {
     'lib/foundation.dart': render('lib/foundation.dart', foundation),
     'lib/theme.dart': render('lib/theme.dart', theme),
     'lib/primitives.dart': render('lib/primitives.dart', primitives),
+    'lib/theme_interop.dart':
+        '${_header}export \'src/theme/interop/interop.dart\';\n',
   };
   for (final String id in componentIds) {
     bundle['lib/components/$id.dart'] = render(
