@@ -1,6 +1,6 @@
 # P9-3b — Flows on the docs site + `dashcn add flow:<id>` + flow polish
 
-Spec: `DASHCN_FEATURES_PLAN.md` §P9-3 (binding) and the P9-3a report `$KIT/rearch/reports/P9-3a.md`. You work in the
+Spec: `DASHCN_FEATURES_PLAN.md` §P9-3 (binding) and the P9-3a report (P9-3a in `$KIT/rearch/reports/`). You work in the
 MAIN kit worktree (`$KIT`, branch `refactor/dashcn`) AND the CLI worktree (`$CLI`, branch
 `refactor/dashcn`). Another agent (KIT-FIX-1) edits `$APP/lib/src/primitives/form_core`, theme colours and component
 semantics in a secondary worktree: do NOT touch those; keep kit edits to `lib/src/flows/**`.

@@ -139,8 +139,10 @@ origin/wip/autosave-main`, then merge `refactor/dashcn` into it.
 cd ../dashcn-kit       # or dashcn-kit-b for the secondary worktree
 # launch (detached; survives the terminal). Brief paths are relative to the worktree.
 perl -MPOSIX -e 'POSIX::setsid(); exec @ARGV' nohup bash rearch/run_dashcn_agent.sh \
-  'opencode-go/muse-spark-1.3-contributor#xhigh' rearch/briefs/dashcn/<BRIEF>.md rearch/logs/<NAME>.log \
+  'opencode-go/muse-spark-1.3-contributor#xhigh' rearch/briefs/dashcn/<BRIEF>.md <NAME> \
   > /dev/null 2>&1 &
+#   (3rd arg is a NAME → rearch/logs/<NAME>.log. The launcher watches the FIRST `rearch/reports/<X>.md` path in the
+#    brief for `## RESULT`, so a brief must not name another phase's report path before its own.)
 # resume an existing OpenCode session with a nudge (loops until the report says status: done|blocked)
 #   (4th arg is a NAME: log goes to rearch/logs/<NAME>.log; `opencode session list` shows ids, titled dashcn:<brief>)
 perl -MPOSIX -e 'POSIX::setsid(); exec @ARGV' nohup bash rearch/resume_dashcn_agent.sh <session-id> \
