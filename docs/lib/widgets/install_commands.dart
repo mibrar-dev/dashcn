@@ -14,6 +14,11 @@ const String kPackageImport = "import 'package:dashcn/dashcn.dart';";
 String packageComponentImport(String id) =>
     "import 'package:dashcn/components/$id.dart';";
 
+/// Per-flow import of the published package (the hyphenated id maps to the
+/// underscored library stem, matching `gen_exports`).
+String packageFlowImport(String id) =>
+    "import 'package:dashcn/flows/${id.replaceAll('-', '_')}.dart';";
+
 /// Activates the CLI globally (own-the-code mode).
 const String kCliActivateCommand = 'dart pub global activate dashcn_cli';
 
@@ -22,6 +27,9 @@ const String kInitCommand = 'dashcn init';
 
 /// Copies one component (plus its closure) into the app.
 String ownAddCommand(String id) => 'dashcn add $id';
+
+/// Copies one flow (plus its components/blocks closure) into the app.
+String ownFlowAddCommand(String id) => 'dashcn add flow:$id';
 
 /// Turns a package-mode component into owned sources.
 String ejectCommand(String id) => 'dashcn eject $id';
@@ -37,6 +45,14 @@ String packageSnippet(String id) =>
 
 /// Own-the-code snippet for one component (init + add).
 String ownCodeSnippet(String id) => '$kInitCommand\n${ownAddCommand(id)}';
+
+/// Package-tab snippet for one flow (add + per-flow import).
+String packageFlowSnippet(String id) =>
+    '$kPackageAddCommand\n${packageFlowImport(id)}';
+
+/// Own-the-code snippet for one flow (init + add).
+String ownFlowCodeSnippet(String id) =>
+    '$kInitCommand\n${ownFlowAddCommand(id)}';
 
 /// Own-the-code snippet for the getting-started page (full flow).
 const String kOwnCodeGettingStarted =

@@ -144,6 +144,7 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
                 ),
               ),
             ),
+            Gap(appTheme.spacing.xs),
             Button(
               variant: ButtonVariant.link,
               size: ButtonSize.sm,

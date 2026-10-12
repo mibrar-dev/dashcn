@@ -66,6 +66,12 @@ enum DocsRoute {
   /// `/blocks/<id>` — one block, full-page view.
   block,
 
+  /// `/docs/flows` — the flows index (one card per flow).
+  flows,
+
+  /// `/docs/flows/<id>` — one flow, framed with a screen map.
+  flow,
+
   /// Anything else; rendered as a not-found page.
   notFound,
 }
@@ -78,6 +84,7 @@ class DocsRouteConfiguration {
     this.componentId,
     this.blockCategorySlug,
     this.blockId,
+    this.flowId,
     this.raw,
   });
 
@@ -92,6 +99,9 @@ class DocsRouteConfiguration {
 
   /// Block id for [DocsRoute.block] (`dashboard-01`).
   final String? blockId;
+
+  /// Flow id for [DocsRoute.flow] (`auth-01`).
+  final String? flowId;
 
   /// Original location for [DocsRoute.notFound].
   final String? raw;
@@ -167,6 +177,15 @@ class DocsRouteConfiguration {
   static DocsRouteConfiguration block(String id) =>
       DocsRouteConfiguration._(DocsRoute.block, blockId: id);
 
+  /// `/docs/flows`.
+  static const DocsRouteConfiguration flows = DocsRouteConfiguration._(
+    DocsRoute.flows,
+  );
+
+  /// `/docs/flows/<id>`.
+  static DocsRouteConfiguration flow(String id) =>
+      DocsRouteConfiguration._(DocsRoute.flow, flowId: id);
+
   /// `/docs/components/<id>`.
   static DocsRouteConfiguration component(String id) =>
       DocsRouteConfiguration._(DocsRoute.component, componentId: id);
@@ -218,6 +237,15 @@ class DocsRouteConfiguration {
       if (path.length == 1) {
         return introduction;
       }
+      if (path[1] == 'flows') {
+        if (path.length == 2) {
+          return flows;
+        }
+        if (path.length == 3 && path[2].isNotEmpty) {
+          return flow(path[2]);
+        }
+        return notFound(location ?? '/');
+      }
       switch (path[1]) {
         case 'installation':
           return installation;
@@ -262,6 +290,8 @@ class DocsRouteConfiguration {
     DocsRoute.blocks => '/blocks',
     DocsRoute.blockCategory => '/blocks/$blockCategorySlug',
     DocsRoute.block => '/blocks/$blockId',
+    DocsRoute.flows => '/docs/flows',
+    DocsRoute.flow => '/docs/flows/$flowId',
     DocsRoute.notFound => raw ?? '/',
   };
 
@@ -282,6 +312,8 @@ class DocsRouteConfiguration {
     DocsRoute.blocks => 'Blocks',
     DocsRoute.blockCategory => blockCategorySlug ?? 'Blocks',
     DocsRoute.block => blockId ?? 'Block',
+    DocsRoute.flows => 'Flows',
+    DocsRoute.flow => flowId ?? 'Flow',
     DocsRoute.notFound => 'Not found',
   };
 
@@ -292,11 +324,12 @@ class DocsRouteConfiguration {
       other.componentId == componentId &&
       other.blockCategorySlug == blockCategorySlug &&
       other.blockId == blockId &&
+      other.flowId == flowId &&
       other.raw == raw;
 
   @override
   int get hashCode =>
-      Object.hash(route, componentId, blockCategorySlug, blockId, raw);
+      Object.hash(route, componentId, blockCategorySlug, blockId, flowId, raw);
 }
 
 /// Parses the browser URL into a [DocsRouteConfiguration].

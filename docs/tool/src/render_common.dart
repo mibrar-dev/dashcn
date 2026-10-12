@@ -21,6 +21,8 @@ class DocsModel {
     required this.cliCommands,
     required this.blockSources,
     required this.blockClasses,
+    required this.flowSources,
+    required this.flowClasses,
     required this.scorecards,
   });
 
@@ -63,6 +65,13 @@ class DocsModel {
   /// Block widget class names keyed by block id, read with
   /// `package:analyzer` from each block's entry file.
   final Map<String, String> blockClasses;
+
+  /// Flow files with their verbatim sources, keyed by flow id (P9-3b).
+  final Map<String, List<FlowFileFacts>> flowSources;
+
+  /// Flow widget class names keyed by flow id, read with
+  /// `package:analyzer` from each flow's entry file.
+  final Map<String, String> flowClasses;
 
   /// Measured scorecard facts from `manifests/scorecards.json`.
   final ScorecardsDoc scorecards;

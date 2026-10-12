@@ -99,7 +99,8 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
     return ColoredBox(
       color: appTheme.colors.background,
       child: SafeArea(
-        child: Center(
+        child: Align(
+          alignment: Alignment.topCenter,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: Stack(
@@ -234,7 +235,7 @@ class _Section extends StatelessWidget {
   }
 }
 
-/// A label + switch row.
+/// A label + switch row with the same list-row density as [_NavRow].
 class _ToggleRow extends StatelessWidget {
   const _ToggleRow({
     required this.label,
@@ -248,11 +249,18 @@ class _ToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(child: Text(label)),
-        Switch(value: value, onChanged: onChanged),
-      ],
+    final ThemeData appTheme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: appTheme.spacing.lg,
+        vertical: appTheme.spacing.sm,
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(child: Text(label)),
+          Switch(value: value, onChanged: onChanged),
+        ],
+      ),
     );
   }
 }

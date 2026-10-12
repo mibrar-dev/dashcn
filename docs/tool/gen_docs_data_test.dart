@@ -579,7 +579,7 @@ void main() {
     final DocsCliCommand add = kCliCommands.firstWhere(
       (DocsCliCommand command) => command.label == 'dashcn add',
     );
-    expect(add.usage, contains('add <component|block...>'));
+    expect(add.usage, contains('add <component|block|flow:flow...>'));
     expect(
       add.flags.map((DocsCliFlag flag) => flag.name).toList(),
       containsAll(<String>['--dry-run', '--json', '--force', '--all']),

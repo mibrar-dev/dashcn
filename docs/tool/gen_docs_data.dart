@@ -54,6 +54,7 @@ export 'src/render_common.dart';
 export 'src/render_controls.dart';
 export 'src/render_example_sources.dart';
 export 'src/render_files.dart';
+export 'src/render_flows.dart';
 export 'src/render_presets.dart';
 export 'src/render_previews.dart';
 export 'src/render_tables.dart';

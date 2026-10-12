@@ -55,6 +55,7 @@ class Onboarding01Flow extends StatelessWidget {
     this.onSkip,
     this.onFinished,
     this.onPermissionChanged,
+    this.initialScreen = '/',
   });
 
   /// Intro pages; defaults to a three-page tour.
@@ -69,6 +70,9 @@ class Onboarding01Flow extends StatelessWidget {
   /// Called when the permission screen resolves, after [onPermissionChanged].
   final VoidCallback? onFinished;
 
+  /// Initial route of the nested navigator (`/`, `/permission`).
+  final String initialScreen;
+
   void _resolve(BuildContext context, bool granted) {
     onPermissionChanged?.call(granted);
     onFinished?.call();
@@ -77,6 +81,7 @@ class Onboarding01Flow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == '/permission') {
           return AppPageRoute(

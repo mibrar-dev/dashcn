@@ -77,6 +77,7 @@ class _Auth01OtpScreenState extends State<Auth01OtpScreen> {
                 ),
               ),
             ),
+            Gap(appTheme.spacing.xs),
             Button(
               variant: ButtonVariant.link,
               size: ButtonSize.sm,

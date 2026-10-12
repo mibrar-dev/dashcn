@@ -24,6 +24,7 @@ class Settings01Flow extends StatelessWidget {
     this.onDarkModeChanged,
     this.onSoundsChanged,
     this.onSignOut,
+    this.initialScreen = '/',
   });
 
   /// Display name shown in the profile row and account sheet.
@@ -53,9 +54,14 @@ class Settings01Flow extends StatelessWidget {
   /// Called once the sign-out confirm accepts.
   final VoidCallback? onSignOut;
 
+  /// Initial route of the nested navigator (`/`, `/notifications`,
+  /// `/appearance`).
+  final String initialScreen;
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/notifications':
