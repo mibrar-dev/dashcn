@@ -53,9 +53,13 @@ If the cloud session is still alive, let it finish. Don't run the same phase in 
 Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
 
 1. **QA and accept P9-6 and P9-Z** (P8-4, KIT-FIX-1, P9-3b done). Run all gates yourself (section 6) and review the diff and screenshots.
-   - P8-4: commit with explicit paths in main, then merge it into `refactor/dashcn`.
-   - KIT-FIX-1: merge `refactor/dashcn` into `wip/kit-fix-1`, regenerate, re-run the gates, then fast-forward push
-     `HEAD:refactor/dashcn`.
+   - Main-worktree phase (P9-Z): commit with explicit paths, merge `origin/refactor/dashcn` in, regenerate, gates,
+     push.
+   - Worktree-B phase (P9-6): commit on `wip/p9-6-starters` in kit and `dashcn-cli-b`, merge `refactor/dashcn` into
+     each, regenerate, re-run the gates (CLI with `DASHCN_KIT_ROOT` = the merged kit), then fast-forward push
+     `HEAD:refactor/dashcn` in both repos.
+   - Lesson from P9-3b: merges between parallel phases can break layouts (touch-sized buttons × phone frames), so
+     always re-run the full docs `test tool` on the merged tree.
 2. **P9-3b** (done). Flows on the docs site, `dashcn add flow:<id>` in the CLI, and polish:
    - "No account yet?Create one" is missing a space;
    - settings home should be top-aligned;
