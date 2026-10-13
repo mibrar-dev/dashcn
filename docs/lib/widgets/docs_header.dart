@@ -180,15 +180,22 @@ class DocsHeader extends StatelessWidget {
 /// bar overflows there by 11 px (the labels are measured with the fallback
 /// font in tests and with Geist in the browser), so `Blocks` joins the nav at
 /// `xl` — the same escalation that adds the GitHub label and the 256 px
-/// search. Blocks stays reachable below `xl` through the mobile popper (which
-/// renders the whole [kHeaderNav]) and the docs sidebar.
+/// search — and the sixth item `Flows` joins at 1440 px. Both stay reachable
+/// below their escalation through the mobile popper (which renders the whole
+/// [kHeaderNav]) and the docs sidebar.
 List<DocsNavLink> _headerNavFor(double width) {
-  if (width >= 1280) {
+  if (width >= 1440) {
     return kHeaderNav;
+  }
+  if (width >= 1280) {
+    return <DocsNavLink>[
+      for (final DocsNavLink link in kHeaderNav)
+        if (link.location != '/docs/flows') link,
+    ];
   }
   return <DocsNavLink>[
     for (final DocsNavLink link in kHeaderNav)
-      if (link.location != '/blocks') link,
+      if (link.location != '/blocks' && link.location != '/docs/flows') link,
   ];
 }
 
@@ -202,9 +209,13 @@ bool _navActive(String linkLocation, String current) {
   if (linkLocation == '/blocks') {
     return current.startsWith('/blocks');
   }
+  if (linkLocation == '/docs/flows') {
+    return current.startsWith('/docs/flows');
+  }
   if (linkLocation == '/docs') {
     return current.startsWith('/docs') &&
-        !current.startsWith('/docs/components');
+        !current.startsWith('/docs/components') &&
+        !current.startsWith('/docs/flows');
   }
   return current == linkLocation;
 }

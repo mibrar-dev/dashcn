@@ -16,6 +16,7 @@ import 'render_common.dart';
 import 'render_controls.dart';
 import 'render_example_sources.dart';
 import 'render_files.dart';
+import 'render_flows.dart';
 import 'render_presets.dart';
 import 'render_previews.dart';
 import 'render_tables.dart';
@@ -169,6 +170,25 @@ DocsModel buildDocsModel(String registryRoot) {
     );
   }
 
+  final Map<String, List<FlowFileFacts>> flowSources =
+      <String, List<FlowFileFacts>>{};
+  final Map<String, String> flowClasses = <String, String>{};
+  for (final FlowFacts flow in scan.flows) {
+    final List<FlowFileFacts> files = <FlowFileFacts>[];
+    for (final String file in flow.files) {
+      final File source = File('${scan.root}/$file');
+      if (!source.existsSync()) {
+        throw RegistryScanException('${flow.id}: missing file ${source.path}');
+      }
+      files.add(FlowFileFacts(path: file, code: source.readAsStringSync()));
+    }
+    flowSources[flow.id] = files;
+    flowClasses[flow.id] = findBlockWidgetClass(
+      source: files.first.code,
+      blockId: flow.id,
+    );
+  }
+
   return DocsModel(
     scan: scan,
     api: api,
@@ -181,6 +201,8 @@ DocsModel buildDocsModel(String registryRoot) {
     cliCommands: cliCommands,
     blockSources: blockSources,
     blockClasses: blockClasses,
+    flowSources: flowSources,
+    flowClasses: flowClasses,
     scorecards: scanScorecards(scan.root),
   );
 }
@@ -193,6 +215,7 @@ Map<String, String> renderBundle(
   required String themeImport,
   String blockSourcesPath = 'lib/blocks/block_sources.dart',
   String blockPreviewsPath = 'lib/previews/block_previews.dart',
+  String flowSourcesPath = 'lib/flows/flow_sources.dart',
 }) {
   return <String, String>{
     '$outDir/docs_data.dart': renderDocsData(model),
@@ -202,6 +225,7 @@ Map<String, String> renderBundle(
     '$outDir/docs_search.dart': renderDocsSearch(model),
     '$outDir/docs_snippets.dart': renderDocsSnippets(model),
     '$outDir/docs_blocks.dart': renderDocsBlocks(model),
+    '$outDir/docs_flows.dart': renderDocsFlows(model),
     '$outDir/docs_preset_sources.dart': renderPresetSources(model.scan),
     '$outDir/docs_previews.dart': renderDocsPreviews(model),
     '$outDir/docs_example_sources.dart': renderDocsExampleSources(model),
@@ -217,6 +241,7 @@ Map<String, String> renderBundle(
     ),
     blockSourcesPath: renderBlockSources(model.scan, model.blockSources),
     blockPreviewsPath: renderBlockPreviews(model.scan, model.blockClasses),
+    flowSourcesPath: renderFlowSources(model.scan, model.flowSources),
   };
 }
 
@@ -264,7 +289,9 @@ String describeModel(DocsModel model) {
       'presets: ${model.scan.presets.length} '
       '(+${model.scan.presets.length} json/dart sources), '
       'blocks: ${model.scan.blocks.length} '
-      '(${model.blockSources.values.fold<int>(0, (int sum, List<BlockFileFacts> f) => sum + f.length)} files)\n'
+      '(${model.blockSources.values.fold<int>(0, (int sum, List<BlockFileFacts> f) => sum + f.length)} files), '
+      'flows: ${model.scan.flows.length} '
+      '(${model.flowSources.values.fold<int>(0, (int sum, List<FlowFileFacts> f) => sum + f.length)} files)\n'
       'snippets: $snippetCount ($languages)\n'
       'api tables: $withApi with parameters, '
       '${model.scan.components.length - withApi} without\n'

@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 
 import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
+import '../generated/docs_flows.dart';
 import '../routing/docs_nav.dart';
 
 /// One sidebar row: a group label, a category sub-label, or a link.
@@ -79,5 +80,8 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
       for (final DocsBlock block in category.blocks)
         SidebarRow.link(text: block.name, location: '/blocks/${block.id}'),
     ],
+    const SidebarRow.label('Flows'),
+    for (final DocsFlow flow in kFlows)
+      SidebarRow.link(text: flow.name, location: '/docs/flows/${flow.id}'),
   ];
 }

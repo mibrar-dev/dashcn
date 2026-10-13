@@ -85,6 +85,7 @@ class Chat01Flow extends StatelessWidget {
     this.onAttach,
     this.onThreadMuted,
     this.onThreadDeleted,
+    this.initialScreen = '/',
   });
 
   /// Starting threads; the list screen owns a mutable copy.
@@ -108,12 +109,30 @@ class Chat01Flow extends StatelessWidget {
   /// Called with the deleted thread.
   final ValueChanged<Chat01Thread>? onThreadDeleted;
 
+  /// Initial route of the nested navigator (`/`).
+  final String initialScreen;
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == '/thread') {
-          final Chat01Thread thread = settings.arguments as Chat01Thread;
+          // A bare `/thread` (e.g. a docs screen-map jump with no thread
+          // yet) falls back to the thread list instead of throwing.
+          final Object? args = settings.arguments;
+          if (args is! Chat01Thread) {
+            return AppPageRoute(
+              settings: settings,
+              builder: (_) => Chat01ThreadListScreen(
+                threads: threads,
+                onRefresh: onRefresh,
+                onThreadMuted: onThreadMuted,
+                onThreadDeleted: onThreadDeleted,
+              ),
+            );
+          }
+          final Chat01Thread thread = args;
           return AppPageRoute(
             settings: settings,
             builder: (_) => Chat01ConversationScreen(

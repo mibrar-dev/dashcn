@@ -181,11 +181,18 @@ class Settings01ToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(child: Text(label)),
-        Switch(value: value, onChanged: onChanged),
-      ],
+    final ThemeData appTheme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: appTheme.spacing.lg,
+        vertical: appTheme.spacing.sm,
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(child: Text(label)),
+          Switch(value: value, onChanged: onChanged),
+        ],
+      ),
     );
   }
 }

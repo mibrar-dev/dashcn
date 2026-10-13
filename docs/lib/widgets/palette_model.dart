@@ -1,11 +1,13 @@
 // The command palette's data model: entries built from the generated registry
-// data (Pages / Components / Blocks / Presets, spec §5.3 D2 delta + P6-B3).
+// data (Pages / Components / Blocks / Flows / Presets, spec §5.3 D2 delta +
+// P6-B3 + P9-3b).
 // Split from `palette.dart` to keep both files under the ~400-line rule.
 
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
+import '../generated/docs_flows.dart';
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -117,6 +119,19 @@ List<PaletteEntry> buildPaletteEntries() {
       ),
     );
   }
+  for (final DocsFlow flow in kFlows) {
+    items.add(
+      PaletteEntry(
+        group: PaletteGroup.flows,
+        label: flow.name,
+        route: '/docs/flows/${flow.id}',
+        icon: LucideIcons.smartphone,
+        tag: 'flow',
+        action: flow.install,
+        keywords: <String>[flow.id],
+      ),
+    );
+  }
   for (final DocsPreset preset in kPresets) {
     items.add(
       PaletteEntry(
@@ -147,6 +162,7 @@ IconData paletteIconFor(String location) {
     '/docs' => LucideIcons.fileText,
     '/docs/components' => LucideIcons.component,
     '/blocks' => LucideIcons.blocks,
+    '/docs/flows' => LucideIcons.smartphone,
     '/themes' => LucideIcons.palette,
     '/docs/installation' => LucideIcons.download,
     _ => LucideIcons.fileText,

@@ -92,7 +92,8 @@ abstract final class DocsFocusOrder {
   static const NumericFocusOrder toc = NumericFocusOrder(2);
 }
 
-/// The four palette groups, in order (spec §5.3 D2 delta + P6-B3 Blocks).
+/// The palette groups, in order (spec §5.3 D2 delta + P6-B3 Blocks + P9-3b
+/// Flows).
 enum PaletteGroup {
   /// Site pages and CLI command entries.
   pages,
@@ -102,6 +103,9 @@ enum PaletteGroup {
 
   /// Installable blocks (`/blocks/<id>`).
   blocks,
+
+  /// Installable flows (`/docs/flows/<id>`).
+  flows,
 
   /// Theme presets.
   presets,

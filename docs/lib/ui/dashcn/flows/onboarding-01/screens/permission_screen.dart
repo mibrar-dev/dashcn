@@ -23,57 +23,61 @@ class Onboarding01PermissionScreen extends StatelessWidget {
     return ColoredBox(
       color: appTheme.colors.background,
       child: SafeArea(
+        // Scrolls when the card is taller than the screen (short phones,
+        // landscape, large text scale, touch-sized buttons).
         child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: Padding(
-              padding: EdgeInsets.all(appTheme.spacing.lg),
-              child: Card(
-                child: Padding(
-                  padding: EdgeInsets.all(appTheme.spacing.xl),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Icon(
-                        RadixIcons.bell,
-                        size: 44,
-                        color: appTheme.colors.primary,
-                      ),
-                      Gap(appTheme.spacing.lg),
-                      Text(
-                        'Enable notifications?',
-                        style: appTheme.typography.h3,
-                        textAlign: TextAlign.center,
-                      ),
-                      Gap(appTheme.spacing.sm),
-                      Text(
-                        'We only send what matters: replies, reminders '
-                        'and security alerts. You can change this later.',
-                        textAlign: TextAlign.center,
-                        style: appTheme.typography.textMuted.copyWith(
-                          color: appTheme.colors.mutedForeground,
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Padding(
+                padding: EdgeInsets.all(appTheme.spacing.lg),
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(appTheme.spacing.xl),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Icon(
+                          RadixIcons.bell,
+                          size: 44,
+                          color: appTheme.colors.primary,
                         ),
-                      ),
-                      Gap(appTheme.spacing.xl),
-                      Button(
-                        onPressed: () => onResolve(true),
-                        child: const Text('Allow notifications'),
-                      ),
-                      Gap(appTheme.spacing.sm),
-                      Button(
-                        variant: ButtonVariant.outline,
-                        onPressed: () => onResolve(false),
-                        child: const Text('Not now'),
-                      ),
-                      Gap(appTheme.spacing.sm),
-                      Button(
-                        variant: ButtonVariant.ghost,
-                        size: ButtonSize.sm,
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Back'),
-                      ),
-                    ],
+                        Gap(appTheme.spacing.lg),
+                        Text(
+                          'Enable notifications?',
+                          style: appTheme.typography.h3,
+                          textAlign: TextAlign.center,
+                        ),
+                        Gap(appTheme.spacing.sm),
+                        Text(
+                          'We only send what matters: replies, reminders '
+                          'and security alerts. You can change this later.',
+                          textAlign: TextAlign.center,
+                          style: appTheme.typography.textMuted.copyWith(
+                            color: appTheme.colors.mutedForeground,
+                          ),
+                        ),
+                        Gap(appTheme.spacing.xl),
+                        Button(
+                          onPressed: () => onResolve(true),
+                          child: const Text('Allow notifications'),
+                        ),
+                        Gap(appTheme.spacing.sm),
+                        Button(
+                          variant: ButtonVariant.outline,
+                          onPressed: () => onResolve(false),
+                          child: const Text('Not now'),
+                        ),
+                        Gap(appTheme.spacing.sm),
+                        Button(
+                          variant: ButtonVariant.ghost,
+                          size: ButtonSize.sm,
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('Back'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

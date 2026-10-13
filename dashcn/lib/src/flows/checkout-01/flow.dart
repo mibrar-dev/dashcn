@@ -76,6 +76,7 @@ class Checkout01Flow extends StatelessWidget {
     this.onAddressSaved,
     this.onPlaceOrder,
     this.onDone,
+    this.initialScreen = '/',
   });
 
   /// Starting cart rows; the cart screen owns a mutable copy.
@@ -94,13 +95,30 @@ class Checkout01Flow extends StatelessWidget {
   /// Called from the success screen.
   final VoidCallback? onDone;
 
+  /// Initial route of the nested navigator (`/`, `/payment`, `/success`).
+  final String initialScreen;
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/payment':
-            final Checkout01Order order = settings.arguments as Checkout01Order;
+            // A bare `/payment` (e.g. a docs screen-map jump with no order
+            // yet) falls back to the cart instead of throwing on the cast.
+            final Object? args = settings.arguments;
+            if (args is! Checkout01Order) {
+              return AppPageRoute(
+                settings: settings,
+                builder: (_) => Checkout01CartScreen(
+                  items: items,
+                  onRemoveItem: onRemoveItem,
+                  onAddressSaved: onAddressSaved,
+                ),
+              );
+            }
+            final Checkout01Order order = args;
             return AppPageRoute(
               settings: settings,
               builder: (_) => Checkout01PaymentScreen(

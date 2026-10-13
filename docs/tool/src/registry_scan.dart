@@ -9,12 +9,14 @@ import 'dart:convert';
 import 'dart:io';
 
 export 'block_scan.dart';
+export 'flow_scan.dart';
 
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
 import 'block_scan.dart';
+import 'flow_scan.dart';
 
 /// The registry tree does not look like the post-cutover layout.
 class RegistryScanException implements Exception {
@@ -195,6 +197,7 @@ class RegistryScan {
     required this.schemaVersion,
     required this.components,
     required this.blocks,
+    required this.flows,
     required this.presets,
     required this.themeTokens,
     required this.materialImports,
@@ -212,6 +215,9 @@ class RegistryScan {
 
   /// Blocks ordered by category, then id (P6-B1 layer 4).
   final List<BlockFacts> blocks;
+
+  /// Flows ordered by id (P9-3b layer 5).
+  final List<FlowFacts> flows;
 
   /// Presets in `themes/index.json` order.
   final List<PresetFacts> presets;
@@ -260,6 +266,9 @@ RegistryScan scanRegistry(String rootPath) {
   final Map<String, Object?> blocksJson = _objectOrEmpty(manifest['blocks']);
   final List<BlockFacts> blocks = scanBlocks(root, blocksJson);
 
+  final Map<String, Object?> flowsJson = _objectOrEmpty(manifest['flows']);
+  final List<FlowFacts> flows = scanFlows(root, flowsJson);
+
   final List<PresetFacts> presets = _presets(root, themesJson);
   final List<ThemeTokenFacts> themeTokens = _themeTokens(root);
   final _ImportScan imports = _scanImports(root);
@@ -269,6 +278,7 @@ RegistryScan scanRegistry(String rootPath) {
     schemaVersion: (manifest['schemaVersion'] as num?)?.toInt() ?? 0,
     components: components,
     blocks: blocks,
+    flows: flows,
     presets: presets,
     themeTokens: themeTokens,
     materialImports: imports.materialImports,

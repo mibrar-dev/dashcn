@@ -24,6 +24,7 @@ class Auth01Flow extends StatelessWidget {
     this.onResetPassword,
     this.onSocialSignIn,
     this.onOtpVerified,
+    this.initialScreen = '/',
   });
 
   /// Called with a valid sign-in form; then the flow shows the OTP screen.
@@ -45,9 +46,14 @@ class Auth01Flow extends StatelessWidget {
   /// Called after [onVerifyOtp] completes.
   final VoidCallback? onOtpVerified;
 
+  /// Initial route of the nested navigator (`/`, `/signup`, `/otp`,
+  /// `/forgot`); the screen map drives this to jump to a screen.
+  final String initialScreen;
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/signup':

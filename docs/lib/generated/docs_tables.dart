@@ -1362,7 +1362,7 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     usage: 'dashcn <command> [arguments]',
     summary: 'dashcn CLI',
     helpText:
-        'dashcn CLI\nUsage: dashcn <command> [arguments]\n\nComponents\n  add                     Install one or more components or blocks and their closure.\n  eject                   Turn a package-mode component into owned sources.\n  remove (alias: rm)      Remove installed components, blocks and orphaned layer files.\n  update                  Update installed components from the registry.\n  dry-run                 Preview what add would install.\n  list (alias: ls)        List available components or blocks, by category.\n  search                  Search components and blocks by name, description or tag.\n  info (alias: i)         Show a component\'s or block\'s closure, files and api.\n\nProject\n  init                    Install the layer core and generate the app theme.\n  registries              List configured and discoverable registries.\n  default                 Set or show the default registry namespace.\n  sync                    Re-apply the installed closure and locked theme.\n  project                 Project repair and cleanup commands.\n  theme                   List and apply registry theme presets.\n\nDiagnostics\n  reset                   Clear global CLI-managed cache and home-directory state.\n  doctor                  Diagnose the manifest, closure, layout and lock drift.\n  validate                Validate the registry manifest against the v2 schema.\n  audit                   Compare installed files against dashcn.lock.\n\nTooling\n  feedback                Submit feedback or report issues.\n  version                 Show the CLI version.\n  upgrade                 Upgrade the CLI to the latest version.\n\nGlobal flags\n  General:\n    --verbose               Verbose logging\n    --version               Show the CLI version\n    --offline               Disable network calls (use cache only)\n\n  Registry Selection:\n    --registry-name         Registry namespace (e.g. dashcn)\n    --registry <path|url>   Registry source override',
+        'dashcn CLI\nUsage: dashcn <command> [arguments]\n\nComponents\n  add                     Install one or more components, blocks or flows and their closure.\n  eject                   Turn a package-mode component into owned sources.\n  remove (alias: rm)      Remove installed components, blocks, flows and orphaned layer files.\n  update                  Update installed components from the registry.\n  dry-run                 Preview what add would install (components, blocks, flows).\n  list (alias: ls)        List available components, blocks or flows, by category.\n  search                  Search components, blocks and flows by name, description or tag.\n  info (alias: i)         Show a component\'s, block\'s or flow\'s closure, files and api.\n\nProject\n  init                    Install the layer core and generate the app theme.\n  registries              List configured and discoverable registries.\n  default                 Set or show the default registry namespace.\n  sync                    Re-apply the installed closure and locked theme.\n  project                 Project repair and cleanup commands.\n  theme                   List and apply registry theme presets.\n\nDiagnostics\n  reset                   Clear global CLI-managed cache and home-directory state.\n  doctor                  Diagnose the manifest, closure, layout and lock drift.\n  validate                Validate the registry manifest against the v2 schema.\n  audit                   Compare installed files against dashcn.lock.\n\nTooling\n  feedback                Submit feedback or report issues.\n  version                 Show the CLI version.\n  upgrade                 Upgrade the CLI to the latest version.\n\nGlobal flags\n  General:\n    --verbose               Verbose logging\n    --version               Show the CLI version\n    --offline               Disable network calls (use cache only)\n\n  Registry Selection:\n    --registry-name         Registry namespace (e.g. dashcn)\n    --registry <path|url>   Registry source override',
     flags: <DocsCliFlag>[
       DocsCliFlag(name: '--verbose', description: 'Verbose logging'),
       DocsCliFlag(name: '--version', description: 'Show the CLI version'),
@@ -1423,10 +1423,10 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
   DocsCliCommand(
     label: 'dashcn add',
     invocation: 'dashcn add --help',
-    usage: 'dashcn add <component|block...> [flags]',
+    usage: 'dashcn add <component|block|flow:flow...> [flags]',
     summary: 'Installs the transitive closure of every requested id:',
     helpText:
-        'Usage: dashcn add <component|block...> [flags]\n       dashcn add --all [--blocks] [flags]\n\nInstalls the transitive closure of every requested id:\ncomponents, blocks, primitives, and the always-on foundation/theme core.\nA block installs to blocks/<id>/ with the components it uses.\n\nOptions:\n  --all               Install every component in the registry\n  --blocks            With --all, install every block too\n  --dry-run           Print the plan without writing anything\n  --force             Overwrite locally modified registry files\n  --include-preview   Also copy each component preview.dart\n  --package           Depend on the dashcn package, copy no sources\n  --path <dir>        With --package, use a path dependency instead\n  --json              Machine-readable output on stdout\n  --help, -h          Show this message',
+        'Usage: dashcn add <component|block|flow:flow...> [flags]\n       dashcn add --all [--blocks] [flags]\n\nInstalls the transitive closure of every requested id:\ncomponents, blocks, flows, primitives, and the always-on foundation/theme core.\nA block installs to blocks/<id>/ with the components it uses.\nA flow installs to flows/<id>/ with the components and blocks it uses (dashcn add flow:<id>).\n\nOptions:\n  --all               Install every component in the registry\n  --blocks            With --all, install every block too\n  --dry-run           Print the plan without writing anything\n  --force             Overwrite locally modified registry files\n  --include-preview   Also copy each component preview.dart\n  --package           Depend on the dashcn package, copy no sources\n  --path <dir>        With --package, use a path dependency instead\n  --json              Machine-readable output on stdout\n  --help, -h          Show this message',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--all',
@@ -1502,14 +1502,14 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
   DocsCliCommand(
     label: 'dashcn remove',
     invocation: 'dashcn remove --help',
-    usage: 'dashcn remove <component|block...> [flags]',
+    usage: 'dashcn remove <component|block|flow:flow...> [flags]',
     summary: '',
     helpText:
-        'Usage: dashcn remove <component|block...> [flags]\n       dashcn remove --all [flags]\n\nOptions:\n  --all                 Remove every installed component and block\n  --force               Remove even if dependents remain\n  --purge-user-themes   Also delete <name>_theme.dart user files\n  --json                Machine-readable output on stdout',
+        'Usage: dashcn remove <component|block|flow:flow...> [flags]\n       dashcn remove --all [flags]\n\nOptions:\n  --all                 Remove every installed component, block and flow\n  --force               Remove even if dependents remain\n  --purge-user-themes   Also delete <name>_theme.dart user files\n  --json                Machine-readable output on stdout',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--all',
-        description: 'Remove every installed component and block',
+        description: 'Remove every installed component, block and flow',
       ),
       DocsCliFlag(
         name: '--force',
@@ -1550,15 +1550,17 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
   DocsCliCommand(
     label: 'dashcn list',
     invocation: 'dashcn list --help',
-    usage: 'dashcn list [--blocks] [--category <c>] [--json]',
-    summary: 'Lists components (default) or blocks, grouped by category.',
+    usage: 'dashcn list [--blocks] [--flows] [--category <c>] [--json]',
+    summary:
+        'Lists components (default), blocks or flows, grouped by category.',
     helpText:
-        'Usage: dashcn list [--blocks] [--category <c>] [--json]\n\nLists components (default) or blocks, grouped by category.\n\nOptions:\n  --blocks           List the blocks layer instead\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
+        'Usage: dashcn list [--blocks] [--flows] [--category <c>] [--json]\n\nLists components (default), blocks or flows, grouped by category.\n\nOptions:\n  --blocks           List the blocks layer instead\n  --flows            List the flows layer instead\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--blocks',
         description: 'List the blocks layer instead',
       ),
+      DocsCliFlag(name: '--flows', description: 'List the flows layer instead'),
       DocsCliFlag(
         name: '--category',
         placeholder: '<name>',
@@ -1574,9 +1576,10 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
     label: 'dashcn search',
     invocation: 'dashcn search --help',
     usage: 'dashcn search <query> [--category <c>] [--json]',
-    summary: 'Searches component and block id, name, description and tags.',
+    summary:
+        'Searches component, block and flow id, name, description and tags.',
     helpText:
-        'Usage: dashcn search <query> [--category <c>] [--json]\n\nSearches component and block id, name, description and tags.\n\nOptions:\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
+        'Usage: dashcn search <query> [--category <c>] [--json]\n\nSearches component, block and flow id, name, description and tags.\n\nOptions:\n  --category <name>  Only entries of that category\n  --json             Machine-readable output on stdout',
     flags: <DocsCliFlag>[
       DocsCliFlag(
         name: '--category',
@@ -1592,11 +1595,11 @@ const List<DocsCliCommand> kCliCommands = <DocsCliCommand>[
   DocsCliCommand(
     label: 'dashcn info',
     invocation: 'dashcn info --help',
-    usage: 'dashcn info <component|block> [--json]',
+    usage: 'dashcn info <component|block|flow> [--json]',
     summary:
-        'Shows the closure, files and api of a component, or the files and closure of a block.',
+        'Shows the closure, files and api of a component, or the files and closure of a block or flow.',
     helpText:
-        'Usage: dashcn info <component|block> [--json]\n\nShows the closure, files and api of a component, or the files and closure of a block.',
+        'Usage: dashcn info <component|block|flow> [--json]\n\nShows the closure, files and api of a component, or the files and closure of a block or flow.',
     flags: <DocsCliFlag>[],
   ),
   DocsCliCommand(

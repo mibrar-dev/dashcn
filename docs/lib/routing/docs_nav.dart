@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
+import '../generated/docs_flows.dart';
 
 /// One navigation target (label + in-app location).
 @immutable
@@ -32,13 +33,14 @@ class DocsNavLink {
   int get hashCode => Object.hash(label, location);
 }
 
-/// Header items (Home, Docs, Components, Blocks, Themes — spec §5.1 plus the
-/// P6-B3 Blocks section).
+/// Header items (Home, Docs, Components, Blocks, Flows, Themes — spec §5.1
+/// plus the P6-B3 Blocks and P9-3b Flows sections).
 const List<DocsNavLink> kHeaderNav = <DocsNavLink>[
   DocsNavLink(label: 'Home', location: '/'),
   DocsNavLink(label: 'Docs', location: '/docs'),
   DocsNavLink(label: 'Components', location: '/docs/components'),
   DocsNavLink(label: 'Blocks', location: '/blocks'),
+  DocsNavLink(label: 'Flows', location: '/docs/flows'),
   DocsNavLink(label: 'Themes', location: '/themes'),
 ];
 
@@ -119,5 +121,17 @@ const List<DocsNavLink> kDocsPageChain = <DocsNavLink>[
   return (
     previousId: index > 0 ? kBlocks[index - 1].id : null,
     nextId: index < kBlocks.length - 1 ? kBlocks[index + 1].id : null,
+  );
+}
+
+/// Previous/next flow ids in [kFlows] order (P9-3b).
+({String? previousId, String? nextId}) flowNeighbors(String id) {
+  final int index = kFlows.indexWhere((DocsFlow flow) => flow.id == id);
+  if (index < 0) {
+    return (previousId: null, nextId: null);
+  }
+  return (
+    previousId: index > 0 ? kFlows[index - 1].id : null,
+    nextId: index < kFlows.length - 1 ? kFlows[index + 1].id : null,
   );
 }
