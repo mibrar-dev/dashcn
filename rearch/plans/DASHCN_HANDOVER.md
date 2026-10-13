@@ -1,16 +1,18 @@
 # dashcn handover: continue on another machine
 
-Snapshot: 2026-10-12 21:00 UTC. The cloud session (claude.ai/code session_01CGPJni4UYgnbtcRVz2B8CN) ran the work up to
+Snapshot: 2026-10-13 06:45 UTC. The cloud session (claude.ai/code session_01CGPJni4UYgnbtcRVz2B8CN) ran the work up to
 here. Use this file to pick it up in a local Claude Code session on the Mac, or in a fresh cloud session.
 `DASHCN_PROGRESS.md` holds the detailed log of every accepted phase, `DASHCN_FEATURES_PLAN.md` the P9 plan, and
 `DASHCN_PACKAGE_PLAN.md` the P8 plan.
 
 ## 1. Where things are
 
-| Repo | Branch | Head | CI |
-|---|---|---|---|
-| `mibrar-dev/shadcn_flutter_kit` (kit + docs) | `refactor/dashcn` | `29d7ef5` or newer | green |
-| `mibrar-dev/flutter_shadcn_cli` (CLI) | `refactor/dashcn` | `da167f6` | green |
+**Release candidate ready.** Every planned phase is accepted and pushed; nothing is in flight.
+
+| Repo | Branch | CI |
+|---|---|---|
+| `mibrar-dev/shadcn_flutter_kit` (kit + docs) | `refactor/dashcn` | green |
+| `mibrar-dev/flutter_shadcn_cli` (CLI) | `refactor/dashcn` | green |
 
 Accepted and pushed:
 
@@ -19,67 +21,42 @@ Accepted and pushed:
 | Brand | Original dashcn bird logo (`brand/`), every format; docs site rebranded |
 | P8-1, P8-2 | Package `dashcn` 1.0.0, plain public names (`DashcnApp`), `check_names` gate = 0 |
 | P8-3 | CLI `dashcn_cli` 1.0.0, `dashcn` executable, package mode, eject |
+| P8-4 | Docs content: install tabs, package-or-own and Material pages, CLI reference, README |
 | P8-5 | CI, tag-triggered pub.dev publish workflows, CHANGELOGs, `RELEASING.md` (not published) |
+| KIT-FIX-1 | Accessibility (contrast-safe `onMuted`, labels, touch hit areas) + no form errors at mount |
 | P9-1 | Device frames: every platform at once |
 | P9-2a, P9-2b | Live props playground |
-| P9-3a | Screens & Flows: five flows and `swipe_actions` |
+| P9-3a, P9-3b | Screens & Flows (five flows, `swipe_actions`), flow pages on the site, `dashcn add flow:<id>` |
 | P9-4a, P9-4b | Web theme import/export (shadcn CSS, tweakcn, Tailwind, Figma tokens): kit, Theme Studio, CLI |
-| P9-5a, P9-5b | Trust scorecards (generator and `/docs/scorecards`) |
+| P9-5a, P9-5b | Trust scorecards (generator and `/docs/scorecards`, with documented exemptions) |
+| P9-6, P9-Z2 | App starters `dashcn create saas|chat|shop` + `/docs/starters` |
+| P9-Z | Component page (frames + playground + scorecard), landing hero, search, locale fix, touch opt-out |
+| P8-6 | Final QA: fresh-app journeys, dry-runs 0 warnings, pana, docs release check; one CLI bug fixed |
 
-## 2. In flight at handover time (OpenCode agents in the cloud container)
+## 2. In flight
 
-| Agent | Worktree, branch | Brief | Report |
-|---|---|---|---|
-| P8-6 final QA + RC | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p8-6-rc` | `rearch/briefs/dashcn/P8-6-final-qa.md` | `rearch/reports/P8-6.md` |
+Nothing. The `wip/autosave-*` branches hold only old snapshots and can be deleted. Worktree B (`dashcn-kit-b`) and
+`dashcn-cli-b` sit on `wip/p8-6-rc` (merged).
 
-Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05), P9-Z (03:30), P9-Z2 (04:40). The main worktrees are idle. OpenCode sessions live in the cloud
-container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
+## 3. What's left
 
-Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
-`wip/autosave-cli` / `wip/autosave-cli-b` on the CLI repo when they have changes) by `rearch/autosave_wip.sh`. Each snapshot is ONE commit on
-top of the worktree's HEAD; its message says which HEAD and when. **These snapshots are unreviewed work in progress.**
+Releasing is **Ibrar's call** (never by an agent): follow "Ready to release" in `rearch/reports/P8-6.md` and
+`RELEASING.md`:
+1. pub.dev automated-publishing entries and `pub.dev` environments (both repos).
+2. Stamp the CHANGELOG dates.
+3. Merge `refactor/dashcn` into `main` in both repos (Ibrar decides; the rule "never merge into main" binds agents).
+4. Tag the kit `v1.0.0` first, then the CLI.
+5. Decide whether to rename the repos; the checklist is in the P8-6 report.
 
-If the cloud is gone, recover them like this:
-- **Option A: resume.** Check out the snapshot, read the report, and relaunch the agent on the same brief with
-  "continue from the existing changes" (step 5).
-- **Option B: restart.** Relaunch the brief from a clean `refactor/dashcn`.
-
-If the cloud session is still alive, let it finish. Don't run the same phase in two places.
-
-## 3. Queue (in order)
-
-Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
-
-1. **QA and accept P8-6** (every feature phase is done: P8-4, KIT-FIX-1, P9-3b, P9-6, P9-Z, P9-Z2). Run all gates yourself (section 6) and review the diff and screenshots.
-   - Main-worktree phase (P9-Z): commit with explicit paths, merge `origin/refactor/dashcn` in, regenerate, gates,
-     push.
-   - Worktree-B phase (P9-6): commit on `wip/p9-6-starters` in kit and `dashcn-cli-b`, merge `refactor/dashcn` into
-     each, regenerate, re-run the gates (CLI with `DASHCN_KIT_ROOT` = the merged kit), then fast-forward push
-     `HEAD:refactor/dashcn` in both repos.
-   - Lesson from P9-3b: merges between parallel phases can break layouts (touch-sized buttons × phone frames), so
-     always re-run the full docs `test tool` on the merged tree.
-2. **P9-3b** (done). Flows on the docs site, `dashcn add flow:<id>` in the CLI, and polish:
-   - "No account yet?Create one" is missing a space;
-   - settings home should be top-aligned;
-   - toggle rows are cramped.
-3. **P9-6** (done). Still to do: a Starters docs page and nav entry (after P9-Z). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
-4. **P9-Z** and **P9-Z2** (done). Integration:
-   - the component page becomes frames + playground + scorecard;
-   - navigation;
-   - landing hero;
-   - fix the docs crash in a browser with no locale (`RangeError: Incorrect locale information provided`);
-   - KIT-FIX-1 follow-ups:
-     - an opt-out for `TouchHitArea`'s layout growth on phones (like Material's `shrinkWrap` tap-target size), e.g.
-       a theme flag, documented on the Button page;
-     - a decision on the scorecard for `divider` (decorative by design), `menu` (disabled row) and
-       `refresh_trigger` (a measurement artefact): exempt them in the harness, with the reason shown.
-5. **P8-6 final QA** (running, see section 2).
-   - fresh-app tests for package mode and eject;
-   - `dart pub publish --dry-run` / `flutter pub publish --dry-run` for both packages;
-   - the pub warning "13 checked-in files ignored".
-
-   Release order when the user asks: tag the kit `v1.0.0` first, because the CLI's default registry pins
-   `…/shadcn_flutter_kit@v<cli version>/dashcn/lib/src`.
+Optional polish, not blocking (write a brief per item if wanted):
+- Visual screenshot pass of the deployed docs on GPU hardware (headless captures here were black under SwiftShader).
+- Hash vs path URLs for GitHub Pages (path URLs need a `404.html`).
+- `dashcn eject` for flows and blocks (now refused with a message).
+- Flow pages: nested navigators take initial focus (the landing hero has a docs-side fix); consider a kit-level opt-out.
+- Fold `?orientation=` into `?frame=`.
+- Starter template links on the site point at `blob/main` (correct only after the release merge or rename).
+- Measure `refresh_trigger` text properly, then remove its scorecard exemption.
+- The header shows Starters only from 1600px wide; check it with the real font in a browser.
 
 ## 4. Rules (from the user; still binding)
 
@@ -121,21 +98,10 @@ cd ~/path/to/shadcn_flutter_cli
 git fetch origin refactor/dashcn
 git worktree add ../dashcn-cli -B refactor/dashcn origin/refactor/dashcn
 
-# 3. (Only if continuing in-flight work from the cloud) inspect the snapshots
+# 3. Pub get
 cd ../dashcn-kit
-git fetch origin wip/autosave-main wip/autosave-kit-b
-git log -1 --stat origin/wip/autosave-main | head -40
-# P8-4 continues in the main worktree:
-git merge --ff-only origin/wip/autosave-main  # or: git checkout -b wip/p8-4 origin/wip/autosave-main
-# KIT-FIX-1 gets its own worktree:
-git worktree add ../dashcn-kit-b -b wip/kit-fix-1 origin/wip/autosave-kit-b
-
-# 4. Pub get
 (cd dashcn && flutter pub get) && (cd docs && flutter pub get) && (cd ../dashcn-cli && dart pub get)
 ```
-
-If `merge --ff-only` refuses, the snapshot sits on an older HEAD. Use `git checkout -b wip/p8-4
-origin/wip/autosave-main`, then merge `refactor/dashcn` into it.
 
 **Stop the cloud routine.** Disable it at claude.ai, Routines, "dashcn agent watchdog check"
 (`trig_01KHe8x21YMUXTvtjMb8Ejhw`), so two orchestrators don't race. Also archive the cloud session.
@@ -206,10 +172,9 @@ Open Claude Code in the `dashcn-kit` worktree and paste:
 > then `DASHCN_PROGRESS.md`, `DASHCN_FEATURES_PLAN.md` and `DASHCN_SESSION_PROMPT.md`, all in `rearch/plans/`.
 > Follow every rule in section 4 of the handover. I have granted full autonomy: don't ask me questions.
 >
-> 1. Verify the setup (section 5). Check whether the cloud agents' work exists on `wip/autosave-main` /
->    `wip/autosave-kit-b` and recover it (Option A).
-> 2. Run the watchdog under Monitor.
-> 3. Work through the queue in section 3: write the missing briefs, launch OpenCode agents with
->    `rearch/run_dashcn_agent.sh`, QA every phase with all gates, commit explicit paths, and push `refactor/dashcn`
->    on both repos.
+> 1. Verify the setup (section 5).
+> 2. The release candidate is done. Ask me which optional polish items from section 3 I want. Never publish, tag,
+>    merge into `main` or rename repos unless I ask.
+> 3. For each item I choose: write a brief, launch an OpenCode agent with `rearch/run_dashcn_agent.sh`, run the
+>    watchdog under Monitor, QA with all gates, commit explicit paths, and push `refactor/dashcn`.
 > 4. After each accepted phase, append it to `DASHCN_PROGRESS.md` and update this handover's sections 2–3.

@@ -234,7 +234,19 @@ the first index was full-width rows with a tiny thumb → grid of compact cards.
 check_names 0; docs gen/sync --check, format, analyze, `test tool` +653, build web.
 Follow-up: GitHub template links point at `blob/main` (update after the release branch/repo-rename decisions).
 
-## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
-In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
-Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
-(component page = frames + playground + scorecard; nav; landing hero; headless-locale crash) → P8-6 final QA.
+## P8-6 final QA + release candidate — ACCEPTED (worktree B + dashcn-cli-b)
+Fresh-app journeys all green: package mode (DashcnApp + components + login-01 block + auth-01 flow → analyze, widget
+test, `flutter build web`), copy mode (init/add components, block, flow → analyze + test), eject round-trip, starters
+(dry-run 6 combos; real saas package + chat copy → analyze + smoke test; e2e matrix 6/6), theme bridge (tweakcn sample:
+mapped 85 · defaulted 4 · ignored 15, export round-trip), doctor/list/search/info/create --list. REAL BUG found and
+fixed: `theme import` recorded the lock hash without the trailing newline it writes → `doctor` failed after every
+import (1-line fix + regression test). `publish --dry-run` 0 warnings for both packages; pana kit 130/160 and CLI
+140/150, every deduction environmental or pre-merge (repo URL checked against `main`, licence detection offline,
+no webp tools). Versions 1.0.0 everywhere, registry pin v1.0.0. Docs release build checked in headless Chromium on 8
+routes × locales en-US and C: first frame, 0 console errors, deferred chunks load, 404 page. Gates on the final tree:
+kit qa_gate exit 0 (+4853/+42), all --check, check_names 0; docs `test tool` +653, build; CLI unit +586, e2e all pass.
+No release blockers. Non-blocking: visual screenshot pass on GPU hardware; hash vs path URLs for Pages.
+
+## Next
+Release candidate ready on `refactor/dashcn` (kit + CLI). Releasing is Ibrar's call — see `rearch/reports/P8-6.md`
+"Ready to release" and `RELEASING.md`. Optional polish follow-ups are listed in DASHCN_HANDOVER.md §3.

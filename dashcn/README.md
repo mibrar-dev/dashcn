@@ -12,10 +12,10 @@ flutter pub add dashcn
 ## Use
 
 ```dart
-import 'package:dashcn/dashcn.dart'; // <!-- P8-2 --> barrel name is final; symbol names land in P8-2.
+import 'package:dashcn/dashcn.dart';
 
 void main() {
-  runApp(const DashcnApp( // <!-- P8-2 --> becomes DashcnApp.
+  runApp(const DashcnApp(
     home: SizedBox.shrink(),
   ));
 }
