@@ -32,7 +32,7 @@ Accepted and pushed:
 |---|---|---|---|
 | P9-Z integration | main (`dashcn-kit`), `refactor/dashcn` | `rearch/briefs/dashcn/P9-Z-integration.md` | `rearch/reports/P9-Z.md` |
 
-Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (02:15). Worktree B and `dashcn-cli-b` are free. OpenCode sessions live in the cloud
+Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05). Worktree B and `dashcn-cli-b` are free. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
