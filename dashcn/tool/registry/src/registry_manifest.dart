@@ -104,6 +104,14 @@ class _Flow implements _Buildable {
   String get kindLabel => 'flow';
 }
 
+/// A starter directory as read from its starter.json.
+class _Starter {
+  _Starter({required this.id, required this.meta});
+
+  final String id;
+  final Map<String, dynamic> meta;
+}
+
 class _Builder {
   _Builder(this.appRoot) : root = '$appRoot/lib/src';
 
@@ -132,6 +140,7 @@ class _Builder {
     final components = _readComponents();
     final blocks = _readBlocks();
     final flows = _readFlows();
+    final starters = _readStarters();
     final declared = _declaredLayerIds(components, blocks, flows);
     final foundation = scanLayer(root, 'foundation', declared['foundation']!);
     final theme = scanLayer(root, 'theme', declared['theme']!);
@@ -139,6 +148,8 @@ class _Builder {
     _validateComponentDeps(components, foundation, theme, primitives);
     _validateBlocks(blocks, components, foundation, theme, primitives);
     _validateFlows(flows, blocks, components, foundation, theme, primitives);
+    final themesJson = _themesJson();
+    _validateStarters(starters, flows, blocks, components, themesJson);
 
     final deps = primitiveDeps(primitives);
     final hashes = <String, String>{};
@@ -155,11 +166,14 @@ class _Builder {
     for (final id in flows.keys.toList()..sort()) {
       flowJson[id] = _flowJson(flows[id]!, hashes);
     }
+    final starterJson = <String, Object?>{};
+    for (final id in starters.keys.toList()..sort()) {
+      starterJson[id] = _starterJson(starters[id]!, hashes);
+    }
     // Theme presets are hashed too: `themes/<id>.json` is the input the CLI
     // renders into `<installRoot>/theme/app_theme.dart`, so a consumer that
     // caches or diffs the generated file needs the preset digest to tell "the
     // preset changed" from "only the theme selection changed".
-    final themesJson = _themesJson();
     for (final preset in themesJson.values) {
       hashes[(preset as Map<String, Object?>)['file']! as String] = _sha256(
         (preset['file']! as String),
@@ -196,6 +210,7 @@ class _Builder {
       'components': componentJson,
       'blocks': blockJson,
       'flows': flowJson,
+      'starters': starterJson,
       'themes': themesJson,
       'fileHashes': hashes,
     };
@@ -298,6 +313,174 @@ class _Builder {
       );
     }
     return flows;
+  }
+
+  Map<String, _Starter> _readStarters() {
+    final dir = Directory('$root/starters');
+    if (!dir.existsSync()) {
+      return const <String, _Starter>{};
+    }
+    final starters = <String, _Starter>{};
+    for (final entity in dir.listSync()) {
+      if (entity is! Directory) continue;
+      final id = _baseName(entity.path);
+      final metaFile = File('${entity.path}/starter.json');
+      if (!metaFile.existsSync()) {
+        throw ManifestBuildException("starter '$id' has no starter.json");
+      }
+      final meta =
+          jsonDecode(metaFile.readAsStringSync()) as Map<String, dynamic>;
+      if (meta['id'] != id) {
+        throw ManifestBuildException(
+          "starter '$id' starter.id is '${meta['id']}'",
+        );
+      }
+      starters[id] = _Starter(id: id, meta: meta);
+    }
+    return starters;
+  }
+
+  void _validateStarters(
+    Map<String, _Starter> starters,
+    Map<String, _Flow> flows,
+    Map<String, _Block> blocks,
+    Map<String, _Component> components,
+    Map<String, Object?> themes,
+  ) {
+    const allowedPlatforms = <String>{
+      'ios',
+      'android',
+      'web',
+      'macos',
+      'windows',
+      'linux',
+    };
+    for (final starter in starters.values) {
+      final meta = starter.meta;
+      final id = starter.id;
+      if (meta['type'] != 'starter') {
+        throw ManifestBuildException(
+          "starter '$id' type '${meta['type']}' is not 'starter'",
+        );
+      }
+      if (meta['name'] is! String || (meta['name'] as String).isEmpty) {
+        throw ManifestBuildException("starter '$id' has no name");
+      }
+      final description = meta['description'];
+      if (description is! String || description.isEmpty) {
+        throw ManifestBuildException("starter '$id' has no description");
+      }
+      final preset = meta['themePreset'];
+      if (preset is! String || !themes.containsKey(preset)) {
+        throw ManifestBuildException(
+          "starter '$id' themePreset '$preset' is not a theme",
+        );
+      }
+      final platforms = meta['platforms'];
+      if (platforms is! List ||
+          platforms.isEmpty ||
+          !platforms.whereType<String>().every(allowedPlatforms.contains)) {
+        throw ManifestBuildException(
+          "starter '$id' platforms must be a non-empty subset of "
+          'ios, android, web, macos, windows, linux',
+        );
+      }
+      for (final key in <String>['flows', 'blocks', 'components']) {
+        final list = meta[key];
+        if (list is! List) {
+          throw ManifestBuildException("starter '$id' has no $key list");
+        }
+      }
+      for (final flowId in (meta['flows'] as List).whereType<String>()) {
+        if (!flows.containsKey(flowId)) {
+          throw ManifestBuildException(
+            "starter '$id' flow '$flowId' does not exist",
+          );
+        }
+      }
+      for (final blockId in (meta['blocks'] as List).whereType<String>()) {
+        if (!blocks.containsKey(blockId)) {
+          throw ManifestBuildException(
+            "starter '$id' block '$blockId' does not exist",
+          );
+        }
+      }
+      for (final componentId
+          in (meta['components'] as List).whereType<String>()) {
+        if (!components.containsKey(componentId)) {
+          throw ManifestBuildException(
+            "starter '$id' component '$componentId' does not exist",
+          );
+        }
+      }
+      final routes = meta['routes'];
+      if (routes is! List || routes.isEmpty) {
+        throw ManifestBuildException("starter '$id' has no routes list");
+      }
+      for (final route in routes) {
+        if (route is! Map) {
+          throw ManifestBuildException("starter '$id' has a bad route");
+        }
+        final map = route.map(
+          (Object? k, Object? v) => MapEntry(k.toString(), v),
+        );
+        for (final key in <String>['path', 'title', 'kind', 'ref']) {
+          if (map[key] is! String || (map[key] as String).isEmpty) {
+            throw ManifestBuildException("starter '$id' route misses $key");
+          }
+        }
+        final kind = map['kind'] as String;
+        final ref = map['ref'] as String;
+        if (kind == 'flow' && !flows.containsKey(ref)) {
+          throw ManifestBuildException(
+            "starter '$id' route ref flow '$ref' does not exist",
+          );
+        }
+        if (kind == 'block' && !blocks.containsKey(ref)) {
+          throw ManifestBuildException(
+            "starter '$id' route ref block '$ref' does not exist",
+          );
+        }
+        if (kind != 'flow' && kind != 'block' && kind != 'page') {
+          throw ManifestBuildException(
+            "starter '$id' route kind '$kind' is not flow, block or page",
+          );
+        }
+      }
+      final files = meta['files'];
+      if (files is! List || files.isEmpty) {
+        throw ManifestBuildException("starter '$id' has no files list");
+      }
+      for (final entry in files) {
+        if (entry is! Map) {
+          throw ManifestBuildException("starter '$id' has a bad file entry");
+        }
+        final map = entry.map(
+          (Object? k, Object? v) => MapEntry(k.toString(), v),
+        );
+        final template = map['template'];
+        final target = map['target'];
+        if (template is! String || template.isEmpty) {
+          throw ManifestBuildException("starter '$id' file misses template");
+        }
+        if (target is! String || target.isEmpty) {
+          throw ManifestBuildException("starter '$id' file misses target");
+        }
+        if (!File('$root/$template').existsSync()) {
+          throw ManifestBuildException(
+            "starter '$id' template '$template' does not exist",
+          );
+        }
+        if (!target.startsWith('lib/') && !target.startsWith('test/')) {
+          throw ManifestBuildException(
+            "starter '$id' target '$target' must start with lib/ or test/",
+          );
+        }
+      }
+      if (!File('$root/starters/$id/README.md').existsSync()) {
+        throw ManifestBuildException("starter '$id' has no README.md");
+      }
+    }
   }
 
   void _validateFlows(
@@ -706,6 +889,43 @@ class _Builder {
       hashes[file] = _sha256(file);
     }
     for (final file in docs) {
+      hashes[file] = _sha256(file);
+    }
+    return json;
+  }
+
+  Map<String, Object?> _starterJson(
+    _Starter starter,
+    Map<String, String> hashes,
+  ) {
+    final id = starter.id;
+    final meta = starter.meta;
+    final files = <String>[
+      for (final entry in (meta['files'] as List))
+        (entry as Map)['template'] as String,
+    ]..sort();
+    final docs = <String>[
+      if (File('$root/starters/$id/README.md').existsSync())
+        'starters/$id/README.md',
+      if (File('$root/starters/$id/starter.json').existsSync())
+        'starters/$id/starter.json',
+    ];
+    final json = <String, Object?>{
+      'type': 'starter',
+      'name': meta['name'],
+      'description': meta['description'],
+      'themePreset': meta['themePreset'],
+      'platforms': (meta['platforms'] as List).whereType<String>().toList(),
+      'flows': (meta['flows'] as List).whereType<String>().toList(),
+      'blocks': (meta['blocks'] as List).whereType<String>().toList(),
+      'components': (meta['components'] as List).whereType<String>().toList(),
+      'routes': (meta['routes'] as List).toList(),
+      'files': (meta['files'] as List).toList(),
+      'docs': docs,
+      'tags': meta['tags'] ?? const <String>[],
+      'install': meta['install'],
+    };
+    for (final file in [...files, ...docs]) {
       hashes[file] = _sha256(file);
     }
     return json;
