@@ -15,13 +15,51 @@ import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/overlay.dart';
 import '../ui/dashcn/theme/theme.dart';
+import '../widgets/get_code_dialog.dart';
 import '../widgets/studio_canvas.dart';
+import '../widgets/theme_import_dialog.dart';
 import '../widgets/theme_rail.dart';
 
 /// `/themes` — the customizer.
-class ThemesPage extends StatelessWidget {
+class ThemesPage extends StatefulWidget {
   /// Creates the themes page.
-  const ThemesPage({super.key});
+  const ThemesPage({super.key, this.openPanel});
+
+  /// Opens a studio panel on entry (`import`/`export`, P9-Z nav links).
+  ///
+  /// `/themes?panel=import` (the sidebar's "Import a web theme" item) opens
+  /// the import dialog; `export` opens Get Code. Null opens nothing.
+  final String? openPanel;
+
+  @override
+  State<ThemesPage> createState() => _ThemesPageState();
+}
+
+class _ThemesPageState extends State<ThemesPage> {
+  bool _opened = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeOpen());
+  }
+
+  void _maybeOpen() {
+    if (_opened || !mounted) {
+      return;
+    }
+    final String? panel = widget.openPanel;
+    if (panel != 'import' && panel != 'export') {
+      return;
+    }
+    _opened = true;
+    final DocsState state = DocsRouterScope.of(context).state;
+    if (panel == 'import') {
+      showThemeImportDialog(context, state.themeModel);
+    } else {
+      showGetCodeDialog(context, state.themeModel);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

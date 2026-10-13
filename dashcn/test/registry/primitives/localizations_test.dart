@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:dashcn/src/components/app/app.dart';
 import 'package:dashcn/src/foundation/time_of_day.dart';
 import 'package:dashcn/src/primitives/localizations/localizations.dart';
 import 'package:dashcn/src/primitives/localizations/localizations_de.dart';
@@ -189,6 +190,100 @@ void main() {
       final fallback = lookupComponentLocalizations(const Locale('xx'));
       expect(fallback, isA<ComponentLocalizations>());
       expect(fallback.commandEmpty, 'No results found');
+    });
+
+    group('odd browser locales fall back to English (P9-Z)', () {
+      // Only well-formed-enough tags reach Dart as Locale objects: '' fails
+      // the `Locale` assert and null never becomes an object, so those two
+      // are repaired one layer down by the docs `index.html` shim (which the
+      // P9-Z Playwright repro covers). Everything constructible here must
+      // resolve without throwing.
+      const List<Locale> odd = <Locale>[
+        Locale('C'),
+        Locale.fromSubtags(languageCode: 'xx', countryCode: 'YY'),
+      ];
+
+      test('none is claimed as supported', () {
+        const delegate = ComponentLocalizations.delegate;
+        for (final Locale locale in odd) {
+          expect(delegate.isSupported(locale), isFalse, reason: '$locale');
+        }
+      });
+
+      test('resolveLocale maps each one to English', () {
+        for (final Locale locale in odd) {
+          expect(
+            ComponentLocalizations.resolveLocale(
+              locale,
+              ComponentLocalizations.supportedLocales,
+            ),
+            const Locale('en'),
+            reason: '$locale',
+          );
+        }
+      });
+
+      test('lookup returns English defaults without throwing', () {
+        for (final Locale locale in odd) {
+          final ComponentLocalizations strings = lookupComponentLocalizations(
+            locale,
+          );
+          expect(strings.runtimeType, ComponentLocalizations);
+          expect(strings.commandEmpty, 'No results found');
+        }
+      });
+
+      testWidgets('DashcnApp with an odd locale shows English', (tester) async {
+        // The app's `localeResolutionCallback` maps odd tags to `en`
+        // before any delegate loads, so `GlobalWidgetsLocalizations`
+        // never sees them either.
+        for (final Locale locale in odd) {
+          late ComponentLocalizations strings;
+          await tester.pumpWidget(
+            DashcnApp(
+              locale: locale,
+              home: Builder(
+                builder: (BuildContext context) {
+                  strings = ComponentLocalizations.of(context);
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          );
+          expect(strings.commandEmpty, 'No results found', reason: '$locale');
+          expect(tester.takeException(), isNull, reason: '$locale');
+        }
+      });
+
+      testWidgets('no explicit locale (null) resolves to English', (
+        tester,
+      ) async {
+        // A null device locale lets the framework fall back to the first
+        // supported locale, which must stay English for the kit to load it.
+        expect(
+          ComponentLocalizations.supportedLocales.first,
+          const Locale('en'),
+        );
+        late ComponentLocalizations strings;
+        await tester.pumpWidget(
+          Localizations(
+            locale: ComponentLocalizations.supportedLocales.first,
+            delegates: <LocalizationsDelegate<dynamic>>[
+              ...ComponentLocalizations.localizationsDelegates,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            child: Builder(
+              builder: (BuildContext context) {
+                strings = ComponentLocalizations.of(context);
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        );
+        expect(strings.locale, const Locale('en'));
+        expect(strings.commandEmpty, 'No results found');
+        expect(tester.takeException(), isNull);
+      });
     });
 
     testWidgets('falls back to English without a delegate', (tester) async {

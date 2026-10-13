@@ -64,6 +64,16 @@ class DocsState extends ChangeNotifier {
   DeviceFrameId _frame = DeviceFrameId.none;
   DeviceOrientation _orientation = DeviceOrientation.portrait;
 
+  /// The playground `p.*` params of the current URL (P9-Z).
+  ///
+  /// Seeded from the browser URL on load and back/forward; the component
+  /// page reports every control change here so the router can merge it into
+  /// the history entry. Never persisted: reload restores it from the URL.
+  Map<String, String> _playgroundQuery = const <String, String>{};
+
+  /// The current playground query (non-default `p.*` entries only).
+  Map<String, String> get playgroundQuery => _playgroundQuery;
+
   /// The document's id — a registry preset id, or `shuffled` / a pasted id.
   String get presetId => themeModel.presetId;
 
@@ -133,6 +143,53 @@ class DocsState extends ChangeNotifier {
       params['orientation'] = orientationValue;
     }
     return uri.replace(queryParameters: params.isEmpty ? null : params);
+  }
+
+  /// Applies the frame pair and the playground `p.*` params out of [uri]'s
+  /// query (deep links, reload and browser back/forward arrive here via the
+  /// router). Unknown frame values fall back to the defaults.
+  void applyRouteUri(Uri uri) {
+    applyFrameUri(uri);
+    final Map<String, String> query = <String, String>{
+      for (final MapEntry<String, String> entry in uri.queryParameters.entries)
+        if (entry.key.startsWith('p.')) entry.key: entry.value,
+    };
+    setPlaygroundQuery(query);
+  }
+
+  /// Replaces the playground query and notifies (no-op when unchanged).
+  void setPlaygroundQuery(Map<String, String> query) {
+    if (_mapEquals(_playgroundQuery, query)) {
+      return;
+    }
+    _playgroundQuery = Map<String, String>.unmodifiable(query);
+    notifyListeners();
+  }
+
+  /// Copies [uri] with the frame pair and the playground query merged in
+  /// (back-to-default keys dropped), so the router reports both to the
+  /// browser history.
+  Uri reportUri(Uri uri) {
+    final Map<String, String> params = Map<String, String>.of(
+      frameUri(uri).queryParameters,
+    )..removeWhere((String key, String value) => key.startsWith('p.'));
+    params.addAll(_playgroundQuery);
+    return uri.replace(queryParameters: params.isEmpty ? null : params);
+  }
+
+  static bool _mapEquals(Map<String, String> a, Map<String, String> b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a.length != b.length) {
+      return false;
+    }
+    for (final MapEntry<String, String> entry in a.entries) {
+      if (b[entry.key] != entry.value) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /// Loads persisted preferences; safe to call once before `runApp`.

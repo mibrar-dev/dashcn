@@ -80,6 +80,10 @@ it). All sizes use 14 / w500 text.
 Global `Density.baseContentPadding` scales the padding; `ButtonTheme` may
 override `padding` and `textStyle` per variant.
 
+On touch platforms the button grows with transparent hit padding (iOS 44,
+Android 48) via `TouchHitArea`; the painted size never changes. Opt out per
+app with `ThemeData(touchTargets: TouchTargets.shrinkWrap)`.
+
 ## Theme resolution
 
 `widget (theme:) > ComponentTheme<ButtonTheme> in tree > app overrides

@@ -8,7 +8,7 @@
 // Regenerate: dart run tool/gen_docs_data.dart
 //
 // Search index for the components index page and the command
-// palette: components, CLI commands and presets.
+// palette: components, blocks, flows, pages, CLI commands, presets.
 
 /// Search group of a [DocsSearchEntry].
 enum DocsSearchKind {
@@ -17,6 +17,12 @@ enum DocsSearchKind {
 
   /// A block page (`/blocks/<id>`).
   block,
+
+  /// A flow page (`/docs/flows/<id>`).
+  flow,
+
+  /// A prose docs page (`/docs/<page>`, `/docs/flows`).
+  page,
 
   /// A CLI command.
   command,
@@ -56,7 +62,8 @@ class DocsSearchEntry {
   final String? action;
 }
 
-/// Static search index: components, CLI commands, presets.
+/// Static search index: components, blocks, flows, pages,
+/// CLI commands and presets.
 const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
   DocsSearchEntry(
     label: 'Login 01',
@@ -1918,6 +1925,145 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     kind: DocsSearchKind.command,
     route: '/docs/cli',
     tag: 'CLI',
+  ),
+  DocsSearchEntry(
+    label: 'Auth 01',
+    kind: DocsSearchKind.flow,
+    route: '/docs/flows/auth-01',
+    tag: 'flow',
+    action: 'dashcn add flow:auth-01',
+    keywords: <String>[
+      'auth-01',
+      'Sign in, sign up, OTP verify and forgot password with social buttons and form validation.',
+      'Sign in',
+      'Sign up',
+      'OTP',
+      'Forgot password',
+      'auth',
+      'otp',
+      'password',
+      'sign-in',
+      'sign-up',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Chat 01',
+    kind: DocsSearchKind.flow,
+    route: '/docs/flows/chat-01',
+    tag: 'flow',
+    action: 'dashcn add flow:chat-01',
+    keywords: <String>[
+      'chat-01',
+      'Thread list with swipe actions and pull-to-refresh, a conversation with composer, and an attachments sheet.',
+      'Threads',
+      'Conversation',
+      'Attachments sheet',
+      'chat',
+      'composer',
+      'messages',
+      'threads',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Checkout 01',
+    kind: DocsSearchKind.flow,
+    route: '/docs/flows/checkout-01',
+    tag: 'flow',
+    action: 'dashcn add flow:checkout-01',
+    keywords: <String>[
+      'checkout-01',
+      'Cart with swipe-to-delete rows, an address bottom sheet, payment and a success screen.',
+      'Cart',
+      'Address sheet',
+      'Payment',
+      'Success',
+      'cart',
+      'checkout',
+      'payment',
+      'sheet',
+      'shop',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Onboarding 01',
+    kind: DocsSearchKind.flow,
+    route: '/docs/flows/onboarding-01',
+    tag: 'flow',
+    action: 'dashcn add flow:onboarding-01',
+    keywords: <String>[
+      'onboarding-01',
+      'Three swipeable intro pages with Skip and Next, ending in a notification permission ask.',
+      'Pages',
+      'Permission',
+      'carousel',
+      'intro',
+      'onboarding',
+      'permission',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Settings 01',
+    kind: DocsSearchKind.flow,
+    route: '/docs/flows/settings-01',
+    tag: 'flow',
+    action: 'dashcn add flow:settings-01',
+    keywords: <String>[
+      'settings-01',
+      'Grouped settings list with nested pages, toggles, an account sheet and a sign-out confirm.',
+      'Home',
+      'Notifications',
+      'Appearance',
+      'Account sheet',
+      'account',
+      'settings',
+      'sheet',
+      'toggles',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Package or own the code?',
+    kind: DocsSearchKind.page,
+    route: '/docs/package-or-own',
+    tag: 'docs',
+    keywords: <String>['package', 'own the code', 'copy', 'eject', 'add'],
+  ),
+  DocsSearchEntry(
+    label: 'Using dashcn alongside Material',
+    kind: DocsSearchKind.page,
+    route: '/docs/material',
+    tag: 'docs',
+    keywords: <String>['material', 'interop', 'mix', 'cupertino'],
+  ),
+  DocsSearchEntry(
+    label: 'How we measure',
+    kind: DocsSearchKind.page,
+    route: '/docs/scorecards',
+    tag: 'docs',
+    keywords: <String>[
+      'scorecard',
+      'scorecards',
+      'trust',
+      'contrast',
+      'accessibility',
+      'quality',
+      'measure',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Flows',
+    kind: DocsSearchKind.page,
+    route: '/docs/flows',
+    tag: 'docs',
+    keywords: <String>[
+      'flows',
+      'screens',
+      'auth',
+      'onboarding',
+      'checkout',
+      'settings',
+      'chat',
+      'otp',
+    ],
   ),
   DocsSearchEntry(
     label: 'amber-minimal',

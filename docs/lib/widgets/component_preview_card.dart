@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_example_sources.dart';
 import '../previews/component_previews.dart';
 import '../ui/dashcn/theme/theme.dart';
+import 'device_frame/framed_preview.dart';
 import 'docs_tokens.dart';
 import 'example_preview_card.dart';
 import 'preview_stage.dart';
@@ -33,21 +34,29 @@ class ComponentPreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<DocsExampleSource> sources =
         kExampleSources[componentId] ?? const <DocsExampleSource>[];
+    // P9-Z: the preview stage runs inside the P9-1 device frame (the bar
+    // reads/writes the ambient DocsState, so `?frame=` survives reload).
     if (sources.isEmpty) {
-      return PreviewFrame(
-        child: PreviewStage(
-          child: PreviewExampleLoader(
-            componentId: componentId,
-            exampleIndex: 0,
+      return FramedPreview(
+        id: componentId,
+        child: PreviewFrame(
+          child: PreviewStage(
+            child: PreviewExampleLoader(
+              componentId: componentId,
+              exampleIndex: 0,
+            ),
           ),
         ),
       );
     }
-    return ExamplePreviewCard(
-      componentId: componentId,
-      exampleIndex: 0,
-      source: sources.first,
-      isMain: true,
+    return FramedPreview(
+      id: componentId,
+      child: ExamplePreviewCard(
+        componentId: componentId,
+        exampleIndex: 0,
+        source: sources.first,
+        isMain: true,
+      ),
     );
   }
 }

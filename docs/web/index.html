@@ -95,6 +95,61 @@
     }
   </style>
   <script>
+    // Fall back to en-US when the browser reports no usable locale (P9-Z).
+    //
+    // Headless Chromium without LANG reports `navigator.language === 'C'`
+    // (or an empty/odd tag); the Flutter engine feeds that string straight
+    // into a Locale constructor, which throws `RangeError: Incorrect locale
+    // information provided` and kills boot before the first frame. The
+    // kit's own locale resolution already falls back to English for every
+    // Locale object — this shim only repairs the browser string the engine
+    // parses, before `flutter_bootstrap.js` loads.
+    (function () {
+      function usable(value) {
+        if (typeof value !== 'string' || value.length < 2) {
+          return false;
+        }
+        try {
+          if (typeof Intl !== 'undefined' && Intl.Locale) {
+            new Intl.Locale(value);
+            return true;
+          }
+        } catch (_) {
+          return false;
+        }
+        return /^[A-Za-z]{2,3}([-_][A-Za-z0-9]{2,8})*$/.test(value);
+      }
+      try {
+        var nav = window.navigator;
+        if (!nav) {
+          return;
+        }
+        var ok =
+          usable(nav.language) &&
+          Array.isArray(nav.languages) &&
+          nav.languages.length > 0 &&
+          usable(nav.languages[0]);
+        if (!ok) {
+          Object.defineProperty(nav, 'language', {
+            configurable: true,
+            get: function () {
+              return 'en-US';
+            },
+          });
+          Object.defineProperty(nav, 'languages', {
+            configurable: true,
+            get: function () {
+              return ['en-US'];
+            },
+          });
+        }
+      } catch (_) {
+        // A sealed navigator keeps the old values; boot then fails exactly
+        // as before (no new failure mode introduced).
+      }
+    })();
+  </script>
+  <script>
     // Drop the placeholder as soon as Flutter paints its first frame.
     window.addEventListener('flutter-first-frame', function () {
       var placeholder = document.getElementById('docs-first-paint');

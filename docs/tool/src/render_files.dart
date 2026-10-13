@@ -405,7 +405,7 @@ String renderDocsSearch(DocsModel model) {
         regenerate: kRegenerateCommand,
         notes: <String>[
           'Search index for the components index page and the command',
-          'palette: components, CLI commands and presets.',
+          'palette: components, blocks, flows, pages, CLI commands, presets.',
         ],
       ),
     )
@@ -417,6 +417,12 @@ String renderDocsSearch(DocsModel model) {
     ..writeln()
     ..writeln('  /// A block page (`/blocks/<id>`).')
     ..writeln('  block,')
+    ..writeln()
+    ..writeln('  /// A flow page (`/docs/flows/<id>`).')
+    ..writeln('  flow,')
+    ..writeln()
+    ..writeln('  /// A prose docs page (`/docs/<page>`, `/docs/flows`).')
+    ..writeln('  page,')
     ..writeln()
     ..writeln('  /// A CLI command.')
     ..writeln('  command,')
@@ -456,7 +462,8 @@ String renderDocsSearch(DocsModel model) {
     ..writeln('  final String? action;')
     ..writeln('}')
     ..writeln()
-    ..writeln('/// Static search index: components, CLI commands, presets.')
+    ..writeln('/// Static search index: components, blocks, flows, pages,')
+    ..writeln('/// CLI commands and presets.')
     ..writeln(
       'const List<DocsSearchEntry> kDocsSearchIndex = '
       '<DocsSearchEntry>[',
@@ -501,6 +508,32 @@ String renderDocsSearch(DocsModel model) {
       "tag: 'CLI'),",
     );
   }
+  for (final FlowFacts flow in model.scan.flows) {
+    final List<String> keywords = <String>[
+      flow.id,
+      flow.description,
+      ...flow.screens,
+      ...flow.tags,
+    ];
+    out.writeln(
+      '  ${callExpr(
+        'DocsSearchEntry',
+        <String>['label: ${dartString(flow.name)}', 'kind: DocsSearchKind.flow', 'route: ${dartString('/docs/flows/${flow.id}')}', "tag: 'flow'", 'action: ${dartString(flow.install)}', if (keywords.isNotEmpty) 'keywords: ${stringList(keywords, indent: '    ', appended: 1)}'],
+        indent: '  ',
+        suffix: ',',
+      )}',
+    );
+  }
+  for (final _DocsPageEntry page in _docsPageEntries) {
+    out.writeln(
+      '  ${callExpr(
+        'DocsSearchEntry',
+        <String>['label: ${dartString(page.label)}', 'kind: DocsSearchKind.page', 'route: ${dartString(page.route)}', "tag: 'docs'", 'keywords: ${stringList(page.keywords, indent: '    ', appended: 1)}'],
+        indent: '  ',
+        suffix: ',',
+      )}',
+    );
+  }
   for (final PresetFacts preset in model.scan.presets) {
     out.writeln(
       '  DocsSearchEntry(label: ${dartString(preset.id)}, kind: '
@@ -511,3 +544,54 @@ String renderDocsSearch(DocsModel model) {
   out.writeln('];');
   return out.toString();
 }
+
+/// One prose docs page in the search index (P9-Z).
+class _DocsPageEntry {
+  /// Creates the entry.
+  const _DocsPageEntry(this.label, this.route, this.keywords);
+
+  /// Display label.
+  final String label;
+
+  /// In-app route.
+  final String route;
+
+  /// Extra match terms.
+  final List<String> keywords;
+}
+
+/// Prose pages in the search index: the P9-era pages plus the flows index.
+const List<_DocsPageEntry> _docsPageEntries = <_DocsPageEntry>[
+  _DocsPageEntry('Package or own the code?', '/docs/package-or-own', <String>[
+    'package',
+    'own the code',
+    'copy',
+    'eject',
+    'add',
+  ]),
+  _DocsPageEntry('Using dashcn alongside Material', '/docs/material', <String>[
+    'material',
+    'interop',
+    'mix',
+    'cupertino',
+  ]),
+  _DocsPageEntry('How we measure', '/docs/scorecards', <String>[
+    'scorecard',
+    'scorecards',
+    'trust',
+    'contrast',
+    'accessibility',
+    'quality',
+    'measure',
+  ]),
+  _DocsPageEntry('Flows', '/docs/flows', <String>[
+    'flows',
+    'screens',
+    'auth',
+    'onboarding',
+    'checkout',
+    'settings',
+    'chat',
+    'otp',
+  ]),
+];

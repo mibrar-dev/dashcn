@@ -74,9 +74,14 @@ void main() {
           await tester.pumpAndSettle();
           final Color primary = docsState.theme.colors.primary;
           // P7-D1: all six calendar examples render; the Read-only example
-          // seeds SingleCalendarValue(Mar 14 2024).
+          // seeds SingleCalendarValue(Mar 14 2024). Scoped to the example
+          // cards: P9-Z adds a seventh calendar in the playground below
+          // the main demo (calendar has a builder).
           expect(
-            find.byType(Calendar),
+            find.descendant(
+              of: find.byType(ExamplePreviewCard),
+              matching: find.byType(Calendar),
+            ),
             findsNWidgets(kComponentPreviews['calendar']!.length),
           );
           expect(

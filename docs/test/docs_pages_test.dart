@@ -25,8 +25,8 @@ void main() {
       find.text('${kStats.components} components ready to install'),
       findsOneWidget,
     );
-    expect(find.text('A Flutter component kit you own'), findsOneWidget);
-    expect(find.text('View Components'), findsOneWidget);
+    expect(find.text('Every platform at once'), findsOneWidget);
+    expect(find.text('Browse flows'), findsOneWidget);
     expect(find.text('Get Started'), findsWidgets);
     expect(find.byType(Switch), findsWidgets);
     // Desktop: the collage is live (tickers enabled).
@@ -178,14 +178,14 @@ void main() {
     // The family comes from the active preset's `fonts.sans` (the neutral base
     // declares `Geist, sans-serif`); D7 wires `Typography.applyFonts`, which no
     // registry widget used to call (see P6-D7.md, registry gap 1).
-    final TextStyle h1 = styleOf(find.text('A Flutter component kit you own'));
+    final TextStyle h1 = styleOf(find.text('Every platform at once'));
     expect(h1.fontWeight, FontWeight.w600, reason: 'h1 is semibold');
     expect(h1.fontFamily, 'Geist', reason: "neutral preset's fonts.sans");
     expect(h1.fontFamilyFallback, <String>['sans-serif']);
     expect(h1.fontSize, 48);
 
     final TextStyle body = styleOf(
-      find.textContaining('Widgets-only, accessible'),
+      find.textContaining('running live in iPhone'),
     );
     expect(body.fontWeight, FontWeight.w400, reason: 'body copy is regular');
     expect(body.fontFamily, 'Geist');

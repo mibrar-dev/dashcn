@@ -10,6 +10,14 @@ import 'syntax_colors.dart';
 import 'tokens.dart';
 import 'typography.dart';
 
+/// How [TouchHitArea] treats desktop-density controls on touch platforms.
+///
+/// See `primitives/touch_hit_area.dart`. `padded` (the default) grows the
+/// layout with transparent padding so tap targets reach the platform minimum
+/// (iOS 44, Android 48); `shrinkWrap` skips the growth and paints at the
+/// control's own size.
+enum TouchTargets { padded, shrinkWrap }
+
 /// Ambient dashcn theme data: colors, tokens, fonts, typography and flags.
 class ThemeData {
   const ThemeData({
@@ -22,6 +30,7 @@ class ThemeData {
     this.density = Density.defaultDensity,
     this.spacing = const SpacingScale(4.0),
     this.tracking = const TrackingScale(),
+    this.touchTargets = TouchTargets.padded,
     this._platform,
     this.surfaceOpacity,
     this.surfaceBlur,
@@ -55,6 +64,9 @@ class ThemeData {
 
   /// Letter-spacing scale.
   final TrackingScale tracking;
+
+  /// Whether touch platforms grow controls with transparent hit padding.
+  final TouchTargets touchTargets;
 
   final TargetPlatform? _platform;
 
@@ -118,6 +130,7 @@ class ThemeData {
     ValueGetter<Density>? density,
     ValueGetter<SpacingScale>? spacing,
     ValueGetter<TrackingScale>? tracking,
+    ValueGetter<TouchTargets>? touchTargets,
     ValueGetter<TargetPlatform>? platform,
     ValueGetter<double>? surfaceOpacity,
     ValueGetter<double>? surfaceBlur,
@@ -138,6 +151,7 @@ class ThemeData {
       density: nextDensity,
       spacing: nextSpacing,
       tracking: tracking == null ? this.tracking : tracking(),
+      touchTargets: touchTargets == null ? this.touchTargets : touchTargets(),
       platform: platform == null ? _platform : platform(),
       surfaceOpacity: surfaceOpacity == null
           ? this.surfaceOpacity
@@ -161,6 +175,7 @@ class ThemeData {
       density: Density.lerp(a.density, b.density, t),
       spacing: SpacingScale.lerp(a.spacing, b.spacing, t),
       tracking: TrackingScale.lerp(a.tracking, b.tracking, t),
+      touchTargets: t < 0.5 ? a.touchTargets : b.touchTargets,
       platform: t < 0.5 ? a._platform : b._platform,
       surfaceOpacity: lerpDouble(a.surfaceOpacity, b.surfaceOpacity, t),
       surfaceBlur: lerpDouble(a.surfaceBlur, b.surfaceBlur, t),
@@ -182,6 +197,7 @@ class ThemeData {
         other.density == density &&
         other.spacing == spacing &&
         other.tracking == tracking &&
+        other.touchTargets == touchTargets &&
         other._platform == _platform &&
         other.surfaceOpacity == surfaceOpacity &&
         other.surfaceBlur == surfaceBlur &&
@@ -200,6 +216,7 @@ class ThemeData {
     density,
     spacing,
     tracking,
+    touchTargets,
     _platform,
     surfaceOpacity,
     surfaceBlur,

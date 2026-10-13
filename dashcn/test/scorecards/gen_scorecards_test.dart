@@ -89,6 +89,55 @@ void main() {
       expect((comp['tests'] as Map)['passed'], isTrue);
       expect((comp['frames'] as Map)['label'], 'test environment (relative)');
     });
+
+    test('documented exemptions are recorded on the check', () {
+      Map<String, Object?> marker(String id) => <String, Object?>{
+        'id': id,
+        'a11y': <String, Object?>{
+          'textContrast': <String, Object?>{'passed': false, 'message': 'm'},
+          'semantics': <String, Object?>{'present': false, 'message': 'n'},
+        },
+        'rtl': <String, Object?>{'passed': true},
+        'frames': <String, Object?>{'p50Ms': 0.1, 'p90Ms': 0.2},
+      };
+      final doc = model.buildScorecards(
+        ids: const ['divider', 'menu', 'refresh_trigger', 'button'],
+        markers: <String, Map<String, Object?>>{
+          'divider': marker('divider'),
+          'menu': marker('menu'),
+          'refresh_trigger': marker('refresh_trigger'),
+          'button': marker('button'),
+        },
+        counts: const {
+          'divider': 1,
+          'menu': 1,
+          'refresh_trigger': 1,
+          'button': 1,
+        },
+        commit: 'abc',
+        flutter: 'x',
+        generatedAt: 't',
+      );
+      Map<String, Object?> a11y(String id) =>
+          (((doc['components'] as Map)[id] as Map)['a11y']
+              as Map<String, Object?>);
+      expect(
+        (a11y('divider')['semantics'] as Map)['exempt'],
+        model.scorecardExemptions['divider']!['semantics'],
+      );
+      expect(
+        (a11y('menu')['textContrast'] as Map)['exempt'],
+        model.scorecardExemptions['menu']!['textContrast'],
+      );
+      expect(
+        (a11y('refresh_trigger')['textContrast'] as Map)['exempt'],
+        model.scorecardExemptions['refresh_trigger']!['textContrast'],
+      );
+      expect(
+        (a11y('button')['textContrast'] as Map).containsKey('exempt'),
+        isFalse,
+      );
+    });
   });
 
   group('scorecardsEqual', () {

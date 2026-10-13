@@ -4,6 +4,7 @@
 // viewport; exposes helpers to navigate and open the palette.
 
 import 'package:docs/main.dart';
+import 'package:docs/pages/landing_page.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
 import 'package:flutter/widgets.dart';
@@ -28,6 +29,81 @@ class MemoryDocsStorage extends DocsStorage {
 /// The [DocsState] of the last [pumpDocsApp] call.
 late DocsState docsState;
 
+/// Whether the isolate warm-up below ran already.
+bool _isolateWarmed = false;
+
+/// Warms every deferred page chunk once per isolate (P9-Z).
+///
+/// Widget-test isolates hang a fresh chunk load issued after an earlier
+/// test zone did its own chunk loads, so a file that pumps landing (hero
+/// chunk) and later navigates to a deferred page (component/block/flow
+/// chunk) would hang: the later load never lands. The warm navigates
+/// through one component, flows and blocks page up front — same-zone
+/// sequential loads resolve — building each, because a fetched chunk only
+/// installs on first build and only installed libraries are reusable
+/// across tests (completed futures do not notify subscribers in later
+/// zones). Programmatic configurations carry no query, leaving shell state
+/// and storage untouched. Every later navigation reuses the installed
+/// libraries. Preview chunks keep loading on demand (same-test sequential
+/// loads resolve).
+///
+/// The warm builds run at a wide viewport: some pages overflow at phone
+/// widths (pre-existing, out of scope), and those transient errors would
+/// otherwise sit in the queue and fail the calling test's own overflow
+/// assertions. The queue is drained before returning.
+Future<void> _warmIsolate(
+  WidgetTester tester,
+  DocsRouterDelegate delegate,
+) async {
+  if (_isolateWarmed) {
+    return;
+  }
+  _isolateWarmed = true;
+  // The warm navigations below disturb focus (nested route installs pull
+  // it away from the header anchor). Remember the pre-warm focus — the
+  // shell never unmounts across inner-navigator pushes, so the same node
+  // is still mounted afterwards — and restore it at the end, which also
+  // refreshes ancestor focus bookkeeping the installs clobbered.
+  final FocusNode? previouslyFocused = FocusManager.instance.primaryFocus;
+  final Size warmSize = tester.view.physicalSize;
+  tester.view.physicalSize = const Size(1400, 900);
+  await tester.pump(const Duration(milliseconds: 100));
+  final BuildContext context = tester.element(find.byType(Navigator).last);
+  delegate.navigate(context, DocsRouteConfiguration.component('button'));
+  await _settleWarm(tester);
+  expect(find.text('Playground'), findsWidgets);
+  delegate.navigate(context, DocsRouteConfiguration.flows);
+  await _settleWarm(tester);
+  expect(find.text('Flows that feel like apps'), findsOneWidget);
+  delegate.navigate(context, DocsRouteConfiguration.blocks);
+  await _settleWarm(tester);
+  expect(find.text('Building Blocks for the Web'), findsOneWidget);
+  await delegate.popRoute();
+  await tester.pump(const Duration(milliseconds: 100));
+  await delegate.popRoute();
+  await tester.pump(const Duration(milliseconds: 100));
+  await delegate.popRoute();
+  await tester.pump(const Duration(milliseconds: 100));
+  tester.view.physicalSize = warmSize;
+  await tester.pump(const Duration(milliseconds: 100));
+  while (tester.takeException() != null) {}
+  if (previouslyFocused?.context != null) {
+    previouslyFocused!.requestFocus();
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}
+
+/// Pumps past chunk delivery (engine callbacks need frames plus real time;
+/// back-to-back fake pumps alone never deliver).
+Future<void> _settleWarm(WidgetTester tester) async {
+  for (int i = 0; i < 6; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 25)),
+    );
+  }
+}
+
 /// Pumps the app at [width]×[height] (device pixel ratio 1).
 Future<DocsRouterDelegate> pumpDocsApp(
   WidgetTester tester, {
@@ -50,9 +126,13 @@ Future<DocsRouterDelegate> pumpDocsApp(
   addTearDown(docsState.dispose);
   await tester.pumpWidget(DocsApp(state: docsState));
   await tester.pumpAndSettle();
-  return tester
+  final DocsRouterDelegate delegate = tester
       .widget<DocsRouterScope>(find.byType(DocsRouterScope).first)
       .delegate;
+  await _warmIsolate(tester, delegate);
+  await tester.pumpAndSettle();
+  await drainLandingHero(tester, delegate);
+  return delegate;
 }
 
 /// Navigates the pumped app to [location] and settles.
@@ -63,4 +143,44 @@ Future<void> goTo(
 ) async {
   delegate.go(tester.element(find.byType(Navigator).last), location);
   await tester.pumpAndSettle();
+}
+
+/// Waits for the landing hero chunk to resolve (P9-Z).
+///
+/// The deferred hero starts loading on pump; a still-pending `loadLibrary`
+/// at test end hangs every later test in the isolate (the engine delivers
+/// chunk completions across real time, and a load orphaned in a dead
+/// `FakeAsync` zone never lands — see
+/// `test/device_frame/frame_harness.dart`). Pump across real time until
+/// the demo key appears, bounded by a wall-clock budget that fails loudly
+/// instead of poisoning the suite.
+///
+/// Only waits when landing is the current route with the demo missing:
+/// `pumpWidget` updates the tree in place, so a later pump in the same
+/// test may still show the previously navigated page (no hero expected
+/// there). Later pumps in the same isolate find the chunk installed and
+/// return after one pump.
+Future<void> drainLandingHero(
+  WidgetTester tester,
+  DocsRouterDelegate delegate, {
+  Duration budget = const Duration(seconds: 30),
+}) async {
+  if (delegate.currentConfiguration.route != DocsRoute.landing) {
+    return;
+  }
+  if (find.byKey(kLandingHeroDemoKey).evaluate().isNotEmpty) {
+    return;
+  }
+  final DateTime deadline = DateTime.now().add(budget);
+  while (find.byKey(kLandingHeroDemoKey).evaluate().isEmpty) {
+    if (DateTime.now().isAfter(deadline)) {
+      fail('landing hero chunk did not resolve within $budget');
+    }
+    await tester.pump(const Duration(milliseconds: 100));
+    // Real time for the engine: back-to-back fake pumps alone never let
+    // the loader thread deliver the chunk.
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 25)),
+    );
+  }
 }

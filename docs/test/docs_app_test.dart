@@ -36,7 +36,7 @@ void main() {
   testWidgets('shell boots on the landing page', (WidgetTester tester) async {
     final DocsState state = await _pumpApp(tester);
     addTearDown(state.dispose);
-    expect(find.text('A Flutter component kit you own'), findsOneWidget);
+    expect(find.text('Every platform at once'), findsOneWidget);
     expect(find.text('Get Started'), findsWidgets);
   });
 

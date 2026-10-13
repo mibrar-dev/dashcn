@@ -85,6 +85,13 @@ class MaterialInteropPage extends StatelessWidget {
             'and MaterialApp when Material owns the shell with dashcn '
             'islands inside. Never nest one root inside the other.',
           ),
+          const HeadingAnchor(id: 'touch-targets', title: 'Touch targets'),
+          const TypesetParagraph(
+            'On phones dashcn grows desktop-density controls with transparent '
+            'hit padding (iOS 44, Android 48) without changing the painted '
+            'visuals. Dense rows and joined groups can opt out per app with '
+            'ThemeData(touchTargets: TouchTargets.shrinkWrap).',
+          ),
         ],
       ),
     );

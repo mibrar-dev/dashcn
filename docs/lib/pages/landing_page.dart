@@ -1,11 +1,13 @@
-// Landing page (spec §2.1): announcement badge → H1 → description → two pill
-// CTAs → the live collage. The stats band, marquee, feature grid, steps, CTA
-// band and 4-column footer are deleted per spec §5.1; the one-line footer
-// lives in the shell.
+// Landing page (spec §2.1, P9-Z hero): announcement badge → H1 → description
+// → two pill CTAs → the live multi-frame hero demo (P9-Z, deferred like the
+// other heavy pages) → the live collage. The stats band, marquee, feature
+// grid, steps, CTA band and 4-column footer are deleted per spec §5.1; the
+// one-line footer lives in the shell.
 
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
+import '../landing/hero_demo.dart' deferred as hero_demo;
 import '../routing/docs_router.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -49,7 +51,7 @@ class LandingPage extends StatelessWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
                   child: Text(
-                    'A Flutter component kit you own',
+                    'Every platform at once',
                     textAlign: TextAlign.center,
                     style: docsText(
                       context,
@@ -64,14 +66,10 @@ class LandingPage extends StatelessWidget {
                 Gap(xl ? 16 : 8),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
-                  // The reference balances this paragraph into two near-equal
-                  // lines (`text-balance`, measured 633 px max line); the
-                  // explicit break reproduces that at every width — each
-                  // half still wraps naturally on narrow screens.
                   child: Text(
-                    'Widgets-only, accessible components with thoughtful '
-                    'defaults.\nInstall the source with one command and make '
-                    'every token ours.',
+                    'The same flow, running live in iPhone, Android and '
+                    'desktop frames.\nWidgets-only components you install '
+                    'and own.',
                     textAlign: TextAlign.center,
                     style: docsText(
                       context,
@@ -94,17 +92,19 @@ class LandingPage extends StatelessWidget {
                       ).go(context, '/docs/installation'),
                     ),
                     _PillButton(
-                      label: 'View Components',
+                      label: 'Browse flows',
                       primary: false,
                       onPressed: () => DocsRouterScope.of(
                         context,
-                      ).go(context, '/docs/components'),
+                      ).go(context, '/docs/flows'),
                     ),
                   ],
                 ),
               ],
             ),
           ),
+          const _DeferredHeroDemo(),
+          const Gap(24),
           const DocsCollage(),
           DocsFooter(
             onDocs: () => DocsRouterScope.of(context).go(context, '/docs'),
@@ -112,6 +112,46 @@ class LandingPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Key of the loaded hero demo (widget tests drain the deferred chunk by
+/// waiting for this key; see `test/support/app_harness.dart`).
+const ValueKey<String> kLandingHeroDemoKey = ValueKey<String>(
+  'landing-hero-demo',
+);
+
+/// The hero demo slot: loads the `landing/hero_demo` chunk on demand and
+/// shows a fixed-height placeholder until it arrives, so the landing stays
+/// fast (same deferred pattern as the block/flow pages in `main.dart`).
+class _DeferredHeroDemo extends StatefulWidget {
+  /// Creates the slot.
+  const _DeferredHeroDemo();
+
+  @override
+  State<_DeferredHeroDemo> createState() => _DeferredHeroDemoState();
+}
+
+class _DeferredHeroDemoState extends State<_DeferredHeroDemo> {
+  Future<void>? _load;
+
+  @override
+  void initState() {
+    super.initState();
+    _load = hero_demo.loadLibrary();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<void>(
+      future: _load,
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return hero_demo.LandingHeroDemo(key: kLandingHeroDemoKey);
+        }
+        return const SizedBox(height: 560);
+      },
     );
   }
 }

@@ -46,6 +46,7 @@ class ScorecardCheckRow extends StatelessWidget {
     required this.label,
     required this.passed,
     this.message,
+    this.exempt,
   });
 
   /// Row label.
@@ -57,10 +58,14 @@ class ScorecardCheckRow extends StatelessWidget {
   /// Failing guideline message (shown expandable when failing).
   final String? message;
 
+  /// Documented exemption reason; renders as "Exempt" with the reason.
+  final String? exempt;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final bool showDetail = passed == false && (message?.isNotEmpty ?? false);
+    final bool showDetail =
+        passed == false && exempt == null && (message?.isNotEmpty ?? false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -68,9 +73,21 @@ class ScorecardCheckRow extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(child: Text(label, style: docsText(context, size: 14))),
-            ScoreStatusBadge(passed: passed),
+            ScoreStatusBadge(passed: passed, exempt: exempt),
           ],
         ),
+        if (exempt != null)
+          Padding(
+            padding: EdgeInsets.only(top: theme.spacing.xs),
+            child: Text(
+              'Exempt: $exempt',
+              style: docsText(
+                context,
+                size: 12,
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+          ),
         if (showDetail)
           Collapsible(
             children: <Widget>[
@@ -133,30 +150,35 @@ class ScorecardA11ySection extends StatelessWidget {
           label: 'Text contrast',
           passed: a11y?.textContrast.passed,
           message: a11y?.textContrast.message,
+          exempt: a11y?.textContrast.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
           label: 'Labeled tap target',
           passed: a11y?.labeledTapTarget.passed,
           message: a11y?.labeledTapTarget.message,
+          exempt: a11y?.labeledTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
           label: 'Android tap target',
           passed: a11y?.androidTapTarget.passed,
           message: a11y?.androidTapTarget.message,
+          exempt: a11y?.androidTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
           label: 'iOS tap target',
           passed: a11y?.iOSTapTarget.passed,
           message: a11y?.iOSTapTarget.message,
+          exempt: a11y?.iOSTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
           label: 'Semantics',
           passed: _semanticsPassed(a11y),
           message: a11y?.semantics.message,
+          exempt: a11y?.semantics.exempt,
         ),
         Gap(rowGap),
         Text(

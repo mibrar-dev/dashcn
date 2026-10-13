@@ -71,6 +71,12 @@ class ScorecardsPage extends StatelessWidget {
             'component:<id>). Pass reflects the scorecard harness run at '
             'generation time, not the registry suite result.',
           ),
+          const TypesetParagraph(
+            'Exemptions: a check with a documented reason (a decorative '
+            'divider excluded from semantics, a disabled row WCAG exempts '
+            'from contrast, a sampling artefact) renders as “Exempt” with '
+            'its reason and never counts as a failure.',
+          ),
           const HeadingAnchor(id: 'how-produced', title: 'How it is produced'),
           const TypesetParagraph(
             'The kit generator runs a generated harness test with the JSON '
@@ -223,6 +229,7 @@ class _ScorecardRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final DocsScorecard? scorecard = kScorecards[componentId];
     final int failures = scorecard?.failureCount ?? 0;
+    final int exempt = scorecard?.exemptCount ?? 0;
     final int tests = scorecard?.tests.count ?? 0;
     final bool? passed = scorecard == null
         ? null
@@ -241,7 +248,10 @@ class _ScorecardRow extends StatelessWidget {
           SizedBox(
             width: 120,
             child: Text(
-              '$failures ${failures == 1 ? 'failure' : 'failures'}',
+              exempt > 0
+                  ? '$failures ${failures == 1 ? 'failure' : 'failures'} · '
+                        '$exempt exempt'
+                  : '$failures ${failures == 1 ? 'failure' : 'failures'}',
               style: docsText(context, size: 14),
             ),
           ),

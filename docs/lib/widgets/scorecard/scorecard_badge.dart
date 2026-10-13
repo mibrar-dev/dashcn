@@ -16,16 +16,22 @@ const String kFrameTooltip =
     'Measured with 120 pumped frames in the widget test environment. '
     'Relative numbers for comparing components, not device performance.';
 
-/// Pass/fail/not-measured badge.
+/// Pass/fail/exempt/not-measured badge.
 class ScoreStatusBadge extends StatelessWidget {
   /// Creates the badge for [passed] (null means not measured).
-  const ScoreStatusBadge({super.key, required this.passed});
+  const ScoreStatusBadge({super.key, required this.passed, this.exempt});
 
   /// Whether the check passed, or null when not measured.
   final bool? passed;
 
+  /// Documented exemption reason; renders as "Exempt" when non-null.
+  final String? exempt;
+
   @override
   Widget build(BuildContext context) {
+    if (exempt != null) {
+      return const Badge(variant: BadgeVariant.outline, child: Text('Exempt'));
+    }
     if (passed == null) {
       return const Badge(
         variant: BadgeVariant.outline,

@@ -81,25 +81,30 @@ class ScorecardCard extends StatelessWidget {
           Gap(sectionGap),
           CardFooter(
             alignment: MainAxisAlignment.start,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  _footerText(),
-                  style: docsText(
-                    context,
-                    size: 12,
-                    color: theme.colors.mutedForeground,
+            // Expanded: CardFooter lays out in a Row (unbounded main axis),
+            // so the footer column would size to its intrinsic width and
+            // overflow narrow pages (P9-Z 390 px audit).
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    _footerText(),
+                    style: docsText(
+                      context,
+                      size: 12,
+                      color: theme.colors.mutedForeground,
+                    ),
                   ),
-                ),
-                Button(
-                  variant: ButtonVariant.link,
-                  size: ButtonSize.sm,
-                  onPressed: () => _goToMeasure(context),
-                  child: const Text('How we measure'),
-                ),
-              ],
+                  Button(
+                    variant: ButtonVariant.link,
+                    size: ButtonSize.sm,
+                    onPressed: () => _goToMeasure(context),
+                    child: const Text('How we measure'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

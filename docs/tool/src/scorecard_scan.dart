@@ -12,25 +12,36 @@ import 'registry_scan.dart';
 /// One guideline check (`passed` null means not measured).
 class ScorecardCheckFacts {
   /// Creates the facts.
-  const ScorecardCheckFacts({required this.passed, this.message});
+  const ScorecardCheckFacts({required this.passed, this.message, this.exempt});
 
   /// Whether the guideline passed, or null when not measured.
   final bool? passed;
 
   /// Failing guideline message, or null when passing/not measured.
   final String? message;
+
+  /// Documented exemption reason; exempt checks render as "Exempt" and
+  /// never count as failures.
+  final String? exempt;
 }
 
 /// Semantics presence (`present` null means not measured).
 class ScorecardSemanticsFacts {
   /// Creates the facts.
-  const ScorecardSemanticsFacts({required this.present, this.message});
+  const ScorecardSemanticsFacts({
+    required this.present,
+    this.message,
+    this.exempt,
+  });
 
   /// Whether any label/value/hint/tooltip was found, or null.
   final bool? present;
 
   /// Detail message, or null.
   final String? message;
+
+  /// Documented exemption reason (see [ScorecardCheckFacts.exempt]).
+  final String? exempt;
 }
 
 /// Accessibility facts for one component.
@@ -277,6 +288,7 @@ ScorecardCheckFacts _parseCheck(Object? raw) {
   return ScorecardCheckFacts(
     passed: _parseBool(raw['passed']),
     message: raw['message'] as String?,
+    exempt: raw['exempt'] as String?,
   );
 }
 
@@ -287,6 +299,7 @@ ScorecardSemanticsFacts _parseSemantics(Object? raw) {
   return ScorecardSemanticsFacts(
     present: _parseBool(raw['present']),
     message: raw['message'] as String?,
+    exempt: raw['exempt'] as String?,
   );
 }
 

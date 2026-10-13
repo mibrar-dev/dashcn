@@ -78,4 +78,17 @@ void main() {
       );
     }
   });
+
+  testWidgets('exempt checks show on the row, not as failures', (
+    WidgetTester tester,
+  ) async {
+    final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+    await goTo(tester, delegate, '/docs/scorecards');
+    for (final String id in <String>['divider', 'menu', 'refresh_trigger']) {
+      expect(kScorecards[id]!.failureCount, 0, reason: '$id failures');
+      expect(kScorecards[id]!.exemptCount, 1, reason: '$id exempt');
+    }
+    expect(find.text('0 failures · 1 exempt'), findsNWidgets(3));
+    expect(kScorecards['chip']!.failureCount, greaterThan(0));
+  });
 }

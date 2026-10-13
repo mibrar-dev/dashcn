@@ -23,6 +23,10 @@ double touchMinEdge(TargetPlatform platform) {
 /// padding ([vertical]/[horizontal] per side); on desktop returns [child]
 /// unchanged. Place inside the control's `Semantics` node so the larger
 /// box is the reported tap target.
+///
+/// Opt out per app with `ThemeData(touchTargets: TouchTargets.shrinkWrap)`,
+/// which returns [child] unchanged on every platform (the growth is
+/// layout, not paint, so dense rows and joined groups should opt out).
 class TouchHitArea extends StatelessWidget {
   /// Creates a touch hit area around [child].
   const TouchHitArea({
@@ -44,6 +48,9 @@ class TouchHitArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (vertical <= 0 && horizontal <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
       return child;
     }
     if (!isMobile(Theme.of(context).platform)) {

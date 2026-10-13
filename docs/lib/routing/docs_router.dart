@@ -86,6 +86,7 @@ class DocsRouteConfiguration {
     this.blockId,
     this.flowId,
     this.raw,
+    this.sourceUri,
   });
 
   /// The page to show.
@@ -105,6 +106,15 @@ class DocsRouteConfiguration {
 
   /// Original location for [DocsRoute.notFound].
   final String? raw;
+
+  /// The full parsed URI, query included (P9-Z).
+  ///
+  /// `parse` captures it so the delegate can seed frame + playground state
+  /// from `?frame=`/`?orientation=`/`p.*` on load, deep links and
+  /// back/forward. Programmatic constructors leave it null (state kept).
+  /// Excluded from `==`: the same page with a different query is the same
+  /// entry, and query edits report in place instead of pushing history.
+  final Uri? sourceUri;
 
   /// `/`.
   static const DocsRouteConfiguration landing = DocsRouteConfiguration._(
@@ -330,26 +340,52 @@ class DocsRouteConfiguration {
   @override
   int get hashCode =>
       Object.hash(route, componentId, blockCategorySlug, blockId, flowId, raw);
+
+  /// Copies this configuration with the full parsed URI attached (P9-Z).
+  ///
+  /// The delegate seeds frame + playground state from [uri]'s query on
+  /// load, deep links and back/forward.
+  DocsRouteConfiguration withSourceUri(Uri uri) {
+    return DocsRouteConfiguration._(
+      route,
+      componentId: componentId,
+      blockCategorySlug: blockCategorySlug,
+      blockId: blockId,
+      flowId: flowId,
+      raw: raw,
+      sourceUri: uri,
+    );
+  }
 }
 
 /// Parses the browser URL into a [DocsRouteConfiguration].
 class DocsRouteInformationParser
     extends RouteInformationParser<DocsRouteConfiguration> {
-  /// Creates the parser.
-  const DocsRouteInformationParser();
+  /// Creates the parser, optionally reporting frame/playground state.
+  const DocsRouteInformationParser({this.state});
+
+  /// Shell state used to merge `?frame=`/`p.*` into reported URLs (P9-Z).
+  final DocsState? state;
 
   @override
   Future<DocsRouteConfiguration> parseRouteInformation(
     RouteInformation routeInformation,
   ) async {
-    return DocsRouteConfiguration.parse(routeInformation.uri.toString());
+    return DocsRouteConfiguration.parse(
+      routeInformation.uri.toString(),
+    ).withSourceUri(routeInformation.uri);
   }
 
   @override
   RouteInformation? restoreRouteInformation(
     DocsRouteConfiguration configuration,
   ) {
-    return RouteInformation(uri: Uri.parse(configuration.location));
+    final Uri base = Uri.parse(configuration.location);
+    final DocsState? current = state;
+    if (current == null) {
+      return RouteInformation(uri: base);
+    }
+    return RouteInformation(uri: current.reportUri(base));
   }
 }
 
@@ -470,29 +506,50 @@ class DocsRouterDelegate extends RouterDelegate<DocsRouteConfiguration>
 
   @override
   Future<void> setNewRoutePath(DocsRouteConfiguration configuration) async {
+    final Uri? source = configuration.sourceUri;
     if (configuration == currentConfiguration && _stack.length == 1) {
+      if (source != null) {
+        state.applyRouteUri(source);
+      }
       return;
     }
     _stack
       ..clear()
       ..add(_RouteEntry(configuration, ++_serial));
+    if (source != null) {
+      state.applyRouteUri(source);
+    }
     notifyListeners();
   }
 
   /// Pushes [configuration] as a new page and browser history entry.
+  ///
+  /// A `?frame=`/`?orientation=`/`p.*` query on [configuration] (see
+  /// [DocsRouteConfiguration.withSourceUri]) seeds the shell state; a
+  /// query-only move to the current page applies the state without pushing.
   void navigate(BuildContext context, DocsRouteConfiguration configuration) {
+    final Uri? source = configuration.sourceUri;
     if (configuration == currentConfiguration) {
+      if (source != null) {
+        state.applyRouteUri(source);
+      }
       return;
     }
     Router.navigate(context, () {
       _stack.add(_RouteEntry(configuration, ++_serial));
+      if (source != null) {
+        state.applyRouteUri(source);
+      }
       notifyListeners();
     });
   }
 
   /// Convenience wrapper over [navigate] for a location string.
   void go(BuildContext context, String location) {
-    navigate(context, DocsRouteConfiguration.parse(location));
+    navigate(
+      context,
+      DocsRouteConfiguration.parse(location).withSourceUri(Uri.parse(location)),
+    );
   }
 
   /// Pops the top page (used by pagers); no-op on the initial page.

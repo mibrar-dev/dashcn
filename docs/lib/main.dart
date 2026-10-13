@@ -118,7 +118,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
     return Router<DocsRouteConfiguration>(
       routeInformationProvider: _routeInformationProvider,
       routerDelegate: _delegate,
-      routeInformationParser: const DocsRouteInformationParser(),
+      routeInformationParser: DocsRouteInformationParser(state: widget.state),
       backButtonDispatcher: RootBackButtonDispatcher(),
     );
   }
@@ -216,7 +216,9 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
       builder: (BuildContext context) =>
           component_page.ComponentPage(componentId: config.componentId!),
     ),
-    DocsRoute.themes => const ThemesPage(),
+    DocsRoute.themes => ThemesPage(
+      openPanel: config.sourceUri?.queryParameters['panel'],
+    ),
     DocsRoute.installation => const GettingStartedPage(),
     DocsRoute.packageOrOwn => const PackageOrOwnPage(),
     DocsRoute.material => const MaterialInteropPage(),

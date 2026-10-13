@@ -2,7 +2,9 @@
 // route for all 118 components.
 //
 // Title row + typeset description, the main demo card (the first named
-// example), an install block, then typeset H2 sections: Usage (snippets),
+// example, inside the P9-1 device frame), an install block, the live
+// Playground (P9-2, or a "coming soon" note), the trust Scorecard (P9-5),
+// then typeset H2 sections: Usage (snippets),
 // Examples (every remaining example as `### <Name>` + its own Preview |
 // Code card), API Reference, Theme, and Accessibility (keyboard rows, hidden
 // when empty). Prev/next pager at the bottom. Every fact comes from the
@@ -20,7 +22,9 @@ import '../routing/docs_nav.dart';
 import '../ui/dashcn/components/badge/badge.dart';
 import '../widgets/component_examples_section.dart';
 import '../widgets/component_install_block.dart';
+import '../widgets/component_playground_section.dart';
 import '../widgets/component_preview_card.dart';
+import '../widgets/component_scorecard_section.dart';
 import '../widgets/component_sections.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
@@ -83,6 +87,8 @@ class _ComponentPageState extends State<ComponentPage> {
         children: <Widget>[
           ComponentPreviewCard(componentId: widget.componentId),
           ComponentInstallBlock(componentId: widget.componentId),
+          ComponentPlaygroundSection(componentId: widget.componentId),
+          ComponentScorecardSection(componentId: widget.componentId),
           ComponentUsageSection(componentId: widget.componentId),
           ComponentExamplesSection(componentId: widget.componentId),
           ComponentApiSection(componentId: widget.componentId),

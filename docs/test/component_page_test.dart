@@ -11,6 +11,7 @@ import 'package:docs/routing/docs_nav.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/ui/dashcn/components/badge/badge.dart';
 import 'package:docs/ui/dashcn/components/button/button.dart';
+import 'package:docs/widgets/component_sections.dart';
 import 'package:docs/widgets/docs_toc.dart';
 import 'package:docs/widgets/example_preview_card.dart';
 import 'package:docs/widgets/preview_stage.dart';
@@ -158,8 +159,10 @@ void main() {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
-      // Button has no keyboard rows in its README.
-      expect(find.text('Accessibility'), findsNothing);
+      // Button has no keyboard rows in its README, so the keyboard table
+      // section stays hidden. Scoped to the section type: the trust
+      // scorecard card (P9-Z) has its own "Accessibility" subsection.
+      expect(find.byType(ComponentAccessibilitySection), findsNothing);
     });
 
     testWidgets('accessibility section shown for calendar', (

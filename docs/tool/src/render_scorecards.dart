@@ -26,7 +26,8 @@ String renderDocsScorecards(ScorecardsDoc doc) {
     ..writeln('class DocsScorecardCheck {')
     ..writeln('  /// Creates the check.')
     ..writeln(
-      '  const DocsScorecardCheck({required this.passed, this.message});',
+      '  const DocsScorecardCheck({required this.passed, this.message, '
+      'this.exempt});',
     )
     ..writeln()
     ..writeln('  /// Whether the guideline passed, or null when not measured.')
@@ -34,13 +35,20 @@ String renderDocsScorecards(ScorecardsDoc doc) {
     ..writeln()
     ..writeln('  /// Failing guideline message, or null.')
     ..writeln('  final String? message;')
+    ..writeln()
+    ..writeln(
+      '  /// Documented exemption reason; exempt checks render as "Exempt"',
+    )
+    ..writeln('  /// and never count as failures.')
+    ..writeln('  final String? exempt;')
     ..writeln('}')
     ..writeln()
     ..writeln('/// Semantics presence: `present` null means not measured.')
     ..writeln('class DocsScorecardSemantics {')
     ..writeln('  /// Creates the entry.')
     ..writeln(
-      '  const DocsScorecardSemantics({required this.present, this.message});',
+      '  const DocsScorecardSemantics({required this.present, this.message, '
+      'this.exempt});',
     )
     ..writeln()
     ..writeln('  /// Whether semantics were found, or null when not measured.')
@@ -48,6 +56,11 @@ String renderDocsScorecards(ScorecardsDoc doc) {
     ..writeln()
     ..writeln('  /// Detail message, or null.')
     ..writeln('  final String? message;')
+    ..writeln()
+    ..writeln(
+      '  /// Documented exemption reason (see [DocsScorecardCheck.exempt]).',
+    )
+    ..writeln('  final String? exempt;')
     ..writeln('}')
     ..writeln()
     ..writeln('/// Accessibility facts for one component.')
@@ -172,21 +185,37 @@ String renderDocsScorecards(ScorecardsDoc doc) {
     ..writeln('  final DocsScorecardTests tests;')
     ..writeln()
     ..writeln('  /// Number of failing checks (a11y + semantics + rtl).')
+    ..writeln('  /// Exempt checks never count as failures.')
     ..writeln('  int get failureCount {')
     ..writeln('    int count = 0;')
-    ..writeln('    if (a11y.textContrast.passed == false) {')
+    ..writeln(
+      '    if (a11y.textContrast.passed == false && '
+      'a11y.textContrast.exempt == null) {',
+    )
     ..writeln('      count++;')
     ..writeln('    }')
-    ..writeln('    if (a11y.labeledTapTarget.passed == false) {')
+    ..writeln(
+      '    if (a11y.labeledTapTarget.passed == false && '
+      'a11y.labeledTapTarget.exempt == null) {',
+    )
     ..writeln('      count++;')
     ..writeln('    }')
-    ..writeln('    if (a11y.androidTapTarget.passed == false) {')
+    ..writeln(
+      '    if (a11y.androidTapTarget.passed == false && '
+      'a11y.androidTapTarget.exempt == null) {',
+    )
     ..writeln('      count++;')
     ..writeln('    }')
-    ..writeln('    if (a11y.iOSTapTarget.passed == false) {')
+    ..writeln(
+      '    if (a11y.iOSTapTarget.passed == false && '
+      'a11y.iOSTapTarget.exempt == null) {',
+    )
     ..writeln('      count++;')
     ..writeln('    }')
-    ..writeln('    if (a11y.semantics.present == false) {')
+    ..writeln(
+      '    if (a11y.semantics.present == false && '
+      'a11y.semantics.exempt == null) {',
+    )
     ..writeln('      count++;')
     ..writeln('    }')
     ..writeln('    if (rtl.passed == false) {')
@@ -197,6 +226,27 @@ String renderDocsScorecards(ScorecardsDoc doc) {
     ..writeln()
     ..writeln('  /// Whether any measured check failed.')
     ..writeln('  bool get hasFailures => failureCount > 0;')
+    ..writeln()
+    ..writeln('  /// Number of checks with a documented exemption.')
+    ..writeln('  int get exemptCount {')
+    ..writeln('    int count = 0;')
+    ..writeln('    if (a11y.textContrast.exempt != null) {')
+    ..writeln('      count++;')
+    ..writeln('    }')
+    ..writeln('    if (a11y.labeledTapTarget.exempt != null) {')
+    ..writeln('      count++;')
+    ..writeln('    }')
+    ..writeln('    if (a11y.androidTapTarget.exempt != null) {')
+    ..writeln('      count++;')
+    ..writeln('    }')
+    ..writeln('    if (a11y.iOSTapTarget.exempt != null) {')
+    ..writeln('      count++;')
+    ..writeln('    }')
+    ..writeln('    if (a11y.semantics.exempt != null) {')
+    ..writeln('      count++;')
+    ..writeln('    }')
+    ..writeln('    return count;')
+    ..writeln('  }')
     ..writeln('}')
     ..writeln();
 
@@ -230,7 +280,8 @@ String renderDocsScorecards(ScorecardsDoc doc) {
       ..writeln(
         '      semantics: DocsScorecardSemantics('
         'present: ${_boolLiteral(facts.a11y.semantics.present)}, '
-        'message: ${_stringLiteral(facts.a11y.semantics.message)}),',
+        'message: ${_stringLiteral(facts.a11y.semantics.message)}, '
+        'exempt: ${_stringLiteral(facts.a11y.semantics.exempt)}),',
       )
       ..writeln('    ),')
       ..writeln('    rtl: DocsScorecardRtl(')
@@ -298,5 +349,6 @@ String _doubleLiteral(double? value) {
 String _checkLiteral(String name, ScorecardCheckFacts check) {
   return '$name: DocsScorecardCheck('
       'passed: ${_boolLiteral(check.passed)}, '
-      'message: ${_stringLiteral(check.message)})';
+      'message: ${_stringLiteral(check.message)}, '
+      'exempt: ${_stringLiteral(check.exempt)})';
 }

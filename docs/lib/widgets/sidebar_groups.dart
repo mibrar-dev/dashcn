@@ -83,5 +83,11 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
     const SidebarRow.label('Flows'),
     for (final DocsFlow flow in kFlows)
       SidebarRow.link(text: flow.name, location: '/docs/flows/${flow.id}'),
+    const SidebarRow.label('Themes'),
+    const SidebarRow.link(text: 'Theme Studio', location: '/themes'),
+    const SidebarRow.link(
+      text: 'Import a web theme',
+      location: '/themes?panel=import',
+    ),
   ];
 }
