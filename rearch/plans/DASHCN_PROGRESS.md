@@ -181,6 +181,20 @@ decisions + a TouchHitArea opt-out. Merged refactor/dashcn (P8-4) in; gates on t
 (+4844/+42), all generators --check, check_names 0, package format clean; docs gen/sync --check, format, analyze,
 `test tool` +598, build web.
 
+## P9-3b flows on the docs site + `dashcn add flow:<id>` — ACCEPTED (kit + CLI)
+Docs: "Flows" nav section (header item from 1440 px), `/docs/flows` index (cards with phone-frame thumbnails) and
+`/docs/flows/<id>` (live flow in the P9-1 iPhone frame, screen map that jumps the live flow via the new kit
+`initialScreen` parameter, Package | Own install tabs, dependencies, per-screen generated code, prev/next); demo
+data/callbacks live in docs only; generators `flow_scan` + `render_flows` with `--check`. CLI: `dashcn add flow:<id>`
+(copy mode installs flow + component/block closure, lock `flows`; package mode prints the import), list/search/info/
+remove/update/doctor cover flows; `eject flow:` refused with a message (follow-up). Kit polish: auth link-row gaps,
+settings home top-aligned, toggle-row padding. Merge finding (KIT-FIX-1 × P9-3b): touch-sized buttons made the
+onboarding permission card overflow 16 px in the phone frame → the card now scrolls when taller than the screen
+(orchestrator fix). Gates on the merged tree: kit `flutter test` +5000, qa_gate exit 0, all generators --check,
+check_names 0, format; docs gen/sync --check, format, analyze, `test tool` +613, build web; CLI analyze, format,
+sync_interop --check, `DASHCN_KIT_ROOT` tests +570 (e2e flows incl. `flutter analyze` of a fresh app).
+Follow-ups → P9-Z: flows in the docs search index; eject for flows/blocks; TouchHitArea opt-out (now a must-have).
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
