@@ -180,22 +180,33 @@ class DocsHeader extends StatelessWidget {
 /// bar overflows there by 11 px (the labels are measured with the fallback
 /// font in tests and with Geist in the browser), so `Blocks` joins the nav at
 /// `xl` — the same escalation that adds the GitHub label and the 256 px
-/// search — and the sixth item `Flows` joins at 1440 px. Both stay reachable
+/// search — `Flows` joins at 1440 px and `Starters` joins past 1440 px (seven
+/// items no longer fit at exactly 1440 in the test font). All stay reachable
 /// below their escalation through the mobile popper (which renders the whole
 /// [kHeaderNav]) and the docs sidebar.
 List<DocsNavLink> _headerNavFor(double width) {
-  if (width >= 1440) {
+  if (width >= 1600) {
     return kHeaderNav;
+  }
+  if (width >= 1440) {
+    return <DocsNavLink>[
+      for (final DocsNavLink link in kHeaderNav)
+        if (link.location != '/docs/starters') link,
+    ];
   }
   if (width >= 1280) {
     return <DocsNavLink>[
       for (final DocsNavLink link in kHeaderNav)
-        if (link.location != '/docs/flows') link,
+        if (link.location != '/docs/flows' && link.location != '/docs/starters')
+          link,
     ];
   }
   return <DocsNavLink>[
     for (final DocsNavLink link in kHeaderNav)
-      if (link.location != '/blocks' && link.location != '/docs/flows') link,
+      if (link.location != '/blocks' &&
+          link.location != '/docs/flows' &&
+          link.location != '/docs/starters')
+        link,
   ];
 }
 
@@ -212,10 +223,14 @@ bool _navActive(String linkLocation, String current) {
   if (linkLocation == '/docs/flows') {
     return current.startsWith('/docs/flows');
   }
+  if (linkLocation == '/docs/starters') {
+    return current.startsWith('/docs/starters');
+  }
   if (linkLocation == '/docs') {
     return current.startsWith('/docs') &&
         !current.startsWith('/docs/components') &&
-        !current.startsWith('/docs/flows');
+        !current.startsWith('/docs/flows') &&
+        !current.startsWith('/docs/starters');
   }
   return current == linkLocation;
 }

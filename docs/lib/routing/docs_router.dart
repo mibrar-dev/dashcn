@@ -72,6 +72,12 @@ enum DocsRoute {
   /// `/docs/flows/<id>` — one flow, framed with a screen map.
   flow,
 
+  /// `/docs/starters` — the starters index (one card per starter).
+  starters,
+
+  /// `/docs/starters/<id>` — one starter, routes + create command.
+  starter,
+
   /// Anything else; rendered as a not-found page.
   notFound,
 }
@@ -85,6 +91,7 @@ class DocsRouteConfiguration {
     this.blockCategorySlug,
     this.blockId,
     this.flowId,
+    this.starterId,
     this.raw,
     this.sourceUri,
   });
@@ -103,6 +110,9 @@ class DocsRouteConfiguration {
 
   /// Flow id for [DocsRoute.flow] (`auth-01`).
   final String? flowId;
+
+  /// Starter id for [DocsRoute.starter] (`saas`).
+  final String? starterId;
 
   /// Original location for [DocsRoute.notFound].
   final String? raw;
@@ -196,6 +206,15 @@ class DocsRouteConfiguration {
   static DocsRouteConfiguration flow(String id) =>
       DocsRouteConfiguration._(DocsRoute.flow, flowId: id);
 
+  /// `/docs/starters`.
+  static const DocsRouteConfiguration starters = DocsRouteConfiguration._(
+    DocsRoute.starters,
+  );
+
+  /// `/docs/starters/<id>`.
+  static DocsRouteConfiguration starter(String id) =>
+      DocsRouteConfiguration._(DocsRoute.starter, starterId: id);
+
   /// `/docs/components/<id>`.
   static DocsRouteConfiguration component(String id) =>
       DocsRouteConfiguration._(DocsRoute.component, componentId: id);
@@ -256,6 +275,15 @@ class DocsRouteConfiguration {
         }
         return notFound(location ?? '/');
       }
+      if (path[1] == 'starters') {
+        if (path.length == 2) {
+          return starters;
+        }
+        if (path.length == 3 && path[2].isNotEmpty) {
+          return starter(path[2]);
+        }
+        return notFound(location ?? '/');
+      }
       switch (path[1]) {
         case 'installation':
           return installation;
@@ -302,6 +330,8 @@ class DocsRouteConfiguration {
     DocsRoute.block => '/blocks/$blockId',
     DocsRoute.flows => '/docs/flows',
     DocsRoute.flow => '/docs/flows/$flowId',
+    DocsRoute.starters => '/docs/starters',
+    DocsRoute.starter => '/docs/starters/$starterId',
     DocsRoute.notFound => raw ?? '/',
   };
 
@@ -324,6 +354,8 @@ class DocsRouteConfiguration {
     DocsRoute.block => blockId ?? 'Block',
     DocsRoute.flows => 'Flows',
     DocsRoute.flow => flowId ?? 'Flow',
+    DocsRoute.starters => 'Starters',
+    DocsRoute.starter => starterId ?? 'Starter',
     DocsRoute.notFound => 'Not found',
   };
 
@@ -335,11 +367,19 @@ class DocsRouteConfiguration {
       other.blockCategorySlug == blockCategorySlug &&
       other.blockId == blockId &&
       other.flowId == flowId &&
+      other.starterId == starterId &&
       other.raw == raw;
 
   @override
-  int get hashCode =>
-      Object.hash(route, componentId, blockCategorySlug, blockId, flowId, raw);
+  int get hashCode => Object.hash(
+    route,
+    componentId,
+    blockCategorySlug,
+    blockId,
+    flowId,
+    starterId,
+    raw,
+  );
 
   /// Copies this configuration with the full parsed URI attached (P9-Z).
   ///
@@ -352,6 +392,7 @@ class DocsRouteConfiguration {
       blockCategorySlug: blockCategorySlug,
       blockId: blockId,
       flowId: flowId,
+      starterId: starterId,
       raw: raw,
       sourceUri: uri,
     );

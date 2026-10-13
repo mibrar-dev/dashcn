@@ -21,6 +21,7 @@ import 'package:docs/generated/docs_snippets.dart';
 import 'package:docs/generated/docs_tables.dart';
 import 'package:docs/blocks/block_sources.dart';
 import 'package:docs/generated/docs_blocks.dart';
+import 'package:docs/generated/docs_starters.dart';
 import 'package:docs/previews/block_previews.dart';
 import 'package:docs/previews/component_previews.dart';
 import 'package:docs/state/docs_state.dart';
@@ -927,6 +928,89 @@ void main() {
         (int sum, DocsComponentCategory g) => sum + g.count,
       );
       expect(grouped, kComponents.where((DocsComponent c) => c.listed).length);
+    });
+  });
+
+  group('starters catalog (P9-Z2)', () {
+    test('every manifest starter is listed with routes and files', () {
+      expect(kStarters.length, 3);
+      expect(kStarters.map((DocsStarter s) => s.id), <String>[
+        'chat',
+        'saas',
+        'shop',
+      ]);
+      final DocsStarter saas = kStarters.firstWhere(
+        (DocsStarter s) => s.id == 'saas',
+      );
+      expect(saas.name, 'SaaS starter');
+      expect(saas.description, contains('Auth plus onboarding'));
+      expect(saas.themePreset, 'neutral');
+      expect(saas.platforms, containsAll(<String>['ios', 'web']));
+      expect(saas.flows, containsAll(<String>['auth-01', 'settings-01']));
+      expect(saas.blocks, <String>['dashboard-01', 'pricing-01']);
+      expect(saas.install, 'dashcn create saas my_app');
+      expect(
+        saas.routes.map((DocsStarterRoute r) => r.path),
+        containsAll(<String>['/signin', '/dashboard', '/settings']),
+      );
+      expect(
+        saas.files.map((DocsStarterFile f) => f.target),
+        containsAll(<String>['lib/app.dart', 'test/smoke_test.dart']),
+      );
+      for (final DocsStarter starter in kStarters) {
+        expect(starter.routes, isNotEmpty, reason: starter.id);
+        expect(starter.files, isNotEmpty, reason: starter.id);
+        for (final DocsStarterFile file in starter.files) {
+          expect(file.template, endsWith('.tmpl'), reason: starter.id);
+          expect(
+            file.target.startsWith('lib/') || file.target.startsWith('test/'),
+            isTrue,
+            reason: file.target,
+          );
+        }
+      }
+    });
+
+    test('starter scan matches the registry starter.json files', () {
+      final RegistryScan scan = scanRegistry(registry);
+      expect(scan.starters.length, kStarters.length);
+      for (final StarterFacts starter in scan.starters) {
+        final DocsStarter generated = kStarters.firstWhere(
+          (DocsStarter s) => s.id == starter.id,
+        );
+        expect(generated.name, starter.name, reason: starter.id);
+        expect(generated.description, starter.description, reason: starter.id);
+        expect(generated.themePreset, starter.themePreset, reason: starter.id);
+        expect(generated.flows, starter.flows, reason: starter.id);
+        expect(generated.blocks, starter.blocks, reason: starter.id);
+      }
+    });
+
+    test('search index covers starters and the index page', () {
+      final Iterable<DocsSearchEntry> starters = kDocsSearchIndex.where(
+        (DocsSearchEntry entry) => entry.kind == DocsSearchKind.starter,
+      );
+      expect(starters.length, kStarters.length);
+      for (final DocsStarter starter in kStarters) {
+        final DocsSearchEntry entry = starters.firstWhere(
+          (DocsSearchEntry e) => e.route == '/docs/starters/${starter.id}',
+        );
+        expect(entry.label, starter.name);
+        expect(entry.keywords, contains(starter.id));
+      }
+      expect(
+        kDocsSearchIndex.any(
+          (DocsSearchEntry e) => e.route == '/docs/starters',
+        ),
+        isTrue,
+      );
+      expect(
+        kDocsSearchIndex
+            .where((DocsSearchEntry e) => e.route == '/docs/starters/saas')
+            .first
+            .keywords,
+        contains('saas'),
+      );
     });
   });
 }

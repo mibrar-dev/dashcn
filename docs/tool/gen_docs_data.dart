@@ -47,6 +47,7 @@ export 'src/model_build.dart';
 export 'src/dart_scan.dart';
 export 'src/readme_scan.dart';
 export 'src/registry_scan.dart';
+export 'src/starter_scan.dart';
 export 'src/render_api.dart';
 export 'src/render_blocks.dart';
 export 'src/render_code.dart';
@@ -57,6 +58,7 @@ export 'src/render_files.dart';
 export 'src/render_flows.dart';
 export 'src/render_presets.dart';
 export 'src/render_previews.dart';
+export 'src/render_starters.dart';
 export 'src/render_tables.dart';
 export 'src/scorecards.dart';
 

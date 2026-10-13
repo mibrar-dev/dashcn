@@ -93,7 +93,7 @@ abstract final class DocsFocusOrder {
 }
 
 /// The palette groups, in order (spec §5.3 D2 delta + P6-B3 Blocks + P9-3b
-/// Flows).
+/// Flows + P9-Z2 Starters).
 enum PaletteGroup {
   /// Site pages and CLI command entries.
   pages,
@@ -106,6 +106,9 @@ enum PaletteGroup {
 
   /// Installable flows (`/docs/flows/<id>`).
   flows,
+
+  /// Installable starters (`/docs/starters/<id>`).
+  starters,
 
   /// Theme presets.
   presets,

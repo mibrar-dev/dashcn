@@ -78,6 +78,11 @@ Future<void> _warmIsolate(
   delegate.navigate(context, DocsRouteConfiguration.blocks);
   await _settleWarm(tester);
   expect(find.text('Building Blocks for the Web'), findsOneWidget);
+  delegate.navigate(context, DocsRouteConfiguration.starters);
+  await _settleWarm(tester);
+  expect(find.text('Start from a template'), findsOneWidget);
+  await delegate.popRoute();
+  await tester.pump(const Duration(milliseconds: 100));
   await delegate.popRoute();
   await tester.pump(const Duration(milliseconds: 100));
   await delegate.popRoute();
