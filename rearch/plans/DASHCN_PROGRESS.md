@@ -209,6 +209,21 @@ build web; CLI analyze, format, sync_interop --check, unit +579, e2e `create` 6/
 create → `flutter analyze` 0 issues → generated smoke test) + flows e2e.
 Follow-up → after P9-Z: Starters docs page + nav (document the package/copy theme-file split).
 
+## P9-Z integration — ACCEPTED
+Component page: preview in P9-1 frames, Playground section (P9-2b panel; "coming soon" note without a builder),
+Trust scorecard section, both in the TOC; `?frame=`/`p.*` survive reload/back via DocsState + router (`sourceUri`).
+Landing hero "Every platform at once": auth-01 live in iPhone/Android/desktop frames (deferred; one frame + switcher on
+narrow; no autoplay), with a focus-steal fix for nested navigators. Search indexes flows + new prose pages; sidebar
+Themes group with "Import a web theme" (`/themes?panel=import`). Locale crash: Flutter web engine builds a Locale from
+`navigator.language` ('C' in headless Chromium) and throws before the first frame → docs `web/index.html` shim
+normalizes unusable locales to en-US (Playwright before/after evidence in the report); kit locale resolution verified
+safe with new tests. Kit: `ThemeData.touchTargets` (`padded` default | `shrinkWrap`) honoured by TouchHitArea, documented;
+scorecard exemptions with reasons (divider semantics, menu disabled row, refresh_trigger sampling) shown as "Exempt".
+Test harness: deferred-chunk warm-up per isolate (documented in the report). Merged refactor/dashcn (P9-6) in; gates on
+the merged tree: qa_gate exit 0 (+4853/+42), all generators --check, check_names 0, format; docs gen/sync --check,
+format, analyze, `test tool` +632, build web.
+Follow-ups: flow pages' nested-navigator focus steal (kit-level opt-out?), fold `?orientation=` into `?frame=`.
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
