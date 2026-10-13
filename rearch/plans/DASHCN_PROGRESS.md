@@ -195,6 +195,20 @@ check_names 0, format; docs gen/sync --check, format, analyze, `test tool` +613,
 sync_interop --check, `DASHCN_KIT_ROOT` tests +570 (e2e flows incl. `flutter analyze` of a fresh app).
 Follow-ups → P9-Z: flows in the docs search index; eject for flows/blocks; TouchHitArea opt-out (now a must-have).
 
+## P9-6 app starters (`dashcn create`) — ACCEPTED (worktree B + dashcn-cli-b, branches wip/p9-6-starters, merged)
+Kit: `lib/src/starters/{saas,chat,shop}/` — `starter.json` (flows, blocks, components, routes, files, theme preset,
+platforms) + `.tmpl` templates (main, app/router, shell, app-owned in-memory repository marked "replace with your
+backend", smoke test; shop's product grid is built from components, no new block) + README; manifest `starters`
+section with validation; not exported, excluded from generators by construction; `flutter pub publish --dry-run`
+0 warnings. CLI: `dashcn create <starter> <name> [--theme preset|file.css] [--mode package|copy] [--platforms]
+[--org] [--force] [--dry-run]`, `create --list`; copy mode installs through the installer (flows recorded in
+`dashcn.lock`, after the orchestrator merged P9-3b in and sent a follow-up). Merge conflict (validator allowed keys)
+resolved by keeping `flows` + `starters`. Gates on the merged trees: kit qa_gate exit 0 (+4846/+42), all generators
+--check, check_names 0, format, publish dry-run 0 warnings; docs gen/sync --check, format, analyze, `test tool` +613,
+build web; CLI analyze, format, sync_interop --check, unit +579, e2e `create` 6/6 (saas/chat/shop × package/copy:
+create → `flutter analyze` 0 issues → generated smoke test) + flows e2e.
+Follow-up → after P9-Z: Starters docs page + nav (document the package/copy theme-file split).
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
