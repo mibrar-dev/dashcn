@@ -32,7 +32,7 @@ Accepted and pushed:
 |---|---|---|---|
 | P8-6 final QA + RC | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p8-6-rc` | `rearch/briefs/dashcn/P8-6-final-qa.md` | `rearch/reports/P8-6.md` |
 
-Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05), P9-Z (03:30), P9-Z2 (05:00). The main worktrees are idle. OpenCode sessions live in the cloud
+Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05), P9-Z (03:30), P9-Z2 (04:40). The main worktrees are idle. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
