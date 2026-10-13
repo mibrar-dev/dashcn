@@ -9389,6 +9389,28 @@
     "primitives/window_host.dart": "fc8e700c42231cc49caeb08c0efc8bd313f96c34cd8fdfaa282fd707503b0e69",
     "primitives/window_manager.dart": "dc4fbc470470c5434c98cc9427fe993f39101c13ed77ba782debe9da24cffb88",
     "primitives/window_snap.dart": "ce03f5d74d10e52748bc55529f95b0de1f24afe85ab0222c8d523aaf40d2cd79",
+    "starters/chat/README.md": "3a472981913524c8695ebb7e5e6c5f27bb005756e5c1828896be70d95eb9cb63",
+    "starters/chat/starter.json": "887866c7a4f75bf1f9c9401ecab10956b597e60d9918f339b11ba51861516af7",
+    "starters/chat/templates/lib/app.dart.tmpl": "7479dac11c6b06e835e60259a199c2a3295c344859bde4d1aa59a63f7df46924",
+    "starters/chat/templates/lib/data/repository.dart.tmpl": "b6d129a55ec6d2ce9293671ecb4701bd30e69cd90f5df3341f655b6e57e7e9f8",
+    "starters/chat/templates/lib/main.dart.tmpl": "17c7366d02d3f143f671bb8bdfb9a8e3849b1a5bf804f79e11dc7519c465b999",
+    "starters/chat/templates/lib/shell.dart.tmpl": "0df83a6aff6ea8519fcfff7965956202aeae71e47d29393684e8f25e44dd75b8",
+    "starters/chat/templates/test/smoke_test.dart.tmpl": "6f3f0e15ed5d6fd6ad052e9a05e6d68c850a2430c7091c3b674fe2d51ef4b137",
+    "starters/saas/README.md": "6f29e906a2e9b29376ad453487b930ec008f4db181d469a0ca69de6071fe93dd",
+    "starters/saas/starter.json": "cd7b9d146f4983c3f37b7eff19d31c45c689293359facc36a095c4ed476e82d9",
+    "starters/saas/templates/lib/app.dart.tmpl": "091dae1d2fcb740cd0669266375d5dd2749719b43ac691c94bd4008ba5633713",
+    "starters/saas/templates/lib/data/repository.dart.tmpl": "8a0a928da2fb3192549cde47e6513e54089b0e802998f573d4a81d3f6408b71a",
+    "starters/saas/templates/lib/main.dart.tmpl": "ea40eed7f03cd48765c184efe0c109c668cfcda474d43c9c5e45b12d109eb348",
+    "starters/saas/templates/lib/shell.dart.tmpl": "433f038056a18141d1157c0f376bea12789426151f16ea3fff721cd1ff08f5db",
+    "starters/saas/templates/test/smoke_test.dart.tmpl": "e62b93222e9829ad4d13d99d7c1a328767ccd06da99484680b97890ad25080f8",
+    "starters/shop/README.md": "8a5d1d70841eca1f987dd3799258f83aa2645b2b52e0cfb21314143f8416eeac",
+    "starters/shop/starter.json": "c3b4396a95b2fffbfd9aeb23dff0b8ba7f314743b0b57e04ffeb700a25365c9d",
+    "starters/shop/templates/lib/app.dart.tmpl": "889c39eadb06f33abd08ee2866dbf78dd50041b5e2c4fd6b9101b0889116c4cd",
+    "starters/shop/templates/lib/data/repository.dart.tmpl": "e8540a8968c47dfc5bc8c6078a513637f2b3bc57fec8bdcc0f338d1aaab801b4",
+    "starters/shop/templates/lib/main.dart.tmpl": "9b3d27a9713b162e177e1c41d1ea2b6224725ee98aaed4abbc43ba472591f389",
+    "starters/shop/templates/lib/shell.dart.tmpl": "7d5d36df563a93e62e5a85c3dc0c5f2ba33b98cba920e460b9cf4ad8eb9b9c01",
+    "starters/shop/templates/lib/shop/product_grid.dart.tmpl": "acf0a38583d5f3d9b9ebd44b707ff39dba9bdb13768891bc57abef8c7828fade",
+    "starters/shop/templates/test/smoke_test.dart.tmpl": "7bb76e3676715ea880d135cac486b2131cef2ee7190e58638d97ef4ccc137710",
     "theme/color_tokens.dart": "5caa1a116a2f13b31622f11f6d11cc72c5477055773cf461b8807fd162c21cbe",
     "theme/color_utils.dart": "250556c16c4bc54be6375229c47f7fe085a90f79b4544c96b7617760ad52c709",
     "theme/contrast.dart": "12213175a084c32caf98cc749ab2fe8226e3112307002ffc7db303022545c46f",
@@ -10720,6 +10742,271 @@
     "version": "1.0.0"
   },
   "schemaVersion": 2,
+  "starters": {
+    "chat": {
+      "blocks": [],
+      "components": [
+        "app",
+        "navigation_bar"
+      ],
+      "description": "Auth into a tab bar with chat threads and settings.",
+      "docs": [
+        "starters/chat/README.md",
+        "starters/chat/starter.json"
+      ],
+      "files": [
+        {
+          "target": "lib/main.dart",
+          "template": "starters/chat/templates/lib/main.dart.tmpl"
+        },
+        {
+          "target": "lib/app.dart",
+          "template": "starters/chat/templates/lib/app.dart.tmpl"
+        },
+        {
+          "target": "lib/data/repository.dart",
+          "template": "starters/chat/templates/lib/data/repository.dart.tmpl"
+        },
+        {
+          "target": "lib/shell.dart",
+          "template": "starters/chat/templates/lib/shell.dart.tmpl"
+        },
+        {
+          "target": "test/smoke_test.dart",
+          "template": "starters/chat/templates/test/smoke_test.dart.tmpl"
+        }
+      ],
+      "flows": [
+        "auth-01",
+        "chat-01",
+        "settings-01"
+      ],
+      "install": "dashcn create chat my_app",
+      "name": "Chat starter",
+      "platforms": [
+        "ios",
+        "android",
+        "web",
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "routes": [
+        {
+          "kind": "flow",
+          "path": "/signin",
+          "ref": "auth-01",
+          "title": "Sign in"
+        },
+        {
+          "kind": "flow",
+          "path": "/chat",
+          "ref": "chat-01",
+          "title": "Chat"
+        },
+        {
+          "kind": "flow",
+          "path": "/settings",
+          "ref": "settings-01",
+          "title": "Settings"
+        }
+      ],
+      "tags": [
+        "chat",
+        "auth",
+        "messages",
+        "settings"
+      ],
+      "themePreset": "neutral",
+      "type": "starter"
+    },
+    "saas": {
+      "blocks": [
+        "dashboard-01",
+        "pricing-01"
+      ],
+      "components": [
+        "app",
+        "navigation_bar"
+      ],
+      "description": "Auth plus onboarding into a responsive shell with dashboard, pricing and settings.",
+      "docs": [
+        "starters/saas/README.md",
+        "starters/saas/starter.json"
+      ],
+      "files": [
+        {
+          "target": "lib/main.dart",
+          "template": "starters/saas/templates/lib/main.dart.tmpl"
+        },
+        {
+          "target": "lib/app.dart",
+          "template": "starters/saas/templates/lib/app.dart.tmpl"
+        },
+        {
+          "target": "lib/data/repository.dart",
+          "template": "starters/saas/templates/lib/data/repository.dart.tmpl"
+        },
+        {
+          "target": "lib/shell.dart",
+          "template": "starters/saas/templates/lib/shell.dart.tmpl"
+        },
+        {
+          "target": "test/smoke_test.dart",
+          "template": "starters/saas/templates/test/smoke_test.dart.tmpl"
+        }
+      ],
+      "flows": [
+        "auth-01",
+        "onboarding-01",
+        "settings-01"
+      ],
+      "install": "dashcn create saas my_app",
+      "name": "SaaS starter",
+      "platforms": [
+        "ios",
+        "android",
+        "web",
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "routes": [
+        {
+          "kind": "flow",
+          "path": "/signin",
+          "ref": "auth-01",
+          "title": "Sign in"
+        },
+        {
+          "kind": "flow",
+          "path": "/welcome",
+          "ref": "onboarding-01",
+          "title": "Welcome"
+        },
+        {
+          "kind": "block",
+          "path": "/dashboard",
+          "ref": "dashboard-01",
+          "title": "Dashboard"
+        },
+        {
+          "kind": "block",
+          "path": "/pricing",
+          "ref": "pricing-01",
+          "title": "Pricing"
+        },
+        {
+          "kind": "flow",
+          "path": "/settings",
+          "ref": "settings-01",
+          "title": "Settings"
+        }
+      ],
+      "tags": [
+        "saas",
+        "auth",
+        "onboarding",
+        "dashboard",
+        "pricing",
+        "settings"
+      ],
+      "themePreset": "neutral",
+      "type": "starter"
+    },
+    "shop": {
+      "blocks": [],
+      "components": [
+        "app",
+        "navigation_bar",
+        "card",
+        "badge",
+        "button",
+        "image"
+      ],
+      "description": "Auth into a product grid with cart checkout and settings.",
+      "docs": [
+        "starters/shop/README.md",
+        "starters/shop/starter.json"
+      ],
+      "files": [
+        {
+          "target": "lib/main.dart",
+          "template": "starters/shop/templates/lib/main.dart.tmpl"
+        },
+        {
+          "target": "lib/app.dart",
+          "template": "starters/shop/templates/lib/app.dart.tmpl"
+        },
+        {
+          "target": "lib/data/repository.dart",
+          "template": "starters/shop/templates/lib/data/repository.dart.tmpl"
+        },
+        {
+          "target": "lib/shop/product_grid.dart",
+          "template": "starters/shop/templates/lib/shop/product_grid.dart.tmpl"
+        },
+        {
+          "target": "lib/shell.dart",
+          "template": "starters/shop/templates/lib/shell.dart.tmpl"
+        },
+        {
+          "target": "test/smoke_test.dart",
+          "template": "starters/shop/templates/test/smoke_test.dart.tmpl"
+        }
+      ],
+      "flows": [
+        "auth-01",
+        "checkout-01",
+        "settings-01"
+      ],
+      "install": "dashcn create shop my_app",
+      "name": "Shop starter",
+      "platforms": [
+        "ios",
+        "android",
+        "web",
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "routes": [
+        {
+          "kind": "flow",
+          "path": "/signin",
+          "ref": "auth-01",
+          "title": "Sign in"
+        },
+        {
+          "kind": "page",
+          "path": "/shop",
+          "ref": "product-grid",
+          "title": "Shop"
+        },
+        {
+          "kind": "flow",
+          "path": "/cart",
+          "ref": "checkout-01",
+          "title": "Cart"
+        },
+        {
+          "kind": "flow",
+          "path": "/settings",
+          "ref": "settings-01",
+          "title": "Settings"
+        }
+      ],
+      "tags": [
+        "shop",
+        "auth",
+        "checkout",
+        "cart",
+        "settings"
+      ],
+      "themePreset": "neutral",
+      "type": "starter"
+    }
+  },
   "theme": {
     "color_tokens": {
       "files": [

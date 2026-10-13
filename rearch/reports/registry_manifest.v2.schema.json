@@ -53,6 +53,9 @@
     },
     "flows": {
       "$ref": "#/$defs/flowMap"
+    },
+    "starters": {
+      "$ref": "#/$defs/starterMap"
     }
   },
   "$defs": {
@@ -665,6 +668,107 @@
         "$ref": "#/$defs/flow"
       },
       "description": "id (== directory name) -> flow. 5 entries at P9-3a."
+    },
+    "starter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "name",
+        "description",
+        "themePreset",
+        "platforms",
+        "flows",
+        "blocks",
+        "components",
+        "routes",
+        "files",
+        "docs",
+        "tags",
+        "install"
+      ],
+      "properties": {
+        "type": {
+          "const": "starter"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "themePreset": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ios",
+              "android",
+              "web",
+              "macos",
+              "windows",
+              "linux"
+            ]
+          },
+          "minItems": 1
+        },
+        "flows": {
+          "$ref": "#/$defs/idList"
+        },
+        "blocks": {
+          "$ref": "#/$defs/idList"
+        },
+        "components": {
+          "$ref": "#/$defs/idList"
+        },
+        "routes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["path", "title", "kind", "ref"],
+            "properties": {
+              "path": {"type": "string"},
+              "title": {"type": "string"},
+              "kind": {"enum": ["flow", "block", "page"]},
+              "ref": {"type": "string"}
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["template", "target"],
+            "properties": {
+              "template": {"type": "string"},
+              "target": {"type": "string"}
+            }
+          }
+        },
+        "docs": {
+          "$ref": "#/$defs/pathList"
+        },
+        "tags": {
+          "$ref": "#/$defs/stringList"
+        },
+        "install": {
+          "type": "string"
+        }
+      }
+    },
+    "starterMap": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/starter"
+      },
+      "description": "id (== directory name) -> starter. 3 entries at P9-6."
     }
   }
 }

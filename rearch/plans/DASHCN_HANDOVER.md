@@ -31,10 +31,8 @@ Accepted and pushed:
 | Agent | Worktree, branch | Brief | Report |
 |---|---|---|---|
 | P9-Z integration | main (`dashcn-kit`), `refactor/dashcn` | `rearch/briefs/dashcn/P9-Z-integration.md` | `rearch/reports/P9-Z.md` |
-| P9-6 starters (`dashcn create`) | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p9-6-starters` | `rearch/briefs/dashcn/P9-6-starters.md` | `rearch/reports/P9-6.md` |
 
-Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30). P9-6 runs on `wip/p9-6-starters` in both repos;
-merge `refactor/dashcn` into it before accepting it. OpenCode sessions live in the cloud
+Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05). Worktree B and `dashcn-cli-b` are free. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
@@ -52,7 +50,7 @@ If the cloud session is still alive, let it finish. Don't run the same phase in 
 
 Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
 
-1. **QA and accept P9-6 and P9-Z** (P8-4, KIT-FIX-1, P9-3b done). Run all gates yourself (section 6) and review the diff and screenshots.
+1. **QA and accept P9-Z** (P8-4, KIT-FIX-1, P9-3b, P9-6 done). Run all gates yourself (section 6) and review the diff and screenshots.
    - Main-worktree phase (P9-Z): commit with explicit paths, merge `origin/refactor/dashcn` in, regenerate, gates,
      push.
    - Worktree-B phase (P9-6): commit on `wip/p9-6-starters` in kit and `dashcn-cli-b`, merge `refactor/dashcn` into
@@ -64,7 +62,7 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
    - "No account yet?Create one" is missing a space;
    - settings home should be top-aligned;
    - toggle rows are cramped.
-3. **P9-6** (running, see section 2). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
+3. **P9-6** (done). Still to do: a Starters docs page and nav entry (after P9-Z). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
 4. **P9-Z** (running, see section 2; a Starters docs page and nav entry follow after P9-6 merges). Integration:
    - the component page becomes frames + playground + scorecard;
    - navigation;
