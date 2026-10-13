@@ -30,11 +30,11 @@ Accepted and pushed:
 
 | Agent | Worktree, branch | Brief | Report |
 |---|---|---|---|
-| P9-3b flows docs + CLI | main (`dashcn-kit`) + `dashcn-cli`, both `refactor/dashcn` | `rearch/briefs/dashcn/P9-3b-flows-docs-cli.md` | `rearch/reports/P9-3b.md` |
+| P9-Z integration | main (`dashcn-kit`), `refactor/dashcn` | `rearch/briefs/dashcn/P9-Z-integration.md` | `rearch/reports/P9-Z.md` |
 | P9-6 starters (`dashcn create`) | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p9-6-starters` | `rearch/briefs/dashcn/P9-6-starters.md` | `rearch/reports/P9-6.md` |
 
-P8-4 was accepted at 21:40 UTC and KIT-FIX-1 at 23:10 UTC. P9-3b's agent works in the main kit worktree, which is
-based on P8-4, and in the CLI. Merge `refactor/dashcn` in before accepting it. OpenCode sessions live in the cloud
+Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30). P9-6 runs on `wip/p9-6-starters` in both repos;
+merge `refactor/dashcn` into it before accepting it. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
@@ -52,16 +52,16 @@ If the cloud session is still alive, let it finish. Don't run the same phase in 
 
 Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
 
-1. **QA and accept P9-3b** (P8-4 and KIT-FIX-1 done). Run all gates yourself (section 6) and review the diff and screenshots.
+1. **QA and accept P9-6 and P9-Z** (P8-4, KIT-FIX-1, P9-3b done). Run all gates yourself (section 6) and review the diff and screenshots.
    - P8-4: commit with explicit paths in main, then merge it into `refactor/dashcn`.
    - KIT-FIX-1: merge `refactor/dashcn` into `wip/kit-fix-1`, regenerate, re-run the gates, then fast-forward push
      `HEAD:refactor/dashcn`.
-2. **P9-3b** (brief to write). Flows on the docs site, `dashcn add flow:<id>` in the CLI, and polish:
+2. **P9-3b** (done). Flows on the docs site, `dashcn add flow:<id>` in the CLI, and polish:
    - "No account yet?Create one" is missing a space;
    - settings home should be top-aligned;
    - toggle rows are cramped.
 3. **P9-6** (running, see section 2). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
-4. **P9-Z** (brief to write). Integration:
+4. **P9-Z** (running, see section 2; a Starters docs page and nav entry follow after P9-6 merges). Integration:
    - the component page becomes frames + playground + scorecard;
    - navigation;
    - landing hero;
