@@ -224,6 +224,16 @@ the merged tree: qa_gate exit 0 (+4853/+42), all generators --check, check_names
 format, analyze, `test tool` +632, build web.
 Follow-ups: flow pages' nested-navigator focus steal (kit-level opt-out?), fold `?orientation=` into `?frame=`.
 
+## P9-Z2 starters on the docs site — ACCEPTED
+Generator `starter_scan` + `render_starters` → `docs_starters.dart` (3 starters; template targets only, never `.tmpl`
+text; `--check` now 18 files). `/docs/starters` grid (3/2/1 columns) with phone-framed thumbnails composed from the
+starters' flows with docs demo data; `/docs/starters/<id>`: routes table linking flow/block pages, `dashcn create`
+Package | Own tabs, theme-file split, flags, generated file tree, next steps, prev/next. Nav (header from 1600 px,
+sidebar, palette), search ("saas" finds the saas starter), Getting Started "Start from a template". One review round:
+the first index was full-width rows with a tiny thumb → grid of compact cards. Gates: all generators --check,
+check_names 0; docs gen/sync --check, format, analyze, `test tool` +653, build web.
+Follow-up: GitHub template links point at `blob/main` (update after the release branch/repo-rename decisions).
+
 ## Next (as of 2026-10-12 21:00 UTC — see DASHCN_HANDOVER.md for how to continue on another machine)
 In flight: P8-4 docs content (main worktree, `refactor/dashcn`), KIT-FIX-1 a11y/forms (worktree B, `wip/kit-fix-1`).
 Queue: P9-3b flows on the site + `dashcn add flow:<id>` + polish → P9-6 `dashcn create` starters → P9-Z integration
