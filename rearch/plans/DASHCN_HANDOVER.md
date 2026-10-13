@@ -30,9 +30,9 @@ Accepted and pushed:
 
 | Agent | Worktree, branch | Brief | Report |
 |---|---|---|---|
-| P9-Z2 starters docs | main (`dashcn-kit`), `refactor/dashcn` | `rearch/briefs/dashcn/P9-Z2-starters-docs.md` | `rearch/reports/P9-Z2.md` |
+| P8-6 final QA + RC | B (`dashcn-kit-b`) + `dashcn-cli-b`, both `wip/p8-6-rc` | `rearch/briefs/dashcn/P8-6-final-qa.md` | `rearch/reports/P8-6.md` |
 
-Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05), P9-Z (03:30). Worktree B and `dashcn-cli-b` are free. OpenCode sessions live in the cloud
+Accepted: P8-4 (21:40 UTC), KIT-FIX-1 (23:10), P9-3b (00:30), P9-6 (01:05), P9-Z (03:30), P9-Z2 (05:00). The main worktrees are idle. OpenCode sessions live in the cloud
 container's `~/.local/share/opencode`, so they can't be resumed on the Mac; use the snapshots there.
 
 Their uncommitted work is snapshotted every hour to `wip/autosave-main` and `wip/autosave-kit-b` on the kit repo (and
@@ -50,7 +50,7 @@ If the cloud session is still alive, let it finish. Don't run the same phase in 
 
 Briefs that don't exist yet must be written first, using the existing briefs as the pattern.
 
-1. **QA and accept P9-Z2** (P8-4, KIT-FIX-1, P9-3b, P9-6, P9-Z done). Run all gates yourself (section 6) and review the diff and screenshots.
+1. **QA and accept P8-6** (every feature phase is done: P8-4, KIT-FIX-1, P9-3b, P9-6, P9-Z, P9-Z2). Run all gates yourself (section 6) and review the diff and screenshots.
    - Main-worktree phase (P9-Z): commit with explicit paths, merge `origin/refactor/dashcn` in, regenerate, gates,
      push.
    - Worktree-B phase (P9-6): commit on `wip/p9-6-starters` in kit and `dashcn-cli-b`, merge `refactor/dashcn` into
@@ -63,7 +63,7 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
    - settings home should be top-aligned;
    - toggle rows are cramped.
 3. **P9-6** (done). Still to do: a Starters docs page and nav entry (after P9-Z). `dashcn create <starter>` app starters, e.g. `dashcn create saas`, built from blocks and flows.
-4. **P9-Z** (done). P9-Z2, the Starters docs page, is running. Integration:
+4. **P9-Z** and **P9-Z2** (done). Integration:
    - the component page becomes frames + playground + scorecard;
    - navigation;
    - landing hero;
@@ -73,7 +73,7 @@ Briefs that don't exist yet must be written first, using the existing briefs as 
        a theme flag, documented on the Button page;
      - a decision on the scorecard for `divider` (decorative by design), `menu` (disabled row) and
        `refresh_trigger` (a measurement artefact): exempt them in the harness, with the reason shown.
-5. **P8-6 final QA.**
+5. **P8-6 final QA** (running, see section 2).
    - fresh-app tests for package mode and eject;
    - `dart pub publish --dry-run` / `flutter pub publish --dry-run` for both packages;
    - the pub warning "13 checked-in files ignored".
