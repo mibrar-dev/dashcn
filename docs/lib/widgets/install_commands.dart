@@ -54,6 +54,23 @@ String packageFlowSnippet(String id) =>
 String ownFlowCodeSnippet(String id) =>
     '$kInitCommand\n${ownFlowAddCommand(id)}';
 
+/// Base `create` command for one starter (`dashcn create <id> my_app`).
+String starterCreateCommand(String id) => 'dashcn create $id my_app';
+
+/// Package-tab snippet for one starter (own the theme via the package).
+String starterPackageSnippet(String id) =>
+    '${starterCreateCommand(id)} --mode package';
+
+/// Own-the-code snippet for one starter (copy sources into the app).
+String starterCopySnippet(String id) =>
+    '${starterCreateCommand(id)} --mode copy';
+
+/// Theme file for package-mode starters (single barrel import).
+const String kStarterPackageThemeFile = 'lib/app_theme.dart';
+
+/// Theme file for copy-mode starters (owned sources).
+const String kStarterCopyThemeFile = 'lib/ui/dashcn/theme/app_theme.dart';
+
 /// Own-the-code snippet for the getting-started page (full flow).
 const String kOwnCodeGettingStarted =
     '$kCliActivateCommand\n$kInitCommand\ndashcn add button';

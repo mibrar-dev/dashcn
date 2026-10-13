@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_flows.dart';
+import '../generated/docs_starters.dart';
 import '../routing/docs_nav.dart';
 
 /// One sidebar row: a group label, a category sub-label, or a link.
@@ -83,6 +84,12 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
     const SidebarRow.label('Flows'),
     for (final DocsFlow flow in kFlows)
       SidebarRow.link(text: flow.name, location: '/docs/flows/${flow.id}'),
+    const SidebarRow.label('Starters'),
+    for (final DocsStarter starter in kStarters)
+      SidebarRow.link(
+        text: starter.name,
+        location: '/docs/starters/${starter.id}',
+      ),
     const SidebarRow.label('Themes'),
     const SidebarRow.link(text: 'Theme Studio', location: '/themes'),
     const SidebarRow.link(

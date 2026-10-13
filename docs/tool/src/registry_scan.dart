@@ -17,6 +17,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 
 import 'block_scan.dart';
 import 'flow_scan.dart';
+import 'starter_scan.dart';
 
 /// The registry tree does not look like the post-cutover layout.
 class RegistryScanException implements Exception {
@@ -198,6 +199,7 @@ class RegistryScan {
     required this.components,
     required this.blocks,
     required this.flows,
+    required this.starters,
     required this.presets,
     required this.themeTokens,
     required this.materialImports,
@@ -218,6 +220,9 @@ class RegistryScan {
 
   /// Flows ordered by id (P9-3b layer 5).
   final List<FlowFacts> flows;
+
+  /// Starters ordered by id (P9-6 layer 6).
+  final List<StarterFacts> starters;
 
   /// Presets in `themes/index.json` order.
   final List<PresetFacts> presets;
@@ -269,6 +274,11 @@ RegistryScan scanRegistry(String rootPath) {
   final Map<String, Object?> flowsJson = _objectOrEmpty(manifest['flows']);
   final List<FlowFacts> flows = scanFlows(root, flowsJson);
 
+  final Map<String, Object?> startersJson = _objectOrEmpty(
+    manifest['starters'],
+  );
+  final List<StarterFacts> starters = scanStarters(root, startersJson);
+
   final List<PresetFacts> presets = _presets(root, themesJson);
   final List<ThemeTokenFacts> themeTokens = _themeTokens(root);
   final _ImportScan imports = _scanImports(root);
@@ -279,6 +289,7 @@ RegistryScan scanRegistry(String rootPath) {
     components: components,
     blocks: blocks,
     flows: flows,
+    starters: starters,
     presets: presets,
     themeTokens: themeTokens,
     materialImports: imports.materialImports,

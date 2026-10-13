@@ -7,6 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/clickable.dart';
@@ -44,6 +45,7 @@ class GettingStartedPage extends StatelessWidget {
             'steps below walk the own-the-code flow.',
           ),
           const _InstallModeTabs(),
+          _TemplateParagraph(),
           const _StepCounter(
             number: 1,
             title: 'Create a Flutter project',
@@ -110,6 +112,24 @@ class GettingStartedPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Short template pointer below the install tabs (P9-Z2).
+class _TemplateParagraph extends StatelessWidget {
+  const _TemplateParagraph();
+
+  @override
+  Widget build(BuildContext context) {
+    return TypesetParagraph.rich(<InlineSpan>[
+      const TextSpan(text: 'Start from a template: '),
+      typesetLinkSpan('browse the starters', () {
+        DocsRouterScope.of(context).go(context, '/docs/starters');
+      }),
+      const TextSpan(
+        text: ' — one command scaffolds a runnable app from flows and blocks.',
+      ),
+    ]);
   }
 }
 

@@ -8,7 +8,8 @@
 // Regenerate: dart run tool/gen_docs_data.dart
 //
 // Search index for the components index page and the command
-// palette: components, blocks, flows, pages, CLI commands, presets.
+// palette: components, blocks, flows, starters, pages, CLI commands,
+// presets.
 
 /// Search group of a [DocsSearchEntry].
 enum DocsSearchKind {
@@ -20,6 +21,9 @@ enum DocsSearchKind {
 
   /// A flow page (`/docs/flows/<id>`).
   flow,
+
+  /// A starter page (`/docs/starters/<id>`).
+  starter,
 
   /// A prose docs page (`/docs/<page>`, `/docs/flows`).
   page,
@@ -62,8 +66,8 @@ class DocsSearchEntry {
   final String? action;
 }
 
-/// Static search index: components, blocks, flows, pages,
-/// CLI commands and presets.
+/// Static search index: components, blocks, flows, starters,
+/// pages, CLI commands and presets.
 const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
   DocsSearchEntry(
     label: 'Login 01',
@@ -2021,6 +2025,65 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
+    label: 'Chat starter',
+    kind: DocsSearchKind.starter,
+    route: '/docs/starters/chat',
+    tag: 'starter',
+    action: 'dashcn create chat my_app',
+    keywords: <String>[
+      'chat',
+      'Auth into a tab bar with chat threads and settings.',
+      'auth-01',
+      'chat-01',
+      'settings-01',
+      'auth',
+      'chat',
+      'messages',
+      'settings',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'SaaS starter',
+    kind: DocsSearchKind.starter,
+    route: '/docs/starters/saas',
+    tag: 'starter',
+    action: 'dashcn create saas my_app',
+    keywords: <String>[
+      'saas',
+      'Auth plus onboarding into a responsive shell with dashboard, pricing and settings.',
+      'auth-01',
+      'onboarding-01',
+      'settings-01',
+      'dashboard-01',
+      'pricing-01',
+      'auth',
+      'dashboard',
+      'onboarding',
+      'pricing',
+      'saas',
+      'settings',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Shop starter',
+    kind: DocsSearchKind.starter,
+    route: '/docs/starters/shop',
+    tag: 'starter',
+    action: 'dashcn create shop my_app',
+    keywords: <String>[
+      'shop',
+      'Auth into a product grid with cart checkout and settings.',
+      'auth-01',
+      'checkout-01',
+      'settings-01',
+      'auth',
+      'cart',
+      'checkout',
+      'settings',
+      'shop',
+    ],
+  ),
+  DocsSearchEntry(
     label: 'Package or own the code?',
     kind: DocsSearchKind.page,
     route: '/docs/package-or-own',
@@ -2063,6 +2126,22 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
       'settings',
       'chat',
       'otp',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Starters',
+    kind: DocsSearchKind.page,
+    route: '/docs/starters',
+    tag: 'docs',
+    keywords: <String>[
+      'starters',
+      'starter',
+      'saas',
+      'chat',
+      'shop',
+      'template',
+      'create',
+      'scaffold',
     ],
   ),
   DocsSearchEntry(

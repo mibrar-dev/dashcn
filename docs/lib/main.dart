@@ -17,6 +17,7 @@ import 'motion/ease.dart';
 import 'motion/motion_scope.dart';
 import 'pages/blocks_pages.dart' deferred as blocks_pages;
 import 'pages/flows_pages.dart' deferred as flows_pages;
+import 'pages/starters_pages.dart' deferred as starters_pages;
 import 'pages/cli_reference.dart';
 import 'pages/component_page.dart' deferred as component_page;
 import 'pages/components_index_page.dart';
@@ -248,6 +249,15 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
       load: flows_pages.loadLibrary,
       builder: (BuildContext context) =>
           flows_pages.FlowPage(flowId: config.flowId!),
+    ),
+    DocsRoute.starters => DeferredPage(
+      load: starters_pages.loadLibrary,
+      builder: (BuildContext context) => starters_pages.StartersIndexPage(),
+    ),
+    DocsRoute.starter => DeferredPage(
+      load: starters_pages.loadLibrary,
+      builder: (BuildContext context) =>
+          starters_pages.StarterPage(starterId: config.starterId!),
     ),
     _ => DocsPlaceholderPage(config: config),
   };

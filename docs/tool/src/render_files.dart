@@ -5,6 +5,7 @@ import 'literals.dart';
 import 'readme_scan.dart';
 import 'registry_scan.dart';
 import 'render_common.dart';
+import 'starter_scan.dart';
 
 /// Renders `lib/generated/docs_data.dart`.
 String renderDocsData(DocsModel model) {
@@ -405,7 +406,8 @@ String renderDocsSearch(DocsModel model) {
         regenerate: kRegenerateCommand,
         notes: <String>[
           'Search index for the components index page and the command',
-          'palette: components, blocks, flows, pages, CLI commands, presets.',
+          'palette: components, blocks, flows, starters, pages, CLI commands,',
+          'presets.',
         ],
       ),
     )
@@ -420,6 +422,9 @@ String renderDocsSearch(DocsModel model) {
     ..writeln()
     ..writeln('  /// A flow page (`/docs/flows/<id>`).')
     ..writeln('  flow,')
+    ..writeln()
+    ..writeln('  /// A starter page (`/docs/starters/<id>`).')
+    ..writeln('  starter,')
     ..writeln()
     ..writeln('  /// A prose docs page (`/docs/<page>`, `/docs/flows`).')
     ..writeln('  page,')
@@ -462,8 +467,8 @@ String renderDocsSearch(DocsModel model) {
     ..writeln('  final String? action;')
     ..writeln('}')
     ..writeln()
-    ..writeln('/// Static search index: components, blocks, flows, pages,')
-    ..writeln('/// CLI commands and presets.')
+    ..writeln('/// Static search index: components, blocks, flows, starters,')
+    ..writeln('/// pages, CLI commands and presets.')
     ..writeln(
       'const List<DocsSearchEntry> kDocsSearchIndex = '
       '<DocsSearchEntry>[',
@@ -519,6 +524,23 @@ String renderDocsSearch(DocsModel model) {
       '  ${callExpr(
         'DocsSearchEntry',
         <String>['label: ${dartString(flow.name)}', 'kind: DocsSearchKind.flow', 'route: ${dartString('/docs/flows/${flow.id}')}', "tag: 'flow'", 'action: ${dartString(flow.install)}', if (keywords.isNotEmpty) 'keywords: ${stringList(keywords, indent: '    ', appended: 1)}'],
+        indent: '  ',
+        suffix: ',',
+      )}',
+    );
+  }
+  for (final StarterFacts starter in model.scan.starters) {
+    final List<String> keywords = <String>[
+      starter.id,
+      starter.description,
+      ...starter.flows,
+      ...starter.blocks,
+      ...starter.tags,
+    ];
+    out.writeln(
+      '  ${callExpr(
+        'DocsSearchEntry',
+        <String>['label: ${dartString(starter.name)}', 'kind: DocsSearchKind.starter', 'route: ${dartString('/docs/starters/${starter.id}')}', "tag: 'starter'", 'action: ${dartString(starter.install)}', if (keywords.isNotEmpty) 'keywords: ${stringList(keywords, indent: '    ', appended: 1)}'],
         indent: '  ',
         suffix: ',',
       )}',
@@ -593,5 +615,15 @@ const List<_DocsPageEntry> _docsPageEntries = <_DocsPageEntry>[
     'settings',
     'chat',
     'otp',
+  ]),
+  _DocsPageEntry('Starters', '/docs/starters', <String>[
+    'starters',
+    'starter',
+    'saas',
+    'chat',
+    'shop',
+    'template',
+    'create',
+    'scaffold',
   ]),
 ];

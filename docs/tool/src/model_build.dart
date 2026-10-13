@@ -19,6 +19,7 @@ import 'render_files.dart';
 import 'render_flows.dart';
 import 'render_presets.dart';
 import 'render_previews.dart';
+import 'render_starters.dart';
 import 'render_tables.dart';
 import 'render_scorecards.dart';
 import 'scorecard_scan.dart';
@@ -226,6 +227,7 @@ Map<String, String> renderBundle(
     '$outDir/docs_snippets.dart': renderDocsSnippets(model),
     '$outDir/docs_blocks.dart': renderDocsBlocks(model),
     '$outDir/docs_flows.dart': renderDocsFlows(model),
+    '$outDir/docs_starters.dart': renderDocsStarters(model.scan),
     '$outDir/docs_preset_sources.dart': renderPresetSources(model.scan),
     '$outDir/docs_previews.dart': renderDocsPreviews(model),
     '$outDir/docs_example_sources.dart': renderDocsExampleSources(model),
@@ -291,7 +293,8 @@ String describeModel(DocsModel model) {
       'blocks: ${model.scan.blocks.length} '
       '(${model.blockSources.values.fold<int>(0, (int sum, List<BlockFileFacts> f) => sum + f.length)} files), '
       'flows: ${model.scan.flows.length} '
-      '(${model.flowSources.values.fold<int>(0, (int sum, List<FlowFileFacts> f) => sum + f.length)} files)\n'
+      '(${model.flowSources.values.fold<int>(0, (int sum, List<FlowFileFacts> f) => sum + f.length)} files), '
+      'starters: ${model.scan.starters.length}\n'
       'snippets: $snippetCount ($languages)\n'
       'api tables: $withApi with parameters, '
       '${model.scan.components.length - withApi} without\n'

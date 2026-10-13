@@ -252,6 +252,7 @@ class _DocsPaletteState extends State<DocsPalette> {
       PaletteGroup.components => 'Components',
       PaletteGroup.blocks => 'Blocks',
       PaletteGroup.flows => 'Flows',
+      PaletteGroup.starters => 'Starters',
       PaletteGroup.presets => 'Presets',
     };
     return <Widget>[
