@@ -1,520 +1,351 @@
-import 'dart:convert';
+// Entry point of the docs web app (P6 rebuild).
+//
+// Composition: a root `Router` owns URL/history (delegate + parser in
+// `routing/docs_router.dart`); the delegate builds the registry `DashcnApp`
+// shell around a docs navigator. The shell installs the theme (one swap per
+// commit under a ~250ms snapshot cross-fade on preset/mode switches,
+// instant under reduced motion), the global keyboard shortcuts and the
+// web-bridge events.
+//
+// Brightness defaults to the system (the reference's `next-themes` default);
+// the header toggle stores an explicit mode. The platform listener below
+// forwards system changes while no explicit mode is stored.
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yaml/yaml.dart';
+import 'package:flutter/widgets.dart';
 
-import 'pages/docs/colors_page.dart';
-import 'pages/docs/components_page.dart';
-import 'pages/docs/complete_guide_page.dart';
-import 'pages/docs/component_detail_page.dart';
-import 'pages/docs/icons_page.dart';
-import 'pages/docs/installation_page.dart';
-import 'pages/docs/registry_guide_page.dart';
-import 'pages/docs/app_setup_page.dart';
-import 'pages/docs/cli_reference_page.dart';
-import 'pages/docs/introduction_page.dart';
-import 'pages/docs/layout_page.dart';
-import 'pages/docs/components/material_example.dart';
-import 'pages/docs/state_page.dart';
-import 'pages/docs/theme_page.dart';
-import 'pages/docs/typography_page.dart';
-import 'pages/docs/web_preloader_page.dart';
-import 'pages/docs/components/error_system/error_system_quick_start_page.dart';
-import 'theme/docs_theme.dart';
-import 'theme/theme_controller.dart';
+import 'motion/ease.dart';
+import 'motion/motion_scope.dart';
+import 'pages/blocks_pages.dart' deferred as blocks_pages;
+import 'pages/flows_pages.dart' deferred as flows_pages;
+import 'pages/starters_pages.dart' deferred as starters_pages;
+import 'pages/cli_reference.dart';
+import 'pages/component_page.dart' deferred as component_page;
+import 'pages/components_index_page.dart';
+import 'pages/dark_mode_page.dart';
+import 'pages/getting_started.dart';
+import 'pages/introduction_page.dart';
+import 'pages/landing_page.dart';
+import 'pages/material_interop_page.dart';
+import 'pages/package_or_own_page.dart';
+import 'pages/placeholder_page.dart';
+import 'pages/scorecards_page.dart';
+import 'pages/themes.dart';
+import 'pages/theming_page.dart';
+import 'routing/deferred_page.dart';
+import 'routing/docs_router.dart';
+import 'state/docs_state.dart';
+import 'state/docs_storage.dart';
+import 'theme/docs_fonts.dart';
+import 'theme/theme_document.dart';
+import 'ui/dashcn/components/app/app.dart';
+import 'ui/dashcn/components/drawer/drawer.dart';
+import 'ui/dashcn/components/gooey_toast/gooey_toast.dart';
+import 'ui/dashcn/components/toast/toast.dart';
+import 'ui/dashcn/theme/color_tokens.dart';
+import 'ui/dashcn/theme/theme.dart';
 import 'web_bridge.dart';
-import 'ui/shadcn/components/form/history/history.dart';
-import 'ui/shadcn/components/display/keyboard_shortcut/keyboard_shortcut.dart';
-import 'ui/shadcn/components/layout/app/app.dart' as shadcn_app;
-import 'ui/shadcn/components/overlay/drawer/drawer.dart';
-import 'ui/shadcn/components/overlay/eye_dropper/eye_dropper.dart';
-import 'ui/shadcn/components/utility/error_system/error_system.dart';
-import 'ui/shadcn/shared/theme/color_scheme.dart' as shadcn_colors;
-import 'ui/shadcn/shared/theme/preset_themes.dart';
-import 'ui/shadcn/shared/theme/theme.dart' as shadcn_theme;
+import 'widgets/docs_shell.dart';
+import 'widgets/palette.dart';
+import 'widgets/theme_switch_transition.dart';
 
-const bool enableWebSemantics = bool.fromEnvironment(
-  'ENABLE_WEB_SEMANTICS',
-  defaultValue: false,
-);
-
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb && enableWebSemantics) {
-    SemanticsBinding.instance.ensureSemantics();
-  }
-
-  final docsConfig = await _loadDocsConfig();
-  final prefs = await SharedPreferences.getInstance();
-  final settings = await _loadSettings(prefs);
-
-  runApp(
-    _DeferredFirstFrameApp(
-      child: DocsRoot(docsConfig: docsConfig, settings: settings, prefs: prefs),
-    ),
-  );
-  _notifyWebAppReady();
+  final DocsState state = DocsState(
+    storage: const DocsStorage(),
+    systemBrightness:
+        WidgetsBinding.instance.platformDispatcher.platformBrightness,
+  )..restore();
+  runApp(DocsApp(state: state));
 }
 
-class _DeferredFirstFrameApp extends StatefulWidget {
-  const _DeferredFirstFrameApp({required this.child});
+/// The docs application root.
+class DocsApp extends StatefulWidget {
+  /// Creates the app.
+  const DocsApp({super.key, required this.state});
 
-  final Widget child;
+  /// Theme/navigation state shared by the shell and the pages.
+  final DocsState state;
 
   @override
-  State<_DeferredFirstFrameApp> createState() => _DeferredFirstFrameAppState();
+  State<DocsApp> createState() => _DocsAppState();
 }
 
-class _DeferredFirstFrameAppState extends State<_DeferredFirstFrameApp> {
-  bool _ready = false;
+class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
+  late final DocsRouterDelegate _delegate = DocsRouterDelegate(
+    state: widget.state,
+    pageBuilder: buildDocsPage,
+    paletteBuilder: buildDocsPalette,
+    shellBuilder: _buildShell,
+  );
+
+  // Owned here: `Router` does not create a provider, only `WidgetsApp` does.
+  // Without this the initial URL is never parsed and URL reports are dropped.
+  late final PlatformRouteInformationProvider _routeInformationProvider;
+
+  // P7-WA: drawer/sheet background scale. The observer watches the root
+  // navigator for `DrawerRoute`s; the wrapper (in `_buildShell`)
+  // scales the shell while one is open.
+  final DrawerScaleObserver _drawerScaleObserver = DrawerScaleObserver();
+
+  /// The last tap point, in global coordinates (P7-TS1: the circular
+  /// reveal expands from here). Written on pointer-down, read on switch.
+  Offset? _switchOrigin;
 
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      setState(() {
-        _ready = true;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _ready ? widget.child : const SizedBox.shrink();
-  }
-}
-
-Future<Map<String, Object?>> _loadDocsConfig() async {
-  try {
-    final raw = await rootBundle.loadString('docs.json');
-    return jsonDecode(raw) as Map<String, Object?>;
-  } catch (_) {
-    return {'flavor': 'local'};
-  }
-}
-
-Future<DocsSettings> _loadSettings(SharedPreferences prefs) async {
-  final presetId = prefs.getString(kPrefsThemePresetId) ?? 'zinc';
-  final themeMode = prefs.getString(kPrefsThemeMode) ?? 'dark';
-  final brightness = themeMode == 'dark' ? Brightness.dark : Brightness.light;
-  shadcn_colors.ColorScheme scheme;
-  final customRaw =
-      prefs.getString(
-        brightness == Brightness.dark
-            ? kPrefsCustomSchemeDark
-            : kPrefsCustomSchemeLight,
-      ) ??
-      prefs.getString(kPrefsCustomScheme);
-  if (presetId == 'custom' && customRaw != null) {
-    scheme = shadcn_colors.ColorScheme.fromMap(
-      jsonDecode(customRaw) as Map<String, dynamic>,
-    );
-  } else {
-    scheme = _schemeForPreset(presetId, brightness);
-  }
-  final hasRadiusPref = prefs.containsKey(kPrefsRadius);
-  final presetTokens = _tokensForPreset(presetId, brightness);
-  final resolvedRadius = hasRadiusPref
-      ? (prefs.getDouble(kPrefsRadius) ?? presetTokens.radius)
-      : (presetId == 'custom' ? 0.1 : presetTokens.radius);
-  final resolvedDensity = _densityFromPrefs(prefs) ?? presetTokens.density;
-  final storedPath = prefs.getString('initialPath');
-  return DocsSettings(
-    colorScheme: scheme,
-    radius: resolvedRadius,
-    scaling: prefs.getDouble(kPrefsScaling) ?? 1.0,
-    surfaceOpacity: normalizeDocsSurfaceOpacity(
-      prefs.getDouble(kPrefsSurfaceOpacity) ?? 1.0,
-    ),
-    surfaceBlur: prefs.getDouble(kPrefsSurfaceBlur) ?? 0.0,
-    density: resolvedDensity,
-    initialPath: storedPath ?? '/',
-    presetId: presetId,
-    brightness: brightness,
-  );
-}
-
-class DocsSettings {
-  final shadcn_colors.ColorScheme colorScheme;
-  final double radius;
-  final double scaling;
-  final double surfaceOpacity;
-  final double surfaceBlur;
-  final shadcn_theme.Density density;
-  final String initialPath;
-  final String presetId;
-  final Brightness brightness;
-
-  const DocsSettings({
-    required this.colorScheme,
-    required this.radius,
-    required this.scaling,
-    required this.surfaceOpacity,
-    required this.surfaceBlur,
-    required this.density,
-    required this.initialPath,
-    required this.presetId,
-    required this.brightness,
-  });
-}
-
-class DocsRoot extends StatefulWidget {
-  final Map<String, Object?> docsConfig;
-  final DocsSettings settings;
-  final SharedPreferences prefs;
-
-  const DocsRoot({
-    super.key,
-    required this.docsConfig,
-    required this.settings,
-    required this.prefs,
-  });
-
-  @override
-  State<DocsRoot> createState() => _DocsRootState();
-}
-
-class _DocsRootState extends State<DocsRoot> {
-  late DocsThemeController controller;
-  late GoRouter router;
-  late final HubAppScope _appErrorScope = HubAppScope('docs.app');
-  Brightness? _lastBrightness;
-  shadcn_colors.ColorScheme? _lastScheme;
-  static const _pageTransitionDuration = Duration(milliseconds: 180);
-  static const _pageReverseTransitionDuration = Duration(milliseconds: 120);
-
-  String _fromKebabCase(String value) {
-    return value.replaceAll('-', '_');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    final presetTokens = _tokensForPreset(
-      widget.settings.presetId,
-      widget.settings.brightness,
-    );
-    final themeData = DocsThemeData(
-      colorScheme: widget.settings.colorScheme,
-      radius: widget.settings.radius,
-      scaling: widget.settings.scaling,
-      surfaceOpacity: widget.settings.surfaceOpacity,
-      surfaceBlur: widget.settings.surfaceBlur,
-      density: widget.settings.density,
-      spacing: widget.settings.density.toSpacingScale(),
-      tracking: presetTokens.tracking,
-      shadows: presetTokens.shadows,
-    );
-    controller = DocsThemeController(
-      initialData: themeData,
-      prefs: widget.prefs,
-      presetId: widget.settings.presetId,
-      brightness: widget.settings.brightness,
-    );
-
-    router = GoRouter(
-      initialLocation: widget.settings.initialPath,
-      routes: [
-        GoRoute(
-          path: '/',
-          name: 'introduction',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const IntroductionPage()),
+    _routeInformationProvider = PlatformRouteInformationProvider(
+      initialRouteInformation: RouteInformation(
+        uri: Uri.parse(
+          WidgetsBinding.instance.platformDispatcher.defaultRouteName,
         ),
-        GoRoute(
-          path: '/installation',
-          name: 'installation',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const InstallationPage()),
-        ),
-        GoRoute(
-          path: '/complete-guide',
-          name: 'complete-guide',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const CompleteGuidePage()),
-        ),
-        GoRoute(
-          path: '/app-setup',
-          name: 'app-setup',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const AppSetupPage()),
-        ),
-        GoRoute(
-          path: '/registry-guide',
-          name: 'registry-guide',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const RegistryGuidePage()),
-        ),
-        GoRoute(
-          path: '/cli/:id',
-          name: 'cli_reference',
-          pageBuilder: (context, state) => _buildTransitionPage(
-            state,
-            CliReferencePage(
-              pageId: state.pathParameters['id'] ?? 'cli-overview',
-            ),
-          ),
-        ),
-        GoRoute(
-          path: '/theme',
-          name: 'theme',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const ThemePage()),
-        ),
-        GoRoute(
-          path: '/typography',
-          name: 'typography',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const TypographyPage()),
-        ),
-        GoRoute(
-          path: '/layout',
-          name: 'layout',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const LayoutPage()),
-        ),
-        GoRoute(
-          path: '/icons',
-          name: 'icons',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const IconsPage()),
-        ),
-        GoRoute(
-          path: '/colors',
-          name: 'colors',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const ColorsPage()),
-        ),
-        GoRoute(
-          path: '/material',
-          name: 'material',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const MaterialExample()),
-        ),
-        GoRoute(
-          path: '/state',
-          name: 'state',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const StatePage()),
-        ),
-        GoRoute(
-          path: '/web_preloader',
-          name: 'web_preloader',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const WebPreloaderPage()),
-        ),
-        GoRoute(
-          path: '/components',
-          name: 'components',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const ComponentsPage()),
-        ),
-        GoRoute(
-          path: '/components/error-system/quick-start',
-          name: 'error_system_quick_start',
-          pageBuilder: (context, state) =>
-              _buildTransitionPage(state, const ErrorSystemQuickStartPage()),
-        ),
-        GoRoute(
-          path: '/components/:id',
-          name: 'component_detail',
-          pageBuilder: (context, state) => _buildTransitionPage(
-            state,
-            ComponentDetailPage(
-              componentId: _fromKebabCase(state.pathParameters['id'] ?? ''),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  CustomTransitionPage<void> _buildTransitionPage(
-    GoRouterState state,
-    Widget child,
-  ) {
-    return CustomTransitionPage<void>(
-      key: state.pageKey,
-      child: ScreenErrorScope(child: child),
-      transitionDuration: _pageTransitionDuration,
-      reverseTransitionDuration: _pageReverseTransitionDuration,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final curve = CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOutCubic,
-          reverseCurve: Curves.easeInCubic,
-        );
-        final fade = Tween<double>(begin: 0, end: 1).animate(curve);
-        final slide = Tween<Offset>(
-          begin: const Offset(0, 0.02),
-          end: Offset.zero,
-        ).animate(curve);
-        return FadeTransition(
-          opacity: fade,
-          child: SlideTransition(position: slide, child: child),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DocsThemeControllerScope(
-      controller: controller,
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (context, _) {
-          final data = controller.data;
-          _notifyWebThemeChanged(data);
-          return DocsThemeScope(
-            data: data,
-            child: shadcn_app.ShadcnApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'shadcn/ui Registry Flutter Widget',
-              theme: data.toShadcnTheme(),
-              routeInformationProvider: router.routeInformationProvider,
-              routeInformationParser: router.routeInformationParser,
-              routerDelegate: router.routerDelegate,
-              backButtonDispatcher: router.backButtonDispatcher,
-              builder: (context, child) => KeyboardShortcutDisplayMapper(
-                child: AppErrorGate.scope(
-                  scope: _appErrorScope,
-                  child: Stack(
-                    children: [
-                      DrawerOverlay(
-                        child: RecentColorsScope(
-                          child: EyeDropperLayer(
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: child ?? const SizedBox.shrink(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: SafeArea(
-                          bottom: false,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            child: AppErrorBanner(
-                              watchScopes: ['docs.app.banner'],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
-  }
-
-  void _notifyWebThemeChanged(DocsThemeData data) {
-    if (!kIsWeb) return;
-    final brightness = data.colorScheme.brightness;
-    if (_lastBrightness == brightness && _lastScheme == data.colorScheme) {
-      return;
-    }
-    _lastBrightness = brightness;
-    _lastScheme = data.colorScheme;
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      _dispatchWebThemeEvent(data);
+    WidgetsBinding.instance.addObserver(this);
+    widget.state.addListener(_onThemeChanged);
+    WidgetsBinding.instance.addPostFrameCallback((Duration _) {
+      dispatchWebAppReady();
+      _onThemeChanged();
     });
+    // A restored document names families the picker loads on demand. Load
+    // them once at startup so a reload paints in the right families.
+    _loadRestoredFonts();
+  }
+
+  /// Lazily loads the families the persisted document names.
+  void _loadRestoredFonts() {
+    final ThemeDocument document = widget.state.themeModel.document;
+    loadDocsFonts(document.headingFont ?? '');
+    loadDocsFonts(document.bodyFont ?? '');
+    loadDocsFonts(document.monoFont ?? '');
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    widget.state.removeListener(_onThemeChanged);
+    _delegate.dispose();
+    _routeInformationProvider.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    widget.state.setSystemBrightness(
+      WidgetsBinding.instance.platformDispatcher.platformBrightness,
+    );
+  }
+
+  void _onThemeChanged() {
+    dispatchWebThemeChanged(_themeEventColors(widget.state.theme));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Router<DocsRouteConfiguration>(
+      routeInformationProvider: _routeInformationProvider,
+      routerDelegate: _delegate,
+      routeInformationParser: DocsRouteInformationParser(state: widget.state),
+      backButtonDispatcher: RootBackButtonDispatcher(),
+    );
+  }
+
+  Widget _buildShell(BuildContext context, Widget navigator) {
+    final DocsState state = widget.state;
+    // Resolved once per build: the model caches per document, so every read
+    // below is the identical instance and unchanged commits stay no-ops.
+    final ThemeData theme = state.theme;
+    return DashcnApp(
+      title: 'dashcn',
+      debugShowCheckedModeBanner: false,
+      color: theme.colors.primary,
+      theme: theme,
+      themeMode: state.brightness == Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light,
+      // DashcnApp merges `shortcuts`/`actions` over the WidgetsApp defaults
+      // (Tab traversal, Enter/Space activation, Escape dismissal survive), so
+      // only the docs-specific bindings are listed here.
+      shortcuts: docsShortcuts,
+      actions: <Type, Action<Intent>>{
+        OpenDocsPaletteIntent: CallbackAction<OpenDocsPaletteIntent>(
+          onInvoke: (OpenDocsPaletteIntent intent) {
+            _delegate.openPalette();
+            return null;
+          },
+        ),
+      },
+      builder: (BuildContext context, Widget? child) => MotionScope(
+        child: Builder(
+          builder: (BuildContext context) {
+            final DocsThemeTransition kind = state.themeModel.transition;
+            return Listener(
+              // The tap point the circular reveal expands from (P7-TS1).
+              // One offset write per pointer-down; never a rebuild.
+              onPointerDown: (PointerDownEvent event) =>
+                  _switchOrigin = event.position,
+              child: ThemeSwitchTransition(
+                // One swap per commit, then the picked animation of the old
+                // frame over the new one (P7-WD single swap, P7-TS1 kinds).
+                // Reduced motion swaps instantly whatever is picked.
+                data: theme,
+                duration: context.reduceMotion
+                    ? Duration.zero
+                    : docsTransitionDuration(kind),
+                curve: kEaseOutExpo,
+                kind: kind,
+                origin: _switchOrigin,
+                child: child ?? const SizedBox.shrink(),
+              ),
+            );
+          },
+        ),
+      ),
+      // The home route is deliberately unnamed: the docs navigator must be the
+      // only thing reporting URLs to the engine (the Router owns history).
+      // P7-WA app-level overlay hosting: the gooey layer portals into the
+      // root overlay and the toast layer stacks over the window, so toasts
+      // anchor to the browser window instead of the preview card that
+      // triggered them; the background-scale wrapper dims/scales the shell
+      // while a drawer/sheet route is open.
+      navigatorObservers: <NavigatorObserver>[_drawerScaleObserver],
+      home: GooeyToastLayer(
+        child: ToastLayer(
+          child: DrawerBackgroundScale(
+            observer: _drawerScaleObserver,
+            child: DocsAppShell(
+              delegate: _delegate,
+              state: state,
+              child: navigator,
+            ),
+          ),
+        ),
+      ),
+      pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
+          PageRouteBuilder<T>(
+            settings: const RouteSettings(),
+            pageBuilder:
+                (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) => builder(context),
+          ),
+    );
   }
 }
 
-void _notifyWebAppReady() {
-  if (!kIsWeb) return;
-  SchedulerBinding.instance.addPostFrameCallback((_) {
-    dispatchWebAppReady();
-  });
+/// Opens the command palette from anywhere (⌘K / Ctrl+K).
+class OpenDocsPaletteIntent extends Intent {
+  /// Creates the intent.
+  const OpenDocsPaletteIntent();
 }
 
-void _dispatchWebThemeEvent(DocsThemeData data) {
-  if (!kIsWeb) return;
-  dispatchWebThemeChanged({
-    'background': _toHexColor(data.colorScheme.background),
-    'foreground': _toHexColor(data.colorScheme.foreground),
-    'primary': _toHexColor(data.colorScheme.primary),
-  });
+/// Global shortcut map handed to [DashcnApp].
+const Map<ShortcutActivator, Intent> docsShortcuts =
+    <ShortcutActivator, Intent>{
+      SingleActivator(LogicalKeyboardKey.keyK, meta: true):
+          OpenDocsPaletteIntent(),
+      SingleActivator(LogicalKeyboardKey.keyK, control: true):
+          OpenDocsPaletteIntent(),
+    };
+
+/// Maps a parsed route to its page widget.
+///
+/// D3 provides the landing, introduction and components index; D4 provides
+/// the component template, themes customizer, installation and CLI reference;
+/// P8-4 provides the package-or-own and Material interop pages;
+/// D4b provides theming and dark mode; P6-B3 provides the Blocks index and
+/// block pages (one deferred library, so the block sources never ship with the
+/// landing route). Only unknown URLs fall through to the not-found page.
+Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
+  return switch (config.route) {
+    DocsRoute.landing => const LandingPage(),
+    DocsRoute.introduction => const IntroductionPage(),
+    DocsRoute.components => const ComponentsIndexPage(),
+    DocsRoute.component => DeferredPage(
+      load: component_page.loadLibrary,
+      builder: (BuildContext context) =>
+          component_page.ComponentPage(componentId: config.componentId!),
+    ),
+    DocsRoute.themes => ThemesPage(
+      openPanel: config.sourceUri?.queryParameters['panel'],
+    ),
+    DocsRoute.installation => const GettingStartedPage(),
+    DocsRoute.packageOrOwn => const PackageOrOwnPage(),
+    DocsRoute.material => const MaterialInteropPage(),
+    DocsRoute.theming => const ThemingPage(),
+    DocsRoute.darkMode => const DarkModePage(),
+    DocsRoute.cli => const CliReferencePage(),
+    DocsRoute.scorecards => const ScorecardsPage(),
+    DocsRoute.blocks => DeferredPage(
+      load: blocks_pages.loadLibrary,
+      builder: (BuildContext context) => blocks_pages.BlocksIndexPage(),
+    ),
+    DocsRoute.blockCategory => DeferredPage(
+      load: blocks_pages.loadLibrary,
+      builder: (BuildContext context) =>
+          blocks_pages.BlocksIndexPage(categorySlug: config.blockCategorySlug),
+    ),
+    DocsRoute.block => DeferredPage(
+      load: blocks_pages.loadLibrary,
+      builder: (BuildContext context) =>
+          blocks_pages.BlockPage(blockId: config.blockId!),
+    ),
+    DocsRoute.flows => DeferredPage(
+      load: flows_pages.loadLibrary,
+      builder: (BuildContext context) => flows_pages.FlowsIndexPage(),
+    ),
+    DocsRoute.flow => DeferredPage(
+      load: flows_pages.loadLibrary,
+      builder: (BuildContext context) =>
+          flows_pages.FlowPage(flowId: config.flowId!),
+    ),
+    DocsRoute.starters => DeferredPage(
+      load: starters_pages.loadLibrary,
+      builder: (BuildContext context) => starters_pages.StartersIndexPage(),
+    ),
+    DocsRoute.starter => DeferredPage(
+      load: starters_pages.loadLibrary,
+      builder: (BuildContext context) =>
+          starters_pages.StarterPage(starterId: config.starterId!),
+    ),
+    _ => DocsPlaceholderPage(config: config),
+  };
 }
 
-String _toHexColor(Color color) {
-  final value = color.toARGB32().toRadixString(16).padLeft(8, '0');
-  return '#${value.substring(2)}';
+/// Maps the palette overlay slot to its panel.
+Widget buildDocsPalette(BuildContext context, VoidCallback close) {
+  return DocsPalette(onClose: close);
 }
 
-shadcn_colors.ColorScheme _schemeForPreset(
-  String presetId,
-  Brightness brightness,
-) {
-  final preset = DocsThemeController.presets.firstWhere(
-    (preset) => preset.id == presetId,
-    orElse: () => DocsThemeController.presets.first,
-  );
-  return brightness == Brightness.dark ? preset.dark : preset.light;
+// ---------------------------------------------------------------------------
+// Web-bridge helpers.
+// ---------------------------------------------------------------------------
+
+Map<String, String> _themeEventColors(ThemeData data) {
+  final ThemeColors c = data.colors;
+  return <String, String>{
+    'background': _hex(c.background),
+    'foreground': _hex(c.foreground),
+    'card': _hex(c.card),
+    'popover': _hex(c.popover),
+    'primary': _hex(c.primary),
+    'primaryForeground': _hex(c.primaryForeground),
+    'secondary': _hex(c.secondary),
+    'muted': _hex(c.muted),
+    'mutedForeground': _hex(c.mutedForeground),
+    'accent': _hex(c.accent),
+    'destructive': _hex(c.destructive),
+    'border': _hex(c.border),
+    'input': _hex(c.input),
+    'ring': _hex(c.ring),
+    'radiusLg': data.radiusLg.toStringAsFixed(1),
+  };
 }
 
-RegistryThemePresetTokens _tokensForPreset(
-  String presetId,
-  Brightness brightness,
-) {
-  final preset = DocsThemeController.presets.firstWhere(
-    (preset) => preset.id == presetId,
-    orElse: () => DocsThemeController.presets.first,
-  );
-  return brightness == Brightness.dark ? preset.darkTokens : preset.lightTokens;
-}
-
-shadcn_theme.Density? _densityFromPrefs(SharedPreferences prefs) {
-  final container = prefs.getDouble(kPrefsDensityBaseContainerPadding);
-  final gap = prefs.getDouble(kPrefsDensityBaseGap);
-  final content = prefs.getDouble(kPrefsDensityBaseContentPadding);
-  if (container == null || gap == null || content == null) {
-    return null;
-  }
-  return shadcn_theme.Density(
-    baseContainerPadding: container,
-    baseGap: gap,
-    baseContentPadding: content,
-  );
-}
-
-String getReleaseTagName() {
-  return 'Release';
-}
-
-String? loadPackageVersion(String rawLock) {
-  final lock = loadYaml(rawLock);
-  if (lock is! YamlMap) {
-    return null;
-  }
-  final packages = lock['packages'];
-  if (packages is! YamlMap) {
-    return null;
-  }
-  final dep = packages['shadcn_flutter'];
-  if (dep is! YamlMap) {
-    return null;
-  }
-  final version = dep['version'];
-  return version is String ? version : null;
+String _hex(Color color) {
+  final String argb = color.toARGB32().toRadixString(16).padLeft(8, '0');
+  return '#${argb.substring(2).toUpperCase()}';
 }

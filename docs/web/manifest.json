@@ -1,12 +1,12 @@
 {
-    "name": "docs",
-    "short_name": "docs",
+    "name": "dashcn",
+    "short_name": "dashcn",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#09090B",
+    "theme_color": "#09090B",
+    "description": "Flutter components for every platform.",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {
