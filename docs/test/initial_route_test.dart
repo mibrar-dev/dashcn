@@ -52,24 +52,24 @@ void main() {
       () {
         expect(
           DocsRouteConfiguration.parse(
-            'https://x.github.io/shadcn_flutter_kit/docs/components/button?a=1',
+            'https://x.github.io/dashcn/docs/components/button?a=1',
           ).route,
           DocsRoute.component,
         );
         expect(
           DocsRouteConfiguration.parse(
-            'https://x.github.io/shadcn_flutter_kit/docs/components/button#frag',
+            'https://x.github.io/dashcn/docs/components/button#frag',
           ).componentId,
           'button',
         );
         // GitHub Pages base-href prefix is stripped, not treated as a route.
         expect(
-          DocsRouteConfiguration.parse('/shadcn_flutter_kit/themes').route,
+          DocsRouteConfiguration.parse('/dashcn/themes').route,
           DocsRoute.themes,
         );
         expect(
           DocsRouteConfiguration.parse(
-            'https://x.github.io/shadcn_flutter_kit/docs/cli',
+            'https://x.github.io/dashcn/docs/cli',
           ).route,
           DocsRoute.cli,
         );

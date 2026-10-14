@@ -11,7 +11,7 @@ import '../web_bridge.dart';
 import 'docs_tokens.dart';
 
 /// GitHub repository URL used by the header and footer links.
-const String kDocsRepoUrl = 'https://github.com/mibrar-dev/shadcn_flutter_kit';
+const String kDocsRepoUrl = 'https://github.com/mibrar-dev/dashcn';
 
 /// The site footer line.
 class DocsFooter extends StatelessWidget {

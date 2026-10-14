@@ -6,15 +6,15 @@ lives here.
 
 ## Semver policy
 
-- `1.0.0` is the first stable API. It is published from scratch, so there is
-  no `0.x` line and no upgrade path from the old code-copy layout.
-- After `1.0.0`, any breaking change to the public API needs a new major
-  version (`2.0.0`). New widgets, presets and additive APIs are minor
-  releases; fixes are patches.
-- Deprecations: a deprecated API stays for at least one minor release with a
-  documented migration path before it may be removed in the next major.
-- The P8-2 rename and the P9 signature APIs must land *before* the first
-  publish; P8-6 ends with an API review gate for exactly this reason.
+- The first release is `0.1.0`, published from scratch (no upgrade path from
+  the old code-copy layout or the discontinued `flutter_shadcn_cli`).
+- While on `0.x`, a minor bump (`0.2.0`) may break the public API and a patch
+  bump (`0.1.1`) never does. Breaking changes are listed in the CHANGELOG.
+- `1.0.0` follows an API review once the plain names (`Theme`, `ThemeData`,
+  `DashcnApp`, …) have been used in real apps. From then on breaking changes
+  need a new major version.
+- Deprecations: a deprecated API stays for at least one release with a
+  documented migration path before it is removed.
 
 ## One-time pub.dev setup (Ibrar, by hand)
 
@@ -23,8 +23,8 @@ its pub.dev admin page and add an "Automated publishing" entry:
 
 | Package | Repo | Workflow | Tag pattern | Environment |
 |---|---|---|---|---|
-| `dashcn` | `mibrar-dev/shadcn_flutter_kit` (or `mibrar-dev/dashcn` after the repo rename) | `publish.yml` | `v{{version}}` | `pub.dev` |
-| `dashcn_cli` | `mibrar-dev/flutter_shadcn_cli` (or the renamed repo) | `publish.yml` | `v{{version}}` | `pub.dev` |
+| `dashcn` | `mibrar-dev/dashcn` (or `mibrar-dev/dashcn` after the repo rename) | `publish.yml` | `v{{version}}` | `pub.dev` |
+| `dashcn_cli` | `mibrar-dev/dashcn_cli` (or the renamed repo) | `publish.yml` | `v{{version}}` | `pub.dev` |
 
 The `publish.yml` workflows in this repo already pass `environment: pub.dev`,
 so create a `pub.dev` environment in each repo's settings (required reviewers
@@ -35,15 +35,15 @@ takes over.
 
 ## Release order
 
-1. **Kit first.** Tag the kit `v1.0.0`: the CLI's default registry pins
-   `mibrar-dev/shadcn_flutter_kit@v<cli version>/dashcn/lib/src`, so a
+1. **Kit first.** Tag the kit `v0.1.0`: the CLI's default registry pins
+   `mibrar-dev/dashcn@v<cli version>/dashcn/lib/src`, so a
    published CLI only works with defaults when the matching kit tag (with
    the `dashcn/` layout) exists.
-2. Verify `dashcn` on pub.dev, then tag the CLI `v1.0.0` in its repo.
+2. Verify `dashcn` on pub.dev, then tag the CLI `v0.1.0` in its repo.
 
 ## How to cut a release
 
-1. Set the CHANGELOG entry date (`## [1.0.0] - 2026-…`) in
+1. Set the CHANGELOG entry date (`## [0.1.0] - 2026-…`) in
    `dashcn/CHANGELOG.md` (and `CHANGELOG.md` in the CLI repo).
 2. Run every gate: kit `rearch/qa_gate.sh` plus all `--check` generators,
    `check_names`, docs format/analyze/test plus `gen_docs_data --check`,
@@ -51,7 +51,7 @@ takes over.
    format/analyze/unit/e2e plus `rename_cli --check` and
    `sync_interop.sh --check`. CI runs the same on the tag push, but a red
    tag still sends publish notifications — keep tags green.
-3. `git tag v1.0.0` in the kit repo, push the tag. `publish.yml` first fails
+3. `git tag v0.1.0` in the kit repo, push the tag. `publish.yml` first fails
    unless the tag equals `v<pubspec version>`, then publishes via OIDC.
 4. Repeat in the CLI repo once the kit release is live on pub.dev.
 5. Write GitHub Release notes from the CHANGELOG entry.

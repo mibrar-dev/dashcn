@@ -37,7 +37,7 @@ dart run bin/dashcn.dart --advanced install-skill --skill dashcn-kit --model cla
 
 ```bash
 dashcn --advanced install-skill \
-  --skills-url https://raw.githubusercontent.com/mibrar-dev/shadcn_flutter_kit/main/dashcn/skills \
+  --skills-url https://raw.githubusercontent.com/mibrar-dev/dashcn/main/dashcn/skills \
   --skill dashcn-kit \
   --model claude
 ```

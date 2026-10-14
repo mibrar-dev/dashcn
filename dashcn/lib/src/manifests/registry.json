@@ -9495,7 +9495,7 @@
     "theme/interop/internal/css_syntax.dart": "30da2c33b95d9a3f0801334001453ae0a9a5b37e28338ddf377e02ed751beb64",
     "theme/interop/internal/theme_diagnostics.dart": "2b47951be412273a42d3356578992efdaaa0b0885164038f501ce824c1006995",
     "theme/interop/internal/token_inventory.dart": "b6e32b7d68302375a28909c36662967f731896abff606d572ccf4f6c9030cc67",
-    "theme/interop/interop.dart": "9901520ed60ceab0e85cadbfbb99d8f76bbb16b10100be7af560740e2300c635",
+    "theme/interop/interop.dart": "e758007770853291cc2b0f4e91cf2740e68c970ef6886803d835b150c8c1b093",
     "theme/interop/mapping.dart": "ffc3dbd8a8eae1b2c6785c6bf83d8468dc77862a385eb1c8aad1985f9f7a4841",
     "theme/interop/tailwind_v3_parser.dart": "19f791c0e2c29c87ff0bad11f6108acb166630286d23e04294b82d76e66c9b72",
     "theme/interop/theme_model.dart": "33a2dd7ef8939efe9ed40d92e9dbcdf36320cfcc75cd0a34b5e269be18818f68",
@@ -10813,7 +10813,7 @@
   },
   "registry": {
     "name": "dashcn",
-    "version": "1.0.0"
+    "version": "0.1.0"
   },
   "schemaVersion": 2,
   "starters": {

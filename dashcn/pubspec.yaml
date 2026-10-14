@@ -1,11 +1,11 @@
 name: dashcn
 description: "A widgets-only Flutter design system with themed components, blocks, and presets."
 
-version: 1.0.0
+version: 0.1.0
 
-homepage: https://github.com/mibrar-dev/shadcn_flutter_kit
-repository: https://github.com/mibrar-dev/shadcn_flutter_kit
-issue_tracker: https://github.com/mibrar-dev/shadcn_flutter_kit/issues
+homepage: https://mibrar-dev.github.io/dashcn/
+repository: https://github.com/mibrar-dev/dashcn
+issue_tracker: https://github.com/mibrar-dev/dashcn/issues
 
 topics:
   - ui

@@ -2,7 +2,7 @@
 // to parse web CSS / Tailwind themes into [WebTheme] and write them back as
 // CSS, Tailwind v4, W3C Design Tokens or kit preset JSON.
 //
-// Deliberately small (1.0.0 is permanent): every export below uses `show`,
+// Deliberately small (published APIs are permanent): every export below uses `show`,
 // so the parsing tables, length helpers, fallback inventory, formatters and
 // diagnostics in `internal/` stay out of the public surface. Reach for those
 // files directly from `src/` only when working inside the interop layer or
