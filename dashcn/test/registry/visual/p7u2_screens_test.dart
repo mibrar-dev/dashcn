@@ -31,11 +31,11 @@ import 'package:flutter_test/flutter_test.dart';
 const double _dpr = 2.0;
 
 /// Output folder `$KIT/rearch/design/ours/screens`, found by walking up to the
-/// directory that contains REARCHITECTURE_PLAN.md.
+/// directory that contains INSTRUCTIONS.md.
 Directory get _outDir {
   Directory dir = Directory.current;
   while (dir.path != dir.parent.path) {
-    if (File('${dir.path}/REARCHITECTURE_PLAN.md').existsSync()) {
+    if (File('${dir.path}/INSTRUCTIONS.md').existsSync()) {
       return Directory('${dir.path}/rearch/design/ours/screens');
     }
     dir = dir.parent;

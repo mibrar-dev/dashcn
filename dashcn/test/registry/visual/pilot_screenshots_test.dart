@@ -56,11 +56,11 @@ const String _presetId = 'violet-bloom';
 const ValueKey<String> _hoverKey = ValueKey<String>('pilot.button.hover');
 
 /// Output folder `$KIT/rearch/screenshots/pilot`, found by walking up to the
-/// directory that contains REARCHITECTURE_PLAN.md.
+/// directory that contains INSTRUCTIONS.md.
 Directory get _outDir {
   var dir = Directory.current;
   while (dir.path != dir.parent.path) {
-    if (File('${dir.path}/REARCHITECTURE_PLAN.md').existsSync()) {
+    if (File('${dir.path}/INSTRUCTIONS.md').existsSync()) {
       break;
     }
     dir = dir.parent;

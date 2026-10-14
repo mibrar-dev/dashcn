@@ -24,3 +24,10 @@ build/
 
 # re-architecture agent logs
 rearch/logs/
+
+# capture tests write screenshots under rearch/; never re-add them
+rearch/**/*.png
+rearch/**/*.jpg
+rearch/**/*.jpeg
+rearch/**/*.gif
+rearch/**/*.webp
