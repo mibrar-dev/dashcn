@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth — Theme Bench</title><link rel="stylesheet" href="tokens.css">
+<style>
+.bench{display:grid;grid-template-columns:340px 1fr 340px;gap:18px;padding:36px 0 64px;align-items:start}
+.pane{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.pane-h{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.pane-h .micro{margin-right:auto}
+.paste{width:100%;min-height:300px;border:none;background:#161311;color:#C9D4C4;font-family:var(--font-mono);font-size:12px;line-height:1.7;padding:16px;resize:vertical;outline:none}
+.tok-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.tok-table td{padding:8px 14px;border-bottom:1px solid var(--line)}
+.tok-table td:last-child{text-align:right;font-family:var(--font-mono);font-size:11.5px}
+.swatch{width:14px;height:14px;border-radius:5px;display:inline-block;vertical-align:-2px;margin-right:7px;border:1px solid rgba(0,0,0,.15)}
+.strip{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.tile{width:40px;height:40px;border-radius:11px;border:2px solid transparent;cursor:pointer}
+.tile.on{border-color:var(--ember)}
+.apply{margin:14px 16px;width:calc(100% - 32px)}
+.fade{transition:opacity .3s}.fade.out{opacity:0}
+.exp{display:flex;gap:8px;padding:14px 16px}
+.exp button{flex:1}
+.prev{background:var(--pv-bg);color:var(--pv-fg);padding:16px;border-radius:12px;transition:background .5s}
+.prev .row{display:flex;gap:8px;margin:10px 0}
+.pb{flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:var(--pv-radius);padding:9px 0}
+@media(max-width:1100px){.bench{grid-template-columns:1fr 1fr}.pane.live{grid-column:1/-1}}
+@media(max-width:720px){.bench{grid-template-columns:1fr}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>D·hybrid</small></a>
+<div class="nav-links"><a href="home.html">Home</a><a href="component.html">Docs</a><a href="component.html">Components</a><a href="theming.html" class="on">Themes</a><a href="home.html#flows">Blocks</a><a href="home.html#start">CLI</a></div>
+<div class="nav-right"><button class="search-btn" data-cmdk-open><span>Search docs…</span><kbd>⌘K</kbd></button>
+<button class="icon-btn" data-toggle-theme>◐</button><button class="icon-btn hamburger" data-burger>☰</button></div></div></nav>
+<div class="mobile-menu"><a href="home.html">Home</a><a href="component.html">Docs</a><a href="theming.html">Themes</a></div>
+
+<div class="wrap">
+<div style="padding:48px 0 0"><p class="micro"><b>THEME BENCH</b> · PASTE CSS → TOKENS → LIVE PREVIEW</p>
+<h1 style="font-size:clamp(30px,3.6vw,44px);letter-spacing:-.035em;margin:10px 0 8px">Bring a web theme. Leave with Flutter tokens.</h1>
+<p style="color:var(--ink-2);max-width:70ch">Paste any shadcn / tweakcn / Tailwind <span style="font-family:var(--font-mono);font-size:13px">:root</span> block. We parse it into typed tokens, preview them live, and export Dart, JSON, or Figma variables. 42 presets included.</p></div>
+
+<div class="strip card" style="margin-top:20px" id="preset-strip"></div>
+
+<div class="bench" id="bench">
+<!-- paste -->
+<div class="pane"><div class="pane-h"><span class="micro">01 · PASTE CSS</span><button class="icon-btn" style="width:28px;height:28px" data-copy=":root { --background: 0 0% 100%; --primary: 16 84% 52%; --radius: 0.625rem; }">⧉</button></div>
+<textarea class="paste" id="css-in" spellcheck="false">:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14% 8%;
+  --primary: 16 84% 52%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 20% 94%;
+  --muted: 30 12% 90%;
+  --destructive: 0 72% 51%;
+  --border: 30 14% 88%;
+  --radius: 0.625rem;
+}</textarea>
+<div style="padding:14px 16px;border-top:1px solid #2c2825;background:#161311"><button class="btn btn-primary" id="apply-btn" style="width:100%;justify-content:center">Apply → cross-fade preview</button></div></div>
+<!-- token table -->
+<div class="pane"><div class="pane-h"><span class="micro">02 · TOKEN TABLE</span><span class="micro" id="tok-count">9 TOKENS</span></div>
+<table class="tok-table" id="tok-table">
+<tr><td><span class="swatch" style="background:#FFFFFF"></span>background</td><td>Color(0xFFFFFFFF)</td></tr>
+<tr><td><span class="swatch" style="background:#141414"></span>foreground</td><td>Color(0xFF171310)</td></tr>
+<tr><td><span class="swatch" style="background:#E2552B"></span>primary</td><td>Color(0xFFE2552B)</td></tr>
+<tr><td><span class="swatch" style="background:#FAF8F5"></span>secondary</td><td>Color(0xFFF3EFE9)</td></tr>
+<tr><td><span class="swatch" style="background:#E5DED4"></span>muted</td><td>Color(0xFFE8E0D3)</td></tr>
+<tr><td><span class="swatch" style="background:#D33F2E"></span>destructive</td><td>Color(0xFFD93A28)</td></tr>
+<tr><td><span class="swatch" style="background:#E5DED4"></span>border</td><td>Color(0xFFE4DCCC)</td></tr>
+<tr><td><span class="swatch" style="background:linear-gradient(135deg,#E2552B,#FF7A4D)"></span>radius</td><td>10.0</td></tr>
+<tr><td><span class="swatch" style="background:linear-gradient(135deg,#E2552B,#FF7A4D)"></span>fontScale</td><td>1.00</td></tr>
+</table>
+<div class="exp"><button class="btn btn-ghost" data-copy="class PlinthTheme { static const primary = Color(0xFFE2552B); }">Export Dart</button><button class="btn btn-ghost" data-copy='{"primary": "#E2552B"}'>JSON</button><button class="btn btn-ghost" data-copy="figma.variables.importпл">Figma</button></div></div>
+<!-- live -->
+<div class="pane live"><div class="pane-h"><span class="micro">03 · LIVE DEVICE</span>
+<span class="device-strip"><button data-plat="iphone" class="on">iPhone</button><button data-plat="android">Android</button><button data-plat="macos">macOS</button></span></div>
+<div style="padding:18px;display:grid;place-items:center;background-image:var(--dot);background-size:22px 22px" class="fade" id="live-wrap">
+<div data-frame class="frame-iphone"><div class="notch"></div>
+<div class="prev" data-morph-stage>
+<p class="micro" data-preset-name>Ember · bg #FFFFFF · #E2552B · r10</p>
+<h3 style="margin:6px 0 2px;letter-spacing:-.02em">Checkout</h3>
+<p style="font-size:12px;opacity:.6">Order #4821 · 3 items</p>
+<div class="row"><div class="pb" style="background:var(--pv-primary);color:#fff">Pay $86.00</div><div class="pb" style="border:1.5px solid var(--pv-primary);color:var(--pv-primary)">Coupon</div></div>
+<div class="mini-input" style="border:1px solid color-mix(in srgb,var(--pv-fg) 22%,transparent);border-radius:var(--pv-radius);padding:9px 12px;font-size:12.5px">4111 1111 1111 1111</div>
+<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px"><span>Total</span><b>$86.00</b></div>
+</div></div></div>
+<div class="code" id="dart-out" style="margin:0;border-radius:0">final theme = <span class="f">PlinthTheme</span>(<br>&nbsp;&nbsp;primary: <span class="f">Color</span>(<span class="s">0xFFE2552B</span>),<br>&nbsp;&nbsp;radius: <span class="k">10.0</span>,<br>&nbsp;&nbsp;fontScale: <span class="k">1.00</span>,<br>);</div>
+</div>
+</div>
+
+<div class="card" style="padding:28px;margin-bottom:64px"><p class="micro"><b>42 PRESETS</b> · HOVER TO PREVIEW · CLICK TO PIN</p>
+<div class="strip" style="border:none;padding:14px 0 4px" id="preset-grid"></div>
+<p class="micro" style="margin-top:12px">CONTRAST AA · <span class="tick" style="color:var(--ok)">42 / 42 PASS</span> · EVERY PRESET SHIPS LIGHT + DARK</p></div>
+</div>
+
+<footer><div class="wrap"><div class="foot-grid">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p style="font-size:13.5px;color:var(--ink-2);margin-top:10px;max-width:30ch">Copy-paste Flutter UI. You own the code.</p></div>
+<div><h5>Docs</h5><a href="component.html">Components</a><a href="theming.html">Theming</a><a href="home.html#specs">Spec sheets</a></div>
+<div><h5>Kit</h5><a href="home.html#flows">Flows</a><a href="home.html#start">CLI</a><a href="index.html">Mockups</a></div>
+<div><h5>Project</h5><a href="#">Changelog</a><a href="#">License</a><a href="#">GitHub</a></div>
+</div><div class="foot-base"><span>PLINTH · THEME BENCH · MOCK</span><span>42 PRESETS · AA 42/42</span></div></div></footer>
+<div class="cmdk" id="cmdk"><div class="cmdk-box"><input id="cmdk-input" placeholder="Search components, themes, flows…"><div class="cmdk-list">
+<a href="component.html">Button <span>component</span></a><a href="theming.html">Ember preset <span>theme</span></a><a href="home.html#start">flutter_shadcn create <span>cli</span></a></div></div></div>
+<script src="app.js"></script>
+<script>
+const strip=document.getElementById('preset-strip'),grid=document.getElementById('preset-grid');
+const names=['Ember','Paper','Moss','Lagoon','Indigo','Rose','Noir','Mint','Clay','Bone','Slate','Fern'];
+const cols=['#E2552B','#B7791F','#4C7C43','#0E7C8B','#4F46E5','#D33F5E','#FF7A4D','#1F9D55','#A2673B','#8D867B','#475569','#2F6B3A'];
+function tile(n,c){const b=document.createElement('button');b.className='tile';b.title=n;b.setAttribute('data-tile',n);
+b.style.background=`conic-gradient(from 40deg,#fff 0 55%,${c} 55% 78%,#222 78% 100%)`;return b;}
+PRESETS.forEach(p=>strip.appendChild(tile(p[0],p[3])));
+names.forEach((n,i)=>grid.appendChild(tile(n,cols[i])));
+grid.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{plinthToast('Pinned — '+t.title);});
+initMorph(document.getElementById('bench'));initPlatform(document.querySelector('.pane.live'));
+document.getElementById('apply-btn').onclick=()=>{const w=document.getElementById('live-wrap');w.classList.add('out');
+setTimeout(()=>{w.classList.remove('out');plinthToast('Theme applied — 9 tokens');},320);};
+</script></body></html>

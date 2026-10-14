@@ -1,0 +1,183 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facet — One canvas. Every platform. Your code.</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+.hero{padding:40px 0 0}
+.hero-head{position:absolute;top:22px;left:26px;z-index:10;max-width:520px}
+.hero-head h1{font-size:clamp(30px,3.6vw,50px);line-height:1.02;letter-spacing:-.035em;margin:10px 0}
+.hero-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.canvas-hero{min-height:560px}
+.hud-tl{top:22px;right:26px}.hud-bl{bottom:18px;left:26px}.hud-br{bottom:18px;right:26px}
+.prism-svg{width:120px;height:120px;flex:none}
+.feed-item{display:flex;gap:8px;align-items:center}
+.qty{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700}
+.check{width:44px;height:44px;border-radius:99px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-size:20px;margin:8px auto}
+.curve-box{display:flex;gap:8px;align-items:flex-end;height:90px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.curve-box i{flex:1;background:linear-gradient(180deg,var(--accent),var(--accent-2));border-radius:4px;opacity:.85}
+</style></head><body>
+<header class="nav"><div class="nav-in">
+<a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><path d="M13 1v12m0 0L2 8m11 5 11-5" stroke="#22D3EE" stroke-width="1.6"/><circle cx="13" cy="13" r="2.4" fill="#7C5CFF"/></svg>Facet</a>
+<nav class="nav-links"><a href="home.html" class="on">Home</a><a href="theming.html">Spectrum</a><a href="component.html">Docs</a><a href="component.html">Blocks</a><a href="theming.html">Presets <span class="mono" style="font-size:10px;border:1px solid var(--line-2);border-radius:99px;padding:1px 7px">42</span></a></nav>
+<div class="nav-right"><span class="kbd-search">Search <b>⌘K</b></span><button class="icon-btn" data-action="theme" title="Toggle theme"><span data-theme-icon>◐</span></button><a class="btn btn-pri" href="component.html">Get started</a><button class="icon-btn burger" data-action="nav">☰</button></div>
+</div></header>
+
+<div class="wrap hero">
+<div class="canvas canvas-hero" id="heroCanvas">
+<div class="hero-head">
+<p class="eyebrow">Copy-paste Flutter UI · 118 widgets · 18 blocks</p>
+<h1>One canvas. Every platform. <span class="serif">Your code.</span></h1>
+<div class="hero-cta"><a class="btn btn-glow" href="component.html">Browse widgets</a><a class="btn btn-sec mono" href="component.html" style="font-size:12.5px">flutter_shadcn add button</a></div>
+<p class="mono" style="font-size:11px;color:var(--muted);margin-top:10px">Pure Dart · no Material / Cupertino · theme tokens · light + dark</p>
+</div>
+<div class="hud hud-tl"><span class="dot glow-pulse"></span> live canvas · 6 screens · click a screen to zoom</div>
+<div class="flow-row" style="padding-top:230px">
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>01</b> · onboarding</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body">
+<div style="height:74px;border-radius:12px;background:linear-gradient(135deg,#1B1B28,#2A2145 60%,#0E3A44);display:grid;place-items:center;color:#fff;font-size:22px">◈</div>
+<p class="s-title">Budgeting that keeps up</p><p class="s-sub">Track spend across iOS, Android and web from one codebase.</p>
+<div class="s-btn">Get started</div><div class="s-btn ghost">I have an account</div>
+<div class="mono" style="font-size:9px;color:var(--faint);text-align:center">1 of 3 ● ○ ○</div>
+</div></div></div>
+<svg class="connector" viewBox="0 0 54 40" fill="none"><path d="M2 20 C 18 20, 20 8, 52 12" stroke="url(#g1)" stroke-width="1.6"/><circle cx="52" cy="12" r="2.6" fill="#7C5CFF"/><defs><linearGradient id="g1" x1="0" x2="54"><stop stop-color="#7C5CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>02</b> · sign in</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body">
+<p class="s-title">Welcome back</p><p class="s-sub">maria@facet.dev</p>
+<div class="s-input">maria@facet.dev</div><div class="s-input">••••••••••</div>
+<div class="s-btn">Sign in</div>
+<div class="s-row"><div class="s-btn ghost" style="flex:1">Apple</div><div class="s-btn ghost" style="flex:1">Google</div></div>
+<p class="s-sub" style="text-align:center">Secured with passkeys</p>
+</div></div></div>
+<svg class="connector" viewBox="0 0 54 40" fill="none"><path d="M2 20 C 18 20, 20 30, 52 22" stroke="#22D3EE" stroke-width="1.6"/><circle cx="52" cy="22" r="2.6" fill="#22D3EE"/></svg>
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>03</b> · home feed</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body">
+<div class="feed-item"><div class="s-avatar" style="background:#7C5CFF">M</div><div><b style="font-size:10.5px">Maria</b><div class="s-sub">Checking ··4821</div></div><b style="margin-left:auto;font-size:11px">$4,210</b></div>
+<div class="s-card"><b>$1,240 this month</b><span>↓ 12% vs last month</span><div style="display:flex;gap:3px;margin-top:6px;align-items:flex-end;height:26px"><i style="flex:1;background:var(--accent);border-radius:2px;height:40%"></i><i style="flex:1;background:var(--accent);border-radius:2px;height:65%"></i><i style="flex:1;background:var(--accent-2);border-radius:2px;height:90%"></i><i style="flex:1;background:var(--panel-2);border-radius:2px;height:55%;border:1px solid var(--line-2)"></i><i style="flex:1;background:var(--panel-2);border-radius:2px;height:75%;border:1px solid var(--line-2)"></i></div></div>
+<div class="s-card feed-item"><div class="s-avatar" style="background:#22D3EE">✈</div><div><b>Lisbon trip</b><span>Shared · 4 people</span></div></div>
+<div class="s-btn ghost">+ New transfer</div>
+</div></div></div>
+<svg class="connector" viewBox="0 0 54 40" fill="none"><path d="M2 20 C 18 20, 20 8, 52 14" stroke="#7C5CFF" stroke-width="1.6"/><circle cx="52" cy="14" r="2.6" fill="#7C5CFF"/></svg>
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>04</b> · product</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body">
+<div style="height:84px;border-radius:12px;background:linear-gradient(135deg,#23232e,#3b2f63);display:grid;place-items:center;color:#fff;font-size:26px">🎧</div>
+<p class="s-title">Drift Headphones</p><p class="s-sub">★★★★★ 4.9 · 2,314 reviews · $249</p>
+<div class="s-row"><span class="mono" style="font-size:9px;border:1px solid var(--accent);color:var(--accent);border-radius:99px;padding:2px 8px">Black</span><span class="mono" style="font-size:9px;border:1px solid var(--line-2);border-radius:99px;padding:2px 8px">Sand</span><span class="mono" style="font-size:9px;border:1px solid var(--line-2);border-radius:99px;padding:2px 8px">Slate</span></div>
+<div class="s-row" style="align-items:center"><div class="qty">− 1 +</div><div class="s-btn" style="flex:1">Add to bag</div></div>
+</div></div></div>
+<svg class="connector" viewBox="0 0 54 40" fill="none"><path d="M2 20 C 18 20, 20 30, 52 20" stroke="url(#g1)" stroke-width="1.6"/><circle cx="52" cy="20" r="2.6" fill="#22D3EE"/></svg>
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>05</b> · checkout</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body">
+<p class="s-title">Checkout</p>
+<div class="s-card"><b>Drift Headphones ×1</b><span>Express · arrives Fri</span></div>
+<div class="s-input">4242 4242 4242 4242</div>
+<div class="s-row"><div class="s-input" style="flex:1">12/28</div><div class="s-input" style="flex:1">CVC</div></div>
+<div class="s-btn">Pay $249.00</div>
+<p class="s-sub" style="text-align:center">🔒 PCI via Stripe sheet</p>
+</div></div></div>
+<svg class="connector" viewBox="0 0 54 40" fill="none"><path d="M2 20 C 18 20, 20 8, 52 16" stroke="#7C5CFF" stroke-width="1.6"/><circle cx="52" cy="16" r="2.6" fill="#7C5CFF"/></svg>
+
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>06</b> · success</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body" style="text-align:center">
+<div class="check">✓</div>
+<p class="s-title">Order confirmed</p><p class="s-sub">Receipt sent to maria@facet.dev. Tracking #FD-88231.</p>
+<div class="s-btn">Track package</div><div class="s-btn ghost">Back to feed</div>
+<div class="hud" style="position:static;justify-content:center"><span class="dot"></span> semantics ✓ · AA ✓</div>
+</div></div></div>
+
+</div>
+<div class="hud hud-bl"><span class="dot"></span> 118 widgets on canvas · tokens → <span class="mono">radius · colour · font</span></div>
+<div class="toast-demo"><span style="color:var(--accent-2)">✓</span> Theme applied — 42/42 presets pass AA</div>
+</div>
+<div class="stat-row">
+<div class="stat"><b>118</b><span>widgets · pure Dart</span></div>
+<div class="stat"><b>18</b><span>blocks · auth → checkout</span></div>
+<div class="stat"><b>42</b><span>theme presets · light+dark</span></div>
+<div class="stat"><b>0</b><span>Material / Cupertino imports</span></div>
+<div class="stat"><b>37</b><span>tests per widget avg</span></div>
+</div>
+</div>
+
+<!-- 1 THE PRISM -->
+<section><div class="wrap grid2">
+<div><p class="eyebrow">01 · The prism</p><h2 class="h2">One widget in.<br>Every platform <span class="serif">out.</span></h2>
+<p class="lede">Write a <span class="mono" style="font-size:14px;color:var(--ink)">Dialog</span> once. Facet refracts it through platform traits — iOS sheet Detents, Android edge-to-edge, desktop menubar density, web focus rings. Same code, native manners.</p>
+<div class="cmd" style="margin-top:16px"><span class="p">$</span> flutter_shadcn add dialog <button class="copy" data-action="copy" data-copy="#c1">Copy</button></div>
+<p id="c1" style="display:none">flutter_shadcn add dialog</p></div>
+<div class="card"><div class="prism-wrap">
+<div class="mini"><p class="mono" style="font-size:10px;color:var(--muted)">Dialog.dart · in</p><div class="bar" style="background:var(--ink)"></div><div class="bar"></div><div class="bar" style="width:60%"></div></div>
+<svg class="prism-svg" viewBox="0 0 120 120" fill="none"><path d="M60 12 108 96H12L60 12Z" stroke="rgba(255,255,255,.25)" stroke-width="1.5" fill="rgba(124,92,255,.08)"/><path d="M4 60h34" stroke="#fff" stroke-width="2.5"/><path d="M76 78 116 66" stroke="#7C5CFF" stroke-width="2.5" class="glow-pulse"/><path d="M78 86 116 86" stroke="#4F7CFF" stroke-width="2.5"/><path d="M76 94 116 106" stroke="#22D3EE" stroke-width="2.5" class="glow-pulse"/></svg>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div class="mini"><p class="mono" style="font-size:9px">iOS · sheet</p><div class="bar" style="height:22px;border-radius:8px 8px 4px 4px"></div><div class="bar" style="background:var(--ink);height:6px"></div></div>
+<div class="mini"><p class="mono" style="font-size:9px">Android · edge</p><div class="bar" style="height:22px"></div><div class="bar" style="background:var(--ink);height:6px"></div></div>
+<div class="mini"><p class="mono" style="font-size:9px">Desktop · dense</p><div class="bar" style="height:12px"></div><div class="bar" style="background:var(--ink);height:6px"></div></div>
+<div class="mini"><p class="mono" style="font-size:9px">Web · focus</p><div class="bar" style="height:16px;border:1px dashed var(--accent)"></div><div class="bar" style="background:var(--ink);height:6px"></div></div>
+</div>
+</div>
+<div class="beam" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:.7"></div>
+<p class="mono" style="font-size:11px;color:var(--muted);margin:10px 0 0">refraction: traits/iphone.json · android.json · desktop.json · web.json — all tokens, no forks</p>
+</div>
+</div></section>
+
+<!-- 2 FLOWS -->
+<section style="padding-top:0"><div class="wrap">
+<p class="eyebrow">02 · Flows you can install</p><h2 class="h2">Don't assemble auth again.</h2>
+<p class="lede">Blocks are mini flow maps — screens, validation, empty states, wired together. One command drops the whole flow into your repo. You own every file.</p>
+<div class="grid3" style="margin-top:24px">
+<div class="card"><div class="mono" style="font-size:11px;color:var(--accent)">flow:auth · 6 screens</div><h3>Sign up → verify → profile</h3>
+<svg viewBox="0 0 260 54" style="width:100%;margin:10px 0"><path d="M6 27h60m0 0c14 0 12-16 30-16h30m0 0c16 0 14 16 30 16h30m0 0c14 0 12-10 30-10" stroke="#7C5CFF" fill="none" stroke-width="1.6"/><circle cx="6" cy="27" r="4" fill="#7C5CFF"/><circle cx="98" cy="11" r="4" fill="#4F7CFF"/><circle cx="188" cy="27" r="4" fill="#22D3EE"/><circle cx="250" cy="17" r="4" fill="#22D3EE"/></svg>
+<p>Passkeys, OTP fallback, rate-limit states included.</p><div class="cmd" style="margin-top:12px"><span class="p">$</span> flutter_shadcn add flow:auth</div></div>
+<div class="card"><div class="mono" style="font-size:11px;color:var(--accent)">flow:paywall · 4 screens</div><h3>Plans → pay → receipt</h3>
+<svg viewBox="0 0 260 54" style="width:100%;margin:10px 0"><path d="M6 27h70m0 0c14 0 12 14 30 14h30m0 0c16 0 14-14 30-14h60" stroke="#22D3EE" fill="none" stroke-width="1.6"/><circle cx="6" cy="27" r="4" fill="#7C5CFF"/><circle cx="106" cy="27" r="4" fill="#4F7CFF"/><circle cx="188" cy="27" r="4" fill="#22D3EE"/></svg>
+<p>StoreKit + Play Billing traits, restore-purchase edge cases.</p><div class="cmd" style="margin-top:12px"><span class="p">$</span> flutter_shadcn add flow:paywall</div></div>
+<div class="card"><div class="mono" style="font-size:11px;color:var(--accent)">flow:checkout · 5 screens</div><h3>Bag → address → pay → done</h3>
+<svg viewBox="0 0 260 54" style="width:100%;margin:10px 0"><path d="M6 17h60m0 0c14 0 12 16 30 16h40m0 0c16 0 14-16 30-16h60" stroke="url(#g2)" fill="none" stroke-width="1.6"/><defs><linearGradient id="g2" x1="0" x2="260"><stop stop-color="#7C5CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><circle cx="6" cy="17" r="4" fill="#7C5CFF"/><circle cx="188" cy="17" r="4" fill="#22D3EE"/></svg>
+<p>Address autocomplete, card validation, success confetti.</p><div class="cmd" style="margin-top:12px"><span class="p">$</span> flutter_shadcn add flow:checkout</div></div>
+</div></div></section>
+
+<!-- 3 MOTION LAB -->
+<section style="padding-top:0"><div class="wrap grid2">
+<div class="canvas" style="padding:26px;min-height:340px">
+<div class="hud" style="top:14px;left:14px"><span class="dot"></span> motion lab · live</div>
+<div style="margin-top:44px;display:flex;gap:10px">
+<div style="flex:1;background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:14px;text-align:center"><div class="s-btn" id="motionBtn" style="transition:transform .5s">Pay $249</div><p class="mono" style="font-size:10px;color:var(--muted)">spring · press me</p></div>
+<div style="flex:1;background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:14px"><p class="mono" style="font-size:10px;color:var(--muted)">toast in · 240ms</p><div class="curve-box" id="curveBox"><i style="height:22%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:70%"></i><i style="height:45%"></i></div></div>
+</div></div>
+<div><p class="eyebrow">03 · Motion Lab</p><h2 class="h2">Curves you can <span class="serif">feel.</span></h2>
+<p class="lede">Every animation is a token — duration, curve, spring. Drag the curve, press the button, copy the Dart. No black-box motion.</p>
+<div class="curve-panel" style="margin-top:16px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<label class="mono" style="font-size:11px;color:var(--muted)">stiffness <b id="stV" style="color:var(--ink)">320</b><input id="st" type="range" min="80" max="600" value="320"></label>
+<label class="mono" style="font-size:11px;color:var(--muted)">damping <b id="daV" style="color:var(--ink)">28</b><input id="da" type="range" min="8" max="60" value="28"></label>
+</div>
+<pre class="code" style="margin:12px 0 0">SpringSimulation(<span class="k">stiffness</span>: <span class="s" id="stC">320</span>, <span class="k">damping</span>: <span class="s" id="daC">28</span>)</pre>
+</div></div>
+</div></section>
+
+<!-- 4 SCORECARDS -->
+<section style="padding-top:0"><div class="wrap">
+<p class="eyebrow">04 · Scorecards</p><h2 class="h2">Pinned to the screen. <span class="serif">Not a badge wall.</span></h2>
+<p class="lede">Each widget ships with proof, rendered as a HUD overlay on the exact screen it passed on.</p>
+<div class="grid3" style="margin-top:24px">
+<div class="card"><h3>◉ Contrast</h3><p>AA on <b style="color:var(--ink)">42/42</b> presets, light + dark. Worst pair 4.62:1 (muted on panel, Sand).</p><p class="mono" style="font-size:11px;margin-top:10px;color:var(--ok)">● 84/84 pass</p></div>
+<div class="card"><h3>◉ Semantics</h3><p>Every control labelled, roles mapped, screen-reader order verified on TalkBack + VoiceOver.</p><p class="mono" style="font-size:11px;margin-top:10px;color:var(--ok)">● labels 100%</p></div>
+<div class="card"><h3>◉ RTL · keyboard · tests</h3><p>Mirrored layouts, full Tab order with visible focus, <b style="color:var(--ink)">37 widget tests</b> per component avg.</p><p class="mono" style="font-size:11px;margin-top:10px;color:var(--ok)">● RTL ✓ · keys ✓ · 4,366 tests</p></div>
+</div>
+<div class="card" style="margin-top:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+<div class="mono" style="font-size:12.5px"><span style="color:var(--faint)">$</span> flutter_shadcn add button dialog toast tabs chart</div>
+<a class="btn btn-pri" href="component.html">Open the Button page →</a>
+</div>
+</div></section>
+
+<footer><div class="wrap">
+<div style="display:flex;gap:10px;align-items:center"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><circle cx="13" cy="13" r="2.4" fill="#22D3EE"/></svg><b style="color:var(--ink)">Facet</b><span class="mono" style="font-size:11px">direction C · prism mockup · final name TBD</span></div>
+<div class="mono" style="font-size:12px;display:flex;gap:18px"><a href="index.html" style="text-decoration:none">chooser</a><a href="theming.html" style="text-decoration:none">spectrum</a><a href="component.html" style="text-decoration:none">button docs</a><span>MIT · you own the code</span></div>
+</div></footer>
+<div id="cmdk" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;place-items:center;padding:20px"><div style="background:var(--panel);border:1px solid var(--line-2);border-radius:14px;max-width:520px;width:100%;padding:8px"><input placeholder="Search 118 widgets, 18 blocks, 42 presets…" style="width:100%;background:transparent;border:0;color:var(--ink);padding:12px;font-size:14px;outline:none"><div class="mono" style="font-size:12px;color:var(--muted);padding:8px 12px">button → component.html · spectrum → theming.html · flow:auth → home</div></div></div>
+<script src="app.js"></script>
+<script>
+var st=document.getElementById('st'),da=document.getElementById('da');
+function up(){document.getElementById('stV').textContent=st.value;document.getElementById('daV').textContent=da.value;document.getElementById('stC').textContent=st.value;document.getElementById('daC').textContent=da.value;
+var b=document.getElementById('motionBtn');b.style.transitionDuration=(600-st.value/2)+'ms';}
+if(st){st.oninput=up;da.oninput=up;}
+var mb=document.getElementById('motionBtn');
+if(mb){mb.addEventListener('click',function(){mb.style.transform='scale(.93)';setTimeout(function(){mb.style.transform='scale(1)';},160);});}
+</script></body></html>

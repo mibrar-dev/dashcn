@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kiln — The Kiln (theming)</title><link rel="stylesheet" href="tokens.css">
+<style>
+.kiln-hero{padding:48px 0 8px;display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.kiln-hero h1{font-family:var(--font-serif);font-size:clamp(40px,5.4vw,68px);line-height:1}
+.strip{display:flex;gap:10px;overflow-x:auto;padding:16px 2px;scrollbar-width:thin}
+.strip .tile{min-width:148px}
+.canvas-wrap{position:relative;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--sh-lg);margin-top:8px}
+#kiln-canvas{background:#F6F1EA;color:#1A1714;transition:background .6s var(--ease),color .6s var(--ease);padding:34px;display:grid;grid-template-columns:240px 1fr 1fr;gap:22px;min-height:480px}
+#kiln-canvas.firing{opacity:0;transform:scale(.985)}
+#kiln-canvas{transition:opacity .45s var(--ease),transform .45s var(--ease),background .6s,color .6s}
+.side{background:rgba(127,127,127,.08);border:1px solid var(--line);border-radius:var(--r,12px);padding:16px}
+.side a{display:block;padding:8px 10px;border-radius:8px;font-size:13.5px;font-weight:500}
+.side a.on{background:var(--a);color:#fff}
+.kcard{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:var(--r,12px);padding:18px}
+[data-theme="dark"] .kcard{background:rgba(255,255,255,.05)}
+.kbtn{background:var(--a);color:#fff;border:0;border-radius:var(--r,10px);padding:9px 14px;font-weight:600;font-size:13.5px;cursor:pointer}
+.kinput{border:1.5px solid var(--line);border-radius:var(--r,10px);padding:9px 12px;font-size:13px;width:100%;background:transparent;color:inherit;font-family:inherit}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:10px}
+.bars i{flex:1;background:linear-gradient(180deg,var(--a),transparent);border-radius:4px;transition:all .6s}
+.inspector{position:absolute;right:18px;bottom:18px;width:270px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);padding:16px;font-size:12.5px}
+.inspector h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.trow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line);font-family:var(--font-mono);font-size:11.5px}
+.swatch{width:14px;height:14px;border-radius:5px;display:inline-block;vertical-align:-2px;margin-right:6px;box-shadow:inset 0 1px 2px rgba(255,255,255,.5)}
+.toolbar{display:flex;gap:10px;align-items:center;margin:18px 0;flex-wrap:wrap}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,94vw);background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--sh-lg);z-index:80;transform:translateX(102%);transition:transform .35s var(--ease);padding:24px;display:flex;flex-direction:column;gap:12px}
+.drawer.open{transform:none}
+.drawer textarea{flex:1;min-height:220px;background:#201B15;color:#F2E8D8;border:0;border-radius:12px;padding:16px;font-family:var(--font-mono);font-size:12.5px}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px}
+.exp-grid pre{max-height:230px}
+@media(max-width:1000px){#kiln-canvas{grid-template-columns:1fr}.exp-grid{grid-template-columns:1fr}.inspector{position:static;width:auto;margin:12px}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Kiln</a>
+<div class="nav-links"><a href="home.html">Home</a><a href="theming.html" class="on">The Kiln</a><a href="component.html">Docs</a><a href="component.html">Blocks</a><a href="theming.html">Presets <span class="mono" style="font-size:11px">42</span></a></div>
+<div class="nav-right"><button class="kbd-search" onclick="kilnSearch()">Search <span style="flex:1"></span><kbd>⌘K</kbd></button>
+<button class="icon-btn" onclick="kilnTheme()" data-theme-icon>☀</button>
+<a class="btn btn-fire" href="component.html">Get started</a><button class="icon-btn burger" onclick="kilnMenu()">☰</button></div></div>
+<div class="mobile-menu" id="mmenu"><a href="home.html">Home</a><a href="theming.html">The Kiln</a><a href="component.html">Docs</a></div></nav>
+<div class="cmdk" id="cmdk" onclick="kilnCloseSearch(event)"><div class="cmdk-box"><input id="cmdk-input" placeholder="Search docs, blocks, presets…" oninput="renderCmdk(this.value)"><div class="cmdk-list" id="cmdk-list"></div></div></div>
+
+<div class="wrap">
+<div class="kiln-hero"><div><p class="eyebrow">theming · 42 glazes</p><h1>The Kiln</h1><p style="color:var(--ink-2);max-width:60ch">Paste a CSS theme, pick a glaze, hit <b>Fire</b> — the sample app cross-fades into it. Export Dart, JSON or Figma tokens. What you see is the widget.</p></div>
+<span class="mono" style="margin-left:auto;font-size:12px;color:var(--ink-3)">now firing: <b id="canvas-name">Caffeine</b></span></div>
+<div class="strip" id="strip"></div>
+
+<div class="toolbar">
+<button class="btn btn-fire" onclick="fire()">🔥 Fire theme</button>
+<button class="btn btn-ghost" onclick="document.getElementById('drawer').classList.add('open')">Paste CSS theme</button>
+<button class="btn btn-ghost" onclick="cycleLightDark()">Toggle light / dark</button>
+<span class="mono" style="font-size:12px;color:var(--ink-3)" id="fire-note">cross-fade 550ms · tokens update live</span>
+</div>
+
+<div class="canvas-wrap">
+<div id="kiln-canvas">
+<div class="side"><b style="font-size:13px">Acme</b><div style="height:10px"></div><a class="on">Overview</a><a>Orders</a><a>Customers</a><a>Settings</a><div style="height:14px"></div><div class="mono" style="font-size:11px;opacity:.6">v2.4 · live</div></div>
+<div class="kcard"><div class="mono" style="font-size:11px;opacity:.6">REVENUE · 30 DAYS</div><div style="font-size:30px;font-weight:700" id="rev-num">$48,290</div><div class="bars" id="bars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:88%"></i><i style="height:64%"></i><i style="height:96%"></i><i style="height:74%"></i></div></div>
+<div style="display:grid;gap:14px"><div class="kcard"><b>New order</b><div style="display:grid;gap:8px;margin-top:10px"><input class="kinput" value="ada@acme.co"><button class="kbtn">Charge $48.00</button></div></div><div class="toast"><span>✓</span><span>Refund issued — $12.00</span></div><div class="kcard mono" style="font-size:11.5px" id="token-live">accent #9A3F16 · radius 10px<br>bg #F6F1EA · ink #1A1714</div></div>
+</div>
+<div class="inspector"><h4>◉ Token inspector</h4><div id="trows"></div><div class="mono" style="font-size:11px;margin-top:8px;color:var(--ink-3)">→ maps to KilnTheme(accent, radius, …)</div></div>
+</div>
+
+<h2 class="serif" style="font-size:32px;margin:44px 0 4px">Export. Own it.</h2>
+<p style="color:var(--ink-2)">Three formats, same tokens. Paste into your app, commit, done.</p>
+<div class="exp-grid">
+<div><div class="mono" style="font-size:12px;margin-bottom:8px">DART <button class="icon-btn" style="width:auto;height:auto;padding:2px 10px;font-size:11px" onclick="copyText(document.getElementById('ex-dart').innerText,this)">copy</button></div><pre class="code" id="ex-dart"></pre></div>
+<div><div class="mono" style="font-size:12px;margin-bottom:8px">JSON <button class="icon-btn" style="width:auto;height:auto;padding:2px 10px;font-size:11px" onclick="copyText(document.getElementById('ex-json').innerText,this)">copy</button></div><pre class="code" id="ex-json"></pre></div>
+<div><div class="mono" style="font-size:12px;margin-bottom:8px">FIGMA <button class="icon-btn" style="width:auto;height:auto;padding:2px 10px;font-size:11px" onclick="copyText(document.getElementById('ex-fig').innerText,this)">copy</button></div><pre class="code" id="ex-fig"></pre></div>
+</div>
+<p class="mono" style="font-size:12px;color:var(--ink-3);margin-top:14px">+ 34 more glazes in the CLI: <span style="color:var(--a)">flutter_shadcn theme list</span> · contrast AA verified on 42/42</p>
+</div>
+
+<div class="drawer" id="drawer">
+<h3 class="serif" style="font-size:26px">Paste a CSS theme</h3>
+<p style="font-size:13.5px;color:var(--ink-2)">shadcn, tweakcn or Tailwind variables. We read <span class="mono">--primary</span>, <span class="mono">--radius</span>, <span class="mono">--background</span> and fire the canvas.</p>
+<textarea id="paste" spellcheck="false">:root {
+  --primary: #E4572E;
+  --radius: 1.1rem;
+  --background: #FFF3E8;
+}</textarea>
+<div style="display:flex;gap:10px"><button class="btn btn-fire" onclick="applyPaste()">Fire pasted theme</button><button class="btn btn-ghost" onclick="document.getElementById('drawer').classList.remove('open')">Close</button></div>
+</div>
+
+<footer><div class="wrap"><div class="foot-grid">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Kiln</a><p style="margin-top:10px">Copy-paste-and-own Flutter UI.</p></div>
+<div><h5>Docs</h5><a href="component.html">Components</a><a href="component.html">Blocks</a></div>
+<div><h5>Glazes</h5><a href="theming.html">All 42 presets</a><a href="theming.html">Figma tokens</a></div>
+<div><h5>Project</h5><a href="index.html">Mockup index</a><a href="home.html">License (yours)</a></div>
+</div><div class="foot-bottom"><span>Kiln · working name</span><span>file:// ready</span></div></div></footer>
+<script src="app.js"></script>
+<script>
+let cur='Caffeine', darkCanvas=false;
+const strip=document.getElementById('strip');
+Object.keys(GLAZES).forEach(n=>{const g=GLAZES[n];const b=document.createElement('button');b.className='tile'+(n===cur?' sel':'');b.dataset.glaze=n;b.style.setProperty('--tile-1',g.t1);b.style.setProperty('--tile-2',g.t2);b.style.setProperty('--tile-bg',g.tileBg||'#fff');b.innerHTML=`<div class="dot"></div><b>${n}</b><small>${g.a}</small>`;b.onclick=()=>{cur=n;preview(n);};strip.appendChild(b);});
+// add 8 "more" ghost tiles to suggest 42
+['+34 more','Clay','Ember','Fog','Moss','Dune','Ink','Porcelain'].forEach(n=>{const b=document.createElement('button');b.className='tile';b.style.opacity='.75';b.innerHTML=`<div class="dot" style="background:linear-gradient(135deg,var(--line),var(--surface-2))"></div><b>${n}</b><small>cli only</small>`;b.onclick=()=>{document.getElementById('fire-note').textContent='34 more glazes ship in the CLI — flutter_shadcn theme list';};strip.appendChild(b);});
+function preview(n){applyGlaze(n,document.getElementById('kiln-canvas'));cur=n;renderInspector(n);renderExport(n);}
+function fire(){const c=document.getElementById('kiln-canvas');c.classList.add('firing');document.getElementById('fire-note').textContent='firing '+cur+' …';setTimeout(()=>{preview(cur);c.classList.remove('firing');document.getElementById('fire-note').textContent='fired ✓ '+cur+' · 550ms cross-fade';},450);}
+function cycleLightDark(){darkCanvas=!darkCanvas;const g=GLAZES[cur];const c=document.getElementById('kiln-canvas');if(darkCanvas){c.style.background='#1A1714';c.style.color='#F4EDE1';}else{c.style.background=g.bg;c.style.color=g.ink;}}
+function renderInspector(n){const g=GLAZES[n];const rows=[['accent',g.a,1],['background',g.bg,1],['ink',g.ink,1],['radius',g.r,0],['shadow','12/32 fired',0],['font','Inter + Instr. Serif',0]];document.getElementById('trows').innerHTML=rows.map(r=>`<div class="trow"><span>${r[1]&&r[2]?`<span class="swatch" style="background:${r[1]}"></span>`:''}${r[0]}</span><span>${r[1]}</span></div>`).join('');document.getElementById('token-live').innerHTML=`accent ${g.a} · radius ${g.r}<br>bg ${g.bg} · ink ${g.ink}`;}
+function renderExport(n){const g=GLAZES[n];const slug=n.toLowerCase().replace(/ /g,'_');
+document.getElementById('ex-dart').textContent=`// kiln glaze: ${n}\nKilnTheme(\n  accent: Color(0xFF${g.a.replace('#','')}),\n  radius: ${g.r.replace('px','.0')},\n  background: Color(0xFF${g.bg.replace('#','')}),\n  brightness: Brightness.light,\n);`;
+document.getElementById('ex-json').textContent=`{\n  "glaze": "${slug}",\n  "accent": "${g.a}",\n  "radius": "${g.r}",\n  "background": "${g.bg}"\n}`;
+document.getElementById('ex-fig').textContent=`kiln/${slug}/accent: ${g.a}\nkiln/${slug}/radius: ${g.r}\nkiln/${slug}/bg: ${g.bg}`;}
+function applyPaste(){const t=document.getElementById('paste').value;const mA=t.match(/--primary:\s*([^;]+)/),mR=t.match(/--radius:\s*([^;]+)/),mB=t.match(/--background:\s*([^;]+)/);const c=document.getElementById('kiln-canvas');if(mA)c.style.setProperty('--a',mA[1].trim());if(mR){let r=mR[1].trim();if(r.endsWith('rem'))r=(parseFloat(r)*8)+'px';c.style.setProperty('--r',r);}if(mB)c.style.background=mB[1].trim();document.getElementById('drawer').classList.remove('open');document.getElementById('fire-note').textContent='fired ✓ pasted CSS · no rebuild';document.getElementById('canvas-name').textContent='Pasted CSS';}
+preview(cur);
+</script></body></html>

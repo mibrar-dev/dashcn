@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth docs — Button</title><link rel="stylesheet" href="tokens.css">
+<style>
+.docs{display:grid;grid-template-columns:230px 1fr 210px;gap:28px;padding:28px 0 60px}
+@media(max-width:1000px){.docs{grid-template-columns:1fr}.side-r{display:none}.side-l{position:static!important}}
+.side-l{position:sticky;top:calc(var(--nav-h) + 16px);align-self:start;font-size:13.5px}
+.side-l a{display:block;padding:5px 10px;border-radius:7px;color:var(--ink-2)}
+.side-l a.on,.side-l a:hover{background:var(--paper-2);color:var(--ink)}
+.side-l h5{font:600 11px var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin:14px 0 6px;padding:0 10px}
+.side-r{position:sticky;top:calc(var(--nav-h) + 16px);align-self:start;font-size:12.5px}
+.side-r a{display:block;padding:4px 0;color:var(--ink-2)}.side-r a:hover{color:var(--accent)}
+.article h1{font-size:34px;letter-spacing:-.03em}
+.article .desc{color:var(--ink-2);margin:8px 0 16px;max-width:62ch}
+.ptabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:0}
+.ptabs span{font:600 13px var(--font-sans);padding:9px 14px;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;background:var(--paper-2);color:var(--ink-2)}
+.ptabs span.on{background:var(--card);color:var(--ink)}
+.preview{border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;background:var(--card);padding:22px}
+.knobrow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.knobrow button{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 12px;font:500 12.5px var(--font-sans);cursor:pointer;color:var(--ink-2)}
+.knobrow button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.knobrow label{font:500 12px var(--font-mono);color:var(--ink-2);display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.knobrow input[type=text]{border:0;background:transparent;font:500 12.5px var(--font-sans);color:var(--ink);width:110px;outline:none}
+h2.doc{font-size:20px;letter-spacing:-.02em;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--line)}
+.score5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+@media(max-width:640px){.score5{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>docs</small></a>
+<div class="nav-links"><a href="home.html">Home</a><a href="theming.html">Theming</a><a href="component.html" class="on">Docs</a><a href="#">Blocks</a><a href="#">Presets</a></div>
+<div class="nav-right"><span class="cmdk">Search <b>⌘K</b></span>
+<button class="iconbtn" data-theme-toggle>◐ <span data-theme-label style="font-size:11px">Dark</span></button>
+<a class="btn darkbtn sm" href="home.html">Get started</a><button class="iconbtn hamb" data-hamb>☰</button></div></div></nav>
+<div class="wrap docs">
+<aside class="side-l"><h5>Getting started</h5><a href="#">Introduction</a><a href="#">Installation</a><a href="theming.html">Theming</a><a href="#">CLI</a>
+<h5>Components</h5><a href="component.html" class="on">Button</a><a href="#">Input</a><a href="#">Card</a><a href="#">Dialog</a><a href="#">Toast</a><a href="#">Tabs</a><a href="#">Table</a><a href="#">Chart</a>
+<h5>Blocks</h5><a href="#">Auth</a><a href="#">Checkout</a><a href="#">Settings</a></aside>
+<article class="article">
+<p class="micro">docs · components · <span data-plat-label="btn">ios</span></p>
+<h1>Button</h1>
+<p class="desc">Six variants, three sizes, icon mode. One file you own — <span class="mono" style="font-size:13px">registry/components/button/</span>. No platform forks; density and radius come from theme tokens.</p>
+<div class="seg" data-plats="btn" style="margin-bottom:0;max-width:460px">
+<button data-plat="ios" class="on">iPhone</button><button data-plat="android">Android</button><button data-plat="macos">Desktop</button><button data-plat="web">Web</button></div>
+<div data-frame-scope="btn">
+<div data-frame="ios"><div class="ptabs"><span class="on">Preview</span><span>Code</span></div><div class="preview" id="pg">
+<div id="pgPreview" style="min-height:64px;display:grid;place-items:center;background:var(--paper);border:1px dashed var(--line-2);border-radius:10px;padding:18px"></div>
+<p class="micro" style="margin:14px 0 4px">variant</p><div class="knobrow"><button data-v="default">default</button><button data-v="secondary">secondary</button><button data-v="outline">outline</button><button data-v="ghost">ghost</button><button data-v="destructive">destructive</button><button data-v="link">link</button></div>
+<p class="micro" style="margin:8px 0 4px">size</p><div class="knobrow"><button data-s="sm">sm</button><button data-s="default">default</button><button data-s="lg">lg</button><button data-s="icon">icon</button></div>
+<div class="knobrow"><label><input type="checkbox" data-k="disabled"> disabled</label><label><input type="checkbox" data-k="loading"> loading</label><label><input type="checkbox" data-k="icon" checked> leading icon</label><label>label <input type="text" data-k="label" value="Save changes"></label></div>
+<div class="code" id="pgCode" style="margin-top:12px"></div>
+</div></div>
+<div data-frame="android" style="display:none"><div class="preview"><p class="micro">android · same widget, platform density</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="k-btn def" style="border-radius:20px">＋ Save changes</button><button class="k-btn sec" style="border-radius:20px">Secondary</button></div><div class="code" style="margin-top:12px"><span class="c">// identical Dart — density.compact applied by theme</span><br><span class="f">Button</span>(<span class="k">child</span>: <span class="f">Text</span>(<span class="s">'Save changes'</span>))</div></div></div>
+<div data-frame="macos" style="display:none"><div class="preview"><p class="micro">desktop · keyboard focus ring</p><div style="display:flex;gap:8px"><button class="k-btn def" style="outline:2px solid var(--accent);outline-offset:2px">Save changes</button><button class="k-btn out">Cancel</button><span class="pill">⌘⏎ to submit</span></div><div class="code" style="margin-top:12px"><span class="f">Button</span>(<span class="k">autofocus</span>: <span class="s">true</span>, <span class="k">shortcut</span>: LogicalKeySet.meta + enter)</div></div></div>
+<div data-frame="web" style="display:none"><div class="preview"><p class="micro">web · hover + focus-visible</p><div style="display:flex;gap:8px"><button class="k-btn def">Save changes</button><button class="k-btn link">Cancel →</button></div><div class="code" style="margin-top:12px"><span class="c">// flutter web — same Cunningham semantics tree</span></div></div></div>
+</div>
+
+<h2 class="doc">Install</h2>
+<div class="install" style="max-width:none"><span class="dot"></span><span>flutter_shadcn add button</span><button data-copy="flutter_shadcn add button">copy</button></div>
+<h2 class="doc">Usage</h2>
+<div class="code">import <span class="s">'package:plinth/button.dart'</span>;<br><br><span class="f">Button</span>(<br>&nbsp;&nbsp;<span class="k">variant</span>: ButtonVariant.outline,<br>&nbsp;&nbsp;<span class="k">size</span>: ButtonSize.sm,<br>&nbsp;&nbsp;<span class="k">onPressed</span>: save,<br>&nbsp;&nbsp;<span class="k">child</span>: <span class="f">Text</span>(<span class="s">'Save'</span>),<br>)</div>
+<h2 class="doc">API</h2>
+<table class="spec"><tr><th>prop</th><th>type</th><th>default</th><th>notes</th></tr>
+<tr><td class="mono">variant</td><td class="mono">ButtonVariant</td><td class="mono">default</td><td>default · secondary · outline · ghost · destructive · link</td></tr>
+<tr><td class="mono">size</td><td class="mono">ButtonSize</td><td class="mono">default</td><td>sm · default · lg · icon (38px)</td></tr>
+<tr><td class="mono">loading</td><td class="mono">bool</td><td class="mono">false</td><td>spinner, keeps width, aria-busy</td></tr>
+<tr><td class="mono">enabled</td><td class="mono">bool</td><td class="mono">true</td><td>44% opacity, removes from tab order</td></tr>
+<tr><td class="mono">leading</td><td class="mono">Widget?</td><td class="mono">icon</td><td>16px, gap 6px from density token</td></tr>
+<tr><td class="mono">onPressed</td><td class="mono">VoidCallback?</td><td class="mono">—</td><td>null = disabled semantics</td></tr></table>
+<h2 class="doc">Trust scorecard <span class="pill">button · no. 001</span></h2>
+<div class="score5">
+<div class="cell card" style="text-align:center"><b class="check">✓</b><p class="micro">semantics</p><p style="font-size:12px">labelled, hint</p></div>
+<div class="cell card" style="text-align:center"><b>42/42</b><p class="micro">contrast AA</p><p style="font-size:12px">all presets</p></div>
+<div class="cell card" style="text-align:center"><b class="check">✓</b><p class="micro">RTL</p><p style="font-size:12px">mirrored icon</p></div>
+<div class="cell card" style="text-align:center"><b>37</b><p class="micro">tests</p><p style="font-size:12px">ci green</p></div>
+<div class="cell card" style="text-align:center"><b class="check">✓</b><p class="micro">keyboard</p><p style="font-size:12px">focus ring</p></div>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px"><a class="btn sm" href="#">← Input</a><a class="btn sm primary" style="margin-left:auto" href="#">Card →</a></div>
+</article>
+<aside class="side-r"><p class="micro">on this page</p><a href="#">Preview</a><a href="#">Install</a><a href="#">Usage</a><a href="#">API</a><a href="#">Trust scorecard</a>
+<div class="card" style="margin-top:14px"><p class="micro">spec no. 001</p><p style="font-size:12.5px;margin-top:6px">radius <b class="mono">0.625rem</b><br>density <b class="mono">compact</b><br>hue <b class="mono">24°</b></p></div></aside>
+</div>
+<footer><div class="wrap foot"><div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p class="micro" style="margin-top:8px">button · spec 001 · direction A</p></div>
+<div><h4>Kit</h4><a href="component.html">Components</a><a href="theming.html">Themes</a></div><div><h4>Docs</h4><a href="component.html">Button</a></div><div><h4>Meta</h4><a href="index.html">All mockups</a></div></div></footer>
+<script src="app.js"></script>
+</body></html>

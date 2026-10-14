@@ -1,0 +1,152 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facet Docs — Button</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+.platform-bar{display:flex;gap:6px;border:1px solid var(--line);border-radius:10px;padding:4px;width:max-content;max-width:100%;flex-wrap:wrap}
+.platform-bar button{border:0;background:transparent;color:var(--muted);font-weight:600;font-size:12.5px;padding:7px 14px;border-radius:7px;cursor:pointer;font-family:var(--font-mono)}
+.platform-bar button.on{background:var(--ink);color:var(--bg)}
+.stage{border:1px solid var(--line);border-radius:var(--r-lg);background:radial-gradient(400px 200px at 30% 0%,var(--glow-a),transparent 70%),var(--bg-2);padding:28px;display:grid;place-items:center;min-height:220px;position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1px,transparent 1.3px);background-size:20px 20px}
+.stage-inner{position:relative;z-index:1;text-align:center}
+.frame-cap{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:12px}
+.frame-cap b{color:var(--ink)}
+</style></head><body>
+<header class="nav"><div class="nav-in">
+<a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><path d="M13 1v12m0 0L2 8m11 5 11-5" stroke="#22D3EE" stroke-width="1.6"/><circle cx="13" cy="13" r="2.4" fill="#7C5CFF"/></svg>Facet <span class="mono" style="font-size:11px;color:var(--muted)">docs</span></a>
+<nav class="nav-links"><a href="home.html">Home</a><a href="theming.html">Spectrum</a><a href="component.html" class="on">Components</a></nav>
+<div class="nav-right"><span class="kbd-search">Search <b>⌘K</b></span><button class="icon-btn" data-action="theme"><span data-theme-icon>◐</span></button><span class="mono" style="font-size:11px;color:var(--muted)">v0.9 · 118 widgets</span><button class="icon-btn burger" data-action="nav">☰</button></div>
+</div></header>
+
+<div class="docs">
+<aside class="side">
+<h4>Getting started</h4><a href="#">Introduction</a><a href="#">Installation</a><a href="#">Theming</a>
+<h4>Components · 118</h4><a href="#" class="on">Button</a><a href="#">Dialog</a><a href="#">Input</a><a href="#">Toast</a><a href="#">Tabs</a><a href="#">Card</a><a href="#">Chart</a><a href="#">Sheet</a>
+<h4>Blocks · 18</h4><a href="#">flow:auth</a><a href="#">flow:checkout</a><a href="#">flow:paywall</a>
+<h4>Themes · 42</h4><a href="theming.html">Spectrum ↗</a>
+</aside>
+
+<article class="article">
+<p class="eyebrow">Components · actions</p>
+<h1>Button</h1>
+<p>A pure-Dart pressable. No Material, no Cupertino — every pixel from theme tokens. Same file renders on iOS, Android, desktop and web with platform traits.</p>
+<div class="tabs"><button class="on">Preview</button><button id="codeTab">Code</button></div>
+
+<p class="mono" style="font-size:11px;letter-spacing:.08em;color:var(--faint)">PLATFORM SWITCHER — SAME WIDGET, FOUR FRAMES</p>
+<div class="platform-bar" id="platBar" style="margin:8px 0 12px">
+<button class="on" data-frame="iphone">◱ iPhone</button><button data-frame="android">▣ Android</button><button data-frame="desktop">▭ Desktop</button><button data-frame="web">◍ Web</button>
+</div>
+
+<div class="devices" id="frames">
+<div class="device iphone" data-f="iphone"><div class="dev-label"><span>◱ iPhone 15 · 393pt</span><span>HIG</span></div>
+<div style="border:1px solid var(--line);border-radius:20px;padding:22px 12px;background:var(--bg);text-align:center"><div class="notch" style="height:12px"><i style="width:44px"></i></div><span id="pv-iphone"></span><p class="mono" style="font-size:9.5px;color:var(--muted);margin:10px 0 0">haptic · 44pt target</p></div></div>
+<div class="device android" data-f="android" style="display:none"><div class="dev-label"><span>▣ Pixel 8 · edge-to-edge</span><span>M3</span></div>
+<div style="border:1px solid var(--line);border-radius:10px;padding:22px 12px;background:var(--bg);text-align:center"><span id="pv-android"></span><p class="mono" style="font-size:9.5px;color:var(--muted);margin:10px 0 0">ripple · 48dp target</p></div></div>
+<div class="device desktop" data-f="desktop" style="display:none"><div class="dev-label"><span>▭ macOS · dense</span><span>⌘</span></div>
+<div style="border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--bg);text-align:center"><div class="mono" style="font-size:9px;color:var(--faint);text-align:left;margin-bottom:10px">● ● ●&nbsp;&nbsp;facet — settings</div><span id="pv-desktop"></span><p class="mono" style="font-size:9.5px;color:var(--muted);margin:10px 0 0">hover ring · ⌘⏎ shortcut</p></div></div>
+<div class="device web" data-f="web" style="display:none"><div class="dev-label"><span>◍ Chrome · focus-visible</span><span>tab</span></div>
+<div style="border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--bg);text-align:center"><div class="mono" style="font-size:9px;color:var(--faint);text-align:left;margin-bottom:10px">🔒 facet.dev/components/button</div><span id="pv-web"></span><p class="mono" style="font-size:9.5px;color:var(--muted);margin:10px 0 0">:focus-visible 2px outline</p></div></div>
+</div>
+
+<div class="card" style="margin-top:14px">
+<p class="mono" style="font-size:11px;letter-spacing:.08em;color:var(--faint);margin:0 0 10px">PROPS PLAYGROUND — KNOBS UPDATE PREVIEW + CODE</p>
+<div class="knobs">
+<div class="knob"><label>variant</label><div class="chip-row" id="kVariant">
+<button class="chip on" data-v="default">default</button><button class="chip" data-v="secondary">secondary</button><button class="chip" data-v="outline">outline</button><button class="chip" data-v="ghost">ghost</button><button class="chip" data-v="destructive">destructive</button><button class="chip" data-v="link">link</button></div></div>
+<div class="knob"><label>size</label><div class="chip-row" id="kSize">
+<button class="chip" data-v="sm">sm</button><button class="chip on" data-v="default">default</button><button class="chip" data-v="lg">lg</button><button class="chip" data-v="icon">icon</button></div></div>
+<div class="knob"><label>label text</label><input type="text" id="kLabel" value="Save changes"></div>
+<div class="knob"><label>state</label>
+<div class="switch">disabled <input type="checkbox" id="kDis"></div>
+<div class="switch" style="margin-top:8px">loading <input type="checkbox" id="kLoad"></div>
+<div class="switch" style="margin-top:8px">leading icon <input type="checkbox" id="kIcon" checked></div>
+</div>
+</div>
+</div>
+
+<pre class="code" id="dartCode" style="margin-top:14px"></pre>
+
+<h2 style="font-size:20px;letter-spacing:-.02em;margin:28px 0 8px">Install</h2>
+<div class="cmd"><span class="p">$</span> flutter_shadcn add button <button class="copy" data-action="copy" data-copy="#installCmd">Copy</button></div>
+<p id="installCmd" style="display:none">flutter_shadcn add button</p>
+<p style="font-size:13.5px">Copies <span class="mono" style="font-size:12.5px;color:var(--ink)">button.dart + button.tokens.json</span> into your repo. 3 files, 214 lines, zero dependencies. You own them — edit freely.</p>
+
+<h2 style="font-size:20px;letter-spacing:-.02em;margin:28px 0 8px">Usage</h2>
+<pre class="code"><span class="c">// imports resolve to YOUR copy</span>
+<span class="k">import</span> <span class="s">'package:app/ui/button.dart'</span>;
+
+Button(
+  variant: ButtonVariant.primary,
+  onPressed: save,
+  child: Text(<span class="s">'Save changes'</span>),
+)</pre>
+
+<h2 style="font-size:20px;letter-spacing:-.02em;margin:28px 0 8px">API</h2>
+<table class="api"><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+<tr><td>variant</td><td class="mono">ButtonVariant</td><td class="mono">primary</td><td>default · secondary · outline · ghost · destructive · link</td></tr>
+<tr><td>size</td><td class="mono">ButtonSize</td><td class="mono">default</td><td>sm 32 · default 40 · lg 48 · icon 40×40</td></tr>
+<tr><td>disabled</td><td class="mono">bool</td><td class="mono">false</td><td>opacity token .45, excludes from semantics focus</td></tr>
+<tr><td>loading</td><td class="mono">bool</td><td class="mono">false</td><td>spinner replaces icon, keeps width (no layout shift)</td></tr>
+<tr><td>leading</td><td class="mono">Widget?</td><td class="mono">null</td><td>16px icon slot, gap token 8</td></tr>
+<tr><td>onPressed</td><td class="mono">VoidCallback?</td><td class="mono">null</td><td>null ⇒ disabled affordance + a11y</td></tr></table>
+
+<h2 style="font-size:20px;letter-spacing:-.02em;margin:28px 0 8px">Trust scorecard</h2>
+<div class="score">
+<div><b style="color:var(--ok)">✓ Semantics</b><span>roles + labels</span></div>
+<div><b>AA · 42/42</b><span>contrast presets</span></div>
+<div><b style="color:var(--ok)">✓ RTL</b><span>mirrored</span></div>
+<div><b>37 tests</b><span>4,366 suite</span></div>
+<div><b style="color:var(--ok)">✓ Keys</b><span>tab + ⏎ order</span></div>
+</div>
+<p class="mono" style="font-size:11.5px;color:var(--muted);margin-top:10px">worst pair 4.62:1 · TalkBack + VoiceOver verified · focus ring token 2px</p>
+</article>
+
+<nav class="toc"><b class="mono" style="font-size:11px;letter-spacing:.1em">ON THIS PAGE</b>
+<a href="#">Preview</a><a href="#">Platform switcher</a><a href="#">Playground</a><a href="#">Install</a><a href="#">Usage</a><a href="#">API</a><a href="#">Scorecard</a></nav>
+</div>
+
+<footer><div class="wrap"><div><b style="color:var(--ink)">Facet</b> <span class="mono" style="font-size:11px">· button docs mockup</span></div><div class="mono" style="font-size:12px"><a href="index.html" style="text-decoration:none">chooser</a> · MIT</div></div></footer>
+<script src="app.js"></script>
+<script>
+var st={variant:'default',size:'default',disabled:false,loading:false,label:'Save changes',icon:true};
+function btnHTML(){
+  var cls='demo-btn v-'+st.variant+' sz-'+st.size+(st.disabled?' is-disabled':'');
+  var inner='';
+  if(st.loading)inner+='<span class="spin"></span>';
+  else if(st.icon&&st.size!=='icon')inner+='<span>↓</span>';
+  if(st.size==='icon')inner+='✓';
+  else inner+='<span>'+st.label.replace(/</g,'&lt;')+'</span>';
+  return '<span class="'+cls+'">'+inner+'</span>';
+}
+function dart(){
+  var v=st.variant==='default'?'primary':st.variant;
+  var l=st.size==='default'?'':', size: ButtonSize.'+st.size;
+  var d=st.disabled?', disabled: true':'';var lo=st.loading?', loading: true':'';
+  var ic=(!st.icon||st.size==='icon')?'':', leading: Icon(FacetIcons.download)';
+  return 'Button(\n  variant: ButtonVariant.'+v+l+d+lo+ic+',\n  onPressed: save,\n  child: Text(\''+st.label.replace(/'/g,"\\'")+'\'),\n)';
+}
+function paint(){
+  ['iphone','android','desktop','web'].forEach(function(f){
+    var el=document.getElementById('pv-'+f);if(el)el.innerHTML=btnHTML();});
+  document.getElementById('dartCode').textContent=dart();
+}
+document.getElementById('kVariant').addEventListener('click',function(e){
+  var b=e.target.closest('.chip');if(!b)return;
+  this.querySelectorAll('.chip').forEach(function(c){c.classList.remove('on');});
+  b.classList.add('on');st.variant=b.dataset.v;paint();});
+document.getElementById('kSize').addEventListener('click',function(e){
+  var b=e.target.closest('.chip');if(!b)return;
+  this.querySelectorAll('.chip').forEach(function(c){c.classList.remove('on');});
+  b.classList.add('on');st.size=b.dataset.v;paint();});
+document.getElementById('kLabel').addEventListener('input',function(e){st.label=e.target.value||'Button';paint();});
+[['kDis','disabled'],['kLoad','loading'],['kIcon','icon']].forEach(function(p){
+  document.getElementById(p[0]).addEventListener('change',function(e){st[p[1]]=e.target.checked;paint();});});
+document.getElementById('platBar').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+  var f=b.dataset.frame;
+  document.querySelectorAll('#frames .device').forEach(function(d){d.style.display=d.dataset.f===f?'block':'none';});});
+document.getElementById('codeTab').addEventListener('click',function(){
+  document.getElementById('dartCode').scrollIntoView({behavior:'smooth',block:'center'});});
+paint();
+</script></body></html>
