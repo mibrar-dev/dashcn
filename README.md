@@ -1,26 +1,50 @@
-# dashcn
+<div align="center">
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="brand/svg/lockup-on-dark.svg">
-  <img src="brand/svg/lockup-on-light.svg" alt="dashcn" width="320">
+  <img src="brand/svg/lockup-on-light.svg" alt="dashcn" width="360">
 </picture>
 
-A widgets-only Flutter design system: themed components, blocks, and presets, without Material or Cupertino.
+**A widgets-only Flutter design system — themed components, blocks, and presets, without Material or Cupertino.**
 
-[![GitHub Repo](https://img.shields.io/badge/GitHub-shadcn_flutter_kit-black?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/dashcn)
-[![Docs](https://img.shields.io/badge/Docs-Widget%20Catalog-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mibrar-dev.github.io/dashcn/)
-[![CLI on pub.dev](https://img.shields.io/badge/pub.dev-dashcn_cli-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://pub.dev/packages/dashcn_cli)
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/mibrar-dev/dashcn/docs-deploy.yml?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/mibrar-dev/dashcn/actions)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/mibrar-dev/dashcn/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/mibrar-dev/dashcn?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/dashcn/stargazers)
+[![pub dashcn](https://img.shields.io/pub/v/dashcn)](https://pub.dev/packages/dashcn)
+[![pub dashcn_cli](https://img.shields.io/pub/v/dashcn_cli)](https://pub.dev/packages/dashcn_cli)
+[![CI](https://github.com/mibrar-dev/dashcn/actions/workflows/ci.yml/badge.svg)](https://github.com/mibrar-dev/dashcn/actions/workflows/ci.yml)
+[![Docs](https://github.com/mibrar-dev/dashcn/actions/workflows/docs-deploy.yml/badge.svg)](https://github.com/mibrar-dev/dashcn/actions/workflows/docs-deploy.yml)
+[![License](https://img.shields.io/badge/license-MIT-green)](license.md)
+[![Flutter](https://img.shields.io/badge/Flutter-3.47-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 
----
+[Website](https://mibrar-dev.github.io/dashcn/) ·
+[Docs](https://mibrar-dev.github.io/dashcn/#/docs/installation) ·
+[pub.dev](https://pub.dev/packages/dashcn) ·
+[CLI](https://github.com/mibrar-dev/dashcn_cli) ·
+[Instructions](INSTRUCTIONS.md) ·
+[Contributing](REGISTRY_CONTRIBUTING.md)
 
-## Install
+</div>
 
-Two ways to use the same components, from the same source.
+## Showcase
 
-**Package** — depend on the published package and update via semver:
+| | |
+|---|---|
+| <img src=".github/readme/home.png" alt="dashcn docs site home" width="600">**Home** — the live Widget Catalog | <img src=".github/readme/components.png" alt="Calendar component page with a live preview" width="600">**Components** — every component with live previews |
+| <img src=".github/readme/themes.png" alt="Theme gallery with presets" width="600">**Themes** — 43 presets, light + dark | <img src=".github/readme/blocks.png" alt="Dashboard block full-page view" width="600">**Blocks** — composed, installable screens |
+
+Screenshots of the [live site](https://mibrar-dev.github.io/dashcn/)
+(`#/` · `#/docs/components/calendar` · `#/themes` · `#/blocks/dashboard-01`).
+
+## Why dashcn
+
+- **Widgets-only.** No Material, no Cupertino — just `package:flutter/widgets.dart` plus theme.
+- **Use it two ways.** Depend on the package, or own the sources via the CLI. Same registry, same code.
+- **Themed to the token.** Every component has an isolated, replaceable theme; 43 presets ship with light + dark.
+- **Copy/paste friendly.** `dashcn add button` drops real sources into `lib/ui/dashcn/` — no black box.
+- **Web-theme bridge.** Import shadcn/tweakcn CSS and Tailwind v3/v4 themes; export CSS, Tailwind, W3C DTCG, JSON, or Dart.
+- **Docs that run.** Device frames, live props playground, trust scorecards, and Theme Studio on the site.
+
+## Quick start
+
+**As a package:**
 
 ```bash
 flutter pub add dashcn
@@ -28,20 +52,21 @@ flutter pub add dashcn
 
 ```dart
 import 'package:dashcn/dashcn.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(const DashcnApp(home: SizedBox.shrink()));
+  runApp(DashcnApp(home: Button(onPressed: () {}, child: const Text('Hello dashcn'))));
 }
 ```
 
-Per-layer and per-component imports keep builds lean:
+Leaner imports per layer or per component:
 
 ```dart
 import 'package:dashcn/theme.dart';
 import 'package:dashcn/components/button.dart';
 ```
 
-**Own the code** — copy the sources into your app with the CLI:
+**As owned code:**
 
 ```bash
 dart pub global activate dashcn_cli
@@ -49,59 +74,80 @@ dashcn init
 dashcn add button
 ```
 
-Switch a package import to owned sources later with `dashcn eject button`.
-See “Package or own the code?” in the docs, and the [CLI](https://pub.dev/packages/dashcn_cli)
-reference for `init --mode`, `add --package`, and `theme import|export`.
+This copies sources into `lib/ui/dashcn/`. `dashcn eject button` turns a
+package import into owned code later. See “Package or own the code?” on the
+[docs site](https://mibrar-dev.github.io/dashcn/).
 
----
+## What's inside
 
-## What's in this repo
+| Layer | Count | Notes |
+|---|---|---|
+| Components | 119 | `dashcn/lib/src/components/` — buttons, forms, overlays, navigation, … |
+| Blocks | 16 | Composed sections/screens (`dashboard-01`, `login-01`, …) |
+| Flows | 5 | Multi-screen: `auth-01`, `chat-01`, `checkout-01`, `onboarding-01`, `settings-01` |
+| App starters | 3 | `dashcn create saas\|chat\|shop` |
+| Theme presets | 43 | Light + dark, tweakcn/shadcn-compatible tokens |
 
-- **`dashcn/`** — the `dashcn` package: foundation, theme, primitives,
-  components, and blocks under `lib/src/`, with the `dashcn.dart` barrel
-  plus per-layer and per-component libraries.
-- **`docs/`** — the Flutter web docs app (Widget Catalog) showcasing every
-  component, block, and theme preset.
-- **`brand/`** — the dashcn logo kit (SVG sources plus generated PNG/ICO).
+Layers run foundation → theme → primitives → components → blocks, with a
+one-way dependency rule (enforced in CI).
 
-The [`dashcn` CLI](https://pub.dev/packages/dashcn_cli) lives in its own
-repo and installs components from this one's registry, either as a package
-dependency or as copied sources under `lib/ui/dashcn/`.
+## CLI cheatsheet
 
----
+```bash
+dashcn init                    # set up lib/ui/dashcn/ in your app
+dashcn add button              # copy one component's sources
+dashcn add button --package    # …or depend on the package instead
+dashcn eject button            # turn a package import into owned code
+dashcn create saas my_app      # starters: saas | chat | shop
+dashcn theme import theme.css  # import shadcn/tweakcn CSS, Tailwind v3/v4
+dashcn theme export --format css|tailwind|dtcg|json|dart
+dashcn doctor                   # diagnose your setup
+```
 
-## Docs
+Full reference: `dashcn --help` and the
+[CLI repo](https://github.com/mibrar-dev/dashcn_cli).
 
-- Website (Widget Catalog): <https://mibrar-dev.github.io/dashcn/>
-- Getting started: `docs/` in this repo, or `/#/docs/installation` on the site
-- CLI commands: `dashcn --help`, or `/docs/cli` on the site
-- Releasing: [`RELEASING.md`](RELEASING.md)
-- Contributing blocks and components: [`REGISTRY_CONTRIBUTING.md`](REGISTRY_CONTRIBUTING.md)
+## Theming
 
----
+Wrap with `DashcnApp` (or `Theme`) and pick a preset; components read it
+via `Theme.of(context)`. Re-theme a single component by replacing its one
+user file (e.g. `button_theme.dart`) — no multi-file edits. Bring web
+themes with `dashcn theme import`, share them back with
+`dashcn theme export`, or tune visually in Theme Studio on the docs site.
+
+## Repository layout
+
+| Path | What |
+|---|---|
+| `dashcn/` | The `dashcn` package: sources, tests, generators |
+| `docs/` | Flutter web docs app (the Widget Catalog) |
+| `brand/` | Logo kit (SVG sources) |
+| `rearch/` | Internal agent working area — plans, reports, QA gate (not shipped) |
+
+The CLI (`dashcn_cli`) lives in
+[`mibrar-dev/dashcn_cli`](https://github.com/mibrar-dev/dashcn_cli) and
+installs from this repo's registry.
+
+## Development
+
+Start at [`INSTRUCTIONS.md`](INSTRUCTIONS.md): prerequisites
+(Flutter 3.47.x), layers, generators with `--check`, the QA gate
+(`bash rearch/qa_gate.sh`), docs sync, CI, and releasing.
+
+## Contributing
+
+To add or change a component or block — files to create, `meta.json`
+fields, the preview contract, theming, naming rules, tests, docs sync,
+and the PR checklist — see
+[`REGISTRY_CONTRIBUTING.md`](REGISTRY_CONTRIBUTING.md).
 
 ## Attribution
 
-This project is inspired by and partially derived from
-[shadcn_flutter](https://github.com/sunarya-thito/shadcn_flutter) by Sunarya Thito.
-
-Some components and patterns originated from the shadcn_flutter codebase and
-have been adapted, reorganized, and extended into a registry-first architecture
-with additional tooling (CLI, schema validation, and docs).
-
-The original shadcn_flutter project is licensed under the BSD 3-Clause License.
-A copy of that license is included in this repository under `licenses/`.
-
----
+Inspired by and partially derived from
+[shadcn_flutter](https://github.com/sunarya-thito/shadcn_flutter) by
+Sunarya Thito (BSD 3-Clause; copy in `licenses/`).
 
 ## License
 
-This project is licensed under the MIT License.
-
-Copyright (c) 2026 Muhammad Ibrar Javid
-
-Third-party code adapted from other projects (such as
-[shadcn_flutter](https://github.com/sunarya-thito/shadcn_flutter)) remains under
-its original license terms. See the `licenses/` directory for details.
-
-See the [LICENSE](LICENSE) file for the full MIT license text.
+MIT — see [`license.md`](license.md). Third-party code keeps its original
+terms; see `licenses/`.
