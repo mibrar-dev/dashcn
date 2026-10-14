@@ -46,32 +46,40 @@ class DeviceFrame extends StatelessWidget {
       viewInsets: EdgeInsets.zero,
       devicePixelRatio: spec.devicePixelRatio,
     );
-    return SizedBox(
-      width: total.width,
-      height: total.height,
-      child: CustomPaint(
-        painter: _DeviceChromePainter(
-          spec: spec,
-          orientation: orientation,
-          theme: outer,
-        ),
-        foregroundPainter: _DeviceNotchPainter(
-          spec: spec,
-          orientation: orientation,
-          theme: outer,
-        ),
-        child: Padding(
-          padding: spec.framePadding,
-          child: SizedBox(
-            width: screen.width,
-            height: screen.height,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(spec.screenRadius),
-              child: ColoredBox(
-                color: outer.colors.background,
-                child: Theme(
-                  data: outer.copyWith(platform: () => spec.platform),
-                  child: MediaQuery(data: media, child: child),
+    // Semantics container: framed content owns nested `Navigator`s whose
+    // routes insert a `ModalBarrier` (`BlockSemantics`) each. Without a
+    // boundary here that barrier would hide sibling page content (e.g. the
+    // docs article title) from assistive tech.
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: SizedBox(
+        width: total.width,
+        height: total.height,
+        child: CustomPaint(
+          painter: _DeviceChromePainter(
+            spec: spec,
+            orientation: orientation,
+            theme: outer,
+          ),
+          foregroundPainter: _DeviceNotchPainter(
+            spec: spec,
+            orientation: orientation,
+            theme: outer,
+          ),
+          child: Padding(
+            padding: spec.framePadding,
+            child: SizedBox(
+              width: screen.width,
+              height: screen.height,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(spec.screenRadius),
+                child: ColoredBox(
+                  color: outer.colors.background,
+                  child: Theme(
+                    data: outer.copyWith(platform: () => spec.platform),
+                    child: MediaQuery(data: media, child: child),
+                  ),
                 ),
               ),
             ),

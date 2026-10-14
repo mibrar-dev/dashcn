@@ -513,7 +513,7 @@ String renderDocsSearch(DocsModel model) {
     out.writeln(
       '  ${callExpr(
         'DocsSearchEntry',
-        <String>['label: ${dartString(displayTitle(component.id))}', 'kind: DocsSearchKind.component', 'route: ${dartString('/docs/components/${component.id}')}', 'tag: ${dartString('${component.fileCount} files')}', if (keywords.isNotEmpty) 'keywords: ${stringList(keywords, indent: '    ', appended: 1)}'],
+        <String>['label: ${dartString(displayTitle(component.id))}', 'kind: DocsSearchKind.component', 'route: ${dartString('/docs/components/${component.id}')}', 'tag: ${dartString(fileCountTag(component.fileCount))}', if (keywords.isNotEmpty) 'keywords: ${stringList(keywords, indent: '    ', appended: 1)}'],
         indent: '  ',
         suffix: ',',
       )}',
@@ -579,6 +579,12 @@ String renderDocsSearch(DocsModel model) {
   out.writeln('];');
   return out.toString();
 }
+
+/// File-count badge label with correct singular/plural (`1 file`, `4 files`).
+///
+/// Mirrors the runtime `fileCountLabel` in `lib/widgets/docs_tokens.dart`;
+/// the search index is const, so the label is resolved at generation time.
+String fileCountTag(int count) => '$count ${count == 1 ? 'file' : 'files'}';
 
 /// One prose docs page in the search index (P9-Z).
 class _DocsPageEntry {

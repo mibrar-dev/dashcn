@@ -28,6 +28,7 @@ import '../widgets/component_scorecard_section.dart';
 import '../widgets/component_sections.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
+import '../widgets/docs_tokens.dart';
 
 /// `/docs/components/<id>` — the component template.
 class ComponentPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _ComponentPageState extends State<ComponentPage> {
         titleActions: <Widget>[
           Badge(
             variant: BadgeVariant.secondary,
-            child: Text('${component.fileCount} files'),
+            child: Text(fileCountLabel(component.fileCount)),
           ),
           Badge(
             variant: BadgeVariant.outline,
