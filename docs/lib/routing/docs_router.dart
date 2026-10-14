@@ -225,14 +225,14 @@ class DocsRouteConfiguration {
       DocsRouteConfiguration._(DocsRoute.notFound, raw: location);
 
   /// The base-href the site is deployed under (GitHub Pages:
-  /// `/shadcn_flutter_kit/`; follows the GitHub repo name).
-  static const String kDocsBasePath = 'shadcn_flutter_kit';
+  /// `/dashcn/`; follows the GitHub repo name).
+  static const String kDocsBasePath = 'dashcn';
 
   /// Parses [location] (query/fragment ignored).
   ///
   /// Accepts an in-app location (`/themes`), an absolute URL (a deep link from
   /// search results) and a location carrying the deploy base-href
-  /// (`/shadcn_flutter_kit/docs/cli`); all three resolve to the same page.
+  /// (`/dashcn/docs/cli`); all three resolve to the same page.
   static DocsRouteConfiguration parse(String? location) {
     final Uri uri = Uri.parse(location ?? '/');
     final List<String> segments = uri.pathSegments

@@ -7,15 +7,12 @@
 
 A widgets-only Flutter design system: themed components, blocks, and presets, without Material or Cupertino.
 
-[![GitHub Repo](https://img.shields.io/badge/GitHub-shadcn_flutter_kit-black?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/shadcn_flutter_kit)
-[![Docs](https://img.shields.io/badge/Docs-Widget%20Catalog-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mibrar-dev.github.io/shadcn_flutter_kit/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-shadcn_flutter_kit-black?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/dashcn)
+[![Docs](https://img.shields.io/badge/Docs-Widget%20Catalog-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mibrar-dev.github.io/dashcn/)
 [![CLI on pub.dev](https://img.shields.io/badge/pub.dev-dashcn_cli-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://pub.dev/packages/dashcn_cli)
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/mibrar-dev/shadcn_flutter_kit/docs-deploy.yml?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/mibrar-dev/shadcn_flutter_kit/actions)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/mibrar-dev/shadcn_flutter_kit/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/mibrar-dev/shadcn_flutter_kit?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/shadcn_flutter_kit/stargazers)
-
-> Badges and links still point at `mibrar-dev/shadcn_flutter_kit` until the
-> repo rename lands (see `RELEASING.md` for the checklist).
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/mibrar-dev/dashcn/docs-deploy.yml?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/mibrar-dev/dashcn/actions)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/mibrar-dev/dashcn/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/mibrar-dev/dashcn?style=for-the-badge&logo=github)](https://github.com/mibrar-dev/dashcn/stargazers)
 
 ---
 
@@ -75,7 +72,7 @@ dependency or as copied sources under `lib/ui/dashcn/`.
 
 ## Docs
 
-- Website (Widget Catalog): <https://mibrar-dev.github.io/shadcn_flutter_kit/>
+- Website (Widget Catalog): <https://mibrar-dev.github.io/dashcn/>
 - Getting started: `docs/` in this repo, or `/#/docs/installation` on the site
 - CLI commands: `dashcn --help`, or `/docs/cli` on the site
 - Releasing: [`RELEASING.md`](RELEASING.md)

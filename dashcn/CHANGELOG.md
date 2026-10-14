@@ -3,9 +3,9 @@
 All notable changes to the `dashcn` package are documented here, following
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [1.0.0] - Unreleased
+## [0.1.0] - 2026-10-14
 
-First stable release of `dashcn`: a widgets-only Flutter design system with
+First release of `dashcn`: a widgets-only Flutter design system with
 themed components, blocks and presets. No Material or Cupertino dependency.
 
 ### Added
