@@ -47,7 +47,6 @@ void main() {
         'divider',
         'form',
         'input',
-        'spinner',
         'tabs',
       ],
     },
@@ -62,7 +61,6 @@ void main() {
         'card',
         'divider',
         'form',
-        'spinner',
         'switch',
       ],
     },
@@ -84,6 +82,7 @@ void main() {
       'primitives': <String>[],
       'components': <String>[
         'avatar',
+        'badge',
         'button',
         'card',
         'divider',
@@ -116,14 +115,13 @@ void main() {
         'divider',
         'form',
         'input',
-        'spinner',
       ],
     },
     'login-02': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
       'primitives': <String>[],
-      'components': <String>['alert', 'button', 'form', 'input', 'spinner'],
+      'components': <String>['alert', 'button', 'form', 'input'],
     },
     'login-03': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
@@ -136,7 +134,6 @@ void main() {
         'divider',
         'form',
         'input',
-        'spinner',
       ],
     },
     'otp-01': <String, List<String>>{
@@ -150,7 +147,6 @@ void main() {
         'divider',
         'form',
         'input_otp',
-        'spinner',
       ],
     },
     'pricing-01': <String, List<String>>{
@@ -165,7 +161,6 @@ void main() {
         'divider',
         'form',
         'input_otp',
-        'spinner',
       ],
     },
     'sidebar-01': <String, List<String>>{
@@ -216,7 +211,6 @@ void main() {
         'checkbox',
         'form',
         'input',
-        'spinner',
       ],
     },
     'signup-02': <String, List<String>>{
@@ -226,13 +220,11 @@ void main() {
       'components': <String>[
         'alert',
         'button',
-        'card',
         'checkbox',
         'divider',
         'form',
         'input',
         'progress',
-        'spinner',
       ],
     },
   };

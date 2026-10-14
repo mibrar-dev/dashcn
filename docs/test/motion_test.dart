@@ -1,8 +1,8 @@
 import 'package:docs/motion/ease.dart';
 import 'package:docs/motion/motion_scope.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/heading_anchor.dart';
+import 'package:docs/widgets/theme_switch_transition.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,6 +15,7 @@ void main() {
     expect(kDurationPalette, const Duration(milliseconds: 200));
     expect(kDurationHeadingAnchor, const Duration(milliseconds: 200));
     expect(kDurationTheme, const Duration(milliseconds: 300));
+    expect(kDurationThemeSwitch, const Duration(milliseconds: 250));
     expect(kDurationCopyFeedback, const Duration(milliseconds: 2000));
     // Removed motions have no constants: no route/reveal/hero/marquee/float.
     expect(kEaseOutExpo, isA<Cubic>());
@@ -105,17 +106,22 @@ void main() {
     expect(reduced.reverseTransitionDuration, kDurationFast);
   });
 
-  testWidgets('reduced motion caps the app theme tween to 150 ms', (
+  testWidgets('reduced motion swaps the app theme instantly', (
     WidgetTester tester,
   ) async {
     tester.platformDispatcher.accessibilityFeaturesTestValue =
         const FakeAccessibilityFeatures(disableAnimations: true);
     addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
     await pumpDocsApp(tester);
-    final AnimatedTheme theme = tester.widget<AnimatedTheme>(
-      find.byType(AnimatedTheme).first,
+    final ThemeSwitchTransition transition = tester
+        .widget<ThemeSwitchTransition>(
+          find.byType(ThemeSwitchTransition).first,
+        );
+    expect(
+      transition.duration,
+      Duration.zero,
+      reason: 'the shell snapshot transition is instant under reduced motion',
     );
-    expect(theme.duration, kDurationFast);
   });
 
   testWidgets('reduced motion caps the heading anchor reveal to 150 ms', (

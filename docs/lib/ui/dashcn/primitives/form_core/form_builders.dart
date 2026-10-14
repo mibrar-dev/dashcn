@@ -13,7 +13,10 @@ import 'validation.dart';
 /// Renders [builder] with the nearest field's validation result.
 ///
 /// [modes] filters which [FormValidationMode] a result is shown for; results
-/// from other modes read as valid.
+/// from other modes read as valid. Null uses [defaultShowErrors].
+/// Listing [FormValidationMode.initial] opts into mount-time errors: the
+/// controller mirror stays silent for `initial` runs, so the builder reads
+/// the raw result itself in that case.
 class FormEntryErrorBuilder extends StatelessWidget {
   /// Creates an error builder over the nearest field.
   const FormEntryErrorBuilder({
@@ -41,16 +44,32 @@ class FormEntryErrorBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final FormFieldHandle? handle = Data.maybeOf<FormFieldHandle>(context);
     final ValueListenable<ValidationResult?>? validity = handle?.validity;
-    if (validity == null) {
+    if (validity == null || handle == null) {
       return builder(context, null, child);
     }
+    final FormKey fieldKey = handle.formKey;
+    final Set<FormValidationMode> shown = modes ?? defaultShowErrors;
     return ValueListenableBuilder<ValidationResult?>(
       valueListenable: validity,
       builder: (context, result, _) {
-        if (modes != null && !modes!.contains(result?.state)) {
-          return builder(context, null, child);
+        if (result != null) {
+          if (!shown.contains(result.state)) {
+            return builder(context, null, child);
+          }
+          return builder(context, result, child);
         }
-        return builder(context, result, child);
+        // Opt-in mount-time errors: the mirrored display error is always
+        // silent for `initial` runs, so a field that lists `initial` reads
+        // the raw result itself.
+        if (shown.contains(FormValidationMode.initial)) {
+          final ValidationResult? raw = FormController.maybeOf(
+            context,
+          )?.getSyncError(fieldKey);
+          if (raw?.state == FormValidationMode.initial) {
+            return builder(context, raw, child);
+          }
+        }
+        return builder(context, null, child);
       },
       child: child,
     );

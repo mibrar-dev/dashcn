@@ -112,8 +112,11 @@ class KeyboardKeyCap extends StatelessWidget {
     this.padding,
     this.background,
     this.foreground,
+    this.borderColor,
+    this.borderWidth,
     this.borderRadius,
     this.shadows,
+    this.variant,
     this.theme,
   });
 
@@ -129,11 +132,21 @@ class KeyboardKeyCap extends StatelessWidget {
   /// Label colour override; null resolves the theme's.
   final ThemedColor? foreground;
 
+  /// Border colour override; null resolves the theme's.
+  final ThemedColor? borderColor;
+
+  /// Border width override; null resolves the theme's (`0` hides the border).
+  final double? borderWidth;
+
   /// Corner radius override; null resolves the theme's.
   final BorderRadiusGeometry? borderRadius;
 
   /// Shadows override; null resolves the theme's (none by default).
   final List<BoxShadow>? shadows;
+
+  /// Fill variant override; null resolves the theme's
+  /// ([KbdVariant.subtle] by default).
+  final KbdVariant? variant;
 
   /// Widget-leg style override.
   final KeyboardShortcutTheme? theme;
@@ -148,10 +161,19 @@ class KeyboardKeyCap extends StatelessWidget {
           select: (KeyboardShortcutTheme t) => t,
           defaults: keyboardShortcutDefaults,
         );
-    final ThemedColor fill =
+    final KbdVariant variant =
+        this.variant ?? container.variant ?? KbdVariant.subtle;
+    final ThemedColor fill = switch (variant) {
+      KbdVariant.ghost =>
+        // "No fill" must paint nothing, whatever surfaces sit behind it.
         background ??
-        container.keyBackground ??
-        ThemedColor.value(themeData.colors.background.withValues(alpha: 0.7));
+            container.keyBackground ??
+            const ThemedColor.value(Color(0x00000000)),
+      KbdVariant.subtle =>
+        background ??
+            container.keyBackground ??
+            const ThemedColor.ref(ColorRef.muted),
+    };
     final ThemedColor ink =
         foreground ??
         container.keyForeground ??
@@ -164,11 +186,17 @@ class KeyboardKeyCap extends StatelessWidget {
         themeData.density.baseContentPadding * themeData.scaling,
       ),
       background: fill,
+      // Explicit so the ambient `CardTheme` legs can never leak into a cap:
+      // a card override restyles cards, not key caps.
+      borderColor:
+          borderColor ??
+          container.keyBorderColor ??
+          const ThemedColor.ref(ColorRef.border),
+      borderWidth: borderWidth ?? container.keyBorderWidth ?? 1,
       borderRadius: borderRadius ?? container.keyBorderRadius,
-      shadows: shadows ?? container.keyShadows,
+      shadows: shadows ?? container.keyShadows ?? const <BoxShadow>[],
       child: DefaultTextStyle.merge(
-        style: (container.keyTextStyle ?? keyboardShortcutDefaultTextStyle)
-            .copyWith(color: ink.resolve(themeData.colors)),
+        style: _labelStyle(themeData, container, ink),
         child:
             Data.maybeOf<KeyboardShortcutDisplayHandle>(
               context,
@@ -176,6 +204,24 @@ class KeyboardKeyCap extends StatelessWidget {
             defaultKeyboardKeyLabel(context, keyboardKey),
       ),
     );
+  }
+
+  /// Label style: the theme's text style (default `text-xs`) in the ambient
+  /// mono face, unless the style already names a family.
+  TextStyle _labelStyle(
+    ThemeData themeData,
+    KeyboardShortcutTheme container,
+    ThemedColor ink,
+  ) {
+    TextStyle base = container.keyTextStyle ?? keyboardShortcutDefaultTextStyle;
+    if (base.fontFamily == null) {
+      final TextStyle mono = themeData.typography.mono;
+      base = base.copyWith(
+        fontFamily: mono.fontFamily,
+        fontFamilyFallback: mono.fontFamilyFallback,
+      );
+    }
+    return base.copyWith(color: ink.resolve(themeData.colors));
   }
 }
 
@@ -197,6 +243,7 @@ class KeyboardShortcut extends StatelessWidget {
     super.key,
     required List<LogicalKeyboardKey> this._keys,
     this.spacing,
+    this.variant,
     this.theme,
   }) : _activator = null;
 
@@ -205,6 +252,7 @@ class KeyboardShortcut extends StatelessWidget {
     super.key,
     required ShortcutActivator this._activator,
     this.spacing,
+    this.variant,
     this.theme,
   }) : _keys = null;
 
@@ -213,6 +261,10 @@ class KeyboardShortcut extends StatelessWidget {
 
   /// Horizontal gap between caps; null resolves the theme's.
   final double? spacing;
+
+  /// Fill variant applied to every cap; null resolves the theme's
+  /// ([KbdVariant.subtle] by default).
+  final KbdVariant? variant;
 
   /// Widget-leg style override, applied to every cap.
   final KeyboardShortcutTheme? theme;
@@ -240,7 +292,7 @@ class KeyboardShortcut extends StatelessWidget {
       children: <Widget>[
         for (int i = 0; i < keys.length; i++) ...<Widget>[
           if (i > 0) Gap(gap * themeData.scaling),
-          KeyboardKeyCap(keyboardKey: keys[i], theme: theme),
+          KeyboardKeyCap(keyboardKey: keys[i], theme: theme, variant: variant),
         ],
       ],
     );

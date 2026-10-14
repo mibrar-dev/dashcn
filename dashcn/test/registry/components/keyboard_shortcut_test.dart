@@ -10,6 +10,7 @@ import 'package:dashcn/src/components/card/card.dart' as dashcn;
 import 'package:dashcn/src/components/keyboard_shortcut/keyboard_shortcut.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
+import 'package:dashcn/src/theme/tokens.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const Color _green = Color(0xFF00FF00);
@@ -246,7 +247,7 @@ void main() {
       final dashcn.Card card = _cap(tester);
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
-        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       );
       final TextStyle style = tester
           .widget<DefaultTextStyle>(
@@ -259,10 +260,14 @@ void main() {
           )
           .style;
       expect(style.fontSize, 12);
+      // dashcn `text-xs` runs on a 1rem (16 px) line.
+      expect(style.height, 4 / 3);
       expect(style.color, ThemeColors.lightFallback.mutedForeground);
+      // dashcn kbd labels use the mono face.
+      expect(style.fontFamily, 'GeistMono');
     });
 
-    testWidgets('the cap fill is the background at 70% alpha', (tester) async {
+    testWidgets('a cap measures dashcn h-5 (20 px) - P7-WC2', (tester) async {
       await tester.pumpWidget(
         _frame(
           child: const KeyboardShortcut(
@@ -270,10 +275,81 @@ void main() {
           ),
         ),
       );
-      final Color fill = _cap(
-        tester,
-      ).background!.resolve(ThemeColors.lightFallback);
-      expect(fill.a, closeTo(0.7, 0.001));
+      // py-0.5 (2 + 2) around the 16 px text-xs line. The `Card` border is
+      // painted inside the decoration box, so it adds no height.
+      expect(tester.getSize(find.byKey(keyboardKeyCapKey)).height, 20);
+    });
+
+    testWidgets('two caps stand gap-1 (4 px) apart - P7-WC2', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[
+              LogicalKeyboardKey.keyA,
+              LogicalKeyboardKey.keyB,
+            ],
+          ),
+        ),
+      );
+      expect(
+        tester.getRect(find.byKey(keyboardKeyCapKey).at(1)).left -
+            tester.getRect(find.byKey(keyboardKeyCapKey).at(0)).right,
+        4,
+      );
+    });
+
+    testWidgets('the cap carries the kbd border and small radius', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+          ),
+        ),
+      );
+      final dashcn.Card card = _cap(tester);
+      expect(card.borderWidth, 1);
+      expect(
+        card.borderColor!.resolve(ThemeColors.lightFallback),
+        ThemeColors.lightFallback.border,
+      );
+      expect(card.borderRadius, const BorderRadius.all(Radius.circular(4)));
+      // The dashcn look paints no shadow of its own.
+      expect(card.shadows, isEmpty);
+    });
+
+    testWidgets('the cap radius is a fixed 4 px, preset-independent', (
+      tester,
+    ) async {
+      // P7-WC2: a kbd hint must read as a key on every theme, so the default
+      // rounding does not follow the preset radius (radiusSm is 12 px here).
+      await tester.pumpWidget(
+        _frame(
+          data: const ThemeData(tokens: DesignTokens(radius: 1.0)),
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).borderRadius,
+        const BorderRadius.all(Radius.circular(4)),
+      );
+    });
+
+    testWidgets('the cap fill is the muted token', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        ThemeColors.lightFallback.muted,
+      );
     });
 
     testWidgets('dark palette drives the same slots', (tester) async {
@@ -286,8 +362,7 @@ void main() {
           ),
         ),
       );
-      final Color fill = _cap(tester).background!.resolve(dark);
-      expect(fill.a, closeTo(0.7, 0.001));
+      expect(_cap(tester).background!.resolve(dark), dark.muted);
       final TextStyle style = tester
           .widget<DefaultTextStyle>(
             find
@@ -321,10 +396,10 @@ void main() {
     testWidgets('the cap padding scales with the ambient density', (
       tester,
     ) async {
-      // The default padding is now a density default
-      // (`EdgeInsetsDensity.pxSymmetric(horizontal: 6, vertical: 4)`), resolved
+      // The default padding is a density default
+      // (`EdgeInsetsDensity.pxSymmetric(horizontal: 6, vertical: 2)`), resolved
       // against `density.baseContentPadding * scaling` = 16 * 2 = 32, so the
-      // px multipliers (6/16, 4/16) measure 12 x 8 here. The old assertion
+      // px multipliers (6/16, 2/16) measure 12 x 4 here. The old assertion
       // pinned the raw 6 x 4 literal because at the time only the padding was
       // multiplied by `scaling`; the re-architecture applies the canonical
       // resolution every other component uses, and a literal override passed
@@ -340,11 +415,12 @@ void main() {
       final dashcn.Card card = _cap(tester);
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       );
-      // The upstream look: the cap paints no rounding or shadow of its own.
-      expect(card.borderRadius, isNull);
-      expect(card.shadows, isNull);
+      // A leg setting one field keeps the kbd chrome: the small radius and
+      // the empty shadow list still come from the lower legs.
+      expect(card.borderRadius, isNotNull);
+      expect(card.shadows, isEmpty);
     });
   });
 
@@ -420,7 +496,7 @@ void main() {
       // The padding still comes from the defaults row.
       expect(
         (_cap(tester).padding as EdgeInsets).resolve(TextDirection.ltr),
-        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       );
     });
 
@@ -448,7 +524,7 @@ void main() {
       // The widget leg's own field...
       expect(
         (card.padding as EdgeInsets).resolve(TextDirection.ltr),
-        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       );
       // ...the scoped leg's background survives...
       expect(card.background!.resolve(ThemeColors.lightFallback), _green);
@@ -471,6 +547,108 @@ void main() {
       expect(
         _cap(tester).background!.resolve(ThemeColors.lightFallback),
         _blue,
+      );
+    });
+  });
+
+  group('variants', () {
+    testWidgets('the default variant paints the muted fill', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        ThemeColors.lightFallback.muted,
+      );
+    });
+
+    testWidgets('ghost paints no fill - P7-WC2', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+            variant: KbdVariant.ghost,
+          ),
+        ),
+      );
+      // The cap keeps its border; only the fill goes.
+      final dashcn.Card card = _cap(tester);
+      expect(
+        card.background!.resolve(ThemeColors.lightFallback),
+        const Color(0x00000000),
+      );
+      expect(card.borderWidth, 1);
+    });
+
+    testWidgets('a single cap takes the variant too', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardKeyCap(
+            keyboardKey: LogicalKeyboardKey.keyM,
+            variant: KbdVariant.ghost,
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        const Color(0x00000000),
+      );
+    });
+
+    testWidgets('an explicit fill wins over the ghost variant', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+            variant: KbdVariant.ghost,
+            theme: KeyboardShortcutTheme(
+              keyBackground: ThemedColor.value(_blue),
+            ),
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        _blue,
+      );
+    });
+
+    testWidgets('a theme variant alone paints no fill', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          app: const <ComponentThemeData>[
+            KeyboardShortcutTheme(variant: KbdVariant.ghost),
+          ],
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        const Color(0x00000000),
+      );
+    });
+
+    testWidgets('the widget variant beats a theme variant', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          app: const <ComponentThemeData>[
+            KeyboardShortcutTheme(variant: KbdVariant.ghost),
+          ],
+          child: const KeyboardShortcut(
+            keys: <LogicalKeyboardKey>[LogicalKeyboardKey.keyM],
+            variant: KbdVariant.subtle,
+          ),
+        ),
+      );
+      expect(
+        _cap(tester).background!.resolve(ThemeColors.lightFallback),
+        ThemeColors.lightFallback.muted,
       );
     });
   });

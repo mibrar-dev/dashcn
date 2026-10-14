@@ -53,10 +53,22 @@ class SubmissionResult {
 
 /// Per-field registration snapshot.
 class _FieldRegistration {
-  _FieldRegistration({required this.value, required this.validator});
+  _FieldRegistration({
+    required this.value,
+    required this.validator,
+    this.dirty = false,
+  });
 
   Object? value;
   final Validator<Object?>? validator;
+
+  /// Whether the user changed this field's value.
+  ///
+  /// A field mounts with a first value report that is *not* an edit (the
+  /// supplier registering itself), so only a report that follows the first
+  /// frame and carries a different value marks the field dirty. A dirty
+  /// field is the only one whose live result may be shown.
+  bool dirty;
 }
 
 /// One field's latest validation result (synchronous or pending).
@@ -78,6 +90,7 @@ class FormController extends ChangeNotifier {
   final Map<FormKey, _FieldRegistration> _fields =
       <FormKey, _FieldRegistration>{};
   final Map<FormKey, _ResultStash> _results = <FormKey, _ResultStash>{};
+  bool _submitted = false;
   bool _disposed = false;
 
   /// Called by [submit] after a successful validation.
@@ -139,6 +152,12 @@ class FormController extends ChangeNotifier {
   /// Whether no field currently reports a failure or a pending check.
   bool get isValid => errors.isEmpty;
 
+  /// Whether [submit] has run since the form was created or [reset].
+  ///
+  /// A submitted form keeps showing every invalid field until it is fixed or
+  /// [reset] is called.
+  bool get isSubmitted => _submitted;
+
   /// The value stored for [key], or null when absent.
   T? getValue<T>(FormKey<T> key) => _fields[key]?.value as T?;
 
@@ -158,10 +177,40 @@ class FormController extends ChangeNotifier {
     return result is ValidationResult ? result : null;
   }
 
+  /// The result [key] may show to the user, or null while it must stay quiet.
+  ///
+  /// A [FormValidationMode.initial] result comes from the field mounting, so
+  /// it is never shown here: a field the user has not touched must not print
+  /// an error on first render. A field that opts into mount-time errors lists
+  /// `initial` in its error-builder modes and reads the raw result itself. A
+  /// `changed` result shows only once the field is dirty, and a `submitted`
+  /// result always shows. A pending check reads as a [WaitingResult] under
+  /// the same rules.
+  ValidationResult? getDisplayError(FormKey key) {
+    final _ResultStash? stash = _results[key];
+    if (stash == null) {
+      return null;
+    }
+    if (stash.mode == FormValidationMode.initial) {
+      return null;
+    }
+    if (stash.mode == FormValidationMode.changed &&
+        !(_fields[key]?.dirty ?? false)) {
+      return null;
+    }
+    final FutureOr<ValidationResult?> result = stash.result;
+    if (result is Future<ValidationResult?>) {
+      return WaitingResult.attached(key: key, state: stash.mode);
+    }
+    return result is ValidationResult ? result : null;
+  }
+
   /// Registers [handle] with [value] and runs [validator].
   ///
-  /// The first attach uses [FormValidationMode.initial], later value reports
-  /// use `changed`, and [mode] overrides both (revalidation uses `submitted`).
+  /// An untouched field validates under [FormValidationMode.initial] and a
+  /// field the user edited under `changed`; [mode] overrides both
+  /// (revalidation and submission use `submitted`). [dirty] marks [handle] as
+  /// user-edited, which is what lifts a field out of the silent initial mode.
   /// Fields whose validators declare a dependency on this key re-run too.
   FutureOr<ValidationResult?> attach(
     BuildContext context,
@@ -169,15 +218,23 @@ class FormController extends ChangeNotifier {
     Object? value,
     Validator<Object?>? validator, {
     FormValidationMode? mode,
+    bool dirty = false,
   }) {
     final FormKey key = handle.formKey;
     final _FieldRegistration? previous = _fields[key];
-    _fields[key] = _FieldRegistration(value: value, validator: validator);
+    final _FieldRegistration registration = _FieldRegistration(
+      value: value,
+      validator: validator,
+      // An edit outlives a re-attach (a swapped validator must not silence a
+      // field that is already showing its error).
+      dirty: dirty || (previous?.dirty ?? false),
+    );
+    _fields[key] = registration;
     final FormValidationMode lifecycle =
         mode ??
-        (previous == null
-            ? FormValidationMode.initial
-            : FormValidationMode.changed);
+        (registration.dirty
+            ? FormValidationMode.changed
+            : FormValidationMode.initial);
     final FutureOr<ValidationResult?> result = _run(
       context,
       key,
@@ -221,10 +278,25 @@ class FormController extends ChangeNotifier {
     _notifySoon();
   }
 
+  /// Clears the submitted flag, every field's dirty flag and every result.
+  ///
+  /// Values are kept: resetting validation is not resetting data. After this
+  /// no field shows anything until the user edits it or submits again, which
+  /// is the state the form started in.
+  void reset() {
+    _submitted = false;
+    for (final _FieldRegistration registration in _fields.values) {
+      registration.dirty = false;
+    }
+    _results.clear();
+    _notifySoon();
+  }
+
   /// Revalidates everything, awaits pending checks and reports the outcome.
   ///
   /// Calls [onSubmit] with the values when the form is valid.
   Future<SubmissionResult> submit(BuildContext context) async {
+    _submitted = true;
     revalidateAll(context);
     await _drainPending();
     final SubmissionResult result = SubmissionResult(

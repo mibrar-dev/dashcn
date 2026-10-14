@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-13T03:16:34.809579Z",
-  "commit": "134cd47264210dc09c390e5c41dcc0bae2a66c55",
+  "generatedAt": "2026-10-14T01:59:10.805431Z",
+  "commit": "9c78356141dddfd92901a8a7e6abfcb17dda57d8",
   "flutter": "3.47.7 / Dart 3.13.5",
   "components": {
     "accordion": {
@@ -35,8 +35,8 @@
         "rtlX": 562.0
       },
       "frames": {
-        "p50Ms": 0.059,
-        "p90Ms": 0.111,
+        "p50Ms": 0.072,
+        "p90Ms": 0.146,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -77,13 +77,13 @@
         "rtlX": 644.0
       },
       "frames": {
-        "p50Ms": 0.062,
-        "p90Ms": 0.135,
+        "p50Ms": 0.157,
+        "p90Ms": 0.233,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 32,
+        "count": 35,
         "passed": true
       }
     },
@@ -113,19 +113,19 @@
       "rtl": {
         "passed": true,
         "renders": true,
-        "mirrored": true,
-        "message": null,
-        "ltrX": 227.5,
-        "rtlX": 191.5
+        "mirrored": null,
+        "message": "symmetric layout (no directional shift)",
+        "ltrX": 302.0,
+        "rtlX": 302.0
       },
       "frames": {
-        "p50Ms": 0.07,
-        "p90Ms": 0.129,
+        "p50Ms": 0.087,
+        "p90Ms": 0.297,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 17,
+        "count": 20,
         "passed": true
       }
     },
@@ -161,8 +161,8 @@
         "rtlX": 339.0
       },
       "frames": {
-        "p50Ms": 0.105,
-        "p90Ms": 0.149,
+        "p50Ms": 0.072,
+        "p90Ms": 0.157,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -203,8 +203,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.05,
-        "p90Ms": 0.089,
+        "p50Ms": 0.074,
+        "p90Ms": 0.167,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -245,8 +245,8 @@
         "rtlX": 358.0
       },
       "frames": {
-        "p50Ms": 0.056,
-        "p90Ms": 0.103,
+        "p50Ms": 0.063,
+        "p90Ms": 0.137,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -287,8 +287,8 @@
         "rtlX": 286.0
       },
       "frames": {
-        "p50Ms": 1.193,
-        "p90Ms": 1.464,
+        "p50Ms": 1.026,
+        "p90Ms": 1.375,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -329,8 +329,8 @@
         "rtlX": 536.0
       },
       "frames": {
-        "p50Ms": 0.045,
-        "p90Ms": 0.116,
+        "p50Ms": 0.059,
+        "p90Ms": 0.153,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -371,13 +371,13 @@
         "rtlX": 358.0
       },
       "frames": {
-        "p50Ms": 0.05,
-        "p90Ms": 0.09,
+        "p50Ms": 0.053,
+        "p90Ms": 0.114,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 12,
+        "count": 36,
         "passed": true
       }
     },
@@ -393,11 +393,11 @@
         },
         "androidTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#5(Rect.fromLTRB(12.0, 44.0, 44.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 26, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(48.0, 44.0, 80.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 27, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(84.0, 44.0, 116.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 28, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(120.0, 44.0, 152.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 29, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(156.0, 44.0, 188.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 1, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(192.0, 44.0, 224.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 2, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#11(Rect.fromLTRB(228.0, 44.0, 260.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 3, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#12(Rect.fromLTRB(12.0, 80.0, 44.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 4, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#13(Rect.fromLTRB(48.0, 80.0, 80.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 5, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#14(Rect.fromLTRB(84.0, 80.0, 116.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 6, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#15(Rect.fromLTRB(120.0, 80.0, 152.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 7, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#16(Rect.fromLTRB(156.0, 80.0, 188.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 8, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#17(Rect.fromLTRB(192.0, 80.0, 224.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 9, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#18(Rect.fromLTRB(228.0, 80.0, 260.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 10, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#19(Rect.fromLTRB(12.0, 116.0, 44.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 11, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#20(Rect.fromLTRB(48.0, 116.0, 80.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 12, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#21(Rect.fromLTRB(84.0, 116.0, 116.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 13, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#22(Rect.fromLTRB(120.0, 116.0, 152.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 14, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#23(Rect.fromLTRB(156.0, 116.0, 188.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 15, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#24(Rect.fromLTRB(192.0, 116.0, 224.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 16, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#25(Rect.fromLTRB(228.0, 116.0, 260.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 17, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#26(Rect.fromLTRB(12.0, 152.0, 44.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 18, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#27(Rect.fromLTRB(48.0, 152.0, 80.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 19, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#28(Rect.fromLTRB(84.0, 152.0, 116.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 20, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#29(Rect.fromLTRB(120.0, 152.0, 152.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 21, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#30(Rect.fromLTRB(156.0, 152.0, 188.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 22, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#31(Rect.fromLTRB(192.0, 152.0, 224.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 23, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#32(Rect.fromLTRB(228.0, 152.0, 260.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 24, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#33(Rect.fromLTRB(12.0, 188.0, 44.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 25, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#34(Rect.fromLTRB(48.0, 188.0, 80.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 26, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#35(Rect.fromLTRB(84.0, 188.0, 116.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 27, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#36(Rect.fromLTRB(120.0, 188.0, 152.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 28, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#37(Rect.fromLTRB(156.0, 188.0, 188.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 29, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#38(Rect.fromLTRB(192.0, 188.0, 224.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 30, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#39(Rect.fromLTRB(228.0, 188.0, 260.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 31, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
+          "message": "SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 26, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 27, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 28, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 29, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 1, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 2, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 3, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 4, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 5, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 6, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 7, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 8, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 9, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 10, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 11, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 12, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 13, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 14, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 15, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 16, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 17, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 18, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 19, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 20, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 21, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 22, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 23, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 24, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 25, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 26, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 27, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 28, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 29, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 30, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 31, 2024\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
         },
         "iOSTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#5(Rect.fromLTRB(12.0, 44.0, 44.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 26, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(48.0, 44.0, 80.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 27, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(84.0, 44.0, 116.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 28, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(120.0, 44.0, 152.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 29, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#9(Rect.fromLTRB(156.0, 44.0, 188.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 1, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#10(Rect.fromLTRB(192.0, 44.0, 224.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 2, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#11(Rect.fromLTRB(228.0, 44.0, 260.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 3, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#12(Rect.fromLTRB(12.0, 80.0, 44.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 4, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#13(Rect.fromLTRB(48.0, 80.0, 80.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 5, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#14(Rect.fromLTRB(84.0, 80.0, 116.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 6, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#15(Rect.fromLTRB(120.0, 80.0, 152.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 7, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#16(Rect.fromLTRB(156.0, 80.0, 188.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 8, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#17(Rect.fromLTRB(192.0, 80.0, 224.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 9, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#18(Rect.fromLTRB(228.0, 80.0, 260.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 10, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#19(Rect.fromLTRB(12.0, 116.0, 44.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 11, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#20(Rect.fromLTRB(48.0, 116.0, 80.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 12, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#21(Rect.fromLTRB(84.0, 116.0, 116.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 13, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#22(Rect.fromLTRB(120.0, 116.0, 152.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 14, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#23(Rect.fromLTRB(156.0, 116.0, 188.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 15, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#24(Rect.fromLTRB(192.0, 116.0, 224.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 16, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#25(Rect.fromLTRB(228.0, 116.0, 260.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 17, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#26(Rect.fromLTRB(12.0, 152.0, 44.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 18, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#27(Rect.fromLTRB(48.0, 152.0, 80.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 19, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#28(Rect.fromLTRB(84.0, 152.0, 116.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 20, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#29(Rect.fromLTRB(120.0, 152.0, 152.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 21, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#30(Rect.fromLTRB(156.0, 152.0, 188.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 22, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#31(Rect.fromLTRB(192.0, 152.0, 224.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 23, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#32(Rect.fromLTRB(228.0, 152.0, 260.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 24, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#33(Rect.fromLTRB(12.0, 188.0, 44.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 25, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#34(Rect.fromLTRB(48.0, 188.0, 80.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 26, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#35(Rect.fromLTRB(84.0, 188.0, 116.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 27, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#36(Rect.fromLTRB(120.0, 188.0, 152.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 28, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#37(Rect.fromLTRB(156.0, 188.0, 188.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 29, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#38(Rect.fromLTRB(192.0, 188.0, 224.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 30, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#39(Rect.fromLTRB(228.0, 188.0, 260.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 31, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
+          "message": "SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 26, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 27, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 28, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Feb 29, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 1, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 2, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 3, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 4, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 5, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 6, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 7, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 8, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 9, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 10, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 11, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 12, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 13, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 14, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 15, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 16, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 17, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 18, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 19, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 20, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 21, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 22, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 23, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 24, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 25, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 26, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 27, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 28, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 29, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 30, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: \"Mar 31, 2024\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
         },
         "semantics": {
           "present": true,
@@ -413,8 +413,8 @@
         "rtlX": 455.0
       },
       "frames": {
-        "p50Ms": 0.033,
-        "p90Ms": 0.075,
+        "p50Ms": 0.04,
+        "p90Ms": 0.083,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -455,13 +455,13 @@
         "rtlX": 360.0
       },
       "frames": {
-        "p50Ms": 0.051,
-        "p90Ms": 0.124,
+        "p50Ms": 0.039,
+        "p90Ms": 0.102,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 36,
+        "count": 41,
         "passed": true
       }
     },
@@ -493,17 +493,17 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 26.0,
-        "rtlX": 690.0
+        "ltrX": 192.0,
+        "rtlX": 524.0
       },
       "frames": {
-        "p50Ms": 0.03,
-        "p90Ms": 0.052,
+        "p50Ms": 0.041,
+        "p90Ms": 0.071,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 18,
+        "count": 23,
         "passed": true
       }
     },
@@ -519,11 +519,11 @@
         },
         "androidTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,168.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Previous\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,168.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Next\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Previous\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Next\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
         },
         "iOSTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,168.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Previous\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,168.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Next\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,528.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Previous\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Next\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
         },
         "semantics": {
           "present": true,
@@ -539,8 +539,8 @@
         "rtlX": 778.0
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.072,
+        "p50Ms": 0.073,
+        "p90Ms": 0.13,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -581,8 +581,8 @@
         "rtlX": 172.0
       },
       "frames": {
-        "p50Ms": 0.028,
-        "p90Ms": 0.055,
+        "p50Ms": 0.038,
+        "p90Ms": 0.085,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -623,8 +623,8 @@
         "rtlX": 608.0
       },
       "frames": {
-        "p50Ms": 0.029,
-        "p90Ms": 0.078,
+        "p50Ms": 0.062,
+        "p90Ms": 0.127,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -665,8 +665,8 @@
         "rtlX": 572.0
       },
       "frames": {
-        "p50Ms": 0.03,
-        "p90Ms": 0.055,
+        "p50Ms": 0.046,
+        "p90Ms": 0.086,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -707,8 +707,8 @@
         "rtlX": 692.0
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.057,
+        "p50Ms": 0.035,
+        "p90Ms": 0.07,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -743,14 +743,14 @@
       "rtl": {
         "passed": true,
         "renders": true,
-        "mirrored": true,
-        "message": null,
-        "ltrX": 17.0,
-        "rtlX": 393.0
+        "mirrored": null,
+        "message": "symmetric layout (no directional shift)",
+        "ltrX": 205.0,
+        "rtlX": 205.0
       },
       "frames": {
-        "p50Ms": 0.049,
-        "p90Ms": 0.089,
+        "p50Ms": 0.035,
+        "p90Ms": 0.066,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -791,8 +791,8 @@
         "rtlX": 68.0
       },
       "frames": {
-        "p50Ms": 0.043,
-        "p90Ms": 0.079,
+        "p50Ms": 0.033,
+        "p90Ms": 0.069,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -833,8 +833,8 @@
         "rtlX": 696.0
       },
       "frames": {
-        "p50Ms": 0.024,
-        "p90Ms": 0.061,
+        "p50Ms": 0.056,
+        "p90Ms": 0.184,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -875,8 +875,8 @@
         "rtlX": 252.0
       },
       "frames": {
-        "p50Ms": 0.025,
-        "p90Ms": 0.061,
+        "p50Ms": 0.031,
+        "p90Ms": 0.097,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -917,8 +917,8 @@
         "rtlX": 293.0
       },
       "frames": {
-        "p50Ms": 0.023,
-        "p90Ms": 0.046,
+        "p50Ms": 0.028,
+        "p90Ms": 0.04,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -959,8 +959,8 @@
         "rtlX": 776.0
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.04,
+        "p50Ms": 0.048,
+        "p90Ms": 0.101,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1001,8 +1001,8 @@
         "rtlX": 644.0
       },
       "frames": {
-        "p50Ms": 0.023,
-        "p90Ms": 0.047,
+        "p50Ms": 0.028,
+        "p90Ms": 0.049,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1039,12 +1039,12 @@
         "renders": true,
         "mirrored": null,
         "message": "symmetric layout (no directional shift)",
-        "ltrX": 323.0,
-        "rtlX": 323.0
+        "ltrX": 316.0,
+        "rtlX": 316.0
       },
       "frames": {
-        "p50Ms": 0.023,
-        "p90Ms": 0.044,
+        "p50Ms": 0.028,
+        "p90Ms": 0.059,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1086,8 +1086,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.027,
-        "p90Ms": 0.044,
+        "p50Ms": 0.055,
+        "p90Ms": 0.107,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1108,11 +1108,11 @@
         },
         "androidTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,24.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,84.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,144.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,204.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,264.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\n\n"
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\n\n"
         },
         "iOSTapTarget": {
           "passed": false,
-          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,24.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,84.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,144.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,204.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,264.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\n\n\n\n\n"
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Page 1 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 2 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 3 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 4 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Page 5 of 5\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\n\n\n\n\n"
         },
         "semantics": {
           "present": true,
@@ -1122,19 +1122,19 @@
       "rtl": {
         "passed": true,
         "renders": true,
-        "mirrored": true,
-        "message": null,
-        "ltrX": 0.0,
-        "rtlX": 716.0
+        "mirrored": null,
+        "message": "symmetric layout (no directional shift)",
+        "ltrX": 358.0,
+        "rtlX": 358.0
       },
       "frames": {
-        "p50Ms": 0.037,
-        "p90Ms": 0.076,
+        "p50Ms": 0.027,
+        "p90Ms": 0.048,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 18,
+        "count": 23,
         "passed": true
       }
     },
@@ -1166,12 +1166,12 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 12.0,
-        "rtlX": 662.0
+        "ltrX": 86.0,
+        "rtlX": 588.0
       },
       "frames": {
-        "p50Ms": 0.024,
-        "p90Ms": 0.054,
+        "p50Ms": 0.026,
+        "p90Ms": 0.047,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1212,8 +1212,8 @@
         "rtlX": 399.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.039,
+        "p50Ms": 0.03,
+        "p90Ms": 0.068,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1254,8 +1254,8 @@
         "rtlX": 246.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.042,
+        "p50Ms": 0.028,
+        "p90Ms": 0.059,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1296,8 +1296,8 @@
         "rtlX": 208.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.035,
+        "p50Ms": 0.026,
+        "p90Ms": 0.05,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1338,8 +1338,8 @@
         "rtlX": 364.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.031,
+        "p50Ms": 0.033,
+        "p90Ms": 0.077,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1380,8 +1380,8 @@
         "rtlX": 501.0
       },
       "frames": {
-        "p50Ms": 0.024,
-        "p90Ms": 0.047,
+        "p50Ms": 0.03,
+        "p90Ms": 0.046,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1422,8 +1422,8 @@
         "rtlX": 274.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.028,
+        "p50Ms": 0.026,
+        "p90Ms": 0.037,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1464,8 +1464,8 @@
         "rtlX": 663.0
       },
       "frames": {
-        "p50Ms": 0.02,
-        "p90Ms": 0.027,
+        "p50Ms": 0.029,
+        "p90Ms": 0.058,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1506,13 +1506,13 @@
         "rtlX": 0.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.033,
+        "p50Ms": 0.032,
+        "p90Ms": 0.069,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 10,
+        "count": 18,
         "passed": true
       }
     },
@@ -1548,8 +1548,8 @@
         "rtlX": 753.0
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.06,
+        "p50Ms": 0.025,
+        "p90Ms": 0.057,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1586,12 +1586,12 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 68.0,
-        "rtlX": 634.0
+        "ltrX": 321.0,
+        "rtlX": 409.0
       },
       "frames": {
-        "p50Ms": 0.02,
-        "p90Ms": 0.031,
+        "p50Ms": 0.037,
+        "p90Ms": 0.099,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1632,8 +1632,8 @@
         "rtlX": 0.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.025,
+        "p50Ms": 0.024,
+        "p90Ms": 0.031,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1674,8 +1674,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.03,
+        "p50Ms": 0.025,
+        "p90Ms": 0.044,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1716,8 +1716,8 @@
         "rtlX": 0.0
       },
       "frames": {
-        "p50Ms": 0.034,
-        "p90Ms": 0.062,
+        "p50Ms": 0.029,
+        "p90Ms": 0.064,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1759,7 +1759,7 @@
       },
       "frames": {
         "p50Ms": 0.024,
-        "p90Ms": 0.045,
+        "p90Ms": 0.031,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1800,8 +1800,8 @@
         "rtlX": 748.5
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.057,
+        "p50Ms": 0.026,
+        "p90Ms": 0.062,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1838,17 +1838,17 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 6.0,
-        "rtlX": 782.0
+        "ltrX": 380.0,
+        "rtlX": 408.0
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.045,
+        "p50Ms": 0.051,
+        "p90Ms": 0.098,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 27,
+        "count": 37,
         "passed": true
       }
     },
@@ -1884,8 +1884,8 @@
         "rtlX": 334.0
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.041,
+        "p50Ms": 0.024,
+        "p90Ms": 0.053,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1927,8 +1927,8 @@
         "rtlX": 745.0
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.056,
+        "p50Ms": 0.025,
+        "p90Ms": 0.072,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1969,8 +1969,8 @@
         "rtlX": 732.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.028,
+        "p50Ms": 0.024,
+        "p90Ms": 0.05,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2011,8 +2011,8 @@
         "rtlX": 720.0
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.033,
+        "p50Ms": 0.023,
+        "p90Ms": 0.032,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2053,13 +2053,13 @@
         "rtlX": 670.0
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.034,
+        "p50Ms": 0.023,
+        "p90Ms": 0.03,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 18,
+        "count": 22,
         "passed": true
       }
     },
@@ -2092,16 +2092,16 @@
         "mirrored": true,
         "message": null,
         "ltrX": 16.0,
-        "rtlX": 728.0
+        "rtlX": 574.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.028,
+        "p50Ms": 0.024,
+        "p90Ms": 0.04,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 12,
+        "count": 22,
         "passed": true
       }
     },
@@ -2137,8 +2137,8 @@
         "rtlX": 744.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.021,
+        "p50Ms": 0.024,
+        "p90Ms": 0.042,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2179,8 +2179,8 @@
         "rtlX": 763.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.025,
+        "p50Ms": 0.026,
+        "p90Ms": 0.058,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2196,16 +2196,16 @@
           "message": null
         },
         "labeledTapTarget": {
-          "passed": true,
-          "message": null
+          "passed": false,
+          "message": "SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found."
         },
         "androidTapTarget": {
-          "passed": true,
-          "message": null
+          "passed": false,
+          "message": "SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
         },
         "iOSTapTarget": {
-          "passed": true,
-          "message": null
+          "passed": false,
+          "message": "SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
         },
         "semantics": {
           "present": true,
@@ -2217,17 +2217,17 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 8.0,
-        "rtlX": -711.6666666666666
+        "ltrX": 304.0,
+        "rtlX": -251.66666666666663
       },
       "frames": {
-        "p50Ms": 0.948,
-        "p90Ms": 1.142,
+        "p50Ms": 1.357,
+        "p90Ms": 2.517,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 10,
+        "count": 14,
         "passed": true
       }
     },
@@ -2263,8 +2263,8 @@
         "rtlX": 656.0
       },
       "frames": {
-        "p50Ms": 0.02,
-        "p90Ms": 0.038,
+        "p50Ms": 0.024,
+        "p90Ms": 0.042,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2305,8 +2305,8 @@
         "rtlX": 763.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.022,
+        "p50Ms": 0.024,
+        "p90Ms": 0.03,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2347,13 +2347,13 @@
         "rtlX": 648.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.041,
+        "p50Ms": 0.043,
+        "p90Ms": 0.081,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 13,
+        "count": 21,
         "passed": true
       }
     },
@@ -2389,8 +2389,8 @@
         "rtlX": 661.0
       },
       "frames": {
-        "p50Ms": 0.02,
-        "p90Ms": 0.061,
+        "p50Ms": 0.024,
+        "p90Ms": 0.034,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2431,8 +2431,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.044,
+        "p50Ms": 0.025,
+        "p90Ms": 0.057,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2473,8 +2473,8 @@
         "rtlX": 718.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.035,
+        "p50Ms": 0.024,
+        "p90Ms": 0.039,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2516,13 +2516,13 @@
         "rtlX": 0.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.026,
+        "p50Ms": 0.024,
+        "p90Ms": 0.04,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 11,
+        "count": 28,
         "passed": true
       }
     },
@@ -2558,8 +2558,8 @@
         "rtlX": 691.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.029,
+        "p50Ms": 0.024,
+        "p90Ms": 0.045,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2600,8 +2600,8 @@
         "rtlX": 72.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.023,
+        "p50Ms": 0.024,
+        "p90Ms": 0.045,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2642,8 +2642,8 @@
         "rtlX": 8.0
       },
       "frames": {
-        "p50Ms": 0.019,
-        "p90Ms": 0.023,
+        "p50Ms": 0.024,
+        "p90Ms": 0.048,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2684,8 +2684,8 @@
         "rtlX": 36.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.024,
+        "p50Ms": 0.024,
+        "p90Ms": 0.046,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2726,8 +2726,8 @@
         "rtlX": 620.0
       },
       "frames": {
-        "p50Ms": 0.699,
-        "p90Ms": 0.995,
+        "p50Ms": 0.821,
+        "p90Ms": 1.179,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2768,8 +2768,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.023,
+        "p50Ms": 0.023,
+        "p90Ms": 0.041,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2810,8 +2810,8 @@
         "rtlX": 13.0
       },
       "frames": {
-        "p50Ms": 0.017,
-        "p90Ms": 0.023,
+        "p50Ms": 0.023,
+        "p90Ms": 0.039,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2852,8 +2852,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 1.04,
-        "p90Ms": 1.433,
+        "p50Ms": 1.101,
+        "p90Ms": 1.857,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2894,8 +2894,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.036,
+        "p50Ms": 0.024,
+        "p90Ms": 0.07,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2936,8 +2936,8 @@
         "rtlX": 646.6666666666667
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.031,
+        "p50Ms": 0.023,
+        "p90Ms": 0.069,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2978,8 +2978,8 @@
         "rtlX": 779.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.023,
+        "p50Ms": 0.025,
+        "p90Ms": 0.083,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3020,8 +3020,8 @@
         "rtlX": 96.0
       },
       "frames": {
-        "p50Ms": 0.017,
-        "p90Ms": 0.021,
+        "p50Ms": 0.023,
+        "p90Ms": 0.032,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3062,8 +3062,8 @@
         "rtlX": 576.0
       },
       "frames": {
-        "p50Ms": 0.026,
-        "p90Ms": 0.037,
+        "p50Ms": 0.023,
+        "p90Ms": 0.028,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3079,16 +3079,16 @@
           "message": null
         },
         "labeledTapTarget": {
+          "passed": false,
+          "message": "SemanticsNode#3(Rect.fromLTRB(8.0, 14.0, 24.0, 30.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\nSemanticsNode#6(Rect.fromLTRB(8.0, 58.0, 24.0, 74.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#10(Rect.fromLTRB(8.0, 102.0, 24.0, 118.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#14(Rect.fromLTRB(8.0, 146.0, 24.0, 162.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#18(Rect.fromLTRB(8.0, 190.0, 24.0, 206.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        "androidTapTarget": {
           "passed": true,
           "message": null
         },
-        "androidTapTarget": {
-          "passed": false,
-          "message": "SemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 236.7, 44.0) with transform [[3.0,0.0,0.0,1420.0]; [0.0,3.0,0.0,474.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: \"Writer\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(236.7, 44.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(0.0, 0.0, 236.7, 30.0) with transform [[3.0,0.0,0.0,1420.0]; [0.0,3.0,0.0,384.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: \"PM\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(236.7, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(0.0, 0.0, 236.7, 44.0) with transform [[3.0,0.0,0.0,1420.0]; [0.0,3.0,0.0,252.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: \"Engineer\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(236.7, 44.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(0.0, 0.0, 236.7, 44.0) with transform [[3.0,0.0,0.0,1420.0]; [0.0,3.0,0.0,120.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: \"Designer\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(236.7, 44.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\n\n\n"
-        },
         "iOSTapTarget": {
-          "passed": false,
-          "message": "SemanticsNode#8(Rect.fromLTRB(0.0, 0.0, 236.7, 30.0) with transform [[3.0,0.0,0.0,1420.0]; [0.0,3.0,0.0,384.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: \"PM\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(236.7, 30.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\n\n\n\n\n\n\n\n"
+          "passed": true,
+          "message": null
         },
         "semantics": {
           "present": true,
@@ -3100,17 +3100,17 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 8.0,
-        "rtlX": 334.6666666666667
+        "ltrX": 248.0,
+        "rtlX": 482.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.026,
+        "p50Ms": 0.023,
+        "p90Ms": 0.034,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 22,
+        "count": 27,
         "passed": true
       }
     },
@@ -3146,8 +3146,8 @@
         "rtlX": 691.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.024,
+        "p50Ms": 0.043,
+        "p90Ms": 0.07,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3188,8 +3188,8 @@
         "rtlX": 366.0
       },
       "frames": {
-        "p50Ms": 0.02,
-        "p90Ms": 0.024,
+        "p50Ms": 0.03,
+        "p90Ms": 0.098,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3230,13 +3230,13 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.024,
+        "p50Ms": 0.025,
+        "p90Ms": 0.036,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 33,
+        "count": 34,
         "passed": true
       }
     },
@@ -3268,12 +3268,12 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 37.0,
-        "rtlX": 693.0
+        "ltrX": 36.0,
+        "rtlX": 694.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.023,
+        "p50Ms": 0.031,
+        "p90Ms": 0.078,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3314,8 +3314,8 @@
         "rtlX": 680.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.024,
+        "p50Ms": 0.055,
+        "p90Ms": 0.102,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3350,14 +3350,14 @@
       "rtl": {
         "passed": true,
         "renders": true,
-        "mirrored": true,
-        "message": null,
-        "ltrX": 12.0,
-        "rtlX": 648.0
+        "mirrored": null,
+        "message": "symmetric layout (no directional shift)",
+        "ltrX": 330.0,
+        "rtlX": 330.0
       },
       "frames": {
-        "p50Ms": 0.017,
-        "p90Ms": 0.023,
+        "p50Ms": 0.039,
+        "p90Ms": 0.059,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3377,12 +3377,12 @@
           "message": null
         },
         "androidTapTarget": {
-          "passed": true,
-          "message": null
+          "passed": false,
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 58.0, 36.0) with transform [[3.0,0.0,0.0,1113.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, hasToggledState, isFocusable], label: \"Off\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(58.0, 36.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en"
         },
         "iOSTapTarget": {
-          "passed": true,
-          "message": null
+          "passed": false,
+          "message": "SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 58.0, 36.0) with transform [[3.0,0.0,0.0,1113.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, hasToggledState, isFocusable], label: \"Off\", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(58.0, 36.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/"
         },
         "semantics": {
           "present": true,
@@ -3392,14 +3392,14 @@
       "rtl": {
         "passed": true,
         "renders": true,
-        "mirrored": true,
-        "message": null,
-        "ltrX": 8.0,
-        "rtlX": 750.0
+        "mirrored": null,
+        "message": "symmetric layout (no directional shift)",
+        "ltrX": 379.0,
+        "rtlX": 379.0
       },
       "frames": {
-        "p50Ms": 0.023,
-        "p90Ms": 0.043,
+        "p50Ms": 0.044,
+        "p90Ms": 0.087,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3427,8 +3427,8 @@
           "message": null
         },
         "semantics": {
-          "present": true,
-          "message": null
+          "present": false,
+          "message": "no semantic label, value, hint or tooltip found"
         }
       },
       "rtl": {
@@ -3440,8 +3440,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.026,
-        "p90Ms": 0.049,
+        "p50Ms": 0.048,
+        "p90Ms": 0.087,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3482,8 +3482,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.032,
-        "p90Ms": 0.045,
+        "p50Ms": 0.023,
+        "p90Ms": 0.029,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3524,8 +3524,8 @@
         "rtlX": 8.0
       },
       "frames": {
-        "p50Ms": 0.018,
-        "p90Ms": 0.023,
+        "p50Ms": 0.032,
+        "p90Ms": 0.075,
         "frames": 120,
         "label": "test environment (relative)"
       },

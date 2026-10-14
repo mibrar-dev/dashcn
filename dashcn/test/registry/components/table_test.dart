@@ -6,6 +6,7 @@
 // interactive resizing.
 
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/table/table.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
@@ -149,13 +150,13 @@ void main() {
     );
   });
 
-  testWidgets('header cells are medium foreground, footer has no border', (
+  testWidgets('header cells are medium muted, footer has no border', (
     tester,
   ) async {
     final ThemeColors colors = ThemeColors.lightFallback;
     await tester.pumpWidget(_frame(child: _table()));
     expect(_cellTextStyle(tester, 'Name').fontWeight, FontWeight.w500);
-    expect(_cellTextStyle(tester, 'Name').color, colors.foreground);
+    expect(_cellTextStyle(tester, 'Name').color, colors.mutedForeground);
     expect(_cellDecoration(tester, 'Total').border, isNull);
   });
 
@@ -367,7 +368,105 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('header is h-10 and body cells are p-2', (tester) async {
+  group('keyboard resizing', () {
+    Future<Focus> focusColumnHandle(
+      WidgetTester tester,
+      ResizableTableController controller,
+    ) async {
+      await tester.pumpWidget(
+        _frame(child: _table(resizeController: controller)),
+      );
+      final Focus handle = tester.widget<Focus>(
+        find
+            .descendant(
+              of: find.bySemanticsLabel('Resize column'),
+              matching: find.byType(Focus),
+            )
+            .first,
+      );
+      final FocusNode? node = handle.focusNode;
+      expect(node, isNotNull, reason: 'the divider owns a focus node');
+      node!.requestFocus();
+      await tester.pump();
+      return handle;
+    }
+
+    testWidgets('arrow keys step the divider in both directions', (
+      tester,
+    ) async {
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      final ResizableTableController controller = ResizableTableController(
+        defaultColumnWidth: 120,
+        defaultRowHeight: 40,
+      );
+      addTearDown(controller.dispose);
+      await focusColumnHandle(tester, controller);
+      expect(controller.getColumnWidth(0), 120);
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pump();
+      // The default width mode reallocates: column 0 grows, column 1 shrinks.
+      expect(controller.getColumnWidth(0), 130);
+      expect(controller.getColumnWidth(1), 110);
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
+      await tester.pump();
+      expect(controller.getColumnWidth(0), 120);
+      expect(controller.getColumnWidth(1), 120);
+      semantics.dispose();
+    });
+
+    testWidgets('arrow keys step a single row divider', (tester) async {
+      final ResizableTableController controller = ResizableTableController(
+        defaultColumnWidth: 120,
+        defaultRowHeight: 40,
+      );
+      addTearDown(controller.dispose);
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _frame(child: _table(resizeController: controller)),
+      );
+      final Focus handle = tester.widget<Focus>(
+        find
+            .descendant(
+              of: find.bySemanticsLabel('Resize row'),
+              matching: find.byType(Focus),
+            )
+            .first,
+      );
+      final FocusNode? node = handle.focusNode;
+      expect(node, isNotNull, reason: 'the divider owns a focus node');
+      node!.requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+      await tester.pump();
+      expect(controller.getRowHeight(0), 50);
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+      await tester.pump();
+      expect(controller.getRowHeight(0), 40);
+      semantics.dispose();
+    });
+
+    testWidgets('Home and End jump to the min and max bounds', (tester) async {
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      final ResizableTableController controller = ResizableTableController(
+        defaultColumnWidth: 100,
+        defaultRowHeight: 40,
+        widthConstraints: const <int, ConstrainedTableSize>{
+          0: ConstrainedTableSize(min: 50, max: 150),
+        },
+      );
+      addTearDown(controller.dispose);
+      await focusColumnHandle(tester, controller);
+      await tester.sendKeyEvent(LogicalKeyboardKey.end);
+      await tester.pump();
+      expect(controller.getColumnWidth(0), 150);
+      await tester.sendKeyEvent(LogicalKeyboardKey.home);
+      await tester.pump();
+      expect(controller.getColumnWidth(0), 50);
+      semantics.dispose();
+    });
+  });
+
+  testWidgets('header is h-10 px-2 and body cells are p-2', (tester) async {
     await tester.pumpWidget(_frame(child: _table()));
     final Rect header = tester.getRect(
       find
@@ -375,12 +474,57 @@ void main() {
           .first,
     );
     expect(header.height, greaterThanOrEqualTo(40));
+    final Padding headPadding = tester.widget<Padding>(
+      find
+          .ancestor(of: find.text('Name'), matching: find.byType(Padding))
+          .first,
+    );
+    expect(headPadding.padding, const EdgeInsets.symmetric(horizontal: 8));
     final Padding bodyPadding = tester.widget<Padding>(
       find
           .ancestor(of: find.text('Avery'), matching: find.byType(Padding))
           .first,
     );
     expect(bodyPadding.padding, const EdgeInsets.all(8));
+  });
+
+  testWidgets('cells hug the leading edge and centre vertically', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_frame(child: _table()));
+    // upstream `text-left align-middle`: one Align per cell, leading + middle.
+    for (final String text in <String>['Name', 'Avery']) {
+      final Align align = tester.widget<Align>(
+        find.ancestor(of: find.text(text), matching: find.byType(Align)).first,
+      );
+      expect(align.alignment, AlignmentDirectional.centerStart);
+    }
+  });
+
+  testWidgets('a selected row uses the muted fill', (tester) async {
+    final ThemeColors colors = ThemeColors.lightFallback;
+    await tester.pumpWidget(
+      _frame(
+        child: _table(
+          rows: <TableViewRow>[
+            const TableViewHeader(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Name')),
+                TableViewCell(child: Text('Role')),
+              ],
+            ),
+            const TableViewRow(
+              selected: true,
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Avery')),
+                TableViewCell(child: Text('Designer')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    expect(_cellDecoration(tester, 'Avery').color, colors.muted);
   });
 
   group('ResizableTableController', () {

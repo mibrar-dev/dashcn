@@ -26,7 +26,12 @@ Future<void> pumpForm(WidgetTester tester, Widget block) {
 /// frames (submit stores errors synchronously, entries surface them on the
 /// controller notification a frame later).
 Future<void> tapSubmit(WidgetTester tester, String label) async {
-  await tester.tap(find.widgetWithText(Button, label));
+  final Finder button = find.widgetWithText(Button, label);
+  // Tall forms scroll under the 600 px clamped test surface: bring the
+  // button into view first, otherwise the tap misses and no submit runs.
+  await tester.ensureVisible(button);
+  await tester.pumpAndSettle();
+  await tester.tap(button);
   await tester.pump();
   await tester.pump();
 }

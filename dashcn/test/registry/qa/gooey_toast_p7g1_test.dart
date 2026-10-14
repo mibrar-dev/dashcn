@@ -28,6 +28,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: `DashcnApp` builds its content one frame after startup.
+    await tester.pump();
   }
 
   /// Advances in 100ms slices (see the component test for why).

@@ -1,15 +1,14 @@
-// The `sidebar-01` block: a collapsible icon rail beside a mailbox screen.
+// The `sidebar-01` block: a full-height icon rail beside a mailbox screen.
 //
 // A block is layer 4 of the registry: it may import foundation, theme,
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
 // The rail reads the sidebar tokens (`sidebar`, `sidebarAccent`, …), so it
-// re-themes with every preset. From 720px the rail sits beside the content;
-// below that a menu button opens the navigation as a drawer. The content is
-// a sample mailbox with stats and activity. The layout shrink-wraps so the
-// docs frame sizes to its intrinsic height, and scrolls internally when the
-// host is bounded.
+// re-themes with every preset. From 720px the full-height rail sits beside
+// the content; below that a menu button opens the navigation as a drawer.
+// The content is a sample mailbox with a header bar, stats and activity,
+// filling the rest of the page and scrolling internally.
 
 import 'package:flutter/widgets.dart';
 
@@ -55,41 +54,108 @@ class _Sidebar01State extends State<Sidebar01> {
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             final bool vertical = constraints.maxWidth >= 720;
+            final bool bounded = constraints.maxHeight.isFinite;
             final Widget content = Sidebar01Content(selected: _selected);
-            final Widget body;
-            if (!vertical) {
-              body = Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _Sidebar01Bar(selected: _selected, onMenu: _openNav),
-                  Gap(theme.spacing.lg),
-                  content,
-                ],
-              );
-            } else {
-              body = Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _Sidebar01Rail(
-                    selected: _selected,
-                    onSelected: (int index) =>
-                        setState(() => _selected = index),
-                  ),
-                  Gap(theme.spacing.lg),
-                  Expanded(child: content),
-                ],
-              );
-            }
-            if (!constraints.maxHeight.isFinite) {
+            // Unbounded fallback: the old shrink-wrap tree, so the block
+            // never hands an infinite cross axis to the Row.
+            if (!bounded) {
+              final Widget body;
+              if (!vertical) {
+                body = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _Sidebar01Bar(selected: _selected, onMenu: _openNav),
+                    Gap(theme.spacing.lg),
+                    content,
+                  ],
+                );
+              } else {
+                body = Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _Sidebar01Rail(
+                      selected: _selected,
+                      onSelected: (int index) =>
+                          setState(() => _selected = index),
+                    ),
+                    Gap(theme.spacing.lg),
+                    Expanded(child: content),
+                  ],
+                );
+              }
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
                 child: body,
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            if (!vertical) {
+              // Mobile: header bar fixed on top, content scrolls below.
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      theme.spacing.md,
+                      0,
+                    ),
+                    child: _Sidebar01Bar(selected: _selected, onMenu: _openNav),
+                  ),
+                  Gap(theme.spacing.md),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(
+                        theme.spacing.lg,
+                        0,
+                        theme.spacing.lg,
+                        theme.spacing.lg,
+                      ),
+                      child: content,
+                    ),
+                  ),
+                ],
+              );
+            }
+            // Desktop: full-height rail edge to edge + inset content with a
+            // header bar; the content scrolls internally.
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _Sidebar01Rail(
+                  selected: _selected,
+                  onSelected: (int index) => setState(() => _selected = index),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          theme.spacing.lg,
+                          theme.spacing.md,
+                          theme.spacing.lg,
+                          0,
+                        ),
+                        child: Sidebar01HeaderBar(selected: _selected),
+                      ),
+                      Gap(theme.spacing.md),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.fromLTRB(
+                            theme.spacing.lg,
+                            0,
+                            theme.spacing.lg,
+                            theme.spacing.lg,
+                          ),
+                          child: content,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -98,7 +164,8 @@ class _Sidebar01State extends State<Sidebar01> {
   }
 }
 
-/// The icon rail (desktop): one 40px button per destination.
+/// The icon rail (desktop): one 40px button per destination, full height
+/// edge to edge with a trailing border (no floating card).
 class _Sidebar01Rail extends StatelessWidget {
   const _Sidebar01Rail({required this.selected, required this.onSelected});
 
@@ -108,23 +175,24 @@ class _Sidebar01Rail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Container(
-      padding: EdgeInsets.all(theme.spacing.sm),
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: theme.colors.sidebar,
-        borderRadius: theme.borderRadiusLg,
-        border: Border.all(color: theme.colors.sidebarBorder),
+        border: Border(right: BorderSide(color: theme.colors.sidebarBorder)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (var i = 0; i < sidebar01Items.length; i++)
-            _Sidebar01RailButton(
-              item: sidebar01Items[i],
-              selected: i == selected,
-              onPressed: () => onSelected(i),
-            ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(theme.spacing.sm),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (var i = 0; i < sidebar01Items.length; i++)
+              _Sidebar01RailButton(
+                item: sidebar01Items[i],
+                selected: i == selected,
+                onPressed: () => onSelected(i),
+              ),
+          ],
+        ),
       ),
     );
   }

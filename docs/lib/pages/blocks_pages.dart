@@ -112,7 +112,7 @@ class _BlocksHero extends StatelessWidget {
             onPressed: () =>
                 DocsRouterScope.of(context).go(context, '/docs/components'),
           ),
-          Gap(wide ? 16 : 8),
+          Gap(wide ? theme.spacing.lg : theme.spacing.sm),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 896),
             child: Text(
@@ -128,7 +128,7 @@ class _BlocksHero extends StatelessWidget {
               ),
             ),
           ),
-          const Gap(12),
+          Gap(theme.spacing.md),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
@@ -145,8 +145,9 @@ class _BlocksHero extends StatelessWidget {
           const Gap(20),
           Wrap(
             alignment: WrapAlignment.center,
-            spacing: 8,
-            runSpacing: 8,
+            // P7-TH1: CTA spacing follows the theme (gap-2).
+            spacing: theme.spacing.sm,
+            runSpacing: theme.spacing.sm,
             children: <Widget>[
               Button(
                 variant: ButtonVariant.primary,
@@ -179,6 +180,7 @@ class _FamilyStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -190,7 +192,7 @@ class _FamilyStrip extends StatelessWidget {
           ),
           for (final DocsBlockCategory category
               in kBlockCategories) ...<Widget>[
-            const Gap(8),
+            Gap(theme.spacing.sm),
             _FamilyPill(
               label: category.id,
               location: '/blocks/${category.slug}',
@@ -318,16 +320,21 @@ class _BlockPageHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+        // P7-TH1: badges at badge size with gap-2 between them and gap-3 to
+        // the actions; the Wrap drops the actions below on narrow widths
+        // instead of squeezing to 0px gaps.
+        Wrap(
+          spacing: theme.spacing.sm,
+          runSpacing: theme.spacing.sm,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             Badge(variant: BadgeVariant.secondary, child: Text(block.category)),
-            const Gap(8),
             Badge(variant: BadgeVariant.outline, child: Text(block.viewport)),
-            const Spacer(),
+            SizedBox(width: theme.spacing.xs),
             CopyButton(text: block.install, showLabel: true),
           ],
         ),
-        const Gap(12),
+        Gap(theme.spacing.md),
         Text(
           block.name,
           style: docsText(
@@ -338,7 +345,7 @@ class _BlockPageHeader extends StatelessWidget {
             letterSpacing: -0.75,
           ),
         ),
-        const Gap(8),
+        Gap(theme.spacing.sm),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: Text(
@@ -377,7 +384,7 @@ class _Dependencies extends StatelessWidget {
             color: theme.colors.foreground,
           ),
         ),
-        const Gap(8),
+        Gap(theme.spacing.sm),
         Text(
           block.deps.isEmpty
               ? 'This block uses no other components.'
@@ -403,6 +410,7 @@ class _BlockPager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     // Both buttons are labelled, so a 375 px article cannot hold them side by
     // side: the Wrap stacks them, and each button ellipsises its own label.
     final Widget previous = previousId == null
@@ -432,7 +440,7 @@ class _BlockPager extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Align(alignment: Alignment.centerLeft, child: previous),
-              const Gap(8),
+              Gap(theme.spacing.sm),
               Align(alignment: Alignment.centerRight, child: next),
             ],
           );
@@ -463,7 +471,7 @@ class _MissingBlock extends StatelessWidget {
               'No block named `$blockId`.',
               style: docsText(context, size: 16, weight: FontWeight.w600),
             ),
-            const Gap(12),
+            Gap(Theme.of(context).spacing.md),
             Button(
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,

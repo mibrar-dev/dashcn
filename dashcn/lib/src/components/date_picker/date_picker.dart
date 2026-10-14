@@ -69,8 +69,10 @@ final EdgeInsetsGeometry datePickerDialogFooterPadding =
 /// A single-date field: a trigger showing the value (or the localized
 /// placeholder) that opens a [DatePickerDialog] in a dialog or a popover.
 ///
-/// The trigger hugs its content (at least 240 upstream px, `w-[240px]`): the
-/// calendar icon leads, the label is left-aligned, the placeholder is muted.
+/// The trigger hugs its content (`icon + gap + full label + padding`, never
+/// an ellipsis): the calendar icon leads, the label is left-aligned and
+/// wraps to a second line when the parent is narrower than the full label.
+/// The placeholder is muted and sets the width while empty.
 /// Pass [expand] for a full-width field.
 class DatePicker extends StatelessWidget {
   const DatePicker({
@@ -114,17 +116,27 @@ class DatePicker extends StatelessWidget {
     return ObjectFormField<DateTime>(
       value: value,
       onChanged: onChanged,
-      placeholder: placeholder ?? Text(strings.placeholderDatePicker),
-      builder: (context, value) =>
-          Text(strings.formatDateTime(value, showTime: false)),
+      placeholder:
+          placeholder ??
+          Text(
+            // Never an ellipsis: the trigger hugs the full label, and a
+            // parent narrower than the content shrinks the label to a
+            // second line instead of overflowing.
+            strings.placeholderDatePicker,
+            maxLines: 2,
+            overflow: TextOverflow.visible,
+          ),
+      builder: (context, value) => Text(
+        strings.formatDateTime(value, showTime: false),
+        maxLines: 2,
+        overflow: TextOverflow.visible,
+      ),
       leading: Icon(
         LucideIcons.calendarDays,
         size: 16,
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
-      // upstream's date trigger is `w-[240px]`; longer labels still grow.
-      triggerMinWidth: 240,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -199,10 +211,18 @@ class DateRangePicker extends StatelessWidget {
     return ObjectFormField<DateTimeRange>(
       value: value,
       onChanged: onChanged,
-      placeholder: placeholder ?? Text(strings.placeholderDatePicker),
+      placeholder:
+          placeholder ??
+          Text(
+            strings.placeholderDatePicker,
+            maxLines: 2,
+            overflow: TextOverflow.visible,
+          ),
       builder: (context, value) => Text(
         '${strings.formatDateTime(value.start, showTime: false)} - '
         '${strings.formatDateTime(value.end, showTime: false)}',
+        maxLines: 2,
+        overflow: TextOverflow.visible,
       ),
       leading: Icon(
         LucideIcons.calendarRange,
@@ -210,7 +230,6 @@ class DateRangePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
-      triggerMinWidth: 240,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -357,6 +376,51 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
     widget.onChanged?.call(next);
   }
 
+  /// Whether [date] is drawn by the current grid: the shown month for a date
+  /// grid, the shown year for the month/year grids (mirrors the calendar).
+  bool _shown(DateTime date) =>
+      date.year == _view.year &&
+      (_viewType != CalendarViewType.date || date.month == _view.month);
+
+  /// Whether [date] can be picked under the caller's [DateStateBuilder].
+  bool _enabled(DateTime date) =>
+      (widget.stateBuilder?.call(date) ?? DateState.enabled) ==
+      DateState.enabled;
+
+  /// The `now` the calendar should remember its keyboard target from.
+  ///
+  /// The calendar prefers today, so a March sheet opened in October wakes up
+  /// on Feb 26 (the first drawn cell) with the ring on an out-of-month day.
+  /// Returns null when the real today is drawn and enabled (the calendar then
+  /// keeps its default); otherwise steers it at the selected day in the grid
+  /// — or the first of the shown view when nothing is selected — so the ring
+  /// never starts on an out-of-month day. The paint is unaffected: an
+  /// off-screen today draws nothing, and a selected cell already paints the
+  /// primary fill.
+  DateTime? _focusNow() {
+    final DateTime today = DateTime.now();
+    if (_shown(today) && _enabled(today)) return null;
+    DateTime? pick(DateTime date) =>
+        _shown(date) && _enabled(date) ? date : null;
+    final DateTime fallback = DateTime(_view.year, _view.month);
+    final CalendarValue? value = _value;
+    if (value is SingleCalendarValue) {
+      return pick(value.date) ?? (pick(fallback) != null ? fallback : null);
+    }
+    if (value is RangeCalendarValue) {
+      return pick(value.start) ??
+          pick(value.end) ??
+          (pick(fallback) != null ? fallback : null);
+    }
+    if (value is MultiCalendarValue) {
+      for (final DateTime date in value.dates) {
+        final DateTime? shown = pick(date);
+        if (shown != null) return shown;
+      }
+    }
+    return pick(fallback) != null ? fallback : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -388,6 +452,7 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
           viewType: _viewType,
           selectionMode: widget.selectionMode,
           value: _value,
+          now: _focusNow(),
           onChanged: _selected,
           onViewChanged: (view) => setState(() => _view = view),
           stateBuilder: widget.stateBuilder,

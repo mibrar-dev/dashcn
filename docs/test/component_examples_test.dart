@@ -225,9 +225,10 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
       tester.takeException();
       final delegate = await pumpDocsApp(tester, width: width);
-      // Drain the initial route's exceptions (the landing announcement is
-      // 260 px wide and overflows at 320; out of scope for this polish):
-      // this test only asserts the component-page toolbar.
+      // Drain the initial route's exceptions (P7-H1: the landing
+      // announcement hugs its label and caps at the available width, so it
+      // no longer overflows at 320): this test only asserts the
+      // component-page toolbar.
       tester.takeException();
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();

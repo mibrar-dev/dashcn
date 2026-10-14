@@ -75,20 +75,31 @@ ThemeDocument applyAccentColor(ThemeDocument document, Color seed) =>
     _apply(document, seed, _accentRamp, kDocsAccentColorTokens);
 
 /// Rewrites `chart1`…`chart5` as five evenly spaced hues around [seed].
+///
+/// An achromatic seed (black/grey/white) has no hue to space around, so it
+/// derives a greyscale ramp the five series can still be told apart by —
+/// never the hue-0 reds a saturated clamp produced (bug: picking BLACK or
+/// GREY selected RED).
 ThemeDocument applyChartColors(ThemeDocument document, Color seed) {
   final HSLColor hsl = HSLColor.fromColor(seed);
+  final bool achromatic = hsl.saturation < 0.1;
   const List<double> offsets = <double>[0, 60, 120, 180, 240];
   ThemeDocument next = document;
   for (int i = 0; i < kDocsChartTokenKeys.length; i += 1) {
-    final double lightness = hsl.lightness.clamp(0.35, 0.75);
-    final String hex = _hex(
-      HSLColor.fromAHSL(
+    final Color color;
+    if (achromatic) {
+      final double lightness = (0.3 + i * 0.13).clamp(0.3, 0.72);
+      color = HSLColor.fromAHSL(1, 0, 0, lightness).toColor();
+    } else {
+      final double lightness = hsl.lightness.clamp(0.35, 0.75);
+      color = HSLColor.fromAHSL(
         1,
         (hsl.hue + offsets[i]) % 360,
         hsl.saturation.clamp(0.35, 0.9),
         lightness,
-      ).toColor(),
-    );
+      ).toColor();
+    }
+    final String hex = _hex(color);
     next = next
         .withLightColor(kDocsChartTokenKeys[i], hex)
         .withDarkColor(kDocsChartTokenKeys[i], hex);
@@ -166,7 +177,12 @@ List<Map<String, String>> _baseRamp(HSLColor hsl) {
 }
 
 List<Map<String, String>> _accentRamp(HSLColor hsl) {
-  final double saturation = hsl.saturation.clamp(0.15, 1);
+  // An achromatic seed (black/grey/white) has no hue; clamping its
+  // saturation to 0.15 produced hue-0 reds (bug: picking BLACK or GREY
+  // selected RED). A neutral seed derives a neutral ramp instead.
+  final double saturation = hsl.saturation < 0.1
+      ? 0.0
+      : hsl.saturation.clamp(0.15, 1);
   final double lightPrimary = hsl.lightness.clamp(0.25, 0.55);
   final double darkPrimary = hsl.lightness.clamp(0.6, 0.85);
   Color primary(bool light) => HSLColor.fromAHSL(

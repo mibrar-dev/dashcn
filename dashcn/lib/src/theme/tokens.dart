@@ -323,8 +323,14 @@ const ShadowScale defaultShadowScale = ShadowScale(
 /// per QA P1-D; no per-brightness fonts). Nullable; null falls back to the
 /// bundled default at build. `fontSerif` is stored but currently unwired
 /// (no serif slot in [Typography]; open question in P2B_THEME.md).
+/// `fontHeading` is the Theme Studio heading family (h1–h4).
 class ThemeFonts {
-  const ThemeFonts({this.fontSans, this.fontSerif, this.fontMono});
+  const ThemeFonts({
+    this.fontSans,
+    this.fontSerif,
+    this.fontMono,
+    this.fontHeading,
+  });
   static const ThemeFonts empty = ThemeFonts();
 
   /// Body/UI family list, e.g. `"Inter, sans-serif"`.
@@ -336,15 +342,20 @@ class ThemeFonts {
   /// Code family list.
   final String? fontMono;
 
+  /// Heading family list; null keeps the bundled default.
+  final String? fontHeading;
+
   ThemeFonts copyWith({
     String? Function()? fontSans,
     String? Function()? fontSerif,
     String? Function()? fontMono,
+    String? Function()? fontHeading,
   }) {
     return ThemeFonts(
       fontSans: fontSans == null ? this.fontSans : fontSans(),
       fontSerif: fontSerif == null ? this.fontSerif : fontSerif(),
       fontMono: fontMono == null ? this.fontMono : fontMono(),
+      fontHeading: fontHeading == null ? this.fontHeading : fontHeading(),
     );
   }
 
@@ -358,9 +369,10 @@ class ThemeFonts {
       other is ThemeFonts &&
           other.fontSans == fontSans &&
           other.fontSerif == fontSerif &&
-          other.fontMono == fontMono;
+          other.fontMono == fontMono &&
+          other.fontHeading == fontHeading;
   @override
-  int get hashCode => Object.hash(fontSans, fontSerif, fontMono);
+  int get hashCode => Object.hash(fontSans, fontSerif, fontMono, fontHeading);
 }
 
 /// Non-color tokens for one brightness.

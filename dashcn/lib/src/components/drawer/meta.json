@@ -28,6 +28,7 @@
   },
   "files": [
     "drawer.dart",
+    "drawer_background_scale.dart",
     "drawer_style.dart",
     "drawer_theme.dart",
     "preview.dart"
@@ -35,7 +36,9 @@
   "api": {
     "classes": [
       "DrawerTheme",
-      "DrawerOverlayCompleter"
+      "DrawerOverlayCompleter",
+      "DrawerScaleObserver",
+      "DrawerBackgroundScale"
     ],
     "enums": [
       "OverlayPosition"

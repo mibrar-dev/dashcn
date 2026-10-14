@@ -60,6 +60,21 @@ const EdgeInsetsGeometry objectFormPromptPadding =
 /// this height (like `EditableTextShell`), so the total matches text fields.
 const double objectFormTriggerMinHeight = 36;
 
+/// Width of the trigger border, painted inside the trigger box.
+const double _triggerBorderWidth = 1;
+
+/// Deflates resolved padding by the border width: the painted gap stays
+/// `px-3 py-2` and the total stays h-9 at every density.
+EdgeInsetsGeometry _triggerPadding(EdgeInsetsGeometry padding) {
+  final EdgeInsets resolved = padding.resolve(TextDirection.ltr);
+  return EdgeInsets.fromLTRB(
+    resolved.left - _triggerBorderWidth,
+    resolved.top - _triggerBorderWidth,
+    resolved.right - _triggerBorderWidth,
+    resolved.bottom - _triggerBorderWidth,
+  );
+}
+
 class ObjectFormFieldDialogResult<T> {
   /// Creates a dialog result wrapping [value].
   ObjectFormFieldDialogResult(this.value);
@@ -129,7 +144,8 @@ class ObjectFormField<T> extends StatefulWidget {
   /// Padding inside the popover surface.
   final EdgeInsetsGeometry? popoverPadding;
 
-  /// Full-width trigger when true; otherwise hugs (at least [triggerMinWidth]).
+  /// Full-width trigger when true; otherwise hugs its content (at least
+  /// [triggerMinWidth]).
   /// A tight parent fills either way.
   final bool expand;
 
@@ -298,11 +314,11 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         });
   }
 
-  /// Zero-height box centering an adornment on the label: the 16px icon must
-  /// not stretch the row past the text line, or the trigger outgrows `Input`
-  /// at roomy densities (the icon paints through; the row never clips).
+  /// Fixed 16px (`size-4`) icon box sharing the label's centre row: a fixed
+  /// box (not a zero-height wrapper) aligns visual centres in every font
+  /// (the old one sat ~6-8px low on web/Geist while Ahem tests passed).
   static Widget _adornment(Widget child) =>
-      SizedBox(height: 0, child: Center(child: child));
+      SizedBox.square(dimension: 16, child: Center(child: child));
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +339,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         color: theme.colors.input.withValues(
           alpha: theme.colors.input.a * alpha,
         ),
-        border: Border.all(color: borderColor),
+        border: Border.all(color: borderColor, width: _triggerBorderWidth),
         borderRadius: theme.borderRadiusMd,
       );
     }
@@ -334,8 +350,12 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
             child: widget.placeholder,
           )
         : widget.builder(context, widget.value as T);
+    // One centred row, never an ellipsis. The [Flexible] label hugs when
+    // roomy and shrinks to a second line when the parent is narrower.
+    // Builders must return wrappable labels (see date/time pickers).
     content = Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         if (widget.leading != null) _adornment(widget.leading!),
         if (widget.leading != null) Gap(theme.spacing.sm),
@@ -345,13 +365,18 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
       ],
     );
 
-    // Hug by default ([IntrinsicWidth]); `expand` or a tight parent fills
-    // (a tighter parent drops the minimum). Height is outside the padding,
-    // so the total stays h-9 like `EditableTextShell`.
-    Widget button(double minWidth) => ConstrainedBox(
+    // Hug by default ([IntrinsicWidth]): the trigger is exactly
+    // `icon + gap + full label + padding` (the empty placeholder sets the
+    // width when there is no value), floored at [triggerMinWidth] so date
+    // (240) and time pickers keep their upstream widths. `expand` or a tight
+    // parent fills instead (a tighter parent drops the minimum, and the
+    // label shrinks to a second line rather than overflowing). Height is
+    // outside the padding, so the total stays h-9 like `EditableTextShell`.
+    final double minWidth = widget.triggerMinWidth * scale;
+    Widget button(double floor) => ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: objectFormTriggerMinHeight,
-        minWidth: minWidth,
+        minWidth: floor,
       ),
       child: Clickable(
         enabled: enabled,
@@ -365,22 +390,19 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
           theme.typography.small.copyWith(color: foreground),
         ),
         padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
-          // The trigger always paints the prompt padding (`px-3 py-2`): the
-          // popover surface padding is unrelated (it used to leak here and
-          // left the label flush against the border when it was zero).
-          resolveEdgeInsets(
-            objectFormPromptPadding,
-            theme.density.baseContentPadding * scale,
+          // Always the prompt padding (`px-3 py-2`); the popover surface
+          // padding is unrelated. Deflated by the 1px border (see above).
+          _triggerPadding(
+            resolveEdgeInsets(
+              objectFormPromptPadding,
+              theme.density.baseContentPadding * scale,
+            ),
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[Expanded(child: content)],
-        ),
+        child: content,
       ),
     );
 
-    final double minWidth = widget.triggerMinWidth * scale;
     final Widget sized = widget.expand
         ? SizedBox(width: double.infinity, child: button(0))
         : LayoutBuilder(

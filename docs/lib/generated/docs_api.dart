@@ -311,7 +311,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'double?',
         isRequired: false,
         doc:
-            'Gap between two dots; null uses [DotIndicatorTheme.spacing] then\n`8 * scaling`.',
+            'Gap between two dots; null uses [DotIndicatorTheme.spacing] then the\nambient `spacing.sm` (upstream `gap-2`), density-aware and scaled.',
       ),
       DocsApiParam(
         name: 'direction',
@@ -456,7 +456,53 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'VoidCallback?',
         isRequired: false,
         doc:
-            'Called on tap. When null the button is disabled unless [enabled] is true.',
+            'Called on tap. When null (and [onPressedAsync] is null) the button is\ndisabled unless [enabled] is true.',
+      ),
+      DocsApiParam(
+        name: 'onPressedAsync',
+        type: 'Future<void> Function()?',
+        isRequired: false,
+        doc:
+            'Async work run on tap. While it runs the button is loading and disabled;\na normal return shows success, a throw shows failure and reports the\nerror through [onAsyncError]. Ignored for state purposes when [status]\nis non-null (controlled mode still runs it as the press trigger).',
+      ),
+      DocsApiParam(
+        name: 'status',
+        type: 'ButtonStatus?',
+        isRequired: false,
+        doc:
+            'Parent-owned status. Non-null makes the button controlled: it renders\nthis status and never changes it internally.',
+      ),
+      DocsApiParam(
+        name: 'successLabel',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Label shown on success instead of [child]; null keeps [child].',
+      ),
+      DocsApiParam(
+        name: 'failureLabel',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Label shown on failure instead of [child]; null keeps [child].',
+      ),
+      DocsApiParam(
+        name: 'statusResetDuration',
+        type: 'Duration?',
+        isRequired: false,
+        defaultValue: 'buttonDefaultStatusReset',
+        doc:
+            'Auto-reset delay after success/failure. Null stays on the end state.',
+      ),
+      DocsApiParam(
+        name: 'onStatusChanged',
+        type: 'ValueChanged<ButtonStatus>?',
+        isRequired: false,
+        doc: 'Called with every status the button enters, from either leg.',
+      ),
+      DocsApiParam(
+        name: 'onAsyncError',
+        type: 'void Function(Object error, StackTrace stackTrace)?',
+        isRequired: false,
+        doc: 'Receives the error thrown by [onPressedAsync] on failure.',
       ),
       DocsApiParam(
         name: 'onLongPress',
@@ -506,7 +552,8 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'enabled',
         type: 'bool?',
         isRequired: false,
-        doc: 'Overrides the enabled state; null means `onPressed != null`.',
+        doc:
+            'Overrides the enabled state; null means a press callback is set. The\nbutton is always disabled while loading, whatever this says.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -1409,6 +1456,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Horizontal gap between caps; null resolves the theme\'s.',
       ),
       DocsApiParam(
+        name: 'variant',
+        type: 'KbdVariant?',
+        isRequired: false,
+        doc:
+            'Fill variant applied to every cap; null resolves the theme\'s\n([KbdVariant.subtle] by default).',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'KeyboardShortcutTheme?',
         isRequired: false,
@@ -1511,12 +1565,15 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+        doc: 'Whether the sheet can be dragged between its snap stages.',
       ),
       DocsApiParam(
         name: 'showDragHandle',
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+        doc:
+            'Whether the sheet shows its edge handle. The handle is drawn by the\nsheet itself, positioned per [position] (top for bottom sheets, bottom\nfor top sheets, outer edge for side sheets); the chrome container\'s own\ntop handle stays suppressed so the two can never double up.',
       ),
       DocsApiParam(
         name: 'expands',
@@ -3940,6 +3997,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'keyboardType',
         type: 'TextInputType?',
         isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'textInputAction',
+        type: 'TextInputAction?',
+        isRequired: false,
+        doc:
+            'Keyboard action button; null leaves the platform default. A chat\ncomposer sets `TextInputAction.send` so Enter submits instead of\ninserting a newline.',
       ),
       DocsApiParam(
         name: 'minLines',
@@ -8352,6 +8416,57 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'filled lower-emphasis row',
       ),
       DocsThemeField(
+        name: 'status',
+        type: 'ButtonStatusStyle?',
+        description: 'cross-variant async status visuals',
+      ),
+      DocsThemeField(
+        name: 'status.failureColor',
+        type: 'ThemedColor?',
+        description:
+            'null uses destructive (foreground for the destructive variant)',
+      ),
+      DocsThemeField(
+        name: 'status.failureIcon',
+        type: 'IconData?',
+        description: 'failure glyph, x',
+      ),
+      DocsThemeField(
+        name: 'status.loadingColor',
+        type: 'ThemedColor?',
+        description: 'null keeps the button foreground',
+      ),
+      DocsThemeField(
+        name: 'status.loadingIcon',
+        type: 'IconData?',
+        description: 'static loading glyph under reduced motion, loaderCircle',
+      ),
+      DocsThemeField(
+        name: 'status.spinnerSize',
+        type: 'double?',
+        description: 'loading spinner diameter, 16',
+      ),
+      DocsThemeField(
+        name: 'status.statusIconSize',
+        type: 'double?',
+        description: 'success/failure glyph size, 16',
+      ),
+      DocsThemeField(
+        name: 'status.successColor',
+        type: 'ThemedColor?',
+        description: 'null keeps the button foreground',
+      ),
+      DocsThemeField(
+        name: 'status.successIcon',
+        type: 'IconData?',
+        description: 'success glyph, check',
+      ),
+      DocsThemeField(
+        name: 'status.transitionDuration',
+        type: 'Duration?',
+        description: 'icon/label cross-fade, 175ms',
+      ),
+      DocsThemeField(
         name: 'text',
         type: 'ButtonVariantStyle?',
         description: 'muted label row',
@@ -9018,12 +9133,23 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'keyBackground',
         type: 'ThemedColor?',
-        description: 'null = background at 70% alpha',
+        description:
+            'null = per variant: the muted token (subtle) or none (ghost)',
+      ),
+      DocsThemeField(
+        name: 'keyBorderColor',
+        type: 'ThemedColor?',
+        description: 'null = border token',
       ),
       DocsThemeField(
         name: 'keyBorderRadius',
         type: 'BorderRadiusGeometry?',
-        description: 'null = the ambient radiusMd',
+        description: 'null = fixed 4 px (preset-independent kbd rounding)',
+      ),
+      DocsThemeField(
+        name: 'keyBorderWidth',
+        type: 'double?',
+        description: 'null = 1 (0 hides the border)',
       ),
       DocsThemeField(
         name: 'keyForeground',
@@ -9033,7 +9159,8 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'keyPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'null = symmetric(6, 4) (dashcn px-1.5 py-0.5)',
+        description:
+            'null = symmetric(6, 2) (dashcn px-1.5 py-0.5; h-5 with the text-xs line)',
       ),
       DocsThemeField(
         name: 'keyShadows',
@@ -9043,12 +9170,18 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'keyTextStyle',
         type: 'TextStyle?',
-        description: 'merged onto the default; null = text-xs (12, w500)',
+        description:
+            'merged onto the default; null = text-xs (12 on a 16px line, w500) in the ambient mono face',
       ),
       DocsThemeField(
         name: 'spacing',
         type: 'double?',
-        description: 'null = 2 (dashcn gap-0.5)',
+        description: 'null = 4 (dashcn gap-1)',
+      ),
+      DocsThemeField(
+        name: 'variant',
+        type: 'KbdVariant?',
+        description: 'null = subtle (muted fill); ghost paints no fill',
       ),
     ],
   ),
@@ -10705,6 +10838,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'aspectRatio',
+        type: 'double?',
+        description: 'vertical image width/height; null = 16/9',
+      ),
+      DocsThemeField(
         name: 'direction',
         type: 'Axis?',
         description: 'composition axis; null = vertical',
@@ -11325,7 +11463,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'maxWidth',
         type: 'double?',
-        description: 'maximum popover width, unconstrained',
+        description: 'maximum popover width, 480',
       ),
       DocsThemeField(
         name: 'offset',
@@ -11495,7 +11633,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'actionGap',
         type: 'double?',
-        description: '8, between footer actions',
+        description: 'null, resolves spacing.sm (8, between footer actions)',
       ),
       DocsThemeField(
         name: 'descriptionStyle',
@@ -11510,23 +11648,29 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'footerGap',
         type: 'double?',
-        description: '24, between header and footer',
+        description:
+            'null, resolves spacing.lg (16, between header and footer)',
       ),
       DocsThemeField(
         name: 'headerGap',
         type: 'double?',
-        description: '8, between title and description',
+        description:
+            'null, resolves spacing.sm (8, between title and description)',
       ),
       DocsThemeField(
         name: 'iconColor',
         type: 'ThemedColor?',
         description: 'header icon colour, mutedForeground token',
       ),
-      DocsThemeField(name: 'iconGap', type: 'double?', description: '16'),
+      DocsThemeField(
+        name: 'iconGap',
+        type: 'double?',
+        description: 'null, resolves spacing.lg (16 at the default base)',
+      ),
       DocsThemeField(
         name: 'titleStyle',
         type: 'TextStyle?',
-        description: '16px w600; colour falls back to foreground',
+        description: '18px w600; colour falls back to foreground',
       ),
     ],
   ),

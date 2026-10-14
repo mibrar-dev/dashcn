@@ -12,7 +12,6 @@ import 'package:docs/ui/dashcn/components/input/input.dart';
 import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/block_card.dart';
-import 'package:docs/widgets/block_viewport.dart';
 import 'package:docs/widgets/docs_sidebar.dart';
 import 'package:docs/widgets/palette.dart';
 import 'package:flutter/rendering.dart';
@@ -237,65 +236,55 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('viewport sizes change the centred frame width', (
+    testWidgets('viewport sizes render page-size frames (P7-B2)', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await goTo(tester, delegate, '/blocks/otp-01');
       Finder frame() =>
           find.byKey(const ValueKey<String>('block-frame-otp-01'));
-      double frameWidth() => tester.getSize(frame()).width;
+      Size frameSize() => tester.getSize(frame());
 
-      final double desktop = frameWidth();
-      final double cardWidth = tester.getSize(find.byType(BlockCard)).width;
-      // Desktop fills the card edge to edge (no inner padding): the card's
-      // own border is the single continuous frame.
-      expect(desktop, moreOrLessEquals(cardWidth, epsilon: 1));
+      // Desktop is the 1280x800 page (the 1400 px test surface fits it
+      // without scaling).
+      expect(frameSize().width, moreOrLessEquals(1280, epsilon: 1));
+      expect(frameSize().height, moreOrLessEquals(800, epsilon: 1));
 
       await tester.tap(find.byIcon(LucideIcons.smartphone));
       await tester.pumpAndSettle();
-      expect(frameWidth(), moreOrLessEquals(375, epsilon: 1));
+      expect(frameSize().width, moreOrLessEquals(390, epsilon: 1));
+      expect(frameSize().height, moreOrLessEquals(844, epsilon: 1));
 
       await tester.tap(find.byIcon(LucideIcons.tablet));
       await tester.pumpAndSettle();
-      expect(frameWidth(), moreOrLessEquals(768, epsilon: 1));
-      expect(frameWidth(), lessThan(desktop));
+      expect(frameSize().width, moreOrLessEquals(768, epsilon: 1));
+      expect(frameSize().height, moreOrLessEquals(1024, epsilon: 1));
 
-      // The narrowed frame stays centred in the card.
+      // Every frame stays centred in the card.
       final double frameDx = tester.getCenter(frame()).dx;
       final double cardDx = tester.getCenter(find.byType(BlockCard)).dx;
       expect((frameDx - cardDx).abs(), lessThan(1));
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('frames size to the block intrinsic height (P7-B1)', (
+    testWidgets('every block gets the same desktop page frame (P7-B2)', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
-      await goTo(tester, delegate, '/blocks/login-01');
-      final double loginHeight = tester
-          .getSize(find.byKey(const ValueKey<String>('block-frame-login-01')))
-          .height;
-      // Short forms keep the 360 minimum instead of floating in a tall box.
-      expect(loginHeight, greaterThanOrEqualTo(kBlockPreviewMinHeight));
-
-      await goTo(tester, delegate, '/blocks/otp-01');
-      final double otpHeight = tester
-          .getSize(find.byKey(const ValueKey<String>('block-frame-otp-01')))
-          .height;
-      expect(otpHeight, greaterThanOrEqualTo(kBlockPreviewMinHeight));
-
-      await goTo(tester, delegate, '/blocks/dashboard-01');
-      final double dashboardHeight = tester
-          .getSize(
-            find.byKey(const ValueKey<String>('block-frame-dashboard-01')),
-          )
-          .height;
-      // No static table: each frame fits its own block, so the heights
-      // differ and the tall dashboard is far taller than the short forms.
-      expect(loginHeight, lessThan(dashboardHeight));
-      expect(otpHeight, lessThan(dashboardHeight));
-      expect((loginHeight - otpHeight).abs(), greaterThan(1));
+      // Short forms and tall dashboards share one page size now: nothing
+      // floats in empty space and nothing is clipped.
+      for (final String blockId in <String>[
+        'login-01',
+        'otp-01',
+        'dashboard-01',
+      ]) {
+        await goTo(tester, delegate, '/blocks/$blockId');
+        final Size size = tester.getSize(
+          find.byKey(ValueKey<String>('block-frame-$blockId')),
+        );
+        expect(size.width, moreOrLessEquals(1280, epsilon: 1));
+        expect(size.height, moreOrLessEquals(800, epsilon: 1));
+      }
       expect(tester.takeException(), isNull);
     });
 

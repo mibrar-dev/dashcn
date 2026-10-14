@@ -2,8 +2,10 @@
 
 Single-date field: a trigger showing the value (or the localized
 placeholder) that opens a `DatePickerDialog` calendar sheet in a dialog or
-a popover, wired into the form system. The trigger hugs its content (at
-least 240 wide, icon leading, `px-3`); pass `expand` for a full-width field.
+a popover, wired into the form system. The trigger hugs its content
+(`icon + gap + full label + padding`, never an ellipsis; a narrower parent
+shrinks the label to a second line instead of overflowing); pass `expand`
+for a full-width field.
 
 ## When to use
 
@@ -36,7 +38,7 @@ DateRangePicker(
 | `initialView` / `initialViewType` | Where the calendar opens |
 | `stateBuilder` | Per-date enable/disable |
 | `dialogTitle` | Title of the dialog prompt |
-| `expand` | Full-width trigger; default hugs (min 240) |
+| `expand` | Full-width trigger; default hugs the full label |
 
 Keyboard: the sheet is one tab stop (see `calendar`); arrows move a day or
 a week, Home/End the ends of the week, PageUp/PageDown a month, Enter/Space

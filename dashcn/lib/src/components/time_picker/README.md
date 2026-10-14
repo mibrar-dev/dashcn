@@ -2,8 +2,10 @@
 
 Clock-time and duration fields: triggers showing the value (or the
 localized placeholder) that open digit-field sheets in a dialog or a
-popover, wired into the form system. Each trigger hugs its content (at
-least 140 wide, icon leading, `px-3`); pass `expand` for a full-width field.
+popover, wired into the form system. Each trigger hugs its content
+(`icon + gap + full label + padding`, never an ellipsis; a narrower parent
+shrinks the label to a second line instead of overflowing); pass `expand`
+for a full-width field.
 
 ## When to use
 
@@ -45,7 +47,7 @@ DurationPicker(
 | `use24HourFormat` | 12/24-hour clock; null resolves theme, else ambient |
 | `showSeconds` | Seconds field; null resolves the theme default |
 | `dialogTitle` | Title of the dialog prompt |
-| `expand` | Full-width trigger; default hugs (min 140) |
+| `expand` | Full-width trigger; default hugs the full label |
 
 Sheets report live: every digit edit clamps into range and calls
 `onChanged`. In dialog mode the prompt's Save commits and Cancel discards.

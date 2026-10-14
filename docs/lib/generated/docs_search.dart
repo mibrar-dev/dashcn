@@ -245,14 +245,16 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Button',
     kind: DocsSearchKind.component,
     route: '/docs/components/button',
-    tag: '4 files',
+    tag: '11 files',
     keywords: <String>[
       'Button',
       'button',
       'action',
+      'async',
       'button',
       'control',
       'group',
+      'loading',
     ],
   ),
   DocsSearchEntry(
@@ -1263,7 +1265,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Drawer',
     kind: DocsSearchKind.component,
     route: '/docs/components/drawer',
-    tag: '3 files',
+    tag: '4 files',
     keywords: <String>[
       'Drawer',
       'drawer',
@@ -1320,7 +1322,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Refresh Trigger',
     kind: DocsSearchKind.component,
     route: '/docs/components/refresh_trigger',
-    tag: '3 files',
+    tag: '5 files',
     keywords: <String>[
       'RefreshTrigger',
       'refresh_trigger',

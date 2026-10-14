@@ -84,10 +84,11 @@ class _RailFooterState extends State<RailFooter> {
               filled: true,
               decoration: BoxDecoration(
                 color: theme.colors.background,
-                borderRadius: BorderRadius.circular(6),
+                // P7-TH1: inputs use the md radius token.
+                borderRadius: theme.borderRadiusMd,
               ),
               border: Border.all(color: theme.colors.border),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: theme.borderRadiusMd,
               padding: const EdgeInsets.symmetric(horizontal: 8),
             ),
           ),

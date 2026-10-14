@@ -46,16 +46,20 @@ class AlertDialogTheme extends ComponentThemeData
   final TextStyle? descriptionStyle;
 
   /// Space between the header icon and the title/description column.
-  /// Default: 16.
+  /// Null resolves the spacing scale's `lg` (16 at the default base).
   final double? iconGap;
 
-  /// Space between the title and the description. Default: 8.
+  /// Space between the title and the description. Null resolves the spacing
+  /// scale's `sm` (8 at the default base, upstream `gap-2`).
   final double? headerGap;
 
-  /// Space between the header block and the footer action row. Default: 24.
+  /// Space between the header block and the footer action row.
+  /// Null resolves the spacing scale's `lg` (16 at the default base,
+  /// upstream `gap-4`).
   final double? footerGap;
 
-  /// Space between the footer action buttons. Default: 8.
+  /// Space between the footer action buttons. Null resolves the spacing
+  /// scale's `sm` (8 at the default base, upstream `gap-2`).
   final double? actionGap;
 
   /// Main-axis alignment of the footer action row. Default:
@@ -194,13 +198,11 @@ const TextStyle alertDialogDefaultDescriptionStyle = TextStyle(fontSize: 14);
 /// Only the alert-owned values live here: the card itself (background,
 /// padding, radius, shadow, barrier) is themed by the `dialog` component, so
 /// an alert dialog inherits `DialogTheme.padding` of 24 at default density.
+/// The gap fields stay null so they resolve against the ambient spacing
+/// scale (`lg`/`sm`); an explicit value on any leg wins over the scale.
 const AlertDialogTheme alertDialogDefaults = AlertDialogTheme(
   iconColor: ThemedColor.ref(ColorRef.mutedForeground),
   titleStyle: alertDialogDefaultTitleStyle,
   descriptionStyle: alertDialogDefaultDescriptionStyle,
-  iconGap: 16,
-  headerGap: 8,
-  footerGap: 24,
-  actionGap: 8,
   footerAlignment: MainAxisAlignment.end,
 );

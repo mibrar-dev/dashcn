@@ -54,7 +54,8 @@ class RailRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
             color: selected ? theme.colors.accent : theme.colors.background,
-            borderRadius: BorderRadius.circular(8),
+            // P7-TH1: rail rows use the md radius token.
+            borderRadius: theme.borderRadiusMd,
             border: Border.all(
               color: selected ? theme.colors.accent : theme.colors.border,
             ),
@@ -145,7 +146,8 @@ class RailPresetSwatch extends StatelessWidget {
       width: 20,
       height: 20,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(3),
+        // P7-TH1: colour-pair glyphs use the small radius token.
+        borderRadius: Theme.of(context).borderRadiusSm,
         child: Column(
           children: <Widget>[
             for (int row = 0; row < 2; row++)

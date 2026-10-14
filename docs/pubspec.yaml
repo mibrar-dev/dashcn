@@ -150,3 +150,40 @@ flutter:
           weight: 900
         - asset: assets/fonts/GeistMono-UltraLight.otf
           weight: 200
+    # Theme Studio font rows (P7-TS1): the OFL families the Heading / Body /
+    # Mono pickers offer, declared so the files exist in a `flutter run`, in a
+    # compiled bundle and inside tests. Family names are the canonical
+    # (spaced) names — they must match `TextStyle.fontFamily` and the
+    # `ThemeDocument` font slots exactly (see lib/theme/docs_fonts.dart).
+    # Switching loads only the picked family through `FontLoader`, so a
+    # switch never pays for the whole catalogue.
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-Regular.ttf
+    - family: DM Sans
+      fonts:
+        - asset: assets/fonts/DMSans-Regular.ttf
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit-Regular.ttf
+    - family: Plus Jakarta Sans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+    - family: Space Grotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk-Regular.ttf
+    - family: IBM Plex Sans
+      fonts:
+        - asset: assets/fonts/IBMPlexSans-Regular.ttf
+    - family: JetBrains Mono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
+    - family: Playfair Display
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-Regular.ttf
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora-Regular.ttf

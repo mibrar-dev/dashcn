@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/color/color.dart';
 import 'package:dashcn/src/components/color_picker/color_picker.dart';
 import 'package:dashcn/src/components/color_picker/preview.dart';
+import 'package:dashcn/src/components/eye_dropper/eye_dropper.dart';
 import 'package:dashcn/src/components/history/history.dart';
 import 'package:dashcn/src/components/input/input.dart';
 import 'package:dashcn/src/components/select/select.dart';
@@ -35,10 +36,12 @@ Widget _frame(
 Widget _picker({bool showAlpha = true}) {
   return RecentColorsScope(
     initialRecentColors: const <Color>[Color(0xFF22C55E)],
-    child: ColorPicker(
-      value: ColorDerivative.fromColor(const Color(0xFF2563EB)),
-      showAlpha: showAlpha,
-      onChanged: (_) {},
+    child: EyeDropperLayer(
+      child: ColorPicker(
+        value: ColorDerivative.fromColor(const Color(0xFF2563EB)),
+        showAlpha: showAlpha,
+        onChanged: (_) {},
+      ),
     ),
   );
 }

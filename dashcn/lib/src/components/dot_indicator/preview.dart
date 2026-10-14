@@ -29,7 +29,7 @@ class _DotIndicatorHorizontalDotsState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         DotIndicator(
@@ -92,17 +92,45 @@ class _DotIndicatorVerticalDotsState extends State<_DotIndicatorVerticalDots> {
 }
 
 /// A scoped theme leg: bigger accent dots.
-Widget _dotIndicatorThemed(BuildContext context) {
-  return ComponentTheme<DotIndicatorTheme>(
-    data: const DotIndicatorTheme(
-      active: DotStyle(
-        background: StateValue(rest: ThemedColor.ref(ColorRef.accent)),
-        size: 18,
-      ),
-      spacing: 14,
-    ),
-    child: DotIndicator(index: 1, length: 5, onChanged: (int value) {}),
-  );
+class _DotIndicatorThemed extends StatefulWidget {
+  const _DotIndicatorThemed();
+
+  @override
+  State<_DotIndicatorThemed> createState() => _DotIndicatorThemedState();
+}
+
+class _DotIndicatorThemedState extends State<_DotIndicatorThemed> {
+  int _index = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ComponentTheme<DotIndicatorTheme>(
+          data: const DotIndicatorTheme(
+            active: DotStyle(
+              background: StateValue(rest: ThemedColor.ref(ColorRef.accent)),
+              size: 18,
+            ),
+            spacing: 14,
+          ),
+          child: DotIndicator(
+            index: _index,
+            length: 5,
+            onChanged: (int value) => setState(() => _index = value),
+          ),
+        ),
+        Gap(theme.spacing.md),
+        Text(
+          'index $_index',
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
 }
 
 Widget _dotIndicatorDefault(BuildContext context) =>
@@ -110,6 +138,8 @@ Widget _dotIndicatorDefault(BuildContext context) =>
 
 Widget _dotIndicatorVertical(BuildContext context) =>
     const _DotIndicatorVerticalDots();
+
+Widget _dotIndicatorThemed(BuildContext context) => const _DotIndicatorThemed();
 
 /// Named docs examples for `dot_indicator`; the first entry is the default.
 const List<ComponentPreview> dotIndicatorPreviews = <ComponentPreview>[

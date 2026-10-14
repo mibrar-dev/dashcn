@@ -450,12 +450,21 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
-      expect(find.text('Phone number is required.'), findsOneWidget);
+      // A field that has not been touched shows nothing.
+      expect(find.text('Phone number is required.'), findsNothing);
+
       await tester.enterText(_numberField(), '5551234');
       await tester.pump();
       await tester.pump();
       expect(stored, const PhoneNumber(_us, '5551234'));
       expect(find.text('Phone number is required.'), findsNothing);
+      expect(find.text('Phone number is invalid.'), findsNothing);
+
+      // Clearing the number reports live: the field is now empty and invalid.
+      await tester.enterText(_numberField(), '');
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('Phone number is required.'), findsOneWidget);
     });
 
     testWidgets('validator messages and success paths', (tester) async {

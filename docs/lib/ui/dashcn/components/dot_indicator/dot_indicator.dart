@@ -16,10 +16,18 @@
 //     children forced an O(n^2) intrinsic pass for a fixed-size row.
 //   * Only `ComponentTheme.maybeOf` was read, so app-wide overrides never
 //     applied, and there were no token-derived defaults at all.
+//   * P7-WB: the dot fill lived on the `Clickable` decoration while the theme
+//     gap was faked with `Clickable` *padding* — the fill painted over the
+//     padding, so neighbouring dots touched (no visible gap) and the merged
+//     fill read as one pill. The fill lives on the inner dot now; the padding
+//     stays transparent tap target, and both modes separate dot edges by
+//     exactly the theme gap.
 
 import 'package:flutter/widgets.dart';
 
+import '../../foundation/data.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -64,8 +72,8 @@ class DotIndicator extends StatelessWidget {
   /// `Clickable` and no click cursor are built.
   final ValueChanged<int>? onChanged;
 
-  /// Gap between two dots; null uses [DotIndicatorTheme.spacing] then
-  /// `8 * scaling`.
+  /// Gap between two dots; null uses [DotIndicatorTheme.spacing] then the
+  /// ambient `spacing.sm` (upstream `gap-2`), density-aware and scaled.
   final double? spacing;
 
   /// Axis of the run of dots.
@@ -92,7 +100,8 @@ class DotIndicator extends StatelessWidget {
           select: (t) => t,
           defaults: dotIndicatorDefaults,
         );
-    final double gap = spacing ?? resolved.spacing ?? 8 * appTheme.scaling;
+    final double gap =
+        spacing ?? resolved.spacing ?? appTheme.spacing.sm * appTheme.scaling;
     // Resolved once: the old code re-resolved and re-scaled it per dot, and
     // multiplied it by `scaling` after resolution, so a caller-provided
     // `padding` was silently inflated. A plain `EdgeInsets` override passes
@@ -106,10 +115,11 @@ class DotIndicator extends StatelessWidget {
       for (int i = 0; i < length; i++)
         _dot(context, appTheme, resolved, i, gap),
     ];
-    // An interactive dot already carries `gap / 2` of `Clickable` padding on
-    // each side, which forms the full visual gap by itself; keeping the
-    // spacer as well would double it (2 * gap). Read-only dots have no
-    // padding, so they keep the spacer.
+    // The visual gap is exactly the theme gap in both modes. An interactive
+    // dot carries half the gap as transparent `Clickable` padding on each
+    // side (a bigger tap target that meets its neighbour mid-gap), so the
+    // run needs no spacers; read-only dots have no padding, so they keep a
+    // spacer of the full gap.
     final double separator = onChanged == null ? gap : 0;
     final Widget run = direction == Axis.horizontal
         ? Row(
@@ -148,48 +158,77 @@ class DotIndicator extends StatelessWidget {
         theme.forIndex(isActive) ?? DotIndicatorDefaults.forIndex(isActive);
     final double size = style.size ?? 12 * appTheme.scaling;
 
-    final Widget dot;
+    // A custom builder replaces the default dot wholesale.
+    final Widget mark = dotBuilder != null
+        ? dotBuilder!(context, position, isActive)
+        : _StateDot(
+            style: style,
+            size: size,
+            duration: theme.duration!,
+            colors: appTheme.colors,
+            scaling: appTheme.scaling,
+          );
     if (onChanged == null) {
-      // A read-only indicator must neither look nor behave pressable. A
-      // custom builder replaces the default dot wholesale.
-      dot = dotBuilder != null
-          ? dotBuilder!(context, position, isActive)
-          : _DotBox(
-              size: size,
-              duration: theme.duration!,
-              decoration: _dotDecoration(
-                style,
-                const <WidgetState>{},
-                appTheme.colors,
-                appTheme.scaling,
-              ),
-            );
-    } else {
-      dot = Clickable(
-        behavior: HitTestBehavior.translucent,
-        onPressed: () => onChanged!(position),
-        mouseCursor: const WidgetStatePropertyAll<MouseCursor>(
-          SystemMouseCursors.click,
-        ),
-        // Half the gap on each side makes the whole dot an easy tap target
-        // without changing the visual gap.
-        padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(horizontal: gap / 2, vertical: gap / 2),
-        ),
-        decoration: WidgetStateProperty.resolveWith(
-          (Set<WidgetState> states) =>
-              _dotDecoration(style, states, appTheme.colors, appTheme.scaling),
-        ),
-        // A custom builder paints the dot; the tap target stays.
-        child: dotBuilder != null
-            ? dotBuilder!(context, position, isActive)
-            : _DotBox(size: size, duration: theme.duration!),
+      // A read-only indicator must neither look nor behave pressable.
+      return Semantics(
+        selected: isActive,
+        label: 'Page ${position + 1} of $length',
+        child: mark,
       );
     }
     return Semantics(
       selected: isActive,
       label: 'Page ${position + 1} of $length',
-      child: dot,
+      child: Clickable(
+        behavior: HitTestBehavior.translucent,
+        onPressed: () => onChanged!(position),
+        mouseCursor: const WidgetStatePropertyAll<MouseCursor>(
+          SystemMouseCursors.click,
+        ),
+        // Transparent tap target: half the gap on each side meets the
+        // neighbour mid-gap without changing the visual gap. The fill lives
+        // on the inner dot — never on this decoration — so the padding is
+        // never painted over (P7-WB: the old fill-over-padding fused the
+        // dots into one pill).
+        padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+          EdgeInsets.all(gap / 2),
+        ),
+        child: mark,
+      ),
+    );
+  }
+}
+
+/// A dot whose fill resolves from the ambient interaction states.
+///
+/// Lets the hovered/pressed/focused rows tint the dot while the fill stays
+/// exactly dot-sized: the states come from the enclosing `Clickable`'s
+/// `WidgetStatesProvider`, and a read-only run (no provider above) falls
+/// back to the rest row.
+class _StateDot extends StatelessWidget {
+  const _StateDot({
+    required this.style,
+    required this.size,
+    required this.duration,
+    required this.colors,
+    required this.scaling,
+  });
+
+  final DotStyle style;
+  final double size;
+  final Duration duration;
+  final ThemeColors colors;
+  final double scaling;
+
+  @override
+  Widget build(BuildContext context) {
+    final Set<WidgetState> states =
+        Data.maybeOf<WidgetStatesData>(context)?.states ??
+        const <WidgetState>{};
+    return _DotBox(
+      size: size,
+      duration: duration,
+      decoration: _dotDecoration(style, states, colors, scaling),
     );
   }
 }

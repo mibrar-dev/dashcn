@@ -10,7 +10,7 @@
   "deps": {
     "foundation": ["data", "icons"],
     "theme": ["color_tokens", "density", "theme"],
-    "primitives": ["layout", "overlay", "popover_controller", "text"],
+    "primitives": ["layout", "overlay", "popover_controller", "popover_layout", "text"],
     "components": ["button", "outlined_container"]
   },
   "files": [
@@ -33,7 +33,7 @@
       "margin": "EdgeInsetsGeometry? - margin around the popover, density gap",
       "offset": "Offset? - popover offset from the trigger, (0, 4)",
       "padding": "EdgeInsetsGeometry? - padding inside the popover, density",
-      "maxWidth": "double? - maximum popover width, unconstrained"
+      "maxWidth": "double? - maximum popover width, 480"
     }
   }
 }

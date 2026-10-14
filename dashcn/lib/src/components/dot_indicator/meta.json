@@ -8,9 +8,9 @@
   "import": "import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';",
   "tags": ["display", "dots", "carousel", "pager", "indicator"],
   "deps": {
-    "foundation": ["constants"],
+    "foundation": ["constants", "data"],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["clickable"],
+    "primitives": ["clickable", "widget_states"],
     "components": []
   },
   "files": [

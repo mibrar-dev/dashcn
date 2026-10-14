@@ -227,3 +227,53 @@ class _Sidebar01Row extends StatelessWidget {
     );
   }
 }
+
+/// The desktop content header bar: the current destination plus icon
+/// actions, inset above the content.
+class Sidebar01HeaderBar extends StatelessWidget {
+  /// Creates the header bar for [selected].
+  const Sidebar01HeaderBar({super.key, required this.selected});
+
+  /// Index of the selected destination; drives the title.
+  final int selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.md,
+        vertical: theme.spacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colors.card,
+        borderRadius: theme.borderRadiusLg,
+        border: Border.all(color: theme.colors.border),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              sidebar01Items[selected].label,
+              style: theme.typography.textSmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.search, size: 16),
+          ),
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.icon,
+            onPressed: () {},
+            child: const Icon(LucideIcons.bell, size: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}

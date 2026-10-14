@@ -8,6 +8,9 @@
 // the action chip callback, the loading → success promise morph, the six
 // positions, RTL mirroring, the presets, the single merged silhouette, reduced
 // motion, and no toast before the trigger.
+//
+// P7I-fix-focus2: `DashcnApp` builds its content one frame after startup, so
+// every pump of [_frame] below is followed by one extra pump.
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
@@ -119,6 +122,7 @@ void main() {
       addTearDown(() => tester.binding.setSurfaceSize(null));
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       await _advance(tester, const Duration(seconds: 3));
       expect(find.text('Saved'), findsNothing);
       controller.dispose();
@@ -129,6 +133,7 @@ void main() {
       addTearDown(() => tester.binding.setSurfaceSize(null));
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Saved', description: 'Everything is in sync.'),
@@ -164,6 +169,7 @@ void main() {
       await tester.binding.setSurfaceSize(const Size(1440, 900));
       addTearDown(() => tester.binding.setSurfaceSize(null));
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Saved', description: 'Hold me'),
@@ -187,6 +193,7 @@ void main() {
     testWidgets('dismiss removes the entry', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       final String id = controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Bye'),
@@ -204,6 +211,7 @@ void main() {
     testWidgets('each state paints its own tone', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       final BuildContext context = tester.element(find.byType(GooeyToastLayer));
       final GooeyToastTheme theme = gooeyToastThemeOf(context);
       final colors = Theme.of(context).colors;
@@ -218,6 +226,7 @@ void main() {
     testWidgets('the icon bubble uses the state tone', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Headline'),
@@ -240,6 +249,7 @@ void main() {
     testWidgets('a loading toast never expands', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(
@@ -261,6 +271,7 @@ void main() {
     testWidgets('the action chip fires its callback', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       int pressed = 0;
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
@@ -285,6 +296,7 @@ void main() {
     testWidgets('loading pill morphs into the settled state', (tester) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       final String id = controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Uploading', state: GooeyToastState.loading),
@@ -315,6 +327,7 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(1440, 900));
         addTearDown(() => tester.binding.setSurfaceSize(null));
         await tester.pumpWidget(_frame(controller: controller));
+        await tester.pump();
         controller.showGooeyToast(
           tester.element(find.byType(GooeyToastLayer)),
           _options(position: position),
@@ -345,6 +358,7 @@ void main() {
       addTearDown(() => tester.binding.setSurfaceSize(null));
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(direction: GooeyToastExpandDirection.top),
@@ -361,6 +375,7 @@ void main() {
       await tester.pumpWidget(
         _frame(controller: controller, direction: TextDirection.rtl),
       );
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(position: GooeyToastPosition.left),
@@ -381,6 +396,7 @@ void main() {
           in GooeyToastAnimationStyle.values) {
         final GooeyToastController controller = GooeyToastController();
         await tester.pumpWidget(_frame(controller: controller));
+        await tester.pump();
         controller.showGooeyToast(
           tester.element(find.byType(GooeyToastLayer)),
           _options(description: 'Curve', animationStyle: style),
@@ -501,6 +517,7 @@ void main() {
     ) async {
       final GooeyToastController controller = GooeyToastController();
       await tester.pumpWidget(_frame(controller: controller));
+      await tester.pump();
       controller.showGooeyToast(
         tester.element(find.byType(GooeyToastLayer)),
         _options(title: 'Calm', description: 'No motion'),

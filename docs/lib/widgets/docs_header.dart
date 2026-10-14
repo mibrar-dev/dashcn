@@ -6,6 +6,8 @@
 
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
@@ -13,6 +15,7 @@ import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/divider/divider.dart';
+import '../ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -98,7 +101,8 @@ class DocsHeader extends StatelessWidget {
           if (wide)
             for (final DocsNavLink link in _headerNavFor(width))
               Padding(
-                padding: const EdgeInsets.only(right: 4),
+                // P7-TH1: nav link trailing gap follows the theme (gap-1).
+                padding: EdgeInsets.only(right: theme.spacing.xs),
                 child: _NavLink(
                   link: link,
                   active: _navActive(link.location, currentLocation),
@@ -112,8 +116,11 @@ class DocsHeader extends StatelessWidget {
               label: width >= 1280 ? 'Search documentation…' : 'Search…',
               onPressed: delegate.openPalette,
             ),
-          if (showSeparators) ...<Widget>[const Gap(8), const _BarSeparator()],
-          const Gap(8),
+          if (showSeparators) ...<Widget>[
+            Gap(theme.spacing.sm),
+            const _BarSeparator(),
+          ],
+          Gap(theme.spacing.sm),
           Tooltip(
             tooltip: (BuildContext context) => const Text('GitHub repository'),
             child: Button(
@@ -128,7 +135,7 @@ class DocsHeader extends StatelessWidget {
                   : const SizedBox.shrink(),
             ),
           ),
-          const Gap(4),
+          Gap(theme.spacing.xs),
           Tooltip(
             tooltip: (BuildContext context) => const Text('Toggle theme'),
             child: SizedBox(
@@ -149,7 +156,7 @@ class DocsHeader extends StatelessWidget {
             ),
           ),
           if (showCta) ...<Widget>[
-            const Gap(8),
+            Gap(theme.spacing.sm),
             if (currentLocation == '/themes')
               // Spec §2.7: on `/create`/`/themes` the header swaps the primary
               // CTA for `Get Code`, which opens the export dialog.
@@ -318,6 +325,7 @@ class _SearchTrigger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeColors colors = Theme.of(context).colors;
+    final ThemeData theme = Theme.of(context);
     return SizedBox(
       key: const ValueKey<String>('docs-search-trigger'),
       width: width,
@@ -341,15 +349,56 @@ class _SearchTrigger extends StatelessWidget {
           docsText(context, size: 14, color: colors.mutedForeground),
         ),
         child: Row(
+          // Explicitly centred: the h-5 kbd hint sits mid-field in the 32 px
+          // trigger (P7-WC2).
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(LucideIcons.search, size: 14, color: colors.mutedForeground),
-            const Gap(8),
+            Gap(theme.spacing.sm),
             Expanded(
               child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
             ),
+            // The reference shows the palette shortcut as a kbd at the right
+            // of the field; tapping anywhere (hint included) opens the
+            // palette through the trigger's `onPressed`, and ⌘K / Ctrl+K is
+            // bound globally in `main.dart`.
+            Gap(theme.spacing.sm),
+            const _SearchHint(),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Whether [platform] uses the ⌘ glyph for the palette hint.
+bool _hintUsesCommand(TargetPlatform platform) {
+  return platform == TargetPlatform.macOS || platform == TargetPlatform.iOS;
+}
+
+/// The palette shortcut hint (⌘K on macOS/iOS, Ctrl K elsewhere) at the
+/// right of the search field.
+///
+/// The registry `keyboard_shortcut` component in its default `subtle` Kbd
+/// styling (P7-WC2): two separate caps with the muted fill, the `border`
+/// outline and the fixed 4 px radius — the same key caps the component drew
+/// before, replacing the one-bubble "⌘K" that read too small and crammed
+/// against the field's right edge. Tapping anywhere on the trigger (the hint
+/// included) opens the palette through `onPressed`.
+class _SearchHint extends StatelessWidget {
+  const _SearchHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyboardShortcut(
+      keys: <LogicalKeyboardKey>[
+        // The cap glyph table maps `meta` to ⌘ and `control` to Ctrl.
+        if (_hintUsesCommand(defaultTargetPlatform))
+          LogicalKeyboardKey.meta
+        else
+          LogicalKeyboardKey.control,
+        LogicalKeyboardKey.keyK,
+      ],
     );
   }
 }
@@ -454,6 +503,7 @@ class _MobileGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeColors colors = Theme.of(context).colors;
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -466,10 +516,10 @@ class _MobileGroup extends StatelessWidget {
             color: colors.mutedForeground,
           ),
         ),
-        const Gap(12),
+        Gap(theme.spacing.md),
         for (final DocsNavLink link in links)
           Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: EdgeInsets.only(bottom: theme.spacing.md),
             child: Clickable(
               onPressed: () {
                 onNavigate();

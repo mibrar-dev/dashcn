@@ -302,7 +302,22 @@ class _DialogShellState extends State<_DialogShell> {
         ? null
         : style.shadows ??
               (style.themeShadows ?? ambient.tokens.shadows).shadowLg;
-    Widget card = DecoratedBox(
+    final cardPadding = resolveEdgeInsets(
+      style.padding ?? EdgeInsets.zero,
+      density,
+    );
+    // Gap between the screen edge and the card; zero when full screen.
+    // upstream keeps 16px (`p-4`) margins on a phone, so the card never touches
+    // the viewport edge.
+    final EdgeInsets inset = fullScreen
+        ? EdgeInsets.zero
+        : resolveEdgeInsets(
+            style.insetPadding ?? EdgeInsets.zero,
+            density,
+          ).resolve(Directionality.of(context));
+    // A separate final for the layout closure below: it must capture the
+    // surface, not `card` (which keeps being reassigned to the wrappers).
+    final Widget cardSurface = DecoratedBox(
       key: kDialogSurfaceKey,
       decoration: BoxDecoration(
         color: style.background?.resolve(colors),
@@ -315,25 +330,51 @@ class _DialogShellState extends State<_DialogShell> {
         boxShadow: shadows == null || shadows.isEmpty ? null : shadows,
       ),
       child: Padding(
-        padding: resolveEdgeInsets(style.padding ?? EdgeInsets.zero, density),
-        child: Builder(builder: route.builder),
+        padding: cardPadding,
+        // The height hugs the content: the capped box below lets the scroll
+        // view size to its child, and only a taller body scrolls inside.
+        child: SingleChildScrollView(child: Builder(builder: route.builder)),
       ),
     );
-    final maxWidth = fullScreen ? null : style.maxWidth;
-    if (maxWidth != null) {
-      card = ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth),
-        child: card,
-      );
-    }
+    Widget card = cardSurface;
     if (!fullScreen) {
-      card = Align(alignment: route.alignment, child: card);
-      // Gap between the screen edge and the card; zero when full screen.
-      final inset = resolveEdgeInsets(
-        style.insetPadding ?? EdgeInsets.zero,
-        density,
+      // Content-sized and centred: the card hugs its content up to the
+      // themed max width (default 512, `size` sm/md/lg) and the viewport
+      // minus the inset margins, then the content scrolls inside instead of
+      // overflowing. `LayoutBuilder` reads the real viewport so a 375px
+      // phone caps the card at 343 instead of stretching past the screen.
+      card = LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewport) {
+          double maxWidth = dialogEffectiveMaxWidth(style);
+          double maxHeight = double.infinity;
+          if (viewport.maxWidth.isFinite) {
+            final double avail = (viewport.maxWidth - inset.horizontal).clamp(
+              0.0,
+              double.infinity,
+            );
+            if (avail < maxWidth) maxWidth = avail;
+          }
+          if (viewport.maxHeight.isFinite) {
+            maxHeight = (viewport.maxHeight - inset.vertical).clamp(
+              0.0,
+              double.infinity,
+            );
+          }
+          return Padding(
+            padding: inset,
+            child: Align(
+              alignment: route.alignment,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: maxWidth,
+                  maxHeight: maxHeight,
+                ),
+                child: cardSurface,
+              ),
+            ),
+          );
+        },
       );
-      card = Padding(padding: inset, child: card);
     }
     if (route.useSafeArea) {
       card = SafeArea(child: card);

@@ -2,7 +2,7 @@
 // submits call `onSubmit` once with typed data after loading, then show a
 // success alert; invalid submits show inline messages and never call
 // `onSubmit`. Layout: no block is wider than its documented max-width, at
-// desktop width in both presets (overflow at 375/768/1440 is covered by
+// desktop width in both presets (overflow at 390/768/1440 is covered by
 // `blocks_render_test.dart`).
 
 import 'package:flutter/widgets.dart';
@@ -17,6 +17,7 @@ import 'package:dashcn/src/blocks/pricing-01/pricing_01.dart';
 import 'package:dashcn/src/blocks/pricing-01/pricing_01_promo.dart';
 import 'package:dashcn/src/blocks/signup-01/signup_01.dart';
 import 'package:dashcn/src/blocks/signup-02/signup_02.dart';
+import 'package:dashcn/src/blocks/signup-02/signup_02_aside.dart';
 import 'package:dashcn/src/components/button/button.dart';
 import 'package:dashcn/src/components/card/card.dart';
 import 'package:dashcn/src/components/spinner/spinner.dart';
@@ -327,16 +328,20 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('signup-02 shell respects its 1024 cap', (
+    testWidgets('signup-02 split fills the page (P7-B2)', (
       WidgetTester tester,
     ) async {
       await pumpForm(tester, const Signup02());
-      final Finder shell = find.byWidgetPredicate(
+      // Full-page split: the brand panel takes half the 1440 px page.
+      final Rect panel = tester.getRect(find.byType(Signup02Aside));
+      expect(panel.width, moreOrLessEquals(720, epsilon: 2));
+      expect(panel.left, moreOrLessEquals(720, epsilon: 2));
+      // The form column centres in a 384 cap.
+      final Finder cap = find.byWidgetPredicate(
         (Widget widget) =>
-            widget is ConstrainedBox && widget.constraints.maxWidth == 1024,
+            widget is ConstrainedBox && widget.constraints.maxWidth == 384,
       );
-      expect(shell, findsOneWidget);
-      expect(tester.getSize(shell).width, lessThanOrEqualTo(1024.5));
+      expect(cap, findsWidgets, reason: 'signup-02 form 384 cap');
       expect(tester.takeException(), isNull);
     });
   });

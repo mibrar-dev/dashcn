@@ -6,8 +6,10 @@
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dashcn/src/components/button/button.dart';
 import 'package:dashcn/src/components/chat/chat.dart';
 import 'package:dashcn/src/components/chat/preview.dart';
+import 'package:dashcn/src/foundation/component_preview.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
@@ -107,5 +109,44 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('live preview sends, types, then replies (fake async)', (
+    tester,
+  ) async {
+    final ComponentPreview live = chatPreviews.firstWhere(
+      (ComponentPreview preview) => preview.name == 'Live',
+    );
+    // An Overlay ancestor: the composer is an EditableText, which builds its
+    // selection overlay on focus.
+    await tester.pumpWidget(
+      _frame(Overlay.wrap(child: Builder(builder: live.builder)), width: 560),
+    );
+    await tester.pumpAndSettle();
+
+    Button send() => tester.widget<Button>(find.widgetWithText(Button, 'Send'));
+    expect(send().enabled, isFalse, reason: 'Send disabled while empty');
+
+    await tester.enterText(find.byType(EditableText), 'hello agent');
+    await tester.pump();
+    expect(send().enabled, isTrue);
+
+    await tester.tap(find.text('Send'));
+    await tester.pump();
+    expect(find.text('hello agent'), findsOneWidget);
+
+    await tester.pump(const Duration(milliseconds: 800));
+    expect(
+      find.textContaining('pulling up your payout'),
+      findsNothing,
+      reason: 'typing indicator first, reply after',
+    );
+    await tester.pump(const Duration(milliseconds: 700));
+    await tester.pump();
+    expect(
+      find.textContaining('pulling up your payout'),
+      findsOneWidget,
+      reason: 'canned agent reply lands',
+    );
   });
 }

@@ -3,7 +3,7 @@
 // A block is the layer-4 unit of the registry: `lib/src/blocks/<id>/`
 // with `<underscored id>.dart` (the public widget, which is also the
 // preview), `meta.json` and `README.md`. Every block must pump, without a
-// single exception or overflow, at 375 / 768 / 1440 wide, under the neutral
+// single exception or overflow, at 390 / 768 / 1440 wide, under the neutral
 // and claude presets in light and dark.
 
 import 'package:flutter/widgets.dart';
@@ -12,8 +12,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../themes/generated_theme.dart';
 
-/// Widths every block is pumped at: phone, tablet, desktop.
-const List<double> blockWidths = <double>[375, 768, 1440];
+/// Widths every block is pumped at: phone (390 page), tablet, desktop.
+const List<double> blockWidths = <double>[390, 768, 1440];
 
 /// Height the stage hands a block; a block must never assume more.
 const double blockStageHeight = 900;

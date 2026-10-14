@@ -128,6 +128,7 @@ String renderDocsData(DocsModel model) {
     ..writeln('  /// Creates the stats block.')
     ..writeln('  const DocsStats({')
     ..writeln('    required this.components,')
+    ..writeln('    required this.listedComponents,')
     ..writeln('    required this.presets,')
     ..writeln('    required this.materialImports,')
     ..writeln('    required this.modes,')
@@ -137,6 +138,15 @@ String renderDocsData(DocsModel model) {
       '  /// Installable component count: manifest `components` entries.',
     )
     ..writeln('  final int components;')
+    ..writeln()
+    ..writeln(
+      '  /// Listed component count: entries with `listed: true` (the docs',
+    )
+    ..writeln(
+      '  /// site, sidebar, palette and hero badge count these; hidden building',
+    )
+    ..writeln('  /// blocks are installable but not browsable).')
+    ..writeln('  final int listedComponents;')
     ..writeln()
     ..writeln('  /// Preset count: `themes/index.json` entries.')
     ..writeln('  final int presets;')
@@ -259,6 +269,9 @@ String renderDocsData(DocsModel model) {
     ..writeln('/// Stats band values, each with its derivation.')
     ..writeln('const DocsStats kStats = DocsStats(')
     ..writeln('  components: ${scan.components.length}, // manifest entries')
+    ..writeln(
+      '  listedComponents: ${scan.components.where((ComponentFacts c) => c.listed).length}, // listed only',
+    )
     ..writeln('  presets: ${scan.presets.length}, // themes/index.json entries')
     ..writeln(
       '  materialImports: ${scan.materialImports}, // registry import '

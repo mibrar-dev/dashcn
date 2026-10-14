@@ -80,7 +80,8 @@ class RailPickerRow extends StatelessWidget {
             color: states.contains(WidgetState.hovered) || selected
                 ? theme.colors.accent
                 : const Color(0x00000000),
-            borderRadius: BorderRadius.circular(6),
+            // P7-TH1: rail rows use the small radius token.
+            borderRadius: theme.borderRadiusSm,
           );
         }),
         child: Padding(
@@ -157,7 +158,8 @@ class RailSeedSwatch extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(6),
+            // P7-TH1: swatches use the small radius token.
+            borderRadius: Theme.of(context).borderRadiusSm,
             border: Border.all(
               color: selected ? colors.foreground : colors.border,
               width: selected ? 2 : 1,

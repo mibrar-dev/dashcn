@@ -183,7 +183,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
       final List<String> names = kComponentPreviews['button']!;
-      expect(names.length, 11);
+      expect(names.length, 14);
       final List<DocsExampleSource> sources = kExampleSources['button']!;
       expect(sources.length, names.length);
       // The main demo card shows the first example.

@@ -2,7 +2,7 @@ import 'package:docs/main.dart';
 import 'package:docs/motion/ease.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
-import 'package:docs/ui/dashcn/theme/theme.dart';
+import 'package:docs/widgets/theme_switch_transition.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -102,23 +102,22 @@ void main() {
     );
   });
 
-  testWidgets('preset/mode changes go through the 300ms animated theme', (
+  testWidgets('preset/mode changes go through the snapshot transition', (
     WidgetTester tester,
   ) async {
     final DocsState state = await _pumpApp(tester);
     addTearDown(state.dispose);
 
-    final AnimatedTheme animated = tester.widget<AnimatedTheme>(
-      find.byType(AnimatedTheme),
-    );
-    expect(animated.duration, kDurationTheme);
-    expect(animated.curve, kEaseOutExpo);
-    expect(animated.data.brightness, Brightness.dark);
+    final ThemeSwitchTransition transition = tester
+        .widget<ThemeSwitchTransition>(find.byType(ThemeSwitchTransition));
+    expect(transition.duration, kDurationThemeSwitch);
+    expect(transition.curve, kEaseOutExpo);
+    expect(transition.data.brightness, Brightness.dark);
 
     state.toggleBrightness();
     await tester.pumpAndSettle();
-    final AnimatedTheme updated = tester.widget<AnimatedTheme>(
-      find.byType(AnimatedTheme),
+    final ThemeSwitchTransition updated = tester.widget<ThemeSwitchTransition>(
+      find.byType(ThemeSwitchTransition),
     );
     expect(updated.data.brightness, Brightness.light);
     expect(state.followsSystem, isFalse);

@@ -287,8 +287,8 @@ void main() {
 
   group('stage bounds (P6-F4.1)', () {
     test('kComponentPreviews covers every component with counts', () {
-      expect(kComponentPreviews['button']!.length, 11);
-      expect(kComponentPreviewCounts['button'], 11);
+      expect(kComponentPreviews['button']!.length, 14);
+      expect(kComponentPreviewCounts['button'], 14);
       expect(kComponentPreviews['calendar']!.length, 6);
       // Building blocks have no named examples.
       expect(kComponentPreviews['patch'], isEmpty);

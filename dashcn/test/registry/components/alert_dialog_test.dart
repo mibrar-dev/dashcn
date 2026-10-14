@@ -358,4 +358,58 @@ void main() {
       expect(barrier.color.value, _blue);
     });
   });
+
+  group('card shell', () {
+    testWidgets('inline content keeps the card insets', (tester) async {
+      await _pump(
+        tester,
+        child: const AlertDialog(
+          title: Text('Title'),
+          description: Text('Body'),
+          actions: <Widget>[Text('Ok')],
+        ),
+      );
+      await tester.pump();
+      // Outside a route the widget paints the `DialogTheme` shell itself:
+      // the default p-6 clears 16px on every side.
+      final Finder shell = find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(DecoratedBox),
+      );
+      final Rect card = tester.getRect(shell.first);
+      final Rect title = tester.getRect(find.text('Title'));
+      expect(title.left - card.left, greaterThanOrEqualTo(16));
+      expect(title.top - card.top, greaterThanOrEqualTo(16));
+    });
+
+    testWidgets('route content adds no second padding', (tester) async {
+      await _pumpOpen(tester, title: const Text('Alert'));
+      // The route shell owns the single card padding; the alert returns its
+      // content bare inside it.
+      expect(
+        find.descendant(
+          of: find.byKey(kDialogSurfaceKey),
+          matching: find.byType(Padding),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('token gaps resolve from the spacing scale', (tester) async {
+      await _pumpOpen(
+        tester,
+        title: const Text('Alert'),
+        description: const Text('Body'),
+        actions: const <Widget>[Text('A'), Text('B')],
+      );
+      // actionGap falls through to `spacing.sm` (8 at the default base).
+      final Wrap footer = tester.widget<Wrap>(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(Wrap),
+        ),
+      );
+      expect(footer.spacing, 8);
+    });
+  });
 }

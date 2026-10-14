@@ -509,8 +509,12 @@ Widget _grid({
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       // The header is the same box as a day cell, so both grids keep one pitch.
+      // Rows centre their cells: at the nominal width this is a no-op, and in
+      // a wider bounded parent (docs stage, masonry) the grid sits in the
+      // middle instead of packing left (P7-TH1 centred examples).
       if (weekdays != null)
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             for (final String day in weekdays)
               SizedBox(
@@ -526,6 +530,7 @@ Widget _grid({
             bottom: (row + 1) * columns >= slots.length ? 0 : gap,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               for (int column = 0; column < columns; column++)
                 if (row * columns + column < slots.length)

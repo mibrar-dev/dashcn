@@ -72,6 +72,9 @@ Future<_Seen> _pumpApp(
           home: _home(seen),
         ),
   );
+  // P7I-fix-focus2: the shell builds its content one frame after startup
+  // (the first-frame focus gate), so settle before reading what `home` saw.
+  await tester.pumpAndSettle();
   return seen;
 }
 
@@ -104,6 +107,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: the shell builds its content one frame after startup.
+    await tester.pumpAndSettle();
     expect(resolved.languageCode, 'de');
     expect(
       Localizations.of<ComponentLocalizations>(
@@ -132,6 +137,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: the shell builds its content one frame after startup.
+    await tester.pumpAndSettle();
     expect(resolved, const Locale('en'));
     expect(tester.takeException(), isNull);
     expect(
@@ -204,6 +211,8 @@ void main() {
         home: _home(seen),
       ),
     );
+    // P7I-fix-focus2: the shell builds its content one frame after startup.
+    await tester.pumpAndSettle();
     expect(seen.theme, isNotNull);
     expect(
       find.ancestor(
@@ -245,6 +254,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: the shell builds its content one frame after startup.
+    await tester.pumpAndSettle();
     expect(style.color, dark.foreground);
   });
 

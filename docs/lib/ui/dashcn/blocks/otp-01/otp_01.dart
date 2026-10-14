@@ -5,10 +5,11 @@
 // primitives and components, never another block. Its public widget is the
 // preview - the docs page renders it exactly as an app would.
 //
-// The card is constrained to 384px (max-w-sm) and centres itself; the content
-// shrink-wraps so the docs frame sizes to its intrinsic height, and scrolls
-// internally when the host is bounded and shorter than the form. The code
-// must be exactly 6 digits; completing all slots submits automatically.
+// The card is constrained to 384px (max-w-sm) and centres itself on a
+// full-page muted background (`bg-muted min-h-svh`); the card centres
+// vertically in the page and scrolls internally when the host is shorter
+// than the form. The code must be exactly 6 digits; completing all slots
+// submits automatically.
 
 import 'dart:async';
 
@@ -20,7 +21,6 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input_otp/input_otp.dart';
-import '../../components/spinner/spinner.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 
@@ -60,20 +60,30 @@ class _Otp01State extends State<Otp01> {
 
   final FormController _controller = FormController();
   final FormKey<String> _codeKey = const FormKey<String>('code');
+  final ButtonStatusController _status = ButtonStatusController();
   Timer? _timer;
   int _secondsLeft = 30;
-  bool _submitting = false;
   bool _succeeded = false;
 
   @override
   void initState() {
     super.initState();
+    _status.addListener(_handleStatus);
     _startCountdown();
+  }
+
+  void _handleStatus() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _status
+      ..removeListener(_handleStatus)
+      ..dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -94,21 +104,23 @@ class _Otp01State extends State<Otp01> {
     });
   }
 
-  Future<void> _submit() async {
-    if (_submitting) {
-      return;
+  /// Submits through the shared status machine, so the button press and the
+  /// code-completed auto-submit show the same loading/success/failure. The
+  /// machine maps invalid validation to failure (via the throw) and the
+  /// valid 600ms demo submit to success.
+  Future<void> _submit() {
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
+    return _status.run(() async {
+      final SubmissionResult result = await _controller.submit(context);
+      if (!mounted) {
+        return;
       }
-    }
+      if (!result.isValid) {
+        throw StateError('Otp01: validation failed.');
+      }
+    });
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -125,89 +137,76 @@ class _Otp01State extends State<Otp01> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final String email = widget.email ?? 'ada@example.com';
-    final Widget body = Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 384),
-        child: Card(
-          padding: EdgeInsets.all(theme.spacing.xl),
-          child: FormScope(
-            controller: _controller,
-            onSubmit: _handleValidSubmit,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text('Verify your email', style: theme.typography.h2),
-                Gap(theme.spacing.sm),
-                Text(
-                  'We sent a six-digit code to $email.',
-                  style: theme.typography.textMuted.copyWith(
-                    color: theme.colors.mutedForeground,
-                  ),
+    final Widget card = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 384),
+      child: Card(
+        padding: EdgeInsets.all(theme.spacing.xl),
+        child: FormScope(
+          controller: _controller,
+          onSubmit: _handleValidSubmit,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('Verify your email', style: theme.typography.h2),
+              Gap(theme.spacing.sm),
+              Text(
+                'We sent a six-digit code to $email.',
+                style: theme.typography.textMuted.copyWith(
+                  color: theme.colors.mutedForeground,
                 ),
-                Gap(theme.spacing.xl),
-                Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 320),
-                    child: FormItem<String>(
-                      key: _codeKey,
-                      label: const Text('Code'),
-                      validator: _codeValidator,
-                      showErrors: const <FormValidationMode>{
-                        FormValidationMode.changed,
-                        FormValidationMode.submitted,
-                      },
-                      child: InputOtp(
-                        length: 6,
-                        onCompleted: (_) => _submit(),
-                        onSubmitted: (_) => _submit(),
-                      ),
+              ),
+              Gap(theme.spacing.xl),
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 320),
+                  child: FormItem<String>(
+                    key: _codeKey,
+                    label: const Text('Code'),
+                    validator: _codeValidator,
+                    showErrors: const <FormValidationMode>{
+                      FormValidationMode.changed,
+                      FormValidationMode.submitted,
+                    },
+                    child: InputOtp(
+                      length: 6,
+                      onCompleted: (_) => _submit(),
+                      onSubmitted: (_) => _submit(),
                     ),
                   ),
                 ),
+              ),
+              Gap(theme.spacing.lg),
+              _Otp01Resend(
+                secondsLeft: _secondsLeft,
+                onResend: _startCountdown,
+              ),
+              Gap(theme.spacing.xl),
+              Button(
+                status: _status.status,
+                onPressed: _submit,
+                child: const Text('Verify'),
+              ),
+              if (_succeeded) ...<Widget>[
                 Gap(theme.spacing.lg),
-                _Otp01Resend(
-                  secondsLeft: _secondsLeft,
-                  onResend: _startCountdown,
-                ),
-                Gap(theme.spacing.xl),
-                Button(
-                  onPressed: _submitting ? null : _submit,
-                  child: _submitting
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Spinner(
-                              size: 14,
-                              color: theme.colors.primaryForeground,
-                            ),
-                            Gap(theme.spacing.sm),
-                            const Text('Verifying'),
-                          ],
-                        )
-                      : const Text('Verify'),
-                ),
-                if (_succeeded) ...<Widget>[
-                  Gap(theme.spacing.lg),
-                  Alert(
-                    content: Text(
-                      'Email verified — you are all set.',
-                      style: theme.typography.textSmall,
-                    ),
-                  ),
-                ],
-                Gap(theme.spacing.lg),
-                const Divider(),
-                Gap(theme.spacing.lg),
-                Center(
-                  child: Button(
-                    variant: ButtonVariant.link,
-                    onPressed: widget.onChangeEmail ?? () {},
-                    child: const Text('Use a different email'),
+                Alert(
+                  content: Text(
+                    'Email verified — you are all set.',
+                    style: theme.typography.textSmall,
                   ),
                 ),
               ],
-            ),
+              Gap(theme.spacing.lg),
+              const Divider(),
+              Gap(theme.spacing.lg),
+              Center(
+                child: Button(
+                  variant: ButtonVariant.link,
+                  onPressed: widget.onChangeEmail ?? () {},
+                  child: const Text('Use a different email'),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -220,12 +219,18 @@ class _Otp01State extends State<Otp01> {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Center(child: card),
               );
             }
+            final double pageH = constraints.maxHeight;
             return SingleChildScrollView(
               padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: pageH - theme.spacing.lg * 2,
+                ),
+                child: Center(child: card),
+              ),
             );
           },
         ),

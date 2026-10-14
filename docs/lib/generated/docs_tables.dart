@@ -449,7 +449,9 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'dot_indicator': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'widget_states', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
+    DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
@@ -461,11 +463,13 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'button': <DocsDep>[
+    DocsDep(id: 'spinner', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'geometry', kind: DocsDepKind.foundation),
+    DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
@@ -1044,6 +1048,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'layout', kind: DocsDepKind.primitive),
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover_controller', kind: DocsDepKind.primitive),
+    DocsDep(id: 'popover_layout', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
@@ -1081,6 +1086,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'dialog', kind: DocsDepKind.component),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'dialog': <DocsDep>[
@@ -1167,6 +1173,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'alpha': <DocsDep>[],
   'anchor': <DocsDep>[DocsDep(id: 'data', kind: DocsDepKind.foundation)],
   'app': <DocsDep>[
+    DocsDep(id: 'eye_dropper', kind: DocsDepKind.component),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'overlay_manager_layer', kind: DocsDepKind.primitive),

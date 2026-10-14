@@ -8,6 +8,8 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/overflow_marquee/overflow_marquee.dart';
+import 'package:dashcn/src/components/overflow_marquee/preview.dart';
+import 'package:dashcn/src/foundation/component_preview.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -353,5 +355,82 @@ void main() {
     expect(tester.getTopLeft(find.byKey(targetKey)).dx, origin.dx);
     await tester.tapAt(origin + const Offset(50, 20));
     expect(tapped, isTrue);
+  });
+
+  group('preview visibility', () {
+    const String line =
+        'The quick brown fox jumps over the lazy dog — long enough to '
+        'overflow a narrow container and keep scrolling.';
+
+    testWidgets('a long unwrapped text paints in a bounded box', (
+      tester,
+    ) async {
+      // P7-WB: the docs preview showed nothing. A bare long `Text` child in
+      // a width-bounded box must paint with a non-zero size.
+      await tester.pumpWidget(
+        _frame(
+          child: SizedBox(
+            width: 320,
+            child: const OverflowMarquee(child: Text(line)),
+          ),
+        ),
+      );
+      expect(find.text(line), findsOneWidget);
+      final Size size = tester.getSize(find.byType(OverflowMarquee));
+      expect(size.width, 320);
+      expect(size.height, greaterThan(0));
+      // The text starts at the leading edge.
+      final Offset textOrigin = tester.getTopLeft(find.text(line));
+      final Offset boxOrigin = tester.getTopLeft(find.byType(OverflowMarquee));
+      expect(textOrigin.dx, moreOrLessEquals(boxOrigin.dx));
+      expect(textOrigin.dy, greaterThanOrEqualTo(boxOrigin.dy));
+    });
+
+    testWidgets('a long text paints under stage-like unbounded height', (
+      tester,
+    ) async {
+      // The docs stage bounds the width but leaves the height unbounded
+      // (the page scrolls). The marquee must still paint.
+      await tester.pumpWidget(
+        _frame(
+          child: const SizedBox(
+            width: 320,
+            child: OverflowMarquee(child: Text(line)),
+          ),
+        ),
+      );
+      expect(find.text(line), findsOneWidget);
+      expect(
+        tester.getSize(find.byType(OverflowMarquee)).height,
+        greaterThan(0),
+      );
+    });
+
+    testWidgets('a fitting text paints at its natural size', (tester) async {
+      // In a tight box the marquee fills the width (block-level fill) and
+      // stays still: no overflow, no scroll.
+      await tester.pumpWidget(
+        _frame(
+          child: const SizedBox(
+            width: 320,
+            child: OverflowMarquee(child: Text('short')),
+          ),
+        ),
+      );
+      expect(find.text('short'), findsOneWidget);
+      final Size size = tester.getSize(find.byType(OverflowMarquee));
+      expect(size.width, 320);
+      expect(size.height, greaterThan(0));
+    });
+
+    testWidgets('every preview example pumps without throwing', (tester) async {
+      for (final ComponentPreview preview in overflowMarqueePreviews) {
+        await tester.pumpWidget(
+          _frame(child: Builder(builder: preview.builder)),
+        );
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
+    });
   });
 }

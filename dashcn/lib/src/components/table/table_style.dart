@@ -279,10 +279,12 @@ const EdgeInsetsGeometry tableHeadCellPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
 );
 
-/// Default body-cell styling: bottom border, `muted/50` hover fill.
+/// Default body-cell styling: bottom border, `muted/50` hover fill and a
+/// `muted` selected fill (upstream `data-[state=selected]:bg-muted`).
 const TableCellTheme tableCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(
     hovered: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
+    selected: ThemedColor.ref(ColorRef.muted),
   ),
   foreground: StateValue<ThemedColor>(
     rest: ThemedColor.ref(ColorRef.foreground),
@@ -294,13 +296,14 @@ const TableCellTheme tableCellDefaults = TableCellTheme(
 );
 
 /// Default header-cell styling: upstream v4 `TableHead` (`h-10 px-2`, medium
-/// `foreground` text).
+/// `muted-foreground` text, left-aligned and vertically centred by the cell
+/// view).
 const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(
     hovered: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
   ),
   foreground: StateValue<ThemedColor>(
-    rest: ThemedColor.ref(ColorRef.foreground),
+    rest: ThemedColor.ref(ColorRef.mutedForeground),
   ),
   borderColor: StateValue<ThemedColor>(rest: ThemedColor.ref(ColorRef.border)),
   borderWidth: 1,

@@ -193,7 +193,8 @@ class _CodePaneState extends State<_CodePane> {
           : const Color(0xFF262626),
     );
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      // P7-TH1: dialog content follows the card radius token.
+      borderRadius: theme.borderRadiusLg,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: site.codeSurface,

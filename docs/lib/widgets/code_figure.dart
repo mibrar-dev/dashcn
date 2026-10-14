@@ -61,11 +61,13 @@ class DocsCodeFigure extends StatelessWidget {
             ),
           );
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      // P7-TH1: figure outer/top insets follow the theme (lg).
+      padding: EdgeInsets.only(top: theme.spacing.lg),
       child: Container(
         decoration: BoxDecoration(
           color: site.codeSurface,
-          borderRadius: BorderRadius.circular(18),
+          // P7-TH1: code figures use the card radius token (rounded-lg).
+          borderRadius: theme.borderRadiusLg,
           border: Border.all(color: theme.colors.border.withValues(alpha: 0.3)),
         ),
         child: Column(
@@ -95,7 +97,8 @@ class DocsCodeFigure extends StatelessWidget {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              // P7-TH1: code insets follow the theme (lg).
+              padding: EdgeInsets.all(theme.spacing.lg),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: SelectableCode(child: codeBlock),

@@ -70,6 +70,7 @@ const CardImage(image: thumb, title: Text('Read only'));
 | `imageBorderColor` | transparent token |
 | `imageRadius` | ambient `radiusXl` |
 | `gap` | 12 |
+| `aspectRatio` | 16/9 (vertical image width/height; natural size when fully unbounded) |
 
 ## Differences from the old `layout/card_image`
 

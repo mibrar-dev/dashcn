@@ -134,9 +134,15 @@ class TableCellView extends StatelessWidget {
                 padding ?? EdgeInsets.zero,
                 theme.density.baseContentPadding * theme.scaling,
               ),
-              child: DefaultTextStyle.merge(
-                style: _textStyle(theme, states),
-                child: child!,
+              // upstream cells are `text-left align-middle`: the content hugs
+              // the leading edge and centres vertically when its row grows
+              // taller than the content (header `h-10`, mixed-height rows).
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: DefaultTextStyle.merge(
+                  style: _textStyle(theme, states),
+                  child: child!,
+                ),
               ),
             ),
           );
