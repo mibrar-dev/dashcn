@@ -45,11 +45,25 @@ class _EyeDropperPicker extends StatefulWidget {
 
 class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   Color? _picked;
+  Color? _live;
+  bool _sampling = false;
 
   void _eyeDropperPick() async {
-    final Color? color = await pickColorFromScreen(context);
+    setState(() {
+      _sampling = true;
+      _live = null;
+    });
+    final Color? color = await pickColorFromScreen(context, null, (
+      Color sample,
+    ) {
+      if (mounted) setState(() => _live = sample);
+    });
     if (mounted) {
-      setState(() => _picked = color);
+      setState(() {
+        _picked = color;
+        _live = null;
+        _sampling = false;
+      });
     }
   }
 
@@ -62,6 +76,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final Color? shown = _live ?? _picked;
     return EyeDropperLayer(
       previewAlignment: Alignment.topLeft,
       child: Column(
@@ -91,7 +106,11 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                   vertical: 8,
                 ),
                 child: Text(
-                  _picked == null ? 'Pick a colour' : 'Pick again',
+                  _sampling
+                      ? 'Sampling… move to pick'
+                      : _picked == null
+                      ? 'Pick a colour'
+                      : 'Pick again',
                   style: TextStyle(color: theme.colors.primaryForeground),
                 ),
               ),
@@ -103,7 +122,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
             children: <Widget>[
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: _picked ?? theme.colors.muted,
+                  color: shown ?? theme.colors.muted,
                   border: Border.all(color: theme.colors.border),
                   borderRadius: theme.borderRadiusSm,
                 ),
@@ -114,9 +133,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
               ),
               Gap(theme.spacing.sm),
               Text(
-                _picked == null
+                shown == null
                     ? 'no colour picked'
-                    : '#${_eyeDropperHex(_picked!)}',
+                    : '#${_eyeDropperHex(shown)}',
                 style: TextStyle(color: theme.colors.mutedForeground),
               ),
             ],

@@ -39,18 +39,38 @@ One key on its own:
 KeyboardKeyCap(keyboardKey: LogicalKeyboardKey.enter)
 ```
 
+## Variants
+
+`KbdVariant` picks the cap fill; the `border` outline and the mono label stay:
+
+| Variant | Look |
+|---|---|
+| `subtle` (default) | the `muted` fill — the dashcn kbd |
+| `ghost` | no fill: the cap blends into the surface behind it |
+
+```dart
+KeyboardShortcut(
+  keys: const <LogicalKeyboardKey>[
+    LogicalKeyboardKey.meta,
+    LogicalKeyboardKey.keyK,
+  ],
+  variant: KbdVariant.ghost,
+)
+```
+
 ## `KeyboardShortcut` API
 
 | Parameter | Type | Default | Notes |
 |---|---|---|---|
 | `keys` | `List<LogicalKeyboardKey>` | — | `.fromActivator` instead |
 | `activator` | `ShortcutActivator` | — | `.fromActivator` instead |
-| `spacing` | `double?` | null | null = the theme's (2) |
+| `spacing` | `double?` | null | null = the theme's (4) |
+| `variant` | `KbdVariant?` | null | null = the theme's (`subtle`) |
 | `theme` | `KeyboardShortcutTheme?` | null | widget leg, applied to every cap |
 
-`KeyboardKeyCap(keyboardKey:, padding:, background:, foreground:, borderRadius:,
-shadows:, theme:)` — the per-key widget, with a field-level override for each
-theme field.
+`KeyboardKeyCap(keyboardKey:, padding:, background:, foreground:,
+borderColor:, borderWidth:, borderRadius:, shadows:, variant:, theme:)` — the
+per-key widget, with a field-level override for each theme field.
 
 ## Key labels
 
@@ -79,13 +99,16 @@ same on every keyboard the user is on.
 
 | `KeyboardShortcutTheme` field | Default |
 |---|---|
-| `spacing` | 2 (dashcn `gap-0.5`) |
-| `keyPadding` | `EdgeInsets.symmetric(horizontal: 6, vertical: 4)` (dashcn `px-1.5 py-0.5`) |
-| `keyBackground` | `background` at 70% alpha, computed at build |
+| `spacing` | 4 (dashcn `gap-1`) |
+| `keyPadding` | `EdgeInsets.symmetric(horizontal: 6, vertical: 2)` (dashcn `px-1.5 py-0.5`; a 12 px label on a 16 px line then measures dashcn's `h-5`) |
+| `keyBackground` | per `variant`: the `muted` token for `subtle`, none for `ghost` (an explicit fill wins in both) |
 | `keyForeground` | `mutedForeground` |
-| `keyBorderRadius` | the ambient `radiusMd` |
-| `keyTextStyle` | `TextStyle(fontSize: 12, fontWeight: w500)` (dashcn `text-xs`) |
+| `keyBorderColor` | the `border` token |
+| `keyBorderWidth` | 1 (`0` hides the border) |
+| `keyBorderRadius` | a fixed 4 px — preset-independent by design (P7-WC2) |
+| `keyTextStyle` | `TextStyle(fontSize: 12, height: 4/3, fontWeight: w500)` (dashcn `text-xs`) in the ambient mono face |
 | `keyShadows` | none (the dashcn look) |
+| `variant` | `KbdVariant.subtle` |
 
 Only `spacing` is multiplied by `theme.scaling`; a key cap's size is a fixed
 readability floor, so scaling it would make a 12 px label a 24 px one.

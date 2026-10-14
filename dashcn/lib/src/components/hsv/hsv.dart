@@ -138,6 +138,14 @@ class _HSVColorSliderState extends State<HSVColorSlider>
 
   HSVColor get _current => _lastChanging ?? widget.color;
 
+  @override
+  void didUpdateWidget(covariant HSVColorSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // An external colour change (eye-dropper live sampling, a field edit)
+    // must move the thumb immediately: drop the stale drag value.
+    if (widget.color != oldWidget.color) _lastChanging = null;
+  }
+
   /// Value 0..1 of the channel mapped to [axis]; 0 when unassigned.
   double _valueForAxis(ColorFieldAxis axis) {
     final a = _hsvAxes(widget.sliderType, widget.reverse);

@@ -146,10 +146,23 @@ class ThemeDocument {
   final DocsShadowAtoms darkShadow;
 
   /// Family lists per slot; an absent slot means "preset names no family".
+  ///
+  /// Slots are the schema's `sans`/`serif`/`mono` plus the Studio's
+  /// `heading` (h1–h4) and `body` (every non-heading style), which is how a
+  /// picked heading font survives the export (see [headingFont], [bodyFont]).
   final Map<String, String> fonts;
 
   /// The optional `shadowsDerived` marker, carried through untouched.
   final String? shadowsDerived;
+
+  /// The heading family list (`heading` slot), or null.
+  String? get headingFont => fonts['heading'];
+
+  /// The body family list: the `body` slot, else the preset's `sans`.
+  String? get bodyFont => fonts['body'] ?? fonts['sans'];
+
+  /// The mono family list (`mono` slot), or null.
+  String? get monoFont => fonts['mono'];
 
   /// Whether the document names at least one family.
   bool get hasFonts => fonts.isNotEmpty;
@@ -210,9 +223,10 @@ class ThemeDocument {
   /// and spacing rows would export values the site never renders.
   ThemeData theme(Brightness brightness) {
     final ThemeFonts families = ThemeFonts(
-      fontSans: fonts['sans'],
+      fontSans: bodyFont,
       fontSerif: fonts['serif'],
-      fontMono: fonts['mono'],
+      fontMono: monoFont,
+      fontHeading: headingFont,
     );
     final SpacingScale scale = SpacingScale(spacing * 16);
     return ThemeData(

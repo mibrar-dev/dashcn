@@ -68,7 +68,8 @@ class _DefaultFormState extends State<_DefaultForm> {
 
 Widget _default(BuildContext context) => const _DefaultForm();
 
-/// A field validating on every change, so the error shows immediately.
+/// A field validating on every change: the message appears as soon as the
+/// typed value is invalid, and not a frame sooner.
 class _ValidatingForm extends StatefulWidget {
   const _ValidatingForm();
 
@@ -95,6 +96,7 @@ class _ValidatingFormState extends State<_ValidatingForm> {
         child: FormItem<String>(
           key: _emailKey,
           label: const Text('Email'),
+          hint: const Text('The message shows only once you type.'),
           validator: const NotEmptyValidator() & const EmailValidator(),
           showErrors: const <FormValidationMode>{FormValidationMode.changed},
           child: const Input(),

@@ -2,27 +2,62 @@
 // / action composition, and [showAlertDialog] which pushes it through the
 // `dialog` component's route.
 //
-// The card, its padding, the radius, the shadow and the barrier come from
-// `DialogTheme` (24px padding at default density, black barrier at 50%); this
-// component only owns the header icon, the title/description typography and
-// the spacing between them and the footer.
+// Inside the route the card, its padding, the radius, the shadow and the
+// barrier come from `DialogTheme` (24px padding at default density, black
+// barrier at 50%); this component only owns the header icon, the
+// title/description typography and the spacing between them and the footer.
+// Outside a route (docs, tests, inline use) the same card shell is painted
+// here from `DialogTheme`, so the content never touches the card edge.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../dialog/dialog.dart';
+import '../dialog/dialog_style.dart';
 import 'alert_dialog_style.dart';
 
 export 'alert_dialog_style.dart';
 
+/// Card outer width at or below which the footer stacks full-width.
+const double _stackedOuterWidth = 480;
+
+/// Horizontal padding of the dialog-route card at [ambient] density.
+double _routePaddingHorizontal(DialogTheme dialogStyle, ThemeData ambient) {
+  final EdgeInsets resolved = resolveEdgeInsets(
+    dialogStyle.padding ?? EdgeInsets.zero,
+    ambient.density.baseContentPadding * ambient.scaling,
+  ).resolve(TextDirection.ltr);
+  return resolved.horizontal;
+}
+
+/// Card border of the standalone shell; null hides it.
+Border? _shellBorder(DialogTheme dialogStyle, ThemeData ambient) {
+  final double width = dialogStyle.borderWidth ?? 0;
+  final Color? color = dialogStyle.borderColor?.resolve(ambient.colors);
+  if (width == 0 || color == null) {
+    return null;
+  }
+  return Border.all(color: color, width: width);
+}
+
+/// Card shadows of the standalone shell; null removes them.
+List<BoxShadow>? _shellShadows(DialogTheme dialogStyle, ThemeData ambient) {
+  final List<BoxShadow> shadows =
+      dialogStyle.shadows ??
+      (dialogStyle.themeShadows ?? ambient.tokens.shadows).shadowLg;
+  if (shadows.isEmpty) {
+    return null;
+  }
+  return shadows;
+}
+
 /// Builds the header row: optional icon, then the title/description column.
 class AlertDialog extends StatelessWidget {
-  /// Creates an alert dialog body.
-  ///
-  /// Place it in the `builder` of [showAlertDialog]; the surrounding card,
-  /// padding and barrier come from the `dialog` component.
+  /// Creates an alert dialog body for [showAlertDialog]; used standalone it
+  /// paints the `DialogTheme` card shell itself.
   const AlertDialog({
     super.key,
     this.title,
@@ -60,10 +95,14 @@ class AlertDialog extends StatelessWidget {
           select: (t) => t,
           defaults: alertDialogDefaults,
         );
-    final double iconGap = style.iconGap ?? 0;
-    final double headerGap = style.headerGap ?? 0;
-    final double footerGap = style.footerGap ?? 0;
-    final double actionGap = style.actionGap ?? 0;
+    // Token gaps: an explicit `AlertDialogTheme` field wins, otherwise the
+    // ambient spacing scale applies (upstream `gap-4`/`gap-2` read as lg/sm
+    // at the default base). A component `themeSpacing` leg rescales all four.
+    final spacing = style.themeSpacing ?? ambient.spacing;
+    final double iconGap = style.iconGap ?? spacing.lg;
+    final double headerGap = style.headerGap ?? spacing.sm;
+    final double footerGap = style.footerGap ?? spacing.lg;
+    final double actionGap = style.actionGap ?? spacing.sm;
 
     final TextStyle titleStyle =
         (style.titleStyle ?? alertDialogDefaultTitleStyle).copyWith(
@@ -75,33 +114,96 @@ class AlertDialog extends StatelessWidget {
               style.descriptionStyle?.color ?? ambient.colors.mutedForeground,
         );
 
-    final Widget? header = _buildHeader(
-      context,
-      style,
-      titleStyle,
-      descriptionStyle,
-      iconGap,
-      headerGap,
-    );
-    final Widget? footer = _buildFooter(
-      style.footerAlignment ?? MainAxisAlignment.end,
-      actionGap,
-      context,
-    );
+    final DialogTheme dialogStyle =
+        resolveComponentStyle<DialogTheme, DialogTheme>(
+          context,
+          select: (dialogTheme) => dialogTheme,
+          defaults: dialogDefaults,
+        );
+    final bool inRoute = ModalRoute.of(context) is DialogRoute<dynamic>;
+    // The route measures the card interior (inside its padding); the
+    // standalone shell measures the exterior. Adding the route padding back
+    // maps the interior onto the same card-outer width, so the stacked rule
+    // below matches on both paths.
+    final double routePadding = inRoute
+        ? _routePaddingHorizontal(dialogStyle, ambient)
+        : 0;
 
-    final List<Widget> children = <Widget>[
-      if (header != null) Flexible(child: header),
-      if (header != null && footer != null) Gap(footerGap),
-      if (footer case final Widget widget) widget,
-    ];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: children,
+    // upstream `AlertDialogFooter`: `flex-col-reverse sm:flex-row
+    // sm:justify-end gap-2`. At or below a 480px card the actions stack
+    // full-width; above they sit in a right-aligned row. `LayoutBuilder`
+    // reads the real card width so a 390px phone stacks while the 512px
+    // desktop card keeps the row. Unbounded width (tests) keeps the row.
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double outer = constraints.maxWidth.isFinite
+            ? constraints.maxWidth + routePadding
+            : constraints.maxWidth;
+        final bool stacked = outer.isFinite && outer <= _stackedOuterWidth;
+        final Widget? header = stacked
+            ? _buildHeaderStacked(titleStyle, descriptionStyle, headerGap)
+            : _buildHeaderRow(
+                context,
+                style,
+                titleStyle,
+                descriptionStyle,
+                iconGap,
+                headerGap,
+              );
+        final Widget? footer = _buildFooter(
+          style.footerAlignment ?? MainAxisAlignment.end,
+          actionGap,
+          stacked: stacked,
+        );
+
+        final Widget content = Column(
+          mainAxisSize: MainAxisSize.min,
+          // `stretch` is the footer fix: with `start` the action `Wrap`
+          // sized to its content and `WrapAlignment.end` aligned the
+          // buttons to the content's own end (reading as LEFT-aligned,
+          // flush to the border). Stretched, the row spans the card and
+          // the actions truly sit at its end.
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ?header,
+            if (header != null && footer != null) Gap(footerGap),
+            if (footer case final Widget widget) widget,
+          ],
+        );
+        // Inside the dialog route the card shell (padding, radius, border,
+        // shadow) is already painted by the route: return the content bare
+        // so the padding is never doubled.
+        if (inRoute) {
+          return content;
+        }
+        // Standalone (docs, tests, inline use) the same shell is painted
+        // here from `DialogTheme`, so nothing touches the card edge.
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: dialogEffectiveMaxWidth(dialogStyle),
+          ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: dialogStyle.background?.resolve(ambient.colors),
+              borderRadius: dialogStyle.borderRadius ?? ambient.borderRadiusLg,
+              border: _shellBorder(dialogStyle, ambient),
+              boxShadow: _shellShadows(dialogStyle, ambient),
+            ),
+            child: Padding(
+              padding: resolveEdgeInsets(
+                dialogStyle.padding ?? EdgeInsets.zero,
+                ambient.density.baseContentPadding * ambient.scaling,
+              ),
+              child: content,
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget? _buildHeader(
+  /// Wide header: icon beside the title, top-aligned with its first line.
+  Widget? _buildHeaderRow(
     BuildContext context,
     AlertDialogTheme style,
     TextStyle titleStyle,
@@ -151,18 +253,64 @@ class AlertDialog extends StatelessWidget {
     }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: row,
+    );
+  }
+
+  /// Narrow header (centred on mobile): icon above the title, texts centred.
+  Widget? _buildHeaderStacked(
+    TextStyle titleStyle,
+    TextStyle descriptionStyle,
+    double headerGap,
+  ) {
+    if (title == null && description == null && icon == null) {
+      return null;
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        ?icon,
+        if (icon != null && (title != null || description != null))
+          Gap(headerGap),
+        if (title != null)
+          DefaultTextStyle.merge(
+            style: titleStyle,
+            textAlign: TextAlign.center,
+            child: title!,
+          ),
+        if (title != null && description != null) Gap(headerGap),
+        if (description != null)
+          DefaultTextStyle.merge(
+            style: descriptionStyle,
+            textAlign: TextAlign.center,
+            child: description!,
+          ),
+      ],
     );
   }
 
   Widget? _buildFooter(
     MainAxisAlignment alignment,
-    double actionGap,
-    BuildContext context,
-  ) {
+    double actionGap, {
+    required bool stacked,
+  }) {
     if (actions.isEmpty) {
       return null;
+    }
+    // Mobile: stacked full-width actions (`flex-col`).
+    if (stacked) {
+      final List<Widget> column = <Widget>[];
+      for (int i = 0; i < actions.length; i++) {
+        if (i > 0) column.add(Gap(actionGap));
+        column.add(actions[i]);
+      }
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: column,
+      );
     }
     if (actions.length == 1) {
       return Align(
@@ -183,6 +331,7 @@ class AlertDialog extends StatelessWidget {
         MainAxisAlignment.spaceAround => WrapAlignment.spaceAround,
         MainAxisAlignment.spaceEvenly => WrapAlignment.spaceEvenly,
       },
+      runAlignment: WrapAlignment.end,
       spacing: actionGap,
       runSpacing: actionGap,
       children: actions,

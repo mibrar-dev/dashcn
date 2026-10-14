@@ -4,125 +4,197 @@
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
 //
-// P7-C2: the framed examples are live — Cancel closes the frame, the
-// destructive action confirms, and a result strip reports what was chosen.
+// Every example is a centred trigger button; pressing it calls
+// `showAlertDialog` (root navigator, barrier), so the dialog opens over the
+// WHOLE app — exactly like the `dialog` previews — never clipped to the
+// stage. P7-WA: header icon sits on the title row (top-aligned with the first
+// line), the footer is right-aligned (`WrapAlignment.end`) and stacks
+// full-width at or below a 480px card.
+
+import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/icons/lucide_icons.dart';
-import '../../foundation/gap.dart';
-import '../../theme/density.dart';
-import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'alert_dialog.dart';
 
-/// A framed alert dialog whose buttons really act.
-class _AlertDialogFrame extends StatefulWidget {
-  const _AlertDialogFrame({
-    required this.icon,
-    required this.title,
-    required this.description,
-    this.destructive = false,
-  });
+/// Centred trigger button, like the `dialog` previews.
+class _Trigger extends StatelessWidget {
+  const _Trigger({required this.label, required this.onPressed});
 
-  final IconData icon;
-  final String title;
-  final String description;
-  final bool destructive;
-
-  @override
-  State<_AlertDialogFrame> createState() => _AlertDialogFrameState();
-}
-
-class _AlertDialogFrameState extends State<_AlertDialogFrame> {
-  String? _result;
+  final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (_result == null)
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: theme.colors.background,
-                borderRadius: theme.borderRadiusLg,
-                border: Border.all(color: theme.colors.border),
-                boxShadow: theme.tokens.shadows.shadowLg,
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 420),
-                child: Padding(
-                  padding: EdgeInsetsDensity.pxAll(24),
-                  child: AlertDialog(
-                    icon: Icon(widget.icon),
-                    title: Text(widget.title),
-                    description: Text(widget.description),
-                    actions: <Widget>[
-                      Button(
-                        size: ButtonSize.sm,
-                        variant: ButtonVariant.outline,
-                        onPressed: () => setState(() => _result = 'Cancelled'),
-                        child: const Text('Cancel'),
-                      ),
-                      Button(
-                        size: ButtonSize.sm,
-                        variant: widget.destructive
-                            ? ButtonVariant.destructive
-                            : ButtonVariant.primary,
-                        onPressed: () => setState(() => _result = 'Confirmed'),
-                        child: const Text('Delete'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          else
-            Text(
-              '$_result.',
-              style: TextStyle(color: theme.colors.mutedForeground),
-            ),
-          Gap(theme.spacing.md),
-          Button(
-            size: ButtonSize.sm,
-            variant: ButtonVariant.outline,
-            onPressed: () => setState(() => _result = null),
-            child: const Text('Show again'),
-          ),
-        ],
+      child: Button(
+        variant: ButtonVariant.outline,
+        size: ButtonSize.sm,
+        onPressed: onPressed,
+        child: Text(label),
       ),
     );
   }
 }
 
-/// The default dialog.
-Widget _alertDialogDefault(BuildContext context) => const _AlertDialogFrame(
-  icon: LucideIcons.circleAlert,
-  title: 'Are you absolutely sure?',
-  description: 'This permanently deletes the account.',
+/// Confirm/cancel footer. Built from the dialog's own context: popping the
+/// caller's context would pop the page under the dialog in apps with nested
+/// navigators.
+List<Widget> _confirmActions(
+  BuildContext dialogContext, {
+  required String confirmLabel,
+  required ButtonVariant confirmVariant,
+}) {
+  return <Widget>[
+    Button(
+      size: ButtonSize.sm,
+      variant: ButtonVariant.outline,
+      onPressed: () => Navigator.of(dialogContext).pop(false),
+      child: const Text('Cancel'),
+    ),
+    Button(
+      size: ButtonSize.sm,
+      variant: confirmVariant,
+      onPressed: () => Navigator.of(dialogContext).pop(true),
+      child: Text(confirmLabel),
+    ),
+  ];
+}
+
+/// Destructive delete-account confirmation.
+Widget _deleteAccount(BuildContext context) => _Trigger(
+  label: 'Delete account',
+  onPressed: () => showAlertDialog<bool>(
+    context: context,
+    icon: const Icon(LucideIcons.circleAlert),
+    title: const Text('Delete your account?'),
+    description: const Text(
+      'This permanently deletes your account and all of its data. '
+      'This action cannot be undone.',
+    ),
+    actionsBuilder: (BuildContext dialogContext) => _confirmActions(
+      dialogContext,
+      confirmLabel: 'Delete account',
+      confirmVariant: ButtonVariant.destructive,
+    ),
+  ),
 );
 
-/// The destructive dialog.
-Widget _alertDialogDestructive(BuildContext context) => const _AlertDialogFrame(
-  icon: LucideIcons.triangleAlert,
-  title: 'Delete this project?',
-  description:
-      'This action cannot be undone. The project and its history is removed.',
-  destructive: true,
+/// Discard-changes confirmation.
+Widget _discardChanges(BuildContext context) => _Trigger(
+  label: 'Discard changes',
+  onPressed: () => showAlertDialog<bool>(
+    context: context,
+    icon: const Icon(LucideIcons.triangleAlert),
+    title: const Text('Discard unsaved changes?'),
+    description: const Text(
+      'You have unsaved changes to this document. '
+      'Leaving now will lose them.',
+    ),
+    actionsBuilder: (BuildContext dialogContext) => _confirmActions(
+      dialogContext,
+      confirmLabel: 'Discard',
+      confirmVariant: ButtonVariant.destructive,
+    ),
+  ),
 );
 
-/// A live push through `showAlertDialog`.
-class _AlertDialogPushedDialog extends StatelessWidget {
-  const _AlertDialogPushedDialog();
+/// Live countdown text of the session dialog; ticks while the dialog is open.
+class _SessionCountdown extends StatefulWidget {
+  const _SessionCountdown();
+
+  @override
+  State<_SessionCountdown> createState() => _SessionCountdownState();
+}
+
+class _SessionCountdownState extends State<_SessionCountdown> {
+  static const int _total = 90;
+  int _left = _total;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _left = _left > 0 ? _left - 1 : 0);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerStart,
+    final int minutes = _left ~/ 60;
+    final String seconds = (_left % 60).toString().padLeft(2, '0');
+    return Text(
+      'Your session ends in $minutes:$seconds. Extend it to keep working.',
+    );
+  }
+}
+
+/// Session-expiring countdown with an explicit way out.
+Widget _sessionExpiring(BuildContext context) => _Trigger(
+  label: 'Session expiring',
+  onPressed: () => showAlertDialog<bool>(
+    context: context,
+    icon: const Icon(LucideIcons.clock),
+    title: const Text('Session expiring'),
+    description: const _SessionCountdown(),
+    actionsBuilder: (BuildContext dialogContext) => <Widget>[
+      Button(
+        size: ButtonSize.sm,
+        variant: ButtonVariant.outline,
+        onPressed: () => Navigator.of(dialogContext).pop(false),
+        child: const Text('Sign out'),
+      ),
+      Button(
+        size: ButtonSize.sm,
+        variant: ButtonVariant.primary,
+        onPressed: () => Navigator.of(dialogContext).pop(true),
+        child: const Text('Stay signed in'),
+      ),
+    ],
+  ),
+);
+
+/// Success confirmation.
+Widget _success(BuildContext context) => _Trigger(
+  label: 'Show success',
+  onPressed: () => showAlertDialog<bool>(
+    context: context,
+    icon: const Icon(LucideIcons.circleCheck),
+    title: const Text('Payment successful'),
+    description: const Text(
+      'Your subscription is active. A receipt was sent to your inbox.',
+    ),
+    actionsBuilder: (BuildContext dialogContext) => <Widget>[
+      Button(
+        size: ButtonSize.sm,
+        variant: ButtonVariant.primary,
+        onPressed: () => Navigator.of(dialogContext).pop(true),
+        child: const Text('Done'),
+      ),
+    ],
+  ),
+);
+
+/// A live push through `showAlertDialog` over the whole app.
+class _LivePush extends StatelessWidget {
+  const _LivePush();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
       child: Button(
         onPressed: () => showAlertDialog<bool>(
           context: context,
@@ -151,12 +223,13 @@ class _AlertDialogPushedDialog extends StatelessWidget {
   }
 }
 
-Widget _alertDialogPushed(BuildContext context) =>
-    const _AlertDialogPushedDialog();
+Widget _livePush(BuildContext context) => const _LivePush();
 
 /// Named docs examples for `alert_dialog`; the first entry is the default.
 const List<ComponentPreview> alertDialogPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _alertDialogDefault),
-  ComponentPreview('Destructive', _alertDialogDestructive),
-  ComponentPreview('Live push', _alertDialogPushed),
+  ComponentPreview('Delete account', _deleteAccount),
+  ComponentPreview('Discard changes', _discardChanges),
+  ComponentPreview('Session expiring', _sessionExpiring),
+  ComponentPreview('Success', _success),
+  ComponentPreview('Live push', _livePush),
 ];

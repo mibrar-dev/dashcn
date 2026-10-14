@@ -8,7 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../state/site_theme_model.dart';
+import '../../theme/docs_fonts.dart';
 import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/components/tooltip/tooltip.dart';
 import '../../ui/dashcn/foundation/gap.dart';
@@ -21,39 +21,58 @@ import 'rail_picker_scroll.dart';
 import 'rail_picker_slider.dart';
 import 'rail_pickers.dart';
 
+/// The catalogue a [slot] offers, so each font row shows the families that
+/// actually fit its role (headings get the display faces, the body gets the
+/// text faces, mono gets the code faces).
+List<DocsFontFamily> docsFontCatalogueFor(String slot) => switch (slot) {
+  'heading' => kDocsHeadingFonts,
+  'body' => kDocsBodyFonts,
+  'mono' => kDocsMonoFonts,
+  _ => kDocsBodyFonts,
+};
+
 /// Shows the family list popup for [slot]; only a pick commits.
 ///
 /// [onChanged] runs exactly once per committed pick ('' clears the slot);
 /// hovering, scrolling and arrow-key focus movement stay local. Closing
-/// without picking keeps the current value.
+/// without picking keeps the current value. A pick loads the family through
+/// [FontLoader] first (lazy — the catalogue is not downloaded at startup),
+/// so the committed value always renders in the family the user chose.
 Future<void> showFontPicker(
   BuildContext context,
   String slot,
   String? current, {
   required ValueChanged<String> onChanged,
 }) {
-  final List<String> options = <String>{
-    ...kDocsFontOptions,
-    if (current case final String spec) spec,
-  }.toList()..sort();
+  final List<DocsFontFamily> catalogue = docsFontCatalogueFor(slot);
   final String committed = current ?? '';
-  Widget row({
-    required String label,
-    required String detail,
-    required String spec,
-    Widget? trailing,
-  }) {
+  Widget row(DocsFontFamily option) {
     final Widget line = RailPickerRow(
-      label: label,
-      detail: detail,
-      selected: committed == spec,
-      onPick: () {
-        onChanged(spec);
-        closeOverlay(context);
+      label: option.label,
+      detail: option.family.isEmpty ? 'bundled default' : option.family,
+      selected: committed == option.family,
+      onPick: () async {
+        // Load before the model commits, so the first frame after the commit
+        // already paints the picked family (no fallback flash).
+        await loadDocsFonts(option.family);
+        if (context.mounted) {
+          onChanged(option.family);
+          closeOverlay(context);
+        }
       },
-      trailing: trailing,
+      trailing: Text(
+        'Aa',
+        style: docsText(
+          context,
+          size: 16,
+          color: Theme.of(context).colors.mutedForeground,
+        ).copyWith(fontFamily: option.family.isEmpty ? null : option.family),
+      ),
     );
-    return revealSelectedOnMount(selected: committed == spec, child: line);
+    return revealSelectedOnMount(
+      selected: committed == option.family,
+      child: line,
+    );
   }
 
   return showPicker<void>(
@@ -63,27 +82,21 @@ Future<void> showFontPicker(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          row(label: 'Default', detail: 'bundled Geist stack', spec: ''),
-          for (final String option in options)
-            row(
-              label: railFirstFamily(option),
-              detail: option,
-              spec: option,
-              trailing: Text(
-                'Aa',
-                style: docsText(
-                  context,
-                  size: 16,
-                  color: Theme.of(context).colors.mutedForeground,
-                ).copyWith(fontFamily: railFirstFamily(option)),
-              ),
-            ),
+          for (final DocsFontFamily option in catalogue) row(option),
         ],
       ),
     ),
-    title: '$slot family',
+    title: _fontPickerTitle(slot),
   );
 }
+
+/// The popup title for [slot], matching the rail row's label.
+String _fontPickerTitle(String slot) => switch (slot) {
+  'heading' => 'Heading font',
+  'body' => 'Body font',
+  'mono' => 'Mono font',
+  _ => '$slot family',
+};
 
 /// Radius presets (px), after the upstream scale: 0, 0.25, 0.5, the 0.625 rem
 /// neutral default, 0.75 and a full 1 rem.
@@ -344,7 +357,9 @@ class SyntaxPalettePreview extends StatelessWidget {
                   height: 14,
                   decoration: BoxDecoration(
                     color: syntax.colorFor(kind),
-                    borderRadius: BorderRadius.circular(3),
+                    // P7-TH1: syntax swatches use the small radius token
+                    // (colours stay the fixed syntax palette by exception).
+                    borderRadius: theme.borderRadiusSm,
                     border: Border.all(color: theme.colors.border),
                   ),
                 ),

@@ -12,8 +12,11 @@ import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'docs_tokens.dart';
 
-/// Base card: 24 px radius, card fill, `shadow-sm` + 5 % foreground ring.
-/// The shared collage card shell (24 px radius, card fill, soft ring).
+/// Base card: card fill, `shadow-sm` + 5 % foreground ring.
+/// The shared collage card shell (radiusXl, card fill, soft ring).
+///
+/// P7-TH1: radius, padding, gaps and shadows all come from the active theme,
+/// so the home collage follows the Theme Studio radius/spacing/density.
 class CollageCard extends StatelessWidget {
   const CollageCard({
     super.key,
@@ -33,14 +36,13 @@ class CollageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final ThemeColors colors = theme.colors;
     return Card(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(theme.spacing.xl),
       background: ThemedColor.ref(ColorRef.card),
-      borderColor: ThemedColor.value(
-        theme.colors.foreground.withValues(alpha: 0.05),
-      ),
+      borderColor: ThemedColor.value(colors.foreground.withValues(alpha: 0.05)),
       borderWidth: 1,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: theme.borderRadiusXl,
       shadows: theme.tokens.shadows.shadowSm,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,26 +59,29 @@ class CollageCard extends StatelessWidget {
                       context,
                       size: 16,
                       weight: FontWeight.w600,
-                      color: theme.colors.cardForeground,
+                      color: colors.cardForeground,
                     ),
                   ),
                 ),
-                if (trailing != null) ...<Widget>[const Gap(8), trailing!],
+                if (trailing != null) ...<Widget>[
+                  Gap(theme.spacing.sm),
+                  trailing!,
+                ],
               ],
             ),
           if (subtitle != null) ...<Widget>[
-            const Gap(4),
+            Gap(theme.spacing.xs),
             Text(
               subtitle!,
               style: docsText(
                 context,
                 size: 14,
                 height: 1.4,
-                color: theme.colors.mutedForeground,
+                color: colors.mutedForeground,
               ),
             ),
           ],
-          if (title != null || subtitle != null) const Gap(12),
+          if (title != null || subtitle != null) Gap(theme.spacing.md),
           ...children,
         ],
       ),

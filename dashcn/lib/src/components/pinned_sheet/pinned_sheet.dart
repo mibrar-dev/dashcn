@@ -2,6 +2,11 @@
 // [SheetController] snapping between [SheetStage]s (see
 // `primitives/sheet_stage.dart`). Fixes vs old: glass gone, barrier alpha
 // multiplies, peek uses handle width on horizontal sheets.
+// P7-WB: the sheet draws its own edge handle ([sheetHandleKey]) positioned
+// per side — bottom sheets keep it at the top, top sheets at the bottom,
+// left sheets on the right edge (vertical pill) and right sheets on the
+// left edge. The chrome container's own top handle is always suppressed, so
+// it can never double up or sit on the wrong edge.
 
 import 'package:flutter/widgets.dart';
 
@@ -14,6 +19,11 @@ import '../backdrop_transform/backdrop_transform.dart';
 import '../drawer_container/drawer_container.dart';
 
 export '../../primitives/sheet_stage.dart';
+
+/// Lookup key of the sheet's edge handle (tests, scroll-to).
+const ValueKey<String> sheetHandleKey = ValueKey<String>(
+  'dashcn.pinnedSheet.handle',
+);
 
 /// Controls a [PinnedSheet]: reads position, drives it to a [SheetStage].
 class SheetController extends ChangeNotifier {
@@ -109,7 +119,14 @@ class PinnedSheet extends StatefulWidget {
   final SheetStage? initialStage;
   final Widget? backdrop;
   final BackdropTransform? backdropTransform;
+
+  /// Whether the sheet can be dragged between its snap stages.
   final bool draggable;
+
+  /// Whether the sheet shows its edge handle. The handle is drawn by the
+  /// sheet itself, positioned per [position] (top for bottom sheets, bottom
+  /// for top sheets, outer edge for side sheets); the chrome container's own
+  /// top handle stays suppressed so the two can never double up.
   final bool showDragHandle;
   final bool expands;
   final bool contentExpands;
@@ -324,7 +341,9 @@ class _PinnedSheetState extends State<PinnedSheet>
             isSheet: true,
             expands: widget.expands,
             draggable: widget.draggable,
-            showDragHandle: widget.showDragHandle,
+            // The sheet draws its own side-aware handle below; the chrome
+            // container's top handle stays suppressed (P7-WB).
+            showDragHandle: false,
             dragHandleSize: widget.dragHandleSize,
             borderRadius: widget.borderRadius,
             barrierColor: widget.barrierColor?.resolve(ambient.colors),
@@ -355,7 +374,27 @@ class _PinnedSheetState extends State<PinnedSheet>
         };
         Widget sliding = Align(
           alignment: edge,
-          child: Transform.translate(offset: slide, child: chrome),
+          child: Transform.translate(
+            offset: slide,
+            child: Stack(
+              fit: StackFit.passthrough,
+              children: <Widget>[
+                chrome,
+                // The edge handle floats over the chrome's leading edge and
+                // slides with the sheet, so it is visible at every snap stage
+                // (a handle outside the chrome would clip when the sheet is
+                // fully open). Same rule as the chrome handle it replaces: it
+                // shows while the sheet is draggable.
+                if (widget.draggable && widget.showDragHandle)
+                  Positioned.fill(
+                    child: _SheetHandle(
+                      position: position,
+                      handleSize: widget.dragHandleSize,
+                    ),
+                  ),
+              ],
+            ),
+          ),
         );
         if (widget.draggable) {
           sliding = _dragRegion(
@@ -399,6 +438,72 @@ class _PinnedSheetState extends State<PinnedSheet>
           ],
         );
       },
+    );
+  }
+}
+
+/// The sheet's edge handle: a pill floating over the chrome's leading edge.
+///
+/// Bottom sheets keep it at the top, top sheets at the bottom, left sheets on
+/// the right edge as a vertical pill and right sheets on the left edge. The
+/// pill is paint-only (`ExcludeSemantics`, no gestures of its own): drags
+/// land on the sheet's drag region behind it, exactly like the chrome handle
+/// this replaces.
+class _SheetHandle extends StatelessWidget {
+  const _SheetHandle({required this.position, required this.handleSize});
+
+  /// Resolved sheet side (`start`/`end` never reach here).
+  final OverlayPosition position;
+
+  /// Caller-provided pill size, if any.
+  final Size? handleSize;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData ambient = Theme.of(context);
+    final Color color = const ThemedColor.ref(
+      ColorRef.muted,
+    ).resolve(ambient.colors);
+    final Size base = handleSize ?? const Size(36, 4);
+    // Top/bottom sheets slide vertically and take a horizontal pill; side
+    // sheets take a vertical pill, so the axes swap.
+    final bool horizontalPill =
+        position == OverlayPosition.top || position == OverlayPosition.bottom;
+    final Size pill = horizontalPill ? base : Size(base.height, base.width);
+    final Alignment alignment = switch (position) {
+      OverlayPosition.bottom => Alignment.topCenter,
+      OverlayPosition.top => Alignment.bottomCenter,
+      OverlayPosition.right => Alignment.centerLeft,
+      OverlayPosition.left => Alignment.centerRight,
+      _ => Alignment.topCenter,
+    };
+    // The pill sits 8px inside the leading edge (the drawer's
+    // `gapBeforeDragger` default), so it never clips, even fully open.
+    final EdgeInsets padding = switch (position) {
+      OverlayPosition.bottom => const EdgeInsets.only(top: 8),
+      OverlayPosition.top => const EdgeInsets.only(bottom: 8),
+      OverlayPosition.right => const EdgeInsets.only(left: 8),
+      OverlayPosition.left => const EdgeInsets.only(right: 8),
+      _ => const EdgeInsets.only(top: 8),
+    };
+    return Align(
+      alignment: alignment,
+      child: Padding(
+        padding: padding,
+        child: ExcludeSemantics(
+          child: Container(
+            key: sheetHandleKey,
+            width: pill.width,
+            height: pill.height,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(
+                (horizontalPill ? pill.height : pill.width) / 2,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

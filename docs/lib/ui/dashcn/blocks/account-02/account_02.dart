@@ -21,7 +21,6 @@ import '../../components/button/button.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
-import '../../components/spinner/spinner.dart';
 import '../../components/switch/switch.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
@@ -87,7 +86,6 @@ class _Account02State extends State<Account02> {
   late Map<String, bool> _push = _defaults();
   bool _quietHours = true;
   bool _digest = true;
-  bool _submitting = false;
   bool _succeeded = false;
 
   FormKey<bool> _key(String channel, String prefix) =>
@@ -100,20 +98,10 @@ class _Account02State extends State<Account02> {
   }
 
   Future<void> _save() async {
-    if (_submitting) {
-      return;
+    if (mounted) {
+      setState(() => _succeeded = false);
     }
-    setState(() {
-      _submitting = true;
-      _succeeded = false;
-    });
-    try {
-      await _controller.submit(context);
-    } finally {
-      if (mounted) {
-        setState(() => _submitting = false);
-      }
-    }
+    await _controller.submit(context);
   }
 
   Future<void> _handleValidSubmit(FormMapValues values) async {
@@ -139,6 +127,9 @@ class _Account02State extends State<Account02> {
       _digest = true;
       _succeeded = false;
     });
+    // Back to the untouched state: the preference rows the reset just
+    // restored are not user edits, so they must not keep showing validation.
+    _controller.reset();
   }
 
   @override
@@ -235,20 +226,8 @@ class _Account02State extends State<Account02> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
                   Button(
-                    onPressed: _submitting ? null : _save,
-                    child: _submitting
-                        ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Spinner(
-                                size: 14,
-                                color: theme.colors.primaryForeground,
-                              ),
-                              Gap(theme.spacing.sm),
-                              const Text('Saving'),
-                            ],
-                          )
-                        : const Text('Save preferences'),
+                    onPressedAsync: _save,
+                    child: const Text('Save preferences'),
                   ),
                   Button(
                     variant: ButtonVariant.outline,

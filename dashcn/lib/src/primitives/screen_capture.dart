@@ -67,6 +67,7 @@ class ScreenCapture {
     required this.image,
     required this.colors,
     required this.size,
+    this.pixelRatio = 1,
   });
 
   /// The decoded screenshot, for `RawImage`/`CustomPaint`.
@@ -78,6 +79,10 @@ class ScreenCapture {
   /// The size of the capture, in source pixels.
   final Size size;
 
+  /// Device pixel ratio the capture was taken at ([captureRenderBoundary]'s
+  /// `pixelRatio`). Logical positions divide by this to reach image pixels.
+  final double pixelRatio;
+
   /// The colour at the source pixel `(x, y)`.
   Color colorAt(int x, int y) => colors[y * size.width.floor() + x];
 
@@ -85,6 +90,9 @@ class ScreenCapture {
   ///
   /// Pixels outside the capture become fully transparent and the grid is
   /// capped at 512x512 so a degenerate zoom cannot allocate unboundedly.
+  ///
+  /// [position] and [gridSize] are in image pixels (see [sampleLogical] for
+  /// the logical-pixel entry point used by pointer events).
   ScreenSample sample(Offset position, Size gridSize) {
     final int width = gridSize.width.floor().clamp(1, 512);
     final int height = gridSize.height.floor().clamp(1, 512);
@@ -113,6 +121,20 @@ class ScreenCapture {
       sampled,
       Size(width.toDouble(), height.toDouble()),
       colorAt(pickedX, pickedY),
+    );
+  }
+
+  /// Samples using logical pixels (pointer coordinates).
+  ///
+  /// [logical] is multiplied by [pixelRatio] to reach image pixels and
+  /// [logicalGrid] (the loupe's sample area in logical pixels) is scaled the
+  /// same way, so the loupe covers the same on-screen area at any DPR and a
+  /// logical (10, 10) at DPR 2 reads image pixel (20, 20).
+  ScreenSample sampleLogical(Offset logical, Size logicalGrid) {
+    final double ratio = pixelRatio <= 0 ? 1 : pixelRatio;
+    return sample(
+      Offset(logical.dx * ratio, logical.dy * ratio),
+      Size(logicalGrid.width * ratio, logicalGrid.height * ratio),
     );
   }
 
@@ -161,8 +183,17 @@ Future<ScreenCapture?> captureRenderBoundary(
     image: image,
     colors: colors,
     size: Size(image.width.toDouble(), image.height.toDouble()),
+    pixelRatio: pixelRatio <= 0 ? 1 : pixelRatio,
   );
 }
+
+/// Whether screen capture is available on this platform.
+///
+/// `RenderRepaintBoundary.toImage` works on web and desktop, so this is true
+/// everywhere Flutter runs; callers hide the eye-dropper button only when no
+/// [EyeDropperLayerScope]-style boundary exists in the tree (the detectable
+/// impossibility), not on this flag.
+bool get eyeDropperCaptureSupported => true;
 
 /// Paints an [ScreenSample]-shaped grid of colours as a circular magnified
 /// preview, with a highlight around the centre cell.

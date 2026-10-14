@@ -677,3 +677,31 @@
 - Canvas blurred (not grey), sidebar category labels aligned + clearer.
 - Gates: kit format 0 / analyze 0 / registry 4518 / rearch 42 / generators + layers + owner + user-theme; docs format 0 / analyze 0 / 232 / codegen + mirror --check / release build. Visual checks by orchestrator on release builds.
 - Model note: Go muse-spark hit "Insufficient account funds"; Go step-5 and longcat endpoints went unavailable once; G3 finished on Zen step-5.
+
+## P7 batch — stabilisation + final QA (2026-10-12, orchestrator)
+Batch: TH1, CP1, DL1, NM1, WA, WB, WC (+WC2), BF1, WD, TS1, I1, H1, S1, B2, Z2, C2, STAB + orchestrator chat/background fixes.
+- TS1.f crashed on a model "invalid parameters" error while writing its report; code was complete. Its 6 ts1_* tests pass; scratch
+  capture test removed. No TS1 report.
+- STAB (muse): 9 kit + 7 docs failures. Stale tests updated for app-wide toasts / trigger dialogs / renamed examples (coverage
+  kept). Real bugs fixed: docs_article Expanded-in-unbounded-Column crash on narrow pages; DrawerBackgroundScale conditional
+  wrappers tripping a semantics assert.
+- Re-run by orchestrator: qa_gate clean (format 0 changed, analyze 0, owner warning in switcher preview is pre-existing);
+  kit registry+rearch 5055 passed; manifest/previews/blocks --check up to date; docs format/analyze clean, gen + sync --check
+  clean, 291 passed (1 skipped), build web OK.
+- Visual (release build, 1440 dark): home, themes studio, table, navigation menu, kbd, dialog, toast render correctly.
+- Open: unknown routes (e.g. hyphenated `/docs/components/alert-dialog`) show the release grey error screen
+  ("RenderBox was not laid out") instead of a not-found page → follow-up fix. Escape doesn't close the landing drawer
+  (STAB open question, unverified).
+Verdict: ACCEPT.
+
+## P7-FOCUS — web view-focus exception (2026-10-12, orchestrator)
+- Symptom: every page logged `RenderBox was not laid out` when the window gained focus (engine sends the initial
+  view-focus event before the first layout; reading-order traversal reads un-laid-out rects). Agent diagnosis correct.
+- Agent fix (ExcludeFocus for one frame) REJECTED: probe showed it breaks `autofocus` on an app's first screen.
+- Orchestrator revision: the gate hides descendants from TRAVERSAL only (`Focus(descendantsAreTraversable: _ready,
+  canRequestFocus: false, skipTraversal: true)`), so autofocus still works. Added regression test
+  "autofocus on the first screen still takes focus".
+- Also: unknown component URLs now hit not-found; hyphenated ids resolve (5ebe8c1).
+- Gates: qa_gate clean; kit 5015 + rearch 42 passed; manifest regenerated + --check; docs format/analyze clean,
+  gen/sync --check clean, 296 passed; release build console: 0 errors on /, /themes, button page, not-found page.
+Verdict: ACCEPT (revised).

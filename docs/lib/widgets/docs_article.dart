@@ -275,7 +275,7 @@ class _DocsArticleState extends State<DocsArticle> {
                         children: <Widget>[
                           _titleRow(context, theme, showActions),
                           if (widget.description.isNotEmpty) ...<Widget>[
-                            const Gap(8),
+                            Gap(theme.spacing.sm),
                             ConstrainedBox(
                               constraints: const BoxConstraints(
                                 maxWidth: DocsMetrics.articleWidth * 0.8,
@@ -291,7 +291,7 @@ class _DocsArticleState extends State<DocsArticle> {
                               ),
                             ),
                           ],
-                          const Gap(24),
+                          Gap(theme.spacing.xl),
                           ...widget.children,
                           if (width >= 640 &&
                               (widget.previous != null || widget.next != null))
@@ -315,57 +315,94 @@ class _DocsArticleState extends State<DocsArticle> {
   }
 
   Widget _titleRow(BuildContext context, ThemeData theme, bool showActions) {
-    final double width = MediaQuery.sizeOf(context).width;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
+    // badge size with gap-2 between them; the badge group keeps gap-3 from
+    // the actions; Copy Page and the pager use gap-2. The Wrap drops to the
+    // next line on narrow widths instead of squeezing to 0px gaps.
+    final Widget badges = Wrap(
+      spacing: theme.spacing.sm,
+      runSpacing: theme.spacing.sm,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: widget.titleActions,
+    );
+    final Widget actions = Wrap(
+      spacing: theme.spacing.sm,
+      runSpacing: theme.spacing.sm,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        Expanded(
-          child: Text(
-            widget.title,
-            style: docsText(
-              context,
-              size: 30,
-              weight: FontWeight.w600,
-              height: 36 / 30,
-              letterSpacing: -0.75,
-            ),
+        // Copy Page hides below `sm`; the prev/next pair renders at
+        // every width (spec §2.3: 28 px ≥md, 32 px below).
+        if (showActions)
+          CopyButton(
+            text: _copyText,
+            label: 'Copy Page',
+            showLabel: true,
+            variant: ButtonVariant.secondary,
+            size: ButtonSize.sm,
           ),
+        _iconNavButton(
+          context,
+          icon: LucideIcons.chevronLeft,
+          tooltip: 'Previous',
+          link: widget.previous,
+          size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
         ),
-        if (widget.showTitleActions)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              // Copy Page hides below `sm`; the prev/next pair renders at
-              // every width (spec §2.3: 28 px ≥md, 32 px below).
-              if (showActions) ...<Widget>[
-                ...widget.titleActions,
-                CopyButton(
-                  text: _copyText,
-                  label: 'Copy Page',
-                  showLabel: true,
-                  variant: ButtonVariant.secondary,
-                  size: ButtonSize.xs,
-                ),
-                const Gap(8),
-              ],
-              _iconNavButton(
-                context,
-                icon: LucideIcons.chevronLeft,
-                tooltip: 'Previous',
-                link: widget.previous,
-                size: width >= 768 ? 28 : 32,
-              ),
-              const Gap(12),
-              _iconNavButton(
-                context,
-                icon: LucideIcons.chevronRight,
-                tooltip: 'Next',
-                link: widget.next,
-                size: width >= 768 ? 28 : 32,
-              ),
-            ],
-          ),
+        _iconNavButton(
+          context,
+          icon: LucideIcons.chevronRight,
+          tooltip: 'Next',
+          link: widget.next,
+          size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
+        ),
       ],
+    );
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool tight = constraints.maxWidth < 560;
+        // The title text without flex: the tight branch stacks it in a
+        // Column, and an Expanded there would flex against the scroll
+        // view's unbounded height (`RenderFlex children have non-zero flex
+        // but incoming height constraints are unbounded`).
+        final Widget titleText = Text(
+          widget.title,
+          style: docsText(
+            context,
+            size: 30,
+            weight: FontWeight.w600,
+            height: 36 / 30,
+            letterSpacing: -0.75,
+          ),
+        );
+        final Widget title = Expanded(child: titleText);
+        if (!widget.showTitleActions) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[title],
+          );
+        }
+        if (tight) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              titleText,
+              Gap(theme.spacing.md),
+              badges,
+              Gap(theme.spacing.sm),
+              actions,
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            title,
+            Gap(theme.spacing.md),
+            badges,
+            Gap(theme.spacing.md),
+            actions,
+          ],
+        );
+      },
     );
   }
 
@@ -385,7 +422,9 @@ class _DocsArticleState extends State<DocsArticle> {
         height: size,
         child: Button(
           variant: ButtonVariant.secondary,
-          size: ButtonSize.xs,
+          // P7-TH1: pager arrows at button size sm (the SizedBox keeps the
+          // spec §2.3 28/32 px box; the style leg is the sm row).
+          size: ButtonSize.sm,
           theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
           onPressed: link == null
               ? null

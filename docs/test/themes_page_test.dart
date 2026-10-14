@@ -308,8 +308,8 @@ void main() {
   // `showPicker` now opens popups with a nullable result type.
   group('picker popup dismissal', () {
     const Map<String, String> kRowSentinel = <String, String>{
-      'rail-row-heading': 'ui-serif',
-      'rail-row-body': 'ui-serif',
+      'rail-row-heading': 'Playfair Display',
+      'rail-row-body': 'Plus Jakarta Sans',
       'rail-row-radius': 'Done',
       'rail-row-spacing': 'Done',
       'rail-row-shadow': 'dark mode atoms',

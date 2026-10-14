@@ -202,7 +202,10 @@ class ThemeValues {
       lightShadow: ShadowAtoms.fromJson(shadow['light']),
       darkShadow: ShadowAtoms.fromJson(shadow['dark']),
       fonts: <String, String>{
-        for (final slot in const ['sans', 'serif', 'mono'])
+        // The Theme Studio's `heading`/`body` slots travel in the document
+        // beside the preset `sans`/`serif`/`mono` slots; `_fontsSource`
+        // maps them onto the `ThemeFonts` parameters like the docs port.
+        for (final slot in const ['sans', 'serif', 'mono', 'heading', 'body'])
           if (fontsMap.containsKey(slot)) slot: _string(fontsMap, slot),
       },
     );
@@ -226,7 +229,8 @@ class ThemeValues {
   /// Base shadow atoms per mode.
   final ShadowAtoms lightShadow, darkShadow;
 
-  /// Font family lists keyed `sans`, `serif`, `mono`; may be empty.
+  /// Font family lists keyed `sans`, `serif`, `mono` (plus the Studio's
+  /// `heading`/`body` when a custom document carries them); may be empty.
   final Map<String, String> fonts;
 
   /// Dart identifier fragment for [id], e.g. `amberMinimal`.
@@ -320,10 +324,17 @@ ${_call(head, args, suffix: ';')}''';
   }
 
   String _fontsSource() {
+    // Mapped exactly like the docs port (`docs/lib/theme/theme_dart_source.dart`)
+    // maps `ThemeDocument.theme` into `ThemeFonts`: `body` wins over the
+    // preset `sans` for `fontSans`, `heading` becomes `fontHeading`. The raw
+    // slot names are never emitted (`ThemeFonts` has no `fontBody`).
+    String? bodyOrSans() => fonts['body'] ?? fonts['sans'];
     final args = <String>[
-      for (final slot in const ['sans', 'serif', 'mono'])
-        if (fonts.containsKey(slot))
-          'font${_capital(slot)}: ${_quote(fonts[slot]!)}',
+      if (bodyOrSans() != null) 'fontSans: ${_quote(bodyOrSans()!)}',
+      if (fonts.containsKey('serif')) 'fontSerif: ${_quote(fonts['serif']!)}',
+      if (fonts.containsKey('mono')) 'fontMono: ${_quote(fonts['mono']!)}',
+      if (fonts.containsKey('heading'))
+        'fontHeading: ${_quote(fonts['heading']!)}',
     ];
     return '''/// Mode-independent font families for the $name preset.
 ${_call('const ThemeFonts ${prefix}Fonts = ThemeFonts', args, suffix: ';')}''';

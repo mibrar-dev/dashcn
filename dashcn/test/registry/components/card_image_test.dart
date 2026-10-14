@@ -3,14 +3,18 @@
 // Covers the vertical/horizontal compositions, the image scale interaction,
 // press/disabled states, keyboard activation, light and dark tokens, the four
 // precedence legs, and regressions for the old bugs: the Material import, the
-// removed `ButtonStyle.fixed` style, the leaked `WidgetStatesController` and
-// the `Colors.transparent` defaults.
+// removed `ButtonStyle.fixed` style, the leaked `WidgetStatesController`, the
+// `Colors.transparent` defaults, and the P7-WB thin bar (the `IntrinsicWidth`
+// wrapper collapsed the card to the title width; the vertical image surface
+// keeps the theme aspect ratio and fills the card width now).
 
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/card_image/card_image.dart';
+import 'package:dashcn/src/components/card_image/preview.dart';
 import 'package:dashcn/src/components/outlined_container/outlined_container.dart';
+import 'package:dashcn/src/foundation/component_preview.dart';
 import 'package:dashcn/src/foundation/gap.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
@@ -331,7 +335,86 @@ void main() {
       expect(cardImageDefaults.hoverScale, cardImageDefaultHoverScale);
       expect(cardImageDefaults.normalScale, 1);
       expect(cardImageDefaults.gap, cardImageDefaultGap);
+      expect(cardImageDefaults.aspectRatio, cardImageDefaultAspectRatio);
       expect(cardImageDefaults.imageRadius, isNull);
+    });
+
+    testWidgets('every preview example pumps without throwing', (tester) async {
+      for (final ComponentPreview preview in cardImagePreviews) {
+        await tester.pumpWidget(_frame(Builder(builder: preview.builder)));
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
+    });
+  });
+
+  group('sizing', () {
+    // A height-only image: the exact shape that collapsed the old card to a
+    // tall thin bar (it has no intrinsic width of its own).
+    Widget thinImageCard({CardImageTheme? theme}) {
+      return CardImage(
+        theme: theme,
+        image: const SizedBox(height: 120),
+        title: const Text('Title'),
+        subtitle: const Text('Subtitle'),
+        onPressed: () {},
+      );
+    }
+
+    testWidgets('a vertical card fills a bounded parent', (tester) async {
+      await tester.pumpWidget(
+        _frame(SizedBox(width: 220, child: thinImageCard())),
+      );
+      expect(tester.getSize(find.byType(CardImage)).width, 220);
+      final Size surface = tester.getSize(find.byType(OutlinedContainer));
+      expect(surface.width, 220);
+      expect(surface.height, moreOrLessEquals(220 * 9 / 16));
+    });
+
+    testWidgets('a vertical card never collapses in a loose parent', (
+      tester,
+    ) async {
+      // `_frame` aligns top-left with a loose 0..800 width: the card must
+      // claim width from the image ratio, not shrink to the title.
+      await tester.pumpWidget(_frame(thinImageCard()));
+      expect(tester.getSize(find.byType(CardImage)).width, greaterThan(200));
+      expect(
+        tester.getSize(find.byType(OutlinedContainer)).width,
+        tester.getSize(find.byType(CardImage)).width,
+      );
+    });
+
+    testWidgets('the aspectRatio theme field reshapes the image', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          SizedBox(
+            width: 220,
+            child: thinImageCard(theme: const CardImageTheme(aspectRatio: 1)),
+          ),
+        ),
+      );
+      expect(
+        tester.getSize(find.byType(OutlinedContainer)),
+        const Size(220, 220),
+      );
+    });
+
+    testWidgets('a themed aspectRatio wins over the app leg', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          SizedBox(
+            width: 200,
+            child: thinImageCard(theme: const CardImageTheme(aspectRatio: 2)),
+          ),
+          app: const <ComponentThemeData>[CardImageTheme(aspectRatio: 1)],
+        ),
+      );
+      expect(
+        tester.getSize(find.byType(OutlinedContainer)),
+        const Size(200, 100),
+      );
     });
   });
 }

@@ -22,13 +22,11 @@
     "components": [
       "alert",
       "button",
-      "card",
       "checkbox",
       "divider",
       "form",
       "input",
-      "progress",
-      "spinner"
+      "progress"
     ]
   },
   "files": [

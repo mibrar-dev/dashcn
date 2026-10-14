@@ -34,8 +34,9 @@ class _CodeSnippetAction extends StatelessWidget {
 
 /// A plain snippet.
 Widget _codeSnippetDefault(BuildContext context) {
+  // P7-TH1: centred in the stage (was centerStart).
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: CodeSnippet(code: Text('const greeting = "hello";')),
   );
 }
@@ -87,8 +88,9 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
 
 /// A long line that scrolls inside its bounded box.
 Widget _codeSnippetLongLines(BuildContext context) {
+  // P7-TH1: the 320px box is centred in the stage (was centerStart).
   return const Align(
-    alignment: AlignmentDirectional.centerStart,
+    alignment: Alignment.center,
     child: SizedBox(
       width: 320,
       child: CodeSnippet(

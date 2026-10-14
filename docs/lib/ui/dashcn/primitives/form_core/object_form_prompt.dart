@@ -248,7 +248,14 @@ class _ObjectFormPromptDialogState<T> extends State<ObjectFormPromptDialog<T>>
                           ),
                           child: editor,
                         ),
-                        Gap(theme.spacing.md),
+                        // A bordered footer (the pickers' `p-3` action row
+                        // under a hairline divider) already separates itself
+                        // from the editor — the editor shell (`p-3` calendar
+                        // or time sheet) owns the breathing room above the
+                        // divider, so an extra gap here would double the space
+                        // under the grid. Only a borderless footer sitting in
+                        // the card padding needs the gap.
+                        if (footerPadding == null) Gap(theme.spacing.md),
                         footer,
                       ],
                     ),

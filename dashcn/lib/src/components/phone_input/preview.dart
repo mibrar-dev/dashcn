@@ -78,6 +78,11 @@ class _CustomCountriesPhoneState extends State<_CustomCountriesPhone> {
 }
 
 /// A phone field showing the validator error for a short number.
+///
+/// The example opts into showing an untouched field's error
+/// ([showErrors] including `initial`): its purpose is to document what the
+/// error state looks like. A real form uses the default modes, where the
+/// message only appears after the user edits the field or submits.
 class _InvalidPhone extends StatefulWidget {
   const _InvalidPhone();
 
@@ -98,6 +103,11 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
         label: const Text('Phone'),
         validator: const PhoneNumberValidator(),
+        showErrors: const <FormValidationMode>{
+          FormValidationMode.initial,
+          FormValidationMode.changed,
+          FormValidationMode.submitted,
+        },
         child: PhoneInput(
           initialValue: _value,
           onChanged: (PhoneNumber? value) => setState(() => _value = value),

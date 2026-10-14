@@ -73,23 +73,9 @@ void main() {
     final List<String> names = gooeyToastPreviews
         .map((ComponentPreview example) => example.name)
         .toList();
-    expect(names, <String>[
-      'Playground',
-      'Variants',
-      'Success',
-      'Error',
-      'Warning',
-      'Info',
-      'Action',
-      'Promise',
-      'Positions',
-      'Animation presets',
-      'Body animation',
-      'Shapes',
-      'Interactive Reply',
-      'Booking Multi-State',
-      'Tabs + ListView',
-    ]);
+    // P7-WA: the per-variant demos collapsed into one shared-look Playground;
+    // only the Playground, the Promise flow and the Interactive Reply remain.
+    expect(names, <String>['Playground', 'Promise', 'Interactive Reply']);
   });
 
   testWidgets('a preview trigger anchors at the window edge', (tester) async {

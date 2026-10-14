@@ -13,26 +13,36 @@ import '../../theme/theme.dart';
 import 'toggle.dart';
 
 /// Controlled toggle: the example owns the value.
-class _ToggleControlledToggle extends StatefulWidget {
+class _ToggleControlledToggle extends StatelessWidget {
   const _ToggleControlledToggle();
 
   @override
-  State<_ToggleControlledToggle> createState() =>
-      _ToggleControlledToggleState();
+  Widget build(BuildContext context) {
+    // P7-TH1: centred so the docs stage (and the centred-example audit)
+    // sees the toggle in the middle of the stage, not pinned left.
+    return const Align(
+      alignment: Alignment.center,
+      child: _ToggleControlledInner(),
+    );
+  }
 }
 
-class _ToggleControlledToggleState extends State<_ToggleControlledToggle> {
+class _ToggleControlledInner extends StatefulWidget {
+  const _ToggleControlledInner();
+
+  @override
+  State<_ToggleControlledInner> createState() => _ToggleControlledInnerState();
+}
+
+class _ToggleControlledInnerState extends State<_ToggleControlledInner> {
   bool _value = false;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerStart,
-      child: Toggle(
-        value: _value,
-        onChanged: (bool value) => setState(() => _value = value),
-        child: Text(_value ? 'On' : 'Off'),
-      ),
+    return Toggle(
+      value: _value,
+      onChanged: (bool value) => setState(() => _value = value),
+      child: Text(_value ? 'On' : 'Off'),
     );
   }
 }

@@ -15,6 +15,28 @@ would make any file importing both libraries fail to compile. Same rule as
 - Multi-field screens with validation and a submit flow.
 - One-off validated fields (`Validated`) without a full form.
 
+## When validation shows
+
+A field stays silent until the user has touched it:
+
+- **Fresh render** — a field reports its starting value while it mounts. That
+  report is not an edit, so the field validates under `FormValidationMode.initial`
+  and shows nothing, even when the seeded value is invalid (an empty login form
+  does not open with "This field cannot be empty." under every field).
+- **Editing a field** — once a field's value actually changes, the field is
+  *dirty*, validation runs under `changed`, and the message appears and clears
+  live as the user types. A field the user has not touched stays silent.
+- **Submit** — `controller.submit()` revalidates every field under `submitted`,
+  so all invalid fields show their message at once, and they keep showing until
+  fixed or `controller.reset()` is called.
+- **Reset** — `FormController.reset()` clears the dirty and submitted flags
+  (values are kept), returning the form to its silent first-render state.
+
+`FormItem.showErrors` chooses which `FormValidationMode`s a field
+displays; `null` uses `defaultShowErrors` (`changed` + `submitted`). Pass a
+narrower set to defer everything to the submit, or include `initial` (as the
+`phone_input` "Invalid" preview does) to document an error state in a demo.
+
 ## Snippets
 
 ```dart
@@ -69,8 +91,8 @@ ObjectFormField<DateTime>(
 | Member | Purpose |
 |---|---|
 | `FormScope` | Publishes a `FormController`; `FormScope.of` / `FormScope.maybeOf` |
-| `FormController` | `values`, `errors`, `pending`, `getValue`, `attach`, `detach`, `revalidateAll`, `submit` |
-| `FormItem<T>` | Label row + hint + error message; per-field validator |
+| `FormController` | `values`, `errors`, `pending`, `getValue`, `attach`, `detach`, `revalidateAll`, `reset`, `submit` |
+| `FormItem<T>` | Label row + hint + error message; per-field validator, `showErrors` (null = `defaultShowErrors`) |
 | `FormInline<T>` | Label beside the field |
 | `FormTableLayout` | Two-column table of `FormItem`s |
 | `FormFieldMessages` | The hint/message column, reusable in custom layouts |
@@ -103,6 +125,13 @@ follows it while the field is invalid.
 - **Fixed:** `revalidate()` kept the `changed` validation mode (the old
   `forceRevalidate` flag did not change the lifecycle), so submit-time checks
   that only run in `submitted` mode never ran. Revalidation uses `submitted`.
+- **Fixed:** a fresh form opened with every field's error already on screen.
+  The first value report a supplier makes while it mounts used to be counted as
+  a `changed` validation, so an empty login block printed "This field cannot be
+  empty." before the user touched anything. `FormEntry` now tells that report
+  apart from a real edit, the field stays in the silent `initial` mode until its
+  value changes, and `FormController.getDisplayError` keeps an untouched field's
+  result off screen.
 - **Fixed:** `EmailValidator` no longer needs the `email_validator` pub
   dependency, and `URLValidator` actually checks something (`Uri.parse` accepted
   almost any string, so the old URL check never failed).

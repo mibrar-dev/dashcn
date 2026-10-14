@@ -45,6 +45,11 @@ const AlertDialog(
 );
 ```
 
+Outside a route the same card shell (padding, radius, border, shadow from
+`DialogTheme`) is painted by the widget itself, so an inline dialog keeps its
+24px insets; inside the route the content is returned bare and the padding is
+never doubled.
+
 ## `AlertDialog` API
 
 | Parameter | Type | Default | Notes |
@@ -73,13 +78,17 @@ scoped `ComponentTheme<DialogTheme>` restyles an open alert too.
 | `AlertDialogTheme` field | Default |
 |---|---|
 | `iconColor` | `mutedForeground` token |
-| `titleStyle` | 16px w600; colour falls back to `foreground` |
+| `titleStyle` | 18px w600; colour falls back to `foreground` |
 | `descriptionStyle` | 14px; colour falls back to `mutedForeground` |
-| `iconGap` | 16 |
-| `headerGap` | 8 (title to description) |
-| `footerGap` | 24 (header to footer) |
-| `actionGap` | 8 |
+| `iconGap` | `spacing.lg` (16 at the default base) |
+| `headerGap` | `spacing.sm` (8, title to description) |
+| `footerGap` | `spacing.lg` (16, header to footer) |
+| `actionGap` | `spacing.sm` (8) |
 | `footerAlignment` | `MainAxisAlignment.end` |
+
+The header icon sits beside the title, top-aligned with its first line. The
+footer is right-aligned (`WrapAlignment.end`) on wide cards and stacks
+full-width at or below a 480px card outer width.
 
 ## Differences from the old `overlay/alert_dialog`
 

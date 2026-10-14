@@ -91,6 +91,79 @@ Widget _colorPickerHsv(BuildContext context) =>
 Widget _colorPickerHex(BuildContext context) =>
     const _ColorPickerPicker(initialMode: ColorPickerMode.hex);
 
+/// Eye-dropper sampling: a known painted scene (primary / success / danger
+/// swatches) above the picker. Inside the docs app the session delegates to
+/// the app-root layer, so the loupe follows the pointer across the whole
+/// window and the pad, hue/alpha bars and hex field update live while moving.
+// Click commits, Escape or right-click cancels and restores the colour.
+class _ColorPickerEyeDropper extends StatefulWidget {
+  const _ColorPickerEyeDropper();
+
+  @override
+  State<_ColorPickerEyeDropper> createState() => _ColorPickerEyeDropperState();
+}
+
+class _ColorPickerEyeDropperState extends State<_ColorPickerEyeDropper> {
+  ColorDerivative _value = ColorDerivative.fromColor(_colorPickerInitial);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 280,
+        child: EyeDropperLayer(
+          child: RecentColorsScope(
+            initialRecentColors: _colorPickerRecent,
+            child: Builder(
+              builder: (BuildContext context) => Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: const <Widget>[
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFFE11D48)),
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFF22C55E)),
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: ColoredBox(color: Color(0xFF2563EB)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ColorPicker(
+                    value: _value,
+                    showAlpha: true,
+                    onChanging: (ColorDerivative value) =>
+                        setState(() => _value = value),
+                    onChanged: (ColorDerivative value) =>
+                        setState(() => _value = value),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The eye-dropper sampling demo.
+Widget _colorPickerEyeDropper(BuildContext context) =>
+    const _ColorPickerEyeDropper();
+
 /// Named docs examples for `color_picker`; the first entry is the default.
 const List<ComponentPreview> colorPickerPreviews = <ComponentPreview>[
   ComponentPreview('Default', _colorPickerDefault),
@@ -98,4 +171,5 @@ const List<ComponentPreview> colorPickerPreviews = <ComponentPreview>[
   ComponentPreview('HSL', _colorPickerHsl),
   ComponentPreview('HSV', _colorPickerHsv),
   ComponentPreview('HEX', _colorPickerHex),
+  ComponentPreview('Eye dropper', _colorPickerEyeDropper),
 ];

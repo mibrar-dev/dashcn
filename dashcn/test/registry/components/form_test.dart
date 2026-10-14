@@ -131,11 +131,11 @@ void main() {
           ]),
         ),
       );
-      // Reset the reused Input element before each data variant.
-      await tester.enterText(find.byType(EditableText), '');
+      // A field that has just mounted is silent: the supplier's first report
+      // is the value it starts with, not an edit.
       await tester.pump();
       await tester.pump();
-      expect(find.text('This field cannot be empty.'), findsOneWidget);
+      expect(find.text('This field cannot be empty.'), findsNothing);
       expect(find.text('Hint'), findsOneWidget);
 
       await tester.enterText(find.byType(EditableText), 'a');
@@ -143,6 +143,12 @@ void main() {
       await tester.pump();
       expect(find.text('This field cannot be empty.'), findsNothing);
       expect(controller.getValue(_emailKey), 'a');
+
+      // Clearing a field the user touched brings the message back live.
+      await tester.enterText(find.byType(EditableText), '');
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('This field cannot be empty.'), findsOneWidget);
     }
   });
 
@@ -431,6 +437,14 @@ void main() {
     await tester.pump();
     expect(find.text('Inline label'), findsOneWidget);
     expect(find.text('Table label'), findsOneWidget);
+    // A fresh form is silent: neither field has been touched, and the table
+    // field's value supplier is a plain `Text`, so it never is.
+    expect(find.text('This field cannot be empty.'), findsNothing);
+
+    final BuildContext context = tester.element(find.byType(FormScope));
+    await controller.submit(context);
+    await tester.pump();
+    await tester.pump();
     // Both the inline and the table field use the same localized message.
     expect(find.text('This field cannot be empty.'), findsNWidgets(2));
     expect(controller.errors.length, 2);
@@ -440,7 +454,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         child: Validated<String>(
-          validator: const NotEmptyValidator(),
+          validator: const EmailValidator(),
           builder: (context, error, child) {
             return Column(
               children: <Widget>[
@@ -449,13 +463,19 @@ void main() {
               ],
             );
           },
-          child: const Text('field'),
+          child: const Input(),
         ),
       ),
     );
     await tester.pump();
     await tester.pump();
-    expect(find.text('error: This field cannot be empty.'), findsOneWidget);
+    // Nothing before the user types.
+    expect(find.text('error: Invalid email address.'), findsNothing);
+
+    await tester.enterText(find.byType(EditableText), 'not-an-email');
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('error: Invalid email address.'), findsOneWidget);
   });
 
   testWidgets('an object field dialog saves the edited value', (tester) async {

@@ -106,7 +106,8 @@ class CollageInstallCard extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             color: site.codeSurface,
-            borderRadius: BorderRadius.circular(12),
+            // P7-TH1: install snippet boxes use the card radius token.
+            borderRadius: Theme.of(context).borderRadiusLg,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

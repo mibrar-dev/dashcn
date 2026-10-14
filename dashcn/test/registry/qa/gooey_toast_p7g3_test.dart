@@ -52,6 +52,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: `DashcnApp` builds its content one frame after startup.
+    await tester.pump();
     controller.showGooeyToast(
       tester.element(find.byType(GooeyToastLayer)),
       GooeyToastOptions(title: 'Saved', description: 'Body'),
@@ -82,6 +84,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: `DashcnApp` builds its content one frame after startup.
+    await tester.pump();
     controller.showGooeyToast(
       tester.element(find.byType(GooeyToastLayer)),
       const GooeyToastOptions(
@@ -107,6 +111,8 @@ void main() {
         ),
       ),
     );
+    // P7I-fix-focus2: `DashcnApp` builds its content one frame after startup.
+    await tester.pump();
     controller.showGooeyToast(
       tester.element(find.byType(GooeyToastLayer)),
       const GooeyToastOptions(title: 'Saved', description: 'Body'),

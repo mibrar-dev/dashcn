@@ -50,6 +50,6 @@
       "MultipliedSheetStage",
       "DividedSheetStage"
     ],
-    "constants": []
+    "constants": ["sheetHandleKey"]
   }
 }

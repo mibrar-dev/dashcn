@@ -81,7 +81,7 @@ void main() {
       expect(paddings.any((p) => p.padding == const EdgeInsets.all(8)), isTrue);
     });
 
-    testWidgets('header text is medium foreground (v4 TableHead)', (
+    testWidgets('header text is medium muted-foreground (v4 TableHead)', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -105,7 +105,7 @@ void main() {
             .first,
       );
       expect(text.style.fontWeight, FontWeight.w500);
-      expect(text.style.color, const ThemeData().colors.foreground);
+      expect(text.style.color, const ThemeData().colors.mutedForeground);
     });
   });
 

@@ -15,6 +15,8 @@
   },
   "files": [
     "refresh_trigger.dart",
+    "refresh_trigger_indicator.dart",
+    "refresh_trigger_input.dart",
     "refresh_trigger_style.dart",
     "refresh_trigger_theme.dart",
     "preview.dart"

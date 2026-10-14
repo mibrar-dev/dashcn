@@ -8,6 +8,29 @@ import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../../theme/tokens.dart';
 
+/// Named dialog widths (upstream `max-w-*` steps).
+///
+/// An explicit [DialogTheme.maxWidth] always wins; otherwise the card caps at
+/// the size's width, so a small confirmation stays compact while a table or a
+/// code pane can go wide.
+enum DialogSize {
+  /// Compact confirmations: 384 (`max-w-sm`).
+  sm,
+
+  /// Default dialogs: 512 (upstream `DialogContent` `max-w-lg`).
+  md,
+
+  /// Wide dialogs (tables, code panes): 768.
+  lg,
+}
+
+/// Width in logical pixels of a [DialogSize].
+double dialogSizeWidth(DialogSize size) => switch (size) {
+  DialogSize.sm => 384,
+  DialogSize.md => 512,
+  DialogSize.lg => 768,
+};
+
 /// Theme of the modal dialog shell.
 ///
 /// Every field is nullable: `null` means "inherit", and the resolver fills the
@@ -28,6 +51,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
     this.insetPadding,
     this.barrierColor,
     this.maxWidth,
+    this.size,
     this.transitionDuration,
     this.shadows,
   });
@@ -59,8 +83,11 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
   /// Color of the modal barrier behind the dialog. Default: black at 50%.
   final ThemedColor? barrierColor;
 
-  /// Maximum width of the dialog card. `null` means unconstrained.
+  /// Maximum width of the dialog card. `null` falls back to [size], then 512.
   final double? maxWidth;
+
+  /// Named width step; an explicit [maxWidth] wins over it.
+  final DialogSize? size;
 
   /// Duration of the open and close transitions. Default: 150ms.
   final Duration? transitionDuration;
@@ -81,6 +108,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
     ValueGetter<EdgeInsetsGeometry?>? insetPadding,
     ValueGetter<ThemedColor?>? barrierColor,
     ValueGetter<double?>? maxWidth,
+    ValueGetter<DialogSize?>? size,
     ValueGetter<Duration?>? transitionDuration,
     ValueGetter<List<BoxShadow>?>? shadows,
   }) {
@@ -96,6 +124,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
       insetPadding: insetPadding == null ? this.insetPadding : insetPadding(),
       barrierColor: barrierColor == null ? this.barrierColor : barrierColor(),
       maxWidth: maxWidth == null ? this.maxWidth : maxWidth(),
+      size: size == null ? this.size : size(),
       transitionDuration: transitionDuration == null
           ? this.transitionDuration
           : transitionDuration(),
@@ -119,6 +148,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
       insetPadding: insetPadding ?? fallback.insetPadding,
       barrierColor: barrierColor ?? fallback.barrierColor,
       maxWidth: maxWidth ?? fallback.maxWidth,
+      size: size ?? fallback.size,
       transitionDuration: transitionDuration ?? fallback.transitionDuration,
       shadows: shadows ?? fallback.shadows,
     );
@@ -139,6 +169,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
       insetPadding: t < 0.5 ? a.insetPadding : b.insetPadding,
       barrierColor: t < 0.5 ? a.barrierColor : b.barrierColor,
       maxWidth: lerpDouble(a.maxWidth, b.maxWidth, t),
+      size: t < 0.5 ? a.size : b.size,
       transitionDuration: t < 0.5 ? a.transitionDuration : b.transitionDuration,
       shadows:
           BoxShadow.lerpList(a.shadows, b.shadows, t) ??
@@ -161,6 +192,7 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
         other.insetPadding == insetPadding &&
         other.barrierColor == barrierColor &&
         other.maxWidth == maxWidth &&
+        other.size == size &&
         other.transitionDuration == transitionDuration &&
         other.shadows == shadows;
   }
@@ -178,10 +210,19 @@ class DialogTheme extends ComponentThemeData implements Mergeable<DialogTheme> {
     insetPadding,
     barrierColor,
     maxWidth,
+    size,
     transitionDuration,
     Object.hashAll(shadows ?? const <BoxShadow>[]),
   );
 }
+
+/// Effective max width of a resolved [DialogTheme]: an explicit `maxWidth`
+/// wins, then the [DialogSize] step, then the upstream `sm:max-w-lg` default of
+/// 512. Kept as a helper (instead of a non-null default) so a `size` leg can
+/// still win over the 512 every other leg falls through to.
+double dialogEffectiveMaxWidth(DialogTheme style) =>
+    style.maxWidth ??
+    (style.size == null ? 512.0 : dialogSizeWidth(style.size!));
 
 /// Built-in dialog defaults. Every leg above this one overrides only the
 /// fields it sets; the rest fall through to these values.
@@ -193,7 +234,8 @@ const DialogTheme dialogDefaults = DialogTheme(
   padding: EdgeInsetsDensity.all(padMd),
   insetPadding: EdgeInsetsDensity.all(padSm),
   barrierColor: ThemedColor.value(Color(0x80000000)),
-  // upstream `sm:max-w-lg` = 512.
-  maxWidth: 512.0,
+  // upstream `sm:max-w-lg` = 512, via [dialogEffectiveMaxWidth] so a `size`
+  // leg still applies; an explicit `maxWidth` on any leg wins over both.
+  maxWidth: null,
   transitionDuration: kDefaultDuration,
 );

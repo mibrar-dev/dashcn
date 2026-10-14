@@ -131,6 +131,11 @@ class FormItem<T> extends StatelessWidget {
 
   final Validator<T>? validator;
 
+  /// Modes whose validation result this field shows.
+  ///
+  /// Null uses [defaultShowErrors]: an untouched field shows nothing, a field
+  /// the user edited shows its error live, and a submit shows every invalid
+  /// field. Pass a narrower set to defer everything to the submit.
   final Set<FormValidationMode>? showErrors;
 
   final FormTheme? theme;
@@ -268,6 +273,7 @@ class FormInline<T> extends StatelessWidget {
 
   final Validator<T>? validator;
 
+  /// Modes whose validation result this field shows; see [FormItem].
   final Set<FormValidationMode>? showErrors;
 
   final FormTheme? theme;

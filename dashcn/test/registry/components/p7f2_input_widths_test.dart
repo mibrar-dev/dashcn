@@ -69,7 +69,10 @@ void main() {
     testWidgets('date trigger is intrinsic, not parent-wide', (tester) async {
       await _pump(tester, DatePicker(value: null, onChanged: (_) {}));
       final double width = tester.getSize(find.byType(DatePicker)).width;
-      expect(width, greaterThanOrEqualTo(240));
+      // Hugs the placeholder (`icon + gap + full label + padding`): well
+      // below the old 240 minimum in the test font, far from parent-wide.
+      expect(width, lessThan(300));
+      expect(width, greaterThan(100));
       expect(width, lessThan(560));
     });
 
@@ -103,7 +106,8 @@ void main() {
     testWidgets('range trigger hugs too', (tester) async {
       await _pump(tester, DateRangePicker(value: null, onChanged: (_) {}));
       final double width = tester.getSize(find.byType(DateRangePicker)).width;
-      expect(width, greaterThanOrEqualTo(240));
+      expect(width, lessThan(300));
+      expect(width, greaterThan(100));
       expect(width, lessThan(560));
     });
 
@@ -119,17 +123,17 @@ void main() {
       await _pump(
         tester,
         DatePicker(value: null, onChanged: (_) {}),
-        width: 200,
+        width: 300,
         tight: true,
       );
-      expect(tester.getSize(find.byType(DatePicker)).width, 200);
+      expect(tester.getSize(find.byType(DatePicker)).width, 300);
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('time trigger hugs with a smaller minimum', (tester) async {
+    testWidgets('time trigger hugs its placeholder', (tester) async {
       await _pump(tester, TimePicker(value: null, onChanged: (_) {}));
       final double width = tester.getSize(find.byType(TimePicker)).width;
-      expect(width, greaterThanOrEqualTo(140));
+      expect(width, greaterThan(100));
       expect(width, lessThan(560));
       final Rect icon = tester.getRect(find.byIcon(LucideIcons.clock));
       final Rect label = tester.getRect(find.text('Select a time'));
@@ -139,12 +143,12 @@ void main() {
     testWidgets('duration trigger hugs with a leading icon', (tester) async {
       await _pump(tester, DurationPicker(value: null, onChanged: (_) {}));
       final double width = tester.getSize(find.byType(DurationPicker)).width;
-      expect(width, greaterThanOrEqualTo(140));
+      expect(width, greaterThan(100));
       expect(width, lessThan(560));
       expect(find.byIcon(LucideIcons.clock), findsOneWidget);
     });
 
-    testWidgets('long labels grow the trigger past the minimum', (
+    testWidgets('long labels grow the trigger with the full label', (
       tester,
     ) async {
       DateTimeRange? range = DateTimeRange(

@@ -8,8 +8,9 @@
 //
 //   const KeyboardShortcutTheme keyboardShortcutThemeOverrides =
 //       KeyboardShortcutTheme(
+//         variant: KbdVariant.ghost,
+//         keyBorderRadius: BorderRadius.all(Radius.circular(6)),
 //         keyBackground: ThemedColor.ref(ColorRef.accent),
-//         keyBorderRadius: BorderRadius.all(Radius.circular(4)),
 //       );
 
 import 'keyboard_shortcut_style.dart';

@@ -58,6 +58,13 @@ void main() {
         'variant',
         'size',
         'onPressed',
+        'onPressedAsync',
+        'status',
+        'successLabel',
+        'failureLabel',
+        'statusResetDuration',
+        'onStatusChanged',
+        'onAsyncError',
         'onLongPress',
         'onHover',
         'onFocusChange',
@@ -104,6 +111,16 @@ void main() {
         'padding',
         'primary',
         'secondary',
+        'status',
+        'status.failureColor',
+        'status.failureIcon',
+        'status.loadingColor',
+        'status.loadingIcon',
+        'status.spinnerSize',
+        'status.statusIconSize',
+        'status.successColor',
+        'status.successIcon',
+        'status.transitionDuration',
         'text',
         'textStyle',
       ]);
@@ -474,6 +491,10 @@ void main() {
 
   test('catalog is complete and self-consistent', () {
     expect(kStats.components, kComponents.length);
+    expect(
+      kStats.listedComponents,
+      kComponents.where((DocsComponent c) => c.listed).length,
+    );
     expect(kStats.presets, kPresets.length);
     expect(kStats.presets, 43);
     expect(kStats.materialImports, 0);
@@ -736,6 +757,9 @@ void main() {
         'With icon',
         'Sizes',
         'Loading',
+        'Async (success)',
+        'Async (failure)',
+        'Controlled status',
         'Disabled',
       ]);
       expect(kComponentPreviews['calendar'], <String>[
@@ -746,7 +770,7 @@ void main() {
         'Year grid',
         'Read-only',
       ]);
-      expect(kComponentPreviewCounts['button'], 11);
+      expect(kComponentPreviewCounts['button'], 14);
       expect(kComponentPreviewCounts['calendar'], 6);
       // Building blocks keep the old gallery class: no named examples.
       expect(kComponentPreviews['patch'], isEmpty);

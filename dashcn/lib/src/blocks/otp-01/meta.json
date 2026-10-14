@@ -24,8 +24,7 @@
       "card",
       "divider",
       "form",
-      "input_otp",
-      "spinner"
+      "input_otp"
     ]
   },
   "files": [

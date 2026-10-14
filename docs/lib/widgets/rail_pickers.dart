@@ -16,6 +16,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../../generated/docs_data.dart';
+import '../../state/docs_storage.dart';
 import '../../theme/theme_document.dart';
 import '../../theme/theme_palette.dart';
 import '../../ui/dashcn/components/popup/popup.dart';
@@ -217,4 +218,50 @@ List<Color> _presetSwatches(String presetId, Brightness brightness) {
     theme.colors.accent,
     theme.colors.muted,
   ];
+}
+
+/// Shows the switch-animation popup (rail `Transition` row, P7-TS1).
+///
+/// Only a pick commits; hovering, scrolling and focus movement stay local.
+/// Closing without picking keeps the current animation. Every variant is
+/// snapshot based and reduced-motion aware (reduced motion always swaps
+/// instantly, whatever is picked here).
+Future<void> showTransitionPicker(
+  BuildContext context,
+  DocsThemeTransition current, {
+  required ValueChanged<DocsThemeTransition> onChanged,
+}) {
+  const Map<DocsThemeTransition, String> details =
+      <DocsThemeTransition, String>{
+        DocsThemeTransition.none: 'instant swap',
+        DocsThemeTransition.fade: 'cross-fade · 250 ms',
+        DocsThemeTransition.circular: 'reveal from tap · 350 ms',
+        DocsThemeTransition.wipe: 'slide away · 300 ms',
+        DocsThemeTransition.blur: 'blur dissolve · 300 ms',
+      };
+  return showPicker<void>(
+    context: context,
+    builder: (BuildContext context) => RailPickerPanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          for (final DocsThemeTransition kind in DocsThemeTransition.values)
+            revealSelectedOnMount(
+              selected: kind == current,
+              child: RailPickerRow(
+                label: docsTransitionLabel(kind),
+                detail: details[kind]!,
+                selected: kind == current,
+                onPick: () {
+                  onChanged(kind);
+                  closeOverlay(context);
+                },
+              ),
+            ),
+        ],
+      ),
+    ),
+    title: 'Transition',
+  );
 }

@@ -5,6 +5,9 @@
 // Every one of them is a registry `Clickable` (or `Button`), which owns the
 // keyboard activation contract; this test proves the wiring end to end.
 
+import 'package:docs/main.dart';
+import 'package:docs/routing/docs_router.dart';
+import 'package:docs/state/docs_state.dart';
 import 'package:docs/ui/dashcn/primitives/focus_outline.dart';
 import 'package:docs/widgets/component_link_grid.dart';
 import 'package:docs/widgets/docs_footer.dart';
@@ -250,5 +253,42 @@ void main() {
       ...order.sublist(0, start),
     ];
     expect(rotated, <String>['header', 'sidebar', 'content', 'toc']);
+  });
+
+  testWidgets('real startup order: first Tab lands in the header', (
+    WidgetTester tester,
+  ) async {
+    // P7I-fix-focus: simulates the real web startup order as closely as the
+    // harness allows — a direct pump with no isolate warm, then the deferred
+    // landing hero chunk arriving late (as over the network) before the first
+    // Tab. The harness cannot reproduce the release-browser failure (first
+    // Tab jumping straight into the hero Email field, skipping the header):
+    // widget tests run in debug (asserts on, readable labels), use FakeAsync
+    // pumps, never dispatch the engine's pre-first-frame view-focus event,
+    // and resolve deferred chunks synchronously enough that the header anchor
+    // keeps focus. This test pins the contract (header-first Tab) and stays
+    // green; the release-browser check (`browser_check.mjs` shot
+    // `13-tab-once`) is the ground truth for the regression.
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+
+    docsState = DocsState(
+      storage: MemoryDocsStorage(),
+      systemBrightness: Brightness.dark,
+    );
+    addTearDown(docsState.dispose);
+    await tester.pumpWidget(DocsApp(state: docsState));
+    await tester.pumpAndSettle();
+    final DocsRouterDelegate delegate = tester
+        .widget<DocsRouterScope>(find.byType(DocsRouterScope).first)
+        .delegate;
+    await drainLandingHero(tester, delegate);
+    await tester.pumpAndSettle();
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pump();
+    expect(_focusedWithin(find.byType(DocsHeader)), isTrue);
   });
 }

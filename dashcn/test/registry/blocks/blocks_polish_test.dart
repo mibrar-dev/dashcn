@@ -101,7 +101,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      await pumpBlock(tester, const Login01(), theme, 375);
+      await pumpBlock(tester, const Login01(), theme, 390);
       final Rect forgot = tester.getRect(find.text('Forgot password?'));
       final Rect field = tester.getRect(find.byType(Input).at(1));
       expect(
@@ -115,7 +115,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      await pumpBlock(tester, const Login03(), theme, 375);
+      await pumpBlock(tester, const Login03(), theme, 390);
       final Rect forgot = tester.getRect(find.text('Forgot your password?'));
       final Rect field = tester.getRect(find.byType(Input).at(1));
       expect(
@@ -144,7 +144,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      for (final double width in <double>[375, 1440]) {
+      for (final double width in <double>[390, 1440]) {
         await pumpBlock(tester, const Login01(), theme, width);
         linkButton(tester, 'Forgot password?');
         final Rect forgot = tester.getRect(find.text('Forgot password?'));
@@ -161,7 +161,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      for (final double width in <double>[375, 1440]) {
+      for (final double width in <double>[390, 1440]) {
         await pumpBlock(tester, const Login03(), theme, width);
         linkButton(tester, 'Forgot your password?');
         final Rect forgot = tester.getRect(find.text('Forgot your password?'));
@@ -178,7 +178,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      await pumpBlock(tester, const Login02(), theme, 375);
+      await pumpBlock(tester, const Login02(), theme, 390);
       expect(find.textContaining('Forgot'), findsNothing);
       expect(tester.takeException(), isNull);
     });
@@ -187,11 +187,11 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      await pumpBlock(tester, const Login03(), theme, 375);
+      await pumpBlock(tester, const Login03(), theme, 390);
       linkButton(tester, 'Sign up');
-      await pumpBlock(tester, const Signup02(), theme, 375);
+      await pumpBlock(tester, const Signup02(), theme, 390);
       linkButton(tester, 'Sign in');
-      await pumpBlock(tester, const Otp01(), theme, 375);
+      await pumpBlock(tester, const Otp01(), theme, 390);
       linkButton(tester, 'Use a different email');
     });
 
@@ -199,7 +199,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final theme = blockTheme('neutral', Brightness.light);
-      await pumpBlock(tester, const Otp01(), theme, 375);
+      await pumpBlock(tester, const Otp01(), theme, 390);
       // The countdown (or the Resend link once it appears) rides at the end
       // of its row: its right edge meets the full-width Verify action.
       // (P7-B1: the block runs a real 30s countdown, not the old static 47.)

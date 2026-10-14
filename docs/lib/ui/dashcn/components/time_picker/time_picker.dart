@@ -63,9 +63,11 @@ const double _timeColumnMinWidth = 48;
 
 /// A clock-time field opening a [TimePickerDialog] sheet.
 ///
-/// The trigger hugs its content (at least 140 upstream px): the clock icon
-/// leads, the label is left-aligned, the placeholder is muted. Pass [expand]
-/// for a full-width field.
+/// The trigger hugs its content (`icon + gap + full label + padding`, never
+/// an ellipsis): the clock icon leads, the label is left-aligned and wraps
+/// to a second line when the parent is narrower than the full label.
+/// The placeholder is muted and sets the width while empty.
+/// Pass [expand] for a full-width field.
 class TimePicker extends StatelessWidget {
   const TimePicker({
     super.key,
@@ -111,13 +113,21 @@ class TimePicker extends StatelessWidget {
     return ObjectFormField<TimeOfDay>(
       value: value,
       onChanged: onChanged,
-      placeholder: placeholder ?? Text(strings.placeholderTimePicker),
+      placeholder:
+          placeholder ??
+          Text(
+            strings.placeholderTimePicker,
+            maxLines: 2,
+            overflow: TextOverflow.visible,
+          ),
       builder: (context, value) => Text(
         strings.formatTimeOfDay(
           value,
           use24HourFormat: clock24,
           showSeconds: seconds,
         ),
+        maxLines: 2,
+        overflow: TextOverflow.visible,
       ),
       leading: Icon(
         LucideIcons.clock,
@@ -125,7 +135,6 @@ class TimePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
-      triggerMinWidth: 140,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -297,15 +306,24 @@ class DurationPicker extends StatelessWidget {
     return ObjectFormField<Duration>(
       value: value,
       onChanged: onChanged,
-      placeholder: placeholder ?? Text(strings.placeholderDurationPicker),
-      builder: (context, value) => Text(strings.formatDuration(value)),
+      placeholder:
+          placeholder ??
+          Text(
+            strings.placeholderDurationPicker,
+            maxLines: 2,
+            overflow: TextOverflow.visible,
+          ),
+      builder: (context, value) => Text(
+        strings.formatDuration(value),
+        maxLines: 2,
+        overflow: TextOverflow.visible,
+      ),
       leading: Icon(
         LucideIcons.clock,
         size: 16,
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
-      triggerMinWidth: 140,
       mode: mode,
       popoverAlignment: popoverAlignment,
       popoverAnchorAlignment: popoverAnchorAlignment,

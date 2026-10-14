@@ -550,4 +550,24 @@ void main() {
       expect(tester.getSize(find.byType(TextArea)).height, greaterThan(short));
     });
   });
+
+  group('textInputAction (P7-H1)', () {
+    testWidgets('forwards the send action so Enter submits', (tester) async {
+      final List<String> submits = <String>[];
+      await tester.pumpWidget(
+        _frame(
+          TextArea(
+            textInputAction: TextInputAction.send,
+            onSubmitted: submits.add,
+          ),
+        ),
+      );
+      expect(_field(tester).textInputAction, TextInputAction.send);
+      await tester.enterText(find.byType(EditableText), 'hello');
+      await tester.pump();
+      await tester.testTextInput.receiveAction(TextInputAction.send);
+      await tester.pump();
+      expect(submits, <String>['hello']);
+    });
+  });
 }

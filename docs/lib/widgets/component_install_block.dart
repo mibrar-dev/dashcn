@@ -42,11 +42,13 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
   @override
   Widget build(BuildContext context) {
     final DocsFileList files = kComponentFileLists[widget.componentId]!;
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const HeadingAnchor(id: 'installation', title: 'Installation'),
-        const Gap(16),
+        // P7-TH1: section gaps follow the theme (lg/md).
+        Gap(theme.spacing.lg),
         // Narrow screens (320 px, wide test fonts) scroll the tabs
         // instead of overflowing.
         SingleChildScrollView(
@@ -67,9 +69,9 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
             ],
           ),
         ),
-        const Gap(12),
+        Gap(theme.spacing.md),
         _InstallFigure(command: _command, files: _tab == 1 ? files : null),
-        const Gap(12),
+        Gap(theme.spacing.md),
         TypesetParagraph.rich(<InlineSpan>[
           const TextSpan(text: 'Switch later with '),
           typesetInlineCodeSpan(ejectCommand(widget.componentId)),
@@ -96,7 +98,8 @@ class _InstallFigure extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: site.codeSurface,
-        borderRadius: BorderRadius.circular(18),
+        // P7-TH1: install block uses the card radius token (rounded-lg).
+        borderRadius: theme.borderRadiusLg,
         border: Border.all(color: theme.colors.border.withValues(alpha: 0.3)),
       ),
       child: Column(
@@ -109,7 +112,10 @@ class _InstallFigure extends StatelessWidget {
                 ),
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: theme.spacing.md,
+              vertical: theme.spacing.sm,
+            ),
             child: Row(
               children: <Widget>[
                 Icon(
@@ -171,7 +177,8 @@ class _FileList extends StatelessWidget {
           children: <Widget>[
             for (final String file in files.files)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                // P7-TH1: file row gaps follow the theme (gap-1).
+                padding: EdgeInsets.only(bottom: theme.spacing.xs),
                 child: Text(
                   file,
                   style: theme.typography.mono.copyWith(fontSize: 13),
@@ -179,7 +186,7 @@ class _FileList extends StatelessWidget {
               ),
             for (final String file in files.userOwned)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                padding: EdgeInsets.only(bottom: theme.spacing.xs),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -189,7 +196,7 @@ class _FileList extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Gap(8),
+                    Gap(theme.spacing.sm),
                     const Badge(
                       variant: BadgeVariant.outline,
                       child: Text('user-owned'),
@@ -197,7 +204,7 @@ class _FileList extends StatelessWidget {
                   ],
                 ),
               ),
-            const Gap(8),
+            Gap(theme.spacing.sm),
             Text(
               kUserOwnedNote,
               style: docsText(
@@ -230,7 +237,11 @@ class _LineTab extends StatelessWidget {
     return Clickable(
       onPressed: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        // P7-TH1: tab insets follow the theme (sm/xs).
+        padding: EdgeInsets.symmetric(
+          horizontal: theme.spacing.sm,
+          vertical: theme.spacing.xs,
+        ),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(

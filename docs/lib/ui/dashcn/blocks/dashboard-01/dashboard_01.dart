@@ -16,6 +16,7 @@ import '../../components/avatar/avatar.dart';
 import '../../components/button/button.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
+import 'dashboard_01_shell.dart';
 import 'dashboard_01_table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
@@ -65,12 +66,44 @@ class Dashboard01 extends StatelessWidget {
             if (!constraints.maxHeight.isFinite) {
               return Padding(
                 padding: EdgeInsets.all(theme.spacing.lg),
-                child: body,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const Dashboard01ShellBar(),
+                    Gap(theme.spacing.lg),
+                    body,
+                  ],
+                ),
               );
             }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(theme.spacing.lg),
-              child: body,
+            // App shell: top header bar fixed, content grid scrolls below
+            // and fills the page.
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    theme.spacing.lg,
+                    theme.spacing.md,
+                    theme.spacing.lg,
+                    0,
+                  ),
+                  child: const Dashboard01ShellBar(),
+                ),
+                Gap(theme.spacing.md),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(
+                      theme.spacing.lg,
+                      0,
+                      theme.spacing.lg,
+                      theme.spacing.lg,
+                    ),
+                    child: body,
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -81,7 +114,6 @@ class Dashboard01 extends StatelessWidget {
 
 class _Dashboard01Header extends StatelessWidget {
   const _Dashboard01Header();
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);

@@ -7,8 +7,10 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/navigation_bar/navigation_bar.dart';
+import 'package:dashcn/src/components/navigation_bar/preview.dart';
 import 'package:dashcn/src/components/overflow_marquee/overflow_marquee.dart';
 import 'package:dashcn/src/components/tooltip/tooltip.dart';
+import 'package:dashcn/src/foundation/component_preview.dart';
 import 'package:dashcn/src/foundation/icons/radix_icons.dart';
 import 'package:dashcn/src/primitives/hidden.dart';
 import 'package:dashcn/src/primitives/roving_group.dart';
@@ -595,6 +597,92 @@ void main() {
       await tester.tap(find.byType(NavigationItemRow));
       await tester.pump();
       expect(presses, 1);
+    });
+  });
+
+  group('preview scenes (P7-WB, QA-pinned contract)', () {
+    ComponentPreview scene(String name) => navigationBarPreviews.firstWhere(
+      (ComponentPreview preview) => preview.name == name,
+    );
+
+    Future<void> pumpScene(WidgetTester tester, String name) async {
+      final ComponentPreview preview = scene(name);
+      await tester.pumpWidget(_frame(child: Builder(builder: preview.builder)));
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+
+    List<bool> selectedFlags(WidgetTester tester) => tester
+        .widgetList<NavigationItemRow>(find.byType(NavigationItemRow))
+        .map((NavigationItemRow row) => row.selected)
+        .toList();
+
+    testWidgets('every scene pumps without throwing', (
+      WidgetTester tester,
+    ) async {
+      for (final ComponentPreview preview in navigationBarPreviews) {
+        await tester.pumpWidget(
+          _frame(child: Builder(builder: preview.builder)),
+        );
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+      }
+    });
+
+    testWidgets('default bar moves selection on icon tap', (
+      WidgetTester tester,
+    ) async {
+      await pumpScene(tester, 'Default');
+      expect(selectedFlags(tester), <bool>[true, false, false, false]);
+      await tester.tap(find.byIcon(RadixIcons.magnifyingGlass));
+      await tester.pump();
+      expect(selectedFlags(tester), <bool>[false, true, false, false]);
+      // The person item is disabled: tapping it keeps the selection.
+      await tester.tap(find.byIcon(RadixIcons.person));
+      await tester.pump();
+      expect(selectedFlags(tester), <bool>[false, true, false, false]);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('with-labels bar shows every label and selects', (
+      WidgetTester tester,
+    ) async {
+      await pumpScene(tester, 'With labels');
+      for (final String label in const <String>[
+        'Home',
+        'Search',
+        'Settings',
+        'Disabled',
+      ]) {
+        expect(find.text(label), findsOneWidget);
+      }
+      await tester.tap(find.text('Settings'));
+      await tester.pump();
+      expect(selectedFlags(tester), <bool>[false, false, true, false]);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('sidebar selects items and toggles the collapsible', (
+      WidgetTester tester,
+    ) async {
+      await pumpScene(tester, 'Sidebar');
+      expect(find.text('Account'), findsOneWidget);
+      await tester.tap(find.text('Search'));
+      await tester.pump();
+      expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).index, 1);
+      bool collapsed() => tester
+          .widget<Hidden>(find.byKey(navigationCollapsibleChildrenKey))
+          .hidden;
+      expect(collapsed(), isFalse);
+      // The collapsible header starts below the fold of the 320px sidebar
+      // box: scroll it into view before tapping (as the QA suite does).
+      await tester.scrollUntilVisible(find.text('Profile'), 100);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 200));
+      await tester.tap(find.text('Profile'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(tester.takeException(), isNull);
+      expect(collapsed(), isTrue);
     });
   });
 }

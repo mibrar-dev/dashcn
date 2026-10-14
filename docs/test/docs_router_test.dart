@@ -61,6 +61,21 @@ void main() {
       expect(config.location, '/nope/deep');
     });
 
+    test('unknown component ids fall through to the not-found page', () {
+      final DocsRouteConfiguration config = DocsRouteConfiguration.parse(
+        '/docs/components/no_such_thing',
+      );
+      expect(config.route, DocsRoute.notFound);
+      expect(config.location, '/docs/components/no_such_thing');
+    });
+
+    test('hyphenated component URLs resolve to the underscore id', () {
+      expect(
+        DocsRouteConfiguration.parse('/docs/components/alert-dialog'),
+        DocsRouteConfiguration.component('alert_dialog'),
+      );
+    });
+
     test('locations round-trip', () {
       expect(DocsRouteConfiguration.landing.location, '/');
       expect(DocsRouteConfiguration.introduction.location, '/docs');

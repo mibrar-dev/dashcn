@@ -250,6 +250,9 @@ void main() {
               ),
             ),
           );
+          // P7I-fix-focus2: `DashcnApp` builds its content one frame
+          // after startup.
+          await tester.pump();
           expect(strings.commandEmpty, 'No results found', reason: '$locale');
           expect(tester.takeException(), isNull, reason: '$locale');
         }

@@ -97,9 +97,11 @@ TableView(
 
 Per cell, `TableTheme.cellTheme` merges over the row default
 (`TableViewHeader` / `TableViewFooter` / body). The row defaults follow
-dashcn: body cells are `p-2` with a bottom border and a `muted/50` row-hover
-fill; header cells are `h-10 px-2` with medium `foreground` text (dashcn v4
-`TableHead`); footer cells are muted with no border.
+dashcn: body cells are `p-2` with a bottom border, a `muted/50` row-hover
+fill and a `muted` selected fill; header cells are `h-10 px-2` with medium
+`mutedForeground` text (dashcn v4 `TableHead`); footer cells are muted with
+no border. Every cell is `align-middle`: content hugs the leading edge and
+centres vertically when its row grows taller than the content.
 
 ## Differences from the old `layout/table`
 
@@ -137,4 +139,7 @@ fill; header cells are `h-10 px-2` with medium `foreground` text (dashcn v4
   `theme.schema.json` are gone.
 - Resize handles carry a `Semantics` label from
   `ComponentLocalizations.tableResizeColumn` / `.tableResizeRow` (English fallback;
-  no Flutter ARB equivalent exists).
+  no Flutter ARB equivalent exists). Every handle is focusable: arrows step the
+  divider in 10 px increments (the shared `resizableHandleStep`, RTL-aware),
+  Home/End jump the leading cell to its min/max bound, all clamped by the
+  controller's constraints.
