@@ -22,7 +22,7 @@ void main() {
   ) async {
     await pumpDocsApp(tester);
     expect(
-      find.text('${kStats.listedComponents} components ready to install'),
+      find.text('${kStats.components} components ready to install'),
       findsOneWidget,
     );
     expect(find.text('Every platform at once'), findsOneWidget);

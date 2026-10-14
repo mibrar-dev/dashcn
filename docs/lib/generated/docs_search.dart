@@ -469,7 +469,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Pinned Sheet',
     kind: DocsSearchKind.component,
     route: '/docs/components/pinned_sheet',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Pinned Sheet',
       'pinned_sheet',
@@ -802,7 +802,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Multi Select',
     kind: DocsSearchKind.component,
     route: '/docs/components/multi_select',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'MultiSelect',
       'multi_select',
@@ -818,7 +818,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Object Input',
     kind: DocsSearchKind.component,
     route: '/docs/components/object_input',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Object Input',
       'object_input',
@@ -913,7 +913,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Text Area',
     kind: DocsSearchKind.component,
     route: '/docs/components/text_area',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'TextArea',
       'text_area',
@@ -1051,7 +1051,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Sortable',
     kind: DocsSearchKind.component,
     route: '/docs/components/sortable',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Sortable',
       'sortable',
@@ -1088,7 +1088,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Context Menu',
     kind: DocsSearchKind.component,
     route: '/docs/components/context_menu',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'ContextMenu',
       'context_menu',
@@ -1103,7 +1103,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Dropdown Menu',
     kind: DocsSearchKind.component,
     route: '/docs/components/dropdown_menu',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'DropdownMenu',
       'dropdown_menu',
@@ -1134,7 +1134,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Menubar',
     kind: DocsSearchKind.component,
     route: '/docs/components/menubar',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Menubar',
       'menubar',
@@ -1308,7 +1308,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Popup',
     kind: DocsSearchKind.component,
     route: '/docs/components/popup',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Popup',
       'popup',
@@ -1394,14 +1394,14 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Alpha',
     kind: DocsSearchKind.component,
     route: '/docs/components/alpha',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>['Alpha', 'alpha', 'color', 'picker', 'utility'],
   ),
   DocsSearchEntry(
     label: 'Anchor',
     kind: DocsSearchKind.component,
     route: '/docs/components/anchor',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Anchor',
       'anchor',
@@ -1417,14 +1417,14 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'App',
     kind: DocsSearchKind.component,
     route: '/docs/components/app',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>['App', 'app', 'app', 'bootstrap', 'layout', 'shell'],
   ),
   DocsSearchEntry(
     label: 'Async',
     kind: DocsSearchKind.component,
     route: '/docs/components/async',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'FutureOrBuilder',
       'async',
@@ -1438,7 +1438,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Backdrop Transform',
     kind: DocsSearchKind.component,
     route: '/docs/components/backdrop_transform',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'BackdropTransform',
       'backdrop_transform',
@@ -1453,7 +1453,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Color',
     kind: DocsSearchKind.component,
     route: '/docs/components/color',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>['Color', 'color', 'color', 'model', 'utility'],
   ),
   DocsSearchEntry(
@@ -1491,7 +1491,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Drawer Container',
     kind: DocsSearchKind.component,
     route: '/docs/components/drawer_container',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Drawer Container',
       'drawer_container',
@@ -1535,14 +1535,14 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Formatter',
     kind: DocsSearchKind.component,
     route: '/docs/components/formatter',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>['Formatter', 'formatter', 'format', 'input', 'text'],
   ),
   DocsSearchEntry(
     label: 'Group',
     kind: DocsSearchKind.component,
     route: '/docs/components/group',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>['Group', 'group', 'layout', 'positioning', 'render'],
   ),
   DocsSearchEntry(
@@ -1590,7 +1590,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Locale Utils',
     kind: DocsSearchKind.component,
     route: '/docs/components/locale_utils',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Locale Utils',
       'locale_utils',
@@ -1648,7 +1648,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Overlay Configuration',
     kind: DocsSearchKind.component,
     route: '/docs/components/overlay_configuration',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Overlay Configuration',
       'overlay_configuration',
@@ -1664,7 +1664,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Page Route',
     kind: DocsSearchKind.component,
     route: '/docs/components/page_route',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'AppPageRoute',
       'page_route',
@@ -1678,7 +1678,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Patch',
     kind: DocsSearchKind.component,
     route: '/docs/components/patch',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'ClickDetector',
       'patch',
@@ -1721,7 +1721,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Scrollview',
     kind: DocsSearchKind.component,
     route: '/docs/components/scrollview',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Scroll View Interceptor',
       'scrollview',
@@ -1749,7 +1749,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Spell Check Suggestions Toolbar',
     kind: DocsSearchKind.component,
     route: '/docs/components/spell_check_suggestions_toolbar',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'SpellCheckSuggestionsToolbar',
       'spell_check_suggestions_toolbar',
@@ -1777,7 +1777,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Swipe Actions',
     kind: DocsSearchKind.component,
     route: '/docs/components/swipe_actions',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'SwipeActions',
       'swipe_actions',
@@ -1821,7 +1821,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Timeline Animation',
     kind: DocsSearchKind.component,
     route: '/docs/components/timeline_animation',
-    tag: '1 files',
+    tag: '1 file',
     keywords: <String>[
       'Timeline Animation',
       'timeline_animation',

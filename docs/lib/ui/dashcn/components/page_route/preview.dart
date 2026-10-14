@@ -19,9 +19,16 @@ class PageRoutePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Directionality(
-      textDirection: TextDirection.ltr,
-      child: _PageRoutePreviewBody(),
+    // Semantics container: the nested `Navigator` inserts a `ModalBarrier`
+    // (`BlockSemantics`) per route, which would otherwise hide sibling
+    // page content (e.g. the docs article title) from assistive tech.
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: _PageRoutePreviewBody(),
+      ),
     );
   }
 }

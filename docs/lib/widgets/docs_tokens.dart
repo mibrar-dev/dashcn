@@ -151,6 +151,9 @@ class DocsSiteColors {
       DocsSiteColors(Theme.of(context).colors);
 }
 
+/// File-count badge label with correct singular/plural (`1 file`, `4 files`).
+String fileCountLabel(int count) => '$count ${count == 1 ? 'file' : 'files'}';
+
 /// A sans text style at the measured site size (Geist, token colour).
 TextStyle docsText(
   BuildContext context, {

@@ -17300,44 +17300,51 @@ class _ScaleDemoState extends State<_ScaleDemo> {
     final theme = Theme.of(context);
     // A fixed box is inherent: the scale needs a mock app viewport to
     // transform, like toasts need a layer stage.
-    return Center(
-      child: SizedBox(
-        width: 340,
-        height: 300,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border.all(color: theme.colors.border),
-            borderRadius: theme.borderRadiusLg,
-          ),
-          child: ClipRRect(
-            borderRadius: theme.borderRadiusLg,
-            child: Navigator(
-              key: _key,
-              observers: <NavigatorObserver>[_observer],
-              onGenerateRoute: (RouteSettings settings) =>
-                  PageRouteBuilder<void>(
-                    settings: settings,
-                    pageBuilder: (_, _, _) => DrawerBackgroundScale(
-                      observer: _observer,
-                      child: ColoredBox(
-                        color: theme.colors.background,
-                        child: Center(
-                          child: Builder(
-                            builder: (BuildContext context) => Button(
-                              variant: ButtonVariant.outline,
-                              size: ButtonSize.sm,
-                              onPressed: () => openDrawer<void>(
-                                context: context,
-                                useRootNavigator: false,
-                                builder: (_) => const _DrawerContent(),
+    // Semantics container: the nested `Navigator` inserts a `ModalBarrier`
+    // (`BlockSemantics`) per route, which would otherwise hide sibling
+    // page content (e.g. the docs article title) from assistive tech.
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: Center(
+        child: SizedBox(
+          width: 340,
+          height: 300,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(color: theme.colors.border),
+              borderRadius: theme.borderRadiusLg,
+            ),
+            child: ClipRRect(
+              borderRadius: theme.borderRadiusLg,
+              child: Navigator(
+                key: _key,
+                observers: <NavigatorObserver>[_observer],
+                onGenerateRoute: (RouteSettings settings) =>
+                    PageRouteBuilder<void>(
+                      settings: settings,
+                      pageBuilder: (_, _, _) => DrawerBackgroundScale(
+                        observer: _observer,
+                        child: ColoredBox(
+                          color: theme.colors.background,
+                          child: Center(
+                            child: Builder(
+                              builder: (BuildContext context) => Button(
+                                variant: ButtonVariant.outline,
+                                size: ButtonSize.sm,
+                                onPressed: () => openDrawer<void>(
+                                  context: context,
+                                  useRootNavigator: false,
+                                  builder: (_) => const _DrawerContent(),
+                                ),
+                                child: const Text('Open scaled drawer'),
                               ),
-                              child: const Text('Open scaled drawer'),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+              ),
             ),
           ),
         ),

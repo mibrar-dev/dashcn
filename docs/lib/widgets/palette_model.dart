@@ -96,7 +96,7 @@ List<PaletteEntry> buildPaletteEntries() {
           label: component.name,
           route: '/docs/components/${component.id}',
           icon: LucideIcons.component,
-          tag: '${fileCountOf(component.id)} files',
+          tag: fileCountLabel(fileCountOf(component.id)),
           action: installCommandOf(component.id),
           category: group.id,
           // Names + tags only, mirroring the generated search index: the long
