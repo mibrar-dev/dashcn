@@ -1,7 +1,7 @@
-// P7-G3: the gooey silhouette matches the reference (`main`) for the docs-example
-// configuration — canvas 360 wide, base roundness 16, the sharp shape
-// (→ 16 × 0.9 = 14.4). The geometry is ported verbatim from
-// `_buildGooeyShapePath` / `_buildGooeyBodyPath` / `_buildGooeyShoulderBlendPath`,
+// P7-G3: the gooey silhouette matches the reference (`main`) for main's docs
+// example configuration — canvas 350 wide, base roundness 18, the default
+// shape (`defaultShape` → 18 × 1.35 = 24.3). The geometry is ported verbatim
+// from `_buildGooeyShapePath` / `_buildGooeyBodyPath` / `_buildGooeyShoulderBlendPath`,
 // so these font-independent facts are identical to the reference renderer.
 //
 // The pill width scales with the title (font-dependent), so this pins what does
@@ -15,9 +15,9 @@ import 'package:flutter_shadcn_kit/registry/primitives/gooey/gooey_shape.dart';
 import 'package:flutter_shadcn_kit/registry/primitives/gooey/gooey_surface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const double _kCanvasWidth = 360;
-const double _kResolvedRoundness = 16 * 0.9; // sharp
-const double _kPillBase = 40 + (16 * 0.9) * 0.5 * 3;
+const double _kCanvasWidth = 350;
+const double _kResolvedRoundness = 18 * 1.35; // defaultShape
+const double _kPillBase = 40 + (18 * 1.35) * 0.5 * 3;
 
 void main() {
   test(

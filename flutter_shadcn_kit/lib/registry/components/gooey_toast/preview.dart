@@ -6,11 +6,14 @@
 // anchor to the window edge of the docs app and never cover the trigger.
 //
 // P7-WA: ONE shared theme config across all gooey examples. The Playground
-// (first example) hosts a small controls bar — shape sharp/soft, animation
-// preset, position, fill — and changing it updates EVERY example on the page:
-// all demos resolve shape/animation/position/fill from the same `_shared`
-// notifier at show time (fill flows through each layer's theme, rebuilt by a
-// `ValueListenableBuilder`). No example uses a divergent style.
+// (first example) hosts a small controls bar — shape default/sharp/soft,
+// animation preset, position, fill — and changing it updates EVERY example on
+// the page: all demos resolve shape/animation/position/fill from the same
+// `_shared` notifier at show time (fill flows through each layer's theme,
+// rebuilt by a `ValueListenableBuilder`). No example uses a divergent style.
+//
+// The default shape is `defaultShape` at width 350 / roundness 18, matching
+// `main`'s docs example (resolved roundness 18 × 1.35 = 24.3; body width 350).
 
 import 'package:flutter/widgets.dart';
 
@@ -24,7 +27,7 @@ import 'gooey_toast.dart';
 /// Shared playground config: the single source of look for every demo.
 class _Shared {
   const _Shared({
-    this.shape = GooeyToastShapeStyle.sharp,
+    this.shape = GooeyToastShapeStyle.defaultShape,
     this.animation = GooeyToastAnimationStyle.smooth,
     this.position = GooeyToastPosition.center,
     this.fill = const ThemedColor.value(gooeySurfaceFill),
@@ -53,8 +56,8 @@ class _Shared {
 /// The one shared config; the Playground mutates it, every demo reads it.
 final ValueNotifier<_Shared> _shared = ValueNotifier<_Shared>(const _Shared());
 
-const double _kWidth = 360;
-const double _kRoundness = 16;
+const double _kWidth = 350;
+const double _kRoundness = 18;
 const GooeyAutopilot _kAutopilot = GooeyAutopilot(
   expandDelay: Duration(milliseconds: 180),
   collapseDelay: Duration(milliseconds: 3200),
@@ -168,6 +171,13 @@ class _PlaygroundState extends State<_Playground> {
               runSpacing: gap,
               alignment: WrapAlignment.center,
               children: <Widget>[
+                _chip(
+                  label: 'default',
+                  selected: shared.shape == GooeyToastShapeStyle.defaultShape,
+                  onPressed: () => _shared.value = shared.copyWith(
+                    shape: GooeyToastShapeStyle.defaultShape,
+                  ),
+                ),
                 _chip(
                   label: 'sharp',
                   selected: shared.shape == GooeyToastShapeStyle.sharp,
