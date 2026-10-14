@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth — Build it once. Ship it on every screen.</title><link rel="stylesheet" href="tokens.css">
+<style>
+.stat{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px}
+.stat b{font-size:22px;letter-spacing:-.02em;display:block}.stat span{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.mini-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.flow4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.flow4 .phone{width:100%;border-radius:22px}.flow4 .screen{min-height:220px}
+@media(max-width:960px){.flow4{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.flow4{grid-template-columns:1fr}}
+.preset{display:flex;gap:6px;flex-wrap:wrap}
+.preset i{width:26px;height:26px;border-radius:8px;border:1px solid var(--line-2);display:block;cursor:pointer}
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:960px){.spec-grid{grid-template-columns:1fr}}
+.datasheet{font-family:var(--font-mono);font-size:12px}
+.datasheet .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line-2)}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>workbench · A</small></a>
+<div class="nav-links"><a href="home.html" class="on">Home</a><a href="theming.html">Theming</a><a href="component.html">Docs</a><a href="#">Blocks</a><a href="#">Presets</a></div>
+<div class="nav-right"><span class="cmdk">Search <b>⌘K</b></span>
+<button class="iconbtn" data-theme-toggle title="toggle theme">◐ <span data-theme-label style="font-size:11px">Dark</span></button>
+<a class="btn darkbtn sm" href="component.html">Get started</a>
+<button class="iconbtn hamb" data-hamb>☰</button></div></div></nav>
+
+<div class="wrap">
+<!-- HERO -->
+<div class="hero">
+<div>
+<p class="micro">copy-paste-and-own flutter kit · 118 widgets · 18 blocks · 42 presets</p>
+<h1>Build it once.<br>Ship it on every screen. <span class="u">Own every line.</span></h1>
+<p class="sub">Pure Flutter widgets — no Material, no Cupertino. Every visual is a theme token. Paste a shadcn CSS theme, get Flutter tokens, run the same code on iOS, Android, desktop and web.</p>
+<div class="install"><span class="dot"></span><span>flutter_shadcn add button</span><button data-copy="flutter_shadcn add button">copy</button></div>
+<div class="cta-row"><a class="btn primary" href="component.html">Browse components →</a><a class="btn" href="theming.html">Try the Theme Bench</a></div>
+<div class="tickrow"><span><b>✓</b> 37 button tests</span><span><b>✓</b> AA on 42/42 themes</span><span><b>✓</b> RTL + Semantics</span><span class="mono">lines changed: <b data-count="0">0</b></span></div>
+</div>
+<div>
+<div class="seg" data-plats="hero" style="margin-bottom:10px">
+<button data-plat="ios" class="on">iPhone</button><button data-plat="android">Android</button><button data-plat="macos">macOS</button><button data-plat="web">Web</button>
+</div>
+<div data-frame-scope="hero">
+<!-- iOS -->
+<div data-frame="ios"><div class="phone"><div class="notch"><i></i></div>
+<div class="screen" id="heroApp">
+<p class="micro">settings · <span data-plat-label="hero">ios</span> · <span data-ruler-val>radius 0.625rem</span></p>
+<div class="k-card" style="margin:10px 0"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:14px">Balance</b><span class="k-badge">live</span></div>
+<div style="font-size:30px;font-weight:700;letter-spacing:-.03em;margin:4px 0">$12,480<span style="font-size:14px;color:var(--ink-3)">.22</span></div>
+<div style="height:44px;display:flex;align-items:end;gap:4px;margin:8px 0">{bars}</div>
+<div style="display:flex;gap:8px"><button class="k-btn def" style="flex:1">Send</button><button class="k-btn out" style="flex:1">Request</button></div></div>
+<input class="k-input" value="Search transactions" readonly style="margin-bottom:8px">
+<div class="mini-row"><span>☕&nbsp; Oat latte — Monmouth</span><b>−$4.80</b></div>
+<div class="mini-row"><span>▲&nbsp; Salary — Infinora</span><b style="color:var(--ok)">+$4,200</b></div>
+<div class="k-toast" style="margin-top:10px">✓&nbsp; Theme applied — ember · 42/42 AA</div>
+<div class="k-tabbar"><span class="on">● Home</span><span>▤ Cards</span><span>◐ Stats</span><span>⚙ Set</span></div>
+</div></div></div>
+<!-- android -->
+<div data-frame="android" style="display:none"><div class="phone" style="border-radius:18px"><div class="screen" id="heroApp2">
+<p class="micro">settings · android · material-edge nav</p>
+<div class="k-card" style="margin:10px 0"><b style="font-size:14px">Balance</b>
+<div style="font-size:30px;font-weight:700">$12,480.22</div>
+<div style="display:flex;gap:8px;margin-top:8px"><button class="k-btn def" style="flex:1;border-radius:20px">Send</button><button class="k-btn sec" style="flex:1;border-radius:20px">Request</button></div></div>
+<div class="mini-row"><span>Oat latte</span><b>−$4.80</b></div><div class="mini-row"><span>Salary</span><b>+$4,200</b></div>
+<div style="display:flex;gap:8px;margin-top:12px;justify-content:center"><span>◀</span><span>●</span><span>■</span></div>
+</div></div></div>
+<!-- macos -->
+<div data-frame="macos" style="display:none"><div class="device"><div class="device-bar"><i></i><i></i><i></i><span class="url">plinth.app/settings</span></div>
+<div class="screen" style="display:grid;grid-template-columns:150px 1fr;gap:0;padding:0">
+<div style="border-right:1px solid var(--line);padding:14px;font-size:13px"><p class="micro">workspace</p><p style="padding:6px 0"><b>◉ Overview</b></p><p style="padding:6px 0;color:var(--ink-2)">Cards</p><p style="padding:6px 0;color:var(--ink-2)">Team</p><p style="padding:6px 0;color:var(--ink-2)">Billing</p></div>
+<div style="padding:16px"><p class="micro">billing · macos</p><h3 style="font-size:20px;letter-spacing:-.02em">Good morning, Ada.</h3>
+<div style="display:flex;gap:8px;margin:10px 0"><div class="k-card" style="flex:1"><p class="micro">spent</p><b>$2,140</b></div><div class="k-card" style="flex:1"><p class="micro">budget</p><b>$5,000</b></div><div class="k-card" style="flex:1"><p class="micro">left</p><b>$2,860</b></div></div>
+<button class="k-btn def">Download statement</button> <button class="k-btn gho">Invite</button></div>
+</div></div></div>
+<!-- web -->
+<div data-frame="web" style="display:none"><div class="device"><div class="device-bar"><i></i><i></i><i></i><span class="url">docs.plinth.dev/button — web</span></div>
+<div class="screen"><p class="micro">docs · web</p><h3>Button</h3><p style="font-size:13px;color:var(--ink-2)">Six variants. Three sizes. Zero platform forks.</p>
+<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="k-btn def">Default</button><button class="k-btn sec">Secondary</button><button class="k-btn out">Outline</button><button class="k-btn gho">Ghost</button></div></div></div></div>
+</div>
+<div class="rulers">
+<div class="rulerbox"><header><span class="micro">01 · radius</span><b class="mono" data-ruler-val style="font-size:12px">radius 0.625rem</b></header>
+<div class="ruler" data-ruler="radius" data-target="#heroApp" data-min="2" data-max="16" data-value="10"><div class="ticks"></div><div class="ticks minor"></div><div class="thumb"></div></div></div>
+<div class="rulerbox"><header><span class="micro">02 · density</span><b class="mono" data-ruler-val style="font-size:12px">density medium</b></header>
+<div class="ruler" data-ruler="density" data-target="#heroApp" data-min="0" data-max="100" data-value="50"><div class="ticks"></div><div class="ticks minor"></div><div class="thumb"></div></div></div>
+<div class="rulerbox"><header><span class="micro">03 · hue</span><b class="mono" data-ruler-val style="font-size:12px">hue 24°</b></header>
+<div class="ruler" data-ruler="hue" data-target="#heroApp" data-min="0" data-max="120" data-value="24"><div class="ticks"></div><div class="ticks minor"></div><div class="thumb"></div></div></div>
+</div>
+<p class="micro" style="margin-top:8px">drag a ruler — the mini-app above re-tokens in place · snap: critically damped, no bounce</p>
+</div>
+</div>
+
+<!-- STATS -->
+<div class="grid4" style="margin-top:28px">
+<div class="stat"><b><span data-count="118">0</span></b><span>widgets · pure flutter</span></div>
+<div class="stat"><b><span data-count="18">0</span></b><span>blocks · auth → checkout</span></div>
+<div class="stat"><b><span data-count="42">0</span></b><span>theme presets · light+dark</span></div>
+<div class="stat"><b><span data-count="1204">0</span></b><span>widget tests · ci green</span></div>
+</div>
+
+<!-- 1 same code four screens -->
+<section class="block"><div class="sec-head"><span class="sec-num">01</span><h2>Same code, four screens.</h2></div>
+<p class="sec-sub">One checkout flow. One file. Rendered in four frames below — the code panel doesn't change when you switch platforms. <span class="pill">lines changed: 0</span></p>
+<div class="flow4">
+<div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">ios · checkout</p><div class="k-card"><b>Order #8421</b><div class="mini-row"><span>Oat latte ×2</span><b>$9.60</b></div><div class="mini-row"><span>Delivery</span><b>$1.50</b></div><button class="k-btn def" style="width:100%;margin-top:8px">Pay $11.10</button></div></div></div>
+<div class="phone" style="border-radius:18px"><div class="screen"><p class="micro">android · checkout</p><div class="k-card"><b>Order #8421</b><div class="mini-row"><span>Oat latte ×2</span><b>$9.60</b></div><button class="k-btn def" style="width:100%;margin-top:8px;border-radius:20px">Pay $11.10</button></div></div></div>
+<div class="device"><div class="device-bar"><i></i><i></i><span class="url">macos · checkout</span></div><div class="screen"><div class="k-card"><b>Order #8421</b><div class="mini-row"><span>Oat latte ×2</span><b>$9.60</b></div><button class="k-btn def" style="margin-top:8px">Pay $11.10</button> <button class="k-btn out">Cancel</button></div></div></div>
+<div class="device"><div class="device-bar"><i></i><i></i><span class="url">web · checkout</span></div><div class="screen"><div class="k-card"><b>Order #8421</b><div class="mini-row"><span>Oat latte ×2</span><b>$9.60</b></div><button class="k-btn def" style="margin-top:8px">Pay $11.10</button></div></div></div>
+</div>
+<div class="code" style="margin-top:12px"><span class="c">// flows/checkout.dart — runs unchanged on all four</span><br><span class="f">CheckoutFlow</span>(items: cart, <span class="k">onPay</span>: pay, <span class="k">theme</span>: PlinthTheme.<span class="s">ember</span>)</div>
+</section>
+
+<!-- 2 knobs -->
+<section class="block"><div class="sec-head"><span class="sec-num">02</span><h2>Knobs, not forks.</h2></div>
+<p class="sec-sub">Every visual is a prop or a token. Turn the knobs — the code updates itself. Full playground on the <a href="component.html" style="text-decoration:underline">Button page →</a></p>
+<div class="grid2"><div class="card"><p class="micro">button · live</p><div id="knobPrev" style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap"><button class="k-btn def">Save changes</button><button class="k-btn out">Outline</button><button class="k-btn gho">Ghost</button></div>
+<div class="seg" id="knobSeg"><button class="on">default</button><button>outline</button><button>ghost</button></div></div>
+<div class="code">flutter_shadcn add button<br><span class="f">Button</span>(<span class="k">variant</span>: ButtonVariant.<span class="s">outline</span>, <span class="k">size</span>: ButtonSize.<span class="s">sm</span>,<br>&nbsp;&nbsp;<span class="k">child</span>: <span class="f">Text</span>(<span class="s">'Save'</span>))</div></div>
+</section>
+
+<!-- 3 screens & flows -->
+<section class="block"><div class="sec-head"><span class="sec-num">03</span><h2>Screens &amp; flows.</h2></div>
+<p class="sec-sub">Five copy-paste flows. Each installs with one command and runs on all four platforms.</p>
+<div class="tabs" data-tabs="flows"><button data-tab="onboarding" class="on">Onboarding</button><button data-tab="auth">Auth</button><button data-tab="checkout">Checkout</button><button data-tab="settings">Settings</button><button data-tab="chat">Chat</button></div>
+<div data-pane-scope="flows">
+<div data-pane="onboarding"><div class="grid2"><div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">onboarding · 3 steps</p><h3 style="font-size:22px;letter-spacing:-.02em">Own your UI,<br>line by line.</h3><div style="display:flex;gap:5px;margin:10px 0"><i style="width:22px;height:5px;border-radius:99px;background:var(--accent);display:block"></i><i style="width:22px;height:5px;border-radius:99px;background:var(--line-2);display:block"></i><i style="width:22px;height:5px;border-radius:99px;background:var(--line-2);display:block"></i></div><button class="k-btn def" style="width:100%">Continue →</button><p style="text-align:center;font-size:12px;color:var(--ink-3);margin-top:8px">skip</p></div></div>
+<div><div class="code">flutter_shadcn add flow:onboarding</div><table class="spec" style="margin-top:12px"><tr><th>screen</th><th>widgets</th><th>tests</th></tr><tr><td>welcome</td><td class="mono">Button, Badge</td><td class="mono">12 ✓</td></tr><tr><td>permissions</td><td class="mono">Switch, Card</td><td class="mono">9 ✓</td></tr><tr><td>theme pick</td><td class="mono">PresetGrid</td><td class="mono">11 ✓</td></tr></table></div></div></div>
+<div data-pane="auth" style="display:none"><div class="grid2"><div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">auth · magic link</p><h3>Welcome back.</h3><input class="k-input" value="ada@infinora.dev" style="margin:10px 0"><button class="k-btn def" style="width:100%">Send magic link</button><div class="k-toast" style="margin-top:10px">✓&nbsp; Link sent — check inbox</div></div></div>
+<div><div class="code">flutter_shadcn add flow:auth</div><p class="sec-sub" style="margin-top:10px">Magic link + OTP + passkey screens. Semantics-labelled, RTL-safe.</p></div></div></div>
+<div data-pane="checkout" style="display:none"><div class="grid2"><div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">checkout · apple pay</p><div class="k-card"><b>Pay $11.10</b><button class="k-btn darkbtn" style="width:100%;margin-top:8px"> Pay</button><button class="k-btn out" style="width:100%;margin-top:6px">Card •••• 4242</button></div></div></div>
+<div><div class="code">flutter_shadcn add flow:checkout</div></div></div></div>
+<div data-pane="settings" style="display:none"><div class="grid2"><div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">settings · tokens</p><div class="mini-row"><span>Dark mode</span><b>○—●</b></div><div class="mini-row"><span>Density</span><b>compact</b></div><div class="mini-row"><span>Radius</span><b>0.625rem</b></div></div></div>
+<div><div class="code">flutter_shadcn add flow:settings</div></div></div></div>
+<div data-pane="chat" style="display:none"><div class="grid2"><div class="phone"><div class="notch"><i></i></div><div class="screen"><p class="micro">chat · realtime</p><div class="k-card" style="margin-bottom:8px;font-size:13px">Ship the ember theme today?</div><div class="k-card" style="background:var(--ink);color:var(--paper);margin-left:30px;font-size:13px">Done — 42/42 AA ✓</div><div style="display:flex;gap:6px;margin-top:8px"><input class="k-input" value="Message…"><button class="k-btn def">↑</button></div></div></div>
+<div><div class="code">flutter_shadcn add flow:chat</div></div></div></div>
+</div>
+</section>
+
+<!-- 4 spec sheets -->
+<section class="block"><div class="sec-head"><span class="sec-num">04</span><h2>Spec sheets, not slogans.</h2></div>
+<p class="sec-sub">Every component ships with an engineering datasheet: what passed, on which themes, how many tests.</p>
+<div class="spec-grid">
+<div class="card datasheet"><p class="micro">button · no. 001</p><h3>Button</h3><div class="row"><span>semantics</span><b class="check">✓ pass</b></div><div class="row"><span>contrast AA</span><b>42/42 themes</b></div><div class="row"><span>RTL</span><b class="check">✓ pass</b></div><div class="row"><span>tests</span><b>37 green</b></div><div class="row"><span>keyboard</span><b class="check">✓ focus ring</b></div></div>
+<div class="card datasheet"><p class="micro">input · no. 014</p><h3>Input</h3><div class="row"><span>semantics</span><b class="check">✓ pass</b></div><div class="row"><span>contrast AA</span><b>42/42 themes</b></div><div class="row"><span>RTL</span><b class="check">✓ pass</b></div><div class="row"><span>tests</span><b>29 green</b></div><div class="row"><span>autofill</span><b class="check">✓ ios+android</b></div></div>
+<div class="card datasheet"><p class="micro">dialog · no. 022</p><h3>Dialog</h3><div class="row"><span>semantics</span><b class="check">✓ pass</b></div><div class="row"><span>contrast AA</span><b>42/42 themes</b></div><div class="row"><span>RTL</span><b class="check">✓ pass</b></div><div class="row"><span>tests</span><b>24 green</b></div><div class="row"><span>focus trap</span><b class="check">✓ pass</b></div></div>
+</div></section>
+
+<!-- 5 start an app -->
+<section class="block"><div class="sec-head"><span class="sec-num">05</span><h2>Start an app.</h2></div>
+<p class="sec-sub">One scaffold command. Pick a template — the terminal shows what you get.</p>
+<div class="grid2"><div><div class="tabs" data-tabs="tpl"><button data-tab="saas" class="on">SaaS</button><button data-tab="fintech">Fintech</button><button data-tab="ai">AI chat</button></div>
+<div data-pane-scope="tpl"><div data-pane="saas"><div class="card"><h3>SaaS starter</h3><p>Auth, billing, settings, marketing page. 38 files, ember theme pre-wired.</p><div class="preset" style="margin-top:10px"><i style="background:#E2552B"></i><i style="background:#1F7A4D"></i><i style="background:#2563EB"></i><i style="background:#141414"></i></div></div></div>
+<div data-pane="fintech" style="display:none"><div class="card"><h3>Fintech starter</h3><p>Ledger cards, charts, KYC flow. Density compact, mono numerals.</p></div></div>
+<div data-pane="ai" style="display:none"><div class="card"><h3>AI chat starter</h3><p>Streaming chat, token meter, eval sheet. Dark-first theme.</p></div></div></div>
+<div class="install" style="margin-top:12px;max-width:none"><span class="dot"></span><span>flutter_shadcn create --template saas</span><button data-copy="flutter_shadcn create --template saas">copy</button></div></div>
+<div class="terminal"><header><i></i><i></i><i></i><span class="micro" style="margin-left:8px">terminal — zsh</span></header><div class="body" id="termBody"></div></div></div>
+</section>
+</div>
+
+<footer><div class="wrap foot">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p style="font-size:13px;color:var(--ink-2);margin-top:8px;max-width:28ch">A copy-paste-and-own Flutter UI kit. You own the code.</p><p class="micro" style="margin-top:10px">radius 0.625rem · density compact · hue 24°</p></div>
+<div><h4>Kit</h4><a href="component.html">Components</a><a href="#">Blocks</a><a href="theming.html">Themes</a><a href="#">CLI</a></div>
+<div><h4>Docs</h4><a href="component.html">Button</a><a href="#">Install</a><a href="#">Theming</a><a href="#">Changelog</a></div>
+<div><h4>Meta</h4><a href="index.html">All mockups</a><a href="#">GitHub</a><a href="#">License</a></div>
+</div></footer>
+<script src="app.js"></script>
+<script>
+document.getElementById('knobSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+document.querySelectorAll('#knobSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+const v=b.textContent;m=document.getElementById('knobPrev');
+m.innerHTML=v==='outline'?'<button class="k-btn out">Save changes</button><button class="k-btn out">Cancel</button>':v==='ghost'?'<button class="k-btn gho">Save changes</button>':'<button class="k-btn def">Save changes</button><button class="k-btn out">Outline</button><button class="k-btn gho">Ghost</button>';});
+// chart bars
+document.querySelectorAll('.screen').forEach(s=>{const b=s.textContent.includes('{bars}')?s:null;});
+document.body.innerHTML=document.body.innerHTML.replace('{bars}',[10,22,16,30,24,38,28].map(h=>'<i style="flex:1;height:'+h+'px;border-radius:3px;background:var(--accent);display:block;opacity:.85"></i>').join(''));
+</script>
+</body></html>

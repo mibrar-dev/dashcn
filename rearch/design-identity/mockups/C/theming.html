@@ -1,0 +1,134 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facet Spectrum — paste a theme, watch the canvas re-tint</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+.spec{display:grid;grid-template-columns:320px minmax(0,1fr) 260px;gap:16px;padding:20px 24px;max-width:1360px;margin:0 auto;position:relative;z-index:1}
+.panel{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);padding:16px}
+.panel h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.preset{display:flex;align-items:center;gap:10px;padding:8px;border-radius:9px;cursor:pointer;border:1px solid transparent;font-size:13px;font-weight:600}
+.preset:hover{background:var(--panel-2)}
+.preset.on{border-color:var(--accent);background:var(--panel-2)}
+.swatches{display:flex;gap:5px}
+.swatches i{width:16px;height:16px;border-radius:6px;border:1px solid var(--line-2);display:block}
+textarea{width:100%;min-height:150px;background:var(--code-bg);color:var(--code-ink);border:1px solid var(--line-2);border-radius:10px;font-family:var(--font-mono);font-size:11.5px;padding:12px;resize:vertical}
+.tok-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.tok-row i{width:22px;height:14px;border-radius:4px;display:inline-block;border:1px solid var(--line-2);margin-right:8px;vertical-align:-2px}
+.mini-flow{display:flex;gap:10px;overflow-x:auto;padding:40px 20px 30px}
+.mini-flow .screen{flex-basis:170px}
+@media(max-width:1080px){.spec{grid-template-columns:1fr}.panel{order:2}#canvasPanel{order:1}}
+</style></head><body>
+<header class="nav"><div class="nav-in">
+<a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><path d="M13 1v12m0 0L2 8m11 5 11-5" stroke="#22D3EE" stroke-width="1.6"/><circle cx="13" cy="13" r="2.4" fill="#7C5CFF"/></svg>Facet</a>
+<nav class="nav-links"><a href="home.html">Home</a><a href="theming.html" class="on">Spectrum</a><a href="component.html">Docs</a></nav>
+<div class="nav-right"><button class="icon-btn" data-action="theme"><span data-theme-icon>◐</span></button><a class="btn btn-pri" href="component.html">Get started</a><button class="icon-btn burger" data-action="nav">☰</button></div>
+</div></header>
+
+<div class="wrap" style="padding-top:32px">
+<p class="eyebrow">Spectrum · theme bridge</p>
+<h1 class="h1" style="font-size:clamp(30px,4vw,48px);max-width:20ch">Light through a prism. <span class="serif">Your theme, everywhere.</span></h1>
+<p class="lede">Paste shadcn CSS, tweakcn output, or Tailwind tokens on the left. The flow map re-tints live. Inspect tokens in the HUD, export Dart, JSON, or Figma variables.</p>
+</div>
+
+<div class="spec">
+<div class="panel">
+<h4>1 · Pick or paste</h4>
+<div id="presets">
+<div class="preset on" data-p="violet" data-a="#7C5CFF" data-b="#22D3EE" data-bg="#0B0B0F" data-panel="#14141B" data-ink="#F2F2F6" data-r="12"><span class="swatches"><i style="background:#7C5CFF"></i><i style="background:#22D3EE"></i><i style="background:#0B0B0F"></i></span> Prism Violet <span class="mono" style="margin-left:auto;font-size:10px;color:var(--muted)">default</span></div>
+<div class="preset" data-p="sand" data-a="#B45309" data-b="#EAB308" data-bg="#FAF7F2" data-panel="#FFFFFF" data-ink="#1C1917" data-r="10"><span class="swatches"><i style="background:#B45309"></i><i style="background:#EAB308"></i><i style="background:#FAF7F2"></i></span> Dune Sand</div>
+<div class="preset" data-p="forest" data-a="#15803D" data-b="#84CC16" data-bg="#070D0A" data-panel="#0E1A14" data-ink="#ECFDF5" data-r="14"><span class="swatches"><i style="background:#15803D"></i><i style="background:#84CC16"></i><i style="background:#070D0A"></i></span> Pine</div>
+<div class="preset" data-p="rose" data-a="#E11D48" data-b="#FB7185" data-bg="#0F0A0C" data-panel="#1B1114" data-ink="#FFF1F2" data-r="16"><span class="swatches"><i style="background:#E11D48"></i><i style="background:#FB7185"></i><i style="background:#0F0A0C"></i></span> Signal Rose</div>
+<div class="preset" data-p="mono" data-a="#18181B" data-b="#71717A" data-bg="#FFFFFF" data-panel="#F4F4F5" data-ink="#09090B" data-r="6"><span class="swatches"><i style="background:#18181B"></i><i style="background:#71717A"></i><i style="background:#fff"></i></span> Mono Zinc</div>
+<div class="preset" data-p="ocean" data-a="#0EA5E9" data-b="#2DD4BF" data-bg="#060D14" data-panel="#0C1826" data-ink="#F0FDFA" data-r="12"><span class="swatches"><i style="background:#0EA5E9"></i><i style="background:#2DD4BF"></i><i style="background:#060D14"></i></span> Trench</div>
+</div>
+<p class="mono" style="font-size:11px;color:var(--muted);margin:12px 0 6px">showing 6 of 42 presets · <a href="#" style="color:var(--accent)">view all</a></p>
+<textarea id="paste" spellcheck="false">:root {
+  --background: 0 0% 100%;
+  --primary: 262 83% 58%;
+  --radius: 0.75rem;
+}</textarea>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-pri" id="applyBtn" style="flex:1;justify-content:center">Apply to canvas →</button></div>
+<p class="mono" id="parseNote" style="font-size:11px;color:var(--muted)">parsed: --primary → accent · --radius → radius (12px)</p>
+<label class="mono" style="font-size:11px;color:var(--muted)">radius <b id="rV" style="color:var(--ink)">12px</b><input id="radius" type="range" min="4" max="22" value="12"></label>
+</div>
+
+<div class="panel canvas" id="canvasPanel" style="padding:0;overflow:hidden">
+<div class="hud" style="top:12px;left:12px"><span class="dot glow-pulse"></span> <span id="themeName">prism violet</span> · re-tinting live</div>
+<div class="hud" style="top:12px;right:12px">AA <b id="aaScore" style="color:var(--ok)">42/42</b></div>
+<svg viewBox="0 0 600 60" style="position:absolute;top:64px;left:0;width:100%;opacity:.7"><path d="M40 40 C 160 40, 180 10, 300 26 S 460 44, 560 22" stroke="url(#gg)" fill="none" stroke-width="1.6"/><defs><linearGradient id="gg" x1="0" x2="600"><stop stop-color="#7C5CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+<div class="mini-flow" id="miniFlow">
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>↗</b> sign in</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body"><p class="s-title">Welcome back</p><div class="s-input">maria@facet.dev</div><div class="s-input">••••••••</div><div class="s-btn" data-accent>Sign in</div><div class="s-btn ghost">Passkey</div></div></div></div>
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>↗</b> feed</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body"><div class="s-card"><b>$1,240 spent</b><span>↓ 12% vs May</span><div style="display:flex;gap:3px;margin-top:6px;height:26px;align-items:flex-end"><i style="flex:1;border-radius:2px;height:50%;background:var(--panel-2);border:1px solid var(--line-2)"></i><i style="flex:1;border-radius:2px;height:80%;background:var(--tint, var(--accent))"></i><i style="flex:1;border-radius:2px;height:100%;background:var(--tint2, var(--accent-2))"></i></div></div><div class="s-btn ghost">+ Transfer</div><div class="s-btn" data-accent>Pay bill</div></div></div></div>
+<div class="screen" data-action="zoom"><span class="flow-tag"><b>↗</b> checkout</span><div class="screen-inner"><div class="notch"><i></i></div><div class="scr-body"><p class="s-title">Pay $249.00</p><div class="s-input">4242 4242 4242 4242</div><div class="s-btn" data-accent>Pay now</div><div class="hud" style="position:static;justify-content:center"><span class="dot"></span> AA ✓ · RTL ✓</div></div></div></div>
+</div>
+<div class="toast-demo">✓ Tokens mapped — <span class="mono" id="tokCount">14 tokens</span></div>
+</div>
+
+<div class="panel">
+<h4>2 · Token HUD</h4>
+<div id="hud">
+<div class="tok-row"><span><i data-sw="a" style="background:var(--accent)"></i>primary / accent</span><b data-t="a">#7C5CFF</b></div>
+<div class="tok-row"><span><i data-sw="b" style="background:var(--accent-2)"></i>secondary glow</span><b data-t="b">#22D3EE</b></div>
+<div class="tok-row"><span><i data-sw="bg" style="background:var(--bg)"></i>background</span><b data-t="bg">#0B0B0F</b></div>
+<div class="tok-row"><span><i data-sw="panel" style="background:var(--panel)"></i>surface</span><b data-t="panel">#14141B</b></div>
+<div class="tok-row"><span><i data-sw="ink" style="background:var(--ink)"></i>foreground</span><b data-t="ink">#F2F2F6</b></div>
+<div class="tok-row"><span>radius</span><b data-t="r">12px</b></div>
+<div class="tok-row"><span>font.sans</span><b>Geist</b></div>
+<div class="tok-row"><span>font.mono</span><b>Geist Mono</b></div>
+</div>
+<h4 style="margin-top:16px">3 · Export</h4>
+<div style="display:grid;gap:8px">
+<button class="btn btn-sec mono" id="expDart" style="font-size:12px;justify-content:center">Export Dart ⤓</button>
+<button class="btn btn-sec mono" id="expJson" style="font-size:12px;justify-content:center">Export JSON ⤓</button>
+<button class="btn btn-sec mono" id="expFigma" style="font-size:12px;justify-content:center">Figma variables ⤓</button>
+</div>
+<pre class="code" id="out" style="margin-top:12px;max-height:220px">FacetTheme(
+  <span class="k">primary</span>: <span class="s">0xFF7C5CFF</span>,
+  <span class="k">radius</span>: <span class="s">12.0</span>,
+)</pre>
+</div>
+</div>
+
+<div class="wrap" style="padding-bottom:56px">
+<div class="card" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+<span class="mono" style="font-size:12px;color:var(--muted)">bridge reads: shadcn.css · tweakcn.json · tailwind.config · figma tokens.json — writes: facet_tokens.dart</span>
+<a class="btn btn-glow" href="component.html">See a themed widget →</a>
+</div></div>
+<footer><div class="wrap"><div><b style="color:var(--ink)">Facet</b> <span class="mono" style="font-size:11px">· spectrum mockup</span></div><div class="mono" style="font-size:12px"><a href="index.html" style="text-decoration:none">chooser</a> · MIT</div></div></footer>
+<script src="app.js"></script>
+<script>
+var cur={p:'prism violet',a:'#7C5CFF',b:'#22D3EE',bg:'#0B0B0F',panel:'#14141B',ink:'#F2F2F6',r:12};
+function hexA(h){h=h.replace('#','');return '0xFF'+h.toUpperCase();}
+function render(){
+  document.getElementById('themeName').textContent=cur.p;
+  var q=function(s){return document.querySelector('[data-t="'+s+'"]');};
+  q('a').textContent=cur.a;q('b').textContent=cur.b;q('bg').textContent=cur.bg;q('panel').textContent=cur.panel;q('ink').textContent=cur.ink;q('r').textContent=cur.r+'px';
+  document.querySelector('[data-sw="a"]').style.background=cur.a;
+  document.querySelector('[data-sw="b"]').style.background=cur.b;
+  // re-tint the mini flow: set canvas-level vars + accent buttons
+  var cp=document.getElementById('canvasPanel');
+  cp.style.setProperty('--accent',cur.a);cp.style.setProperty('--accent-2',cur.b);
+  cp.style.setProperty('--tint',cur.a);cp.style.setProperty('--tint2',cur.b);
+  document.querySelectorAll('[data-accent]').forEach(function(b){b.style.background=cur.a;b.style.color='#fff';});
+  document.getElementById('rV').textContent=cur.r+'px';
+  document.getElementById('out').innerHTML='FacetTheme(\n  <span class="k">primary</span>: <span class="s">'+hexA(cur.a)+'</span>,\n  <span class="k">secondary</span>: <span class="s">'+hexA(cur.b)+'</span>,\n  <span class="k">background</span>: <span class="s">'+hexA(cur.bg)+'</span>,\n  <span class="k">radius</span>: <span class="s">'+cur.r+'.0</span>,\n  <span class="k">font</span>: <span class="s">Geist</span>,\n)';
+}
+document.querySelectorAll('.preset').forEach(function(p){p.addEventListener('click',function(){
+  document.querySelectorAll('.preset').forEach(function(x){x.classList.remove('on');});p.classList.add('on');
+  cur={p:p.textContent.trim().toLowerCase(),a:p.dataset.a,b:p.dataset.b,bg:p.dataset.bg,panel:p.dataset.panel,ink:p.dataset.ink,r:+p.dataset.r};
+  document.getElementById('radius').value=cur.r;render();});});
+document.getElementById('radius').addEventListener('input',function(e){cur.r=+e.target.value;render();});
+document.getElementById('applyBtn').addEventListener('click',function(){
+  var t=document.getElementById('paste').value;
+  var m=t.match(/(\d{2,3})\s+(\d{1,3})%\s+(\d{1,3})%/);
+  if(m){var h=+m[1];cur.a='hsl('+h+',80%,60%)';cur.b='hsl('+((h+80)%360)+',80%,60%)';
+    document.getElementById('parseNote').textContent='parsed: hsl('+h+'…) → accent '+cur.a+' · glow shifted +80°';}
+  else{document.getElementById('parseNote').textContent='parsed: no hsl() found — kept current accent, radius synced';}
+  render();});
+document.getElementById('expDart').addEventListener('click',function(){render();});
+document.getElementById('expJson').addEventListener('click',function(){
+  document.getElementById('out').textContent=JSON.stringify({primary:cur.a,secondary:cur.b,background:cur.bg,radius:cur.r,font:'Geist'},null,2);});
+document.getElementById('expFigma').addEventListener('click',function(){
+  document.getElementById('out').textContent='{"facet/primary":{"$value":"'+cur.a+'"},"facet/radius":{"$value":"'+cur.r+'"}}';});
+render();
+</script></body></html>

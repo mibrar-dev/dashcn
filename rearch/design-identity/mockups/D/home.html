@@ -1,0 +1,276 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth — Build it once. Ship it on every screen.</title><link rel="stylesheet" href="tokens.css">
+<style>
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;padding:64px 0 40px}
+.hero h1{font-size:clamp(38px,4.6vw,60px);letter-spacing:-.04em;line-height:1.02;margin:14px 0 14px}
+.hero h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ember)}
+.hero p.sub{color:var(--ink-2);font-size:16.5px;max-width:46ch}
+.cta-row{display:flex;gap:10px;margin:22px 0 16px;flex-wrap:wrap}
+.stats{display:flex;gap:22px;margin-top:20px}
+.stats b{display:block;font-size:19px;letter-spacing:-.02em}.stats span{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em}
+/* mini app */
+.stage-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.stage-head .micro{margin-right:auto}
+.mini{background:var(--pv-bg);color:var(--pv-fg);border-radius:calc(var(--pv-radius) + 8px);padding:calc(14px * var(--pv-density,1)) 14px;transition:background .5s,color .5s}
+.mini-status{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--pv-muted);color:var(--pv-fg);opacity:.75;margin-bottom:10px}
+.mini-bal{background:var(--pv-fg);color:var(--pv-bg);border-radius:var(--pv-radius);padding:14px;transition:.5s}
+.mini-bal small{font-family:var(--font-mono);font-size:10px;opacity:.65;letter-spacing:.08em}
+.mini-bal b{font-size:26px;letter-spacing:-.03em;display:block}
+.mini-row{display:flex;gap:8px;margin:12px 0}
+.mbtn{flex:1;text-align:center;font-size:12.5px;font-weight:600;border-radius:var(--pv-radius);padding:9px 0;transition:.4s}
+.mbtn.solid{background:var(--pv-primary);color:#fff}.mbtn.line{border:1.5px solid var(--pv-primary);color:var(--pv-primary)}
+.mini-input{border:1px solid color-mix(in srgb,var(--pv-fg) 22%,transparent);border-radius:var(--pv-radius);padding:9px 12px;font-size:12.5px;display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.mini-item{display:flex;align-items:center;gap:10px;padding:9px 2px;border-top:1px solid color-mix(in srgb,var(--pv-fg) 12%,transparent);font-size:12.5px}
+.dot2{width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-size:14px}
+.mini-tab{display:flex;border-top:1px solid color-mix(in srgb,var(--pv-fg) 12%,transparent);margin-top:10px;padding-top:10px}
+.mini-tab span{flex:1;text-align:center;font-size:10px;font-family:var(--font-mono);opacity:.55}.mini-tab span.on{opacity:1;color:var(--pv-primary);font-weight:600}
+.glaze{display:flex;gap:8px;margin:14px 0 10px;flex-wrap:wrap}
+.tile{width:44px;height:44px;border-radius:12px;border:2px solid transparent;cursor:pointer;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.tile.on{border-color:var(--ember)}
+.tile small{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:9px;color:var(--ink-3);display:none}
+.rulers{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:8px;margin-top:22px}
+/* four screens */
+.screens4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.scr{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;min-height:230px}
+.scr .bar{height:8px;border-radius:4px;background:var(--card-2);border:1px solid var(--line);margin:8px 0}
+.scr .b2{height:34px;border-radius:8px;background:var(--ember);margin-top:10px}
+.scr .b3{height:34px;border-radius:8px;border:1.5px solid var(--ember);margin-top:8px}
+/* knobs */
+.knobs{display:grid;grid-template-columns:300px 1fr;gap:20px}
+.knob-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:14px;align-content:start}
+.knob-panel label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);display:grid;gap:6px}
+.knob-panel select,.knob-panel input[type=text]{font-family:var(--font-sans);font-size:13.5px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.seg{display:flex;background:var(--card-2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:none;background:none;font-size:12px;font-weight:600;color:var(--ink-3);padding:6px 10px;border-radius:6px;cursor:pointer;font-family:var(--font-mono)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
+.check{display:flex;gap:8px;align-items:center;font-size:13.5px}
+/* flow map */
+.flow-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.flow-tabs button{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:7px 15px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2)}
+.flow-tabs button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.canvas{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px;background-image:var(--dot);background-size:22px 22px;overflow:auto}
+.flow{display:flex;align-items:stretch;gap:0;min-width:760px}
+.fnode{background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px;min-width:150px;box-shadow:var(--shadow-1)}
+.fnode b{font-size:13px;display:block}.fnode span{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3)}
+.fnode .tags{display:flex;gap:4px;margin-top:8px}.fnode i{font-style:normal;font-family:var(--font-mono);font-size:9.5px;background:var(--card-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px}
+.link{align-self:center;flex:1;min-width:34px;height:2px;background:repeating-linear-gradient(90deg,var(--ember) 0 6px,transparent 6px 11px);position:relative}
+.link::after{content:"›";position:absolute;right:-4px;top:-13px;color:var(--ember);font-weight:700}
+/* motion lab */
+.motion{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.mo{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
+.track{height:64px;position:relative;background:var(--card-2);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
+.puck{position:absolute;top:14px;left:8px;width:36px;height:36px;border-radius:10px;background:var(--ember)}
+.bez{width:100%;height:150px;background:var(--card-2);border:1px solid var(--line);border-radius:10px}
+/* scorecards */
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.spec{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
+.spec table{width:100%;font-size:13px;border-collapse:collapse;margin-top:12px}
+.spec td{padding:7px 0;border-top:1px solid var(--line)}.spec td:last-child{text-align:right;font-family:var(--font-mono);font-size:12px}
+.tick{color:var(--ok);font-weight:700}
+/* terminal */
+.term{background:#161311;color:#EDE6DA;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-2)}
+.term-bar{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid #2c2825;align-items:center}
+.term-bar i{width:11px;height:11px;border-radius:50%;background:#3a352f}.term-bar i:first-child{background:#FF5F57}
+.term pre{padding:20px 22px;font-family:var(--font-mono);font-size:13px;line-height:1.9;overflow:auto}
+.pS{color:#8a8378}.pG{color:#A8D3A2}.pE{color:#FF9D7A}.pB{color:#7AB8FF}
+.create-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.tpl-list{display:grid;gap:10px}
+.tpl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.tpl:hover{border-color:var(--ember)}.tpl code{font-family:var(--font-mono);font-size:12px;color:var(--ember)}
+@media(max-width:1000px){.hero{grid-template-columns:1fr}.screens4{grid-template-columns:1fr 1fr}.knobs,.create-grid{grid-template-columns:1fr}.motion,.specs{grid-template-columns:1fr}}
+@media(max-width:560px){.screens4{grid-template-columns:1fr}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>D·hybrid</small></a>
+<div class="nav-links"><a href="home.html" class="on">Home</a><a href="component.html">Docs</a><a href="component.html">Components</a><a href="theming.html">Themes</a><a href="home.html#flows">Blocks</a><a href="home.html#start">CLI</a></div>
+<div class="nav-right"><button class="search-btn" data-cmdk-open><span>Search docs…</span><kbd>⌘K</kbd></button>
+<button class="icon-btn" data-toggle-theme title="Toggle theme">◐</button>
+<button class="icon-btn hamburger" data-burger>☰</button></div></div></nav>
+<div class="mobile-menu"><a href="home.html">Home</a><a href="component.html">Docs</a><a href="component.html">Components</a><a href="theming.html">Themes</a><a href="home.html#start">CLI</a></div>
+
+<div class="wrap">
+<!-- HERO -->
+<div class="hero">
+<div>
+<p class="micro"><b>● LIVE</b> · COPY-PASTE FLUTTER UI KIT · 118 WIDGETS · 42 PRESETS</p>
+<h1>Build it once.<br>Ship it on <em>every screen.</em><br>Own every line.</h1>
+<p class="sub">Pure Flutter widgets — no Material, no Cupertino. Every visual is a theme token. Paste a web theme, preview it live, and keep the code.</p>
+<div class="cta-row"><span class="chip">flutter_shadcn add button <button class="copy" data-copy="flutter_shadcn add button">⧉</button></span></div>
+<div class="cta-row"><a class="btn btn-primary" href="component.html">Browse components →</a><a class="btn btn-ghost" href="theming.html">Try the Theme Bench</a></div>
+<div class="stats"><div><b>118</b><span>widgets</span></div><div><b>18</b><span>blocks</span></div><div><b>42</b><span>presets</span></div><div><b>100%</b><span>tokens</span></div></div>
+</div>
+<div id="hero-stage">
+<div class="stage-head"><span class="micro">FIG 01 — LIVE MINI-APP · <span data-preset-name>Ember</span></span>
+<span class="device-strip"><button data-plat="iphone" class="on">iPhone</button><button data-plat="android">Android</button><button data-plat="macos">macOS</button><button data-plat="web">Web</button></span></div>
+<div data-frame class="frame-iphone"><div class="notch"></div>
+<div class="mini" data-morph-stage>
+<div class="mini-status"><span>9:41</span><span data-frame-tag>iphone.dart — same widget</span></div>
+<div class="mini-bal"><small>TOTAL BALANCE</small><b>$24,806.20</b><small style="color:#A8D3A2">▲ 12.4% THIS MONTH</small></div>
+<div class="mini-row"><div class="mbtn solid">Send</div><div class="mbtn line">Request</div></div>
+<div class="mini-input">⌕ &nbsp;Search transactions…</div>
+<div class="mini-item"><span class="dot2" style="background:#1F9D55">↓</span><span><b>Acme invoice</b><br><span style="opacity:.55;font-size:11px">Today · Business</span></span><b style="margin-left:auto">+$2,400</b></div>
+<div class="mini-item"><span class="dot2" style="background:#4F46E5">✦</span><span><b>Figma subscription</b><br><span style="opacity:.55;font-size:11px">Yesterday · Tools</span></span><b style="margin-left:auto">−$15</b></div>
+<div class="mini-tab"><span class="on">● Home</span><span>Cards</span><span>Stats</span><span>More</span></div>
+</div></div>
+<div class="glaze" id="hero-tiles"></div>
+<p class="micro">DRAG A RULER TO PAUSE MORPH · CYCLES EVERY 3S</p>
+<div class="rulers">
+<div class="ruler"><span>radius</span><input type="range" data-ruler="radius" min="0" max="24" value="10"><b data-ruler-val="radius">10px</b></div>
+<div class="ruler"><span>density</span><input type="range" data-ruler="density" min="80" max="120" value="100"><b>100%</b></div>
+<div class="ruler"><span>hue&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="range" data-ruler="hue" min="0" max="360" value="16"><b>16°</b></div>
+</div>
+</div>
+</div>
+
+<!-- 1 four screens -->
+<div class="section" id="screens"><div class="sec-head">
+<p class="micro"><b>01</b> · SAME CODE, FOUR SCREENS</p><h2>One widget tree. Four frames. Zero forks.</h2>
+<p>The same <span style="font-family:var(--font-mono)">Card + Button + Input</span> renders natively on each OS. No platform channels for styling — density and chrome adapt, your code doesn't.</p></div>
+<div class="screens4">
+<div class="scr"><p class="micro">A · IOS · CUPERTINO-FREE</p><h4 style="margin:6px 0">Wallet</h4><div class="bar" style="width:60%"></div><div class="bar" style="width:90%"></div><div class="b2"></div><p class="micro" style="margin-top:10px">SAFE-AREA · HAPTICS ✓</p></div>
+<div class="scr"><p class="micro">B · ANDROID · EDGE-TO-EDGE</p><h4 style="margin:6px 0">Wallet</h4><div class="bar" style="width:70%"></div><div class="bar" style="width:80%"></div><div class="b2" style="border-radius:20px"></div><p class="micro" style="margin-top:10px">PREDICTIVE BACK ✓</p></div>
+<div class="scr"><p class="micro">C · MACOS · MENU + SIDEBAR</p><h4 style="margin:6px 0">Ledger</h4><div class="bar" style="width:90%"></div><div class="bar" style="width:50%"></div><div style="display:flex;gap:8px"><div class="b2" style="flex:1"></div><div class="b3" style="flex:1"></div></div><p class="micro" style="margin-top:10px">⌘K · SHORTCUTS ✓</p></div>
+<div class="scr"><p class="micro">D · WEB · WASM</p><h4 style="margin:6px 0">Ledger</h4><div class="bar" style="width:55%"></div><div class="bar" style="width:95%"></div><div style="display:flex;gap:8px"><div class="b3" style="flex:1"></div><div class="b2" style="flex:1"></div></div><p class="micro" style="margin-top:10px">URL ROUTES ✓</p></div>
+</div></div>
+
+<!-- 2 knobs -->
+<div class="section" id="knobs"><div class="sec-head">
+<p class="micro"><b>02</b> · PROPS PLAYGROUND</p><h2>Knobs, not docs archaeology.</h2>
+<p>Flip variants and sizes, copy the Dart. What you see is the constructor.</p></div>
+<div class="knobs">
+<div class="knob-panel">
+<label>variant<div class="seg" id="k-var"><button class="on">default</button><button>secondary</button><button>outline</button><button>ghost</button><button>destructive</button><button>link</button></div></label>
+<label>size<div class="seg" id="k-size"><button>sm</button><button class="on">default</button><button>lg</button><button>icon</button></div></label>
+<label class="check"><input type="checkbox" id="k-dis"> disabled</label>
+<label class="check"><input type="checkbox" id="k-load"> loading</label>
+<label>label<input type="text" id="k-label" value="Save changes"></label>
+</div>
+<div><div class="card" style="padding:48px;display:grid;place-items:center;background-image:var(--dot);background-size:22px 22px"><button id="k-prev" class="btn btn-primary" style="font-size:15px;padding:12px 28px">Save changes</button></div>
+<div class="code" id="k-code" style="margin-top:12px">Button(<br>&nbsp;&nbsp;variant: <span class="k">ButtonVariant</span>.default,<br>&nbsp;&nbsp;size: <span class="k">ButtonSize</span>.default,<br>&nbsp;&nbsp;child: <span class="f">Text</span>(<span class="s">'Save changes'</span>),<br>)</div></div>
+</div></div>
+
+<!-- 3 flow map -->
+<div class="section" id="flows"><div class="sec-head">
+<p class="micro"><b>03</b> · SCREENS &amp; FLOWS</p><h2>Whole flows, pre-wired.</h2>
+<p>Five production flows with routing, validation and empty states. Install one command.</p></div>
+<div data-tabs class="flow-tabs"><button data-tab="onboarding" class="on">Onboarding</button><button data-tab="auth">Auth</button><button data-tab="checkout">Checkout</button><button data-tab="settings">Settings</button><button data-tab="chat">Chat</button></div>
+<div data-panes>
+<div data-pane="onboarding"><div class="canvas"><div class="flow">
+<div class="fnode"><span>01 · SCREEN</span><b>Welcome</b><div class="tags"><i>hero</i><i>cta</i></div></div><div class="link"></div>
+<div class="fnode"><span>02 · SCREEN</span><b>Permissions</b><div class="tags"><i>dialog</i></div></div><div class="link"></div>
+<div class="fnode"><span>03 · SCREEN</span><b>Personalize</b><div class="tags"><i>form</i><i>3 steps</i></div></div><div class="link"></div>
+<div class="fnode" style="border-color:var(--ember)"><span>04 · DONE</span><b>Home →</b><div class="tags"><i>route /</i></div></div></div></div>
+<div style="margin-top:12px"><span class="chip light">flutter_shadcn add flow:onboarding <button class="copy" data-copy="flutter_shadcn add flow:onboarding">⧉</button></span></div></div>
+<div data-pane="auth" style="display:none"><div class="canvas"><div class="flow">
+<div class="fnode"><span>01 · SCREEN</span><b>Sign in</b><div class="tags"><i>email</i><i>oauth</i></div></div><div class="link"></div>
+<div class="fnode"><span>02 · SCREEN</span><b>Verify code</b><div class="tags"><i>otp · 6-box</i></div></div><div class="link"></div>
+<div class="fnode" style="border-color:var(--ember)"><span>03 · DONE</span><b>Session →</b><div class="tags"><i>secure store</i></div></div></div></div>
+<div style="margin-top:12px"><span class="chip light">flutter_shadcn add flow:auth <button class="copy" data-copy="flutter_shadcn add flow:auth">⧉</button></span></div></div>
+<div data-pane="checkout" style="display:none"><div class="canvas"><div class="flow">
+<div class="fnode"><span>01 · SCREEN</span><b>Cart</b><div class="tags"><i>list</i></div></div><div class="link"></div>
+<div class="fnode"><span>02 · SCREEN</span><b>Payment</b><div class="tags"><i>card field</i></div></div><div class="link"></div>
+<div class="fnode"><span>03 · SCREEN</span><b>Confirm</b><div class="tags"><i>sheet</i></div></div><div class="link"></div>
+<div class="fnode" style="border-color:var(--ember)"><span>04 · DONE</span><b>Receipt →</b><div class="tags"><i>toast</i></div></div></div></div>
+<div style="margin-top:12px"><span class="chip light">flutter_shadcn add flow:checkout <button class="copy" data-copy="flutter_shadcn add flow:checkout">⧉</button></span></div></div>
+<div data-pane="settings" style="display:none"><div class="canvas"><div class="flow">
+<div class="fnode"><span>01 · SCREEN</span><b>Profile</b><div class="tags"><i>avatar</i></div></div><div class="link"></div>
+<div class="fnode"><span>02 · SCREEN</span><b>Preferences</b><div class="tags"><i>switches</i></div></div><div class="link"></div>
+<div class="fnode" style="border-color:var(--ember)"><span>03 · DONE</span><b>Saved ✓</b><div class="tags"><i>persist</i></div></div></div></div>
+<div style="margin-top:12px"><span class="chip light">flutter_shadcn add flow:settings <button class="copy" data-copy="flutter_shadcn add flow:settings">⧉</button></span></div></div>
+<div data-pane="chat" style="display:none"><div class="canvas"><div class="flow">
+<div class="fnode"><span>01 · SCREEN</span><b>Threads</b><div class="tags"><i>list</i></div></div><div class="link"></div>
+<div class="fnode"><span>02 · SCREEN</span><b>Conversation</b><div class="tags"><i>stream</i></div></div><div class="link"></div>
+<div class="fnode" style="border-color:var(--ember)"><span>03 · DONE</span><b>Sent ✓</b><div class="tags"><i>optimistic</i></div></div></div></div>
+<div style="margin-top:12px"><span class="chip light">flutter_shadcn add flow:chat <button class="copy" data-copy="flutter_shadcn add flow:chat">⧉</button></span></div></div>
+</div></div>
+
+<!-- 4 motion lab -->
+<div class="section" id="motion"><div class="sec-head">
+<p class="micro"><b>04</b> · MOTION LAB</p><h2>Motion with numbers.</h2>
+<p>Every animation is a token: duration + curve. Drag the handles, copy the Dart.</p></div>
+<div class="motion">
+<div class="mo"><p class="micro">EASE-OUT · 220MS</p><div class="track"><div class="puck" id="puck1"></div></div><button class="btn btn-ghost" onclick="replay('puck1','cubic-bezier(.2,.8,.2,1)',220)">▶ Replay</button>
+<div class="code" style="margin-top:10px">duration: <span class="k">220.ms</span><br>curve: <span class="f">Curves</span>.easeOut</div></div>
+<div class="mo"><p class="micro">SPRING · 340MS</p><div class="track"><div class="puck" id="puck2" style="border-radius:50%"></div></div><button class="btn btn-ghost" onclick="replay('puck2','cubic-bezier(.3,1.4,.4,1)',340)">▶ Replay</button>
+<div class="code" style="margin-top:10px">duration: <span class="k">340.ms</span><br>curve: <span class="f">PlinthCurves</span>.spring</div></div>
+<div class="mo"><p class="micro">CURVE EDITOR · DRAG HANDLES</p><svg class="bez" id="bez" viewBox="0 0 200 150"><path d="M10 130 L190 130 M10 10 L10 130" stroke="currentColor" opacity=".25"/><path id="bez-path" d="M10 130 C 60 130, 90 20, 190 20" fill="none" stroke="#E2552B" stroke-width="2.5"/><circle id="h1" cx="60" cy="130" r="7" fill="#fff" stroke="#E2552B" stroke-width="2.5" style="cursor:grab"/><circle id="h2" cx="90" cy="20" r="7" fill="#fff" stroke="#E2552B" stroke-width="2.5" style="cursor:grab"/></svg>
+<div class="code" id="bez-code" style="margin-top:10px">Cubic(<span class="k">0.25, 0.80, 0.35, 0.95</span>)</div></div>
+</div></div>
+
+<!-- 5 spec sheets -->
+<div class="section" id="specs"><div class="sec-head">
+<p class="micro"><b>05</b> · SPEC SHEETS</p><h2>Trust, tabulated.</h2>
+<p>Every component ships a scorecard: semantics, contrast, RTL, tests, keyboard.</p></div>
+<div class="specs">
+<div class="spec"><p class="micro">BUTTON · SPEC 041</p><h3>Button</h3><table><tr><td>Semantics</td><td class="tick">✓ labelled</td></tr><tr><td>Contrast AA</td><td class="tick">42 / 42 themes</td></tr><tr><td>RTL</td><td class="tick">✓ mirrored</td></tr><tr><td>Tests</td><td>37 passing</td></tr><tr><td>Keyboard</td><td class="tick">✓ focus ring</td></tr></table></div>
+<div class="spec"><p class="micro">DIALOG · SPEC 062</p><h3>Dialog</h3><table><tr><td>Semantics</td><td class="tick">✓ modal role</td></tr><tr><td>Contrast AA</td><td class="tick">42 / 42 themes</td></tr><tr><td>RTL</td><td class="tick">✓ mirrored</td></tr><tr><td>Tests</td><td>29 passing</td></tr><tr><td>Focus trap</td><td class="tick">✓ + Esc</td></tr></table></div>
+<div class="spec"><p class="micro">CHART · SPEC 088</p><h3>Chart</h3><table><tr><td>Semantics</td><td class="tick">✓ data table alt</td></tr><tr><td>Contrast AA</td><td class="tick">42 / 42 themes</td></tr><tr><td>RTL</td><td class="tick">✓ axes flip</td></tr><tr><td>Tests</td><td>44 passing</td></tr><tr><td>Reduced motion</td><td class="tick">✓ static</td></tr></table></div>
+</div></div>
+
+<!-- 6 start -->
+<div class="section" id="start"><div class="sec-head">
+<p class="micro"><b>06</b> · START AN APP</p><h2>One command. A running app.</h2>
+<p>Scaffold with theme, router and flows pre-wired. Then own every line.</p></div>
+<div class="create-grid"><div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="font-family:var(--font-mono);font-size:11px;color:#8a8378;margin-left:8px">terminal — zsh</span></div><pre><span class="pS">$</span> <span class="pG">flutter_shadcn create</span> my_app --preset ember --flow onboarding
+<span class="pB">✓</span> scaffold · lib/ + router + theme.g.dart
+<span class="pB">✓</span> 12 widgets copied <span class="pS">(you own them)</span>
+<span class="pB">✓</span> flow:onboarding wired at /
+<span class="pS">$</span> cd my_app && <span class="pG">flutter run</span> -d chrome
+<span class="pE">●</span> running on Chrome · 204ms · <span class="pG">hot reload ready</span></pre></div>
+<div class="tpl-list">
+<div class="tpl"><span><b>Blank</b> <span style="color:var(--ink-3);font-size:13px">— theme + router, nothing else</span></span><code>--blank</code></div>
+<div class="tpl"><span><b>SaaS starter</b> <span style="color:var(--ink-3);font-size:13px">— auth + settings + billing</span></span><code>--saas</code></div>
+<div class="tpl"><span><b>Fintech</b> <span style="color:var(--ink-3);font-size:13px">— ledger, charts, cards</span></span><code>--fintech</code></div>
+<div class="tpl"><span><b>Chat</b> <span style="color:var(--ink-3);font-size:13px">— threads + stream UI</span></span><code>--chat</code></div>
+</div></div></div>
+</div>
+
+<footer><div class="wrap"><div class="foot-grid">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p style="font-size:13.5px;color:var(--ink-2);margin-top:10px;max-width:30ch">Copy-paste Flutter UI. 118 widgets, 18 blocks, 42 presets. You own the code.</p></div>
+<div><h5>Docs</h5><a href="component.html">Components</a><a href="theming.html">Theming</a><a href="home.html#motion">Motion</a><a href="home.html#specs">Spec sheets</a></div>
+<div><h5>Kit</h5><a href="home.html#flows">Flows</a><a href="home.html#start">CLI</a><a href="theming.html">Presets</a><a href="index.html">Mockups</a></div>
+<div><h5>Project</h5><a href="#">Changelog</a><a href="#">Roadmap</a><a href="#">License</a><a href="#">GitHub</a></div>
+</div><div class="foot-base"><span>PLINTH · DIRECTION D “HYBRID” · MOCK</span><span>paper #FAF8F5 · ember #E2552B · ink #141414</span></div></div></footer>
+
+<div class="cmdk" id="cmdk"><div class="cmdk-box"><input id="cmdk-input" placeholder="Search components, themes, flows…"><div class="cmdk-list">
+<a href="component.html">Button <span>component</span></a><a href="component.html">Dialog <span>component</span></a><a href="component.html">Input <span>component</span></a><a href="theming.html">Theme Bench <span>page</span></a><a href="theming.html">Ember preset <span>theme</span></a><a href="home.html#flows">flow:onboarding <span>flow</span></a><a href="home.html#start">flutter_shadcn create <span>cli</span></a></div></div></div>
+
+<script src="app.js"></script>
+<script>
+// hero tiles
+const tz=document.getElementById('hero-tiles');
+PRESETS.forEach(p=>{const d=document.createElement('button');d.className='tile';d.setAttribute('data-tile',p[0]);d.title=p[0];
+d.style.background=`conic-gradient(from 40deg, ${p[1]} 0 55%, ${p[3]} 55% 78%, ${p[2]} 78% 100%)`;tz.appendChild(d);});
+initMorph(document.getElementById('hero-stage'));initPlatform(document.getElementById('hero-stage'));initTabs(document);
+// knobs
+const kv=document.querySelectorAll('#k-var button'),ks=document.querySelectorAll('#k-size button');
+let V='default',S='default';
+kv.forEach(b=>b.onclick=()=>{kv.forEach(x=>x.classList.remove('on'));b.classList.add('on');V=b.textContent;render();});
+ks.forEach(b=>b.onclick=()=>{ks.forEach(x=>x.classList.remove('on'));b.classList.add('on');S=b.textContent;render();});
+['k-dis','k-load','k-label'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+function render(){const lab=document.getElementById('k-label').value||'Button';
+const dis=document.getElementById('k-dis').checked,load=document.getElementById('k-load').checked;
+const p=document.getElementById('k-prev');p.textContent=(load?'◌ ':'')+lab;p.style.opacity=dis?.45:1;
+p.style.background=V==='secondary'?'var(--ink-2)':V==='destructive'?'var(--bad)':'var(--ember)';
+p.style.border=V==='outline'||V==='ghost'?'1.5px solid var(--ember)':'1px solid transparent';
+if(V==='outline'||V==='ghost'){p.style.background='transparent';p.style.color='var(--ember)';}else p.style.color='#fff';
+if(V==='link'){p.style.background='transparent';p.style.color='var(--ember)';p.style.border='none';p.style.textDecoration='underline';}else p.style.textDecoration='none';
+p.style.padding=S==='sm'?'7px 14px;font-size:12.5px':S==='lg'?'15px 34px;font-size:16px':S==='icon'?'12px 14px':'12px 28px';
+document.getElementById('k-code').innerHTML=`Button(<br>&nbsp;&nbsp;variant: <span class="k">ButtonVariant</span>.${V},<br>&nbsp;&nbsp;size: <span class="k">ButtonSize</span>.${S},${dis?'<br>&nbsp;&nbsp;onPressed: <span class="c">null</span>,':''}${load?'<br>&nbsp;&nbsp;loading: <span class="k">true</span>,':''}<br>&nbsp;&nbsp;child: <span class="f">Text</span>(<span class="s">'${lab.replace(/</g,'&lt;')}'</span>),<br>)`;}
+render();
+// motion replay
+function replay(id,bez,ms){const el=document.getElementById(id);el.style.transition='none';el.style.left='8px';void el.offsetWidth;
+el.style.transition=`left ${ms}ms ${bez}`;el.style.left='calc(100% - 44px)';}
+replay('puck1','cubic-bezier(.2,.8,.2,1)',220);replay('puck2','cubic-bezier(.3,1.4,.4,1)',340);
+// bezier editor drag
+(function(){const svg=document.getElementById('bez');if(!svg)return;const h1=document.getElementById('h1'),h2=document.getElementById('h2'),path=document.getElementById('bez-path');
+function upd(){path.setAttribute('d',`M10 130 C ${h1.getAttribute('cx')} ${h1.getAttribute('cy')}, ${h2.getAttribute('cx')} ${h2.getAttribute('cy')}, 190 20`);
+const x1=((h1.getAttribute('cx')-10)/180).toFixed(2),y1=((130-h1.getAttribute('cy'))/110).toFixed(2),x2=((h2.getAttribute('cx')-10)/180).toFixed(2),y2=((130-h2.getAttribute('cy'))/110).toFixed(2);
+document.getElementById('bez-code').innerHTML=`Cubic(<span class="k">${x1}, ${y1}, ${x2}, ${y2}</span>)`;}
+function drag(el){el.addEventListener('pointerdown',e=>{el.setPointerCapture(e.pointerId);
+const mv=ev=>{const r=svg.getBoundingClientRect();let x=(ev.clientX-r.left)/r.width*200,y=(ev.clientY-r.top)/r.height*150;
+x=Math.max(0,Math.min(200,x));y=Math.max(0,Math.min(150,y));el.setAttribute('cx',x.toFixed(0));el.setAttribute('cy',y.toFixed(0));upd();};
+el.addEventListener('pointermove',mv,{once:false});el.addEventListener('pointerup',()=>el.removeEventListener('pointermove',mv),{once:true});});}
+drag(h1);drag(h2);})();
+</script></body></html>

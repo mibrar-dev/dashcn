@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth Docs — Button</title><link rel="stylesheet" href="tokens.css">
+<style>
+.docs{display:grid;grid-template-columns:250px minmax(0,1fr) 210px;gap:36px;padding:32px 0 72px;align-items:start}
+.side{position:sticky;top:calc(var(--nav-h) + 20px);max-height:calc(100vh - 100px);overflow:auto;font-size:13.5px}
+.side h6{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:16px 0 6px}
+.side a{display:block;padding:5px 10px;border-radius:7px;color:var(--ink-2)}
+.side a:hover{background:var(--card-2)}.side a.on{background:var(--ember-wash);color:var(--ember);font-weight:600}
+.toc{position:sticky;top:calc(var(--nav-h) + 20px);font-size:12.5px}
+.toc a{display:block;padding:4px 0 4px 12px;border-left:2px solid var(--line);color:var(--ink-3)}
+.toc a:hover{color:var(--ember);border-color:var(--ember)}
+.article h1{font-size:36px;letter-spacing:-.03em}
+.article .desc{color:var(--ink-2);font-size:15.5px;margin:8px 0 20px;max-width:62ch}
+.tabs{display:flex;gap:4px;background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:4px;width:max-content;margin-bottom:0}
+.tabs button{border:none;background:none;font-size:12.5px;font-weight:600;padding:7px 18px;border-radius:7px;cursor:pointer;color:var(--ink-3)}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
+.preview{border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;background-image:var(--dot);background-size:22px 22px;padding:36px;display:grid;place-items:center;background-color:var(--card)}
+.tabtop{border:1px solid var(--line);border-bottom:none;border-radius:12px 12px 0 0;background:var(--card);padding:12px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.play{display:grid;grid-template-columns:240px 1fr;gap:14px;margin-top:14px}
+.knob{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px;align-content:start}
+.knob label{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);display:grid;gap:6px}
+.knob select,.knob input[type=text]{font-size:13px;padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:var(--font-sans)}
+.seg{display:flex;background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px;flex-wrap:wrap}
+.seg button{border:none;background:none;font-size:11px;font-weight:600;color:var(--ink-3);padding:5px 9px;border-radius:6px;cursor:pointer;font-family:var(--font-mono)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
+.article h2{font-size:21px;letter-spacing:-.02em;margin:36px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+.article p{color:var(--ink-2);font-size:14.5px;margin-bottom:12px;max-width:68ch}
+.score{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.score div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.score b{display:block;font-size:16px}.score span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.tick{color:var(--ok)}
+.bread{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-3);margin-bottom:8px}
+.bread b{color:var(--ember)}
+@media(max-width:1100px){.docs{grid-template-columns:220px 1fr}.toc{display:none}}
+@media(max-width:800px){.docs{grid-template-columns:1fr}.side{position:static;max-height:none}.play{grid-template-columns:1fr}.score{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>D·hybrid</small></a>
+<div class="nav-links"><a href="home.html">Home</a><a href="component.html" class="on">Docs</a><a href="component.html">Components</a><a href="theming.html">Themes</a><a href="home.html#flows">Blocks</a><a href="home.html#start">CLI</a></div>
+<div class="nav-right"><button class="search-btn" data-cmdk-open><span>Search docs…</span><kbd>⌘K</kbd></button>
+<button class="icon-btn" data-toggle-theme>◐</button><button class="icon-btn hamburger" data-burger>☰</button></div></div></nav>
+<div class="mobile-menu"><a href="home.html">Home</a><a href="component.html">Docs</a><a href="theming.html">Themes</a></div>
+
+<div class="wrap"><div class="docs">
+<aside class="side">
+<h6>Getting started</h6><a href="home.html#start">Installation</a><a href="theming.html">Theming</a><a href="home.html#motion">Motion</a>
+<h6>Components · 118</h6><a href="component.html">Accordion</a><a href="component.html">Alert</a><a href="component.html">Avatar</a><a href="component.html" class="on">Button</a><a href="component.html">Card</a><a href="component.html">Chart</a><a href="component.html">Checkbox</a><a href="component.html">Dialog</a><a href="component.html">Input</a><a href="component.html">Select</a><a href="component.html">Sheet</a><a href="component.html">Table</a><a href="component.html">Tabs</a><a href="component.html">Toast</a><a href="component.html">Tooltip</a>
+<h6>Blocks · 18</h6><a href="home.html#flows">Auth</a><a href="home.html#flows">Checkout</a><a href="home.html#flows">Settings</a>
+</aside>
+
+<article class="article" id="doc">
+<p class="bread">docs / components / <b>button</b> · SPEC 041</p>
+<h1>Button</h1>
+<p class="desc">Triggers an action. Six variants, four sizes, loading and icon states — every visual a theme token, AA on all 42 presets.</p>
+
+<div class="tabtop"><div class="tabs"><button class="on">Preview</button><button onclick="plinthToast('Code tab mirrors the playground output below')">Code</button></div>
+<span class="device-strip" style="margin-left:auto"><button data-plat="iphone" class="on">iPhone</button><button data-plat="android">Android</button><button data-plat="macos">macOS</button><button data-plat="web">Web</button></span></div>
+<div class="preview"><div data-frame class="frame-iphone"><div class="notch"></div>
+<div class="mini" style="display:grid;place-items:center;padding:44px 16px"><button id="c-prev" class="btn btn-primary">Save</button>
+<p class="micro" style="margin-top:14px" data-frame-tag>iphone.dart — same widget</p></div></div></div>
+
+<div class="play"><div class="knob">
+<label>variant<div class="seg" id="c-var"><button class="on">default</button><button>secondary</button><button>outline</button><button>ghost</button><button>destructive</button><button>link</button></div></label>
+<label>size<div class="seg" id="c-size"><button>sm</button><button class="on">default</button><button>lg</button><button>icon</button></div></label>
+<label style="flex-direction:row;align-items:center;gap:8px;display:flex"><input type="checkbox" id="c-dis"> disabled</label>
+<label style="flex-direction:row;align-items:center;gap:8px;display:flex"><input type="checkbox" id="c-load"> loading</label>
+<label>label<input type="text" id="c-label" value="Save"></label>
+<label>leading icon<select id="c-icon"><option value="">none</option><option value="＋ ">＋ plus</option><option value="→ ">→ arrow</option><option value="✓ ">✓ check</option></select></label>
+</div>
+<div class="code" id="c-code" style="align-self:start">Button(<br>&nbsp;&nbsp;variant: <span class="k">ButtonVariant</span>.default,<br>&nbsp;&nbsp;size: <span class="k">ButtonSize</span>.default,<br>&nbsp;&nbsp;child: <span class="f">Text</span>(<span class="s">'Save'</span>),<br>)</div></div>
+
+<h2 id="install">Install</h2>
+<p>Copies <span style="font-family:var(--font-mono);font-size:13px">button.dart</span> plus its tokens into your project. You own the file after that.</p>
+<p><span class="chip">flutter_shadcn add button <button class="copy" data-copy="flutter_shadcn add button">⧉</button></span></p>
+
+<h2 id="usage">Usage</h2>
+<div class="code"><span class="c">import</span> <span class="s">'package:plinth/button.dart'</span>;<br><br><span class="f">Button</span>(<br>&nbsp;&nbsp;variant: <span class="k">ButtonVariant</span>.outline,<br>&nbsp;&nbsp;size: <span class="k">ButtonSize</span>.sm,<br>&nbsp;&nbsp;onPressed: () =&gt; <span class="f">save</span>(),<br>&nbsp;&nbsp;child: <span class="f">Text</span>(<span class="s">'Save'</span>),<br>)</div>
+
+<h2 id="api">API</h2>
+<div class="card" style="overflow:auto"><table class="api">
+<tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+<tr><td><code>variant</code></td><td><code>ButtonVariant</code></td><td><code>default</code></td><td>default · secondary · outline · ghost · destructive · link</td></tr>
+<tr><td><code>size</code></td><td><code>ButtonSize</code></td><td><code>default</code></td><td>sm · default · lg · icon (44px hit target kept)</td></tr>
+<tr><td><code>onPressed</code></td><td><code>VoidCallback?</code></td><td><code>null</code></td><td>null renders disabled + dims to 45%</td></tr>
+<tr><td><code>loading</code></td><td><code>bool</code></td><td><code>false</code></td><td>spinner keeps width, blocks presses</td></tr>
+<tr><td><code>leading</code></td><td><code>Widget?</code></td><td><code>null</code></td><td>icon slot, 16px, inherits color</td></tr>
+<tr><td><code>child</code></td><td><code>Widget</code></td><td>required</td><td>usually Text; announced as button label</td></tr>
+</table></div>
+
+<h2 id="trust">Trust scorecard</h2>
+<div class="score">
+<div><b class="tick">✓</b><span>Semantics</span></div>
+<div><b>42/42</b><span>Contrast AA</span></div>
+<div><b class="tick">✓</b><span>RTL</span></div>
+<div><b>37</b><span>Tests</span></div>
+<div><b class="tick">✓</b><span>Keyboard</span></div>
+</div>
+<p style="margin-top:10px">Focus ring 2px at 3:1 on every preset. Screen readers announce variant + busy state. RTL mirrors icon slots.</p>
+</article>
+
+<nav class="toc"><p class="micro" style="margin-bottom:8px">ON THIS PAGE</p>
+<a href="#doc">Preview</a><a href="#install">Install</a><a href="#usage">Usage</a><a href="#api">API</a><a href="#trust">Trust scorecard</a></nav>
+</div></div>
+
+<footer><div class="wrap"><div class="foot-grid">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p style="font-size:13.5px;color:var(--ink-2);margin-top:10px;max-width:30ch">Copy-paste Flutter UI. You own the code.</p></div>
+<div><h5>Docs</h5><a href="component.html">Components</a><a href="theming.html">Theming</a><a href="home.html#specs">Spec sheets</a></div>
+<div><h5>Kit</h5><a href="home.html#flows">Flows</a><a href="home.html#start">CLI</a><a href="index.html">Mockups</a></div>
+<div><h5>Project</h5><a href="#">Changelog</a><a href="#">License</a><a href="#">GitHub</a></div>
+</div><div class="foot-base"><span>PLINTH · BUTTON · SPEC 041 · MOCK</span><span>37 TESTS · AA 42/42</span></div></div></footer>
+<div class="cmdk" id="cmdk"><div class="cmdk-box"><input id="cmdk-input" placeholder="Search components, themes, flows…"><div class="cmdk-list">
+<a href="component.html">Button <span>component</span></a><a href="component.html">Dialog <span>component</span></a><a href="theming.html">Theme Bench <span>page</span></a><a href="home.html#start">flutter_shadcn create <span>cli</span></a></div></div></div>
+<script src="app.js"></script>
+<script>
+initPlatform(document);
+let V='default',S='default';
+const kv=document.querySelectorAll('#c-var button'),ks=document.querySelectorAll('#c-size button');
+kv.forEach(b=>b.onclick=()=>{kv.forEach(x=>x.classList.remove('on'));b.classList.add('on');V=b.textContent;render();});
+ks.forEach(b=>b.onclick=()=>{ks.forEach(x=>x.classList.remove('on'));b.classList.add('on');S=b.textContent;render();});
+['c-dis','c-load','c-label','c-icon'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+function render(){const ic=document.getElementById('c-icon').value,lab=document.getElementById('c-label').value||'Button';
+const dis=document.getElementById('c-dis').checked,load=document.getElementById('c-load').checked;
+const p=document.getElementById('c-prev');p.textContent=(load?'◌ ':'')+ic+lab;p.style.opacity=dis?.45:1;
+p.style.background=V==='secondary'?'var(--ink-2)':V==='destructive'?'var(--bad)':'var(--ember)';
+if(V==='outline'||V==='ghost'||V==='link'){p.style.background='transparent';p.style.color='var(--ember)';p.style.border=V==='link'?'none':'1.5px solid var(--ember)';p.style.textDecoration=V==='link'?'underline':'none';}
+else{p.style.color='#fff';p.style.border='1px solid transparent';p.style.textDecoration='none';}
+p.style.padding=S==='sm'?'7px 14px;font-size:12.5px':S==='lg'?'15px 34px;font-size:16px':S==='icon'?'12px 14px':'10px 24px';
+document.getElementById('c-code').innerHTML=`Button(<br>&nbsp;&nbsp;variant: <span class="k">ButtonVariant</span>.${V},<br>&nbsp;&nbsp;size: <span class="k">ButtonSize</span>.${S},${dis?'<br>&nbsp;&nbsp;onPressed: <span class="c">null</span>,':''}${load?'<br>&nbsp;&nbsp;loading: <span class="k">true</span>,':''}${ic?`<br>&nbsp;&nbsp;leading: <span class="f">Icon</span>(PlinthIcons.plus),`:''}<br>&nbsp;&nbsp;child: <span class="f">Text</span>(<span class="s">'${lab.replace(/</g,'&lt;')}'</span>),<br>)`;}
+render();
+</script></body></html>

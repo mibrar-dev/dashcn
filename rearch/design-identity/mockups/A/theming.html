@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plinth — Theme Bench</title><link rel="stylesheet" href="tokens.css">
+<style>
+.bench{display:grid;grid-template-columns:1fr 1.1fr .95fr;gap:14px;margin-top:22px}
+@media(max-width:1000px){.bench{grid-template-columns:1fr}}
+textarea{width:100%;min-height:260px;background:#171512;color:#EDE8DD;border:1px solid #2A2823;border-radius:12px;padding:14px;font:400 12.5px/1.7 var(--font-mono);resize:vertical}
+.exptabs{display:flex;gap:6px;margin:10px 0}
+.exptabs button{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;font:600 12.5px var(--font-sans);cursor:pointer;color:var(--ink-2)}
+.exptabs button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.presets{display:flex;gap:8px;overflow-x:auto;padding:10px 2px;margin-top:14px}
+.preset-card{flex:none;width:150px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px;cursor:pointer}
+.preset-card.on{outline:2px solid var(--accent)}
+.preset-card .bars{display:flex;gap:3px;margin:8px 0}
+.preset-card .bars i{flex:1;height:22px;border-radius:5px;display:block}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Plinth <small>workbench · A</small></a>
+<div class="nav-links"><a href="home.html">Home</a><a href="theming.html" class="on">Theming</a><a href="component.html">Docs</a><a href="#">Blocks</a><a href="#">Presets</a></div>
+<div class="nav-right"><span class="cmdk">Search <b>⌘K</b></span>
+<button class="iconbtn" data-theme-toggle>◐ <span data-theme-label style="font-size:11px">Dark</span></button>
+<a class="btn darkbtn sm" href="component.html">Get started</a><button class="iconbtn hamb" data-hamb>☰</button></div></div></nav>
+<div class="wrap" style="padding-top:48px">
+<p class="micro">theme bench · paste css → flutter tokens → live preview</p>
+<h1 style="font-size:clamp(32px,3.6vw,48px)">Bring a shadcn theme.<br>Leave with Flutter tokens.</h1>
+<p class="sub">Paste from shadcn, tweakcn or any Tailwind CSS theme. The bridge parses it row by row, maps each value to a Flutter token, and re-renders the live frame. Export Dart, JSON or Figma tokens.</p>
+
+<div class="bench">
+<div class="card"><p class="micro">① paste css</p><h3 style="margin:6px 0">:root theme</h3>
+<textarea id="cssIn" spellcheck="false"></textarea>
+<p class="micro" style="margin-top:8px">accepts oklch · hsl · hex · rem</p>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary sm" onclick="document.getElementById('cssIn').dispatchEvent(new Event('input'))">Bridge tokens →</button><button class="btn sm ghost" data-copy="--background: oklch(0.99 0 0);">copy sample</button></div></div>
+<div class="card"><p class="micro">② token table · <span id="tokCount">6 / 6 tokens</span></p><h3 style="margin:6px 0">Bridge output</h3>
+<table class="spec"><tr><th>token</th><th>css value</th><th>flutter</th><th></th></tr><tbody id="tokenRows"></tbody></table>
+<div class="exptabs" data-tabs="exp"><button data-tab="dart" class="on">Dart</button><button data-tab="json">JSON</button><button data-tab="figma">Figma tokens</button></div>
+<div data-pane-scope="exp">
+<div class="code" data-pane="dart" id="expDart"></div>
+<div class="code" data-pane="json" id="expJson" style="display:none"></div>
+<div class="code" data-pane="figma" id="expFig" style="display:none"></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn darkbtn sm" data-copy="flutter_shadcn theme:import">flutter_shadcn theme:import</button></div></div>
+<div><div class="phone" style="width:100%;max-width:300px"><div class="notch"><i></i></div>
+<div class="screen" id="themePrevApp"><p class="micro">live preview · ember</p>
+<div class="k-card" style="margin:8px 0"><b>Plinth banking</b><div style="font-size:26px;font-weight:700">$8,204.10</div>
+<div style="display:flex;gap:6px;margin-top:8px"><button class="k-btn def" style="flex:1">Pay</button><button class="k-btn out" style="flex:1">Split</button></div></div>
+<input class="k-input" value="ada@infinora.dev" readonly style="margin-bottom:8px">
+<div class="k-toast">✓&nbsp; AA pass — 42/42 themes</div>
+<div class="k-tabbar"><span class="on">● Home</span><span>▤ Cards</span><span>◐ Stats</span><span>⚙ Set</span></div>
+</div></div>
+<p class="micro" style="margin-top:8px;text-align:center">re-renders on every keystroke · light + dark</p></div>
+</div>
+
+<h2 style="margin-top:44px;font-size:22px;letter-spacing:-.02em">42 presets. Pick one, own it.</h2>
+<p class="sec-sub">Each preset ships light + dark, AA-checked. Click to load into the bridge.</p>
+<div class="presets" id="presetStrip"></div>
+<div class="grid2" style="margin-top:18px"><div class="card"><h3>Token anatomy</h3><p><span class="swatch" style="background:var(--accent)"></span><span class="mono" style="font-size:12.5px">color.primary → Color(0xFFE2552B) → --primary</span></p><p style="margin-top:8px">Radius, density, fonts and shadows are tokens too — not hardcoded. Change <span class="mono">radius.md</span> once, all 118 widgets follow.</p></div>
+<div class="code">plinth_tokens.json<br>{ <span class="s">"radius.md"</span>: <span class="s">"0.625rem"</span>, <span class="s">"density"</span>: <span class="s">"compact"</span> }<br><br><span class="c">// every colour, radius, font = CSS var here = Flutter token there</span></div></div>
+</div>
+<footer><div class="wrap foot"><div><a class="brand" href="home.html"><span class="brand-mark"></span>Plinth</a><p class="micro" style="margin-top:8px">theme bench · direction A</p></div>
+<div><h4>Kit</h4><a href="component.html">Components</a><a href="theming.html">Theme bench</a></div><div><h4>Docs</h4><a href="component.html">Button</a><a href="#">Tokens</a></div><div><h4>Meta</h4><a href="index.html">All mockups</a><a href="home.html">Home</a></div></div></footer>
+<script src="app.js"></script>
+<script>
+const P=[['ember',['#E2552B','#141414','#FAF8F5']],['moss',['#1F7A4D','#10241A','#F4F6F1']],['harbor',['#2563EB','#0B1B33','#F5F7FA']],['ink',['#141414','#FAF8F5','#EDEAE2']],['clay',['#A0522D','#2A1A12','#FAF5EF']],['slate',['#475569','#0F172A','#F8FAFC']],['plum',['#7C3AED','#1E1033','#F7F4FC']],['teal',['#0D9488','#083B37','#F0FAF9']],['amber',['#B45309','#2A1C05','#FDF8EF']],['rose',['#E11D48','#33060F','#FDF2F5']],['forest',['#166534','#04180C','#F2F7F2']],['sand',['#8A857B','#1C1B19','#FAF8F5']]];
+const strip=document.getElementById('presetStrip');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preset-card'+(i===0?' on':'');d.innerHTML='<b style="font-size:13px">'+p[0]+'</b><div class="bars">'+p[1].map(c=>'<i style="background:'+c+'"></i>').join('')+'</div><span class="micro">light + dark ✓</span>';
+d.onclick=()=>{strip.querySelectorAll('.preset-card').forEach(x=>x.classList.remove('on'));d.classList.add('on');const t=document.getElementById('themePrevApp');t.style.setProperty('--rscale',(0.9+i*0.03).toFixed(2));};strip.appendChild(d);});
+// fill remaining to 42 with generated
+for(let i=P.length;i<42;i++){const d=document.createElement('div');d.className='preset-card';const h=(i*27)%360;d.innerHTML='<b style="font-size:13px">preset '+String(i+1).padStart(2,'0')+'</b><div class="bars"><i style="background:hsl('+h+',55%,50%)"></i><i style="background:#141414"></i><i style="background:#FAF8F5"></i></div><span class="micro">light + dark ✓</span>';d.onclick=()=>{strip.querySelectorAll('.preset-card').forEach(x=>x.classList.remove('on'));d.classList.add('on');};strip.appendChild(d);}
+</script>
+</body></html>

@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kiln Docs — Button</title><link rel="stylesheet" href="tokens.css">
+<style>
+.docs{display:grid;grid-template-columns:250px minmax(0,1fr) 210px;gap:36px;max-width:1280px;margin:0 auto;padding:28px 24px 40px}
+.side h5{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 6px}
+.side a{display:block;padding:6px 10px;border-radius:8px;font-size:13.5px;color:var(--ink-2)}
+.side a:hover{background:var(--surface-2);color:var(--ink)}
+.side a.on{background:var(--surface-2);color:var(--ink);font-weight:600;border-left:2px solid var(--a)}
+article h1{font-family:var(--font-serif);font-size:44px;line-height:1}
+article .desc{color:var(--ink-2);margin:10px 0 18px;max-width:62ch}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:0}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:600;font-size:13.5px;cursor:pointer;color:var(--ink-3);border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-color:var(--a)}
+.preview-box{border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;background:var(--surface);padding:28px;min-height:380px;display:flex;gap:28px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:8px 14px;font-weight:600;font-size:12.5px;cursor:pointer;color:var(--ink-2)}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.knobs{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;width:270px;font-size:13px}
+.knobs h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.knob-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.pill{border:1px solid var(--line);background:transparent;border-radius:99px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.pill.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.knobs label{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px}
+.knobs input[type=text]{width:120px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-family:inherit;font-size:12.5px;background:transparent;color:inherit}
+.switch{width:36px;height:21px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;border:0}
+.switch::after{content:"";position:absolute;top:2.5px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.switch.on{background:var(--a)}.switch.on::after{left:17px}
+#btn-demo{transition:all .25s var(--ease)}
+.cmd{background:#201B15;color:#F2E8D8;border-radius:12px;padding:13px 16px;font-family:var(--font-mono);font-size:13px;display:flex;justify-content:space-between;align-items:center;margin:18px 0}
+table.api{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:12px}
+table.api th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+table.api td{padding:9px 8px;border-bottom:1px solid var(--line-soft)}
+table.api code{font-family:var(--font-mono);font-size:12px;background:var(--surface-2);padding:2px 6px;border-radius:6px}
+.score{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.score b{display:block;font-size:16px}.score span{font-size:11.5px;color:var(--ink-3);font-family:var(--font-mono)}
+.toc{position:sticky;top:84px;align-self:start;font-size:13px}
+.toc a{display:block;padding:5px 0;color:var(--ink-3)}.toc a:hover{color:var(--a)}
+@media(max-width:1080px){.docs{grid-template-columns:220px 1fr}.toc{display:none}}
+@media(max-width:760px){.docs{grid-template-columns:1fr}.side{display:none}.score{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a class="brand" href="home.html"><span class="brand-mark"></span>Kiln</a>
+<div class="nav-links"><a href="home.html">Home</a><a href="theming.html">The Kiln</a><a href="component.html" class="on">Docs</a><a href="component.html">Blocks</a></div>
+<div class="nav-right"><button class="kbd-search" onclick="kilnSearch()">Search <span style="flex:1"></span><kbd>⌘K</kbd></button>
+<button class="icon-btn" onclick="kilnTheme()" data-theme-icon>☀</button>
+<a class="btn btn-fire" href="component.html">Get started</a><button class="icon-btn burger" onclick="kilnMenu()">☰</button></div></div>
+<div class="mobile-menu" id="mmenu"><a href="home.html">Home</a><a href="theming.html">The Kiln</a><a href="component.html">Docs</a></div></nav>
+<div class="cmdk" id="cmdk" onclick="kilnCloseSearch(event)"><div class="cmdk-box"><input id="cmdk-input" placeholder="Search docs, blocks, presets…" oninput="renderCmdk(this.value)"><div class="cmdk-list" id="cmdk-list"></div></div></div>
+
+<div class="docs">
+<aside class="side">
+<h5>Getting started</h5><a>Introduction</a><a>Installation</a><a>Theming</a>
+<h5>Components</h5><a>Accordion</a><a>Alert</a><a>Avatar</a><a class="on">Button</a><a>Card</a><a>Chart</a><a>Dialog</a><a>Input</a><a>Toast</a><a>Tabs</a><a>Table</a>
+<h5>Blocks</h5><a>Auth</a><a>Paywall</a><a>Sidebar</a><a>Settings</a>
+</aside>
+
+<article>
+<p class="mono" style="font-size:12px;color:var(--ink-3)">docs / components / button</p>
+<h1>Button</h1>
+<p class="desc">The workhorse. Six variants, four sizes, loading + disabled states. Pure Flutter — no Material, no Cupertino — every pixel from your glaze.</p>
+
+<div class="seg" id="plat-seg" style="margin-bottom:12px">
+<button data-p="iphone" class="on" onclick="setPlat('iphone')">iPhone</button><button data-p="android" onclick="setPlat('android')">Android</button><button data-p="desktop" onclick="setPlat('desktop')">Desktop</button><button data-p="web" onclick="setPlat('web')">Web</button>
+</div>
+<div class="tabs"><button class="on" onclick="setTab('preview',this)">Preview</button><button onclick="setTab('code',this)">Code</button></div>
+<div class="preview-box" id="preview-pane">
+<div id="frame-slot"></div>
+<div class="knobs"><h4>⚙ Props playground</h4>
+<div class="mono" style="font-size:11px;color:var(--ink-3)">VARIANT</div><div class="knob-row" id="k-variant"></div>
+<div class="mono" style="font-size:11px;color:var(--ink-3)">SIZE</div><div class="knob-row" id="k-size"></div>
+<label>Disabled <button class="switch" id="sw-dis" onclick="toggleSw('dis')"></button></label>
+<label>Loading <button class="switch" id="sw-load" onclick="toggleSw('load')"></button></label>
+<label>Label <input type="text" id="in-label" value="Save changes" oninput="state.label=this.value;render()"></label>
+<label>Leading icon <button class="switch on" id="sw-icon" onclick="toggleSw('icon')"></button></label>
+</div>
+</div>
+<div class="preview-box" id="code-pane" style="display:none"><pre class="code" id="dart-code" style="flex:1"></pre></div>
+
+<h2 class="serif" id="install" style="font-size:28px;margin-top:34px">Install</h2>
+<div class="cmd"><span>$ flutter_shadcn add button</span><button class="icon-btn" style="background:transparent;color:#F2E8D8;border-color:#444" onclick="copyText('flutter_shadcn add button',this)">⧉</button></div>
+
+<h2 class="serif" id="usage" style="font-size:28px">Usage</h2>
+<pre class="code" id="usage-code"></pre>
+
+<h2 class="serif" id="api" style="font-size:28px;margin-top:28px">API</h2>
+<table class="api"><tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+<tr><td><code>variant</code></td><td><code>ButtonVariant</code></td><td><code>.default</code></td><td>default · secondary · outline · ghost · destructive · link</td></tr>
+<tr><td><code>size</code></td><td><code>ButtonSize</code></td><td><code>.default</code></td><td>sm · default · lg · icon</td></tr>
+<tr><td><code>disabled</code></td><td><code>bool</code></td><td><code>false</code></td><td>50% opacity, skips semantics tap</td></tr>
+<tr><td><code>loading</code></td><td><code>bool</code></td><td><code>false</code></td><td>spinner replaces icon, keeps width</td></tr>
+<tr><td><code>child</code></td><td><code>Widget</code></td><td>—</td><td>usually Text(label)</td></tr>
+<tr><td><code>leading</code></td><td><code>Widget?</code></td><td><code>null</code></td><td>16px icon slot</td></tr></table>
+
+<h2 class="serif" id="trust" style="font-size:28px;margin-top:28px">Trust scorecard</h2>
+<div class="score">
+<div><b>✓</b><span>Semantics</span></div><div><b>42/42</b><span>contrast AA</span></div><div><b>✓</b><span>RTL</span></div><div><b>37</b><span>tests</span></div><div><b>✓</b><span>keyboard</span></div>
+</div>
+<p class="mono" style="font-size:12px;color:var(--ink-3);margin-top:10px">button.dart · 214 lines · you own it after `add` — edit freely, no version lock</p>
+</article>
+
+<nav class="toc"><b class="mono" style="font-size:11px;letter-spacing:.1em">ON THIS PAGE</b><a href="#preview-pane">Preview</a><a href="#install">Install</a><a href="#usage">Usage</a><a href="#api">API</a><a href="#trust">Trust scorecard</a></nav>
+</div>
+
+<footer><div class="wrap"><div class="foot-grid">
+<div><a class="brand" href="home.html"><span class="brand-mark"></span>Kiln</a><p style="margin-top:10px">Copy-paste-and-own Flutter UI.</p></div>
+<div><h5>Docs</h5><a href="component.html">Components</a><a href="component.html">Blocks</a></div>
+<div><h5>Glazes</h5><a href="theming.html">All 42 presets</a></div>
+<div><h5>Project</h5><a href="index.html">Mockup index</a></div>
+</div><div class="foot-bottom"><span>Kiln · working name</span><span>file:// ready</span></div></div></footer>
+<script src="app.js"></script>
+<script>
+const state={variant:'default',size:'default',dis:false,load:false,label:'Save changes',icon:true,plat:'iphone'};
+const variants=['default','secondary','outline','ghost','destructive','link'],sizes=['sm','default','lg','icon'];
+function pills(el,list,key){const e=document.getElementById(el);e.innerHTML='';list.forEach(v=>{const b=document.createElement('button');b.className='pill'+(state[key]===v?' on':'');b.textContent=v;b.onclick=()=>{state[key]=v;pills(el,list,key);render();};e.appendChild(b);});}
+pills('k-variant',variants,'variant');pills('k-size',sizes,'size');
+function toggleSw(k){if(k==='dis')state.dis=!state.dis;if(k==='load')state.load=!state.load;if(k==='icon')state.icon=!state.icon;
+document.getElementById('sw-dis').classList.toggle('on',state.dis);document.getElementById('sw-load').classList.toggle('on',state.load);document.getElementById('sw-icon').classList.toggle('on',state.icon);render();}
+function setPlat(p){state.plat=p;document.querySelectorAll('#plat-seg button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));render();}
+function setTab(t,btn){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('preview-pane').style.display=t==='preview'?'flex':'none';document.getElementById('code-pane').style.display=t==='code'?'flex':'none';}
+const V={default:['var(--a)','#fff','none'],secondary:['var(--surface-2)','var(--ink)','1px solid var(--line)'],outline:['transparent','var(--a)','1.5px solid var(--a)'],ghost:['transparent','var(--ink)','none'],destructive:['#B3261E','#fff','none'],link:['transparent','var(--a)','none underline']};
+const S={sm:'7px 12px;font-size:12.5px',default:'10px 18px;font-size:14px',lg:'13px 24px;font-size:15.5px',icon:'10px 12px;font-size:15px'};
+function btnHTML(){const v=V[state.variant],s=S[state.size];const label=state.size==='icon'?'✓':(state.load?'<span class="mono">◌</span> '+esc(state.label):(state.icon?'↓ ':'')+esc(state.label));
+return `<button id="btn-demo" ${state.dis?'disabled':''} style="background:${v[0]};color:${v[1]};border:${v[2]};padding:${s.split(';')[0]};${s.split(';')[1]};font-weight:600;border-radius:var(--r-md);cursor:${state.dis?'not-allowed':'pointer'};opacity:${state.dis?.5:1}">${label}</button>`;}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function frame(inner){
+if(state.plat==='iphone')return `<div class="phone"><div class="scr"><div class="notch"><i></i></div><div style="padding:20px;display:grid;gap:12px;place-items:center;flex:1;justify-content:center"><b style="font-size:14px">Acme · iOS</b>${inner}<span class="mono" style="font-size:10.5px;color:var(--ink-3)">haptic · SF-like · 60fps</span></div></div></div>`;
+if(state.plat==='android')return `<div class="droid"><div class="scr"><div class="notch"><i></i></div><div style="padding:20px;display:grid;gap:12px;place-items:center;flex:1;justify-content:center"><b style="font-size:14px">Acme · Android</b>${inner}<span class="mono" style="font-size:10.5px;color:var(--ink-3)">ripple · Roboto-like</span></div></div></div>`;
+if(state.plat==='desktop')return `<div class="browser" style="width:340px"><div class="browser-bar"><i></i><i></i><i></i><span class="urlbar">acme.app</span></div><div style="padding:26px;display:grid;gap:12px;place-items:center">${inner}<span class="mono" style="font-size:10.5px;color:var(--ink-3)">hover ring · ⌘↵ submits</span></div></div>`;
+return `<div class="browser" style="width:100%;min-width:280px"><div class="browser-bar"><i></i><i></i><i></i><span class="urlbar">acme.app · web</span></div><div style="padding:26px;display:grid;gap:12px;place-items:center">${inner}<span class="mono" style="font-size:10.5px;color:var(--ink-3)">same widget · canvasKit</span></div></div>`;
+}
+function dartCode(){const v=state.variant==='default'?'':`variant: ButtonVariant.${state.variant}, `;const s=state.size==='default'?'':`size: ButtonSize.${state.size}, `;const d=state.dis?'enabled: false, ':'';const l=state.load?'loading: true, ':'';return `Button(\n  ${v}${s}${d}${l}child: Text('${state.label.replace(/'/g,"\\'")}'),\n)`;}
+function render(){document.getElementById('frame-slot').innerHTML=frame(btnHTML());document.getElementById('dart-code').textContent=dartCode();document.getElementById('usage-code').textContent=`import 'package:kiln/button.dart';\n\n${dartCode()}\n\n// theme comes from your glaze — no overrides needed.\n// Edit button.dart freely. It's yours now.`;}
+render();
+</script></body></html>
