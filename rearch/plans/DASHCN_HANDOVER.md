@@ -7,7 +7,8 @@ here. Use this file to pick it up in a local Claude Code session on the Mac, or 
 
 ## 1. Where things are
 
-**Release candidate ready.** Every planned phase is accepted and pushed; nothing is in flight.
+**Release candidate ready.** Every planned phase is accepted and pushed, and P7 (`refactor/rearchitecture`, now
+frozen) is merged in (`0f7a80d`). Nothing is in flight.
 
 | Repo | Branch | CI |
 |---|---|---|

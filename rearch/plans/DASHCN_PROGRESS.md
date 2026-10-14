@@ -247,6 +247,21 @@ routes × locales en-US and C: first frame, 0 console errors, deferred chunks lo
 kit qa_gate exit 0 (+4853/+42), all --check, check_names 0; docs `test tool` +653, build; CLI unit +586, e2e all pass.
 No release blockers. Non-blocking: visual screenshot pass on GPU hardware; hash vs path URLs for Pages.
 
+## P7 → dashcn integration — DONE (merge 0f7a80d; refactor/rearchitecture frozen)
+Merged the last three P7 commits (polish batch, not-found/hyphenated ids, web focus fix) through
+`integrate/p7-into-dashcn`, per Ibrar's table (`rearch/plans/P7_INTEGRATION.md`). 164 trial conflicts: 60 generated
+(mirror + docs data, regenerated), 104 real (OpenCode agents by area: P7I-kit-a, P7I-kit-b, P7I-docs; P7 behaviour
+kept with dashcn names, hand-merged where dashcn also changed the logic), then `rename_api.dart` over the tree (44
+auto-merged files still had old names). Fix-ups on the merged tree: form "initial" errors at mount vs P7's
+change/submit silence; previews-centred audit on a desktop platform; P7's previews generator old package paths;
+alert dialog (Ibrar's request): every example opens over the whole app, spacing from theme tokens, stacked actions
+on narrow cards, card shell inline; Tab skipped the header in release web — bisected to P7's own first-frame focus
+gate (`426f7eb`, the bug exists on the frozen P7 branch too); the gate now defers building one frame, web only.
+Gates: kit +5361, rearch +42, docs +720, CLI unit+e2e +597, every generator/rename/names/exports/format/analyze
+check; release docs checked in Chromium (Theme Studio, overlays, cmd-K, focus, not-found, alert dialog light/dark/
+phone, en-US + C locales, 0 console errors). Not regressions, left for later: `dashcn/scripts/new_component.dart`
+still has old paths.
+
 ## Next
 Release candidate ready on `refactor/dashcn` (kit + CLI). Releasing is Ibrar's call — see `rearch/reports/P8-6.md`
 "Ready to release" and `RELEASING.md`. Optional polish follow-ups are listed in DASHCN_HANDOVER.md §3.
