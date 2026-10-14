@@ -42,11 +42,11 @@ const double _dpr = 2.0;
 const Size _size = Size(390, 844);
 
 /// Output folder `$KIT/rearch/screenshots/p9-3a`, found by walking up to the
-/// directory that contains REARCHITECTURE_PLAN.md.
+/// directory that contains INSTRUCTIONS.md.
 Directory get _outDir {
   var dir = Directory.current;
   while (dir.path != dir.parent.path) {
-    if (File('${dir.path}/REARCHITECTURE_PLAN.md').existsSync()) {
+    if (File('${dir.path}/INSTRUCTIONS.md').existsSync()) {
       break;
     }
     dir = dir.parent;
