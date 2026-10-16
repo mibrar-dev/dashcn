@@ -65,12 +65,21 @@ class _ThemesPageState extends State<ThemesPage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final DocsState state = DocsRouterScope.of(context).state;
+    // Accessibility: the Studio has no visible title, so expose a
+    // screen-reader heading (`Themes`) without changing the layout.
+    final Widget heading = Semantics(
+      header: true,
+      label: 'Themes',
+      excludeSemantics: true,
+      child: const SizedBox.shrink(),
+    );
     if (MediaQuery.sizeOf(context).width < 640) {
       return ColoredBox(
         color: theme.colors.background,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            heading,
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               child: Button(
@@ -90,16 +99,25 @@ class _ThemesPageState extends State<ThemesPage> {
     }
     return ColoredBox(
       color: theme.colors.background,
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // Spec §2.7: the rail is a floating 192 px card, 24 px from the left
-          // edge, 12 px below the header, 24 px above the bottom.
-          Padding(
-            padding: const EdgeInsets.only(left: 24, top: 12, bottom: 24),
-            child: ThemeRail(state: state),
+          heading,
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                // Spec §2.7: the rail is a floating 192 px card, 24 px from
+                // the left edge, 12 px below the header, 24 px above the
+                // bottom.
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, top: 12, bottom: 24),
+                  child: ThemeRail(state: state),
+                ),
+                Expanded(child: ThemeCanvas(state: state)),
+              ],
+            ),
           ),
-          Expanded(child: ThemeCanvas(state: state)),
         ],
       ),
     );

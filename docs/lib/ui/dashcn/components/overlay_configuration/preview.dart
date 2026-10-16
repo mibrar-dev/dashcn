@@ -18,15 +18,23 @@ class OverlayConfigurationPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: DefaultTextStyle(
-        style: TextStyle(color: theme.colors.foreground, fontSize: 14),
-        child: AppLayer(
-          child: Navigator(
-            onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
-              settings: settings,
-              pageBuilder: (_, _, _) => const _OverlayConfigGallery(),
+    // Semantics container: the nested `Navigator` inserts a `ModalBarrier`
+    // (`BlockSemantics`) per route, which would otherwise hide sibling
+    // page content (e.g. the docs article title) from assistive tech.
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: DefaultTextStyle(
+          style: TextStyle(color: theme.colors.foreground, fontSize: 14),
+          child: AppLayer(
+            child: Navigator(
+              onGenerateRoute: (RouteSettings settings) =>
+                  PageRouteBuilder<void>(
+                    settings: settings,
+                    pageBuilder: (_, _, _) => const _OverlayConfigGallery(),
+                  ),
             ),
           ),
         ),
