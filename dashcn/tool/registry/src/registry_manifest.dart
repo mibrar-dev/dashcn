@@ -61,7 +61,7 @@ String previewPlacementOf(String id, Map<String, dynamic> meta) {
       );
     }
   }
-  final placement = (preview as Map)['placement'];
+  final placement = preview['placement'];
   if (placement == null) {
     return 'center';
   }
