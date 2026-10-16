@@ -1,7 +1,7 @@
 // F1 placement sweep: every component's main example on real device screens.
 //
-// For every component id (from the generated data) and four framed scenes
-// (iPhone / Android / Desktop portrait, iPhone landscape), pumps the
+// For every component id (from the generated data) and five framed scenes
+// (iPhone / Android / iPad / Desktop portrait, iPhone landscape), pumps the
 // component's main example (index 0, the same widget the docs page shows)
 // inside `DeviceFrame > FramedScreen` and asserts:
 //   (a) no FlutterError/overflow (the exception queue is empty),
@@ -10,7 +10,11 @@
 //       carried by a vertical scroll view — never horizontal overflow),
 //   (c) the placement holds (bottom/top edge within 2 px, centre within
 //       2 px, fill width within 2 px; centre-dy and the bottom edge only
-//       when the content fits vertically — taller content scrolls).
+//       when the content fits vertically — taller content scrolls),
+//   (d) the frame box is exactly screen + letterbox and stays inside the
+//       harness card (the package paints the body OUTSIDE
+//       `DevicePreviewFrame`'s screen-sized box; the letterbox reserves that
+//       room so no neighbouring content is covered).
 //
 // One test per component id (the four scenes run inside it); failures name
 // the id and the scene. Cases that fail because of the component's OWN
@@ -42,38 +46,34 @@ class _Scene {
   String get label => '${spec.id.queryValue}-${orientation.queryValue}';
 }
 
-/// The four framed scenes every component runs in.
+/// The five framed scenes every component runs in.
 final List<_Scene> _sweepScenes = <_Scene>[
   _Scene(kIphoneSpec, DeviceOrientation.portrait),
   _Scene(kAndroidSpec, DeviceOrientation.portrait),
+  _Scene(kIpadSpec, DeviceOrientation.portrait),
   _Scene(kDesktopSpec, DeviceOrientation.portrait),
   _Scene(kIphoneSpec, DeviceOrientation.landscape),
 ];
 
+/// The harness viewport: wide enough for the desktop window frame (1922 px
+/// total) with margin, tall enough for the iPad frame (1298 px total).
+const Size kSweepViewport = Size(2400, 1500);
+
 /// Cases that fail because of the component's OWN widget (phase F2), keyed
 /// `id@frame:orientation` with the failure reason. These scenes are not
 /// asserted; everything else in the id's test still runs.
-const Map<String, String> kKnownF2 = <String, String>{
-  'patch@iphone:portrait':
-      'F2: PatchPreview reset Row (Button + unwrapped hint text) overflows '
-      'narrow phones; the hint text measures 406px under flutter_test Ahem '
-      'metrics (Row content ~520px vs 313px box). Widget-own fragile row.',
-  'patch@android:portrait':
-      'F2: same PatchPreview reset Row overflow as iphone-portrait '
-      '(persistent OVERFLOWING state; overflow reports fire once per '
-      'render object so this scene is caught by the state walk).',
-};
+///
+/// F2 fixed every entry (`async` re-armed its 600ms futures on each build;
+/// `patch` had an unwrapped hint `Text` overflowing narrow phones). The map
+/// stays so future widget-own failures have a place to land.
+const Map<String, String> kKnownF2 = <String, String>{};
 
 /// Whole-test skips for ids whose OWN widget breaks the test harness
-/// itself (phase F2), with the reason. `async` re-arms 600ms futures on
-/// every build, so a Timer is always pending at teardown and the binding's
-/// `!timersPending` invariant fails outside any scene assertion.
-const Map<String, String> kF2TestSkips = <String, String>{
-  'async':
-      'F2: AsyncPreview re-arms 600ms futures on every build; a Timer '
-      'is always pending at teardown '
-      '(flutter_test `!timersPending` invariant).',
-};
+/// itself (phase F2), with the reason.
+///
+/// F2 fixed the only entry (`async`, see above). The map stays so future
+/// harness-breaking widgets have a place to land.
+const Map<String, String> kF2TestSkips = <String, String>{};
 
 /// Isolate-level warm cache: id -> main-example widget.
 Map<String, Widget>? _warm;
@@ -101,7 +101,7 @@ Future<void> _ensureWarm(WidgetTester tester) async {
   _warm = loaded;
 }
 
-/// Runs one id through the four scenes, returning failure lines.
+/// Runs one id through the five scenes, returning failure lines.
 Future<List<String>> _runSweep(
   WidgetTester tester,
   String id,
@@ -131,7 +131,7 @@ Future<List<String>> _runSweep(
         );
       },
     ),
-    viewport: const Size(1600, 1100),
+    viewport: kSweepViewport,
   );
   await pumpFrames(tester);
   // No separate setup drain: the initial pumps build scene 1, so scene 1's
@@ -180,6 +180,11 @@ List<String> _checkScene(WidgetTester tester, String id, _Scene scene) {
   final List<String> overflowing = _overflowingBoxes(tester, safeFinder);
   if (overflowing.isNotEmpty) {
     failures.add('${label('(a) overflow-state')}: ${overflowing.join(' | ')}');
+    // Drain the queued overflow *report* for this same overflow before
+    // returning: reports are paint-time events that fire once per render
+    // object, and an undrained report would surface in the *next* scene's
+    // error check and misattribute the failure.
+    while (tester.takeException() != null) {}
     return failures;
   }
 
@@ -197,6 +202,43 @@ List<String> _checkScene(WidgetTester tester, String id, _Scene scene) {
       (safe.height - expectedSafe.height).abs() > 0.5) {
     failures.add(
       '${label('(setup) stale frame')}: safe $safe != expected $expectedSafe',
+    );
+    return failures;
+  }
+
+  // (d) frame box FIRST after fidelity: the widget footprint is exactly
+  // screen + letterbox, so the body `DevicePreviewFrame` paints outside
+  // its screen-sized box still lands inside the frame's own card — and the
+  // frame itself stays inside the harness card (no neighbour overlap).
+  final Finder frameFinder = find.byType(DeviceFrame);
+  if (frameFinder.evaluate().isEmpty) {
+    failures.add('${label('(setup)')}: DeviceFrame missing');
+    return failures;
+  }
+  final Size expectedTotal = scene.spec.totalFor(scene.orientation);
+  final Size frameSize = tester.getSize(frameFinder);
+  if ((frameSize.width - expectedTotal.width).abs() > 0.5 ||
+      (frameSize.height - expectedTotal.height).abs() > 0.5) {
+    failures.add(
+      '${label('(d) frame box')}: frame $frameSize != expected '
+      '$expectedTotal (screen + letterbox)',
+    );
+    return failures;
+  }
+  final Rect frameRect = tester.getRect(frameFinder);
+  final Rect card = Rect.fromLTWH(
+    0,
+    0,
+    kSweepViewport.width,
+    kSweepViewport.height,
+  );
+  if (frameRect.left < card.left - 0.5 ||
+      frameRect.top < card.top - 0.5 ||
+      frameRect.right > card.right + 0.5 ||
+      frameRect.bottom > card.bottom + 0.5) {
+    failures.add(
+      '${label('(d) frame inside card')}: frame $frameRect overflows the '
+      'harness card $card (outside-painted body would cover neighbours)',
     );
     return failures;
   }

@@ -1,6 +1,8 @@
 // Widget tests for the P9-1 frames: the `MediaQuery` + platform override
-// each spec exposes, the toolbar callbacks and the "All" layouts.
+// each spec exposes, the `package:device_preview` body behind the screen,
+// the toolbar callbacks and the "All" layouts.
 
+import 'package:device_preview/device_preview.dart' hide DeviceFrame;
 import 'package:docs/theme/theme_document.dart';
 import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/device_frame/all_frames.dart';
@@ -77,8 +79,8 @@ void main() {
         DeviceFrame(spec: kIphoneSpec, child: _Probe(seen)),
       );
       await tester.pump();
-      expect(seen.size, const Size(393, 852));
-      expect(seen.padding, const EdgeInsets.only(top: 59, bottom: 34));
+      expect(seen.size, const Size(402, 874));
+      expect(seen.padding, const EdgeInsets.only(top: 62, bottom: 34));
       expect(seen.devicePixelRatio, 3);
       // The test host runs on android; the frame must still read iOS.
       expect(defaultTargetPlatform, TargetPlatform.android);
@@ -99,8 +101,8 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(seen.size, const Size(852, 393));
-      expect(seen.padding!.left, 59);
+      expect(seen.size, const Size(874, 402));
+      expect(seen.padding!.left, 62);
       expect(tester.takeException(), isNull);
     });
 
@@ -118,29 +120,78 @@ void main() {
       }
     });
 
-    testWidgets('chrome paints without images and clips the screen', (
+    testWidgets('each frame paints its preset body', (
       WidgetTester tester,
     ) async {
-      await _pumpFramed(
-        tester,
-        DeviceFrame(spec: kDesktopSpec, child: const SizedBox.shrink()),
-      );
-      await tester.pump();
-      expect(
-        find.descendant(
-          of: find.byType(DeviceFrame),
-          matching: find.byType(CustomPaint),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(
-          of: find.byType(DeviceFrame),
-          matching: find.byType(ClipRRect),
-        ),
-        findsOneWidget,
-      );
-      expect(tester.takeException(), isNull);
+      const Map<DeviceSpec, String> expectedPresetIds = <DeviceSpec, String>{
+        kIphoneSpec: 'apple-iphone-16-pro',
+        kAndroidSpec: 'samsung-galaxy-s25',
+        kIpadSpec: 'apple-ipad-air-11-m4',
+        kDesktopSpec: 'desktop-large',
+        kWebSpec: 'desktop-small',
+      };
+      for (final MapEntry<DeviceSpec, String> entry
+          in expectedPresetIds.entries) {
+        await _pumpFramed(
+          tester,
+          DeviceFrame(spec: entry.key, child: const SizedBox.shrink()),
+        );
+        await tester.pump();
+        final DevicePreviewFrame frame = tester.widget<DevicePreviewFrame>(
+          find.byType(DevicePreviewFrame),
+        );
+        expect(
+          frame.simulation.value?.presetId,
+          entry.value,
+          reason: '${entry.key.label} must use the ${entry.value} preset',
+        );
+        expect(tester.takeException(), isNull);
+      }
+    });
+
+    testWidgets('the letterbox contains the outside-painted body', (
+      WidgetTester tester,
+    ) async {
+      for (final DeviceSpec spec in kFramedSpecs) {
+        for (final DeviceOrientation orientation in DeviceOrientation.values) {
+          await _pumpFramed(
+            tester,
+            // Center loosens the harness's tight viewport width, the way
+            // docs pages do (`Align` in `FramedPreview._Body`): the frame
+            // sizes itself to screen + letterbox instead of stretching.
+            // Viewport fits the desktop window frame (1922 px total).
+            Center(
+              child: DeviceFrame(
+                spec: spec,
+                orientation: orientation,
+                child: const SizedBox.shrink(),
+              ),
+            ),
+            viewport: const Size(2400, 1500),
+          );
+          await tester.pump();
+          // The frame widget is exactly screen + letterbox: the body the
+          // package paints outside `DevicePreviewFrame`'s (screen-sized)
+          // box still lands inside this footprint.
+          expect(
+            tester.getSize(find.byType(DeviceFrame)),
+            spec.totalFor(orientation),
+          );
+          expect(
+            tester.getSize(find.byType(DevicePreviewFrame)),
+            spec.sizeFor(orientation),
+          );
+          final RenderBox frameBox = tester.renderObject<RenderBox>(
+            find.byType(DevicePreviewFrame),
+          );
+          expect(
+            frameBox.size,
+            spec.sizeFor(orientation),
+            reason: 'package frame widget is laid out at the screen size',
+          );
+          expect(tester.takeException(), isNull);
+        }
+      }
     });
   });
 
@@ -259,10 +310,16 @@ void main() {
   });
 
   group('AllFrames', () {
-    testWidgets('wide shows four frames with distinct platforms', (
+    testWidgets('wide shows five frames with distinct platforms', (
       WidgetTester tester,
     ) async {
-      final List<_Seen> seen = <_Seen>[_Seen(), _Seen(), _Seen(), _Seen()];
+      final List<_Seen> seen = <_Seen>[
+        _Seen(),
+        _Seen(),
+        _Seen(),
+        _Seen(),
+        _Seen(),
+      ];
       int next = 0;
       await _pumpFramed(
         tester,
@@ -276,11 +333,12 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.byType(DeviceFrame), findsNWidgets(4));
+      expect(find.byType(DeviceFrame), findsNWidgets(5));
       expect(find.byType(FittedBox), findsWidgets);
       expect(seen.map((_Seen s) => s.platform), <TargetPlatform?>[
         TargetPlatform.iOS,
         TargetPlatform.android,
+        TargetPlatform.iOS,
         TargetPlatform.macOS,
         TargetPlatform.windows,
       ]);
@@ -303,8 +361,8 @@ void main() {
       );
       await tester.pump();
       expect(find.byType(PageView), findsOneWidget);
-      // PageView builds lazily: fling through all four pages.
-      for (int i = 0; i < 3; i++) {
+      // PageView builds lazily: fling through all five pages.
+      for (int i = 0; i < 4; i++) {
         await tester.fling(find.byType(PageView), const Offset(-400, 0), 1000);
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 300));
@@ -312,6 +370,7 @@ void main() {
       expect(platforms, <TargetPlatform?>[
         TargetPlatform.iOS,
         TargetPlatform.android,
+        TargetPlatform.iOS,
         TargetPlatform.macOS,
         TargetPlatform.windows,
       ]);

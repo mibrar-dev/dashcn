@@ -24,6 +24,21 @@ class _AsyncPreviewState extends State<AsyncPreview> {
   int _generation = 0;
   bool _fails = false;
 
+  // Futures created once per generation in [initState] (and on explicit
+  // reload), never per build: `Future.delayed` arms a `Timer`, and a fresh
+  // timer on every build leaves a pending timer at test teardown (the
+  // binding's `!timersPending` invariant). Reusing the same future across
+  // rebuilds lets it settle once and stay settled.
+  late Future<String> _pending;
+  late Future<String> _erroring;
+
+  @override
+  void initState() {
+    super.initState();
+    _pending = _delayed();
+    _erroring = _delayed();
+  }
+
   Future<String> _delayed() {
     final int generation = _generation;
     final bool fails = _fails;
@@ -62,7 +77,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
             const SizedBox(height: 20),
             const Text('pending future'),
             FutureOrBuilder<String>(
-              future: _delayed(),
+              future: _pending,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data!);
@@ -73,7 +88,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
             const SizedBox(height: 20),
             const Text('error future'),
             FutureOrBuilder<String>(
-              future: _delayed(),
+              future: _erroring,
               builder: (context, snapshot) =>
                   Text(snapshot.hasError ? 'error' : 'pending'),
             ),
@@ -82,6 +97,8 @@ class _AsyncPreviewState extends State<AsyncPreview> {
               onPressed: () => setState(() {
                 _generation++;
                 _fails = !_fails;
+                _pending = _delayed();
+                _erroring = _delayed();
               }),
               child: const Text('reload futures'),
             ),

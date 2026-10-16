@@ -65,7 +65,10 @@ class _PatchPreviewState extends State<PatchPreview> {
                   child: const Text('reset'),
                 ),
                 SizedBox(width: Theme.of(context).spacing.md),
-                const Text('tap fast and near to count up'),
+                // Loose fit: the hint takes only the width it needs on wide
+                // screens (same single-line visuals as before) and wraps
+                // instead of overflowing narrow phones.
+                const Flexible(child: Text('tap fast and near to count up')),
               ],
             ),
           ],
