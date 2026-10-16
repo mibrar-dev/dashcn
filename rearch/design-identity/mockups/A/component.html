@@ -1,8 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Plinth docs — Button</title><link rel="stylesheet" href="tokens.css">
 <style>
-.docs{display:grid;grid-template-columns:230px 1fr 210px;gap:28px;padding:28px 0 60px}
-@media(max-width:1000px){.docs{grid-template-columns:1fr}.side-r{display:none}.side-l{position:static!important}}
+.docs{display:grid;grid-template-columns:230px minmax(0,1fr) 210px;gap:28px;padding:28px 0 60px}
+@media(max-width:1000px){.docs{grid-template-columns:minmax(0,1fr)}.side-r{display:none}.side-l{position:static!important}}
+@media(max-width:640px){.docs>*{min-width:0;max-width:100%}}
 .side-l{position:sticky;top:calc(var(--nav-h) + 16px);align-self:start;font-size:13.5px}
 .side-l a{display:block;padding:5px 10px;border-radius:7px;color:var(--ink-2)}
 .side-l a.on,.side-l a:hover{background:var(--paper-2);color:var(--ink)}
@@ -21,8 +22,8 @@
 .knobrow label{font:500 12px var(--font-mono);color:var(--ink-2);display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px}
 .knobrow input[type=text]{border:0;background:transparent;font:500 12.5px var(--font-sans);color:var(--ink);width:110px;outline:none}
 h2.doc{font-size:20px;letter-spacing:-.02em;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--line)}
-.score5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
-@media(max-width:640px){.score5{grid-template-columns:1fr 1fr}}
+.score5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+@media(max-width:640px){.score5{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.score5>*{min-width:0}}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-inner">

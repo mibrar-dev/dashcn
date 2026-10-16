@@ -110,9 +110,21 @@ pre.code .k{color:#E09A5A}pre.code .s{color:#A8C69F}pre.code .c{color:#8D8172}pr
   .nav-links{display:none}
   .kbd-search{display:none}
   .burger{display:grid}
-  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 }
-@media(max-width:560px){.foot-grid{grid-template-columns:1fr}.wrap{padding:0 18px}}
+@media(max-width:560px){.foot-grid{grid-template-columns:minmax(0,1fr)}.wrap{padding:0 18px}}
+/* MOBILE QA M1 (375px): let children shrink; tables/code scroll inside instead of pushing the page. Desktop (>560px) unchanged. Colours/radii/fonts stay as CSS variables. */
+@media(max-width:560px){
+  .bridge,.lab-grid,.recipes,.plat,.tiles,.foot-grid{min-width:0}
+  .bridge>*,.lab-grid>*,.recipes>*,.plat>*,.tiles>*{min-width:0;max-width:100%}
+  table.api{width:100%;table-layout:fixed}
+  table.api th,table.api td{overflow-wrap:anywhere;word-break:break-word}
+  pre.code,.cmd,.knobs{max-width:100%}
+  pre.code{overflow-x:auto}
+  .cmd{flex-wrap:wrap}
+  .phone,.droid,.browser,.tile{max-width:100%}
+  img,svg{max-width:100%}
+}
 .mobile-menu{display:none;border-bottom:1px solid var(--line);background:var(--surface);padding:8px 18px 14px}
 .mobile-menu.open{display:block}
 .mobile-menu a{display:block;padding:10px 4px;font-weight:600;border-bottom:1px solid var(--line-soft)}

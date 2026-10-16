@@ -121,7 +121,17 @@ footer{border-top:1px solid var(--line);padding:48px 0 40px;margin-top:40px}
 @media(max-width:900px){
   .nav-links,.search-btn{min-width:0}.search-btn span{display:none}
   .nav-links{display:none}.hamburger{display:grid}
-  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .section{padding:52px 0}
 }
-@media(max-width:375px){.wrap,.nav-in{padding:0 16px}.foot-grid{grid-template-columns:1fr}}
+@media(max-width:375px){.wrap,.nav-in{padding:0 16px}.foot-grid{grid-template-columns:minmax(0,1fr)}}
+/* MOBILE QA M1 (375px): let grid/flex children shrink; long commands/tokens wrap; tables use fixed layout. Desktop (>375px) unchanged. Colours/radii/fonts stay as CSS variables. */
+@media(max-width:640px){
+  .foot-grid>*{min-width:0;max-width:100%}
+  table.api{width:100%;table-layout:fixed}
+  table.api th,table.api td{overflow-wrap:anywhere;word-break:break-word}
+  .chip{max-width:100%;flex-wrap:wrap;overflow-wrap:anywhere}
+  .code{max-width:100%;overflow-x:auto}
+  .frame-iphone,.frame-android,.frame-macos,.frame-web{max-width:100%}
+  img,svg{max-width:100%}
+}

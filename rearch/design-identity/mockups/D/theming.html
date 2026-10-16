@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Plinth — Theme Bench</title><link rel="stylesheet" href="tokens.css">
 <style>
-.bench{display:grid;grid-template-columns:340px 1fr 340px;gap:18px;padding:36px 0 64px;align-items:start}
+.bench{display:grid;grid-template-columns:340px minmax(0,1fr) 340px;gap:18px;padding:36px 0 64px;align-items:start}
 .pane{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
 .pane-h{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
 .pane-h .micro{margin-right:auto}
@@ -20,8 +20,9 @@
 .prev{background:var(--pv-bg);color:var(--pv-fg);padding:16px;border-radius:12px;transition:background .5s}
 .prev .row{display:flex;gap:8px;margin:10px 0}
 .pb{flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:var(--pv-radius);padding:9px 0}
-@media(max-width:1100px){.bench{grid-template-columns:1fr 1fr}.pane.live{grid-column:1/-1}}
-@media(max-width:720px){.bench{grid-template-columns:1fr}}
+@media(max-width:1100px){.bench{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pane.live{grid-column:1/-1}}
+@media(max-width:720px){.bench{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.bench>*{min-width:0;max-width:100%}}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-in">

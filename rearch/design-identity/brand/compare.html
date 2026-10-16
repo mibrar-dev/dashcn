@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dashcn — Brand comparison: bird vs identity directions</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --bg:#FAFAFA; --card:#FFFFFF; --ink:#09090B; --muted:#52525B;
+    --line:#E4E4E7; --chip:#F4F4F5; --accent:#0562D2;
+    --tile-dark:#0B0B0F; --tile-light:#FFFFFF;
+    --gutter:16px; --radius:12px;
+  }
+  html[data-theme="dark"]{
+    --bg:#09090B; --card:#131316; --ink:#FAFAFA; --muted:#A1A1AA;
+    --line:#27272A; --chip:#1C1C1F; --accent:#47D4FF;
+    --tile-dark:#000000; --tile-light:#FAFAFA;
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:ui-sans-system,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; overflow-x:hidden;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:12px var(--gutter);
+    background:var(--bg); border-bottom:1px solid var(--line);
+    max-width:100%;
+  }
+  .topbar .brandline{display:flex; align-items:center; gap:10px; min-width:0; font-size:14px; font-weight:650}
+  .topbar .brandline img{width:28px; height:28px; border-radius:8px; flex:none}
+  .topbar .brandline span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  #theme-toggle{
+    flex:none; border:1px solid var(--line); background:var(--card); color:var(--ink);
+    border-radius:999px; padding:8px 14px; font-size:14px; cursor:pointer;
+  }
+  .page{max-width:1120px; margin:0 auto; padding:20px var(--gutter) 48px; width:100%}
+  h1{font-size:clamp(26px,4.5vw,40px); line-height:1.1; letter-spacing:-0.02em; margin:12px 0 8px}
+  h2{font-size:20px; margin:0 0 4px; letter-spacing:-0.01em}
+  .lede{color:var(--muted); max-width:68ch; margin:0 0 16px; font-size:15px}
+  .ref{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--card);
+    padding:16px; display:grid; gap:14px; margin:16px 0 20px;
+  }
+  .ref-row{display:flex; gap:16px; align-items:center; flex-wrap:wrap}
+  .ref-row img.bird{width:72px; height:72px; border-radius:16px; flex:none; max-width:100%}
+  .tokens{display:flex; flex-wrap:wrap; gap:8px}
+  .token{border:1px solid var(--line); border-radius:999px; padding:4px 10px 4px 4px;
+    display:inline-flex; align-items:center; gap:8px; font-size:12px; font-family:ui-monospace,Menlo,Consolas,monospace}
+  .dot{width:22px; height:22px; border-radius:50%; border:1px solid rgba(0,0,0,.15); flex:none}
+  .grid{display:grid; grid-template-columns:1fr; gap:16px}
+  @media(min-width:900px){ .grid{grid-template-columns:1fr 1fr} .ref{grid-template-columns:auto 1fr; align-items:center} }
+  .card{border:1px solid var(--line); border-radius:var(--radius); background:var(--card); padding:16px; min-width:0}
+  .eyebrow{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+  .mood{font-size:14px; color:var(--muted); margin:0 0 12px}
+  .label{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:11px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--muted); margin:14px 0 8px}
+  .swatches{display:flex; flex-wrap:wrap; gap:8px}
+  .swatch{display:flex; align-items:center; gap:8px; border:1px solid var(--line);
+    border-radius:10px; padding:6px 10px 6px 6px; font-size:12px;
+    font-family:ui-monospace,Menlo,Consolas,monospace}
+  .sw{width:28px; height:28px; border-radius:7px; border:1px solid rgba(0,0,0,.18); flex:none}
+  .type{border:1px dashed var(--line); border-radius:10px; padding:10px 12px; font-size:15px; overflow-wrap:anywhere}
+  .type small{display:block; font-size:12px; color:var(--muted); margin-top:4px; font-family:ui-monospace,Menlo,Consolas,monospace}
+  .concept{width:100%; height:auto; display:block; border-radius:10px; border:1px solid var(--line)}
+  .compare-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .compare-cell{border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center; min-width:0}
+  .compare-cell figcaption{font-size:12px; color:var(--muted); margin-top:8px}
+  .compare-cell img{width:56px; height:56px; border-radius:14px; max-width:100%; height:auto}
+  .compare-cell svg{width:56px; height:56px; max-width:100%; height:auto}
+  .sizes{display:flex; flex-wrap:wrap; gap:12px; align-items:stretch}
+  .sizebox{flex:1 1 140px; min-width:0; border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center}
+  .sizebox p{font-size:12px; color:var(--muted); margin:8px 0 0; font-family:ui-monospace,Menlo,Consolas,monospace}
+  .tile-dark{background:#0B0B0F; border-radius:10px; padding:12px; display:flex; align-items:center; justify-content:center; gap:10px}
+  .tile-light{background:#FAFAFA; border:1px solid #E4E4E7; border-radius:10px; padding:12px; display:flex; align-items:center; justify-content:center; gap:10px}
+  .tile-dark svg,.tile-light svg{width:48px; height:24px}
+  .tile-dark img,.tile-light img{width:40px; height:40px; border-radius:10px}
+  .favrow{display:flex; align-items:center; justify-content:center; gap:14px; padding:6px 0}
+  .fav{display:inline-flex; flex-direction:column; align-items:center; gap:6px; font-size:11px; color:var(--muted); font-family:ui-monospace,Menlo,Consolas,monospace}
+  .rec{margin-top:20px; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); padding:18px 16px}
+  .rec ol,.rec ul{margin:10px 0 0; padding-left:20px}
+  .rec li{margin:4px 0; font-size:14px}
+  footer{color:var(--muted); font-size:12px; font-family:ui-monospace,Menlo,Consolas,monospace; margin-top:16px}
+  img,svg{max-width:100%}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brandline">
+    <!-- Canonical artwork: rearch/design-identity/brand/svg/mark-dark.svg (relative: svg/mark-dark.svg) -->
+    <img src="svg/mark-dark.svg" alt="dashcn bird mark" width="28" height="28">
+    <span>dashcn · brand comparison — bird vs identity directions</span>
+  </div>
+  <button id="theme-toggle" type="button" aria-label="Toggle light and dark">Light / Dark</button>
+</header>
+
+<main class="page">
+  <p class="eyebrow">Brief B1 · desktop + mobile · 16px gutters · no horizontal scroll at 375px</p>
+  <h1>Which identity should dashcn wear?</h1>
+  <p class="lede">The <strong>dashcn</strong> bird (round Flutter-blue bird, glowing “dash” beak, “cn” gradient wordmark) next to one logo concept per direction. Compare the real mark against each direction at full size, at 16px favicon size, and on dark and light tiles.</p>
+
+  <section class="ref" aria-label="dashcn reference mark">
+    <div class="ref-row">
+      <img class="bird" src="svg/mark-dark.svg" alt="dashcn bird — round Flutter-blue bird with glowing dash beak" width="72" height="72">
+      <div>
+        <h2>dashcn bird (reference)</h2>
+        <p class="mood" style="margin:0">Original round Flutter-blue bird · glowing “dash” beak · “cn” gradient wordmark.</p>
+      </div>
+    </div>
+    <div class="tokens" aria-label="dashcn brand tokens">
+      <span class="token"><span class="dot" style="background:#09090B"></span>ink #09090B</span>
+      <span class="token"><span class="dot" style="background:#FAFAFA"></span>paper #FAFAFA</span>
+      <span class="token"><span class="dot" style="background:linear-gradient(135deg,#47D4FF,#0562D2)"></span>body #47D4FF → #0562D2</span>
+      <span class="token"><span class="dot" style="background:linear-gradient(135deg,#0B5BC9,#03398F)"></span>wing #0B5BC9 → #03398F</span>
+      <span class="token"><span class="dot" style="background:linear-gradient(90deg,#E9F8FF,#2EE6D6)"></span>beak #E9F8FF → #2EE6D6</span>
+    </div>
+  </section>
+
+  <div class="grid">
+
+    <!-- A Plinth / Workbench -->
+    <article class="card" id="dir-a">
+      <p class="eyebrow">Direction A</p>
+      <h2>A — Plinth (Workbench)</h2>
+      <p class="mood">Precise engineer’s bench: calm, exact, hairline rulers and mono micro-labels.</p>
+      <p class="label">Palette</p>
+      <div class="swatches">
+        <span class="swatch"><span class="sw" style="background:#FAF8F5"></span>#FAF8F5</span>
+        <span class="swatch"><span class="sw" style="background:#141414"></span>#141414</span>
+        <span class="swatch"><span class="sw" style="background:#E2552B"></span>#E2552B</span>
+        <span class="swatch"><span class="sw" style="background:#FF7A4D"></span>#FF7A4D</span>
+      </div>
+      <p class="label">Type sample</p>
+      <div class="type" style="font-family:ui-sans-system,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+        <strong>Build it once. Ship it on every screen.</strong> Aa 123
+        <small style="font-family:ui-monospace,Menlo,Consolas,monospace">Geist + Geist Mono · radius 0.625rem · density compact</small>
+      </div>
+      <p class="label">Logo concept — tile + wordmark (inline SVG)</p>
+      <svg class="concept" viewBox="0 0 200 72" role="img" aria-label="Plinth logo concept">
+        <rect x="1" y="1" width="198" height="70" rx="12" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.18"/>
+        <g stroke="#141414" stroke-opacity="0.25" stroke-width="1">
+          <path d="M12 60 H188 M12 12 V60 M28 54 V60 M44 54 V60 M60 54 V60"/>
+        </g>
+        <rect x="16" y="16" width="36" height="36" rx="7" fill="#E2552B"/>
+        <rect x="24" y="30" width="20" height="4" rx="2" fill="#FAF8F5"/>
+        <text x="60" y="38" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="17" font-weight="700" fill="#141414">plinth</text>
+        <text x="60" y="52" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="8" fill="#6B6B6B">hue 24° · ember</text>
+      </svg>
+      <p class="label">Compare with dashcn bird</p>
+      <div class="compare-row">
+        <figure class="compare-cell" style="margin:0">
+          <img src="svg/mark-dark.svg" alt="dashcn bird mark" width="56" height="56">
+          <figcaption>dashcn bird</figcaption>
+        </figure>
+        <figure class="compare-cell" style="margin:0">
+          <svg viewBox="0 0 64 64" role="img" aria-label="Plinth mini mark"><rect width="64" height="64" rx="14" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.2"/><rect x="12" y="12" width="40" height="40" rx="9" fill="#E2552B"/><rect x="22" y="30" width="20" height="5" rx="2.5" fill="#FAF8F5"/></svg>
+          <figcaption>A · plinth tile</figcaption>
+        </figure>
+      </div>
+      <p class="label">Favicon 16px · dark tile · light tile</p>
+      <div class="sizes">
+        <div class="sizebox">
+          <div class="favrow">
+            <span class="fav"><img src="svg/mark-dark.svg" alt="dashcn at 16px" width="16" height="16">dashcn 16px</span>
+            <span class="fav"><svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E2552B"/><rect x="22" y="30" width="20" height="5" rx="2.5" fill="#FAF8F5"/></svg>A 16px</span>
+          </div>
+          <p>16px favicon</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-dark">
+            <img src="svg/mark-dark.svg" alt="dashcn on dark" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E2552B"/><rect x="22" y="30" width="20" height="5" rx="2.5" fill="#fff"/></svg>
+          </div>
+          <p>dark tile</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-light">
+            <img src="svg/mark-dark.svg" alt="dashcn on light" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.25"/><rect x="12" y="12" width="40" height="40" rx="9" fill="#E2552B"/></svg>
+          </div>
+          <p>light tile</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- B Kiln -->
+    <article class="card" id="dir-b">
+      <p class="eyebrow">Direction B</p>
+      <h2>B — Kiln (warm craft)</h2>
+      <p class="mood">Warm craft studio: tactile glazed tiles, editorial serif, calm and memorable.</p>
+      <p class="label">Palette</p>
+      <div class="swatches">
+        <span class="swatch"><span class="sw" style="background:#F6F1EA"></span>#F6F1EA</span>
+        <span class="swatch"><span class="sw" style="background:#1A1714"></span>#1A1714</span>
+        <span class="swatch"><span class="sw" style="background:#C96F2E"></span>#C96F2E</span>
+        <span class="swatch"><span class="sw" style="background:#7A9B7E"></span>#7A9B7E</span>
+      </div>
+      <p class="label">Type sample</p>
+      <div class="type" style="font-family:Georgia,'Instrument Serif','Times New Roman',serif">
+        <em style="font-size:19px">Shape it. Fire it. Ship it.</em>
+        <small style="font-family:ui-sans-system,-apple-system,'Segoe UI',Roboto,sans-serif">Inter body · glaze tiles · generous whitespace</small>
+      </div>
+      <p class="label">Logo concept — tile + wordmark (inline SVG)</p>
+      <svg class="concept" viewBox="0 0 200 72" role="img" aria-label="Kiln logo concept">
+        <defs><radialGradient id="glazeB" cx="0.35" cy="0.3" r="1"><stop offset="0" stop-color="#E8A15C"/><stop offset="1" stop-color="#C96F2E"/></radialGradient></defs>
+        <rect x="1" y="1" width="198" height="70" rx="12" fill="#F6F1EA" stroke="#1A1714" stroke-opacity="0.18"/>
+        <circle cx="36" cy="36" r="20" fill="url(#glazeB)"/>
+        <ellipse cx="30" cy="28" rx="7" ry="4.5" fill="#FFFFFF" opacity="0.55"/>
+        <text x="64" y="44" font-family="Georgia,'Instrument Serif',serif" font-style="italic" font-size="24" fill="#1A1714">Kiln</text>
+        <text x="64" y="58" font-family="ui-sans-system,sans-serif" font-size="8" fill="#6B6259">warm craft · glaze</text>
+      </svg>
+      <p class="label">Compare with dashcn bird</p>
+      <div class="compare-row">
+        <figure class="compare-cell" style="margin:0">
+          <img src="svg/mark-dark.svg" alt="dashcn bird mark" width="56" height="56">
+          <figcaption>dashcn bird</figcaption>
+        </figure>
+        <figure class="compare-cell" style="margin:0">
+          <svg viewBox="0 0 64 64" role="img" aria-label="Kiln mini mark"><rect width="64" height="64" rx="14" fill="#F6F1EA" stroke="#1A1714" stroke-opacity="0.2"/><circle cx="32" cy="32" r="18" fill="#C96F2E"/><ellipse cx="26" cy="25" rx="6" ry="4" fill="#fff" opacity=".55"/></svg>
+          <figcaption>B · kiln tile</figcaption>
+        </figure>
+      </div>
+      <p class="label">Favicon 16px · dark tile · light tile</p>
+      <div class="sizes">
+        <div class="sizebox">
+          <div class="favrow">
+            <span class="fav"><img src="svg/mark-dark.svg" alt="dashcn at 16px" width="16" height="16">dashcn 16px</span>
+            <span class="fav"><svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="#C96F2E"/></svg>B 16px</span>
+          </div>
+          <p>16px favicon</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-dark">
+            <img src="svg/mark-dark.svg" alt="dashcn on dark" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#C96F2E"/><ellipse cx="26" cy="25" rx="6" ry="4" fill="#fff" opacity=".5"/></svg>
+          </div>
+          <p>dark tile</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-light">
+            <img src="svg/mark-dark.svg" alt="dashcn on light" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#F6F1EA" stroke="#1A1714" stroke-opacity="0.25"/><circle cx="32" cy="32" r="18" fill="#C96F2E"/></svg>
+          </div>
+          <p>light tile</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- C Facet -->
+    <article class="card" id="dir-c">
+      <p class="eyebrow">Direction C</p>
+      <h2>C — Facet (dark prism)</h2>
+      <p class="mood">Dark-first spatial canvas: violet-to-cyan light refracting across near-black.</p>
+      <p class="label">Palette</p>
+      <div class="swatches">
+        <span class="swatch"><span class="sw" style="background:#0B0B0F"></span>#0B0B0F</span>
+        <span class="swatch"><span class="sw" style="background:#F7F7FA"></span>#F7F7FA</span>
+        <span class="swatch"><span class="sw" style="background:#7C5CFF"></span>#7C5CFF</span>
+        <span class="swatch"><span class="sw" style="background:#22D3EE"></span>#22D3EE</span>
+      </div>
+      <p class="label">Type sample</p>
+      <div class="type" style="font-family:ui-sans-system,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+        <strong>One canvas. Every platform. Your code.</strong> Aa 123
+        <small style="font-family:ui-monospace,Menlo,Consolas,monospace">Geist + Geist Mono · glow, grain, connector lines</small>
+      </div>
+      <p class="label">Logo concept — tile + wordmark (inline SVG)</p>
+      <svg class="concept" viewBox="0 0 200 72" role="img" aria-label="Facet logo concept">
+        <defs><linearGradient id="prismC" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs>
+        <rect x="1" y="1" width="198" height="70" rx="12" fill="#0B0B0F"/>
+        <path d="M36 14 L54 52 L18 52 Z" fill="none" stroke="url(#prismC)" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M36 30 L44 48 L28 48 Z" fill="url(#prismC)" opacity="0.9"/>
+        <text x="68" y="42" font-family="ui-sans-system,-apple-system,'Segoe UI',sans-serif" font-size="20" font-weight="700" fill="#F7F7FA">facet</text>
+        <text x="68" y="56" font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#8E8E9A">violet → cyan</text>
+      </svg>
+      <p class="label">Compare with dashcn bird</p>
+      <div class="compare-row">
+        <figure class="compare-cell" style="margin:0">
+          <img src="svg/mark-dark.svg" alt="dashcn bird mark" width="56" height="56">
+          <figcaption>dashcn bird</figcaption>
+        </figure>
+        <figure class="compare-cell" style="margin:0">
+          <svg viewBox="0 0 64 64" role="img" aria-label="Facet mini mark"><rect width="64" height="64" rx="14" fill="#0B0B0F"/><path d="M32 10 L50 50 L14 50 Z" fill="none" stroke="#7C5CFF" stroke-width="5" stroke-linejoin="round"/><path d="M32 28 L40 46 L24 46 Z" fill="#22D3EE"/></svg>
+          <figcaption>C · facet tile</figcaption>
+        </figure>
+      </div>
+      <p class="label">Favicon 16px · dark tile · light tile</p>
+      <div class="sizes">
+        <div class="sizebox">
+          <div class="favrow">
+            <span class="fav"><img src="svg/mark-dark.svg" alt="dashcn at 16px" width="16" height="16">dashcn 16px</span>
+            <span class="fav"><svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B0B0F"/><path d="M32 12 L48 50 L16 50 Z" fill="#7C5CFF"/></svg>C 16px</span>
+          </div>
+          <p>16px favicon</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-dark">
+            <img src="svg/mark-dark.svg" alt="dashcn on dark" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8 L52 52 L12 52 Z" fill="none" stroke="#7C5CFF" stroke-width="6"/><path d="M32 28 L40 46 L24 46 Z" fill="#22D3EE"/></svg>
+          </div>
+          <p>dark tile</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-light">
+            <img src="svg/mark-dark.svg" alt="dashcn on light" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#F7F7FA" stroke="#0B0B0F" stroke-opacity="0.2"/><path d="M32 10 L50 50 L14 50 Z" fill="none" stroke="#7C5CFF" stroke-width="5"/><path d="M32 28 L40 46 L24 46 Z" fill="#22D3EE"/></svg>
+          </div>
+          <p>light tile</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- D Hybrid -->
+    <article class="card" id="dir-d">
+      <p class="eyebrow">Direction D</p>
+      <h2>D — Hybrid (A + B + C)</h2>
+      <p class="mood">Workbench skeleton warmed by glaze tiles and a prism accent: precise yet human.</p>
+      <p class="label">Palette</p>
+      <div class="swatches">
+        <span class="swatch"><span class="sw" style="background:#FAF8F5"></span>#FAF8F5</span>
+        <span class="swatch"><span class="sw" style="background:#141414"></span>#141414</span>
+        <span class="swatch"><span class="sw" style="background:#E2552B"></span>#E2552B</span>
+        <span class="swatch"><span class="sw" style="background:#C96F2E"></span>#C96F2E</span>
+        <span class="swatch"><span class="sw" style="background:linear-gradient(135deg,#7C5CFF,#22D3EE)"></span>#7C5CFF→#22D3EE</span>
+      </div>
+      <p class="label">Type sample</p>
+      <div class="type">
+        <span style="font-family:ui-sans-system,-apple-system,'Segoe UI',sans-serif"><strong>Build it once. Own every line.</strong></span>
+        <span style="font-family:Georgia,serif; font-style:italic"> + glaze warmth</span>
+        <small>Geist + Geist Mono + Instrument Serif accent · rulers + tiles + flow map</small>
+      </div>
+      <p class="label">Logo concept — tile + wordmark (inline SVG)</p>
+      <svg class="concept" viewBox="0 0 200 72" role="img" aria-label="Hybrid logo concept">
+        <defs><linearGradient id="prismD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs>
+        <rect x="1" y="1" width="198" height="70" rx="12" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.18"/>
+        <rect x="16" y="16" width="36" height="36" rx="7" fill="none" stroke="#E2552B" stroke-width="4"/>
+        <circle cx="34" cy="34" r="8" fill="#C96F2E"/>
+        <path d="M46 22 L52 36 L40 36 Z" fill="url(#prismD)"/>
+        <text x="62" y="40" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="17" font-weight="700" fill="#141414">plinth+</text>
+        <text x="62" y="53" font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#6B6B6B">bench + glaze + prism</text>
+      </svg>
+      <p class="label">Compare with dashcn bird</p>
+      <div class="compare-row">
+        <figure class="compare-cell" style="margin:0">
+          <img src="svg/mark-dark.svg" alt="dashcn bird mark" width="56" height="56">
+          <figcaption>dashcn bird</figcaption>
+        </figure>
+        <figure class="compare-cell" style="margin:0">
+          <svg viewBox="0 0 64 64" role="img" aria-label="Hybrid mini mark"><rect width="64" height="64" rx="14" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.2"/><rect x="12" y="12" width="40" height="40" rx="9" fill="none" stroke="#E2552B" stroke-width="5"/><circle cx="32" cy="32" r="9" fill="#C96F2E"/><path d="M44 14 L50 26 L38 26 Z" fill="#7C5CFF"/></svg>
+          <figcaption>D · hybrid tile</figcaption>
+        </figure>
+      </div>
+      <p class="label">Favicon 16px · dark tile · light tile</p>
+      <div class="sizes">
+        <div class="sizebox">
+          <div class="favrow">
+            <span class="fav"><img src="svg/mark-dark.svg" alt="dashcn at 16px" width="16" height="16">dashcn 16px</span>
+            <span class="fav"><svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#FAF8F5" stroke="#141414"/><rect x="14" y="14" width="36" height="36" rx="8" fill="none" stroke="#E2552B" stroke-width="7"/><circle cx="32" cy="32" r="10" fill="#C96F2E"/></svg>D 16px</span>
+          </div>
+          <p>16px favicon</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-dark">
+            <img src="svg/mark-dark.svg" alt="dashcn on dark" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#141414"/><rect x="12" y="12" width="40" height="40" rx="9" fill="none" stroke="#E2552B" stroke-width="5"/><circle cx="32" cy="32" r="9" fill="#C96F2E"/></svg>
+          </div>
+          <p>dark tile</p>
+        </div>
+        <div class="sizebox">
+          <div class="tile-light">
+            <img src="svg/mark-dark.svg" alt="dashcn on light" width="40" height="40">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#FAF8F5" stroke="#141414" stroke-opacity="0.25"/><rect x="12" y="12" width="40" height="40" rx="9" fill="none" stroke="#E2552B" stroke-width="5"/><circle cx="32" cy="32" r="9" fill="#C96F2E"/></svg>
+          </div>
+          <p>light tile</p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <section class="rec" aria-label="Recommendation">
+    <p class="eyebrow">Recommendation</p>
+    <h2>Adopt D — Hybrid (Workbench skeleton + Kiln glaze + Facet flow map)</h2>
+    <p style="margin:8px 0 0; max-width:75ch">D keeps A’s precise Workbench skeleton, so copy-paste stays trustworthy with rulers, token tables and spec sheets; it borrows B’s glaze-tile warmth and smooth lerps so own-your-code feels crafted rather than clinical; and it uses C’s flow map sparingly to show Flutter-first reach (one flow, every platform) without surrendering readability. That balance lets the friendly Flutter-blue dashcn bird sit beside an exact, ownable system instead of fighting it.</p>
+    <p class="label">What would change if we adopted it</p>
+    <ul>
+      <li><strong>Repo name:</strong> stays <code>dashcn</code> (package + CLI); Hybrid ships as the <code>plinth+</code> theme/identity, not a rename.</li>
+      <li><strong>Icon:</strong> keep the dashcn bird mark as the app/package icon; use the Hybrid tile (ember rule + glaze dot + prism sliver) only as the docs/brand companion mark and 16px favicon fallback.</li>
+      <li><strong>Colours in brand/:</strong> keep bird tokens (ink #09090B, paper #FAFAFA, body #47D4FF → #0562D2, wing #0B5BC9 → #03398F, beak #E9F8FF → #2EE6D6); add Hybrid UI tokens (paper #FAF8F5, ink #141414, ember #E2552B / #FF7A4D, glaze #C96F2E, prism #7C5CFF → #22D3EE) and regenerate lockups from the bird SVG.</li>
+    </ul>
+  </section>
+
+  <footer>dashcn · Brief B1 · local artwork only: svg/mark-dark.svg (+ inline copies) · no external images</footer>
+</main>
+
+<script>
+  (function(){
+    var btn = document.getElementById('theme-toggle');
+    btn.addEventListener('click', function(){
+      var el = document.documentElement;
+      el.setAttribute('data-theme', el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  })();
+</script>
+</body>
+</html>

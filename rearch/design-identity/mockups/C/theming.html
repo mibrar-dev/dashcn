@@ -16,7 +16,8 @@ textarea{width:100%;min-height:150px;background:var(--code-bg);color:var(--code-
 .tok-row i{width:22px;height:14px;border-radius:4px;display:inline-block;border:1px solid var(--line-2);margin-right:8px;vertical-align:-2px}
 .mini-flow{display:flex;gap:10px;overflow-x:auto;padding:40px 20px 30px}
 .mini-flow .screen{flex-basis:170px}
-@media(max-width:1080px){.spec{grid-template-columns:1fr}.panel{order:2}#canvasPanel{order:1}}
+@media(max-width:1080px){.spec{grid-template-columns:minmax(0,1fr)}.panel{order:2}#canvasPanel{order:1}}
+@media(max-width:640px){.spec>*{min-width:0;max-width:100%}}
 </style></head><body>
 <header class="nav"><div class="nav-in">
 <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><path d="M13 1v12m0 0L2 8m11 5 11-5" stroke="#22D3EE" stroke-width="1.6"/><circle cx="13" cy="13" r="2.4" fill="#7C5CFF"/></svg>Facet</a>

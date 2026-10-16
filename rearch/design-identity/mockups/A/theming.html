@@ -1,8 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Plinth — Theme Bench</title><link rel="stylesheet" href="tokens.css">
 <style>
-.bench{display:grid;grid-template-columns:1fr 1.1fr .95fr;gap:14px;margin-top:22px}
-@media(max-width:1000px){.bench{grid-template-columns:1fr}}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,.95fr);gap:14px;margin-top:22px}
+@media(max-width:1000px){.bench{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.bench>*{min-width:0;max-width:100%}.exptabs{flex-wrap:wrap}}
 textarea{width:100%;min-height:260px;background:#171512;color:#EDE8DD;border:1px solid #2A2823;border-radius:12px;padding:14px;font:400 12.5px/1.7 var(--font-mono);resize:vertical}
 .exptabs{display:flex;gap:6px;margin:10px 0}
 .exptabs button{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;font:600 12.5px var(--font-sans);cursor:pointer;color:var(--ink-2)}

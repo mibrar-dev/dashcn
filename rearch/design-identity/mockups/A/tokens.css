@@ -172,17 +172,29 @@ footer{border-top:1px solid var(--line);margin-top:64px;padding:32px 0 48px;back
 .swatch{width:22px;height:22px;border-radius:7px;border:1px solid var(--line-2);display:inline-block;vertical-align:-6px;margin-right:8px}
 .toast-fixed{position:fixed;bottom:18px;right:18px;z-index:99}
 @media(max-width:960px){
-  .hero{grid-template-columns:1fr}
-  .grid4{grid-template-columns:1fr 1fr}.grid3,.grid2{grid-template-columns:1fr}
-  .rulers{grid-template-columns:1fr}
-  .foot{grid-template-columns:1fr 1fr}
-  .score{grid-template-columns:1fr 1fr}
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .grid4{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.grid3,.grid2{grid-template-columns:minmax(0,1fr)}
+  .rulers{grid-template-columns:minmax(0,1fr)}
+  .foot{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .score{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 }
 @media(max-width:640px){
   .nav-links,.cmdk{display:none}
   .hamb{display:grid}
   .nav-links.open{display:flex;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--card);border-bottom:1px solid var(--line);flex-direction:column;padding:10px 20px 16px}
-  .grid4{grid-template-columns:1fr}
+  .grid4{grid-template-columns:minmax(0,1fr)}
   h1{font-size:36px}
   .wrap{padding:0 16px}
+}
+/* MOBILE QA M1 (375px): let grid/flex children shrink; tables use fixed layout so long tokens wrap instead of pushing the page. Desktop (>640px) unchanged. Colours/radii/fonts stay as CSS variables. */
+@media(max-width:640px){
+  .hero>*,.grid2>*,.grid3>*,.grid4>*,.rulers>*,.foot>*,.score>*{min-width:0;max-width:100%}
+  table.spec{width:100%;table-layout:fixed}
+  table.spec th,table.spec td{overflow-wrap:anywhere;word-break:break-word}
+  .code,.terminal,.terminal .body,textarea,input{max-width:100%}
+  .code,.terminal .body{overflow-x:auto}
+  .install{max-width:100%;flex-wrap:wrap}
+  .install span:nth-child(2){overflow-wrap:anywhere;min-width:0}
+  .device,.phone,.k-card,.card{max-width:100%}
+  img,svg{max-width:100%}
 }

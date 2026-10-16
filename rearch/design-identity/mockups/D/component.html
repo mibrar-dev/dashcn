@@ -16,7 +16,7 @@
 .tabs button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
 .preview{border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;background-image:var(--dot);background-size:22px 22px;padding:36px;display:grid;place-items:center;background-color:var(--card)}
 .tabtop{border:1px solid var(--line);border-bottom:none;border-radius:12px 12px 0 0;background:var(--card);padding:12px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.play{display:grid;grid-template-columns:240px 1fr;gap:14px;margin-top:14px}
+.play{display:grid;grid-template-columns:240px minmax(0,1fr);gap:14px;margin-top:14px}
 .knob{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px;align-content:start}
 .knob label{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);display:grid;gap:6px}
 .knob select,.knob input[type=text]{font-size:13px;padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:var(--font-sans)}
@@ -25,14 +25,21 @@
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
 .article h2{font-size:21px;letter-spacing:-.02em;margin:36px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
 .article p{color:var(--ink-2);font-size:14.5px;margin-bottom:12px;max-width:68ch}
-.score{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.score{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}
 .score div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
 .score b{display:block;font-size:16px}.score span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
 .tick{color:var(--ok)}
 .bread{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-3);margin-bottom:8px}
 .bread b{color:var(--ember)}
-@media(max-width:1100px){.docs{grid-template-columns:220px 1fr}.toc{display:none}}
-@media(max-width:800px){.docs{grid-template-columns:1fr}.side{position:static;max-height:none}.play{grid-template-columns:1fr}.score{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){.docs{grid-template-columns:220px minmax(0,1fr)}.toc{display:none}}
+@media(max-width:800px){.docs{grid-template-columns:minmax(0,1fr)}.side{position:static;max-height:none}.play{grid-template-columns:minmax(0,1fr)}.score{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:640px){
+  /* MOBILE QA M1: docs stack can shrink; preview/knobs fit 375px. Desktop unchanged. */
+  .docs>*,.play>*{min-width:0;max-width:100%}
+  .preview{padding:16px}
+  .knob{min-width:0}
+  #c-code{overflow-wrap:anywhere;min-width:0}
+}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-in">

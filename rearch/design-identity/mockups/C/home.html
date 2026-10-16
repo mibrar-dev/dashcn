@@ -13,8 +13,14 @@
 .feed-item{display:flex;gap:8px;align-items:center}
 .qty{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700}
 .check{width:44px;height:44px;border-radius:99px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-size:20px;margin:8px auto}
-.curve-box{display:flex;gap:8px;align-items:flex-end;height:90px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
-.curve-box i{flex:1;background:linear-gradient(180deg,var(--accent),var(--accent-2));border-radius:4px;opacity:.85}
+.curve-box{display:flex;gap:8px;align-items:flex-end;height:90px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);min-width:0}
+.curve-box i{flex:1;background:linear-gradient(180deg,var(--accent),var(--accent-2));border-radius:4px;opacity:.85;min-width:0}
+@media(max-width:640px){
+  /* MOBILE QA M1: motion-lab canvas + panel stack safely; children may shrink */
+  .canvas{min-width:0;max-width:100%}
+  .curve-panel{min-width:0;max-width:100%}
+  .curve-panel>div{min-width:0}
+}
 </style></head><body>
 <header class="nav"><div class="nav-in">
 <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 26 26" fill="none"><path d="M13 1 24 8v10l-11 7L2 18V8l11-7Z" stroke="#7C5CFF" stroke-width="2"/><path d="M13 1v12m0 0L2 8m11 5 11-5" stroke="#22D3EE" stroke-width="1.6"/><circle cx="13" cy="13" r="2.4" fill="#7C5CFF"/></svg>Facet</a>
@@ -144,7 +150,7 @@
 <div><p class="eyebrow">03 · Motion Lab</p><h2 class="h2">Curves you can <span class="serif">feel.</span></h2>
 <p class="lede">Every animation is a token — duration, curve, spring. Drag the curve, press the button, copy the Dart. No black-box motion.</p>
 <div class="curve-panel" style="margin-top:16px">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px">
 <label class="mono" style="font-size:11px;color:var(--muted)">stiffness <b id="stV" style="color:var(--ink)">320</b><input id="st" type="range" min="80" max="600" value="320"></label>
 <label class="mono" style="font-size:11px;color:var(--muted)">damping <b id="daV" style="color:var(--ink)">28</b><input id="da" type="range" min="8" max="60" value="28"></label>
 </div>

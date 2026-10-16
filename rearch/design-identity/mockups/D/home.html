@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Plinth — Build it once. Ship it on every screen.</title><link rel="stylesheet" href="tokens.css">
 <style>
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;padding:64px 0 40px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start;padding:64px 0 40px}
 .hero h1{font-size:clamp(38px,4.6vw,60px);letter-spacing:-.04em;line-height:1.02;margin:14px 0 14px}
 .hero h1 em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--ember)}
 .hero p.sub{color:var(--ink-2);font-size:16.5px;max-width:46ch}
@@ -30,13 +30,13 @@
 .tile small{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:9px;color:var(--ink-3);display:none}
 .rulers{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:8px;margin-top:22px}
 /* four screens */
-.screens4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.screens4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .scr{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;min-height:230px}
 .scr .bar{height:8px;border-radius:4px;background:var(--card-2);border:1px solid var(--line);margin:8px 0}
 .scr .b2{height:34px;border-radius:8px;background:var(--ember);margin-top:10px}
 .scr .b3{height:34px;border-radius:8px;border:1.5px solid var(--ember);margin-top:8px}
 /* knobs */
-.knobs{display:grid;grid-template-columns:300px 1fr;gap:20px}
+.knobs{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px}
 .knob-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:14px;align-content:start}
 .knob-panel label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);display:grid;gap:6px}
 .knob-panel select,.knob-panel input[type=text]{font-family:var(--font-sans);font-size:13.5px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
@@ -56,13 +56,13 @@
 .link{align-self:center;flex:1;min-width:34px;height:2px;background:repeating-linear-gradient(90deg,var(--ember) 0 6px,transparent 6px 11px);position:relative}
 .link::after{content:"›";position:absolute;right:-4px;top:-13px;color:var(--ember);font-weight:700}
 /* motion lab */
-.motion{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.motion{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:16px}
 .mo{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
 .track{height:64px;position:relative;background:var(--card-2);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 .puck{position:absolute;top:14px;left:8px;width:36px;height:36px;border-radius:10px;background:var(--ember)}
 .bez{width:100%;height:150px;background:var(--card-2);border:1px solid var(--line);border-radius:10px}
 /* scorecards */
-.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .spec{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
 .spec table{width:100%;font-size:13px;border-collapse:collapse;margin-top:12px}
 .spec td{padding:7px 0;border-top:1px solid var(--line)}.spec td:last-child{text-align:right;font-family:var(--font-mono);font-size:12px}
@@ -73,12 +73,19 @@
 .term-bar i{width:11px;height:11px;border-radius:50%;background:#3a352f}.term-bar i:first-child{background:#FF5F57}
 .term pre{padding:20px 22px;font-family:var(--font-mono);font-size:13px;line-height:1.9;overflow:auto}
 .pS{color:#8a8378}.pG{color:#A8D3A2}.pE{color:#FF9D7A}.pB{color:#7AB8FF}
-.create-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.create-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
 .tpl-list{display:grid;gap:10px}
 .tpl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .tpl:hover{border-color:var(--ember)}.tpl code{font-family:var(--font-mono);font-size:12px;color:var(--ember)}
-@media(max-width:1000px){.hero{grid-template-columns:1fr}.screens4{grid-template-columns:1fr 1fr}.knobs,.create-grid{grid-template-columns:1fr}.motion,.specs{grid-template-columns:1fr}}
-@media(max-width:560px){.screens4{grid-template-columns:1fr}}
+@media(max-width:1000px){.hero{grid-template-columns:minmax(0,1fr)}.screens4{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.knobs,.create-grid{grid-template-columns:minmax(0,1fr)}.motion,.specs{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){.screens4{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){
+  /* MOBILE QA M1: stack stage header, wrap stats, let children shrink. Desktop unchanged. */
+  .hero>*,.screens4>*,.knobs>*,.motion>*,.specs>*,.create-grid>*{min-width:0;max-width:100%}
+  .stage-head{flex-wrap:wrap}
+  .stats{flex-wrap:wrap}
+  .frame-iphone{width:min(250px,100%)}
+}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-in">

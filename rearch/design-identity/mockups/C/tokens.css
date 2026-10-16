@@ -110,8 +110,8 @@ a{color:inherit}
 .dot{width:7px;height:7px;border-radius:99px;background:var(--ok)}
 /* sections */
 section{padding:72px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .card{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);padding:22px;box-shadow:var(--shadow-1)}
 .card h3{margin:0 0 6px;font-size:15.5px;letter-spacing:-.01em}
 .card p{margin:0;color:var(--muted);font-size:13.5px}
@@ -139,7 +139,7 @@ table.api{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
 table.api th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-2)}
 table.api td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 table.api td:first-child{font-family:var(--font-mono);font-size:12.5px}
-.score{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.score{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
 .score div{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);text-align:center}
 .score b{display:block;font-size:15px}
 .score span{font-size:11px;color:var(--muted);font-family:var(--font-mono)}
@@ -189,15 +189,15 @@ pre.code .k{color:#A78BFA}pre.code .s{color:#67E8F9}pre.code .c{color:#71717A}pr
 input[type=range]{width:100%;accent-color:var(--accent)}
 .toast-demo{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:600;border-radius:10px;padding:10px 16px;display:flex;gap:8px;align-items:center;box-shadow:var(--shadow-2);z-index:6}
 /* chooser */
-.choose{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+.choose{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:32px 0}
 .choose a{text-decoration:none}
 .choose .card:hover{border-color:var(--accent);box-shadow:0 0 30px var(--glow-a)}
 /* responsive */
 @media(max-width:1020px){
   .docs{grid-template-columns:200px minmax(0,1fr)}.toc{display:none}
-  .grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:minmax(0,1fr)}.grid3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .device.desktop,.device.web{width:100%}
-  .choose{grid-template-columns:1fr}
+  .choose{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:640px){
   .nav-links{display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--panel);flex-direction:column;padding:12px;border-bottom:1px solid var(--line)}
@@ -207,10 +207,24 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   .flow-row{flex-direction:column;align-items:center;overflow:visible}
   .connector{transform:rotate(90deg);flex-basis:40px}
   .screen.zoomed{transform:scale(1.25)}
-  .grid3{grid-template-columns:1fr}
-  .knobs{grid-template-columns:1fr}
-  .score{grid-template-columns:repeat(2,1fr)}
-  .docs{grid-template-columns:1fr}.side{position:static;max-height:none}
+  .grid3{grid-template-columns:minmax(0,1fr)}
+  .knobs{grid-template-columns:minmax(0,1fr)}
+  .score{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .docs{grid-template-columns:minmax(0,1fr)}.side{position:static;max-height:none}
   section{padding:48px 0}
   .wrap{padding:0 16px}
+}
+/* MOBILE QA M1 (375px): let grid/flex children shrink; long commands/tokens wrap; tables use fixed layout. Desktop (>640px) unchanged. Colours/radii/fonts stay as CSS variables. */
+@media(max-width:640px){
+  .grid2>*,.grid3>*,.docs>*,.choose>*,.score>*{min-width:0;max-width:100%}
+  table.api{width:100%;table-layout:fixed}
+  table.api th,table.api td{overflow-wrap:anywhere;word-break:break-word}
+  .cmd{flex-wrap:wrap;overflow-wrap:anywhere}
+  .cmd .copy{flex:none}
+  .card .mono{overflow-wrap:anywhere;word-break:break-word;min-width:0}
+  .platform-bar,.tabs{max-width:100%}
+  .devices{max-width:100%}
+  .device.iphone,.device.android,.device.desktop,.device.web{max-width:100%}
+  pre.code{max-width:100%;overflow-x:auto}
+  img,svg{max-width:100%}
 }

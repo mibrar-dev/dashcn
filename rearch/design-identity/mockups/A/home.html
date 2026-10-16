@@ -4,14 +4,15 @@
 .stat{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px}
 .stat b{font-size:22px;letter-spacing:-.02em;display:block}.stat span{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
 .mini-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
-.flow4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.flow4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .flow4 .phone{width:100%;border-radius:22px}.flow4 .screen{min-height:220px}
-@media(max-width:960px){.flow4{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.flow4{grid-template-columns:1fr}}
+@media(max-width:960px){.flow4{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:560px){.flow4{grid-template-columns:minmax(0,1fr)}}
 .preset{display:flex;gap:6px;flex-wrap:wrap}
 .preset i{width:26px;height:26px;border-radius:8px;border:1px solid var(--line-2);display:block;cursor:pointer}
-.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:960px){.spec-grid{grid-template-columns:1fr}}
+.spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:960px){.spec-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.flow4>*,.spec-grid>*,.grid2>*{min-width:0;max-width:100%}}
 .datasheet{font-family:var(--font-mono);font-size:12px}
 .datasheet .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line-2)}
 </style></head>
