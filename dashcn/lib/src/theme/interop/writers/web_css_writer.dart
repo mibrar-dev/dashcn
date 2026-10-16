@@ -48,5 +48,13 @@ void _writeBlock(
   out.writeln('  --shadow-spread: ${formatCssNumber(atoms.spread)}px;');
   out.writeln('  --shadow-offset-x: ${formatCssNumber(atoms.offsetX)}px;');
   out.writeln('  --shadow-offset-y: ${formatCssNumber(atoms.offsetY)}px;');
+  if (theme.surfaceOpacity != null) {
+    out.writeln(
+      '  --surface-opacity: ${formatCssNumber(theme.surfaceOpacity!)};',
+    );
+  }
+  if (theme.surfaceBlur != null) {
+    out.writeln('  --surface-blur: ${formatCssNumber(theme.surfaceBlur!)}px;');
+  }
   out.writeln('}');
 }

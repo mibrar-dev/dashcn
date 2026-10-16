@@ -29,6 +29,7 @@ import 'rail_footer.dart';
 import 'rail_glyphs.dart';
 import 'rail_picker_scales.dart';
 import 'rail_picker_shadow.dart';
+import 'rail_picker_surface.dart';
 import 'rail_pickers.dart';
 import 'rail_row.dart';
 
@@ -92,6 +93,22 @@ class _ThemeRailState extends State<ThemeRail> {
       dark: dark,
       onChanged: (DocsShadowAtoms atoms) =>
           _model.setShadow(widget.state.brightness, atoms),
+    );
+  }
+
+  void _pickSurfaceOpacity(BuildContext anchor) {
+    showSurfaceOpacityPicker(
+      anchor,
+      _model.document.surfaceOpacity,
+      onChanged: _model.setSurfaceOpacity,
+    );
+  }
+
+  void _pickSurfaceBlur(BuildContext anchor) {
+    showSurfaceBlurPicker(
+      anchor,
+      _model.document.surfaceBlur,
+      onChanged: _model.setSurfaceBlur,
     );
   }
 
@@ -329,6 +346,31 @@ class _ThemeRailState extends State<ThemeRail> {
                             onPressed: _pickShadow,
                             trailing: RailShadowGlyph(
                               atoms: document.shadowOf(widget.state.brightness),
+                            ),
+                          ),
+                          RailRow(
+                            key: const ValueKey<String>(
+                              'rail-row-surface-opacity',
+                            ),
+                            label: 'Surface opacity',
+                            value: document.surfaceOpacity == null
+                                ? '100%'
+                                : '${(document.surfaceOpacity! * 100).round()}%',
+                            onPressed: _pickSurfaceOpacity,
+                            trailing: const Icon(LucideIcons.droplet, size: 16),
+                          ),
+                          RailRow(
+                            key: const ValueKey<String>(
+                              'rail-row-surface-blur',
+                            ),
+                            label: 'Surface blur',
+                            value: document.surfaceBlur == null
+                                ? '0 px'
+                                : '${document.surfaceBlur!.toStringAsFixed(0)} px',
+                            onPressed: _pickSurfaceBlur,
+                            trailing: const Icon(
+                              LucideIcons.sparkles,
+                              size: 16,
                             ),
                           ),
                           RailRow(

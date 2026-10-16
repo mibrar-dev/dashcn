@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/theme.dart';
 import 'overlay.dart';
 import 'popover_controller.dart';
+import 'surface.dart';
 
 export 'roving_row.dart';
 
@@ -40,6 +41,8 @@ class MenuPopupSurface extends StatelessWidget {
     this.maxWidth = double.infinity,
     this.maxHeight = 360,
     this.shadows,
+    this.surfaceOpacity,
+    this.surfaceBlur,
   });
 
   /// The rows.
@@ -80,41 +83,59 @@ class MenuPopupSurface extends StatelessWidget {
   /// Resolved popup shadow; null draws none. Callers pass the ambient
   /// `shadowMd` unless the theme overrides it.
   final List<BoxShadow>? shadows;
+
+  /// Multiplies the fill alpha; null falls back to the ambient
+  /// `ThemeData.surfaceOpacity` (opaque by default).
+  final double? surfaceOpacity;
+
+  /// Backdrop blur sigma; null falls back to the ambient
+  /// `ThemeData.surfaceBlur` (no blur by default).
+  final double? surfaceBlur;
   @override
   Widget build(BuildContext context) {
     final ThemeData app = Theme.of(context);
     final Color fg = foreground ?? app.colors.popoverForeground;
     final BorderRadius radius =
         borderRadius ?? app.borderRadiusMd.resolve(Directionality.of(context));
+    final Color base = fill ?? app.colors.popover;
+    final Color paint = surfaceColor(
+      base,
+      surfaceOpacity ?? app.surfaceOpacity,
+    );
+    final Widget surface = Container(
+      padding: padding ?? const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: paint,
+        border: Border.all(
+          color: borderColor ?? app.colors.border,
+          width: borderWidth,
+        ),
+        borderRadius: radius,
+        boxShadow: shadows,
+      ),
+      child: DefaultTextStyle(
+        style: TextStyle(color: fg),
+        child: IconTheme.merge(
+          data: IconThemeData(color: fg),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: children,
+            ),
+          ),
+        ),
+      ),
+    );
     return _SurfaceSizing(
       minWidth: minWidth,
       width: width,
       maxWidth: maxWidth,
       maxHeight: maxHeight,
-      child: Container(
-        padding: padding ?? const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: fill ?? app.colors.popover,
-          border: Border.all(
-            color: borderColor ?? app.colors.border,
-            width: borderWidth,
-          ),
-          borderRadius: radius,
-          boxShadow: shadows,
-        ),
-        child: DefaultTextStyle(
-          style: TextStyle(color: fg),
-          child: IconTheme.merge(
-            data: IconThemeData(color: fg),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: children,
-              ),
-            ),
-          ),
-        ),
+      child: GlassSurface(
+        surfaceBlur: surfaceBlur ?? app.surfaceBlur,
+        borderRadius: radius,
+        child: surface,
       ),
     );
   }

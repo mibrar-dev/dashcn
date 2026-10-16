@@ -234,11 +234,13 @@ void main() {
     expect(find.byType(DashedLine), findsOneWidget);
   });
 
-  testWidgets('SurfaceBlur keeps its child at zero sigma', (tester) async {
+  testWidgets('SurfaceBlur draws no layer at zero sigma', (tester) async {
     await tester.pumpWidget(
       _frame(child: const SurfaceBlur(surfaceBlur: 0, child: Text('blurred'))),
     );
     expect(find.text('blurred'), findsOneWidget);
-    expect(find.byType(BackdropFilter), findsOneWidget);
+    // The shared primitive returns the child directly when the blur is
+    // null or <= 0, so the opaque default adds no extra layer.
+    expect(find.byType(BackdropFilter), findsNothing);
   });
 }

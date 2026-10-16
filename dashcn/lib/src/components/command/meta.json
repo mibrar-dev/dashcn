@@ -26,6 +26,7 @@
       "input_features",
       "localizations",
       "subfocus_scope",
+      "surface",
       "text"
     ],
     "components": [

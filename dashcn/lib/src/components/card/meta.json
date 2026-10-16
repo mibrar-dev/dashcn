@@ -6,14 +6,31 @@
   "tier": "component",
   "install": "dashcn add card",
   "import": "import 'package:<your_app>/ui/dashcn/components/card/card.dart';",
-  "tags": ["layout", "card", "surface", "panel"],
+  "tags": [
+    "layout",
+    "card",
+    "surface",
+    "panel"
+  ],
   "deps": {
     "foundation": [],
-    "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["sheet_overlay"],
+    "theme": [
+      "color_tokens",
+      "theme",
+      "density"
+    ],
+    "primitives": [
+      "sheet_overlay",
+      "surface"
+    ],
     "components": []
   },
-  "files": ["card.dart", "card_style.dart", "card_theme.dart", "preview.dart"],
+  "files": [
+    "card.dart",
+    "card_style.dart",
+    "card_theme.dart",
+    "preview.dart"
+  ],
   "api": {
     "classes": [
       "Card",
@@ -24,7 +41,11 @@
       "CardFooter",
       "CardTheme"
     ],
-    "constants": ["cardDefaults", "cardDefaultPadding", "cardThemeOverrides"]
+    "constants": [
+      "cardDefaults",
+      "cardDefaultPadding",
+      "cardThemeOverrides"
+    ]
   },
   "theme": {
     "class": "CardTheme",

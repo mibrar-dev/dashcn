@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
+import '../surface.dart';
 import 'drawer_route.dart';
 
 BorderRadius _innerRadius(BorderRadius radius, OverlayPosition position) {
@@ -118,16 +119,24 @@ class DrawerPanelSurface extends StatelessWidget {
     final List<BoxShadow> shadows =
         theme.shadows ??
         (theme.themeShadows ?? ambient.tokens.shadows).shadowLg;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: theme.background?.resolve(colors),
-        borderRadius: _innerRadius(radius, position),
-        border: borderColor == null || borderWidth <= 0
-            ? null
-            : _innerBorder(borderColor, borderWidth, position),
-        boxShadow: shadows.isEmpty ? null : shadows,
+    final BorderRadiusGeometry paintRadius = _innerRadius(radius, position);
+    final Color? base = theme.background?.resolve(colors);
+    return GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: paintRadius,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: base == null
+              ? null
+              : surfaceColor(base, ambient.surfaceOpacity),
+          borderRadius: paintRadius,
+          border: borderColor == null || borderWidth <= 0
+              ? null
+              : _innerBorder(borderColor, borderWidth, position),
+          boxShadow: shadows.isEmpty ? null : shadows,
+        ),
+        child: content,
       ),
-      child: content,
     );
   }
 }

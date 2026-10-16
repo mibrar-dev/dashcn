@@ -115,6 +115,24 @@ WebTheme webThemeFromPresetJson(Map<String, Object?> json) {
     );
   }
 
+  double? optionalSurfaceOpacity(Object? value) {
+    if (value == null) return null;
+    final double number = numberOf(value, 'preset.surfaceOpacity');
+    if (number < 0 || number > 1) {
+      throw const WebThemeException('preset.surfaceOpacity must be in 0..1');
+    }
+    return number;
+  }
+
+  double? optionalSurfaceBlur(Object? value) {
+    if (value == null) return null;
+    final double number = numberOf(value, 'preset.surfaceBlur');
+    if (number < 0) {
+      throw const WebThemeException('preset.surfaceBlur must be >= 0');
+    }
+    return number;
+  }
+
   return WebTheme(
     light: colorsOf('light'),
     dark: colorsOf('dark'),
@@ -124,6 +142,8 @@ WebTheme webThemeFromPresetJson(Map<String, Object?> json) {
     tracking: tracking,
     lightShadow: atomsOf('light'),
     darkShadow: atomsOf('dark'),
+    surfaceOpacity: optionalSurfaceOpacity(json['surfaceOpacity']),
+    surfaceBlur: optionalSurfaceBlur(json['surfaceBlur']),
   );
 }
 
@@ -170,6 +190,10 @@ Map<String, Object?> presetJsonFromWebTheme(
       'light': atomsOf(complete.lightShadow!),
       'dark': atomsOf(complete.darkShadow!),
     },
+    if (complete.surfaceOpacity != null)
+      'surfaceOpacity': _jsonNumber(complete.surfaceOpacity!),
+    if (complete.surfaceBlur != null)
+      'surfaceBlur': _jsonNumber(complete.surfaceBlur!),
   };
 }
 

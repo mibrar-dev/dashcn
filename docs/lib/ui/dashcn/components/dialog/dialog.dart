@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/constants.dart';
 import '../../foundation/data.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -317,23 +318,33 @@ class _DialogShellState extends State<_DialogShell> {
           ).resolve(Directionality.of(context));
     // A separate final for the layout closure below: it must capture the
     // surface, not `card` (which keeps being reassigned to the wrappers).
-    final Widget cardSurface = DecoratedBox(
-      key: kDialogSurfaceKey,
-      decoration: BoxDecoration(
-        color: style.background?.resolve(colors),
-        borderRadius: fullScreen
-            ? null
-            : style.borderRadius ?? ambient.borderRadiusLg,
-        border: borderWidth == 0 || borderColor == null
-            ? null
-            : Border.all(color: borderColor, width: borderWidth),
-        boxShadow: shadows == null || shadows.isEmpty ? null : shadows,
-      ),
-      child: Padding(
-        padding: cardPadding,
-        // The height hugs the content: the capped box below lets the scroll
-        // view size to its child, and only a taller body scrolls inside.
-        child: SingleChildScrollView(child: Builder(builder: route.builder)),
+    // Frosted glass: the fill carries the ambient surfaceOpacity and the
+    // blur wraps the painted card (no extra layer at the opaque default).
+    final BorderRadiusGeometry? dialogRadius = fullScreen
+        ? null
+        : style.borderRadius ?? ambient.borderRadiusLg;
+    final Color? dialogBase = style.background?.resolve(colors);
+    final Widget cardSurface = GlassSurface(
+      surfaceBlur: fullScreen ? null : ambient.surfaceBlur,
+      borderRadius: dialogRadius,
+      child: DecoratedBox(
+        key: kDialogSurfaceKey,
+        decoration: BoxDecoration(
+          color: dialogBase == null
+              ? null
+              : surfaceColor(dialogBase, ambient.surfaceOpacity),
+          borderRadius: dialogRadius,
+          border: borderWidth == 0 || borderColor == null
+              ? null
+              : Border.all(color: borderColor, width: borderWidth),
+          boxShadow: shadows == null || shadows.isEmpty ? null : shadows,
+        ),
+        child: Padding(
+          padding: cardPadding,
+          // The height hugs the content: the capped box below lets the scroll
+          // view size to its child, and only a taller body scrolls inside.
+          child: SingleChildScrollView(child: Builder(builder: route.builder)),
+        ),
       ),
     );
     Widget card = cardSurface;

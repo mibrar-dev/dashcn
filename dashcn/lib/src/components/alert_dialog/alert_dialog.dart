@@ -12,6 +12,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -178,23 +179,35 @@ class AlertDialog extends StatelessWidget {
         }
         // Standalone (docs, tests, inline use) the same shell is painted
         // here from `DialogTheme`, so nothing touches the card edge.
+        // Frosted glass matches the dialog route shell.
+        final BorderRadiusGeometry alertRadius =
+            dialogStyle.borderRadius ?? ambient.borderRadiusLg;
+        final Color? alertBase = dialogStyle.background?.resolve(
+          ambient.colors,
+        );
         return ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: dialogEffectiveMaxWidth(dialogStyle),
           ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: dialogStyle.background?.resolve(ambient.colors),
-              borderRadius: dialogStyle.borderRadius ?? ambient.borderRadiusLg,
-              border: _shellBorder(dialogStyle, ambient),
-              boxShadow: _shellShadows(dialogStyle, ambient),
-            ),
-            child: Padding(
-              padding: resolveEdgeInsets(
-                dialogStyle.padding ?? EdgeInsets.zero,
-                ambient.density.baseContentPadding * ambient.scaling,
+          child: GlassSurface(
+            surfaceBlur: ambient.surfaceBlur,
+            borderRadius: alertRadius,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: alertBase == null
+                    ? null
+                    : surfaceColor(alertBase, ambient.surfaceOpacity),
+                borderRadius: alertRadius,
+                border: _shellBorder(dialogStyle, ambient),
+                boxShadow: _shellShadows(dialogStyle, ambient),
               ),
-              child: content,
+              child: Padding(
+                padding: resolveEdgeInsets(
+                  dialogStyle.padding ?? EdgeInsets.zero,
+                  ambient.density.baseContentPadding * ambient.scaling,
+                ),
+                child: content,
+              ),
             ),
           ),
         );

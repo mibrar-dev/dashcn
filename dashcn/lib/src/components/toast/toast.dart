@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/toast_queue/toast_controller.dart';
 import '../../primitives/toast_queue/toast_entry.dart';
 import '../../primitives/toast_queue/toast_exit.dart';
@@ -314,11 +315,15 @@ class _ToastCardState extends State<_ToastCard>
     final shadows =
         theme.shadows ??
         (theme.themeShadows ?? ambient.tokens.shadows).shadowLg;
-
-    Widget card = DecoratedBox(
+    final BorderRadiusGeometry toastRadius =
+        theme.borderRadius ?? ambient.borderRadiusMd;
+    final Color? toastBase = theme.background?.resolve(colors);
+    final Widget surface = DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.background?.resolve(colors),
-        borderRadius: theme.borderRadius ?? ambient.borderRadiusMd,
+        color: toastBase == null
+            ? null
+            : surfaceColor(toastBase, ambient.surfaceOpacity),
+        borderRadius: toastRadius,
         border: border == null || borderWidth <= 0
             ? null
             : Border.all(color: border, width: borderWidth),
@@ -362,6 +367,12 @@ class _ToastCardState extends State<_ToastCard>
           ),
         ),
       ),
+    );
+
+    Widget card = GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: toastRadius,
+      child: surface,
     );
 
     card = AnimatedSlide(

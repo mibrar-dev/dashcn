@@ -2,9 +2,10 @@
 // container and its token-derived `cardDefaults`.
 //
 // upstream card: `bg-card text-card-foreground flex flex-col rounded-xl border
-// py-6`. Glass (`surfaceOpacity` / `surfaceBlur`) is not a token, so it is gone
-// from the new API; a card that needs a blurred surface belongs to the
-// `outlined_container` / `popover` components. User-owned overrides live in
+// py-6`. Frosted glass (`ThemeData.surfaceOpacity` / `surfaceBlur`) applies
+// here through the shared `primitives/surface.dart` primitive: the fill
+// carries the ambient opacity and a `GlassSurface` blur wraps the card (no
+// extra layer at the opaque default). User-owned overrides live in
 // `card_theme.dart`.
 
 import 'dart:ui' show lerpDouble;

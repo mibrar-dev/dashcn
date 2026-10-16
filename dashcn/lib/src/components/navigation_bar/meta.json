@@ -21,13 +21,14 @@
       "gap"
     ],
     "theme": [
-        "color_tokens",
-        "density",
-        "theme"
+      "color_tokens",
+      "density",
+      "theme"
     ],
     "primitives": [
       "navigation",
-      "roving_group"
+      "roving_group",
+      "surface"
     ],
     "components": [
       "overflow_marquee",
@@ -62,12 +63,15 @@
       "NavigationOverflow"
     ],
     "constants": [
-        "navigationBarDefaultPadding",
-        "navigationBarDefaults",
-        "navigationBarThemeOverrides"
+      "navigationBarDefaultPadding",
+      "navigationBarDefaults",
+      "navigationBarThemeOverrides"
     ],
     "providedByPrimitives": {
-      "navigation": ["navigationItemDefaults", "navigationActiveItemDefaults"]
+      "navigation": [
+        "navigationItemDefaults",
+        "navigationActiveItemDefaults"
+      ]
     }
   },
   "theme": {

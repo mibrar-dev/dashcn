@@ -13,6 +13,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/surface.dart';
 import '../../primitives/sheet_overlay.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -107,9 +108,13 @@ class Card extends StatelessWidget {
           ? ClipRRect(borderRadius: radius, child: content)
           : ClipRect(child: content);
     }
-    return DecoratedBox(
+    final Color? base = (background ?? style.background)?.resolve(colors);
+    final Color? fill = base == null
+        ? null
+        : surfaceColor(base, ambient.surfaceOpacity);
+    final Widget cardSurface = DecoratedBox(
       decoration: BoxDecoration(
-        color: (background ?? style.background)?.resolve(colors),
+        color: fill,
         borderRadius: radius,
         border: border == null || width <= 0
             ? null
@@ -117,6 +122,11 @@ class Card extends StatelessWidget {
         boxShadow: boxShadow.isEmpty ? null : boxShadow,
       ),
       child: body,
+    );
+    return GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: radius,
+      child: cardSurface,
     );
   }
 }

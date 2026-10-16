@@ -12020,6 +12020,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'null = the app theme\'s surfaceBlur',
       ),
       DocsThemeField(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        description: 'null = the app theme surfaceOpacity',
+      ),
+      DocsThemeField(
         name: 'textStyle',
         type: 'TextStyle?',
         description: 'its colour is ignored (taken from foreground)',

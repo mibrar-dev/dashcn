@@ -23,7 +23,8 @@
       "theme"
     ],
     "primitives": [
-      "axis_size"
+      "axis_size",
+      "surface"
     ],
     "components": [
       "drawer"

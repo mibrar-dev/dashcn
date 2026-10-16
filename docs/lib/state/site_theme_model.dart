@@ -137,6 +137,13 @@ class SiteThemeModel extends ChangeNotifier {
   void setShadow(Brightness brightness, DocsShadowAtoms atoms) =>
       _assign(_document.withShadow(brightness, atoms));
 
+  /// Sets the glass surface opacity (0..1); null restores opaque.
+  void setSurfaceOpacity(double? opacity) =>
+      _assign(_document.withSurfaceOpacity(opacity));
+
+  /// Sets the glass surface blur sigma in logical px; null removes the blur.
+  void setSurfaceBlur(double? blur) => _assign(_document.withSurfaceBlur(blur));
+
   /// The switch animation (rail `Transition` row).
   DocsThemeTransition get transition => _transition;
 

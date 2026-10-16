@@ -7,12 +7,11 @@
 // `Overlay(...)` is gone (it would isolate pushed routes); the custom render
 // flex is a `Column`/`Stack` switch (floating bars overlay the body).
 
-import 'dart:ui' show ImageFilter;
-
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -188,7 +187,6 @@ class _BarSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final ThemeData ambient = Theme.of(context);
-    final Color? fill = background?.resolve(ambient.colors);
     final Widget section = RepaintBoundary(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -207,7 +205,11 @@ class _BarSection extends StatelessWidget {
         ],
       ),
     );
-    return fill == null ? section : ColoredBox(color: fill, child: section);
+    final Color? base = background?.resolve(ambient.colors);
+    if (base == null) return section;
+    final Color paint = surfaceColor(base, ambient.surfaceOpacity);
+    final Widget surface = ColoredBox(color: paint, child: section);
+    return GlassSurface(surfaceBlur: ambient.surfaceBlur, child: surface);
   }
 }
 
@@ -283,10 +285,10 @@ class AppBar extends StatelessWidget {
     );
     final double scale = ambient.scaling;
     final ScaffoldBarData? barData = Data.maybeOf<ScaffoldBarData>(context);
-    final double blur =
-        surfaceBlur ?? style.surfaceBlur ?? ambient.surfaceBlur ?? 0;
-    final double opacity =
-        surfaceOpacity ?? style.surfaceOpacity ?? ambient.surfaceOpacity ?? 1;
+    final double? blur =
+        surfaceBlur ?? style.surfaceBlur ?? ambient.surfaceBlur;
+    final double? opacity =
+        surfaceOpacity ?? style.surfaceOpacity ?? ambient.surfaceOpacity;
     final Color base =
         (backgroundColor ?? style.background)?.resolve(ambient.colors) ??
         ambient.colors.card;
@@ -336,45 +338,43 @@ class AppBar extends StatelessWidget {
     );
 
     return FocusTraversalGroup(
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-          child: ColoredBox(
-            color: base.withValues(alpha: base.a * opacity),
-            child: Align(
-              alignment: alignment,
-              child: Padding(
-                padding:
-                    padding ??
-                    resolveEdgeInsets(
-                      style.padding ?? EdgeInsets.zero,
-                      ambient.density.baseContentPadding * scale,
-                    ),
-                child: SafeArea(
-                  top: topSafe,
-                  left: useSafeArea,
-                  right: useSafeArea,
-                  bottom: bottomSafe,
-                  child: SizedBox(
-                    height: height,
-                    child: IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          if (leading.isNotEmpty)
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: _spaced(leading, leadGap),
-                            ),
-                          if (leading.isNotEmpty) Gap(sectionGap),
-                          center,
-                          if (trailing.isNotEmpty) Gap(sectionGap),
-                          if (trailing.isNotEmpty && !trailingExpanded) trail,
-                          if (trailing.isNotEmpty && trailingExpanded)
-                            Expanded(child: trail),
-                        ],
-                      ),
+      child: GlassSurface(
+        surfaceBlur: blur,
+        child: ColoredBox(
+          color: surfaceColor(base, opacity),
+          child: Align(
+            alignment: alignment,
+            child: Padding(
+              padding:
+                  padding ??
+                  resolveEdgeInsets(
+                    style.padding ?? EdgeInsets.zero,
+                    ambient.density.baseContentPadding * scale,
+                  ),
+              child: SafeArea(
+                top: topSafe,
+                left: useSafeArea,
+                right: useSafeArea,
+                bottom: bottomSafe,
+                child: SizedBox(
+                  height: height,
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        if (leading.isNotEmpty)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: _spaced(leading, leadGap),
+                          ),
+                        if (leading.isNotEmpty) Gap(sectionGap),
+                        center,
+                        if (trailing.isNotEmpty) Gap(sectionGap),
+                        if (trailing.isNotEmpty && !trailingExpanded) trail,
+                        if (trailing.isNotEmpty && trailingExpanded)
+                          Expanded(child: trail),
+                      ],
                     ),
                   ),
                 ),

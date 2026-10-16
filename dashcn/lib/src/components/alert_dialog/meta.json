@@ -6,12 +6,28 @@
   "tier": "component",
   "install": "dashcn add alert_dialog",
   "import": "import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';",
-  "tags": ["overlay", "dialog", "alert", "modal", "confirm"],
+  "tags": [
+    "overlay",
+    "dialog",
+    "alert",
+    "modal",
+    "confirm"
+  ],
   "deps": {
-    "foundation": ["gap"],
-    "theme": ["color_tokens", "theme", "density"],
-    "primitives": [],
-    "components": ["dialog"]
+    "foundation": [
+      "gap"
+    ],
+    "theme": [
+      "color_tokens",
+      "theme",
+      "density"
+    ],
+    "primitives": [
+      "surface"
+    ],
+    "components": [
+      "dialog"
+    ]
   },
   "files": [
     "alert_dialog.dart",
@@ -20,8 +36,13 @@
     "preview.dart"
   ],
   "api": {
-    "functions": ["showAlertDialog"],
-    "classes": ["AlertDialog", "AlertDialogTheme"],
+    "functions": [
+      "showAlertDialog"
+    ],
+    "classes": [
+      "AlertDialog",
+      "AlertDialogTheme"
+    ],
     "constants": [
       "alertDialogDefaults",
       "alertDialogThemeOverrides",

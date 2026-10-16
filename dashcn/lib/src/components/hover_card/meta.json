@@ -6,11 +6,24 @@
   "tier": "component",
   "install": "dashcn add hover_card",
   "import": "import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';",
-  "tags": ["overlay", "hover", "preview", "card"],
+  "tags": [
+    "overlay",
+    "hover",
+    "preview",
+    "card"
+  ],
   "deps": {
     "foundation": [],
-    "theme": ["color_tokens", "theme"],
-    "primitives": ["hover", "overlay", "popover_controller"],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [
+      "hover",
+      "overlay",
+      "popover_controller",
+      "surface"
+    ],
     "components": []
   },
   "files": [
@@ -20,8 +33,14 @@
     "preview.dart"
   ],
   "api": {
-    "classes": ["HoverCard", "HoverCardTheme"],
-    "constants": ["hoverCardDefaults", "hoverCardThemeOverrides"]
+    "classes": [
+      "HoverCard",
+      "HoverCardTheme"
+    ],
+    "constants": [
+      "hoverCardDefaults",
+      "hoverCardThemeOverrides"
+    ]
   },
   "theme": {
     "class": "HoverCardTheme",

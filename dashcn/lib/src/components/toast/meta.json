@@ -13,17 +13,18 @@
   ],
   "deps": {
     "foundation": [
-        "gap",
-        "icons"
+      "gap",
+      "icons"
     ],
     "theme": [
-        "color_tokens",
-        "density",
-        "theme"
+      "color_tokens",
+      "density",
+      "theme"
     ],
     "primitives": [
       "toast_queue",
-      "clickable"
+      "clickable",
+      "surface"
     ],
     "components": []
   },
@@ -46,9 +47,9 @@
       "showToast"
     ],
     "constants": [
-        "toastDefaultPadding",
-        "toastDefaults",
-        "toastThemeOverrides"
+      "toastDefaultPadding",
+      "toastDefaults",
+      "toastThemeOverrides"
     ],
     "enums": [
       "ToastPlacement",

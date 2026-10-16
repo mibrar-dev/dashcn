@@ -177,6 +177,8 @@ class ThemeValues {
     required this.lightShadow,
     required this.darkShadow,
     required this.fonts,
+    this.surfaceOpacity,
+    this.surfaceBlur,
   });
 
   /// Reads a decoded preset document.
@@ -188,6 +190,20 @@ class ThemeValues {
     final fontsMap = preset['fonts'] == null
         ? const <String, Object?>{}
         : _stringKeyed(preset['fonts'], 'fonts');
+    double? surfaceOpacity;
+    if (preset.containsKey('surfaceOpacity')) {
+      surfaceOpacity = _num2(preset, 'surfaceOpacity');
+      if (surfaceOpacity < 0 || surfaceOpacity > 1) {
+        throw const FormatException('surfaceOpacity must be in 0..1');
+      }
+    }
+    double? surfaceBlur;
+    if (preset.containsKey('surfaceBlur')) {
+      surfaceBlur = _num2(preset, 'surfaceBlur');
+      if (surfaceBlur < 0) {
+        throw const FormatException('surfaceBlur must be >= 0');
+      }
+    }
     return ThemeValues(
       id: _string(preset, 'id'),
       name: _string(preset, 'name'),
@@ -208,6 +224,8 @@ class ThemeValues {
         for (final slot in const ['sans', 'serif', 'mono', 'heading', 'body'])
           if (fontsMap.containsKey(slot)) slot: _string(fontsMap, slot),
       },
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
     );
   }
 
@@ -232,6 +250,12 @@ class ThemeValues {
   /// Font family lists keyed `sans`, `serif`, `mono` (plus the Studio's
   /// `heading`/`body` when a custom document carries them); may be empty.
   final Map<String, String> fonts;
+
+  /// Glass surface opacity (0..1); null means opaque.
+  final double? surfaceOpacity;
+
+  /// Glass surface blur sigma in logical px; null means no blur.
+  final double? surfaceBlur;
 
   /// Dart identifier fragment for [id], e.g. `amberMinimal`.
   String get prefix => camelCase(id);
@@ -345,6 +369,8 @@ ${_call('const ThemeFonts ${prefix}Fonts = ThemeFonts', args, suffix: ';')}''';
       'colors: isDark ? ${prefix}DarkColors : ${prefix}LightColors',
       'tokens: isDark ? ${prefix}DarkTokens : ${prefix}LightTokens',
       if (hasFonts) 'fonts: ${prefix}Fonts',
+      if (surfaceOpacity != null) 'surfaceOpacity: ${_num(surfaceOpacity!)}',
+      if (surfaceBlur != null) 'surfaceBlur: ${_num(surfaceBlur!)}',
     ];
     return '''/// Builds the ambient theme for the $name preset.
 ThemeData build${classPrefix}Theme(Brightness brightness) {

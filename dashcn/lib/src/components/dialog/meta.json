@@ -6,11 +6,27 @@
   "tier": "component",
   "install": "dashcn add dialog",
   "import": "import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';",
-  "tags": ["overlay", "modal", "dialog", "route"],
+  "tags": [
+    "overlay",
+    "modal",
+    "dialog",
+    "route"
+  ],
   "deps": {
-    "foundation": ["constants", "data"],
-    "theme": ["color_tokens", "density", "theme", "tokens"],
-    "primitives": ["localizations"],
+    "foundation": [
+      "constants",
+      "data"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "theme",
+      "tokens"
+    ],
+    "primitives": [
+      "localizations",
+      "surface"
+    ],
     "components": []
   },
   "files": [
@@ -20,8 +36,13 @@
     "preview.dart"
   ],
   "api": {
-    "functions": ["showDialog"],
-    "classes": ["DialogRoute", "DialogTheme"],
+    "functions": [
+      "showDialog"
+    ],
+    "classes": [
+      "DialogRoute",
+      "DialogTheme"
+    ],
     "constants": [
       "dialogDefaults",
       "dialogThemeOverrides",
