@@ -15,6 +15,9 @@
     "components": []
   },
   "files": ["scrollview.dart", "preview.dart"],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["ScrollViewInterceptor"],
     "enums": [],

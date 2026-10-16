@@ -14,6 +14,9 @@
     "components": []
   },
   "files": ["alert.dart", "alert_style.dart", "alert_theme.dart", "preview.dart"],
+  "preview": {
+    "placement": "top"
+  },
   "api": {
     "classes": ["Alert", "AlertTheme", "AlertStyle"],
     "enums": ["AlertVariant"],

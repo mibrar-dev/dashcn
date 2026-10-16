@@ -26,6 +26,10 @@ import '../ui/dashcn/theme/theme.dart';
 import 'code_teaser.dart';
 import 'component_preview_card.dart' show PreviewExampleLoader;
 import 'copy_button.dart';
+import 'device_frame/all_frames.dart';
+import 'device_frame/device_frame.dart';
+import 'device_frame/device_spec.dart';
+import 'device_frame/framed_screen.dart';
 import 'docs_tokens.dart';
 import 'preview_stage.dart';
 import 'selectable_code.dart';
@@ -73,57 +77,156 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
   @override
   Widget build(BuildContext context) {
     final DocsState state = DocsRouterScope.of(context).state;
+    // F1: the card also rebuilds when the shared frame choice changes, so
+    // every example on the page follows the one frame bar.
     return ListenableBuilder(
       listenable: state.themeModel,
       builder: (BuildContext context, Widget? _) {
-        final Brightness site = state.brightness;
-        final Brightness stageBrightness = _inverted
-            ? (site == Brightness.dark ? Brightness.light : Brightness.dark)
-            : site;
-        final Widget stage = PreviewStage(
-          minHeight: _minHeight,
-          child: _LazyPreview(
-            minHeight: _minHeight,
-            child: PreviewExampleLoader(
-              componentId: widget.componentId,
+        return ListenableBuilder(
+          listenable: state,
+          builder: (BuildContext context, Widget? _) {
+            final Brightness site = state.brightness;
+            final Brightness stageBrightness = _inverted
+                ? (site == Brightness.dark ? Brightness.light : Brightness.dark)
+                : site;
+            final _ExampleToolbar toolbar = _ExampleToolbar(
               exampleIndex: widget.exampleIndex,
-            ),
-          ),
-        );
-        final Widget body = _tab == 0
-            ? (_inverted
-                  ? Theme(
-                      data: state.themeModel.themeFor(stageBrightness),
-                      child: stage,
-                    )
-                  : stage)
-            : Column(
-                children: <Widget>[
-                  const CodePaneDivider(),
-                  CodeTeaser(
-                    code: ExampleSnippetCode(code: widget.source.code),
-                    copyText: widget.source.code,
-                    language: 'dart',
-                  ),
-                ],
+              tab: _tab,
+              onTab: (int tab) => setState(() => _tab = tab),
+              stageBrightness: stageBrightness,
+              inverted: _inverted,
+              onToggle: () => setState(() => _inverted = !_inverted),
+              copyText: widget.source.code,
+            );
+            // The Code tab always shows the code as today: no frame.
+            if (_tab == 1) {
+              return PreviewFrame(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    toolbar,
+                    Column(
+                      children: <Widget>[
+                        const CodePaneDivider(),
+                        CodeTeaser(
+                          code: ExampleSnippetCode(code: widget.source.code),
+                          copyText: widget.source.code,
+                          language: 'dart',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               );
-        return PreviewFrame(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _ExampleToolbar(
-                exampleIndex: widget.exampleIndex,
-                tab: _tab,
-                onTab: (int tab) => setState(() => _tab = tab),
-                stageBrightness: stageBrightness,
-                inverted: _inverted,
-                onToggle: () => setState(() => _inverted = !_inverted),
-                copyText: widget.source.code,
+            }
+            final Widget stage = PreviewStage(
+              minHeight: _minHeight,
+              child: _LazyPreview(
+                minHeight: _minHeight,
+                child: PreviewExampleLoader(
+                  componentId: widget.componentId,
+                  exampleIndex: widget.exampleIndex,
+                ),
               ),
-              body,
-            ],
-          ),
+            );
+            final Widget previewBody = _inverted
+                ? Theme(
+                    data: state.themeModel.themeFor(stageBrightness),
+                    child: stage,
+                  )
+                : stage;
+            // `None` keeps today's card exactly.
+            if (state.frame == DeviceFrameId.none) {
+              return PreviewFrame(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[toolbar, previewBody],
+                ),
+              );
+            }
+            // F1 framed mode: the toolbar stays outside/above the frame and the
+            // device screen shows only the placed preview on the app background.
+            Widget framed = _FramedBody(
+              frame: state.frame,
+              orientation: state.orientation,
+              componentId: widget.componentId,
+              child: PreviewExampleLoader(
+                componentId: widget.componentId,
+                exampleIndex: widget.exampleIndex,
+              ),
+            );
+            if (_inverted) {
+              framed = Theme(
+                data: state.themeModel.themeFor(stageBrightness),
+                child: framed,
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 48),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[toolbar, const Gap(12), framed],
+              ),
+            );
+          },
         );
+      },
+    );
+  }
+}
+
+/// The F1 framed body: the raw preview placed on the device screen.
+///
+/// One framed spec shows a single `DeviceFrame` (horizontally scrollable
+/// when the article is narrower than the frame); `All` shows every spec.
+class _FramedBody extends StatelessWidget {
+  /// Creates the framed body for [componentId].
+  const _FramedBody({
+    required this.frame,
+    required this.orientation,
+    required this.componentId,
+    required this.child,
+  });
+
+  /// The selected frame.
+  final DeviceFrameId frame;
+
+  /// Portrait or landscape.
+  final DeviceOrientation orientation;
+
+  /// The registry component id (placement + test keys).
+  final String componentId;
+
+  /// The raw preview widget.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (frame == DeviceFrameId.all) {
+      return AllFrames(
+        orientation: orientation,
+        child: FramedScreen(componentId: componentId, child: child),
+      );
+    }
+    final DeviceSpec spec = specForFrame(frame)!;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Size total = spec.totalFor(orientation);
+        final Widget framed = DeviceFrame(
+          key: ValueKey<String>('framed-$componentId-${spec.id.queryValue}'),
+          spec: spec,
+          orientation: orientation,
+          child: FramedScreen(componentId: componentId, child: child),
+        );
+        if (constraints.maxWidth.isFinite &&
+            constraints.maxWidth < total.width) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: framed,
+          );
+        }
+        return Align(alignment: Alignment.topCenter, child: framed);
       },
     );
   }

@@ -20,6 +20,9 @@
     "scrollable_client_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": [
       "ScrollableClient",

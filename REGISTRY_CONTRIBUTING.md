@@ -104,7 +104,23 @@ Important:
   - `dart run tool/registry_index_generate.dart`
   - `dart run tool/registry_verify.dart`
 
-## Script Cheat Sheet
+## `meta.json` fields
+
+Each component directory (`dashcn/lib/src/components/<id>/`) carries a `meta.json` with identity (`id`, `name`,
+`category`, `description`), install facts (`install`, `import`, `files`, `deps`, `tags`, `listed`), the `api` tables
+and the `theme` block. Keep `files` sorted-list complete (every `.dart` file in the directory, including
+`preview.dart`) and `import` pointed at the installed layout (`ui/dashcn/components/<id>/`).
+
+### `preview.placement` (device-frame placement)
+
+`meta.json` may carry an optional `"preview": { "placement": "<value>" }` block telling the docs device frames
+(iPhone, Android, Desktop, Web, All) where the component's default preview sits on a real device screen: `center`
+(small controls at natural size — the default when the block is absent), `top` (bars pinned under the top safe
+inset, full width), `bottom` (bars pinned above the bottom safe inset, full width), `fill` (whole-screen content:
+scaffolds, tables, chats, calendars), or `leading` (side rails, full height). Decide from the default example's
+resting state (a closed dialog is a centred trigger, not an overlay). The value flows through the registry manifest
+(`preview.placement`, validated by `gen_registry_manifest.dart` against the P5-A schema) into the generated docs data
+(`DocsComponent.placement`); only set it when it differs from `center`.
 
 Run from `shadcn_flutter_kit/flutter_shadcn_kit` unless noted.
 

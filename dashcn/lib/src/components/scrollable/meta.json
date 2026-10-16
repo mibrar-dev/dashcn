@@ -20,6 +20,9 @@
     "scrollable_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["FadedScrollableViewport", "ScrollableTheme"],
     "enums": [],

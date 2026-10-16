@@ -19,6 +19,9 @@
     "scaffold_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["Scaffold", "AppBar", "ScaffoldBarData", "ScaffoldTheme", "AppBarTheme"],
     "constants": ["scaffoldDefaults", "appBarDefaults", "scaffoldThemeOverrides", "appBarThemeOverrides"]

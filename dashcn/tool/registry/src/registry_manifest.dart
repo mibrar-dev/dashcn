@@ -31,6 +31,49 @@ String buildRegistryManifest(String appRoot) {
   return stableJsonEncode(_Builder(appRoot).build());
 }
 
+/// Device-frame preview placements (F1): where a component's default
+/// preview sits on a real device screen. `meta.json` carries this as
+/// `preview.placement`; absent means [center].
+const Set<String> previewPlacements = <String>{
+  'center',
+  'top',
+  'bottom',
+  'fill',
+  'leading',
+};
+
+/// Reads `meta['preview']['placement']` for [id], defaulting to `center`.
+///
+/// Throws [ManifestBuildException] when `preview` is not an object, carries
+/// unknown keys, or names a placement outside [previewPlacements].
+String previewPlacementOf(String id, Map<String, dynamic> meta) {
+  final preview = meta['preview'];
+  if (preview == null) {
+    return 'center';
+  }
+  if (preview is! Map) {
+    throw ManifestBuildException("component '$id' preview must be an object");
+  }
+  for (final key in preview.keys) {
+    if (key != 'placement') {
+      throw ManifestBuildException(
+        "component '$id' preview has unknown key '$key'",
+      );
+    }
+  }
+  final placement = (preview as Map)['placement'];
+  if (placement == null) {
+    return 'center';
+  }
+  if (placement is! String || !previewPlacements.contains(placement)) {
+    throw ManifestBuildException(
+      "component '$id' preview.placement '$placement' is not one of "
+      '${previewPlacements.join(', ')}',
+    );
+  }
+  return placement;
+}
+
 /// Dart file name of the block [id]: Dart files must satisfy the `file_names`
 /// lint, so the hyphenated id maps to an underscored stem.
 String blockStem(String id) => id.replaceAll('-', '_');
@@ -787,6 +830,9 @@ class _Builder {
       'tags': component.meta['tags'] ?? const <String>[],
       'listed': component.meta['listed'] != false,
       'api': component.meta['api'] ?? const <String, Object?>{},
+      'preview': <String, Object?>{
+        'placement': previewPlacementOf(id, component.meta),
+      },
       'install': component.meta['install'],
       'import': component.meta['import'],
     };

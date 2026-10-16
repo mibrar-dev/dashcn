@@ -76,6 +76,7 @@ class ComponentFacts {
     required this.apiConstants,
     required this.apiFunctions,
     required this.listed,
+    required this.placement,
   });
 
   /// Registry id == directory name.
@@ -143,6 +144,11 @@ class ComponentFacts {
   /// installable and reachable through the component pager/API links, but are
   /// hidden from the browsable surfaces.
   final bool listed;
+
+  /// Device-frame preview placement from the manifest `preview.placement`
+  /// (F1, `meta.json` fallback, default `center`): `center`, `top`,
+  /// `bottom`, `fill` or `leading`.
+  final String placement;
 
   /// Whether this component physically owns a `*_theme.dart`.
   bool get hasUserTheme => userOwned.isNotEmpty;
@@ -355,7 +361,37 @@ ComponentFacts _componentFacts(
     apiConstants: _apiList(manifest, meta, 'constants'),
     apiFunctions: _apiList(manifest, meta, 'functions'),
     listed: _bool(manifest['listed'] ?? meta['listed'], true),
+    placement: _placement(manifest, meta, id),
   );
+}
+
+/// F1 device-frame placement: the manifest `preview.placement`, with
+/// `meta.json` as the fallback for stale manifests, default `center`.
+String _placement(
+  Map<String, Object?> manifest,
+  Map<String, Object?> meta,
+  String id,
+) {
+  Object? placement =
+      _objectOrEmpty(manifest['preview'])['placement'] ??
+      _objectOrEmpty(meta['preview'])['placement'];
+  if (placement == null) {
+    return 'center';
+  }
+  const Set<String> allowed = <String>{
+    'center',
+    'top',
+    'bottom',
+    'fill',
+    'leading',
+  };
+  if (placement is! String || !allowed.contains(placement)) {
+    throw RegistryScanException(
+      '$id: preview.placement "$placement" is not one of '
+      '${allowed.join(', ')}',
+    );
+  }
+  return placement;
 }
 
 /// One `api` list from the manifest, with `meta.json` as the fallback.

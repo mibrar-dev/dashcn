@@ -22,6 +22,7 @@ class DocsComponent {
     required this.fileCount,
     required this.stability,
     required this.listed,
+    required this.placement,
   });
 
   /// Registry id / directory name.
@@ -53,6 +54,10 @@ class DocsComponent {
   /// palette). `listed: false` marks the building blocks: installable
   /// and reachable through API links, but not browsable.
   final bool listed;
+
+  /// Device-frame preview placement (F1): `center`, `top`,
+  /// `bottom`, `fill` or `leading`, from `preview.placement`.
+  final String placement;
 }
 
 /// One theme preset, generated from `themes/index.json`.
@@ -150,6 +155,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'dot_indicator',
@@ -163,6 +169,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'text_animate',
@@ -176,6 +183,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'button',
@@ -189,6 +197,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 11,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'toggle',
@@ -202,6 +211,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'color_picker',
@@ -215,6 +225,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'avatar',
@@ -228,6 +239,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'badge',
@@ -241,6 +253,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'carousel',
@@ -254,6 +267,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'chat',
@@ -266,6 +280,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'chip',
@@ -278,6 +293,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'country_flag',
@@ -291,6 +307,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'divider',
@@ -304,6 +321,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'empty_state',
@@ -317,6 +335,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'feature_carousel',
@@ -330,6 +349,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'file_diff_viewer',
@@ -343,6 +363,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'keyboard_shortcut',
@@ -356,6 +377,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'number_ticker',
@@ -369,6 +391,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'pinned_sheet',
@@ -382,6 +405,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'bottom',
   ),
   DocsComponent(
     id: 'table',
@@ -395,6 +419,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'timeline',
@@ -408,6 +433,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'tracker',
@@ -421,6 +447,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'tree',
@@ -433,6 +460,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'calendar',
@@ -446,6 +474,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'date_picker',
@@ -459,6 +488,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'time_picker',
@@ -472,6 +502,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'alert',
@@ -485,6 +516,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'progress',
@@ -498,6 +530,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'skeleton',
@@ -511,6 +544,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'spinner',
@@ -524,6 +558,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'toast',
@@ -537,6 +572,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'autocomplete',
@@ -550,6 +586,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'checkbox',
@@ -563,6 +600,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'chip_input',
@@ -576,6 +614,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'dropzone',
@@ -589,6 +628,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'file_picker',
@@ -602,6 +642,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'form',
@@ -614,6 +655,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'formatted_input',
@@ -627,6 +669,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 4,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'input',
@@ -640,6 +683,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'input_otp',
@@ -653,6 +697,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'item_picker',
@@ -666,6 +711,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'multi_select',
@@ -679,6 +725,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'object_input',
@@ -692,6 +739,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'phone_input',
@@ -705,6 +753,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'radio_group',
@@ -718,6 +767,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'select',
@@ -731,6 +781,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'slider',
@@ -744,6 +795,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'star_rating',
@@ -757,6 +809,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'switch',
@@ -770,6 +823,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'text_area',
@@ -783,6 +837,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'accordion',
@@ -796,6 +851,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'card',
@@ -808,6 +864,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'card_image',
@@ -821,6 +878,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'collapsible',
@@ -834,6 +892,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'filter_bar',
@@ -847,6 +906,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'overflow_marquee',
@@ -860,6 +920,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'resizable',
@@ -873,6 +934,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'scaffold',
@@ -886,6 +948,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'scrollbar',
@@ -899,6 +962,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'sortable',
@@ -912,6 +976,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'steps',
@@ -924,6 +989,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'command',
@@ -937,6 +1003,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'context_menu',
@@ -950,6 +1017,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'dropdown_menu',
@@ -963,6 +1031,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'menu',
@@ -975,6 +1044,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'menubar',
@@ -988,6 +1058,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'breadcrumb',
@@ -1001,6 +1072,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'navigation_bar',
@@ -1014,6 +1086,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'bottom',
   ),
   DocsComponent(
     id: 'navigation_menu',
@@ -1027,6 +1100,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'pagination',
@@ -1040,6 +1114,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'stepper',
@@ -1053,6 +1128,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'tabs',
@@ -1065,6 +1141,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'top',
   ),
   DocsComponent(
     id: 'alert_dialog',
@@ -1078,6 +1155,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'dialog',
@@ -1090,6 +1168,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'drawer',
@@ -1103,6 +1182,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 4,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'gooey_toast',
@@ -1116,6 +1196,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 7,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'hover_card',
@@ -1129,6 +1210,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'popup',
@@ -1142,6 +1224,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'refresh_trigger',
@@ -1155,6 +1238,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 5,
     stability: 'stable',
     listed: true,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'tooltip',
@@ -1168,6 +1252,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'code_snippet',
@@ -1181,6 +1266,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'image',
@@ -1194,6 +1280,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'markdown',
@@ -1207,6 +1294,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'alpha',
@@ -1219,6 +1307,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'anchor',
@@ -1232,6 +1321,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'app',
@@ -1244,6 +1334,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'async',
@@ -1257,6 +1348,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'backdrop_transform',
@@ -1270,6 +1362,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'color',
@@ -1283,6 +1376,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'color_field',
@@ -1296,6 +1390,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'color_input',
@@ -1309,6 +1404,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'drawer_container',
@@ -1322,6 +1418,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'error_system',
@@ -1335,6 +1432,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'eye_dropper',
@@ -1348,6 +1446,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'formatter',
@@ -1361,6 +1460,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'group',
@@ -1374,6 +1474,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'history',
@@ -1386,6 +1487,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'hsl',
@@ -1398,6 +1500,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'hsv',
@@ -1410,6 +1513,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'icon',
@@ -1422,6 +1526,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'locale_utils',
@@ -1435,6 +1540,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'media_query',
@@ -1448,6 +1554,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'multiple_choice',
@@ -1461,6 +1568,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'outlined_container',
@@ -1474,6 +1582,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'overlay_configuration',
@@ -1487,6 +1596,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'page_route',
@@ -1500,6 +1610,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'patch',
@@ -1513,6 +1624,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'scrollable',
@@ -1526,6 +1638,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'scrollable_client',
@@ -1539,6 +1652,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'scrollview',
@@ -1552,6 +1666,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'selectable',
@@ -1565,6 +1680,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'spell_check_suggestions_toolbar',
@@ -1578,6 +1694,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'stage_container',
@@ -1591,6 +1708,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
   DocsComponent(
     id: 'swipe_actions',
@@ -1604,6 +1722,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'swiper',
@@ -1616,6 +1735,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'switcher',
@@ -1629,6 +1749,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'timeline_animation',
@@ -1642,6 +1763,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 1,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'triple_dots',
@@ -1654,6 +1776,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'window',
@@ -1667,6 +1790,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     fileCount: 3,
     stability: 'stable',
     listed: false,
+    placement: 'fill',
   ),
 ];
 

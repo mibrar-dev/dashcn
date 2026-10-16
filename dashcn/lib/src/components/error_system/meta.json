@@ -20,6 +20,9 @@
     "error_system_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": [
       "AppError",

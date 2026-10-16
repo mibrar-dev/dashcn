@@ -15,6 +15,9 @@
     "components": ["eye_dropper"]
   },
   "files": ["app.dart", "preview.dart"],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["DashcnApp"],
     "enums": [],
