@@ -26,7 +26,7 @@ const double _dpr = 2.0;
 Directory get _outDir {
   Directory dir = Directory.current;
   while (dir.path != dir.parent.path) {
-    if (File('${dir.path}/REARCHITECTURE_PLAN.md').existsSync()) {
+    if (File('${dir.path}/INSTRUCTIONS.md').existsSync()) {
       return Directory('${dir.path}/rearch/design/ours/screens');
     }
     dir = dir.parent;

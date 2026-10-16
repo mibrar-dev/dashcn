@@ -154,50 +154,60 @@ class PreviewStage extends StatelessWidget {
         // the content itself is never filtered.
         final Color canvas = previewCanvasColor(theme.colors);
         final Color dot = previewDotColor(theme.colors);
-        return Container(
-          width: double.infinity,
-          constraints: BoxConstraints(minHeight: minHeight),
-          color: canvas,
-          // A `Stack` (not `CustomPaint(painter:, child:)`): the pattern
-          // needs an `ImageFiltered` blur, which only works on a child box.
-          // The content stays a *non-positioned* child so it keeps sizing
-          // the stage (a `Stack` requires bounded constraints, which the
-          // page scrollable does not provide); `alignment: center` re-centres
-          // it horizontally because `RenderStack` loosens the width of
-          // non-positioned children (P7-D1b centring would otherwise pin it
-          // top-start). The pattern is `Positioned.fill` under it.
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              if (pattern)
-                Positioned.fill(
-                  child: RepaintBoundary(
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(
-                        sigmaX: kPreviewPatternBlur,
-                        sigmaY: kPreviewPatternBlur,
-                      ),
-                      child: CustomPaint(
-                        painter: PreviewDotGridPainter(color: dot),
-                        // A static raster: cache it, never mark it dirty.
-                        isComplex: true,
-                        willChange: false,
+        // Semantics container: unfamed previews (app, overlay_configuration,
+        // page_route) own a nested `Navigator` whose routes insert a
+        // `ModalBarrier` (`BlockSemantics`) each. Without a boundary here
+        // that barrier would hide sibling page content (e.g. the docs
+        // article title) from assistive tech. Framed previews are scoped
+        // by `DeviceFrame` instead.
+        return Semantics(
+          container: true,
+          explicitChildNodes: true,
+          child: Container(
+            width: double.infinity,
+            constraints: BoxConstraints(minHeight: minHeight),
+            color: canvas,
+            // A `Stack` (not `CustomPaint(painter:, child:)`): the pattern
+            // needs an `ImageFiltered` blur, which only works on a child box.
+            // The content stays a *non-positioned* child so it keeps sizing
+            // the stage (a `Stack` requires bounded constraints, which the
+            // page scrollable does not provide); `alignment: center` re-centres
+            // it horizontally because `RenderStack` loosens the width of
+            // non-positioned children (P7-D1b centring would otherwise pin it
+            // top-start). The pattern is `Positioned.fill` under it.
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                if (pattern)
+                  Positioned.fill(
+                    child: RepaintBoundary(
+                      child: ImageFiltered(
+                        imageFilter: ImageFilter.blur(
+                          sigmaX: kPreviewPatternBlur,
+                          sigmaY: kPreviewPatternBlur,
+                        ),
+                        child: CustomPaint(
+                          painter: PreviewDotGridPainter(color: dot),
+                          // A static raster: cache it, never mark it dirty.
+                          isComplex: true,
+                          willChange: false,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              Container(
-                padding: EdgeInsets.all(padding),
-                alignment: Alignment.center,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: maxContent),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: child ?? const SizedBox.shrink(),
+                Container(
+                  padding: EdgeInsets.all(padding),
+                  alignment: Alignment.center,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxContent),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: child ?? const SizedBox.shrink(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

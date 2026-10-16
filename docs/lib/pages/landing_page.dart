@@ -47,24 +47,28 @@ class LandingPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Announcement(
-                  label:
-                      '${kStats.listedComponents} components ready to install',
+                  label: '${kStats.components} components ready to install',
                   onPressed: () =>
                       DocsRouterScope.of(context).go(context, '/docs'),
                 ),
                 Gap(xl ? theme.spacing.lg : theme.spacing.sm),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
-                  child: Text(
-                    'Every platform at once',
-                    textAlign: TextAlign.center,
-                    style: docsText(
-                      context,
-                      size: xl ? 48 : 30,
-                      weight: FontWeight.w600,
-                      height: 1.1,
-                      letterSpacing: xl ? -2.4 : 0,
-                      color: theme.colors.foreground,
+                  child: Semantics(
+                    header: true,
+                    label: 'Every platform at once',
+                    excludeSemantics: true,
+                    child: Text(
+                      'Every platform at once',
+                      textAlign: TextAlign.center,
+                      style: docsText(
+                        context,
+                        size: xl ? 48 : 30,
+                        weight: FontWeight.w600,
+                        height: 1.1,
+                        letterSpacing: xl ? -2.4 : 0,
+                        color: theme.colors.foreground,
+                      ),
                     ),
                   ),
                 ),

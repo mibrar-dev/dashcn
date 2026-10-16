@@ -363,14 +363,22 @@ class _DocsArticleState extends State<DocsArticle> {
         // Column, and an Expanded there would flex against the scroll
         // view's unbounded height (`RenderFlex children have non-zero flex
         // but incoming height constraints are unbounded`).
-        final Widget titleText = Text(
-          widget.title,
-          style: docsText(
-            context,
-            size: 30,
-            weight: FontWeight.w600,
-            height: 36 / 30,
-            letterSpacing: -0.75,
+        // Accessibility: the page title is a heading (`header: true`) so
+        // it appears in the semantics tree even when a preview below
+        // owns a nested `Navigator`/`ModalBarrier`.
+        final Widget titleText = Semantics(
+          header: true,
+          label: widget.title,
+          excludeSemantics: true,
+          child: Text(
+            widget.title,
+            style: docsText(
+              context,
+              size: 30,
+              weight: FontWeight.w600,
+              height: 36 / 30,
+              letterSpacing: -0.75,
+            ),
           ),
         );
         final Widget title = Expanded(child: titleText);
