@@ -8,6 +8,8 @@ import 'package:flutter/widgets.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/motion/error_shake.dart';
+import '../../primitives/motion/motion_enter.dart';
 import '../../primitives/text_editing/editable_text_host.dart';
 import '../../primitives/text_editing/editable_text_validation.dart';
 import '../../primitives/text_editing/text_editing.dart';
@@ -415,21 +417,26 @@ class _InputOtpState extends State<InputOtp>
     return error == null ? row : _withError(row, error, theme);
   }
 
-  Widget _withError(Widget row, String error, ThemeData theme) => Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      row,
-      Padding(
-        padding: EdgeInsets.only(top: theme.spacing.xs),
-        child: Text(
-          error,
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colors.destructive,
+  Widget _withError(Widget row, String error, ThemeData theme) => ErrorShake(
+    trigger: error,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        row,
+        Padding(
+          padding: EdgeInsets.only(top: theme.spacing.xs),
+          child: MotionEnter(
+            child: Text(
+              error,
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colors.destructive,
+              ),
+            ),
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 
   void _submit(String value) {

@@ -10,7 +10,7 @@
   "deps": {
     "foundation": [],
     "theme": ["color_tokens", "density", "theme"],
-    "primitives": ["basic_layout"],
+    "primitives": ["basic_layout", "motion"],
     "components": []
   },
   "files": ["alert.dart", "alert_style.dart", "alert_theme.dart", "preview.dart"],

@@ -27,6 +27,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -164,7 +165,7 @@ class DotIndicator extends StatelessWidget {
         : _StateDot(
             style: style,
             size: size,
-            duration: theme.duration!,
+            duration: resolveMotionDuration(context, theme.duration!),
             colors: appTheme.colors,
             scaling: appTheme.scaling,
           );

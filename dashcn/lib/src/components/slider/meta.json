@@ -20,8 +20,9 @@
     ],
     "primitives": [
       "form_core",
-      "slider_value",
-      "slider"
+      "motion",
+      "slider",
+      "slider_value"
     ],
     "components": []
   },

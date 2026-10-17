@@ -20,11 +20,13 @@
     "theme": [
       "color_tokens",
       "density",
+      "motion",
       "theme",
       "tokens"
     ],
     "primitives": [
       "localizations",
+      "motion",
       "surface"
     ],
     "components": []

@@ -10,6 +10,8 @@ import '../../primitives/date_math.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/menu_nav.dart';
+import '../../primitives/motion/fade_slide_in.dart';
+import '../../primitives/motion/press_scale.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'calendar_style.dart';
@@ -83,9 +85,21 @@ class _CalendarState extends State<Calendar> {
   DateTime? _pending;
   List<_Slot> _slots = const <_Slot>[];
 
+  /// Slide direction of the month transition: +1 forward, −1 back, 0 none.
+  double _direction = 0;
+
+  /// Whether the grid may animate: only after a view change, so the initial
+  /// mount (and its first-frame semantics) stays instant.
+  bool _animateGrid = false;
+
   @override
   void didUpdateWidget(covariant Calendar oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.view != oldWidget.view ||
+        widget.viewType != oldWidget.viewType) {
+      _direction = _viewDirection(oldWidget.view, widget.view);
+      _animateGrid = true;
+    }
     if (widget.view != oldWidget.view && !_shown(_focused)) {
       _focused = _pending ?? _initialFocus;
       _pending = null;
@@ -244,15 +258,45 @@ class _CalendarState extends State<Calendar> {
           builder: (BuildContext context, BoxConstraints constraints) {
             return Padding(
               padding: padding,
-              child: _grid(
-                context: context,
-                slots: slots,
-                weekdays: days
-                    ? calendarWeekdayLabels(context, widget.firstDayOfWeek)
-                    : null,
-                style: style,
-                maxWidth: constraints.maxWidth - padding.left - padding.right,
-              ),
+              // Month changes slide the incoming grid horizontally in the
+              // direction of navigation. The outgoing grid swaps instantly
+              // (no stacking), so assistive tech and tests never see two
+              // months at once; the initial mount and reduced motion skip
+              // the animation entirely.
+              child: _animateGrid
+                  ? FadeSlideIn(
+                      key: ValueKey<String>(
+                        '${widget.viewType.name}:${widget.view.year}:${widget.view.month}',
+                      ),
+                      offset: Offset(12 * _direction, 0),
+                      duration: ambient.motion.durations.fast,
+                      child: _grid(
+                        context: context,
+                        slots: slots,
+                        weekdays: days
+                            ? calendarWeekdayLabels(
+                                context,
+                                widget.firstDayOfWeek,
+                              )
+                            : null,
+                        style: style,
+                        maxWidth:
+                            constraints.maxWidth - padding.left - padding.right,
+                      ),
+                    )
+                  : _grid(
+                      context: context,
+                      slots: slots,
+                      weekdays: days
+                          ? calendarWeekdayLabels(
+                              context,
+                              widget.firstDayOfWeek,
+                            )
+                          : null,
+                      style: style,
+                      maxWidth:
+                          constraints.maxWidth - padding.left - padding.right,
+                    ),
             );
           },
         ),
@@ -311,6 +355,89 @@ class _CalendarState extends State<Calendar> {
       dimmed: widget.viewType == CalendarViewType.date && !_shown(date),
       wide: widget.viewType != CalendarViewType.date,
       onTap: _interactive ? () => _select(date) : null,
+    );
+  }
+}
+
+/// Slide direction from [oldView] to [next]: +1 forward, −1 back, 0 same.
+double _viewDirection(CalendarView oldView, CalendarView next) {
+  if (next.year != oldView.year) {
+    return next.year > oldView.year ? 1.0 : -1.0;
+  }
+  if (next.month != oldView.month) {
+    return next.month > oldView.month ? 1.0 : -1.0;
+  }
+  return 0;
+}
+
+/// Pops a newly selected day cell from 0.9 to 1 with a spring.
+///
+/// Only the false-to-true edge animates; every other state renders at full
+/// size, and reduced motion renders everything static with no ticker.
+class _SelectedPop extends StatefulWidget {
+  const _SelectedPop({required this.selected, required this.child});
+
+  final bool selected;
+  final Widget child;
+
+  @override
+  State<_SelectedPop> createState() => _SelectedPopState();
+}
+
+class _SelectedPopState extends State<_SelectedPop>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 150),
+    // Rest at the end value: only the selection edge animates 0.9 to 1.
+    value: 1.0,
+  );
+
+  bool get _reduced {
+    final media = MediaQuery.maybeOf(context);
+    if (media != null && media.disableAnimations) {
+      return true;
+    }
+    return !Theme.of(context).motion.enabled;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.duration = Theme.of(context).motion.durations.instant;
+  }
+
+  @override
+  void didUpdateWidget(covariant _SelectedPop oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selected && !oldWidget.selected && !_reduced) {
+      _controller.forward(from: 0.0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_reduced) {
+      return widget.child;
+    }
+    final Curve curve = Theme.of(context).motion.curves.spring;
+    return AnimatedBuilder(
+      animation: _controller,
+      child: widget.child,
+      builder: (BuildContext context, Widget? child) {
+        final double t = curve.transform(_controller.value);
+        return Transform.scale(
+          scale: 0.9 + 0.1 * t,
+          alignment: Alignment.center,
+          child: child,
+        );
+      },
     );
   }
 }
@@ -597,20 +724,31 @@ Widget _calendarCell(
       borderRadius: radius,
       child: GestureDetector(
         onTap: slot.enabled ? slot.onTap : null,
-        child: Opacity(
-          opacity: slot.dimmed || !slot.enabled ? 0.5 : 1,
-          child: Container(
-            width: width == 0 ? size : width,
-            height: size,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: colors.fill, borderRadius: radius),
-            // The box shows the day number, but the node announces the full
-            // date, or a reader says "Mar 14, 2024" then "14".
-            child: ExcludeSemantics(
-              child: Text(
-                slot.label,
-                style: (style.cellTextStyle ?? const TextStyle()).copyWith(
-                  color: colors.foreground,
+        // Press feedback plus the selection pop; both are transform-only,
+        // so the grid never reflows.
+        child: PressScale(
+          enabled: slot.enabled && slot.onTap != null,
+          child: _SelectedPop(
+            selected: slot.lookup == CalendarValueLookup.selected,
+            child: Opacity(
+              opacity: slot.dimmed || !slot.enabled ? 0.5 : 1,
+              child: Container(
+                width: width == 0 ? size : width,
+                height: size,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: colors.fill,
+                  borderRadius: radius,
+                ),
+                // The box shows the day number, but the node announces the full
+                // date, or a reader says "Mar 14, 2024" then "14".
+                child: ExcludeSemantics(
+                  child: Text(
+                    slot.label,
+                    style: (style.cellTextStyle ?? const TextStyle()).copyWith(
+                      color: colors.foreground,
+                    ),
+                  ),
                 ),
               ),
             ),

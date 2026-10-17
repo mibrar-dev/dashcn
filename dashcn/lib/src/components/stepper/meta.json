@@ -15,7 +15,6 @@
   ],
   "deps": {
     "foundation": [
-      "constants",
       "gap",
       "icons"
     ],
@@ -25,7 +24,8 @@
       "theme"
     ],
     "primitives": [
-      "clickable"
+      "clickable",
+      "motion"
     ],
     "components": []
   },

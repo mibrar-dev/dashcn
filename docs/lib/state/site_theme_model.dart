@@ -144,6 +144,15 @@ class SiteThemeModel extends ChangeNotifier {
   /// Sets the glass surface blur sigma in logical px; null removes the blur.
   void setSurfaceBlur(double? blur) => _assign(_document.withSurfaceBlur(blur));
 
+  /// Sets the motion master switch (the rail `Motion` row); null restores
+  /// the default (enabled, no motion block in the document).
+  ///
+  /// A document edit like every other Studio control: applies live to the
+  /// whole site on select, persists to localStorage, and round-trips
+  /// through the JSON and Dart exports.
+  void setMotionEnabled(bool? enabled) =>
+      _assign(_document.withMotionEnabled(enabled));
+
   /// The switch animation (rail `Transition` row).
   DocsThemeTransition get transition => _transition;
 
