@@ -4,7 +4,6 @@
 // viewport; exposes helpers to navigate and open the palette.
 
 import 'package:docs/main.dart';
-import 'package:docs/pages/landing_page.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
 import 'package:flutter/widgets.dart';
@@ -152,40 +151,13 @@ Future<void> goTo(
 
 /// Waits for the landing hero chunk to resolve (P9-Z).
 ///
-/// The deferred hero starts loading on pump; a still-pending `loadLibrary`
-/// at test end hangs every later test in the isolate (the engine delivers
-/// chunk completions across real time, and a load orphaned in a dead
-/// `FakeAsync` zone never lands — see
-/// `test/device_frame/frame_harness.dart`). Pump across real time until
-/// the demo key appears, bounded by a wall-clock budget that fails loudly
-/// instead of poisoning the suite.
-///
-/// Only waits when landing is the current route with the demo missing:
-/// `pumpWidget` updates the tree in place, so a later pump in the same
-/// test may still show the previously navigated page (no hero expected
-/// there). Later pumps in the same isolate find the chunk installed and
-/// return after one pump.
+/// The device-frame hero was removed: the home route carries no deferred hero
+/// chunk and no device frames (they stay on component/flow pages). This is a
+/// no-op kept for call-site compatibility; it returns immediately.
 Future<void> drainLandingHero(
   WidgetTester tester,
   DocsRouterDelegate delegate, {
   Duration budget = const Duration(seconds: 30),
 }) async {
-  if (delegate.currentConfiguration.route != DocsRoute.landing) {
-    return;
-  }
-  if (find.byKey(kLandingHeroDemoKey).evaluate().isNotEmpty) {
-    return;
-  }
-  final DateTime deadline = DateTime.now().add(budget);
-  while (find.byKey(kLandingHeroDemoKey).evaluate().isEmpty) {
-    if (DateTime.now().isAfter(deadline)) {
-      fail('landing hero chunk did not resolve within $budget');
-    }
-    await tester.pump(const Duration(milliseconds: 100));
-    // Real time for the engine: back-to-back fake pumps alone never let
-    // the loader thread deliver the chunk.
-    await tester.runAsync(
-      () => Future<void>.delayed(const Duration(milliseconds: 25)),
-    );
-  }
+  return;
 }
