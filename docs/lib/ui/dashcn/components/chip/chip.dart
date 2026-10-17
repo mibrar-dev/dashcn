@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/tap_target.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -307,7 +308,9 @@ class ChipButton extends StatelessWidget {
             IconThemeData(color: colorOf(states), size: size),
       ),
       mouseCursor: _chipMouseCursor,
-      child: content,
+      // The icon paints at [size] (12): centre it in the 48px touch
+      // minimum (transparent growth, visuals unchanged).
+      child: TapTarget(child: content),
     );
     if (semanticLabel == null) {
       return control;

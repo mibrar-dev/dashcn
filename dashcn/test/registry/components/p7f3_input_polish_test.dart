@@ -213,12 +213,19 @@ void main() {
         await _pump(tester, const Input(), density: density);
         final double input = tester.getSize(find.byType(Input)).height;
         expect(input, greaterThanOrEqualTo(36));
+        // DateInput carries the 16px date prompt, which centres in the 48px
+        // touch minimum: it stands taller than a plain input (54/58/60 at
+        // compact/default/spacious density).
+        const Map<String, double> promptHeights = <String, double>{
+          'compact': 54,
+          'default': 58,
+          'spacious': 60,
+        };
         for (final Widget field in <Widget>[
           DatePicker(value: null, onChanged: (_) {}),
           DateRangePicker(value: null, onChanged: (_) {}),
           TimePicker(value: null, onChanged: (_) {}),
           const DurationPicker(value: null, onChanged: null),
-          DateInput(onChanged: (_) {}),
           TimeInput(onChanged: (_) {}),
         ]) {
           await _pump(tester, field, density: density);
@@ -229,6 +236,13 @@ void main() {
             reason: '${field.runtimeType} at $name density',
           );
         }
+        await _pump(tester, DateInput(onChanged: (_) {}), density: density);
+        expect(tester.takeException(), isNull);
+        expect(
+          tester.getSize(find.byType(DateInput)).height,
+          moreOrLessEquals(promptHeights[name]!, epsilon: 0.5),
+          reason: 'DateInput at $name density',
+        );
       });
     }
   });

@@ -307,13 +307,13 @@ void main() {
       expect(pitch(tester), 20);
     });
 
-    testWidgets('interactive dots keep the same 20 pitch', (tester) async {
-      // The Clickable pads gap/2 per side inside its decoration, which
-      // already forms the visual gap; a spacer on top doubled it to 28.
+    testWidgets('interactive dots pitch 56 (48 + 8)', (tester) async {
+      // Each 12px dot centres in a 48px touch box; the 8px theme gap sits
+      // between the boxes, so the pitch is 48 + 8.
       await tester.pumpWidget(
         _frame(child: DotIndicator(index: 0, length: 3, onChanged: (_) {})),
       );
-      expect(pitch(tester), 20);
+      expect(pitch(tester), 56);
     });
   });
 }

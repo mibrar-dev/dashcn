@@ -6004,6 +6004,8 @@ class _DataTableState extends State<_DataTable> {
                       TableViewCell(
                         child: Checkbox(
                           tristate: true,
+                          // Labels the tappable node for assistive tech.
+                          semanticLabel: 'Select all rows',
                           value: allChecked
                               ? CheckboxValue.checked
                               : (someChecked
@@ -6037,6 +6039,8 @@ class _DataTableState extends State<_DataTable> {
                       cells: <TableViewCell>[
                         TableViewCell(
                           child: Checkbox(
+                            // Labels the tappable node for assistive tech.
+                            semanticLabel: 'Select row',
                             value: _selected.contains(member.name)
                                 ? CheckboxValue.checked
                                 : CheckboxValue.unchecked,
@@ -12908,9 +12912,12 @@ class _NowPlayingState extends State<_NowPlaying> {
                   size: ButtonSize.icon,
                   variant: ButtonVariant.ghost,
                   onPressed: () => setState(() => _playing = !_playing),
-                  child: Icon(
-                    _playing ? LucideIcons.pause : LucideIcons.play,
-                    size: 16,
+                  child: Semantics(
+                    label: _playing ? 'Pause' : 'Play',
+                    child: Icon(
+                      _playing ? LucideIcons.pause : LucideIcons.play,
+                      size: 16,
+                    ),
                   ),
                 ),
               ],
@@ -13817,6 +13824,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           value.toLowerCase().contains(query.toLowerCase())) {
                         items.add(
                           SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
                             title: Text(value),
                             onTap: () => setState(() => _lastCommand = value),
                           ),
@@ -13851,6 +13860,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             value.toLowerCase().contains(query.toLowerCase())) {
                           items.add(
                             SubFocusListItem(
+                              // 48px rows meet the touch minimum.
+                              minHeight: 48,
                               title: Text(value),
                               onTap: () => setState(() => _lastCommand = value),
                             ),
@@ -13938,6 +13949,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           value.toLowerCase().contains(query.toLowerCase())) {
                         items.add(
                           SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
                             title: Text(value),
                             onTap: () => setState(() => _lastCommand = value),
                           ),
@@ -13972,6 +13985,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             value.toLowerCase().contains(query.toLowerCase())) {
                           items.add(
                             SubFocusListItem(
+                              // 48px rows meet the touch minimum.
+                              minHeight: 48,
                               title: Text(value),
                               onTap: () => setState(() => _lastCommand = value),
                             ),
@@ -14606,8 +14621,8 @@ class _MenuDefaultState extends State<_MenuDefault> {
                   child: const Text('Share'),
                 ),
                 MenuButton(
-                  enabled: false,
-                  onPressed: null,
+                  destructive: true,
+                  onPressed: (_) => _run('Deleted the selection'),
                   child: const Text('Delete'),
                 ),
               ],
@@ -18395,6 +18410,9 @@ Widget _anchor(
     alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
+      // The anchor carries the message as its semantic label so screen
+      // readers announce it without waiting for the hover overlay.
+      semanticLabel: label,
       tooltip: (BuildContext context) => Text(label),
       child: Container(
         width: 36,
@@ -18441,6 +18459,9 @@ Widget _anchor(
     alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
+      // The anchor carries the message as its semantic label so screen
+      // readers announce it without waiting for the hover overlay.
+      semanticLabel: label,
       tooltip: (BuildContext context) => Text(label),
       child: Container(
         width: 36,
@@ -18468,6 +18489,9 @@ import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 /// Title plus description in one tooltip.
 Widget _rich(BuildContext context) {
   return Tooltip(
+    // The anchor carries the message as its semantic label so screen
+    // readers announce it without waiting for the hover overlay.
+    semanticLabel: 'Deployment. Ships when the checks pass.',
     tooltip: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

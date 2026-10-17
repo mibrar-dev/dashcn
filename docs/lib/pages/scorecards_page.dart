@@ -72,10 +72,9 @@ class ScorecardsPage extends StatelessWidget {
             'generation time, not the registry suite result.',
           ),
           const TypesetParagraph(
-            'Exemptions: a check with a documented reason (a decorative '
-            'divider excluded from semantics, a disabled row WCAG exempts '
-            'from contrast, a sampling artefact) renders as “Exempt” with '
-            'its reason and never counts as a failure.',
+            'Exemptions: none — every check passes as measured. Purely '
+            'decorative examples with nothing to announce (no text, no '
+            'tappable nodes) pass the semantics check vacuously.',
           ),
           const HeadingAnchor(id: 'how-produced', title: 'How it is produced'),
           const TypesetParagraph(

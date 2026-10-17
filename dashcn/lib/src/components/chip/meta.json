@@ -23,7 +23,8 @@
         "theme"
     ],
     "primitives": [
-      "clickable"
+      "clickable",
+      "tap_target"
     ],
     "components": [
       "button"

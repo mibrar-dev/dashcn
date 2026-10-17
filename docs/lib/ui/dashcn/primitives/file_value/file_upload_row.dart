@@ -17,6 +17,7 @@ import '../../foundation/icons/radix_icons.dart';
 import '../../theme/theme.dart';
 import '../clickable.dart';
 import '../localizations/localizations.dart';
+import '../tap_target.dart';
 import 'file_format.dart';
 import 'file_upload_row_theme.dart';
 import 'file_value.dart';
@@ -206,6 +207,9 @@ class FileUploadRow extends StatelessWidget {
   }
 
   /// One icon action: focusable, keyboard-activatable, labelled.
+  ///
+  /// The 16px icon centres in the 48px touch minimum (transparent growth,
+  /// visuals unchanged).
   Widget _action(
     BuildContext context,
     IconData icon,
@@ -215,9 +219,11 @@ class FileUploadRow extends StatelessWidget {
     final double scaling = Theme.of(context).scaling;
     return Clickable(
       onPressed: onPressed,
-      child: Padding(
-        padding: EdgeInsets.all(6 * scaling),
-        child: Icon(icon, semanticLabel: label, size: 16 * scaling),
+      child: TapTarget(
+        child: Padding(
+          padding: EdgeInsets.all(6 * scaling),
+          child: Icon(icon, semanticLabel: label, size: 16 * scaling),
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@
 
 import 'dart:ui' as ui;
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../foundation/data.dart';
@@ -79,6 +80,29 @@ class PopoverOverlayHandler extends OverlayHandler {
     final animationCompleter = popoverEntry.animationCompleter;
     final ValueNotifier<bool> isClosed = ValueNotifier(false);
 
+    // Focus returns to the opener on close — the same contract as
+    // `DialogRoute.openerFocus` — so Escape and outside-tap leave keyboard
+    // users where they started (select triggers, menu anchors, picker
+    // prompt buttons, command inputs). Captured before insertion; restored
+    // once per close, guarded like the dialog shell (still mounted and
+    // focusable), so programmatic closes after unmount stay silent.
+    final FocusNode? openerFocus = FocusManager.instance.primaryFocus;
+    void restoreOpenerFocus() {
+      final FocusNode? opener = openerFocus;
+      if (opener == null || !opener.canRequestFocus) {
+        return;
+      }
+      final BuildContext? openerContext = opener.context;
+      if (openerContext == null || !openerContext.mounted) {
+        return;
+      }
+      opener.requestFocus();
+    }
+
+    completer.future.then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => restoreOpenerFocus());
+    });
+
     OverlayEntry? barrierEntry;
     late OverlayEntry overlayEntry;
     if (modal) {
@@ -119,6 +143,22 @@ class PopoverOverlayHandler extends OverlayHandler {
               return FocusScope(
                 autofocus: dismissBackdropFocus,
                 canRequestFocus: !isClosed.value,
+                // Root Escape: every popover closes on Escape, even when the
+                // scope itself holds focus (editor popovers with nothing
+                // focused yet). Inner handlers win because they sit deeper:
+                // menu traversal (one level / all at root), the select
+                // search field, autocomplete's own Escape and showPopup's
+                // DismissIntent all handle first and stop bubbling here.
+                onKeyEvent: (FocusNode node, KeyEvent event) {
+                  if (event is KeyDownEvent &&
+                      event.logicalKey == LogicalKeyboardKey.escape &&
+                      !isClosed.value) {
+                    isClosed.value = true;
+                    completer.complete();
+                    return KeyEventResult.handled;
+                  }
+                  return KeyEventResult.ignored;
+                },
                 child: AnimatedValueBuilder<double>(
                   value: isClosed.value ? 0.0 : 1.0,
                   initialValue: 0.0,

@@ -66,8 +66,8 @@ class _MenuDefaultState extends State<_MenuDefault> {
                   child: const Text('Share'),
                 ),
                 MenuButton(
-                  enabled: false,
-                  onPressed: null,
+                  destructive: true,
+                  onPressed: (_) => _run('Deleted the selection'),
                   child: const Text('Delete'),
                 ),
               ],

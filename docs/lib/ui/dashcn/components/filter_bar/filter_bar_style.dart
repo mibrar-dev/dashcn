@@ -104,6 +104,8 @@ class FilterBarSortControl extends StatelessWidget {
       child: Select<String>(
         value: value,
         onChanged: onChanged,
+        // 48px trigger meets the touch minimum.
+        triggerMinHeight: 48,
         placeholder: Text(ComponentLocalizations.of(context).filterSort),
         itemBuilder: (context, value) => Text(_label(value)),
         items: <Widget>[
