@@ -20,7 +20,9 @@
         "density",
         "theme"
     ],
-    "primitives": [],
+    "primitives": [
+      "surface"
+    ],
     "components": [
       "menu"
     ]

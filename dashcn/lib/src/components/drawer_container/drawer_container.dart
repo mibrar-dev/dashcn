@@ -191,13 +191,19 @@ class DrawerRawContainer extends StatelessWidget {
 
     final BorderRadiusGeometry paintRadius =
         borderRadius ?? _resolvedRadius(context, theme.radiusLg);
+    // Frosted glass: the fill carries the ambient surfaceOpacity (resolved
+    // from the drawer theme's background, falling back to the `background`
+    // token) and the blur wraps the painted container — no extra layer at
+    // the opaque default.
+    final Color base =
+        drawerTheme.background?.resolve(colors) ?? colors.background;
     final Widget decorated = GlassSurface(
       surfaceBlur: theme.surfaceBlur,
       borderRadius: paintRadius,
       child: Container(
         padding: padding,
         decoration: BoxDecoration(
-          color: surfaceColor(colors.background, theme.surfaceOpacity),
+          color: surfaceColor(base, theme.surfaceOpacity),
           border: _border(context, colors),
           borderRadius: paintRadius,
         ),

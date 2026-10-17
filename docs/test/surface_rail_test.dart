@@ -4,6 +4,8 @@
 
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/ui/dashcn/components/menu/menu.dart';
+import 'package:docs/ui/dashcn/components/navigation_bar/navigation_bar.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/theme_rail.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -79,6 +81,45 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 600));
       expect(find.byType(ThemeRail), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('studio glass theme frosts the navigation bar', (tester) async {
+      // End-to-end through the Theme Studio path: rail control values land
+      // in the document, the model resolves them into the live ThemeData,
+      // and the mirrored navigation bar paints a translucent surface.
+      await _themes(tester);
+      docsState.themeModel.setSurfaceOpacity(0.5);
+      docsState.themeModel.setSurfaceBlur(8);
+      await tester.pump();
+      final ThemeData theme = docsState.themeModel.themeFor(Brightness.light);
+      await tester.pumpWidget(
+        Theme(
+          data: theme,
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: NavigationBar(
+                children: <NavigationBarItem>[
+                  NavigationItem(
+                    label: const Text('home'),
+                    child: const Text('i'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      final Finder scope = find.byType(NavigationBar);
+      final ColoredBox box = tester.widget<ColoredBox>(
+        find.descendant(of: scope, matching: find.byType(ColoredBox)).first,
+      );
+      expect(box.color.a, lessThanOrEqualTo(0.6));
+      expect(
+        find.descendant(of: scope, matching: find.byType(BackdropFilter)),
+        findsWidgets,
+      );
       expect(tester.takeException(), isNull);
     });
   });

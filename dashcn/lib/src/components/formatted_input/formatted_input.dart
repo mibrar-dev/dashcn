@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/text_editing/editable_text_validation.dart';
 import '../../primitives/text_editing/segmented_editing.dart';
 import '../../primitives/text_editing/segmented_value.dart';
@@ -343,23 +344,29 @@ class _FormattedInputState extends State<FormattedInput>
         child: ConstrainedBox(
           // A floor: roomier densities grow the field exactly like `Input`.
           constraints: BoxConstraints(minHeight: surface.height),
-          child: Container(
-            decoration: surface.decoration,
-            child: Padding(
-              padding: surface.padding,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (widget.leading != null) ...<Widget>[
-                    widget.leading!,
-                    SizedBox(width: surface.leadingGap),
+          // The field fill is a surface: blur wraps the painted container
+          // (no extra layer at the opaque default).
+          child: GlassSurface(
+            surfaceBlur: theme.surfaceBlur,
+            borderRadius: surface.borderRadius,
+            child: Container(
+              decoration: surface.decoration,
+              child: Padding(
+                padding: surface.padding,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    if (widget.leading != null) ...<Widget>[
+                      widget.leading!,
+                      SizedBox(width: surface.leadingGap),
+                    ],
+                    ...children,
+                    if (widget.trailing != null) ...<Widget>[
+                      SizedBox(width: surface.leadingGap),
+                      widget.trailing!,
+                    ],
                   ],
-                  ...children,
-                  if (widget.trailing != null) ...<Widget>[
-                    SizedBox(width: surface.leadingGap),
-                    widget.trailing!,
-                  ],
-                ],
+                ),
               ),
             ),
           ),
