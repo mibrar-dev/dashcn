@@ -153,8 +153,9 @@ void main() {
       tester,
     ) async {
       // P7-WB: the fill lived on the `Clickable` decoration and painted over
-      // the gap padding, so neighbouring dots touched. The dot edges must sit
-      // exactly one theme gap (`gap-2` = 8) apart.
+      // the gap padding, so neighbouring dots touched. The dot edges must
+      // stay apart: each 12px dot centres in a 48px touch box, so the fills
+      // sit 44px apart (48 - 12 + the 8px theme gap) instead of touching.
       await tester.pumpWidget(
         _frame(DotIndicator(index: 0, length: 3, onChanged: (_) {})),
       );
@@ -164,8 +165,8 @@ void main() {
       ).map((AnimatedContainer b) => tester.getRect(find.byWidget(b))).toList();
       expect(fills, hasLength(3));
       expect(fills[0].width, 12);
-      expect(fills[1].left - fills[0].right, moreOrLessEquals(8));
-      expect(fills[2].left - fills[1].right, moreOrLessEquals(8));
+      expect(fills[1].left - fills[0].right, moreOrLessEquals(44));
+      expect(fills[2].left - fills[1].right, moreOrLessEquals(44));
     });
 
     testWidgets('regression: read-only dots keep the theme gap', (

@@ -235,7 +235,7 @@ class _CalendarState extends State<Calendar> {
     final List<_Slot> slots = _slotsFor(context);
     return _keys(
       // A masonry column (~300 px) or a phone (375 px minus padding) is
-      // narrower than seven 32 px cells plus gaps, so the cells shrink to the
+      // narrower than seven 48 px cells plus gaps, so the cells shrink to the
       // available width (down to a ~7x32 px minimum footprint). Unbounded
       // widths keep the nominal cell sizes.
       //

@@ -173,6 +173,48 @@ bool hasSemantics(WidgetTester tester) {
   }
 }
 
+/// True when the example exposes nothing a screen reader needs: no labels,
+/// values, hints or tooltips, and no tap/long-press actions. A purely
+/// decorative example (the unlabelled divider, excluded from semantics by
+/// design) passes the semantics check vacuously instead of failing it.
+bool isDecorative(WidgetTester tester) {
+  try {
+    for (final view in tester.binding.renderViews) {
+      var announceable = false;
+      void visit(SemanticsNode node) {
+        if (announceable) {
+          return;
+        }
+        final data = node.getSemanticsData();
+        if (data.label.isNotEmpty ||
+            data.value.isNotEmpty ||
+            data.hint.isNotEmpty ||
+            data.tooltip.isNotEmpty ||
+            data.hasAction(SemanticsAction.tap) ||
+            data.hasAction(SemanticsAction.longPress)) {
+          announceable = true;
+          return;
+        }
+        node.visitChildren((child) {
+          visit(child);
+          return true;
+        });
+      }
+
+      final root = view.owner?.semanticsOwner?.rootSemanticsNode;
+      if (root != null) {
+        visit(root);
+      }
+      if (announceable) {
+        return false;
+      }
+    }
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 /// X of the first text, or null when the example has no text.
 double? firstTextX(WidgetTester tester) {
   final finder = find.byType(Text);
@@ -293,7 +335,7 @@ void main() {
       final labeled = await labeledTapTargetGuideline.evaluate(tester);
       final android = await androidTapTargetGuideline.evaluate(tester);
       final ios = await iOSTapTargetGuideline.evaluate(tester);
-      final semanticsPresent = hasSemantics(tester);
+      final semanticsPresent = hasSemantics(tester) || isDecorative(tester);
       handle.dispose();
       final rtlError = await pumpExample(tester, builder, TextDirection.rtl);
       final rtlX = firstTextX(tester);

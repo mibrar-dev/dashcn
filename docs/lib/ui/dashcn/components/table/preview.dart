@@ -211,6 +211,8 @@ class _DataTableState extends State<_DataTable> {
                       TableViewCell(
                         child: Checkbox(
                           tristate: true,
+                          // Labels the tappable node for assistive tech.
+                          semanticLabel: 'Select all rows',
                           value: allChecked
                               ? CheckboxValue.checked
                               : (someChecked
@@ -244,6 +246,8 @@ class _DataTableState extends State<_DataTable> {
                       cells: <TableViewCell>[
                         TableViewCell(
                           child: Checkbox(
+                            // Labels the tappable node for assistive tech.
+                            semanticLabel: 'Select row',
                             value: _selected.contains(member.name)
                                 ? CheckboxValue.checked
                                 : CheckboxValue.unchecked,

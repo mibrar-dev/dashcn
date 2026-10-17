@@ -85,10 +85,10 @@ void main() {
     expect(edit.dx, greaterThan(file.dx));
   });
 
-  testWidgets('default bar is 40 high: 32px row + p-1', (tester) async {
+  testWidgets('default bar is 56 high: 48px row + p-1', (tester) async {
     await tester.pumpWidget(_frame(_bar()));
     await tester.pump();
-    expect(tester.getSize(find.byType(Menubar)).height, 40);
+    expect(tester.getSize(find.byType(Menubar)).height, 56);
   });
 
   testWidgets('paints background, border and radius tokens by default', (

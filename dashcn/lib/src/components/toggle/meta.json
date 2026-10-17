@@ -23,7 +23,8 @@
     ],
     "primitives": [
       "clickable",
-      "form_core"
+      "form_core",
+      "tap_target"
     ],
     "components": []
   },

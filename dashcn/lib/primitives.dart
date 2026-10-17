@@ -202,6 +202,7 @@ export 'src/primitives/table_layout/table_models.dart';
 export 'src/primitives/table_layout/table_resize.dart';
 export 'src/primitives/table_layout/table_resize_controller.dart';
 export 'src/primitives/table_layout/table_resize_keyboard.dart';
+export 'src/primitives/tap_target.dart';
 export 'src/primitives/text/list.dart';
 export 'src/primitives/text/text.dart';
 export 'src/primitives/text/text_extension.dart';

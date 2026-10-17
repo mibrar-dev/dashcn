@@ -12,27 +12,11 @@ const scorecardFramesLabel = 'test environment (relative)';
 /// Documented exemptions: component id -> check name -> reason.
 ///
 /// Exempt checks keep their measured values but render as "Exempt" and do
-/// not count as failures:
-/// * `divider` semantics: a decorative rule, excluded from semantics.
-/// * `menu` textContrast: the sampled row is disabled; WCAG exempts
-///   disabled controls from the contrast minimum.
-/// * `refresh_trigger` textContrast: a sampling artefact — the guideline
-///   samples the pull affordance ("Row 1" placeholder), not body text.
+/// not count as failures. There are currently no exemptions: every check
+/// passes as measured (purely decorative examples with nothing to announce
+/// pass the semantics check vacuously — see the harness `isDecorative`).
 const Map<String, Map<String, String>> scorecardExemptions =
-    <String, Map<String, String>>{
-      'divider': <String, String>{
-        'semantics': 'Decorative element, excluded from semantics by design.',
-      },
-      'menu': <String, String>{
-        'textContrast':
-            'Disabled row: WCAG exempts disabled controls from contrast.',
-      },
-      'refresh_trigger': <String, String>{
-        'textContrast':
-            'Sampling artefact: the harness samples the pull affordance, '
-            'not body text.',
-      },
-    };
+    <String, Map<String, String>>{};
 
 /// Applies [scorecardExemptions] to one component's `a11y` map in place.
 void applyScorecardExemptions(String id, Map<String, Object?> a11y) {
