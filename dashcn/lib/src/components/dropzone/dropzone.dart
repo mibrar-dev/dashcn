@@ -23,6 +23,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/radix_icons.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -135,41 +136,51 @@ class Dropzone extends StatelessWidget {
     final double ringSpread =
         container.focusRingSpread ?? dropzoneDefaults.focusRingSpread ?? 2;
 
-    final Widget surface = Container(
-      key: dropzoneSurfaceKey,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: container.background?.resolve(colors),
-        borderRadius: radius,
-        border: Border.all(
-          color:
-              _borderColor(container, states, colors) ??
-              const Color(0x00000000),
-          width: container.borderWidth ?? 1,
-        ),
-      ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: (container.minHeight ?? 0) * themeData.scaling,
-        ),
-        child: Padding(
-          padding: resolveEdgeInsets(
-            container.padding ?? dropzoneDefaults.padding!,
-            themeData.density.baseContentPadding * themeData.scaling,
+    final Color? rawDropFill = container.background?.resolve(colors);
+    final Widget surface = GlassSurface(
+      // The drop area fill is a surface: it carries the ambient
+      // surfaceOpacity and the blur wraps the painted container (no extra
+      // layer at the opaque default).
+      surfaceBlur: themeData.surfaceBlur,
+      borderRadius: radius,
+      child: Container(
+        key: dropzoneSurfaceKey,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: rawDropFill == null
+              ? null
+              : surfaceColor(rawDropFill, themeData.surfaceOpacity),
+          borderRadius: radius,
+          border: Border.all(
+            color:
+                _borderColor(container, states, colors) ??
+                const Color(0x00000000),
+            width: container.borderWidth ?? 1,
           ),
-          // No `Center` here: `Align` expands to fill a bounded parent, which
-          // made the surface swallow the whole page instead of hugging its
-          // content. `Column` already centres its children horizontally.
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: _buildChildren(
-              context,
-              container,
-              themeData,
-              l10n,
-              interactive,
-              hovering,
-              duration,
+        ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: (container.minHeight ?? 0) * themeData.scaling,
+          ),
+          child: Padding(
+            padding: resolveEdgeInsets(
+              container.padding ?? dropzoneDefaults.padding!,
+              themeData.density.baseContentPadding * themeData.scaling,
+            ),
+            // No `Center` here: `Align` expands to fill a bounded parent, which
+            // made the surface swallow the whole page instead of hugging its
+            // content. `Column` already centres its children horizontally.
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _buildChildren(
+                context,
+                container,
+                themeData,
+                l10n,
+                interactive,
+                hovering,
+                duration,
+              ),
             ),
           ),
         ),

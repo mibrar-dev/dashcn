@@ -3341,7 +3341,8 @@
         ],
         "primitives": [
           "focus_outline",
-          "localizations"
+          "localizations",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -3897,7 +3898,8 @@
         "primitives": [
           "clickable",
           "file_value",
-          "localizations"
+          "localizations",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -4161,6 +4163,7 @@
         "primitives": [
           "focus_outline",
           "form_core",
+          "surface",
           "text_editing"
         ],
         "theme": [
@@ -4870,6 +4873,7 @@
         "primitives": [
           "form_core",
           "input_features",
+          "surface",
           "text_editing"
         ],
         "theme": [
@@ -5490,7 +5494,9 @@
           "menu"
         ],
         "foundation": [],
-        "primitives": [],
+        "primitives": [
+          "surface"
+        ],
         "theme": [
           "density",
           "theme"
@@ -6297,7 +6303,8 @@
           "countries",
           "form_core",
           "localizations",
-          "phone_number"
+          "phone_number",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -9266,11 +9273,11 @@
     "components/drawer/drawer_style.dart": "bdaaabf7740bccb172556cb22df99672762a2bb02f58c9278580b4372ada7111",
     "components/drawer/drawer_theme.dart": "15e9c455b6f0e61ab749756fe70de370a8d51986953894ded476c04608c59e9f",
     "components/drawer/preview.dart": "013127b7fec18ef932ec61ec7788254b513160c1c91a3ec8c7cbdb4e4de76c6c",
-    "components/drawer_container/drawer_container.dart": "6572da78bab5683efa46238e6cff750136d69141e38d59027c217f25c0d88a4f",
+    "components/drawer_container/drawer_container.dart": "b47d1930ceee7447633d7ff9dd05065844ddf977f572dbe7b009bed9fa971e6b",
     "components/drawer_container/preview.dart": "5792cb97c2012fdff4af4736af804eea92fe59efcf7e357b917d89f3c84f70ce",
     "components/dropdown_menu/dropdown_menu.dart": "6264843db1ad8fd3b81d916dba7e31b7ec336981d978128c8335087e0e7d3aed",
     "components/dropdown_menu/preview.dart": "afa463b633d851e2aa73f8b26f282ac926acba18accd41853b00f9274047a16c",
-    "components/dropzone/dropzone.dart": "3872e7ba70ffe99f9a59489bed63a261c088d7f51d9d5bfdb384e0d658ad4940",
+    "components/dropzone/dropzone.dart": "0871fe6a8960c8623245e13e0f32867da7988b2bc341c907b5d470e630778bde",
     "components/dropzone/dropzone_style.dart": "aa5692203a2b4dc89db723921747b84e997a76b6d89c5e3022fe9b0b034109eb",
     "components/dropzone/dropzone_theme.dart": "f74280420d94eb62255a3990f4169135e22f6d26ede50cec8ac111cf62d7ce24",
     "components/dropzone/preview.dart": "3c5b24d12ea8730a5bb4f7bdb7880b0a63d5a68048c0a519108ff4f38ccdd2ce",
@@ -9294,7 +9301,7 @@
     "components/file_diff_viewer/file_diff_viewer_style.dart": "2993c860f95cc1f8f8a2b0159f027f336e6edbba4a6d4f64f76ede74272a356e",
     "components/file_diff_viewer/file_diff_viewer_theme.dart": "430265b0848e6bf08653979a964a8ae48251f5e6aa53a70f1ca638463f2b652b",
     "components/file_diff_viewer/preview.dart": "49fe01e391b5cac953c690eec75add0aeeab7245aa74ba08e6b74f0c6a4e1ba0",
-    "components/file_picker/file_picker.dart": "197b39a95ad1399664a0139eb6937225771542c69b74cf69afaf0821cc1ab6b6",
+    "components/file_picker/file_picker.dart": "8a4870c08c6787e87019f4573dec639ddefc4f3a24d7b64dd279037eb8ed46ce",
     "components/file_picker/file_picker_style.dart": "ccaea4bb80ebefe7b6117a9bbb6709309a7382a7f8fc41f7635e12abbbe0c7d0",
     "components/file_picker/file_picker_theme.dart": "53f28d6b6f45bf53e1eaa726cbbcc66b7a2a1f85b165402dc3f676fac83c1a39",
     "components/file_picker/preview.dart": "d61c869e75b6bf7ddb19f4f2924f016d380123c0126f8ec4d4e014dfaccea72f",
@@ -9306,9 +9313,9 @@
     "components/form/form_style.dart": "a65166cea466a2241b03b018592f8b80e8fe89740305dc20d81390baaae1b386",
     "components/form/form_theme.dart": "e6d52bb4896eca6b9b8e4ff457879c2b40ed4866ef87efd5a396a9858236b2b3",
     "components/form/preview.dart": "0377ce6f53965f46002abd35f2b45d3a237e6e358ee939967b144e3a47445132",
-    "components/formatted_input/formatted_input.dart": "82d1d443602a4f8d4f59f9967c079888311ffcaffe314124fc0631fab73bd62a",
+    "components/formatted_input/formatted_input.dart": "7002b8689118d87f3e67c1830b7656047123227e11908bbaa0c348f78780a767",
     "components/formatted_input/formatted_input_flow.dart": "c67335d167a4b14b9fdbefbb4211bf2a9609ffc647b50bdb0a8a09a16b2c9f8f",
-    "components/formatted_input/formatted_input_style.dart": "5c65a62cec7ef805396529f32e06aaef0f38c0713b613076028f96ead9c0edd9",
+    "components/formatted_input/formatted_input_style.dart": "6df4fe1117bf1730b67f8cdb5bec3c66ac56dbb35ba2545cf2835d2397cd501e",
     "components/formatted_input/formatted_input_theme.dart": "3ebf79e3757d5a3233cb0855c8798846bb54dff1df15fa8db49319f6dff6e4a4",
     "components/formatted_input/preview.dart": "ead30be79c48b8e9276c3031ef956641a94bdade100f63d50b9a79e93ec77d5c",
     "components/formatter/formatter.dart": "1c1e03e7fd88b621558433c8c58e3982f75cb28bea18624784ef575315bfc058",
@@ -9347,8 +9354,8 @@
     "components/image/image_style.dart": "ad0cd14e484a840aee9d34a8eb57d0c524aa50bd35310cbceb25ea2114ad2f28",
     "components/image/image_theme.dart": "c8890eacb758b9d76e0b14883c63a1abf99bfecbc38e0a43f42f2a3df5c00a23",
     "components/image/preview.dart": "6b4bb7a2953fb05229c4be8274d760476f11ed486ebfd55212b227c9846a282c",
-    "components/input/input.dart": "5a86067aeee6a335834bfe3a3797adf99e5706e9e278f35f6fc7be754bd93dfa",
-    "components/input/input_style.dart": "6092d1dd057f388e186a976b3e6fbda459f9768973e79daee35ec98f8ede14c9",
+    "components/input/input.dart": "a2fc9decccf8c977c82368d8fc048d02b3458bc9f1ed242fece3567a43710392",
+    "components/input/input_style.dart": "0cd1aaf0d078e68e35f87378090e1b1d7240b507f76da78f39147cd0b6096b4b",
     "components/input/input_theme.dart": "d3ea4501f6b2e86b77eecc28516ad149fae31ab6dd3b9e6242a1b39fd2a3af08",
     "components/input/preview.dart": "9bc674680f0c8be61ec1ed24040a1980a5ead399d2728d36eae431e2f37a8288",
     "components/input_otp/input_otp.dart": "3aa38eb1c945e13feb47d5ee4be627a4a6f04b52574cf2bb60b978ef4077cb72",
@@ -9377,7 +9384,7 @@
     "components/menu/menu_style.dart": "46e41b4123db02f5d9121469fbb0feaf30358279d6a4eb7443a29d13f0998204",
     "components/menu/menu_theme.dart": "9d4391f0a637e365ab4b85c6aefb1820230a22cf06938373a75994d21c1d9a9e",
     "components/menu/preview.dart": "76eea88ec99cae7dc4a5bd9a76db4c53edd2aa9a80c97999ef4dfca5b5a58d2e",
-    "components/menubar/menubar.dart": "3e1b4d480b78422974ddec34c83b91f479901cc9fd91eddc0808efa06a8ab16d",
+    "components/menubar/menubar.dart": "06e673ba165193ceb884b2731fa7cf677ff01f9a7eeea7b74a469f251c6a8678",
     "components/menubar/preview.dart": "ed1ac587856191726ea7abc39ea95597b302c3c8e4015faa5265038a9a8e4049",
     "components/multi_select/multi_select.dart": "378c385d7c599ee785915947c5f3c0b1ea7ecc739ad5511e0fdb53917957b100",
     "components/multi_select/preview.dart": "658ad335d70be269ff225882cc5be2618057b48e672c248bb63e7ad4c9fc559b",
@@ -9385,8 +9392,8 @@
     "components/multiple_choice/multiple_choice_style.dart": "97cde1eae50353d699e5697a0fd3ba143c4148a70ef2b1fa773e270e7e0abd8f",
     "components/multiple_choice/multiple_choice_theme.dart": "d01b823c31178ae49aa453efcd59952351f07e0795089f03a76bae7d11e81122",
     "components/multiple_choice/preview.dart": "dd4b9f58b80f6a04cb00f647b688d6e5f802be9434ce16a7dd78739b9af4124e",
-    "components/navigation_bar/navigation_bar.dart": "f6a50d2d4146eacf01ab71ff030f939f4b3fce85dfb47876756197aa245ff23e",
-    "components/navigation_bar/navigation_bar_style.dart": "4cb6b9f868a77e1366f63094bea587a47f1eeb856c36347bfaf91cde43fb77e3",
+    "components/navigation_bar/navigation_bar.dart": "bff6003f470d0b441450f9e8a549c996191186c7b00c796532bbd23d038feb29",
+    "components/navigation_bar/navigation_bar_style.dart": "7671b6e293876c53d94fb63285ffd41a8c4f22f6dbfe9fe94aa38215e1d5229d",
     "components/navigation_bar/navigation_bar_theme.dart": "90a8c087d40f57a188d5d55bfa4bbb1db976a914c7c58088572b8eae7368db27",
     "components/navigation_bar/preview.dart": "26db3c5e3948fe3802c629029fb14cd23cdcc143adf185416ca158503177c0af",
     "components/navigation_menu/navigation_menu.dart": "f61befd87d791b07ef5765a6acb2e99b1cb076e322ea498fd82ef960e2c79f8e",
@@ -9417,7 +9424,7 @@
     "components/pagination/preview.dart": "eebbb8dd7905a8df60e91a843f135b8ca445cc5bcd372b771c7f131218d92545",
     "components/patch/patch.dart": "78e478cc888ef1f9d9693592b56cc97353fe3ef3661122846545061afe5028f6",
     "components/patch/preview.dart": "dc2b8388709b83bddaa9095d95a26501bd76b2f3c092c9975e18c600b683e4a4",
-    "components/phone_input/phone_input.dart": "19e5f25b09ff55856cc5f9ac341f21388b7d135665cbdfcf29cdfc2ed99e7991",
+    "components/phone_input/phone_input.dart": "12312372d9a3afcf64cd71834e46d3a27d26ada638ab8340642d84521fc41ed9",
     "components/phone_input/phone_input_style.dart": "9d67636661f08929cf74c464a98e6b51ac988f79a614b7b445d2eac671ed80d1",
     "components/phone_input/phone_input_theme.dart": "15b4b3fe95d2c87d8b9e6e103420635f80ec704992eac7886f38c5c31f66d82b",
     "components/phone_input/preview.dart": "7fe76b9992e56e0b202bea1c3084d896e24ba1bfff8fefa0fb69fe35bd916679",
@@ -9629,7 +9636,7 @@
     "primitives/date_math.dart": "8382007a17ad0ae22dffdd5892c6d8bf7a85c5921227ddaa368aef3dcb1a33c7",
     "primitives/drag_sort.dart": "97c2568902cd28b021f2432a15904bb49383a7d5f69732d7ddfb5bb19822fdf7",
     "primitives/drawer_route/drawer_panel.dart": "cbdfa2e68220b5a8fa517e7b9247393d393f0c03e7fcc3a09882d6ec25cb758b",
-    "primitives/drawer_route/drawer_panel_surface.dart": "832a575fbfe7acd3ca69f43b1fe88056110a3fd18953d5eda68e3d3e06139fd4",
+    "primitives/drawer_route/drawer_panel_surface.dart": "567d8cdaeffa6b264c8e0afa98825f3b1bb372635504276dec45b22d7c7501cb",
     "primitives/drawer_route/drawer_route.dart": "934b844fed5b65bb2bfb60202cc6e1a79ec73cdbd7974fd45757945f19a03aac",
     "primitives/drawer_route/drawer_shell.dart": "191864cceb90735677053c49ba331bc320fa2c54fe81e66619b60a73022987d4",
     "primitives/error_handling/error_handling.dart": "aa93bc3171d221d165de374a10fd1cca6d05e36bd47ef8ec4e663c4ce89b23bb",
