@@ -20,6 +20,7 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_preset_sources.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/density.dart';
+import '../ui/dashcn/theme/motion.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../ui/dashcn/theme/tokens.dart';
 import '../ui/dashcn/theme/typography.dart';
@@ -56,6 +57,7 @@ class ThemeDocument {
     required this.fonts,
     this.surfaceOpacity,
     this.surfaceBlur,
+    this.motionEnabled,
     this.schema,
     this.shadowsDerived,
   });
@@ -97,6 +99,7 @@ class ThemeDocument {
     if (surfaceBlur != null && surfaceBlur < 0) {
       throw const ThemeDocumentException('preset.surfaceBlur must be >= 0');
     }
+    final bool? motionEnabled = _motionField(json);
     final Map<String, Object?> shadow = _objectField(json, 'shadow', 'preset');
     return ThemeDocument(
       schema: _stringField(json, r'$schema', 'preset'),
@@ -118,6 +121,7 @@ class ThemeDocument {
       fonts: fonts,
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
+      motionEnabled: motionEnabled,
       shadowsDerived: _stringField(json, 'shadowsDerived', 'preset'),
     );
   }
@@ -176,6 +180,11 @@ class ThemeDocument {
   /// Glass surface backdrop blur sigma in logical px; null means no blur.
   final double? surfaceBlur;
 
+  /// Motion master switch. Null means untouched: the theme default
+  /// (enabled) applies and the document serialises no motion block.
+  /// Non-null persists the Theme Studio motion toggle.
+  final bool? motionEnabled;
+
   /// The optional `shadowsDerived` marker, carried through untouched.
   final String? shadowsDerived;
 
@@ -226,6 +235,8 @@ class ThemeDocument {
     },
     if (surfaceOpacity != null) 'surfaceOpacity': jsonNumber(surfaceOpacity!),
     if (surfaceBlur != null) 'surfaceBlur': jsonNumber(surfaceBlur!),
+    if (motionEnabled != null)
+      'motion': <String, Object?>{'enabled': motionEnabled},
     if (shadowsDerived != null) 'shadowsDerived': shadowsDerived,
   };
 
@@ -264,6 +275,9 @@ class ThemeDocument {
       density: Density.fromSpacingScale(scale),
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
+      motion: motionEnabled == false
+          ? const MotionTokens(enabled: false)
+          : const MotionTokens(),
     );
   }
 
@@ -454,4 +468,27 @@ Map<String, String> _fontsField(Map<String, Object?> json) {
     fonts[slot] = spec;
   }
   return fonts;
+}
+
+/// The optional motion block: `motion: {enabled: bool}` or null when the
+/// document carries no motion choice (presets predate it).
+bool? _motionField(Map<String, Object?> json) {
+  final Object? value = json['motion'];
+  if (value == null) {
+    return null;
+  }
+  final Map<String, Object?> map = _stringKeyed(value, 'preset.motion');
+  final Object? enabled = map['enabled'];
+  if (enabled is! bool) {
+    throw const ThemeDocumentException('preset.motion.enabled must be a bool');
+  }
+  final List<String> extra = map.keys
+      .where((String key) => key != 'enabled')
+      .toList();
+  if (extra.isNotEmpty) {
+    throw ThemeDocumentException(
+      'preset.motion has unknown keys: ${extra.join(', ')}',
+    );
+  }
+  return enabled;
 }

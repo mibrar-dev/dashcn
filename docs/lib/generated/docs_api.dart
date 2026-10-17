@@ -1619,7 +1619,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'duration',
         type: 'Duration',
         isRequired: false,
-        defaultValue: 'const Duration(milliseconds: 350)',
+        defaultValue: 'const Duration(milliseconds: 300)',
       ),
     ],
     members: <DocsApiMember>[],

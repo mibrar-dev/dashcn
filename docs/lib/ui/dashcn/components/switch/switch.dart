@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/widget_states.dart';
 import '../../primitives/form_core/form_value.dart';
 import '../../theme/color_tokens.dart';
@@ -327,6 +328,12 @@ class _SwitchTrack extends StatelessWidget {
     Color? colorFor(StateValue<ThemedColor>? value) =>
         value?.resolve(states)?.resolve(colors);
     final Color? border = colorFor(borderColor);
+    // The thumb slides with the theme motion timing while the track colour
+    // fades; under reduced motion both snap with no ticker.
+    final Duration duration = resolveMotionDuration(
+      context,
+      Theme.of(context).motion.durations.instant,
+    );
     // The thumb keeps its own height and centers vertically: pinning top and
     // bottom to 0 would stretch a 16px thumb to the full 18.4px track.
     // Clamped at zero so an oversized themed thumb overflows instead of
@@ -336,7 +343,7 @@ class _SwitchTrack extends StatelessWidget {
         .toDouble();
     return AnimatedContainer(
       key: kSwitchTrackKey,
-      duration: switchDefaultDuration,
+      duration: duration,
       width: size.width,
       height: size.height,
       decoration: BoxDecoration(
@@ -349,7 +356,7 @@ class _SwitchTrack extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           AnimatedPositioned(
-            duration: switchDefaultDuration,
+            duration: duration,
             curve: _switchTravelCurve,
             left: isOn ? travel : 0,
             top: verticalInset,

@@ -8,9 +8,9 @@
   "import": "import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';",
   "tags": ["display", "progress", "indicator", "loading"],
   "deps": {
-    "foundation": ["constants"],
-    "theme": ["color_tokens", "theme"],
-    "primitives": ["animation"],
+    "foundation": [],
+    "theme": ["color_tokens", "motion", "theme"],
+    "primitives": ["animation", "motion"],
     "components": []
   },
   "files": [

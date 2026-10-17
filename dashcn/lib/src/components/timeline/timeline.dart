@@ -9,6 +9,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
+import '../../primitives/motion/stagger.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -79,24 +80,32 @@ class Timeline extends StatelessWidget {
       widgetTheme: theme,
       timeConstraints: timeConstraints,
     );
-    final List<Widget> rows = <Widget>[];
-    for (var i = 0; i < data.length; i++) {
-      if (i > 0) {
-        rows.add(Gap(surface.rowGap));
-      }
-      rows.add(
-        _TimelineRow(
-          entry: data[i],
-          last: i == data.length - 1,
-          surface: surface,
-          themeData: themeData,
-        ),
-      );
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: rows,
+    // Entries stagger their fade-up on first show (at most six staggered);
+    // transform/opacity only, so the final layout is identical.
+    return StaggerChildren(
+      layout: (BuildContext context, List<Widget> items) {
+        final List<Widget> rows = <Widget>[];
+        for (var i = 0; i < items.length; i++) {
+          if (i > 0) {
+            rows.add(Gap(surface.rowGap));
+          }
+          rows.add(items[i]);
+        }
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: rows,
+        );
+      },
+      children: <Widget>[
+        for (var i = 0; i < data.length; i++)
+          _TimelineRow(
+            entry: data[i],
+            last: i == data.length - 1,
+            surface: surface,
+            themeData: themeData,
+          ),
+      ],
     );
   }
 }

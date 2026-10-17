@@ -10,11 +10,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -226,7 +226,9 @@ class _AccordionItemState extends State<AccordionItem>
           select: (t) => t,
           defaults: accordionDefaults,
         );
-    final Duration duration = resolved.duration ?? kDefaultDuration;
+    final Duration duration = motionReduced(context)
+        ? Duration.zero
+        : (resolved.duration ?? ambient.motion.durations.base);
     if (_controller.duration != duration) {
       _controller.duration = duration;
     }
@@ -323,7 +325,9 @@ class AccordionTrigger extends StatelessWidget {
             Gap(iconGap),
             TweenAnimationBuilder<double>(
               tween: Tween<double>(end: item.isExpanded ? 0 : 1),
-              duration: resolved.duration ?? kDefaultDuration,
+              duration: motionReduced(context)
+                  ? Duration.zero
+                  : (resolved.duration ?? ambient.motion.durations.base),
               builder: (context, value, child) => Transform.rotate(
                 angle: value * math.pi,
                 child: IconTheme(

@@ -17,6 +17,7 @@ import '../../primitives/file_value/file_upload_items_view.dart';
 import '../../primitives/file_value/file_upload_row.dart';
 import '../../primitives/file_value/file_value.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/surface.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
@@ -398,38 +399,51 @@ class _FileUploadState extends State<FileUpload> {
     final TextStyle meta = ambient.typography.xSmall.copyWith(
       color: ambient.colors.mutedForeground,
     );
+    // The tile fill is a surface: it carries the ambient surfaceOpacity and
+    // the blur wraps the painted container (no extra layer at the opaque
+    // default, so defaults render identical to before).
+    final BorderRadiusGeometry tileRadius =
+        style.borderRadius ?? ambient.borderRadiusMd;
+    final Color? rawTileFill = style.background?.resolve(ambient.colors);
+    final Color? tileFill = rawTileFill == null
+        ? null
+        : surfaceColor(rawTileFill, ambient.surfaceOpacity);
     return Clickable(
       enabled: widget.enabled && widget.pick != null,
       onPressed: _pick,
-      child: Container(
-        key: fileUploadTileKey,
-        constraints: BoxConstraints(
-          minHeight: (style.minHeight ?? 48) * ambient.scaling,
-        ),
-        decoration: BoxDecoration(
-          color: style.background?.resolve(ambient.colors),
-          borderRadius: style.borderRadius ?? ambient.borderRadiusMd,
-          border: border == null
-              ? null
-              : Border.all(color: border, width: style.borderWidth ?? 1),
-        ),
-        padding: resolveEdgeInsets(
-          style.padding ?? fileUploadDefaults.padding!,
-          ambient.density.baseContentPadding * ambient.scaling,
-        ),
-        child: Row(
-          children: <Widget>[
-            Text(l10n.fileUploadChoose, style: name),
-            Gap(12 * ambient.scaling),
-            Expanded(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: meta,
+      child: GlassSurface(
+        surfaceBlur: ambient.surfaceBlur,
+        borderRadius: tileRadius,
+        child: Container(
+          key: fileUploadTileKey,
+          constraints: BoxConstraints(
+            minHeight: (style.minHeight ?? 48) * ambient.scaling,
+          ),
+          decoration: BoxDecoration(
+            color: tileFill,
+            borderRadius: tileRadius,
+            border: border == null
+                ? null
+                : Border.all(color: border, width: style.borderWidth ?? 1),
+          ),
+          padding: resolveEdgeInsets(
+            style.padding ?? fileUploadDefaults.padding!,
+            ambient.density.baseContentPadding * ambient.scaling,
+          ),
+          child: Row(
+            children: <Widget>[
+              Text(l10n.fileUploadChoose, style: name),
+              Gap(12 * ambient.scaling),
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: meta,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

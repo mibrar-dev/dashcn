@@ -18,6 +18,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/theme.dart';
 import 'switcher_style.dart';
 
@@ -118,13 +119,18 @@ class _SwitcherState extends State<Switcher>
   void didUpdateWidget(covariant Switcher oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.index != widget.index) {
-      // An external index change wins over an in-flight drag.
-      _position
-        ..duration = _duration
-        ..animateTo(
-          widget.index.clamp(0.0, widget._maxIndex).toDouble(),
-          curve: _curve,
-        );
+      // An external index change wins over an in-flight drag. Under reduced
+      // motion the page jumps with no ticker.
+      final double target = widget.index
+          .clamp(0.0, widget._maxIndex)
+          .toDouble();
+      if (motionReduced(context)) {
+        _position.value = target;
+      } else {
+        _position
+          ..duration = _duration
+          ..animateTo(target, curve: _curve);
+      }
     }
   }
 
@@ -135,12 +141,16 @@ class _SwitcherState extends State<Switcher>
   }
 
   void _snap() {
-    _position.duration = _duration;
     final double target = _position.value
         .roundToDouble()
         .clamp(0.0, widget._maxIndex)
         .toDouble();
-    _position.animateTo(target, curve: _curve);
+    if (motionReduced(context)) {
+      _position.value = target;
+    } else {
+      _position.duration = _duration;
+      _position.animateTo(target, curve: _curve);
+    }
     final int snapped = target.toInt();
     // The old code notified on every gesture, even when the index did not
     // change (a jittery one-pixel drag).

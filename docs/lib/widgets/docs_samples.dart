@@ -101,6 +101,22 @@ final Widget surface = GlassSurface(
   ),
 );
 '''),
+  'motion': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/theme/theme.dart';
+
+// Motion tokens: durations in the subtle band, restrained curves.
+final ThemeData theme = Theme.of(context);
+final Duration press = theme.motion.durations.instant; // 100 ms
+final Duration enter = theme.motion.durations.base; // 200 ms
+final Curve spring = theme.motion.curves.spring; // press-release overshoot
+
+// The Theme Studio Motion row writes motion.enabled; off collapses every
+// component animation to its end value. Reduced motion
+// (MediaQuery.disableAnimations) does the same automatically.
+final ThemeData still = theme.copyWith(
+  motion: () => const MotionTokens(enabled: false),
+);
+'''),
 };
 
 /// Dark-mode-page samples, keyed by stable id.

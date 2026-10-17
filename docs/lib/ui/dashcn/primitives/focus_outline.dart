@@ -5,11 +5,11 @@
 import 'package:flutter/widgets.dart';
 
 import '../foundation/color_extensions.dart';
-import '../foundation/constants.dart';
 import '../foundation/style_value.dart';
 import '../theme/color_tokens.dart';
 import '../theme/theme.dart';
 import 'animated_value_builder.dart';
+import 'motion/motion_scope.dart';
 
 /// Alignment, radius and border of the [FocusOutline] ring.
 class FocusOutlineTheme extends ComponentThemeData
@@ -147,7 +147,7 @@ class FocusOutline extends StatelessWidget {
         child,
         AnimatedValueBuilder(
           value: focused ? 1.0 : 0.0,
-          duration: kDefaultDuration,
+          duration: resolveMotionDuration(context, theme.motion.durations.fast),
           builder: (context, value, child) {
             return Positioned(
               top: offset * value,

@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../foundation/data.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/sheet_stage.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -109,7 +110,7 @@ class PinnedSheet extends StatefulWidget {
     this.borderRadius,
     this.dragHandleSize,
     this.constraints,
-    this.duration = const Duration(milliseconds: 350),
+    this.duration = const Duration(milliseconds: 300),
   });
 
   final OverlayPosition position;
@@ -196,6 +197,15 @@ class _PinnedSheetState extends State<PinnedSheet>
     Curve curve = Curves.linear,
   }) {
     final double target = _targetFor(stage);
+    // Under reduced motion the sheet jumps to its stage with no ticker.
+    if (motionReduced(context)) {
+      _animation?.dispose();
+      _animation = null;
+      _offset = target;
+      widget.controller?._notify();
+      if (mounted) setState(() {});
+      return Future<void>.value();
+    }
     _animation?.dispose();
     final AnimationController anim = _animation = AnimationController(
       vsync: this,

@@ -121,14 +121,22 @@ class DrawerPanelSurface extends StatelessWidget {
         (theme.themeShadows ?? ambient.tokens.shadows).shadowLg;
     final BorderRadiusGeometry paintRadius = _innerRadius(radius, position);
     final Color? base = theme.background?.resolve(colors);
+    // No theme fill stays transparent at the opaque default (exactly
+    // today's rendering); under a glass theme the panel frosts with the
+    // `background` token so the global opacity/blur reaches it too.
+    final bool glass =
+        (ambient.surfaceOpacity ?? 1) < 1 || (ambient.surfaceBlur ?? 0) > 0;
+    final Color? fill = base == null
+        ? (glass
+              ? surfaceColor(colors.background, ambient.surfaceOpacity)
+              : null)
+        : surfaceColor(base, ambient.surfaceOpacity);
     return GlassSurface(
       surfaceBlur: ambient.surfaceBlur,
       borderRadius: paintRadius,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: base == null
-              ? null
-              : surfaceColor(base, ambient.surfaceOpacity),
+          color: fill,
           borderRadius: paintRadius,
           border: borderColor == null || borderWidth <= 0
               ? null

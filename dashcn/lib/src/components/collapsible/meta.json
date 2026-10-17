@@ -24,6 +24,7 @@
     ],
     "primitives": [
       "clickable",
+      "motion",
       "text",
       "touch_hit_area"
     ],

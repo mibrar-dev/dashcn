@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
 import '../focus_outline.dart';
+import '../motion/error_shake.dart';
+import '../motion/motion_enter.dart';
 
 /// The standard visual shell around a text field's content.
 ///
@@ -106,15 +108,20 @@ class EditableTextShell extends StatelessWidget {
     );
     final message = errorText;
     if (message != null) {
-      field = Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          field,
-          Padding(
-            padding: EdgeInsets.only(top: gap),
-            child: Text(message, style: errorStyle),
-          ),
-        ],
+      // The field shakes once when the error appears while the message
+      // fades in; both are transform/opacity only, so layout never jumps.
+      field = ErrorShake(
+        trigger: message,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            field,
+            Padding(
+              padding: EdgeInsets.only(top: gap),
+              child: MotionEnter(child: Text(message, style: errorStyle)),
+            ),
+          ],
+        ),
       );
     }
     return field;

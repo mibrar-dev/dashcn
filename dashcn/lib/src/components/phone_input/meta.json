@@ -10,7 +10,7 @@
   "deps": {
     "foundation": ["gap"],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["countries", "form_core", "localizations", "phone_number"],
+    "primitives": ["countries", "form_core", "localizations", "phone_number", "surface"],
     "components": ["country_flag", "input", "select"]
   },
   "files": [
