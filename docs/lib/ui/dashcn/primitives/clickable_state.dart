@@ -257,6 +257,7 @@ class ClickableState extends State<Clickable> {
                 builder: (context, child) {
                   return AnimatedValueBuilder<Matrix4>(
                     value: _pressTransform(
+                      context,
                       widget.transform?.resolve(widgetStates),
                       widgetStates,
                     ),
@@ -297,17 +298,22 @@ class ClickableState extends State<Clickable> {
 
   /// Composes the press-down scale onto the resolved transform.
   ///
-  /// Pressed controls shrink to 0.96 about their center (the surrounding
-  /// `Transform` paints with center alignment) and ease back on release.
-  /// A null base normalizes to the identity so the press eases out of the
-  /// resting state instead of jumping (a null endpoint would coerce to the
-  /// target inside `AnimatedValueBuilder`).
-  Matrix4 _pressTransform(Matrix4? base, Set<WidgetState> states) {
+  /// Pressed controls shrink to the intensity press scale about their center
+  /// (standard 0.96; the surrounding `Transform` paints with center alignment)
+  /// and ease back on release. A null base normalizes to the identity so the
+  /// press eases out of the resting state instead of jumping (a null endpoint
+  /// would coerce to the target inside `AnimatedValueBuilder`).
+  Matrix4 _pressTransform(
+    BuildContext context,
+    Matrix4? base,
+    Set<WidgetState> states,
+  ) {
     final Matrix4 current = base?.clone() ?? Matrix4.identity();
     if (!states.contains(WidgetState.pressed)) {
       return current;
     }
-    return current.multiplied(Matrix4.diagonal3Values(0.96, 0.96, 1.0));
+    final double scale = Theme.of(context).motion.pressScale;
+    return current.multiplied(Matrix4.diagonal3Values(scale, scale, 1.0));
   }
 
   Widget _buildContainer(

@@ -388,8 +388,9 @@ class _CheckboxBox extends StatelessWidget {
           : Border.all(color: border, width: borderWidth),
     );
     // The check mark scales in with a spring while fading: a subtle draw-in
-    // that never changes layout. The box fill cross-fades through the
-    // animated container below.
+    // that never changes layout (the 16 px box keeps its size so tap targets
+    // and label metrics never shift). Under reduced motion it snaps with no
+    // ticker.
     final MotionTokens motion = Theme.of(context).motion;
     final Duration indicatorDuration = resolveMotionDuration(
       context,

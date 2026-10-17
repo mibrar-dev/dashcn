@@ -110,7 +110,27 @@ class _SpinIconState extends State<_SpinIcon>
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1200),
-  )..repeat();
+  );
+
+  bool get _reduced {
+    final media = MediaQuery.maybeOf(context);
+    if (media != null && media.disableAnimations) {
+      return true;
+    }
+    return !Theme.of(context).motion.enabled;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_reduced) {
+      if (_controller.isAnimating) {
+        _controller.stop();
+      }
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
 
   @override
   void dispose() {
@@ -120,6 +140,10 @@ class _SpinIconState extends State<_SpinIcon>
 
   @override
   Widget build(BuildContext context) {
+    // Under reduced motion the icon parks static with no ticker.
+    if (_reduced) {
+      return Icon(LucideIcons.loaderCircle, size: 16, color: widget.color);
+    }
     return RotationTransition(
       turns: _controller,
       child: Icon(LucideIcons.loaderCircle, size: 16, color: widget.color),

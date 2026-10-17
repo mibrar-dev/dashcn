@@ -8,6 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../ui/dashcn/theme/motion.dart';
 import 'theme_document.dart';
 
 export 'theme_document.dart' show ThemeDocumentException;
@@ -36,6 +37,11 @@ extension ThemeDocumentEdits on ThemeDocument {
     surfaceOpacity: surfaceOpacity,
     surfaceBlur: surfaceBlur,
     motionEnabled: motionEnabled,
+    motionIntensity: motionIntensity,
+    motionCustomDurationMultiplier: motionCustomDurationMultiplier,
+    motionCustomPressScale: motionCustomPressScale,
+    motionCustomEnterOffset: motionCustomEnterOffset,
+    motionCustomCurve: motionCustomCurve,
     shadowsDerived: shadowsDerived,
   );
 
@@ -61,6 +67,11 @@ extension ThemeDocumentEdits on ThemeDocument {
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
       motionEnabled: motionEnabled,
+      motionIntensity: motionIntensity,
+      motionCustomDurationMultiplier: motionCustomDurationMultiplier,
+      motionCustomPressScale: motionCustomPressScale,
+      motionCustomEnterOffset: motionCustomEnterOffset,
+      motionCustomCurve: motionCustomCurve,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -83,6 +94,11 @@ extension ThemeDocumentEdits on ThemeDocument {
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
       motionEnabled: motionEnabled,
+      motionIntensity: motionIntensity,
+      motionCustomDurationMultiplier: motionCustomDurationMultiplier,
+      motionCustomPressScale: motionCustomPressScale,
+      motionCustomEnterOffset: motionCustomEnterOffset,
+      motionCustomCurve: motionCustomCurve,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -153,9 +169,57 @@ extension ThemeDocumentEdits on ThemeDocument {
   }
 
   /// Sets the motion master switch; null restores the default (enabled,
-  /// no motion block in the document).
+  /// no motion block in the document unless another motion leg is set).
   ThemeDocument withMotionEnabled(bool? enabled) =>
-      _copy(motionEnabled: enabled, clearMotion: enabled == null);
+      _copy(motionEnabled: enabled, clearMotionEnabled: enabled == null);
+
+  /// Sets the motion intensity; null restores the default (standard, no
+  /// intensity leg in the document unless another motion leg is set).
+  ThemeDocument withMotionIntensity(MotionIntensity? intensity) => _copy(
+    motionIntensity: intensity,
+    clearMotionIntensity: intensity == null,
+  );
+
+  /// Sets the custom duration multiplier (0.25..3.0); null clears the leg.
+  ThemeDocument withMotionCustomDurationMultiplier(double? value) {
+    if (value != null && (value < 0.25 || value > 3.0)) {
+      throw const ThemeDocumentException(
+        'motion durationMultiplier must be in 0.25..3.0',
+      );
+    }
+    return _copy(
+      motionCustomDurationMultiplier: value,
+      clearMotionCustomDurationMultiplier: value == null,
+    );
+  }
+
+  /// Sets the custom press scale (0.8..1.0); null clears the leg.
+  ThemeDocument withMotionCustomPressScale(double? value) {
+    if (value != null && (value < 0.8 || value > 1.0)) {
+      throw const ThemeDocumentException(
+        'motion pressScale must be in 0.8..1.0',
+      );
+    }
+    return _copy(
+      motionCustomPressScale: value,
+      clearMotionCustomPressScale: value == null,
+    );
+  }
+
+  /// Sets the custom enter offset in logical px (0..24); null clears the leg.
+  ThemeDocument withMotionCustomEnterOffset(double? value) {
+    if (value != null && (value < 0 || value > 24)) {
+      throw const ThemeDocumentException('motion enterOffset must be in 0..24');
+    }
+    return _copy(
+      motionCustomEnterOffset: value,
+      clearMotionCustomEnterOffset: value == null,
+    );
+  }
+
+  /// Sets the custom enter curve; null clears the leg.
+  ThemeDocument withMotionCustomCurve(MotionCurveName? curve) =>
+      _copy(motionCustomCurve: curve, clearMotionCustomCurve: curve == null);
 
   ThemeDocument _copy({
     double? radius,
@@ -169,7 +233,17 @@ extension ThemeDocumentEdits on ThemeDocument {
     bool clearSurfaceOpacity = false,
     bool clearSurfaceBlur = false,
     bool? motionEnabled,
-    bool clearMotion = false,
+    bool clearMotionEnabled = false,
+    MotionIntensity? motionIntensity,
+    bool clearMotionIntensity = false,
+    double? motionCustomDurationMultiplier,
+    bool clearMotionCustomDurationMultiplier = false,
+    double? motionCustomPressScale,
+    bool clearMotionCustomPressScale = false,
+    double? motionCustomEnterOffset,
+    bool clearMotionCustomEnterOffset = false,
+    MotionCurveName? motionCustomCurve,
+    bool clearMotionCustomCurve = false,
   }) => ThemeDocument(
     schema: schema,
     id: id,
@@ -186,7 +260,25 @@ extension ThemeDocumentEdits on ThemeDocument {
         ? null
         : (surfaceOpacity ?? this.surfaceOpacity),
     surfaceBlur: clearSurfaceBlur ? null : (surfaceBlur ?? this.surfaceBlur),
-    motionEnabled: clearMotion ? null : (motionEnabled ?? this.motionEnabled),
+    motionEnabled: clearMotionEnabled
+        ? null
+        : (motionEnabled ?? this.motionEnabled),
+    motionIntensity: clearMotionIntensity
+        ? null
+        : (motionIntensity ?? this.motionIntensity),
+    motionCustomDurationMultiplier: clearMotionCustomDurationMultiplier
+        ? null
+        : (motionCustomDurationMultiplier ??
+              this.motionCustomDurationMultiplier),
+    motionCustomPressScale: clearMotionCustomPressScale
+        ? null
+        : (motionCustomPressScale ?? this.motionCustomPressScale),
+    motionCustomEnterOffset: clearMotionCustomEnterOffset
+        ? null
+        : (motionCustomEnterOffset ?? this.motionCustomEnterOffset),
+    motionCustomCurve: clearMotionCustomCurve
+        ? null
+        : (motionCustomCurve ?? this.motionCustomCurve),
     shadowsDerived: shadowsDerived,
   );
 
