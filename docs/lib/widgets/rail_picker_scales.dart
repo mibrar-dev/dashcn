@@ -33,24 +33,29 @@ List<DocsFontFamily> docsFontCatalogueFor(String slot) => switch (slot) {
 
 /// Shows the family list popup for [slot]; only a pick commits.
 ///
-/// [onChanged] runs exactly once per committed pick ('' clears the slot);
-/// hovering, scrolling and arrow-key focus movement stay local. Closing
-/// without picking keeps the current value. A pick loads the family through
-/// [FontLoader] first (lazy — the catalogue is not downloaded at startup),
-/// so the committed value always renders in the family the user chose.
+/// [current] is read on every rebuild (not captured at open), so the
+/// highlight follows the live document while the popup is open;
+/// [listenable] (the theme model) rebuilds the rows when the document
+/// changes. [onChanged] runs exactly once per committed pick ('' clears the
+/// slot) and the popup closes; hovering, scrolling and arrow-key focus
+/// movement stay local. Closing without picking keeps the current value.
+/// A pick loads the family through [FontLoader] first (lazy — the catalogue
+/// is not downloaded at startup), so the committed value always renders in
+/// the family the user chose.
 Future<void> showFontPicker(
   BuildContext context,
   String slot,
-  String? current, {
+  ValueGetter<String?> current, {
   required ValueChanged<String> onChanged,
+  Listenable? listenable,
 }) {
   final List<DocsFontFamily> catalogue = docsFontCatalogueFor(slot);
-  final String committed = current ?? '';
-  Widget row(DocsFontFamily option) {
+  Widget row(BuildContext context, DocsFontFamily option) {
+    final bool selected = (current() ?? '') == option.family;
     final Widget line = RailPickerRow(
       label: option.label,
       detail: option.family.isEmpty ? 'bundled default' : option.family,
-      selected: committed == option.family,
+      selected: selected,
       onPick: () async {
         // Load before the model commits, so the first frame after the commit
         // already paints the picked family (no fallback flash).
@@ -69,23 +74,29 @@ Future<void> showFontPicker(
         ).copyWith(fontFamily: option.family.isEmpty ? null : option.family),
       ),
     );
-    return revealSelectedOnMount(
-      selected: committed == option.family,
-      child: line,
-    );
+    return revealSelectedOnMount(selected: selected, child: line);
   }
 
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final DocsFontFamily option in catalogue) row(context, option),
+      ],
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (final DocsFontFamily option in catalogue) row(option),
-        ],
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
     title: _fontPickerTitle(slot),
   );
 }
@@ -118,203 +129,216 @@ const List<(String, double)> kSpacingPresets = <(String, double)>[
 
 /// Shows the radius popup: presets plus the fine slider (0–16 px).
 ///
-/// Preset taps commit immediately (the popup stays open for fine-tuning).
-/// Slider drags show locally in the popup and commit once on release
-/// ([DraftSlider]); `Done` flushes a keyboard-edited draft, then closes.
-/// Escape closes without committing.
+/// A deliberate multi-step editor: preset taps commit immediately but the
+/// popup stays open for fine-tuning. [current] is read on every rebuild
+/// (not captured at open) and [listenable] (the theme model) rebuilds the
+/// rows when the document changes, so the highlight and the slider follow
+/// the live value while open. Slider drags show locally in the popup and
+/// commit once on release ([DraftSlider]); `Done` flushes a keyboard-edited
+/// draft, then closes. Escape closes without committing.
 Future<void> showRadiusPicker(
   BuildContext context,
-  double radiusPx, {
+  ValueGetter<double> current, {
   required ValueChanged<double> onChanged,
+  Listenable? listenable,
 }) {
-  double applied = radiusPx.clamp(0, 16);
-  double shown = applied;
   final GlobalKey<DraftSliderState> sliderKey = GlobalKey<DraftSliderState>();
-  bool near(double preset) => (applied - preset).abs() < 0.25;
+  double live() => current().clamp(0, 16);
+  bool near(double preset) => (live() - preset).abs() < 0.25;
+  void commit(double next) {
+    if (next == live()) {
+      return;
+    }
+    onChanged(next);
+  }
+
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        // The slider owns the drag draft; the label reads it back so an
+        // external change (which re-seeds the slider) never shows stale.
+        final double shown = sliderKey.currentState?.draft ?? live();
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (final (String label, double px) in kRadiusPresets)
+              RailPickerRow(
+                label: label,
+                detail: '${px.round()} px',
+                selected: near(px),
+                onPick: () => commit(px),
+              ),
+            const Gap(8),
+            Row(
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    '${shown.round()} px',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: docsText(context, size: 14, weight: FontWeight.w500),
+                  ),
+                ),
+                const Spacer(),
+                Flexible(
+                  child: Text(
+                    'radius ${(shown / 16).toStringAsFixed(3)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: docsText(
+                      context,
+                      size: 12,
+                      color: Theme.of(context).colors.mutedForeground,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(8),
+            SizedBox(
+              width: kDocsPickerWidth - 24,
+              child: DraftSlider(
+                key: sliderKey,
+                value: live(),
+                min: 0,
+                max: 16,
+                onCommit: commit,
+                onDraft: (double _) => setState(() {}),
+              ),
+            ),
+            const Gap(4),
+            Button(
+              variant: ButtonVariant.secondary,
+              size: ButtonSize.sm,
+              onPressed: () {
+                sliderKey.currentState?.flush();
+                closeOverlay(context);
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          void commit(double next) {
-            if (next == applied) {
-              return;
-            }
-            setState(() {
-              applied = next;
-              shown = next;
-            });
-            onChanged(next);
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              for (final (String label, double px) in kRadiusPresets)
-                RailPickerRow(
-                  label: label,
-                  detail: '${px.round()} px',
-                  selected: near(px),
-                  onPick: () => commit(px),
-                ),
-              const Gap(8),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      '${shown.round()} px',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: docsText(
-                        context,
-                        size: 14,
-                        weight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    child: Text(
-                      'radius ${(shown / 16).toStringAsFixed(3)}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: docsText(
-                        context,
-                        size: 12,
-                        color: Theme.of(context).colors.mutedForeground,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Gap(8),
-              SizedBox(
-                width: kDocsPickerWidth - 24,
-                child: DraftSlider(
-                  key: sliderKey,
-                  value: applied,
-                  min: 0,
-                  max: 16,
-                  onCommit: commit,
-                  onDraft: (double draft) => setState(() => shown = draft),
-                ),
-              ),
-              const Gap(4),
-              Button(
-                variant: ButtonVariant.secondary,
-                size: ButtonSize.sm,
-                onPressed: () {
-                  sliderKey.currentState?.flush();
-                  closeOverlay(context);
-                },
-                child: const Text('Done'),
-              ),
-            ],
-          );
-        },
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
   );
 }
 
 /// Shows the spacing popup: presets plus the fine slider.
 ///
-/// Same commit contract as the radius popup: preset taps commit, slider
-/// drags stay local until release, `Done` flushes then closes.
+/// Same commit contract as the radius popup: a deliberate multi-step
+/// editor — preset taps commit but the popup stays open for fine-tuning,
+/// with the highlight and slider following the live value ([current]
+/// re-read on every rebuild, [listenable] rebuilding on document change).
+/// Slider drags stay local until release, `Done` flushes then closes,
+/// Escape closes without committing.
 Future<void> showSpacingPicker(
   BuildContext context,
-  double rem, {
+  ValueGetter<double> current, {
   required ValueChanged<double> onChanged,
+  Listenable? listenable,
 }) {
-  double applied = rem.clamp(0.15, 0.35);
-  double shown = applied;
   final GlobalKey<DraftSliderState> sliderKey = GlobalKey<DraftSliderState>();
-  bool near(double preset) => (applied - preset).abs() < 0.005;
+  double live() => current().clamp(0.15, 0.35);
+  bool near(double preset) => (live() - preset).abs() < 0.005;
+  void commit(double next) {
+    if (next == live()) {
+      return;
+    }
+    onChanged(next);
+  }
+
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        final double shown = sliderKey.currentState?.draft ?? live();
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (final (String label, double preset) in kSpacingPresets)
+              RailPickerRow(
+                label: label,
+                detail: '${(preset * 16).toStringAsFixed(1)} px base',
+                selected: near(preset),
+                onPick: () => commit(preset),
+              ),
+            const Gap(8),
+            Row(
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    '${(shown * 16).toStringAsFixed(1)} px base',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: docsText(context, size: 14, weight: FontWeight.w500),
+                  ),
+                ),
+                const Spacer(),
+                Flexible(
+                  child: Text(
+                    'spacing ${shown.toStringAsFixed(2)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: docsText(
+                      context,
+                      size: 12,
+                      color: Theme.of(context).colors.mutedForeground,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(8),
+            SizedBox(
+              width: kDocsPickerWidth - 24,
+              child: DraftSlider(
+                value: live(),
+                key: sliderKey,
+                min: 0.15,
+                max: 0.35,
+                onCommit: commit,
+                onDraft: (double _) => setState(() {}),
+              ),
+            ),
+            const Gap(4),
+            Button(
+              variant: ButtonVariant.secondary,
+              size: ButtonSize.sm,
+              onPressed: () {
+                sliderKey.currentState?.flush();
+                closeOverlay(context);
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          void commit(double next) {
-            if (next == applied) {
-              return;
-            }
-            setState(() {
-              applied = next;
-              shown = next;
-            });
-            onChanged(next);
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              for (final (String label, double preset) in kSpacingPresets)
-                RailPickerRow(
-                  label: label,
-                  detail: '${(preset * 16).toStringAsFixed(1)} px base',
-                  selected: near(preset),
-                  onPick: () => commit(preset),
-                ),
-              const Gap(8),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      '${(shown * 16).toStringAsFixed(1)} px base',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: docsText(
-                        context,
-                        size: 14,
-                        weight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    child: Text(
-                      'spacing ${shown.toStringAsFixed(2)}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: docsText(
-                        context,
-                        size: 12,
-                        color: Theme.of(context).colors.mutedForeground,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Gap(8),
-              SizedBox(
-                width: kDocsPickerWidth - 24,
-                child: DraftSlider(
-                  value: applied,
-                  key: sliderKey,
-                  min: 0.15,
-                  max: 0.35,
-                  onCommit: commit,
-                  onDraft: (double draft) => setState(() => shown = draft),
-                ),
-              ),
-              const Gap(4),
-              Button(
-                variant: ButtonVariant.secondary,
-                size: ButtonSize.sm,
-                onPressed: () {
-                  sliderKey.currentState?.flush();
-                  closeOverlay(context);
-                },
-                child: const Text('Done'),
-              ),
-            ],
-          );
-        },
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
   );
 }
 

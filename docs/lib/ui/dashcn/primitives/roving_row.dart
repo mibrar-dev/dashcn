@@ -160,21 +160,37 @@ class _RovingRowState extends State<RovingRow> {
     _node.addListener(_handleFocusChange);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final MenuGroupData? group = Data.maybeFind<MenuGroupData>(context);
-      assert(group != null, 'RovingRow must be a child of RovingGroup');
-      if (group == null) return;
-      _group = group;
-      group.slots.add(
-        MenuNavSlot(
-          node: _node,
-          enabled: widget.enabled,
-          label: widget.label ?? _textOf(widget.child),
-          onOpen: widget.onOpen,
-          onClose: widget.onClose,
-          isOpen: widget.isOpen,
-        ),
-      );
+      _syncSlot();
     });
+  }
+
+  /// Registers (or refreshes) this row's traversal slot.
+  ///
+  /// `onActivate` carries the row's `onPressed` so Enter-to-pick from a
+  /// search field in the same group can activate the first match without
+  /// knowing the row types.
+  void _syncSlot() {
+    if (!mounted) return;
+    final MenuGroupData? group = Data.maybeFind<MenuGroupData>(context);
+    assert(group != null, 'RovingRow must be a child of RovingGroup');
+    if (group == null) return;
+    _group = group;
+    final MenuNavSlot slot = MenuNavSlot(
+      node: _node,
+      enabled: widget.enabled,
+      label: widget.label ?? _textOf(widget.child),
+      onOpen: widget.onOpen,
+      onClose: widget.onClose,
+      isOpen: widget.isOpen,
+      onActivate: widget.enabled ? widget.onPressed : null,
+    );
+    final List<MenuNavSlot> slots = group.slots;
+    final int index = slots.indexWhere((s) => s.node == _node);
+    if (index >= 0) {
+      slots[index] = slot;
+    } else {
+      slots.add(slot);
+    }
   }
 
   @override
@@ -184,6 +200,10 @@ class _RovingRowState extends State<RovingRow> {
       (oldWidget.focusNode ?? _ownedNode)?.removeListener(_handleFocusChange);
       _node.addListener(_handleFocusChange);
     }
+    // The slot is keyed by node, so a rebuild refreshes it in place: labels,
+    // enabled flags and activations track the live rows (filtered search
+    // lists re-resolve here as the query changes).
+    _syncSlot();
   }
 
   @override

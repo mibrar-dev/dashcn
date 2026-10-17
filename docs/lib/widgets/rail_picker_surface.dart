@@ -1,12 +1,13 @@
 // Surface glass pickers of the Theme Studio rail: opacity and blur presets.
 //
 // Split from the scale pickers so the ~400-line rule stays green. Same
-// commit contract as the radius popup: preset taps commit immediately via
-// [onChanged] (applied on select, never on hover); closing without picking
-// keeps the current value.
+// commit contract as the preset/font/transition popups: preset taps commit
+// immediately via [onChanged] (applied on select, never on hover) and close
+// the popup; closing without picking keeps the current value.
 
 import 'package:flutter/widgets.dart';
 
+import '../../ui/dashcn/primitives/overlay.dart';
 import 'rail_picker_rows.dart';
 import 'rail_pickers.dart';
 
@@ -26,13 +27,21 @@ const List<(String, double?)> kSurfaceBlurPresets = <(String, double?)>[
   ('Heavy', 16),
 ];
 
-/// Shows the surface opacity popup: presets commit on tap.
+/// Shows the surface opacity popup: presets commit on tap and close.
+///
+/// [current] is read on every rebuild (not captured at open), so the
+/// highlight follows the live value while the popup is open; [listenable]
+/// (the theme model) rebuilds the rows when the document changes.
+/// [onChanged] runs exactly once per committed pick; closing without
+/// picking keeps the current value.
 Future<void> showSurfaceOpacityPicker(
   BuildContext context,
-  double? opacity, {
+  ValueGetter<double?> current, {
   required ValueChanged<double?> onChanged,
+  Listenable? listenable,
 }) {
-  bool selected(double? preset) {
+  bool isSelected(double? preset) {
+    final double? opacity = current();
     if (preset == null) return opacity == null;
     if (opacity == null) return false;
     return (opacity - preset).abs() < 0.005;
@@ -40,34 +49,52 @@ Future<void> showSurfaceOpacityPicker(
 
   String detail(double? preset) =>
       preset == null ? 'opaque' : '${(preset * 100).round()}%';
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final (String label, double? value) in kSurfaceOpacityPresets)
+          RailPickerRow(
+            label: label,
+            detail: detail(value),
+            selected: isSelected(value),
+            onPick: () {
+              onChanged(value);
+              closeOverlay(context);
+            },
+          ),
+      ],
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (final (String label, double? value) in kSurfaceOpacityPresets)
-            RailPickerRow(
-              label: label,
-              detail: detail(value),
-              selected: selected(value),
-              onPick: () => onChanged(value),
-            ),
-        ],
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
     title: 'Surface opacity',
   );
 }
 
-/// Shows the surface blur popup: presets commit on tap.
+/// Shows the surface blur popup: presets commit on tap and close.
+///
+/// Same live-selection contract as [showSurfaceOpacityPicker]: [current]
+/// is re-read on every rebuild and [listenable] rebuilds the rows when
+/// the document changes.
 Future<void> showSurfaceBlurPicker(
   BuildContext context,
-  double? blur, {
+  ValueGetter<double?> current, {
   required ValueChanged<double?> onChanged,
+  Listenable? listenable,
 }) {
-  bool selected(double? preset) {
+  bool isSelected(double? preset) {
+    final double? blur = current();
     if (preset == null) return blur == null;
     if (blur == null) return false;
     return (blur - preset).abs() < 0.25;
@@ -75,23 +102,35 @@ Future<void> showSurfaceBlurPicker(
 
   String detail(double? preset) =>
       preset == null ? 'no blur' : '${preset.toStringAsFixed(0)} px';
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final (String label, double? value) in kSurfaceBlurPresets)
+          RailPickerRow(
+            label: label,
+            detail: detail(value),
+            selected: isSelected(value),
+            onPick: () {
+              onChanged(value);
+              closeOverlay(context);
+            },
+          ),
+      ],
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (final (String label, double? value) in kSurfaceBlurPresets)
-            RailPickerRow(
-              label: label,
-              detail: detail(value),
-              selected: selected(value),
-              onPick: () => onChanged(value),
-            ),
-        ],
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
     title: 'Surface blur',
   );
 }

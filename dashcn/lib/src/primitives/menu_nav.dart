@@ -120,6 +120,7 @@ class MenuNavSlot {
     this.onOpen,
     this.onClose,
     this.isOpen,
+    this.onActivate,
   });
 
   /// Node focus moves to; owned by the row.
@@ -139,6 +140,10 @@ class MenuNavSlot {
 
   /// Whether the row's nested level is open.
   final bool Function()? isOpen;
+
+  /// Activates the row (the row's `onPressed`); used by Enter-to-pick from a
+  /// search field living in the same group.
+  final VoidCallback? onActivate;
 }
 
 /// Shared state of one [RovingGroup]: hierarchy links and the close fan-out.
@@ -208,6 +213,22 @@ class MenuGroupData {
     }
     p.closeOthers();
     p.closeAll();
+  }
+
+  /// Activates the first enabled slot that has an activation, if any.
+  ///
+  /// Enter-to-pick from a search field living in the same group: the field
+  /// owns the query, the group owns the rows, and this bridges the two
+  /// without the field knowing the row types. Returns true when a row was
+  /// activated.
+  bool activateFirstEnabled() {
+    for (final MenuNavSlot slot in slots) {
+      if (slot.enabled && slot.onActivate != null) {
+        slot.onActivate!();
+        return true;
+      }
+    }
+    return false;
   }
 
   /// The root group of this menu.
@@ -325,8 +346,37 @@ class _RovingGroupState extends State<RovingGroup> {
     return -1;
   }
 
+  /// Whether the current focus lives inside an editable text field.
+  ///
+  /// Typeahead and caret-hostile navigation must not fire while the user is
+  /// editing a search field that lives in this group (the select/country
+  /// search pattern): the keystrokes belong to the field.
+  bool get _focusIsInEditable {
+    final FocusNode? primary = FocusManager.instance.primaryFocus;
+    final BuildContext? context = primary?.context;
+    if (primary == null || context == null || !primary.hasFocus) {
+      return false;
+    }
+    return context.findAncestorWidgetOfExactType<EditableText>() != null;
+  }
+
   KeyEventResult _key(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    // An editable field inside the group owns its keystrokes. Printable
+    // characters must reach the field's IME: reporting them handled here
+    // suppresses insertion on real keyboards (web preventDefaults the
+    // browser edit) while widget tests stay green because `enterText`
+    // bypasses key events entirely. Caret keys (Left/Right/Home/End) stay
+    // with the field too. ArrowUp/Down keep bubbling so they walk the rows
+    // ("arrow keys move"), and Escape keeps closing (fields ignore it).
+    if (_focusIsInEditable) {
+      final LogicalKeyboardKey editKey = event.logicalKey;
+      if (editKey != LogicalKeyboardKey.escape &&
+          editKey != LogicalKeyboardKey.arrowDown &&
+          editKey != LogicalKeyboardKey.arrowUp) {
+        return KeyEventResult.ignored;
+      }
+    }
     final LogicalKeyboardKey key = event.logicalKey;
     if (key == LogicalKeyboardKey.arrowDown) {
       _move(true);

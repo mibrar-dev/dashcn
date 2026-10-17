@@ -214,24 +214,28 @@ class _SelectPopupBodyState extends State<SelectPopupBody> {
         context,
         ListenableBuilder(
           listenable: _search,
-          builder: (context, _) {
+          builder: (BuildContext innerContext, _) {
             final String? query = searching && _search.text.isNotEmpty
                 ? _search.text
                 : null;
             final FutureOr<List<Widget>> resolved = widget.builder != null
-                ? widget.builder!(context, query)
+                ? widget.builder!(innerContext, query)
                 : widget.items ?? const <Widget>[];
             if (resolved is Future<List<Widget>>) {
               return FutureBuilder<List<Widget>>(
                 future: resolved,
-                builder: (context, snapshot) =>
+                builder: (BuildContext futureContext, snapshot) =>
                     snapshot.connectionState == ConnectionState.waiting
                     // Loading stub height: a layout cap, not padding.
                     ? const SizedBox(height: 48)
-                    : _resolve(searching, snapshot.data ?? const <Widget>[]),
+                    : _resolve(
+                        futureContext,
+                        searching,
+                        snapshot.data ?? const <Widget>[],
+                      ),
               );
             }
-            return _resolve(searching, resolved);
+            return _resolve(innerContext, searching, resolved);
           },
         ),
       ),
@@ -239,10 +243,19 @@ class _SelectPopupBodyState extends State<SelectPopupBody> {
   }
 
   /// The search field (optional) plus the resolved rows.
-  Widget _resolve(bool searching, List<Widget> rows) {
+  ///
+  /// [innerContext] is the list context *inside* the caller's surface (below
+  /// the `MenuGroup` for menu-based popups), so the search field handed that
+  /// context can reach group data (Enter-to-pick) while the popup body's own
+  /// context cannot.
+  Widget _resolve(
+    BuildContext innerContext,
+    bool searching,
+    List<Widget> rows,
+  ) {
     // The 48 empty/loading stub is a layout cap, not component padding.
     final Widget resolvedRows = rows.isEmpty
-        ? widget.emptyBuilder?.call(context) ?? const SizedBox(height: 48)
+        ? widget.emptyBuilder?.call(innerContext) ?? const SizedBox(height: 48)
         : Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -255,7 +268,7 @@ class _SelectPopupBodyState extends State<SelectPopupBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        widget.searchField!(context, _search),
+        widget.searchField!(innerContext, _search),
         ?widget.spacer,
         resolvedRows,
       ],
