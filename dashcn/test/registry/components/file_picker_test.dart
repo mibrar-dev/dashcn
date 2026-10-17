@@ -393,7 +393,7 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('the tile is 48 high and a row is 64 high', (
+    testWidgets('the tile is 48 high and a row is 72 high', (
       WidgetTester tester,
     ) async {
       final FileUploadController controller = FileUploadController(
@@ -409,7 +409,9 @@ void main() {
         ),
       );
       expect(tester.getSize(find.byKey(fileUploadTileKey)).height, 48);
-      expect(tester.getSize(find.byType(FileUploadRow)).height, 64);
+      // The icon actions centre in the 48px touch minimum, so the row
+      // reports 48 + the row's vertical padding.
+      expect(tester.getSize(find.byType(FileUploadRow)).height, 72);
     });
 
     testWidgets('the mobile trigger is 36 high (dashcn h-9)', (tester) async {

@@ -36,8 +36,8 @@ enum DateState { disabled, enabled }
 /// `selectedForeground` (`primaryForeground`), `rangeBackground` (`secondary`).
 ///
 /// Dimension and text rows, falling back when null: `cellBorderRadius`
-/// (`borderRadiusMd`), `cellWidth` (32, or 56 for the month and year grids),
-/// `cellHeight` (32, or 40 for those), `gap` (the density base gap),
+/// (`borderRadiusMd`), `cellWidth` (48, or 56 for the month and year grids),
+/// `cellHeight` (48 for those too), `gap` (the density base gap),
 /// `weekdayTextStyle` (xSmall) and `cellTextStyle` (14). Both text rows ignore
 /// the colour, because the colour rows own that.
 class CalendarTheme extends ComponentThemeData
@@ -149,17 +149,21 @@ const CalendarTheme calendarDefaults = CalendarTheme(
 /// Calendar shell padding around the grid: upstream `p-3` (12), density-scaled.
 const EdgeInsetsGeometry calendarPadding = EdgeInsetsDensity.pxAll(12);
 
-/// Nominal cell side of a day cell: upstream `size-(--spacing(8))` = 32, scaled
-/// by the ambient density like every other upstream px value in the registry.
+/// Nominal cell side of a day cell: 48, the Android touch minimum, scaled by
+/// the ambient density like every other upstream px value in the registry.
+/// (Upstream `size-(--spacing(8))` = 32; the default visual here is the full
+/// 48px cell so every day meets the tap target. A theme can still override
+/// the size down via [CalendarTheme.cellWidth]/[cellHeight].)
 ///
 /// The month and year grids use [calendarMonthCellWidth] /
 /// [calendarMonthCellHeight] instead; both are overridable through
 /// [CalendarTheme.cellWidth] and [CalendarTheme.cellHeight].
-const double calendarDayCellSize = 32;
+const double calendarDayCellSize = 48;
 
-/// Nominal cell size of the month and year grids (upstream `size-14` / h-10).
+/// Nominal cell size of the month and year grids: 56 wide (upstream
+/// `size-14`) and 48 high (the Android touch minimum; upstream `h-10` = 40).
 const double calendarMonthCellWidth = 56;
-const double calendarMonthCellHeight = 40;
+const double calendarMonthCellHeight = 48;
 
 /// One keyboard move, as upstream / react-day-picker defines it.
 enum CalendarGridMove {

@@ -144,9 +144,10 @@ void main() {
           tester.getSize(find.byType(FilterBarSearchField)),
           const Size(220, 36),
         );
+        // The sort trigger meets the 48px touch minimum.
         expect(
           tester.getSize(find.byType(FilterBarSortControl)),
-          const Size(180, 36),
+          const Size(180, 48),
         );
       }
     });

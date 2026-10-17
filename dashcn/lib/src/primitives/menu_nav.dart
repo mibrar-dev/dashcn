@@ -149,6 +149,7 @@ class MenuGroupData {
     this.hasLeading = false,
     this.direction = Axis.vertical,
     this.itemPadding = EdgeInsets.zero,
+    this.rowMinHeight,
     this.subMenuOffset,
     this.onDismissed,
   });
@@ -164,6 +165,11 @@ class MenuGroupData {
 
   /// Extra padding added to every row.
   final EdgeInsets itemPadding;
+
+  /// Minimum row height for rows built from this group; null resolves the
+  /// row default (32). The menubar bar passes 48 so its triggers meet the
+  /// touch minimum; vertical menus keep the upstream 32px rows.
+  final double? rowMinHeight;
 
   /// Nested-level offset; null resolves the caller's default.
   final Offset? subMenuOffset;
@@ -227,6 +233,7 @@ class RovingGroup extends StatefulWidget {
     this.hasLeading = false,
     this.direction = Axis.vertical,
     this.itemPadding = EdgeInsets.zero,
+    this.rowMinHeight,
     this.subMenuOffset,
     this.onDismissed,
     this.autofocus = false,
@@ -250,6 +257,9 @@ class RovingGroup extends StatefulWidget {
 
   /// Extra row padding.
   final EdgeInsets itemPadding;
+
+  /// Minimum row height; null resolves the row default (32).
+  final double? rowMinHeight;
 
   /// Nested-level offset; null resolves the caller's default.
   final Offset? subMenuOffset;
@@ -276,6 +286,7 @@ class _RovingGroupState extends State<RovingGroup> {
     hasLeading: widget.hasLeading,
     direction: widget.direction,
     itemPadding: widget.itemPadding,
+    rowMinHeight: widget.rowMinHeight,
     subMenuOffset: widget.subMenuOffset,
     onDismissed: widget.onDismissed,
   );

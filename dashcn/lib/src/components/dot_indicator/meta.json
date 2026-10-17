@@ -10,7 +10,7 @@
   "deps": {
     "foundation": ["constants", "data"],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["clickable", "widget_states"],
+    "primitives": ["clickable", "tap_target", "widget_states"],
     "components": []
   },
   "files": [

@@ -27,6 +27,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/tap_target.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -193,7 +194,9 @@ class DotIndicator extends StatelessWidget {
         padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
           EdgeInsets.all(gap / 2),
         ),
-        child: mark,
+        // The 12px dot centres in the 48px touch minimum (transparent
+        // growth, visuals unchanged).
+        child: TapTarget(child: mark),
       ),
     );
   }

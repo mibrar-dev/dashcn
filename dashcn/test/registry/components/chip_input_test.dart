@@ -106,8 +106,15 @@ Future<void> _modifiedKey(WidgetTester tester, LogicalKeyboardKey key) async {
 }
 
 /// Focuses the field and parks the caret at the end of its text.
+///
+/// Requests focus through the field's own node instead of tapping: the chip
+/// remove buttons meet the 48px touch minimum, so a tap at the field centre
+/// can land on a button (removing its chip) instead of focusing the field.
 Future<void> _focusAtEnd(WidgetTester tester) async {
-  await tester.tap(find.byType(EditableText));
+  tester
+      .widget<EditableText>(find.byType(EditableText))
+      .focusNode
+      .requestFocus();
   final TokenEditingController<String> controller = _ctrl(tester);
   controller.selection = TextSelection.collapsed(
     offset: controller.text.length,

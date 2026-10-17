@@ -449,6 +449,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'dot_indicator': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'tap_target', kind: DocsDepKind.primitive),
     DocsDep(id: 'widget_states', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
@@ -477,6 +478,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'toggle': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'tap_target', kind: DocsDepKind.primitive),
     DocsDep(id: 'geometry', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -532,6 +534,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'chip': <DocsDep>[
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'tap_target', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),

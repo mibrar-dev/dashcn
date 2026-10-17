@@ -17,6 +17,7 @@ import 'clickable.dart';
 import 'form_core/object_form_field.dart';
 import 'localizations/locale_parts.dart';
 import 'popover_controller.dart';
+import 'tap_target.dart';
 import 'text_editing/segmented_value.dart';
 
 /// Digits-only formatters, shared by every segment (one instance keeps
@@ -336,7 +337,9 @@ class _ObjectPromptButtonState extends State<ObjectPromptButton> {
         rest: SystemMouseCursors.click,
         disabled: SystemMouseCursors.basic,
       ),
-      child: widget.child,
+      // The 16px trailing icon centres in the 48px touch minimum
+      // (transparent growth, visuals unchanged).
+      child: TapTarget(child: widget.child),
     );
     if (widget.semanticLabel == null) {
       return button;

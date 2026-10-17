@@ -98,9 +98,12 @@ class _NowPlayingState extends State<_NowPlaying> {
                   size: ButtonSize.icon,
                   variant: ButtonVariant.ghost,
                   onPressed: () => setState(() => _playing = !_playing),
-                  child: Icon(
-                    _playing ? LucideIcons.pause : LucideIcons.play,
-                    size: 16,
+                  child: Semantics(
+                    label: _playing ? 'Pause' : 'Play',
+                    child: Icon(
+                      _playing ? LucideIcons.pause : LucideIcons.play,
+                      size: 16,
+                    ),
                   ),
                 ),
               ],

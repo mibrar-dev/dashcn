@@ -131,12 +131,12 @@ void main() {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
       final Rect first = tester.getRect(_cellFinder(tester, '26'));
       final Rect second = tester.getRect(_cellFinder(tester, '27'));
-      expect(first.width, 32);
+      expect(first.width, 48);
       expect(second.left - first.right, 4);
       // The 1st sits four columns after the leading cell.
       expect(
         tester.getRect(_cellFinder(tester, '1')).left - first.left,
-        4 * 36,
+        4 * 52,
       );
     });
 
@@ -227,7 +227,7 @@ void main() {
       );
       expect(cell.width, greaterThan(cell.height));
       expect(cell.width, 56);
-      expect(cell.height, 40);
+      expect(cell.height, 48);
     });
   });
 
@@ -685,7 +685,7 @@ void main() {
         ),
       );
       expect(_fillOf(tester, '14'), _green);
-      expect(_cellOf(tester, '14').constraints!.maxHeight, 32);
+      expect(_cellOf(tester, '14').constraints!.maxHeight, 48);
     });
 
     testWidgets('cell size and gap are theme rows', (tester) async {
@@ -1070,30 +1070,41 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('a day cell is 32x32, dashcn size-8', (tester) async {
+    testWidgets('a day cell is 48x48, the touch minimum', (tester) async {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
-      expect(tester.getSize(_cellFinder(tester, '14')), const Size(32, 32));
-      expect(tester.getSize(_cellFinder(tester, '1')), const Size(32, 32));
+      expect(tester.getSize(_cellFinder(tester, '14')), const Size(48, 48));
+      expect(tester.getSize(_cellFinder(tester, '1')), const Size(48, 48));
     });
 
     testWidgets('the weekday header matches the day cell', (tester) async {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
-      final Rect header = tester.getRect(find.text('Mon'));
       final Rect cell = tester.getRect(_cellFinder(tester, '26'));
-      expect(header.size.width, cell.size.width);
-      expect(header.center.dy, isNot(cell.center.dy));
+      // The label slot (not the label text, which shrink-wraps) shares the
+      // fitted cell share, so the header keeps the grid pitch.
+      final Finder slot = find.ancestor(
+        of: find.text('Mon'),
+        matching: find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is SizedBox &&
+              widget.width != null &&
+              widget.height != null,
+        ),
+      );
+      expect(slot, findsOneWidget);
+      expect(tester.getRect(slot).size.width, cell.size.width);
+      expect(tester.getRect(find.text('Mon')).center.dy, isNot(cell.center.dy));
     });
 
-    testWidgets('a month cell is 56x40 and a year cell too', (tester) async {
+    testWidgets('a month cell is 56x48 and a year cell too', (tester) async {
       await tester.pumpWidget(
         _frame(const Calendar(view: march, viewType: CalendarViewType.month)),
       );
-      expect(tester.getSize(_cellFinder(tester, 'Jan')), const Size(56, 40));
+      expect(tester.getSize(_cellFinder(tester, 'Jan')), const Size(56, 48));
 
       await tester.pumpWidget(
         _frame(const Calendar(view: march, viewType: CalendarViewType.year)),
       );
-      expect(tester.getSize(_cellFinder(tester, '2024')), const Size(56, 40));
+      expect(tester.getSize(_cellFinder(tester, '2024')), const Size(56, 48));
     });
 
     testWidgets('the theme rows scale the cell', (tester) async {
@@ -1220,24 +1231,31 @@ void main() {
         expect(tester.takeException(), isNull);
         final Size grid = tester.getSize(find.byType(Calendar));
         expect(grid.width, lessThanOrEqualTo(width));
-        // 300 px and up hold the nominal 32 px cells; narrower columns
-        // shrink them (P6-P1: the studio canvas leaves ~196 px at 768 px).
+        // 384 px and up (seven 48 px cells, six 4 px gaps, 2x12 px shell)
+        // hold the nominal cells; narrower columns shrink them (P6-P1: the
+        // studio canvas leaves ~196 px at 768 px).
         final double cellWidth = tester
             .getSize(_cellFinder(tester, '14'))
             .width;
-        if (width >= 300) {
-          expect(cellWidth, 32);
+        if (width >= 384) {
+          expect(cellWidth, 48);
         } else {
-          expect(cellWidth, lessThan(32));
+          expect(cellWidth, lessThan(48));
           expect(cellWidth, greaterThanOrEqualTo(20));
         }
-        // The weekday header keeps the shrunken pitch. `closeTo` because the
-        // header text is measured against the fitted cell share, and the two
-        // are the same double computed by different division orders.
-        expect(
-          tester.getRect(find.text('Mon')).width,
-          closeTo(cellWidth, 0.001),
+        // The weekday header keeps the shrunken pitch: the label *slot*
+        // (not the shrink-wrapped label text) shares the fitted cell share.
+        final Finder headerSlot = find.ancestor(
+          of: find.text('Mon'),
+          matching: find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is SizedBox &&
+                widget.width != null &&
+                widget.height != null,
+          ),
         );
+        expect(headerSlot, findsOneWidget);
+        expect(tester.getRect(headerSlot).width, closeTo(cellWidth, 0.001));
         // A shrunken cell still selects its date.
         await tester.tap(find.text('15'));
         await tester.pump();

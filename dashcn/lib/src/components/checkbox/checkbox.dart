@@ -88,6 +88,7 @@ class Checkbox extends StatefulWidget {
     this.size,
     this.gap,
     this.padding,
+    this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
     this.onHover,
@@ -117,6 +118,11 @@ class Checkbox extends StatefulWidget {
 
   /// Text shown next to the box.
   final Widget? label;
+
+  /// Accessible label for the box itself; null falls back to [label]'s text
+  /// (when it is a [Text]). Table row-selection boxes pass 'Select row'
+  /// here so the tappable node is labelled without painting a caption.
+  final String? semanticLabel;
 
   /// Side length of the box; null falls back to the size table.
   final double? size;
@@ -322,7 +328,9 @@ class _CheckboxState extends State<Checkbox>
       checked: value == CheckboxValue.checked,
       mixed: value == CheckboxValue.indeterminate,
       enabled: enabled,
-      label: widget.label is Text ? (widget.label! as Text).data : null,
+      label:
+          widget.semanticLabel ??
+          (widget.label is Text ? (widget.label! as Text).data : null),
       child: Opacity(
         opacity: enabled ? 1 : _checkboxDisabledOpacity,
         child: Clickable(

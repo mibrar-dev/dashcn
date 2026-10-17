@@ -29,6 +29,9 @@ Widget _instant(BuildContext context) {
 /// Title plus description in one tooltip.
 Widget _rich(BuildContext context) {
   return Tooltip(
+    // The anchor carries the message as its semantic label so screen
+    // readers announce it without waiting for the hover overlay.
+    semanticLabel: 'Deployment. Ships when the checks pass.',
     tooltip: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +74,9 @@ Widget _anchor(
     alignment: Alignment.center,
     child: Tooltip(
       waitDuration: waitDuration,
+      // The anchor carries the message as its semantic label so screen
+      // readers announce it without waiting for the hover overlay.
+      semanticLabel: label,
       tooltip: (BuildContext context) => Text(label),
       child: Container(
         width: 36,

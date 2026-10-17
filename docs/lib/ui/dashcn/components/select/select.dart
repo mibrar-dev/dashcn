@@ -72,6 +72,7 @@ class Select<T> extends StatefulWidget {
     this.popupConstraints,
     this.valueSelectionHandler,
     this.valueSelectionPredicate,
+    this.triggerMinHeight,
     this.theme,
   });
 
@@ -121,6 +122,11 @@ class Select<T> extends StatefulWidget {
 
   /// Custom selection test; null is `value == test`.
   final SelectValueSelectionPredicate<T>? valueSelectionPredicate;
+
+  /// Minimum trigger height (border-box total); null resolves 36 (upstream
+  /// h-9). The filter bar sort control and the phone country pill pass 48
+  /// so their triggers meet the touch minimum; the default stays 36.
+  final double? triggerMinHeight;
 
   /// Widget-leg theme override, merged over the component/app/defaults legs.
   final SelectTheme? theme;
@@ -342,7 +348,7 @@ class _SelectState<T> extends State<Select<T>>
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight:
-                    36 -
+                    (widget.triggerMinHeight ?? 36) -
                     math.max(resolvedPadding.top, borderWidth) -
                     math.max(resolvedPadding.bottom, borderWidth),
               ),

@@ -261,20 +261,30 @@ class RefreshTriggerState extends State<RefreshTrigger> {
                 ? (widget.reverse ? const Offset(0, 1) : const Offset(0, -1))
                 : (widget.reverse ? const Offset(1, 0) : const Offset(-1, 0));
             final Offset shift = vertical ? Offset(0, slide) : Offset(slide, 0);
+            // At rest (idle, zero extent) the pill sits fully above the list,
+            // but its drop shadow still spills a grey band over the first row
+            // and tanks its text contrast. Push it a further 64px offscreen
+            // while at rest: fully hidden either way (shadow included), and
+            // the indicator subtree stays built so custom indicator builders
+            // keep their contract and the slide-in animation is unchanged.
+            final Offset restShift = (value <= 0 && stage == TriggerStage.idle)
+                ? offscreen * 64.0
+                : Offset.zero;
+            final Offset pullShift = shift + restShift;
             final Positioned indicator = vertical
                 ? Positioned(
                     top: !widget.reverse ? 0 : null,
                     bottom: !widget.reverse ? null : 0,
                     left: 0,
                     right: 0,
-                    child: _sliding(offscreen, shift, snapshot),
+                    child: _sliding(offscreen, pullShift, snapshot),
                   )
                 : Positioned(
                     top: 0,
                     bottom: 0,
                     left: widget.reverse ? null : 0,
                     right: widget.reverse ? 0 : null,
-                    child: _sliding(offscreen, shift, snapshot),
+                    child: _sliding(offscreen, pullShift, snapshot),
                   );
             return Stack(
               fit: StackFit.passthrough,

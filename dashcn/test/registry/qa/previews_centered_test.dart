@@ -150,6 +150,9 @@ const Map<String, String> _whitelistVertical = <String, String>{
   'calendar/Single': 'v: flush header vs p-3 shell offsets union 6px',
   'calendar/Range': 'v: flush header vs p-3 shell offsets union 6px',
   'calendar/Multi': 'v: flush header vs p-3 shell offsets union 6px',
+  // No stepper header here: the 48px weekday slot vs the small label text
+  // offsets the paint union 9px although the staged box is centred.
+  'calendar/Read-only': 'v: weekday slot vs label text offsets union 9px',
   // Full-height sidebar fills the stage; items flow top-down.
   'navigation_bar/Sidebar': 'v: full-height sidebar, top-down items',
   // Full-width IDE pane (720x200 staged box centred); the union covers the

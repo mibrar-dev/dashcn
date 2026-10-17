@@ -5,8 +5,9 @@
 // date/time picker dialogs were a fixed 480px-wide frame with a stretched
 // column, so a calendar sat inside a mostly empty card. This file measures the
 // dialogs: the card must be exactly as wide as its content (the calendar grid,
-// or the time columns), no more, and no more than 360x420 at the default
-// density. Footer buttons are Cancel then Save, right-aligned, gap-2 apart.
+// or the time columns), no more, and no more than 384x480 at the default
+// density (seven 48px touch cells plus gaps and shell). Footer buttons are
+// Cancel then Save, right-aligned, gap-2 apart.
 //
 // The matrix is the one the brief asks for: light and dark, neutral and claude,
 // compact/default/comfortable density.
@@ -117,9 +118,10 @@ void main() {
         // The card is exactly the calendar wide: the `p-3` shell lives on the
         // calendar, the card padding is `p-0`.
         expect(card.width, moreOrLessEquals(grid.width, epsilon: 0.01));
-        // upstream's reference bounds for a picker dialog.
-        expect(card.width, lessThanOrEqualTo(360));
-        expect(card.height, lessThanOrEqualTo(420));
+        // Reference bounds for a picker dialog: the 48px touch grid.
+        expect(card.width, lessThanOrEqualTo(384));
+        // Caption + grid + footer for a five-week month at 48px cells.
+        expect(card.height, lessThanOrEqualTo(480));
         expect(tester.takeException(), isNull);
       });
     }
@@ -141,9 +143,9 @@ void main() {
           ? saveButton.bottom
           : cancelButton.bottom;
       // `p-0` card: it starts at the caption row (which is `size-(--cell-size)`
-      // tall, 32) and ends `p-3` below the taller footer button.
+      // tall, 48) and ends `p-3` below the taller footer button.
       expect(card.top, closeTo(caption.top, 0.5));
-      expect(caption.height, closeTo(32, 0.5));
+      expect(caption.height, closeTo(48, 0.5));
       expect(card.bottom - contentBottom, closeTo(12, 0.5));
       // Caption row + `gap-2`, then the grid, then `gap-3` and the footer row.
       expect(grid.top - caption.bottom, closeTo(8, 0.5));
@@ -196,6 +198,10 @@ void main() {
     testWidgets('scales with density: 6/12/15 cell gaps, same bounds', (
       tester,
     ) async {
+      // The dialog route sizes from the test view: the spacious grid needs
+      // room (the skins group above uses 1440x900 for the same reason).
+      await tester.binding.setSurfaceSize(const Size(1440, 900));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
       final List<double> widths = <double>[];
       final List<double> cells = <double>[];
       for (final Density density in <Density>[
@@ -220,12 +226,12 @@ void main() {
         await tester.tap(find.text('Save'));
         await tester.pumpAndSettle();
       }
-      // upstream `size-8` (32) cells, scaled: 16 / 32 / 40.
-      expect(cells, <double>[16, 32, 40]);
+      // 48px touch cells, scaled: 24 / 48 / 60.
+      expect(cells, <double>[24, 48, 60]);
       // compact < default < comfortable, all within the reference bounds.
       expect(widths[0], lessThan(widths[1]));
       expect(widths[1], lessThan(widths[2]));
-      expect(widths.every((double w) => w <= 360 * 1.3), isTrue);
+      expect(widths.every((double w) => w <= 384 * 1.3), isTrue);
     });
   });
 
@@ -268,7 +274,7 @@ void main() {
       );
       await _openDialog(tester, 'March 14, 2024');
       final Rect grid = tester.getRect(find.byType(Calendar));
-      expect(grid.width, lessThanOrEqualTo(360));
+      expect(grid.width, lessThanOrEqualTo(384));
       // No dialog card, no barrier: the calendar is the popover's only content.
       expect(find.byKey(kObjectFormDialogSurfaceKey), findsNothing);
       await tester.tap(find.text('15'));

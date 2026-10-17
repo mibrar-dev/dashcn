@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../primitives/clickable.dart';
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/tap_target.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -302,12 +303,20 @@ class _ToggleState extends State<Toggle> with FormValueSupplier<bool, Toggle> {
           padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(contentPadding),
           textStyle: WidgetStateProperty.resolveWith(textStyleFor),
           iconTheme: WidgetStateProperty.resolveWith(iconThemeFor),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: innerMinWidth,
-              minHeight: innerMinHeight,
+          child: TapTarget(
+            // The track paints at [minSide] (32/36/40): centre it in the
+            // 48px touch minimum (transparent growth, visuals unchanged).
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: innerMinWidth,
+                minHeight: innerMinHeight,
+              ),
+              child: Center(
+                widthFactor: 1,
+                heightFactor: 1,
+                child: widget.child,
+              ),
             ),
-            child: Center(widthFactor: 1, heightFactor: 1, child: widget.child),
           ),
         ),
       ),

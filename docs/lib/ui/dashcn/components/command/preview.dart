@@ -59,6 +59,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           value.toLowerCase().contains(query.toLowerCase())) {
                         items.add(
                           SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
                             title: Text(value),
                             onTap: () => setState(() => _lastCommand = value),
                           ),
@@ -93,6 +95,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             value.toLowerCase().contains(query.toLowerCase())) {
                           items.add(
                             SubFocusListItem(
+                              // 48px rows meet the touch minimum.
+                              minHeight: 48,
                               title: Text(value),
                               onTap: () => setState(() => _lastCommand = value),
                             ),

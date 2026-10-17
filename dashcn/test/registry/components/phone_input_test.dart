@@ -135,7 +135,8 @@ void main() {
         expect(find.byType(CountryFlag), findsOneWidget);
         expect(find.text('+1'), findsOneWidget);
         expect(find.text('+15551234'), findsOneWidget);
-        expect(tester.getSize(find.byType(Select<Country>)).height, 36);
+        // The country pill meets the 48px touch minimum.
+        expect(tester.getSize(find.byType(Select<Country>)).height, 48);
         expect(tester.getSize(find.byType(Select<Country>)).width, 180);
         expect(tester.getSize(find.byType(Input)).height, 36);
         expect(tester.getSize(find.byType(Input)).width, 200);

@@ -255,8 +255,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.07,
-      p90Ms: 0.129,
+      p50Ms: 0.054,
+      p90Ms: 0.1,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -300,8 +300,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.08,
-      p90Ms: 0.132,
+      p50Ms: 0.054,
+      p90Ms: 0.115,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -345,8 +345,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 302.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.13,
-      p90Ms: 0.23,
+      p50Ms: 0.055,
+      p90Ms: 0.142,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -390,8 +390,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 339.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.074,
-      p90Ms: 0.139,
+      p50Ms: 0.045,
+      p90Ms: 0.138,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -435,8 +435,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.077,
-      p90Ms: 0.158,
+      p50Ms: 0.044,
+      p90Ms: 0.17,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -480,8 +480,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.079,
-      p90Ms: 0.147,
+      p50Ms: 0.049,
+      p90Ms: 0.119,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -525,8 +525,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 286.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.939,
-      p90Ms: 1.125,
+      p50Ms: 0.643,
+      p90Ms: 0.937,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -570,8 +570,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 536.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.054,
-      p90Ms: 0.114,
+      p50Ms: 0.042,
+      p90Ms: 0.109,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -615,8 +615,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.05,
-      p90Ms: 0.095,
+      p50Ms: 0.039,
+      p90Ms: 0.143,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -636,15 +636,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 26, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 27, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 28, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 29, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 1, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 2, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 3, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 4, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 5, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 6, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 7, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 8, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 9, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 10, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 11, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 12, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 13, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 14, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 15, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 16, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 17, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 18, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 19, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 20, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 21, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 22, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 23, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 24, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 25, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 26, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 27, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 28, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 29, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 30, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 31, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 26, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 27, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 28, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 29, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 1, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 2, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 3, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 4, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 5, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 6, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 7, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 8, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 9, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 10, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 11, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 12, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 13, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 14, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 15, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 16, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 17, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 18, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 19, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 20, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 21, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 22, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 23, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 24, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 25, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 26, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 27, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 28, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 29, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 30, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 31, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -662,8 +660,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 455.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.092,
-      p90Ms: 0.189,
+      p50Ms: 0.036,
+      p90Ms: 0.079,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -707,8 +705,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 360.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.038,
-      p90Ms: 0.107,
+      p50Ms: 0.031,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -748,12 +746,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       renders: true,
       mirrored: true,
       message: null,
-      ltrX: 192.0,
-      rtlX: 524.0,
+      ltrX: 198.0,
+      rtlX: 518.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.041,
-      p90Ms: 0.101,
+      p50Ms: 0.033,
+      p90Ms: 0.075,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -773,15 +771,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Previous", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Next", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: "Page 1 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 2 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 3 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 4 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 5 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,480.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Previous", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1812.0]; [0.0,3.0,0.0,762.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Next", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: "Page 1 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 2 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 3 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 4 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,1122.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 5 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -795,12 +791,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       renders: true,
       mirrored: true,
       message: null,
-      ltrX: -6.0,
-      rtlX: 778.0,
+      ltrX: 18.0,
+      rtlX: 754.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.073,
-      p90Ms: 0.135,
+      p50Ms: 0.03,
+      p90Ms: 0.062,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -844,8 +840,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 172.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.054,
-      p90Ms: 0.095,
+      p50Ms: 0.024,
+      p90Ms: 0.035,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -889,8 +885,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 608.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.069,
-      p90Ms: 0.139,
+      p50Ms: 0.025,
+      p90Ms: 0.038,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -910,15 +906,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(172.0, 4.0, 184.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Design system", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(100.0, 4.0, 112.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Flutter", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(172.0, 4.0, 184.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Accessibility", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(124.0, 4.0, 136.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Dark mode", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(172.0, 4.0, 184.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Design system", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(100.0, 4.0, 112.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Flutter", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(172.0, 4.0, 184.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Accessibility", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(124.0, 4.0, 136.0, 16.0), actions: [focus, tap], flags: [isFocusable], label: "Remove Dark mode", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -932,12 +926,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       renders: true,
       mirrored: true,
       message: null,
-      ltrX: 72.0,
-      rtlX: 572.0,
+      ltrX: 94.0,
+      rtlX: 550.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.036,
-      p90Ms: 0.075,
+      p50Ms: 0.025,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -957,15 +951,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(113.0, 12.0, 125.0, 24.0), tags: [PlaceholderSpanIndexSemanticsTag(0)], actions: [focus, tap], flags: [isFocusable], label: "Delete", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(113.0, 12.0, 125.0, 24.0), tags: [PlaceholderSpanIndexSemanticsTag(0)], actions: [focus, tap], flags: [isFocusable], label: "Delete", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -983,8 +975,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 692.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.044,
-      p90Ms: 0.101,
+      p50Ms: 0.026,
+      p90Ms: 0.037,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1028,8 +1020,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 205.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.066,
-      p90Ms: 0.127,
+      p50Ms: 0.026,
+      p90Ms: 0.03,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1070,11 +1062,11 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       mirrored: true,
       message: null,
       ltrX: 16.0,
-      rtlX: 68.0,
+      rtlX: 80.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.066,
-      p90Ms: 0.12,
+      p50Ms: 0.025,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1118,8 +1110,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 696.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.058,
-      p90Ms: 0.1,
+      p50Ms: 0.025,
+      p90Ms: 0.048,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1139,15 +1131,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#6(Rect.fromLTRB(4.0, 4.0, 316.0, 30.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Calendar", textDirection: ltr, indexInParent: 0): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(4.0, 30.0, 316.0, 56.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Search Emoji", textDirection: ltr, indexInParent: 1): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(4.0, 56.0, 316.0, 82.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Launch", textDirection: ltr, indexInParent: 2): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(4.0, 82.0, 316.0, 108.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Profile", textDirection: ltr, indexInParent: 3): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(4.0, 108.0, 316.0, 134.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Mail", textDirection: ltr, indexInParent: 4): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#11(Rect.fromLTRB(4.0, 134.0, 316.0, 160.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Settings", textDirection: ltr, indexInParent: 5): expected tap target size of at least Size(48.0, 48.0), but found Size(312.0, 26.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#6(Rect.fromLTRB(4.0, 4.0, 316.0, 30.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Calendar", textDirection: ltr, indexInParent: 0): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(4.0, 30.0, 316.0, 56.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Search Emoji", textDirection: ltr, indexInParent: 1): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(4.0, 56.0, 316.0, 82.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Launch", textDirection: ltr, indexInParent: 2): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#9(Rect.fromLTRB(4.0, 82.0, 316.0, 108.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Profile", textDirection: ltr, indexInParent: 3): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#10(Rect.fromLTRB(4.0, 108.0, 316.0, 134.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Mail", textDirection: ltr, indexInParent: 4): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#11(Rect.fromLTRB(4.0, 134.0, 316.0, 160.0), tags: [RenderViewport.twoPane], actions: [focus, tap], flags: [isFocusable], label: "Settings", textDirection: ltr, indexInParent: 5): expected tap target size of at least Size(44.0, 44.0), but found Size(312.0, 26.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -1165,8 +1155,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 252.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.035,
-      p90Ms: 0.101,
+      p50Ms: 0.023,
+      p90Ms: 0.058,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1210,8 +1200,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 293.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.028,
-      p90Ms: 0.043,
+      p50Ms: 0.02,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1255,8 +1245,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 776.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.063,
-      p90Ms: 0.127,
+      p50Ms: 0.019,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1300,8 +1290,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.036,
-      p90Ms: 0.083,
+      p50Ms: 0.02,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1345,8 +1335,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 316.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.035,
-      p90Ms: 0.081,
+      p50Ms: 0.022,
+      p90Ms: 0.052,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1376,9 +1366,9 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
-        present: false,
-        message: 'no semantic label, value, hint or tooltip found',
-        exempt: 'Decorative element, excluded from semantics by design.',
+        present: true,
+        message: null,
+        exempt: null,
       ),
     ),
     rtl: DocsScorecardRtl(
@@ -1390,8 +1380,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.036,
-      p90Ms: 0.077,
+      p50Ms: 0.018,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1411,15 +1401,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: "Page 1 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 2 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 3 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 4 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 5 of 5", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(20.0, 20.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1050.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: "Page 1 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1110.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 2 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1170.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 3 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1230.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 4 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#5(Rect.fromLTRB(0.0, 0.0, 20.0, 20.0) with transform [[3.0,0.0,0.0,1290.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: "Page 5 of 5", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(20.0, 20.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\n\n\n\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -1437,8 +1425,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.027,
-      p90Ms: 0.038,
+      p50Ms: 0.023,
+      p90Ms: 0.039,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1482,8 +1470,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 588.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.07,
-      p90Ms: 0.14,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1527,8 +1515,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 399.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.027,
-      p90Ms: 0.084,
+      p50Ms: 0.019,
+      p90Ms: 0.031,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1572,8 +1560,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 246.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.044,
-      p90Ms: 0.083,
+      p50Ms: 0.018,
+      p90Ms: 0.029,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1617,8 +1605,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 208.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.033,
+      p50Ms: 0.018,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1662,8 +1650,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 364.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.051,
-      p90Ms: 0.107,
+      p50Ms: 0.018,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1707,8 +1695,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 501.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.046,
+      p50Ms: 0.018,
+      p90Ms: 0.028,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1728,15 +1716,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 28.0, 28.0) with transform [[3.0,0.0,0.0,2280.0]; [0.0,3.0,0.0,630.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Remove file", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(28.0, 28.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\nSemanticsNode#10(Rect.fromLTRB(0.0, 0.0, 28.0, 28.0) with transform [[3.0,0.0,0.0,2280.0]; [0.0,3.0,0.0,858.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Remove file", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(28.0, 28.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#7(Rect.fromLTRB(0.0, 0.0, 28.0, 28.0) with transform [[3.0,0.0,0.0,2280.0]; [0.0,3.0,0.0,630.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Remove file", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(28.0, 28.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\nSemanticsNode#10(Rect.fromLTRB(0.0, 0.0, 28.0, 28.0) with transform [[3.0,0.0,0.0,2280.0]; [0.0,3.0,0.0,858.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Remove file", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(28.0, 28.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -1754,8 +1740,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 274.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.032,
+      p50Ms: 0.018,
+      p90Ms: 0.034,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1775,15 +1761,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 180.0, 36.0) with transform [[3.0,0.0,0.0,732.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Sort", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(180.0, 36.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 180.0, 36.0) with transform [[3.0,0.0,0.0,732.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Sort", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(180.0, 36.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -1801,8 +1785,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 663.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.038,
+      p50Ms: 0.017,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1846,8 +1830,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.031,
-      p90Ms: 0.064,
+      p50Ms: 0.017,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1891,8 +1875,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 753.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.051,
+      p50Ms: 0.017,
+      p90Ms: 0.027,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1936,8 +1920,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 409.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.029,
-      p90Ms: 0.075,
+      p50Ms: 0.019,
+      p90Ms: 0.052,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1981,8 +1965,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.03,
+      p50Ms: 0.018,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2026,8 +2010,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.033,
+      p50Ms: 0.032,
+      p90Ms: 0.072,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2071,8 +2055,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.032,
-      p90Ms: 0.057,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2116,8 +2100,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.033,
-      p90Ms: 0.077,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2161,8 +2145,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 748.5,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.067,
+      p50Ms: 0.017,
+      p90Ms: 0.026,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2206,8 +2190,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 408.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.045,
+      p50Ms: 0.017,
+      p90Ms: 0.026,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2251,8 +2235,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 334.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.031,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2262,10 +2246,9 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     componentId: 'menu',
     a11y: DocsScorecardA11y(
       textContrast: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 230.0, 169.0), actions: [focus], flags: [isFocusable], label: "Delete", textDirection: ltr):\nExpected contrast ratio of at least 4.5 but found 3.79 for a font size of 14.0.\nThe computed colors was:\nlight - Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), dark - Color(alpha: 1.0000, red: 0.5137, green: 0.5137, blue: 0.5137, colorSpace: ColorSpace.sRGB)\nSee also: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html\n',
-        exempt: 'Disabled row: WCAG exempts disabled controls from contrast.',
+        passed: true,
+        message: null,
+        exempt: null,
       ),
       labeledTapTarget: DocsScorecardCheck(
         passed: true,
@@ -2297,8 +2280,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 745.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.031,
-      p90Ms: 0.064,
+      p50Ms: 0.017,
+      p90Ms: 0.034,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2318,15 +2301,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 96.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "File", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(96.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#3(Rect.fromLTRB(96.0, 0.0, 192.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "Edit", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(96.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#4(Rect.fromLTRB(192.0, 0.0, 288.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "View", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(96.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 96.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "File", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(96.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#3(Rect.fromLTRB(96.0, 0.0, 192.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "Edit", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(96.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#4(Rect.fromLTRB(192.0, 0.0, 288.0, 32.0), actions: [focus, tap], flags: [isFocusable], label: "View", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(96.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -2344,8 +2325,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 732.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.03,
-      p90Ms: 0.066,
+      p50Ms: 0.018,
+      p90Ms: 0.024,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2365,15 +2346,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(88.0, 294.0, 100.0, 306.0), actions: [focus, tap], flags: [isFocusable], label: "Delete", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(12.0, 12.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(88.0, 294.0, 100.0, 306.0), actions: [focus, tap], flags: [isFocusable], label: "Delete", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(12.0, 12.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -2391,8 +2370,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 720.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.03,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2436,8 +2415,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 670.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.029,
-      p90Ms: 0.041,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2481,8 +2460,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 574.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.039,
-      p90Ms: 0.085,
+      p50Ms: 0.016,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2526,8 +2505,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 744.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.043,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2547,15 +2526,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#5(Rect.fromLTRB(163.0, 292.0, 179.0, 308.0), actions: [focus, tap], flags: [isFocusable], label: "Pick a date", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(16.0, 16.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#5(Rect.fromLTRB(163.0, 292.0, 179.0, 308.0), actions: [focus, tap], flags: [isFocusable], label: "Pick a date", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(16.0, 16.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -2573,8 +2550,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 763.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.035,
-      p90Ms: 0.087,
+      p50Ms: 0.016,
+      p90Ms: 0.04,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2589,21 +2566,18 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       labeledTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#3(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,1548.0]; [0.0,3.0,0.0,24.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable]): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -2621,8 +2595,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: -251.66666666666663,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 1.61,
-      p90Ms: 3.004,
+      p50Ms: 0.622,
+      p90Ms: 1.104,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2666,8 +2640,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 656.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.04,
-      p90Ms: 0.075,
+      p50Ms: 0.016,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2687,15 +2661,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 136.0, 36.0) with transform [[3.0,0.0,0.0,3.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Indonesia\\n+62", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(136.0, 36.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 136.0, 36.0) with transform [[3.0,0.0,0.0,3.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isFocusable], label: "Indonesia\\n+62", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(136.0, 36.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -2713,8 +2685,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 763.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.03,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2758,8 +2730,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 648.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.03,
+      p50Ms: 0.017,
+      p90Ms: 0.023,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2803,8 +2775,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 661.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.036,
+      p50Ms: 0.017,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2848,8 +2820,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.03,
-      p90Ms: 0.067,
+      p50Ms: 0.018,
+      p90Ms: 0.026,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2893,8 +2865,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 718.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.029,
-      p90Ms: 0.049,
+      p50Ms: 0.016,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2904,11 +2876,9 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     componentId: 'refresh_trigger',
     a11y: DocsScorecardA11y(
       textContrast: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#2(Rect.fromLTRB(0.0, 0.0, 800.0, 26.0), tags: [RenderViewport.twoPane], label: "Row 1", textDirection: ltr, indexInParent: 0):\nExpected contrast ratio of at least 4.5 but found 1.41 for a font size of null.\nThe computed colors was:\nlight - Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), dark - Color(alpha: 1.0000, red: 0.8510, green: 0.8510, blue: 0.8510, colorSpace: ColorSpace.sRGB)\nSee also: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html\n\n\n\n\n\n',
-        exempt:
-            'Sampling artefact: the harness samples the pull affordance, not body text.',
+        passed: true,
+        message: null,
+        exempt: null,
       ),
       labeledTapTarget: DocsScorecardCheck(
         passed: true,
@@ -2940,8 +2910,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.037,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2985,8 +2955,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 691.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.029,
-      p90Ms: 0.036,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3006,15 +2976,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,54.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Back", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,2238.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "More", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(36.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,54.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "Back", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\nSemanticsNode#4(Rect.fromLTRB(0.0, 0.0, 36.0, 48.0) with transform [[3.0,0.0,0.0,2238.0]; [0.0,3.0,0.0,36.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: "More", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(36.0, 48.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\n\n\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -3028,12 +2996,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       renders: true,
       mirrored: null,
       message: 'symmetric layout (no directional shift)',
-      ltrX: 72.0,
-      rtlX: 72.0,
+      ltrX: 84.0,
+      rtlX: 84.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.028,
+      p50Ms: 0.016,
+      p90Ms: 0.059,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3077,8 +3045,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.104,
+      p50Ms: 0.019,
+      p90Ms: 0.039,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3122,8 +3090,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 36.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.029,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3167,8 +3135,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 620.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.754,
-      p90Ms: 1.134,
+      p50Ms: 0.204,
+      p90Ms: 0.281,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3212,8 +3180,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.033,
+      p50Ms: 0.017,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3257,8 +3225,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 13.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.033,
+      p50Ms: 0.017,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3302,8 +3270,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 1.446,
-      p90Ms: 2.364,
+      p50Ms: 0.362,
+      p90Ms: 0.526,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3347,8 +3315,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.03,
-      p90Ms: 0.058,
+      p50Ms: 0.019,
+      p90Ms: 0.04,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3392,8 +3360,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 646.6666666666667,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.028,
-      p90Ms: 0.042,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3437,8 +3405,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 779.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.053,
-      p90Ms: 0.083,
+      p50Ms: 0.017,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3482,8 +3450,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 96.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.029,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3527,8 +3495,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 576.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.037,
+      p50Ms: 0.015,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3543,9 +3511,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       labeledTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#3(Rect.fromLTRB(8.0, 14.0, 24.0, 30.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\nSemanticsNode#6(Rect.fromLTRB(8.0, 58.0, 24.0, 74.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#10(Rect.fromLTRB(8.0, 102.0, 24.0, 118.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#14(Rect.fromLTRB(8.0, 146.0, 24.0, 162.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\nSemanticsNode#18(Rect.fromLTRB(8.0, 190.0, 24.0, 206.0), actions: [focus, tap], flags: [hasCheckedState, hasEnabledState, isEnabled, isFocusable]): expected tappable node to have semantic label, but none was found.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
@@ -3573,8 +3540,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 482.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.035,
+      p50Ms: 0.016,
+      p90Ms: 0.038,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3618,8 +3585,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 691.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.028,
+      p50Ms: 0.015,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3663,8 +3630,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 366.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.033,
-      p90Ms: 0.094,
+      p50Ms: 0.018,
+      p90Ms: 0.039,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3708,8 +3675,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.046,
+      p50Ms: 0.016,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3753,8 +3720,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 694.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.03,
-      p90Ms: 0.064,
+      p50Ms: 0.017,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3798,8 +3765,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 680.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.044,
+      p50Ms: 0.016,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3843,8 +3810,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 330.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.03,
-      p90Ms: 0.058,
+      p50Ms: 0.015,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3864,15 +3831,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 58.0, 36.0) with transform [[3.0,0.0,0.0,1113.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, hasToggledState, isFocusable], label: "Off", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(58.0, 36.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: false,
-        message:
-            'SemanticsNode#1(Rect.fromLTRB(0.0, 0.0, 58.0, 36.0) with transform [[3.0,0.0,0.0,1113.0]; [0.0,3.0,0.0,846.0]; [0.0,0.0,1.0,0.0]; [0.0,0.0,0.0,1.0]], actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, hasToggledState, isFocusable], label: "Off", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(58.0, 36.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
+        passed: true,
+        message: null,
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -3890,8 +3855,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 379.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.026,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3921,8 +3886,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
-        present: false,
-        message: 'no semantic label, value, hint or tooltip found',
+        present: true,
+        message: null,
         exempt: null,
       ),
     ),
@@ -3935,8 +3900,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.042,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3980,8 +3945,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.038,
+      p50Ms: 0.015,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4025,8 +3990,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.045,
+      p50Ms: 0.016,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4035,13 +4000,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
 };
 
 /// Generator timestamp (UTC ISO) for the card footer.
-const String kScorecardsGeneratedAt = '2026-10-14T03:04:12.649147Z';
+const String kScorecardsGeneratedAt = '2026-10-17T21:23:21.935577Z';
 
 /// Full commit hash at generation time.
-const String kScorecardsCommit = '9c78356141dddfd92901a8a7e6abfcb17dda57d8';
+const String kScorecardsCommit = '76ead18b668f4427dd555540401b6a075e2b6952';
 
 /// Short commit hash (7 chars) for the card footer.
-const String kScorecardsCommitShort = '9c78356';
+const String kScorecardsCommitShort = '76ead18';
 
 /// Flutter/Dart version at generation time.
 const String kScorecardsFlutter = '3.47.7 / Dart 3.13.5';

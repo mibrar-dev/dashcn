@@ -185,11 +185,13 @@ void main() {
   });
 
   group('toggle matches the upstream web kit', () {
-    testWidgets('heights: sm 32, md 36, lg 40', (tester) async {
+    // Every size reports the 48px touch minimum (the track itself keeps its
+    // sm/md/lg metrics; the transparent hit area pads it out).
+    testWidgets('heights: sm 48, md 48, lg 48', (tester) async {
       final expected = <ToggleSize, double>{
-        ToggleSize.sm: 32,
-        ToggleSize.md: 36,
-        ToggleSize.lg: 40,
+        ToggleSize.sm: 48,
+        ToggleSize.md: 48,
+        ToggleSize.lg: 48,
       };
       for (final entry in expected.entries) {
         await tester.pumpWidget(
@@ -211,7 +213,7 @@ void main() {
       }
     });
 
-    testWidgets('default is 36 high, min-width 36, px-2', (tester) async {
+    testWidgets('default is 48 high, min-width 48, px-2', (tester) async {
       await tester.pumpWidget(
         _frame(
           child: Toggle(
@@ -222,7 +224,8 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(tester.getSize(find.byType(Toggle)), const Size(36, 36));
+      // 16px content + px-2 padding centres in the 48px touch minimum.
+      expect(tester.getSize(find.byType(Toggle)), const Size(64, 48));
       final padding = _togglePadding(tester);
       expect(padding.left, 8);
       expect(padding.right, 8);
