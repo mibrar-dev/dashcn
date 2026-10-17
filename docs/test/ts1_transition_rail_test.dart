@@ -52,7 +52,7 @@ void main() {
                       child: GestureDetector(
                         onTap: () => showTransitionPicker(
                           context,
-                          DocsThemeTransition.fade,
+                          () => DocsThemeTransition.fade,
                           onChanged: (DocsThemeTransition kind) =>
                               picked = kind,
                         ),

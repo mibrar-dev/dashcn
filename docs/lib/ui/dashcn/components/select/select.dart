@@ -268,6 +268,18 @@ class _SelectState<T> extends State<Select<T>>
                 vertical: 12,
               ),
               placeholder: widget.searchPlaceholder,
+              // Enter-to-pick: the field owns the query, the group owns the
+              // rows; activating the first enabled row picks the visible
+              // match (a lone filtered row is picked directly). An empty
+              // query never picks: Enter with no filter typed is a no-op.
+              // `maybeFind` (not `maybeOf`): this runs outside a build.
+              onSubmitted: (String query) {
+                if (query.isNotEmpty) {
+                  Data.maybeFind<MenuGroupData>(
+                    context,
+                  )?.activateFirstEnabled();
+                }
+              },
             )
           : null,
       spacer: _searching ? const MenuSeparator() : null,

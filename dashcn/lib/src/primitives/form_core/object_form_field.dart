@@ -3,6 +3,7 @@
 // primitive may not import `button`); the dialog prompt is a widgets-only
 // `showGeneralDialog` route, the popover prompt reuses `PopoverController`.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/captured_wrapper.dart';
@@ -184,14 +185,69 @@ class ObjectFormField<T> extends StatefulWidget {
   State<ObjectFormField<T>> createState() => _ObjectFormFieldState<T>();
 }
 
+/// Pops the enclosing object dialog on Escape, however focus sits.
+///
+/// Framework dialog routes autofocus their own scope when nothing inside
+/// claims focus, so `Shortcuts` inside the page never see the key. A
+/// hardware-keyboard handler has no such requirement; it only fires while
+/// its route is current, so stacked prompts close one level at a time, and
+/// popping with null commits nothing (Cancel semantics — live editors
+/// already reported their picks on tap).
+class _DismissOnEscape extends StatefulWidget {
+  /// Creates an Escape-to-dismiss wrapper.
+  const _DismissOnEscape({required this.child});
+
+  /// The dialog content.
+  final Widget child;
+
+  @override
+  State<_DismissOnEscape> createState() => _DismissOnEscapeState();
+}
+
+class _DismissOnEscapeState extends State<_DismissOnEscape> {
+  @override
+  void initState() {
+    super.initState();
+    HardwareKeyboard.instance.addHandler(_handle);
+  }
+
+  @override
+  void dispose() {
+    HardwareKeyboard.instance.removeHandler(_handle);
+    super.dispose();
+  }
+
+  bool _handle(KeyEvent event) {
+    if (event is! KeyDownEvent ||
+        event.logicalKey != LogicalKeyboardKey.escape) {
+      return false;
+    }
+    final ModalRoute<Object?>? route = ModalRoute.of(context);
+    if (route == null || !route.isCurrent || !route.barrierDismissible) {
+      return false;
+    }
+    route.navigator?.maybePop();
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+}
+
 class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     with FormValueSupplier<T, ObjectFormField<T>> {
   final PopoverController _popoverController = PopoverController();
+
+  /// The trigger's focus node, owned here so every prompt (dialog or
+  /// popover, date/time/duration/item) returns focus to the trigger on
+  /// close — the same contract as `Select` and the popover handler.
+  final FocusNode _triggerFocus = FocusNode(debugLabel: 'ObjectFormField');
 
   bool get _enabled => widget.enabled ?? (widget.onChanged != null);
 
   @override
   void dispose() {
+    _triggerFocus.dispose();
     _popoverController.dispose();
     super.dispose();
   }
@@ -233,20 +289,26 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         return CapturedWrapper(
           themes: themes,
           data: data,
-          child: ObjectFormPromptDialog<T>(
-            initialValue: value,
-            editorBuilder: widget.editorBuilder,
-            dialogTitle: widget.dialogTitle,
-            dialogActions: widget.dialogActions,
-            padding: widget.dialogPadding,
-            footerPadding: widget.dialogFooterPadding,
-            decorate: widget.decorate,
-            onPrompt: prompt,
-            onChanged: (changed) {
-              if (widget.immediateValueChange == true) {
-                _setValue(changed);
-              }
-            },
+          // The framework route autofocuses its own scope when nothing
+          // inside claims focus, so in-page `Shortcuts` never see Escape.
+          // A hardware-keyboard handler has no such requirement; popping
+          // with null commits nothing (Cancel semantics).
+          child: _DismissOnEscape(
+            child: ObjectFormPromptDialog<T>(
+              initialValue: value,
+              editorBuilder: widget.editorBuilder,
+              dialogTitle: widget.dialogTitle,
+              dialogActions: widget.dialogActions,
+              padding: widget.dialogPadding,
+              footerPadding: widget.dialogFooterPadding,
+              decorate: widget.decorate,
+              onPrompt: prompt,
+              onChanged: (changed) {
+                if (widget.immediateValueChange == true) {
+                  _setValue(changed);
+                }
+              },
+            ),
           ),
         );
       },
@@ -268,6 +330,9 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
       if (!mounted) {
         return;
       }
+      // The prompt committed or was dismissed: focus is back on the trigger
+      // whichever way it closed (Save, pick, Cancel, barrier, Escape).
+      _triggerFocus.requestFocus();
       if (result is ObjectFormFieldDialogResult<T> &&
           widget.immediateValueChange != true) {
         _setValue(result.value);
@@ -310,6 +375,11 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         .then((_) {
           if (mounted && widget.immediateValueChange == false) {
             _setValue(delayed);
+          }
+          // The popover closed (pick, Done, Escape, outside tap): focus is
+          // back on the trigger.
+          if (mounted) {
+            _triggerFocus.requestFocus();
           }
         });
   }
@@ -380,6 +450,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
       ),
       child: Clickable(
         enabled: enabled,
+        focusNode: _triggerFocus,
         onPressed: enabled ? prompt : null,
         mouseCursor: const StateValue<MouseCursor>(
           rest: SystemMouseCursors.click,

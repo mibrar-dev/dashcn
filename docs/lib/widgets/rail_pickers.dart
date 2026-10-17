@@ -51,88 +51,116 @@ const List<Color> kDocsSeedSwatches = <Color>[
 
 /// Shows the preset list popup; only a pick commits.
 ///
-/// [onChanged] runs exactly once per committed pick (tap or Enter/Space);
-/// hovering, scrolling and arrow-key focus movement stay local to the popup.
-/// Closing without picking keeps the current value.
+/// [current] is read on every rebuild (not captured at open), so the
+/// highlight follows the live document while the popup is open;
+/// [listenable] (the theme model) rebuilds the rows when the document
+/// changes. [onChanged] runs exactly once per committed pick (tap or
+/// Enter/Space) and the popup closes; hovering, scrolling and arrow-key
+/// focus movement stay local to the popup. Closing without picking keeps
+/// the current value.
 Future<void> showPresetPicker(
   BuildContext context,
-  String current, {
+  ValueGetter<String> current, {
   required ValueChanged<String> onChanged,
+  Listenable? listenable,
 }) {
-  return showPicker<void>(
-    context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (final DocsPreset preset in kPresets)
-            revealSelectedOnMount(
-              selected: preset.id == current,
-              child: RailPickerRow(
-                label: preset.name,
-                detail: preset.id,
-                selected: preset.id == current,
-                onPick: () {
-                  onChanged(preset.id);
-                  closeOverlay(context);
-                },
-                trailing: RailPresetSwatch(
-                  colors: _presetSwatches(preset.id, Brightness.light),
-                ),
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final DocsPreset preset in kPresets)
+          revealSelectedOnMount(
+            selected: preset.id == current(),
+            child: RailPickerRow(
+              label: preset.name,
+              detail: preset.id,
+              selected: preset.id == current(),
+              onPick: () {
+                onChanged(preset.id);
+                closeOverlay(context);
+              },
+              trailing: RailPresetSwatch(
+                colors: _presetSwatches(preset.id, Brightness.light),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     ),
+  );
+  return showPicker<void>(
+    context: context,
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
   );
 }
 
 /// Shows the colour seed grid for [label]; only a pick commits.
 ///
-/// [onChanged] runs exactly once per committed pick (a swatch tap/activation
-/// or a submitted hex); hovering and typing stay local to the popup. Closing
-/// keeps the current value.
+/// Same live-selection contract as [showPresetPicker]: [current] is re-read
+/// on every rebuild and [listenable] rebuilds the rows when the document
+/// changes, so the highlight tracks the live value while open. [onChanged]
+/// runs exactly once per committed pick (a swatch tap/activation or a
+/// submitted hex) and the popup closes; hovering and typing stay local to
+/// the popup. Closing keeps the current value. The hex field is a
+/// submit-only draft: typing never commits, Escape discards it.
 Future<void> showColorPicker(
   BuildContext context,
-  Color current, {
+  ValueGetter<Color> current, {
   required ValueChanged<Color> onChanged,
+  Listenable? listenable,
 }) {
-  final int committed = current.toARGB32();
+  bool isSelected(Color seed) => seed.toARGB32() == current().toARGB32();
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: <Widget>[
+            for (final Color seed in kDocsSeedSwatches)
+              RailSeedSwatch(
+                color: seed,
+                name: docsColorName(seed),
+                selected: isSelected(seed),
+                onPick: () {
+                  onChanged(seed);
+                  closeOverlay(context);
+                },
+              ),
+          ],
+        ),
+        const Gap(12),
+        RailHexField(
+          initial: current(),
+          onPick: (Color color) {
+            onChanged(color);
+            closeOverlay(context);
+          },
+        ),
+      ],
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: <Widget>[
-              for (final Color seed in kDocsSeedSwatches)
-                RailSeedSwatch(
-                  color: seed,
-                  name: docsColorName(seed),
-                  selected: seed.toARGB32() == committed,
-                  onPick: () {
-                    onChanged(seed);
-                    closeOverlay(context);
-                  },
-                ),
-            ],
-          ),
-          const Gap(12),
-          RailHexField(
-            initial: current,
-            onPick: (Color color) {
-              onChanged(color);
-              closeOverlay(context);
-            },
-          ),
-        ],
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
   );
 }
 
@@ -222,14 +250,17 @@ List<Color> _presetSwatches(String presetId, Brightness brightness) {
 
 /// Shows the switch-animation popup (rail `Transition` row, P7-TS1).
 ///
-/// Only a pick commits; hovering, scrolling and focus movement stay local.
-/// Closing without picking keeps the current animation. Every variant is
-/// snapshot based and reduced-motion aware (reduced motion always swaps
+/// Same live-selection contract as [showPresetPicker]: [current] is re-read
+/// on every rebuild and [listenable] rebuilds the rows when the model
+/// changes. Only a pick commits; hovering, scrolling and focus movement stay
+/// local. Closing without picking keeps the current animation. Every variant
+/// is snapshot based and reduced-motion aware (reduced motion always swaps
 /// instantly, whatever is picked here).
 Future<void> showTransitionPicker(
   BuildContext context,
-  DocsThemeTransition current, {
+  ValueGetter<DocsThemeTransition> current, {
   required ValueChanged<DocsThemeTransition> onChanged,
+  Listenable? listenable,
 }) {
   const Map<DocsThemeTransition, String> details =
       <DocsThemeTransition, String>{
@@ -239,29 +270,38 @@ Future<void> showTransitionPicker(
         DocsThemeTransition.wipe: 'slide away · 300 ms',
         DocsThemeTransition.blur: 'blur dissolve · 300 ms',
       };
+  Widget buildPanel(BuildContext context) => RailPickerPanel(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final DocsThemeTransition kind in DocsThemeTransition.values)
+          revealSelectedOnMount(
+            selected: kind == current(),
+            child: RailPickerRow(
+              label: docsTransitionLabel(kind),
+              detail: details[kind]!,
+              selected: kind == current(),
+              onPick: () {
+                onChanged(kind);
+                closeOverlay(context);
+              },
+            ),
+          ),
+      ],
+    ),
+  );
   return showPicker<void>(
     context: context,
-    builder: (BuildContext context) => RailPickerPanel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for (final DocsThemeTransition kind in DocsThemeTransition.values)
-            revealSelectedOnMount(
-              selected: kind == current,
-              child: RailPickerRow(
-                label: docsTransitionLabel(kind),
-                detail: details[kind]!,
-                selected: kind == current,
-                onPick: () {
-                  onChanged(kind);
-                  closeOverlay(context);
-                },
-              ),
-            ),
-        ],
-      ),
-    ),
+    builder: (BuildContext context) {
+      if (listenable == null) {
+        return buildPanel(context);
+      }
+      return ListenableBuilder(
+        listenable: listenable,
+        builder: (BuildContext context, Widget? _) => buildPanel(context),
+      );
+    },
     title: 'Transition',
   );
 }
