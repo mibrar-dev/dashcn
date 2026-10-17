@@ -2934,6 +2934,13 @@ kControlSpecs = <String, ComponentControls>{
         readOnlyReason: 'complex type',
       ),
       ControlSpec(
+        name: 'semanticLabel',
+        label: 'Semantic Label',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+      ),
+      ControlSpec(
         name: 'autofocus',
         label: 'Autofocus',
         kind: ControlKind.toggle,
@@ -4543,6 +4550,16 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: false,
         readOnlyReason: 'generic',
       ),
+      ControlSpec(
+        name: 'triggerMinHeight',
+        label: 'Trigger Min Height',
+        kind: ControlKind.slider,
+        type: 'double?',
+        isRequired: false,
+        min: 0.0,
+        max: 10.0,
+        step: 0.1,
+      ),
     ],
   ),
   'slider': ComponentControls(
@@ -6097,6 +6114,14 @@ kControlSpecs = <String, ComponentControls>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+      ),
+      ControlSpec(
+        name: 'destructive',
+        label: 'Destructive',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
       ),
       ControlSpec(
         name: 'autoClose',

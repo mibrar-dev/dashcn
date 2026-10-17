@@ -276,6 +276,13 @@ class _ButtonState extends State<Button> {
     final double touchVertical = group != null
         ? 0
         : math.max(0, (touchMinEdge(theme.platform) - metrics.minHeight) / 2);
+    // Icon buttons are square (36x36): the same growth applies horizontally
+    // so the width meets the minimum too (36x48 failed the tap target).
+    // Text buttons size to their content plus horizontal padding, so only
+    // the fixed-minimum icon size needs it.
+    final double touchHorizontal = group != null || metrics.minWidth <= 0
+        ? 0
+        : math.max(0, (touchMinEdge(theme.platform) - metrics.minWidth) / 2);
     final EdgeInsetsGeometry padding = resolved.padding ?? metrics.padding;
     final BorderRadius radius = _borderRadius(context, theme);
     final double borderWidth = resolved.borderWidth ?? 0;
@@ -354,6 +361,7 @@ class _ButtonState extends State<Button> {
         opacity: enabled ? 1 : _buttonDisabledOpacity,
         child: TouchHitArea(
           vertical: touchVertical,
+          horizontal: touchHorizontal,
           child: Clickable(
             enabled: enabled,
             onPressed: enabled ? _handlePress : null,

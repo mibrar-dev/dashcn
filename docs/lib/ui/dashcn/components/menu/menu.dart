@@ -51,6 +51,7 @@ class MenuGroup extends RovingGroup {
     super.parent,
     super.direction,
     super.itemPadding = EdgeInsets.zero,
+    super.rowMinHeight,
     super.subMenuOffset,
     super.onDismissed,
     super.autofocus = false,
@@ -68,6 +69,7 @@ class MenuButton extends StatefulWidget implements MenuItem {
     this.trailing,
     this.leading,
     this.enabled = true,
+    this.destructive = false,
     this.focusNode,
     this.autoClose = true,
     this.theme,
@@ -79,6 +81,10 @@ class MenuButton extends StatefulWidget implements MenuItem {
   final Widget? leading;
   @override
   final bool enabled;
+
+  /// Whether the row paints the destructive token (dangerous actions like
+  /// Delete stay readable instead of dimming).
+  final bool destructive;
   final FocusNode? focusNode;
   final bool autoClose;
   final MenuTheme? theme;
@@ -153,6 +159,7 @@ class _MenuButtonState extends State<MenuButton> {
       context,
       theme: widget.theme,
       enabled: widget.enabled,
+      destructive: widget.destructive,
       focusNode: widget.focusNode,
       onPressed: _press,
       autoClose: false,
@@ -195,6 +202,7 @@ RovingRow _plainRow(
   bool Function()? isOpen,
   bool showChevron = false,
   bool reserveLeading = false,
+  bool destructive = false,
 }) {
   final MenuGroupData? group = Data.maybeOf<MenuGroupData>(context);
   final ThemeData app = Theme.of(context);
@@ -204,8 +212,11 @@ RovingRow _plainRow(
     Set<WidgetState> states,
   ) => value?.resolve(states)?.resolve(app.colors);
   // Hover/focus paint uses the theme's hovered row; disabled rows keep the
-  // rest colours and dim through the row's opacity.
+  // rest colours and dim through the row's opacity. Destructive rows paint
+  // the destructive token at rest and on hover (upstream `text-destructive`)
+  // so dangerous actions stay readable instead of dimming.
   const Set<WidgetState> hovered = <WidgetState>{WidgetState.hovered};
+  final Color destructiveColor = app.colors.destructive;
   return RovingRow(
     enabled: enabled,
     focusNode: focusNode,
@@ -216,8 +227,12 @@ RovingRow _plainRow(
     onHover: onHover,
     fill: resolvedColor(style.background, const <WidgetState>{}),
     highlightFill: resolvedColor(style.background, hovered),
-    foreground: resolvedColor(style.foreground, const <WidgetState>{}),
-    highlightForeground: resolvedColor(style.foreground, hovered),
+    foreground: destructive
+        ? destructiveColor
+        : resolvedColor(style.foreground, const <WidgetState>{}),
+    highlightForeground: destructive
+        ? destructiveColor
+        : resolvedColor(style.foreground, hovered),
     radius: (style.borderRadius ?? app.borderRadiusSm).resolve(
       Directionality.of(context),
     ),
@@ -226,6 +241,7 @@ RovingRow _plainRow(
       app.density.baseContentPadding * app.scaling,
     ).add(group?.itemPadding ?? EdgeInsets.zero),
     textStyle: style.textStyle,
+    minHeight: group?.rowMinHeight ?? 32,
     onOpen: onOpen,
     onClose: onClose,
     isOpen: isOpen,

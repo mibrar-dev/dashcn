@@ -62,6 +62,9 @@ class Menubar extends StatelessWidget {
       // Horizontal root: submenu levels open below the trigger's start
       // edge (see MenuButton); nested groups always reset to vertical.
       direction: Axis.horizontal,
+      // The bar triggers meet the 48px touch minimum (transparent growth,
+      // visuals unchanged); popup rows keep the upstream 32px rows.
+      rowMinHeight: 48,
       subMenuOffset: offset,
       autofocus: false,
       builder: (context, rows) => IntrinsicHeight(

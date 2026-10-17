@@ -450,10 +450,12 @@ void main() {
     testWidgets('a bordered toggle keeps its dashcn height at every size', (
       tester,
     ) async {
+      // Every size reports the 48px touch minimum (the track itself keeps
+      // its sm/md/lg metrics; the transparent hit area pads it out).
       const Map<ToggleSize, double> heights = <ToggleSize, double>{
-        ToggleSize.sm: 32,
-        ToggleSize.md: 36,
-        ToggleSize.lg: 40,
+        ToggleSize.sm: 48,
+        ToggleSize.md: 48,
+        ToggleSize.lg: 48,
       };
       for (final MapEntry<ToggleSize, double> entry in heights.entries) {
         await tester.pumpWidget(

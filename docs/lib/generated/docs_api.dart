@@ -2405,6 +2405,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
             'Padding around the whole control; null falls back to the size table.',
       ),
       DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Accessible label for the box itself; null falls back to [label]\'s text\n(when it is a [Text]). Table row-selection boxes pass \'Select row\'\nhere so the tappable node is labelled without painting a caption.',
+      ),
+      DocsApiParam(
         name: 'focusNode',
         type: 'FocusNode?',
         isRequired: false,
@@ -3725,6 +3732,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Custom selection test; null is `value == test`.',
       ),
       DocsApiParam(
+        name: 'triggerMinHeight',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Minimum trigger height (border-box total); null resolves 36 (upstream\nh-9). The filter bar sort control and the phone country pill pass 48\nso their triggers meet the touch minimum; the default stays 36.',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'SelectTheme?',
         isRequired: false,
@@ -5008,6 +5022,14 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+      ),
+      DocsApiParam(
+        name: 'destructive',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc:
+            'Whether the row paints the destructive token (dangerous actions like\nDelete stay readable instead of dimming).',
       ),
       DocsApiParam(name: 'focusNode', type: 'FocusNode?', isRequired: false),
       DocsApiParam(

@@ -354,6 +354,8 @@ class _PhoneInputState extends State<PhoneInput>
                   child: Select<Country>(
                     value: _country,
                     onChanged: _onCountryChanged,
+                    // 48px trigger meets the touch minimum.
+                    triggerMinHeight: 48,
                     searchPlaceholder: widget.searchPlaceholder,
                     popupConstraints:
                         style.popupConstraints ??

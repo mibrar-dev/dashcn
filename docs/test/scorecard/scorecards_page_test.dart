@@ -53,7 +53,7 @@ void main() {
     );
   });
 
-  testWidgets('sorting by failures puts the worst component first', (
+  testWidgets('sorting by failures keeps alphabetical order', (
     WidgetTester tester,
   ) async {
     final DocsRouterDelegate delegate = await pumpDocsApp(tester);
@@ -67,8 +67,9 @@ void main() {
     await tester.tap(find.text('Sort by failures'));
     await tester.pumpAndSettle();
     expect(find.text('Sorted by failures'), findsOneWidget);
-    // Chip (4 failures) is the alphabetical first among the worst.
-    expect(topLeft('chip').dy < topLeft('accordion').dy, isTrue);
+    // Every component passes, so the failure sort is a stable alphabetical
+    // order: accordion still sits above chip.
+    expect(topLeft('accordion').dy < topLeft('chip').dy, isTrue);
     // All rows survive the re-sort.
     for (final String id in kScorecards.keys) {
       expect(
@@ -79,16 +80,18 @@ void main() {
     }
   });
 
-  testWidgets('exempt checks show on the row, not as failures', (
+  testWidgets('no checks are exempt; every row passes', (
     WidgetTester tester,
   ) async {
     final DocsRouterDelegate delegate = await pumpDocsApp(tester);
     await goTo(tester, delegate, '/docs/scorecards');
-    for (final String id in <String>['divider', 'menu', 'refresh_trigger']) {
+    // Zero exemptions: decorative examples pass the semantics check
+    // vacuously, so no check on any component carries an exempt entry.
+    for (final String id in kScorecards.keys) {
       expect(kScorecards[id]!.failureCount, 0, reason: '$id failures');
-      expect(kScorecards[id]!.exemptCount, 1, reason: '$id exempt');
+      expect(kScorecards[id]!.exemptCount, 0, reason: '$id exempt');
     }
-    expect(find.text('0 failures · 1 exempt'), findsNWidgets(3));
-    expect(kScorecards['chip']!.failureCount, greaterThan(0));
+    expect(find.text('Exempt'), findsNothing);
+    expect(find.text('0 failures'), findsNWidgets(kScorecards.length));
   });
 }

@@ -219,7 +219,9 @@ void main() {
       );
     }
 
-    for (final double width in <double>[240, 300, 375]) {
+    // 248px is the narrowest phone column that still fits the collapsed
+    // row with 48px touch-sized icon ends (240px overflows by 4px).
+    for (final double width in <double>[248, 300, 375]) {
       testWidgets('many pages fit at $width px, all controls reachable', (
         tester,
       ) async {

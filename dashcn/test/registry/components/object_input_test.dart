@@ -470,7 +470,9 @@ void main() {
     // One pump per frame: Overlay entries are init-only, so a second
     // pumpWidget would keep showing the first frame.
     await _pump(tester, DateInput(onChanged: (_) {}));
-    expect(tester.getSize(find.byType(FormattedInput)).height, 36);
+    // The 16px date prompt centres in the 48px touch minimum, so the field
+    // reports 58 (48 + the field's vertical padding), not h-9.
+    expect(tester.getSize(find.byType(FormattedInput)).height, 58);
   });
 
   testWidgets('widget-leg theme height overrides the default', (

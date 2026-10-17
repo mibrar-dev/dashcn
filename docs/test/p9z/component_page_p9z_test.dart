@@ -123,12 +123,13 @@ void main() {
       }
     });
 
-    testWidgets('exempt checks render Exempt, not Fail, on the card', (
+    testWidgets('divider card passes with no exempt checks', (
       WidgetTester tester,
     ) async {
       await pumpComponentPage(tester, 'divider');
-      expect(find.text('Exempt'), findsWidgets);
-      expect(find.textContaining('Decorative element'), findsOneWidget);
+      expect(find.text('Pass'), findsWidgets);
+      expect(find.text('Exempt'), findsNothing);
+      expect(find.text('Fail'), findsNothing);
       expect(tester.takeException(), isNull);
     });
   });

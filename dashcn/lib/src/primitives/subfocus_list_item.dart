@@ -31,6 +31,7 @@ class SubFocusListItem extends StatelessWidget {
     this.onTap,
     this.enabled,
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+    this.minHeight,
     this.borderRadius,
     this.highlightColor,
     this.highlightedForeground,
@@ -54,6 +55,11 @@ class SubFocusListItem extends StatelessWidget {
 
   /// Padding around the row.
   final EdgeInsetsGeometry padding;
+
+  /// Minimum row height (border-box total, like the menu row minimum); null
+  /// keeps the natural content-plus-padding height. The command palette
+  /// passes 48 so every row meets the touch minimum.
+  final double? minHeight;
 
   /// Highlight corner radius; null falls back to `theme.borderRadiusSm`.
   final BorderRadius? borderRadius;
@@ -115,6 +121,22 @@ class SubFocusListItem extends StatelessWidget {
       child: SubFocus(
         builder: (context, focus) {
           final Color color = focus.isFocused ? onHighlight : base;
+          // Like the menu row minimum, the Clickable padding wraps the
+          // ConstrainedBox so the inner minimum reserves the padding and
+          // the border-box total stays exact.
+          final double vertical = padding
+              .resolve(Directionality.of(context))
+              .vertical;
+          final double? innerMin = minHeight == null
+              ? null
+              : (minHeight! - vertical).clamp(0, double.infinity);
+          Widget content = row(color);
+          if (innerMin != null) {
+            content = ConstrainedBox(
+              constraints: BoxConstraints(minHeight: innerMin),
+              child: content,
+            );
+          }
           return Clickable(
             onPressed: onTap,
             onHover: (hovered) {
@@ -131,7 +153,7 @@ class SubFocusListItem extends StatelessWidget {
                 borderRadius: radius,
               ),
             ),
-            child: row(color),
+            child: content,
           );
         },
       ),
