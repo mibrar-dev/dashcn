@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../primitives/toast_queue/toast_controller.dart';
 import '../../primitives/toast_queue/toast_entry.dart';
@@ -256,6 +257,22 @@ class _ToastCardState extends State<_ToastCard>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Under reduced motion the toast appears in its final state.
+    final Duration target = resolveMotionDuration(
+      context,
+      widget.theme.animationDuration ?? const Duration(milliseconds: 250),
+    );
+    if (_animation.duration != target) {
+      _animation.duration = target;
+      if (target == Duration.zero) {
+        _animation.value = 1.0;
+      }
+    }
+  }
+
+  @override
   void dispose() {
     _animation.dispose();
     super.dispose();
@@ -376,7 +393,9 @@ class _ToastCardState extends State<_ToastCard>
     );
 
     card = AnimatedSlide(
-      duration: _dragging ? Duration.zero : const Duration(milliseconds: 200),
+      duration: _dragging
+          ? Duration.zero
+          : resolveMotionDuration(context, const Duration(milliseconds: 200)),
       curve: Curves.easeOutCubic,
       offset: Offset(_drag.dx / 300, _drag.dy / 200),
       child: GestureDetector(
@@ -400,9 +419,21 @@ class _ToastCardState extends State<_ToastCard>
       );
     }
 
+    // Toasts slide in from their edge while fading; the exit collapse in
+    // the toast queue shifts the surviving stack smoothly on dismiss.
+    final ToastSwipeDirection exit = _entry.slot.placement.exitDirection;
+    final Offset enterBegin = exit == ToastSwipeDirection.up
+        ? const Offset(0, -0.3)
+        : const Offset(0, 0.3);
     return FadeTransition(
       opacity: CurvedAnimation(parent: _animation, curve: Curves.easeOut),
-      child: card,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: enterBegin,
+          end: Offset.zero,
+        ).animate(CurvedAnimation(parent: _animation, curve: Curves.easeOut)),
+        child: card,
+      ),
     );
   }
 }

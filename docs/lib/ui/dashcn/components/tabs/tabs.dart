@@ -10,6 +10,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/fade_scroll.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/roving_group.dart';
 import '../../primitives/tab_container.dart';
 import '../../theme/density.dart';
@@ -114,13 +115,14 @@ class _TabsState extends State<Tabs> {
               ),
             )),
         childBuilder: (context, data, child) =>
-            _tab(ambient, style, data, child),
+            _tab(context, ambient, style, data, child),
         children: widget.children,
       ),
     );
   }
 
   Widget _tab(
+    BuildContext context,
     ThemeData ambient,
     TabsTheme style,
     TabContainerData data,
@@ -166,6 +168,8 @@ class _TabsState extends State<Tabs> {
       shortcuts: _registry.shortcuts,
       actions: _registry.actions,
       onPressed: enabled ? () => data.onSelect?.call(data.index) : null,
+      // The pill fill swaps instantly (the contract pins first-frame
+      // colours); the selected label scales up slightly for motion.
       child: Container(
         decoration: BoxDecoration(
           color: selected
@@ -186,10 +190,18 @@ class _TabsState extends State<Tabs> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 30, minWidth: 0),
           child: Center(
-            child: DefaultTextStyle.merge(
-              style: base.copyWith(color: labelColor),
-              textAlign: TextAlign.center,
-              child: label,
+            child: AnimatedScale(
+              scale: selected ? 1.05 : 1.0,
+              duration: resolveMotionDuration(
+                context,
+                ambient.motion.durations.fast,
+              ),
+              curve: ambient.motion.curves.standard,
+              child: DefaultTextStyle.merge(
+                style: base.copyWith(color: labelColor),
+                textAlign: TextAlign.center,
+                child: label,
+              ),
             ),
           ),
         ),

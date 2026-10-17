@@ -16,6 +16,7 @@ import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../clickable.dart';
+import '../motion/motion_scope.dart';
 import '../roving_group.dart';
 import 'selectable_radio_theme.dart';
 
@@ -254,7 +255,12 @@ class RadioIndicator extends StatelessWidget {
     final RadioIndicatorStyle resolved = style ?? const RadioIndicatorStyle();
     final double size = resolved.size ?? radioDefaultIndicatorSize;
     final double dotSize = resolved.dotSize ?? size / 2;
-    final Duration duration = resolved.duration ?? radioDefaultDuration;
+    // The dot grows in with the theme motion timing; under reduced motion
+    // the size snaps with no ticker.
+    final Duration duration = resolveMotionDuration(
+      context,
+      resolved.duration ?? radioDefaultDuration,
+    );
     final ThemeColors colors = Theme.of(context).colors;
     return AnimatedContainer(
       key: kRadioIndicatorKey,

@@ -62,12 +62,10 @@ import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/foundation/time_of_day.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/primitives/date_math.dart';
-import 'package:dashcn/src/primitives/file_value/file_value.dart';
 import 'package:dashcn/src/primitives/form_core/object_form_field.dart'
     show PromptMode;
 import 'package:dashcn/src/primitives/input_features/input_features.dart';
 import 'package:dashcn/src/primitives/localizations/localizations.dart';
-import 'package:dashcn/src/primitives/phone_number.dart';
 import 'package:dashcn/src/primitives/subfocus_list_item.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
@@ -121,7 +119,7 @@ Widget _navFrame(Widget child, {required ValueChanged<BuildContext> onHost}) {
                 (
                   BuildContext context,
                   Animation<double> _,
-                  Animation<double> __,
+                  Animation<double> _,
                 ) {
                   onHost(context);
                   return Align(alignment: Alignment.topLeft, child: child);
@@ -814,13 +812,13 @@ void main() {
           Menubar(
             children: <Widget>[
               MenuButton(
-                child: const Text('File'),
                 subMenu: <Widget>[
                   MenuButton(
                     child: const Text('New'),
                     onPressed: (_) => picked = true,
                   ),
                 ],
+                child: const Text('File'),
               ),
             ],
           ),

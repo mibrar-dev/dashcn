@@ -26,7 +26,8 @@
     "primitives": [
       "clickable",
       "file_value",
-      "localizations"
+      "localizations",
+      "surface"
     ],
     "components": [
       "button",

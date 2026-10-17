@@ -13,10 +13,12 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../primitives/sheet_overlay.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'card_style.dart';
 
@@ -112,14 +114,23 @@ class Card extends StatelessWidget {
     final Color? fill = base == null
         ? null
         : surfaceColor(base, ambient.surfaceOpacity);
-    final Widget cardSurface = DecoratedBox(
-      decoration: BoxDecoration(
-        color: fill,
-        borderRadius: radius,
-        border: border == null || width <= 0
-            ? null
-            : Border.all(color: border, width: width),
-        boxShadow: boxShadow.isEmpty ? null : boxShadow,
+    // Hover lifts the card 2 px with a shadow transition. The resting
+    // surface keeps its exact shape (one Padding, one DecoratedBox), so
+    // only the painted values move.
+    final BoxDecoration resting = BoxDecoration(
+      color: fill,
+      borderRadius: radius,
+      border: border == null || width <= 0
+          ? null
+          : Border.all(color: border, width: width),
+      boxShadow: boxShadow.isEmpty ? null : boxShadow,
+    );
+    final List<BoxShadow> hoverShadow =
+        (style.themeShadows ?? ambient.tokens.shadows).shadowMd;
+    final Widget cardSurface = _CardHover(
+      resting: resting,
+      hovered: resting.copyWith(
+        boxShadow: hoverShadow.isEmpty ? null : hoverShadow,
       ),
       child: body,
     );
@@ -127,6 +138,58 @@ class Card extends StatelessWidget {
       surfaceBlur: ambient.surfaceBlur,
       borderRadius: radius,
       child: cardSurface,
+    );
+  }
+}
+
+/// Hover lift for the card surface: 2 px up with a shadow transition.
+///
+/// Paints the resting [DecoratedBox] shape untouched and interpolates only
+/// its values, so layout and the widget structure never change. Touch
+/// platforms never hover and render the resting state.
+class _CardHover extends StatefulWidget {
+  const _CardHover({
+    required this.resting,
+    required this.hovered,
+    required this.child,
+  });
+
+  final BoxDecoration resting;
+  final BoxDecoration hovered;
+  final Widget child;
+
+  @override
+  State<_CardHover> createState() => _CardHoverState();
+}
+
+class _CardHoverState extends State<_CardHover> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final MotionTokens motion = Theme.of(context).motion;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: _hovered ? 1.0 : 0.0),
+        duration: resolveMotionDuration(context, motion.durations.fast),
+        curve: motion.curves.standard,
+        builder: (BuildContext context, double t, Widget? child) {
+          return Transform.translate(
+            offset: Offset(0, -2.0 * t),
+            child: DecoratedBox(
+              decoration: BoxDecoration.lerp(
+                widget.resting,
+                widget.hovered,
+                t,
+              )!,
+              child: child,
+            ),
+          );
+        },
+        child: widget.child,
+      ),
     );
   }
 }

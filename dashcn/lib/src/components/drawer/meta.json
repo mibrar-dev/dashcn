@@ -19,10 +19,12 @@
     "theme": [
         "color_tokens",
         "density",
+        "motion",
         "theme"
     ],
     "primitives": [
-      "drawer_route"
+      "drawer_route",
+      "motion"
     ],
     "components": []
   },

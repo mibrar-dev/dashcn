@@ -1897,7 +1897,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.readOnly,
         type: 'Duration',
         isRequired: false,
-        defaultValue: 'const Duration(milliseconds: 350)',
+        defaultValue: 'const Duration(milliseconds: 300)',
         readOnlyReason: 'complex type',
       ),
     ],

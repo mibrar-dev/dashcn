@@ -15,12 +15,13 @@
   "deps": {
     "foundation": [],
     "theme": [
-        "color_tokens",
-        "density",
-        "theme"
+      "color_tokens",
+      "density",
+      "theme"
     ],
     "primitives": [
       "fade_scroll",
+      "motion",
       "roving_group",
       "tab_container"
     ],

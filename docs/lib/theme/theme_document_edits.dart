@@ -35,6 +35,7 @@ extension ThemeDocumentEdits on ThemeDocument {
     fonts: fonts,
     surfaceOpacity: surfaceOpacity,
     surfaceBlur: surfaceBlur,
+    motionEnabled: motionEnabled,
     shadowsDerived: shadowsDerived,
   );
 
@@ -59,6 +60,7 @@ extension ThemeDocumentEdits on ThemeDocument {
       fonts: fonts,
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
+      motionEnabled: motionEnabled,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -80,6 +82,7 @@ extension ThemeDocumentEdits on ThemeDocument {
       fonts: fonts,
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
+      motionEnabled: motionEnabled,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -149,6 +152,11 @@ extension ThemeDocumentEdits on ThemeDocument {
     return _copy(surfaceBlur: blur, clearSurfaceBlur: blur == null);
   }
 
+  /// Sets the motion master switch; null restores the default (enabled,
+  /// no motion block in the document).
+  ThemeDocument withMotionEnabled(bool? enabled) =>
+      _copy(motionEnabled: enabled, clearMotion: enabled == null);
+
   ThemeDocument _copy({
     double? radius,
     double? spacing,
@@ -160,6 +168,8 @@ extension ThemeDocumentEdits on ThemeDocument {
     double? surfaceBlur,
     bool clearSurfaceOpacity = false,
     bool clearSurfaceBlur = false,
+    bool? motionEnabled,
+    bool clearMotion = false,
   }) => ThemeDocument(
     schema: schema,
     id: id,
@@ -176,6 +186,7 @@ extension ThemeDocumentEdits on ThemeDocument {
         ? null
         : (surfaceOpacity ?? this.surfaceOpacity),
     surfaceBlur: clearSurfaceBlur ? null : (surfaceBlur ?? this.surfaceBlur),
+    motionEnabled: clearMotion ? null : (motionEnabled ?? this.motionEnabled),
     shadowsDerived: shadowsDerived,
   );
 

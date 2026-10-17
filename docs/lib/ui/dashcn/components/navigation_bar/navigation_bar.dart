@@ -290,7 +290,23 @@ class _NavigationBarState extends State<NavigationBar> {
         (container == NavigationContainerType.sidebar
             ? null
             : ambient.colors.background);
-    if (base == null) return child;
+    if (base == null) {
+      // Sidebars draw nothing at the opaque default (exactly today's
+      // rendering); under a glass theme they frost like every other
+      // container so the global opacity/blur reaches them too.
+      if ((ambient.surfaceOpacity ?? 1) >= 1 &&
+          (ambient.surfaceBlur ?? 0) <= 0) {
+        return child;
+      }
+      final Color paint = surfaceColor(
+        ambient.colors.background,
+        ambient.surfaceOpacity,
+      );
+      return GlassSurface(
+        surfaceBlur: ambient.surfaceBlur,
+        child: ColoredBox(color: paint, child: child),
+      );
+    }
     final Color paint = surfaceColor(base, ambient.surfaceOpacity);
     final Widget surface = ColoredBox(color: paint, child: child);
     return GlassSurface(surfaceBlur: ambient.surfaceBlur, child: surface);

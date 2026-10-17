@@ -5,8 +5,8 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -260,7 +260,7 @@ class _StepperRender extends StatelessWidget {
     // instead of reserving room for every step (the old IndexedStack did).
     // Directional indent (P7-Q2): mirrors with the indicator in RTL.
     Widget content(int index, double indent) => AnimatedSwitcher(
-      duration: kDefaultDuration,
+      duration: resolveMotionDuration(context, theme.motion.durations.base),
       child: Padding(
         key: ValueKey<int>(index),
         padding: padding.add(EdgeInsetsDirectional.only(start: indent)),

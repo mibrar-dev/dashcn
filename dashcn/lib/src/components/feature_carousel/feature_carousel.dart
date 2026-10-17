@@ -7,6 +7,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/animation.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'feature_carousel_style.dart';
@@ -70,6 +71,13 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     _index = _config.index.clamp(0, _max);
     _lastAutoPlay = _config.autoPlay;
     _lastInterval = _config.autoPlayInterval;
+    // Autoplay starts in didChangeDependencies, where the theme and
+    // MediaQuery are readable; initState cannot register those dependencies.
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _autoplay();
   }
 
@@ -124,6 +132,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     _lastAutoPlay = _config.autoPlay;
     _lastInterval = _config.autoPlayInterval;
     if (!_config.autoPlay || widget.items.length <= 1) {
+      return;
+    }
+    // Under reduced motion autoplay never starts: no timer runs.
+    if (motionReduced(context)) {
       return;
     }
     _timer = Timer.periodic(_config.autoPlayInterval, (_) {
@@ -265,7 +277,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           onHorizontalDragUpdate: _onDrag,
           onHorizontalDragEnd: _onDragEnd,
           child: AnimatedSwitcher(
-            duration: theme.transitionDuration!,
+            duration: resolveMotionDuration(context, theme.transitionDuration!),
             switchInCurve: featureCarouselTransitionCurve,
             switchOutCurve: featureCarouselTransitionCurve,
             transitionBuilder: (Widget child, Animation<double> value) {

@@ -8,9 +8,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../foundation/constants.dart';
 import '../foundation/data.dart';
+import '../theme/theme.dart';
 import 'animated_value_builder.dart';
+import 'motion/motion_scope.dart';
 import 'overlay.dart';
 import 'popover.dart';
 import 'popover_overlay_state.dart';
@@ -164,9 +165,14 @@ class PopoverOverlayHandler extends OverlayHandler {
                   curve: isClosed.value
                       ? const Interval(0, 2 / 3)
                       : Curves.linear,
-                  duration: isClosed.value
-                      ? (showDuration ?? kDefaultDuration)
-                      : (dismissDuration ?? const Duration(milliseconds: 100)),
+                  duration: resolveMotionDuration(
+                    innerContext,
+                    isClosed.value
+                        ? (showDuration ??
+                              Theme.of(innerContext).motion.durations.fast)
+                        : (dismissDuration ??
+                              Theme.of(innerContext).motion.durations.instant),
+                  ),
                   onEnd: (value) {
                     if (value == 0.0 && isClosed.value) {
                       popoverEntry.remove();

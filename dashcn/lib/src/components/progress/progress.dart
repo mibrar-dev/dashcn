@@ -7,8 +7,10 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../primitives/animation.dart';
+import '../../primitives/motion/motion_scope.dart';
+import '../../theme/motion.dart';
+import '../../theme/theme.dart';
 import 'progress_style.dart';
 
 export 'progress_style.dart';
@@ -27,11 +29,14 @@ const Duration _indeterminateDuration = Duration(milliseconds: 1400);
 /// const Progress(value: 0.4, showSparks: true);
 /// ```
 ///
-/// A determinate bar animates value changes over [kDefaultDuration] unless
-/// [disableAnimation] is set. Values are fractions in `0..1`; values outside
-/// the range are clamped. Use `semanticsLabel`/`semanticsValue` for
+/// A determinate bar animates value changes over the theme base duration
+/// unless [disableAnimation] is set. Values are fractions in `0..1`; values
+/// outside the range are clamped. Use `semanticsLabel`/`semanticsValue` for
 /// accessible progress reporting.
-class Progress extends StatelessWidget {
+///
+/// The indeterminate sweep keeps its loop; under reduced motion it renders
+/// one static segment with no ticker.
+class Progress extends StatefulWidget {
   /// Creates a progress bar.
   const Progress({
     super.key,
@@ -78,45 +83,81 @@ class Progress extends StatelessWidget {
   final ProgressTheme? theme;
 
   @override
+  State<Progress> createState() => _ProgressState();
+}
+
+/// State of [Progress]: remembers the previous determinate value so value
+/// changes tween from the old fill to the new one.
+class _ProgressState extends State<Progress> {
+  double? _from;
+
+  @override
+  void didUpdateWidget(covariant Progress oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _from = oldWidget.value?.clamp(0.0, 1.0);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ProgressSurface surface = resolveProgressSurface(
       context,
-      widgetTheme: theme,
-      height: height,
-      borderRadius: borderRadius,
-      color: color,
-      backgroundColor: backgroundColor,
-      showSparks: showSparks,
-      disableAnimation: disableAnimation,
+      widgetTheme: widget.theme,
+      height: widget.height,
+      borderRadius: widget.borderRadius,
+      color: widget.color,
+      backgroundColor: widget.backgroundColor,
+      showSparks: widget.showSparks,
+      disableAnimation: widget.disableAnimation,
     );
     final TextDirection direction = Directionality.of(context);
-    final double? normalized = value?.clamp(0.0, 1.0);
+    final double? normalized = widget.value?.clamp(0.0, 1.0);
+    final bool reduced = motionReduced(context);
+    final MotionTokens motion = Theme.of(context).motion;
 
     final Widget bar = normalized == null
-        ? RepeatedAnimationBuilder(
-            start: 0,
-            end: 1,
-            duration: _indeterminateDuration,
-            builder: (context, t, child) {
-              final double start =
-                  -_indeterminateSegment + t * (1 + _indeterminateSegment);
-              return CustomPaint(
-                size: Size.infinite,
-                painter: _ProgressPainter(
-                  start: start,
-                  end: start + _indeterminateSegment,
-                  color: surface.color,
-                  backgroundColor: surface.backgroundColor,
-                  showSparks: surface.showSparks,
-                  textDirection: direction,
-                ),
-              );
-            },
-          )
+        ? reduced
+              // Static mid-sweep segment: the same painter, no ticker.
+              ? CustomPaint(
+                  size: Size.infinite,
+                  painter: _ProgressPainter(
+                    start: 0.35,
+                    end: 0.65,
+                    color: surface.color,
+                    backgroundColor: surface.backgroundColor,
+                    showSparks: surface.showSparks,
+                    textDirection: direction,
+                  ),
+                )
+              : RepeatedAnimationBuilder(
+                  start: 0,
+                  end: 1,
+                  duration: _indeterminateDuration,
+                  builder: (context, t, child) {
+                    final double start =
+                        -_indeterminateSegment +
+                        t * (1 + _indeterminateSegment);
+                    return CustomPaint(
+                      size: Size.infinite,
+                      painter: _ProgressPainter(
+                        start: start,
+                        end: start + _indeterminateSegment,
+                        color: surface.color,
+                        backgroundColor: surface.backgroundColor,
+                        showSparks: surface.showSparks,
+                        textDirection: direction,
+                      ),
+                    );
+                  },
+                )
         : TweenAnimationBuilder<double>(
-            tween: Tween<double>(begin: normalized, end: normalized),
-            duration: surface.animate ? kDefaultDuration : Duration.zero,
-            curve: Curves.easeInOut,
+            tween: Tween<double>(begin: _from, end: normalized),
+            duration: !surface.animate || reduced
+                ? Duration.zero
+                : motion.durations.fast,
+            curve: motion.curves.standard,
+            onEnd: () => _from = normalized,
             builder: (context, animated, child) {
               return CustomPaint(
                 size: Size.infinite,
@@ -133,8 +174,8 @@ class Progress extends StatelessWidget {
           );
 
     return Semantics(
-      label: semanticsLabel,
-      value: semanticsValue,
+      label: widget.semanticsLabel,
+      value: widget.semanticsValue,
       child: ClipRRect(
         borderRadius: surface.borderRadius,
         child: SizedBox(height: surface.height, child: bar),

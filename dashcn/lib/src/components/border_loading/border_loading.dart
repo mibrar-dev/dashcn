@@ -10,6 +10,7 @@ import 'dart:ui' show PathMetric;
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'border_loading_style.dart';
@@ -154,7 +155,11 @@ class _BorderLoadingState extends State<BorderLoading>
       curve: widget.curve,
       opacity: widget.opacity,
     );
-    _sync(duration: style.duration, looping: _isLooping(style.mode));
+    // Under reduced motion the loops park on a fixed frame with no ticker.
+    _sync(
+      duration: style.duration,
+      looping: _isLooping(style.mode) && !motionReduced(context),
+    );
   }
 
   @override
@@ -162,7 +167,9 @@ class _BorderLoadingState extends State<BorderLoading>
     super.didUpdateWidget(oldWidget);
     _sync(
       duration: widget.duration,
-      looping: _isLooping(widget.mode ?? BorderLoadingMode.sweepGradient),
+      looping:
+          _isLooping(widget.mode ?? BorderLoadingMode.sweepGradient) &&
+          !motionReduced(context),
     );
     if (oldWidget.progressStream != widget.progressStream) {
       _bindProgressStream();

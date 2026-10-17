@@ -24,6 +24,7 @@
     ],
     "primitives": [
       "clickable",
+      "motion",
       "tree_selection"
     ],
     "components": [

@@ -8,9 +8,9 @@
   "import": "import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';",
   "tags": ["layout", "accordion", "collapsible", "sections"],
   "deps": {
-    "foundation": ["constants", "data", "gap", "icons/lucide_icons"],
+    "foundation": ["data", "gap", "icons/lucide_icons"],
     "theme": ["color_tokens", "theme"],
-    "primitives": ["clickable", "text"],
+    "primitives": ["clickable", "motion", "text"],
     "components": []
   },
   "files": [

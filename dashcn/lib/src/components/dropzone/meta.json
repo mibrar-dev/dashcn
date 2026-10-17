@@ -25,7 +25,8 @@
     ],
     "primitives": [
       "focus_outline",
-      "localizations"
+      "localizations",
+      "surface"
     ],
     "components": [
       "button"

@@ -10,6 +10,7 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/surface.dart';
 import '../../primitives/text_editing/editable_text_style.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -344,10 +345,19 @@ InputSurface resolveInputSurface(
   final double borderWidth = resolved.borderWidth ?? 1;
   final BorderRadiusGeometry radius =
       borderRadius ?? resolved.borderRadius ?? theme.borderRadiusMd;
+  // The field fill is a surface: it carries the ambient surfaceOpacity (an
+  // explicit widget decoration override keeps its own paint). At the opaque
+  // default this is exactly today's fill.
+  final Color? rawFill = filled == true
+      ? colors.muted
+      : colorFor(resolved.background);
+  final Color? fill = rawFill == null
+      ? null
+      : surfaceColor(rawFill, theme.surfaceOpacity);
   final BoxDecoration surface =
       decoration ??
       BoxDecoration(
-        color: filled == true ? colors.muted : colorFor(resolved.background),
+        color: fill,
         border:
             border ??
             (borderColor != null && borderWidth > 0

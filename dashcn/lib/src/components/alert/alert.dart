@@ -17,6 +17,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/basic_layout.dart';
+import '../../primitives/motion/motion_enter.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -84,46 +85,49 @@ class Alert extends StatelessWidget {
     final Color borderColor =
         style.borderColor?.resolve(colors) ?? colors.border;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: style.background?.resolve(colors),
-        border: Border.all(color: borderColor),
-        borderRadius: radius,
-      ),
-      child: Padding(
-        // `alertDefaults.base.padding` is upstream `px-4 py-3` held as density
-        // multipliers; a widget-leg literal resolves to itself here.
-        padding: resolveEdgeInsets(
-          style.padding ?? EdgeInsets.zero,
-          ambient.density.baseContentPadding * ambient.scaling,
+    // Alerts enter with a fade plus a slight slide down; transform/opacity
+    // only, so layout never jumps.
+    return MotionEnter(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: style.background?.resolve(colors),
+          border: Border.all(color: borderColor),
+          borderRadius: radius,
         ),
-        child: BasicLayout(
-          leading: leading == null
-              ? null
-              : IconTheme.merge(
-                  data: IconThemeData(
-                    size: ambient.iconTheme.small.size,
-                    color: iconColor,
+        child: Padding(
+          // `alertDefaults.base.padding` is upstream `px-4 py-3` held as density
+          // multipliers; a widget-leg literal resolves to itself here.
+          padding: resolveEdgeInsets(
+            style.padding ?? EdgeInsets.zero,
+            ambient.density.baseContentPadding * ambient.scaling,
+          ),
+          child: BasicLayout(
+            leading: leading == null
+                ? null
+                : IconTheme.merge(
+                    data: IconThemeData(
+                      size: ambient.iconTheme.small.size,
+                      color: iconColor,
+                    ),
+                    child: leading!,
                   ),
-                  child: leading!,
-                ),
-          title: title == null
-              ? null
-              : DefaultTextStyle.merge(
-                  style: (style.titleStyle ?? alertDefaultTitleStyle).copyWith(
-                    color: titleColor,
+            title: title == null
+                ? null
+                : DefaultTextStyle.merge(
+                    style: (style.titleStyle ?? alertDefaultTitleStyle)
+                        .copyWith(color: titleColor),
+                    child: title!,
                   ),
-                  child: title!,
-                ),
-          content: content == null
-              ? null
-              : DefaultTextStyle.merge(
-                  style: (style.contentStyle ?? alertDefaultContentStyle)
-                      .copyWith(color: contentColor),
-                  child: content!,
-                ),
-          trailing: trailing,
-          contentSpacing: style.gap,
+            content: content == null
+                ? null
+                : DefaultTextStyle.merge(
+                    style: (style.contentStyle ?? alertDefaultContentStyle)
+                        .copyWith(color: contentColor),
+                    child: content!,
+                  ),
+            trailing: trailing,
+            contentSpacing: style.gap,
+          ),
         ),
       ),
     );

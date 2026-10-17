@@ -444,11 +444,13 @@ const List<String> kKeyboardGaps = <String>[
 /// Dependency chips keyed by component id (components first, then primitives, foundation, theme).
 const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'border_loading': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'dot_indicator': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'widget_states', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
@@ -515,6 +517,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'carousel': <DocsDep>[
     DocsDep(id: 'animation_queue', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'util', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -561,6 +564,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'feature_carousel': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -593,6 +597,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'pinned_sheet': <DocsDep>[
     DocsDep(id: 'backdrop_transform', kind: DocsDepKind.component),
     DocsDep(id: 'drawer_container', kind: DocsDepKind.component),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'sheet_stage', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
@@ -608,6 +613,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'timeline': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -622,6 +628,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'tree': <DocsDep>[
     DocsDep(id: 'icon', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'tree_selection', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
@@ -634,6 +641,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'menu_nav', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
@@ -666,28 +674,33 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'alert': <DocsDep>[
     DocsDep(id: 'basic_layout', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'progress': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
-    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'skeleton': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'spinner': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'toast': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'toast_queue', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
@@ -711,11 +724,13 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'checkbox': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'widget_states', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons/lucide_icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'chip_input': <DocsDep>[
@@ -734,6 +749,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -747,6 +763,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'file_value', kind: DocsDepKind.primitive),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -755,6 +772,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'form': <DocsDep>[
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -763,6 +781,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'formatted_input': <DocsDep>[
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -771,6 +790,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'input': <DocsDep>[
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
     DocsDep(id: 'input_features', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -779,6 +799,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'input_otp': <DocsDep>[
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -830,6 +851,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'phone_number', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -866,6 +888,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'slider': <DocsDep>[
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'slider', kind: DocsDepKind.primitive),
     DocsDep(id: 'slider_value', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -881,6 +904,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'switch': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'widget_states', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
@@ -894,8 +918,8 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'accordion': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
-    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons/lucide_icons', kind: DocsDepKind.foundation),
@@ -903,10 +927,12 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'card': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'sheet_overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'card_image': <DocsDep>[
@@ -921,6 +947,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'collapsible': <DocsDep>[
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
@@ -1024,6 +1051,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'menubar': <DocsDep>[
     DocsDep(id: 'menu', kind: DocsDepKind.component),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
@@ -1071,7 +1099,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'stepper': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
-    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -1081,6 +1109,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'tabs': <DocsDep>[
     DocsDep(id: 'sortable', kind: DocsDepKind.component),
     DocsDep(id: 'fade_scroll', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'roving_group', kind: DocsDepKind.primitive),
     DocsDep(id: 'tab_container', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -1097,19 +1126,23 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'dialog': <DocsDep>[
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
     DocsDep(id: 'tokens', kind: DocsDepKind.theme),
   ],
   'drawer': <DocsDep>[
     DocsDep(id: 'drawer_route', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'gooey_toast': <DocsDep>[
@@ -1235,6 +1268,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'toast', kind: DocsDepKind.component),
     DocsDep(id: 'error_handling', kind: DocsDepKind.primitive),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -1345,6 +1379,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'switcher': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
@@ -1359,11 +1394,11 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'outlined_container', kind: DocsDepKind.component),
     DocsDep(id: 'patch', kind: DocsDepKind.component),
     DocsDep(id: 'animated_value_builder', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'window_host', kind: DocsDepKind.primitive),
     DocsDep(id: 'window_manager', kind: DocsDepKind.primitive),
     DocsDep(id: 'window_snap', kind: DocsDepKind.primitive),
-    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),

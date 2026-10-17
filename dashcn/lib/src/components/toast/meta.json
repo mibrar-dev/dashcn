@@ -22,9 +22,10 @@
       "theme"
     ],
     "primitives": [
-      "toast_queue",
       "clickable",
-      "surface"
+      "motion",
+      "surface",
+      "toast_queue"
     ],
     "components": []
   },

@@ -18,6 +18,8 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/data.dart';
 import '../../primitives/drawer_route/drawer_panel.dart';
 import '../../primitives/drawer_route/drawer_route.dart';
+import '../../primitives/motion/motion_scope.dart';
+import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'drawer_style.dart';
 
@@ -62,11 +64,17 @@ DrawerOverlayCompleter<T?> _pushPanel<T>({
     rootNavigator: useRootNavigator,
   );
   final DrawerTheme style = _resolveDrawerTheme(context, theme);
+  // The panel slides from its edge with the scale-back background; closing
+  // reverses the same route. Under reduced motion the panel snaps open.
+  final MotionTokens motion = Theme.of(context).motion;
+  final Duration duration = motionReduced(context)
+      ? Duration.zero
+      : (style.transitionDuration ?? motion.durations.slow);
   final DrawerRoute<T> route = DrawerRoute<T>(
     builder: builder,
     position: position,
     themeOf: (BuildContext context) => _resolveDrawerTheme(context, theme),
-    duration: style.transitionDuration ?? const Duration(milliseconds: 250),
+    duration: duration,
     barrierDismissible: barrierDismissible,
     useSafeArea: useSafeArea,
     expands: expands,

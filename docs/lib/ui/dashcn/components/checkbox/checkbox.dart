@@ -14,8 +14,10 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'checkbox_style.dart';
 
@@ -385,23 +387,40 @@ class _CheckboxBox extends StatelessWidget {
           ? null
           : Border.all(color: border, width: borderWidth),
     );
+    // The check mark scales in with a spring while fading: a subtle draw-in
+    // that never changes layout. The box fill cross-fades through the
+    // animated container below.
+    final MotionTokens motion = Theme.of(context).motion;
+    final Duration indicatorDuration = resolveMotionDuration(
+      context,
+      _checkboxIndicatorDuration,
+    );
+    final bool shown = indicatorColor != null;
     final Widget indicator = AnimatedOpacity(
-      duration: _checkboxIndicatorDuration,
-      opacity: indicatorColor == null ? 0 : 1,
-      child: SizedBox.fromSize(
-        size: Size.square(indicatorSize),
-        child: indicatorColor == null
-            ? null
-            : IconTheme.merge(
-                data: IconThemeData(color: indicatorColor, size: indicatorSize),
-                child: Icon(
-                  value == CheckboxValue.indeterminate
-                      ? LucideIcons.minus
-                      : LucideIcons.check,
-                  size: indicatorSize,
-                  color: indicatorColor,
+      duration: indicatorDuration,
+      opacity: shown ? 1 : 0,
+      child: AnimatedScale(
+        scale: shown ? 1.0 : 0.6,
+        duration: indicatorDuration,
+        curve: motion.curves.spring,
+        child: SizedBox.fromSize(
+          size: Size.square(indicatorSize),
+          child: indicatorColor == null
+              ? null
+              : IconTheme.merge(
+                  data: IconThemeData(
+                    color: indicatorColor,
+                    size: indicatorSize,
+                  ),
+                  child: Icon(
+                    value == CheckboxValue.indeterminate
+                        ? LucideIcons.minus
+                        : LucideIcons.check,
+                    size: indicatorSize,
+                    color: indicatorColor,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
     return DecoratedBox(

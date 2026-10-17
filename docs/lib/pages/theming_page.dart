@@ -168,6 +168,25 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['animated']!.code,
             language: 'dart',
           ),
+          const HeadingAnchor(id: 'motion', title: 'Motion'),
+          const TypesetParagraph(
+            'Every component animation resolves through the motion tokens, '
+            'read as Theme.of(context).motion. Durations stay in the subtle '
+            'band — instant 100 ms, fast 150 ms, base 200 ms, slow 300 ms — '
+            'and curves stay restrained, except the spring overshoot used for '
+            'press-release and pop-in effects. Motion is transform and '
+            'opacity only, so it never changes layout or a final state.',
+          ),
+          const TypesetParagraph(
+            'Reduced motion collapses everything: when the platform reports '
+            'MediaQuery.disableAnimations, or the Theme Studio Motion row '
+            'switches motion.enabled off, every animation resolves to zero '
+            'duration and its end value, with no tickers or timers running.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['motion']!.code,
+            language: 'dart',
+          ),
         ],
       ),
     );

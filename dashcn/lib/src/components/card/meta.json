@@ -17,9 +17,11 @@
     "theme": [
       "color_tokens",
       "theme",
-      "density"
+      "density",
+      "motion"
     ],
     "primitives": [
+      "motion",
       "sheet_overlay",
       "surface"
     ],
