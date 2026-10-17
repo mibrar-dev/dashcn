@@ -15,6 +15,9 @@
     "components": ["card", "outlined_container", "patch"]
   },
   "files": ["window.dart", "window_style.dart", "window_theme.dart", "preview.dart"],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["Window", "WindowNavigator", "WindowActions", "WindowController", "WindowState", "WindowHandle", "WindowViewport", "WindowTheme", "WindowSnapStrategy", "WindowDragController", "ManagedWindow", "WindowHost", "WindowSnapBar"],
     "enums": ["WindowResizeEdge"],

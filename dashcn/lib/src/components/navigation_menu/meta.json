@@ -19,6 +19,9 @@
     "navigation_menu_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "top"
+  },
   "api": {
     "classes": ["NavigationMenu", "NavigationMenuState", "NavigationMenuItem", "NavigationMenuItemState", "NavigationMenuContent", "NavigationMenuContentList", "NavigationMenuTheme"],
     "constants": ["navigationMenuDefaults", "navigationMenuThemeOverrides"]

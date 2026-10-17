@@ -28,6 +28,7 @@ class FramedPreview extends StatefulWidget {
     this.orientation,
     this.onOrientationChanged,
     this.showBar = true,
+    this.bodyBuilder,
   });
 
   /// The preview content (one subtree per visible frame).
@@ -52,6 +53,18 @@ class FramedPreview extends StatefulWidget {
 
   /// Whether the toolbar renders (P9-Z may host one bar per page).
   final bool showBar;
+
+  /// Builds the body for the selected frame around [child]. Defaults to
+  /// [_Body] (the whole child inside the device frame). Component pages
+  /// pass a pass-through (`(_, _, child) => child`) because the frame is
+  /// rendered inside the example card instead (F1: the toolbar stays
+  /// outside the device screen).
+  final Widget Function(
+    DeviceFrameId frame,
+    DeviceOrientation orientation,
+    Widget child,
+  )?
+  bodyBuilder;
 
   @override
   State<FramedPreview> createState() => _FramedPreviewState();
@@ -120,11 +133,9 @@ class _FramedPreviewState extends State<FramedPreview> {
   Widget build(BuildContext context) {
     final DeviceFrameId frame = _effectiveFrame;
     final DeviceOrientation orientation = _effectiveOrientation;
-    final Widget body = _Body(
-      frame: frame,
-      orientation: orientation,
-      child: widget.child,
-    );
+    final Widget body = widget.bodyBuilder != null
+        ? widget.bodyBuilder!(frame, orientation, widget.child)
+        : _Body(frame: frame, orientation: orientation, child: widget.child);
     final Widget keyed = widget.id == null
         ? body
         : KeyedSubtree(

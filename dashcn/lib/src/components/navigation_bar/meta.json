@@ -40,6 +40,9 @@
     "navigation_bar_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "bottom"
+  },
   "api": {
     "classes": [
       "NavigationBar",

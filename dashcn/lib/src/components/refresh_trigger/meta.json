@@ -21,6 +21,9 @@
     "refresh_trigger_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": ["RefreshTrigger", "RefreshTriggerState", "RefreshTriggerStage", "TriggerStage", "DefaultRefreshIndicator", "RefreshTriggerTheme"],
     "typedefs": ["RefreshIndicatorBuilder"],

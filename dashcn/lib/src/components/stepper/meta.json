@@ -35,6 +35,9 @@
     "stepper_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "top"
+  },
   "api": {
     "classes": [
       "Stepper",

@@ -1,13 +1,17 @@
 // Device specs for the P9-1 preview frames (every platform at once).
 //
-// Four specs — an iPhone, an Android phone, a desktop window and a browser
-// window — each carrying the logical screen size, the safe-area insets the
-// child sees, the device pixel ratio and the `TargetPlatform` the kit theme
-// resolves through. Sizes and insets are approximations of real hardware
-// (iPhone 16, Pixel 9) and of a typical desktop/browser window; they exist
-// so previews exercise narrow widths, notches and platform branches, not to
-// certify hardware pixels.
+// Each spec mirrors one `package:device_preview` preset: an iPhone, an
+// Android phone, an iPad, a desktop window and a browser window. The spec
+// carries the preset's logical screen size, safe-area insets, device pixel
+// ratio and `TargetPlatform`; the device body artwork is drawn by
+// `DevicePreviewFrame` from the same preset (see `device_frame.dart`), so
+// sizes and artwork can never drift apart. Values are approximations of real
+// hardware (iPhone 16 Pro, Galaxy S25, iPad Air 11" M4) and of typical
+// desktop/browser windows; they exist so previews exercise narrow widths,
+// notches and platform branches, not to certify hardware pixels.
 
+import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/presets.dart';
 import 'package:flutter/widgets.dart';
 
 /// Which frame a preview renders inside (the `FrameBar` segments).
@@ -15,19 +19,22 @@ enum DeviceFrameId {
   /// No frame: the preview fills the available width.
   none('none', 'None'),
 
-  /// iPhone 16 portrait/landscape.
+  /// iPhone 16 Pro portrait/landscape.
   iphone('iphone', 'iPhone'),
 
-  /// Pixel 9 portrait/landscape.
+  /// Galaxy S25 portrait/landscape.
   android('android', 'Android'),
+
+  /// iPad Air 11" (M4) portrait/landscape.
+  ipad('ipad', 'iPad'),
 
   /// macOS-style desktop window.
   desktop('desktop', 'Desktop'),
 
-  /// Browser window (tab strip + address bar).
+  /// Browser window (Windows-style window chrome).
   web('web', 'Web'),
 
-  /// All four specs side by side (or a snap scroller when narrow).
+  /// All five specs side by side (or a snap scroller when narrow).
   all('all', 'All');
 
   const DeviceFrameId(this.queryValue, this.label);
@@ -71,188 +78,169 @@ enum DeviceOrientation {
     }
     return DeviceOrientation.portrait;
   }
+
+  /// The `package:device_preview` orientation for `DevicePreset.resolve`.
+  Orientation get previewOrientation => this == DeviceOrientation.landscape
+      ? Orientation.landscape
+      : Orientation.portrait;
 }
 
-/// The chrome kind a spec paints (phones draw a bezel + island/camera,
-/// desktop and browser draw a title/tab bar).
-enum DeviceChromeKind {
-  /// Phone body with a camera island (iPhone) or punch hole (Android).
-  phone,
-
-  /// Window with a title bar.
-  desktop,
-
-  /// Window with a tab strip + address bar.
-  browser,
-}
-
-/// One framed device: screen size, safe areas, pixel ratio and platform.
+/// One framed device: the `package:device_preview` preset plus the toolbar
+/// metadata around it.
+///
+/// Screen size, safe-area insets, pixel ratio and platform all come straight
+/// from [preset] (via [sizeFor]/[paddingFor]/[devicePixelRatio]/[platform]),
+/// so the `MediaQuery` the frame exposes always matches the artwork
+/// `DevicePreviewFrame` paints. [device_spec_test] pins every mirrored value
+/// against its preset, so a preset upgrade fails loudly instead of drifting.
 @immutable
 class DeviceSpec {
   const DeviceSpec({
     required this.id,
     required this.label,
-    required this.size,
-    required this.portraitPadding,
-    required this.landscapePadding,
-    required this.devicePixelRatio,
-    required this.platform,
-    required this.outerRadius,
-    required this.screenRadius,
-    required this.framePadding,
-    required this.chrome,
-    required this.hasIsland,
+    required this.preset,
     required this.rotatable,
   });
 
   /// Which toolbar segment this spec belongs to.
   final DeviceFrameId id;
 
-  /// Visible name (`iPhone 16`).
+  /// Visible name (`iPhone 16 Pro`).
   final String label;
 
+  /// The `package:device_preview` preset this spec mirrors.
+  ///
+  /// Referenced as a `DevicePresets.X` constant (never via
+  /// `DevicePresets.all`/`byId`) so unreferenced presets tree-shake away.
+  final DevicePreset preset;
+
+  /// Whether rotation applies. Phones and the tablet rotate; the desktop
+  /// window and the browser are landscape-native, so [sizeFor]/[paddingFor]/
+  /// [totalFor] ignore the orientation for them instead of swapping a wide
+  /// window into a tall portrait one.
+  final bool rotatable;
+
   /// Logical screen size in portrait.
-  final Size size;
-
-  /// Safe-area insets exposed to the child in portrait.
-  final EdgeInsets portraitPadding;
-
-  /// Safe-area insets exposed to the child in landscape.
-  final EdgeInsets landscapePadding;
+  Size get size => preset.portraitSize;
 
   /// Device pixel ratio exposed through `MediaQuery`.
-  final double devicePixelRatio;
+  double get devicePixelRatio => preset.devicePixelRatio;
 
   /// Platform the kit theme resolves to inside this frame
   /// (`Theme.of(context).platform`).
-  final TargetPlatform platform;
-
-  /// Corner radius of the device body / window.
-  final double outerRadius;
-
-  /// Corner radius of the screen (where the child is clipped).
-  final double screenRadius;
-
-  /// Chrome around the screen: bezel on phones, title-bar height on top
-  /// plus a thin edge elsewhere on desktop/browser.
-  final EdgeInsets framePadding;
-
-  /// Which chrome the painter draws.
-  final DeviceChromeKind chrome;
-
-  /// Whether the phone draws a Dynamic Island (true) or a punch hole
-  /// (false). Ignored for non-phone chrome.
-  final bool hasIsland;
-
-  /// Whether rotation applies. Phones rotate; the desktop window and the
-  /// browser are landscape-native, so [sizeFor]/[paddingFor]/[totalFor]
-  /// ignore the orientation for them instead of swapping a 1280-wide
-  /// window into a tall portrait one.
-  final bool rotatable;
+  TargetPlatform get platform => preset.platform;
 
   /// Screen size for [orientation] (landscape swaps width/height, unless
   /// the spec is not [rotatable]).
   Size sizeFor(DeviceOrientation orientation) {
     if (!rotatable || orientation == DeviceOrientation.portrait) {
-      return size;
+      return preset.portraitSize;
     }
-    return Size(size.height, size.width);
+    return preset.resolve(orientation: Orientation.landscape).screenSize ??
+        Size(preset.portraitSize.height, preset.portraitSize.width);
   }
 
   /// Safe-area insets for [orientation] (portrait values unless the spec
   /// is [rotatable] and landscape).
   EdgeInsets paddingFor(DeviceOrientation orientation) {
     if (!rotatable || orientation == DeviceOrientation.portrait) {
-      return portraitPadding;
+      return preset.portraitPadding;
     }
-    return landscapePadding;
+    return preset.landscapePadding ??
+        DevicePreset.rotateToLandscape(preset.portraitPadding);
   }
 
-  /// Total footprint (screen + chrome) for [orientation].
+  /// The resolved `package:device_preview` simulation for [orientation]:
+  /// screen metrics plus the body artwork and system UI
+  /// `DevicePreviewFrame` paints.
+  DeviceSimulation simulationFor(DeviceOrientation orientation) {
+    if (!rotatable || orientation == DeviceOrientation.portrait) {
+      return preset.resolve();
+    }
+    return preset.resolve(orientation: Orientation.landscape);
+  }
+
+  /// Blank space reserved around the screen for the body artwork.
+  ///
+  /// `DevicePreviewFrame` paints the body OUTSIDE its widget box (which is
+  /// exactly the screen size); the letterbox keeps that paint inside this
+  /// frame's [totalFor] footprint so neighbouring content is never covered.
+  EdgeInsets letterboxFor(DeviceOrientation orientation) {
+    final DeviceSimulation simulation = simulationFor(orientation);
+    final Size? screen = simulation.screenSize;
+    final Rect bounds = simulation.contentBounds;
+    if (screen == null || bounds.isEmpty) {
+      return EdgeInsets.zero;
+    }
+    double clampNonNegative(double value) =>
+        value.isNaN ? 0 : value.clamp(0, double.infinity).toDouble();
+    return EdgeInsets.fromLTRB(
+      clampNonNegative(-bounds.left),
+      clampNonNegative(-bounds.top),
+      clampNonNegative(bounds.right - screen.width),
+      clampNonNegative(bounds.bottom - screen.height),
+    );
+  }
+
+  /// Total footprint (screen + letterbox) for [orientation].
   Size totalFor(DeviceOrientation orientation) {
     final Size screen = sizeFor(orientation);
+    final EdgeInsets letterbox = letterboxFor(orientation);
     return Size(
-      screen.width + framePadding.left + framePadding.right,
-      screen.height + framePadding.top + framePadding.bottom,
+      screen.width + letterbox.left + letterbox.right,
+      screen.height + letterbox.top + letterbox.bottom,
     );
   }
 }
 
-/// iPhone 16: 393x852 @3x, iOS, Dynamic Island.
+/// iPhone 16 Pro @3x, iOS.
 const DeviceSpec kIphoneSpec = DeviceSpec(
   id: DeviceFrameId.iphone,
-  label: 'iPhone 16',
-  size: Size(393, 852),
-  portraitPadding: EdgeInsets.only(top: 59, bottom: 34),
-  landscapePadding: EdgeInsets.fromLTRB(59, 21, 34, 21),
-  devicePixelRatio: 3,
-  platform: TargetPlatform.iOS,
-  outerRadius: 55,
-  screenRadius: 48,
-  framePadding: EdgeInsets.all(12),
-  chrome: DeviceChromeKind.phone,
-  hasIsland: true,
+  label: 'iPhone 16 Pro',
+  preset: DevicePresets.iPhone16Pro,
   rotatable: true,
 );
 
-/// Pixel 9: 412x915 @2.625x, Android, punch-hole camera.
+/// Galaxy S25 @3x, Android.
 const DeviceSpec kAndroidSpec = DeviceSpec(
   id: DeviceFrameId.android,
-  label: 'Pixel 9',
-  size: Size(412, 915),
-  portraitPadding: EdgeInsets.only(top: 47, bottom: 30),
-  landscapePadding: EdgeInsets.fromLTRB(47, 24, 30, 24),
-  devicePixelRatio: 2.625,
-  platform: TargetPlatform.android,
-  outerRadius: 36,
-  screenRadius: 28,
-  framePadding: EdgeInsets.all(10),
-  chrome: DeviceChromeKind.phone,
-  hasIsland: false,
+  label: 'Galaxy S25',
+  preset: DevicePresets.galaxyS25,
   rotatable: true,
 );
 
-/// Desktop window: 1280x800 @2x, macOS, title bar with traffic lights.
+/// iPad Air 11" (M4) @2x, iOS.
+const DeviceSpec kIpadSpec = DeviceSpec(
+  id: DeviceFrameId.ipad,
+  label: 'iPad Air 11" (M4)',
+  preset: DevicePresets.iPadAir11M4,
+  rotatable: true,
+);
+
+/// Large desktop window @2x, macOS.
 const DeviceSpec kDesktopSpec = DeviceSpec(
   id: DeviceFrameId.desktop,
   label: 'Desktop window',
-  size: Size(1280, 800),
-  portraitPadding: EdgeInsets.only(top: 52),
-  landscapePadding: EdgeInsets.only(top: 52),
-  devicePixelRatio: 2,
-  platform: TargetPlatform.macOS,
-  outerRadius: 12,
-  screenRadius: 10,
-  framePadding: EdgeInsets.fromLTRB(8, 52, 8, 8),
-  chrome: DeviceChromeKind.desktop,
-  hasIsland: false,
+  preset: DevicePresets.largeDesktopWindow,
   rotatable: false,
 );
 
-/// Browser window: 1280x800 @1x, tab strip + address bar.
+/// Small desktop window @1x, Windows.
 ///
 /// The platform is Windows so desktop and web resolve differently in
 /// previews that branch on `Theme.of(context).platform`.
 const DeviceSpec kWebSpec = DeviceSpec(
   id: DeviceFrameId.web,
   label: 'Browser window',
-  size: Size(1280, 800),
-  portraitPadding: EdgeInsets.only(top: 104),
-  landscapePadding: EdgeInsets.only(top: 104),
-  devicePixelRatio: 1,
-  platform: TargetPlatform.windows,
-  outerRadius: 12,
-  screenRadius: 10,
-  framePadding: EdgeInsets.fromLTRB(8, 104, 8, 8),
-  chrome: DeviceChromeKind.browser,
-  hasIsland: false,
+  preset: DevicePresets.smallDesktopWindow,
   rotatable: false,
 );
 
-/// The four framable specs, in toolbar order.
+/// The five framable specs, in toolbar order.
 const List<DeviceSpec> kFramedSpecs = <DeviceSpec>[
   kIphoneSpec,
   kAndroidSpec,
+  kIpadSpec,
   kDesktopSpec,
   kWebSpec,
 ];

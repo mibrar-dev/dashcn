@@ -32,6 +32,7 @@ const List<DeviceFrameId> _modes = <DeviceFrameId>[
   DeviceFrameId.none,
   DeviceFrameId.iphone,
   DeviceFrameId.android,
+  DeviceFrameId.ipad,
   DeviceFrameId.desktop,
   DeviceFrameId.web,
   DeviceFrameId.all,

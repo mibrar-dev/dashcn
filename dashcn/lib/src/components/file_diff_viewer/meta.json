@@ -19,6 +19,9 @@
     "file_diff_viewer_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "fill"
+  },
   "api": {
     "classes": [
       "FileDiffViewer",

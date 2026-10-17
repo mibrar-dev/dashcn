@@ -42,6 +42,9 @@
     "filter_bar_theme.dart",
     "preview.dart"
   ],
+  "preview": {
+    "placement": "top"
+  },
   "api": {
     "classes": [
       "FilterBar",

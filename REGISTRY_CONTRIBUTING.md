@@ -127,3 +127,22 @@ Flows (`dashcn/lib/src/flows/<id>/`, e.g. `auth-01/` with `flow.dart` +
       checked with `flutter run -d chrome`.
 - [ ] `meta.json` deps/files/api match the code; `README.md` updated;
       CHANGELOG entry for user-visible changes.
+
+## Preview placement (`preview.placement`)
+
+Device-frame previews place each component on a phone or desktop screen. Add
+a `preview` object to `meta.json` when the default (centred) placement is
+wrong for the component:
+
+```json
+"preview": { "placement": "bottom" }
+```
+
+- `center` (default): buttons, checkboxes, inputs, cards, badges.
+- `top`: headers, menubars, banners used as a top strip.
+- `bottom`: bottom navigation bars, tab bars, docked composers, bottom sheets.
+- `fill`: whole-screen components such as scaffolds, sidebars, tables, chat.
+- `leading`: side rails that run the full height of the screen.
+
+The manifest generator validates the value; the docs placement sweep test
+checks every component in each device frame.

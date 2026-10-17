@@ -37,6 +37,7 @@ String renderDocsData(DocsModel model) {
     ..writeln('    required this.fileCount,')
     ..writeln('    required this.stability,')
     ..writeln('    required this.listed,')
+    ..writeln('    required this.placement,')
     ..writeln('  });')
     ..writeln()
     ..writeln('  /// Registry id / directory name.')
@@ -76,6 +77,10 @@ String renderDocsData(DocsModel model) {
     )
     ..writeln('  /// and reachable through API links, but not browsable.')
     ..writeln('  final bool listed;')
+    ..writeln()
+    ..writeln('  /// Device-frame preview placement (F1): `center`, `top`,')
+    ..writeln('  /// `bottom`, `fill` or `leading`, from `preview.placement`.')
+    ..writeln('  final String placement;')
     ..writeln('}')
     ..writeln()
     ..writeln('/// One theme preset, generated from `themes/index.json`.')
@@ -295,6 +300,7 @@ String _componentLiteral(ComponentFacts component) {
     'fileCount: ${component.fileCount}',
     "stability: 'stable'",
     'listed: ${component.listed}',
+    'placement: ${dartString(component.placement)}',
   ], indent: '  ');
 }
 

@@ -28,19 +28,24 @@ class ColorPreview extends StatelessWidget {
           color: theme.colors.background,
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            // Wrap, not Row: the three swatches sit in one centred row on
+            // wide screens and reflow instead of overflowing narrow phones
+            // (the framed sweep gives centre content ~328 px on a 360 px
+            // phone; the row measures ~300 px plus padding).
+            child: Wrap(
+              spacing: theme.spacing.md,
+              runSpacing: theme.spacing.md,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
                 _Swatch(
                   label: colorToHex(derivative.toColor()),
                   color: derivative.toColor(),
                 ),
-                Gap(theme.spacing.md),
                 _Swatch(
                   label: colorToHex(muted.toColor()),
                   color: muted.toColor(),
                 ),
-                Gap(theme.spacing.md),
                 _Swatch(
                   label: colorToHex(shifted.toColor()),
                   color: shifted.toColor(),

@@ -38,6 +38,13 @@ dependencies:
   web: ^1.1.1
   # `components/formatter/formatter.dart` imports it; pure Dart, no widgets.
   expressions: ^0.2.5+2
+  # device_preview: draws the P9-1 device bodies (iPhone / Galaxy / iPad /
+  # desktop windows) around framed previews via `DevicePreviewFrame`. Only
+  # `device_preview.dart` + `presets.dart` are imported (no binding, no
+  # DevTools glue); the package itself is widgets-only (no material/cupertino
+  # imports) and referenced presets tree-shake to ~16 KB gzip. Exact pin: the
+  # frame SVG artwork is compiled const data, so upgrades change pixels.
+  device_preview: 3.0.0
 
 dev_dependencies:
   flutter_test:

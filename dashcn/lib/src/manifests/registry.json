@@ -653,6 +653,9 @@
       "install": "dashcn add accordion",
       "listed": true,
       "name": "Accordion",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "accordion",
@@ -719,6 +722,9 @@
       "install": "dashcn add alert",
       "listed": true,
       "name": "Alert",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "layout",
         "feedback",
@@ -789,6 +795,9 @@
       "install": "dashcn add alert_dialog",
       "listed": true,
       "name": "AlertDialog",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "dialog",
@@ -839,6 +848,9 @@
       "install": "dashcn add alpha",
       "listed": false,
       "name": "Alpha",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "color",
         "picker",
@@ -881,6 +893,9 @@
       "install": "dashcn add anchor",
       "listed": false,
       "name": "Anchor",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "anchor",
@@ -932,6 +947,9 @@
           "sdk": true
         }
       ],
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "app",
@@ -965,6 +983,9 @@
       "install": "dashcn add async",
       "listed": false,
       "name": "FutureOrBuilder",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "utility",
         "async",
@@ -1031,6 +1052,9 @@
       "install": "dashcn add autocomplete",
       "listed": true,
       "name": "AutoComplete",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "autocomplete",
@@ -1110,6 +1134,9 @@
       "install": "dashcn add avatar",
       "listed": true,
       "name": "Avatar",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "avatar",
@@ -1168,6 +1195,9 @@
       "install": "dashcn add backdrop_transform",
       "listed": false,
       "name": "BackdropTransform",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "sheet",
@@ -1220,6 +1250,9 @@
       "install": "dashcn add badge",
       "listed": true,
       "name": "Badge",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "badge",
@@ -1288,6 +1321,9 @@
       "install": "dashcn add border_loading",
       "listed": true,
       "name": "Border Loading",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "loading",
@@ -1353,6 +1389,9 @@
       "install": "dashcn add breadcrumb",
       "listed": true,
       "name": "Breadcrumb",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "navigation",
         "breadcrumb",
@@ -1452,6 +1491,9 @@
       "install": "dashcn add button",
       "listed": true,
       "name": "Button",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "control",
         "button",
@@ -1548,6 +1590,9 @@
       "install": "dashcn add calendar",
       "listed": true,
       "name": "Calendar",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "date",
@@ -1620,6 +1665,9 @@
       "install": "dashcn add card",
       "listed": true,
       "name": "Card",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "card",
@@ -1687,6 +1735,9 @@
       "install": "dashcn add card_image",
       "listed": true,
       "name": "Card Image",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "card",
@@ -1768,6 +1819,9 @@
       "install": "dashcn add carousel",
       "listed": true,
       "name": "Carousel",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "display",
         "carousel",
@@ -1846,6 +1900,9 @@
       "install": "dashcn add chat",
       "listed": true,
       "name": "Chat",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "display",
         "chat",
@@ -1927,6 +1984,9 @@
       "install": "dashcn add checkbox",
       "listed": true,
       "name": "Checkbox",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "checkbox",
@@ -2002,6 +2062,9 @@
       "install": "dashcn add chip",
       "listed": true,
       "name": "Chip",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "chip",
@@ -2089,6 +2152,9 @@
       "install": "dashcn add chip_input",
       "listed": true,
       "name": "ChipInput",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "input",
@@ -2152,6 +2218,9 @@
       "install": "dashcn add code_snippet",
       "listed": true,
       "name": "CodeSnippet",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "code",
@@ -2219,6 +2288,9 @@
       "install": "dashcn add collapsible",
       "listed": true,
       "name": "Collapsible",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "collapsible",
@@ -2292,6 +2364,9 @@
       "install": "dashcn add color",
       "listed": false,
       "name": "Color",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "color",
         "model",
@@ -2344,6 +2419,9 @@
       "install": "dashcn add color_field",
       "listed": false,
       "name": "Color Field",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "color",
@@ -2417,6 +2495,9 @@
       "install": "dashcn add color_input",
       "listed": false,
       "name": "ColorInput",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "color",
@@ -2506,6 +2587,9 @@
       "install": "dashcn add color_picker",
       "listed": true,
       "name": "ColorPicker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "color",
@@ -2583,6 +2667,9 @@
       "install": "dashcn add command",
       "listed": true,
       "name": "Command",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "control",
         "command",
@@ -2647,6 +2734,9 @@
       "install": "dashcn add context_menu",
       "listed": true,
       "name": "ContextMenu",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "context-menu",
@@ -2701,6 +2791,9 @@
       "install": "dashcn add country_flag",
       "listed": true,
       "name": "CountryFlag",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "flag",
@@ -2767,6 +2860,9 @@
       "install": "dashcn add date_picker",
       "listed": true,
       "name": "DatePicker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "date",
@@ -2833,6 +2929,9 @@
       "install": "dashcn add dialog",
       "listed": true,
       "name": "Dialog",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "modal",
@@ -2899,6 +2998,9 @@
       "install": "dashcn add divider",
       "listed": true,
       "name": "Divider",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "divider",
@@ -2968,6 +3070,9 @@
       "install": "dashcn add dot_indicator",
       "listed": true,
       "name": "DotIndicator",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "dots",
@@ -3049,6 +3154,9 @@
       "install": "dashcn add drawer",
       "listed": true,
       "name": "Drawer",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "drawer",
@@ -3123,6 +3231,9 @@
       "install": "dashcn add drawer_container",
       "listed": false,
       "name": "Drawer Container",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "drawer",
@@ -3165,6 +3276,9 @@
       "install": "dashcn add dropdown_menu",
       "listed": true,
       "name": "DropdownMenu",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "dropdown",
@@ -3239,6 +3353,9 @@
       "install": "dashcn add dropzone",
       "listed": true,
       "name": "Dropzone",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "upload",
@@ -3330,6 +3447,9 @@
       "install": "dashcn add empty_state",
       "listed": true,
       "name": "EmptyState",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "empty",
@@ -3448,6 +3568,9 @@
       "install": "dashcn add error_system",
       "listed": false,
       "name": "Error System",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "utility",
         "error",
@@ -3522,6 +3645,9 @@
       "install": "dashcn add eye_dropper",
       "listed": false,
       "name": "Eye Dropper",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "color",
@@ -3605,6 +3731,9 @@
       "install": "dashcn add feature_carousel",
       "listed": true,
       "name": "Feature Carousel",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "display",
         "carousel",
@@ -3679,6 +3808,9 @@
       "install": "dashcn add file_diff_viewer",
       "listed": true,
       "name": "File Diff Viewer",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "display",
         "diff",
@@ -3777,6 +3909,9 @@
       "install": "dashcn add file_picker",
       "listed": true,
       "name": "File Picker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "file",
@@ -3875,6 +4010,9 @@
       "install": "dashcn add filter_bar",
       "listed": true,
       "name": "FilterBar",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "layout",
         "filters",
@@ -3953,6 +4091,9 @@
       "install": "dashcn add form",
       "listed": true,
       "name": "FormScope",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "validation",
@@ -4033,6 +4174,9 @@
       "install": "dashcn add formatted_input",
       "listed": true,
       "name": "FormattedInput",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "input",
@@ -4114,6 +4258,9 @@
           "name": "expressions"
         }
       ],
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "input",
         "format",
@@ -4199,6 +4346,9 @@
       "install": "dashcn add gooey_toast",
       "listed": true,
       "name": "Gooey Toast",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "notification",
@@ -4262,6 +4412,9 @@
       "install": "dashcn add group",
       "listed": false,
       "name": "Group",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "positioning",
@@ -4310,6 +4463,9 @@
       "install": "dashcn add history",
       "listed": false,
       "name": "Color History",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "color",
         "history",
@@ -4366,6 +4522,9 @@
       "install": "dashcn add hover_card",
       "listed": true,
       "name": "HoverCard",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "hover",
@@ -4431,6 +4590,9 @@
       "install": "dashcn add hsl",
       "listed": false,
       "name": "HSL Color Slider",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "color",
         "slider",
@@ -4493,6 +4655,9 @@
       "install": "dashcn add hsv",
       "listed": false,
       "name": "HSV Color Slider",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "color",
         "slider",
@@ -4551,6 +4716,9 @@
       "install": "dashcn add icon",
       "listed": false,
       "name": "Icon",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "icon",
@@ -4608,6 +4776,9 @@
       "install": "dashcn add image",
       "listed": true,
       "name": "Picture",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "image",
@@ -4710,6 +4881,9 @@
       "install": "dashcn add input",
       "listed": true,
       "name": "Input",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "input",
@@ -4774,6 +4948,9 @@
       "install": "dashcn add input_otp",
       "listed": true,
       "name": "InputOtp",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "otp",
@@ -4862,6 +5039,9 @@
       "install": "dashcn add item_picker",
       "listed": true,
       "name": "ItemPicker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "picker",
@@ -4942,6 +5122,9 @@
       "install": "dashcn add keyboard_shortcut",
       "listed": true,
       "name": "KeyboardShortcut",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "keyboard",
@@ -4999,6 +5182,9 @@
       "install": "dashcn add locale_utils",
       "listed": false,
       "name": "Locale Utils",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "utility",
         "locale",
@@ -5055,6 +5241,9 @@
       "install": "dashcn add markdown",
       "listed": true,
       "name": "Markdown",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "markdown",
@@ -5120,6 +5309,9 @@
       "install": "dashcn add media_query",
       "listed": false,
       "name": "MediaQueryVisibility",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "responsive",
@@ -5217,6 +5409,9 @@
       "install": "dashcn add menu",
       "listed": true,
       "name": "Menu",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "menu",
@@ -5302,6 +5497,9 @@
       "install": "dashcn add menubar",
       "listed": true,
       "name": "Menubar",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "overlay",
         "menubar",
@@ -5367,6 +5565,9 @@
       "install": "dashcn add multi_select",
       "listed": true,
       "name": "MultiSelect",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "select",
@@ -5425,6 +5626,9 @@
       "install": "dashcn add multiple_choice",
       "listed": false,
       "name": "Multiple Choice",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "choice",
@@ -5508,6 +5712,9 @@
       "install": "dashcn add navigation_bar",
       "listed": true,
       "name": "Navigation Bar",
+      "preview": {
+        "placement": "bottom"
+      },
       "tags": [
         "navigation",
         "bar",
@@ -5586,6 +5793,9 @@
       "install": "dashcn add navigation_menu",
       "listed": true,
       "name": "NavigationMenu",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "navigation",
         "menu",
@@ -5650,6 +5860,9 @@
       "install": "dashcn add number_ticker",
       "listed": true,
       "name": "NumberTicker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "number",
@@ -5713,6 +5926,9 @@
       "install": "dashcn add object_input",
       "listed": true,
       "name": "Object Input",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "date",
@@ -5757,6 +5973,9 @@
       "install": "dashcn add outlined_container",
       "listed": false,
       "name": "Outlined Container",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "container",
@@ -5818,6 +6037,9 @@
       "install": "dashcn add overflow_marquee",
       "listed": true,
       "name": "Overflow Marquee",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "marquee",
@@ -5885,6 +6107,9 @@
       "install": "dashcn add overlay_configuration",
       "listed": false,
       "name": "Overlay Configuration",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "popover",
@@ -5926,6 +6151,9 @@
       "install": "dashcn add page_route",
       "listed": false,
       "name": "AppPageRoute",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "navigation",
         "route",
@@ -5972,6 +6200,9 @@
       "install": "dashcn add pagination",
       "listed": true,
       "name": "Pagination",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "navigation",
         "pagination",
@@ -6017,6 +6248,9 @@
       "install": "dashcn add patch",
       "listed": false,
       "name": "ClickDetector",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "control",
         "click",
@@ -6070,6 +6304,9 @@
       "install": "dashcn add phone_input",
       "listed": true,
       "name": "PhoneInput",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "phone",
@@ -6144,6 +6381,9 @@
       "install": "dashcn add pinned_sheet",
       "listed": true,
       "name": "Pinned Sheet",
+      "preview": {
+        "placement": "bottom"
+      },
       "tags": [
         "display",
         "sheet",
@@ -6187,6 +6427,9 @@
       "install": "dashcn add popup",
       "listed": true,
       "name": "Popup",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "popup",
@@ -6240,6 +6483,9 @@
       "install": "dashcn add progress",
       "listed": true,
       "name": "Progress",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "progress",
@@ -6337,6 +6583,9 @@
       "install": "dashcn add radio_group",
       "listed": true,
       "name": "RadioGroup",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "radio",
@@ -6406,6 +6655,9 @@
       "install": "dashcn add refresh_trigger",
       "listed": true,
       "name": "RefreshTrigger",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "overlay",
         "refresh",
@@ -6475,6 +6727,9 @@
       "install": "dashcn add resizable",
       "listed": true,
       "name": "Resizable",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "resizable",
@@ -6542,6 +6797,9 @@
       "install": "dashcn add scaffold",
       "listed": true,
       "name": "Scaffold",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "scaffold",
@@ -6608,6 +6866,9 @@
       "install": "dashcn add scrollable",
       "listed": false,
       "name": "Scrollable",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "scrollable",
@@ -6663,6 +6924,9 @@
       "install": "dashcn add scrollable_client",
       "listed": false,
       "name": "Scrollable Client",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "scroll",
@@ -6721,6 +6985,9 @@
       "install": "dashcn add scrollbar",
       "listed": true,
       "name": "Scrollbar",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "control",
         "scrollbar",
@@ -6768,6 +7035,9 @@
       "install": "dashcn add scrollview",
       "listed": false,
       "name": "Scroll View Interceptor",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "control",
         "scroll",
@@ -6830,6 +7100,9 @@
       "install": "dashcn add select",
       "listed": true,
       "name": "Select",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "select",
@@ -6891,6 +7164,9 @@
       "install": "dashcn add selectable",
       "listed": false,
       "name": "SelectableText",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "text",
@@ -6952,6 +7228,9 @@
       "install": "dashcn add skeleton",
       "listed": true,
       "name": "Skeleton",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "loading",
@@ -7018,6 +7297,9 @@
       "install": "dashcn add slider",
       "listed": true,
       "name": "Slider",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "slider",
@@ -7082,6 +7364,9 @@
       "install": "dashcn add sortable",
       "listed": true,
       "name": "Sortable",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "sortable",
@@ -7120,6 +7405,9 @@
       "install": "dashcn add spell_check_suggestions_toolbar",
       "listed": false,
       "name": "SpellCheckSuggestionsToolbar",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "spellcheck",
@@ -7169,6 +7457,9 @@
       "install": "dashcn add spinner",
       "listed": true,
       "name": "Spinner",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "spinner",
@@ -7227,6 +7518,9 @@
       "install": "dashcn add stage_container",
       "listed": false,
       "name": "Stage Container",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "responsive",
@@ -7283,6 +7577,9 @@
       "install": "dashcn add star_rating",
       "listed": true,
       "name": "Star Rating",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "rating",
@@ -7361,6 +7658,9 @@
       "install": "dashcn add stepper",
       "listed": true,
       "name": "Stepper",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "navigation",
         "stepper",
@@ -7424,6 +7724,9 @@
       "install": "dashcn add steps",
       "listed": true,
       "name": "Steps",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "steps",
@@ -7475,6 +7778,9 @@
       "install": "dashcn add swipe_actions",
       "listed": true,
       "name": "SwipeActions",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "swipe",
         "dismiss",
@@ -7527,6 +7833,9 @@
       "install": "dashcn add swiper",
       "listed": false,
       "name": "Swiper",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "drawer",
@@ -7599,6 +7908,9 @@
       "install": "dashcn add switch",
       "listed": true,
       "name": "Switch",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "switch",
@@ -7662,6 +7974,9 @@
       "install": "dashcn add switcher",
       "listed": false,
       "name": "Switcher",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "navigation",
         "swipe",
@@ -7754,6 +8069,9 @@
       "install": "dashcn add table",
       "listed": true,
       "name": "Table",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "table",
         "layout",
@@ -7846,6 +8164,9 @@
       "install": "dashcn add tabs",
       "listed": true,
       "name": "Tabs",
+      "preview": {
+        "placement": "top"
+      },
       "tags": [
         "navigation",
         "tabs",
@@ -7933,6 +8254,9 @@
       "install": "dashcn add text_animate",
       "listed": true,
       "name": "TextAnimate",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "text",
@@ -7993,6 +8317,9 @@
       "install": "dashcn add text_area",
       "listed": true,
       "name": "TextArea",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "input",
@@ -8055,6 +8382,9 @@
       "install": "dashcn add time_picker",
       "listed": true,
       "name": "TimePicker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "form",
         "time",
@@ -8117,6 +8447,9 @@
       "install": "dashcn add timeline",
       "listed": true,
       "name": "Timeline",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "layout",
         "timeline",
@@ -8170,6 +8503,9 @@
       "install": "dashcn add timeline_animation",
       "listed": false,
       "name": "Timeline Animation",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "utility",
         "animation",
@@ -8228,6 +8564,9 @@
       "install": "dashcn add toast",
       "listed": true,
       "name": "Toast",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "notification",
@@ -8302,6 +8641,9 @@
       "install": "dashcn add toggle",
       "listed": true,
       "name": "Toggle",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "control",
         "toggle",
@@ -8370,6 +8712,9 @@
       "install": "dashcn add tooltip",
       "listed": true,
       "name": "Tooltip",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "overlay",
         "tooltip",
@@ -8434,6 +8779,9 @@
       "install": "dashcn add tracker",
       "listed": true,
       "name": "Tracker",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "tracker",
@@ -8532,6 +8880,9 @@
       "install": "dashcn add tree",
       "listed": true,
       "name": "Tree",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "tree",
         "hierarchy",
@@ -8592,6 +8943,9 @@
       "install": "dashcn add triple_dots",
       "listed": false,
       "name": "TripleDots",
+      "preview": {
+        "placement": "center"
+      },
       "tags": [
         "display",
         "dots",
@@ -8681,6 +9035,9 @@
       "install": "dashcn add window",
       "listed": false,
       "name": "Window",
+      "preview": {
+        "placement": "fill"
+      },
       "tags": [
         "layout",
         "window",
@@ -8774,7 +9131,7 @@
     "components/app/app.dart": "1444f63c5967fe5dc3998c4321075496676582381b6d858e7632acac755506be",
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
-    "components/async/preview.dart": "9bf01b498126b74e623b8861a99bbbe66c92a5ca4eca9032ff8778cdabc671dc",
+    "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
     "components/autocomplete/autocomplete.dart": "72f2d5a185ede87d53188098395f8cbe1173a09821d68297aa6b58ba84136b3c",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
     "components/autocomplete/autocomplete_theme.dart": "2eab0681ae203c27bc4d77c94f4e32e678e9e7242a472e05c78e0959e38460e0",
@@ -8850,7 +9207,7 @@
     "components/collapsible/collapsible_theme.dart": "1188197762885e137a5259ed54d27644cf69c00c7b76f4a1fde2abe75bfc49c7",
     "components/collapsible/preview.dart": "c9ac3d19befb3b134382ae29fefcf2655dc4f9e9b624775354d1fd37f6fc9206",
     "components/color/color.dart": "da95825ae2c782493abb4be57db237674ad2a492270276b6d32f2735d7c4cb73",
-    "components/color/preview.dart": "1605b1796d31aafd880e13f59aad6546674ceedbd877fbf6c3faece32eed666f",
+    "components/color/preview.dart": "41cb52d2c0b57f5d05c7df28b680cf5bd52893d3e7d0ae65224a1d10827044e7",
     "components/color_field/color_field.dart": "a63a4f38cc924fc1f954f6da419fb26657ef2c5df31da2b75c887825c9c6996a",
     "components/color_field/color_field_style.dart": "efc02a161bf2989d8fb7ead40a11a4c0a6548a4545baf471d4323590853cd19b",
     "components/color_field/color_field_theme.dart": "5ca8acf46d29a25199aceeea46e48fb3b3153a98db4ae0abc26bbfe1d90e58aa",
@@ -8970,7 +9327,7 @@
     "components/icon/icon.dart": "21c3cd6cfee78707f171a53a428e08286f2573113a874ac373b6f584ed2c2f73",
     "components/icon/icon_style.dart": "9a6e2d5f19897851cf26700d8475a72b356e7aa2102e6b3f6fc71c27f2f1f778",
     "components/icon/icon_theme.dart": "22332267de818b8a5c727c0eb1f5bd22f803b7645756d74add02d9193cfb14a5",
-    "components/icon/preview.dart": "53122da16030cab6adac7cc4fe045b11d8d6b7aee29fa0f41efe7374001871c8",
+    "components/icon/preview.dart": "795aa8eb8cc888839fc51d379ad88092858ba530ccbf2b4afa52280f14ab80d9",
     "components/image/image.dart": "00142ebf4fcbb76ceea4c88fddb80cafffb56d74e0b8d0d934f883f687263406",
     "components/image/image_style.dart": "ad0cd14e484a840aee9d34a8eb57d0c524aa50bd35310cbceb25ea2114ad2f28",
     "components/image/image_theme.dart": "c8890eacb758b9d76e0b14883c63a1abf99bfecbc38e0a43f42f2a3df5c00a23",
@@ -9044,7 +9401,7 @@
     "components/pagination/pagination_theme.dart": "17b65829b531827964005ee34f5768479cb6269a7ef31b7a51459ede2df4360b",
     "components/pagination/preview.dart": "eebbb8dd7905a8df60e91a843f135b8ca445cc5bcd372b771c7f131218d92545",
     "components/patch/patch.dart": "78e478cc888ef1f9d9693592b56cc97353fe3ef3661122846545061afe5028f6",
-    "components/patch/preview.dart": "887cf5675ed6209bac2a4a2a202bc4700e6ace73d62e847d15cac9e859cec9d7",
+    "components/patch/preview.dart": "dc2b8388709b83bddaa9095d95a26501bd76b2f3c092c9975e18c600b683e4a4",
     "components/phone_input/phone_input.dart": "19e5f25b09ff55856cc5f9ac341f21388b7d135665cbdfcf29cdfc2ed99e7991",
     "components/phone_input/phone_input_style.dart": "9d67636661f08929cf74c464a98e6b51ac988f79a614b7b445d2eac671ed80d1",
     "components/phone_input/phone_input_theme.dart": "15b4b3fe95d2c87d8b9e6e103420635f80ec704992eac7886f38c5c31f66d82b",

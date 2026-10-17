@@ -30,26 +30,26 @@ class _IconPreviewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeColors colors = Theme.of(context).colors;
+    final double gap = Theme.of(context).spacing.xl;
     return ColoredBox(
       color: colors.background,
       child: Center(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        // Wrap, not Row: the icon sizes sit in one centred row on wide
+        // screens and reflow instead of overflowing narrow phones (the
+        // framed sweep gives centre content ~328 px on a 360 px phone).
+        child: Wrap(
+          spacing: gap,
+          runSpacing: Theme.of(context).spacing.md,
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             const Icon(LucideIcons.star).iconX3Small(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconXSmall(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconSmall(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconMedium(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconLarge(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const Icon(LucideIcons.star).iconSmall().iconMutedForeground(),
-            SizedBox(width: Theme.of(context).spacing.xl),
             const IconContainer(icon: Icon(LucideIcons.check)),
-            SizedBox(width: Theme.of(context).spacing.xl),
             ComponentTheme<IconContainerTheme>(
               data: const IconContainerTheme(
                 backgroundColor: ThemedColor.ref(ColorRef.secondary),

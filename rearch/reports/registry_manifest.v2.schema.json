@@ -326,6 +326,13 @@
         "deps": {
           "$ref": "#/$defs/componentDeps"
         },
+        "preview": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "placement": { "type": "string", "enum": ["center", "top", "bottom", "fill", "leading"] }
+          }
+        },
         "tags": {
           "$ref": "#/$defs/stringList"
         },
