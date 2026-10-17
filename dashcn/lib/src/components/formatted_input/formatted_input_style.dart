@@ -8,6 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/surface.dart';
 import '../../primitives/text_editing/editable_text_style.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -231,11 +232,16 @@ FormattedInputSurface resolveFormattedInputSurface(
       );
   Color? colorOf(ThemedColor? value) => value?.resolve(colors);
   final Color? border = colorOf(resolved.borderColor);
-  final Color? fill = colorOf(
+  // The field fill is a surface: it carries the ambient surfaceOpacity (at
+  // the opaque default this is exactly today's fill).
+  final Color? rawFill = colorOf(
     states.contains(WidgetState.hovered)
         ? resolved.hoveredBackground
         : resolved.background,
   );
+  final Color? fill = rawFill == null
+      ? null
+      : surfaceColor(rawFill, theme.surfaceOpacity);
   final BorderRadiusGeometry radius =
       resolved.borderRadius ?? theme.borderRadiusMd;
   final TextStyle text = resolveEditableTextStyle(

@@ -7,6 +7,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/surface.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../menu/menu.dart';
@@ -86,15 +87,27 @@ class Menubar extends StatelessWidget {
       ),
       child: bar,
     );
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: style.borderRadius ?? ambient.borderRadiusMd,
-        border: borderColor == null || borderWidth <= 0
-            ? null
-            : Border.all(color: borderColor, width: borderWidth),
+    // Frosted glass like every other floating surface: the fill carries the
+    // ambient surfaceOpacity and the blur wraps the painted bar (no extra
+    // layer at the opaque default, so defaults render identical to before).
+    final BorderRadiusGeometry radius =
+        style.borderRadius ?? ambient.borderRadiusMd;
+    final Color? paint = background == null
+        ? null
+        : surfaceColor(background, ambient.surfaceOpacity);
+    return GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: radius,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: paint,
+          borderRadius: radius,
+          border: borderColor == null || borderWidth <= 0
+              ? null
+              : Border.all(color: borderColor, width: borderWidth),
+        ),
+        child: bar,
       ),
-      child: bar,
     );
   }
 }

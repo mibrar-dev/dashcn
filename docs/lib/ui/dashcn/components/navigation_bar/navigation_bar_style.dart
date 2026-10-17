@@ -36,7 +36,8 @@ class NavigationBarTheme extends ComponentThemeData
   });
 
   /// Container fill; null resolves the `background` token for bar/rail and
-  /// draws nothing for sidebars.
+  /// draws nothing for sidebars at the opaque default (a glass theme frosts
+  /// them with the token instead).
   final ThemedColor? backgroundColor;
 
   /// Main-axis distribution of the bar.
