@@ -23,6 +23,7 @@
       "theme"
     ],
     "primitives": [
+      "motion",
       "sheet_stage"
     ],
     "components": [

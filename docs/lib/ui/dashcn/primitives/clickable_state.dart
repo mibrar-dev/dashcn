@@ -13,6 +13,7 @@ import '../theme/theme.dart';
 import 'animated_value_builder.dart';
 import 'clickable.dart';
 import 'focus_outline.dart';
+import 'motion/motion_scope.dart';
 import 'widget_states.dart';
 
 /// State of [Clickable].
@@ -254,14 +255,21 @@ class ClickableState extends State<Clickable> {
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
-                  return AnimatedValueBuilder<Matrix4?>(
-                    value: widget.transform?.resolve(widgetStates),
-                    duration: const Duration(milliseconds: 50),
+                  return AnimatedValueBuilder<Matrix4>(
+                    value: _pressTransform(
+                      widget.transform?.resolve(widgetStates),
+                      widgetStates,
+                    ),
+                    duration: resolveMotionDuration(
+                      context,
+                      theme.motion.durations.instant,
+                    ),
+                    curve: theme.motion.curves.standard,
                     lerp: lerpMatrix4,
                     builder: (context, value, child) {
                       return Transform(
                         alignment: Alignment.center,
-                        transform: value ?? Matrix4.identity(),
+                        transform: value,
                         child: child,
                       );
                     },
@@ -287,6 +295,21 @@ class ClickableState extends State<Clickable> {
     ).transform(t);
   }
 
+  /// Composes the press-down scale onto the resolved transform.
+  ///
+  /// Pressed controls shrink to 0.96 about their center (the surrounding
+  /// `Transform` paints with center alignment) and ease back on release.
+  /// A null base normalizes to the identity so the press eases out of the
+  /// resting state instead of jumping (a null endpoint would coerce to the
+  /// target inside `AnimatedValueBuilder`).
+  Matrix4 _pressTransform(Matrix4? base, Set<WidgetState> states) {
+    final Matrix4 current = base?.clone() ?? Matrix4.identity();
+    if (!states.contains(WidgetState.pressed)) {
+      return current;
+    }
+    return current.multiplied(Matrix4.diagonal3Values(0.96, 0.96, 1.0));
+  }
+
   Widget _buildContainer(
     BuildContext context,
     Decoration? decoration,
@@ -310,14 +333,14 @@ class ClickableState extends State<Clickable> {
     Widget animatedContainer = AnimatedContainer(
       clipBehavior: decoration == null ? Clip.none : Clip.antiAlias,
       margin: resolvedMargin,
-      duration: kDefaultDuration,
+      duration: resolveMotionDuration(context, kDefaultDuration),
       decoration: decoration,
       padding: resolvedPadding,
       child: widget.child,
     );
     if (widget.marginAlignment != null) {
       animatedContainer = AnimatedAlign(
-        duration: kDefaultDuration,
+        duration: resolveMotionDuration(context, kDefaultDuration),
         alignment: widget.marginAlignment!,
         child: animatedContainer,
       );

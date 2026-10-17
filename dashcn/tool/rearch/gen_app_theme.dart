@@ -179,6 +179,7 @@ class ThemeValues {
     required this.fonts,
     this.surfaceOpacity,
     this.surfaceBlur,
+    this.motionEnabled,
   });
 
   /// Reads a decoded preset document.
@@ -204,6 +205,15 @@ class ThemeValues {
         throw const FormatException('surfaceBlur must be >= 0');
       }
     }
+    bool? motionEnabled;
+    if (preset.containsKey('motion')) {
+      final motion = _stringKeyed(preset['motion'], 'motion');
+      final Object? enabled = motion['enabled'];
+      if (enabled is! bool) {
+        throw const FormatException('motion.enabled must be a bool');
+      }
+      motionEnabled = enabled;
+    }
     return ThemeValues(
       id: _string(preset, 'id'),
       name: _string(preset, 'name'),
@@ -226,6 +236,7 @@ class ThemeValues {
       },
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
+      motionEnabled: motionEnabled,
     );
   }
 
@@ -257,6 +268,9 @@ class ThemeValues {
   /// Glass surface blur sigma in logical px; null means no blur.
   final double? surfaceBlur;
 
+  /// Motion master switch; null means untouched (defaults apply).
+  final bool? motionEnabled;
+
   /// Dart identifier fragment for [id], e.g. `amberMinimal`.
   String get prefix => camelCase(id);
 
@@ -286,6 +300,7 @@ class ThemeValues {
         themeImport,
         siblingUri(themeImport, 'color_tokens.dart'),
         siblingUri(themeImport, 'tokens.dart'),
+        if (motionEnabled != null) siblingUri(themeImport, 'motion.dart'),
       ],
     ];
     for (var i = 0; i < groups.length; i += 1) {
@@ -371,6 +386,8 @@ ${_call('const ThemeFonts ${prefix}Fonts = ThemeFonts', args, suffix: ';')}''';
       if (hasFonts) 'fonts: ${prefix}Fonts',
       if (surfaceOpacity != null) 'surfaceOpacity: ${_num(surfaceOpacity!)}',
       if (surfaceBlur != null) 'surfaceBlur: ${_num(surfaceBlur!)}',
+      if (motionEnabled == true) 'motion: const MotionTokens()',
+      if (motionEnabled == false) 'motion: const MotionTokens(enabled: false)',
     ];
     return '''/// Builds the ambient theme for the $name preset.
 ThemeData build${classPrefix}Theme(Brightness brightness) {

@@ -44,6 +44,7 @@ String themeDartSource(ThemeDocument document, {String? themeImport}) {
       import,
       siblingUri(import, 'color_tokens.dart'),
       siblingUri(import, 'tokens.dart'),
+      if (document.motionEnabled != null) siblingUri(import, 'motion.dart'),
     ],
   ];
   for (int i = 0; i < groups.length; i += 1) {
@@ -137,6 +138,10 @@ String _buildSource(ThemeDocument d, String prefix, String classPrefix) {
     if (d.hasFonts) 'fonts: ${prefix}Fonts',
     if (d.surfaceOpacity != null) 'surfaceOpacity: ${_num(d.surfaceOpacity!)}',
     if (d.surfaceBlur != null) 'surfaceBlur: ${_num(d.surfaceBlur!)}',
+    // The export keeps the motion choice: an explicit toggle writes the
+    // matching MotionTokens, an untouched document omits it (defaults apply).
+    if (d.motionEnabled == true) 'motion: const MotionTokens()',
+    if (d.motionEnabled == false) 'motion: const MotionTokens(enabled: false)',
   ];
   return '/// Builds the ambient theme for the ${d.name} preset.\n'
       'ThemeData build${classPrefix}Theme(Brightness brightness) {\n'

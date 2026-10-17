@@ -164,6 +164,12 @@ class _ThemeRailState extends State<ThemeRail> {
     );
   }
 
+  /// Flips the motion master switch (apply-on-select, no picker).
+  void _toggleMotion() {
+    final bool enabled = _model.document.motionEnabled ?? true;
+    _model.setMotionEnabled(!enabled);
+  }
+
   Future<void> _showSyntax(BuildContext row) => showPicker<void>(
     context: row,
     builder: (BuildContext context) => const SyntaxPalettePreview(),
@@ -389,6 +395,16 @@ class _ThemeRailState extends State<ThemeRail> {
                               LucideIcons.sparkles,
                               size: 16,
                             ),
+                          ),
+                          RailRow(
+                            key: const ValueKey<String>('rail-row-motion'),
+                            label: 'Motion',
+                            value: (document.motionEnabled ?? true)
+                                ? 'On'
+                                : 'Off',
+                            selected: document.motionEnabled != null,
+                            onPressed: (_) => _toggleMotion(),
+                            trailing: const Icon(LucideIcons.zap, size: 16),
                           ),
                         ],
                       ),

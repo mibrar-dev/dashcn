@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/slider_value.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -301,89 +302,111 @@ class _SliderState extends State<Slider>
             _handleKey(view, event);
             return KeyEventResult.handled;
           },
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final width = constraints.maxWidth;
-              final canvasHeight = math.max(
-                trackHeight,
-                renderThumbSize.height,
-              );
-              final trackTop = (canvasHeight - trackHeight) / 2;
-              final trackRect = Rect.fromLTWH(0, trackTop, width, trackHeight);
-              final view = _logic.buildView(
-                min: widget.min,
-                max: widget.max,
-                snap: widget.snap,
-                enabled: widget.enabled,
-                trackRect: trackRect,
-                trackRadius: trackRadius,
-                thumbInset: renderThumbSize.width / 2,
-                dragging: _dragging,
-                activeThumb: _activeThumb,
-                thumbSize: renderThumbSize,
-                textDirection: Directionality.of(context),
-                value: widget.isRange ? null : widget.value,
-                rangeStart: widget.isRange ? widget.rangeValue!.start : null,
-                rangeEnd: widget.isRange ? widget.rangeValue!.end : null,
-              );
-              _lastView = view;
-              Widget content = SizedBox(
-                height: canvasHeight,
-                child: CustomPaint(
-                  size: Size(width, canvasHeight),
-                  painter: SliderPainter(
-                    view: view,
-                    marksStyle: marksStyleForVariant(widget.variant),
-                    thumbShape: thumbShape,
-                    trackColor: trackColor,
-                    fillColor: fillColor,
-                    thumbColor: thumbColor,
-                    thumbBorderColor: thumbBorderColor,
-                    markColor: markColor,
-                    focused: _focused,
-                    ringColor: theme.colors.ring,
-                  ),
-                ),
-              );
-              content = GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: widget.enabled
-                    ? (d) {
-                        _activeThumb = _logic.pickActiveThumb(
-                          view,
-                          d.localPosition.dx,
-                        );
-                        _handleDx(view, d.localPosition.dx);
-                      }
-                    : null,
-                onHorizontalDragStart: widget.enabled
-                    ? (d) => setState(() {
-                        _dragging = true;
-                        _activeThumb = _logic.pickActiveThumb(
-                          view,
-                          d.localPosition.dx,
-                        );
-                      })
-                    : null,
-                onHorizontalDragUpdate: widget.enabled
-                    ? (d) => _handleDx(view, d.localPosition.dx)
-                    : null,
-                onHorizontalDragEnd: widget.enabled
-                    ? (_) => setState(() {
-                        _dragging = false;
-                        _activeThumb = null;
-                      })
-                    : null,
-                onHorizontalDragCancel: widget.enabled
-                    ? () => setState(() {
-                        _dragging = false;
-                        _activeThumb = null;
-                      })
-                    : null,
-                child: content,
-              );
-              return content;
-            },
+          child: _AnimatedTrack(
+            // While dragging the thumb tracks the finger exactly; programmatic
+            // changes (tap, keys, form) ease the fill and thumb to the new
+            // value. Under reduced motion every change snaps.
+            duration: resolveMotionDuration(
+              context,
+              _dragging ? Duration.zero : theme.motion.durations.fast,
+            ),
+            curve: theme.motion.curves.standard,
+            targetStart: widget.isRange
+                ? widget.rangeValue!.start
+                : widget.value,
+            targetEnd: widget.isRange ? widget.rangeValue!.end : widget.value,
+            builder:
+                (BuildContext context, double shownStart, double shownEnd) {
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      final width = constraints.maxWidth;
+                      final canvasHeight = math.max(
+                        trackHeight,
+                        renderThumbSize.height,
+                      );
+                      final trackTop = (canvasHeight - trackHeight) / 2;
+                      final trackRect = Rect.fromLTWH(
+                        0,
+                        trackTop,
+                        width,
+                        trackHeight,
+                      );
+                      final view = _logic.buildView(
+                        min: widget.min,
+                        max: widget.max,
+                        snap: widget.snap,
+                        enabled: widget.enabled,
+                        trackRect: trackRect,
+                        trackRadius: trackRadius,
+                        thumbInset: renderThumbSize.width / 2,
+                        dragging: _dragging,
+                        activeThumb: _activeThumb,
+                        thumbSize: renderThumbSize,
+                        textDirection: Directionality.of(context),
+                        value: widget.isRange ? null : shownStart,
+                        rangeStart: widget.isRange ? shownStart : null,
+                        rangeEnd: widget.isRange ? shownEnd : null,
+                      );
+                      _lastView = view;
+                      Widget content = SizedBox(
+                        height: canvasHeight,
+                        child: CustomPaint(
+                          size: Size(width, canvasHeight),
+                          painter: SliderPainter(
+                            view: view,
+                            marksStyle: marksStyleForVariant(widget.variant),
+                            thumbShape: thumbShape,
+                            trackColor: trackColor,
+                            fillColor: fillColor,
+                            thumbColor: thumbColor,
+                            thumbBorderColor: thumbBorderColor,
+                            markColor: markColor,
+                            focused: _focused,
+                            ringColor: theme.colors.ring,
+                          ),
+                        ),
+                      );
+                      content = GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: widget.enabled
+                            ? (d) {
+                                _activeThumb = _logic.pickActiveThumb(
+                                  view,
+                                  d.localPosition.dx,
+                                );
+                                _handleDx(view, d.localPosition.dx);
+                              }
+                            : null,
+                        onHorizontalDragStart: widget.enabled
+                            ? (d) => setState(() {
+                                _dragging = true;
+                                _activeThumb = _logic.pickActiveThumb(
+                                  view,
+                                  d.localPosition.dx,
+                                );
+                              })
+                            : null,
+                        onHorizontalDragUpdate: widget.enabled
+                            ? (d) => _handleDx(view, d.localPosition.dx)
+                            : null,
+                        onHorizontalDragEnd: widget.enabled
+                            ? (_) => setState(() {
+                                _dragging = false;
+                                _activeThumb = null;
+                              })
+                            : null,
+                        onHorizontalDragCancel: widget.enabled
+                            ? () => setState(() {
+                                _dragging = false;
+                                _activeThumb = null;
+                              })
+                            : null,
+                        child: content,
+                      );
+                      return content;
+                    },
+                  );
+                },
           ),
         ),
       ),
@@ -400,5 +423,42 @@ class _SliderState extends State<Slider>
     } else {
       widget.onChanged?.call(value.value);
     }
+  }
+}
+
+/// Eases the shown slider values toward their targets with two nested
+/// tweens (range start/end collapse to one value in single mode).
+class _AnimatedTrack extends StatelessWidget {
+  const _AnimatedTrack({
+    required this.duration,
+    required this.curve,
+    required this.targetStart,
+    required this.targetEnd,
+    required this.builder,
+  });
+
+  final Duration duration;
+  final Curve curve;
+  final double targetStart;
+  final double targetEnd;
+  final Widget Function(BuildContext context, double start, double end) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(end: targetStart),
+      duration: duration,
+      curve: curve,
+      builder: (BuildContext context, double shownStart, Widget? _) {
+        return TweenAnimationBuilder<double>(
+          tween: Tween<double>(end: targetEnd),
+          duration: duration,
+          curve: curve,
+          builder: (BuildContext context, double shownEnd, Widget? _) {
+            return builder(context, shownStart, shownEnd);
+          },
+        );
+      },
+    );
   }
 }

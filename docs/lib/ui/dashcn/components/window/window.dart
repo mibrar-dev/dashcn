@@ -14,10 +14,10 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/animated_value_builder.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../primitives/window_host.dart';
 import '../../primitives/window_manager.dart';
@@ -298,7 +298,11 @@ class _WindowState extends State<Window> implements WindowHandle {
           frame = AnimatedValueBuilder<double>(
             initialValue: 0,
             value: _closed.value ? 0 : 1,
-            duration: kDefaultDuration,
+            // Windows slide/scale from their edge; closing reverses.
+            duration: resolveMotionDuration(
+              context,
+              ambient.motion.durations.base,
+            ),
             onEnd: (double? value) {
               if (_closed.value) {
                 _viewport?.manager.remove(widget);
@@ -312,7 +316,10 @@ class _WindowState extends State<Window> implements WindowHandle {
           );
           frame = AnimatedScale(
             scale: (_viewport?.minify ?? false) ? 0.65 : 1,
-            duration: kDefaultDuration,
+            duration: resolveMotionDuration(
+              context,
+              ambient.motion.durations.base,
+            ),
             curve: Curves.easeInOut,
             child: frame,
           );
@@ -341,7 +348,10 @@ class _WindowState extends State<Window> implements WindowHandle {
               : relativeRect(max, viewport.size);
           return AnimatedValueBuilder<Rect>(
             value: target,
-            duration: kDefaultDuration,
+            duration: resolveMotionDuration(
+              context,
+              ambient.motion.durations.base,
+            ),
             curve: Curves.easeInOut,
             lerp: Rect.lerp,
             builder: (context, rect, child) =>

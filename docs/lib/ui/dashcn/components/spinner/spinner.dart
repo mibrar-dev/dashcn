@@ -10,6 +10,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
+import '../../primitives/motion/motion_scope.dart';
 import 'spinner_style.dart';
 
 export 'spinner_style.dart';
@@ -71,23 +72,33 @@ class Spinner extends StatelessWidget {
       child: SizedBox(
         width: surface.size,
         height: surface.size,
-        child: RepeatedAnimationBuilder(
-          start: 0,
-          end: 1,
-          duration: _spinnerDuration,
-          builder: (context, t, child) {
-            return Transform.rotate(
-              angle: t * 2 * math.pi,
-              child: CustomPaint(
+        // The loop is the spinner's motion; under reduced motion a static
+        // arc paints with no ticker.
+        child: motionReduced(context)
+            ? CustomPaint(
                 size: Size.square(surface.size),
                 painter: _SpinnerPainter(
                   color: surface.color,
                   strokeWidth: surface.strokeWidth,
                 ),
+              )
+            : RepeatedAnimationBuilder(
+                start: 0,
+                end: 1,
+                duration: _spinnerDuration,
+                builder: (context, t, child) {
+                  return Transform.rotate(
+                    angle: t * 2 * math.pi,
+                    child: CustomPaint(
+                      size: Size.square(surface.size),
+                      painter: _SpinnerPainter(
+                        color: surface.color,
+                        strokeWidth: surface.strokeWidth,
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }

@@ -11,7 +11,7 @@
   "deps": {
     "foundation": ["gap", "icons"],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["error_handling", "localizations"],
+    "primitives": ["error_handling", "localizations", "motion"],
     "components": ["alert_dialog", "button", "card", "divider", "toast"]
   },
   "files": [
