@@ -33,6 +33,8 @@ extension ThemeDocumentEdits on ThemeDocument {
     lightShadow: lightShadow,
     darkShadow: darkShadow,
     fonts: fonts,
+    surfaceOpacity: surfaceOpacity,
+    surfaceBlur: surfaceBlur,
     shadowsDerived: shadowsDerived,
   );
 
@@ -55,6 +57,8 @@ extension ThemeDocumentEdits on ThemeDocument {
       lightShadow: lightShadow,
       darkShadow: darkShadow,
       fonts: fonts,
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -74,6 +78,8 @@ extension ThemeDocumentEdits on ThemeDocument {
       lightShadow: lightShadow,
       darkShadow: darkShadow,
       fonts: fonts,
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
       shadowsDerived: shadowsDerived,
     );
   }
@@ -127,6 +133,22 @@ extension ThemeDocumentEdits on ThemeDocument {
       ? _copy(darkShadow: atoms)
       : _copy(lightShadow: atoms);
 
+  /// Sets the glass surface opacity (0..1); null restores opaque.
+  ThemeDocument withSurfaceOpacity(double? opacity) {
+    if (opacity != null && (opacity < 0 || opacity > 1)) {
+      throw const ThemeDocumentException('surfaceOpacity must be in 0..1');
+    }
+    return _copy(surfaceOpacity: opacity, clearSurfaceOpacity: opacity == null);
+  }
+
+  /// Sets the glass surface blur sigma in logical px; null removes the blur.
+  ThemeDocument withSurfaceBlur(double? blur) {
+    if (blur != null && blur < 0) {
+      throw const ThemeDocumentException('surfaceBlur must be >= 0');
+    }
+    return _copy(surfaceBlur: blur, clearSurfaceBlur: blur == null);
+  }
+
   ThemeDocument _copy({
     double? radius,
     double? spacing,
@@ -134,6 +156,10 @@ extension ThemeDocumentEdits on ThemeDocument {
     Map<String, String>? fonts,
     DocsShadowAtoms? lightShadow,
     DocsShadowAtoms? darkShadow,
+    double? surfaceOpacity,
+    double? surfaceBlur,
+    bool clearSurfaceOpacity = false,
+    bool clearSurfaceBlur = false,
   }) => ThemeDocument(
     schema: schema,
     id: id,
@@ -146,6 +172,10 @@ extension ThemeDocumentEdits on ThemeDocument {
     lightShadow: lightShadow ?? this.lightShadow,
     darkShadow: darkShadow ?? this.darkShadow,
     fonts: fonts ?? this.fonts,
+    surfaceOpacity: clearSurfaceOpacity
+        ? null
+        : (surfaceOpacity ?? this.surfaceOpacity),
+    surfaceBlur: clearSurfaceBlur ? null : (surfaceBlur ?? this.surfaceBlur),
     shadowsDerived: shadowsDerived,
   );
 

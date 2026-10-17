@@ -20,9 +20,9 @@
       "icons"
     ],
     "theme": [
-        "color_tokens",
-        "density",
-        "theme"
+      "color_tokens",
+      "density",
+      "theme"
     ],
     "primitives": [
       "menu_nav",
@@ -61,13 +61,13 @@
       "MenuChangedCallback"
     ],
     "constants": [
-        "menuDefaults",
-        "menuItemDefaultPadding",
-        "menuPopupDefaults",
-        "menuPopupThemeOverrides",
-        "menuThemeOverrides",
-        "menubarDefaults",
-        "menubarThemeOverrides"
+      "menuDefaults",
+      "menuItemDefaultPadding",
+      "menuPopupDefaults",
+      "menuPopupThemeOverrides",
+      "menuThemeOverrides",
+      "menubarDefaults",
+      "menubarThemeOverrides"
     ],
     "reExportedFromPrimitives": {
       "menu_nav": [
@@ -109,7 +109,8 @@
         "borderRadius": "BorderRadiusGeometry? - null = borderRadiusMd",
         "padding": "EdgeInsetsGeometry? - null = all 4",
         "minWidth": "double? - null = 128 (8rem)",
-        "surfaceBlur": "double? - null = the app theme's surfaceBlur"
+        "surfaceBlur": "double? - null = the app theme's surfaceBlur",
+        "surfaceOpacity": "double? - null = the app theme surfaceOpacity"
       }
     },
     "menubarTheme": {

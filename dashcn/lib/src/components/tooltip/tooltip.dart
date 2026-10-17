@@ -21,8 +21,6 @@
 //   * `TooltipContainer` multiplied the *already resolved* padding by
 //     `theme.scaling`, so a caller padding was silently inflated.
 
-import 'dart:ui' show ImageFilter;
-
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/hover.dart';
@@ -30,6 +28,7 @@ import '../../primitives/overlay.dart';
 import '../../primitives/overlay_manager.dart';
 import '../../primitives/popover_controller.dart';
 import '../../primitives/popover_overlay_state.dart';
+import '../../primitives/surface.dart';
 import '../../theme/theme.dart';
 import 'tooltip_style.dart';
 
@@ -302,35 +301,34 @@ class TooltipContainer extends StatelessWidget {
             .resolve(Directionality.of(context));
     final TextStyle textStyle = (resolved.textStyle ?? tooltipDefaultTextStyle)
         .copyWith(color: foreground);
-    final double blur = resolved.surfaceBlur ?? appTheme.surfaceBlur ?? 0;
+    final Color paint = surfaceColor(
+      background,
+      resolved.surfaceOpacity ?? appTheme.surfaceOpacity,
+    );
+    final double? blur = resolved.surfaceBlur ?? appTheme.surfaceBlur;
 
-    Widget surface = Padding(
-      padding: const EdgeInsets.all(4),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth ?? double.infinity),
-        child: Container(
-          padding: inner,
-          decoration: BoxDecoration(color: background, borderRadius: radius),
-          child: DefaultTextStyle(
-            style: textStyle,
-            child: IconTheme.merge(
-              data: IconThemeData(color: foreground),
-              child: child,
-            ),
-          ),
+    final Widget bubble = Container(
+      padding: inner,
+      decoration: BoxDecoration(color: paint, borderRadius: radius),
+      child: DefaultTextStyle(
+        style: textStyle,
+        child: IconTheme.merge(
+          data: IconThemeData(color: foreground),
+          child: child,
         ),
       ),
     );
-    if (blur > 0) {
-      surface = ClipRRect(
-        borderRadius: radius,
-        child: BackdropFilter(filter: _blur(blur), child: surface),
-      );
-    }
+    final Widget surface = Padding(
+      padding: const EdgeInsets.all(4),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth ?? double.infinity),
+        child: GlassSurface(
+          surfaceBlur: blur,
+          borderRadius: radius,
+          child: bubble,
+        ),
+      ),
+    );
     return surface;
   }
 }
-
-/// Builds the blur filter for [TooltipContainer].
-ImageFilter _blur(double sigma) =>
-    ImageFilter.blur(sigmaX: sigma, sigmaY: sigma);

@@ -32,6 +32,7 @@ class TooltipTheme extends ComponentThemeData
     this.borderRadius,
     this.padding,
     this.textStyle,
+    this.surfaceOpacity,
     this.surfaceBlur,
   });
 
@@ -50,6 +51,10 @@ class TooltipTheme extends ComponentThemeData
   /// Label style; its color is ignored (taken from [foreground]).
   final TextStyle? textStyle;
 
+  /// Multiplies the fill alpha; null resolves the app theme's
+  /// `surfaceOpacity` (opaque by default).
+  final double? surfaceOpacity;
+
   /// Backdrop blur radius; null resolves the app theme's `surfaceBlur`.
   final double? surfaceBlur;
 
@@ -60,6 +65,7 @@ class TooltipTheme extends ComponentThemeData
     ValueGetter<BorderRadiusGeometry?>? borderRadius,
     ValueGetter<EdgeInsetsGeometry?>? padding,
     ValueGetter<TextStyle?>? textStyle,
+    ValueGetter<double?>? surfaceOpacity,
     ValueGetter<double?>? surfaceBlur,
   }) {
     return TooltipTheme(
@@ -71,6 +77,9 @@ class TooltipTheme extends ComponentThemeData
       borderRadius: borderRadius == null ? this.borderRadius : borderRadius(),
       padding: padding == null ? this.padding : padding(),
       textStyle: textStyle == null ? this.textStyle : textStyle(),
+      surfaceOpacity: surfaceOpacity == null
+          ? this.surfaceOpacity
+          : surfaceOpacity(),
       surfaceBlur: surfaceBlur == null ? this.surfaceBlur : surfaceBlur(),
     );
   }
@@ -94,6 +103,7 @@ class TooltipTheme extends ComponentThemeData
       textStyle: textStyle == null
           ? fallback.textStyle
           : (fallback.textStyle?.merge(textStyle) ?? textStyle),
+      surfaceOpacity: surfaceOpacity ?? fallback.surfaceOpacity,
       surfaceBlur: surfaceBlur ?? fallback.surfaceBlur,
     );
   }
@@ -113,6 +123,7 @@ class TooltipTheme extends ComponentThemeData
       ),
       padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t),
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
+      surfaceOpacity: t < 0.5 ? a.surfaceOpacity : b.surfaceOpacity,
       surfaceBlur: t < 0.5 ? a.surfaceBlur : b.surfaceBlur,
     );
   }
@@ -131,6 +142,7 @@ class TooltipTheme extends ComponentThemeData
         other.borderRadius == borderRadius &&
         other.padding == padding &&
         other.textStyle == textStyle &&
+        other.surfaceOpacity == surfaceOpacity &&
         other.surfaceBlur == surfaceBlur;
   }
 
@@ -144,6 +156,7 @@ class TooltipTheme extends ComponentThemeData
     borderRadius,
     padding,
     textStyle,
+    surfaceOpacity,
     surfaceBlur,
   );
 }

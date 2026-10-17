@@ -103,6 +103,10 @@ const Map<String, String> kCssShadowToAtom = <String, String>{
   'shadow-offset-y': 'offsetY',
 };
 
+/// Glass surface variables (mode-independent, unitless / px).
+const String kCssSurfaceOpacityVar = 'surface-opacity';
+const String kCssSurfaceBlurVar = 'surface-blur';
+
 /// Kit colour token for a CSS variable (`--` prefix optional), or null.
 String? cssVarToKitToken(String variable) {
   final String name = _stripPrefix(variable).toLowerCase();
@@ -127,7 +131,9 @@ String? ignoredReason(String variable) {
       kCssTrackingToStep.containsKey(name) ||
       kCssShadowToAtom.containsKey(name) ||
       name == kCssRadiusVar ||
-      name == kCssSpacingVar) {
+      name == kCssSpacingVar ||
+      name == kCssSurfaceOpacityVar ||
+      name == kCssSurfaceBlurVar) {
     return null;
   }
   if (name.startsWith('radius-') || name == 'radius') {

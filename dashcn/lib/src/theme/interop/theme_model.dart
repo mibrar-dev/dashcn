@@ -150,10 +150,14 @@ final class WebTheme {
     this.tracking = const <String, double>{},
     this.lightShadow,
     this.darkShadow,
+    this.surfaceOpacity,
+    this.surfaceBlur,
   });
 
   /// Colours by kit token; radius (rem); fonts; spacing (rem); tracking
   /// (em); base shadow atoms per mode. Null/absent means "not named".
+  /// [surfaceOpacity] (0..1) and [surfaceBlur] (logical px) are optional
+  /// mode-independent glass tokens; null means "opaque, no blur".
   final Map<String, int> light;
   final Map<String, int> dark;
   final double? radius;
@@ -162,6 +166,8 @@ final class WebTheme {
   final Map<String, double> tracking;
   final WebShadowAtoms? lightShadow;
   final WebShadowAtoms? darkShadow;
+  final double? surfaceOpacity;
+  final double? surfaceBlur;
 
   /// Copy with the given fields replaced.
   WebTheme copyWith({
@@ -173,6 +179,8 @@ final class WebTheme {
     Map<String, double>? tracking,
     WebShadowAtoms? Function()? lightShadow,
     WebShadowAtoms? Function()? darkShadow,
+    double? Function()? surfaceOpacity,
+    double? Function()? surfaceBlur,
   }) {
     return WebTheme(
       light: light ?? this.light,
@@ -183,6 +191,10 @@ final class WebTheme {
       tracking: tracking ?? this.tracking,
       lightShadow: lightShadow == null ? this.lightShadow : lightShadow(),
       darkShadow: darkShadow == null ? this.darkShadow : darkShadow(),
+      surfaceOpacity: surfaceOpacity == null
+          ? this.surfaceOpacity
+          : surfaceOpacity(),
+      surfaceBlur: surfaceBlur == null ? this.surfaceBlur : surfaceBlur(),
     );
   }
 
@@ -242,6 +254,10 @@ final class WebTheme {
       tracking: Map<String, double>.unmodifiable(nextTracking),
       lightShadow: atoms(lightShadow, 'light'),
       darkShadow: atoms(darkShadow, 'dark'),
+      // Glass tokens are optional: absent stays absent (opaque, no blur),
+      // so existing presets round-trip unchanged.
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
     );
   }
 }

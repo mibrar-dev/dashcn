@@ -130,6 +130,7 @@ class MenuPopupTheme extends ComponentThemeData
     this.borderRadius,
     this.padding,
     this.minWidth,
+    this.surfaceOpacity,
     this.surfaceBlur,
   });
 
@@ -154,6 +155,10 @@ class MenuPopupTheme extends ComponentThemeData
   /// Minimum popup width; null resolves 128 (8rem).
   final double? minWidth;
 
+  /// Multiplies the fill alpha; null resolves the app theme's
+  /// `surfaceOpacity` (opaque by default).
+  final double? surfaceOpacity;
+
   /// Backdrop blur radius; null resolves the app theme's `surfaceBlur`.
   final double? surfaceBlur;
 
@@ -166,6 +171,7 @@ class MenuPopupTheme extends ComponentThemeData
     ValueGetter<BorderRadiusGeometry?>? borderRadius,
     ValueGetter<EdgeInsetsGeometry?>? padding,
     ValueGetter<double?>? minWidth,
+    ValueGetter<double?>? surfaceOpacity,
     ValueGetter<double?>? surfaceBlur,
   }) => MenuPopupTheme(
     themeDensity: themeDensity,
@@ -178,6 +184,9 @@ class MenuPopupTheme extends ComponentThemeData
     borderRadius: borderRadius == null ? this.borderRadius : borderRadius(),
     padding: padding == null ? this.padding : padding(),
     minWidth: minWidth == null ? this.minWidth : minWidth(),
+    surfaceOpacity: surfaceOpacity == null
+        ? this.surfaceOpacity
+        : surfaceOpacity(),
     surfaceBlur: surfaceBlur == null ? this.surfaceBlur : surfaceBlur(),
   );
 
@@ -196,6 +205,7 @@ class MenuPopupTheme extends ComponentThemeData
       borderRadius: borderRadius ?? fallback.borderRadius,
       padding: padding ?? fallback.padding,
       minWidth: minWidth ?? fallback.minWidth,
+      surfaceOpacity: surfaceOpacity ?? fallback.surfaceOpacity,
       surfaceBlur: surfaceBlur ?? fallback.surfaceBlur,
     );
   }
@@ -211,6 +221,7 @@ class MenuPopupTheme extends ComponentThemeData
           other.borderRadius == borderRadius &&
           other.padding == padding &&
           other.minWidth == minWidth &&
+          other.surfaceOpacity == surfaceOpacity &&
           other.surfaceBlur == surfaceBlur &&
           other.themeDensity == themeDensity &&
           other.themeSpacing == themeSpacing &&
@@ -228,6 +239,7 @@ class MenuPopupTheme extends ComponentThemeData
     borderRadius,
     padding,
     minWidth,
+    surfaceOpacity,
     surfaceBlur,
   );
 }

@@ -416,6 +416,8 @@ class MenuPopup extends StatelessWidget {
       maxWidth: maxWidth ?? double.infinity,
       maxHeight: maxHeight ?? 360,
       shadows: style.themeShadows?.shadowMd ?? app.tokens.shadows.shadowMd,
+      surfaceOpacity: style.surfaceOpacity ?? app.surfaceOpacity,
+      surfaceBlur: style.surfaceBlur ?? app.surfaceBlur,
       children: children,
     );
   }

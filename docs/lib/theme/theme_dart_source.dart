@@ -135,6 +135,8 @@ String _buildSource(ThemeDocument d, String prefix, String classPrefix) {
     'colors: isDark ? ${prefix}DarkColors : ${prefix}LightColors',
     'tokens: isDark ? ${prefix}DarkTokens : ${prefix}LightTokens',
     if (d.hasFonts) 'fonts: ${prefix}Fonts',
+    if (d.surfaceOpacity != null) 'surfaceOpacity: ${_num(d.surfaceOpacity!)}',
+    if (d.surfaceBlur != null) 'surfaceBlur: ${_num(d.surfaceBlur!)}',
   ];
   return '/// Builds the ambient theme for the ${d.name} preset.\n'
       'ThemeData build${classPrefix}Theme(Brightness brightness) {\n'

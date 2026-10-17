@@ -272,7 +272,6 @@ class AppBarTheme extends ComponentThemeData implements Mergeable<AppBarTheme> {
 const AppBarTheme appBarDefaults = AppBarTheme(
   background: ThemedColor.ref(ColorRef.card),
   padding: EdgeInsetsDensity.symmetric(horizontal: 1.125, vertical: 0.75),
-  surfaceOpacity: 1,
 );
 
 /// Position of a bar inside a scaffold shell.

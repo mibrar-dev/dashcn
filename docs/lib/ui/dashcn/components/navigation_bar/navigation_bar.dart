@@ -20,6 +20,7 @@ import '../../foundation/platform.dart';
 import '../../primitives/navigation/navigation_items.dart';
 import '../../primitives/navigation/navigation_sections.dart';
 import '../../primitives/roving_group.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -282,15 +283,16 @@ class _NavigationBarState extends State<NavigationBar> {
     NavigationContainerType container,
     Widget child,
   ) {
-    final Color? background =
+    final Color? base =
         (widget.backgroundColor ?? style.backgroundColor)?.resolve(
           ambient.colors,
         ) ??
         (container == NavigationContainerType.sidebar
             ? null
             : ambient.colors.background);
-    return background == null
-        ? child
-        : ColoredBox(color: background, child: child);
+    if (base == null) return child;
+    final Color paint = surfaceColor(base, ambient.surfaceOpacity);
+    final Widget surface = ColoredBox(color: paint, child: child);
+    return GlassSurface(surfaceBlur: ambient.surfaceBlur, child: surface);
   }
 }

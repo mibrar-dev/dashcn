@@ -36,6 +36,13 @@ Flutter non-Material libraries. No third-party packages (except `intl` /
   and menu traversal (`MenuGroupData` lives in `menu_nav.dart`).
 - `extensions.dart` — icon/widget/flex extensions, `SeparatedFlex`.
 - `form_core/`, `text/`, `localizations/` — sibling primitives (P2-E2).
+- `surface.dart` — frosted-glass surface: `surfaceColor(base, opacity)`,
+  `resolveSurfaceOpacity/Blur`, `hasSurfaceBlur` and the `GlassSurface`
+  blur wrapper (`SurfaceBlur` alias). Every floating surface (card, dialog,
+  popover, menu, tooltip, toast, sheet, navigation bar, app bar) paints
+  through it: null/1.0 opacity and null/0 blur render exactly opaque with
+  no extra layer; a component theme value wins over the ambient
+  `ThemeData.surfaceOpacity` / `surfaceBlur`.
 
 ## Files (P4, missing primitives)
 

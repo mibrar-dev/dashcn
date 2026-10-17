@@ -6,12 +6,30 @@
   "tier": "component",
   "install": "dashcn add scaffold",
   "import": "import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';",
-  "tags": ["layout", "scaffold", "appbar", "shell", "screen"],
+  "tags": [
+    "layout",
+    "scaffold",
+    "appbar",
+    "shell",
+    "screen"
+  ],
   "deps": {
-    "foundation": ["data", "gap"],
-    "theme": ["color_tokens", "density", "theme"],
-    "primitives": ["text"],
-    "components": ["progress"]
+    "foundation": [
+      "data",
+      "gap"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "theme"
+    ],
+    "primitives": [
+      "surface",
+      "text"
+    ],
+    "components": [
+      "progress"
+    ]
   },
   "files": [
     "scaffold.dart",
@@ -23,8 +41,19 @@
     "placement": "fill"
   },
   "api": {
-    "classes": ["Scaffold", "AppBar", "ScaffoldBarData", "ScaffoldTheme", "AppBarTheme"],
-    "constants": ["scaffoldDefaults", "appBarDefaults", "scaffoldThemeOverrides", "appBarThemeOverrides"]
+    "classes": [
+      "Scaffold",
+      "AppBar",
+      "ScaffoldBarData",
+      "ScaffoldTheme",
+      "AppBarTheme"
+    ],
+    "constants": [
+      "scaffoldDefaults",
+      "appBarDefaults",
+      "scaffoldThemeOverrides",
+      "appBarThemeOverrides"
+    ]
   },
   "theme": {
     "class": "ScaffoldTheme",

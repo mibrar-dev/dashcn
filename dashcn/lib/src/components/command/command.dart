@@ -11,6 +11,7 @@ import '../../primitives/input_features/adornment_features.dart';
 import '../../primitives/input_features/input_features.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/subfocus_scope.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
@@ -160,6 +161,7 @@ class _CommandState extends State<Command> {
     final bool canPop = Navigator.maybeOf(context)?.canPop() ?? false;
     final Color background =
         resolved.background?.resolve(theme.colors) ?? theme.colors.popover;
+    final Color paint = surfaceColor(background, theme.surfaceOpacity);
     final Color border =
         resolved.borderColor?.resolve(theme.colors) ?? theme.colors.border;
     final double borderWidth = resolved.borderWidth ?? 1;
@@ -201,77 +203,83 @@ class _CommandState extends State<Command> {
               const SingleActivator(LogicalKeyboardKey.enter):
                   const ActivateIntent(),
             },
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: background,
-                border: borderWidth > 0
-                    ? Border.all(color: border, width: borderWidth)
-                    : null,
-                borderRadius: radius,
-                boxShadow: resolved.shadows ?? theme.tokens.shadows.shadowLg,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Input(
-                    controller: _controller,
-                    autofocus: widget.autofocus,
-                    showFocusRing: false,
-                    placeholder:
-                        widget.searchPlaceholder ??
-                        Text(localizations.commandSearch),
-                    // Search row chrome: transparent with bottom border only.
-                    decoration: BoxDecoration(
-                      color: const Color(0x00000000),
-                      border: borderWidth > 0
-                          ? Border(
-                              bottom: BorderSide(
-                                color: border,
-                                width: borderWidth,
-                              ),
-                            )
-                          : null,
-                    ),
-                    borderRadius: BorderRadius.zero,
-                    padding: EdgeInsets.symmetric(horizontal: theme.spacing.md),
-                    features: <InputFeature>[
-                      const InputLeadingFeature(
-                        DensityContentPadding(
-                          padding: EdgeInsetsDensity.only(
-                            right: 8 / Density.pxBase,
-                          ),
-                          // upstream `size-4 ... opacity-50`.
-                          child: Opacity(
-                            opacity: 0.5,
-                            child: Icon(LucideIcons.search, size: 16),
+            child: GlassSurface(
+              surfaceBlur: theme.surfaceBlur,
+              borderRadius: radius,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: paint,
+                  border: borderWidth > 0
+                      ? Border.all(color: border, width: borderWidth)
+                      : null,
+                  borderRadius: radius,
+                  boxShadow: resolved.shadows ?? theme.tokens.shadows.shadowLg,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Input(
+                      controller: _controller,
+                      autofocus: widget.autofocus,
+                      showFocusRing: false,
+                      placeholder:
+                          widget.searchPlaceholder ??
+                          Text(localizations.commandSearch),
+                      // Search row chrome: transparent with bottom border only.
+                      decoration: BoxDecoration(
+                        color: const Color(0x00000000),
+                        border: borderWidth > 0
+                            ? Border(
+                                bottom: BorderSide(
+                                  color: border,
+                                  width: borderWidth,
+                                ),
+                              )
+                            : null,
+                      ),
+                      borderRadius: BorderRadius.zero,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: theme.spacing.md,
+                      ),
+                      features: <InputFeature>[
+                        const InputLeadingFeature(
+                          DensityContentPadding(
+                            padding: EdgeInsetsDensity.only(
+                              right: 8 / Density.pxBase,
+                            ),
+                            // upstream `size-4 ... opacity-50`.
+                            child: Opacity(
+                              opacity: 0.5,
+                              child: Icon(LucideIcons.search, size: 16),
+                            ),
                           ),
                         ),
-                      ),
-                      if (canPop)
-                        InputTrailingFeature(
-                          Button(
-                            variant: ButtonVariant.ghost,
-                            size: ButtonSize.icon,
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Icon(LucideIcons.x),
+                        if (canPop)
+                          InputTrailingFeature(
+                            Button(
+                              variant: ButtonVariant.ghost,
+                              size: ButtonSize.icon,
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Icon(LucideIcons.x),
+                            ),
                           ),
+                      ],
+                    ),
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 300 * scale),
+                        child: _CommandResults(
+                          stream: _stream,
+                          listPadding: listPadding,
+                          emptyBuilder: widget.emptyBuilder,
+                          errorBuilder: widget.errorBuilder,
+                          loadingBuilder: widget.loadingBuilder,
                         ),
-                    ],
-                  ),
-                  Flexible(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: 300 * scale),
-                      child: _CommandResults(
-                        stream: _stream,
-                        listPadding: listPadding,
-                        emptyBuilder: widget.emptyBuilder,
-                        errorBuilder: widget.errorBuilder,
-                        loadingBuilder: widget.loadingBuilder,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

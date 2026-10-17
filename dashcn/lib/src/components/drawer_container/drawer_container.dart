@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../primitives/axis_size.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../drawer/drawer.dart' show OverlayPosition;
@@ -188,14 +189,20 @@ class DrawerRawContainer extends StatelessWidget {
       ],
     );
 
-    final Widget decorated = Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: colors.background,
-        border: _border(context, colors),
-        borderRadius: borderRadius ?? _resolvedRadius(context, theme.radiusLg),
+    final BorderRadiusGeometry paintRadius =
+        borderRadius ?? _resolvedRadius(context, theme.radiusLg);
+    final Widget decorated = GlassSurface(
+      surfaceBlur: theme.surfaceBlur,
+      borderRadius: paintRadius,
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: surfaceColor(colors.background, theme.surfaceOpacity),
+          border: _border(context, colors),
+          borderRadius: paintRadius,
+        ),
+        child: layout,
       ),
-      child: layout,
     );
 
     Widget sized = LayoutBuilder(

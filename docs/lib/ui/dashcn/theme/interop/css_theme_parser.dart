@@ -170,6 +170,8 @@ class _ThemeBuilder {
   final Map<String, String> fonts = <String, String>{};
   double? spacing;
   final Map<String, double> tracking = <String, double>{};
+  double? surfaceOpacity;
+  double? surfaceBlur;
 
   /// Shadow atoms per mode, by field name.
   final Map<String, Map<String, Object>> atoms = <String, Map<String, Object>>{
@@ -209,6 +211,34 @@ class _ThemeBuilder {
         }
       } else if (kCssShadowToAtom[name] case final String field) {
         _absorbAtom(name, raw, field, isDark ? 'dark' : 'light');
+      } else if (name == kCssSurfaceOpacityVar) {
+        final double? value = _absorbScalar(
+          name,
+          raw,
+          parsePxLength,
+          'surfaceOpacity',
+        );
+        if (value != null) {
+          if (value < 0 || value > 1) {
+            report.ignored.add(IgnoredEntry('--$name', 'not in 0..1: $raw'));
+          } else {
+            surfaceOpacity = value;
+          }
+        }
+      } else if (name == kCssSurfaceBlurVar) {
+        final double? value = _absorbScalar(
+          name,
+          raw,
+          parsePxLength,
+          'surfaceBlur',
+        );
+        if (value != null) {
+          if (value < 0) {
+            report.ignored.add(IgnoredEntry('--$name', 'not >= 0: $raw'));
+          } else {
+            surfaceBlur = value;
+          }
+        }
       } else {
         report.ignored.add(
           IgnoredEntry('--$name', ignoredReason(name) ?? 'unknown variable'),
@@ -377,6 +407,8 @@ class _ThemeBuilder {
       tracking: Map<String, double>.unmodifiable(tracking),
       lightShadow: buildAtoms('light'),
       darkShadow: buildAtoms('dark'),
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
     ).completed(report);
   }
 }

@@ -173,6 +173,7 @@ export 'src/primitives/subfocus.dart';
 export 'src/primitives/subfocus_item.dart';
 export 'src/primitives/subfocus_list_item.dart';
 export 'src/primitives/subfocus_scope.dart';
+export 'src/primitives/surface.dart';
 export 'src/primitives/syntax_highlight/syntax_highlight.dart';
 export 'src/primitives/syntax_highlight/syntax_language.dart';
 export 'src/primitives/syntax_highlight/syntax_lexer.dart';

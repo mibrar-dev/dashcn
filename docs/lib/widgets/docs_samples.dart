@@ -81,6 +81,26 @@ final Widget app = AnimatedTheme(
   child: const MyApp(),
 );
 '''),
+  'glass': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/primitives/surface.dart';
+import 'package:your_app/ui/dashcn/theme/theme.dart';
+
+// Frosted glass: the fill carries surfaceOpacity, the blur sits behind it.
+// Null/1.0 opacity and null/0 blur render exactly opaque (no extra layer).
+final ThemeData frosted = theme.copyWith(
+  surfaceOpacity: () => 0.8,
+  surfaceBlur: () => 8,
+);
+final Color fill = surfaceColor(theme.colors.popover, frosted.surfaceOpacity);
+final Widget surface = GlassSurface(
+  surfaceBlur: frosted.surfaceBlur,
+  borderRadius: theme.borderRadiusMd,
+  child: DecoratedBox(
+    decoration: BoxDecoration(color: fill),
+    child: content,
+  ),
+);
+'''),
 };
 
 /// Dark-mode-page samples, keyed by stable id.

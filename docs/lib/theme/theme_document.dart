@@ -54,6 +54,8 @@ class ThemeDocument {
     required this.lightShadow,
     required this.darkShadow,
     required this.fonts,
+    this.surfaceOpacity,
+    this.surfaceBlur,
     this.schema,
     this.shadowsDerived,
   });
@@ -81,6 +83,20 @@ class ThemeDocument {
     final double spacing = _numberField(json, 'spacing', 'preset') ?? 0;
     final Map<String, double> tracking = _trackingField(json);
     final Map<String, String> fonts = _fontsField(json);
+    final double? surfaceOpacity = _numberField(
+      json,
+      'surfaceOpacity',
+      'preset',
+    );
+    if (surfaceOpacity != null && (surfaceOpacity < 0 || surfaceOpacity > 1)) {
+      throw const ThemeDocumentException(
+        'preset.surfaceOpacity must be in 0..1',
+      );
+    }
+    final double? surfaceBlur = _numberField(json, 'surfaceBlur', 'preset');
+    if (surfaceBlur != null && surfaceBlur < 0) {
+      throw const ThemeDocumentException('preset.surfaceBlur must be >= 0');
+    }
     final Map<String, Object?> shadow = _objectField(json, 'shadow', 'preset');
     return ThemeDocument(
       schema: _stringField(json, r'$schema', 'preset'),
@@ -100,6 +116,8 @@ class ThemeDocument {
         path: 'preset.shadow.dark',
       ),
       fonts: fonts,
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
       shadowsDerived: _stringField(json, 'shadowsDerived', 'preset'),
     );
   }
@@ -152,6 +170,12 @@ class ThemeDocument {
   /// picked heading font survives the export (see [headingFont], [bodyFont]).
   final Map<String, String> fonts;
 
+  /// Glass surface opacity multiplier (0..1); null means opaque.
+  final double? surfaceOpacity;
+
+  /// Glass surface backdrop blur sigma in logical px; null means no blur.
+  final double? surfaceBlur;
+
   /// The optional `shadowsDerived` marker, carried through untouched.
   final String? shadowsDerived;
 
@@ -200,6 +224,8 @@ class ThemeDocument {
       'light': lightShadow.toJson(),
       'dark': darkShadow.toJson(),
     },
+    if (surfaceOpacity != null) 'surfaceOpacity': jsonNumber(surfaceOpacity!),
+    if (surfaceBlur != null) 'surfaceBlur': jsonNumber(surfaceBlur!),
     if (shadowsDerived != null) 'shadowsDerived': shadowsDerived,
   };
 
@@ -236,6 +262,8 @@ class ThemeDocument {
       typography: const Typography.geist().applyFonts(families),
       spacing: scale,
       density: Density.fromSpacingScale(scale),
+      surfaceOpacity: surfaceOpacity,
+      surfaceBlur: surfaceBlur,
     );
   }
 

@@ -65,6 +65,17 @@
       "$ref": "#/$defs/shadowPair",
       "description": "Base shadow atoms per mode. The eight derived sizes are never stored."
     },
+    "surfaceOpacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Glass surface opacity multiplier (0..1) applied to floating surface fills. Optional; omitted means opaque (1.0)."
+    },
+    "surfaceBlur": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Glass surface backdrop blur sigma in logical px. Optional; omitted means no blur (0)."
+    },
     "shadowsDerived": {
       "enum": ["cli", "from-legacy"],
       "description": "Provenance of shadow.light/shadow.dark. 'cli' = the tweakcn atoms in dashcn_cli/lib/src/shared/theme/preset_theme_data.dart. 'from-legacy' = no atoms existed upstream, so the atoms were recovered from the single legacy shadow entry in lib/src/themes_preset/<id>.json."

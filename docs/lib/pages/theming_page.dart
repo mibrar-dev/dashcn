@@ -140,6 +140,21 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['component-theme']!.code,
             language: 'dart',
           ),
+          const HeadingAnchor(id: 'glass-surfaces', title: 'Glass Surfaces'),
+          const TypesetParagraph(
+            'Two optional mode-independent tokens make floating surfaces '
+            'frosted: surfaceOpacity (0..1) multiplies every surface fill, '
+            'and surfaceBlur (logical px) blurs the backdrop behind it. '
+            'Cards, dialogs, popovers, menus, tooltips, toasts, sheets, the '
+            'navigation bar and the scaffold app bar all read them, so one '
+            'preset change frosts the whole app. The defaults stay opaque '
+            '(no extra layer), and a component theme value wins over the '
+            'global when both are set.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['glass']!.code,
+            language: 'dart',
+          ),
           const HeadingAnchor(
             id: 'animated-theming',
             title: 'Animated Theming',

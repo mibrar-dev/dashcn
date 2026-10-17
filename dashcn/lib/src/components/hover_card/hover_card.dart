@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import '../../primitives/hover.dart';
 import '../../primitives/overlay.dart';
 import '../../primitives/popover_controller.dart';
+import '../../primitives/surface.dart';
 import '../../theme/theme.dart';
 import 'hover_card_style.dart';
 
@@ -139,22 +140,27 @@ class _HoverCardSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData app = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: app.colors.popover,
-        border: Border.all(color: app.colors.border),
-        borderRadius: app.borderRadiusMd,
-        // Quiet popover elevation, like every other overlay surface.
-        boxShadow: app.tokens.shadows.shadowMd,
-      ),
-      child: DefaultTextStyle(
-        style: app.typography.small.copyWith(
-          color: app.colors.popoverForeground,
+    final BorderRadiusGeometry radius = app.borderRadiusMd;
+    return GlassSurface(
+      surfaceBlur: app.surfaceBlur,
+      borderRadius: radius,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: surfaceColor(app.colors.popover, app.surfaceOpacity),
+          border: Border.all(color: app.colors.border),
+          borderRadius: radius,
+          // Quiet popover elevation, like every other overlay surface.
+          boxShadow: app.tokens.shadows.shadowMd,
         ),
-        child: IconTheme.merge(
-          data: IconThemeData(color: app.colors.popoverForeground),
-          child: child,
+        child: DefaultTextStyle(
+          style: app.typography.small.copyWith(
+            color: app.colors.popoverForeground,
+          ),
+          child: IconTheme.merge(
+            data: IconThemeData(color: app.colors.popoverForeground),
+            child: child,
+          ),
         ),
       ),
     );

@@ -1,56 +1,25 @@
 // The `outlined_container` component: [OutlinedContainer] (a themed bordered
-// surface with optional translucency and backdrop blur), [SurfaceBlur] (the
-// blur wrapper it re-exports), and the dashed [DashedContainer] /
-// [DashedLine] painters.
+// surface with optional translucency and backdrop blur) and the dashed
+// [DashedContainer] / [DashedLine] painters. The blur wrapper lives in the
+// shared `primitives/surface.dart` primitive ([GlassSurface], re-exported
+// here as [SurfaceBlur] for compatibility) so every surface shares one
+// frosted-glass implementation.
 //
 // Owner copy per OWNERSHIP R2: the old `shared/primitives` fork's body is
 // merged in and the dead widget-leg `theme` field now feeds the resolver.
 
 import 'dart:math' as math;
-import 'dart:ui' show ImageFilter, PathMetric;
+import 'dart:ui' show PathMetric;
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'outlined_container_style.dart';
 
+export '../../primitives/surface.dart' show GlassSurface, SurfaceBlur;
 export 'outlined_container_style.dart';
-
-/// A blur layer clipped to [borderRadius].
-///
-/// Rendered even at zero sigma so toggling [surfaceBlur] never remounts the
-/// child subtree.
-class SurfaceBlur extends StatelessWidget {
-  /// Creates a blur layer.
-  const SurfaceBlur({
-    super.key,
-    required this.child,
-    required this.surfaceBlur,
-    this.borderRadius,
-  });
-
-  /// The child blurred against the backdrop.
-  final Widget child;
-
-  /// Blur sigma; values <= 0 draw an identity filter.
-  final double surfaceBlur;
-
-  /// Clip radius of the blur layer. Default: square corners.
-  final BorderRadiusGeometry? borderRadius;
-
-  @override
-  Widget build(BuildContext context) {
-    final double sigma = surfaceBlur <= 0 ? 0 : surfaceBlur;
-    return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.zero,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-        child: child,
-      ),
-    );
-  }
-}
 
 /// An animated, outlined surface.
 ///
@@ -150,14 +119,14 @@ class _OutlinedContainerState extends State<OutlinedContainer> {
       Directionality.of(context),
     );
     final double? surfaceOpacity =
-        widget.surfaceOpacity ?? resolved.surfaceOpacity;
+        widget.surfaceOpacity ??
+        resolved.surfaceOpacity ??
+        ambient.surfaceOpacity;
     Color? background = (widget.backgroundColor ?? resolved.backgroundColor)
         ?.resolve(ambient.colors);
-    if (background != null && surfaceOpacity != null) {
-      background = background.withValues(
-        alpha: (background.a * surfaceOpacity).clamp(0.0, 1.0),
-      );
-    }
+    background = background == null
+        ? null
+        : surfaceColor(background, surfaceOpacity);
     final Color borderColor =
         (widget.borderColor ?? resolved.borderColor)?.resolve(ambient.colors) ??
         ambient.colors.muted;
@@ -169,7 +138,8 @@ class _OutlinedContainerState extends State<OutlinedContainer> {
         widget.boxShadow ?? resolved.boxShadow ?? const <BoxShadow>[];
     final EdgeInsetsGeometry padding =
         widget.padding ?? resolved.padding ?? EdgeInsets.zero;
-    final double? surfaceBlur = widget.surfaceBlur ?? resolved.surfaceBlur;
+    final double? surfaceBlur =
+        widget.surfaceBlur ?? resolved.surfaceBlur ?? ambient.surfaceBlur;
 
     Widget surface = AnimatedContainer(
       key: _surfaceKey,
@@ -190,8 +160,8 @@ class _OutlinedContainerState extends State<OutlinedContainer> {
       ),
       child: widget.child,
     );
-    if (surfaceBlur != null && surfaceBlur > 0) {
-      surface = SurfaceBlur(
+    if (hasSurfaceBlur(surfaceBlur)) {
+      surface = GlassSurface(
         surfaceBlur: surfaceBlur,
         borderRadius: _outlinedSubtractBorder(resolvedRadius, borderWidth),
         child: surface,

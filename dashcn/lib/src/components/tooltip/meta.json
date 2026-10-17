@@ -6,16 +6,25 @@
   "tier": "component",
   "install": "dashcn add tooltip",
   "import": "import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';",
-  "tags": ["overlay", "tooltip", "hover", "label"],
+  "tags": [
+    "overlay",
+    "tooltip",
+    "hover",
+    "label"
+  ],
   "deps": {
     "foundation": [],
-    "theme": ["color_tokens", "theme"],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
     "primitives": [
       "hover",
       "overlay",
       "overlay_manager",
       "popover_controller",
-      "popover_overlay_state"
+      "popover_overlay_state",
+      "surface"
     ],
     "components": []
   },
@@ -50,7 +59,8 @@
       "borderRadius": "BorderRadiusGeometry? - null = borderRadiusSm",
       "padding": "EdgeInsetsGeometry? - null = density base gap at 0.75x",
       "textStyle": "TextStyle? - its colour is ignored (taken from foreground)",
-      "surfaceBlur": "double? - null = the app theme's surfaceBlur"
+      "surfaceBlur": "double? - null = the app theme's surfaceBlur",
+      "surfaceOpacity": "double? - null = the app theme surfaceOpacity"
     }
   },
   "notes": [
