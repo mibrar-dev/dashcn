@@ -23,6 +23,7 @@
     "primitives": [
       "form_core",
       "input_features",
+      "surface",
       "text_editing"
     ],
     "components": []

@@ -9,10 +9,12 @@ import '../../primitives/input_features/adornment_features.dart';
 import '../../primitives/input_features/feature_layout.dart';
 import '../../primitives/input_features/input_feature_host.dart';
 import '../../primitives/input_features/input_features.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/text_editing/editable_text_host.dart';
 import '../../primitives/text_editing/editable_text_shell.dart';
 import '../../primitives/text_editing/editable_text_validation.dart';
 import '../../primitives/text_editing/text_editing.dart';
+import '../../theme/theme.dart';
 import 'input_style.dart';
 
 export 'input_style.dart';
@@ -380,6 +382,13 @@ class _InputState extends State<Input>
         trailing: layout.trailing,
         gap: surface.gap,
       ),
+    );
+    // The field fill is a surface: blur wraps the painted shell (no extra
+    // layer at the opaque default, so defaults render identical to before).
+    field = GlassSurface(
+      surfaceBlur: Theme.of(context).surfaceBlur,
+      borderRadius: surface.borderRadius,
+      child: field,
     );
 
     for (final feature in widget.features) {
