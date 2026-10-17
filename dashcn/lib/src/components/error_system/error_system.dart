@@ -13,6 +13,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/error_handling/error_handling.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/motion/motion_enter.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -128,19 +129,26 @@ class InlineError extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
     final ThemeColors colors = ambient.colors;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        icon ??
-            Icon(LucideIcons.circleAlert, size: 16, color: colors.destructive),
-        Gap(ambient.spacing.sm),
-        Expanded(
-          child: Text(
-            message,
-            style: TextStyle(fontSize: 14, color: colors.destructive),
+    // Inline errors enter with a fade plus a slight slide down.
+    return MotionEnter(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          icon ??
+              Icon(
+                LucideIcons.circleAlert,
+                size: 16,
+                color: colors.destructive,
+              ),
+          Gap(ambient.spacing.sm),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(fontSize: 14, color: colors.destructive),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -176,53 +184,56 @@ class AppErrorBanner extends StatelessWidget {
     final Widget? action = error.actions.isEmpty
         ? null
         : errorActionButton(error.actions.first);
-    return Card(
-      background: style.bannerBackground,
-      borderColor: border,
-      borderWidth: 1,
-      // `Card` paints its padding verbatim: resolve the density
-      // multipliers of `errorSystemDefaultBannerPadding` before handoff.
-      padding: resolveEdgeInsets(
-        style.bannerPadding ?? errorSystemDefaults.bannerPadding!,
-        ambient.density.baseContentPadding * ambient.scaling,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Icon(
-            LucideIcons.triangleAlert,
-            size: 18,
-            color: border.resolve(colors),
-          ),
-          Gap(ambient.spacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  error.title,
-                  style: style.titleStyle!.copyWith(color: colors.foreground),
-                ),
-                Gap(ambient.spacing.xs),
-                Text(
-                  error.message,
-                  style: style.messageStyle!.copyWith(
-                    color: colors.mutedForeground,
-                  ),
-                ),
-              ],
+    // Banners enter with a fade plus a slight slide down.
+    return MotionEnter(
+      child: Card(
+        background: style.bannerBackground,
+        borderColor: border,
+        borderWidth: 1,
+        // `Card` paints its padding verbatim: resolve the density
+        // multipliers of `errorSystemDefaultBannerPadding` before handoff.
+        padding: resolveEdgeInsets(
+          style.bannerPadding ?? errorSystemDefaults.bannerPadding!,
+          ambient.density.baseContentPadding * ambient.scaling,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              LucideIcons.triangleAlert,
+              size: 18,
+              color: border.resolve(colors),
             ),
-          ),
-          if (action != null) ...<Widget>[Gap(ambient.spacing.md), action],
-          Gap(ambient.spacing.sm),
-          Button(
-            variant: ButtonVariant.ghost,
-            size: ButtonSize.sm,
-            onPressed: scope.clear,
-            child: const Icon(LucideIcons.x, size: 16),
-          ),
-        ],
+            Gap(ambient.spacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    error.title,
+                    style: style.titleStyle!.copyWith(color: colors.foreground),
+                  ),
+                  Gap(ambient.spacing.xs),
+                  Text(
+                    error.message,
+                    style: style.messageStyle!.copyWith(
+                      color: colors.mutedForeground,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (action != null) ...<Widget>[Gap(ambient.spacing.md), action],
+            Gap(ambient.spacing.sm),
+            Button(
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.sm,
+              onPressed: scope.clear,
+              child: const Icon(LucideIcons.x, size: 16),
+            ),
+          ],
+        ),
       ),
     );
   }

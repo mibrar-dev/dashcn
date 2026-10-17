@@ -23,7 +23,8 @@
       "theme"
     ],
     "primitives": [
-      "form_core"
+      "form_core",
+      "motion"
     ],
     "components": []
   },

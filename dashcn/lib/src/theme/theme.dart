@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import 'color_tokens.dart';
 import 'density.dart';
+import 'motion.dart';
 import 'syntax_colors.dart';
 import 'tokens.dart';
 import 'typography.dart';
@@ -36,6 +37,7 @@ class ThemeData {
     this.surfaceBlur,
     this.enableFeedback,
     this.syntax,
+    this.motion = const MotionTokens(),
   });
 
   /// Color tokens for the current brightness.
@@ -83,6 +85,13 @@ class ThemeData {
   /// [syntaxColors] from the ambient brightness, so every preset works with
   /// no per-preset JSON edits; set it to pin a custom palette.
   final SyntaxColors? syntax;
+
+  /// Motion tokens: durations, curves and the enabled flag.
+  ///
+  /// Read as `Theme.of(context).motion`. Preset JSON files carry no motion
+  /// values; the defaults apply until the Theme Studio motion toggle writes
+  /// one.
+  final MotionTokens motion;
 
   /// Effective syntax-highlight palette for the current brightness.
   SyntaxColors get syntaxColors =>
@@ -136,6 +145,7 @@ class ThemeData {
     ValueGetter<double>? surfaceBlur,
     ValueGetter<bool>? enableFeedback,
     ValueGetter<SyntaxColors?>? syntax,
+    ValueGetter<MotionTokens>? motion,
   }) {
     final nextDensity = density == null ? this.density : density();
     final nextSpacing = spacing == null
@@ -161,6 +171,7 @@ class ThemeData {
           ? this.enableFeedback
           : enableFeedback(),
       syntax: syntax == null ? this.syntax : syntax(),
+      motion: motion == null ? this.motion : motion(),
     );
   }
 
@@ -217,6 +228,9 @@ class ThemeData {
           : lerpDouble(a.surfaceBlur, b.surfaceBlur, t),
       enableFeedback: t < 0.5 ? a.enableFeedback : b.enableFeedback,
       syntax: t < 0.5 ? a.syntax : b.syntax,
+      motion: a.motion == b.motion
+          ? a.motion
+          : MotionTokens.lerp(a.motion, b.motion, t),
     );
   }
 
@@ -238,7 +252,8 @@ class ThemeData {
         other.surfaceOpacity == surfaceOpacity &&
         other.surfaceBlur == surfaceBlur &&
         other.enableFeedback == enableFeedback &&
-        other.syntax == syntax;
+        other.syntax == syntax &&
+        other.motion == motion;
   }
 
   @override
@@ -258,6 +273,7 @@ class ThemeData {
     surfaceBlur,
     enableFeedback,
     syntax,
+    motion,
   );
 }
 

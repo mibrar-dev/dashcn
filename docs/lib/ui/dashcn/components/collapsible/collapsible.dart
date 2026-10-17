@@ -11,6 +11,8 @@ import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_chevron.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../primitives/touch_hit_area.dart';
 import '../../theme/theme.dart';
@@ -145,6 +147,8 @@ class CollapsibleTrigger extends StatelessWidget {
         (resolved.themeDensity ?? ambient.density).baseContentPadding *
             ambient.scaling;
     final double iconGap = resolved.iconGap ?? 16 * ambient.scaling;
+    // The trigger icon swaps and rotates 180 degrees on expand, so the
+    // trigger matches the accordion motion. The end states are unchanged.
     final IconData icon = data.isExpanded
         ? resolved.iconExpanded ?? LucideIcons.chevronsDownUp
         : resolved.iconCollapsed ?? LucideIcons.chevronsUpDown;
@@ -187,7 +191,10 @@ class CollapsibleTrigger extends StatelessWidget {
                 variant: ButtonVariant.ghost,
                 size: ButtonSize.icon,
                 onPressed: data.toggle,
-                child: IconTheme(data: iconTheme, child: Icon(icon)),
+                child: MotionChevron(
+                  expanded: data.isExpanded,
+                  child: IconTheme(data: iconTheme, child: Icon(icon)),
+                ),
               ),
             ),
           ],
@@ -215,6 +222,23 @@ class CollapsibleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _CollapsibleData data = Data.of<_CollapsibleData>(context);
-    return Offstage(offstage: collapsible && !data.isExpanded, child: child);
+    final bool show = !collapsible || data.isExpanded;
+    // AnimatedSize cannot run a zero-duration animation (it mutates itself
+    // mid-layout), so reduced motion keeps the plain offstage swap.
+    if (motionReduced(context)) {
+      return Offstage(offstage: !show, child: child);
+    }
+    final ThemeData motionTheme = Theme.of(context);
+    // Size plus fade with the accordion timing: the offstage child reports
+    // zero size while collapsed, and `AnimatedSize` bridges the gap.
+    return AnimatedSize(
+      duration: motionTheme.motion.durations.base,
+      alignment: Alignment.topCenter,
+      child: AnimatedOpacity(
+        duration: motionTheme.motion.durations.base,
+        opacity: show ? 1.0 : 0.0,
+        child: Offstage(offstage: !show, child: child),
+      ),
+    );
   }
 }

@@ -10,7 +10,7 @@
   "deps": {
     "foundation": ["data", "gap"],
     "theme": ["color_tokens", "theme"],
-    "primitives": ["clickable", "form_core", "widget_states"],
+    "primitives": ["clickable", "form_core", "motion", "widget_states"],
     "components": []
   },
   "files": [

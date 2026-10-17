@@ -21,11 +21,13 @@
     ],
     "theme": [
       "color_tokens",
+      "motion",
       "theme"
     ],
     "primitives": [
       "clickable",
       "form_core",
+      "motion",
       "widget_states"
     ],
     "components": []

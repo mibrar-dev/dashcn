@@ -1,12 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../foundation/data.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'dialog_style.dart';
 
@@ -69,9 +70,12 @@ Future<T?> showDialog<T>({
   final navigator = Navigator.of(context, rootNavigator: useRootNavigator);
   // The route resolves every live value inside its own subtree; only the
   // transition duration is fixed here, because the framework reads it while
-  // installing the route.
+  // installing the route. Under reduced motion the route snaps with no
+  // transition.
   final style = _resolve(context, theme);
-  final duration = style.transitionDuration ?? kDefaultDuration;
+  final duration = motionReduced(context)
+      ? Duration.zero
+      : (style.transitionDuration ?? Theme.of(context).motion.durations.base);
   return navigator.push(
     DialogRoute<T>(
       builder: builder,
@@ -205,12 +209,19 @@ class DialogRoute<T> extends ModalRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
+    // Scale 0.96 to 1 plus fade, reversed on close. Curves come from the
+    // motion tokens so the dialog matches every other floating surface.
+    final MotionTokens motion = Theme.of(context).motion;
     final scale = CurvedAnimation(
-      parent: animation.drive(Tween<double>(begin: 0.7, end: 1.0)),
-      curve: Curves.easeOut,
-      reverseCurve: Curves.easeIn,
+      parent: animation.drive(Tween<double>(begin: 0.96, end: 1.0)),
+      curve: motion.curves.emphasizedOut,
+      reverseCurve: motion.curves.emphasizedIn,
     );
-    final opacity = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+    final opacity = CurvedAnimation(
+      parent: animation,
+      curve: motion.curves.emphasizedOut,
+      reverseCurve: motion.curves.emphasizedIn,
+    );
     return ScaleTransition(
       scale: scale,
       child: FadeTransition(opacity: opacity, child: child),

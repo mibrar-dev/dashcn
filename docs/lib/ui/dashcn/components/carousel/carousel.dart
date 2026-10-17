@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme.dart';
+import '../../primitives/motion/motion_scope.dart';
 import 'carousel_style.dart';
 
 export 'carousel_style.dart';
@@ -117,6 +118,10 @@ class _CarouselState extends State<Carousel>
   /// must not register an inherited dependency there.
   late CarouselTheme _resolved;
 
+  /// Reduced-motion flag, refreshed every build for the ticker and page
+  /// transitions below (they run outside builds and cannot look it up).
+  bool _reducedMotion = false;
+
   @override
   void initState() {
     super.initState();
@@ -216,8 +221,11 @@ class _CarouselState extends State<Carousel>
   void _syncTicker() {
     final CarouselTheme theme = _resolved;
     final bool paused = _dragging || ((theme.pauseOnHover ?? true) && _hovered);
+    // Under reduced motion autoplay halts and page changes jump: no ticker.
     final bool shouldRun =
-        !paused && (theme.autoplayInterval != null || _controller.isAnimating);
+        !_reducedMotion &&
+        !paused &&
+        (theme.autoplayInterval != null || _controller.isAnimating);
     if (shouldRun && !_ticker.isActive) {
       _lastElapsed = null;
       _heldSince = null;
@@ -227,6 +235,16 @@ class _CarouselState extends State<Carousel>
       _lastElapsed = null;
       _heldSince = null;
     }
+  }
+
+  /// Eases to [target] with the theme page transition, or jumps under
+  /// reduced motion.
+  void _goTo(double target, CarouselTheme theme) {
+    if (_reducedMotion) {
+      _controller.jumpTo(target);
+      return;
+    }
+    _controller.animateTo(target, theme.speed!, theme.curve!);
   }
 
   void _tick(Duration elapsed) {
@@ -251,7 +269,7 @@ class _CarouselState extends State<Carousel>
       wrap: theme.wrap!,
       reverse: widget.autoplayReverse,
     );
-    _controller.animateTo(target, theme.speed!, theme.curve!);
+    _goTo(target, theme);
   }
 
   void _handleHover(bool hovered) {
@@ -285,7 +303,7 @@ class _CarouselState extends State<Carousel>
       itemCount: widget.itemCount,
       wrap: theme.wrap!,
     );
-    _controller.animateTo(target, theme.speed!, theme.curve!);
+    _goTo(target, theme);
     _syncTicker();
   }
 
@@ -293,6 +311,7 @@ class _CarouselState extends State<Carousel>
   Widget build(BuildContext context) {
     final CarouselTheme theme = _resolve();
     _resolved = theme;
+    _reducedMotion = motionReduced(context);
     _syncTicker();
     final bool horizontal = theme.direction == Axis.horizontal;
     final bool rtl =
@@ -391,7 +410,7 @@ class _CarouselState extends State<Carousel>
       wrap: theme.wrap!,
       reverse: rtl ? delta > 0 : delta < 0,
     );
-    _controller.animateTo(target, theme.speed!, theme.curve!);
+    _goTo(target, theme);
   }
 
   /// One positioned child per visible page, dispatched on the transition.

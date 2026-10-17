@@ -11,6 +11,8 @@ import '../../primitives/form_core/form_controller.dart';
 import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_entry.dart';
 import '../../primitives/form_core/validation.dart';
+import '../../primitives/motion/error_shake.dart';
+import '../../primitives/motion/motion_enter.dart';
 import 'form_style.dart';
 
 export '../../primitives/form_core/form_builders.dart';
@@ -243,7 +245,17 @@ class FormFieldMessages extends StatelessWidget {
         ],
         if (messageText != null) ...<Widget>[
           Gap(spacing),
-          DefaultTextStyle.merge(style: messageStyle, child: Text(messageText)),
+          // The error shakes once when it appears while the message fades
+          // in; both are transform/opacity only, so layout never jumps.
+          ErrorShake(
+            trigger: messageText,
+            child: MotionEnter(
+              child: DefaultTextStyle.merge(
+                style: messageStyle,
+                child: Text(messageText),
+              ),
+            ),
+          ),
         ],
       ],
     );

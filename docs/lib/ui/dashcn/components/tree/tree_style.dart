@@ -9,6 +9,7 @@ import '../../components/icon/icon.dart';
 import '../../foundation/data.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/motion/motion_chevron.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -364,8 +365,10 @@ class TreeRow extends StatelessWidget {
               button: true,
               expanded: row.expanded,
               label: row.expanded ? 'Collapse' : 'Expand',
-              child: RotatedBox(
-                quarterTurns: row.expanded ? 1 : 0,
+              // The chevron rotates 90 degrees on expand instead of snapping.
+              child: MotionChevron(
+                expanded: row.expanded,
+                turns: 0.25,
                 child: const Icon(LucideIcons.chevronRight).iconSmall(),
               ),
             ),

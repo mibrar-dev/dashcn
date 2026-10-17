@@ -10,7 +10,7 @@
   "deps": {
     "foundation": ["constants", "util"],
     "theme": ["color_tokens", "theme"],
-    "primitives": ["animation_queue"],
+    "primitives": ["animation_queue", "motion"],
     "components": []
   },
   "files": [

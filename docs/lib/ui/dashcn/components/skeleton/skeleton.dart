@@ -22,6 +22,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'skeleton_style.dart';
@@ -115,6 +116,16 @@ class _Shimmer extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final Color fromColor = from?.resolve(theme.colors) ?? theme.colors.muted;
     final Color toColor = to?.resolve(theme.colors) ?? theme.colors.accent;
+    final BoxDecoration staticDecoration = BoxDecoration(
+      gradient: _sweep(fromColor, toColor, 0.5),
+    );
+    // Under reduced motion the sweep parks mid-way with no ticker.
+    if (motionReduced(context)) {
+      return ClipRRect(
+        borderRadius: borderRadius,
+        child: Container(decoration: staticDecoration, child: child),
+      );
+    }
     return ClipRRect(
       borderRadius: borderRadius,
       child: RepeatedAnimationBuilder(
@@ -124,21 +135,26 @@ class _Shimmer extends StatelessWidget {
         curve: curve,
         builder: (context, value, child) => Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(-1 - 2 * (1 - value), -1),
-              end: Alignment(1 + 2 * (1 - value), 1),
-              colors: <Color>[fromColor, toColor, fromColor],
-              stops: const <double>[
-                kSkeletonSweepHandover - kSkeletonSweepFade,
-                kSkeletonSweepHandover,
-                kSkeletonSweepHandover + kSkeletonSweepFade,
-              ],
-            ),
+            gradient: _sweep(fromColor, toColor, value),
           ),
           child: child,
         ),
         child: child,
       ),
+    );
+  }
+
+  /// Sweep gradient for progress [value] (0..1).
+  LinearGradient _sweep(Color fromColor, Color toColor, double value) {
+    return LinearGradient(
+      begin: Alignment(-1 - 2 * (1 - value), -1),
+      end: Alignment(1 + 2 * (1 - value), 1),
+      colors: <Color>[fromColor, toColor, fromColor],
+      stops: const <double>[
+        kSkeletonSweepHandover - kSkeletonSweepFade,
+        kSkeletonSweepHandover,
+        kSkeletonSweepHandover + kSkeletonSweepFade,
+      ],
     );
   }
 }
