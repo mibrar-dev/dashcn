@@ -2642,7 +2642,8 @@
           "commandThemeOverrides"
         ],
         "functions": [
-          "showCommandDialog"
+          "showCommandDialog",
+          "rankCommandLabels"
         ],
         "types": [
           "CommandBuilder",
@@ -2662,6 +2663,7 @@
         "primitives": [
           "input_features",
           "localizations",
+          "search",
           "subfocus_scope",
           "surface",
           "text"
@@ -7087,6 +7089,100 @@
       ],
       "userOwned": []
     },
+    "search_bar": {
+      "api": {
+        "classes": [
+          "SearchBar",
+          "SearchBarGroup",
+          "SearchResults",
+          "SearchResultRow",
+          "SearchBarNavFeature",
+          "SearchBarTheme"
+        ],
+        "constants": [
+          "searchBarDefaults",
+          "searchBarDefaultItemPadding",
+          "searchBarDefaultIconSize",
+          "searchBarThemeOverrides"
+        ],
+        "typedefs": [
+          "SearchBarLabel",
+          "SearchBarRowBuilder"
+        ]
+      },
+      "category": "Forms & Inputs",
+      "deps": {
+        "components": [
+          "button",
+          "input"
+        ],
+        "foundation": [
+          "icons/lucide_icons"
+        ],
+        "primitives": [
+          "clickable",
+          "input_features",
+          "localizations",
+          "search",
+          "text"
+        ],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "A search field with a ranked result list: tiered fuzzy matching with highlighted matches, keyboard navigation, clear and cancel actions, and optional groups.",
+      "entry": "components/search_bar/search_bar.dart",
+      "files": [
+        "components/search_bar/search_bar.dart",
+        "components/search_bar/search_bar_nav.dart",
+        "components/search_bar/search_bar_results.dart",
+        "components/search_bar/search_bar_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';",
+      "install": "dashcn add search_bar",
+      "listed": true,
+      "name": "SearchBar",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "form",
+        "search",
+        "filter",
+        "fuzzy",
+        "keyboard"
+      ],
+      "theme": {
+        "class": "SearchBarTheme",
+        "defaults": "searchBarDefaults",
+        "fields": {
+          "background": "ThemedColor? - surface fill, default popover",
+          "borderColor": "ThemedColor? - surface border",
+          "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+          "borderWidth": "double? - null draws no border at 0",
+          "foreground": "ThemedColor? - item title colour",
+          "highlightColor": "ThemedColor? - matched character colour, default primary",
+          "iconSize": "double? - leading icon size, default 16",
+          "itemHighlight": "StateValue<ThemedColor>? - focused row fill, default accent on hover/press/highlight",
+          "itemHighlightForeground": "StateValue<ThemedColor>? - focused row content",
+          "itemPadding": "EdgeInsetsGeometry? - row padding, default 8/6",
+          "maxHeight": "double? - list height cap, default 300",
+          "minRowHeight": "double? - minimum row height, default 48",
+          "mutedForeground": "ThemedColor? - group header, empty and hint colour",
+          "padding": "EdgeInsetsGeometry? - content padding, default 4",
+          "shadows": "List<BoxShadow>? - surface shadows; empty draws none",
+          "showClear": "bool? - trailing clear button, default true",
+          "showLeading": "bool? - leading search icon, default true",
+          "textStyle": "TextStyle? - row text, default text-sm (14)"
+        },
+        "userFile": "search_bar_theme.dart"
+      },
+      "userOwned": [
+        "components/search_bar/search_bar_theme.dart"
+      ]
+    },
     "select": {
       "api": {
         "classes": [
@@ -9275,10 +9371,10 @@
     "components/color_picker/color_picker_style.dart": "7fed5a854fe51f0bbaadfb4c776dbd43397cf654654fd9055cf00d1f2fbeafab",
     "components/color_picker/color_picker_theme.dart": "3a1248351dc0a28e4f60e119a98bde091ab5009426a2345125de303e1de37a22",
     "components/color_picker/preview.dart": "d0cb4a691116a72e3b928e8e7b36c50e8f5a20e92dddefe329187b7a41e64faf",
-    "components/command/command.dart": "412cddbad3fbc5ab09380a2017563bb140b8bd400e0dbaa8b69ce0ebe62b590f",
+    "components/command/command.dart": "245b22c488fcc72c70a09da6899ee117dbb7dc4dc86d465088990c50ed109f75",
     "components/command/command_style.dart": "b654d0abd3a57693ed7cce920b5d19fcb0987fc34ee6bb00efb45271946f481c",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
-    "components/command/preview.dart": "88bd11da389a40e9c30064a221ab2fca9bbf8316997efccc7d59917e9a6af2db",
+    "components/command/preview.dart": "1612c0873909727fad820aef901d6163d4f613d8f080d9a07fd0b809cc99cf7b",
     "components/context_menu/context_menu.dart": "fcec017d58a98ea14ac7e858cc0c320670cca78099a1f701c92a50dcf93f6c87",
     "components/context_menu/preview.dart": "9644907336ca79a0e111c22ec28c632097a02e58c8c69bb8d8505d770eaba418",
     "components/country_flag/country_flag.dart": "622df38c59cf9181a86b8218e136557f2ba662700f084c2415ee4dd5fb9e3e52",
@@ -9501,6 +9597,12 @@
     "components/scrollbar/scrollbar_theme.dart": "ef6c00bd9e807a804281497b781675a858d73e0c05fd3cff10846dde854cd973",
     "components/scrollview/preview.dart": "c56e41a11e8fbb1e2575b2e49adce410acae361eaa3cebf81fb839e2c1e68d98",
     "components/scrollview/scrollview.dart": "1c14ef9d11337e35ee768b768080126694739a4c8f8b7f521ccfd456028d268a",
+    "components/search_bar/preview.dart": "c7e2871e2f9fd799171e05cb294876f51487387db725328d7bfbcb8890ca1fec",
+    "components/search_bar/search_bar.dart": "efda43198cd0a26d7709cc759c4900e231ea417df7544c039c0e233dc2fbfe97",
+    "components/search_bar/search_bar_nav.dart": "9d5a7d3d865315d33bb4509f2c94cbee79ced260c688f20e25d7dbac99e0c41f",
+    "components/search_bar/search_bar_results.dart": "db194fecaa561b31aa533ba456e36b8ff2f6c2ad5b094a903cd2d1fda3b0f655",
+    "components/search_bar/search_bar_style.dart": "4df537ff36957863949a31258af3a74f3966e2208e844f133bf9570040d4208d",
+    "components/search_bar/search_bar_theme.dart": "abde4c8fe4cb8c2e8e083cf0634b95dbbc7475bc9f1769024a572506e0918665",
     "components/select/preview.dart": "191fb361d8a34504e3487bf22665e78d9aa78faca13cf53f40674314a909e6ac",
     "components/select/select.dart": "9c7896798381edc459f1370c02fc7cd6fc6be502ca9000f75bc5f41546f7e5a0",
     "components/select/select_style.dart": "89a0db3d5038f1521a01bf890134b5b78b1efe5a102790f4344596583f81ff0b",
@@ -9818,6 +9920,9 @@
     "primitives/roving_row.dart": "7e0d1faa2256d80e26193e1f1c05b38cf5dd264d0b99d538cee1ddc9f594b471",
     "primitives/screen_capture.dart": "56ef6d888f0131c8fb38489366543a1ca20044f569eaffff003787d6692cec38",
     "primitives/scroll_metrics.dart": "7e086da1265c8a75ebc987b59058ba731cd4533973f910eb3e7b5b776f20eb98",
+    "primitives/search/fuzzy_match.dart": "e7d2904b7a9c1c1fd2c86349810b1a56d09042ed3a2b91112e7484265fa941cb",
+    "primitives/search/fuzzy_typo.dart": "d58d216d75de5caac784c7e1f82342b31c23f3003a8f49e445b4d3e07404a0dc",
+    "primitives/search/search_index.dart": "faf8b78ecb296b24ec967d9bcea160d1e9ae335a954d4b49ce92fc719a43a21c",
     "primitives/select_popup.dart": "56106f445aed1f03b132c6fc830fbc6c09d0bcb5022b6e58f435a993f25f8c06",
     "primitives/selectable_radio/selectable_radio.dart": "503e354fbb030dd1fadd4d157d571582987ea669ccb0674e49522eade7858793",
     "primitives/selectable_radio/selectable_radio_theme.dart": "86f970311e8eba98421cbbd24423b2071be2e1997a48c3cd1328f12491d22fb6",
@@ -10992,6 +11097,16 @@
       },
       "files": [
         "primitives/scroll_metrics.dart"
+      ]
+    },
+    "search": {
+      "deps": {
+        "primitives": []
+      },
+      "files": [
+        "primitives/search/fuzzy_match.dart",
+        "primitives/search/fuzzy_typo.dart",
+        "primitives/search/search_index.dart"
       ]
     },
     "select_popup": {

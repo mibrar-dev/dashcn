@@ -3627,6 +3627,170 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     ],
     members: <DocsApiMember>[],
   ),
+  'search_bar': DocsApiTable(
+    componentId: 'search_bar',
+    symbol: 'SearchBar',
+    hasApiTable: true,
+    parseClean: true,
+    summary:
+        'A search field with a ranked result list and keyboard navigation.',
+    params: <DocsApiParam>[
+      DocsApiParam(
+        name: 'controller',
+        type: 'TextEditingController?',
+        isRequired: false,
+        doc:
+            'Field controller; one is created when null (and disposed with the bar).',
+      ),
+      DocsApiParam(
+        name: 'initialValue',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Initial text; mutually exclusive with [controller].',
+      ),
+      DocsApiParam(
+        name: 'focusNode',
+        type: 'FocusNode?',
+        isRequired: false,
+        doc:
+            'Field focus node; one is created when null (and disposed with the bar).',
+      ),
+      DocsApiParam(
+        name: 'items',
+        type: 'List<T>',
+        isRequired: false,
+        defaultValue: 'const []',
+        doc: 'Flat items, used when [groups] is empty.',
+      ),
+      DocsApiParam(
+        name: 'groups',
+        type: 'List<SearchBarGroup<T>>',
+        isRequired: false,
+        defaultValue: 'const []',
+        doc: 'Optional headed sections; non-empty wins over [items].',
+      ),
+      DocsApiParam(
+        name: 'itemLabel',
+        type: 'SearchBarLabel<T>?',
+        isRequired: false,
+        doc:
+            'Label an item is filtered and displayed by; null uses `\'\$item\'`.',
+      ),
+      DocsApiParam(
+        name: 'itemBuilder',
+        type: 'SearchBarRowBuilder<T>?',
+        isRequired: false,
+        doc: 'Custom row; null renders the label with highlighted matches.',
+      ),
+      DocsApiParam(
+        name: 'onChanged',
+        type: 'ValueChanged<String>?',
+        isRequired: false,
+        doc:
+            'Fires [debounce] after the last keystroke; clearing emits immediately.',
+      ),
+      DocsApiParam(
+        name: 'onCleared',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc: 'Fires when the text becomes empty.',
+      ),
+      DocsApiParam(
+        name: 'onSelected',
+        type: 'ValueChanged<T>?',
+        isRequired: false,
+        doc: 'Fires when a row is tapped or Enter accepts the highlighted row.',
+      ),
+      DocsApiParam(
+        name: 'onSubmitted',
+        type: 'ValueChanged<String>?',
+        isRequired: false,
+        doc: 'Fires on Enter (or the search action) with no highlighted row.',
+      ),
+      DocsApiParam(
+        name: 'onCancelled',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc:
+            'Fires when the cancel button is pressed, or Escape on an empty field.',
+      ),
+      DocsApiParam(
+        name: 'debounce',
+        type: 'Duration',
+        isRequired: false,
+        defaultValue: 'const Duration(milliseconds: 120)',
+        doc: 'Debounce of [onChanged]; filtering itself is synchronous.',
+      ),
+      DocsApiParam(
+        name: 'hintText',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Field hint; null uses the localized "Search".',
+      ),
+      DocsApiParam(
+        name: 'leading',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Replaces the leading search icon; null shows the icon.',
+      ),
+      DocsApiParam(
+        name: 'enabled',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'true',
+        doc: 'Whether the field accepts input; false makes it read-only.',
+      ),
+      DocsApiParam(
+        name: 'readOnly',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether the field is read-only (still focusable).',
+      ),
+      DocsApiParam(
+        name: 'validator',
+        type: 'String? Function(String? value)?',
+        isRequired: false,
+        doc:
+            'Runs per change; a non-null result paints an error below the field.',
+      ),
+      DocsApiParam(
+        name: 'showCancelButton',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether a cancel button sits beside the field.',
+      ),
+      DocsApiParam(
+        name: 'cancelLabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Cancel label; null uses the localized "Cancel".',
+      ),
+      DocsApiParam(
+        name: 'emptyBuilder',
+        type: 'WidgetBuilder?',
+        isRequired: false,
+        doc:
+            'Shown when the visible list is empty; null shows the default row.',
+      ),
+      DocsApiParam(
+        name: 'autofocus',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether the field takes focus when mounted.',
+      ),
+      DocsApiParam(
+        name: 'theme',
+        type: 'SearchBarTheme?',
+        isRequired: false,
+        doc:
+            'Widget-leg theme override, merged over the component/app/defaults.',
+      ),
+    ],
+    members: <DocsApiMember>[],
+  ),
   'select': DocsApiTable(
     componentId: 'select',
     symbol: 'Select',
@@ -10521,6 +10685,107 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         type: 'SelectableRadioTheme?',
         description:
             'row styling (gap, itemPadding, labelStyle, indicator rows)',
+      ),
+    ],
+  ),
+  'search_bar': DocsThemeTable(
+    componentId: 'search_bar',
+    themeClass: 'SearchBarTheme',
+    themeDefaults: 'searchBarDefaults',
+    userFile: 'search_bar_theme.dart',
+    userOwned: true,
+    hasTheme: true,
+    fields: <DocsThemeField>[
+      DocsThemeField(
+        name: 'background',
+        type: 'ThemedColor?',
+        description: 'surface fill, default popover',
+      ),
+      DocsThemeField(
+        name: 'borderColor',
+        type: 'ThemedColor?',
+        description: 'surface border',
+      ),
+      DocsThemeField(
+        name: 'borderRadius',
+        type: 'BorderRadiusGeometry?',
+        description: 'null = radiusLg',
+      ),
+      DocsThemeField(
+        name: 'borderWidth',
+        type: 'double?',
+        description: 'null draws no border at 0',
+      ),
+      DocsThemeField(
+        name: 'foreground',
+        type: 'ThemedColor?',
+        description: 'item title colour',
+      ),
+      DocsThemeField(
+        name: 'highlightColor',
+        type: 'ThemedColor?',
+        description: 'matched character colour, default primary',
+      ),
+      DocsThemeField(
+        name: 'iconSize',
+        type: 'double?',
+        description: 'leading icon size, default 16',
+      ),
+      DocsThemeField(
+        name: 'itemHighlight',
+        type: 'StateValue<ThemedColor>?',
+        description:
+            'focused row fill, default accent on hover/press/highlight',
+      ),
+      DocsThemeField(
+        name: 'itemHighlightForeground',
+        type: 'StateValue<ThemedColor>?',
+        description: 'focused row content',
+      ),
+      DocsThemeField(
+        name: 'itemPadding',
+        type: 'EdgeInsetsGeometry?',
+        description: 'row padding, default 8/6',
+      ),
+      DocsThemeField(
+        name: 'maxHeight',
+        type: 'double?',
+        description: 'list height cap, default 300',
+      ),
+      DocsThemeField(
+        name: 'minRowHeight',
+        type: 'double?',
+        description: 'minimum row height, default 48',
+      ),
+      DocsThemeField(
+        name: 'mutedForeground',
+        type: 'ThemedColor?',
+        description: 'group header, empty and hint colour',
+      ),
+      DocsThemeField(
+        name: 'padding',
+        type: 'EdgeInsetsGeometry?',
+        description: 'content padding, default 4',
+      ),
+      DocsThemeField(
+        name: 'shadows',
+        type: 'List<BoxShadow>?',
+        description: 'surface shadows; empty draws none',
+      ),
+      DocsThemeField(
+        name: 'showClear',
+        type: 'bool?',
+        description: 'trailing clear button, default true',
+      ),
+      DocsThemeField(
+        name: 'showLeading',
+        type: 'bool?',
+        description: 'leading search icon, default true',
+      ),
+      DocsThemeField(
+        name: 'textStyle',
+        type: 'TextStyle?',
+        description: 'row text, default text-sm (14)',
       ),
     ],
   ),
