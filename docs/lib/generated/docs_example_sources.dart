@@ -11526,13 +11526,16 @@ class _PadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Disabled uses the muted token rather than Opacity: dimming the text
+    // would drop its contrast below the 4.5 minimum.
     return GestureDetector(
       onTap: onTap,
-      child: Opacity(
-        opacity: onTap == null ? 0.4 : 1,
-        child: Text(
-          label,
-          style: theme.typography.small.copyWith(color: theme.colors.primary),
+      child: Text(
+        label,
+        style: theme.typography.small.copyWith(
+          color: onTap == null
+              ? theme.colors.mutedForeground
+              : theme.colors.primary,
         ),
       ),
     );
