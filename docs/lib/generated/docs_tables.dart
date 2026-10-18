@@ -220,6 +220,7 @@ kKeyboardRows = <String, List<DocsKeyboardRow>>{
   ],
   'search_bar': <DocsKeyboardRow>[],
   'select': <DocsKeyboardRow>[],
+  'signature_pad': <DocsKeyboardRow>[],
   'slider': <DocsKeyboardRow>[],
   'star_rating': <DocsKeyboardRow>[],
   'switch': <DocsKeyboardRow>[],
@@ -257,6 +258,7 @@ kKeyboardRows = <String, List<DocsKeyboardRow>>{
   'code_snippet': <DocsKeyboardRow>[],
   'image': <DocsKeyboardRow>[],
   'markdown': <DocsKeyboardRow>[],
+  'qr_code': <DocsKeyboardRow>[],
   'alpha': <DocsKeyboardRow>[],
   'anchor': <DocsKeyboardRow>[],
   'app': <DocsKeyboardRow>[
@@ -369,6 +371,7 @@ const List<String> kKeyboardGaps = <String>[
   'phone_input',
   'search_bar',
   'select',
+  'signature_pad',
   'slider',
   'star_rating',
   'switch',
@@ -406,6 +409,7 @@ const List<String> kKeyboardGaps = <String>[
   'code_snippet',
   'image',
   'markdown',
+  'qr_code',
   'alpha',
   'anchor',
   'async',
@@ -904,6 +908,10 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
+  'signature_pad': <DocsDep>[
+    DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
+  ],
   'slider': <DocsDep>[
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
@@ -1229,6 +1237,10 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'markdown_parser', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
+    DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
+  ],
+  'qr_code': <DocsDep>[
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],

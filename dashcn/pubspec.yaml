@@ -50,6 +50,9 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   expressions: ^0.2.5+2
+  # Pure-Dart QR encoder (no Flutter/material import; deps: meta only).
+  # Used by the `qr_code` component's matrix wrapper.
+  qr: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 120 installable components, ordered by category then id.
+/// All 122 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -798,6 +798,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     placement: 'center',
   ),
   DocsComponent(
+    id: 'signature_pad',
+    name: 'Signature Pad',
+    category: 'Forms & Inputs',
+    description:
+        'Freehand signature capture with smoothed strokes, speed-based width, undo/redo/clear and PNG/SVG export.',
+    install: 'dashcn add signature_pad',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';",
+    fileCount: 4,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
     id: 'slider',
     name: 'Slider',
     category: 'Forms & Inputs',
@@ -1306,6 +1320,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     import:
         "import 'package:<your_app>/ui/dashcn/components/markdown/markdown.dart';",
     fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'qr_code',
+    name: 'Qr Code',
+    category: 'Typography & Media',
+    description:
+        'QR code display for a string or URL with error-correction levels, quiet zone, module shapes and an optional centre logo.',
+    install: 'dashcn add qr_code',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';",
+    fileCount: 4,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -2041,7 +2069,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 120 components as index-grid links, alphabetical by name.
+/// All 122 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -2125,6 +2153,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'pinned_sheet', name: 'Pinned Sheet'),
   DocsComponentLink(id: 'popup', name: 'Popup'),
   DocsComponentLink(id: 'progress', name: 'Progress'),
+  DocsComponentLink(id: 'qr_code', name: 'Qr Code'),
   DocsComponentLink(id: 'radio_group', name: 'Radio Group'),
   DocsComponentLink(id: 'refresh_trigger', name: 'Refresh Trigger'),
   DocsComponentLink(id: 'resizable', name: 'Resizable'),
@@ -2136,6 +2165,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
   DocsComponentLink(id: 'select', name: 'Select'),
   DocsComponentLink(id: 'selectable', name: 'Selectable'),
+  DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
   DocsComponentLink(id: 'skeleton', name: 'Skeleton'),
   DocsComponentLink(id: 'slider', name: 'Slider'),
   DocsComponentLink(id: 'sortable', name: 'Sortable'),
@@ -2171,24 +2201,24 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 /// Catalog categories, count descending then id.
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
-  DocsCategory(id: 'Forms & Inputs', count: 20),
+  DocsCategory(id: 'Forms & Inputs', count: 21),
   DocsCategory(id: 'Data Display', count: 17),
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 8),
   DocsCategory(id: 'Navigation', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
+  DocsCategory(id: 'Typography & Media', count: 4),
   DocsCategory(id: 'Animation & Effects', count: 3),
   DocsCategory(id: 'Date & Time', count: 3),
-  DocsCategory(id: 'Typography & Media', count: 3),
   DocsCategory(id: 'Buttons & Actions', count: 2),
   DocsCategory(id: 'Color', count: 1),
 ];
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 120, // manifest entries
-  listedComponents: 85, // listed only
+  components: 122, // manifest entries
+  listedComponents: 87, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2240,6 +2270,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'radio_group', name: 'Radio Group'),
           DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
           DocsComponentLink(id: 'select', name: 'Select'),
+          DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
           DocsComponentLink(id: 'slider', name: 'Slider'),
           DocsComponentLink(id: 'star_rating', name: 'Star Rating'),
           DocsComponentLink(id: 'switch', name: 'Switch'),
@@ -2329,6 +2360,15 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
         ],
       ),
       DocsComponentCategory(
+        id: 'Typography & Media',
+        components: <DocsComponentLink>[
+          DocsComponentLink(id: 'code_snippet', name: 'Code Snippet'),
+          DocsComponentLink(id: 'image', name: 'Image'),
+          DocsComponentLink(id: 'markdown', name: 'Markdown'),
+          DocsComponentLink(id: 'qr_code', name: 'Qr Code'),
+        ],
+      ),
+      DocsComponentCategory(
         id: 'Animation & Effects',
         components: <DocsComponentLink>[
           DocsComponentLink(id: 'border_loading', name: 'Border Loading'),
@@ -2342,14 +2382,6 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'calendar', name: 'Calendar'),
           DocsComponentLink(id: 'date_picker', name: 'Date Picker'),
           DocsComponentLink(id: 'time_picker', name: 'Time Picker'),
-        ],
-      ),
-      DocsComponentCategory(
-        id: 'Typography & Media',
-        components: <DocsComponentLink>[
-          DocsComponentLink(id: 'code_snippet', name: 'Code Snippet'),
-          DocsComponentLink(id: 'image', name: 'Image'),
-          DocsComponentLink(id: 'markdown', name: 'Markdown'),
         ],
       ),
       DocsComponentCategory(

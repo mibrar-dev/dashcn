@@ -11764,6 +11764,194 @@ Widget _disabled(BuildContext context) {
 ''',
     ),
   ],
+  'signature_pad': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';
+
+/// A pad with undo/redo/clear controls and a live stroke count.
+class _InteractivePad extends StatefulWidget {
+  const _InteractivePad();
+
+  @override
+  State<_InteractivePad> createState() => _InteractivePadState();
+}
+
+class _InteractivePadState extends State<_InteractivePad> {
+  late final SignaturePadController _controller = SignaturePadController();
+  int _count = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle label = theme.typography.small.copyWith(
+      color: theme.colors.mutedForeground,
+    );
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 360),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SignaturePad(
+            controller: _controller,
+            onChanged: (int count) => setState(() => _count = count),
+            semanticsLabel: 'Signature pad demo',
+          ),
+          Gap(theme.spacing.sm),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _PadButton(
+                label: 'Undo',
+                onTap: _controller.canUndo
+                    ? () => setState(_controller.undo)
+                    : null,
+              ),
+              Gap(theme.spacing.sm),
+              _PadButton(
+                label: 'Redo',
+                onTap: _controller.canRedo
+                    ? () => setState(_controller.redo)
+                    : null,
+              ),
+              Gap(theme.spacing.sm),
+              _PadButton(
+                label: 'Clear',
+                onTap: _controller.isEmpty
+                    ? null
+                    : () => setState(_controller.clear),
+              ),
+              const Spacer(),
+              Text(_count == 1 ? '1 stroke' : '$_count strokes', style: label),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A small widgets-only text button (keeps the preview free of other
+/// components so the scorecard harness renders it standalone).
+class _PadButton extends StatelessWidget {
+  const _PadButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    // Disabled uses the muted token rather than Opacity: dimming the text
+    // would drop its contrast below the 4.5 minimum.
+    return GestureDetector(
+      onTap: onTap,
+      child: Text(
+        label,
+        style: theme.typography.small.copyWith(
+          color: onTap == null
+              ? theme.colors.mutedForeground
+              : theme.colors.primary,
+        ),
+      ),
+    );
+  }
+}
+
+Widget _default(BuildContext context) => const _InteractivePad();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Read-only',
+      builder: '_readOnly',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';
+
+/// A read-only pad preloaded with a saved stroke, as a restore would show.
+class _ReadOnlyPad extends StatefulWidget {
+  const _ReadOnlyPad();
+
+  @override
+  State<_ReadOnlyPad> createState() => _ReadOnlyPadState();
+}
+
+class _ReadOnlyPadState extends State<_ReadOnlyPad> {
+  late final SignaturePadController _controller = SignaturePadController()
+    ..addStroke(_demoStroke(const Color(0xFF000000)));
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 360),
+      child: SignaturePad(
+        controller: _controller,
+        readOnly: true,
+        semanticsLabel: 'Saved signature',
+      ),
+    );
+  }
+}
+
+Widget _readOnly(BuildContext context) => const _ReadOnlyPad();
+
+/// A fixed demo stroke shared by the read-only example and the tests.
+SignatureStroke _demoStroke(Color color) {
+  final DateTime base = DateTime(2026, 1, 1);
+  return SignatureStroke(
+    points: <SignaturePoint>[
+      for (var i = 0; i < 12; i++)
+        SignaturePoint(
+          Offset(24 + i * 24, 100 + (i.isEven ? -24 : 24)),
+          base.add(Duration(milliseconds: i * 16)),
+        ),
+    ],
+    color: color,
+    width: 3,
+    minWidth: 1,
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Disabled',
+      builder: '_disabled',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';
+
+/// A disabled pad; input is ignored and the surface dims.
+Widget _disabled(BuildContext context) {
+  return ConstrainedBox(
+    constraints: const BoxConstraints(maxWidth: 360),
+    child: SignaturePad(
+      enabled: false,
+      semanticsLabel: 'Signature pad unavailable',
+    ),
+  );
+}
+''',
+    ),
+  ],
   'slider': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -19140,6 +19328,140 @@ Widget _imageSlots(BuildContext context) {
       builder: '_streamingTail',
       code:
           'import \'package:flutter/widgets.dart\';\nimport \'package:<your_app>/ui/dashcn/theme/theme.dart\';\nimport \'package:<your_app>/ui/dashcn/components/markdown/markdown.dart\';\n\n/// A mid-stream snapshot: only the stable prefix parses, followed by the\n/// streaming cursor. No timers; the settled text is derived with\n/// `computeStableMarkdownPrefixLength`, the helper the streaming\n/// `text_animate` component shares with this parser.\nconst String _streamSource = \'\'\'\nDrafting the release notes:\n\n- faster cold start\n- smaller bundle\n\n```dart\nvoid main() => print(\'\'\';\n\nWidget _streamingTail(BuildContext context) {\n  final String settled = _streamSource.substring(\n    0,\n    computeStableMarkdownPrefixLength(_streamSource),\n  );\n  final ThemeData theme = Theme.of(context);\n  return SizedBox(\n    width: 320,\n    child: Column(\n      mainAxisSize: MainAxisSize.min,\n      crossAxisAlignment: CrossAxisAlignment.start,\n      children: <Widget>[\n        Markdown(data: settled),\n        Text(\'▍\', style: TextStyle(color: theme.colors.primary)),\n      ],\n    ),\n  );\n}\n',
+    ),
+  ],
+  'qr_code': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';
+
+/// A fixed-size code for a URL.
+Widget _default(BuildContext context) {
+  return const QrCode(data: 'https://example.com', size: 200);
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Live URL',
+      builder: '_liveUrl',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';
+
+/// A code that re-encodes as the URL field changes.
+class _LiveUrl extends StatefulWidget {
+  const _LiveUrl();
+
+  @override
+  State<_LiveUrl> createState() => _LiveUrlState();
+}
+
+class _LiveUrlState extends State<_LiveUrl> {
+  final TextEditingController _controller = TextEditingController(
+    text: 'https://example.com',
+  );
+  String _url = 'https://example.com';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Input(
+            controller: _controller,
+            hintText: 'https://…',
+            onChanged: (String value) => setState(() => _url = value),
+          ),
+          Gap(theme.spacing.md),
+          QrCode(
+            data: _url,
+            size: 200,
+            semanticsLabel: 'QR code for the typed URL',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _liveUrl(BuildContext context) => const _LiveUrl();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Shapes',
+      builder: '_shapes',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/input/input.dart';
+import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';
+
+/// The three module shapes, plus a logo cleared into the centre.
+class _Shapes extends StatelessWidget {
+  const _Shapes();
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    Widget cell(String label, QrModuleShape shape) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          QrCode(data: 'dashcn', size: 120, moduleShape: shape),
+          Gap(theme.spacing.xs),
+          Text(label, style: theme.typography.small),
+        ],
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        // Wrap, not Row: three 120 px codes overflow a phone-width preview.
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: theme.spacing.md,
+          runSpacing: theme.spacing.md,
+          children: <Widget>[
+            cell('Square', QrModuleShape.square),
+            cell('Rounded', QrModuleShape.rounded),
+            cell('Dot', QrModuleShape.dot),
+          ],
+        ),
+        Gap(theme.spacing.md),
+        QrCode(
+          data: 'https://example.com',
+          size: 160,
+          errorCorrectLevel: QrErrorCorrectionLevel.high,
+          center: ColoredBox(
+            color: theme.colors.background,
+            child: Center(child: Text('D', style: theme.typography.large)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _shapes(BuildContext context) => const _Shapes();
+''',
     ),
   ],
   'alpha': <DocsExampleSource>[],
