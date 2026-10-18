@@ -1009,6 +1009,8 @@ const Map<String, String> _allowList = <String, String>{
   'pagination': 'page buttons; controls, not a surface',
   'patch': 'patch utility, no paint',
   'progress': 'canvas track/fill accents, not a box surface',
+  'qr_code':
+      'fixed module bitmap; the quiet zone stays light by design, not a floating surface',
   'radio_group': 'controls, not a surface',
   'refresh_trigger': 'pull-to-refresh trigger, no surface of its own',
   'resizable': 'split layout; panels are caller content',
@@ -1019,6 +1021,8 @@ const Map<String, String> _allowList = <String, String>{
   'search_bar':
       'inline field + result card; the surface stays opaque by design',
   'selectable': 'selection wrapper, no surface of its own',
+  'signature_pad':
+      'drawing canvas; the ink surface stays opaque so strokes stay legible',
   'skeleton': 'loading shimmer placeholder, not a frosted surface',
   'slider': 'control, not a surface',
   'sortable': 'no box paint; rows are caller content',

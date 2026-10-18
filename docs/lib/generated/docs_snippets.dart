@@ -2063,6 +2063,45 @@ Select<Country>(
           'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssspppppppppppppppppppppppppppppppkkkkkpppppppkkkkkpppppppppppkkkkkpppppppppppppppppppppppppppppkkkkkkpppppppppkkkppkkkkkpppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
+  'signature_pad': <DocsSnippet>[
+    DocsSnippet(
+      id: 'signature_pad.0',
+      componentId: 'signature_pad',
+      language: 'dart',
+      code:
+          r'''final SignaturePadController controller = SignaturePadController();
+
+SignaturePad(controller: controller, onChanged: (count) => ...);
+Button(onPressed: controller.undo, child: Text('Undo'));
+Button(onPressed: controller.redo, child: Text('Redo'));
+Button(onPressed: controller.clear, child: Text('Clear'));''',
+      tokenClasses:
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppp',
+    ),
+    DocsSnippet(
+      id: 'signature_pad.1',
+      componentId: 'signature_pad',
+      language: 'dart',
+      code:
+          r'''// SVG path data for the `d` attribute (pair with linecap round).
+final String d = controller.toSvgPath();
+
+// PNG bytes at the pad's own size.
+final Uint8List png = await controller.toPngBytes(
+  size: context.size!,
+  background: Colors.white,
+);''',
+      tokenClasses:
+          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppppppppppppcccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'signature_pad.2',
+      componentId: 'signature_pad',
+      language: 'dart',
+      code: r'''controller.addStroke(savedStroke);''',
+      tokenClasses: 'pppppppppppppppppppppppppppppppppp',
+    ),
+  ],
   'slider': <DocsSnippet>[
     DocsSnippet(
       id: 'slider.0',
@@ -3452,6 +3491,43 @@ await key.currentState!.refresh();''',
 )''',
       tokenClasses:
           'pppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppsssssssssssssssssssssssssssssssssssspppp',
+    ),
+  ],
+  'qr_code': <DocsSnippet>[
+    DocsSnippet(
+      id: 'qr_code.0',
+      componentId: 'qr_code',
+      language: 'dart',
+      code: r'''QrCode(data: 'https://example.com');''',
+      tokenClasses: 'pppppppppppppssssssssssssssssssssspp',
+    ),
+    DocsSnippet(
+      id: 'qr_code.1',
+      componentId: 'qr_code',
+      language: 'dart',
+      code: r'''QrCode(
+  data: 'https://example.com',
+  errorCorrectLevel: QrErrorCorrectionLevel.high,
+  quietZone: 4,
+  moduleShape: QrModuleShape.rounded,
+  size: 200,
+  center: ColoredBox(child: Center(child: Text('D'))),
+  centerFraction: 0.24,
+);''',
+      tokenClasses:
+          'ppppppppppppppppsssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'qr_code.2',
+      componentId: 'qr_code',
+      language: 'dart',
+      code: r'''QrCode(
+  data: payload,
+  foreground: Color(0xFF000000),
+  background: Color(0xFFFFFFFF),
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'alpha': <DocsSnippet>[
@@ -4844,6 +4920,17 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>['lib/ui/dashcn/components/select/select_theme.dart'],
   ),
+  'signature_pad': DocsFileList(
+    componentId: 'signature_pad',
+    files: <String>[
+      'lib/ui/dashcn/components/signature_pad/signature_pad.dart',
+      'lib/ui/dashcn/components/signature_pad/signature_pad_controller.dart',
+      'lib/ui/dashcn/components/signature_pad/signature_pad_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/signature_pad/signature_pad_theme.dart',
+    ],
+  ),
   'slider': DocsFileList(
     componentId: 'slider',
     files: <String>[
@@ -5168,6 +5255,15 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     userOwned: <String>[
       'lib/ui/dashcn/components/markdown/markdown_theme.dart',
     ],
+  ),
+  'qr_code': DocsFileList(
+    componentId: 'qr_code',
+    files: <String>[
+      'lib/ui/dashcn/components/qr_code/qr_code.dart',
+      'lib/ui/dashcn/components/qr_code/qr_code_matrix.dart',
+      'lib/ui/dashcn/components/qr_code/qr_code_style.dart',
+    ],
+    userOwned: <String>['lib/ui/dashcn/components/qr_code/qr_code_theme.dart'],
   ),
   'alpha': DocsFileList(
     componentId: 'alpha',
