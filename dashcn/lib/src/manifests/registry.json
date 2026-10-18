@@ -9920,7 +9920,7 @@
     "primitives/roving_row.dart": "7e0d1faa2256d80e26193e1f1c05b38cf5dd264d0b99d538cee1ddc9f594b471",
     "primitives/screen_capture.dart": "56ef6d888f0131c8fb38489366543a1ca20044f569eaffff003787d6692cec38",
     "primitives/scroll_metrics.dart": "7e086da1265c8a75ebc987b59058ba731cd4533973f910eb3e7b5b776f20eb98",
-    "primitives/search/fuzzy_match.dart": "557272b74033c3b155fb3ce14eb76654a4aff975fac3d2b085fe4472e26be1c8",
+    "primitives/search/fuzzy_match.dart": "e7d2904b7a9c1c1fd2c86349810b1a56d09042ed3a2b91112e7484265fa941cb",
     "primitives/search/fuzzy_typo.dart": "d58d216d75de5caac784c7e1f82342b31c23f3003a8f49e445b4d3e07404a0dc",
     "primitives/search/search_index.dart": "faf8b78ecb296b24ec967d9bcea160d1e9ae335a954d4b49ce92fc719a43a21c",
     "primitives/select_popup.dart": "56106f445aed1f03b132c6fc830fbc6c09d0bcb5022b6e58f435a993f25f8c06",
