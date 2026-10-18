@@ -10,6 +10,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/input_features/adornment_features.dart';
 import '../../primitives/input_features/input_features.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/search/search_index.dart';
 import '../../primitives/subfocus_scope.dart';
 import '../../primitives/surface.dart';
 import '../../primitives/text/text_extension.dart';
@@ -355,6 +356,21 @@ class CommandEmpty extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Ranks command labels for [query] through the shared `primitives/search`
+/// ranker — the same files the `search_bar` component filters through.
+///
+/// A null or empty query returns every label in input order. Otherwise
+/// labels with no tier 1-4 hit are dropped (typo hits are included only when
+/// nothing matches tiers 1-4), ordered by score, label length and input
+/// order.
+List<String> rankCommandLabels(List<String> labels, String? query) {
+  if (query == null || query.isEmpty) {
+    return List<String>.of(labels);
+  }
+  final List<FuzzyRankedItem> ranked = FuzzySearchIndex(labels).rank(query);
+  return <String>[for (final FuzzyRankedItem hit in ranked) labels[hit.index]];
 }
 
 /// Shows a modal command palette.

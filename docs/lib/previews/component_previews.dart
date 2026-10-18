@@ -103,6 +103,8 @@ import 'package:docs/ui/dashcn/components/phone_input/preview.dart'
     deferred as preview_phone_input;
 import 'package:docs/ui/dashcn/components/radio_group/preview.dart'
     deferred as preview_radio_group;
+import 'package:docs/ui/dashcn/components/search_bar/preview.dart'
+    deferred as preview_search_bar;
 import 'package:docs/ui/dashcn/components/select/preview.dart'
     deferred as preview_select;
 import 'package:docs/ui/dashcn/components/signature_pad/preview.dart'
@@ -473,6 +475,11 @@ Future<Widget> loadComponentPreview(
   'radio_group' => preview_radio_group.loadLibrary().then(
     (_) => Builder(
       builder: preview_radio_group.radioGroupPreviews[exampleIndex].builder,
+    ),
+  ),
+  'search_bar' => preview_search_bar.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_search_bar.searchBarPreviews[exampleIndex].builder,
     ),
   ),
   'select' => preview_select.loadLibrary().then(

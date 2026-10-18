@@ -1018,6 +1018,8 @@ const Map<String, String> _allowList = <String, String>{
   'scrollable_client': 'scroll client, no paint',
   'scrollbar': 'scroll indicator, not a surface',
   'scrollview': 'scroll viewport, no surface of its own',
+  'search_bar':
+      'inline field + result card; the surface stays opaque by design',
   'selectable': 'selection wrapper, no surface of its own',
   'signature_pad':
       'drawing canvas; the ink surface stays opaque so strokes stay legible',

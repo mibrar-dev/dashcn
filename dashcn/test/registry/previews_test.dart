@@ -82,6 +82,7 @@ import 'package:dashcn/src/components/refresh_trigger/preview.dart';
 import 'package:dashcn/src/components/resizable/preview.dart';
 import 'package:dashcn/src/components/scaffold/preview.dart';
 import 'package:dashcn/src/components/scrollbar/preview.dart';
+import 'package:dashcn/src/components/search_bar/preview.dart';
 import 'package:dashcn/src/components/select/preview.dart';
 import 'package:dashcn/src/components/signature_pad/preview.dart';
 import 'package:dashcn/src/components/skeleton/preview.dart';
@@ -194,6 +195,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'resizable': resizablePreviews,
       'scaffold': scaffoldPreviews,
       'scrollbar': scrollbarPreviews,
+      'search_bar': searchBarPreviews,
       'select': selectPreviews,
       'signature_pad': signaturePadPreviews,
       'skeleton': skeletonPreviews,

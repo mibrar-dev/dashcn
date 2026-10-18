@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 121 installable components, ordered by category then id.
+/// All 122 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -765,6 +765,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     import:
         "import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';",
     fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'search_bar',
+    name: 'Search Bar',
+    category: 'Forms & Inputs',
+    description:
+        'A search field with a ranked result list: tiered fuzzy matching with highlighted matches, keyboard navigation, clear and cancel actions, and optional groups.',
+    install: 'dashcn add search_bar',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';",
+    fileCount: 5,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -2055,7 +2069,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 121 components as index-grid links, alphabetical by name.
+/// All 122 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -2148,6 +2162,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'scrollable_client', name: 'Scrollable Client'),
   DocsComponentLink(id: 'scrollbar', name: 'Scrollbar'),
   DocsComponentLink(id: 'scrollview', name: 'Scrollview'),
+  DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
   DocsComponentLink(id: 'select', name: 'Select'),
   DocsComponentLink(id: 'selectable', name: 'Selectable'),
   DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
@@ -2186,7 +2201,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 /// Catalog categories, count descending then id.
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
-  DocsCategory(id: 'Forms & Inputs', count: 20),
+  DocsCategory(id: 'Forms & Inputs', count: 21),
   DocsCategory(id: 'Data Display', count: 17),
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 8),
@@ -2202,8 +2217,8 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 121, // manifest entries
-  listedComponents: 86, // listed only
+  components: 122, // manifest entries
+  listedComponents: 87, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2253,6 +2268,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'object_input', name: 'Object Input'),
           DocsComponentLink(id: 'phone_input', name: 'Phone Input'),
           DocsComponentLink(id: 'radio_group', name: 'Radio Group'),
+          DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
           DocsComponentLink(id: 'select', name: 'Select'),
           DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
           DocsComponentLink(id: 'slider', name: 'Slider'),
