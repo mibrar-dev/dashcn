@@ -1979,6 +1979,49 @@ RadioSet<String>(controller: controller, child: items);
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssspppppppppkkkkkppppppssssssspssssssppppppppppp',
     ),
   ],
+  'search_bar': <DocsSnippet>[
+    DocsSnippet(
+      id: 'search_bar.0',
+      componentId: 'search_bar',
+      language: 'dart',
+      code:
+          r'''import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
+
+SearchBar<String>(
+  items: const <String>['Apple', 'Apricot', 'Banana'],
+  hintText: 'Search fruit',
+  onSelected: (item) => _run(item),
+);''',
+      tokenClasses:
+          'kkkkkkpsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssspppppppppppppppppppppppppppppppkkkkkppppppppppsssssssppsssssssssppsssssssspppppppppppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'search_bar.1',
+      componentId: 'search_bar',
+      language: 'dart',
+      code: r'''SearchBar<String>(
+  groups: const <SearchBarGroup<String>>[
+    SearchBarGroup(label: 'Suggestions', items: ['Calendar', 'Launch']),
+    SearchBarGroup(label: 'Settings', items: ['Profile', 'Mail']),
+  ],
+  onSelected: (item) => _run(item),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssppppppppppssssssssssppssssssssppppppppppppppppppppppppppppppssssssssssppppppppppsssssssssppssssssppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'search_bar.2',
+      componentId: 'search_bar',
+      language: 'dart',
+      code: r'''SearchBar<String>(
+  items: fruits,
+  showCancelButton: true,
+  onCancelled: _reset,
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppp',
+    ),
+  ],
   'select': <DocsSnippet>[
     DocsSnippet(
       id: 'select.0',
@@ -4779,6 +4822,18 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/radio_group/radio_group_theme.dart',
+    ],
+  ),
+  'search_bar': DocsFileList(
+    componentId: 'search_bar',
+    files: <String>[
+      'lib/ui/dashcn/components/search_bar/search_bar.dart',
+      'lib/ui/dashcn/components/search_bar/search_bar_nav.dart',
+      'lib/ui/dashcn/components/search_bar/search_bar_results.dart',
+      'lib/ui/dashcn/components/search_bar/search_bar_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/search_bar/search_bar_theme.dart',
     ],
   ),
   'select': DocsFileList(

@@ -268,9 +268,7 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
     DocsRoute.introduction => const IntroductionPage(),
     DocsRoute.components => const ComponentsIndexPage(),
     DocsRoute.charts => const ChartsHubPage(),
-    DocsRoute.chartFamily => ChartFamilyPage(
-      familyId: config.chartFamilyId!,
-    ),
+    DocsRoute.chartFamily => ChartFamilyPage(familyId: config.chartFamilyId!),
     DocsRoute.component => DeferredPage(
       load: component_page.loadLibrary,
       builder: (BuildContext context) =>

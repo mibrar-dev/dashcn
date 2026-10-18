@@ -40,7 +40,8 @@ class ChartsHubPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    for (final ChartFamily family in kChartFamilies) ...<Widget>[
+                    for (final ChartFamily family
+                        in kChartFamilies) ...<Widget>[
                       ChartFamilyCard(
                         key: ValueKey<String>('chart-family-${family.id}'),
                         family: family,

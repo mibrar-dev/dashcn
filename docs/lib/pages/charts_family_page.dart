@@ -84,9 +84,8 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
 ];
 
 /// Title of the family with [id].
-String chartFamilyTitle(String id) => kChartFamilies
-    .firstWhere((ChartFamily family) => family.id == id)
-    .title;
+String chartFamilyTitle(String id) =>
+    kChartFamilies.firstWhere((ChartFamily family) => family.id == id).title;
 
 /// `/charts/<family>` — one family page.
 class ChartFamilyPage extends StatelessWidget {
@@ -104,8 +103,7 @@ class ChartFamilyPage extends StatelessWidget {
     if (family == null) {
       return _MissingFamily(familyId: familyId);
     }
-    final List<String> names =
-        kComponentPreviews['chart'] ?? const <String>[];
+    final List<String> names = kComponentPreviews['chart'] ?? const <String>[];
     final List<DocsExampleSource> sources =
         kExampleSources['chart'] ?? const <DocsExampleSource>[];
     final ({String? previousId, String? nextId}) neighbors = chartNeighbors(
@@ -113,27 +111,19 @@ class ChartFamilyPage extends StatelessWidget {
     );
     DocsNavLink? linkOf(String? id) => id == null
         ? null
-        : DocsNavLink(
-            label: chartFamilyTitle(id),
-            location: '/charts/$id',
-          );
+        : DocsNavLink(label: chartFamilyTitle(id), location: '/charts/$id');
     return DocsLayout(
       child: DocsArticle(
         title: family.title,
         description: family.description,
-        previous:
-            neighbors.previousId != null
-                ? linkOf(neighbors.previousId)
-                : const DocsNavLink(label: 'Charts', location: '/charts'),
+        previous: neighbors.previousId != null
+            ? linkOf(neighbors.previousId)
+            : const DocsNavLink(label: 'Charts', location: '/charts'),
         next: linkOf(neighbors.nextId),
         children: <Widget>[
           const HeadingAnchor(id: 'examples', title: 'Examples'),
           for (final String name in family.examples) ...<Widget>[
-            HeadingAnchor(
-              id: _anchorId(name),
-              title: name,
-              level: 3,
-            ),
+            HeadingAnchor(id: _anchorId(name), title: name, level: 3),
             ExamplePreviewCard(
               componentId: 'chart',
               exampleIndex: names.indexOf(name),

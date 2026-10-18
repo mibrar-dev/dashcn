@@ -875,6 +875,21 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
+    label: 'Search Bar',
+    kind: DocsSearchKind.component,
+    route: '/docs/components/search_bar',
+    tag: '5 files',
+    keywords: <String>[
+      'SearchBar',
+      'search_bar',
+      'filter',
+      'form',
+      'fuzzy',
+      'keyboard',
+      'search',
+    ],
+  ),
+  DocsSearchEntry(
     label: 'Select',
     kind: DocsSearchKind.component,
     route: '/docs/components/select',

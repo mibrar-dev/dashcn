@@ -60,10 +60,7 @@ void main() {
           DocsRouteConfiguration.parse('/charts/$id'),
           DocsRouteConfiguration.chartFamily(id),
         );
-        expect(
-          DocsRouteConfiguration.chartFamily(id).location,
-          '/charts/$id',
-        );
+        expect(DocsRouteConfiguration.chartFamily(id).location, '/charts/$id');
       }
     });
 
