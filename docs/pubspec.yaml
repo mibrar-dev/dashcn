@@ -38,6 +38,9 @@ dependencies:
   web: ^1.1.1
   # `components/formatter/formatter.dart` imports it; pure Dart, no widgets.
   expressions: ^0.2.5+2
+  # `components/qr_code/qr_code_matrix.dart` imports it; pure Dart, no
+  # Flutter/material import (deps: meta only).
+  qr: ^4.0.0
   # device_preview: draws the P9-1 device bodies (iPhone / Galaxy / iPad /
   # desktop windows) around framed previews via `DevicePreviewFrame`. Only
   # `device_preview.dart` + `presets.dart` are imported (no binding, no

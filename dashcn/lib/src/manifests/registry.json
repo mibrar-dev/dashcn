@@ -6551,6 +6551,74 @@
         "components/progress/progress_theme.dart"
       ]
     },
+    "qr_code": {
+      "api": {
+        "classes": [
+          "QrCode",
+          "QrCodePainter",
+          "QrCodeTheme",
+          "QrMatrix"
+        ],
+        "constants": [
+          "qrCodeDefaults",
+          "qrCodeThemeOverrides"
+        ],
+        "enums": [
+          "QrErrorCorrectionLevel",
+          "QrModuleShape"
+        ]
+      },
+      "category": "Typography & Media",
+      "deps": {
+        "components": [],
+        "foundation": [],
+        "primitives": [],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "QR code display for a string or URL with error-correction levels, quiet zone, module shapes and an optional centre logo.",
+      "entry": "components/qr_code/qr_code.dart",
+      "files": [
+        "components/qr_code/qr_code.dart",
+        "components/qr_code/qr_code_matrix.dart",
+        "components/qr_code/qr_code_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';",
+      "install": "dashcn add qr_code",
+      "listed": true,
+      "name": "QR Code",
+      "packages": [
+        {
+          "constraint": "^4.0.0",
+          "name": "qr"
+        }
+      ],
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "qr",
+        "code",
+        "display",
+        "share",
+        "url",
+        "media"
+      ],
+      "theme": {
+        "class": "QrCodeTheme",
+        "defaults": "qrCodeDefaults",
+        "fields": {
+          "background": "ThemedColor? - light modules and quiet zone, default background",
+          "foreground": "ThemedColor? - dark-module ink, default foreground"
+        },
+        "userFile": "qr_code_theme.dart"
+      },
+      "userOwned": [
+        "components/qr_code/qr_code_theme.dart"
+      ]
+    },
     "radio_group": {
       "api": {
         "classes": [
@@ -7327,6 +7395,77 @@
       },
       "userOwned": [
         "components/selectable/selectable_theme.dart"
+      ]
+    },
+    "signature_pad": {
+      "api": {
+        "classes": [
+          "SignaturePad",
+          "SignaturePadController",
+          "SignaturePadPainter",
+          "SignaturePadTheme",
+          "SignaturePoint",
+          "SignatureStroke"
+        ],
+        "constants": [
+          "signaturePadDefaults",
+          "signaturePadThemeOverrides"
+        ],
+        "enums": [],
+        "functions": [
+          "paintSignatureStrokes",
+          "signatureStrokeWidths"
+        ]
+      },
+      "category": "Forms & Inputs",
+      "deps": {
+        "components": [],
+        "foundation": [],
+        "primitives": [],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "Freehand signature capture with smoothed strokes, speed-based width, undo/redo/clear and PNG/SVG export.",
+      "entry": "components/signature_pad/signature_pad.dart",
+      "files": [
+        "components/signature_pad/signature_pad.dart",
+        "components/signature_pad/signature_pad_controller.dart",
+        "components/signature_pad/signature_pad_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';",
+      "install": "dashcn add signature_pad",
+      "listed": true,
+      "name": "Signature Pad",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "form",
+        "input",
+        "signature",
+        "draw",
+        "pad",
+        "export"
+      ],
+      "theme": {
+        "class": "SignaturePadTheme",
+        "defaults": "signaturePadDefaults",
+        "fields": {
+          "background": "ThemedColor? - pad surface, default card",
+          "borderColor": "ThemedColor? - pad outline, default border",
+          "borderRadius": "double? - corner radius, default 8",
+          "borderWidth": "double? - outline thickness, default 1",
+          "minStrokeWidth": "double? - at-speed width, default 1",
+          "strokeColor": "ThemedColor? - ink colour, default foreground",
+          "strokeWidth": "double? - rest width, default 3",
+          "variableWidth": "bool? - narrow with speed, default true"
+        },
+        "userFile": "signature_pad_theme.dart"
+      },
+      "userOwned": [
+        "components/signature_pad/signature_pad_theme.dart"
       ]
     },
     "skeleton": {
@@ -9565,6 +9704,11 @@
     "components/progress/progress.dart": "59bff582771b65727ea93916751c99cd7bacda99ee7cbcf4a8f4822ef9c0fdf5",
     "components/progress/progress_style.dart": "dea8eea72d1ed044648f1c34cc424ae2bfc6548f4c7d8a5c4553fef3c2395f16",
     "components/progress/progress_theme.dart": "e8c8fb32bb5dbf64c9d492254a61b1c6ff7a6024ff9bfbc1f58569f5c528a4fa",
+    "components/qr_code/preview.dart": "24a42d0c17117fbaf9e758723549aeaa5b77f11cf1d981532748a5340ae32535",
+    "components/qr_code/qr_code.dart": "ce3a111313498d5b63f49df55431d0bdbd35eecadeba844d75ff63bff94ec3ac",
+    "components/qr_code/qr_code_matrix.dart": "bb4f26fb879faa191533030840a12eeb949d6e1cf5ac1406df3f8525987e02e1",
+    "components/qr_code/qr_code_style.dart": "e20f76dda026f3fb084d47f5d7a72d1fa21f0e1b0573aff749cb39f8c5a847ad",
+    "components/qr_code/qr_code_theme.dart": "f9f3cdb6858dc58de3f99bbe57bfc8d4b2ddc79ddf2c78f83cdb67eb9ebee368",
     "components/radio_group/preview.dart": "049456f21b526f19fdce2d91e7b807be0a4aa87f2d1bf0ca7d8fdd19e4d4027f",
     "components/radio_group/radio_group.dart": "64977df2e7d95ed3fab5ab1fd0089a4b2f2165ed1bd1dd7bb9a9c99abbfe71d9",
     "components/radio_group/radio_group_style.dart": "389400aab3da71471a082fc1a1541dffd3c29729194197f2c0994a733b6a641c",
@@ -9611,6 +9755,11 @@
     "components/selectable/selectable.dart": "2c48592851f1d87e02ab5dbe3dfae40ee4372bbff1021673f2f7a79a6a663b06",
     "components/selectable/selectable_style.dart": "b8d3ee601dbb1b311bea16d0d552fec5033eacaceb5e9b1e158e48723ed32391",
     "components/selectable/selectable_theme.dart": "5458cecf1a831324a482edab1931a046b2b4c9cc496d086cdcdf244af0d84895",
+    "components/signature_pad/preview.dart": "0575906c965b59960183612731bf46040b547350aed6db655debb45e8660739e",
+    "components/signature_pad/signature_pad.dart": "49ce8d0d94e965cb73df18ff0bd35ff2971b3e2824e6d544e643ea62641ee464",
+    "components/signature_pad/signature_pad_controller.dart": "57f7c5e790c32cc1ae9755ffa103db5b5ddef4d65943263cd7cb1d2ac15533d6",
+    "components/signature_pad/signature_pad_style.dart": "df8b4f0cadc6b6911521eafc7330d897822437e1079b95a6917d3659b5e737b9",
+    "components/signature_pad/signature_pad_theme.dart": "25f7d4a29239a4372c732b5f9663625c6bca325c476b49ab259744b9d654c107",
     "components/skeleton/preview.dart": "a3fcdd6a603a0e652b4b0a2939a1d56e09d113682120f8d0990c1002af73504e",
     "components/skeleton/skeleton.dart": "34b9d029b61944be40d100c12d6273bc13c2e164b22620d96e8d01c67afae6d5",
     "components/skeleton/skeleton_style.dart": "0581ed33a6dc25f7dd9f1671cb0b317ac6eac777e6c09470311e7b28d7d39486",
