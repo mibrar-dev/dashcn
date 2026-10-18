@@ -72,6 +72,7 @@ import 'examples/refresh_trigger.dart' as refresh_trigger_example;
 import 'examples/resizable.dart' as resizable_example;
 import 'examples/scaffold.dart' as scaffold_example;
 import 'examples/scrollbar.dart' as scrollbar_example;
+import 'examples/search_bar.dart' as search_bar_example;
 import 'examples/select.dart' as select_example;
 import 'examples/skeleton.dart' as skeleton_example;
 import 'examples/slider.dart' as slider_example;
@@ -301,6 +302,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'resizable': resizable_example.scorecardExample,
   'scaffold': scaffold_example.scorecardExample,
   'scrollbar': scrollbar_example.scorecardExample,
+  'search_bar': search_bar_example.scorecardExample,
   'select': select_example.scorecardExample,
   'skeleton': skeleton_example.scorecardExample,
   'slider': slider_example.scorecardExample,

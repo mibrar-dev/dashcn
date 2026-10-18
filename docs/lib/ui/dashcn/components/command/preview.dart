@@ -52,20 +52,24 @@ class _CommandPaletteState extends State<_CommandPalette> {
               child: Command(
                 debounceDuration: Duration.zero,
                 builder: (context, query) async* {
+                  // Ranked through the shared `primitives/search` ranker —
+                  // the same files the `search_bar` component filters
+                  // through — instead of a local substring check.
+                  final List<String> ranked = rankCommandLabels(
+                    _commandValues,
+                    query,
+                  );
                   final List<Widget> items = <Widget>[];
                   if (!widget.buildGroups) {
-                    for (final String value in _commandValues) {
-                      if (query == null ||
-                          value.toLowerCase().contains(query.toLowerCase())) {
-                        items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
-                          ),
-                        );
-                      }
+                    for (final String value in ranked) {
+                      items.add(
+                        SubFocusListItem(
+                          // 48px rows meet the touch minimum.
+                          minHeight: 48,
+                          title: Text(value),
+                          onTap: () => setState(() => _lastCommand = value),
+                        ),
+                      );
                     }
                   } else {
                     for (final String group in const <String>[
@@ -90,18 +94,15 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           ),
                         ),
                       );
-                      for (final String value in _commandValues) {
-                        if (query == null ||
-                            value.toLowerCase().contains(query.toLowerCase())) {
-                          items.add(
-                            SubFocusListItem(
-                              // 48px rows meet the touch minimum.
-                              minHeight: 48,
-                              title: Text(value),
-                              onTap: () => setState(() => _lastCommand = value),
-                            ),
-                          );
-                        }
+                      for (final String value in ranked) {
+                        items.add(
+                          SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
+                        );
                       }
                       items.add(SizedBox(height: spacing.sm));
                     }
