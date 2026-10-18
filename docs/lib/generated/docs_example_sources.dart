@@ -19105,13 +19105,14 @@ class _Shapes extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.min,
+        // Wrap, not Row: three 120 px codes overflow a phone-width preview.
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: theme.spacing.md,
+          runSpacing: theme.spacing.md,
           children: <Widget>[
             cell('Square', QrModuleShape.square),
-            Gap(theme.spacing.md),
             cell('Rounded', QrModuleShape.rounded),
-            Gap(theme.spacing.md),
             cell('Dot', QrModuleShape.dot),
           ],
         ),
