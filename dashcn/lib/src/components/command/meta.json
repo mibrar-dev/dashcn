@@ -25,6 +25,7 @@
     "primitives": [
       "input_features",
       "localizations",
+      "search",
       "subfocus_scope",
       "surface",
       "text"
@@ -53,7 +54,8 @@
       "CommandErrorBuilder"
     ],
     "functions": [
-      "showCommandDialog"
+      "showCommandDialog",
+      "rankCommandLabels"
     ],
     "constants": [
       "commandDefaults",
