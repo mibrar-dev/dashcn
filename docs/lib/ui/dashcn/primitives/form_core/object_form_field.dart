@@ -108,6 +108,7 @@ class ObjectFormField<T> extends StatefulWidget {
     this.enabled,
     this.decorate = true,
     this.immediateValueChange,
+    this.adaptive,
   });
 
   /// The current value.
@@ -176,6 +177,9 @@ class ObjectFormField<T> extends StatefulWidget {
 
   /// Whether prompt mode paints its own surface around the editor.
   final bool decorate;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
 
   /// Whether edits are reported live (popover default true, dialog false).
   final bool? immediateValueChange;
@@ -282,6 +286,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     _popoverController
         .show<void>(
           context: context,
+          adaptive: widget.adaptive,
           alignment: widget.popoverAlignment ?? Alignment.topLeft,
           anchorAlignment:
               widget.popoverAnchorAlignment ?? Alignment.bottomLeft,

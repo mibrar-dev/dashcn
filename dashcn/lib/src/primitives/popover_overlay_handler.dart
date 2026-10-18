@@ -49,6 +49,7 @@ class PopoverOverlayHandler extends OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     final TextDirection textDirection = Directionality.of(context);
     final Alignment resolvedAlignment = alignment.resolve(textDirection);
@@ -169,6 +170,7 @@ class PopoverOverlayHandler extends OverlayHandler {
                       onTickFollow: onTickFollow,
                       allowInvertHorizontal: allowInvertHorizontal,
                       allowInvertVertical: allowInvertVertical,
+                      adaptive: adaptive,
                       data: data,
                       onClose: () {
                         if (isClosed.value) return Future.value();

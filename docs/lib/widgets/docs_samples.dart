@@ -117,6 +117,26 @@ final ThemeData still = theme.copyWith(
   motion: () => const MotionTokens(enabled: false),
 );
 '''),
+  'responsive': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/theme/theme.dart';
+
+// Responsive popups: anchored at >= 768, bottom sheet below.
+final ThemeData theme = Theme.of(context);
+final PopupAdaptive mode = theme.popupAdaptive; // auto by default
+
+// Force one presentation for a single component.
+final Widget anchored = Select<String>(
+  adaptive: PopupAdaptive.anchored, // always anchors to the trigger
+  value: value,
+  onChanged: onChanged,
+  itemBuilder: (context, v) => Text(v),
+  items: const <Widget>[SelectItem(value: 'a', child: Text('a'))],
+);
+
+// Narrow widths use a bottom sheet: full width minus 12px gutters,
+// max height 70%, same content, drag handle, tap-outside to dismiss.
+// Tooltips stay anchored on all widths.
+'''),
 };
 
 /// Dark-mode-page samples, keyed by stable id.

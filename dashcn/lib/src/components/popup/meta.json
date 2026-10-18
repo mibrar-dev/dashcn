@@ -14,7 +14,9 @@
   ],
   "deps": {
     "foundation": [],
-    "theme": [],
+    "theme": [
+      "theme"
+    ],
     "primitives": [
       "overlay",
       "popover"

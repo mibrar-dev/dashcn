@@ -29,6 +29,7 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
   late bool _follow;
   late bool _allowInvertHorizontal;
   late bool _allowInvertVertical;
+  PopupAdaptive? _adaptive;
   late Ticker _ticker;
   late LayerLink? _layerLink;
   Offset? _followAnchorDelta;
@@ -51,6 +52,7 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
     _anchorContext = widget.anchorContext;
     _allowInvertHorizontal = widget.allowInvertHorizontal;
     _allowInvertVertical = widget.allowInvertVertical;
+    _adaptive = widget.adaptive;
     _layerLink = widget.layerLink;
     _followAnchorDelta = null;
     _isClosingForRegionLoss = false;
@@ -100,6 +102,7 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
     _offset = widget.offset;
     _margin = widget.margin;
     _follow = widget.follow;
+    _adaptive = widget.adaptive;
     _layerLink = widget.layerLink;
     final shouldRunTicker = _follow && _layerLink == null;
     if (shouldRunTicker && !_ticker.isActive) {
@@ -152,6 +155,8 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
   bool get allowInvertHorizontal => _allowInvertHorizontal;
 
   bool get allowInvertVertical => _allowInvertVertical;
+
+  PopupAdaptive? get adaptive => _adaptive;
 
   LayerLink? get layerLink => _layerLink;
 
@@ -259,6 +264,11 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
   }
 
   @override
+  set adaptive(PopupAdaptive? value) {
+    _applyIfChanged(_adaptive != value, () => _adaptive = value);
+  }
+
+  @override
   void dispose() {
     _detachScrollListener();
     _ticker.dispose();
@@ -357,6 +367,9 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
             builder: (context) {
               final theme = Theme.of(context);
               final scaling = theme.scaling;
+              if (_usesSheet(context, theme)) {
+                return _buildSheet(context, theme);
+              }
               return PopoverLayout(
                 alignment: _alignment.optionallyResolve(context),
                 position: _position,
@@ -390,6 +403,121 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
       childWidget = widget.data!.wrap(childWidget);
     }
     return childWidget;
+  }
+
+  bool _usesSheet(BuildContext context, ThemeData theme) {
+    final PopupAdaptive effective =
+        _adaptive ?? widget.adaptive ?? theme.popupAdaptive;
+    if (effective == PopupAdaptive.anchored) return false;
+    if (effective == PopupAdaptive.sheet) return true;
+    final double anchorWidth = _anchorContext.mounted
+        ? (MediaQuery.maybeSizeOf(_anchorContext)?.width ??
+              MediaQuery.sizeOf(context).width)
+        : MediaQuery.sizeOf(context).width;
+    // Empty MediaQueryData (size 0, used by existing tests) means
+    // unspecified: keep the desktop anchored default.
+    if (anchorWidth <= 0) return false;
+    return popupUsesSheet(anchorWidth, PopupAdaptive.auto);
+  }
+
+  Rect _viewportRect(BuildContext context) {
+    final Size viewport = _anchorContext.mounted
+        ? (MediaQuery.maybeSizeOf(_anchorContext) ?? MediaQuery.sizeOf(context))
+        : MediaQuery.sizeOf(context);
+    final RenderObject? anchorBox = _anchorContext.mounted
+        ? _anchorContext.findRenderObject()
+        : null;
+    if (anchorBox is RenderBox && anchorBox.hasSize) {
+      RenderObject? cur = anchorBox.parent;
+      while (cur != null) {
+        if (cur is RenderBox &&
+            cur.hasSize &&
+            (cur.size.width - viewport.width).abs() < 0.5 &&
+            (cur.size.height - viewport.height).abs() < 0.5) {
+          final Offset origin = cur.localToGlobal(Offset.zero);
+          return origin & cur.size;
+        }
+        cur = cur.parent;
+      }
+    }
+    // Faked MediaQuery sizes (tests) have no matching RenderBox: trust the
+    // MediaQuery size and position at the overlay origin. Only when the
+    // MediaQuery is empty (size 0, unspecified) fall back to the real
+    // overlay box so sheets still have a size.
+    if (viewport.width > 0 && viewport.height > 0) {
+      return Offset.zero & viewport;
+    }
+    final RenderObject? overlayBox = context.findRenderObject();
+    if (overlayBox is RenderBox && overlayBox.hasSize) {
+      return Offset.zero & overlayBox.size;
+    }
+    final Size overlay = MediaQuery.sizeOf(context);
+    return Offset.zero & overlay;
+  }
+
+  Widget _buildSheet(BuildContext context, ThemeData theme) {
+    final Rect viewport = _viewportRect(context);
+    final double sheetWidth = (viewport.width - kPopupSheetGutter * 2).clamp(
+      0.0,
+      viewport.width,
+    );
+    final double sheetMaxHeight =
+        viewport.height * kPopupSheetMaxHeightFraction;
+    final Color handleColor = theme.colors.muted;
+    final Widget content = ConstrainedBox(
+      constraints: BoxConstraints(minWidth: sheetWidth, maxWidth: sheetWidth),
+      child: FadeTransition(
+        opacity: AlwaysStoppedAnimation<double>(widget.animation),
+        child: Builder(builder: (context) => widget.builder(context)),
+      ),
+    );
+    final Widget handle = GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onVerticalDragUpdate: (details) {
+        if (details.primaryDelta != null && details.primaryDelta! > 12) {
+          widget.onClose?.call();
+        }
+      },
+      onVerticalDragEnd: (details) {
+        final double velocity = details.primaryVelocity ?? 0;
+        if (velocity > 300) {
+          widget.onClose?.call();
+        }
+      },
+      child: Center(
+        child: Container(
+          key: const ValueKey<String>('dashcn.popup.sheet.handle'),
+          width: 36,
+          height: 4,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: handleColor,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+      ),
+    );
+    final Widget sheet = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[handle, content],
+    );
+    final double left = viewport.left + kPopupSheetGutter;
+    final double bottom = MediaQuery.sizeOf(context).height - viewport.bottom;
+    final double bottomOffset = (bottom > 0 ? bottom : 0) + kPopupSheetGutter;
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          left: left,
+          width: sheetWidth,
+          bottom: bottomOffset,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: sheetMaxHeight),
+            child: SingleChildScrollView(child: sheet),
+          ),
+        ),
+      ],
+    );
   }
 
   @override

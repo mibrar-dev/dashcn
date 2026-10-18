@@ -121,6 +121,8 @@ class _TooltipState extends State<Tooltip> {
       modal: false,
       // The label is not interactive: an outside tap must not steal focus.
       dismissBackdropFocus: false,
+      // Tooltips stay anchored on all widths (never a bottom sheet).
+      adaptive: PopupAdaptive.anchored,
       alignment: widget.alignment,
       anchorAlignment: widget.anchorAlignment,
       handler: _handler(context),
@@ -207,6 +209,7 @@ class TooltipOverlayHandler extends OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return manager.showTooltip<T>(
       context: context,
@@ -235,6 +238,7 @@ class TooltipOverlayHandler extends OverlayHandler {
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 }

@@ -84,6 +84,7 @@ class TimePicker extends StatelessWidget {
     this.enabled,
     this.expand = false,
     this.theme,
+    this.adaptive,
   });
   final TimeOfDay? value;
   final ValueChanged<TimeOfDay?>? onChanged;
@@ -100,6 +101,9 @@ class TimePicker extends StatelessWidget {
   /// Whether the trigger stretches to the available width.
   final bool expand;
   final TimePickerTheme? theme;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
   @override
   Widget build(BuildContext context) {
     final TimePickerTheme style = _resolveTimePickerTheme(context, theme);
@@ -135,6 +139,7 @@ class TimePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
+      adaptive: adaptive,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -286,6 +291,7 @@ class DurationPicker extends StatelessWidget {
     this.dialogTitle,
     this.enabled,
     this.expand = false,
+    this.adaptive,
   });
   final Duration? value;
   final ValueChanged<Duration?>? onChanged;
@@ -299,6 +305,9 @@ class DurationPicker extends StatelessWidget {
 
   /// Whether the trigger stretches to the available width.
   final bool expand;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
   @override
   Widget build(BuildContext context) {
     final ComponentLocalizations strings = ComponentLocalizations.of(context);
@@ -324,6 +333,7 @@ class DurationPicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
+      adaptive: adaptive,
       mode: mode,
       popoverAlignment: popoverAlignment,
       popoverAnchorAlignment: popoverAnchorAlignment,

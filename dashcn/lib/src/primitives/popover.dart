@@ -8,6 +8,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
+import '../theme/theme.dart';
 import 'overlay.dart';
 import 'overlay_manager.dart';
 import 'popover_overlay_state.dart';
@@ -133,6 +134,7 @@ OverlayCompleter<T?> showPopover<T>({
   Duration? dismissDuration,
   OverlayBarrier? overlayBarrier,
   OverlayHandler? handler,
+  PopupAdaptive? adaptive,
 }) {
   handler ??= OverlayManager.of(context);
   return handler.show<T>(
@@ -161,5 +163,6 @@ OverlayCompleter<T?> showPopover<T>({
     showDuration: showDuration,
     dismissDuration: dismissDuration,
     overlayBarrier: overlayBarrier,
+    adaptive: adaptive,
   );
 }

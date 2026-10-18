@@ -6,6 +6,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../theme/theme.dart';
 import '../../primitives/overlay.dart';
 import '../../primitives/popover.dart';
 import '../menu/menu.dart';
@@ -32,6 +33,7 @@ Future<T?> showPopup<T>({
   double? width,
   double? maxWidth,
   double? maxHeight,
+  PopupAdaptive? adaptive,
 }) {
   return showPopover<T>(
     context: context,
@@ -43,6 +45,7 @@ Future<T?> showPopup<T>({
     heightConstraint: heightConstraint,
     modal: modal,
     consumeOutsideTaps: consumeOutsideTaps,
+    adaptive: adaptive,
     builder: (context) => Shortcuts(
       shortcuts: const <ShortcutActivator, Intent>{
         SingleActivator(LogicalKeyboardKey.escape): DismissIntent(),

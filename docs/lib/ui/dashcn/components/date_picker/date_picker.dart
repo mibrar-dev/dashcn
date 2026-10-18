@@ -91,6 +91,7 @@ class DatePicker extends StatelessWidget {
     this.enabled,
     this.expand = false,
     this.theme,
+    this.adaptive,
   });
   final DateTime? value;
   final ValueChanged<DateTime?>? onChanged;
@@ -108,6 +109,9 @@ class DatePicker extends StatelessWidget {
   /// Whether the trigger stretches to the available width.
   final bool expand;
   final DatePickerTheme? theme;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
@@ -137,6 +141,7 @@ class DatePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
+      adaptive: adaptive,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:
@@ -186,6 +191,7 @@ class DateRangePicker extends StatelessWidget {
     this.enabled,
     this.expand = false,
     this.theme,
+    this.adaptive,
   });
   final DateTimeRange? value;
   final ValueChanged<DateTimeRange?>? onChanged;
@@ -203,6 +209,9 @@ class DateRangePicker extends StatelessWidget {
   /// Whether the trigger stretches to the available width.
   final bool expand;
   final DatePickerTheme? theme;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
   @override
   Widget build(BuildContext context) {
     final DatePickerTheme style = _resolveDatePickerTheme(context, theme);
@@ -230,6 +239,7 @@ class DateRangePicker extends StatelessWidget {
         color: ambient.colors.mutedForeground,
       ),
       expand: expand,
+      adaptive: adaptive,
       mode: mode ?? style.mode ?? PromptMode.dialog,
       popoverAlignment: popoverAlignment ?? style.popoverAlignment,
       popoverAnchorAlignment:

@@ -74,6 +74,7 @@ class Select<T> extends StatefulWidget {
     this.valueSelectionPredicate,
     this.triggerMinHeight,
     this.theme,
+    this.adaptive,
   });
 
   /// Builds the trigger content of the selected value.
@@ -130,6 +131,9 @@ class Select<T> extends StatefulWidget {
 
   /// Widget-leg theme override, merged over the component/app/defaults legs.
   final SelectTheme? theme;
+
+  /// Responsive adaptive mode; null resolves the theme token (auto).
+  final PopupAdaptive? adaptive;
 
   @override
   State<Select<T>> createState() => _SelectState<T>();
@@ -226,6 +230,7 @@ class _SelectState<T> extends State<Select<T>>
     _popover
         .show<void>(
           context: context,
+          adaptive: widget.adaptive,
           // Below the trigger's start edge; the popup hugs the widest
           // option and is never narrower than the trigger.
           alignment: AlignmentDirectional.topStart,
