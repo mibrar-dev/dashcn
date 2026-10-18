@@ -3046,6 +3046,190 @@ Widget _carouselApi(BuildContext context) =>
 ''',
     ),
   ],
+  'chart': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_chartDefault',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartDefault(BuildContext context) {
+  return const Chart(
+    data: <double>[3, 5, 2, 6, 4, 7],
+    semanticsLabel: 'Line chart with six points trending up',
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area',
+      builder: '_chartArea',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartArea(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Revenue', values: <double>[2, 4, 3, 5, 6, 8]),
+      ChartSeries(label: 'Costs', values: <double>[1, 2, 2, 3, 4, 5]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'BarGrouped',
+      builder: '_chartBarGrouped',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartBarGrouped(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Web', values: <double>[4, 6, 5, 7]),
+      ChartSeries(label: 'Mobile', values: <double>[3, 4, 6, 5]),
+    ],
+    labels: <String>['Q1', 'Q2', 'Q3', 'Q4'],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'BarStacked',
+      builder: '_chartBarStacked',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartBarStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Free', values: <double>[2, 3, 4]),
+      ChartSeries(label: 'Pro', values: <double>[3, 2, 5]),
+    ],
+    labels: <String>['Jan', 'Feb', 'Mar'],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Donut',
+      builder: '_chartDonut',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartDonut(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Share', values: <double>[40, 30, 20, 10]),
+    ],
+    showDataTable: true,
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Scatter',
+      builder: '_chartScatter',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartScatter(BuildContext context) {
+  return const Chart(
+    type: ChartType.scatter,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Latency', values: <double>[2, 5, 3, 8, 6, 9, 4]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Sparkline',
+      builder: '_chartSparkline',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartSparkline(BuildContext context) {
+  return const SizedBox(
+    width: 160,
+    child: Chart(
+      type: ChartType.sparkline,
+      data: <double>[1, 3, 2, 5, 4, 6],
+      height: 48,
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Streaming',
+      builder: '_chartStreaming',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+/// Live streaming demo: appends a point every 800 ms into a 40-point window.
+class _ChartStreaming extends StatefulWidget {
+  const _ChartStreaming();
+
+  @override
+  State<_ChartStreaming> createState() => _ChartStreamingState();
+}
+
+class _ChartStreamingState extends State<_ChartStreaming> {
+  late final ChartController _controller;
+  Timer? _timer;
+  double _t = 6;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChartController(
+      maxPoints: 40,
+      initial: const <ChartSeries>[
+        ChartSeries(label: 'Live', values: <double>[3, 5, 2, 6, 4, 7]),
+      ],
+    );
+    _timer = Timer.periodic(const Duration(milliseconds: 800), (_) {
+      _t += 1;
+      final double next = 5 + (_t % 7) - 3 + ((_t * 37) % 5) / 5;
+      _controller.append(next);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Chart(
+      controller: _controller,
+      semanticsLabel: 'Streaming line chart, last 40 points',
+    );
+  }
+}
+
+Widget _chartStreaming(BuildContext context) => const _ChartStreaming();
+''',
+    ),
+  ],
   'chat': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',

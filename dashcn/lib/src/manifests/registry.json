@@ -1862,6 +1862,100 @@
         "components/carousel/carousel_theme.dart"
       ]
     },
+    "chart": {
+      "api": {
+        "classes": [
+          "Chart",
+          "ChartSeries",
+          "ChartAxis",
+          "ChartController",
+          "ChartTheme",
+          "ChartSurface"
+        ],
+        "constants": [
+          "chartDefaults",
+          "chartThemeOverrides"
+        ],
+        "enums": [
+          "ChartType",
+          "ChartBarMode"
+        ]
+      },
+      "category": "Data Display",
+      "deps": {
+        "components": [],
+        "foundation": [],
+        "primitives": [
+          "motion",
+          "chart"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "Line, area, bar, donut/pie, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.",
+      "entry": "components/chart/chart.dart",
+      "files": [
+        "components/chart/chart.dart",
+        "components/chart/chart_cartesian_painter.dart",
+        "components/chart/chart_model.dart",
+        "components/chart/chart_pie_painter.dart",
+        "components/chart/chart_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
+      "install": "dashcn add chart",
+      "listed": true,
+      "name": "Chart",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "display",
+        "chart",
+        "line",
+        "bar",
+        "donut",
+        "sparkline",
+        "streaming"
+      ],
+      "theme": {
+        "class": "ChartTheme",
+        "defaults": "chartDefaults",
+        "fields": {
+          "animationCurve": "Curve? - easeOutCubic",
+          "animationDuration": "Duration? - 700ms",
+          "axisColor": "ThemedColor? - border token",
+          "backgroundColor": "ThemedColor? - transparent",
+          "barGap": "double? - 0.2 fraction",
+          "barGroupGap": "double? - 0.25 fraction",
+          "barRadius": "double? - 4",
+          "contentPadding": "EdgeInsetsGeometry? - 8,8,12,8",
+          "disableAnimation": "bool? - false",
+          "donutHole": "double? - 0.55 fraction",
+          "fillOpacity": "double? - 0.25",
+          "gridColor": "ThemedColor? - border token",
+          "legendTextStyle": "TextStyle? - 12px foreground",
+          "markerRadius": "double? - 3",
+          "seriesColors": "List<ThemedColor>? - chart1..5",
+          "showAxes": "bool? - true",
+          "showGrid": "bool? - true",
+          "showLabels": "bool? - true",
+          "showLegend": "bool? - true",
+          "showMarkers": "bool? - false",
+          "showTicks": "bool? - true",
+          "showTooltip": "bool? - true",
+          "strokeWidth": "double? - 2",
+          "tickLabelStyle": "TextStyle? - 11px muted",
+          "tooltipBackground": "ThemedColor? - popover",
+          "tooltipTextStyle": "TextStyle? - 12px popover foreground"
+        },
+        "userFile": "chart_theme.dart"
+      },
+      "userOwned": [
+        "components/chart/chart_theme.dart"
+      ]
+    },
     "chat": {
       "api": {
         "classes": [
@@ -9237,6 +9331,13 @@
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
+    "components/chart/chart.dart": "7fbe3ce0bbda1dba61cdea4b6d56bf2d7e1eacaeb1362e042c0c15b77be62087",
+    "components/chart/chart_cartesian_painter.dart": "08bc98694f22ec589cc9a6b648297e1410d71916a49e7886a391270e6cee6a1b",
+    "components/chart/chart_model.dart": "92c9bc23fe48ea5c16c3c6dc391e2b2ea357793103b56b50e1c5e4849552f6c5",
+    "components/chart/chart_pie_painter.dart": "0fb0ff2ea52ffc5650ff175b16ecce1ddbde3e6ab7a6c48700ba4885259b1bf9",
+    "components/chart/chart_style.dart": "072d6693d40228efa0529f8dd574973ece0847f32887e211108049a3aa88e4b4",
+    "components/chart/chart_theme.dart": "04d7d3946ee7ff3f6a62467d96bc1d7690148e6e1daa691bb3244773ce579842",
+    "components/chart/preview.dart": "dd10d72e834e350db8afb12354e4c8f7bde18fee4eeaf2a148978e10d938bd3f",
     "components/chat/chat.dart": "3d9d15c20a577e1bcfe9281bd743e0279b1f7467c6aefab7368c7fafd7339c00",
     "components/chat/chat_style.dart": "cd22e156aeefff4544be5be163863933b604f8550154ff6d2dbedf2222caf040",
     "components/chat/chat_theme.dart": "4ff153f91c624960b3f5343e29f853ec254d42e8a0f652244e7c347d0617987f",
@@ -9661,6 +9762,7 @@
     "primitives/animation_queue.dart": "8200325cbc6475f19083ac5bd7f700c9020b7ea75800e4bb2014936c997269a4",
     "primitives/axis_size.dart": "b66045ba987f0c129c4c3d6a375ed50e7f7227943541b799781dfeb16904cad3",
     "primitives/basic_layout.dart": "4bc94cdfca53a5f41dc5025c99e996642c0d7b4bf60483512eb4b2be26d58f81",
+    "primitives/chart/chart_math.dart": "acf733943b41328de8838898b1e0a19a10235900e728963884d16300d0bd4bef",
     "primitives/clickable.dart": "a419f3db04b164bb8bbbda9134dcb445de1a946a1260c6170a39a2a693d714a6",
     "primitives/clickable_state.dart": "449b89b49836e085f4851d05e42d228b906e002bc61d1ac79c7efe12e812957f",
     "primitives/color_field_paint.dart": "ced7d3c7cd03282ae73da0c743a18f6e159e0eac3570b3c20f62a06ad43636fb",
@@ -10388,6 +10490,14 @@
       },
       "files": [
         "primitives/basic_layout.dart"
+      ]
+    },
+    "chart": {
+      "deps": {
+        "primitives": []
+      },
+      "files": [
+        "primitives/chart/chart_math.dart"
       ]
     },
     "clickable": {

@@ -21,6 +21,7 @@ import 'examples/calendar.dart' as calendar_example;
 import 'examples/card.dart' as card_example;
 import 'examples/card_image.dart' as card_image_example;
 import 'examples/carousel.dart' as carousel_example;
+import 'examples/chart.dart' as chart_example;
 import 'examples/chat.dart' as chat_example;
 import 'examples/checkbox.dart' as checkbox_example;
 import 'examples/chip.dart' as chip_example;
@@ -249,6 +250,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'card': card_example.scorecardExample,
   'card_image': card_image_example.scorecardExample,
   'carousel': carousel_example.scorecardExample,
+  'chart': chart_example.scorecardExample,
   'chat': chat_example.scorecardExample,
   'checkbox': checkbox_example.scorecardExample,
   'chip': chip_example.scorecardExample,

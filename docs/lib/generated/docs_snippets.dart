@@ -536,6 +536,24 @@ Carousel(
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
+  'chart': <DocsSnippet>[
+    DocsSnippet(
+      id: 'chart.0',
+      componentId: 'chart',
+      language: 'dart',
+      code: r'''const Chart(data: [1, 2, 3]);
+
+const Chart(
+  type: ChartType.bar,
+  series: [
+    ChartSeries(label: 'Web', values: [4, 6, 5]),
+    ChartSeries(label: 'Mobile', values: [3, 4, 6]),
+  ],
+);''',
+      tokenClasses:
+          'kkkkkppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssspppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppp',
+    ),
+  ],
   'chat': <DocsSnippet>[
     DocsSnippet(
       id: 'chat.0',
@@ -4427,6 +4445,17 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     userOwned: <String>[
       'lib/ui/dashcn/components/carousel/carousel_theme.dart',
     ],
+  ),
+  'chart': DocsFileList(
+    componentId: 'chart',
+    files: <String>[
+      'lib/ui/dashcn/components/chart/chart.dart',
+      'lib/ui/dashcn/components/chart/chart_cartesian_painter.dart',
+      'lib/ui/dashcn/components/chart/chart_model.dart',
+      'lib/ui/dashcn/components/chart/chart_pie_painter.dart',
+      'lib/ui/dashcn/components/chart/chart_style.dart',
+    ],
+    userOwned: <String>['lib/ui/dashcn/components/chart/chart_theme.dart'],
   ),
   'chat': DocsFileList(
     componentId: 'chat',

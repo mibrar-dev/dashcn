@@ -5,6 +5,7 @@ export 'src/primitives/animation.dart';
 export 'src/primitives/animation_queue.dart';
 export 'src/primitives/axis_size.dart';
 export 'src/primitives/basic_layout.dart';
+export 'src/primitives/chart/chart_math.dart';
 export 'src/primitives/clickable.dart';
 export 'src/primitives/clickable_state.dart';
 export 'src/primitives/color_field_paint.dart';
