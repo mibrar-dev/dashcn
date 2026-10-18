@@ -75,6 +75,9 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
           location: '/docs/components/${component.id}',
         ),
     ],
+    const SidebarRow.label('Charts'),
+    for (final DocsNavLink link in kChartLinks)
+      SidebarRow.link(text: link.label, location: link.location),
     const SidebarRow.label('Blocks'),
     for (final DocsBlockCategory category in kBlockCategories) ...<SidebarRow>[
       SidebarRow.subLabel(category.id),

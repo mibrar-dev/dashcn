@@ -188,9 +188,12 @@ class DocsHeader extends StatelessWidget {
 /// font in tests and with Geist in the browser), so `Blocks` joins the nav at
 /// `xl` — the same escalation that adds the GitHub label and the 256 px
 /// search — `Flows` joins at 1440 px and `Starters` joins past 1440 px (seven
-/// items no longer fit at exactly 1440 in the test font). All stay reachable
-/// below their escalation through the mobile popper (which renders the whole
-/// [kHeaderNav]) and the docs sidebar.
+/// items no longer fit at exactly 1440 in the test font). `Charts` joined the
+/// bar as a first-class item after `Components`, so `Blocks` moved up to join
+/// with `Flows` at 1440 px and `Themes` joins at 1280 px: 1024 shows four
+/// items, 1280 shows five, and every width stays overflow-free. All stay
+/// reachable below their escalation through the mobile popper (which renders
+/// the whole [kHeaderNav]) and the docs sidebar.
 List<DocsNavLink> _headerNavFor(double width) {
   if (width >= 1600) {
     return kHeaderNav;
@@ -204,7 +207,9 @@ List<DocsNavLink> _headerNavFor(double width) {
   if (width >= 1280) {
     return <DocsNavLink>[
       for (final DocsNavLink link in kHeaderNav)
-        if (link.location != '/docs/flows' && link.location != '/docs/starters')
+        if (link.location != '/blocks' &&
+            link.location != '/docs/flows' &&
+            link.location != '/docs/starters')
           link,
     ];
   }
@@ -212,7 +217,8 @@ List<DocsNavLink> _headerNavFor(double width) {
     for (final DocsNavLink link in kHeaderNav)
       if (link.location != '/blocks' &&
           link.location != '/docs/flows' &&
-          link.location != '/docs/starters')
+          link.location != '/docs/starters' &&
+          link.location != '/themes')
         link,
   ];
 }
@@ -223,6 +229,9 @@ bool _navActive(String linkLocation, String current) {
   }
   if (linkLocation == '/docs/components') {
     return current.startsWith('/docs/components');
+  }
+  if (linkLocation == '/charts') {
+    return current.startsWith('/charts');
   }
   if (linkLocation == '/blocks') {
     return current.startsWith('/blocks');

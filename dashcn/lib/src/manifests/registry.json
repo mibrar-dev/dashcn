@@ -1905,7 +1905,7 @@
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
       "install": "dashcn add chart",
-      "listed": true,
+      "listed": false,
       "name": "Chart",
       "preview": {
         "placement": "center"

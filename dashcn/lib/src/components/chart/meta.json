@@ -2,6 +2,7 @@
   "id": "chart",
   "name": "Chart",
   "category": "Data Display",
+  "listed": false,
   "description": "Line, area, bar, donut/pie, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.",
   "tier": "component",
   "install": "dashcn add chart",

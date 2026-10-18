@@ -280,7 +280,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
         "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
     fileCount: 6,
     stability: 'stable',
-    listed: true,
+    listed: false,
     placement: 'center',
   ),
   DocsComponent(
@@ -2188,7 +2188,7 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
   components: 120, // manifest entries
-  listedComponents: 85, // listed only
+  listedComponents: 84, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2251,7 +2251,6 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'avatar', name: 'Avatar'),
           DocsComponentLink(id: 'badge', name: 'Badge'),
           DocsComponentLink(id: 'carousel', name: 'Carousel'),
-          DocsComponentLink(id: 'chart', name: 'Chart'),
           DocsComponentLink(id: 'chat', name: 'Chat'),
           DocsComponentLink(id: 'chip', name: 'Chip'),
           DocsComponentLink(id: 'country_flag', name: 'Country Flag'),
