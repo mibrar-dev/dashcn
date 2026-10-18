@@ -35,7 +35,6 @@ import 'package:dashcn/src/components/calendar/preview.dart';
 import 'package:dashcn/src/components/card/preview.dart';
 import 'package:dashcn/src/components/card_image/preview.dart';
 import 'package:dashcn/src/components/carousel/preview.dart';
-import 'package:dashcn/src/components/chart/preview.dart';
 import 'package:dashcn/src/components/chat/preview.dart';
 import 'package:dashcn/src/components/checkbox/preview.dart';
 import 'package:dashcn/src/components/chip/preview.dart';
@@ -224,7 +223,6 @@ final Map<String, List<ComponentPreview>> _previews =
       'card': cardPreviews,
       'card_image': cardImagePreviews,
       'carousel': carouselPreviews,
-      'chart': chartPreviews,
       'chat': chatPreviews,
       'checkbox': checkboxPreviews,
       'chip': chipPreviews,
