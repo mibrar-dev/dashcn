@@ -1,8 +1,8 @@
-// Landing page (spec §2.1, P9-Z hero): announcement badge → H1 → description
-// → two CTAs → the live multi-frame hero demo (P9-Z, deferred like the
-// other heavy pages) → the live collage. The stats band, marquee, feature
-// grid, steps, CTA band and 4-column footer are deleted per spec §5.1; the
-// one-line footer lives in the shell.
+// Landing page (spec §2.1): announcement badge → H1 → description → two
+// CTAs → the live component collage (the device-frame hero was removed;
+// device frames stay on component/flow pages). The stats band, marquee,
+// feature grid, steps, CTA band and 4-column footer are deleted per spec
+// §5.1; the one-line footer lives in the shell.
 //
 // P7-TH1: the hero CTAs are plain registry `Button`s, so they follow the
 // active theme radius (buttons = radiusMd) instead of forcing pills; gaps
@@ -11,7 +11,6 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
-import '../landing/hero_demo.dart' deferred as hero_demo;
 import '../routing/docs_router.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -76,9 +75,8 @@ class LandingPage extends StatelessWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
                   child: Text(
-                    'The same flow, running live in iPhone, Android and '
-                    'desktop frames.\nWidgets-only components you install '
-                    'and own.',
+                    'Widgets-only components you install '
+                    'and own.\nLive below in every theme.',
                     textAlign: TextAlign.center,
                     style: docsText(
                       context,
@@ -113,7 +111,6 @@ class LandingPage extends StatelessWidget {
               ],
             ),
           ),
-          const _DeferredHeroDemo(),
           const Gap(24),
           const DocsCollage(),
           DocsFooter(
@@ -126,45 +123,12 @@ class LandingPage extends StatelessWidget {
   }
 }
 
-/// Key of the loaded hero demo (widget tests drain the deferred chunk by
-/// waiting for this key; see `test/support/app_harness.dart`).
+/// Kept for test-harness compatibility: the hero demo was removed (no device
+/// frames on the home route), so the key never appears. New tests assert the
+/// absence directly; the harness no longer waits on it.
 const ValueKey<String> kLandingHeroDemoKey = ValueKey<String>(
   'landing-hero-demo',
 );
-
-/// The hero demo slot: loads the `landing/hero_demo` chunk on demand and
-/// shows a fixed-height placeholder until it arrives, so the landing stays
-/// fast (same deferred pattern as the block/flow pages in `main.dart`).
-class _DeferredHeroDemo extends StatefulWidget {
-  /// Creates the slot.
-  const _DeferredHeroDemo();
-
-  @override
-  State<_DeferredHeroDemo> createState() => _DeferredHeroDemoState();
-}
-
-class _DeferredHeroDemoState extends State<_DeferredHeroDemo> {
-  Future<void>? _load;
-
-  @override
-  void initState() {
-    super.initState();
-    _load = hero_demo.loadLibrary();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: _load,
-      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return hero_demo.LandingHeroDemo(key: kLandingHeroDemoKey);
-        }
-        return const SizedBox(height: 560);
-      },
-    );
-  }
-}
 
 class _PillButton extends StatelessWidget {
   const _PillButton({

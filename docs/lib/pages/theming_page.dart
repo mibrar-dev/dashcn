@@ -178,6 +178,15 @@ class ThemingPage extends StatelessWidget {
             'opacity only, so it never changes layout or a final state.',
           ),
           const TypesetParagraph(
+            'Intensity scales the whole kit from one place: Subtle (0.75x '
+            'durations, 0.98 press, 4 px enter), Standard (today\'s values, '
+            'the default), Expressive (1.5x, 0.94, 12 px) and Custom '
+            '(explicit press scale, enter offset, duration multiplier and '
+            'curve choice). The Theme Studio Intensity row picks one; Custom '
+            'reveals its four numeric rows. Custom legs persist in the theme '
+            'document, export with Get Code and round-trip through import.',
+          ),
+          const TypesetParagraph(
             'Reduced motion collapses everything: when the platform reports '
             'MediaQuery.disableAnimations, or the Theme Studio Motion row '
             'switches motion.enabled off, every animation resolves to zero '

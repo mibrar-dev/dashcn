@@ -255,8 +255,10 @@ class RadioIndicator extends StatelessWidget {
     final RadioIndicatorStyle resolved = style ?? const RadioIndicatorStyle();
     final double size = resolved.size ?? radioDefaultIndicatorSize;
     final double dotSize = resolved.dotSize ?? size / 2;
-    // The dot grows in with the theme motion timing; under reduced motion
-    // the size snaps with no ticker.
+    // The dot scales in with a spring overshoot; under reduced motion the
+    // size snaps with no ticker. The outer ring keeps its size so selection
+    // never shifts layout.
+    final motion = Theme.of(context).motion;
     final Duration duration = resolveMotionDuration(
       context,
       resolved.duration ?? radioDefaultDuration,
@@ -265,6 +267,7 @@ class RadioIndicator extends StatelessWidget {
     return AnimatedContainer(
       key: kRadioIndicatorKey,
       duration: duration,
+      curve: motion.curves.standard,
       width: size,
       height: size,
       decoration: BoxDecoration(
@@ -281,6 +284,7 @@ class RadioIndicator extends StatelessWidget {
         child: AnimatedContainer(
           key: kRadioIndicatorDotKey,
           duration: duration,
+          curve: motion.curves.spring,
           width: selected ? dotSize : 0,
           height: selected ? dotSize : 0,
           decoration: BoxDecoration(
