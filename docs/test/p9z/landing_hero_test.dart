@@ -1,29 +1,31 @@
-// P9-Z landing hero: every platform at once.
+// Home hero without device frames.
 //
-// The hero runs `auth-01` live in the iPhone, Android and desktop frames
-// (deferred chunk), with Get started / Browse flows CTAs; narrow screens
-// show one frame plus a device switcher.
+// The device-frame showcase was removed from the home route: the landing
+// shows the H1, the CTAs and the live component collage (no device frame).
+// Device frames stay on component/flow pages.
 
-import 'package:docs/landing/hero_demo.dart';
 import 'package:docs/routing/docs_router.dart';
+import 'package:docs/widgets/collage.dart';
+import 'package:docs/widgets/device_frame/device_frame.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/app_harness.dart';
 
 void main() {
-  group('p9z landing hero', () {
-    testWidgets('deferred demo loads on the landing page', (
+  group('home without device frames', () {
+    testWidgets('landing shows the collage and no device frame', (
       WidgetTester tester,
     ) async {
       await pumpDocsApp(tester, width: 1400, height: 900);
       await tester.pumpAndSettle();
       expect(find.text('Every platform at once'), findsOneWidget);
-      expect(find.byType(LandingHeroDemo), findsOneWidget);
+      expect(find.byType(DocsCollage), findsOneWidget);
+      expect(find.byType(DeviceFrame), findsNothing);
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('wide screens show all three frames at once', (
+    testWidgets('no hero frame keys on the home route', (
       WidgetTester tester,
     ) async {
       await pumpDocsApp(tester, width: 1400, height: 900);
@@ -31,52 +33,24 @@ void main() {
       for (final String id in <String>['iphone', 'android', 'desktop']) {
         expect(
           find.byKey(ValueKey<String>('hero-frame-$id')),
-          findsOneWidget,
-          reason: 'missing $id frame',
+          findsNothing,
+          reason: 'home must not carry a $id frame',
         );
       }
-      // No switcher on wide screens.
-      expect(
-        find.byKey(const ValueKey<String>('hero-device-iphone')),
-        findsNothing,
-      );
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('narrow screens show one frame plus a device switcher', (
+    testWidgets('component pages still carry device frames', (
       WidgetTester tester,
     ) async {
-      await pumpDocsApp(tester, width: 390, height: 844);
+      final DocsRouterDelegate delegate = await pumpDocsApp(
+        tester,
+        width: 1400,
+        height: 900,
+      );
+      await goTo(tester, delegate, '/docs/components/button?frame=iphone');
       await tester.pumpAndSettle();
-      expect(find.byType(LandingHeroDemo), findsOneWidget);
-      expect(
-        find.byKey(const ValueKey<String>('hero-device-iphone')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const ValueKey<String>('hero-device-android')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const ValueKey<String>('hero-frame-iphone')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const ValueKey<String>('hero-frame-android')),
-        findsNothing,
-      );
-      await tester.tap(
-        find.byKey(const ValueKey<String>('hero-device-android')),
-      );
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(const ValueKey<String>('hero-frame-android')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const ValueKey<String>('hero-frame-iphone')),
-        findsNothing,
-      );
+      expect(find.byType(DeviceFrame), findsWidgets);
       expect(tester.takeException(), isNull);
     });
 

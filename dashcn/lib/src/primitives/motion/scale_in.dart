@@ -66,7 +66,9 @@ class ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final MotionTokens motion = Theme.of(context).motion;
-    _controller.duration = widget.duration ?? motion.durations.base;
+    _controller.duration = motion.scaledDuration(
+      widget.duration ?? motion.durations.base,
+    );
     if (_reduced) {
       if (_controller.value != 1.0) {
         _controller.value = 1.0;
@@ -83,7 +85,9 @@ class ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
     if (widget.duration != oldWidget.duration) {
       final MotionTokens motion = Theme.of(context).motion;
-      _controller.duration = widget.duration ?? motion.durations.base;
+      _controller.duration = motion.scaledDuration(
+        widget.duration ?? motion.durations.base,
+      );
     }
   }
 
@@ -99,13 +103,21 @@ class ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
       return widget.child;
     }
     final MotionTokens motion = Theme.of(context).motion;
-    final Curve curve = widget.curve ?? motion.curves.emphasizedOut;
+    final Curve curve = motion.resolveEnterCurve(
+      motion.curves.emphasizedOut,
+      override: widget.curve,
+    );
+    // The default begin scale tracks the intensity press scale in one place
+    // (standard 0.96); an explicit widget leg always wins.
+    final double beginScale = widget.beginScale == 0.96
+        ? motion.enterBeginScale
+        : widget.beginScale;
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
       builder: (BuildContext context, Widget? child) {
         final double t = curve.transform(_controller.value);
-        final double scale = widget.beginScale + (1.0 - widget.beginScale) * t;
+        final double scale = beginScale + (1.0 - beginScale) * t;
         return Opacity(
           opacity: t,
           child: Transform.scale(

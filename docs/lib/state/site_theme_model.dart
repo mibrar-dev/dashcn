@@ -16,6 +16,7 @@ import '../theme/theme_dart_source.dart';
 import '../theme/theme_document.dart';
 import '../theme/theme_document_edits.dart';
 import '../theme/theme_palette.dart';
+import '../ui/dashcn/theme/motion.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'docs_storage.dart';
 
@@ -145,13 +146,35 @@ class SiteThemeModel extends ChangeNotifier {
   void setSurfaceBlur(double? blur) => _assign(_document.withSurfaceBlur(blur));
 
   /// Sets the motion master switch (the rail `Motion` row); null restores
-  /// the default (enabled, no motion block in the document).
+  /// the default (enabled, no motion block in the document unless another
+  /// motion leg is set).
   ///
   /// A document edit like every other Studio control: applies live to the
   /// whole site on select, persists to localStorage, and round-trips
   /// through the JSON and Dart exports.
   void setMotionEnabled(bool? enabled) =>
       _assign(_document.withMotionEnabled(enabled));
+
+  /// Sets the motion intensity (the rail `Intensity` row); null restores
+  /// the default (standard).
+  void setMotionIntensity(MotionIntensity? intensity) =>
+      _assign(_document.withMotionIntensity(intensity));
+
+  /// Sets the custom duration multiplier (the rail Custom row).
+  void setMotionCustomDurationMultiplier(double? value) =>
+      _assign(_document.withMotionCustomDurationMultiplier(value));
+
+  /// Sets the custom press scale (the rail Custom row).
+  void setMotionCustomPressScale(double? value) =>
+      _assign(_document.withMotionCustomPressScale(value));
+
+  /// Sets the custom enter offset in logical px (the rail Custom row).
+  void setMotionCustomEnterOffset(double? value) =>
+      _assign(_document.withMotionCustomEnterOffset(value));
+
+  /// Sets the custom enter curve (the rail Custom row).
+  void setMotionCustomCurve(MotionCurveName? curve) =>
+      _assign(_document.withMotionCustomCurve(curve));
 
   /// The switch animation (rail `Transition` row).
   DocsThemeTransition get transition => _transition;
