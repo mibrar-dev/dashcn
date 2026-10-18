@@ -76,12 +76,14 @@ import 'package:dashcn/src/components/phone_input/preview.dart';
 import 'package:dashcn/src/components/pinned_sheet/preview.dart';
 import 'package:dashcn/src/components/popup/preview.dart';
 import 'package:dashcn/src/components/progress/preview.dart';
+import 'package:dashcn/src/components/qr_code/preview.dart';
 import 'package:dashcn/src/components/radio_group/preview.dart';
 import 'package:dashcn/src/components/refresh_trigger/preview.dart';
 import 'package:dashcn/src/components/resizable/preview.dart';
 import 'package:dashcn/src/components/scaffold/preview.dart';
 import 'package:dashcn/src/components/scrollbar/preview.dart';
 import 'package:dashcn/src/components/select/preview.dart';
+import 'package:dashcn/src/components/signature_pad/preview.dart';
 import 'package:dashcn/src/components/skeleton/preview.dart';
 import 'package:dashcn/src/components/slider/preview.dart';
 import 'package:dashcn/src/components/sortable/preview.dart';
@@ -186,12 +188,14 @@ final Map<String, List<ComponentPreview>> _previews =
       'pinned_sheet': pinnedSheetPreviews,
       'popup': popupPreviews,
       'progress': progressPreviews,
+      'qr_code': qrCodePreviews,
       'radio_group': radioGroupPreviews,
       'refresh_trigger': refreshTriggerPreviews,
       'resizable': resizablePreviews,
       'scaffold': scaffoldPreviews,
       'scrollbar': scrollbarPreviews,
       'select': selectPreviews,
+      'signature_pad': signaturePadPreviews,
       'skeleton': skeletonPreviews,
       'slider': sliderPreviews,
       'sortable': sortablePreviews,

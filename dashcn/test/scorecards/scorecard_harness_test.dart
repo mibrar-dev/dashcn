@@ -66,12 +66,14 @@ import 'examples/phone_input.dart' as phone_input_example;
 import 'examples/pinned_sheet.dart' as pinned_sheet_example;
 import 'examples/popup.dart' as popup_example;
 import 'examples/progress.dart' as progress_example;
+import 'examples/qr_code.dart' as qr_code_example;
 import 'examples/radio_group.dart' as radio_group_example;
 import 'examples/refresh_trigger.dart' as refresh_trigger_example;
 import 'examples/resizable.dart' as resizable_example;
 import 'examples/scaffold.dart' as scaffold_example;
 import 'examples/scrollbar.dart' as scrollbar_example;
 import 'examples/select.dart' as select_example;
+import 'examples/signature_pad.dart' as signature_pad_example;
 import 'examples/skeleton.dart' as skeleton_example;
 import 'examples/slider.dart' as slider_example;
 import 'examples/sortable.dart' as sortable_example;
@@ -294,12 +296,14 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'pinned_sheet': pinned_sheet_example.scorecardExample,
   'popup': popup_example.scorecardExample,
   'progress': progress_example.scorecardExample,
+  'qr_code': qr_code_example.scorecardExample,
   'radio_group': radio_group_example.scorecardExample,
   'refresh_trigger': refresh_trigger_example.scorecardExample,
   'resizable': resizable_example.scorecardExample,
   'scaffold': scaffold_example.scorecardExample,
   'scrollbar': scrollbar_example.scorecardExample,
   'select': select_example.scorecardExample,
+  'signature_pad': signature_pad_example.scorecardExample,
   'skeleton': skeleton_example.scorecardExample,
   'slider': slider_example.scorecardExample,
   'sortable': sortable_example.scorecardExample,

@@ -105,6 +105,8 @@ import 'package:docs/ui/dashcn/components/radio_group/preview.dart'
     deferred as preview_radio_group;
 import 'package:docs/ui/dashcn/components/select/preview.dart'
     deferred as preview_select;
+import 'package:docs/ui/dashcn/components/signature_pad/preview.dart'
+    deferred as preview_signature_pad;
 import 'package:docs/ui/dashcn/components/slider/preview.dart'
     deferred as preview_slider;
 import 'package:docs/ui/dashcn/components/star_rating/preview.dart'
@@ -179,6 +181,8 @@ import 'package:docs/ui/dashcn/components/image/preview.dart'
     deferred as preview_image;
 import 'package:docs/ui/dashcn/components/markdown/preview.dart'
     deferred as preview_markdown;
+import 'package:docs/ui/dashcn/components/qr_code/preview.dart'
+    deferred as preview_qr_code;
 import 'package:docs/ui/dashcn/components/alpha/preview.dart'
     deferred as preview_alpha;
 import 'package:docs/ui/dashcn/components/anchor/preview.dart'
@@ -475,6 +479,11 @@ Future<Widget> loadComponentPreview(
     (_) =>
         Builder(builder: preview_select.selectPreviews[exampleIndex].builder),
   ),
+  'signature_pad' => preview_signature_pad.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_signature_pad.signaturePadPreviews[exampleIndex].builder,
+    ),
+  ),
   'slider' => preview_slider.loadLibrary().then(
     (_) =>
         Builder(builder: preview_slider.sliderPreviews[exampleIndex].builder),
@@ -644,6 +653,10 @@ Future<Widget> loadComponentPreview(
     (_) => Builder(
       builder: preview_markdown.markdownPreviews[exampleIndex].builder,
     ),
+  ),
+  'qr_code' => preview_qr_code.loadLibrary().then(
+    (_) =>
+        Builder(builder: preview_qr_code.qrCodePreviews[exampleIndex].builder),
   ),
   'alpha' => preview_alpha.loadLibrary().then(
     (_) => preview_alpha.AlphaPreview(),

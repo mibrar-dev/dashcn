@@ -1,0 +1,58 @@
+{
+  "id": "qr_code",
+  "name": "QR Code",
+  "category": "Typography & Media",
+  "description": "QR code display for a string or URL with error-correction levels, quiet zone, module shapes and an optional centre logo.",
+  "tier": "component",
+  "install": "dashcn add qr_code",
+  "import": "import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';",
+  "tags": [
+    "qr",
+    "code",
+    "display",
+    "share",
+    "url",
+    "media"
+  ],
+  "deps": {
+    "foundation": [],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [],
+    "components": []
+  },
+  "files": [
+    "qr_code.dart",
+    "qr_code_matrix.dart",
+    "qr_code_style.dart",
+    "qr_code_theme.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": [
+      "QrCode",
+      "QrCodePainter",
+      "QrCodeTheme",
+      "QrMatrix"
+    ],
+    "enums": [
+      "QrErrorCorrectionLevel",
+      "QrModuleShape"
+    ],
+    "constants": [
+      "qrCodeDefaults",
+      "qrCodeThemeOverrides"
+    ]
+  },
+  "theme": {
+    "class": "QrCodeTheme",
+    "userFile": "qr_code_theme.dart",
+    "defaults": "qrCodeDefaults",
+    "fields": {
+      "foreground": "ThemedColor? - dark-module ink, default foreground",
+      "background": "ThemedColor? - light modules and quiet zone, default background"
+    }
+  }
+}
