@@ -58,6 +58,11 @@ class ThemeDocument {
     this.surfaceOpacity,
     this.surfaceBlur,
     this.motionEnabled,
+    this.motionIntensity,
+    this.motionCustomDurationMultiplier,
+    this.motionCustomPressScale,
+    this.motionCustomEnterOffset,
+    this.motionCustomCurve,
     this.schema,
     this.shadowsDerived,
   });
@@ -99,7 +104,7 @@ class ThemeDocument {
     if (surfaceBlur != null && surfaceBlur < 0) {
       throw const ThemeDocumentException('preset.surfaceBlur must be >= 0');
     }
-    final bool? motionEnabled = _motionField(json);
+    final _MotionBlock motion = _motionBlock(json);
     final Map<String, Object?> shadow = _objectField(json, 'shadow', 'preset');
     return ThemeDocument(
       schema: _stringField(json, r'$schema', 'preset'),
@@ -121,7 +126,12 @@ class ThemeDocument {
       fonts: fonts,
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
-      motionEnabled: motionEnabled,
+      motionEnabled: motion.enabled,
+      motionIntensity: motion.intensity,
+      motionCustomDurationMultiplier: motion.durationMultiplier,
+      motionCustomPressScale: motion.pressScale,
+      motionCustomEnterOffset: motion.enterOffset,
+      motionCustomCurve: motion.curve,
       shadowsDerived: _stringField(json, 'shadowsDerived', 'preset'),
     );
   }
@@ -185,6 +195,31 @@ class ThemeDocument {
   /// Non-null persists the Theme Studio motion toggle.
   final bool? motionEnabled;
 
+  /// Motion intensity. Null means untouched (standard applies and no motion
+  /// block serialises unless another motion leg is set).
+  final MotionIntensity? motionIntensity;
+
+  /// Custom duration multiplier (Theme Studio Custom row). Null means unset.
+  final double? motionCustomDurationMultiplier;
+
+  /// Custom press scale (Theme Studio Custom row). Null means unset.
+  final double? motionCustomPressScale;
+
+  /// Custom enter offset in logical px (Theme Studio Custom row).
+  final double? motionCustomEnterOffset;
+
+  /// Custom enter curve (Theme Studio Custom row). Null means unset.
+  final MotionCurveName? motionCustomCurve;
+
+  /// Whether the document carries any motion choice (any motion leg set).
+  bool get hasMotion =>
+      motionEnabled != null ||
+      motionIntensity != null ||
+      motionCustomDurationMultiplier != null ||
+      motionCustomPressScale != null ||
+      motionCustomEnterOffset != null ||
+      motionCustomCurve != null;
+
   /// The optional `shadowsDerived` marker, carried through untouched.
   final String? shadowsDerived;
 
@@ -235,8 +270,18 @@ class ThemeDocument {
     },
     if (surfaceOpacity != null) 'surfaceOpacity': jsonNumber(surfaceOpacity!),
     if (surfaceBlur != null) 'surfaceBlur': jsonNumber(surfaceBlur!),
-    if (motionEnabled != null)
-      'motion': <String, Object?>{'enabled': motionEnabled},
+    if (hasMotion)
+      'motion': <String, Object?>{
+        if (motionEnabled != null) 'enabled': motionEnabled,
+        if (motionIntensity != null) 'intensity': motionIntensity!.name,
+        if (motionCustomDurationMultiplier != null)
+          'durationMultiplier': jsonNumber(motionCustomDurationMultiplier!),
+        if (motionCustomPressScale != null)
+          'pressScale': jsonNumber(motionCustomPressScale!),
+        if (motionCustomEnterOffset != null)
+          'enterOffset': jsonNumber(motionCustomEnterOffset!),
+        if (motionCustomCurve != null) 'curve': motionCustomCurve!.wireName,
+      },
     if (shadowsDerived != null) 'shadowsDerived': shadowsDerived,
   };
 
@@ -275,8 +320,15 @@ class ThemeDocument {
       density: Density.fromSpacingScale(scale),
       surfaceOpacity: surfaceOpacity,
       surfaceBlur: surfaceBlur,
-      motion: motionEnabled == false
-          ? const MotionTokens(enabled: false)
+      motion: hasMotion
+          ? MotionTokens(
+              enabled: motionEnabled ?? true,
+              intensity: motionIntensity ?? MotionIntensity.standard,
+              customDurationMultiplier: motionCustomDurationMultiplier ?? 1.0,
+              customPressScale: motionCustomPressScale ?? 0.96,
+              customEnterOffset: motionCustomEnterOffset ?? 8.0,
+              customCurve: motionCustomCurve ?? MotionCurveName.emphasizedOut,
+            )
           : const MotionTokens(),
     );
   }
@@ -470,25 +522,154 @@ Map<String, String> _fontsField(Map<String, Object?> json) {
   return fonts;
 }
 
-/// The optional motion block: `motion: {enabled: bool}` or null when the
-/// document carries no motion choice (presets predate it).
-bool? _motionField(Map<String, Object?> json) {
+/// Parsed motion block legs (all nullable; null block means untouched).
+class _MotionBlock {
+  const _MotionBlock({
+    this.enabled,
+    this.intensity,
+    this.durationMultiplier,
+    this.pressScale,
+    this.enterOffset,
+    this.curve,
+  });
+
+  final bool? enabled;
+  final MotionIntensity? intensity;
+  final double? durationMultiplier;
+  final double? pressScale;
+  final double? enterOffset;
+  final MotionCurveName? curve;
+}
+
+/// The optional motion block or an empty block when the document carries no
+/// motion choice (presets predate it).
+///
+/// Accepted keys: `enabled` (bool), `intensity`
+/// (`subtle`|`standard`|`expressive`|`custom`), `durationMultiplier` (number
+/// 0.25..3.0), `pressScale` (number 0.8..1.0), `enterOffset` (number 0..24),
+/// `curve` (`standard`|`emphasizedOut`|`emphasizedIn`|`spring`).
+_MotionBlock _motionBlock(Map<String, Object?> json) {
   final Object? value = json['motion'];
   if (value == null) {
-    return null;
+    return const _MotionBlock();
   }
   final Map<String, Object?> map = _stringKeyed(value, 'preset.motion');
-  final Object? enabled = map['enabled'];
-  if (enabled is! bool) {
-    throw const ThemeDocumentException('preset.motion.enabled must be a bool');
+  bool? enabled;
+  MotionIntensity? intensity;
+  double? durationMultiplier;
+  double? pressScale;
+  double? enterOffset;
+  MotionCurveName? curve;
+  if (map.containsKey('enabled')) {
+    final Object? raw = map['enabled'];
+    if (raw is! bool) {
+      throw const ThemeDocumentException(
+        'preset.motion.enabled must be a bool',
+      );
+    }
+    enabled = raw;
   }
+  if (map.containsKey('intensity')) {
+    final Object? raw = map['intensity'];
+    if (raw is! String) {
+      throw const ThemeDocumentException(
+        'preset.motion.intensity must be a string',
+      );
+    }
+    intensity = switch (raw) {
+      'subtle' => MotionIntensity.subtle,
+      'standard' => MotionIntensity.standard,
+      'expressive' => MotionIntensity.expressive,
+      'custom' => MotionIntensity.custom,
+      _ => throw ThemeDocumentException(
+        'preset.motion.intensity must be subtle|standard|expressive|custom, got $raw',
+      ),
+    };
+  }
+  if (map.containsKey('durationMultiplier')) {
+    final Object? raw = map['durationMultiplier'];
+    if (raw is! num) {
+      throw const ThemeDocumentException(
+        'preset.motion.durationMultiplier must be a number',
+      );
+    }
+    final double v = raw.toDouble();
+    if (v < 0.25 || v > 3.0) {
+      throw const ThemeDocumentException(
+        'preset.motion.durationMultiplier must be in 0.25..3.0',
+      );
+    }
+    durationMultiplier = v;
+  }
+  if (map.containsKey('pressScale')) {
+    final Object? raw = map['pressScale'];
+    if (raw is! num) {
+      throw const ThemeDocumentException(
+        'preset.motion.pressScale must be a number',
+      );
+    }
+    final double v = raw.toDouble();
+    if (v < 0.8 || v > 1.0) {
+      throw const ThemeDocumentException(
+        'preset.motion.pressScale must be in 0.8..1.0',
+      );
+    }
+    pressScale = v;
+  }
+  if (map.containsKey('enterOffset')) {
+    final Object? raw = map['enterOffset'];
+    if (raw is! num) {
+      throw const ThemeDocumentException(
+        'preset.motion.enterOffset must be a number',
+      );
+    }
+    final double v = raw.toDouble();
+    if (v < 0 || v > 24) {
+      throw const ThemeDocumentException(
+        'preset.motion.enterOffset must be in 0..24',
+      );
+    }
+    enterOffset = v;
+  }
+  if (map.containsKey('curve')) {
+    final Object? raw = map['curve'];
+    if (raw is! String) {
+      throw const ThemeDocumentException(
+        'preset.motion.curve must be a string',
+      );
+    }
+    if (raw != 'standard' &&
+        raw != 'emphasizedOut' &&
+        raw != 'emphasizedIn' &&
+        raw != 'spring') {
+      throw ThemeDocumentException(
+        'preset.motion.curve must be standard|emphasizedOut|emphasizedIn|spring, got $raw',
+      );
+    }
+    curve = MotionCurveName.parse(raw);
+  }
+  const Set<String> known = <String>{
+    'enabled',
+    'intensity',
+    'durationMultiplier',
+    'pressScale',
+    'enterOffset',
+    'curve',
+  };
   final List<String> extra = map.keys
-      .where((String key) => key != 'enabled')
+      .where((String key) => !known.contains(key))
       .toList();
   if (extra.isNotEmpty) {
     throw ThemeDocumentException(
       'preset.motion has unknown keys: ${extra.join(', ')}',
     );
   }
-  return enabled;
+  return _MotionBlock(
+    enabled: enabled,
+    intensity: intensity,
+    durationMultiplier: durationMultiplier,
+    pressScale: pressScale,
+    enterOffset: enterOffset,
+    curve: curve,
+  );
 }

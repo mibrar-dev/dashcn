@@ -94,15 +94,20 @@ class FadeSlideInState extends State<FadeSlideIn>
 
   /// Resolves the controller length (delay plus transition) and the
   /// interval-mapped progress curve from the theme and widget legs.
+  /// Durations and delays scale with the intensity multiplier in one place.
   void _resolve() {
     final MotionTokens motion = Theme.of(context).motion;
-    final Duration base = widget.duration ?? motion.durations.base;
-    final Curve curve = widget.curve ?? motion.curves.emphasizedOut;
-    final int totalMs = widget.delay.inMilliseconds + base.inMilliseconds;
+    final Duration base = motion.scaledDuration(
+      widget.duration ?? motion.durations.base,
+    );
+    final Duration delay = motion.scaledDuration(widget.delay);
+    final Curve curve = motion.resolveEnterCurve(
+      motion.curves.emphasizedOut,
+      override: widget.curve,
+    );
+    final int totalMs = delay.inMilliseconds + base.inMilliseconds;
     _controller.duration = Duration(milliseconds: totalMs <= 0 ? 1 : totalMs);
-    final double lead = totalMs <= 0
-        ? 0.0
-        : widget.delay.inMilliseconds / totalMs;
+    final double lead = totalMs <= 0 ? 0.0 : delay.inMilliseconds / totalMs;
     _progress = _controller.drive(
       CurveTween(curve: Interval(lead, 1.0, curve: curve)),
     );
@@ -119,6 +124,12 @@ class FadeSlideInState extends State<FadeSlideIn>
     if (_reduced) {
       return widget.child;
     }
+    // The slide distance tracks the intensity enter offset in one place
+    // (standard keeps the caller's 8 px); an explicit offset leg always wins
+    // only when it differs from the default — custom offsets flow through
+    // the intensity scale instead of bypassing it.
+    final MotionTokens motion = Theme.of(context).motion;
+    final Offset offset = motion.scaledOffset(widget.offset);
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
@@ -126,10 +137,7 @@ class FadeSlideInState extends State<FadeSlideIn>
         final double t = _progress.value;
         return Opacity(
           opacity: widget.beginOpacity + (1.0 - widget.beginOpacity) * t,
-          child: Transform.translate(
-            offset: widget.offset * (1.0 - t),
-            child: child,
-          ),
+          child: Transform.translate(offset: offset * (1.0 - t), child: child),
         );
       },
     );

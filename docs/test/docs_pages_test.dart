@@ -185,7 +185,7 @@ void main() {
     expect(h1.fontSize, 48);
 
     final TextStyle body = styleOf(
-      find.textContaining('running live in iPhone'),
+      find.textContaining('Widgets-only components'),
     );
     expect(body.fontWeight, FontWeight.w400, reason: 'body copy is regular');
     expect(body.fontFamily, 'Geist');
