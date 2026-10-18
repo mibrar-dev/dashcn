@@ -44,7 +44,7 @@ String themeDartSource(ThemeDocument document, {String? themeImport}) {
       import,
       siblingUri(import, 'color_tokens.dart'),
       siblingUri(import, 'tokens.dart'),
-      if (document.motionEnabled != null) siblingUri(import, 'motion.dart'),
+      if (document.hasMotion) siblingUri(import, 'motion.dart'),
     ],
   ];
   for (int i = 0; i < groups.length; i += 1) {
@@ -138,16 +138,59 @@ String _buildSource(ThemeDocument d, String prefix, String classPrefix) {
     if (d.hasFonts) 'fonts: ${prefix}Fonts',
     if (d.surfaceOpacity != null) 'surfaceOpacity: ${_num(d.surfaceOpacity!)}',
     if (d.surfaceBlur != null) 'surfaceBlur: ${_num(d.surfaceBlur!)}',
-    // The export keeps the motion choice: an explicit toggle writes the
-    // matching MotionTokens, an untouched document omits it (defaults apply).
-    if (d.motionEnabled == true) 'motion: const MotionTokens()',
-    if (d.motionEnabled == false) 'motion: const MotionTokens(enabled: false)',
+    // The export keeps the motion choice: an untouched document omits it
+    // (defaults apply); any motion leg writes the matching MotionTokens.
+    if (d.hasMotion) _motionSource(d),
   ];
   return '/// Builds the ambient theme for the ${d.name} preset.\n'
       'ThemeData build${classPrefix}Theme(Brightness brightness) {\n'
       '  final isDark = brightness == Brightness.dark;\n'
       '  ${_call('return ThemeData', args, indent: '  ', suffix: ';')}\n'
       '}';
+}
+
+/// Renders the `motion:` argument for a document that carries a motion choice.
+String _motionSource(ThemeDocument d) {
+  // Preserve the historical spellings for the toggle-only documents so the
+  // byte-pinned export tests keep passing: enabled-only true omits the leg
+  // (defaults), enabled-only false writes the single leg.
+  final bool onlyEnabled =
+      d.motionIntensity == null &&
+      d.motionCustomDurationMultiplier == null &&
+      d.motionCustomPressScale == null &&
+      d.motionCustomEnterOffset == null &&
+      d.motionCustomCurve == null;
+  if (onlyEnabled && d.motionEnabled == true) {
+    return 'motion: const MotionTokens()';
+  }
+  if (onlyEnabled && d.motionEnabled == false) {
+    return 'motion: const MotionTokens(enabled: false)';
+  }
+  final List<String> legs = <String>[];
+  if (d.motionEnabled != null) {
+    legs.add('enabled: ${d.motionEnabled! ? 'true' : 'false'}');
+  }
+  if (d.motionIntensity != null) {
+    legs.add('intensity: MotionIntensity.${d.motionIntensity!.name}');
+  }
+  if (d.motionCustomDurationMultiplier != null) {
+    legs.add(
+      'customDurationMultiplier: ${_num(d.motionCustomDurationMultiplier!)}',
+    );
+  }
+  if (d.motionCustomPressScale != null) {
+    legs.add('customPressScale: ${_num(d.motionCustomPressScale!)}');
+  }
+  if (d.motionCustomEnterOffset != null) {
+    legs.add('customEnterOffset: ${_num(d.motionCustomEnterOffset!)}');
+  }
+  if (d.motionCustomCurve != null) {
+    legs.add('customCurve: MotionCurveName.${d.motionCustomCurve!.name}');
+  }
+  if (legs.isEmpty) {
+    return 'motion: const MotionTokens()';
+  }
+  return 'motion: const MotionTokens(${legs.join(', ')})';
 }
 
 /// `amber-minimal` -> `amberMinimal`; strips anything that cannot appear in a

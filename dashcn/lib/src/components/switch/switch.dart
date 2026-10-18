@@ -34,9 +34,6 @@ const _switchMouseCursor = StateValue<MouseCursor>(
   disabled: SystemMouseCursors.basic,
 );
 
-/// Curve of the thumb travel.
-const Curve _switchTravelCurve = Curves.easeInOut;
-
 /// Transparent padding around the row so the focus ring never clips.
 const double switchHitPadding = 2;
 
@@ -328,12 +325,15 @@ class _SwitchTrack extends StatelessWidget {
     Color? colorFor(StateValue<ThemedColor>? value) =>
         value?.resolve(states)?.resolve(colors);
     final Color? border = colorFor(borderColor);
-    // The thumb slides with the theme motion timing while the track colour
-    // fades; under reduced motion both snap with no ticker.
+    // The thumb slides with the theme motion timing and a spring overshoot
+    // while the track colour fades; under reduced motion both snap with no
+    // ticker.
+    final motion = Theme.of(context).motion;
     final Duration duration = resolveMotionDuration(
       context,
-      Theme.of(context).motion.durations.instant,
+      motion.durations.instant,
     );
+    final Curve travelCurve = motion.curves.spring;
     // The thumb keeps its own height and centers vertically: pinning top and
     // bottom to 0 would stretch a 16px thumb to the full 18.4px track.
     // Clamped at zero so an oversized themed thumb overflows instead of
@@ -357,7 +357,7 @@ class _SwitchTrack extends StatelessWidget {
         children: <Widget>[
           AnimatedPositioned(
             duration: duration,
-            curve: _switchTravelCurve,
+            curve: travelCurve,
             left: isOn ? travel : 0,
             top: verticalInset,
             bottom: verticalInset,

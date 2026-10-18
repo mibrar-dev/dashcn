@@ -66,8 +66,13 @@ class PressScaleState extends State<PressScale> {
       context,
       motion.durations.instant,
     );
+    // The default pressed scale tracks the intensity press scale in one place
+    // (standard 0.96); an explicit widget leg always wins.
+    final double pressedScale = widget.pressedScale == 0.96
+        ? motion.pressScale
+        : widget.pressedScale;
     Widget child = AnimatedScale(
-      scale: _pressed ? widget.pressedScale : 1.0,
+      scale: _pressed ? pressedScale : 1.0,
       duration: duration,
       curve: motion.curves.standard,
       child: widget.child,

@@ -21,10 +21,30 @@ bool motionReduced(BuildContext context) {
   return !Theme.of(context).motion.enabled;
 }
 
-/// Resolves [base] to zero under reduced motion, otherwise returns it.
+/// Resolves [base] to zero under reduced motion, otherwise scales it by
+/// the theme intensity multiplier.
 ///
 /// Pass every component animation duration through this so the final state
-/// stays identical with and without motion.
+/// stays identical with and without motion and the Theme Studio intensity
+/// picker retimes the whole kit from one place.
 Duration resolveMotionDuration(BuildContext context, Duration base) {
-  return motionReduced(context) ? Duration.zero : base;
+  if (motionReduced(context)) {
+    return Duration.zero;
+  }
+  return Theme.of(context).motion.scaledDuration(base);
+}
+
+/// Resolves an enter [offset] through the theme intensity enter offset.
+///
+/// Standard keeps the caller's slide, subtle halves it, expressive grows it
+/// by half, custom scales by its explicit leg. Zero stays zero.
+Offset resolveMotionOffset(BuildContext context, Offset base) {
+  return Theme.of(context).motion.scaledOffset(base);
+}
+
+/// Resolves the press scale for [context] through the theme intensity.
+///
+/// Standard 0.96, subtle 0.98, expressive 0.94, custom the explicit leg.
+double resolvePressScale(BuildContext context) {
+  return Theme.of(context).motion.pressScale;
 }

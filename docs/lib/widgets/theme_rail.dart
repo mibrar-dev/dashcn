@@ -21,12 +21,14 @@ import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/fade_scroll.dart';
+import '../ui/dashcn/theme/motion.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'get_code_dialog.dart';
 import 'open_preset_dialog.dart';
 import 'theme_import_dialog.dart';
 import 'rail_footer.dart';
 import 'rail_glyphs.dart';
+import 'rail_picker_motion.dart';
 import 'rail_picker_scales.dart';
 import 'rail_picker_shadow.dart';
 import 'rail_picker_surface.dart';
@@ -70,17 +72,28 @@ class _ThemeRailState extends State<ThemeRail> {
   /// moving keyboard focus never touches the model, so browsing options costs
   /// zero site rebuilds. Closing without picking discards the draft.
   void _pickPreset(BuildContext anchor) {
-    showPresetPicker(anchor, _model.presetId, onChanged: _model.selectPreset);
+    showPresetPicker(
+      anchor,
+      () => _model.presetId,
+      listenable: _model,
+      onChanged: _model.selectPreset,
+    );
   }
 
   void _pickRadius(BuildContext anchor) {
-    showRadiusPicker(anchor, _model.radiusPx, onChanged: _model.setRadiusPx);
+    showRadiusPicker(
+      anchor,
+      () => _model.radiusPx,
+      listenable: _model,
+      onChanged: _model.setRadiusPx,
+    );
   }
 
   void _pickSpacing(BuildContext anchor) {
     showSpacingPicker(
       anchor,
-      _model.document.spacing,
+      () => _model.document.spacing,
+      listenable: _model,
       onChanged: _model.setSpacingRem,
     );
   }
@@ -89,7 +102,8 @@ class _ThemeRailState extends State<ThemeRail> {
     final bool dark = widget.state.brightness == Brightness.dark;
     showShadowPicker(
       anchor,
-      _model.document.shadowOf(widget.state.brightness),
+      () => _model.document.shadowOf(widget.state.brightness),
+      listenable: _model,
       dark: dark,
       onChanged: (DocsShadowAtoms atoms) =>
           _model.setShadow(widget.state.brightness, atoms),
@@ -99,7 +113,8 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickSurfaceOpacity(BuildContext anchor) {
     showSurfaceOpacityPicker(
       anchor,
-      _model.document.surfaceOpacity,
+      () => _model.document.surfaceOpacity,
+      listenable: _model,
       onChanged: _model.setSurfaceOpacity,
     );
   }
@@ -107,7 +122,8 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickSurfaceBlur(BuildContext anchor) {
     showSurfaceBlurPicker(
       anchor,
-      _model.document.surfaceBlur,
+      () => _model.document.surfaceBlur,
+      listenable: _model,
       onChanged: _model.setSurfaceBlur,
     );
   }
@@ -115,7 +131,8 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickColorBase(BuildContext row) {
     showColorPicker(
       row,
-      docsColorOf(_model.document.light['background']!),
+      () => docsColorOf(_model.document.light['background']!),
+      listenable: _model,
       onChanged: _model.setBaseColor,
     );
   }
@@ -123,7 +140,8 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickColorAccent(BuildContext row) {
     showColorPicker(
       row,
-      docsColorOf(_model.document.light['primary']!),
+      () => docsColorOf(_model.document.light['primary']!),
+      listenable: _model,
       onChanged: _model.setAccentColor,
     );
   }
@@ -131,7 +149,8 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickColorChart(BuildContext row) {
     showColorPicker(
       row,
-      docsColorOf(_model.document.light['chart1']!),
+      () => docsColorOf(_model.document.light['chart1']!),
+      listenable: _model,
       onChanged: _model.setChartColors,
     );
   }
@@ -140,7 +159,8 @@ class _ThemeRailState extends State<ThemeRail> {
     showFontPicker(
       row,
       'heading',
-      _model.document.headingFont,
+      () => _model.document.headingFont,
+      listenable: _model,
       onChanged: (String spec) =>
           _model.setFont('heading', spec.isEmpty ? null : spec),
     );
@@ -150,7 +170,8 @@ class _ThemeRailState extends State<ThemeRail> {
     showFontPicker(
       row,
       'body',
-      _model.document.bodyFont,
+      () => _model.document.bodyFont,
+      listenable: _model,
       onChanged: (String spec) =>
           _model.setFont('body', spec.isEmpty ? null : spec),
     );
@@ -159,8 +180,62 @@ class _ThemeRailState extends State<ThemeRail> {
   void _pickTransition(BuildContext row) {
     showTransitionPicker(
       row,
-      _model.transition,
+      () => _model.transition,
+      listenable: _model,
       onChanged: _model.setTransition,
+    );
+  }
+
+  void _pickIntensity(BuildContext row) {
+    showMotionIntensityPicker(
+      row,
+      _model.document.motionIntensity,
+      onChanged: (MotionIntensity intensity) {
+        // Selecting Standard clears the leg (defaults apply); other picks
+        // persist the choice. Custom keeps any previously tuned legs.
+        _model.setMotionIntensity(
+          intensity == MotionIntensity.standard &&
+                  _model.document.motionCustomDurationMultiplier == null &&
+                  _model.document.motionCustomPressScale == null &&
+                  _model.document.motionCustomEnterOffset == null &&
+                  _model.document.motionCustomCurve == null &&
+                  _model.document.motionEnabled == null
+              ? null
+              : intensity,
+        );
+      },
+    );
+  }
+
+  void _pickMotionPressScale(BuildContext row) {
+    showMotionPressScalePicker(
+      row,
+      _model.document.motionCustomPressScale,
+      onChanged: _model.setMotionCustomPressScale,
+    );
+  }
+
+  void _pickMotionEnterOffset(BuildContext row) {
+    showMotionEnterOffsetPicker(
+      row,
+      _model.document.motionCustomEnterOffset,
+      onChanged: _model.setMotionCustomEnterOffset,
+    );
+  }
+
+  void _pickMotionDuration(BuildContext row) {
+    showMotionDurationPicker(
+      row,
+      _model.document.motionCustomDurationMultiplier,
+      onChanged: _model.setMotionCustomDurationMultiplier,
+    );
+  }
+
+  void _pickMotionCurve(BuildContext row) {
+    showMotionCurvePicker(
+      row,
+      _model.document.motionCustomCurve,
+      onChanged: _model.setMotionCustomCurve,
     );
   }
 
@@ -406,6 +481,73 @@ class _ThemeRailState extends State<ThemeRail> {
                             onPressed: (_) => _toggleMotion(),
                             trailing: const Icon(LucideIcons.zap, size: 16),
                           ),
+                          RailRow(
+                            key: const ValueKey<String>('rail-row-intensity'),
+                            label: 'Intensity',
+                            value: motionIntensityLabel(
+                              document.motionIntensity,
+                            ),
+                            selected: document.motionIntensity != null,
+                            onPressed: _pickIntensity,
+                            trailing: const Icon(LucideIcons.gauge, size: 16),
+                          ),
+                          if (document.motionIntensity ==
+                              MotionIntensity.custom) ...<Widget>[
+                            RailRow(
+                              key: const ValueKey<String>(
+                                'rail-row-motion-press',
+                              ),
+                              label: 'Press scale',
+                              value: (document.motionCustomPressScale ?? 0.96)
+                                  .toStringAsFixed(2),
+                              selected: document.motionCustomPressScale != null,
+                              onPressed: _pickMotionPressScale,
+                              trailing: const Icon(
+                                LucideIcons.scaling,
+                                size: 16,
+                              ),
+                            ),
+                            RailRow(
+                              key: const ValueKey<String>(
+                                'rail-row-motion-offset',
+                              ),
+                              label: 'Enter offset',
+                              value:
+                                  '${(document.motionCustomEnterOffset ?? 8.0).toStringAsFixed(1)} px',
+                              selected:
+                                  document.motionCustomEnterOffset != null,
+                              onPressed: _pickMotionEnterOffset,
+                              trailing: const Icon(LucideIcons.move, size: 16),
+                            ),
+                            RailRow(
+                              key: const ValueKey<String>(
+                                'rail-row-motion-duration',
+                              ),
+                              label: 'Duration',
+                              value:
+                                  '${(document.motionCustomDurationMultiplier ?? 1.0).toStringAsFixed(2)}x',
+                              selected:
+                                  document.motionCustomDurationMultiplier !=
+                                  null,
+                              onPressed: _pickMotionDuration,
+                              trailing: const Icon(LucideIcons.timer, size: 16),
+                            ),
+                            RailRow(
+                              key: const ValueKey<String>(
+                                'rail-row-motion-curve',
+                              ),
+                              label: 'Curve',
+                              value: motionCurveLabel(
+                                document.motionCustomCurve,
+                              ),
+                              selected: document.motionCustomCurve != null,
+                              onPressed: _pickMotionCurve,
+                              trailing: const Icon(
+                                LucideIcons.spline,
+                                size: 16,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ),

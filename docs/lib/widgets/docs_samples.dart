@@ -110,6 +110,21 @@ final Duration press = theme.motion.durations.instant; // 100 ms
 final Duration enter = theme.motion.durations.base; // 200 ms
 final Curve spring = theme.motion.curves.spring; // press-release overshoot
 
+// Intensity scales the whole kit from one place: subtle, standard
+// (today's values, the default), expressive and custom.
+final ThemeData expressive = theme.copyWith(
+  motion: () => const MotionTokens(intensity: MotionIntensity.expressive),
+);
+final ThemeData custom = theme.copyWith(
+  motion: () => const MotionTokens(
+    intensity: MotionIntensity.custom,
+    customDurationMultiplier: 1.25,
+    customPressScale: 0.95,
+    customEnterOffset: 10.0,
+    customCurve: MotionCurveName.spring,
+  ),
+);
+
 // The Theme Studio Motion row writes motion.enabled; off collapses every
 // component animation to its end value. Reduced motion
 // (MediaQuery.disableAnimations) does the same automatically.
