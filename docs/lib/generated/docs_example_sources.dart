@@ -11314,6 +11314,333 @@ Widget _cardItems(BuildContext context) => const _CardsDemo();
 ''',
     ),
   ],
+  'search_bar': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_searchBarDefault',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
+
+const List<String> _searchFruits = <String>[
+  'Apple',
+  'Apricot',
+  'Avocado',
+  'Banana',
+  'Cherry',
+  'Grape',
+  'Kiwi',
+  'Lemon',
+  'Mango',
+  'Orange',
+  'Peach',
+  'Pear',
+  'Pineapple',
+  'Strawberry',
+  'Watermelon',
+];
+
+/// The status line every interactive example writes to.
+class _StatusLine extends StatelessWidget {
+  const _StatusLine(this.status);
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      status,
+      style: TextStyle(
+        fontSize: 12,
+        color: Theme.of(context).colors.mutedForeground,
+      ),
+    );
+  }
+}
+
+/// The default ranked field with a debounced echo and a selection echo.
+class _SearchBarDefault extends StatefulWidget {
+  const _SearchBarDefault();
+
+  @override
+  State<_SearchBarDefault> createState() => _SearchBarDefaultState();
+}
+
+class _SearchBarDefaultState extends State<_SearchBarDefault> {
+  String _query = '';
+  String _selected = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = Theme.of(context).spacing;
+    return SizedBox(
+      width: 320,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SearchBar<String>(
+            items: _searchFruits,
+            hintText: 'Search fruit',
+            onChanged: (String query) => setState(() => _query = query),
+            onSelected: (String item) => setState(() => _selected = item),
+          ),
+          Gap(spacing.sm),
+          _StatusLine(
+            _selected.isEmpty
+                ? (_query.isEmpty ? 'Type to filter' : 'query: $_query')
+                : 'Selected $_selected for "$_query"',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _searchBarDefault(BuildContext context) => const _SearchBarDefault();
+''',
+    ),
+    DocsExampleSource(
+      name: 'With groups',
+      builder: '_searchBarGroups',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
+
+/// The status line every interactive example writes to.
+class _StatusLine extends StatelessWidget {
+  const _StatusLine(this.status);
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      status,
+      style: TextStyle(
+        fontSize: 12,
+        color: Theme.of(context).colors.mutedForeground,
+      ),
+    );
+  }
+}
+
+/// Ranked groups with headings; empty groups never render.
+class _SearchBarGroups extends StatefulWidget {
+  const _SearchBarGroups();
+
+  @override
+  State<_SearchBarGroups> createState() => _SearchBarGroupsState();
+}
+
+class _SearchBarGroupsState extends State<_SearchBarGroups> {
+  String _selected = '';
+
+  static const List<SearchBarGroup<String>> _groups = <SearchBarGroup<String>>[
+    SearchBarGroup<String>(
+      label: 'Suggestions',
+      items: <String>['Calendar', 'Search Emoji', 'Launch'],
+    ),
+    SearchBarGroup<String>(
+      label: 'Settings',
+      items: <String>['Profile', 'Mail', 'Settings'],
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = Theme.of(context).spacing;
+    return SizedBox(
+      width: 320,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SearchBar<String>(
+            groups: _groups,
+            hintText: 'Search commands',
+            onSelected: (String item) => setState(() => _selected = item),
+          ),
+          Gap(spacing.sm),
+          _StatusLine(_selected.isEmpty ? 'Pick a command' : 'Ran $_selected'),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _searchBarGroups(BuildContext context) => const _SearchBarGroups();
+''',
+    ),
+    DocsExampleSource(
+      name: 'With cancel',
+      builder: '_searchBarCancel',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
+
+const List<String> _searchFruits = <String>[
+  'Apple',
+  'Apricot',
+  'Avocado',
+  'Banana',
+  'Cherry',
+  'Grape',
+  'Kiwi',
+  'Lemon',
+  'Mango',
+  'Orange',
+  'Peach',
+  'Pear',
+  'Pineapple',
+  'Strawberry',
+  'Watermelon',
+];
+
+/// The status line every interactive example writes to.
+class _StatusLine extends StatelessWidget {
+  const _StatusLine(this.status);
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      status,
+      style: TextStyle(
+        fontSize: 12,
+        color: Theme.of(context).colors.mutedForeground,
+      ),
+    );
+  }
+}
+
+/// A field with a cancel button that clears and reports.
+class _SearchBarCancel extends StatefulWidget {
+  const _SearchBarCancel();
+
+  @override
+  State<_SearchBarCancel> createState() => _SearchBarCancelState();
+}
+
+class _SearchBarCancelState extends State<_SearchBarCancel> {
+  String _status = 'Type, then cancel';
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = Theme.of(context).spacing;
+    return SizedBox(
+      width: 320,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SearchBar<String>(
+            items: _searchFruits,
+            hintText: 'Search fruit',
+            showCancelButton: true,
+            onCancelled: () => setState(() => _status = 'Cancelled'),
+            onSelected: (String item) =>
+                setState(() => _status = 'Selected $item'),
+          ),
+          Gap(spacing.sm),
+          _StatusLine(_status),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _searchBarCancel(BuildContext context) => const _SearchBarCancel();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Custom row',
+      builder: '_searchBarCustomRow',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
+
+const List<String> _searchFruits = <String>[
+  'Apple',
+  'Apricot',
+  'Avocado',
+  'Banana',
+  'Cherry',
+  'Grape',
+  'Kiwi',
+  'Lemon',
+  'Mango',
+  'Orange',
+  'Peach',
+  'Pear',
+  'Pineapple',
+  'Strawberry',
+  'Watermelon',
+];
+
+/// The status line every interactive example writes to.
+class _StatusLine extends StatelessWidget {
+  const _StatusLine(this.status);
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      status,
+      style: TextStyle(
+        fontSize: 12,
+        color: Theme.of(context).colors.mutedForeground,
+      ),
+    );
+  }
+}
+
+/// A custom row builder with a leading count.
+class _SearchBarCustomRow extends StatefulWidget {
+  const _SearchBarCustomRow();
+
+  @override
+  State<_SearchBarCustomRow> createState() => _SearchBarCustomRowState();
+}
+
+class _SearchBarCustomRowState extends State<_SearchBarCustomRow> {
+  String _selected = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 320,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SearchBar<String>(
+            items: _searchFruits,
+            hintText: 'Search fruit',
+            itemBuilder: (context, item, highlight, highlighted) =>
+                Text('$item (${highlight.length} hits)'),
+            onSelected: (String item) => setState(() => _selected = item),
+          ),
+          Gap(Theme.of(context).spacing.sm),
+          _StatusLine(
+            _selected.isEmpty ? 'Custom rows' : 'Selected $_selected',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _searchBarCustomRow(BuildContext context) => const _SearchBarCustomRow();
+''',
+    ),
+  ],
   'select': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -13817,20 +14144,24 @@ class _CommandPaletteState extends State<_CommandPalette> {
               child: Command(
                 debounceDuration: Duration.zero,
                 builder: (context, query) async* {
+                  // Ranked through the shared `primitives/search` ranker —
+                  // the same files the `search_bar` component filters
+                  // through — instead of a local substring check.
+                  final List<String> ranked = rankCommandLabels(
+                    _commandValues,
+                    query,
+                  );
                   final List<Widget> items = <Widget>[];
                   if (!widget.buildGroups) {
-                    for (final String value in _commandValues) {
-                      if (query == null ||
-                          value.toLowerCase().contains(query.toLowerCase())) {
-                        items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
-                          ),
-                        );
-                      }
+                    for (final String value in ranked) {
+                      items.add(
+                        SubFocusListItem(
+                          // 48px rows meet the touch minimum.
+                          minHeight: 48,
+                          title: Text(value),
+                          onTap: () => setState(() => _lastCommand = value),
+                        ),
+                      );
                     }
                   } else {
                     for (final String group in const <String>[
@@ -13855,18 +14186,15 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           ),
                         ),
                       );
-                      for (final String value in _commandValues) {
-                        if (query == null ||
-                            value.toLowerCase().contains(query.toLowerCase())) {
-                          items.add(
-                            SubFocusListItem(
-                              // 48px rows meet the touch minimum.
-                              minHeight: 48,
-                              title: Text(value),
-                              onTap: () => setState(() => _lastCommand = value),
-                            ),
-                          );
-                        }
+                      for (final String value in ranked) {
+                        items.add(
+                          SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
+                        );
                       }
                       items.add(SizedBox(height: spacing.sm));
                     }
@@ -13942,20 +14270,24 @@ class _CommandPaletteState extends State<_CommandPalette> {
               child: Command(
                 debounceDuration: Duration.zero,
                 builder: (context, query) async* {
+                  // Ranked through the shared `primitives/search` ranker —
+                  // the same files the `search_bar` component filters
+                  // through — instead of a local substring check.
+                  final List<String> ranked = rankCommandLabels(
+                    _commandValues,
+                    query,
+                  );
                   final List<Widget> items = <Widget>[];
                   if (!widget.buildGroups) {
-                    for (final String value in _commandValues) {
-                      if (query == null ||
-                          value.toLowerCase().contains(query.toLowerCase())) {
-                        items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
-                          ),
-                        );
-                      }
+                    for (final String value in ranked) {
+                      items.add(
+                        SubFocusListItem(
+                          // 48px rows meet the touch minimum.
+                          minHeight: 48,
+                          title: Text(value),
+                          onTap: () => setState(() => _lastCommand = value),
+                        ),
+                      );
                     }
                   } else {
                     for (final String group in const <String>[
@@ -13980,18 +14312,15 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           ),
                         ),
                       );
-                      for (final String value in _commandValues) {
-                        if (query == null ||
-                            value.toLowerCase().contains(query.toLowerCase())) {
-                          items.add(
-                            SubFocusListItem(
-                              // 48px rows meet the touch minimum.
-                              minHeight: 48,
-                              title: Text(value),
-                              onTap: () => setState(() => _lastCommand = value),
-                            ),
-                          );
-                        }
+                      for (final String value in ranked) {
+                        items.add(
+                          SubFocusListItem(
+                            // 48px rows meet the touch minimum.
+                            minHeight: 48,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
+                        );
                       }
                       items.add(SizedBox(height: spacing.sm));
                     }

@@ -1,0 +1,95 @@
+{
+  "id": "search_bar",
+  "name": "SearchBar",
+  "category": "Forms & Inputs",
+  "description": "A search field with a ranked result list: tiered fuzzy matching with highlighted matches, keyboard navigation, clear and cancel actions, and optional groups.",
+  "tier": "component",
+  "install": "dashcn add search_bar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';",
+  "tags": [
+    "form",
+    "search",
+    "filter",
+    "fuzzy",
+    "keyboard"
+  ],
+  "deps": {
+    "foundation": [
+      "icons/lucide_icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "theme"
+    ],
+    "primitives": [
+      "clickable",
+      "input_features",
+      "localizations",
+      "search",
+      "text"
+    ],
+    "components": [
+      "button",
+      "input"
+    ]
+  },
+  "files": [
+    "search_bar.dart",
+    "search_bar_nav.dart",
+    "search_bar_results.dart",
+    "search_bar_style.dart",
+    "search_bar_theme.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": [
+      "SearchBar",
+      "SearchBarGroup",
+      "SearchResults",
+      "SearchResultRow",
+      "SearchBarNavFeature",
+      "SearchBarTheme"
+    ],
+    "typedefs": [
+      "SearchBarLabel",
+      "SearchBarRowBuilder"
+    ],
+    "constants": [
+      "searchBarDefaults",
+      "searchBarDefaultItemPadding",
+      "searchBarDefaultIconSize",
+      "searchBarThemeOverrides"
+    ]
+  },
+  "theme": {
+    "class": "SearchBarTheme",
+    "userFile": "search_bar_theme.dart",
+    "defaults": "searchBarDefaults",
+    "fields": {
+      "background": "ThemedColor? - surface fill, default popover",
+      "foreground": "ThemedColor? - item title colour",
+      "mutedForeground": "ThemedColor? - group header, empty and hint colour",
+      "borderColor": "ThemedColor? - surface border",
+      "borderWidth": "double? - null draws no border at 0",
+      "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+      "padding": "EdgeInsetsGeometry? - content padding, default 4",
+      "itemHighlight": "StateValue<ThemedColor>? - focused row fill, default accent on hover/press/highlight",
+      "itemHighlightForeground": "StateValue<ThemedColor>? - focused row content",
+      "itemPadding": "EdgeInsetsGeometry? - row padding, default 8/6",
+      "highlightColor": "ThemedColor? - matched character colour, default primary",
+      "textStyle": "TextStyle? - row text, default text-sm (14)",
+      "shadows": "List<BoxShadow>? - surface shadows; empty draws none",
+      "maxHeight": "double? - list height cap, default 300",
+      "minRowHeight": "double? - minimum row height for the touch minimum, default 48",
+      "minRowHeight": "double? - minimum row height, default 48",
+      "showLeading": "bool? - leading search icon, default true",
+      "showClear": "bool? - trailing clear button, default true",
+      "iconSize": "double? - leading icon size, default 16"
+    }
+  },
+  "notes": [
+    "Ranking runs through `primitives/search` (`fuzzy_match.dart`, `fuzzy_typo.dart`, `search_index.dart`): the `command` palette ranks through the same files instead of duplicating the algorithm.",
+    "The keyboard map is an `InputFeature` (`SearchBarNavFeature`) so the arrows reach the list instead of moving the caret; the same contract the `autocomplete` feature uses."
+  ]
+}
