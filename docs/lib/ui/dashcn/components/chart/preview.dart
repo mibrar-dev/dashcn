@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
+import '../../foundation/icons/lucide_icons.dart';
 import 'chart.dart';
 
 Widget _chartDefault(BuildContext context) {
@@ -301,7 +302,104 @@ const List<ComponentPreview> chartPreviews = <ComponentPreview>[
   ComponentPreview('Radial Chart - Text', _chartRadialText),
   ComponentPreview('Radial Chart - Shape', _chartRadialShape),
   ComponentPreview('Radial Chart - Stacked', _chartRadialStacked),
+  ComponentPreview('Tooltip - Default', _chartTooltipDefault),
+  ComponentPreview('Tooltip - Line Indicator', _chartTooltipLineIndicator),
+  ComponentPreview('Tooltip - No Indicator', _chartTooltipNoIndicator),
+  ComponentPreview('Tooltip - Custom label', _chartTooltipCustomLabel),
+  ComponentPreview('Tooltip - Label Formatter', _chartTooltipLabelFormatter),
+  ComponentPreview('Tooltip - No Label', _chartTooltipNoLabel),
+  ComponentPreview('Tooltip - Formatter', _chartTooltipFormatter),
+  ComponentPreview('Tooltip - Icons', _chartTooltipIcons),
+  ComponentPreview('Tooltip - Advanced', _chartTooltipAdvanced),
 ];
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipDefault(BuildContext context) => _tooltipBase();
+
+Widget _chartTooltipLineIndicator(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+);
+
+Widget _chartTooltipNoIndicator(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(indicator: ChartTooltipIndicator.none),
+);
+
+String _tooltipCustomLabel(int index) => 'Activities';
+
+Widget _chartTooltipCustomLabel(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(
+    indicator: ChartTooltipIndicator.line,
+    labelFormatter: _tooltipCustomLabel,
+  ),
+);
+
+String _tooltipWeekday(int index) => _tooltipDays[index];
+
+Widget _chartTooltipLabelFormatter(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(labelFormatter: _tooltipWeekday),
+);
+
+Widget _chartTooltipNoLabel(BuildContext context) =>
+    _tooltipBase(tooltip: const ChartTooltipConfig(showLabel: false));
+
+Widget _chartTooltipFormatter(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
+);
+
+Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(showLabel: false),
+  series: const <ChartSeries>[
+    ChartSeries(
+      label: 'Running',
+      values: _tooltipRunning,
+      icon: Icon(LucideIcons.footprints),
+    ),
+    ChartSeries(
+      label: 'Swimming',
+      values: _tooltipSwimming,
+      icon: Icon(LucideIcons.waves),
+    ),
+  ],
+);
+
+Widget _chartTooltipAdvanced(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(
+    showLabel: false,
+    valueSuffix: ' kcal',
+    showTotal: true,
+  ),
+);
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
 

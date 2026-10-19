@@ -426,4 +426,68 @@ void main() {
       expect(tester.takeException(), isNull, reason: '$radial');
     }
   });
+
+  testWidgets('tooltip configs render with a preset selection', (tester) async {
+    const List<ChartTooltipConfig> configs = <ChartTooltipConfig>[
+      ChartTooltipConfig(),
+      ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+      ChartTooltipConfig(indicator: ChartTooltipIndicator.none),
+      ChartTooltipConfig(showLabel: false),
+      ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
+      ChartTooltipConfig(
+        showLabel: false,
+        valueSuffix: ' kcal',
+        showTotal: true,
+      ),
+    ];
+    for (final ChartTooltipConfig tooltip in configs) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.bar,
+            barMode: ChartBarMode.stacked,
+            tooltip: tooltip,
+            initialSelectedIndex: 1,
+            labels: const <String>['Mon', 'Tue'],
+            series: const <ChartSeries>[
+              ChartSeries(label: 'Running', values: <double>[4, 3]),
+              ChartSeries(label: 'Swimming', values: <double>[3, 4]),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$tooltip');
+    }
+    // The advanced look shows rows, suffix and total.
+    await tester.pumpWidget(
+      _frame(
+        child: const Chart(
+          type: ChartType.bar,
+          barMode: ChartBarMode.stacked,
+          initialSelectedIndex: 1,
+          tooltip: ChartTooltipConfig(
+            showLabel: false,
+            valueSuffix: ' kcal',
+            showTotal: true,
+          ),
+          labels: <String>['Mon', 'Tue'],
+          series: <ChartSeries>[
+            ChartSeries(label: 'Running', values: <double>[4, 3]),
+            ChartSeries(label: 'Swimming', values: <double>[3, 4]),
+          ],
+        ),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 800));
+    expect(find.text('Running'), findsWidgets);
+    expect(find.text('3 kcal'), findsWidgets);
+    expect(find.text('Total'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  test('tooltip value compaction drops integral decimals', () {
+    expect(chartCompactValue(450), '450');
+    expect(chartCompactValue(4.5), '4.5');
+  });
 }

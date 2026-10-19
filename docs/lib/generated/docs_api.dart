@@ -1245,6 +1245,20 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Centre sublabel drawn under [centerLabel]; null hides it.',
       ),
       DocsApiParam(
+        name: 'tooltip',
+        type: 'ChartTooltipConfig',
+        isRequired: false,
+        defaultValue: 'const ChartTooltipConfig()',
+        doc: 'Tooltip content options (indicator, label, formatters, total).',
+      ),
+      DocsApiParam(
+        name: 'initialSelectedIndex',
+        type: 'int?',
+        isRequired: false,
+        doc:
+            'Initially selected category/ring/slice index, so the tooltip and\nhighlight paint on first frame (the `defaultIndex` look); null selects\nnothing until the user hovers or taps.',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'ChartTheme?',
         isRequired: false,

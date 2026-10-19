@@ -64,6 +64,8 @@ class Chart extends StatefulWidget {
     this.radial = const ChartRadialConfig(),
     this.centerLabel,
     this.centerSublabel,
+    this.tooltip = const ChartTooltipConfig(),
+    this.initialSelectedIndex,
     this.theme,
   });
 
@@ -176,6 +178,14 @@ class Chart extends StatefulWidget {
   /// Centre sublabel drawn under [centerLabel]; null hides it.
   final String? centerSublabel;
 
+  /// Tooltip content options (indicator, label, formatters, total).
+  final ChartTooltipConfig tooltip;
+
+  /// Initially selected category/ring/slice index, so the tooltip and
+  /// highlight paint on first frame (the `defaultIndex` look); null selects
+  /// nothing until the user hovers or taps.
+  final int? initialSelectedIndex;
+
   /// Widget-leg theme override.
   final ChartTheme? theme;
 
@@ -191,6 +201,7 @@ class _ChartState extends State<Chart> {
   @override
   void initState() {
     super.initState();
+    _selected = widget.initialSelectedIndex;
     _listen();
   }
 
@@ -757,18 +768,43 @@ class _ChartState extends State<Chart> {
     if (value == null) {
       return const SizedBox.shrink();
     }
+    final ChartTooltipConfig config = widget.tooltip;
+    final double raw = double.tryParse(value) ?? 0;
+    final String text =
+        '${(config.valueFormatter ?? chartCompactValue)(raw)}${config.valueSuffix ?? ''}';
+    String? title;
+    if (config.showLabel) {
+      title = config.labelFormatter?.call(index) ?? label;
+    }
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        constraints: const BoxConstraints(maxWidth: 260),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: surface.tooltipFill,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: surface.gridColor),
         ),
-        child: Text(
-          label == null ? value : '$label: $value',
-          style: surface.tooltipStyle,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  title,
+                  style: surface.tickStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            Text(
+              text,
+              style: surface.tooltipStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );
@@ -792,28 +828,147 @@ class _ChartState extends State<Chart> {
     List<ChartSeries> series,
     int index,
   ) {
-    final List<String> lines = <String>[];
+    final ChartTooltipConfig config = widget.tooltip;
+    final List<_TooltipRow> rows = <_TooltipRow>[];
     for (var si = 0; si < series.length; si++) {
       final List<double> v = series[si].values;
       if (index < v.length) {
-        final String name = series[si].label ?? 'Series ${si + 1}';
-        lines.add('$name: ${v[index]}');
+        rows.add(
+          _TooltipRow(
+            label: series[si].label ?? 'Series ${si + 1}',
+            value: v[index],
+            color:
+                series[si].color ??
+                surface.seriesPalette[si % surface.seriesPalette.length],
+            icon: series[si].icon,
+          ),
+        );
       }
     }
-    if (lines.isEmpty) {
+    if (rows.isEmpty) {
       return const SizedBox.shrink();
+    }
+    String? title;
+    if (config.showLabel) {
+      title = config.labelFormatter?.call(index) ?? _categoryTitle(index);
+    }
+    double total = 0;
+    for (final _TooltipRow row in rows) {
+      total += row.value;
     }
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        constraints: const BoxConstraints(maxWidth: 260),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: surface.tooltipFill,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: surface.gridColor),
         ),
-        child: Text(lines.join('  '), style: surface.tooltipStyle),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  title,
+                  style: surface.tickStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            for (final _TooltipRow row in rows)
+              _tooltipRow(surface, config, row),
+            if (config.showTotal && rows.length > 1)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border(top: BorderSide(color: surface.gridColor)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: _tooltipRow(
+                      surface,
+                      config,
+                      _TooltipRow(
+                        label: config.totalLabel,
+                        value: total,
+                        color: surface.tooltipStyle.color,
+                        icon: null,
+                      ),
+                      strong: true,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
+    );
+  }
+
+  String _categoryTitle(int index) {
+    final List<String>? labels = widget.labels ?? widget.xAxis.labels;
+    if (labels != null && index < labels.length) {
+      return labels[index];
+    }
+    return 'Category $index';
+  }
+
+  Widget _tooltipRow(
+    ChartSurface surface,
+    ChartTooltipConfig config,
+    _TooltipRow row, {
+    bool strong = false,
+  }) {
+    final TextStyle style = strong
+        ? surface.tooltipStyle.copyWith(fontWeight: FontWeight.w600)
+        : surface.tooltipStyle;
+    final String value =
+        '${(config.valueFormatter ?? chartCompactValue)(row.value)}${config.valueSuffix ?? ''}';
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (row.icon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: IconTheme(
+                data: IconThemeData(color: row.color, size: 14),
+                child: row.icon!,
+              ),
+            )
+          else if (config.indicator != ChartTooltipIndicator.none)
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: _tooltipSwatch(config.indicator, row.color),
+            ),
+          Flexible(
+            child: Text(
+              row.label,
+              style: style,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(value, style: style, overflow: TextOverflow.ellipsis),
+        ],
+      ),
+    );
+  }
+
+  Widget _tooltipSwatch(ChartTooltipIndicator indicator, Color? color) {
+    if (indicator == ChartTooltipIndicator.line) {
+      return Container(width: 12, height: 3, color: color);
+    }
+    return Container(
+      width: 9,
+      height: 9,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 
@@ -836,17 +991,33 @@ class _ChartState extends State<Chart> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color:
-                        series[i].color ??
-                        surface.seriesPalette[i % surface.seriesPalette.length],
-                    shape: BoxShape.circle,
+                if (series[i].icon != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: IconTheme(
+                      data: IconThemeData(
+                        color:
+                            series[i].color ??
+                            surface.seriesPalette[i %
+                                surface.seriesPalette.length],
+                        size: 14,
+                      ),
+                      child: series[i].icon!,
+                    ),
+                  )
+                else
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color:
+                          series[i].color ??
+                          surface.seriesPalette[i %
+                              surface.seriesPalette.length],
+                      shape: BoxShape.circle,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 6),
+                if (series[i].icon == null) const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     series[i].label!,
@@ -903,4 +1074,19 @@ double barBaseline(double dataMin, ChartType type) {
     return 0;
   }
   return dataMin;
+}
+
+/// One resolved tooltip row: series label, raw value and swatch.
+class _TooltipRow {
+  const _TooltipRow({
+    required this.label,
+    required this.value,
+    required this.color,
+    required this.icon,
+  });
+
+  final String label;
+  final double value;
+  final Color? color;
+  final Widget? icon;
 }

@@ -4,8 +4,7 @@
 //
 // The cards reuse the `chart` component's named previews through
 // [ExamplePreviewCard] (live preview, Code tab, copy button), so the pages
-// never duplicate chart code. The tooltip family does not exist
-// in the library yet and has no page.
+// never duplicate chart code.
 
 import 'package:flutter/widgets.dart';
 
@@ -107,6 +106,23 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
       'Radial Chart - Text',
       'Radial Chart - Shape',
       'Radial Chart - Stacked',
+    ],
+  ),
+  ChartFamily(
+    id: 'tooltip',
+    title: 'Tooltip',
+    description:
+        'Tooltip content styles: indicators, labels, formatters and totals.',
+    examples: <String>[
+      'Tooltip - Default',
+      'Tooltip - Line Indicator',
+      'Tooltip - No Indicator',
+      'Tooltip - Custom label',
+      'Tooltip - Label Formatter',
+      'Tooltip - No Label',
+      'Tooltip - Formatter',
+      'Tooltip - Icons',
+      'Tooltip - Advanced',
     ],
   ),
   ChartFamily(

@@ -191,6 +191,7 @@ class ChartSeries {
     this.markerRadius,
     this.fillOpacity,
     this.barRadius,
+    this.icon,
   });
 
   /// Legend label; null hides the series from the legend.
@@ -223,6 +224,10 @@ class ChartSeries {
   /// Bar corner radius override.
   final BorderRadius? barRadius;
 
+  /// Optional icon shown in the legend and tooltip rows instead of the
+  /// colour dot (the "Icons" look).
+  final Widget? icon;
+
   /// Returns a copy with the given fields replaced.
   ChartSeries copyWith({List<double>? values, String? Function()? label}) {
     return ChartSeries(
@@ -236,8 +241,95 @@ class ChartSeries {
       markerRadius: markerRadius,
       fillOpacity: fillOpacity,
       barRadius: barRadius,
+      icon: icon,
     );
   }
+}
+
+/// Tooltip indicator swatch drawn before each tooltip row.
+enum ChartTooltipIndicator {
+  /// Colour dot (the default).
+  dot,
+
+  /// Short horizontal colour line.
+  line,
+
+  /// No swatch at all.
+  none,
+}
+
+/// Tooltip content options for [Chart].
+///
+/// ```dart
+/// const Chart(series: [...], tooltip: ChartTooltipConfig(
+///   indicator: ChartTooltipIndicator.line,
+///   valueSuffix: ' kcal',
+///   showTotal: true,
+/// ));
+/// ```
+class ChartTooltipConfig {
+  /// Creates tooltip content options.
+  const ChartTooltipConfig({
+    this.indicator = ChartTooltipIndicator.dot,
+    this.showLabel = true,
+    this.labelFormatter,
+    this.valueFormatter,
+    this.valueSuffix,
+    this.showTotal = false,
+    this.totalLabel = 'Total',
+  });
+
+  /// Swatch drawn before each row.
+  final ChartTooltipIndicator indicator;
+
+  /// Whether the category label paints above the rows.
+  final bool showLabel;
+
+  /// Maps a category index to its label; null uses the x labels
+  /// (or the index when there are none).
+  final String Function(int index)? labelFormatter;
+
+  /// Formats a row value; null compacts integral doubles.
+  final String Function(double value)? valueFormatter;
+
+  /// Suffix appended to every row value (and the total), e.g. `' kcal'`.
+  final String? valueSuffix;
+
+  /// Whether a total row paints after the last row.
+  final bool showTotal;
+
+  /// Total row label.
+  final String totalLabel;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ChartTooltipConfig &&
+      other.indicator == indicator &&
+      other.showLabel == showLabel &&
+      other.labelFormatter == labelFormatter &&
+      other.valueFormatter == valueFormatter &&
+      other.valueSuffix == valueSuffix &&
+      other.showTotal == showTotal &&
+      other.totalLabel == totalLabel;
+
+  @override
+  int get hashCode => Object.hash(
+    indicator,
+    showLabel,
+    labelFormatter,
+    valueFormatter,
+    valueSuffix,
+    showTotal,
+    totalLabel,
+  );
+}
+
+/// Compacts a tooltip value: integral doubles lose the `.0`.
+String chartCompactValue(double value) {
+  if (value == value.roundToDouble()) {
+    return value.toInt().toString();
+  }
+  return value.toStringAsFixed(1);
 }
 
 /// Axis configuration: every visual part can be toggled or restyled.

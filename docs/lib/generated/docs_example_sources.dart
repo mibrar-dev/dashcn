@@ -3052,6 +3052,7 @@ Widget _carouselApi(BuildContext context) =>
       builder: '_chartDefault',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartDefault(BuildContext context) {
@@ -3067,6 +3068,7 @@ Widget _chartDefault(BuildContext context) {
       builder: '_chartArea',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartArea(BuildContext context) {
@@ -3086,6 +3088,7 @@ Widget _chartArea(BuildContext context) {
       builder: '_chartBarGrouped',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartBarGrouped(BuildContext context) {
@@ -3105,6 +3108,7 @@ Widget _chartBarGrouped(BuildContext context) {
       builder: '_chartBarStacked',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartBarStacked(BuildContext context) {
@@ -3125,6 +3129,7 @@ Widget _chartBarStacked(BuildContext context) {
       builder: '_chartDonut',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartDonut(BuildContext context) {
@@ -3143,6 +3148,7 @@ Widget _chartDonut(BuildContext context) {
       builder: '_chartScatter',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartScatter(BuildContext context) {
@@ -3160,6 +3166,7 @@ Widget _chartScatter(BuildContext context) {
       builder: '_chartSparkline',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartSparkline(BuildContext context) {
@@ -3179,6 +3186,7 @@ Widget _chartSparkline(BuildContext context) {
       builder: '_chartStreaming',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 /// Live streaming demo: appends a point every 800 ms into a 40-point window.
@@ -3234,6 +3242,7 @@ Widget _chartStreaming(BuildContext context) => const _ChartStreaming();
       builder: '_chartRadarDefault',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3262,6 +3271,7 @@ Widget _chartRadarDefault(BuildContext context) {
       builder: '_chartRadarDots',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3291,6 +3301,7 @@ Widget _chartRadarDots(BuildContext context) {
       builder: '_chartRadarLinesOnly',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3319,6 +3330,7 @@ Widget _chartRadarLinesOnly(BuildContext context) {
       builder: '_chartRadarLabelCustom',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3353,6 +3365,7 @@ Widget _chartRadarLabelCustom(BuildContext context) {
       builder: '_chartRadarGridCustom',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3382,6 +3395,7 @@ Widget _chartRadarGridCustom(BuildContext context) {
       builder: '_chartRadarGridNone',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3411,6 +3425,7 @@ Widget _chartRadarGridNone(BuildContext context) {
       builder: '_chartRadarGridCircle',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3440,6 +3455,7 @@ Widget _chartRadarGridCircle(BuildContext context) {
       builder: '_chartRadarGridCircleNoLines',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3469,6 +3485,7 @@ Widget _chartRadarGridCircleNoLines(BuildContext context) {
       builder: '_chartRadarGridCircleFilled',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3498,6 +3515,7 @@ Widget _chartRadarGridCircleFilled(BuildContext context) {
       builder: '_chartRadarGridFilled',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3527,6 +3545,7 @@ Widget _chartRadarGridFilled(BuildContext context) {
       builder: '_chartRadarMultiple',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3560,6 +3579,7 @@ Widget _chartRadarMultiple(BuildContext context) {
       builder: '_chartRadarLegend',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3593,6 +3613,7 @@ Widget _chartRadarLegend(BuildContext context) {
       builder: '_chartRadialSimple',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
@@ -3630,6 +3651,7 @@ Widget _chartRadialSimple(BuildContext context) {
       builder: '_chartRadialLabel',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialLabel(BuildContext context) {
@@ -3654,6 +3676,7 @@ Widget _chartRadialLabel(BuildContext context) {
       builder: '_chartRadialGrid',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
@@ -3692,6 +3715,7 @@ Widget _chartRadialGrid(BuildContext context) {
       builder: '_chartRadialText',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialText(BuildContext context) {
@@ -3714,6 +3738,7 @@ Widget _chartRadialText(BuildContext context) {
       builder: '_chartRadialShape',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialShape(BuildContext context) {
@@ -3736,6 +3761,7 @@ Widget _chartRadialShape(BuildContext context) {
       builder: '_chartRadialStacked',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialStacked(BuildContext context) {
@@ -3752,6 +3778,440 @@ Widget _chartRadialStacked(BuildContext context) {
     ],
   );
 }
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Default',
+      builder: '_chartTooltipDefault',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipDefault(BuildContext context) => _tooltipBase();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Line Indicator',
+      builder: '_chartTooltipLineIndicator',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipLineIndicator(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - No Indicator',
+      builder: '_chartTooltipNoIndicator',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipNoIndicator(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(indicator: ChartTooltipIndicator.none),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Custom label',
+      builder: '_chartTooltipCustomLabel',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+String _tooltipCustomLabel(int index) => 'Activities';
+
+Widget _chartTooltipCustomLabel(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(
+    indicator: ChartTooltipIndicator.line,
+    labelFormatter: _tooltipCustomLabel,
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Label Formatter',
+      builder: '_chartTooltipLabelFormatter',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+String _tooltipWeekday(int index) => _tooltipDays[index];
+
+Widget _chartTooltipLabelFormatter(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(labelFormatter: _tooltipWeekday),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - No Label',
+      builder: '_chartTooltipNoLabel',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipNoLabel(BuildContext context) =>
+    _tooltipBase(tooltip: const ChartTooltipConfig(showLabel: false));
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Formatter',
+      builder: '_chartTooltipFormatter',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipFormatter(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Icons',
+      builder: '_chartTooltipIcons',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(showLabel: false),
+  series: const <ChartSeries>[
+    ChartSeries(
+      label: 'Running',
+      values: _tooltipRunning,
+      icon: Icon(LucideIcons.footprints),
+    ),
+    ChartSeries(
+      label: 'Swimming',
+      values: _tooltipSwimming,
+      icon: Icon(LucideIcons.waves),
+    ),
+  ],
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Tooltip - Advanced',
+      builder: '_chartTooltipAdvanced',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _tooltipDays = <String>[
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+const List<double> _tooltipRunning = <double>[450, 380, 520, 140, 600, 480];
+
+const List<double> _tooltipSwimming = <double>[300, 420, 120, 550, 350, 400];
+
+Chart _tooltipBase({
+  ChartTooltipConfig tooltip = const ChartTooltipConfig(),
+  List<ChartSeries>? series,
+}) {
+  return Chart(
+    type: ChartType.bar,
+    barMode: ChartBarMode.stacked,
+    labels: _tooltipDays,
+    height: 220,
+    initialSelectedIndex: 1,
+    tooltip: tooltip,
+    series:
+        series ??
+        const <ChartSeries>[
+          ChartSeries(label: 'Running', values: _tooltipRunning),
+          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        ],
+  );
+}
+
+Widget _chartTooltipAdvanced(BuildContext context) => _tooltipBase(
+  tooltip: const ChartTooltipConfig(
+    showLabel: false,
+    valueSuffix: ' kcal',
+    showTotal: true,
+  ),
+);
 ''',
     ),
   ],

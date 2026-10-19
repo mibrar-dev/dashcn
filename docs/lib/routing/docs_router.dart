@@ -21,7 +21,7 @@ List<String> get blockCategorySlugs => <String>[
 ];
 
 /// Every chart family slug (`area`, `bar`, `line`, `pie`, `radar`, `radial`,
-/// `scatter`).
+/// `tooltip`, `scatter`).
 const List<String> kChartFamilyIds = <String>[
   'area',
   'bar',
@@ -29,6 +29,7 @@ const List<String> kChartFamilyIds = <String>[
   'pie',
   'radar',
   'radial',
+  'tooltip',
   'scatter',
 ];
 

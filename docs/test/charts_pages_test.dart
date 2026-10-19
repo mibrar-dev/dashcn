@@ -2,8 +2,7 @@
 //
 // The hub has one card per chart family; each family page shows every one of
 // its examples as its own Preview | Code card. The old
-// `/docs/components/chart` URL resolves to the hub. The tooltip family does
-// not exist in the library yet and has no page.
+// `/docs/components/chart` URL resolves to the hub.
 //
 // The line family mounts the Streaming example (a periodic timer), whose
 // repeating frames never let the scheduler settle: navigation here uses
@@ -48,6 +47,17 @@ const Map<String, List<String>> kChartFamilyExamples = <String, List<String>>{
     'Radial Chart - Text',
     'Radial Chart - Shape',
     'Radial Chart - Stacked',
+  ],
+  'tooltip': <String>[
+    'Tooltip - Default',
+    'Tooltip - Line Indicator',
+    'Tooltip - No Indicator',
+    'Tooltip - Custom label',
+    'Tooltip - Label Formatter',
+    'Tooltip - No Label',
+    'Tooltip - Formatter',
+    'Tooltip - Icons',
+    'Tooltip - Advanced',
   ],
   'scatter': <String>['Scatter'],
 };
@@ -95,8 +105,8 @@ void main() {
     });
 
     test('unknown charts segments are not-found', () {
-      // Tooltips have no library page yet.
-      for (final String id in <String>['tooltip', 'tooltips']) {
+      // Every unknown slug stays not-found; `tooltips` (plural) has no page.
+      for (final String id in <String>['tooltips']) {
         expect(
           DocsRouteConfiguration.parse('/charts/$id').route,
           DocsRoute.notFound,
