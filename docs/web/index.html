@@ -42,22 +42,32 @@
   <title>dashcn</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- Rive boot runtime (vendored, same-origin) + artboard preload so the
+    flock paints on the very first frame instead of after a CDN roundtrip. -->
+  <link rel="preload" href="rive.min.js" as="script">
+  <link rel="preload" href="rive.wasm" as="fetch" crossorigin="anonymous">
+  <link rel="preload" href="boot.riv" as="fetch" crossorigin="anonymous">
+  <script src="rive.min.js"></script>
+  <script>window.__bootTimes = { runtimeParsed: performance.now() };</script>
+  <noscript><style>#docs-first-paint .boot-fallback{display:flex !important} #boot-rive{display:none !important}</style></noscript>
+
   <!--
     First-paint placeholder. The primary boot animation is the Rive file
     boot.riv (built offline from docs/rive/boot, no account needed), drawn
-    on the canvas below with the @rive-app/canvas runtime pinned to an
-    exact version on jsDelivr. It plays one state machine named `boot`
-    with a number input `progress` (JS advances it, capped at 90) and a
-    boolean input `ready` (set on `flutter-first-frame`, when the bird
-    swoops to the page edge, grips it, and carries it up and away
-    like lifting a sheet of paper; smooth lift-away, then this node
-    is removed).
+    on the canvas below with the vendored @rive-app/canvas runtime
+    (docs/web/rive.min.js, same-origin, preloaded, synchronous) so the
+    flock renders on the very first paint. It plays one state machine
+    named `boot` with a number input `progress` (JS advances it, capped
+    at 90) and a boolean input `ready` (set on `flutter-first-frame`,
+    when the birds gather under the sheet and carry it up and off
+    over ~950 ms: 150 ms blend + 800 ms lift; only then is this node
+    removed).
 
-    The old CSS animation markup is kept as a .boot-fallback: it shows
-    immediately, stays if the .riv fails to load or WebAssembly/canvas is
-    unavailable within 3 s, and is the static finished frame under
-    prefers-reduced-motion (Rive is not started there at all). Removed on
-    `flutter-first-frame`.
+    The old CSS animation markup is kept as a .boot-fallback but hidden
+    by default: it shows only if the runtime or .riv fails, WebAssembly
+    or canvas is unavailable, or prefers-reduced-motion is on (Rive is
+    not started there at all; the fallback shows its static finished
+    frame and fades out in 300 ms on `flutter-first-frame`).
   -->
   <style>
     html, body {
@@ -112,31 +122,32 @@
       /* Soft loop after the intro: gentle breathe until Flutter takes over. */
       animation: boot-breathe 2400ms ease-in-out 1600ms infinite;
     }
-    /* Rive canvas: fullscreen, hidden until the first frame is drawn; the
-       CSS fallback stays centred until then (and forever if loading
-       fails, WebAssembly/canvas is missing, or reduced motion is on). */
+    /* Rive canvas: fullscreen and visible from first paint. The CSS
+       fallback is hidden unless Rive fails (runtime/.riv error, no
+       WebAssembly/canvas) or prefers-reduced-motion is on (Rive never
+       starts; the fallback shows its static finished frame). */
     #boot-rive {
-      display: none;
+      display: block;
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
     }
-    #docs-first-paint.rive-on #boot-rive {
-      display: block;
-    }
-    #docs-first-paint.rive-on .boot-fallback {
+    #docs-first-paint.show-fallback #boot-rive {
       display: none;
     }
     #docs-first-paint .boot-fallback {
       position: relative;
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
       height: 100%;
       padding: 0 24px;
+    }
+    #docs-first-paint.show-fallback .boot-fallback {
+      display: flex;
     }
     #docs-first-paint .boot-mark svg {
       display: block;
@@ -304,14 +315,17 @@
     })();
   </script>
   <script>
-    // Drop the placeholder as soon as Flutter paints its first frame.
+    // Drop the placeholder after Flutter paints its first frame.
     // When the Rive loader is active, first play the lift-off (ready = true:
-    // the flock grips the sheet's top edge and lifts it up and off in
-    // ~950 ms: 150 ms blend + 800 ms lift) and remove the node after.
-    // Under prefers-reduced-motion (Rive never started) fade out in 300 ms.
-    // Otherwise remove immediately, exactly as before.
+    // the birds gather under the sheet and carry it up and off over
+    // ~950 ms: 150 ms blend + 800 ms lift with ease-in-out) and remove the
+    // node only after the lift completes. Never cut: if Rive is still
+    // loading when Flutter fires, __bootRiveDone records the request and
+    // the lift + delayed removal happen on load. If Rive failed, remove
+    // immediately. Under prefers-reduced-motion (Rive never started, the
+    // static CSS fallback is showing) fade out in 300 ms.
     (function () {
-      var OUTRO_MS = 950;
+      var OUTRO_MS = 1000;
       function removePlaceholder() {
         var placeholder = document.getElementById('docs-first-paint');
         if (placeholder) {
@@ -333,7 +347,15 @@
         }
         try {
           if (window.__bootRiveDone && window.__bootRiveDone()) {
-            window.setTimeout(removePlaceholder, OUTRO_MS);
+            // Rive owns removal now (lift plays, then the node goes away).
+            // The timeout is a backstop; the Rive script schedules the real
+            // removal after OUTRO_MS.
+            window.setTimeout(function () {
+              var still = document.getElementById('docs-first-paint');
+              if (still && !window.__bootRiveRemoved) {
+                removePlaceholder();
+              }
+            }, OUTRO_MS + 400);
             return;
           }
         } catch (_) {
@@ -419,25 +441,28 @@
     </div>
   </div>
   <script>
-    // Rive boot loader. Starts immediately on page load (never waits for
-    // flutter-first-frame). Hides the CSS fallback only after the Rive
-    // canvas has drawn its first frame (onPlay + double rAF); the fallback
-    // stays for failure cases only (runtime/.riv fail, no WebAssembly,
-    // or prefers-reduced-motion, where Rive is never started).
+    // Rive boot loader. The runtime (rive.min.js) is vendored same-origin
+    // and loaded synchronously in <head>, so this starts immediately during
+    // page load and the flock paints on the very first frame — the CSS
+    // fallback is hidden by default and only shown on failure.
     //
     // - Artboard BootDark/BootLight follows html[data-theme], else the
     //   prefers-color-scheme media query (same rule as the page CSS).
-    // - prefers-reduced-motion: Rive is never started; the CSS fallback
-    //   already renders its finished state with no animation.
-    // - If the runtime or the .riv fails (or takes longer than 3 s), the
-    //   CSS fallback simply stays.
+    // - prefers-reduced-motion: Rive is never started; the CSS fallback is
+    //   shown immediately and already renders its finished state.
+    // - Runtime/.riv failure (or >3 s without load): the CSS fallback is
+    //   shown and stays.
     // - progress drives only the thin loading bar (capped at 90, 100 on ready).
+    // - On flutter-first-frame, ready=true plays the lift (birds grip the
+    //   gather under the sheet and carry it up and off over ~950 ms with
+    //   ease-in-out); the placeholder node is removed only after the lift
+    //   completes. If Flutter fires before Rive loads, the request is
+    //   recorded and the lift + removal happen on load — never a cut.
     (function () {
-      var RIVE_VERSION = '2.44.0';
-      var RIVE_CDN = 'https://cdn.jsdelivr.net/npm/@rive-app/canvas@' + RIVE_VERSION + '/rive.min.js';
       var TIMEOUT_MS = 3000;
       var TICK_MS = 140;
       var PROGRESS_CAP = 90;
+      var OUTRO_MS = 1000;
 
       var placeholder = document.getElementById('docs-first-paint');
       var canvas = document.getElementById('boot-rive');
@@ -445,18 +470,15 @@
         return;
       }
       try {
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          return;
-        }
-        if (!window.WebAssembly || !canvas.getContext) {
-          return;
-        }
+        window.__bootTimes.initStart = performance.now();
       } catch (_) {
-        return;
+        // Ignore.
       }
 
-      var settled = false;
-      var shown = false;
+      var loaded = false;
+      var failed = false;
+      var flutterFired = false;
+      var removalScheduled = false;
       var instance = null;
       var progressInput = null;
       var readyInput = null;
@@ -488,16 +510,24 @@
         }
       }
 
+      function showFallback() {
+        try {
+          placeholder.classList.add('show-fallback');
+        } catch (_) {
+          // Ignore.
+        }
+      }
+
       function fail() {
-        if (settled) {
+        if (loaded || failed) {
           return;
         }
-        settled = true;
+        failed = true;
         stopTicker();
         instance = null;
         progressInput = null;
         readyInput = null;
-        // The CSS fallback stays visible; nothing else to do.
+        showFallback();
       }
 
       function startTicker() {
@@ -515,28 +545,27 @@
         }, TICK_MS);
       }
 
-      function showRive() {
-        if (shown || settled) {
+      function scheduleRemoval() {
+        if (removalScheduled) {
           return;
         }
-        shown = true;
-        settled = true;
-        try {
-          if (instance && instance.resizeDrawingSurfaceToCanvas) {
-            instance.resizeDrawingSurfaceToCanvas();
+        removalScheduled = true;
+        window.setTimeout(function () {
+          var ph = document.getElementById('docs-first-paint');
+          if (ph) {
+            ph.remove();
           }
-        } catch (_) {
-          // Ignore; canvas still draws at its attribute size.
-        }
-        placeholder.classList.add('rive-on');
-        startTicker();
+          window.__bootRiveRemoved = true;
+          try {
+            window.__bootTimes.removed = performance.now();
+          } catch (_) {
+            // Ignore.
+          }
+        }, OUTRO_MS);
       }
 
-      // Called by the flutter-first-frame listener: when Rive is up, fire
-      // the lift-away (ready = true: birds grip the sheet top edge and lift
-      // it up and off in ~950 ms) and report back so removal waits.
-      window.__bootRiveDone = function () {
-        if (!instance || !readyInput || !shown) {
+      function fireLift() {
+        if (!instance || !readyInput) {
           return false;
         }
         try {
@@ -548,6 +577,28 @@
           return false;
         }
         stopTicker();
+        scheduleRemoval();
+        try {
+          window.__bootTimes.liftFired = performance.now();
+        } catch (_) {
+          // Ignore.
+        }
+        return true;
+      }
+
+      // Called by the flutter-first-frame listener. Returns true when Rive
+      // owns the handover (lift plays, removal happens after it completes),
+      // false when Rive failed and the caller should remove immediately.
+      window.__bootRiveDone = function () {
+        if (failed || !instance) {
+          return false;
+        }
+        if (loaded && readyInput) {
+          return fireLift();
+        }
+        // Rive is still loading: record the request so onLoad fires the
+        // lift instead of cutting to the app.
+        flutterFired = true;
         return true;
       };
 
@@ -561,14 +612,39 @@
         }
       }
 
+      // prefers-reduced-motion: never start Rive; show the static fallback.
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          showFallback();
+          return;
+        }
+        if (!window.WebAssembly || !canvas.getContext) {
+          showFallback();
+          return;
+        }
+      } catch (_) {
+        showFallback();
+        return;
+      }
+
       function init() {
-        if (settled) {
+        if (loaded || failed) {
           return;
         }
         var runtime = window.rive;
         if (!runtime || !runtime.Rive) {
           fail();
           return;
+        }
+        // Same-origin WASM: the runtime defaults to fetching rive.wasm from
+        // a CDN (~400 ms cold); vendored docs/web/rive.wasm loads in a few
+        // ms on the same origin so the flock paints on first paint.
+        try {
+          if (runtime.RuntimeLoader && runtime.RuntimeLoader.setWasmUrl) {
+            runtime.RuntimeLoader.setWasmUrl('rive.wasm');
+          }
+        } catch (_) {
+          // Ignore; the CDN default still works, just slower.
         }
         try {
           instance = new runtime.Rive({
@@ -579,7 +655,7 @@
             autoplay: true,
             layout: new runtime.Layout({ fit: 'cover', alignment: 'center' }),
             onLoad: function () {
-              if (shown) {
+              if (loaded || failed) {
                 return;
               }
               try {
@@ -595,26 +671,38 @@
                 progressInput = null;
                 readyInput = null;
               }
+              if (!readyInput) {
+                fail();
+                return;
+              }
+              loaded = true;
+              try {
+                window.__bootTimes.riveLoaded = performance.now();
+              } catch (_) {
+                // Ignore.
+              }
               try {
                 if (instance.resizeDrawingSurfaceToCanvas) {
                   instance.resizeDrawingSurfaceToCanvas();
                 }
               } catch (_) {
-                // Ignore.
+                // Ignore; canvas still draws at its attribute size.
               }
-              // Hide the fallback only after the first frame is drawn:
-              // onPlay fires when playback starts, double rAF lands after
-              // the first present. Either path shows once.
+              startTicker();
               try {
                 window.requestAnimationFrame(function () {
-                  window.requestAnimationFrame(showRive);
+                  try {
+                    window.__bootTimes.firstFrame = performance.now();
+                  } catch (_) {
+                    // Ignore.
+                  }
                 });
               } catch (_) {
-                showRive();
+                // Ignore.
               }
-            },
-            onPlay: function () {
-              showRive();
+              if (flutterFired) {
+                fireLift();
+              }
             },
             onLoadError: function () {
               fail();
@@ -631,23 +719,12 @@
       }
 
       window.setTimeout(function () {
-        if (!settled || !instance) {
-          // If the runtime script itself never arrived, give up; if the
-          // instance exists but hasn't loaded, keep waiting for it only
-          // when the fallback is already acceptable either way. Either
-          // path leaves the CSS fallback in place.
-          if (!instance) {
-            fail();
-          }
+        if (!loaded && !failed) {
+          fail();
         }
       }, TIMEOUT_MS);
 
-      var script = document.createElement('script');
-      script.src = RIVE_CDN;
-      script.async = true;
-      script.onload = init;
-      script.onerror = fail;
-      document.head.appendChild(script);
+      init();
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>
