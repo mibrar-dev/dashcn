@@ -1609,6 +1609,14 @@ kControlSpecs = <String, ComponentControls>{
         defaultValue: 'const ChartPieConfig()',
         readOnlyReason: 'unresolved type',
       ),
+      ControlSpec(
+        name: 'onSelected',
+        label: 'On Selected',
+        kind: ControlKind.readOnly,
+        type: 'ValueChanged<int?>?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
     ],
   ),
   'chat': ComponentControls(

@@ -76,6 +76,7 @@ class Chart extends StatefulWidget {
     this.initialSelectedIndex,
     this.pie = const ChartPieConfig(),
     this.theme,
+    this.onSelected,
   });
 
   /// Single-series shorthand; wrapped as one unnamed series.
@@ -222,6 +223,10 @@ class Chart extends StatefulWidget {
 
   /// Widget-leg theme override.
   final ChartTheme? theme;
+
+  /// Called when the highlighted slice/category changes through
+  /// hover or tap; null when the pointer leaves the plot.
+  final ValueChanged<int?>? onSelected;
 
   @override
   State<Chart> createState() => _ChartState();
@@ -559,6 +564,8 @@ class _ChartState extends State<Chart> {
           barGap: surface.barGap,
           barGroupGap: surface.barGroupGap,
           textDirection: dir,
+          backgroundColor:
+              surface.backgroundColor ?? Theme.of(context).colors.background,
         ),
       );
     }
@@ -668,6 +675,7 @@ class _ChartState extends State<Chart> {
                       radar: widget.radar,
                       gridColor: surface.gridColor,
                       tickStyle: surface.tickStyle,
+                      valueStyle: surface.legendStyle,
                       progress: progress,
                       selectedIndex: _selected,
                       textDirection: Directionality.of(context),
@@ -831,6 +839,10 @@ class _ChartState extends State<Chart> {
     List<ChartSeriesPaint> paints,
     int index,
   ) {
+    // Stacked pies share one month per slice index: one row per series.
+    if (widget.pie.stacked && series.length > 1) {
+      return _buildStackedPieTooltip(surface, series, index);
+    }
     String? label;
     String? value;
     if (paints.length == 1 && paints.first.values.length > 1) {
@@ -900,6 +912,68 @@ class _ChartState extends State<Chart> {
     );
   }
 
+  /// Tooltip for stacked pies: one row per series at [index].
+  Widget _buildStackedPieTooltip(
+    ChartSurface surface,
+    List<ChartSeries> series,
+    int index,
+  ) {
+    final ChartTooltipConfig config = widget.tooltip;
+    final List<_TooltipRow> rows = <_TooltipRow>[];
+    for (var si = 0; si < series.length; si++) {
+      final List<double> v = series[si].values;
+      if (index >= v.length) {
+        continue;
+      }
+      rows.add(
+        _TooltipRow(
+          label: series[si].label ?? 'Series ${si + 1}',
+          value: v[index],
+          color:
+              series[si].color ??
+              surface.seriesPalette[si % surface.seriesPalette.length],
+          icon: series[si].icon,
+        ),
+      );
+    }
+    if (rows.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    String? title;
+    if (config.showLabel) {
+      title = config.labelFormatter?.call(index) ?? _categoryTitle(index);
+    }
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 260),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: surface.tooltipFill,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: surface.gridColor),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  title,
+                  style: surface.tickStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            for (final _TooltipRow row in rows)
+              _tooltipRow(surface, config, row),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildPiePlot(
     BuildContext context,
     ChartSurface surface,
@@ -928,7 +1002,12 @@ class _ChartState extends State<Chart> {
       ];
     }
 
-    Widget ring(ChartSeriesPaint p, ChartSeries s, double ringHole) {
+    Widget ring(
+      ChartSeriesPaint p,
+      ChartSeries s,
+      double ringHole, [
+      double radiusScale = 1,
+    ]) {
       return SizedBox.expand(
         child: CustomPaint(
           painter: ChartPiePainter(
@@ -942,6 +1021,7 @@ class _ChartState extends State<Chart> {
             selectedIndex: _selected,
             strokeColor: Theme.of(context).colors.background,
             textDirection: dir,
+            radiusScale: radiusScale,
           ),
         ),
       );
@@ -949,12 +1029,13 @@ class _ChartState extends State<Chart> {
 
     Widget plot;
     if (widget.pie.stacked && paints.length > 1) {
+      // Inner pie outer 60, outer ring 70-90 of a 90 radius.
       plot = Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          ring(paints.first, series.first, 0),
+          ring(paints.first, series.first, 0, 60 / 90),
           for (var i = 1; i < paints.length; i++)
-            ring(paints[i], series[i], 0.62),
+            ring(paints[i], series[i], 70 / 90),
         ],
       );
     } else if (paints.isEmpty) {
@@ -973,15 +1054,16 @@ class _ChartState extends State<Chart> {
           child: MouseRegion(
             onHover: (e) =>
                 _selectPieSlice(e.localPosition, constraints.biggest, paints),
-            onExit: (_) => setState(() => _selected = null),
+            onExit: (_) {
+              setState(() => _selected = null);
+              widget.onSelected?.call(null);
+            },
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
                 plot,
                 if (widget.centerLabel != null) _buildCenterLabel(surface),
-                if (surface.showTooltip &&
-                    _selected != null &&
-                    !widget.pie.stacked)
+                if (surface.showTooltip && _selected != null)
                   _buildRadialTooltip(surface, series, paints, _selected!),
               ],
             ),
@@ -1004,6 +1086,7 @@ class _ChartState extends State<Chart> {
     if (delta.distance > radius || delta.distance < radius * 0.2) {
       if (_selected != null) {
         setState(() => _selected = null);
+        widget.onSelected?.call(null);
       }
       return;
     }
@@ -1030,6 +1113,7 @@ class _ChartState extends State<Chart> {
     }
     if (index != _selected) {
       setState(() => _selected = index);
+      widget.onSelected?.call(index);
     }
   }
 

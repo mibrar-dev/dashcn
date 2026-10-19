@@ -96,6 +96,7 @@ class ChartCartesianPainter extends CustomPainter {
     required this.textDirection,
     this.showPointLabels = false,
     this.pointLabels,
+    this.backgroundColor,
   });
 
   /// Chart family (cartesian subset).
@@ -178,6 +179,10 @@ class ChartCartesianPainter extends CustomPainter {
 
   /// Layout direction.
   final TextDirection textDirection;
+
+  /// Plot background used to fill the custom-dot ring so the line
+  /// does not show through; null falls back to white.
+  final Color? backgroundColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -535,6 +540,10 @@ class ChartCartesianPainter extends CustomPainter {
     final Color color = _markerColor(s, i);
     final double r = s.markerRadius + (sel ? 2 : 0);
     final ChartMarkerShape shape = s.markerShape ?? ChartMarkerShape.circle;
+    if (shape == ChartMarkerShape.commit) {
+      _paintCommitMarker(canvas, p, color);
+      return;
+    }
     if (shape == ChartMarkerShape.circle) {
       canvas.drawCircle(p, r, Paint()..color = color);
       canvas.drawCircle(
@@ -568,8 +577,25 @@ class ChartCartesianPainter extends CustomPainter {
     return s.color;
   }
 
+  /// Vertical tick with a centre ring, matching the 24px icon marker:
+  /// top segment, ring filled with the plot background, bottom segment.
+  void _paintCommitMarker(Canvas canvas, Offset p, Color color) {
+    final Color fill = backgroundColor ?? const Color(0xFFFFFFFF);
+    final Paint stroke = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(Offset(p.dx, p.dy - 9), Offset(p.dx, p.dy - 3), stroke);
+    canvas.drawLine(Offset(p.dx, p.dy + 3), Offset(p.dx, p.dy + 9), stroke);
+    canvas.drawCircle(p, 3, Paint()..color = fill);
+    canvas.drawCircle(p, 3, stroke);
+  }
+
   Path _markerPath(Offset p, double r, ChartMarkerShape shape) {
     switch (shape) {
+      case ChartMarkerShape.commit:
+        return Path()..addOval(Rect.fromCircle(center: p, radius: 3));
       case ChartMarkerShape.square:
         return Path()..addRect(
           Rect.fromCenter(center: p, width: r * 1.7, height: r * 1.7),
@@ -622,13 +648,39 @@ class ChartCartesianPainter extends CustomPainter {
     canvas.drawPath(_dashed(path, s.dash!), paint);
   }
 
-  Path _dashed(Path source, List<double> dash) {
+  Path _dashed(Path source, List<double> dash, [double offset = 0]) {
     // Approximate dash by sampling the path metrics.
     final Path out = Path();
     for (final metric in source.computeMetrics()) {
       double dist = 0;
       var draw = true;
       var di = 0;
+      var remainingOffset = offset;
+      while (remainingOffset > 0) {
+        final double len = dash[di % dash.length].clamp(1.0, 1e6);
+        if (remainingOffset >= len) {
+          remainingOffset -= len;
+          draw = !draw;
+          di++;
+        } else {
+          // Partially consume this segment: shrink its remaining length
+          // by starting mid-segment. For simplicity, advance dist by the
+          // offset within the first segment handling below.
+          break;
+        }
+      }
+      // When the offset lands mid-segment, start partway through it.
+      double firstLen =
+          dash[di % dash.length].clamp(1.0, 1e6) - remainingOffset;
+      if (remainingOffset > 0) {
+        final double next = math.min(firstLen, metric.length);
+        if (draw) {
+          out.addPath(metric.extractPath(0, next), Offset.zero);
+        }
+        dist = next;
+        draw = !draw;
+        di++;
+      }
       while (dist < metric.length) {
         final double len = dash[di % dash.length].clamp(1.0, 1e6);
         final double next = math.min(dist + len, metric.length);
@@ -749,13 +801,16 @@ class ChartCartesianPainter extends CustomPainter {
     final Paint paint = Paint()..style = PaintingStyle.fill;
     if (s.gradient != null) {
       paint.shader = s.gradient!.createShader(bar);
+    } else if (selected) {
+      paint.color = color.withValues(alpha: color.a * 0.8);
     } else {
-      paint.color = selected ? color : color.withValues(alpha: color.a * 0.9);
+      paint.color = color.withValues(alpha: color.a * 0.9);
     }
     canvas.drawRRect(rr, paint);
     if (selected) {
-      canvas.drawRRect(
-        rr,
+      final Path outline = Path()..addRRect(rr);
+      canvas.drawPath(
+        _dashed(outline, const <double>[4, 4], 4),
         Paint()
           ..color = color
           ..style = PaintingStyle.stroke
@@ -986,6 +1041,7 @@ class ChartCartesianPainter extends CustomPainter {
         old.barGap != barGap ||
         old.barGroupGap != barGroupGap ||
         old.textDirection != textDirection ||
+        old.backgroundColor != backgroundColor ||
         !_sameSeries(old.series);
   }
 

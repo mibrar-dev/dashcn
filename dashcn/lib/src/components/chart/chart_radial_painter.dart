@@ -259,27 +259,43 @@ class ChartRadialPainter extends CustomPainter {
     int index,
     _Ring ring,
   ) {
-    final String? text = ring.label;
-    if (text == null || text.isEmpty) {
+    final String? raw = ring.label;
+    if (raw == null || raw.isEmpty) {
       return;
     }
-    final double mid = _startAngle() + _sweep(ring.fraction, 1) / 2;
-    final Offset p = Offset(
-      center.dx + math.cos(mid) * ringR,
-      center.dy + math.sin(mid) * ringR,
-    );
-    final bool light = ring.color.computeLuminance() > 0.5;
+    // Capitalized white 11px label placed at the start of the arc
+    // and rotated tangent to it (the LabelList insideStart look).
+    final String text = raw[0].toUpperCase() + raw.substring(1);
     final TextPainter tp = TextPainter(
       text: TextSpan(
         text: text,
         style: labelStyle.copyWith(
-          color: light ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
+          fontSize: 11,
+          color: const Color(0xFFFFFFFF),
         ),
       ),
       textDirection: textDirection,
       textAlign: TextAlign.center,
     )..layout();
-    tp.paint(canvas, Offset(p.dx - tp.width / 2, p.dy - tp.height / 2));
+    final double start = _startAngle();
+    final double dir = textDirection == TextDirection.rtl ? -1 : 1;
+    final double angle = start + dir * 0.15;
+    final Offset p = Offset(
+      center.dx + math.cos(angle) * ringR,
+      center.dy + math.sin(angle) * ringR,
+    );
+    double rot = angle + dir * math.pi / 2;
+    while (rot > math.pi / 2) {
+      rot -= math.pi;
+    }
+    while (rot < -math.pi / 2) {
+      rot += math.pi;
+    }
+    canvas.save();
+    canvas.translate(p.dx, p.dy);
+    canvas.rotate(rot);
+    tp.paint(canvas, Offset(-tp.width / 2, -tp.height / 2));
+    canvas.restore();
   }
 
   @override
