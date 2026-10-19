@@ -24,12 +24,16 @@
     "chart_paths.dart",
     "chart_radar_painter.dart",
     "chart_radial_painter.dart",
+    "chart_tooltip.dart",
+    "chart_tooltip_anchor.dart",
+    "chart_tooltip_placement.dart",
     "preview.dart"
   ],
   "api": {
-    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig", "ChartPieConfig"],
-    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator", "ChartPieLabels"],
-    "constants": ["chartDefaults", "chartThemeOverrides"]
+    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig", "ChartTooltipData", "ChartTooltipRow", "ChartPieConfig", "ChartAnchoredTooltip", "ChartTooltipCard", "ChartTooltipLayout"],
+    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator", "ChartTooltipPlacement", "ChartPieLabels"],
+    "functions": ["chartCompactValue", "chartPercentTick", "barBaseline", "chartTooltipNearestIndex", "chartTooltipNearestSpreadIndex", "chartTooltipMaxWidth", "resolveChartTooltip", "chartCartesianAnchor", "chartPieAnchor", "chartRadialAnchor", "chartRadarAnchor"],
+    "constants": ["chartDefaults", "chartThemeOverrides", "chartTooltipGutter", "chartTooltipGap", "chartTooltipDefaultMaxWidth"]
   },
   "theme": {
     "class": "ChartTheme",

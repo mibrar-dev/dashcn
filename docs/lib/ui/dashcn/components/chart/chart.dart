@@ -20,9 +20,15 @@ import 'chart_pie_painter.dart';
 import 'chart_radar_painter.dart';
 import 'chart_radial_painter.dart';
 import 'chart_style.dart';
+import 'chart_tooltip.dart';
+import 'chart_tooltip_anchor.dart';
+import 'chart_tooltip_placement.dart';
 
 export 'chart_model.dart';
 export 'chart_style.dart';
+export 'chart_tooltip_anchor.dart';
+export 'chart_tooltip_placement.dart';
+export 'chart_tooltip.dart';
 
 /// One chart: cartesian and radial families with streaming and a11y.
 class Chart extends StatefulWidget {
@@ -236,12 +242,24 @@ class _ChartState extends State<Chart> {
   List<List<double>>? _from;
   int? _selected;
   ChartController? _listened;
+  ScrollPosition? _scrollPos;
 
   @override
   void initState() {
     super.initState();
     _selected = widget.initialSelectedIndex;
     _listen();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final ScrollPosition? pos = Scrollable.maybeOf(context)?.position;
+    if (pos != _scrollPos) {
+      _scrollPos?.removeListener(_onParentScroll);
+      _scrollPos = pos;
+      _scrollPos?.addListener(_onParentScroll);
+    }
   }
 
   @override
@@ -264,7 +282,22 @@ class _ChartState extends State<Chart> {
   @override
   void dispose() {
     _unlisten();
+    _scrollPos?.removeListener(_onParentScroll);
+    _scrollPos = null;
     super.dispose();
+  }
+
+  void _onParentScroll() {
+    if (_selected != null && mounted) {
+      setState(() => _selected = null);
+    }
+  }
+
+  void _dismiss() {
+    if (_selected != null && mounted) {
+      setState(() => _selected = null);
+      widget.onSelected?.call(null);
+    }
   }
 
   void _listen() {
@@ -476,6 +509,8 @@ class _ChartState extends State<Chart> {
         ? 0
         : (widget.donutHole ?? surface.donutHole);
     Widget painted;
+    double? cartLo;
+    double? cartHi;
     if (widget.type == ChartType.radar) {
       painted = _buildRadarPlot(context, surface, series, paints, progress);
     } else if (widget.type == ChartType.radial) {
@@ -525,6 +560,8 @@ class _ChartState extends State<Chart> {
         }
       }
       final List<double> ticks = chartNiceTicks(lo, hi, widget.yAxis.tickCount);
+      cartLo = lo;
+      cartHi = hi;
       painted = CustomPaint(
         painter: ChartCartesianPainter(
           type: widget.type,
@@ -569,39 +606,85 @@ class _ChartState extends State<Chart> {
         ),
       );
     }
+    if (cartLo == null || cartHi == null) {
+      return painted;
+    }
+    final double loFinal = cartLo;
+    final double hiFinal = cartHi;
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool horizontalBars =
             widget.type == ChartType.bar &&
             widget.barLayout == ChartBarLayout.horizontal;
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) => horizontalBars
-              ? _selectFromDy(d.localPosition.dy, constraints.maxHeight, series)
-              : _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
-          onPanUpdate: (d) => horizontalBars
-              ? _selectFromDy(d.localPosition.dy, constraints.maxHeight, series)
-              : _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
-          child: MouseRegion(
-            onHover: (e) => horizontalBars
+        final Size frame = constraints.biggest;
+        Offset? anchor;
+        if (!minimal && surface.showTooltip && _selected != null) {
+          anchor = _cartesianAnchorFor(
+            frame,
+            surface,
+            series,
+            loFinal,
+            hiFinal,
+            minimal,
+            dir,
+          );
+        }
+        return TapRegion(
+          onTapOutside: (_) => _dismiss(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) => horizontalBars
+                ? _toggleFromDy(
+                    d.localPosition.dy,
+                    constraints.maxHeight,
+                    series,
+                  )
+                : _toggleFromDx(
+                    d.localPosition.dx,
+                    constraints.maxWidth,
+                    series,
+                  ),
+            onPanUpdate: (d) => horizontalBars
                 ? _selectFromDy(
-                    e.localPosition.dy,
+                    d.localPosition.dy,
                     constraints.maxHeight,
                     series,
                   )
                 : _selectFromDx(
-                    e.localPosition.dx,
+                    d.localPosition.dx,
                     constraints.maxWidth,
                     series,
                   ),
-            onExit: (_) => setState(() => _selected = null),
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                SizedBox.expand(child: painted),
-                if (!minimal && surface.showTooltip && _selected != null)
-                  _buildTooltip(surface, series, _selected!),
-              ],
+            child: MouseRegion(
+              onHover: (e) => horizontalBars
+                  ? _selectFromDy(
+                      e.localPosition.dy,
+                      constraints.maxHeight,
+                      series,
+                    )
+                  : _selectFromDx(
+                      e.localPosition.dx,
+                      constraints.maxWidth,
+                      series,
+                    ),
+              onExit: (_) => _dismiss(),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  SizedBox.expand(child: painted),
+                  if (anchor != null && _selected != null)
+                    ChartAnchoredTooltip(
+                      anchor: anchor,
+                      placement: widget.tooltip.placement,
+                      offset: widget.tooltip.offset,
+                      child: ChartTooltipCard(
+                        data: _tooltipDataFor(surface, series, _selected!),
+                        config: widget.tooltip,
+                        surface: surface,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -614,8 +697,35 @@ class _ChartState extends State<Chart> {
     if (n == 0 || width <= 0) {
       return;
     }
-    final int idx = (dx / width * n).floor().clamp(0, n - 1);
+    final bool spread =
+        widget.type == ChartType.line ||
+        widget.type == ChartType.area ||
+        widget.type == ChartType.scatter ||
+        widget.type == ChartType.sparkline;
+    final int idx = spread
+        ? chartTooltipNearestSpreadIndex(dx, width, n)
+        : chartTooltipNearestIndex(dx, width, n);
     if (idx != _selected) {
+      setState(() => _selected = idx);
+    }
+  }
+
+  void _toggleFromDx(double dx, double width, List<ChartSeries> series) {
+    final int n = _categoryLength(series);
+    if (n == 0 || width <= 0) {
+      return;
+    }
+    final bool spread =
+        widget.type == ChartType.line ||
+        widget.type == ChartType.area ||
+        widget.type == ChartType.scatter ||
+        widget.type == ChartType.sparkline;
+    final int idx = spread
+        ? chartTooltipNearestSpreadIndex(dx, width, n)
+        : chartTooltipNearestIndex(dx, width, n);
+    if (idx == _selected) {
+      setState(() => _selected = null);
+    } else {
       setState(() => _selected = idx);
     }
   }
@@ -625,8 +735,21 @@ class _ChartState extends State<Chart> {
     if (n == 0 || height <= 0) {
       return;
     }
-    final int idx = (dy / height * n).floor().clamp(0, n - 1);
+    final int idx = chartTooltipNearestIndex(dy, height, n);
     if (idx != _selected) {
+      setState(() => _selected = idx);
+    }
+  }
+
+  void _toggleFromDy(double dy, double height, List<ChartSeries> series) {
+    final int n = _categoryLength(series);
+    if (n == 0 || height <= 0) {
+      return;
+    }
+    final int idx = chartTooltipNearestIndex(dy, height, n);
+    if (idx == _selected) {
+      setState(() => _selected = null);
+    } else {
       setState(() => _selected = idx);
     }
   }
@@ -653,38 +776,64 @@ class _ChartState extends State<Chart> {
         widget.labels ?? widget.xAxis.labels ?? const <String>[];
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) =>
-              _selectRadarAxis(d.localPosition, constraints.biggest, series),
-          onPanUpdate: (d) =>
-              _selectRadarAxis(d.localPosition, constraints.biggest, series),
-          child: MouseRegion(
-            onHover: (e) =>
-                _selectRadarAxis(e.localPosition, constraints.biggest, series),
-            onExit: (_) => setState(() => _selected = null),
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                SizedBox.expand(
-                  child: CustomPaint(
-                    painter: ChartRadarPainter(
-                      series: paints,
-                      maxValue: maxValue,
-                      categories: categories,
-                      radar: widget.radar,
-                      gridColor: surface.gridColor,
-                      tickStyle: surface.tickStyle,
-                      valueStyle: surface.legendStyle,
-                      progress: progress,
-                      selectedIndex: _selected,
-                      textDirection: Directionality.of(context),
+        final Size frame = constraints.biggest;
+        Offset? anchor;
+        if (surface.showTooltip && _selected != null) {
+          final int n = _categoryLength(series);
+          anchor = chartRadarAnchor(
+            size: frame,
+            index: _selected!,
+            count: n,
+            rtl: Directionality.of(context) == TextDirection.rtl,
+          );
+        }
+        return TapRegion(
+          onTapOutside: (_) => _dismiss(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) =>
+                _toggleRadarAxis(d.localPosition, constraints.biggest, series),
+            onPanUpdate: (d) =>
+                _selectRadarAxis(d.localPosition, constraints.biggest, series),
+            child: MouseRegion(
+              onHover: (e) => _selectRadarAxis(
+                e.localPosition,
+                constraints.biggest,
+                series,
+              ),
+              onExit: (_) => _dismiss(),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  SizedBox.expand(
+                    child: CustomPaint(
+                      painter: ChartRadarPainter(
+                        series: paints,
+                        maxValue: maxValue,
+                        categories: categories,
+                        radar: widget.radar,
+                        gridColor: surface.gridColor,
+                        tickStyle: surface.tickStyle,
+                        valueStyle: surface.legendStyle,
+                        progress: progress,
+                        selectedIndex: _selected,
+                        textDirection: Directionality.of(context),
+                      ),
                     ),
                   ),
-                ),
-                if (surface.showTooltip && _selected != null)
-                  _buildTooltip(surface, series, _selected!),
-              ],
+                  if (anchor != null && _selected != null)
+                    ChartAnchoredTooltip(
+                      anchor: anchor,
+                      placement: widget.tooltip.placement,
+                      offset: widget.tooltip.offset,
+                      child: ChartTooltipCard(
+                        data: _tooltipDataFor(surface, series, _selected!),
+                        config: widget.tooltip,
+                        surface: surface,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -693,14 +842,36 @@ class _ChartState extends State<Chart> {
   }
 
   void _selectRadarAxis(Offset local, Size size, List<ChartSeries> series) {
+    final int? idx = _radarIndex(local, size, series);
+    if (idx == null) {
+      return;
+    }
+    if (idx != _selected) {
+      setState(() => _selected = idx);
+    }
+  }
+
+  void _toggleRadarAxis(Offset local, Size size, List<ChartSeries> series) {
+    final int? idx = _radarIndex(local, size, series);
+    if (idx == null) {
+      return;
+    }
+    if (idx == _selected) {
+      setState(() => _selected = null);
+    } else {
+      setState(() => _selected = idx);
+    }
+  }
+
+  int? _radarIndex(Offset local, Size size, List<ChartSeries> series) {
     final int n = _categoryLength(series);
     if (n < 3 || size.width <= 0 || size.height <= 0) {
-      return;
+      return null;
     }
     final Offset center = Offset(size.width / 2, size.height / 2);
     final Offset delta = local - center;
     if (delta.distance < 4) {
-      return;
+      return null;
     }
     double angle = math.atan2(delta.dy, delta.dx) + math.pi / 2;
     if (Directionality.of(context) == TextDirection.rtl) {
@@ -711,9 +882,7 @@ class _ChartState extends State<Chart> {
     if (index < 0) {
       index += n;
     }
-    if (index != _selected) {
-      setState(() => _selected = index);
-    }
+    return index;
   }
 
   Widget _buildRadialPlot(
@@ -748,40 +917,72 @@ class _ChartState extends State<Chart> {
     }
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) =>
-              _selectRadialRing(d.localPosition, constraints.biggest, rings),
-          onPanUpdate: (d) =>
-              _selectRadialRing(d.localPosition, constraints.biggest, rings),
-          child: MouseRegion(
-            onHover: (e) =>
-                _selectRadialRing(e.localPosition, constraints.biggest, rings),
-            onExit: (_) => setState(() => _selected = null),
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                SizedBox.expand(
-                  child: CustomPaint(
-                    painter: ChartRadialPainter(
-                      series: paints,
-                      maxValue: maxValue,
-                      radial: widget.radial,
-                      gridColor: surface.gridColor,
-                      trackColor: surface.gridColor.withValues(
-                        alpha: surface.gridColor.a * 0.35,
+        final Size frame = constraints.biggest;
+        Offset? anchor;
+        ChartTooltipData? tip;
+        if (surface.showTooltip && _selected != null) {
+          tip = _radialTooltipData(surface, series, paints, _selected!);
+          if (tip != null) {
+            final double frac = _radialFraction(series, paints, _selected!);
+            anchor = chartRadialAnchor(
+              size: frame,
+              index: _selected!,
+              rings: rings,
+              fraction: frac,
+              startAngle: widget.radial.startAngle,
+              sweepFraction: widget.radial.sweep,
+            );
+          }
+        }
+        return TapRegion(
+          onTapOutside: (_) => _dismiss(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) =>
+                _toggleRadialRing(d.localPosition, constraints.biggest, rings),
+            onPanUpdate: (d) =>
+                _selectRadialRing(d.localPosition, constraints.biggest, rings),
+            child: MouseRegion(
+              onHover: (e) => _selectRadialRing(
+                e.localPosition,
+                constraints.biggest,
+                rings,
+              ),
+              onExit: (_) => _dismiss(),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  SizedBox.expand(
+                    child: CustomPaint(
+                      painter: ChartRadialPainter(
+                        series: paints,
+                        maxValue: maxValue,
+                        radial: widget.radial,
+                        gridColor: surface.gridColor,
+                        trackColor: surface.gridColor.withValues(
+                          alpha: surface.gridColor.a * 0.35,
+                        ),
+                        labelStyle: surface.tickStyle,
+                        progress: progress,
+                        selectedIndex: _selected,
+                        textDirection: Directionality.of(context),
                       ),
-                      labelStyle: surface.tickStyle,
-                      progress: progress,
-                      selectedIndex: _selected,
-                      textDirection: Directionality.of(context),
                     ),
                   ),
-                ),
-                if (widget.centerLabel != null) _buildCenterLabel(surface),
-                if (surface.showTooltip && _selected != null)
-                  _buildRadialTooltip(surface, series, paints, _selected!),
-              ],
+                  if (widget.centerLabel != null) _buildCenterLabel(surface),
+                  if (anchor != null && tip != null)
+                    ChartAnchoredTooltip(
+                      anchor: anchor,
+                      placement: widget.tooltip.placement,
+                      offset: widget.tooltip.offset,
+                      child: ChartTooltipCard(
+                        data: tip,
+                        config: widget.tooltip,
+                        surface: surface,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -790,23 +991,43 @@ class _ChartState extends State<Chart> {
   }
 
   void _selectRadialRing(Offset local, Size size, int rings) {
-    if (rings == 0 || size.width <= 0 || size.height <= 0) {
+    final int? idx = _radialIndex(local, size, rings);
+    if (idx == null) {
+      if (_selected != null && mounted) {
+        setState(() => _selected = null);
+      }
       return;
+    }
+    if (idx != _selected) {
+      setState(() => _selected = idx);
+    }
+  }
+
+  void _toggleRadialRing(Offset local, Size size, int rings) {
+    final int? idx = _radialIndex(local, size, rings);
+    if (idx == null) {
+      _dismiss();
+      return;
+    }
+    if (idx == _selected) {
+      setState(() => _selected = null);
+    } else {
+      setState(() => _selected = idx);
+    }
+  }
+
+  int? _radialIndex(Offset local, Size size, int rings) {
+    if (rings == 0 || size.width <= 0 || size.height <= 0) {
+      return null;
     }
     final Offset center = Offset(size.width / 2, size.height / 2);
     final double radius = math.min(size.width, size.height) / 2 - 8;
     final double dist = (local - center).distance;
     if (dist > radius + 8) {
-      if (_selected != null) {
-        setState(() => _selected = null);
-      }
-      return;
+      return null;
     }
     final double slot = radius / (rings + 1);
-    final int index = ((dist / slot).floor() - 1).clamp(0, rings - 1);
-    if (index != _selected) {
-      setState(() => _selected = index);
-    }
+    return ((dist / slot).floor() - 1).clamp(0, rings - 1);
   }
 
   Widget _buildCenterLabel(ChartSurface surface) {
@@ -833,7 +1054,7 @@ class _ChartState extends State<Chart> {
     );
   }
 
-  Widget _buildRadialTooltip(
+  ChartTooltipData? _radialTooltipData(
     ChartSurface surface,
     List<ChartSeries> series,
     List<ChartSeriesPaint> paints,
@@ -844,15 +1065,17 @@ class _ChartState extends State<Chart> {
       return _buildStackedPieTooltip(surface, series, index);
     }
     String? label;
-    String? value;
+    double? raw;
+    Color? color;
     if (paints.length == 1 && paints.first.values.length > 1) {
       final List<double> v = series.first.values;
       if (index < v.length) {
-        value = '${v[index]}';
+        raw = v[index];
       }
       if (widget.labels != null && index < widget.labels!.length) {
         label = widget.labels![index];
       }
+      color = _sliceColor(surface, series.first, index);
     } else {
       int seen = -1;
       for (var si = 0; si < series.length; si++) {
@@ -862,116 +1085,106 @@ class _ChartState extends State<Chart> {
         seen++;
         if (seen == index) {
           label = series[si].label ?? 'Series ${si + 1}';
-          value = '${series[si].values.first}';
+          raw = series[si].values.first;
+          color =
+              series[si].color ??
+              surface.seriesPalette[si % surface.seriesPalette.length];
           break;
         }
       }
     }
-    if (value == null) {
-      return const SizedBox.shrink();
+    if (raw == null) {
+      return null;
     }
-    final ChartTooltipConfig config = widget.tooltip;
-    final double raw = double.tryParse(value) ?? 0;
-    final String text =
-        '${(config.valueFormatter ?? chartCompactValue)(raw)}${config.valueSuffix ?? ''}';
     String? title;
-    if (config.showLabel) {
-      title = config.labelFormatter?.call(index) ?? label;
+    if (widget.tooltip.showLabel) {
+      title = widget.tooltip.labelFormatter?.call(index) ?? label;
     }
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 260),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: surface.tooltipFill,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: surface.gridColor),
+    return ChartTooltipData(
+      index: index,
+      label: title,
+      rows: <ChartTooltipRow>[
+        ChartTooltipRow(
+          label: title ?? label ?? 'Value',
+          value: raw,
+          color: color,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (title != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  title,
-                  style: surface.tickStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            Text(
-              text,
-              style: surface.tooltipStyle,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 
-  /// Tooltip for stacked pies: one row per series at [index].
-  Widget _buildStackedPieTooltip(
+  /// Tooltip data for stacked pies: one row per series at [index].
+  ChartTooltipData? _buildStackedPieTooltip(
     ChartSurface surface,
     List<ChartSeries> series,
     int index,
   ) {
-    final ChartTooltipConfig config = widget.tooltip;
-    final List<_TooltipRow> rows = <_TooltipRow>[];
-    for (var si = 0; si < series.length; si++) {
-      final List<double> v = series[si].values;
-      if (index >= v.length) {
-        continue;
-      }
-      rows.add(
-        _TooltipRow(
-          label: series[si].label ?? 'Series ${si + 1}',
-          value: v[index],
-          color:
-              series[si].color ??
-              surface.seriesPalette[si % surface.seriesPalette.length],
-          icon: series[si].icon,
-        ),
-      );
-    }
+    final List<ChartTooltipRow> rows = <ChartTooltipRow>[
+      for (var si = 0; si < series.length; si++)
+        if (index < series[si].values.length)
+          ChartTooltipRow(
+            label: series[si].label ?? 'Series ${si + 1}',
+            value: series[si].values[index],
+            color:
+                series[si].color ??
+                surface.seriesPalette[si % surface.seriesPalette.length],
+            icon: series[si].icon,
+          ),
+    ];
     if (rows.isEmpty) {
-      return const SizedBox.shrink();
+      return null;
     }
     String? title;
-    if (config.showLabel) {
-      title = config.labelFormatter?.call(index) ?? _categoryTitle(index);
+    if (widget.tooltip.showLabel) {
+      title =
+          widget.tooltip.labelFormatter?.call(index) ?? _categoryTitle(index);
     }
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 260),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: surface.tooltipFill,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: surface.gridColor),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (title != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  title,
-                  style: surface.tickStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            for (final _TooltipRow row in rows)
-              _tooltipRow(surface, config, row),
-          ],
-        ),
-      ),
-    );
+    return ChartTooltipData(index: index, label: title, rows: rows);
+  }
+
+  double _radialFraction(
+    List<ChartSeries> series,
+    List<ChartSeriesPaint> paints,
+    int index,
+  ) {
+    double maxValue = widget.yAxis.max ?? 0;
+    if (paints.length == 1 && paints.first.values.length > 1) {
+      for (final double v in paints.first.values) {
+        if (v > maxValue) {
+          maxValue = v;
+        }
+      }
+      if (maxValue <= 0) {
+        maxValue = 1;
+      }
+      final List<double> v = paints.first.values;
+      if (index < v.length) {
+        return (v[index] / maxValue).clamp(0.0, 1.0);
+      }
+      return 0;
+    }
+    for (final ChartSeriesPaint p in paints) {
+      if (p.values.isEmpty) {
+        continue;
+      }
+      if (p.values.first > maxValue) {
+        maxValue = p.values.first;
+      }
+    }
+    if (maxValue <= 0) {
+      maxValue = 1;
+    }
+    int seen = -1;
+    for (var si = 0; si < paints.length; si++) {
+      if (paints[si].values.isEmpty) {
+        continue;
+      }
+      seen++;
+      if (seen == index) {
+        return (paints[si].values.first / maxValue).clamp(0.0, 1.0);
+      }
+    }
+    return 0;
   }
 
   Widget _buildPiePlot(
@@ -1045,27 +1258,50 @@ class _ChartState extends State<Chart> {
     }
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) =>
-              _selectPieSlice(d.localPosition, constraints.biggest, paints),
-          onPanUpdate: (d) =>
-              _selectPieSlice(d.localPosition, constraints.biggest, paints),
-          child: MouseRegion(
-            onHover: (e) =>
-                _selectPieSlice(e.localPosition, constraints.biggest, paints),
-            onExit: (_) {
-              setState(() => _selected = null);
-              widget.onSelected?.call(null);
-            },
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                plot,
-                if (widget.centerLabel != null) _buildCenterLabel(surface),
-                if (surface.showTooltip && _selected != null)
-                  _buildRadialTooltip(surface, series, paints, _selected!),
-              ],
+        final Size frame = constraints.biggest;
+        Offset? anchor;
+        ChartTooltipData? tip;
+        if (surface.showTooltip && _selected != null && paints.isNotEmpty) {
+          final List<double> values = paints.first.values;
+          anchor = chartPieAnchor(
+            size: frame,
+            values: values,
+            index: _selected!,
+            hole: hole,
+            outsideLabels: widget.pie.labels == ChartPieLabels.outside,
+          );
+          tip = _radialTooltipData(surface, series, paints, _selected!);
+        }
+        return TapRegion(
+          onTapOutside: (_) => _dismiss(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) =>
+                _togglePieSlice(d.localPosition, constraints.biggest, paints),
+            onPanUpdate: (d) =>
+                _selectPieSlice(d.localPosition, constraints.biggest, paints),
+            child: MouseRegion(
+              onHover: (e) =>
+                  _selectPieSlice(e.localPosition, constraints.biggest, paints),
+              onExit: (_) => _dismiss(),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  plot,
+                  if (widget.centerLabel != null) _buildCenterLabel(surface),
+                  if (anchor != null && tip != null)
+                    ChartAnchoredTooltip(
+                      anchor: anchor,
+                      placement: widget.tooltip.placement,
+                      offset: widget.tooltip.offset,
+                      child: ChartTooltipCard(
+                        data: tip,
+                        config: widget.tooltip,
+                        surface: surface,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -1074,25 +1310,51 @@ class _ChartState extends State<Chart> {
   }
 
   void _selectPieSlice(Offset local, Size size, List<ChartSeriesPaint> paints) {
-    final List<double> values = paints.isEmpty
-        ? const <double>[]
-        : paints.first.values;
-    if (values.isEmpty || size.width <= 0 || size.height <= 0) {
-      return;
-    }
-    final Offset center = Offset(size.width / 2, size.height / 2);
-    final Offset delta = local - center;
-    final double radius = math.min(size.width, size.height) / 2;
-    if (delta.distance > radius || delta.distance < radius * 0.2) {
-      if (_selected != null) {
+    final int? idx = _pieIndex(local, size, paints);
+    if (idx == null) {
+      if (_selected != null && mounted) {
         setState(() => _selected = null);
         widget.onSelected?.call(null);
       }
       return;
     }
+    if (idx != _selected) {
+      setState(() => _selected = idx);
+      widget.onSelected?.call(idx);
+    }
+  }
+
+  void _togglePieSlice(Offset local, Size size, List<ChartSeriesPaint> paints) {
+    final int? idx = _pieIndex(local, size, paints);
+    if (idx == null) {
+      _dismiss();
+      return;
+    }
+    if (idx == _selected) {
+      setState(() => _selected = null);
+      widget.onSelected?.call(null);
+    } else {
+      setState(() => _selected = idx);
+      widget.onSelected?.call(idx);
+    }
+  }
+
+  int? _pieIndex(Offset local, Size size, List<ChartSeriesPaint> paints) {
+    final List<double> values = paints.isEmpty
+        ? const <double>[]
+        : paints.first.values;
+    if (values.isEmpty || size.width <= 0 || size.height <= 0) {
+      return null;
+    }
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final Offset delta = local - center;
+    final double radius = math.min(size.width, size.height) / 2;
+    if (delta.distance > radius || delta.distance < radius * 0.2) {
+      return null;
+    }
     final double total = values.fold(0.0, (a, b) => a + b.abs());
     if (total <= 0) {
-      return;
+      return null;
     }
     double angle = math.atan2(delta.dy, delta.dx) + math.pi / 2;
     if (Directionality.of(context) == TextDirection.rtl) {
@@ -1111,10 +1373,7 @@ class _ChartState extends State<Chart> {
         break;
       }
     }
-    if (index != _selected) {
-      setState(() => _selected = index);
-      widget.onSelected?.call(index);
-    }
+    return index;
   }
 
   int _categoryLength(List<ChartSeries> series) {
@@ -1130,91 +1389,29 @@ class _ChartState extends State<Chart> {
     return n;
   }
 
-  Widget _buildTooltip(
+  ChartTooltipData _tooltipDataFor(
     ChartSurface surface,
     List<ChartSeries> series,
     int index,
   ) {
-    final ChartTooltipConfig config = widget.tooltip;
-    final List<_TooltipRow> rows = <_TooltipRow>[];
-    for (var si = 0; si < series.length; si++) {
-      final List<double> v = series[si].values;
-      if (index < v.length) {
-        rows.add(
-          _TooltipRow(
+    final List<ChartTooltipRow> rows = <ChartTooltipRow>[
+      for (var si = 0; si < series.length; si++)
+        if (index < series[si].values.length)
+          ChartTooltipRow(
             label: series[si].label ?? 'Series ${si + 1}',
-            value: v[index],
+            value: series[si].values[index],
             color:
                 series[si].color ??
                 surface.seriesPalette[si % surface.seriesPalette.length],
             icon: series[si].icon,
           ),
-        );
-      }
-    }
-    if (rows.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    ];
     String? title;
-    if (config.showLabel) {
-      title = config.labelFormatter?.call(index) ?? _categoryTitle(index);
+    if (widget.tooltip.showLabel) {
+      title =
+          widget.tooltip.labelFormatter?.call(index) ?? _categoryTitle(index);
     }
-    double total = 0;
-    for (final _TooltipRow row in rows) {
-      total += row.value;
-    }
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 260),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: surface.tooltipFill,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: surface.gridColor),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (title != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  title,
-                  style: surface.tickStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            for (final _TooltipRow row in rows)
-              _tooltipRow(surface, config, row),
-            if (config.showTotal && rows.length > 1)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(top: BorderSide(color: surface.gridColor)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: _tooltipRow(
-                      surface,
-                      config,
-                      _TooltipRow(
-                        label: config.totalLabel,
-                        value: total,
-                        color: surface.tooltipStyle.color,
-                        icon: null,
-                      ),
-                      strong: true,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
+    return ChartTooltipData(index: index, label: title, rows: rows);
   }
 
   String _categoryTitle(int index) {
@@ -1225,58 +1422,160 @@ class _ChartState extends State<Chart> {
     return 'Category $index';
   }
 
-  Widget _tooltipRow(
+  Offset? _cartesianAnchorFor(
+    Size frame,
     ChartSurface surface,
-    ChartTooltipConfig config,
-    _TooltipRow row, {
-    bool strong = false,
-  }) {
-    final TextStyle style = strong
-        ? surface.tooltipStyle.copyWith(fontWeight: FontWeight.w600)
-        : surface.tooltipStyle;
-    final String value =
-        '${(config.valueFormatter ?? chartCompactValue)(row.value)}${config.valueSuffix ?? ''}';
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (row.icon != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: IconTheme(
-                data: IconThemeData(color: row.color, size: 14),
-                child: row.icon!,
-              ),
-            )
-          else if (config.indicator != ChartTooltipIndicator.none)
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: _tooltipSwatch(config.indicator, row.color),
-            ),
-          Flexible(
-            child: Text(
-              row.label,
-              style: style,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text(value, style: style, overflow: TextOverflow.ellipsis),
-        ],
-      ),
+    List<ChartSeries> series,
+    double lo,
+    double hi,
+    bool minimal,
+    TextDirection dir,
+  ) {
+    final int? selected = _selected;
+    if (selected == null) {
+      return null;
+    }
+    final int n = _categoryLength(series);
+    if (n == 0) {
+      return null;
+    }
+    final bool horizontal =
+        widget.type == ChartType.bar &&
+        widget.barLayout == ChartBarLayout.horizontal;
+    final Rect plot = _cartesianPlotRect(
+      frame,
+      surface,
+      minimal,
+      horizontal,
+      series,
+      dir,
+    );
+    if (plot.width <= 0 || plot.height <= 0) {
+      return null;
+    }
+    final bool stackedBar =
+        widget.type == ChartType.bar && widget.barMode == ChartBarMode.stacked;
+    final bool stackedArea =
+        widget.type == ChartType.area &&
+        widget.areaMode != ChartAreaMode.overlay &&
+        series.length > 1;
+    final double top = _cartesianTopValue(
+      selected,
+      series,
+      stacked: stackedBar || stackedArea,
+      expanded: stackedArea && widget.areaMode == ChartAreaMode.expanded,
+    );
+    final bool centered = widget.type == ChartType.bar;
+    final double baseline = horizontal
+        ? math.min(0, lo)
+        : (widget.type == ChartType.bar ? math.min(0, lo) : lo);
+    return chartCartesianAnchor(
+      plot: plot,
+      index: selected,
+      count: n,
+      topValue: top,
+      min: lo,
+      max: hi,
+      centered: centered,
+      horizontal: horizontal,
+      rtl: dir == TextDirection.rtl,
+      baseline: baseline,
     );
   }
 
-  Widget _tooltipSwatch(ChartTooltipIndicator indicator, Color? color) {
-    if (indicator == ChartTooltipIndicator.line) {
-      return Container(width: 12, height: 3, color: color);
+  double _cartesianTopValue(
+    int index,
+    List<ChartSeries> series, {
+    required bool stacked,
+    required bool expanded,
+  }) {
+    if (!stacked) {
+      double top = double.negativeInfinity;
+      for (final ChartSeries s in series) {
+        if (index < s.values.length && s.values[index] > top) {
+          top = s.values[index];
+        }
+      }
+      return top == double.negativeInfinity ? 0 : top;
     }
-    return Container(
-      width: 9,
-      height: 9,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    if (expanded) {
+      double total = 0;
+      for (final ChartSeries s in series) {
+        if (index < s.values.length) {
+          total += s.values[index];
+        }
+      }
+      return total == 0 ? 0 : 1;
+    }
+    double pos = 0;
+    double top = 0;
+    for (final ChartSeries s in series) {
+      if (index >= s.values.length) {
+        continue;
+      }
+      final double v = s.values[index];
+      if (v >= 0) {
+        pos += v;
+        if (pos > top) {
+          top = pos;
+        }
+      } else {
+        if (v < top && pos == 0) {
+          top = v;
+        }
+      }
+    }
+    return top;
+  }
+
+  Rect _cartesianPlotRect(
+    Size size,
+    ChartSurface surface,
+    bool minimal,
+    bool horizontal,
+    List<ChartSeries> series,
+    TextDirection dir,
+  ) {
+    const double leftGutter = 40;
+    const double bottomGutter = 20;
+    const double topPad = 8;
+    const double rightPad = 8;
+    final bool showLabels = !minimal && surface.showLabels;
+    double plotLeft = minimal || !showLabels ? 4 : leftGutter;
+    final double plotBottom = minimal || !showLabels ? 4 : bottomGutter;
+    double plotRight = rightPad;
+    if (horizontal && widget.showBarLabels == true) {
+      plotRight = 44;
+    }
+    if (horizontal && showLabels) {
+      plotLeft = _widestCategory(series, surface, dir).clamp(24, 140) + 16;
+    }
+    return Rect.fromLTWH(
+      plotLeft,
+      topPad,
+      math.max(0, size.width - plotLeft - plotRight),
+      math.max(0, size.height - topPad - plotBottom),
     );
+  }
+
+  double _widestCategory(
+    List<ChartSeries> series,
+    ChartSurface surface,
+    TextDirection dir,
+  ) {
+    final int n = _categoryLength(series);
+    double widest = 24;
+    for (var i = 0; i < n; i++) {
+      final String label = _categoryTitle(i);
+      final TextPainter tp = TextPainter(
+        text: TextSpan(text: label, style: surface.tickStyle),
+        textDirection: dir,
+      )..layout();
+      if (tp.width > widest) {
+        widest = tp.width;
+      }
+    }
+    return widest;
   }
 
   bool _hasLabels(List<ChartSeries> series) {
@@ -1428,19 +1727,4 @@ double barBaseline(double dataMin, ChartType type) {
     return 0;
   }
   return dataMin;
-}
-
-/// One resolved tooltip row: series label, raw value and swatch.
-class _TooltipRow {
-  const _TooltipRow({
-    required this.label,
-    required this.value,
-    required this.color,
-    required this.icon,
-  });
-
-  final String label;
-  final double value;
-  final Color? color;
-  final Widget? icon;
 }
