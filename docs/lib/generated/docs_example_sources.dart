@@ -3048,20 +3048,490 @@ Widget _carouselApi(BuildContext context) =>
   ],
   'chart': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Default',
-      builder: '_chartDefault',
+      name: 'Line Chart - Interactive',
+      builder: '_chartLineInteractive',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-Widget _chartDefault(BuildContext context) {
+/// Interactive line chart with a 90d/30d/7d range filter.
+class _LineInteractive extends StatefulWidget {
+  const _LineInteractive();
+
+  @override
+  State<_LineInteractive> createState() => _LineInteractiveState();
+}
+
+class _LineInteractiveState extends State<_LineInteractive> {
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          labels: _AreaInteractiveState.dayLabels.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(
+              label: 'Desktop',
+              values: _AreaInteractiveState.desktopData.sublist(90 - _count),
+            ),
+            ChartSeries(
+              label: 'Mobile',
+              values: _AreaInteractiveState.mobileData.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartLineInteractive(BuildContext context) => const _LineInteractive();
+
+/// 90 days of deterministic sample data (Apr 1 - Jun 29) for the
+/// interactive range-filter examples.
+List<double> _trend(int seed) {
+  return <double>[
+    for (var i = 0; i < 90; i++) (150 + ((i * 53 + seed) % 260)).toDouble(),
+  ];
+}
+
+String _trendDay(int i) {
+  const List<int> lens = <int>[30, 31, 30];
+  const List<String> names = <String>['Apr', 'May', 'Jun'];
+  var d = i;
+  var m = 0;
+  while (m < 2 && d >= lens[m]) {
+    d -= lens[m];
+    m++;
+  }
+  return '${names[m]} ${d + 1}';
+}
+
+/// Range-filter buttons for the interactive examples.
+class _RangeButtons extends StatelessWidget {
+  const _RangeButtons({
+    required this.options,
+    required this.selected,
+    required this.onSelect,
+  });
+
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colors;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: <Widget>[
+        for (final String option in options)
+          GestureDetector(
+            onTap: () => onSelect(option),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: option == selected ? colors.foreground : colors.border,
+                ),
+              ),
+              child: Text(
+                option,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: option == selected
+                      ? colors.foreground
+                      : colors.mutedForeground,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Interactive area chart with a 90d/30d/7d range filter.
+class _AreaInteractive extends StatefulWidget {
+  const _AreaInteractive();
+
+  @override
+  State<_AreaInteractive> createState() => _AreaInteractiveState();
+}
+
+class _AreaInteractiveState extends State<_AreaInteractive> {
+  static final List<double> desktopData = _trend(11);
+  static final List<double> mobileData = _trend(101);
+  static final List<String> dayLabels = <String>[
+    for (var i = 0; i < 90; i++) _trendDay(i),
+  ];
+
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.area,
+          areaMode: ChartAreaMode.stacked,
+          labels: dayLabels.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(
+              label: 'Mobile',
+              values: mobileData.sublist(90 - _count),
+            ),
+            ChartSeries(
+              label: 'Desktop',
+              values: desktopData.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart',
+      builder: '_chartLineDefault',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineDefault(BuildContext context) {
   return const Chart(
-    data: <double>[3, 5, 2, 6, 4, 7],
-    semanticsLabel: 'Line chart with six points trending up',
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
   );
 }
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Linear',
+      builder: '_chartLineLinear',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineLinear(BuildContext context) {
+  return const Chart(
+    lineStyle: ChartLineStyle.linear,
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Step',
+      builder: '_chartLineStep',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineStep(BuildContext context) {
+  return const Chart(
+    lineStyle: ChartLineStyle.step,
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Multiple',
+      builder: '_chartLineMultiple',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineMultiple(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Dots',
+      builder: '_chartLineDots',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineDots(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Custom Dots',
+      builder: '_chartLineDotsCustom',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineDotsCustom(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Desktop',
+        values: _barDesktop,
+        markerShape: ChartMarkerShape.star,
+      ),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Dots Colors',
+      builder: '_chartLineDotsColors',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineDotsColors(BuildContext context) {
+  return Chart(
+    labels: _browserNames,
+    showMarkers: true,
+    tooltip: const ChartTooltipConfig(
+      indicator: ChartTooltipIndicator.line,
+      showLabel: false,
+    ),
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Visitors',
+        values: _browserVisitors,
+        pointColors: _browserColors(context),
+      ),
+    ],
+  );
+}
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+List<Color> _browserColors(BuildContext context) {
+  final List<Color> palette = Theme.of(context).colors.chartColors;
+  return <Color>[
+    for (var i = 0; i < _browserVisitors.length; i++)
+      palette[i % palette.length],
+  ];
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Label',
+      builder: '_chartLineLabel',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineLabel(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    showPointLabels: true,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+''',
+    ),
+    DocsExampleSource(
+      name: 'Line Chart - Custom Label',
+      builder: '_chartLineLabelCustom',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartLineLabelCustom(BuildContext context) {
+  return Chart(
+    labels: _browserNames,
+    showMarkers: true,
+    showPointLabels: true,
+    pointLabels: _browserNames,
+    tooltip: const ChartTooltipConfig(
+      indicator: ChartTooltipIndicator.line,
+      showLabel: false,
+    ),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Visitors', values: _browserVisitors),
+    ],
+  );
+}
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 ''',
     ),
     DocsExampleSource(

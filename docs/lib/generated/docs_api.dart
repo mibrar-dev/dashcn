@@ -1088,6 +1088,19 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
             'Whether category labels paint inside horizontal bars\n([ChartType.bar] with [ChartBarLayout.horizontal] only).',
       ),
       DocsApiParam(
+        name: 'showPointLabels',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether labels paint above line points ([ChartType.line] only).',
+      ),
+      DocsApiParam(
+        name: 'pointLabels',
+        type: 'List<String>?',
+        isRequired: false,
+        doc: 'Custom point labels by index; null shows compact values.',
+      ),
+      DocsApiParam(
         name: 'height',
         type: 'double',
         isRequired: false,

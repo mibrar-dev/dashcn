@@ -581,4 +581,46 @@ void main() {
       }
     }
   });
+
+  testWidgets('line marker shapes and point labels render', (tester) async {
+    const List<ChartMarkerShape> shapes = ChartMarkerShape.values;
+    for (final ChartMarkerShape shape in shapes) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.line,
+            showMarkers: true,
+            showPointLabels: true,
+            labels: const <String>['a', 'b', 'c'],
+            series: <ChartSeries>[
+              ChartSeries(
+                label: 'A',
+                values: const <double>[1, 2, 3],
+                markerShape: shape,
+                pointColors: const <Color>[_red, _red, _red],
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$shape');
+    }
+    await tester.pumpWidget(
+      _frame(
+        child: const Chart(
+          type: ChartType.line,
+          showMarkers: true,
+          showPointLabels: true,
+          pointLabels: <String>['one', 'two'],
+          labels: <String>['a', 'b'],
+          series: <ChartSeries>[
+            ChartSeries(values: <double>[1, 2]),
+          ],
+        ),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 800));
+    expect(tester.takeException(), isNull);
+  });
 }

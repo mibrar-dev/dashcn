@@ -14,10 +14,158 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'chart.dart';
 
-Widget _chartDefault(BuildContext context) {
+/// Interactive line chart with a 90d/30d/7d range filter.
+class _LineInteractive extends StatefulWidget {
+  const _LineInteractive();
+
+  @override
+  State<_LineInteractive> createState() => _LineInteractiveState();
+}
+
+class _LineInteractiveState extends State<_LineInteractive> {
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          labels: _AreaInteractiveState.dayLabels.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(
+              label: 'Desktop',
+              values: _AreaInteractiveState.desktopData.sublist(90 - _count),
+            ),
+            ChartSeries(
+              label: 'Mobile',
+              values: _AreaInteractiveState.mobileData.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartLineInteractive(BuildContext context) => const _LineInteractive();
+
+Widget _chartLineDefault(BuildContext context) {
   return const Chart(
-    data: <double>[3, 5, 2, 6, 4, 7],
-    semanticsLabel: 'Line chart with six points trending up',
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartLineLinear(BuildContext context) {
+  return const Chart(
+    lineStyle: ChartLineStyle.linear,
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartLineStep(BuildContext context) {
+  return const Chart(
+    lineStyle: ChartLineStyle.step,
+    labels: _areaMonths,
+    tooltip: ChartTooltipConfig(showLabel: false),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartLineMultiple(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+Widget _chartLineDots(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+Widget _chartLineDotsCustom(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Desktop',
+        values: _barDesktop,
+        markerShape: ChartMarkerShape.star,
+      ),
+      ChartSeries(label: 'Mobile', values: _barMobile),
+    ],
+  );
+}
+
+Widget _chartLineDotsColors(BuildContext context) {
+  return Chart(
+    labels: _browserNames,
+    showMarkers: true,
+    tooltip: const ChartTooltipConfig(
+      indicator: ChartTooltipIndicator.line,
+      showLabel: false,
+    ),
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Visitors',
+        values: _browserVisitors,
+        pointColors: _browserColors(context),
+      ),
+    ],
+  );
+}
+
+Widget _chartLineLabel(BuildContext context) {
+  return const Chart(
+    labels: _areaMonths,
+    showMarkers: true,
+    showPointLabels: true,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartLineLabelCustom(BuildContext context) {
+  return Chart(
+    labels: _browserNames,
+    showMarkers: true,
+    showPointLabels: true,
+    pointLabels: _browserNames,
+    tooltip: const ChartTooltipConfig(
+      indicator: ChartTooltipIndicator.line,
+      showLabel: false,
+    ),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Visitors', values: _browserVisitors),
+    ],
   );
 }
 
@@ -412,7 +560,16 @@ Widget _chartRadarLegend(BuildContext context) {
 
 /// Named docs examples for `chart`; the first entry is the default.
 const List<ComponentPreview> chartPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _chartDefault),
+  ComponentPreview('Line Chart - Interactive', _chartLineInteractive),
+  ComponentPreview('Line Chart', _chartLineDefault),
+  ComponentPreview('Line Chart - Linear', _chartLineLinear),
+  ComponentPreview('Line Chart - Step', _chartLineStep),
+  ComponentPreview('Line Chart - Multiple', _chartLineMultiple),
+  ComponentPreview('Line Chart - Dots', _chartLineDots),
+  ComponentPreview('Line Chart - Custom Dots', _chartLineDotsCustom),
+  ComponentPreview('Line Chart - Dots Colors', _chartLineDotsColors),
+  ComponentPreview('Line Chart - Label', _chartLineLabel),
+  ComponentPreview('Line Chart - Custom Label', _chartLineLabelCustom),
   ComponentPreview('Area Chart - Interactive', _chartAreaInteractive),
   ComponentPreview('Area Chart', _chartAreaDefault),
   ComponentPreview('Area Chart - Linear', _chartAreaLinear),

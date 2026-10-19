@@ -25,6 +25,7 @@ class ChartSeriesPaint {
     required this.barRadius,
     this.label,
     this.pointColors,
+    this.markerShape,
   });
 
   /// Animated values.
@@ -59,6 +60,9 @@ class ChartSeriesPaint {
 
   /// Per-category colours or null.
   final List<Color>? pointColors;
+
+  /// Marker shape or null (circles).
+  final ChartMarkerShape? markerShape;
 }
 
 /// Paints cartesian chart families.
@@ -90,6 +94,8 @@ class ChartCartesianPainter extends CustomPainter {
     required this.barGap,
     required this.barGroupGap,
     required this.textDirection,
+    this.showPointLabels = false,
+    this.pointLabels,
   });
 
   /// Chart family (cartesian subset).
@@ -112,6 +118,12 @@ class ChartCartesianPainter extends CustomPainter {
 
   /// Whether category labels paint inside horizontal bars.
   final bool showBarCategories;
+
+  /// Whether value/name labels paint above line points.
+  final bool showPointLabels;
+
+  /// Custom point labels by index; null shows compact values.
+  final List<String>? pointLabels;
 
   /// Series paints.
   final List<ChartSeriesPaint> series;
@@ -205,7 +217,7 @@ class ChartCartesianPainter extends CustomPainter {
       case ChartType.line:
       case ChartType.area:
       case ChartType.sparkline:
-        _paintLines(canvas, plot);
+        _paintLines(canvas, size, plot);
         break;
       case ChartType.bar:
         if (horizontal) {
@@ -413,7 +425,7 @@ class ChartCartesianPainter extends CustomPainter {
     return '$i';
   }
 
-  void _paintLines(Canvas canvas, Rect plot) {
+  void _paintLines(Canvas canvas, Size size, Rect plot) {
     final bool isArea = type == ChartType.area;
     final bool stacked =
         isArea && areaMode != ChartAreaMode.overlay && series.length > 1;
@@ -461,19 +473,7 @@ class ChartCartesianPainter extends CustomPainter {
       if (s.showMarkers && type != ChartType.sparkline) {
         for (var i = 0; i < pts.length; i++) {
           final bool sel = selectedIndex == i;
-          canvas.drawCircle(
-            pts[i],
-            s.markerRadius + (sel ? 2 : 0),
-            Paint()..color = s.color,
-          );
-          canvas.drawCircle(
-            pts[i],
-            s.markerRadius + (sel ? 2 : 0),
-            Paint()
-              ..color = const Color(0xFFFFFFFF)
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.5,
-          );
+          _paintMarker(canvas, pts[i], s, i, sel);
         }
       } else if (selectedIndex != null &&
           selectedIndex! < pts.length &&
@@ -488,6 +488,28 @@ class ChartCartesianPainter extends CustomPainter {
         );
         canvas.drawCircle(p, s.markerRadius + 1, Paint()..color = s.color);
       }
+      if (showPointLabels &&
+          (type == ChartType.line || type == ChartType.area)) {
+        for (var i = 0; i < pts.length; i++) {
+          final String text = pointLabels != null && i < pointLabels!.length
+              ? pointLabels![i]
+              : chartCompactValue(i < s.values.length ? s.values[i] : 0);
+          final TextPainter tp = TextPainter(
+            text: TextSpan(text: text, style: tickStyle),
+            textDirection: textDirection,
+            textAlign: TextAlign.center,
+          )..layout();
+          final double x = (pts[i].dx - tp.width / 2).clamp(
+            0,
+            size.width - tp.width,
+          );
+          final double y = (pts[i].dy - s.markerRadius - 6 - tp.height).clamp(
+            0,
+            size.height - tp.height,
+          );
+          tp.paint(canvas, Offset(x, y));
+        }
+      }
     }
   }
 
@@ -501,6 +523,88 @@ class ChartCartesianPainter extends CustomPainter {
       return i < s.values.length ? s.values[i] : 0;
     }
     return bands[si][i].top;
+  }
+
+  void _paintMarker(
+    Canvas canvas,
+    Offset p,
+    ChartSeriesPaint s,
+    int i,
+    bool sel,
+  ) {
+    final Color color = _markerColor(s, i);
+    final double r = s.markerRadius + (sel ? 2 : 0);
+    final ChartMarkerShape shape = s.markerShape ?? ChartMarkerShape.circle;
+    if (shape == ChartMarkerShape.circle) {
+      canvas.drawCircle(p, r, Paint()..color = color);
+      canvas.drawCircle(
+        p,
+        r,
+        Paint()
+          ..color = const Color(0xFFFFFFFF)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5,
+      );
+      return;
+    }
+    final Path path = _markerPath(p, r, shape);
+    canvas.drawPath(path, Paint()..color = color);
+    if (shape != ChartMarkerShape.star) {
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = const Color(0xFFFFFFFF)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5,
+      );
+    }
+  }
+
+  Color _markerColor(ChartSeriesPaint s, int i) {
+    final List<Color>? pcs = s.pointColors;
+    if (pcs != null && pcs.isNotEmpty) {
+      return pcs[i % pcs.length];
+    }
+    return s.color;
+  }
+
+  Path _markerPath(Offset p, double r, ChartMarkerShape shape) {
+    switch (shape) {
+      case ChartMarkerShape.square:
+        return Path()..addRect(
+          Rect.fromCenter(center: p, width: r * 1.7, height: r * 1.7),
+        );
+      case ChartMarkerShape.diamond:
+        return Path()
+          ..moveTo(p.dx, p.dy - r)
+          ..lineTo(p.dx + r, p.dy)
+          ..lineTo(p.dx, p.dy + r)
+          ..lineTo(p.dx - r, p.dy)
+          ..close();
+      case ChartMarkerShape.star:
+        return _starPath(p, r, r * 0.45);
+      case ChartMarkerShape.circle:
+        return Path()..addOval(Rect.fromCircle(center: p, radius: r));
+    }
+  }
+
+  Path _starPath(Offset p, double outer, double inner) {
+    final Path path = Path();
+    for (var k = 0; k < 10; k++) {
+      final double angle = -math.pi / 2 + k * math.pi / 5;
+      final double radius = k.isEven ? outer : inner;
+      final Offset q = Offset(
+        p.dx + math.cos(angle) * radius,
+        p.dy + math.sin(angle) * radius,
+      );
+      if (k == 0) {
+        path.moveTo(q.dx, q.dy);
+      } else {
+        path.lineTo(q.dx, q.dy);
+      }
+    }
+    path.close();
+    return path;
   }
 
   void _strokePath(Canvas canvas, List<Offset> pts, ChartSeriesPaint s) {
@@ -866,6 +970,8 @@ class ChartCartesianPainter extends CustomPainter {
         old.areaMode != areaMode ||
         old.showBarLabels != showBarLabels ||
         old.showBarCategories != showBarCategories ||
+        old.showPointLabels != showPointLabels ||
+        old.pointLabels != pointLabels ||
         old.min != min ||
         old.max != max ||
         old.ticks != ticks ||
@@ -895,6 +1001,7 @@ class ChartCartesianPainter extends CustomPainter {
           a.strokeWidth != b.strokeWidth ||
           a.label != b.label ||
           a.showMarkers != b.showMarkers ||
+          a.markerShape != b.markerShape ||
           !_sameColors(a.pointColors, b.pointColors)) {
         return false;
       }

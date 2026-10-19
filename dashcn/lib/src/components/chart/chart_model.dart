@@ -57,6 +57,21 @@ enum ChartBarLayout {
   horizontal,
 }
 
+/// Marker shape for line/area dots.
+enum ChartMarkerShape {
+  /// Filled circle (the default).
+  circle,
+
+  /// Filled square.
+  square,
+
+  /// Filled diamond.
+  diamond,
+
+  /// Five-point star (the "Custom Dots" look).
+  star,
+}
+
 /// Line shape for [ChartType.line] and [ChartType.area].
 enum ChartLineStyle {
   /// Curved (Catmull-Rom) stroke, the shadcn default.
@@ -226,6 +241,7 @@ class ChartSeries {
     this.barRadius,
     this.icon,
     this.pointColors,
+    this.markerShape,
   });
 
   /// Legend label; null hides the series from the legend.
@@ -266,6 +282,9 @@ class ChartSeries {
   /// "Dots Colors" markers look); null uses [color].
   final List<Color>? pointColors;
 
+  /// Marker shape for line/area dots; null paints circles.
+  final ChartMarkerShape? markerShape;
+
   /// Returns a copy with the given fields replaced.
   ChartSeries copyWith({List<double>? values, String? Function()? label}) {
     return ChartSeries(
@@ -281,6 +300,7 @@ class ChartSeries {
       barRadius: barRadius,
       icon: icon,
       pointColors: pointColors,
+      markerShape: markerShape,
     );
   }
 }

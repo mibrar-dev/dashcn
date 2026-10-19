@@ -1243,6 +1243,22 @@ kControlSpecs = <String, ComponentControls>{
         defaultValue: 'false',
       ),
       ControlSpec(
+        name: 'showPointLabels',
+        label: 'Show Point Labels',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'pointLabels',
+        label: 'Point Labels',
+        kind: ControlKind.readOnly,
+        type: 'List<String>?',
+        isRequired: false,
+        readOnlyReason: 'widget slot',
+      ),
+      ControlSpec(
         name: 'height',
         label: 'Height',
         kind: ControlKind.slider,

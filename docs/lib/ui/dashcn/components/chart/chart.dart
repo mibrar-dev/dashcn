@@ -39,6 +39,8 @@ class Chart extends StatefulWidget {
     this.areaMode = ChartAreaMode.overlay,
     this.showBarLabels = false,
     this.showBarCategories = false,
+    this.showPointLabels = false,
+    this.pointLabels,
     this.height = 220,
     this.showGrid,
     this.showAxes,
@@ -105,6 +107,12 @@ class Chart extends StatefulWidget {
   /// Whether category labels paint inside horizontal bars
   /// ([ChartType.bar] with [ChartBarLayout.horizontal] only).
   final bool showBarCategories;
+
+  /// Whether labels paint above line points ([ChartType.line] only).
+  final bool showPointLabels;
+
+  /// Custom point labels by index; null shows compact values.
+  final List<String>? pointLabels;
 
   /// Plot height.
   final double height;
@@ -429,6 +437,7 @@ class _ChartState extends State<Chart> {
               surface.seriesPalette[si % surface.seriesPalette.length],
           label: series[si].label,
           pointColors: series[si].pointColors,
+          markerShape: series[si].markerShape,
           gradient: series[si].gradient,
           strokeWidth: series[si].strokeWidth ?? surface.strokeWidth,
           dash: series[si].dash,
@@ -523,6 +532,8 @@ class _ChartState extends State<Chart> {
           areaMode: widget.areaMode,
           showBarLabels: widget.showBarLabels,
           showBarCategories: widget.showBarCategories,
+          showPointLabels: widget.showPointLabels,
+          pointLabels: widget.pointLabels,
           series: paints,
           min: lo,
           max: hi,
