@@ -244,7 +244,13 @@ const Map<String, List<String>> kComponentPreviews = <String, List<String>>{
   'pagination': <String>['Labelled', 'Icon only'],
   'stepper': <String>['Default', 'Vertical', 'Sizes', 'Failed step'],
   'tabs': <String>['Default', 'Disabled', 'Tab pane'],
-  'action_sheet': <String>['Default', 'Destructive', 'Long', 'Customized'],
+  'action_sheet': <String>[
+    'Default',
+    'Destructive',
+    'Long',
+    'Customized',
+    'Trigger',
+  ],
   'alert_dialog': <String>[
     'Delete account',
     'Discard changes',
@@ -391,7 +397,7 @@ const Map<String, int> kComponentPreviewCounts = <String, int>{
   'pagination': 2,
   'stepper': 4,
   'tabs': 3,
-  'action_sheet': 4,
+  'action_sheet': 5,
   'alert_dialog': 5,
   'dialog': 6,
   'drawer': 4,
