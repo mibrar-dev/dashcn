@@ -57,6 +57,8 @@ const Map<String, List<String>> kChartFamilyExamples = <String, List<String>>{
     'Line Chart - Dots Colors',
     'Line Chart - Label',
     'Line Chart - Custom Label',
+    'Sparkline',
+    'Streaming',
   ],
   'pie': <String>[
     'Pie Chart',

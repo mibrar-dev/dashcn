@@ -5121,7 +5121,7 @@ Widget _chartRadarDefault(BuildContext context) {
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5152,7 +5152,7 @@ Widget _chartRadarDots(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     showMarkers: true,
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5182,7 +5182,9 @@ Widget _chartRadarLinesOnly(BuildContext context) {
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop, fillOpacity: 0)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop, fillOpacity: 0),
+    ],
   );
 }
 ''',
@@ -5216,8 +5218,8 @@ Widget _chartRadarLabelCustom(BuildContext context) {
     height: 260,
     radar: ChartRadarConfig(showValues: true),
     series: <ChartSeries>[
-      ChartSeries(values: _radarDesktop),
-      ChartSeries(values: _radarMobile),
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+      ChartSeries(label: 'Mobile', values: _radarMobile),
     ],
   );
 }
@@ -5249,7 +5251,7 @@ Widget _chartRadarGridCustom(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(rings: 1, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5280,7 +5282,7 @@ Widget _chartRadarGridNone(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.none),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5311,7 +5313,7 @@ Widget _chartRadarGridCircle(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5342,7 +5344,7 @@ Widget _chartRadarGridCircleNoLines(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5373,7 +5375,7 @@ Widget _chartRadarGridCircleFilled(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, filled: true),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5404,7 +5406,7 @@ Widget _chartRadarGridFilled(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(filled: true),
-    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
   );
 }
 ''',
@@ -5437,8 +5439,8 @@ Widget _chartRadarMultiple(BuildContext context) {
     labels: _radarMonths,
     height: 260,
     series: <ChartSeries>[
-      ChartSeries(values: _radarDesktop),
-      ChartSeries(values: _radarMobile),
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+      ChartSeries(label: 'Mobile', values: _radarMobile),
     ],
   );
 }

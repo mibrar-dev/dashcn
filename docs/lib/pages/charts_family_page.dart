@@ -87,7 +87,7 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
     title: 'Line',
     description:
         'Line charts for trends, from the default view to custom dots and '
-        'labels.',
+        'labels, plus minimal sparklines and live streaming.',
     examples: <String>[
       'Line Chart - Interactive',
       'Line Chart',
@@ -99,6 +99,8 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
       'Line Chart - Dots Colors',
       'Line Chart - Label',
       'Line Chart - Custom Label',
+      'Sparkline',
+      'Streaming',
     ],
   ),
   ChartFamily(
