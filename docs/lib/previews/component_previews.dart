@@ -49,6 +49,8 @@ import 'package:docs/ui/dashcn/components/file_diff_viewer/preview.dart'
     deferred as preview_file_diff_viewer;
 import 'package:docs/ui/dashcn/components/keyboard_shortcut/preview.dart'
     deferred as preview_keyboard_shortcut;
+import 'package:docs/ui/dashcn/components/list_tile/preview.dart'
+    deferred as preview_list_tile;
 import 'package:docs/ui/dashcn/components/number_ticker/preview.dart'
     deferred as preview_number_ticker;
 import 'package:docs/ui/dashcn/components/pinned_sheet/preview.dart'
@@ -163,6 +165,8 @@ import 'package:docs/ui/dashcn/components/stepper/preview.dart'
     deferred as preview_stepper;
 import 'package:docs/ui/dashcn/components/tabs/preview.dart'
     deferred as preview_tabs;
+import 'package:docs/ui/dashcn/components/action_sheet/preview.dart'
+    deferred as preview_action_sheet;
 import 'package:docs/ui/dashcn/components/alert_dialog/preview.dart'
     deferred as preview_alert_dialog;
 import 'package:docs/ui/dashcn/components/dialog/preview.dart'
@@ -353,6 +357,11 @@ Future<Widget> loadComponentPreview(
       builder: preview_keyboard_shortcut
           .keyboardShortcutPreviews[exampleIndex]
           .builder,
+    ),
+  ),
+  'list_tile' => preview_list_tile.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_list_tile.listTilePreviews[exampleIndex].builder,
     ),
   ),
   'number_ticker' => preview_number_ticker.loadLibrary().then(
@@ -616,6 +625,11 @@ Future<Widget> loadComponentPreview(
   ),
   'tabs' => preview_tabs.loadLibrary().then(
     (_) => Builder(builder: preview_tabs.tabsPreviews[exampleIndex].builder),
+  ),
+  'action_sheet' => preview_action_sheet.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_action_sheet.actionSheetPreviews[exampleIndex].builder,
+    ),
   ),
   'alert_dialog' => preview_alert_dialog.loadLibrary().then(
     (_) => Builder(

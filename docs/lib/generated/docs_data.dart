@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 123 installable components, ordered by category then id.
+/// All 125 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -388,6 +388,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add keyboard_shortcut',
     import:
         "import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';",
+    fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'list_tile',
+    name: 'List Tile',
+    category: 'Data Display',
+    description:
+        'A single-line to three-line list row with leading, title, subtitle and trailing slots, dense/comfortable sizing, selected and disabled states, tap and long-press, plus a grouped list helper.',
+    install: 'dashcn add list_tile',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -1184,6 +1198,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     stability: 'stable',
     listed: true,
     placement: 'top',
+  ),
+  DocsComponent(
+    id: 'action_sheet',
+    name: 'Action Sheet',
+    category: 'Overlays',
+    description:
+        'A bottom sheet of actions with title and message, destructive and cancel actions, icons, scrollable list, drag to dismiss, and a centered dialog variant on wide screens.',
+    install: 'dashcn add action_sheet',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
+    fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'alert_dialog',
@@ -2083,9 +2111,10 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 123 components as index-grid links, alphabetical by name.
+/// All 125 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
+  DocsComponentLink(id: 'action_sheet', name: 'Action Sheet'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
   DocsComponentLink(id: 'alert_dialog', name: 'Alert Dialog'),
   DocsComponentLink(id: 'alpha', name: 'Alpha'),
@@ -2147,6 +2176,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'input_otp', name: 'Input OTP'),
   DocsComponentLink(id: 'item_picker', name: 'Item Picker'),
   DocsComponentLink(id: 'keyboard_shortcut', name: 'Keyboard Shortcut'),
+  DocsComponentLink(id: 'list_tile', name: 'List Tile'),
   DocsComponentLink(id: 'locale_utils', name: 'Locale Utils'),
   DocsComponentLink(id: 'markdown', name: 'Markdown'),
   DocsComponentLink(id: 'media_query', name: 'Media Query'),
@@ -2217,9 +2247,9 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
   DocsCategory(id: 'Forms & Inputs', count: 21),
-  DocsCategory(id: 'Data Display', count: 18),
+  DocsCategory(id: 'Data Display', count: 19),
   DocsCategory(id: 'Layout', count: 11),
-  DocsCategory(id: 'Overlays', count: 8),
+  DocsCategory(id: 'Overlays', count: 9),
   DocsCategory(id: 'Navigation', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
@@ -2232,8 +2262,8 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 123, // manifest entries
-  listedComponents: 87, // listed only
+  components: 125, // manifest entries
+  listedComponents: 89, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2306,6 +2336,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'feature_carousel', name: 'Feature Carousel'),
           DocsComponentLink(id: 'file_diff_viewer', name: 'File Diff Viewer'),
           DocsComponentLink(id: 'keyboard_shortcut', name: 'Keyboard Shortcut'),
+          DocsComponentLink(id: 'list_tile', name: 'List Tile'),
           DocsComponentLink(id: 'number_ticker', name: 'Number Ticker'),
           DocsComponentLink(id: 'pinned_sheet', name: 'Pinned Sheet'),
           DocsComponentLink(id: 'table', name: 'Table'),
@@ -2333,6 +2364,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
       DocsComponentCategory(
         id: 'Overlays',
         components: <DocsComponentLink>[
+          DocsComponentLink(id: 'action_sheet', name: 'Action Sheet'),
           DocsComponentLink(id: 'alert_dialog', name: 'Alert Dialog'),
           DocsComponentLink(id: 'dialog', name: 'Dialog'),
           DocsComponentLink(id: 'drawer', name: 'Drawer'),
