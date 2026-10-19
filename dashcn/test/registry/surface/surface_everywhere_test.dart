@@ -899,8 +899,14 @@ void main() {
         _frame(
           ImageLightbox(
             images: <LightboxImage>[
-              LightboxImage(image: MemoryImage(Uint8List(0)), semanticLabel: 'a'),
-              LightboxImage(image: MemoryImage(Uint8List(0)), semanticLabel: 'b'),
+              LightboxImage(
+                image: MemoryImage(Uint8List(0)),
+                semanticLabel: 'a',
+              ),
+              LightboxImage(
+                image: MemoryImage(Uint8List(0)),
+                semanticLabel: 'b',
+              ),
             ],
           ),
         ),

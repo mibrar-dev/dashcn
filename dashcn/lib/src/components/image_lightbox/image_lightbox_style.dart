@@ -127,10 +127,12 @@ class ImageLightboxTheme extends ComponentThemeData
       barrierColor: barrierColor == null ? this.barrierColor : barrierColor(),
       surfaceColor: surfaceColor == null ? this.surfaceColor : surfaceColor(),
       foreground: foreground == null ? this.foreground : foreground(),
-      mutedForeground:
-          mutedForeground == null ? this.mutedForeground : mutedForeground(),
-      closeButtonColor:
-          closeButtonColor == null ? this.closeButtonColor : closeButtonColor(),
+      mutedForeground: mutedForeground == null
+          ? this.mutedForeground
+          : mutedForeground(),
+      closeButtonColor: closeButtonColor == null
+          ? this.closeButtonColor
+          : closeButtonColor(),
       closeButtonBackground: closeButtonBackground == null
           ? this.closeButtonBackground
           : closeButtonBackground(),
@@ -143,20 +145,25 @@ class ImageLightboxTheme extends ComponentThemeData
       thumbnailBorderColor: thumbnailBorderColor == null
           ? this.thumbnailBorderColor
           : thumbnailBorderColor(),
-      thumbnailHeight:
-          thumbnailHeight == null ? this.thumbnailHeight : thumbnailHeight(),
+      thumbnailHeight: thumbnailHeight == null
+          ? this.thumbnailHeight
+          : thumbnailHeight(),
       minScale: minScale == null ? this.minScale : minScale(),
       maxScale: maxScale == null ? this.maxScale : maxScale(),
-      doubleTapScale:
-          doubleTapScale == null ? this.doubleTapScale : doubleTapScale(),
-      transitionDuration:
-          transitionDuration == null ? this.transitionDuration : transitionDuration(),
+      doubleTapScale: doubleTapScale == null
+          ? this.doubleTapScale
+          : doubleTapScale(),
+      transitionDuration: transitionDuration == null
+          ? this.transitionDuration
+          : transitionDuration(),
       zoomDuration: zoomDuration == null ? this.zoomDuration : zoomDuration(),
-      showThumbnails:
-          showThumbnails == null ? this.showThumbnails : showThumbnails(),
+      showThumbnails: showThumbnails == null
+          ? this.showThumbnails
+          : showThumbnails(),
       showCounter: showCounter == null ? this.showCounter : showCounter(),
-      captionPadding:
-          captionPadding == null ? this.captionPadding : captionPadding(),
+      captionPadding: captionPadding == null
+          ? this.captionPadding
+          : captionPadding(),
     );
   }
 
@@ -210,14 +217,18 @@ class ImageLightboxTheme extends ComponentThemeData
       foreground: t < 0.5 ? a.foreground : b.foreground,
       mutedForeground: t < 0.5 ? a.mutedForeground : b.mutedForeground,
       closeButtonColor: t < 0.5 ? a.closeButtonColor : b.closeButtonColor,
-      closeButtonBackground:
-          t < 0.5 ? a.closeButtonBackground : b.closeButtonBackground,
-      thumbnailBorderRadius:
-          t < 0.5 ? a.thumbnailBorderRadius : b.thumbnailBorderRadius,
-      thumbnailBorderWidth:
-          t < 0.5 ? a.thumbnailBorderWidth : b.thumbnailBorderWidth,
-      thumbnailBorderColor:
-          t < 0.5 ? a.thumbnailBorderColor : b.thumbnailBorderColor,
+      closeButtonBackground: t < 0.5
+          ? a.closeButtonBackground
+          : b.closeButtonBackground,
+      thumbnailBorderRadius: t < 0.5
+          ? a.thumbnailBorderRadius
+          : b.thumbnailBorderRadius,
+      thumbnailBorderWidth: t < 0.5
+          ? a.thumbnailBorderWidth
+          : b.thumbnailBorderWidth,
+      thumbnailBorderColor: t < 0.5
+          ? a.thumbnailBorderColor
+          : b.thumbnailBorderColor,
       thumbnailHeight: t < 0.5 ? a.thumbnailHeight : b.thumbnailHeight,
       minScale: t < 0.5 ? a.minScale : b.minScale,
       maxScale: t < 0.5 ? a.maxScale : b.maxScale,

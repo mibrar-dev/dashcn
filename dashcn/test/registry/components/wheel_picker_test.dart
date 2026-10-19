@@ -8,7 +8,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/wheel_picker/wheel_picker.dart';
-import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,7 +25,13 @@ Future<void> pumpWheel(
       data: const ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
-        child: Center(child: SizedBox(width: size.width, height: size.height, child: picker)),
+        child: Center(
+          child: SizedBox(
+            width: size.width,
+            height: size.height,
+            child: picker,
+          ),
+        ),
       ),
     ),
   );
@@ -85,17 +90,21 @@ void main() {
       );
       // The band is a centred DecoratedBox one row tall.
       final DecoratedBox band = tester.widget<DecoratedBox>(
-        find.descendant(
-          of: find.byType(WheelPicker),
-          matching: find.byType(DecoratedBox),
-        ).first,
+        find
+            .descendant(
+              of: find.byType(WheelPicker),
+              matching: find.byType(DecoratedBox),
+            )
+            .first,
       );
       expect(band.decoration, isA<BoxDecoration>());
     });
   });
 
   group('selection', () {
-    testWidgets('uncontrolled: onChanged reports the selection', (tester) async {
+    testWidgets('uncontrolled: onChanged reports the selection', (
+      tester,
+    ) async {
       List<int>? reported;
       await pumpWheel(
         tester,
@@ -140,7 +149,9 @@ void main() {
   });
 
   group('keyboard', () {
-    testWidgets('arrow keys move the selection and switch columns', (tester) async {
+    testWidgets('arrow keys move the selection and switch columns', (
+      tester,
+    ) async {
       final List<List<int>> reported = <List<int>>[];
       final FocusNode focus = FocusNode();
       addTearDown(focus.dispose);
@@ -235,6 +246,43 @@ void main() {
     });
   });
 
+  group('custom builders', () {
+    testWidgets('band and separator builders replace the defaults', (
+      tester,
+    ) async {
+      await pumpWheel(
+        tester,
+        WheelPicker(
+          columns: <WheelColumn>[
+            WheelColumn(items: _numbers),
+            WheelColumn(items: _letters),
+          ],
+          bandBuilder: (BuildContext context) => const Text('BAND'),
+          separatorBuilder: (BuildContext context, int index) =>
+              const Text('SEP'),
+        ),
+      );
+      expect(find.text('BAND'), findsOneWidget);
+      expect(find.text('SEP'), findsOneWidget);
+    });
+
+    testWidgets('the column row builder swaps the row content', (tester) async {
+      await pumpWheel(
+        tester,
+        WheelPicker(
+          columns: <WheelColumn>[
+            WheelColumn(
+              items: _numbers,
+              builder: (BuildContext context, int index) =>
+                  Text('custom-$index'),
+            ),
+          ],
+        ),
+      );
+      expect(find.text('custom-0'), findsOneWidget);
+    });
+  });
+
   group('theme and style overrides', () {
     testWidgets('widget theme leg overrides the defaults', (tester) async {
       await pumpWheel(
@@ -276,13 +324,15 @@ void main() {
         ),
       );
       await tester.pump();
-      // 7 visible rows * 40px = 280px wheel height.
+      // 7 visible rows * 48px = 336px wheel height.
       expect(find.byType(ListWheelScrollView), findsOneWidget);
     });
   });
 
   group('reduced motion', () {
-    testWidgets('snap animation collapses under reduced motion', (tester) async {
+    testWidgets('snap animation collapses under reduced motion', (
+      tester,
+    ) async {
       final List<List<int>> reported = <List<int>>[];
       await tester.pumpWidget(
         MediaQuery(

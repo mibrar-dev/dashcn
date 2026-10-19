@@ -7,7 +7,7 @@
 // Sparse example (uncomment and complete to customise):
 //
 //   const WheelPickerTheme wheelPickerThemeOverrides = WheelPickerTheme(
-//     itemHeight: 44,
+//     itemHeight: 48,
 //     visibleItems: 7,
 //     selectionColor: ThemedColor.ref(ColorRef.accent, alpha: 0.2),
 //     fontSize: 18,

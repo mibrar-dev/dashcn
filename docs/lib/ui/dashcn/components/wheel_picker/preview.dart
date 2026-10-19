@@ -17,8 +17,18 @@ import 'wheel_picker.dart';
 
 /// One wheel column of numbers, 01-12.
 const List<String> _hours = <String>[
-  '01', '02', '03', '04', '05', '06',
-  '07', '08', '09', '10', '11', '12',
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
 ];
 
 /// A single-column hour wheel; owns its selection.
@@ -116,9 +126,18 @@ class _LoopingWheelState extends State<_LoopingWheel> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
-          columns: <WheelColumn>[WheelColumn(items: <String>[
-            'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet',
-          ])],
+          columns: <WheelColumn>[
+            WheelColumn(
+              items: <String>[
+                'Red',
+                'Orange',
+                'Yellow',
+                'Green',
+                'Blue',
+                'Violet',
+              ],
+            ),
+          ],
           value: _value,
           looping: true,
           onChanged: (List<int> value) => setState(() => _value = value),
@@ -126,7 +145,12 @@ class _LoopingWheelState extends State<_LoopingWheel> {
         Gap(theme.spacing.lg),
         Text(
           <String>[
-            'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet',
+            'Red',
+            'Orange',
+            'Yellow',
+            'Green',
+            'Blue',
+            'Violet',
           ][_value[0]],
           style: TextStyle(color: theme.colors.mutedForeground),
         ),

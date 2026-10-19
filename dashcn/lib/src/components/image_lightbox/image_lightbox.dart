@@ -25,11 +25,7 @@ export 'image_lightbox_style.dart';
 /// One image in a [ImageLightbox].
 class LightboxImage {
   /// Creates a lightbox image.
-  const LightboxImage({
-    required this.image,
-    this.caption,
-    this.semanticLabel,
-  });
+  const LightboxImage({required this.image, this.caption, this.semanticLabel});
 
   /// The image to decode.
   final ImageProvider image;
@@ -40,6 +36,34 @@ class LightboxImage {
   /// Accessible label; also marks the node as an image.
   final String? semanticLabel;
 }
+
+/// Builds the scrim painted behind the lightbox.
+typedef LightboxScrimBuilder = Widget Function(BuildContext context);
+
+/// Builds the main image for [index].
+typedef LightboxImageBuilder =
+    Widget Function(BuildContext context, LightboxImage image, int index);
+
+/// Builds the caption shown under the current image.
+typedef LightboxCaptionBuilder =
+    Widget Function(BuildContext context, LightboxImage image, int index);
+
+/// Builds the `n / total` counter.
+typedef LightboxCounterBuilder =
+    Widget Function(BuildContext context, int index, int count);
+
+/// Builds the close button; [onClose] pops the lightbox.
+typedef LightboxCloseBuilder =
+    Widget Function(BuildContext context, VoidCallback onClose);
+
+/// Builds one thumbnail in the strip.
+typedef LightboxThumbnailBuilder =
+    Widget Function(
+      BuildContext context,
+      LightboxImage image,
+      int index,
+      bool selected,
+    );
 
 /// A full-screen lightbox over a list of [LightboxImage]s.
 ///
@@ -65,7 +89,12 @@ class ImageLightbox extends StatefulWidget {
     this.maxScale = 4,
     this.doubleTapScale = 2,
     this.onChanged,
-    this.heroTag,
+    this.scrimBuilder,
+    this.imageBuilder,
+    this.captionBuilder,
+    this.counterBuilder,
+    this.closeButtonBuilder,
+    this.thumbnailBuilder,
     this.theme,
   }) : assert(images.length > 0, 'A lightbox needs at least one image.');
 
@@ -93,8 +122,23 @@ class ImageLightbox extends StatefulWidget {
   /// Called with the current image index on every page change.
   final ValueChanged<int>? onChanged;
 
-  /// Optional hero tag for the open transition.
-  final Object? heroTag;
+  /// Replaces the scrim; null paints the themed barrier colour.
+  final LightboxScrimBuilder? scrimBuilder;
+
+  /// Replaces the main image; null renders the `image` component's `Picture`.
+  final LightboxImageBuilder? imageBuilder;
+
+  /// Replaces the caption; null renders the themed caption text.
+  final LightboxCaptionBuilder? captionBuilder;
+
+  /// Replaces the counter; null renders the themed `n / total` text.
+  final LightboxCounterBuilder? counterBuilder;
+
+  /// Replaces the close button; null renders the themed × button.
+  final LightboxCloseBuilder? closeButtonBuilder;
+
+  /// Replaces one thumbnail; null renders the themed thumbnail.
+  final LightboxThumbnailBuilder? thumbnailBuilder;
 
   /// Widget-leg theme override, merged over the component/app/defaults legs.
   final ImageLightboxTheme? theme;
@@ -117,16 +161,21 @@ Future<T?> showImageLightbox<T>({
   double maxScale = 4,
   double doubleTapScale = 2,
   ValueChanged<int>? onChanged,
-  Object? heroTag,
+  LightboxScrimBuilder? scrimBuilder,
+  LightboxImageBuilder? imageBuilder,
+  LightboxCaptionBuilder? captionBuilder,
+  LightboxCounterBuilder? counterBuilder,
+  LightboxCloseBuilder? closeButtonBuilder,
+  LightboxThumbnailBuilder? thumbnailBuilder,
   ImageLightboxTheme? theme,
 }) {
-  final ImageLightboxTheme style = resolveComponentStyle<ImageLightboxTheme,
-      ImageLightboxTheme>(
-    context,
-    widget: theme,
-    select: (t) => t,
-    defaults: imageLightboxDefaults,
-  );
+  final ImageLightboxTheme style =
+      resolveComponentStyle<ImageLightboxTheme, ImageLightboxTheme>(
+        context,
+        widget: theme,
+        select: (t) => t,
+        defaults: imageLightboxDefaults,
+      );
   final Duration duration = motionReduced(context)
       ? Duration.zero
       : style.transitionDuration ?? const Duration(milliseconds: 250);
@@ -145,7 +194,12 @@ Future<T?> showImageLightbox<T>({
         maxScale: maxScale,
         doubleTapScale: doubleTapScale,
         onChanged: onChanged,
-        heroTag: heroTag,
+        scrimBuilder: scrimBuilder,
+        imageBuilder: imageBuilder,
+        captionBuilder: captionBuilder,
+        counterBuilder: counterBuilder,
+        closeButtonBuilder: closeButtonBuilder,
+        thumbnailBuilder: thumbnailBuilder,
         theme: theme,
       ),
       transitionsBuilder: (_, Animation<double> animation, _, Widget child) {
@@ -225,15 +279,16 @@ class _ImageLightboxState extends State<ImageLightbox> {
   Widget build(BuildContext context) {
     final ImageLightboxTheme style = _style(context);
     final ThemeData theme = Theme.of(context);
-    final Color barrier = (style.barrierColor ??
-            const ThemedColor.value(Color(0x99000000)))
-        .resolve(theme.colors);
-    final Color foreground = (style.foreground ??
-            const ThemedColor.ref(ColorRef.foreground))
-        .resolve(theme.colors);
-    final Color muted = (style.mutedForeground ??
-            const ThemedColor.ref(ColorRef.mutedForeground))
-        .resolve(theme.colors);
+    final Color barrier =
+        (style.barrierColor ?? const ThemedColor.value(Color(0x99000000)))
+            .resolve(theme.colors);
+    final Color foreground =
+        (style.foreground ?? const ThemedColor.ref(ColorRef.foreground))
+            .resolve(theme.colors);
+    final Color muted =
+        (style.mutedForeground ??
+                const ThemedColor.ref(ColorRef.mutedForeground))
+            .resolve(theme.colors);
     final double maxScale = style.maxScale ?? 4;
     final double minScale = style.minScale ?? 1;
     final double doubleTapScale = style.doubleTapScale ?? 2;
@@ -248,6 +303,8 @@ class _ImageLightboxState extends State<ImageLightbox> {
       itemBuilder: (BuildContext context, int index) {
         return _ZoomableImage(
           image: widget.images[index],
+          index: index,
+          imageBuilder: widget.imageBuilder,
           minScale: minScale,
           maxScale: maxScale,
           doubleTapScale: doubleTapScale,
@@ -275,8 +332,11 @@ class _ImageLightboxState extends State<ImageLightbox> {
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
+              excludeFromSemantics: true,
               onTap: () => Navigator.of(context).maybePop(),
-              child: ColoredBox(color: barrier),
+              child:
+                  widget.scrimBuilder?.call(context) ??
+                  ColoredBox(color: barrier),
             ),
           ),
           Positioned.fill(child: content),
@@ -292,12 +352,35 @@ class _ImageLightboxState extends State<ImageLightbox> {
     Color muted,
     bool showCounter,
   ) {
-    final Color closeColor = (style.closeButtonColor ??
-            const ThemedColor.ref(ColorRef.foreground))
-        .resolve(theme.colors);
-    final Color closeBackground = (style.closeButtonBackground ??
-            const ThemedColor.ref(ColorRef.background))
-        .resolve(theme.colors);
+    final Color closeColor =
+        (style.closeButtonColor ?? const ThemedColor.ref(ColorRef.foreground))
+            .resolve(theme.colors);
+    final Color closeBackground =
+        (style.closeButtonBackground ??
+                const ThemedColor.ref(ColorRef.background))
+            .resolve(theme.colors);
+    void close() => Navigator.of(context).maybePop();
+    final Widget counter =
+        widget.counterBuilder?.call(context, _index, widget.images.length) ??
+        Text(
+          '${_index + 1} / ${widget.images.length}',
+          style: TextStyle(color: foreground, fontSize: 14),
+        );
+    final Widget closeButton =
+        widget.closeButtonBuilder?.call(context, close) ??
+        Semantics(
+          label: 'Close',
+          button: true,
+          child: Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: closeBackground,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(LucideIcons.x, size: 20, color: closeColor),
+          ),
+        );
     return SafeArea(
       bottom: false,
       child: Padding(
@@ -307,28 +390,14 @@ class _ImageLightboxState extends State<ImageLightbox> {
             if (showCounter)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  '${_index + 1} / ${widget.images.length}',
-                  style: TextStyle(color: foreground, fontSize: 14),
-                ),
+                child: counter,
               ),
             const Spacer(),
             GestureDetector(
+              key: const ValueKey<String>('dashcn.image_lightbox.close'),
               behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.of(context).maybePop(),
-              child: Semantics(
-                label: 'Close',
-                button: true,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: closeBackground,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(LucideIcons.x, size: 20, color: closeColor),
-                ),
-              ),
+              onTap: close,
+              child: closeButton,
             ),
           ],
         ),
@@ -338,25 +407,28 @@ class _ImageLightboxState extends State<ImageLightbox> {
 
   Widget _caption(ImageLightboxTheme style, ThemeData theme, Color foreground) {
     final LightboxImage current = widget.images[_index];
-    final EdgeInsetsGeometry padding = style.captionPadding ??
+    final EdgeInsetsGeometry padding =
+        style.captionPadding ??
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     return SafeArea(
       top: false,
       child: Padding(
         padding: padding,
-        child: Text(
-          current.caption ?? '',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: foreground, fontSize: 14),
-        ),
+        child:
+            widget.captionBuilder?.call(context, current, _index) ??
+            Text(
+              current.caption ?? '',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: foreground, fontSize: 14),
+            ),
       ),
     );
   }
 
   Widget _thumbnails(ImageLightboxTheme style, ThemeData theme) {
-    final Color borderColor = (style.thumbnailBorderColor ??
-            const ThemedColor.ref(ColorRef.accent))
-        .resolve(theme.colors);
+    final Color borderColor =
+        (style.thumbnailBorderColor ?? const ThemedColor.ref(ColorRef.accent))
+            .resolve(theme.colors);
     final double borderWidth = style.thumbnailBorderWidth ?? 2;
     final double height = style.thumbnailHeight ?? 56;
     final BorderRadiusGeometry radius =
@@ -372,12 +444,15 @@ class _ImageLightboxState extends State<ImageLightbox> {
           itemCount: widget.images.length,
           itemBuilder: (BuildContext context, int index) {
             final bool selected = index == _index;
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => _goTo(index),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Container(
+            final LightboxImage image = widget.images[index];
+            final Widget thumbnail =
+                widget.thumbnailBuilder?.call(
+                  context,
+                  image,
+                  index,
+                  selected,
+                ) ??
+                Container(
                   width: height * 1.5,
                   decoration: BoxDecoration(
                     borderRadius: radius,
@@ -389,14 +464,20 @@ class _ImageLightboxState extends State<ImageLightbox> {
                   child: ClipRRect(
                     borderRadius: radius,
                     child: Picture(
-                      image: widget.images[index].image,
+                      image: image.image,
                       width: height * 1.5,
                       height: height,
                       fit: BoxFit.cover,
-                      semanticLabel: widget.images[index].semanticLabel,
+                      semanticLabel: image.semanticLabel,
                     ),
                   ),
-                ),
+                );
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => _goTo(index),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: thumbnail,
               ),
             );
           },
@@ -420,9 +501,9 @@ class _LightboxChrome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color fill = (style.surfaceColor ??
-            const ThemedColor.ref(ColorRef.background))
-        .resolve(theme.colors);
+    final Color fill =
+        (style.surfaceColor ?? const ThemedColor.ref(ColorRef.background))
+            .resolve(theme.colors);
     final double? opacity = resolveSurfaceOpacity(context);
     final double? blur = resolveSurfaceBlur(context);
     return GlassSurface(
@@ -437,6 +518,8 @@ class _LightboxChrome extends StatelessWidget {
 class _ZoomableImage extends StatefulWidget {
   const _ZoomableImage({
     required this.image,
+    required this.index,
+    required this.imageBuilder,
     required this.minScale,
     required this.maxScale,
     required this.doubleTapScale,
@@ -445,6 +528,8 @@ class _ZoomableImage extends StatefulWidget {
   });
 
   final LightboxImage image;
+  final int index;
+  final LightboxImageBuilder? imageBuilder;
   final double minScale;
   final double maxScale;
   final double doubleTapScale;
@@ -465,7 +550,10 @@ class _ZoomableImageState extends State<_ZoomableImage>
   @override
   void initState() {
     super.initState();
-    _zoomController = AnimationController(vsync: this, duration: widget.zoomDuration);
+    _zoomController = AnimationController(
+      vsync: this,
+      duration: widget.zoomDuration,
+    );
     _zoomController.addListener(_onZoomTick);
     _controller.addListener(_onTransform);
   }
@@ -515,28 +603,27 @@ class _ZoomableImageState extends State<_ZoomableImage>
         final double width = constraints.maxWidth;
         final double height = constraints.maxHeight;
         final Widget image = Center(
-          child: Picture(
-            image: widget.image.image,
-            width: width,
-            height: height,
-            fit: BoxFit.contain,
-            semanticLabel: widget.image.semanticLabel,
-          ),
+          child:
+              widget.imageBuilder?.call(context, widget.image, widget.index) ??
+              Picture(
+                image: widget.image.image,
+                width: width,
+                height: height,
+                fit: BoxFit.contain,
+                semanticLabel: widget.image.semanticLabel,
+              ),
         );
-        // The InteractiveViewer's scale recognizer claims single-pointer
-        // drags even when idle, which would block the PageView swipe. Mount
-        // it only once zoomed; at 1x the plain image lets swipes through and
-        // double-tap is the zoom entry.
-        final Widget content = _scale > 1.01
-            ? InteractiveViewer(
-                transformationController: _controller,
-                minScale: widget.minScale,
-                maxScale: widget.maxScale,
-                panEnabled: true,
-                scaleEnabled: true,
-                child: image,
-              )
-            : image;
+        // The viewer is always mounted so pinch and mouse-wheel zoom work at
+        // 1x. Panning only engages once zoomed, which leaves the PageView's
+        // horizontal drag free to page at 1x; double-tap is the other entry.
+        final Widget content = InteractiveViewer(
+          transformationController: _controller,
+          minScale: widget.minScale,
+          maxScale: widget.maxScale,
+          panEnabled: _scale > 1.01,
+          scaleEnabled: true,
+          child: image,
+        );
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: widget.onClose,

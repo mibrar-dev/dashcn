@@ -976,6 +976,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'wheel_picker': <DocsDep>[
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
@@ -1233,6 +1234,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'image', kind: DocsDepKind.component),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
+    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),

@@ -24,6 +24,13 @@ export 'wheel_picker_style.dart';
 /// Builds the content of one wheel row.
 typedef WheelItemBuilder = Widget Function(BuildContext context, int index);
 
+/// Builds the centred selection band.
+typedef WheelBandBuilder = Widget Function(BuildContext context);
+
+/// Builds the separator drawn after the column at [index].
+typedef WheelSeparatorBuilder =
+    Widget Function(BuildContext context, int index);
+
 /// One column of a [WheelPicker]: the rows plus an optional fixed width.
 class WheelColumn {
   /// Creates a wheel column.
@@ -81,11 +88,13 @@ class WheelPicker extends StatefulWidget {
     this.enabled,
     this.focusNode,
     this.semanticLabel,
+    this.bandBuilder,
+    this.separatorBuilder,
     this.theme,
   }) : assert(
-          visibleItems == null || visibleItems >= 3,
-          'visibleItems must be at least 3 so a row can centre.',
-        );
+         visibleItems == null || visibleItems >= 3,
+         'visibleItems must be at least 3 so a row can centre.',
+       );
 
   /// The wheel columns, left to right.
   final List<WheelColumn> columns;
@@ -120,6 +129,12 @@ class WheelPicker extends StatefulWidget {
   /// Accessible label for the whole picker.
   final String? semanticLabel;
 
+  /// Replaces the centred selection band; null paints the themed band.
+  final WheelBandBuilder? bandBuilder;
+
+  /// Replaces the separator after a column; null paints the themed 1px rule.
+  final WheelSeparatorBuilder? separatorBuilder;
+
   /// Widget-leg theme override, merged over the component/app/defaults legs.
   final WheelPickerTheme? theme;
 
@@ -130,6 +145,10 @@ class WheelPicker extends StatefulWidget {
 /// Number of times the items repeat when [WheelPicker.looping] is on.
 const int _loopRepeats = 10000;
 
+/// Near-zero perspective for the flat (non-3D) wheel; ListWheelScrollView
+/// requires `perspective > 0`, and this renders identically to no perspective.
+const double _flatPerspective = 0.0001;
+
 class _WheelPickerState extends State<WheelPicker> {
   late List<FixedExtentScrollController> _controllers;
   late List<int> _selected;
@@ -138,7 +157,8 @@ class _WheelPickerState extends State<WheelPicker> {
   FocusNode? _ownedFocus;
 
   FocusNode get _focus =>
-      widget.focusNode ?? (_ownedFocus ??= FocusNode(debugLabel: 'WheelPicker'));
+      widget.focusNode ??
+      (_ownedFocus ??= FocusNode(debugLabel: 'WheelPicker'));
 
   bool get _enabled => widget.enabled ?? widget.onChanged != null;
 
@@ -205,7 +225,9 @@ class _WheelPickerState extends State<WheelPicker> {
     final List<int>? initial = widget.value ?? widget.initialValue;
     return <int>[
       for (int i = 0; i < widget.columns.length; i++)
-        i < initial!.length && widget.columns[i].items.isNotEmpty
+        initial != null &&
+                i < initial.length &&
+                widget.columns[i].items.isNotEmpty
             ? initial[i].clamp(0, widget.columns[i].items.length - 1)
             : 0,
     ];
@@ -233,9 +255,18 @@ class _WheelPickerState extends State<WheelPicker> {
   }
 
   void _animateTo(int column, int index) {
+    final Duration duration = resolveMotionDuration(
+      context,
+      kWheelPickerSnapDuration,
+    );
+    // animateToItem asserts duration > Duration.zero; reduced motion snaps.
+    if (duration == Duration.zero) {
+      _controllers[column].jumpToItem(_rawIndex(column, index));
+      return;
+    }
     _controllers[column].animateToItem(
       _rawIndex(column, index),
-      duration: resolveMotionDuration(context, kWheelPickerSnapDuration),
+      duration: duration,
       curve: kWheelPickerSnapCurve,
     );
   }
@@ -313,17 +344,18 @@ class _WheelPickerState extends State<WheelPicker> {
   Widget build(BuildContext context) {
     final WheelPickerTheme style = _style(context);
     final ThemeData theme = Theme.of(context);
-    final double itemHeight = widget.itemHeight ?? style.itemHeight ?? 40;
+    final double itemHeight = widget.itemHeight ?? style.itemHeight ?? 48;
     final int visibleItems = style.visibleItems ?? 5;
     final double wheelHeight = itemHeight * visibleItems;
     final bool enabled = _enabled;
 
-    final Color foreground = (style.foreground ??
-            const ThemedColor.ref(ColorRef.foreground))
-        .resolve(theme.colors);
-    final Color mutedForeground = (style.mutedForeground ??
-            const ThemedColor.ref(ColorRef.mutedForeground))
-        .resolve(theme.colors);
+    final Color foreground =
+        (style.foreground ?? const ThemedColor.ref(ColorRef.foreground))
+            .resolve(theme.colors);
+    final Color mutedForeground =
+        (style.mutedForeground ??
+                const ThemedColor.ref(ColorRef.mutedForeground))
+            .resolve(theme.colors);
     final double fontSize = style.fontSize ?? 16;
     final FontWeight fontWeight = style.fontWeight ?? FontWeight.w600;
 
@@ -336,10 +368,12 @@ class _WheelPickerState extends State<WheelPicker> {
         controller: _controllers[i],
         physics: const FixedExtentScrollPhysics(),
         itemExtent: itemHeight,
-        diameterRatio: widget.perspective
-            ? (style.diameterRatio ?? 1.6)
-            : 1.0,
-        perspective: widget.perspective ? (style.perspective ?? 0.003) : 0.0,
+        diameterRatio: widget.perspective ? (style.diameterRatio ?? 1.6) : 1.0,
+        // ListWheelScrollView requires perspective > 0; the flat default uses a
+        // near-zero value that renders identically to no perspective.
+        perspective: widget.perspective
+            ? (style.perspective ?? 0.003)
+            : _flatPerspective,
         offAxisFraction: 0,
         onSelectedItemChanged: (int raw) => _onSelected(i, raw),
         childDelegate: ListWheelChildBuilderDelegate(
@@ -347,7 +381,8 @@ class _WheelPickerState extends State<WheelPicker> {
           builder: (BuildContext context, int raw) {
             final int index = widget.looping ? raw % count : raw;
             final bool isSelected = enabled && index == _selected[i];
-            final Widget content = column.builder?.call(context, index) ??
+            final Widget content =
+                column.builder?.call(context, index) ??
                 Text(
                   column.items[index],
                   textAlign: TextAlign.center,
@@ -377,38 +412,37 @@ class _WheelPickerState extends State<WheelPicker> {
       children.add(
         column.width != null
             ? sized
-            : Flexible(
-                flex: column.flex.round().clamp(1, 1000),
-                child: sized,
-              ),
+            : Flexible(flex: column.flex.round().clamp(1, 1000), child: sized),
       );
       if (i < widget.columns.length - 1) {
-        children.add(_separator(style, wheelHeight));
+        children.add(
+          widget.separatorBuilder?.call(context, i) ??
+              _separator(style, wheelHeight),
+        );
       }
     }
 
-    final Widget row = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: children,
-    );
+    final Widget row = Row(mainAxisSize: MainAxisSize.min, children: children);
 
-    final Color surface = (style.surfaceColor ??
-            const ThemedColor.ref(ColorRef.background))
-        .resolve(theme.colors);
+    final Color surface =
+        (style.surfaceColor ?? const ThemedColor.ref(ColorRef.background))
+            .resolve(theme.colors);
     final BorderRadiusGeometry radius =
         style.borderRadius ?? theme.borderRadiusLg;
-    final Color selectionColor = (style.selectionColor ??
-            const ThemedColor.ref(ColorRef.accent, alpha: 0.12))
-        .resolve(theme.colors);
-    final Color selectionBorderColor = (style.selectionBorderColor ??
-            const ThemedColor.ref(ColorRef.border))
-        .resolve(theme.colors);
+    final Color selectionColor =
+        (style.selectionColor ??
+                const ThemedColor.ref(ColorRef.accent, alpha: 0.12))
+            .resolve(theme.colors);
+    final Color selectionBorderColor =
+        (style.selectionBorderColor ?? const ThemedColor.ref(ColorRef.border))
+            .resolve(theme.colors);
     final double selectionBorderWidth = style.selectionBorderWidth ?? 1;
     final BorderRadiusGeometry selectionRadius =
         style.selectionBorderRadius ?? theme.borderRadiusMd;
     final Color fadeColor =
-        (style.fadeColor ?? const ThemedColor.ref(ColorRef.background))
-            .resolve(theme.colors);
+        (style.fadeColor ?? const ThemedColor.ref(ColorRef.background)).resolve(
+          theme.colors,
+        );
     final double fadeHeight = style.fadeHeight ?? 32;
 
     final Widget band = Positioned(
@@ -416,25 +450,35 @@ class _WheelPickerState extends State<WheelPicker> {
       left: 0,
       right: 0,
       height: itemHeight,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: selectionColor,
-          borderRadius: selectionRadius,
-          border: Border.all(
-            color: selectionBorderColor,
-            width: selectionBorderWidth,
+      child:
+          widget.bandBuilder?.call(context) ??
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: selectionColor,
+              borderRadius: selectionRadius,
+              border: Border.all(
+                color: selectionBorderColor,
+                width: selectionBorderWidth,
+              ),
+            ),
           ),
-        ),
-      ),
     );
 
-    final Widget fades = Positioned.fill(
+    // The overlay (fades + band) is one IgnorePointer'd Stack so every
+    // Positioned is a direct child of a Stack, as the parent-data protocol
+    // requires.
+    final Widget overlay = Positioned.fill(
       child: IgnorePointer(
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            _fade(fadeColor, fadeHeight, true),
-            const Spacer(),
-            _fade(fadeColor, fadeHeight, false),
+            Column(
+              children: <Widget>[
+                _fade(fadeColor, fadeHeight, true),
+                const Spacer(),
+                _fade(fadeColor, fadeHeight, false),
+              ],
+            ),
+            band,
           ],
         ),
       ),
@@ -452,12 +496,7 @@ class _WheelPickerState extends State<WheelPicker> {
         child: Stack(
           children: <Widget>[
             ColoredBox(color: surface, child: row),
-            fades,
-            Positioned.fill(
-              child: IgnorePointer(
-                child: band,
-              ),
-            ),
+            overlay,
           ],
         ),
       ),
@@ -481,13 +520,16 @@ class _WheelPickerState extends State<WheelPicker> {
   }
 
   Widget _separator(WheelPickerTheme style, double height) {
-    final Color color = (style.separatorColor ??
-            const ThemedColor.ref(ColorRef.border))
-        .resolve(Theme.of(context).colors);
+    final Color color =
+        (style.separatorColor ?? const ThemedColor.ref(ColorRef.border))
+            .resolve(Theme.of(context).colors);
     final double width = style.separatorWidth ?? 1;
     return SizedBox(
       height: height,
-      child: ColoredBox(color: color, child: SizedBox(width: width)),
+      child: ColoredBox(
+        color: color,
+        child: SizedBox(width: width),
+      ),
     );
   }
 

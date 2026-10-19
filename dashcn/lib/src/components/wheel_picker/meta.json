@@ -16,7 +16,9 @@
     "a11y"
   ],
   "deps": {
-    "foundation": [],
+    "foundation": [
+      "constants"
+    ],
     "theme": [
       "color_tokens",
       "theme"
@@ -39,7 +41,9 @@
       "WheelPickerTheme"
     ],
     "typedefs": [
-      "WheelItemBuilder"
+      "WheelItemBuilder",
+      "WheelBandBuilder",
+      "WheelSeparatorBuilder"
     ],
     "constants": [
       "wheelPickerDefaults",
@@ -53,7 +57,7 @@
     "userFile": "wheel_picker_theme.dart",
     "defaults": "wheelPickerDefaults",
     "fields": {
-      "itemHeight": "double? - row height; null = 40",
+      "itemHeight": "double? - row height; null = 48 (a comfortable touch target)",
       "visibleItems": "int? - rows shown; null = 5",
       "selectionColor": "ThemedColor? - selection band fill; null = accent at 12% alpha",
       "selectionBorderColor": "ThemedColor? - band border; null = border token",
@@ -78,7 +82,7 @@
     "semantics": "the picker is a labelled container; each row announces its label and selected state; disabled pickers dim to 50% opacity"
   },
   "sizes": {
-    "row": "40px default (itemHeight), 16px type, w600 selected",
+    "row": "48px default (itemHeight), 16px type, w600 selected",
     "wheel": "5 rows visible by default (visibleItems), 32px edge fades",
     "band": "one row tall, radiusMd, 1px border"
   },

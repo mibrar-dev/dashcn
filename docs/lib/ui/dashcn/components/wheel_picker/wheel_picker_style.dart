@@ -44,7 +44,8 @@ class WheelPickerTheme extends ComponentThemeData
     this.separatorWidth,
   });
 
-  /// Height of one wheel row; null resolves 40.
+  /// Height of one wheel row; null resolves 48, so a row stays a comfortable
+  /// touch target.
   final double? itemHeight;
 
   /// Number of rows the wheel shows; null resolves 5 (odd, so the selection
@@ -127,8 +128,9 @@ class WheelPickerTheme extends ComponentThemeData
       themeShadows: themeShadows,
       itemHeight: itemHeight == null ? this.itemHeight : itemHeight(),
       visibleItems: visibleItems == null ? this.visibleItems : visibleItems(),
-      selectionColor:
-          selectionColor == null ? this.selectionColor : selectionColor(),
+      selectionColor: selectionColor == null
+          ? this.selectionColor
+          : selectionColor(),
       selectionBorderColor: selectionBorderColor == null
           ? this.selectionBorderColor
           : selectionBorderColor(),
@@ -139,20 +141,25 @@ class WheelPickerTheme extends ComponentThemeData
           ? this.selectionBorderRadius
           : selectionBorderRadius(),
       foreground: foreground == null ? this.foreground : foreground(),
-      mutedForeground:
-          mutedForeground == null ? this.mutedForeground : mutedForeground(),
+      mutedForeground: mutedForeground == null
+          ? this.mutedForeground
+          : mutedForeground(),
       fontSize: fontSize == null ? this.fontSize : fontSize(),
       fontWeight: fontWeight == null ? this.fontWeight : fontWeight(),
       fadeColor: fadeColor == null ? this.fadeColor : fadeColor(),
       fadeHeight: fadeHeight == null ? this.fadeHeight : fadeHeight(),
       perspective: perspective == null ? this.perspective : perspective(),
-      diameterRatio: diameterRatio == null ? this.diameterRatio : diameterRatio(),
+      diameterRatio: diameterRatio == null
+          ? this.diameterRatio
+          : diameterRatio(),
       surfaceColor: surfaceColor == null ? this.surfaceColor : surfaceColor(),
       borderRadius: borderRadius == null ? this.borderRadius : borderRadius(),
-      separatorColor:
-          separatorColor == null ? this.separatorColor : separatorColor(),
-      separatorWidth:
-          separatorWidth == null ? this.separatorWidth : separatorWidth(),
+      separatorColor: separatorColor == null
+          ? this.separatorColor
+          : separatorColor(),
+      separatorWidth: separatorWidth == null
+          ? this.separatorWidth
+          : separatorWidth(),
     );
   }
 
@@ -169,9 +176,12 @@ class WheelPickerTheme extends ComponentThemeData
       itemHeight: itemHeight ?? fallback.itemHeight,
       visibleItems: visibleItems ?? fallback.visibleItems,
       selectionColor: selectionColor ?? fallback.selectionColor,
-      selectionBorderColor: selectionBorderColor ?? fallback.selectionBorderColor,
-      selectionBorderWidth: selectionBorderWidth ?? fallback.selectionBorderWidth,
-      selectionBorderRadius: selectionBorderRadius ?? fallback.selectionBorderRadius,
+      selectionBorderColor:
+          selectionBorderColor ?? fallback.selectionBorderColor,
+      selectionBorderWidth:
+          selectionBorderWidth ?? fallback.selectionBorderWidth,
+      selectionBorderRadius:
+          selectionBorderRadius ?? fallback.selectionBorderRadius,
       foreground: foreground ?? fallback.foreground,
       mutedForeground: mutedForeground ?? fallback.mutedForeground,
       fontSize: fontSize ?? fallback.fontSize,
@@ -188,7 +198,11 @@ class WheelPickerTheme extends ComponentThemeData
   }
 
   /// Discrete fields step at t < 0.5, matching the other component themes.
-  static WheelPickerTheme lerp(WheelPickerTheme a, WheelPickerTheme b, double t) {
+  static WheelPickerTheme lerp(
+    WheelPickerTheme a,
+    WheelPickerTheme b,
+    double t,
+  ) {
     return WheelPickerTheme(
       themeDensity: t < 0.5 ? a.themeDensity : b.themeDensity,
       themeSpacing: t < 0.5 ? a.themeSpacing : b.themeSpacing,
@@ -196,9 +210,15 @@ class WheelPickerTheme extends ComponentThemeData
       itemHeight: t < 0.5 ? a.itemHeight : b.itemHeight,
       visibleItems: t < 0.5 ? a.visibleItems : b.visibleItems,
       selectionColor: t < 0.5 ? a.selectionColor : b.selectionColor,
-      selectionBorderColor: t < 0.5 ? a.selectionBorderColor : b.selectionBorderColor,
-      selectionBorderWidth: t < 0.5 ? a.selectionBorderWidth : b.selectionBorderWidth,
-      selectionBorderRadius: t < 0.5 ? a.selectionBorderRadius : b.selectionBorderRadius,
+      selectionBorderColor: t < 0.5
+          ? a.selectionBorderColor
+          : b.selectionBorderColor,
+      selectionBorderWidth: t < 0.5
+          ? a.selectionBorderWidth
+          : b.selectionBorderWidth,
+      selectionBorderRadius: t < 0.5
+          ? a.selectionBorderRadius
+          : b.selectionBorderRadius,
       foreground: t < 0.5 ? a.foreground : b.foreground,
       mutedForeground: t < 0.5 ? a.mutedForeground : b.mutedForeground,
       fontSize: t < 0.5 ? a.fontSize : b.fontSize,
@@ -274,7 +294,7 @@ class WheelPickerTheme extends ComponentThemeData
 /// `selectionBorderRadius` and `borderRadius` stay null so they resolve from
 /// the ambient radius token rather than freezing a value here.
 const WheelPickerTheme wheelPickerDefaults = WheelPickerTheme(
-  itemHeight: 40,
+  itemHeight: 48,
   visibleItems: 5,
   selectionColor: ThemedColor.ref(ColorRef.accent, alpha: 0.12),
   selectionBorderColor: ThemedColor.ref(ColorRef.border),

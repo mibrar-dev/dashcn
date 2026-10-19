@@ -4827,6 +4827,20 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Accessible label for the whole picker.',
       ),
       DocsApiParam(
+        name: 'bandBuilder',
+        type: 'WheelBandBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the centred selection band; null paints the themed band.',
+      ),
+      DocsApiParam(
+        name: 'separatorBuilder',
+        type: 'WheelSeparatorBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the separator after a column; null paints the themed 1px rule.',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'WheelPickerTheme?',
         isRequired: false,
@@ -6435,10 +6449,41 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Called with the current image index on every page change.',
       ),
       DocsApiParam(
-        name: 'heroTag',
-        type: 'Object?',
+        name: 'scrimBuilder',
+        type: 'LightboxScrimBuilder?',
         isRequired: false,
-        doc: 'Optional hero tag for the open transition.',
+        doc: 'Replaces the scrim; null paints the themed barrier colour.',
+      ),
+      DocsApiParam(
+        name: 'imageBuilder',
+        type: 'LightboxImageBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the main image; null renders the `image` component\'s `Picture`.',
+      ),
+      DocsApiParam(
+        name: 'captionBuilder',
+        type: 'LightboxCaptionBuilder?',
+        isRequired: false,
+        doc: 'Replaces the caption; null renders the themed caption text.',
+      ),
+      DocsApiParam(
+        name: 'counterBuilder',
+        type: 'LightboxCounterBuilder?',
+        isRequired: false,
+        doc: 'Replaces the counter; null renders the themed `n / total` text.',
+      ),
+      DocsApiParam(
+        name: 'closeButtonBuilder',
+        type: 'LightboxCloseBuilder?',
+        isRequired: false,
+        doc: 'Replaces the close button; null renders the themed × button.',
+      ),
+      DocsApiParam(
+        name: 'thumbnailBuilder',
+        type: 'LightboxThumbnailBuilder?',
+        isRequired: false,
+        doc: 'Replaces one thumbnail; null renders the themed thumbnail.',
       ),
       DocsApiParam(
         name: 'theme',
@@ -11927,7 +11972,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'itemHeight',
         type: 'double?',
-        description: 'row height; null = 40',
+        description: 'row height; null = 48 (a comfortable touch target)',
       ),
       DocsThemeField(
         name: 'mutedForeground',

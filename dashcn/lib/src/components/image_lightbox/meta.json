@@ -18,6 +18,7 @@
   ],
   "deps": {
     "foundation": [
+      "constants",
       "gap",
       "icons"
     ],
@@ -45,7 +46,14 @@
       "LightboxImage",
       "ImageLightboxTheme"
     ],
-    "typedefs": [],
+    "typedefs": [
+      "LightboxScrimBuilder",
+      "LightboxImageBuilder",
+      "LightboxCaptionBuilder",
+      "LightboxCounterBuilder",
+      "LightboxCloseBuilder",
+      "LightboxThumbnailBuilder"
+    ],
     "constants": [
       "imageLightboxDefaults",
       "imageLightboxThemeOverrides",
@@ -86,7 +94,7 @@
   },
   "sizes": {
     "thumbnail": "56px tall strip, 1.5:1 thumbnails, 2px selected border",
-    "close": "40x40 circular button",
+    "close": "48x48 circular button",
     "counter": "14px type"
   },
   "notes": [

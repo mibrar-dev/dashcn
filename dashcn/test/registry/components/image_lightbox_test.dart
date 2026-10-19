@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/image/image.dart';
 import 'package:dashcn/src/components/image_lightbox/image_lightbox.dart';
-import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -86,12 +85,21 @@ const List<LightboxImage> _images = <LightboxImage>[
   ),
 ];
 
+/// Resizes the real render surface so layout (and drag distances) match the
+/// [MediaQuery] we hand the lightbox.
+void _useSurface(WidgetTester tester, Size size) {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
 /// Pumps an [ImageLightbox] filling the test surface.
 Future<void> pumpLightbox(
   WidgetTester tester,
   ImageLightbox lightbox, {
   Size size = const Size(720, 420),
 }) async {
+  _useSurface(tester, size);
   await tester.pumpWidget(
     MediaQuery(
       data: MediaQueryData(size: size),
@@ -113,6 +121,7 @@ Future<void> pumpHarness(
   WidgetTester tester, {
   Size size = const Size(720, 420),
 }) async {
+  _useSurface(tester, size);
   await tester.pumpWidget(
     MediaQuery(
       data: MediaQueryData(size: size),
@@ -143,8 +152,9 @@ Future<void> pumpHarness(
 
 void main() {
   group('rendering', () {
-    testWidgets('renders the image, counter, caption and thumbnails',
-        (tester) async {
+    testWidgets('renders the image, counter, caption and thumbnails', (
+      tester,
+    ) async {
       await pumpLightbox(tester, ImageLightbox(images: _images));
       expect(find.text('1 / 3'), findsOneWidget);
       expect(find.text('Red'), findsOneWidget);
@@ -177,7 +187,9 @@ void main() {
   });
 
   group('paging', () {
-    testWidgets('swipe changes the image and reports onChanged', (tester) async {
+    testWidgets('swipe changes the image and reports onChanged', (
+      tester,
+    ) async {
       final List<int> reported = <int>[];
       await pumpLightbox(
         tester,
@@ -239,7 +251,10 @@ void main() {
       await tester.tap(image);
       await tester.pumpAndSettle();
       final Matrix4 after = controller.value;
-      expect(after.getMaxScaleOnAxis(), greaterThan(before.getMaxScaleOnAxis()));
+      expect(
+        after.getMaxScaleOnAxis(),
+        greaterThan(before.getMaxScaleOnAxis()),
+      );
     });
   });
 
@@ -265,15 +280,66 @@ void main() {
       expect(find.byType(ImageLightbox), findsNothing);
     });
 
-    testWidgets('the × button closes', (tester) async {
-      final List<LightboxImage> opened = <LightboxImage>[];
-      await pumpHarness(tester, opened);
+    testWidgets('the × button closes and is a labelled button', (tester) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      await pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
       expect(find.byType(ImageLightbox), findsOneWidget);
-      await tester.tap(find.bySemanticsLabel('Close'));
+      final Finder close = find.byKey(
+        const ValueKey<String>('dashcn.image_lightbox.close'),
+      );
+      expect(close, findsOneWidget);
+      await tester.tap(close);
       await tester.pumpAndSettle();
       expect(find.byType(ImageLightbox), findsNothing);
+      handle.dispose();
+    });
+  });
+
+  group('custom builders', () {
+    testWidgets('every visible part can be swapped', (tester) async {
+      await pumpLightbox(
+        tester,
+        ImageLightbox(
+          images: _images,
+          scrimBuilder: (BuildContext context) =>
+              const ColoredBox(color: Color(0xFF123456)),
+          imageBuilder: (BuildContext context, LightboxImage image, int i) =>
+              const Text('image-builder'),
+          captionBuilder: (BuildContext context, LightboxImage image, int i) =>
+              Text('caption-$i'),
+          counterBuilder: (BuildContext context, int i, int count) =>
+              Text('counter-$i-$count'),
+          closeButtonBuilder: (BuildContext context, VoidCallback onClose) =>
+              const Text('x-me'),
+          thumbnailBuilder:
+              (BuildContext context, LightboxImage image, int i, bool sel) =>
+                  Text('thumb-$i-$sel'),
+        ),
+      );
+      expect(find.text('image-builder'), findsOneWidget);
+      expect(find.text('caption-0'), findsOneWidget);
+      expect(find.text('counter-0-3'), findsOneWidget);
+      expect(find.text('x-me'), findsOneWidget);
+      expect(find.text('thumb-2-false'), findsOneWidget);
+    });
+
+    testWidgets('the counter builder reports the current index', (
+      tester,
+    ) async {
+      await pumpLightbox(
+        tester,
+        ImageLightbox(
+          images: _images,
+          counterBuilder: (BuildContext context, int i, int count) =>
+              Text('at $i'),
+        ),
+      );
+      expect(find.text('at 0'), findsOneWidget);
+      await tester.drag(find.byType(PageView), const Offset(-500, 0));
+      await tester.pumpAndSettle();
+      expect(find.text('at 1'), findsOneWidget);
     });
   });
 
@@ -285,10 +351,7 @@ void main() {
           images: <LightboxImage>[_images[0]],
           showCounter: false,
           showThumbnails: false,
-          theme: const ImageLightboxTheme(
-            maxScale: 5,
-            doubleTapScale: 3,
-          ),
+          theme: const ImageLightboxTheme(maxScale: 5, doubleTapScale: 3),
         ),
       );
       expect(find.byType(ImageLightbox), findsOneWidget);
@@ -299,7 +362,10 @@ void main() {
     testWidgets('transition collapses under reduced motion', (tester) async {
       await tester.pumpWidget(
         MediaQuery(
-          data: const MediaQueryData(size: Size(720, 420), disableAnimations: true),
+          data: const MediaQueryData(
+            size: Size(720, 420),
+            disableAnimations: true,
+          ),
           child: Theme(
             data: const ThemeData(),
             child: Directionality(

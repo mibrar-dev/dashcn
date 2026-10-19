@@ -44,7 +44,12 @@ ImageLightbox(
 | `minScale` / `maxScale` | `double` | Zoom range. Defaults 1 / 4. |
 | `doubleTapScale` | `double` | Double-tap zoom target. Default 2. |
 | `onChanged` | `ValueChanged<int>?` | Current image index on page change. |
-| `heroTag` | `Object?` | Optional hero tag for the open transition. |
+| `scrimBuilder` | `LightboxScrimBuilder?` | Replaces the scrim behind the image. |
+| `imageBuilder` | `LightboxImageBuilder?` | Replaces the main image content. |
+| `captionBuilder` | `LightboxCaptionBuilder?` | Replaces the caption. |
+| `counterBuilder` | `LightboxCounterBuilder?` | Replaces the `n / total` counter. |
+| `closeButtonBuilder` | `LightboxCloseBuilder?` | Replaces the close button. |
+| `thumbnailBuilder` | `LightboxThumbnailBuilder?` | Replaces one thumbnail. |
 | `theme` | `ImageLightboxTheme?` | Widget-leg theme override. |
 
 `LightboxImage` carries `image` (the `ImageProvider`), an optional `caption`

@@ -42,13 +42,15 @@ WheelPicker(
 | `value` | `List<int>?` | Controlled selection (one index per column). |
 | `initialValue` | `List<int>?` | Uncontrolled initial selection. |
 | `onChanged` | `ValueChanged<List<int>>?` | Reports the selected index of every column; never fires haptics. |
-| `itemHeight` | `double?` | Row height; null = theme (40). |
+| `itemHeight` | `double?` | Row height; null = theme (48). |
 | `visibleItems` | `int?` | Rows shown; null = theme (5). |
 | `looping` | `bool` | Infinite loop instead of clamping. Default false. |
 | `perspective` | `bool` | 3D cylinder instead of flat rows. Default false. |
 | `enabled` | `bool?` | null = `onChanged != null`. |
 | `focusNode` | `FocusNode?` | Keyboard control. |
 | `semanticLabel` | `String?` | Accessible label for the picker. |
+| `bandBuilder` | `WheelBandBuilder?` | Replaces the centred selection band. |
+| `separatorBuilder` | `WheelSeparatorBuilder?` | Replaces the separator after a column. |
 | `theme` | `WheelPickerTheme?` | Widget-leg theme override. |
 
 `WheelColumn` carries `items` (the row labels), an optional `builder` for
@@ -63,7 +65,7 @@ app entry > `wheelPickerDefaults`:
 
 | Field | Default |
 |---|---|
-| `itemHeight` | 40 |
+| `itemHeight` | 48 |
 | `visibleItems` | 5 |
 | `selectionColor` | `accent` at 12% alpha |
 | `selectionBorderColor` | `border` token |
