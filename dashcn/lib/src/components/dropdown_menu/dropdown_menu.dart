@@ -71,6 +71,7 @@ Future<T?> showDropdown<T>({
   PopoverConstraint widthConstraint = PopoverConstraint.anchorFixedSize,
   PopoverConstraint heightConstraint = PopoverConstraint.flexible,
   MenuPopupTheme? theme,
+  PopupAdaptive? adaptive,
 }) {
   return showPopover<T>(
     context: context,
@@ -83,6 +84,7 @@ Future<T?> showDropdown<T>({
     modal: false,
     consumeOutsideTaps: false,
     dismissBackdropFocus: false,
+    adaptive: adaptive,
     builder: (context) =>
         DropdownMenu(autofocus: true, theme: theme, children: children),
   ).future;

@@ -463,12 +463,14 @@ Future<T?> showItemPicker<T>(
   AlignmentGeometry? anchorAlignment,
   Offset? offset,
   Widget? title,
+  PopupAdaptive? adaptive,
 }) {
   return showPopover<T>(
     context: context,
     alignment: alignment ?? AlignmentDirectional.topCenter,
     anchorAlignment: anchorAlignment ?? Alignment.bottomCenter,
     offset: offset ?? const Offset(0, 4),
+    adaptive: adaptive,
     builder: (context) {
       return Card(
         padding: EdgeInsets.zero,

@@ -451,6 +451,7 @@ Future<T?> showMenu<T>({
   Offset offset = const Offset(0, 4),
   MenuTheme theme = const MenuTheme(),
   MenuPopupTheme? popupTheme,
+  PopupAdaptive? adaptive,
 }) {
   final PopoverController controller = PopoverController();
   return showMenuPopover<T>(
@@ -459,6 +460,7 @@ Future<T?> showMenu<T>({
     offset: offset,
     alignment: alignment,
     anchorAlignment: anchorAlignment,
+    adaptive: adaptive,
     popupBuilder: (context) => MenuPopup(
       theme: popupTheme,
       children: <Widget>[

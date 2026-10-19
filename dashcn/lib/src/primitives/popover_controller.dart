@@ -4,6 +4,8 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../theme/theme.dart';
+
 import 'overlay.dart';
 import 'popover.dart';
 import 'popover_overlay_state.dart';
@@ -53,6 +55,7 @@ class PopoverController extends ChangeNotifier {
     Duration? hideDuration,
     OverlayBarrier? overlayBarrier,
     OverlayHandler? handler,
+    PopupAdaptive? adaptive,
   }) async {
     if (closeOthers) {
       close();
@@ -83,6 +86,7 @@ class PopoverController extends ChangeNotifier {
       dismissDuration: hideDuration,
       overlayBarrier: overlayBarrier,
       handler: handler,
+      adaptive: adaptive,
     );
     final popover = Popover.from(key, res);
     _openPopovers.add(popover);
@@ -180,6 +184,13 @@ class PopoverController extends ChangeNotifier {
   set allowInvertVertical(bool value) {
     for (final popover in _openPopovers) {
       popover.currentState?.allowInvertVertical = value;
+    }
+  }
+
+  /// Updates the adaptive mode of every open popover.
+  set adaptive(PopupAdaptive? value) {
+    for (final popover in _openPopovers) {
+      popover.currentState?.adaptive = value;
     }
   }
 

@@ -74,6 +74,7 @@ abstract class OverlayManager implements OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   });
 
   /// Shows a tooltip overlay (same shape as [show]).
@@ -104,6 +105,7 @@ abstract class OverlayManager implements OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   });
 
   /// Shows a menu overlay (same shape as [show]).
@@ -134,6 +136,7 @@ abstract class OverlayManager implements OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   });
 }
 
@@ -170,6 +173,7 @@ class _FallbackOverlayManager implements OverlayManager {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return OverlayHandler.popover.show<T>(
       context: context,
@@ -198,6 +202,7 @@ class _FallbackOverlayManager implements OverlayManager {
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 
@@ -229,6 +234,7 @@ class _FallbackOverlayManager implements OverlayManager {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return show<T>(
       context: context,
@@ -257,6 +263,7 @@ class _FallbackOverlayManager implements OverlayManager {
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 
@@ -288,6 +295,7 @@ class _FallbackOverlayManager implements OverlayManager {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return show<T>(
       context: context,
@@ -316,6 +324,7 @@ class _FallbackOverlayManager implements OverlayManager {
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 }
