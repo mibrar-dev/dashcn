@@ -1,10 +1,11 @@
 // Home hero count (live-qa #2).
 //
-// Root cause: the landing pill counted `kStats.listedComponents` (87,
-// `listed: true` only) but worded it as installable components, while the
-// registry manifest holds 122 installable `components` entries (35
-// `listed: false` building blocks in `Utilities` and friends stay
-// installable but unbrowsable).
+// Root cause: the landing pill counted `kStats.listedComponents`
+// (`listed: true` only) but worded it as installable components, while the
+// registry manifest holds 120 installable `components` entries (the
+// `listed: false` entries — building blocks in `Utilities` and friends plus
+// the `chart` component, which has its own Charts section — stay installable
+// but unbrowsable).
 // Fix: the pill now shows `kStats.components` (121) with the same
 // "ready to install" wording, which honestly matches the installable set.
 
@@ -15,7 +16,7 @@ import 'support/app_harness.dart';
 
 void main() {
   test('generated stats distinguish installable vs listed', () {
-    expect(kStats.components, 122);
+    expect(kStats.components, 123);
     expect(kStats.listedComponents, 87);
     expect(kStats.listedComponents, lessThan(kStats.components));
     expect(

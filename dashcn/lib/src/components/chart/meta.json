@@ -1,0 +1,67 @@
+{
+  "id": "chart",
+  "name": "Chart",
+  "category": "Data Display",
+  "listed": false,
+  "description": "Line, area, bar, donut/pie, radar, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.",
+  "tier": "component",
+  "install": "dashcn add chart",
+  "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
+  "tags": ["display", "chart", "line", "bar", "donut", "sparkline", "streaming"],
+  "deps": {
+    "foundation": [],
+    "theme": ["color_tokens", "theme"],
+    "primitives": ["motion", "chart"],
+    "components": []
+  },
+  "files": [
+    "chart.dart",
+    "chart_model.dart",
+    "chart_style.dart",
+    "chart_theme.dart",
+    "chart_cartesian_painter.dart",
+    "chart_pie_painter.dart",
+    "chart_paths.dart",
+    "chart_radar_painter.dart",
+    "chart_radial_painter.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig", "ChartPieConfig"],
+    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator", "ChartPieLabels"],
+    "constants": ["chartDefaults", "chartThemeOverrides"]
+  },
+  "theme": {
+    "class": "ChartTheme",
+    "userFile": "chart_theme.dart",
+    "defaults": "chartDefaults",
+    "fields": {
+      "backgroundColor": "ThemedColor? - transparent",
+      "gridColor": "ThemedColor? - border token",
+      "axisColor": "ThemedColor? - border token",
+      "tickLabelStyle": "TextStyle? - 11px muted",
+      "legendTextStyle": "TextStyle? - 12px foreground",
+      "tooltipBackground": "ThemedColor? - popover",
+      "tooltipTextStyle": "TextStyle? - 12px popover foreground",
+      "seriesColors": "List<ThemedColor>? - chart1..5",
+      "strokeWidth": "double? - 2",
+      "markerRadius": "double? - 3",
+      "barRadius": "double? - 4",
+      "barGap": "double? - 0.2 fraction",
+      "barGroupGap": "double? - 0.25 fraction",
+      "fillOpacity": "double? - 0.25",
+      "contentPadding": "EdgeInsetsGeometry? - 8,8,12,8",
+      "showGrid": "bool? - true",
+      "showAxes": "bool? - true",
+      "showTicks": "bool? - true",
+      "showLabels": "bool? - true",
+      "showLegend": "bool? - true",
+      "showTooltip": "bool? - true",
+      "showMarkers": "bool? - false",
+      "animationDuration": "Duration? - 700ms",
+      "animationCurve": "Curve? - easeOutCubic",
+      "disableAnimation": "bool? - false",
+      "donutHole": "double? - 0.55 fraction"
+    }
+  }
+}

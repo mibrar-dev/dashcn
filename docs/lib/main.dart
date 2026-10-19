@@ -19,6 +19,8 @@ import 'motion/motion_scope.dart';
 import 'pages/blocks_pages.dart' deferred as blocks_pages;
 import 'pages/flows_pages.dart' deferred as flows_pages;
 import 'pages/starters_pages.dart' deferred as starters_pages;
+import 'pages/charts_family_page.dart';
+import 'pages/charts_hub_page.dart';
 import 'pages/cli_reference.dart';
 import 'pages/component_page.dart' deferred as component_page;
 import 'pages/components_index_page.dart';
@@ -258,12 +260,15 @@ const Map<ShortcutActivator, Intent> docsShortcuts =
 /// P8-4 provides the package-or-own and Material interop pages;
 /// D4b provides theming and dark mode; P6-B3 provides the Blocks index and
 /// block pages (one deferred library, so the block sources never ship with the
-/// landing route). Only unknown URLs fall through to the not-found page.
+/// landing route). The Charts hub and family pages are small and ship with the
+/// main chunk. Only unknown URLs fall through to the not-found page.
 Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
   return switch (config.route) {
     DocsRoute.landing => const LandingPage(),
     DocsRoute.introduction => const IntroductionPage(),
     DocsRoute.components => const ComponentsIndexPage(),
+    DocsRoute.charts => const ChartsHubPage(),
+    DocsRoute.chartFamily => ChartFamilyPage(familyId: config.chartFamilyId!),
     DocsRoute.component => DeferredPage(
       load: component_page.loadLibrary,
       builder: (BuildContext context) =>

@@ -34,22 +34,37 @@ class DocsNavLink {
   int get hashCode => Object.hash(label, location);
 }
 
-/// Header items (Home, Docs, Components, Blocks, Flows, Starters, Themes —
-/// spec §5.1 plus the P6-B3 Blocks, P9-3b Flows and P9-Z2 Starters sections).
+/// Header items (Home, Docs, Components, Charts, Blocks, Flows, Starters,
+/// Themes — spec §5.1 plus the P6-B3 Blocks, P9-3b Flows and P9-Z2 Starters
+/// sections).
 const List<DocsNavLink> kHeaderNav = <DocsNavLink>[
   DocsNavLink(label: 'Home', location: '/'),
   DocsNavLink(label: 'Docs', location: '/docs'),
   DocsNavLink(label: 'Components', location: '/docs/components'),
+  DocsNavLink(label: 'Charts', location: '/charts'),
   DocsNavLink(label: 'Blocks', location: '/blocks'),
   DocsNavLink(label: 'Flows', location: '/docs/flows'),
   DocsNavLink(label: 'Starters', location: '/docs/starters'),
   DocsNavLink(label: 'Themes', location: '/themes'),
 ];
 
+/// The chart families, in hub-card order: one page per family.
+const List<DocsNavLink> kChartLinks = <DocsNavLink>[
+  DocsNavLink(label: 'Area', location: '/charts/area'),
+  DocsNavLink(label: 'Bar', location: '/charts/bar'),
+  DocsNavLink(label: 'Line', location: '/charts/line'),
+  DocsNavLink(label: 'Pie', location: '/charts/pie'),
+  DocsNavLink(label: 'Radar', location: '/charts/radar'),
+  DocsNavLink(label: 'Radial', location: '/charts/radial'),
+  DocsNavLink(label: 'Tooltip', location: '/charts/tooltip'),
+  DocsNavLink(label: 'Scatter', location: '/charts/scatter'),
+];
+
 /// The sidebar `Sections` group, top to bottom (spec §1).
 const List<DocsNavLink> kDocsSections = <DocsNavLink>[
   DocsNavLink(label: 'Introduction', location: '/docs'),
   DocsNavLink(label: 'Components', location: '/docs/components'),
+  DocsNavLink(label: 'Charts', location: '/charts'),
   DocsNavLink(label: 'Installation', location: '/docs/installation'),
   DocsNavLink(
     label: 'Package or own the code?',
@@ -93,6 +108,22 @@ const List<DocsNavLink> kDocsPageChain = <DocsNavLink>[
   return (
     previous: index > 0 ? kDocsPageChain[index - 1] : null,
     next: index < kDocsPageChain.length - 1 ? kDocsPageChain[index + 1] : null,
+  );
+}
+
+/// Previous/next chart family ids in [kChartLinks] order (used by the family
+/// page pager).
+({String? previousId, String? nextId}) chartNeighbors(String id) {
+  final int index = kChartLinks.indexWhere(
+    (DocsNavLink link) => link.location == '/charts/$id',
+  );
+  if (index < 0) {
+    return (previousId: null, nextId: null);
+  }
+  String idOf(int i) => kChartLinks[i].location.split('/').last;
+  return (
+    previousId: index > 0 ? idOf(index - 1) : null,
+    nextId: index < kChartLinks.length - 1 ? idOf(index + 1) : null,
   );
 }
 

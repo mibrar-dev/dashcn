@@ -20,6 +20,19 @@ List<String> get blockCategorySlugs => <String>[
   for (final DocsBlockCategory category in kBlockCategories) category.slug,
 ];
 
+/// Every chart family slug (`area`, `bar`, `line`, `pie`, `radar`, `radial`,
+/// `tooltip`, `scatter`).
+const List<String> kChartFamilyIds = <String>[
+  'area',
+  'bar',
+  'line',
+  'pie',
+  'radar',
+  'radial',
+  'tooltip',
+  'scatter',
+];
+
 /// Logical pages of the docs site (upstream-site sitemap, P6 spec §1).
 enum DocsRoute {
   /// `/` — landing.
@@ -55,6 +68,13 @@ enum DocsRoute {
   /// `/docs/components/:id` — one component template instance.
   component,
 
+  /// `/charts` — the charts hub (one card per chart family).
+  charts,
+
+  /// `/charts/<family>` — one chart family (area, bar, line, pie, radar,
+  /// radial, tooltip, scatter).
+  chartFamily,
+
   /// `/themes` — preset rail + live preview.
   themes,
 
@@ -89,6 +109,7 @@ class DocsRouteConfiguration {
   const DocsRouteConfiguration._(
     this.route, {
     this.componentId,
+    this.chartFamilyId,
     this.blockCategorySlug,
     this.blockId,
     this.flowId,
@@ -102,6 +123,9 @@ class DocsRouteConfiguration {
 
   /// Component id for [DocsRoute.component].
   final String? componentId;
+
+  /// Chart family id for [DocsRoute.chartFamily] (`area`).
+  final String? chartFamilyId;
 
   /// Block family slug for [DocsRoute.blockCategory] (`settings-account`).
   final String? blockCategorySlug;
@@ -177,6 +201,15 @@ class DocsRouteConfiguration {
     DocsRoute.components,
   );
 
+  /// `/charts`.
+  static const DocsRouteConfiguration charts = DocsRouteConfiguration._(
+    DocsRoute.charts,
+  );
+
+  /// `/charts/<family>`.
+  static DocsRouteConfiguration chartFamily(String id) =>
+      DocsRouteConfiguration._(DocsRoute.chartFamily, chartFamilyId: id);
+
   /// `/themes`.
   static const DocsRouteConfiguration themes = DocsRouteConfiguration._(
     DocsRoute.themes,
@@ -248,6 +281,15 @@ class DocsRouteConfiguration {
     if (path.length == 1 && path[0] == 'themes') {
       return themes;
     }
+    if (path[0] == 'charts') {
+      if (path.length == 1) {
+        return charts;
+      }
+      if (path.length == 2 && kChartFamilyIds.contains(path[1])) {
+        return chartFamily(path[1]);
+      }
+      return notFound(location ?? '/');
+    }
     if (path[0] == 'blocks') {
       if (path.length == 1) {
         return blocks;
@@ -307,6 +349,11 @@ class DocsRouteConfiguration {
           if (path.length == 3) {
             // upstream-style URLs use hyphens; component ids use underscores.
             final String id = path[2].replaceAll('-', '_');
+            // `chart` left the Components list for its own Charts section:
+            // the old URL resolves to the charts hub.
+            if (id == 'chart') {
+              return charts;
+            }
             if (kComponents.any((DocsComponent c) => c.id == id)) {
               return component(id);
             }
@@ -329,6 +376,8 @@ class DocsRouteConfiguration {
     DocsRoute.scorecards => '/docs/scorecards',
     DocsRoute.components => '/docs/components',
     DocsRoute.component => '/docs/components/$componentId',
+    DocsRoute.charts => '/charts',
+    DocsRoute.chartFamily => '/charts/$chartFamilyId',
     DocsRoute.themes => '/themes',
     DocsRoute.blocks => '/blocks',
     DocsRoute.blockCategory => '/blocks/$blockCategorySlug',
@@ -353,6 +402,8 @@ class DocsRouteConfiguration {
     DocsRoute.scorecards => 'How we measure',
     DocsRoute.components => 'Components',
     DocsRoute.component => componentId ?? 'Component',
+    DocsRoute.charts => 'Charts',
+    DocsRoute.chartFamily => chartFamilyId ?? 'Charts',
     DocsRoute.themes => 'Themes',
     DocsRoute.blocks => 'Blocks',
     DocsRoute.blockCategory => blockCategorySlug ?? 'Blocks',
@@ -369,6 +420,7 @@ class DocsRouteConfiguration {
       other is DocsRouteConfiguration &&
       other.route == route &&
       other.componentId == componentId &&
+      other.chartFamilyId == chartFamilyId &&
       other.blockCategorySlug == blockCategorySlug &&
       other.blockId == blockId &&
       other.flowId == flowId &&
@@ -379,6 +431,7 @@ class DocsRouteConfiguration {
   int get hashCode => Object.hash(
     route,
     componentId,
+    chartFamilyId,
     blockCategorySlug,
     blockId,
     flowId,
@@ -394,6 +447,7 @@ class DocsRouteConfiguration {
     return DocsRouteConfiguration._(
       route,
       componentId: componentId,
+      chartFamilyId: chartFamilyId,
       blockCategorySlug: blockCategorySlug,
       blockId: blockId,
       flowId: flowId,

@@ -31,6 +31,8 @@ import 'package:docs/ui/dashcn/components/badge/preview.dart'
     deferred as preview_badge;
 import 'package:docs/ui/dashcn/components/carousel/preview.dart'
     deferred as preview_carousel;
+import 'package:docs/ui/dashcn/components/chart/preview.dart'
+    deferred as preview_chart;
 import 'package:docs/ui/dashcn/components/chat/preview.dart'
     deferred as preview_chat;
 import 'package:docs/ui/dashcn/components/chip/preview.dart'
@@ -309,6 +311,9 @@ Future<Widget> loadComponentPreview(
     (_) => Builder(
       builder: preview_carousel.carouselPreviews[exampleIndex].builder,
     ),
+  ),
+  'chart' => preview_chart.loadLibrary().then(
+    (_) => Builder(builder: preview_chart.chartPreviews[exampleIndex].builder),
   ),
   'chat' => preview_chat.loadLibrary().then(
     (_) => Builder(builder: preview_chat.chatPreviews[exampleIndex].builder),

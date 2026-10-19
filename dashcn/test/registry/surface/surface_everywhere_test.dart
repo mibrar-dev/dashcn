@@ -1045,6 +1045,7 @@ const Map<String, String> _allowList = <String, String>{
   'timeline_animation': 'timeline animation utility, no paint',
   'toggle': 'control, not a surface',
   'tracker': 'analytics utility, no paint',
+  'chart': 'canvas paints, not a box surface',
   'tree': 'tree rows; inline fills, not a floating surface',
   'triple_dots': 'overflow glyph, no surface',
 };

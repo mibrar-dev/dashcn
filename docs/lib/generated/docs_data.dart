@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 122 installable components, ordered by category then id.
+/// All 123 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -268,6 +268,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     stability: 'stable',
     listed: true,
     placement: 'fill',
+  ),
+  DocsComponent(
+    id: 'chart',
+    name: 'Chart',
+    category: 'Data Display',
+    description:
+        'Line, area, bar, donut/pie, radar, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.',
+    install: 'dashcn add chart',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
+    fileCount: 9,
+    stability: 'stable',
+    listed: false,
+    placement: 'center',
   ),
   DocsComponent(
     id: 'chat',
@@ -2069,7 +2083,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 122 components as index-grid links, alphabetical by name.
+/// All 123 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -2089,6 +2103,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'card', name: 'Card'),
   DocsComponentLink(id: 'card_image', name: 'Card Image'),
   DocsComponentLink(id: 'carousel', name: 'Carousel'),
+  DocsComponentLink(id: 'chart', name: 'Chart'),
   DocsComponentLink(id: 'chat', name: 'Chat'),
   DocsComponentLink(id: 'checkbox', name: 'Checkbox'),
   DocsComponentLink(id: 'chip', name: 'Chip'),
@@ -2202,7 +2217,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
   DocsCategory(id: 'Forms & Inputs', count: 21),
-  DocsCategory(id: 'Data Display', count: 17),
+  DocsCategory(id: 'Data Display', count: 18),
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 8),
   DocsCategory(id: 'Navigation', count: 6),
@@ -2217,7 +2232,7 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 122, // manifest entries
+  components: 123, // manifest entries
   listedComponents: 87, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
