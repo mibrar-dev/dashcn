@@ -17,6 +17,7 @@ import 'chart_cartesian_painter.dart';
 import 'chart_model.dart';
 import 'chart_pie_painter.dart';
 import 'chart_radar_painter.dart';
+import 'chart_radial_painter.dart';
 import 'chart_style.dart';
 
 export 'chart_model.dart';
@@ -60,6 +61,9 @@ class Chart extends StatefulWidget {
     this.semanticsLabel,
     this.showDataTable = false,
     this.radar = const ChartRadarConfig(),
+    this.radial = const ChartRadialConfig(),
+    this.centerLabel,
+    this.centerSublabel,
     this.theme,
   });
 
@@ -161,6 +165,16 @@ class Chart extends StatefulWidget {
 
   /// Radar display options ([ChartType.radar] only).
   final ChartRadarConfig radar;
+
+  /// Radial display options ([ChartType.radial] only).
+  final ChartRadialConfig radial;
+
+  /// Centre text for radial charts and donut charts with text
+  /// (the "Text" look); null hides it.
+  final String? centerLabel;
+
+  /// Centre sublabel drawn under [centerLabel]; null hides it.
+  final String? centerSublabel;
 
   /// Widget-leg theme override.
   final ChartTheme? theme;
@@ -380,6 +394,7 @@ class _ChartState extends State<Chart> {
           color:
               series[si].color ??
               surface.seriesPalette[si % surface.seriesPalette.length],
+          label: series[si].label,
           gradient: series[si].gradient,
           strokeWidth: series[si].strokeWidth ?? surface.strokeWidth,
           dash: series[si].dash,
@@ -408,6 +423,8 @@ class _ChartState extends State<Chart> {
     Widget painted;
     if (widget.type == ChartType.radar) {
       painted = _buildRadarPlot(context, surface, series, paints, progress);
+    } else if (widget.type == ChartType.radial) {
+      painted = _buildRadialPlot(context, surface, series, paints, progress);
     } else if (isPie) {
       final List<double> values = series.isEmpty
           ? const <double>[]
@@ -590,6 +607,173 @@ class _ChartState extends State<Chart> {
     }
   }
 
+  Widget _buildRadialPlot(
+    BuildContext context,
+    ChartSurface surface,
+    List<ChartSeries> series,
+    List<ChartSeriesPaint> paints,
+    double progress,
+  ) {
+    double maxValue = widget.yAxis.max ?? 0;
+    int rings = 0;
+    if (paints.length == 1 && paints.first.values.length > 1) {
+      rings = paints.first.values.length;
+      for (final double v in paints.first.values) {
+        if (v > maxValue) {
+          maxValue = v;
+        }
+      }
+    } else {
+      for (final ChartSeriesPaint p in paints) {
+        if (p.values.isEmpty) {
+          continue;
+        }
+        rings++;
+        if (p.values.first > maxValue) {
+          maxValue = p.values.first;
+        }
+      }
+    }
+    if (maxValue <= 0) {
+      maxValue = 1;
+    }
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (d) =>
+              _selectRadialRing(d.localPosition, constraints.biggest, rings),
+          onPanUpdate: (d) =>
+              _selectRadialRing(d.localPosition, constraints.biggest, rings),
+          child: MouseRegion(
+            onHover: (e) =>
+                _selectRadialRing(e.localPosition, constraints.biggest, rings),
+            onExit: (_) => setState(() => _selected = null),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                SizedBox.expand(
+                  child: CustomPaint(
+                    painter: ChartRadialPainter(
+                      series: paints,
+                      maxValue: maxValue,
+                      radial: widget.radial,
+                      gridColor: surface.gridColor,
+                      trackColor: surface.gridColor.withValues(
+                        alpha: surface.gridColor.a * 0.35,
+                      ),
+                      labelStyle: surface.tickStyle,
+                      progress: progress,
+                      selectedIndex: _selected,
+                      textDirection: Directionality.of(context),
+                    ),
+                  ),
+                ),
+                if (widget.centerLabel != null) _buildCenterLabel(surface),
+                if (surface.showTooltip && _selected != null)
+                  _buildRadialTooltip(surface, series, paints, _selected!),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _selectRadialRing(Offset local, Size size, int rings) {
+    if (rings == 0 || size.width <= 0 || size.height <= 0) {
+      return;
+    }
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final double radius = math.min(size.width, size.height) / 2 - 8;
+    final double dist = (local - center).distance;
+    if (dist > radius + 8) {
+      if (_selected != null) {
+        setState(() => _selected = null);
+      }
+      return;
+    }
+    final double slot = radius / (rings + 1);
+    final int index = ((dist / slot).floor() - 1).clamp(0, rings - 1);
+    if (index != _selected) {
+      setState(() => _selected = index);
+    }
+  }
+
+  Widget _buildCenterLabel(ChartSurface surface) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            widget.centerLabel!,
+            style: surface.legendStyle.copyWith(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          if (widget.centerSublabel != null)
+            Text(
+              widget.centerSublabel!,
+              style: surface.tickStyle,
+              textAlign: TextAlign.center,
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRadialTooltip(
+    ChartSurface surface,
+    List<ChartSeries> series,
+    List<ChartSeriesPaint> paints,
+    int index,
+  ) {
+    String? label;
+    String? value;
+    if (paints.length == 1 && paints.first.values.length > 1) {
+      final List<double> v = series.first.values;
+      if (index < v.length) {
+        value = '${v[index]}';
+      }
+      if (widget.labels != null && index < widget.labels!.length) {
+        label = widget.labels![index];
+      }
+    } else {
+      int seen = -1;
+      for (var si = 0; si < series.length; si++) {
+        if (series[si].values.isEmpty) {
+          continue;
+        }
+        seen++;
+        if (seen == index) {
+          label = series[si].label ?? 'Series ${si + 1}';
+          value = '${series[si].values.first}';
+          break;
+        }
+      }
+    }
+    if (value == null) {
+      return const SizedBox.shrink();
+    }
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: surface.tooltipFill,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: surface.gridColor),
+        ),
+        child: Text(
+          label == null ? value : '$label: $value',
+          style: surface.tooltipStyle,
+        ),
+      ),
+    );
+  }
+
   int _categoryLength(List<ChartSeries> series) {
     var n = 0;
     for (final s in series) {
@@ -700,6 +884,7 @@ class _ChartState extends State<Chart> {
       ChartType.sparkline => 'Sparkline',
       ChartType.scatter => 'Scatter',
       ChartType.radar => 'Radar',
+      ChartType.radial => 'Radial',
     };
     if (series.isEmpty) {
       return '$kind chart with no data';

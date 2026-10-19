@@ -3,6 +3,8 @@
 // Owned by the component (single-owner rule); the `chart` primitive owns
 // only the windowing math. Widgets-only.
 
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/chart/chart_math.dart';
@@ -32,6 +34,9 @@ enum ChartType {
 
   /// Polar web: one axis per category, one polygon per series.
   radar,
+
+  /// Concentric progress rings; one ring per series.
+  radial,
 }
 
 /// Bar arrangement for [ChartType.bar] with several series.
@@ -99,6 +104,73 @@ class ChartRadarConfig {
 
   @override
   int get hashCode => Object.hash(grid, filled, showSpokes, rings, showValues);
+}
+
+/// Radial display options for [ChartType.radial].
+///
+/// One ring per series (each series contributes its first value); a single
+/// series with many values paints one ring per value. Values scale against
+/// the largest ring value.
+///
+/// ```dart
+/// const Chart(series: [...], type: ChartType.radial, radial:
+///     ChartRadialConfig(stacked: true, sweep: 0.5));
+/// ```
+class ChartRadialConfig {
+  /// Creates radial display options.
+  const ChartRadialConfig({
+    this.sweep = 1,
+    this.startAngle = -math.pi / 2,
+    this.thickness = 0.6,
+    this.showGrid = false,
+    this.showRingLabels = false,
+    this.stacked = false,
+    this.rounded = false,
+  });
+
+  /// Sweep of every ring as a fraction of a full circle (0..1].
+  final double sweep;
+
+  /// Where the sweep starts, in radians (-π/2 is the top).
+  final double startAngle;
+
+  /// Ring band thickness as a fraction of the per-ring slot (0..1].
+  final double thickness;
+
+  /// Whether faint background grid circles paint behind the rings.
+  final bool showGrid;
+
+  /// Whether each ring draws its series label along the arc.
+  final bool showRingLabels;
+
+  /// Whether the values share one ring end to end (fractions of the total)
+  /// instead of painting concentric rings.
+  final bool stacked;
+
+  /// Whether ring ends paint with round caps.
+  final bool rounded;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ChartRadialConfig &&
+      other.sweep == sweep &&
+      other.startAngle == startAngle &&
+      other.thickness == thickness &&
+      other.showGrid == showGrid &&
+      other.showRingLabels == showRingLabels &&
+      other.stacked == stacked &&
+      other.rounded == rounded;
+
+  @override
+  int get hashCode => Object.hash(
+    sweep,
+    startAngle,
+    thickness,
+    showGrid,
+    showRingLabels,
+    stacked,
+    rounded,
+  );
 }
 
 /// One data series: a label for the legend plus the values.

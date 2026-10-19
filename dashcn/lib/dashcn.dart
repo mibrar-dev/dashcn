@@ -44,6 +44,7 @@ export 'src/components/chart/chart_cartesian_painter.dart';
 export 'src/components/chart/chart_model.dart';
 export 'src/components/chart/chart_pie_painter.dart';
 export 'src/components/chart/chart_radar_painter.dart';
+export 'src/components/chart/chart_radial_painter.dart';
 export 'src/components/chart/chart_style.dart';
 export 'src/components/chat/chat.dart';
 export 'src/components/chat/chat_style.dart';

@@ -22,10 +22,11 @@
     "chart_cartesian_painter.dart",
     "chart_pie_painter.dart",
     "chart_radar_painter.dart",
+    "chart_radial_painter.dart",
     "preview.dart"
   ],
   "api": {
-    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig"],
+    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig"],
     "enums": ["ChartType", "ChartBarMode", "ChartRadarGrid"],
     "constants": ["chartDefaults", "chartThemeOverrides"]
   },

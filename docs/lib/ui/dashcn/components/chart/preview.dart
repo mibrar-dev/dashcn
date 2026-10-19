@@ -295,4 +295,108 @@ const List<ComponentPreview> chartPreviews = <ComponentPreview>[
   ComponentPreview('Radar Chart - Grid Filled', _chartRadarGridFilled),
   ComponentPreview('Radar Chart - Multiple', _chartRadarMultiple),
   ComponentPreview('Radar Chart - Legend', _chartRadarLegend),
+  ComponentPreview('Radial Chart', _chartRadialSimple),
+  ComponentPreview('Radial Chart - Label', _chartRadialLabel),
+  ComponentPreview('Radial Chart - Grid', _chartRadialGrid),
+  ComponentPreview('Radial Chart - Text', _chartRadialText),
+  ComponentPreview('Radial Chart - Shape', _chartRadialShape),
+  ComponentPreview('Radial Chart - Stacked', _chartRadialStacked),
 ];
+
+const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
+
+const List<String> _radialBrowserLabels = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+List<ChartSeries> _radialBrowsers({bool labeled = true}) {
+  return <ChartSeries>[
+    for (var i = 0; i < _radialBrowserValues.length; i++)
+      ChartSeries(
+        label: labeled ? _radialBrowserLabels[i] : null,
+        values: <double>[_radialBrowserValues[i]],
+      ),
+  ];
+}
+
+Widget _chartRadialSimple(BuildContext context) {
+  return Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    series: _radialBrowsers(),
+  );
+}
+
+Widget _chartRadialLabel(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    radial: ChartRadialConfig(showRingLabels: true),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Chrome', values: <double>[275]),
+      ChartSeries(label: 'Safari', values: <double>[200]),
+      ChartSeries(label: 'Firefox', values: <double>[187]),
+      ChartSeries(label: 'Edge', values: <double>[173]),
+      ChartSeries(label: 'Other', values: <double>[90]),
+    ],
+  );
+}
+
+Widget _chartRadialGrid(BuildContext context) {
+  return Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    radial: const ChartRadialConfig(showGrid: true),
+    series: _radialBrowsers(),
+  );
+}
+
+Widget _chartRadialText(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '200',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 250 / 360, rounded: true),
+    series: <ChartSeries>[
+      ChartSeries(values: <double>[200]),
+    ],
+  );
+}
+
+Widget _chartRadialShape(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '1,260',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 100 / 360, thickness: 0.35),
+    series: <ChartSeries>[
+      ChartSeries(values: <double>[1260]),
+    ],
+  );
+}
+
+Widget _chartRadialStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '1,830',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 0.5, stacked: true, rounded: true),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Mobile', values: <double>[570]),
+      ChartSeries(label: 'Desktop', values: <double>[1260]),
+    ],
+  );
+}

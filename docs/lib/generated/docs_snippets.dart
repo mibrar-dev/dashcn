@@ -4573,6 +4573,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/chart/chart_model.dart',
       'lib/ui/dashcn/components/chart/chart_pie_painter.dart',
       'lib/ui/dashcn/components/chart/chart_radar_painter.dart',
+      'lib/ui/dashcn/components/chart/chart_radial_painter.dart',
       'lib/ui/dashcn/components/chart/chart_style.dart',
     ],
     userOwned: <String>['lib/ui/dashcn/components/chart/chart_theme.dart'],

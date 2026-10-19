@@ -364,4 +364,66 @@ void main() {
       expect(tester.takeException(), isNull, reason: '$radar');
     }
   });
+
+  testWidgets('radial renders with 0/1/many rings, empty and negative data', (
+    tester,
+  ) async {
+    const List<List<ChartSeries>> cases = <List<ChartSeries>>[
+      <ChartSeries>[],
+      <ChartSeries>[ChartSeries(values: <double>[])],
+      <ChartSeries>[
+        ChartSeries(values: <double>[5]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[1, 2, 3]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[4]),
+        ChartSeries(label: 'B', values: <double>[-2]),
+        ChartSeries(label: 'C', values: <double>[0]),
+      ],
+    ];
+    for (final List<ChartSeries> series in cases) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.radial,
+            series: series,
+            centerLabel: 'x',
+            centerSublabel: 'y',
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$series');
+    }
+  });
+
+  testWidgets('radial config variants render', (tester) async {
+    const List<ChartRadialConfig> configs = <ChartRadialConfig>[
+      ChartRadialConfig(),
+      ChartRadialConfig(showGrid: true),
+      ChartRadialConfig(showRingLabels: true),
+      ChartRadialConfig(stacked: true, sweep: 0.5, rounded: true),
+      ChartRadialConfig(sweep: 250 / 360, rounded: true),
+      ChartRadialConfig(sweep: 100 / 360, thickness: 0.35),
+    ];
+    for (final ChartRadialConfig radial in configs) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.radial,
+            radial: radial,
+            showLegend: false,
+            series: const <ChartSeries>[
+              ChartSeries(label: 'A', values: <double>[4]),
+              ChartSeries(label: 'B', values: <double>[2]),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$radial');
+    }
+  });
 }

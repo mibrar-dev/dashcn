@@ -3588,6 +3588,172 @@ Widget _chartRadarLegend(BuildContext context) {
 }
 ''',
     ),
+    DocsExampleSource(
+      name: 'Radial Chart',
+      builder: '_chartRadialSimple',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
+
+const List<String> _radialBrowserLabels = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+List<ChartSeries> _radialBrowsers({bool labeled = true}) {
+  return <ChartSeries>[
+    for (var i = 0; i < _radialBrowserValues.length; i++)
+      ChartSeries(
+        label: labeled ? _radialBrowserLabels[i] : null,
+        values: <double>[_radialBrowserValues[i]],
+      ),
+  ];
+}
+
+Widget _chartRadialSimple(BuildContext context) {
+  return Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    series: _radialBrowsers(),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radial Chart - Label',
+      builder: '_chartRadialLabel',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartRadialLabel(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    radial: ChartRadialConfig(showRingLabels: true),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Chrome', values: <double>[275]),
+      ChartSeries(label: 'Safari', values: <double>[200]),
+      ChartSeries(label: 'Firefox', values: <double>[187]),
+      ChartSeries(label: 'Edge', values: <double>[173]),
+      ChartSeries(label: 'Other', values: <double>[90]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radial Chart - Grid',
+      builder: '_chartRadialGrid',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
+
+const List<String> _radialBrowserLabels = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+List<ChartSeries> _radialBrowsers({bool labeled = true}) {
+  return <ChartSeries>[
+    for (var i = 0; i < _radialBrowserValues.length; i++)
+      ChartSeries(
+        label: labeled ? _radialBrowserLabels[i] : null,
+        values: <double>[_radialBrowserValues[i]],
+      ),
+  ];
+}
+
+Widget _chartRadialGrid(BuildContext context) {
+  return Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    radial: const ChartRadialConfig(showGrid: true),
+    series: _radialBrowsers(),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radial Chart - Text',
+      builder: '_chartRadialText',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartRadialText(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '200',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 250 / 360, rounded: true),
+    series: <ChartSeries>[
+      ChartSeries(values: <double>[200]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radial Chart - Shape',
+      builder: '_chartRadialShape',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartRadialShape(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '1,260',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 100 / 360, thickness: 0.35),
+    series: <ChartSeries>[
+      ChartSeries(values: <double>[1260]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radial Chart - Stacked',
+      builder: '_chartRadialStacked',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartRadialStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.radial,
+    height: 260,
+    showLegend: false,
+    centerLabel: '1,830',
+    centerSublabel: 'Visitors',
+    radial: ChartRadialConfig(sweep: 0.5, stacked: true, rounded: true),
+    series: <ChartSeries>[
+      ChartSeries(label: 'Mobile', values: <double>[570]),
+      ChartSeries(label: 'Desktop', values: <double>[1260]),
+    ],
+  );
+}
+''',
+    ),
   ],
   'chat': <DocsExampleSource>[
     DocsExampleSource(

@@ -320,6 +320,7 @@ class ChartRadarPainter extends CustomPainter {
       final ChartSeriesPaint b = other[i];
       if (a.values.length != b.values.length ||
           a.color != b.color ||
+          a.label != b.label ||
           a.fillOpacity != b.fillOpacity ||
           a.showMarkers != b.showMarkers) {
         return false;

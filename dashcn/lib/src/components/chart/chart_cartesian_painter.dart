@@ -22,6 +22,7 @@ class ChartSeriesPaint {
     required this.markerRadius,
     required this.fillOpacity,
     required this.barRadius,
+    this.label,
   });
 
   /// Animated values.
@@ -50,6 +51,9 @@ class ChartSeriesPaint {
 
   /// Bar radius.
   final double barRadius;
+
+  /// Legend/ring label or null.
+  final String? label;
 }
 
 /// Paints cartesian chart families.
@@ -174,6 +178,7 @@ class ChartCartesianPainter extends CustomPainter {
       case ChartType.donut:
       case ChartType.pie:
       case ChartType.radar:
+      case ChartType.radial:
         break;
     }
   }
@@ -554,6 +559,7 @@ class ChartCartesianPainter extends CustomPainter {
       if (a.values.length != b.values.length ||
           a.color != b.color ||
           a.strokeWidth != b.strokeWidth ||
+          a.label != b.label ||
           a.showMarkers != b.showMarkers) {
         return false;
       }

@@ -4,8 +4,8 @@
 //
 // The cards reuse the `chart` component's named previews through
 // [ExamplePreviewCard] (live preview, Code tab, copy button), so the pages
-// never duplicate chart code. Radial and tooltip families do not exist
-// in the library yet and have no page.
+// never duplicate chart code. The tooltip family does not exist
+// in the library yet and has no page.
 
 import 'package:flutter/widgets.dart';
 
@@ -93,6 +93,20 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
       'Radar Chart - Grid Filled',
       'Radar Chart - Multiple',
       'Radar Chart - Legend',
+    ],
+  ),
+  ChartFamily(
+    id: 'radial',
+    title: 'Radial',
+    description:
+        'Radial bar charts for single-measure progress and stacked totals.',
+    examples: <String>[
+      'Radial Chart',
+      'Radial Chart - Label',
+      'Radial Chart - Grid',
+      'Radial Chart - Text',
+      'Radial Chart - Shape',
+      'Radial Chart - Stacked',
     ],
   ),
   ChartFamily(

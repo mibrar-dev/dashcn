@@ -1225,6 +1225,26 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Radar display options ([ChartType.radar] only).',
       ),
       DocsApiParam(
+        name: 'radial',
+        type: 'ChartRadialConfig',
+        isRequired: false,
+        defaultValue: 'const ChartRadialConfig()',
+        doc: 'Radial display options ([ChartType.radial] only).',
+      ),
+      DocsApiParam(
+        name: 'centerLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Centre text for radial charts and donut charts with text\n(the "Text" look); null hides it.',
+      ),
+      DocsApiParam(
+        name: 'centerSublabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Centre sublabel drawn under [centerLabel]; null hides it.',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'ChartTheme?',
         isRequired: false,

@@ -336,7 +336,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Chart',
     kind: DocsSearchKind.component,
     route: '/docs/components/chart',
-    tag: '7 files',
+    tag: '8 files',
     keywords: <String>[
       'Chart',
       'chart',
