@@ -62,6 +62,7 @@ import 'package:dashcn/src/components/formatted_input/preview.dart';
 import 'package:dashcn/src/components/gooey_toast/preview.dart';
 import 'package:dashcn/src/components/hover_card/preview.dart';
 import 'package:dashcn/src/components/image/preview.dart';
+import 'package:dashcn/src/components/image_lightbox/preview.dart';
 import 'package:dashcn/src/components/input/preview.dart';
 import 'package:dashcn/src/components/input_otp/preview.dart';
 import 'package:dashcn/src/components/item_picker/preview.dart';
@@ -109,6 +110,7 @@ import 'package:dashcn/src/components/toggle/preview.dart';
 import 'package:dashcn/src/components/tooltip/preview.dart';
 import 'package:dashcn/src/components/tracker/preview.dart';
 import 'package:dashcn/src/components/tree/preview.dart';
+import 'package:dashcn/src/components/wheel_picker/preview.dart';
 
 /// Stage size the docs page hands an example.
 const Size _stageSize = Size(720, 420);
@@ -252,6 +254,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'gooey_toast': gooeyToastPreviews,
       'hover_card': hoverCardPreviews,
       'image': imagePreviews,
+      'image_lightbox': imageLightboxPreviews,
       'input': inputPreviews,
       'input_otp': inputOtpPreviews,
       'item_picker': itemPickerPreviews,
@@ -299,6 +302,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'tooltip': tooltipPreviews,
       'tracker': trackerPreviews,
       'tree': treePreviews,
+      'wheel_picker': wheelPickerPreviews,
     };
 
 /// The union of the painted content inside [stage], in stage coordinates.

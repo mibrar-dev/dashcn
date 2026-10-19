@@ -4965,6 +4965,93 @@
         "components/image/image_theme.dart"
       ]
     },
+    "image_lightbox": {
+      "api": {
+        "classes": [
+          "ImageLightbox",
+          "LightboxImage",
+          "ImageLightboxTheme"
+        ],
+        "constants": [
+          "imageLightboxDefaults",
+          "imageLightboxThemeOverrides",
+          "kDefaultZoomDuration"
+        ],
+        "functions": [
+          "showImageLightbox"
+        ],
+        "typedefs": []
+      },
+      "category": "Overlays",
+      "deps": {
+        "components": [
+          "image"
+        ],
+        "foundation": [
+          "gap",
+          "icons"
+        ],
+        "primitives": [
+          "motion",
+          "surface"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "A full-screen image viewer opened from a thumbnail with a hero-like scale+fade transition. Pinch or scroll to zoom, drag to pan, double-tap to toggle zoom, swipe between images, and close on Escape, the backdrop or the × button. Captions, a counter and a thumbnail strip are optional chrome. Images render through the image component's Picture.",
+      "entry": "components/image_lightbox/image_lightbox.dart",
+      "files": [
+        "components/image_lightbox/image_lightbox.dart",
+        "components/image_lightbox/image_lightbox_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';",
+      "install": "dashcn add image_lightbox",
+      "listed": true,
+      "name": "ImageLightbox",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "overlay",
+        "lightbox",
+        "image",
+        "zoom",
+        "media",
+        "gallery",
+        "keyboard",
+        "a11y"
+      ],
+      "theme": {
+        "class": "ImageLightboxTheme",
+        "defaults": "imageLightboxDefaults",
+        "fields": {
+          "barrierColor": "ThemedColor? - scrim behind the image; null = 60% black",
+          "captionPadding": "EdgeInsetsGeometry? - null = 12h / 8v",
+          "closeButtonBackground": "ThemedColor? - close button fill; null = background token",
+          "closeButtonColor": "ThemedColor? - close glyph; null = foreground token",
+          "doubleTapScale": "double? - double-tap zoom target; null = 2",
+          "foreground": "ThemedColor? - counter and caption text; null = foreground token",
+          "maxScale": "double? - maximum zoom; null = 4",
+          "minScale": "double? - minimum zoom; null = 1",
+          "mutedForeground": "ThemedColor? - hints; null = mutedForeground token",
+          "showCounter": "bool? - null = true",
+          "showThumbnails": "bool? - null = true",
+          "surfaceColor": "ThemedColor? - caption/thumbnail chrome fill; null = background token (frosted)",
+          "thumbnailBorderColor": "ThemedColor? - null = accent token",
+          "thumbnailBorderRadius": "BorderRadiusGeometry? - null = radiusMd",
+          "thumbnailBorderWidth": "double? - selected thumbnail border; null = 2",
+          "thumbnailHeight": "double? - thumbnail strip height; null = 56",
+          "transitionDuration": "Duration? - open/close transition; null = 250ms",
+          "zoomDuration": "Duration? - double-tap zoom; null = 150ms"
+        },
+        "userFile": "image_lightbox_theme.dart"
+      },
+      "userOwned": [
+        "components/image_lightbox/image_lightbox_theme.dart"
+      ]
+    },
     "input": {
       "api": {
         "classes": [
@@ -9391,6 +9478,86 @@
         "components/triple_dots/triple_dots_theme.dart"
       ]
     },
+    "wheel_picker": {
+      "api": {
+        "classes": [
+          "WheelPicker",
+          "WheelColumn",
+          "WheelPickerTheme"
+        ],
+        "constants": [
+          "wheelPickerDefaults",
+          "wheelPickerThemeOverrides",
+          "kWheelPickerSnapDuration",
+          "kWheelPickerSnapCurve"
+        ],
+        "typedefs": [
+          "WheelItemBuilder"
+        ]
+      },
+      "category": "Forms & Inputs",
+      "deps": {
+        "components": [],
+        "foundation": [],
+        "primitives": [
+          "motion"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "A scrolling wheel picker with one or more columns, item snapping, a centred selection band, an optional 3D cylinder look, optional infinite looping, and a haptic-free selection callback. Drag, mouse wheel, keyboard arrows and tap-to-select all work.",
+      "entry": "components/wheel_picker/wheel_picker.dart",
+      "files": [
+        "components/wheel_picker/wheel_picker.dart",
+        "components/wheel_picker/wheel_picker_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';",
+      "install": "dashcn add wheel_picker",
+      "listed": true,
+      "name": "WheelPicker",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "form",
+        "picker",
+        "wheel",
+        "scroll",
+        "snap",
+        "keyboard",
+        "a11y"
+      ],
+      "theme": {
+        "class": "WheelPickerTheme",
+        "defaults": "wheelPickerDefaults",
+        "fields": {
+          "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+          "diameterRatio": "double? - 3D cylinder; null = 1.6",
+          "fadeColor": "ThemedColor? - edge fade base; null = background token",
+          "fadeHeight": "double? - null = 32",
+          "fontSize": "double? - null = 16",
+          "fontWeight": "FontWeight? - selected row weight; null = w600",
+          "foreground": "ThemedColor? - selected row text; null = foreground token",
+          "itemHeight": "double? - row height; null = 40",
+          "mutedForeground": "ThemedColor? - unselected row text; null = mutedForeground token",
+          "perspective": "double? - 3D amount when the perspective flag is on; null = 0.003",
+          "selectionBorderColor": "ThemedColor? - band border; null = border token",
+          "selectionBorderRadius": "BorderRadiusGeometry? - null = radiusMd",
+          "selectionBorderWidth": "double? - null = 1",
+          "selectionColor": "ThemedColor? - selection band fill; null = accent at 12% alpha",
+          "separatorColor": "ThemedColor? - column separators; null = border token",
+          "separatorWidth": "double? - null = 1",
+          "surfaceColor": "ThemedColor? - wheel container fill; null = background token",
+          "visibleItems": "int? - rows shown; null = 5"
+        },
+        "userFile": "wheel_picker_theme.dart"
+      },
+      "userOwned": [
+        "components/wheel_picker/wheel_picker_theme.dart"
+      ]
+    },
     "window": {
       "api": {
         "classes": [
@@ -9770,6 +9937,10 @@
     "components/image/image_style.dart": "ad0cd14e484a840aee9d34a8eb57d0c524aa50bd35310cbceb25ea2114ad2f28",
     "components/image/image_theme.dart": "c8890eacb758b9d76e0b14883c63a1abf99bfecbc38e0a43f42f2a3df5c00a23",
     "components/image/preview.dart": "6b4bb7a2953fb05229c4be8274d760476f11ed486ebfd55212b227c9846a282c",
+    "components/image_lightbox/image_lightbox.dart": "07b10bc0d28ebbcec3064835cfb7e33cb3d5a1205d3307977407951a28937660",
+    "components/image_lightbox/image_lightbox_style.dart": "3e620eea32eb05690e41adba175fcc0a4b74cc30cd5ce79ef48aaf634c774516",
+    "components/image_lightbox/image_lightbox_theme.dart": "633ab3e9b09162113b7a3db6d2ae3b63be0a96a6d4f9533d3514f5bcd8774829",
+    "components/image_lightbox/preview.dart": "f9bbc6d15eee5f68ae2911bb82cd647606917a46ba9d257a445a012097d98795",
     "components/input/input.dart": "a2fc9decccf8c977c82368d8fc048d02b3458bc9f1ed242fece3567a43710392",
     "components/input/input_style.dart": "0cd1aaf0d078e68e35f87378090e1b1d7240b507f76da78f39147cd0b6096b4b",
     "components/input/input_theme.dart": "d3ea4501f6b2e86b77eecc28516ad149fae31ab6dd3b9e6242a1b39fd2a3af08",
@@ -10002,6 +10173,10 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
+    "components/wheel_picker/preview.dart": "59b6388b6c7abb6189ed20a45ef4db5b9d573f7e868cebe075f3cf07dc72cddf",
+    "components/wheel_picker/wheel_picker.dart": "7b8f1f392dac225841ff4e73b9aba2465243cad823693321b8401acba9fd7cb3",
+    "components/wheel_picker/wheel_picker_style.dart": "ef7c3fd9edae36d5e832b394ee20475f88a7ecc630f1737457e76ca8c5926485",
+    "components/wheel_picker/wheel_picker_theme.dart": "8429a28d05652e7b836fa909936138fe5d0808d7ad28f503e4be2b776cfc1266",
     "components/window/preview.dart": "7d373102672ef69e98d43739567329fb2141a671385a0c9338a44d18c735dd82",
     "components/window/window.dart": "b994378dfd18a060237beeb3d03ba5e60ecb0fa400e6de2d3ef6692f9a28ec01",
     "components/window/window_style.dart": "19cfa15bfcae96faec1468d28beb26ac49eabad7e1f6cf0d28268b1a831d852d",

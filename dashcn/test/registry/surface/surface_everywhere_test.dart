@@ -62,6 +62,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dashcn/src/components/alert_dialog/alert_dialog.dart';
 import 'package:dashcn/src/components/autocomplete/autocomplete.dart';
@@ -76,6 +77,7 @@ import 'package:dashcn/src/components/dropzone/dropzone.dart';
 import 'package:dashcn/src/components/file_picker/file_picker.dart';
 import 'package:dashcn/src/components/formatted_input/formatted_input.dart';
 import 'package:dashcn/src/components/hover_card/hover_card.dart';
+import 'package:dashcn/src/components/image_lightbox/image_lightbox.dart';
 import 'package:dashcn/src/components/input/input.dart';
 import 'package:dashcn/src/components/menu/menu.dart';
 import 'package:dashcn/src/components/menubar/menubar.dart';
@@ -891,6 +893,26 @@ void main() {
     });
   });
 
+  group('image_lightbox', () {
+    testWidgets('chrome frosts through the surface primitive', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          ImageLightbox(
+            images: <LightboxImage>[
+              LightboxImage(image: MemoryImage(Uint8List(0)), semanticLabel: 'a'),
+              LightboxImage(image: MemoryImage(Uint8List(0)), semanticLabel: 'b'),
+            ],
+          ),
+        ),
+      );
+      await tester.pump();
+      _expectGlass(
+        tester,
+        find.byKey(const ValueKey<String>('dashcn.image_lightbox.chrome')),
+      );
+    });
+  });
+
   group('registry coverage', () {
     test('every registry id is tested or allow-listed', () {
       final Map<String, Object?> manifest = _readManifest();
@@ -933,6 +955,7 @@ const Set<String> _tested = <String>{
   'navigation_menu',
   'scaffold',
   'window',
+  'image_lightbox',
   'outlined_container',
   'input',
   'phone_input',
@@ -995,6 +1018,7 @@ const Map<String, String> _allowList = <String, String>{
   'image': 'media, no surface of its own',
   'input_otp': 'input variant; fill covered via the shared input resolver',
   'item_picker': 'picker rows; popup surface covered via menu',
+  'wheel_picker': 'inline scrolling control; no floating surface of its own',
   'keyboard_shortcut': 'hint label, no surface',
   'locale_utils': 'localization utility, no paint',
   'markdown': 'text rendering, no surface of its own',

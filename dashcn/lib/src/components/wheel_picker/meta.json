@@ -1,0 +1,93 @@
+{
+  "id": "wheel_picker",
+  "name": "WheelPicker",
+  "category": "Forms & Inputs",
+  "description": "A scrolling wheel picker with one or more columns, item snapping, a centred selection band, an optional 3D cylinder look, optional infinite looping, and a haptic-free selection callback. Drag, mouse wheel, keyboard arrows and tap-to-select all work.",
+  "tier": "component",
+  "install": "dashcn add wheel_picker",
+  "import": "import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';",
+  "tags": [
+    "form",
+    "picker",
+    "wheel",
+    "scroll",
+    "snap",
+    "keyboard",
+    "a11y"
+  ],
+  "deps": {
+    "foundation": [],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [
+      "motion"
+    ],
+    "components": []
+  },
+  "files": [
+    "wheel_picker.dart",
+    "wheel_picker_style.dart",
+    "wheel_picker_theme.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": [
+      "WheelPicker",
+      "WheelColumn",
+      "WheelPickerTheme"
+    ],
+    "typedefs": [
+      "WheelItemBuilder"
+    ],
+    "constants": [
+      "wheelPickerDefaults",
+      "wheelPickerThemeOverrides",
+      "kWheelPickerSnapDuration",
+      "kWheelPickerSnapCurve"
+    ]
+  },
+  "theme": {
+    "class": "WheelPickerTheme",
+    "userFile": "wheel_picker_theme.dart",
+    "defaults": "wheelPickerDefaults",
+    "fields": {
+      "itemHeight": "double? - row height; null = 40",
+      "visibleItems": "int? - rows shown; null = 5",
+      "selectionColor": "ThemedColor? - selection band fill; null = accent at 12% alpha",
+      "selectionBorderColor": "ThemedColor? - band border; null = border token",
+      "selectionBorderWidth": "double? - null = 1",
+      "selectionBorderRadius": "BorderRadiusGeometry? - null = radiusMd",
+      "foreground": "ThemedColor? - selected row text; null = foreground token",
+      "mutedForeground": "ThemedColor? - unselected row text; null = mutedForeground token",
+      "fontSize": "double? - null = 16",
+      "fontWeight": "FontWeight? - selected row weight; null = w600",
+      "fadeColor": "ThemedColor? - edge fade base; null = background token",
+      "fadeHeight": "double? - null = 32",
+      "perspective": "double? - 3D amount when the perspective flag is on; null = 0.003",
+      "diameterRatio": "double? - 3D cylinder; null = 1.6",
+      "surfaceColor": "ThemedColor? - wheel container fill; null = background token",
+      "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+      "separatorColor": "ThemedColor? - column separators; null = border token",
+      "separatorWidth": "double? - null = 1"
+    }
+  },
+  "accessibility": {
+    "keyboard": "Tab reaches the wheel; ArrowUp/Down move the selection in the active column, ArrowLeft/Right switch column, PageUp/Down page by the visible row count, Home/End jump to the ends",
+    "semantics": "the picker is a labelled container; each row announces its label and selected state; disabled pickers dim to 50% opacity"
+  },
+  "sizes": {
+    "row": "40px default (itemHeight), 16px type, w600 selected",
+    "wheel": "5 rows visible by default (visibleItems), 32px edge fades",
+    "band": "one row tall, radiusMd, 1px border"
+  },
+  "notes": [
+    "Each column is a ListWheelScrollView with a FixedExtentScrollController and FixedExtentScrollPhysics, so drag, mouse wheel and fling snap to row boundaries without extra physics code.",
+    "Looping repeats the items 10000 times and maps the controller index back with modulo, so the wheel never clamps; the selection callback reports the real item index.",
+    "The 3D look reuses ListWheelScrollView's perspective/diameterRatio; the flat default sets perspective to 0.",
+    "The selection callback is haptic-free by design: it reports the selected index of every column and never fires HapticFeedback, so the caller decides when to give feedback.",
+    "Tap-to-select wraps each row in a GestureDetector that animates the controller to the tapped item.",
+    "Controlled when value is set, uncontrolled with initialValue when it is null; the two are mutually exclusive by convention (value wins)."
+  ]
+}

@@ -2234,6 +2234,38 @@ Switch(controller: controller, label: const Text('Notifications'));
           'pppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppkkkkppppppppppppkkkkppp',
     ),
   ],
+  'wheel_picker': <DocsSnippet>[
+    DocsSnippet(
+      id: 'wheel_picker.0',
+      componentId: 'wheel_picker',
+      language: 'dart',
+      code: r'''WheelPicker(
+  columns: <WheelColumn>[
+    WheelColumn(items: <String>['01', '02', '03']),
+    WheelColumn(items: <String>['Jan', 'Feb', 'Mar']),
+  ],
+  onChanged: (indices) => print(indices),
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssppssssppssssppppppppppppppppppppppppppppppppppppsssssppsssssppssssspppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'wheel_picker.1',
+      componentId: 'wheel_picker',
+      language: 'dart',
+      code: r'''WheelPicker(
+  columns: <WheelColumn>[
+    WheelColumn(items: hours),
+    WheelColumn(items: minutes),
+    WheelColumn(items: <String>['AM', 'PM']),
+  ],
+  value: _value,
+  onChanged: (value) => setState(() => _value = value),
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+  ],
   'accordion': <DocsSnippet>[
     DocsSnippet(
       id: 'accordion.0',
@@ -3296,6 +3328,35 @@ HoverCard(
 );''',
       tokenClasses:
           'ccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssspppppppppppppppppppppppppppppppppppppp',
+    ),
+  ],
+  'image_lightbox': <DocsSnippet>[
+    DocsSnippet(
+      id: 'image_lightbox.0',
+      componentId: 'image_lightbox',
+      language: 'dart',
+      code: r'''GestureDetector(
+  onTap: () => showImageLightbox<void>(
+    context: context,
+    images: photos,
+    initialIndex: 0,
+  ),
+  child: Picture(image: photos[0].image, width: 72, height: 72),
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'image_lightbox.1',
+      componentId: 'image_lightbox',
+      language: 'dart',
+      code: r'''ImageLightbox(
+  images: photos,
+  initialIndex: 0,
+  onChanged: (index) => print(index),
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'popup': <DocsSnippet>[
@@ -4968,6 +5029,16 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     files: <String>['lib/ui/dashcn/components/text_area/text_area.dart'],
     userOwned: <String>[],
   ),
+  'wheel_picker': DocsFileList(
+    componentId: 'wheel_picker',
+    files: <String>[
+      'lib/ui/dashcn/components/wheel_picker/wheel_picker.dart',
+      'lib/ui/dashcn/components/wheel_picker/wheel_picker_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/wheel_picker/wheel_picker_theme.dart',
+    ],
+  ),
   'accordion': DocsFileList(
     componentId: 'accordion',
     files: <String>[
@@ -5207,6 +5278,16 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/hover_card/hover_card_theme.dart',
+    ],
+  ),
+  'image_lightbox': DocsFileList(
+    componentId: 'image_lightbox',
+    files: <String>[
+      'lib/ui/dashcn/components/image_lightbox/image_lightbox.dart',
+      'lib/ui/dashcn/components/image_lightbox/image_lightbox_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/image_lightbox/image_lightbox_theme.dart',
     ],
   ),
   'popup': DocsFileList(

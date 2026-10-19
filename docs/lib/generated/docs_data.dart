@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 123 installable components, ordered by category then id.
+/// All 125 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -882,6 +882,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     placement: 'center',
   ),
   DocsComponent(
+    id: 'wheel_picker',
+    name: 'Wheel Picker',
+    category: 'Forms & Inputs',
+    description:
+        'A scrolling wheel picker with one or more columns, item snapping, a centred selection band, an optional 3D cylinder look, optional infinite looping, and a haptic-free selection callback. Drag, mouse wheel, keyboard arrows and tap-to-select all work.',
+    install: 'dashcn add wheel_picker',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';",
+    fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
     id: 'accordion',
     name: 'Accordion',
     category: 'Layout',
@@ -1249,6 +1263,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add hover_card',
     import:
         "import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';",
+    fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'image_lightbox',
+    name: 'Image Lightbox',
+    category: 'Overlays',
+    description:
+        "A full-screen image viewer opened from a thumbnail with a hero-like scale+fade transition. Pinch or scroll to zoom, drag to pan, double-tap to toggle zoom, swipe between images, and close on Escape, the backdrop or the × button. Captions, a counter and a thumbnail strip are optional chrome. Images render through the image component's Picture.",
+    install: 'dashcn add image_lightbox',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';",
     fileCount: 3,
     stability: 'stable',
     listed: true,
@@ -2083,7 +2111,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 123 components as index-grid links, alphabetical by name.
+/// All 125 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -2143,6 +2171,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'hsv', name: 'HSV'),
   DocsComponentLink(id: 'icon', name: 'Icon'),
   DocsComponentLink(id: 'image', name: 'Image'),
+  DocsComponentLink(id: 'image_lightbox', name: 'Image Lightbox'),
   DocsComponentLink(id: 'input', name: 'Input'),
   DocsComponentLink(id: 'input_otp', name: 'Input OTP'),
   DocsComponentLink(id: 'item_picker', name: 'Item Picker'),
@@ -2210,16 +2239,17 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'tracker', name: 'Tracker'),
   DocsComponentLink(id: 'tree', name: 'Tree'),
   DocsComponentLink(id: 'triple_dots', name: 'Triple Dots'),
+  DocsComponentLink(id: 'wheel_picker', name: 'Wheel Picker'),
   DocsComponentLink(id: 'window', name: 'Window'),
 ];
 
 /// Catalog categories, count descending then id.
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
-  DocsCategory(id: 'Forms & Inputs', count: 21),
+  DocsCategory(id: 'Forms & Inputs', count: 22),
   DocsCategory(id: 'Data Display', count: 18),
   DocsCategory(id: 'Layout', count: 11),
-  DocsCategory(id: 'Overlays', count: 8),
+  DocsCategory(id: 'Overlays', count: 9),
   DocsCategory(id: 'Navigation', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
@@ -2232,8 +2262,8 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 123, // manifest entries
-  listedComponents: 87, // listed only
+  components: 125, // manifest entries
+  listedComponents: 89, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2290,6 +2320,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'star_rating', name: 'Star Rating'),
           DocsComponentLink(id: 'switch', name: 'Switch'),
           DocsComponentLink(id: 'text_area', name: 'Text Area'),
+          DocsComponentLink(id: 'wheel_picker', name: 'Wheel Picker'),
         ],
       ),
       DocsComponentCategory(
@@ -2338,6 +2369,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'drawer', name: 'Drawer'),
           DocsComponentLink(id: 'gooey_toast', name: 'Gooey Toast'),
           DocsComponentLink(id: 'hover_card', name: 'Hover Card'),
+          DocsComponentLink(id: 'image_lightbox', name: 'Image Lightbox'),
           DocsComponentLink(id: 'popup', name: 'Popup'),
           DocsComponentLink(id: 'refresh_trigger', name: 'Refresh Trigger'),
           DocsComponentLink(id: 'tooltip', name: 'Tooltip'),
