@@ -70,6 +70,7 @@ class MultiSelect<T> extends StatelessWidget {
     this.valueSelectionHandler,
     this.valueSelectionPredicate,
     this.theme,
+    this.adaptive,
   });
 
   /// Builds one selected value in the trigger (usually a `MultiSelectChip`).
@@ -121,6 +122,9 @@ class MultiSelect<T> extends StatelessWidget {
   /// Widget-leg theme override, merged over the component/app/defaults legs.
   final SelectTheme? theme;
 
+  /// Responsive adaptive mode; null resolves the theme token (auto).
+  final PopupAdaptive? adaptive;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
@@ -141,6 +145,7 @@ class MultiSelect<T> extends StatelessWidget {
       autoClose: autoClose,
       popupConstraints: popupConstraints,
       theme: theme,
+      adaptive: adaptive,
       valueSelectionHandler: valueSelectionHandler ?? multiSelectHandler<T>,
       valueSelectionPredicate:
           valueSelectionPredicate ?? multiSelectPredicate<T>,

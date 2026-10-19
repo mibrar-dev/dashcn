@@ -11,6 +11,34 @@ import 'syntax_colors.dart';
 import 'tokens.dart';
 import 'typography.dart';
 
+/// How a popup-style overlay adapts to narrow widths.
+///
+/// The responsive-popups rule: `auto` (the default) anchors to the trigger
+/// at >= [kPopupAdaptiveBreakpoint] and becomes an edge-anchored bottom
+/// sheet below it. `anchored` always anchors (tooltips), `sheet` always
+/// uses the sheet. Overridable per component through the `adaptive`
+/// parameter on every `show*` helper and [ThemeData.popupAdaptive].
+enum PopupAdaptive { anchored, sheet, auto }
+
+/// Width below which `auto` popups become bottom sheets (tablet portrait
+/// and phones). Matches the `color_input` popover/dialog switch.
+const double kPopupAdaptiveBreakpoint = 768.0;
+
+/// Horizontal gutter of the bottom sheet (each side).
+const double kPopupSheetGutter = 12.0;
+
+/// Maximum sheet height as a fraction of the screen height.
+const double kPopupSheetMaxHeightFraction = 0.7;
+
+/// Whether [width] resolves [adaptive] to the bottom sheet.
+bool popupUsesSheet(double width, PopupAdaptive adaptive) {
+  return switch (adaptive) {
+    PopupAdaptive.anchored => false,
+    PopupAdaptive.sheet => true,
+    PopupAdaptive.auto => width < kPopupAdaptiveBreakpoint,
+  };
+}
+
 /// How [TouchHitArea] treats desktop-density controls on touch platforms.
 ///
 /// See `primitives/touch_hit_area.dart`. `padded` (the default) grows the
@@ -38,6 +66,7 @@ class ThemeData {
     this.enableFeedback,
     this.syntax,
     this.motion = const MotionTokens(),
+    this.popupAdaptive = PopupAdaptive.auto,
   });
 
   /// Color tokens for the current brightness.
@@ -93,6 +122,10 @@ class ThemeData {
   /// one.
   final MotionTokens motion;
 
+  /// Responsive-popups token: how popup-style overlays adapt to narrow
+  /// widths. `auto` (default) anchors at >= 768 and sheets below.
+  final PopupAdaptive popupAdaptive;
+
   /// Effective syntax-highlight palette for the current brightness.
   SyntaxColors get syntaxColors =>
       syntax ?? SyntaxColors.forBrightness(colors.brightness);
@@ -146,6 +179,7 @@ class ThemeData {
     ValueGetter<bool>? enableFeedback,
     ValueGetter<SyntaxColors?>? syntax,
     ValueGetter<MotionTokens>? motion,
+    ValueGetter<PopupAdaptive>? popupAdaptive,
   }) {
     final nextDensity = density == null ? this.density : density();
     final nextSpacing = spacing == null
@@ -172,6 +206,9 @@ class ThemeData {
           : enableFeedback(),
       syntax: syntax == null ? this.syntax : syntax(),
       motion: motion == null ? this.motion : motion(),
+      popupAdaptive: popupAdaptive == null
+          ? this.popupAdaptive
+          : popupAdaptive(),
     );
   }
 
@@ -231,6 +268,7 @@ class ThemeData {
       motion: a.motion == b.motion
           ? a.motion
           : MotionTokens.lerp(a.motion, b.motion, t),
+      popupAdaptive: t < 0.5 ? a.popupAdaptive : b.popupAdaptive,
     );
   }
 
@@ -253,7 +291,8 @@ class ThemeData {
         other.surfaceBlur == surfaceBlur &&
         other.enableFeedback == enableFeedback &&
         other.syntax == syntax &&
-        other.motion == motion;
+        other.motion == motion &&
+        other.popupAdaptive == popupAdaptive;
   }
 
   @override
@@ -274,6 +313,7 @@ class ThemeData {
     enableFeedback,
     syntax,
     motion,
+    popupAdaptive,
   );
 }
 

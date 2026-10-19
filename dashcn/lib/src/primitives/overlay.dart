@@ -8,6 +8,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../foundation/data.dart';
+import '../theme/theme.dart';
 import 'popover_overlay_handler.dart';
 import 'popover_overlay_state.dart';
 
@@ -95,6 +96,7 @@ abstract class OverlayHandler {
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   });
 }
 
@@ -160,6 +162,9 @@ mixin OverlayHandlerStateMixin<T extends StatefulWidget> on State<T> {
 
   /// Updates vertical inversion permission.
   set allowInvertVertical(bool value) {}
+
+  /// Updates the responsive adaptive mode.
+  set adaptive(PopupAdaptive? value) {}
 }
 
 /// Closes the overlay that [context] is inside, with an optional result.

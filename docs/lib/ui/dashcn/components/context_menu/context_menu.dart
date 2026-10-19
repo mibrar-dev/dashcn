@@ -28,6 +28,7 @@ class ContextMenu extends StatelessWidget {
     this.enabled = true,
     this.theme = const MenuTheme(),
     this.popupTheme,
+    this.adaptive,
   });
 
   /// The widget that triggers the menu.
@@ -51,6 +52,9 @@ class ContextMenu extends StatelessWidget {
   /// Widget-leg surface override, merged over the popup theme legs.
   final MenuPopupTheme? popupTheme;
 
+  /// Responsive adaptive mode; null resolves the theme token (auto).
+  final PopupAdaptive? adaptive;
+
   @override
   Widget build(BuildContext context) {
     final TargetPlatform platform = Theme.of(context).platform;
@@ -69,6 +73,7 @@ class ContextMenu extends StatelessWidget {
         direction: direction,
         theme: theme,
         popupTheme: popupTheme,
+        adaptive: adaptive,
       );
     }
 
@@ -97,6 +102,7 @@ Future<T?> showContextMenu<T>({
   Axis direction = Axis.vertical,
   MenuTheme theme = const MenuTheme(),
   MenuPopupTheme? popupTheme,
+  PopupAdaptive? adaptive,
 }) {
   return showPopover<T>(
     context: context,
@@ -108,6 +114,7 @@ Future<T?> showContextMenu<T>({
     consumeOutsideTaps: false,
     dismissBackdropFocus: false,
     follow: false,
+    adaptive: adaptive,
     builder: (context) {
       final ThemeData ambient = Theme.of(context);
       final EdgeInsets itemPadding = SheetOverlayHandler.isSheetOverlay(context)

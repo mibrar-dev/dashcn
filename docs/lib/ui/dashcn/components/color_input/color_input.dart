@@ -69,6 +69,7 @@ class ColorInput extends StatefulWidget {
     this.dialogTitle,
     this.enabled,
     this.theme,
+    this.adaptive,
   });
 
   /// The current colour.
@@ -113,6 +114,9 @@ class ColorInput extends StatefulWidget {
 
   /// Widget-leg style override, merged on top of the component/app/defaults.
   final ColorInputTheme? theme;
+
+  /// Responsive adaptive mode for the popover prompt; null resolves the theme token.
+  final PopupAdaptive? adaptive;
 
   @override
   State<ColorInput> createState() => _ColorInputState();
@@ -180,6 +184,7 @@ class _ColorInputState extends State<ColorInput>
     final ThemeData theme = Theme.of(context);
     _popovers.show<void>(
       context: context,
+      adaptive: widget.adaptive,
       alignment:
           _style.popoverAlignment ?? colorInputDefaults.popoverAlignment!,
       anchorAlignment:
