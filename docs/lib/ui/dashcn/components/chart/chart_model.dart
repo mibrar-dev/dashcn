@@ -8,6 +8,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/chart/chart_math.dart';
+import 'chart_tooltip_placement.dart';
 
 /// Chart families painted by [Chart].
 enum ChartType {
@@ -317,6 +318,48 @@ enum ChartTooltipIndicator {
   none,
 }
 
+/// One tooltip row: series label, raw value and swatch.
+class ChartTooltipRow {
+  /// Creates a tooltip row.
+  const ChartTooltipRow({
+    required this.label,
+    required this.value,
+    required this.color,
+    this.icon,
+  });
+
+  /// Series label.
+  final String label;
+
+  /// Raw data value.
+  final double value;
+
+  /// Series colour.
+  final Color? color;
+
+  /// Optional icon instead of the swatch.
+  final Widget? icon;
+}
+
+/// Data passed to [ChartTooltipBuilder]: hovered index and row values.
+class ChartTooltipData {
+  /// Creates tooltip data.
+  const ChartTooltipData({required this.index, required this.rows, this.label});
+
+  /// Hovered category/ring/slice index.
+  final int index;
+
+  /// Category label (or null when there is none).
+  final String? label;
+
+  /// One row per series that has a value at [index].
+  final List<ChartTooltipRow> rows;
+}
+
+/// Builds a fully custom tooltip body for [ChartTooltipData].
+typedef ChartTooltipBuilder =
+    Widget Function(BuildContext context, ChartTooltipData data);
+
 /// Tooltip content options for [Chart].
 ///
 /// ```dart
@@ -336,6 +379,9 @@ class ChartTooltipConfig {
     this.valueSuffix,
     this.showTotal = false,
     this.totalLabel = 'Total',
+    this.placement = ChartTooltipPlacement.top,
+    this.offset = Offset.zero,
+    this.builder,
   });
 
   /// Swatch drawn before each row.
@@ -360,6 +406,16 @@ class ChartTooltipConfig {
   /// Total row label.
   final String totalLabel;
 
+  /// Where the tooltip sits relative to its mark; flips when crowded.
+  final ChartTooltipPlacement placement;
+
+  /// Extra shift applied to the anchor (dx moves sideways, dy moves up/down).
+  final Offset offset;
+
+  /// Fully custom body; null paints the default rows. Receives the hovered
+  /// index, the label and one row per series.
+  final ChartTooltipBuilder? builder;
+
   @override
   bool operator ==(Object other) =>
       other is ChartTooltipConfig &&
@@ -369,7 +425,10 @@ class ChartTooltipConfig {
       other.valueFormatter == valueFormatter &&
       other.valueSuffix == valueSuffix &&
       other.showTotal == showTotal &&
-      other.totalLabel == totalLabel;
+      other.totalLabel == totalLabel &&
+      other.placement == placement &&
+      other.offset == offset &&
+      other.builder == builder;
 
   @override
   int get hashCode => Object.hash(
@@ -380,6 +439,9 @@ class ChartTooltipConfig {
     valueSuffix,
     showTotal,
     totalLabel,
+    placement,
+    offset,
+    builder,
   );
 }
 

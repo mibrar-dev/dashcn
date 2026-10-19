@@ -8,3 +8,6 @@ export '../src/components/chart/chart_pie_painter.dart';
 export '../src/components/chart/chart_radar_painter.dart';
 export '../src/components/chart/chart_radial_painter.dart';
 export '../src/components/chart/chart_style.dart';
+export '../src/components/chart/chart_tooltip.dart';
+export '../src/components/chart/chart_tooltip_anchor.dart';
+export '../src/components/chart/chart_tooltip_placement.dart';

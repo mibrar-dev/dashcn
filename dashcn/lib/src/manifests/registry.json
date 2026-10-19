@@ -1874,11 +1874,19 @@
           "ChartRadarConfig",
           "ChartRadialConfig",
           "ChartTooltipConfig",
-          "ChartPieConfig"
+          "ChartTooltipData",
+          "ChartTooltipRow",
+          "ChartPieConfig",
+          "ChartAnchoredTooltip",
+          "ChartTooltipCard",
+          "ChartTooltipLayout"
         ],
         "constants": [
           "chartDefaults",
-          "chartThemeOverrides"
+          "chartThemeOverrides",
+          "chartTooltipGutter",
+          "chartTooltipGap",
+          "chartTooltipDefaultMaxWidth"
         ],
         "enums": [
           "ChartType",
@@ -1889,7 +1897,21 @@
           "ChartMarkerShape",
           "ChartRadarGrid",
           "ChartTooltipIndicator",
+          "ChartTooltipPlacement",
           "ChartPieLabels"
+        ],
+        "functions": [
+          "chartCompactValue",
+          "chartPercentTick",
+          "barBaseline",
+          "chartTooltipNearestIndex",
+          "chartTooltipNearestSpreadIndex",
+          "chartTooltipMaxWidth",
+          "resolveChartTooltip",
+          "chartCartesianAnchor",
+          "chartPieAnchor",
+          "chartRadialAnchor",
+          "chartRadarAnchor"
         ]
       },
       "category": "Data Display",
@@ -1915,7 +1937,10 @@
         "components/chart/chart_pie_painter.dart",
         "components/chart/chart_radar_painter.dart",
         "components/chart/chart_radial_painter.dart",
-        "components/chart/chart_style.dart"
+        "components/chart/chart_style.dart",
+        "components/chart/chart_tooltip.dart",
+        "components/chart/chart_tooltip_anchor.dart",
+        "components/chart/chart_tooltip_placement.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
       "install": "dashcn add chart",
@@ -9582,15 +9607,18 @@
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
-    "components/chart/chart.dart": "2f3e4f5804b0124d0b60b2af11b51fd283bf9d4d7802e4ee68009d873d576e00",
+    "components/chart/chart.dart": "b2052acf4a6a4f5740a0ebfbac9bec6f3f6292314d48021631924a2bbdbaef83",
     "components/chart/chart_cartesian_painter.dart": "ac4e604274155f01176791ed54f8121c121096a1706de9d3277f74f13119aace",
-    "components/chart/chart_model.dart": "3005d7d5fbb97d9eab7839bd26e91eb524dbd070e96c26f6003d317240df7739",
+    "components/chart/chart_model.dart": "435560cd4700f40a01705788da3d0f1fde417183abc70f3663a9c0ff963d79c7",
     "components/chart/chart_paths.dart": "bc5efa6923f6e6bfbfd2a9b3abbc36488e8bae76620f73af367ad14b1a34e7fe",
     "components/chart/chart_pie_painter.dart": "a71a3a671f67d99a2f6e37c3e85d66a9ab29ba21b9912fcba954ef0b2ee976f0",
     "components/chart/chart_radar_painter.dart": "1ba84493d86a2c928ec71f04c5d559d1d92bf0101f31690bb538367ed1bfa0ac",
     "components/chart/chart_radial_painter.dart": "b36ea0e535533aabafbf7ee4a8edbfc38f1cba50ecfc60227268ba4dadb2bb17",
     "components/chart/chart_style.dart": "072d6693d40228efa0529f8dd574973ece0847f32887e211108049a3aa88e4b4",
     "components/chart/chart_theme.dart": "04d7d3946ee7ff3f6a62467d96bc1d7690148e6e1daa691bb3244773ce579842",
+    "components/chart/chart_tooltip.dart": "1f5398dd0b1e4555112635bbab5ee229c1e33d848da7da6186c6ef4ccdb538a6",
+    "components/chart/chart_tooltip_anchor.dart": "339638849858d3765a6869af799f9f835fc41797a7577c73f60c6b51ddea6223",
+    "components/chart/chart_tooltip_placement.dart": "77b5fad417d53a3e63d4fe2012f88a55eba0a1a627ad2a1c5b72156432561171",
     "components/chart/preview.dart": "76cdf5d77fb0735f8fd84ab214da132238a9273382ed39f622bc7c0e3a759846",
     "components/chat/chat.dart": "3d9d15c20a577e1bcfe9281bd743e0279b1f7467c6aefab7368c7fafd7339c00",
     "components/chat/chat_style.dart": "cd22e156aeefff4544be5be163863933b604f8550154ff6d2dbedf2222caf040",
