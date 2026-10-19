@@ -100,8 +100,9 @@ class _ChartsHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
-              'Line, area, bar, donut and scatter charts painted with '
-              'CustomPaint. Pick a family to see every example with its code.',
+              'Line, area, bar, pie, radar, radial and tooltip charts painted '
+              'with CustomPaint. Pick a family to see every example with its '
+              'code.',
               textAlign: TextAlign.center,
               style: docsText(
                 context,
