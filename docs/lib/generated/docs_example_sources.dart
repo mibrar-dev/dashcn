@@ -3229,6 +3229,365 @@ class _ChartStreamingState extends State<_ChartStreaming> {
 Widget _chartStreaming(BuildContext context) => const _ChartStreaming();
 ''',
     ),
+    DocsExampleSource(
+      name: 'Radar Chart',
+      builder: '_chartRadarDefault',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarDefault(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Dots',
+      builder: '_chartRadarDots',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarDots(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    showMarkers: true,
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Lines Only',
+      builder: '_chartRadarLinesOnly',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarLinesOnly(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop, fillOpacity: 0)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Custom Label',
+      builder: '_chartRadarLabelCustom',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartRadarLabelCustom(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(showValues: true),
+    series: <ChartSeries>[
+      ChartSeries(values: _radarDesktop),
+      ChartSeries(values: _radarMobile),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid Custom',
+      builder: '_chartRadarGridCustom',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridCustom(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(rings: 1, showSpokes: false),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid None',
+      builder: '_chartRadarGridNone',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridNone(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(grid: ChartRadarGrid.none),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid Circle',
+      builder: '_chartRadarGridCircle',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridCircle(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(grid: ChartRadarGrid.circle),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid Circle - No lines',
+      builder: '_chartRadarGridCircleNoLines',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridCircleNoLines(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(grid: ChartRadarGrid.circle, showSpokes: false),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid Circle Filled',
+      builder: '_chartRadarGridCircleFilled',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridCircleFilled(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(grid: ChartRadarGrid.circle, filled: true),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Grid Filled',
+      builder: '_chartRadarGridFilled',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+Widget _chartRadarGridFilled(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    radar: ChartRadarConfig(filled: true),
+    series: <ChartSeries>[ChartSeries(values: _radarDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Multiple',
+      builder: '_chartRadarMultiple',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartRadarMultiple(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    series: <ChartSeries>[
+      ChartSeries(values: _radarDesktop),
+      ChartSeries(values: _radarMobile),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Radar Chart - Legend',
+      builder: '_chartRadarLegend',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _radarMonths = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+
+const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+
+const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartRadarLegend(BuildContext context) {
+  return const Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+      ChartSeries(label: 'Mobile', values: _radarMobile),
+    ],
+  );
+}
+''',
+    ),
   ],
   'chat': <DocsExampleSource>[
     DocsExampleSource(

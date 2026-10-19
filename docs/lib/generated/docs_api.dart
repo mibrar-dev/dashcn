@@ -1218,6 +1218,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Whether to render a textual data table below the plot.',
       ),
       DocsApiParam(
+        name: 'radar',
+        type: 'ChartRadarConfig',
+        isRequired: false,
+        defaultValue: 'const ChartRadarConfig()',
+        doc: 'Radar display options ([ChartType.radar] only).',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'ChartTheme?',
         isRequired: false,

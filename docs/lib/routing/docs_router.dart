@@ -20,12 +20,13 @@ List<String> get blockCategorySlugs => <String>[
   for (final DocsBlockCategory category in kBlockCategories) category.slug,
 ];
 
-/// Every chart family slug (`area`, `bar`, `line`, `pie`, `scatter`).
+/// Every chart family slug (`area`, `bar`, `line`, `pie`, `radar`, `scatter`).
 const List<String> kChartFamilyIds = <String>[
   'area',
   'bar',
   'line',
   'pie',
+  'radar',
   'scatter',
 ];
 
@@ -67,7 +68,8 @@ enum DocsRoute {
   /// `/charts` — the charts hub (one card per chart family).
   charts,
 
-  /// `/charts/<family>` — one chart family (area, bar, line, pie, scatter).
+  /// `/charts/<family>` — one chart family (area, bar, line, pie, radar,
+  /// radial, tooltip, scatter).
   chartFamily,
 
   /// `/themes` — preset rail + live preview.

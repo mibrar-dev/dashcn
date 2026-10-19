@@ -1,9 +1,9 @@
-// Charts section tests: the `/charts` hub and the five family pages.
+// Charts section tests: the `/charts` hub and the family pages.
 //
 // The hub has one card per chart family; each family page shows every one of
 // its examples as its own Preview | Code card. The old
-// `/docs/components/chart` URL resolves to the hub. Radar, radial and
-// tooltip families do not exist in the library yet and have no page.
+// `/docs/components/chart` URL resolves to the hub. Radial and tooltip
+// families do not exist in the library yet and have no page.
 //
 // The line family mounts the Streaming example (a periodic timer), whose
 // repeating frames never let the scheduler settle: navigation here uses
@@ -27,6 +27,20 @@ const Map<String, List<String>> kChartFamilyExamples = <String, List<String>>{
   'bar': <String>['BarGrouped', 'BarStacked'],
   'line': <String>['Default', 'Streaming', 'Sparkline'],
   'pie': <String>['Donut'],
+  'radar': <String>[
+    'Radar Chart',
+    'Radar Chart - Dots',
+    'Radar Chart - Lines Only',
+    'Radar Chart - Custom Label',
+    'Radar Chart - Grid Custom',
+    'Radar Chart - Grid None',
+    'Radar Chart - Grid Circle',
+    'Radar Chart - Grid Circle - No lines',
+    'Radar Chart - Grid Circle Filled',
+    'Radar Chart - Grid Filled',
+    'Radar Chart - Multiple',
+    'Radar Chart - Legend',
+  ],
   'scatter': <String>['Scatter'],
 };
 
@@ -73,13 +87,8 @@ void main() {
     });
 
     test('unknown charts segments are not-found', () {
-      // Radar, radial and tooltips have no library page yet.
-      for (final String id in <String>[
-        'radar',
-        'radial',
-        'tooltip',
-        'tooltips',
-      ]) {
+      // Radial and tooltips have no library page yet.
+      for (final String id in <String>['radial', 'tooltip', 'tooltips']) {
         expect(
           DocsRouteConfiguration.parse('/charts/$id').route,
           DocsRoute.notFound,

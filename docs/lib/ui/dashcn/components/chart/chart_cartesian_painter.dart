@@ -173,6 +173,7 @@ class ChartCartesianPainter extends CustomPainter {
         break;
       case ChartType.donut:
       case ChartType.pie:
+      case ChartType.radar:
         break;
     }
   }

@@ -3,7 +3,7 @@
   "name": "Chart",
   "category": "Data Display",
   "listed": false,
-  "description": "Line, area, bar, donut/pie, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.",
+  "description": "Line, area, bar, donut/pie, radar, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.",
   "tier": "component",
   "install": "dashcn add chart",
   "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
@@ -21,11 +21,12 @@
     "chart_theme.dart",
     "chart_cartesian_painter.dart",
     "chart_pie_painter.dart",
+    "chart_radar_painter.dart",
     "preview.dart"
   ],
   "api": {
-    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface"],
-    "enums": ["ChartType", "ChartBarMode"],
+    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig"],
+    "enums": ["ChartType", "ChartBarMode", "ChartRadarGrid"],
     "constants": ["chartDefaults", "chartThemeOverrides"]
   },
   "theme": {

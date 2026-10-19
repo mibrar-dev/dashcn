@@ -1,10 +1,10 @@
 // The chart family pages: one page per chart family (area, bar, line, pie,
-// scatter), each with a title, a description, a single Examples section and
-// one Preview | Code card per example.
+// radar, radial, tooltip, scatter), each with a title, a description, a
+// single Examples section and one Preview | Code card per example.
 //
 // The cards reuse the `chart` component's named previews through
 // [ExamplePreviewCard] (live preview, Code tab, copy button), so the pages
-// never duplicate chart code. Radar, radial and tooltip families do not exist
+// never duplicate chart code. Radial and tooltip families do not exist
 // in the library yet and have no page.
 
 import 'package:flutter/widgets.dart';
@@ -46,7 +46,7 @@ class ChartFamily {
   final List<String> examples;
 }
 
-/// The five chart families, in hub-card order.
+/// The chart families, in hub-card order.
 const List<ChartFamily> kChartFamilies = <ChartFamily>[
   ChartFamily(
     id: 'area',
@@ -74,6 +74,26 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
     title: 'Pie',
     description: 'Donut-style pie charts for share-of-total breakdowns.',
     examples: <String>['Donut'],
+  ),
+  ChartFamily(
+    id: 'radar',
+    title: 'Radar',
+    description:
+        'Polar web charts for comparing multivariate profiles across axes.',
+    examples: <String>[
+      'Radar Chart',
+      'Radar Chart - Dots',
+      'Radar Chart - Lines Only',
+      'Radar Chart - Custom Label',
+      'Radar Chart - Grid Custom',
+      'Radar Chart - Grid None',
+      'Radar Chart - Grid Circle',
+      'Radar Chart - Grid Circle - No lines',
+      'Radar Chart - Grid Circle Filled',
+      'Radar Chart - Grid Filled',
+      'Radar Chart - Multiple',
+      'Radar Chart - Legend',
+    ],
   ),
   ChartFamily(
     id: 'scatter',

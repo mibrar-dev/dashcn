@@ -274,11 +274,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Chart',
     category: 'Data Display',
     description:
-        'Line, area, bar, donut/pie, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.',
+        'Line, area, bar, donut/pie, radar, sparkline and scatter charts with streaming and accessibility, painted with CustomPaint.',
     install: 'dashcn add chart',
     import:
         "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
-    fileCount: 6,
+    fileCount: 7,
     stability: 'stable',
     listed: false,
     placement: 'center',

@@ -54,6 +54,7 @@ const List<DocsNavLink> kChartLinks = <DocsNavLink>[
   DocsNavLink(label: 'Bar', location: '/charts/bar'),
   DocsNavLink(label: 'Line', location: '/charts/line'),
   DocsNavLink(label: 'Pie', location: '/charts/pie'),
+  DocsNavLink(label: 'Radar', location: '/charts/radar'),
   DocsNavLink(label: 'Scatter', location: '/charts/scatter'),
 ];
 

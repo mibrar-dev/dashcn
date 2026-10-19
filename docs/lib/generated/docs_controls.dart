@@ -1195,6 +1195,7 @@ kControlSpecs = <String, ComponentControls>{
           'pie',
           'sparkline',
           'scatter',
+          'radar',
         ],
       ),
       ControlSpec(
@@ -1495,6 +1496,15 @@ kControlSpecs = <String, ComponentControls>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'radar',
+        label: 'Radar',
+        kind: ControlKind.readOnly,
+        type: 'ChartRadarConfig',
+        isRequired: false,
+        defaultValue: 'const ChartRadarConfig()',
+        readOnlyReason: 'unresolved type',
       ),
     ],
   ),

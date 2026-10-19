@@ -29,6 +29,9 @@ enum ChartType {
 
   /// Dots at (index, value).
   scatter,
+
+  /// Polar web: one axis per category, one polygon per series.
+  radar,
 }
 
 /// Bar arrangement for [ChartType.bar] with several series.
@@ -38,6 +41,64 @@ enum ChartBarMode {
 
   /// One stacked bar per category.
   stacked,
+}
+
+/// Radar grid shape for [ChartType.radar].
+enum ChartRadarGrid {
+  /// Straight-edged polygon web (the default).
+  polygon,
+
+  /// Concentric circles instead of polygons.
+  circle,
+
+  /// No grid at all (spokes follow [ChartRadarConfig.showSpokes]).
+  none,
+}
+
+/// Radar display options for [ChartType.radar].
+///
+/// ```dart
+/// const Chart(series: [...], type: ChartType.radar, radar: ChartRadarConfig(
+///   grid: ChartRadarGrid.circle,
+/// ));
+/// ```
+class ChartRadarConfig {
+  /// Creates radar display options.
+  const ChartRadarConfig({
+    this.grid = ChartRadarGrid.polygon,
+    this.filled = false,
+    this.showSpokes = true,
+    this.rings = 4,
+    this.showValues = false,
+  });
+
+  /// Grid shape; [ChartRadarGrid.none] hides the rings.
+  final ChartRadarGrid grid;
+
+  /// Whether the grid rings paint filled (alternating translucent bands).
+  final bool filled;
+
+  /// Whether spokes paint from the centre to every axis.
+  final bool showSpokes;
+
+  /// Ring count; clamped to 1..8 by the painter.
+  final int rings;
+
+  /// Whether each axis label shows the series values above the name
+  /// (the "Custom Label" look).
+  final bool showValues;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ChartRadarConfig &&
+      other.grid == grid &&
+      other.filled == filled &&
+      other.showSpokes == showSpokes &&
+      other.rings == rings &&
+      other.showValues == showValues;
+
+  @override
+  int get hashCode => Object.hash(grid, filled, showSpokes, rings, showValues);
 }
 
 /// One data series: a label for the legend plus the values.

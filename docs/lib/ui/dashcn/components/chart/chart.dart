@@ -6,6 +6,8 @@
 // Chart(series: [ChartSeries(label: 'a', values: [1, 2])], type: ChartType.bar);
 // ```
 
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/chart/chart_math.dart';
@@ -14,6 +16,7 @@ import '../../theme/theme.dart';
 import 'chart_cartesian_painter.dart';
 import 'chart_model.dart';
 import 'chart_pie_painter.dart';
+import 'chart_radar_painter.dart';
 import 'chart_style.dart';
 
 export 'chart_model.dart';
@@ -56,6 +59,7 @@ class Chart extends StatefulWidget {
     this.controller,
     this.semanticsLabel,
     this.showDataTable = false,
+    this.radar = const ChartRadarConfig(),
     this.theme,
   });
 
@@ -154,6 +158,9 @@ class Chart extends StatefulWidget {
 
   /// Whether to render a textual data table below the plot.
   final bool showDataTable;
+
+  /// Radar display options ([ChartType.radar] only).
+  final ChartRadarConfig radar;
 
   /// Widget-leg theme override.
   final ChartTheme? theme;
@@ -399,7 +406,9 @@ class _ChartState extends State<Chart> {
         ? 0
         : (widget.donutHole ?? surface.donutHole);
     Widget painted;
-    if (isPie) {
+    if (widget.type == ChartType.radar) {
+      painted = _buildRadarPlot(context, surface, series, paints, progress);
+    } else if (isPie) {
       final List<double> values = series.isEmpty
           ? const <double>[]
           : paints.first.values;
@@ -494,6 +503,90 @@ class _ChartState extends State<Chart> {
     final int idx = (dx / width * n).floor().clamp(0, n - 1);
     if (idx != _selected) {
       setState(() => _selected = idx);
+    }
+  }
+
+  Widget _buildRadarPlot(
+    BuildContext context,
+    ChartSurface surface,
+    List<ChartSeries> series,
+    List<ChartSeriesPaint> paints,
+    double progress,
+  ) {
+    double maxValue = widget.yAxis.max ?? 0;
+    for (final ChartSeriesPaint p in paints) {
+      for (final double v in p.values) {
+        if (v > maxValue) {
+          maxValue = v;
+        }
+      }
+    }
+    if (maxValue <= 0) {
+      maxValue = 1;
+    }
+    final List<String> categories =
+        widget.labels ?? widget.xAxis.labels ?? const <String>[];
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (d) =>
+              _selectRadarAxis(d.localPosition, constraints.biggest, series),
+          onPanUpdate: (d) =>
+              _selectRadarAxis(d.localPosition, constraints.biggest, series),
+          child: MouseRegion(
+            onHover: (e) =>
+                _selectRadarAxis(e.localPosition, constraints.biggest, series),
+            onExit: (_) => setState(() => _selected = null),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                SizedBox.expand(
+                  child: CustomPaint(
+                    painter: ChartRadarPainter(
+                      series: paints,
+                      maxValue: maxValue,
+                      categories: categories,
+                      radar: widget.radar,
+                      gridColor: surface.gridColor,
+                      tickStyle: surface.tickStyle,
+                      progress: progress,
+                      selectedIndex: _selected,
+                      textDirection: Directionality.of(context),
+                    ),
+                  ),
+                ),
+                if (surface.showTooltip && _selected != null)
+                  _buildTooltip(surface, series, _selected!),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _selectRadarAxis(Offset local, Size size, List<ChartSeries> series) {
+    final int n = _categoryLength(series);
+    if (n < 3 || size.width <= 0 || size.height <= 0) {
+      return;
+    }
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final Offset delta = local - center;
+    if (delta.distance < 4) {
+      return;
+    }
+    double angle = math.atan2(delta.dy, delta.dx) + math.pi / 2;
+    if (Directionality.of(context) == TextDirection.rtl) {
+      angle = -angle;
+    }
+    final double step = 2 * math.pi / n;
+    int index = (angle / step).round() % n;
+    if (index < 0) {
+      index += n;
+    }
+    if (index != _selected) {
+      setState(() => _selected = index);
     }
   }
 
@@ -606,6 +699,7 @@ class _ChartState extends State<Chart> {
       ChartType.pie => 'Pie',
       ChartType.sparkline => 'Sparkline',
       ChartType.scatter => 'Scatter',
+      ChartType.radar => 'Radar',
     };
     if (series.isEmpty) {
       return '$kind chart with no data';

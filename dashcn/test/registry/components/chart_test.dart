@@ -301,4 +301,67 @@ void main() {
     await tester.pump(const Duration(milliseconds: 800));
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('radar renders with 0/1/many series, empty and negative data', (
+    tester,
+  ) async {
+    const List<List<ChartSeries>> cases = <List<ChartSeries>>[
+      <ChartSeries>[],
+      <ChartSeries>[ChartSeries(values: <double>[])],
+      <ChartSeries>[
+        ChartSeries(values: <double>[5]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[1, 2, 3]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[1, 2, 3, 4, 5]),
+        ChartSeries(label: 'B', values: <double>[5, 4, 3, 2, 1]),
+        ChartSeries(label: 'C', values: <double>[-2, 0, 2]),
+      ],
+    ];
+    for (final List<ChartSeries> series in cases) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.radar,
+            labels: const <String>['a', 'b', 'c', 'd', 'e'],
+            series: series,
+            showMarkers: true,
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$series');
+    }
+  });
+
+  testWidgets('radar grid variants render', (tester) async {
+    const List<ChartRadarConfig> configs = <ChartRadarConfig>[
+      ChartRadarConfig(),
+      ChartRadarConfig(grid: ChartRadarGrid.circle),
+      ChartRadarConfig(grid: ChartRadarGrid.none),
+      ChartRadarConfig(grid: ChartRadarGrid.circle, showSpokes: false),
+      ChartRadarConfig(grid: ChartRadarGrid.circle, filled: true),
+      ChartRadarConfig(filled: true),
+      ChartRadarConfig(rings: 1, showSpokes: false),
+      ChartRadarConfig(showValues: true),
+    ];
+    for (final ChartRadarConfig radar in configs) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.radar,
+            radar: radar,
+            labels: const <String>['a', 'b', 'c', 'd'],
+            series: const <ChartSeries>[
+              ChartSeries(values: <double>[1, 2, 3, 4]),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$radar');
+    }
+  });
 }
