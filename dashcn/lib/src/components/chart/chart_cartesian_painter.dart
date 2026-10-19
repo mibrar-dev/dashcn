@@ -8,6 +8,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import 'chart_model.dart';
+import 'chart_paths.dart';
 
 /// Resolved per-series paint values computed by the widget.
 class ChartSeriesPaint {
@@ -62,6 +63,8 @@ class ChartCartesianPainter extends CustomPainter {
   const ChartCartesianPainter({
     required this.type,
     required this.barMode,
+    required this.lineStyle,
+    required this.areaMode,
     required this.series,
     required this.min,
     required this.max,
@@ -87,6 +90,12 @@ class ChartCartesianPainter extends CustomPainter {
 
   /// Bar arrangement.
   final ChartBarMode barMode;
+
+  /// Line shape for line/area/sparkline.
+  final ChartLineStyle lineStyle;
+
+  /// Area fill arrangement.
+  final ChartAreaMode areaMode;
 
   /// Series paints.
   final List<ChartSeriesPaint> series;
@@ -280,24 +289,36 @@ class ChartCartesianPainter extends CustomPainter {
   }
 
   void _paintLines(Canvas canvas, Rect plot) {
+    final bool isArea = type == ChartType.area;
+    final bool stacked =
+        isArea && areaMode != ChartAreaMode.overlay && series.length > 1;
+    final List<List<ChartStackBand>> bands = stacked
+        ? chartStackBands(<List<double>>[
+            for (final s in series) s.values,
+          ], expanded: areaMode == ChartAreaMode.expanded)
+        : const <List<ChartStackBand>>[];
     for (var si = 0; si < series.length; si++) {
       final ChartSeriesPaint s = series[si];
-      final int n = s.values.length;
+      final int n = math.max(s.values.length, stacked ? bands[si].length : 0);
       if (n == 0) {
         continue;
       }
       final int reveal = (progress * n).ceil().clamp(1, n);
       final List<Offset> pts = <Offset>[
         for (var i = 0; i < reveal; i++)
-          Offset(_xToPx(i, n, plot), _yToPx(s.values[i], plot)),
+          Offset(_xToPx(i, n, plot), _yToPx(_topValue(s, bands, si, i), plot)),
       ];
-      final bool isArea = type == ChartType.area;
       if (isArea && pts.length > 1) {
-        final Path fill = Path()..moveTo(pts.first.dx, plot.bottom);
-        for (final p in pts) {
-          fill.lineTo(p.dx, p.dy);
+        final Path fill = chartLinePath(pts, lineStyle);
+        if (stacked) {
+          for (var i = reveal - 1; i >= 0; i--) {
+            final double base = i < bands[si].length ? bands[si][i].base : 0;
+            fill.lineTo(_xToPx(i, n, plot), _yToPx(base.clamp(min, max), plot));
+          }
+        } else {
+          fill.lineTo(pts.last.dx, plot.bottom);
+          fill.lineTo(pts.first.dx, plot.bottom);
         }
-        fill.lineTo(pts.last.dx, plot.bottom);
         fill.close();
         final Paint fp = Paint()..style = PaintingStyle.fill;
         if (s.gradient != null) {
@@ -345,6 +366,18 @@ class ChartCartesianPainter extends CustomPainter {
     }
   }
 
+  double _topValue(
+    ChartSeriesPaint s,
+    List<List<ChartStackBand>> bands,
+    int si,
+    int i,
+  ) {
+    if (bands.isEmpty || si >= bands.length || i >= bands[si].length) {
+      return i < s.values.length ? s.values[i] : 0;
+    }
+    return bands[si][i].top;
+  }
+
   void _strokePath(Canvas canvas, List<Offset> pts, ChartSeriesPaint s) {
     final Paint paint = Paint()
       ..color = s.color
@@ -352,19 +385,12 @@ class ChartCartesianPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
+    final Path path = chartLinePath(pts, lineStyle);
     if (s.dash == null || s.dash!.isEmpty) {
-      canvas.drawPath(_smooth(pts), paint);
+      canvas.drawPath(path, paint);
       return;
     }
-    canvas.drawPath(_dashed(_smooth(pts), s.dash!), paint);
-  }
-
-  Path _smooth(List<Offset> pts) {
-    final Path path = Path()..moveTo(pts.first.dx, pts.first.dy);
-    for (var i = 1; i < pts.length; i++) {
-      path.lineTo(pts[i].dx, pts[i].dy);
-    }
-    return path;
+    canvas.drawPath(_dashed(path, s.dash!), paint);
   }
 
   Path _dashed(Path source, List<double> dash) {
@@ -532,6 +558,8 @@ class ChartCartesianPainter extends CustomPainter {
   bool shouldRepaint(covariant ChartCartesianPainter old) {
     return old.type != type ||
         old.barMode != barMode ||
+        old.lineStyle != lineStyle ||
+        old.areaMode != areaMode ||
         old.min != min ||
         old.max != max ||
         old.ticks != ticks ||

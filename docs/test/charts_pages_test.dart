@@ -22,7 +22,18 @@ import 'support/app_harness.dart';
 
 /// Family id to the named `chart` previews it must show, in display order.
 const Map<String, List<String>> kChartFamilyExamples = <String, List<String>>{
-  'area': <String>['Area'],
+  'area': <String>[
+    'Area Chart - Interactive',
+    'Area Chart',
+    'Area Chart - Linear',
+    'Area Chart - Step',
+    'Area Chart - Legend',
+    'Area Chart - Stacked',
+    'Area Chart - Stacked Expanded',
+    'Area Chart - Icons',
+    'Area Chart - Gradient',
+    'Area Chart - Axes',
+  ],
   'bar': <String>['BarGrouped', 'BarStacked'],
   'line': <String>['Default', 'Streaming', 'Sparkline'],
   'pie': <String>['Donut'],

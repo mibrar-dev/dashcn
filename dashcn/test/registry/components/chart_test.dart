@@ -2,6 +2,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/chart/chart.dart';
+import 'package:dashcn/src/components/chart/chart_paths.dart';
 import 'package:dashcn/src/primitives/chart/chart_math.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/motion.dart';
@@ -489,5 +490,52 @@ void main() {
   test('tooltip value compaction drops integral decimals', () {
     expect(chartCompactValue(450), '450');
     expect(chartCompactValue(4.5), '4.5');
+  });
+
+  test('stack bands accumulate positives up and negatives down', () {
+    final List<List<ChartStackBand>> bands = chartStackBands(<List<double>>[
+      <double>[1, -2],
+      <double>[3, 4],
+    ], expanded: false);
+    expect(bands[0][0], (base: 0, top: 1));
+    expect(bands[1][0], (base: 1, top: 4));
+    expect(bands[0][1], (base: -2, top: 0));
+    expect(bands[1][1], (base: 0, top: 4));
+  });
+
+  test('stack bands handle empty, single and expanded input', () {
+    expect(chartStackBands(<List<double>>[], expanded: false), isEmpty);
+    final List<List<ChartStackBand>> expanded = chartStackBands(<List<double>>[
+      <double>[1, 0],
+      <double>[3, 0],
+    ], expanded: true);
+    expect(expanded[0][0], (base: 0, top: 0.25));
+    expect(expanded[1][0], (base: 0.25, top: 1));
+    expect(expanded[0][1], (base: 0, top: 0));
+  });
+
+  testWidgets('area modes and line styles render', (tester) async {
+    const List<ChartAreaMode> modes = ChartAreaMode.values;
+    const List<ChartLineStyle> styles = ChartLineStyle.values;
+    for (final ChartAreaMode mode in modes) {
+      for (final ChartLineStyle style in styles) {
+        await tester.pumpWidget(
+          _frame(
+            child: Chart(
+              type: ChartType.area,
+              areaMode: mode,
+              lineStyle: style,
+              labels: const <String>['a', 'b', 'c'],
+              series: const <ChartSeries>[
+                ChartSeries(label: 'A', values: <double>[1, -2, 3]),
+                ChartSeries(label: 'B', values: <double>[2, 1, 1]),
+              ],
+            ),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 800));
+        expect(tester.takeException(), isNull, reason: '$mode/$style');
+      }
+    }
   });
 }

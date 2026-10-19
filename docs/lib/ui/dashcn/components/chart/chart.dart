@@ -15,6 +15,7 @@ import '../../primitives/motion/motion_scope.dart';
 import '../../theme/theme.dart';
 import 'chart_cartesian_painter.dart';
 import 'chart_model.dart';
+import 'chart_paths.dart';
 import 'chart_pie_painter.dart';
 import 'chart_radar_painter.dart';
 import 'chart_radial_painter.dart';
@@ -33,6 +34,8 @@ class Chart extends StatefulWidget {
     this.labels,
     this.type = ChartType.line,
     this.barMode = ChartBarMode.grouped,
+    this.lineStyle = ChartLineStyle.smooth,
+    this.areaMode = ChartAreaMode.overlay,
     this.height = 220,
     this.showGrid,
     this.showAxes,
@@ -83,6 +86,12 @@ class Chart extends StatefulWidget {
 
   /// Bar arrangement.
   final ChartBarMode barMode;
+
+  /// Line shape for line/area/sparkline strokes.
+  final ChartLineStyle lineStyle;
+
+  /// Area fill arrangement ([ChartType.area] with several series).
+  final ChartAreaMode areaMode;
 
   /// Plot height.
   final double height;
@@ -457,20 +466,51 @@ class _ChartState extends State<Chart> {
         ),
       );
     } else {
+      final bool stackedArea =
+          widget.type == ChartType.area &&
+          widget.areaMode != ChartAreaMode.overlay &&
+          series.length > 1;
+      final bool expanded =
+          stackedArea && widget.areaMode == ChartAreaMode.expanded;
       final Iterable<double> all = paints.expand((p) => p.values);
       final ext = chartExtent(all);
-      final double lo = widget.yAxis.min ?? (barBaseline(ext.min, widget.type));
-      final double hi = widget.yAxis.max ?? ext.max;
+      double lo = widget.yAxis.min ?? (barBaseline(ext.min, widget.type));
+      double hi = widget.yAxis.max ?? ext.max;
+      String Function(double) format = widget.yAxis.format ?? chartDefaultTick;
+      if (stackedArea) {
+        final List<List<ChartStackBand>> bands = chartStackBands(<List<double>>[
+          for (final s in series) s.values,
+        ], expanded: expanded);
+        double stackLo = 0;
+        double stackHi = expanded ? 1 : 0;
+        for (final List<ChartStackBand> row in bands) {
+          for (final ChartStackBand band in row) {
+            if (band.base < stackLo) {
+              stackLo = band.base;
+            }
+            if (band.top > stackHi) {
+              stackHi = band.top;
+            }
+          }
+        }
+        lo = widget.yAxis.min ?? (expanded ? 0 : stackLo);
+        hi = widget.yAxis.max ?? stackHi;
+        if (expanded && widget.yAxis.format == null) {
+          format = chartPercentTick;
+        }
+      }
       final List<double> ticks = chartNiceTicks(lo, hi, widget.yAxis.tickCount);
       painted = CustomPaint(
         painter: ChartCartesianPainter(
           type: widget.type,
           barMode: widget.barMode,
+          lineStyle: widget.lineStyle,
+          areaMode: widget.areaMode,
           series: paints,
           min: lo,
           max: hi,
           ticks: ticks,
-          format: widget.yAxis.format ?? chartDefaultTick,
+          format: format,
           xLabels: widget.labels ?? widget.xAxis.labels,
           gridColor: surface.gridColor,
           axisColor: surface.axisColor,

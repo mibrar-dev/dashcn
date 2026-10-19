@@ -1051,6 +1051,20 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Bar arrangement.',
       ),
       DocsApiParam(
+        name: 'lineStyle',
+        type: 'ChartLineStyle',
+        isRequired: false,
+        defaultValue: 'ChartLineStyle.smooth',
+        doc: 'Line shape for line/area/sparkline strokes.',
+      ),
+      DocsApiParam(
+        name: 'areaMode',
+        type: 'ChartAreaMode',
+        isRequired: false,
+        defaultValue: 'ChartAreaMode.overlay',
+        doc: 'Area fill arrangement ([ChartType.area] with several series).',
+      ),
+      DocsApiParam(
         name: 'height',
         type: 'double',
         isRequired: false,

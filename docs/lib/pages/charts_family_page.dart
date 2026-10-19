@@ -52,7 +52,18 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
     title: 'Area',
     description:
         'Filled area charts for part-to-whole trends over time, with markers.',
-    examples: <String>['Area'],
+    examples: <String>[
+      'Area Chart - Interactive',
+      'Area Chart',
+      'Area Chart - Linear',
+      'Area Chart - Step',
+      'Area Chart - Legend',
+      'Area Chart - Stacked',
+      'Area Chart - Stacked Expanded',
+      'Area Chart - Icons',
+      'Area Chart - Gradient',
+      'Area Chart - Axes',
+    ],
   ),
   ChartFamily(
     id: 'bar',

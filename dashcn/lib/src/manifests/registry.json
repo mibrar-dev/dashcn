@@ -1872,7 +1872,8 @@
           "ChartTheme",
           "ChartSurface",
           "ChartRadarConfig",
-          "ChartRadialConfig"
+          "ChartRadialConfig",
+          "ChartTooltipConfig"
         ],
         "constants": [
           "chartDefaults",
@@ -1881,7 +1882,10 @@
         "enums": [
           "ChartType",
           "ChartBarMode",
-          "ChartRadarGrid"
+          "ChartLineStyle",
+          "ChartAreaMode",
+          "ChartRadarGrid",
+          "ChartTooltipIndicator"
         ]
       },
       "category": "Data Display",
@@ -1903,6 +1907,7 @@
         "components/chart/chart.dart",
         "components/chart/chart_cartesian_painter.dart",
         "components/chart/chart_model.dart",
+        "components/chart/chart_paths.dart",
         "components/chart/chart_pie_painter.dart",
         "components/chart/chart_radar_painter.dart",
         "components/chart/chart_radial_painter.dart",
@@ -9571,15 +9576,16 @@
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
-    "components/chart/chart.dart": "637a2c08af25e3530ffcdd5fcda4947b5518ccfe9dbbf96df835d0685de0c264",
-    "components/chart/chart_cartesian_painter.dart": "b47dea0b0279ff8119ce0c3528cc2da50573444c0ebdcae27e6fe59fbe8647a4",
-    "components/chart/chart_model.dart": "fe3b297ebb688b5fb01f87871352f84634c3c69602d6e3c00803ee1a271b86c2",
+    "components/chart/chart.dart": "352481a7a15ace3109121ce279a5e58006e729143698483fe8d9858b73ea4be7",
+    "components/chart/chart_cartesian_painter.dart": "6cdd56b4782587aa5d4b8fb5f5eca31f81e115587944d00ee2af209c57d103ea",
+    "components/chart/chart_model.dart": "b63326c6011fd1a6f55cd5a5c04a8204bf5f422f340bf3c6f9118b470753b621",
+    "components/chart/chart_paths.dart": "bc5efa6923f6e6bfbfd2a9b3abbc36488e8bae76620f73af367ad14b1a34e7fe",
     "components/chart/chart_pie_painter.dart": "0fb0ff2ea52ffc5650ff175b16ecce1ddbde3e6ab7a6c48700ba4885259b1bf9",
     "components/chart/chart_radar_painter.dart": "1ba84493d86a2c928ec71f04c5d559d1d92bf0101f31690bb538367ed1bfa0ac",
     "components/chart/chart_radial_painter.dart": "b36ea0e535533aabafbf7ee4a8edbfc38f1cba50ecfc60227268ba4dadb2bb17",
     "components/chart/chart_style.dart": "072d6693d40228efa0529f8dd574973ece0847f32887e211108049a3aa88e4b4",
     "components/chart/chart_theme.dart": "04d7d3946ee7ff3f6a62467d96bc1d7690148e6e1daa691bb3244773ce579842",
-    "components/chart/preview.dart": "16d85f890a7a518d77843cccbe670b0c96504a856931db23160957faee8cdc52",
+    "components/chart/preview.dart": "0bb5135ed67f81499039937207793ca4d0f7ee46b509c1dfd05ec9d84737fb81",
     "components/chat/chat.dart": "3d9d15c20a577e1bcfe9281bd743e0279b1f7467c6aefab7368c7fafd7339c00",
     "components/chat/chat_style.dart": "cd22e156aeefff4544be5be163863933b604f8550154ff6d2dbedf2222caf040",
     "components/chat/chat_theme.dart": "4ff153f91c624960b3f5343e29f853ec254d42e8a0f652244e7c347d0617987f",

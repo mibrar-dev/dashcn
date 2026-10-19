@@ -11,23 +11,13 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/icons/lucide_icons.dart';
+import '../../theme/theme.dart';
 import 'chart.dart';
 
 Widget _chartDefault(BuildContext context) {
   return const Chart(
     data: <double>[3, 5, 2, 6, 4, 7],
     semanticsLabel: 'Line chart with six points trending up',
-  );
-}
-
-Widget _chartArea(BuildContext context) {
-  return const Chart(
-    type: ChartType.area,
-    showMarkers: true,
-    series: <ChartSeries>[
-      ChartSeries(label: 'Revenue', values: <double>[2, 4, 3, 5, 6, 8]),
-      ChartSeries(label: 'Costs', values: <double>[1, 2, 2, 3, 4, 5]),
-    ],
   );
 }
 
@@ -271,7 +261,16 @@ Widget _chartRadarLegend(BuildContext context) {
 /// Named docs examples for `chart`; the first entry is the default.
 const List<ComponentPreview> chartPreviews = <ComponentPreview>[
   ComponentPreview('Default', _chartDefault),
-  ComponentPreview('Area', _chartArea),
+  ComponentPreview('Area Chart - Interactive', _chartAreaInteractive),
+  ComponentPreview('Area Chart', _chartAreaDefault),
+  ComponentPreview('Area Chart - Linear', _chartAreaLinear),
+  ComponentPreview('Area Chart - Step', _chartAreaStep),
+  ComponentPreview('Area Chart - Legend', _chartAreaLegend),
+  ComponentPreview('Area Chart - Stacked', _chartAreaStacked),
+  ComponentPreview('Area Chart - Stacked Expanded', _chartAreaStackedExpanded),
+  ComponentPreview('Area Chart - Icons', _chartAreaIcons),
+  ComponentPreview('Area Chart - Gradient', _chartAreaGradient),
+  ComponentPreview('Area Chart - Axes', _chartAreaAxes),
   ComponentPreview('BarGrouped', _chartBarGrouped),
   ComponentPreview('BarStacked', _chartBarStacked),
   ComponentPreview('Donut', _chartDonut),
@@ -400,6 +399,268 @@ Widget _chartTooltipAdvanced(BuildContext context) => _tooltipBase(
     showTotal: true,
   ),
 );
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+/// 90 days of deterministic sample data (Apr 1 - Jun 29) for the
+/// interactive range-filter examples.
+List<double> _trend(int seed) {
+  return <double>[
+    for (var i = 0; i < 90; i++) (150 + ((i * 53 + seed) % 260)).toDouble(),
+  ];
+}
+
+String _trendDay(int i) {
+  const List<int> lens = <int>[30, 31, 30];
+  const List<String> names = <String>['Apr', 'May', 'Jun'];
+  var d = i;
+  var m = 0;
+  while (m < 2 && d >= lens[m]) {
+    d -= lens[m];
+    m++;
+  }
+  return '${names[m]} ${d + 1}';
+}
+
+/// Range-filter buttons for the interactive examples.
+class _RangeButtons extends StatelessWidget {
+  const _RangeButtons({
+    required this.options,
+    required this.selected,
+    required this.onSelect,
+  });
+
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colors;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: <Widget>[
+        for (final String option in options)
+          GestureDetector(
+            onTap: () => onSelect(option),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: option == selected ? colors.foreground : colors.border,
+                ),
+              ),
+              child: Text(
+                option,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: option == selected
+                      ? colors.foreground
+                      : colors.mutedForeground,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Interactive area chart with a 90d/30d/7d range filter.
+class _AreaInteractive extends StatefulWidget {
+  const _AreaInteractive();
+
+  @override
+  State<_AreaInteractive> createState() => _AreaInteractiveState();
+}
+
+class _AreaInteractiveState extends State<_AreaInteractive> {
+  static final List<double> _desktop = _trend(11);
+  static final List<double> _mobile = _trend(101);
+  static final List<String> _days = <String>[
+    for (var i = 0; i < 90; i++) _trendDay(i),
+  ];
+
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.area,
+          areaMode: ChartAreaMode.stacked,
+          labels: _days.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(label: 'Mobile', values: _mobile.sublist(90 - _count)),
+            ChartSeries(
+              label: 'Desktop',
+              values: _desktop.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartAreaInteractive(BuildContext context) => const _AreaInteractive();
+
+Widget _chartAreaDefault(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+
+Widget _chartAreaLinear(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    lineStyle: ChartLineStyle.linear,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+
+Widget _chartAreaStep(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    lineStyle: ChartLineStyle.step,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+
+Widget _chartAreaLegend(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Mobile', values: _areaMobile),
+      ChartSeries(label: 'Desktop', values: _areaDesktop),
+    ],
+  );
+}
+
+Widget _chartAreaStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    showLegend: false,
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
+    ],
+  );
+}
+
+Widget _chartAreaStackedExpanded(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.expanded,
+    labels: _areaMonths,
+    showLegend: false,
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
+    ],
+  );
+}
+
+Widget _chartAreaIcons(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Mobile',
+        values: _areaMobile,
+        icon: Icon(LucideIcons.trendingUp),
+      ),
+      ChartSeries(
+        label: 'Desktop',
+        values: _areaDesktop,
+        icon: Icon(LucideIcons.trendingDown),
+      ),
+    ],
+  );
+}
+
+Widget _chartAreaGradient(BuildContext context) {
+  final palette = Theme.of(context).colors.chartColors;
+  LinearGradient fill(Color color) => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[color.withValues(alpha: 0.8), color.withValues(alpha: 0.1)],
+  );
+  return Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Mobile',
+        values: _areaMobile,
+        gradient: fill(palette[1]),
+      ),
+      ChartSeries(
+        label: 'Desktop',
+        values: _areaDesktop,
+        gradient: fill(palette[0]),
+      ),
+    ],
+  );
+}
+
+Widget _chartAreaAxes(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    showAxes: false,
+    showLegend: false,
+    yAxis: ChartAxis(tickCount: 3),
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
+    ],
+  );
+}
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
 

@@ -3053,6 +3053,7 @@ Widget _carouselApi(BuildContext context) =>
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartDefault(BuildContext context) {
@@ -3064,20 +3065,461 @@ Widget _chartDefault(BuildContext context) {
 ''',
     ),
     DocsExampleSource(
-      name: 'Area',
-      builder: '_chartArea',
+      name: 'Area Chart - Interactive',
+      builder: '_chartAreaInteractive',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-Widget _chartArea(BuildContext context) {
+/// 90 days of deterministic sample data (Apr 1 - Jun 29) for the
+/// interactive range-filter examples.
+List<double> _trend(int seed) {
+  return <double>[
+    for (var i = 0; i < 90; i++) (150 + ((i * 53 + seed) % 260)).toDouble(),
+  ];
+}
+
+String _trendDay(int i) {
+  const List<int> lens = <int>[30, 31, 30];
+  const List<String> names = <String>['Apr', 'May', 'Jun'];
+  var d = i;
+  var m = 0;
+  while (m < 2 && d >= lens[m]) {
+    d -= lens[m];
+    m++;
+  }
+  return '${names[m]} ${d + 1}';
+}
+
+/// Range-filter buttons for the interactive examples.
+class _RangeButtons extends StatelessWidget {
+  const _RangeButtons({
+    required this.options,
+    required this.selected,
+    required this.onSelect,
+  });
+
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colors;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: <Widget>[
+        for (final String option in options)
+          GestureDetector(
+            onTap: () => onSelect(option),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: option == selected ? colors.foreground : colors.border,
+                ),
+              ),
+              child: Text(
+                option,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: option == selected
+                      ? colors.foreground
+                      : colors.mutedForeground,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Interactive area chart with a 90d/30d/7d range filter.
+class _AreaInteractive extends StatefulWidget {
+  const _AreaInteractive();
+
+  @override
+  State<_AreaInteractive> createState() => _AreaInteractiveState();
+}
+
+class _AreaInteractiveState extends State<_AreaInteractive> {
+  static final List<double> _desktop = _trend(11);
+  static final List<double> _mobile = _trend(101);
+  static final List<String> _days = <String>[
+    for (var i = 0; i < 90; i++) _trendDay(i),
+  ];
+
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.area,
+          areaMode: ChartAreaMode.stacked,
+          labels: _days.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(label: 'Mobile', values: _mobile.sublist(90 - _count)),
+            ChartSeries(
+              label: 'Desktop',
+              values: _desktop.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartAreaInteractive(BuildContext context) => const _AreaInteractive();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart',
+      builder: '_chartAreaDefault',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+Widget _chartAreaDefault(BuildContext context) {
   return const Chart(
     type: ChartType.area,
-    showMarkers: true,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Linear',
+      builder: '_chartAreaLinear',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+Widget _chartAreaLinear(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    lineStyle: ChartLineStyle.linear,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Step',
+      builder: '_chartAreaStep',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+Widget _chartAreaStep(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    lineStyle: ChartLineStyle.step,
+    labels: _areaMonths,
+    fillOpacity: 0.4,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Legend',
+      builder: '_chartAreaLegend',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaLegend(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Revenue', values: <double>[2, 4, 3, 5, 6, 8]),
-      ChartSeries(label: 'Costs', values: <double>[1, 2, 2, 3, 4, 5]),
+      ChartSeries(label: 'Mobile', values: _areaMobile),
+      ChartSeries(label: 'Desktop', values: _areaDesktop),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Stacked',
+      builder: '_chartAreaStacked',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    showLegend: false,
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Stacked Expanded',
+      builder: '_chartAreaStackedExpanded',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaStackedExpanded(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.expanded,
+    labels: _areaMonths,
+    showLegend: false,
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Icons',
+      builder: '_chartAreaIcons',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaIcons(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Mobile',
+        values: _areaMobile,
+        icon: Icon(LucideIcons.trendingUp),
+      ),
+      ChartSeries(
+        label: 'Desktop',
+        values: _areaDesktop,
+        icon: Icon(LucideIcons.trendingDown),
+      ),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Gradient',
+      builder: '_chartAreaGradient',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaGradient(BuildContext context) {
+  final palette = Theme.of(context).colors.chartColors;
+  LinearGradient fill(Color color) => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[color.withValues(alpha: 0.8), color.withValues(alpha: 0.1)],
+  );
+  return Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Mobile',
+        values: _areaMobile,
+        gradient: fill(palette[1]),
+      ),
+      ChartSeries(
+        label: 'Desktop',
+        values: _areaDesktop,
+        gradient: fill(palette[0]),
+      ),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Area Chart - Axes',
+      builder: '_chartAreaAxes',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _areaMonths = <String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
+
+const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
+
+const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
+
+Widget _chartAreaAxes(BuildContext context) {
+  return const Chart(
+    type: ChartType.area,
+    areaMode: ChartAreaMode.stacked,
+    labels: _areaMonths,
+    showAxes: false,
+    showLegend: false,
+    yAxis: ChartAxis(tickCount: 3),
+    series: <ChartSeries>[
+      ChartSeries(values: _areaMobile),
+      ChartSeries(values: _areaDesktop),
     ],
   );
 }
@@ -3089,6 +3531,7 @@ Widget _chartArea(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartBarGrouped(BuildContext context) {
@@ -3109,6 +3552,7 @@ Widget _chartBarGrouped(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartBarStacked(BuildContext context) {
@@ -3130,6 +3574,7 @@ Widget _chartBarStacked(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartDonut(BuildContext context) {
@@ -3149,6 +3594,7 @@ Widget _chartDonut(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartScatter(BuildContext context) {
@@ -3167,6 +3613,7 @@ Widget _chartScatter(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartSparkline(BuildContext context) {
@@ -3187,6 +3634,7 @@ Widget _chartSparkline(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 /// Live streaming demo: appends a point every 800 ms into a 40-point window.
@@ -3243,6 +3691,7 @@ Widget _chartStreaming(BuildContext context) => const _ChartStreaming();
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3272,6 +3721,7 @@ Widget _chartRadarDefault(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3302,6 +3752,7 @@ Widget _chartRadarDots(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3331,6 +3782,7 @@ Widget _chartRadarLinesOnly(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3366,6 +3818,7 @@ Widget _chartRadarLabelCustom(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3396,6 +3849,7 @@ Widget _chartRadarGridCustom(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3426,6 +3880,7 @@ Widget _chartRadarGridNone(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3456,6 +3911,7 @@ Widget _chartRadarGridCircle(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3486,6 +3942,7 @@ Widget _chartRadarGridCircleNoLines(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3516,6 +3973,7 @@ Widget _chartRadarGridCircleFilled(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3546,6 +4004,7 @@ Widget _chartRadarGridFilled(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3580,6 +4039,7 @@ Widget _chartRadarMultiple(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _radarMonths = <String>[
@@ -3614,6 +4074,7 @@ Widget _chartRadarLegend(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
@@ -3652,6 +4113,7 @@ Widget _chartRadialSimple(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialLabel(BuildContext context) {
@@ -3677,6 +4139,7 @@ Widget _chartRadialLabel(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
@@ -3716,6 +4179,7 @@ Widget _chartRadialGrid(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialText(BuildContext context) {
@@ -3739,6 +4203,7 @@ Widget _chartRadialText(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialShape(BuildContext context) {
@@ -3762,6 +4227,7 @@ Widget _chartRadialShape(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialStacked(BuildContext context) {
@@ -3786,6 +4252,7 @@ Widget _chartRadialStacked(BuildContext context) {
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -3830,6 +4297,7 @@ Widget _chartTooltipDefault(BuildContext context) => _tooltipBase();
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -3876,6 +4344,7 @@ Widget _chartTooltipLineIndicator(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -3922,6 +4391,7 @@ Widget _chartTooltipNoIndicator(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -3973,6 +4443,7 @@ Widget _chartTooltipCustomLabel(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -4021,6 +4492,7 @@ Widget _chartTooltipLabelFormatter(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -4066,6 +4538,7 @@ Widget _chartTooltipNoLabel(BuildContext context) =>
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -4112,6 +4585,7 @@ Widget _chartTooltipFormatter(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[
@@ -4170,6 +4644,7 @@ Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<String> _tooltipDays = <String>[

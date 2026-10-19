@@ -1209,6 +1209,15 @@ kControlSpecs = <String, ComponentControls>{
         options: <String>['grouped', 'stacked'],
       ),
       ControlSpec(
+        name: 'areaMode',
+        label: 'Area Mode',
+        kind: ControlKind.select,
+        type: 'ChartAreaMode',
+        isRequired: false,
+        defaultValue: 'overlay',
+        options: <String>['overlay', 'stacked', 'expanded'],
+      ),
+      ControlSpec(
         name: 'height',
         label: 'Height',
         kind: ControlKind.slider,

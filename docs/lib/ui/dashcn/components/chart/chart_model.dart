@@ -48,6 +48,30 @@ enum ChartBarMode {
   stacked,
 }
 
+/// Line shape for [ChartType.line] and [ChartType.area].
+enum ChartLineStyle {
+  /// Curved (Catmull-Rom) stroke, the shadcn default.
+  smooth,
+
+  /// Straight segments between points.
+  linear,
+
+  /// Right-angle steps between points.
+  step,
+}
+
+/// Area fill arrangement for [ChartType.area] with several series.
+enum ChartAreaMode {
+  /// Each series fills to the baseline (the default).
+  overlay,
+
+  /// Series stack on top of each other.
+  stacked,
+
+  /// Series stack to a 0..1 range with percent ticks.
+  expanded,
+}
+
 /// Radar grid shape for [ChartType.radar].
 enum ChartRadarGrid {
   /// Straight-edged polygon web (the default).
@@ -331,6 +355,9 @@ String chartCompactValue(double value) {
   }
   return value.toStringAsFixed(1);
 }
+
+/// Percent tick formatter for expanded (0..1) stacked areas.
+String chartPercentTick(double value) => '${(value * 100).round()}%';
 
 /// Axis configuration: every visual part can be toggled or restyled.
 class ChartAxis {
