@@ -27,8 +27,8 @@
     "preview.dart"
   ],
   "api": {
-    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig"],
-    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator"],
+    "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig", "ChartPieConfig"],
+    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator", "ChartPieLabels"],
     "constants": ["chartDefaults", "chartThemeOverrides"]
   },
   "theme": {

@@ -394,6 +394,60 @@ String chartCompactValue(double value) {
 /// Percent tick formatter for expanded (0..1) stacked areas.
 String chartPercentTick(double value) => '${(value * 100).round()}%';
 
+/// Where slice labels paint for [ChartType.pie] and [ChartType.donut].
+enum ChartPieLabels {
+  /// No slice labels.
+  none,
+
+  /// Names (or values) outside the slices with leader lines.
+  outside,
+
+  /// Names inside the slices.
+  inside,
+}
+
+/// Pie display options for [ChartType.pie] and [ChartType.donut].
+///
+/// ```dart
+/// const Chart(type: ChartType.pie, pie: ChartPieConfig(
+///   labels: ChartPieLabels.outside,
+/// ));
+/// ```
+class ChartPieConfig {
+  /// Creates pie display options.
+  const ChartPieConfig({
+    this.labels = ChartPieLabels.none,
+    this.labelValues = false,
+    this.showDividers = true,
+    this.stacked = false,
+  });
+
+  /// Where slice labels paint.
+  final ChartPieLabels labels;
+
+  /// With [ChartPieLabels.outside], draw values instead of names and skip
+  /// the leader lines (the "Custom Label" look).
+  final bool labelValues;
+
+  /// Whether divider strokes paint between pie slices.
+  final bool showDividers;
+
+  /// Whether every series paints its own concentric ring (the "Stacked"
+  /// look, first series innermost).
+  final bool stacked;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ChartPieConfig &&
+      other.labels == labels &&
+      other.labelValues == labelValues &&
+      other.showDividers == showDividers &&
+      other.stacked == stacked;
+
+  @override
+  int get hashCode => Object.hash(labels, labelValues, showDividers, stacked);
+}
+
 /// Axis configuration: every visual part can be toggled or restyled.
 class ChartAxis {
   /// Creates an axis configuration.

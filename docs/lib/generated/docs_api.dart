@@ -1309,6 +1309,14 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
             'Initially selected category/ring/slice index, so the tooltip and\nhighlight paint on first frame (the `defaultIndex` look); null selects\nnothing until the user hovers or taps.',
       ),
       DocsApiParam(
+        name: 'pie',
+        type: 'ChartPieConfig',
+        isRequired: false,
+        defaultValue: 'const ChartPieConfig()',
+        doc:
+            'Pie display options ([ChartType.pie] and [ChartType.donut] only).',
+      ),
+      DocsApiParam(
         name: 'theme',
         type: 'ChartTheme?',
         isRequired: false,

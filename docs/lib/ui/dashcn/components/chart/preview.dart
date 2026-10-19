@@ -344,13 +344,157 @@ Widget _chartBarNegative(BuildContext context) {
   );
 }
 
-Widget _chartDonut(BuildContext context) {
+/// Interactive donut chart with month buttons driving the active slice.
+class _PieInteractive extends StatefulWidget {
+  const _PieInteractive();
+
+  @override
+  State<_PieInteractive> createState() => _PieInteractiveState();
+}
+
+class _PieInteractiveState extends State<_PieInteractive> {
+  static const List<String> months = <String>[
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+  ];
+  static const List<double> visitors = <double>[186, 305, 237, 173, 209];
+
+  int _active = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: months,
+          selected: months[_active],
+          onSelect: (String value) =>
+              setState(() => _active = months.indexOf(value)),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.donut,
+          height: 250,
+          labels: months,
+          initialSelectedIndex: _active,
+          centerLabel: '${visitors[_active].toInt()}',
+          centerSublabel: 'Visitors',
+          series: <ChartSeries>[
+            ChartSeries(values: visitors, pointColors: _browserColors(context)),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartPieInteractive(BuildContext context) => const _PieInteractive();
+
+Widget _chartPieSimple(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieSeparatorNone(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(showDividers: false),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieLabel(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.outside),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieLabelCustom(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.outside, labelValues: true),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieLabelList(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.inside),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieLegend(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Browsers', values: _browserVisitors),
+    ],
+  );
+}
+
+Widget _chartPieDonut(BuildContext context) {
   return const Chart(
     type: ChartType.donut,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieDonutActive(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: _browserNames,
+    initialSelectedIndex: 1,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieDonutText(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: _browserNames,
+    centerLabel: '925',
+    centerSublabel: 'Visitors',
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+
+Widget _chartPieStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: <String>['January', 'February', 'March', 'April', 'May'],
+    pie: ChartPieConfig(stacked: true),
     series: <ChartSeries>[
-      ChartSeries(label: 'Share', values: <double>[40, 30, 20, 10]),
+      ChartSeries(values: <double>[186, 305, 237, 173, 209]),
+      ChartSeries(values: <double>[80, 200, 120, 190, 130]),
     ],
-    showDataTable: true,
   );
 }
 
@@ -590,7 +734,17 @@ const List<ComponentPreview> chartPreviews = <ComponentPreview>[
   ComponentPreview('Bar Chart - Mixed', _chartBarMixed),
   ComponentPreview('Bar Chart - Active', _chartBarActive),
   ComponentPreview('Bar Chart - Negative', _chartBarNegative),
-  ComponentPreview('Donut', _chartDonut),
+  ComponentPreview('Pie Chart', _chartPieSimple),
+  ComponentPreview('Pie Chart - Separator None', _chartPieSeparatorNone),
+  ComponentPreview('Pie Chart - Label', _chartPieLabel),
+  ComponentPreview('Pie Chart - Custom Label', _chartPieLabelCustom),
+  ComponentPreview('Pie Chart - Label List', _chartPieLabelList),
+  ComponentPreview('Pie Chart - Legend', _chartPieLegend),
+  ComponentPreview('Pie Chart - Donut', _chartPieDonut),
+  ComponentPreview('Pie Chart - Donut Active', _chartPieDonutActive),
+  ComponentPreview('Pie Chart - Donut with Text', _chartPieDonutText),
+  ComponentPreview('Pie Chart - Stacked', _chartPieStacked),
+  ComponentPreview('Pie Chart - Interactive', _chartPieInteractive),
   ComponentPreview('Scatter', _chartScatter),
   ComponentPreview('Sparkline', _chartSparkline),
   ComponentPreview('Streaming', _chartStreaming),

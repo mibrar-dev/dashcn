@@ -623,4 +623,63 @@ void main() {
     await tester.pump(const Duration(milliseconds: 800));
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('pie label modes, dividers and stacked rings render', (
+    tester,
+  ) async {
+    const List<ChartPieConfig> configs = <ChartPieConfig>[
+      ChartPieConfig(),
+      ChartPieConfig(labels: ChartPieLabels.outside),
+      ChartPieConfig(labels: ChartPieLabels.outside, labelValues: true),
+      ChartPieConfig(labels: ChartPieLabels.inside),
+      ChartPieConfig(showDividers: false),
+      ChartPieConfig(stacked: true),
+    ];
+    for (final ChartPieConfig pie in configs) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.pie,
+            pie: pie,
+            height: 250,
+            labels: const <String>['a', 'b', 'c', 'd', 'e'],
+            series: const <ChartSeries>[
+              ChartSeries(values: <double>[4, -3, 2, 0, 1]),
+              ChartSeries(values: <double>[1, 2, 3, 4, 5]),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$pie');
+    }
+  });
+
+  testWidgets('pie handles empty, single and all-zero slices', (tester) async {
+    const List<List<ChartSeries>> cases = <List<ChartSeries>>[
+      <ChartSeries>[],
+      <ChartSeries>[ChartSeries(values: <double>[])],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[5]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[0, 0]),
+      ],
+    ];
+    for (final List<ChartSeries> series in cases) {
+      await tester.pumpWidget(
+        _frame(
+          child: Chart(
+            type: ChartType.donut,
+            pie: const ChartPieConfig(labels: ChartPieLabels.outside),
+            centerLabel: 'x',
+            centerSublabel: 'y',
+            series: series,
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.takeException(), isNull, reason: '$series');
+    }
+  });
 }

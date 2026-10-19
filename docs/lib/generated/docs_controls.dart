@@ -1600,6 +1600,15 @@ kControlSpecs = <String, ComponentControls>{
         step: 1.0,
         isInt: true,
       ),
+      ControlSpec(
+        name: 'pie',
+        label: 'Pie',
+        kind: ControlKind.readOnly,
+        type: 'ChartPieConfig',
+        isRequired: false,
+        defaultValue: 'const ChartPieConfig()',
+        readOnlyReason: 'unresolved type',
+      ),
     ],
   ),
   'chat': ComponentControls(

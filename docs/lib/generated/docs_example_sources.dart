@@ -4489,22 +4489,412 @@ const List<String> _areaMonths = <String>[
 ''',
     ),
     DocsExampleSource(
-      name: 'Donut',
-      builder: '_chartDonut',
+      name: 'Pie Chart',
+      builder: '_chartPieSimple',
       code: r'''import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-Widget _chartDonut(BuildContext context) {
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieSimple(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Separator None',
+      builder: '_chartPieSeparatorNone',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieSeparatorNone(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(showDividers: false),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Label',
+      builder: '_chartPieLabel',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieLabel(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.outside),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Custom Label',
+      builder: '_chartPieLabelCustom',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieLabelCustom(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.outside, labelValues: true),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Label List',
+      builder: '_chartPieLabelList',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieLabelList(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    pie: ChartPieConfig(labels: ChartPieLabels.inside),
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Legend',
+      builder: '_chartPieLegend',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieLegend(BuildContext context) {
+  return const Chart(
+    type: ChartType.pie,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[
+      ChartSeries(label: 'Browsers', values: _browserVisitors),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Donut',
+      builder: '_chartPieDonut',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieDonut(BuildContext context) {
   return const Chart(
     type: ChartType.donut,
-    series: <ChartSeries>[
-      ChartSeries(label: 'Share', values: <double>[40, 30, 20, 10]),
-    ],
-    showDataTable: true,
+    height: 250,
+    labels: _browserNames,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
   );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Donut Active',
+      builder: '_chartPieDonutActive',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieDonutActive(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: _browserNames,
+    initialSelectedIndex: 1,
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Donut with Text',
+      builder: '_chartPieDonutText',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+Widget _chartPieDonutText(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: _browserNames,
+    centerLabel: '925',
+    centerSublabel: 'Visitors',
+    series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Stacked',
+      builder: '_chartPieStacked',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+Widget _chartPieStacked(BuildContext context) {
+  return const Chart(
+    type: ChartType.donut,
+    height: 250,
+    labels: <String>['January', 'February', 'March', 'April', 'May'],
+    pie: ChartPieConfig(stacked: true),
+    series: <ChartSeries>[
+      ChartSeries(values: <double>[186, 305, 237, 173, 209]),
+      ChartSeries(values: <double>[80, 200, 120, 190, 130]),
+    ],
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Pie Chart - Interactive',
+      builder: '_chartPieInteractive',
+      code: r'''import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+List<Color> _browserColors(BuildContext context) {
+  final List<Color> palette = Theme.of(context).colors.chartColors;
+  return <Color>[
+    for (var i = 0; i < _browserVisitors.length; i++)
+      palette[i % palette.length],
+  ];
+}
+
+/// Interactive donut chart with month buttons driving the active slice.
+class _PieInteractive extends StatefulWidget {
+  const _PieInteractive();
+
+  @override
+  State<_PieInteractive> createState() => _PieInteractiveState();
+}
+
+class _PieInteractiveState extends State<_PieInteractive> {
+  static const List<String> months = <String>[
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+  ];
+  static const List<double> visitors = <double>[186, 305, 237, 173, 209];
+
+  int _active = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: months,
+          selected: months[_active],
+          onSelect: (String value) =>
+              setState(() => _active = months.indexOf(value)),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.donut,
+          height: 250,
+          labels: months,
+          initialSelectedIndex: _active,
+          centerLabel: '${visitors[_active].toInt()}',
+          centerSublabel: 'Visitors',
+          series: <ChartSeries>[
+            ChartSeries(values: visitors, pointColors: _browserColors(context)),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartPieInteractive(BuildContext context) => const _PieInteractive();
+
+/// Range-filter buttons for the interactive examples.
+class _RangeButtons extends StatelessWidget {
+  const _RangeButtons({
+    required this.options,
+    required this.selected,
+    required this.onSelect,
+  });
+
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colors;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: <Widget>[
+        for (final String option in options)
+          GestureDetector(
+            onTap: () => onSelect(option),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: option == selected ? colors.foreground : colors.border,
+                ),
+              ),
+              child: Text(
+                option,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: option == selected
+                      ? colors.foreground
+                      : colors.mutedForeground,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 }
 ''',
     ),

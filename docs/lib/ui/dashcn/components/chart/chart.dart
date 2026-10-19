@@ -74,6 +74,7 @@ class Chart extends StatefulWidget {
     this.centerSublabel,
     this.tooltip = const ChartTooltipConfig(),
     this.initialSelectedIndex,
+    this.pie = const ChartPieConfig(),
     this.theme,
   });
 
@@ -216,6 +217,9 @@ class Chart extends StatefulWidget {
   /// nothing until the user hovers or taps.
   final int? initialSelectedIndex;
 
+  /// Pie display options ([ChartType.pie] and [ChartType.donut] only).
+  final ChartPieConfig pie;
+
   /// Widget-leg theme override.
   final ChartTheme? theme;
 
@@ -241,6 +245,9 @@ class _ChartState extends State<Chart> {
     if (old.controller != widget.controller) {
       _unlisten();
       _listen();
+    }
+    if (widget.initialSelectedIndex != old.initialSelectedIndex) {
+      _selected = widget.initialSelectedIndex;
     }
     final List<List<double>> next = _currentValues();
     final List<List<double>> prev = _displayedValues(old);
@@ -469,24 +476,14 @@ class _ChartState extends State<Chart> {
     } else if (widget.type == ChartType.radial) {
       painted = _buildRadialPlot(context, surface, series, paints, progress);
     } else if (isPie) {
-      final List<double> values = series.isEmpty
-          ? const <double>[]
-          : paints.first.values;
-      final List<Color> colors = <Color>[
-        for (var i = 0; i < values.length; i++)
-          surface.seriesPalette[i % surface.seriesPalette.length],
-      ];
-      painted = CustomPaint(
-        painter: ChartPiePainter(
-          values: values,
-          colors: series.isNotEmpty && series.first.color != null
-              ? List<Color>.filled(values.length, series.first.color!)
-              : colors,
-          hole: hole,
-          progress: progress,
-          selectedIndex: _selected,
-          strokeColor: Theme.of(context).colors.background,
-        ),
+      painted = _buildPiePlot(
+        context,
+        surface,
+        series,
+        paints,
+        progress,
+        hole,
+        dir,
       );
     } else {
       final bool stackedArea =
@@ -903,6 +900,139 @@ class _ChartState extends State<Chart> {
     );
   }
 
+  Widget _buildPiePlot(
+    BuildContext context,
+    ChartSurface surface,
+    List<ChartSeries> series,
+    List<ChartSeriesPaint> paints,
+    double progress,
+    double hole,
+    TextDirection dir,
+  ) {
+    List<Color> sliceColors(ChartSeries s, int count) {
+      return <Color>[
+        for (var i = 0; i < count; i++) _sliceColor(surface, s, i),
+      ];
+    }
+
+    List<String> sliceNames(ChartSeries s, int count) {
+      final List<String> labels = widget.labels ?? const <String>[];
+      return <String>[
+        for (var i = 0; i < count; i++)
+          if (i < labels.length)
+            labels[i]
+          else if (s.label != null && count == 1)
+            s.label!
+          else
+            'Slice $i',
+      ];
+    }
+
+    Widget ring(ChartSeriesPaint p, ChartSeries s, double ringHole) {
+      return SizedBox.expand(
+        child: CustomPaint(
+          painter: ChartPiePainter(
+            values: p.values,
+            colors: sliceColors(s, p.values.length),
+            names: sliceNames(s, p.values.length),
+            hole: ringHole,
+            pie: widget.pie,
+            labelStyle: surface.tickStyle,
+            progress: progress,
+            selectedIndex: _selected,
+            strokeColor: Theme.of(context).colors.background,
+            textDirection: dir,
+          ),
+        ),
+      );
+    }
+
+    Widget plot;
+    if (widget.pie.stacked && paints.length > 1) {
+      plot = Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          ring(paints.first, series.first, 0),
+          for (var i = 1; i < paints.length; i++)
+            ring(paints[i], series[i], 0.62),
+        ],
+      );
+    } else if (paints.isEmpty) {
+      plot = const SizedBox.expand();
+    } else {
+      plot = ring(paints.first, series.first, hole);
+    }
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (d) =>
+              _selectPieSlice(d.localPosition, constraints.biggest, paints),
+          onPanUpdate: (d) =>
+              _selectPieSlice(d.localPosition, constraints.biggest, paints),
+          child: MouseRegion(
+            onHover: (e) =>
+                _selectPieSlice(e.localPosition, constraints.biggest, paints),
+            onExit: (_) => setState(() => _selected = null),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                plot,
+                if (widget.centerLabel != null) _buildCenterLabel(surface),
+                if (surface.showTooltip &&
+                    _selected != null &&
+                    !widget.pie.stacked)
+                  _buildRadialTooltip(surface, series, paints, _selected!),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _selectPieSlice(Offset local, Size size, List<ChartSeriesPaint> paints) {
+    final List<double> values = paints.isEmpty
+        ? const <double>[]
+        : paints.first.values;
+    if (values.isEmpty || size.width <= 0 || size.height <= 0) {
+      return;
+    }
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final Offset delta = local - center;
+    final double radius = math.min(size.width, size.height) / 2;
+    if (delta.distance > radius || delta.distance < radius * 0.2) {
+      if (_selected != null) {
+        setState(() => _selected = null);
+      }
+      return;
+    }
+    final double total = values.fold(0.0, (a, b) => a + b.abs());
+    if (total <= 0) {
+      return;
+    }
+    double angle = math.atan2(delta.dy, delta.dx) + math.pi / 2;
+    if (Directionality.of(context) == TextDirection.rtl) {
+      angle = -angle;
+    }
+    angle = angle % (2 * math.pi);
+    if (angle < 0) {
+      angle += 2 * math.pi;
+    }
+    double cursor = 0;
+    int index = values.length - 1;
+    for (var i = 0; i < values.length; i++) {
+      cursor += values[i].abs() / total * 2 * math.pi;
+      if (angle <= cursor) {
+        index = i;
+        break;
+      }
+    }
+    if (index != _selected) {
+      setState(() => _selected = index);
+    }
+  }
+
   int _categoryLength(List<ChartSeries> series) {
     var n = 0;
     for (final s in series) {
@@ -1075,6 +1205,45 @@ class _ChartState extends State<Chart> {
   }
 
   Widget _buildLegend(ChartSurface surface, List<ChartSeries> series) {
+    final bool isPie =
+        widget.type == ChartType.donut || widget.type == ChartType.pie;
+    if (isPie &&
+        series.length == 1 &&
+        series.first.values.length > 1 &&
+        series.first.label != null &&
+        series.first.label!.isNotEmpty &&
+        !widget.pie.stacked) {
+      final ChartSeries only = series.first;
+      final List<String> labels = widget.labels ?? const <String>[];
+      return Wrap(
+        spacing: 12,
+        runSpacing: 4,
+        children: <Widget>[
+          for (var i = 0; i < only.values.length; i++)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: _sliceColor(surface, only, i),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    i < labels.length ? labels[i] : 'Slice $i',
+                    style: surface.legendStyle,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+        ],
+      );
+    }
     return Wrap(
       spacing: 12,
       runSpacing: 4,
@@ -1122,6 +1291,14 @@ class _ChartState extends State<Chart> {
             ),
       ],
     );
+  }
+
+  Color _sliceColor(ChartSurface surface, ChartSeries s, int i) {
+    final List<Color>? pcs = s.pointColors;
+    if (pcs != null && pcs.isNotEmpty) {
+      return pcs[i % pcs.length];
+    }
+    return surface.seriesPalette[i % surface.seriesPalette.length];
   }
 
   Widget _buildTable(ChartSurface surface, List<ChartSeries> series) {
