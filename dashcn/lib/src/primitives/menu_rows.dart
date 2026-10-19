@@ -291,6 +291,7 @@ Future<T?> showMenuPopover<T>({
   Offset? offset,
   AlignmentGeometry alignment = Alignment.topLeft,
   AlignmentGeometry anchorAlignment = Alignment.topRight,
+  PopupAdaptive? adaptive,
 }) {
   return controller.show<T>(
     context: context,
@@ -302,6 +303,7 @@ Future<T?> showMenuPopover<T>({
     anchorAlignment: anchorAlignment,
     offset: offset ?? const Offset(8, -4),
     builder: popupBuilder,
+    adaptive: adaptive,
   );
 }
 

@@ -7,6 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../foundation/data.dart';
+import '../theme/theme.dart';
 import 'overlay.dart';
 import 'popover_overlay_state.dart';
 
@@ -35,6 +36,7 @@ class PopoverOverlayWidget extends StatefulWidget {
     this.onTickFollow,
     this.allowInvertHorizontal = true,
     this.allowInvertVertical = true,
+    this.adaptive,
     this.data,
     this.onClose,
     this.onImmediateClose,
@@ -110,6 +112,9 @@ class PopoverOverlayWidget extends StatefulWidget {
 
   /// Whether vertical inversion is allowed.
   final bool allowInvertVertical;
+
+  /// Responsive adaptive mode: null resolves the theme token.
+  final PopupAdaptive? adaptive;
 
   /// Called when closing with a result value.
   final PopoverFutureVoidCallback<Object?>? onCloseWithResult;

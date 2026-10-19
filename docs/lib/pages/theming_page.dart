@@ -196,6 +196,26 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['motion']!.code,
             language: 'dart',
           ),
+          const HeadingAnchor(
+            id: 'responsive-popups',
+            title: 'Responsive popups',
+          ),
+          const TypesetParagraph(
+            'Menus, selects, dropdowns, popovers, date/time and color '
+            'pickers, autocomplete, context menus and item pickers anchor to '
+            'their trigger at 768 px and above (flipping above/below and '
+            'clamping to the viewport so they never leave the screen). Below '
+            '768 px they become an edge-anchored bottom sheet — full width '
+            'minus 12 px gutters, max height 70%, same content, with a drag '
+            'handle and tap-outside to dismiss. Tooltips stay anchored on '
+            'all widths. The choice is the popupAdaptive theme token '
+            '(anchored | sheet | auto, default auto by width), overridable '
+            'per component through the adaptive parameter.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['responsive']!.code,
+            language: 'dart',
+          ),
         ],
       ),
     );

@@ -63,6 +63,7 @@ class AutoCompleteFeature extends InputFeature {
     this.onSuggestionSelected,
     this.itemBuilder,
     this.theme,
+    this.adaptive,
     super.visibility,
     super.skipFocusTraversal,
   });
@@ -84,6 +85,9 @@ class AutoCompleteFeature extends InputFeature {
 
   /// Widget-leg theme override for the suggestion list.
   final AutoCompleteTheme? theme;
+
+  /// Responsive adaptive mode; null resolves the theme token (auto).
+  final PopupAdaptive? adaptive;
 
   _AutoCompleteSlot _slotFor(InputFeatureState state) {
     final _AutoCompleteSlot slot = state.slot(this, _AutoCompleteSlot.new);
@@ -150,6 +154,7 @@ class AutoCompleteFeature extends InputFeature {
     slot.controller.show<void>(
       context: state.featureContext,
       handler: const PopoverOverlayHandler(),
+      adaptive: adaptive,
       // The field keeps the focus while the list moves.
       dismissBackdropFocus: false,
       widthConstraint:

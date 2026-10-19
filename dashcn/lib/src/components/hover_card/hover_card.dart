@@ -35,6 +35,7 @@ class HoverCard extends StatefulWidget {
     this.behavior,
     this.controller,
     this.theme,
+    this.adaptive,
   });
 
   /// The anchor the card points at.
@@ -67,6 +68,9 @@ class HoverCard extends StatefulWidget {
   /// Widget-leg theme override.
   final HoverCardTheme? theme;
 
+  /// Responsive adaptive mode; null resolves the theme token (auto).
+  final PopupAdaptive? adaptive;
+
   @override
   State<HoverCard> createState() => _HoverCardState();
 }
@@ -95,6 +99,7 @@ class _HoverCardState extends State<HoverCard> {
     _controller.show<void>(
       context: context,
       handler: OverlayHandler.popover,
+      adaptive: widget.adaptive,
       modal: false,
       dismissBackdropFocus: false,
       alignment:

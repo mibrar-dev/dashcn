@@ -6,6 +6,8 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../theme/theme.dart';
+
 import '../foundation/data.dart';
 import 'overlay.dart';
 import 'overlay_manager.dart';
@@ -79,6 +81,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return widget.popoverHandler.show(
       context: context,
@@ -107,6 +110,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 
@@ -138,6 +142,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return widget.tooltipHandler.show(
       context: context,
@@ -166,6 +171,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 
@@ -197,6 +203,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
     Duration? dismissDuration,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
+    PopupAdaptive? adaptive,
   }) {
     return widget.menuHandler.show(
       context: context,
@@ -225,6 +232,7 @@ class OverlayManagerLayerState extends State<OverlayManagerLayer>
       dismissDuration: dismissDuration,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
+      adaptive: adaptive,
     );
   }
 }

@@ -2021,6 +2021,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Whether the trigger stretches to the available width.',
       ),
       DocsApiParam(name: 'theme', type: 'DatePickerTheme?', isRequired: false),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc:
+            'Responsive adaptive mode for the popover prompt; null resolves the theme token.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -2071,6 +2078,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Whether the trigger stretches to the available width.',
       ),
       DocsApiParam(name: 'theme', type: 'TimePickerTheme?', isRequired: false),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc:
+            'Responsive adaptive mode for the popover prompt; null resolves the theme token.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -2332,6 +2346,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'AutoCompleteTheme?',
         isRequired: false,
         doc: 'Widget-leg theme override for the suggestion list.',
+      ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
       ),
       DocsApiParam(name: 'visibility', type: '', isRequired: false),
       DocsApiParam(name: 'skipFocusTraversal', type: '', isRequired: false),
@@ -3408,6 +3428,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc:
             'Widget-leg theme override, merged over the component/app/defaults legs.',
       ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -3908,6 +3934,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc:
             'Widget-leg theme override, merged over the component/app/defaults legs.',
+      ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
       ),
     ],
     members: <DocsApiMember>[],
@@ -5217,6 +5249,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Widget-leg surface override, merged over the popup theme legs.',
       ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -5914,6 +5952,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Widget-leg theme override.',
       ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -5972,6 +6016,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       DocsApiParam(name: 'width', type: 'double?', isRequired: false),
       DocsApiParam(name: 'maxWidth', type: 'double?', isRequired: false),
       DocsApiParam(name: 'maxHeight', type: 'double?', isRequired: false),
+      DocsApiParam(name: 'adaptive', type: 'PopupAdaptive?', isRequired: false),
     ],
     members: <DocsApiMember>[],
   ),
@@ -7110,6 +7155,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc:
             'Widget-leg style override, merged on top of the component/app/defaults.',
+      ),
+      DocsApiParam(
+        name: 'adaptive',
+        type: 'PopupAdaptive?',
+        isRequired: false,
+        doc:
+            'Responsive adaptive mode for the popover prompt; null resolves the theme token.',
       ),
     ],
     members: <DocsApiMember>[],
