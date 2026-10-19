@@ -7930,6 +7930,128 @@ Widget _kbdGhost(BuildContext context) {
 ''',
     ),
   ],
+  'list_tile': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _default(BuildContext context) => _wrap(
+  const ListTile(
+    leading: Icon(LucideIcons.user),
+    title: Text('Title'),
+    subtitle: Text('Subtitle'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Dense',
+      builder: '_dense',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _dense(BuildContext context) => _wrap(
+  const ListTile(
+    dense: true,
+    leading: Icon(LucideIcons.user),
+    title: Text('Dense tile'),
+    subtitle: Text('Subtitle'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Three line',
+      builder: '_threeLine',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _threeLine(BuildContext context) => _wrap(
+  const ListTile(
+    isThreeLine: true,
+    leading: Icon(LucideIcons.user),
+    title: Text('Three-line title'),
+    subtitle: Text('A longer subtitle that spans multiple lines in the tile.'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Selected',
+      builder: '_selected',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _selected(BuildContext context) => _wrap(
+  const ListTile(
+    selected: true,
+    leading: Icon(LucideIcons.check),
+    title: Text('Selected'),
+    subtitle: Text('Selected state'),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Disabled',
+      builder: '_disabled',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _disabled(BuildContext context) => _wrap(
+  const ListTile(
+    enabled: false,
+    leading: Icon(LucideIcons.user),
+    title: Text('Disabled'),
+    subtitle: Text('Disabled state'),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _customized(BuildContext context) => _wrap(
+  ListTile(
+    style: const ListTileTheme(
+      tileColor: null,
+      titleStyle: TextStyle(fontWeight: FontWeight.w700),
+    ),
+    leading: const Icon(LucideIcons.star),
+    title: const Text('Customized'),
+    subtitle: const Text('With style override'),
+    trailing: const Icon(LucideIcons.heart),
+  ),
+);
+''',
+    ),
+  ],
   'number_ticker': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -19621,6 +19743,80 @@ class _PaneDemoState extends State<_PaneDemo> {
 }
 
 Widget _pane(BuildContext context) => const _PaneDemo();
+''',
+    ),
+  ],
+  'action_sheet': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _default(BuildContext context) => ActionSheet<void>(
+  title: 'Actions',
+  message: 'Choose an action',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
+    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Destructive',
+      builder: '_destructive',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _destructive(BuildContext context) => ActionSheet<void>(
+  title: 'Delete item?',
+  message: 'This cannot be undone.',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: 'Delete',
+      icon: Icon(LucideIcons.trash),
+      isDestructive: true,
+    ),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Long',
+      builder: '_long',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _long(BuildContext context) => ActionSheet<void>(
+  title: 'Many actions',
+  actions: List<ActionSheetAction<void>>.generate(
+    12,
+    (int i) => ActionSheetAction<void>(label: 'Action ${i + 1}'),
+  ),
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _customized(BuildContext context) => ActionSheet<void>(
+  title: 'Customized',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Do it'),
+  ],
+  theme: const ActionSheetTheme(),
+);
 ''',
     ),
   ],
