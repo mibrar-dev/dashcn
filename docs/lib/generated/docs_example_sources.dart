@@ -4834,6 +4834,7 @@ class _PieInteractiveState extends State<_PieInteractive> {
           child: _PieDropdown(
             options: months,
             selected: months[_active],
+            dots: _browserColors(context),
             onSelect: (String value) =>
                 setState(() => _active = months.indexOf(value)),
           ),
@@ -4867,11 +4868,16 @@ class _PieDropdown extends StatefulWidget {
   const _PieDropdown({
     required this.options,
     required this.selected,
+    required this.dots,
     required this.onSelect,
   });
 
   final List<String> options;
   final String selected;
+
+  /// Swatch per option, in option order.
+  final List<Color> dots;
+
   final ValueChanged<String> onSelect;
 
   @override
@@ -4881,6 +4887,24 @@ class _PieDropdown extends StatefulWidget {
 class _PieDropdownState extends State<_PieDropdown> {
   bool _open = false;
 
+  Color _dot(int index) {
+    if (widget.dots.isEmpty) {
+      return const Color(0x00000000);
+    }
+    return widget.dots[index % widget.dots.length];
+  }
+
+  Widget _swatch(int index) {
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        color: _dot(index),
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colors;
@@ -4888,6 +4912,9 @@ class _PieDropdownState extends State<_PieDropdown> {
       fontSize: 12,
       color: colors.foreground,
     );
+    final int selectedIndex = widget.options
+        .indexOf(widget.selected)
+        .clamp(0, widget.options.length - 1);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -4904,6 +4931,8 @@ class _PieDropdownState extends State<_PieDropdown> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                _swatch(selectedIndex),
+                const SizedBox(width: 6),
                 Text(widget.selected, style: itemStyle),
                 const SizedBox(width: 6),
                 Icon(
@@ -4927,10 +4956,10 @@ class _PieDropdownState extends State<_PieDropdown> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                for (final String option in widget.options)
+                for (var i = 0; i < widget.options.length; i++)
                   GestureDetector(
                     onTap: () {
-                      widget.onSelect(option);
+                      widget.onSelect(widget.options[i]);
                       setState(() => _open = false);
                     },
                     child: Container(
@@ -4938,17 +4967,24 @@ class _PieDropdownState extends State<_PieDropdown> {
                         horizontal: 10,
                         vertical: 6,
                       ),
-                      color: option == widget.selected
+                      color: widget.options[i] == widget.selected
                           ? colors.accent
                           : const Color(0x00000000),
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: option == widget.selected
-                              ? colors.accentForeground
-                              : colors.foreground,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          _swatch(i),
+                          const SizedBox(width: 6),
+                          Text(
+                            widget.options[i],
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: widget.options[i] == widget.selected
+                                  ? colors.accentForeground
+                                  : colors.foreground,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

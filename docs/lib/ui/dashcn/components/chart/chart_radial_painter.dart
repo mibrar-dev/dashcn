@@ -279,7 +279,10 @@ class ChartRadialPainter extends CustomPainter {
     )..layout();
     final double start = _startAngle();
     final double dir = textDirection == TextDirection.rtl ? -1 : 1;
-    final double angle = start + dir * 0.15;
+    // Bars start at the bottom in the reference, so the insideStart
+    // labels cluster there (half a turn from the top start angle),
+    // fanning slightly outward ring by ring.
+    final double angle = start + math.pi - dir * 0.08 + dir * index * 0.05;
     final Offset p = Offset(
       center.dx + math.cos(angle) * ringR,
       center.dy + math.sin(angle) * ringR,
