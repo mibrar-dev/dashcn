@@ -47,6 +47,14 @@
     standard.js loader shipped 536K of component screenshots and hard-coded
     component names, both removed with the old docs app. Removed on
     `flutter-first-frame`.
+
+    Branded boot animation: the bird glyph from brand/svg/glyph.svg is
+    inlined below (same gradient stops/paths as mark-light/mark-dark, minus
+    the rounded tile so it sits cleanly on either page background). Intro
+    (~1.6s): stroke outlines draw on -> full-colour fills fade in -> a
+    single sheen sweep crosses the body -> the "dashcn" wordmark fades and
+    rises -> "Loading docs" appears with pulsing dots. Afterwards only the
+    mark breathes softly and the dots pulse, until Flutter removes this node.
   -->
   <style>
     html, body {
@@ -64,34 +72,151 @@
         background: #ffffff;
         color: #000000;
       }
-      #docs-first-paint span {
+      #docs-first-paint .boot-status {
         color: #737373;
       }
     }
+    /* An explicit data-theme on <html> wins over the media query when set. */
+    html[data-theme="light"], html[data-theme="light"] body {
+      background: #ffffff;
+      color: #000000;
+    }
+    html[data-theme="light"] #docs-first-paint .boot-status {
+      color: #737373;
+    }
+    html[data-theme="dark"], html[data-theme="dark"] body {
+      background: #171717;
+      color: #e5e5e5;
+    }
+    html[data-theme="dark"] #docs-first-paint .boot-status {
+      color: #a3a3a3;
+    }
     #docs-first-paint {
       height: 100%;
+      box-sizing: border-box;
+      overflow-x: clip;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      padding: 0 24px;
+      text-align: center;
     }
-    #docs-first-paint strong {
+    #docs-first-paint .boot-mark {
+      width: 72px;
+      height: 72px;
+      /* Soft loop after the intro: gentle breathe until Flutter takes over. */
+      animation: boot-breathe 2400ms ease-in-out 1600ms infinite;
+    }
+    #docs-first-paint .boot-mark svg {
+      display: block;
+      width: 72px;
+      height: 72px;
+    }
+    /* Full-colour bird fills: fade in once the strokes have drawn. */
+    #docs-first-paint .boot-fill {
+      opacity: 1;
+      animation: boot-fill 500ms ease-out 300ms both;
+    }
+    /* Stroke outlines: draw on, then the wrapper fades them away. */
+    #docs-first-paint .boot-lines {
+      opacity: 0;
+      animation: boot-lines 900ms ease-out 0ms both;
+    }
+    #docs-first-paint .boot-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: boot-draw 700ms ease-out 0ms forwards;
+    }
+    #docs-first-paint .boot-line.body { animation-delay: 90ms; }
+    #docs-first-paint .boot-line.wing { animation-delay: 180ms; }
+    /* Sheen sweep, clipped to the body: a single pass, then gone. */
+    #docs-first-paint .boot-sheen {
+      opacity: 0;
+      animation: boot-sweep 450ms ease-in-out 800ms both;
+    }
+    #docs-first-paint .boot-word {
       font-size: 20px;
       font-weight: 650;
       letter-spacing: -0.01em;
+      animation: boot-rise 400ms ease-out 900ms both;
     }
-    #docs-first-paint span {
+    #docs-first-paint .boot-status {
       font-size: 14px;
       color: #a3a3a3;
-      animation: docs-pulse 1.6s ease-in-out infinite;
+      animation: boot-status-in 400ms ease-out 1200ms both;
     }
-    @keyframes docs-pulse {
-      0%, 100% { opacity: 0.45; }
+    #docs-first-paint .boot-dots i {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: currentColor;
+      margin-left: 3px;
+      vertical-align: baseline;
+      animation: boot-dot 1200ms ease-in-out infinite;
+    }
+    #docs-first-paint .boot-dots i:nth-child(2) { animation-delay: 200ms; }
+    #docs-first-paint .boot-dots i:nth-child(3) { animation-delay: 400ms; }
+    @keyframes boot-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes boot-lines {
+      0% { opacity: 0; }
+      12% { opacity: 1; }
+      72% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes boot-fill {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes boot-sweep {
+      0% { opacity: 0; transform: translateX(-120px); }
+      18% { opacity: 0.85; }
+      82% { opacity: 0.85; }
+      100% { opacity: 0; transform: translateX(120px); }
+    }
+    @keyframes boot-rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes boot-status-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes boot-breathe {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    @keyframes boot-dot {
+      0%, 100% { opacity: 0.25; }
       50% { opacity: 1; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #docs-first-paint span { animation: none; opacity: 1; }
+      #docs-first-paint .boot-mark,
+      #docs-first-paint .boot-fill,
+      #docs-first-paint .boot-lines,
+      #docs-first-paint .boot-line,
+      #docs-first-paint .boot-sheen,
+      #docs-first-paint .boot-word,
+      #docs-first-paint .boot-status,
+      #docs-first-paint .boot-dots i {
+        animation: none;
+      }
+      /* Finished state, instantly: full-colour mark, text, solid dots. */
+      #docs-first-paint .boot-fill { opacity: 1; }
+      #docs-first-paint .boot-lines,
+      #docs-first-paint .boot-sheen { opacity: 0; }
+      #docs-first-paint .boot-word,
+      #docs-first-paint .boot-status { opacity: 1; transform: none; }
+      #docs-first-paint .boot-dots i { opacity: 1; }
     }
   </style>
   <script>
@@ -172,9 +297,63 @@
   </script>
 </head>
 <body>
-  <div id="docs-first-paint">
-    <strong>dashcn</strong>
-    <span>Loading docs…</span>
+  <div id="docs-first-paint" role="status" aria-label="Loading docs">
+    <div class="boot-mark">
+      <svg viewBox="12 14 240 240" width="72" height="72" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="boot-body" x1="0.2" y1="0" x2="0.6" y2="1">
+            <stop offset="0" stop-color="#47D4FF"/>
+            <stop offset="1" stop-color="#0562D2"/>
+          </linearGradient>
+          <linearGradient id="boot-wing" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0B5BC9"/>
+            <stop offset="1" stop-color="#03398F"/>
+          </linearGradient>
+          <linearGradient id="boot-beak" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#E9F8FF"/>
+            <stop offset="1" stop-color="#2EE6D6"/>
+          </linearGradient>
+          <linearGradient id="boot-sheen-grad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.9"/>
+            <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+          </linearGradient>
+          <clipPath id="boot-clip">
+            <ellipse cx="128" cy="140" rx="72" ry="76"/>
+          </clipPath>
+        </defs>
+        <g transform="translate(-4 6)">
+          <g class="boot-fill">
+            <rect x="0" y="-11" width="58" height="22" rx="11" fill="#0B5BC9" transform="translate(76 176) rotate(146)"/>
+            <rect x="0" y="-10" width="50" height="20" rx="10" fill="#0B5BC9" opacity=".65" transform="translate(72 166) rotate(166)"/>
+            <path d="M118 74 C100 64 92 50 94 36 C108 42 120 56 124 72 Z" fill="#47D4FF"/>
+            <path d="M128 70 C120 54 120 38 128 24 C138 38 140 54 136 70 Z" fill="#47D4FF"/>
+            <path d="M140 72 C142 56 150 44 164 38 C164 54 156 66 146 76 Z" fill="#2BB8F5"/>
+            <ellipse cx="128" cy="140" rx="72" ry="76" fill="url(#boot-body)"/>
+            <ellipse cx="164" cy="128" rx="34" ry="42" fill="#DDF5FF"/>
+            <path d="M82 128 C104 112 134 120 142 146 C126 170 96 174 78 162 C68 152 70 136 82 128 Z" fill="url(#boot-wing)"/>
+            <circle cx="166" cy="116" r="16" fill="#FFFFFF"/>
+            <circle cx="171" cy="117" r="10" fill="#0B1B33"/>
+            <circle cx="174" cy="113" r="3.5" fill="#FFFFFF"/>
+            <rect x="0" y="-6" width="54" height="12" rx="6" fill="url(#boot-beak)" transform="translate(194 132) rotate(-10)"/>
+          </g>
+          <g class="boot-lines">
+            <path class="boot-line" pathLength="100" d="M118 74 C100 64 92 50 94 36 C108 42 120 56 124 72 Z"/>
+            <path class="boot-line" pathLength="100" d="M128 70 C120 54 120 38 128 24 C138 38 140 54 136 70 Z"/>
+            <path class="boot-line" pathLength="100" d="M140 72 C142 56 150 44 164 38 C164 54 156 66 146 76 Z"/>
+            <ellipse class="boot-line body" pathLength="100" cx="128" cy="140" rx="72" ry="76"/>
+            <path class="boot-line wing" pathLength="100" d="M82 128 C104 112 134 120 142 146 C126 170 96 174 78 162 C68 152 70 136 82 128 Z"/>
+          </g>
+          <g clip-path="url(#boot-clip)">
+            <g transform="rotate(20 128 140)">
+              <rect class="boot-sheen" x="106" y="40" width="44" height="200" fill="url(#boot-sheen-grad)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="boot-word">dashcn</div>
+    <div class="boot-status">Loading docs<span class="boot-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
   </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
