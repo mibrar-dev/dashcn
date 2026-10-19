@@ -9584,7 +9584,7 @@
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
     "components/chart/chart.dart": "2f3e4f5804b0124d0b60b2af11b51fd283bf9d4d7802e4ee68009d873d576e00",
     "components/chart/chart_cartesian_painter.dart": "ac4e604274155f01176791ed54f8121c121096a1706de9d3277f74f13119aace",
-    "components/chart/chart_model.dart": "c6ca8d66373c81d558ef2fc6786ce0b545aee6f36a13997195c65b60a4d27d29",
+    "components/chart/chart_model.dart": "3005d7d5fbb97d9eab7839bd26e91eb524dbd070e96c26f6003d317240df7739",
     "components/chart/chart_paths.dart": "bc5efa6923f6e6bfbfd2a9b3abbc36488e8bae76620f73af367ad14b1a34e7fe",
     "components/chart/chart_pie_painter.dart": "a71a3a671f67d99a2f6e37c3e85d66a9ab29ba21b9912fcba954ef0b2ee976f0",
     "components/chart/chart_radar_painter.dart": "1ba84493d86a2c928ec71f04c5d559d1d92bf0101f31690bb538367ed1bfa0ac",
