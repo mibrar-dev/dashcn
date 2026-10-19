@@ -74,7 +74,7 @@ enum ChartMarkerShape {
 
 /// Line shape for [ChartType.line] and [ChartType.area].
 enum ChartLineStyle {
-  /// Curved (Catmull-Rom) stroke, the shadcn default.
+  /// Curved (Catmull-Rom) stroke, the default.
   smooth,
 
   /// Straight segments between points.
