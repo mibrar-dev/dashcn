@@ -278,7 +278,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add chart',
     import:
         "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
-    fileCount: 9,
+    fileCount: 12,
     stability: 'stable',
     listed: false,
     placement: 'center',
