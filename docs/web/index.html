@@ -114,10 +114,13 @@
     }
     /* Rive canvas: hidden until the runtime reports the .riv loaded; the
        CSS fallback above stays visible until then (and forever if loading
-       fails, WebAssembly/canvas is missing, or reduced motion is on). */
+       fails, WebAssembly/canvas is missing, or reduced motion is on).
+       Sized to cover the page area (up to 480px, 92vw) so the bird's
+       loops/swoops read across the screen; overflow-x clip on the
+       placeholder guarantees no horizontal scroll at 375px or 1280px. */
     #boot-rive {
       display: none;
-      width: min(300px, 78vw);
+      width: min(480px, 92vw);
       height: auto;
     }
     #docs-first-paint.rive-on #boot-rive {
@@ -295,18 +298,33 @@
     })();
   </script>
   <script>
-    // Drop the placeholder as soon as Flutter paints its first frame.
-    // When the Rive loader is active, first play the lift-off (ready = true:
-    // the flock converges on the top edge and carries the page away) and
-    // remove the node once the outro has had time to play (200 ms blend +
-    // 600 ms lift); otherwise remove it immediately, exactly as before.
+    // Drop the placeholder once Flutter paints its first frame.
+    // When the Rive loader is active, first play the lift-away (ready = true:
+    // the bird swoops to the top edge, grips it, and carries the page up
+    // and away) and remove the node once the carry has had time to play
+    // (350 ms blend + 1500 ms carry); otherwise fade out immediately.
+    // Fading (300 ms) keeps the handover smooth: the app is already drawn
+    // underneath when flutter-first-frame fires, so removal never cuts.
     (function () {
-      var OUTRO_MS = 850;
+      var OUTRO_MS = 1850;
+      var FADE_MS = 300;
       function removePlaceholder() {
         var placeholder = document.getElementById('docs-first-paint');
-        if (placeholder) {
-          placeholder.remove();
+        if (!placeholder) {
+          return;
         }
+        try {
+          placeholder.style.transition = 'opacity ' + FADE_MS + 'ms ease-out';
+          placeholder.style.opacity = '0';
+        } catch (_) {
+          // Fall through to immediate removal.
+        }
+        window.setTimeout(function () {
+          var el = document.getElementById('docs-first-paint');
+          if (el) {
+            el.remove();
+          }
+        }, FADE_MS + 50);
       }
       window.addEventListener('flutter-first-frame', function () {
         try {
