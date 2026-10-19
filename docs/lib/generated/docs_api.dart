@@ -1051,6 +1051,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Bar arrangement.',
       ),
       DocsApiParam(
+        name: 'barLayout',
+        type: 'ChartBarLayout',
+        isRequired: false,
+        defaultValue: 'ChartBarLayout.vertical',
+        doc: 'Bar orientation ([ChartType.bar] only).',
+      ),
+      DocsApiParam(
         name: 'lineStyle',
         type: 'ChartLineStyle',
         isRequired: false,
@@ -1063,6 +1070,22 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         defaultValue: 'ChartAreaMode.overlay',
         doc: 'Area fill arrangement ([ChartType.area] with several series).',
+      ),
+      DocsApiParam(
+        name: 'showBarLabels',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc:
+            'Whether value labels paint at the bar ends ([ChartType.bar] only).',
+      ),
+      DocsApiParam(
+        name: 'showBarCategories',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc:
+            'Whether category labels paint inside horizontal bars\n([ChartType.bar] with [ChartBarLayout.horizontal] only).',
       ),
       DocsApiParam(
         name: 'height',

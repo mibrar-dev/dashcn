@@ -1209,6 +1209,15 @@ kControlSpecs = <String, ComponentControls>{
         options: <String>['grouped', 'stacked'],
       ),
       ControlSpec(
+        name: 'barLayout',
+        label: 'Bar Layout',
+        kind: ControlKind.select,
+        type: 'ChartBarLayout',
+        isRequired: false,
+        defaultValue: 'vertical',
+        options: <String>['vertical', 'horizontal'],
+      ),
+      ControlSpec(
         name: 'areaMode',
         label: 'Area Mode',
         kind: ControlKind.select,
@@ -1216,6 +1225,22 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: false,
         defaultValue: 'overlay',
         options: <String>['overlay', 'stacked', 'expanded'],
+      ),
+      ControlSpec(
+        name: 'showBarLabels',
+        label: 'Show Bar Labels',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'showBarCategories',
+        label: 'Show Bar Categories',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
       ),
       ControlSpec(
         name: 'height',

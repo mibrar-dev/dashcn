@@ -538,4 +538,47 @@ void main() {
       }
     }
   });
+
+  testWidgets('bar layouts render with 0/1/many series and negatives', (
+    tester,
+  ) async {
+    const List<List<ChartSeries>> cases = <List<ChartSeries>>[
+      <ChartSeries>[],
+      <ChartSeries>[ChartSeries(values: <double>[])],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[3, -2]),
+      ],
+      <ChartSeries>[
+        ChartSeries(label: 'A', values: <double>[3, -2, 0, 5]),
+        ChartSeries(label: 'B', values: <double>[-1, 4, 2, 0]),
+      ],
+    ];
+    const List<ChartBarLayout> layouts = ChartBarLayout.values;
+    const List<ChartBarMode> modes = ChartBarMode.values;
+    for (final ChartBarLayout layout in layouts) {
+      for (final ChartBarMode mode in modes) {
+        for (final List<ChartSeries> series in cases) {
+          await tester.pumpWidget(
+            _frame(
+              child: Chart(
+                type: ChartType.bar,
+                barLayout: layout,
+                barMode: mode,
+                showBarLabels: true,
+                showBarCategories: true,
+                labels: const <String>['a', 'b', 'c', 'd'],
+                series: series,
+              ),
+            ),
+          );
+          await tester.pump(const Duration(milliseconds: 800));
+          expect(
+            tester.takeException(),
+            isNull,
+            reason: '$layout/$mode/$series',
+          );
+        }
+      }
+    }
+  });
 }

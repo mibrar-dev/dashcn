@@ -24,6 +24,7 @@ class ChartSeriesPaint {
     required this.fillOpacity,
     required this.barRadius,
     this.label,
+    this.pointColors,
   });
 
   /// Animated values.
@@ -55,6 +56,9 @@ class ChartSeriesPaint {
 
   /// Legend/ring label or null.
   final String? label;
+
+  /// Per-category colours or null.
+  final List<Color>? pointColors;
 }
 
 /// Paints cartesian chart families.
@@ -63,8 +67,11 @@ class ChartCartesianPainter extends CustomPainter {
   const ChartCartesianPainter({
     required this.type,
     required this.barMode,
+    required this.barLayout,
     required this.lineStyle,
     required this.areaMode,
+    required this.showBarLabels,
+    required this.showBarCategories,
     required this.series,
     required this.min,
     required this.max,
@@ -91,11 +98,20 @@ class ChartCartesianPainter extends CustomPainter {
   /// Bar arrangement.
   final ChartBarMode barMode;
 
+  /// Bar orientation.
+  final ChartBarLayout barLayout;
+
   /// Line shape for line/area/sparkline.
   final ChartLineStyle lineStyle;
 
   /// Area fill arrangement.
   final ChartAreaMode areaMode;
+
+  /// Whether value labels paint at the bar ends.
+  final bool showBarLabels;
+
+  /// Whether category labels paint inside horizontal bars.
+  final bool showBarCategories;
 
   /// Series paints.
   final List<ChartSeriesPaint> series;
@@ -158,19 +174,32 @@ class ChartCartesianPainter extends CustomPainter {
     const double topPad = 8;
     const double rightPad = 8;
     final bool minimal = type == ChartType.sparkline;
-    final double plotLeft = minimal || !showLabels ? 4 : leftGutter;
-    final double plotBottom = minimal || !showLabels ? 4 : bottomGutter;
+    final bool horizontal =
+        type == ChartType.bar && barLayout == ChartBarLayout.horizontal;
+    double plotLeft = minimal || !showLabels ? 4 : leftGutter;
+    double plotBottom = minimal || !showLabels ? 4 : bottomGutter;
+    double plotRight = rightPad;
+    if (horizontal && showBarLabels) {
+      plotRight = 44;
+    }
+    if (horizontal && showLabels) {
+      plotLeft = _measureCategories(size) + 16;
+    }
     final Rect plot = Rect.fromLTWH(
       plotLeft,
       topPad,
-      math.max(0, size.width - plotLeft - rightPad),
+      math.max(0, size.width - plotLeft - plotRight),
       math.max(0, size.height - topPad - plotBottom),
     );
     if (plot.width <= 0 || plot.height <= 0) {
       return;
     }
     if (!minimal) {
-      _paintGridAndAxes(canvas, size, plot);
+      if (horizontal) {
+        _paintHorizontalGridAndAxes(canvas, size, plot);
+      } else {
+        _paintGridAndAxes(canvas, size, plot);
+      }
     }
     switch (type) {
       case ChartType.line:
@@ -179,7 +208,11 @@ class ChartCartesianPainter extends CustomPainter {
         _paintLines(canvas, plot);
         break;
       case ChartType.bar:
-        _paintBars(canvas, plot);
+        if (horizontal) {
+          _paintBarsHorizontal(canvas, plot);
+        } else {
+          _paintBars(canvas, size, plot);
+        }
         break;
       case ChartType.scatter:
         _paintScatter(canvas, plot);
@@ -198,6 +231,98 @@ class ChartCartesianPainter extends CustomPainter {
     }
     final double t = ((value - min) / (max - min)).clamp(0.0, 1.0);
     return plot.bottom - t * plot.height;
+  }
+
+  double _valueToPx(double value, Rect plot) {
+    if (!(max > min)) {
+      return plot.center.dx;
+    }
+    final double t = ((value - min) / (max - min)).clamp(0.0, 1.0);
+    final double x = plot.left + t * plot.width;
+    if (textDirection == TextDirection.rtl) {
+      return plot.right - (x - plot.left);
+    }
+    return x;
+  }
+
+  double _rowToPy(int index, int count, Rect plot) {
+    if (count <= 1) {
+      return plot.center.dy;
+    }
+    return plot.top + (index + 0.5) / count * plot.height;
+  }
+
+  double _measureCategories(Size size) {
+    final int n = _categoryCount();
+    double widest = 24;
+    for (var i = 0; i < n; i++) {
+      final TextPainter tp = TextPainter(
+        text: TextSpan(text: _xLabel(i), style: tickStyle),
+        textDirection: textDirection,
+      )..layout();
+      if (tp.width > widest) {
+        widest = tp.width;
+      }
+    }
+    return widest.clamp(24, 140);
+  }
+
+  void _paintHorizontalGridAndAxes(Canvas canvas, Size size, Rect plot) {
+    final Paint grid = Paint()
+      ..color = gridColor
+      ..strokeWidth = 1;
+    final Paint axis = Paint()
+      ..color = axisColor
+      ..strokeWidth = 1;
+    for (final double tick in ticks) {
+      final double x = _valueToPx(tick, plot);
+      if (showGrid) {
+        canvas.drawLine(Offset(x, plot.top), Offset(x, plot.bottom), grid);
+      }
+      if (showTicks) {
+        canvas.drawLine(
+          Offset(x, plot.bottom),
+          Offset(x, plot.bottom + 5),
+          axis,
+        );
+      }
+      if (showLabels) {
+        final TextPainter tp = TextPainter(
+          text: TextSpan(text: format(tick), style: tickStyle),
+          textDirection: textDirection,
+        )..layout();
+        tp.paint(
+          canvas,
+          Offset(
+            (x - tp.width / 2).clamp(0, size.width - tp.width),
+            plot.bottom + 4,
+          ),
+        );
+      }
+    }
+    if (showAxes) {
+      canvas.drawLine(
+        Offset(plot.left, plot.top),
+        Offset(plot.left, plot.bottom),
+        axis,
+      );
+      canvas.drawLine(
+        Offset(plot.left, plot.bottom),
+        Offset(plot.right, plot.bottom),
+        axis,
+      );
+    }
+    if (showLabels) {
+      final int n = _categoryCount();
+      for (var i = 0; i < n; i++) {
+        final TextPainter tp = TextPainter(
+          text: TextSpan(text: _xLabel(i), style: tickStyle),
+          textDirection: textDirection,
+        )..layout(maxWidth: 140);
+        final double y = _rowToPy(i, n, plot);
+        tp.paint(canvas, Offset(plot.left - 8 - tp.width, y - tp.height / 2));
+      }
+    }
   }
 
   double _xToPx(int index, int count, Rect plot) {
@@ -414,7 +539,7 @@ class ChartCartesianPainter extends CustomPainter {
     return out;
   }
 
-  void _paintBars(Canvas canvas, Rect plot) {
+  void _paintBars(Canvas canvas, Size size, Rect plot) {
     final int n = _categoryCount();
     if (n == 0 || series.isEmpty) {
       return;
@@ -443,7 +568,9 @@ class ChartCartesianPainter extends CustomPainter {
             base,
             top,
           );
-          _drawBar(canvas, bar, s, selectedIndex == i);
+          final Color color = _barColor(s, i);
+          _drawBar(canvas, bar, s, selectedIndex == i, color);
+          _paintBarLabelVertical(canvas, size, bar, v);
           if (v >= 0) {
             posBase[i] = top;
           } else {
@@ -462,7 +589,9 @@ class ChartCartesianPainter extends CustomPainter {
         final double v = i < s.values.length ? s.values[i] : 0;
         final double lo = math.min(0, min);
         final Rect bar = _barRect(plot, step, groupW, m, si, bw, i, lo, lo, v);
-        _drawBar(canvas, bar, s, selectedIndex == i);
+        final Color color = _barColor(s, i);
+        _drawBar(canvas, bar, s, selectedIndex == i, color);
+        _paintBarLabelVertical(canvas, size, bar, v);
       }
     }
   }
@@ -502,7 +631,13 @@ class ChartCartesianPainter extends CustomPainter {
     );
   }
 
-  void _drawBar(Canvas canvas, Rect bar, ChartSeriesPaint s, bool selected) {
+  void _drawBar(
+    Canvas canvas,
+    Rect bar,
+    ChartSeriesPaint s,
+    bool selected,
+    Color color,
+  ) {
     if (bar.height < 0.5 || bar.width < 0.5) {
       return;
     }
@@ -511,20 +646,188 @@ class ChartCartesianPainter extends CustomPainter {
     if (s.gradient != null) {
       paint.shader = s.gradient!.createShader(bar);
     } else {
-      paint.color = selected
-          ? s.color
-          : s.color.withValues(alpha: s.color.a * 0.9);
+      paint.color = selected ? color : color.withValues(alpha: color.a * 0.9);
     }
     canvas.drawRRect(rr, paint);
     if (selected) {
       canvas.drawRRect(
         rr,
         Paint()
-          ..color = s.color
+          ..color = color
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2,
       );
     }
+  }
+
+  Color _barColor(ChartSeriesPaint s, int i) {
+    final List<Color>? pcs = s.pointColors;
+    if (pcs != null && pcs.isNotEmpty) {
+      return pcs[i % pcs.length];
+    }
+    return s.color;
+  }
+
+  void _paintBarsHorizontal(Canvas canvas, Rect plot) {
+    final int n = _categoryCount();
+    if (n == 0 || series.isEmpty) {
+      return;
+    }
+    final int reveal = (progress * n).ceil().clamp(0, n);
+    final double slot = plot.height / n;
+    final double groupH = slot * (1 - barGroupGap);
+    final double lo = math.min(0, min);
+    if (barMode == ChartBarMode.stacked) {
+      final List<double> posBase = List<double>.filled(n, 0);
+      final List<double> negBase = List<double>.filled(n, 0);
+      for (final ChartSeriesPaint s in series) {
+        for (var i = 0; i < n && i < reveal; i++) {
+          final double v = i < s.values.length ? s.values[i] : 0;
+          final double base = v >= 0 ? posBase[i] : negBase[i];
+          final double top = base + v;
+          final Rect bar = _barRectHorizontal(
+            plot,
+            slot,
+            groupH,
+            1,
+            0,
+            groupH * (1 - barGap),
+            i,
+            lo,
+            base,
+            top,
+          );
+          final Color color = _barColor(s, i);
+          _drawBar(canvas, bar, s, selectedIndex == i, color);
+          _paintBarLabelHorizontal(canvas, plot, bar, v, color, i);
+          if (v >= 0) {
+            posBase[i] = top;
+          } else {
+            negBase[i] = top;
+          }
+        }
+      }
+      return;
+    }
+    final int m = series.length;
+    final double bw = groupH / m * (1 - barGap);
+    for (var si = 0; si < series.length; si++) {
+      final ChartSeriesPaint s = series[si];
+      for (var i = 0; i < n && i < reveal; i++) {
+        final double v = i < s.values.length ? s.values[i] : 0;
+        final Rect bar = _barRectHorizontal(
+          plot,
+          slot,
+          groupH,
+          m,
+          si,
+          bw,
+          i,
+          lo,
+          lo,
+          v,
+        );
+        final Color color = _barColor(s, i);
+        _drawBar(canvas, bar, s, selectedIndex == i, color);
+        _paintBarLabelHorizontal(canvas, plot, bar, v, color, i);
+      }
+    }
+  }
+
+  Rect _barRectHorizontal(
+    Rect plot,
+    double slot,
+    double groupH,
+    int m,
+    int si,
+    double bw,
+    int i,
+    double lo,
+    double base,
+    double top,
+  ) {
+    double y = plot.top + slot * i + (slot - groupH) / 2;
+    if (m > 1 && barMode == ChartBarMode.grouped) {
+      y += si * (groupH / m);
+    }
+    final double h = m > 1 && barMode == ChartBarMode.grouped
+        ? bw
+        : groupH * (1 - barGap);
+    final double baseline = _valueToPx(lo, plot);
+    final double end = _valueToPx(top.clamp(lo, max), plot);
+    return Rect.fromLTRB(
+      math.min(baseline, end),
+      y,
+      math.max(baseline, end),
+      y + h,
+    );
+  }
+
+  void _paintBarLabelHorizontal(
+    Canvas canvas,
+    Rect plot,
+    Rect bar,
+    double v,
+    Color color,
+    int i,
+  ) {
+    if (bar.height < 1) {
+      return;
+    }
+    if (showBarCategories) {
+      final TextPainter tp = TextPainter(
+        text: TextSpan(
+          text: _xLabel(i),
+          style: tickStyle.copyWith(
+            color: color.computeLuminance() > 0.5
+                ? const Color(0xFF000000)
+                : const Color(0xFFFFFFFF),
+          ),
+        ),
+        textDirection: textDirection,
+      )..layout();
+      tp.paint(
+        canvas,
+        Offset(
+          (bar.left + 8).clamp(plot.left, plot.right - tp.width),
+          bar.center.dy - tp.height / 2,
+        ),
+      );
+    }
+    if (showBarLabels) {
+      final TextPainter tp = TextPainter(
+        text: TextSpan(text: chartCompactValue(v), style: tickStyle),
+        textDirection: textDirection,
+      )..layout();
+      final bool negative = bar.left == _valueToPx(math.min(0, min), plot);
+      final double x = negative ? bar.left - 4 - tp.width : bar.right + 4;
+      tp.paint(
+        canvas,
+        Offset(
+          x.clamp(plot.left, double.infinity),
+          bar.center.dy - tp.height / 2,
+        ),
+      );
+    }
+  }
+
+  void _paintBarLabelVertical(Canvas canvas, Size size, Rect bar, double v) {
+    if (!showBarLabels || bar.width < 1) {
+      return;
+    }
+    final TextPainter tp = TextPainter(
+      text: TextSpan(text: chartCompactValue(v), style: tickStyle),
+      textDirection: textDirection,
+    )..layout();
+    final double x = (bar.center.dx - tp.width / 2).clamp(
+      0,
+      size.width - tp.width,
+    );
+    final double y = (v >= 0 ? bar.top - tp.height - 3 : bar.bottom + 3).clamp(
+      0,
+      size.height - tp.height,
+    );
+    tp.paint(canvas, Offset(x, y));
   }
 
   void _paintScatter(Canvas canvas, Rect plot) {
@@ -558,8 +861,11 @@ class ChartCartesianPainter extends CustomPainter {
   bool shouldRepaint(covariant ChartCartesianPainter old) {
     return old.type != type ||
         old.barMode != barMode ||
+        old.barLayout != barLayout ||
         old.lineStyle != lineStyle ||
         old.areaMode != areaMode ||
+        old.showBarLabels != showBarLabels ||
+        old.showBarCategories != showBarCategories ||
         old.min != min ||
         old.max != max ||
         old.ticks != ticks ||
@@ -588,13 +894,29 @@ class ChartCartesianPainter extends CustomPainter {
           a.color != b.color ||
           a.strokeWidth != b.strokeWidth ||
           a.label != b.label ||
-          a.showMarkers != b.showMarkers) {
+          a.showMarkers != b.showMarkers ||
+          !_sameColors(a.pointColors, b.pointColors)) {
         return false;
       }
       for (var j = 0; j < a.values.length; j++) {
         if (a.values[j] != b.values[j]) {
           return false;
         }
+      }
+    }
+    return true;
+  }
+
+  bool _sameColors(List<Color>? a, List<Color>? b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a == null || b == null || a.length != b.length) {
+      return false;
+    }
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
       }
     }
     return true;

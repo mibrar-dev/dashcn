@@ -21,14 +21,102 @@ Widget _chartDefault(BuildContext context) {
   );
 }
 
-Widget _chartBarGrouped(BuildContext context) {
+const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
+const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
+
+const List<String> _browserNames = <String>[
+  'Chrome',
+  'Safari',
+  'Firefox',
+  'Edge',
+  'Other',
+];
+
+const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
+
+List<Color> _browserColors(BuildContext context) {
+  final List<Color> palette = Theme.of(context).colors.chartColors;
+  return <Color>[
+    for (var i = 0; i < _browserVisitors.length; i++)
+      palette[i % palette.length],
+  ];
+}
+
+/// Interactive bar chart with a 90d/30d/7d range filter.
+class _BarInteractive extends StatefulWidget {
+  const _BarInteractive();
+
+  @override
+  State<_BarInteractive> createState() => _BarInteractiveState();
+}
+
+class _BarInteractiveState extends State<_BarInteractive> {
+  String _range = '90d';
+
+  int get _count => _range == '7d'
+      ? 7
+      : _range == '30d'
+      ? 30
+      : 90;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _RangeButtons(
+          options: const <String>['90d', '30d', '7d'],
+          selected: _range,
+          onSelect: (String value) => setState(() => _range = value),
+        ),
+        const SizedBox(height: 8),
+        Chart(
+          type: ChartType.bar,
+          labels: _AreaInteractiveState.dayLabels.sublist(90 - _count),
+          series: <ChartSeries>[
+            ChartSeries(
+              label: 'Desktop',
+              values: _AreaInteractiveState.desktopData.sublist(90 - _count),
+            ),
+            ChartSeries(
+              label: 'Mobile',
+              values: _AreaInteractiveState.mobileData.sublist(90 - _count),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget _chartBarInteractive(BuildContext context) => const _BarInteractive();
+
+Widget _chartBarDefault(BuildContext context) {
   return const Chart(
     type: ChartType.bar,
+    labels: _areaMonths,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartBarHorizontal(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    barLayout: ChartBarLayout.horizontal,
+    labels: _areaMonths,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartBarMultiple(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Web', values: <double>[4, 6, 5, 7]),
-      ChartSeries(label: 'Mobile', values: <double>[3, 4, 6, 5]),
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
     ],
-    labels: <String>['Q1', 'Q2', 'Q3', 'Q4'],
   );
 }
 
@@ -36,11 +124,75 @@ Widget _chartBarStacked(BuildContext context) {
   return const Chart(
     type: ChartType.bar,
     barMode: ChartBarMode.stacked,
+    labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Free', values: <double>[2, 3, 4]),
-      ChartSeries(label: 'Pro', values: <double>[3, 2, 5]),
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+      ChartSeries(label: 'Mobile', values: _barMobile),
     ],
-    labels: <String>['Jan', 'Feb', 'Mar'],
+  );
+}
+
+Widget _chartBarLabel(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    labels: _areaMonths,
+    showBarLabels: true,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartBarLabelCustom(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    barLayout: ChartBarLayout.horizontal,
+    labels: _areaMonths,
+    showLabels: false,
+    showBarLabels: true,
+    showBarCategories: true,
+    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+  );
+}
+
+Widget _chartBarMixed(BuildContext context) {
+  return Chart(
+    type: ChartType.bar,
+    barLayout: ChartBarLayout.horizontal,
+    labels: _browserNames,
+    showLegend: false,
+    series: <ChartSeries>[
+      ChartSeries(
+        values: _browserVisitors,
+        pointColors: _browserColors(context),
+      ),
+    ],
+  );
+}
+
+Widget _chartBarActive(BuildContext context) {
+  return Chart(
+    type: ChartType.bar,
+    labels: _browserNames,
+    showLegend: false,
+    initialSelectedIndex: 2,
+    series: <ChartSeries>[
+      ChartSeries(
+        values: _browserVisitors,
+        pointColors: _browserColors(context),
+      ),
+    ],
+  );
+}
+
+Widget _chartBarNegative(BuildContext context) {
+  return const Chart(
+    type: ChartType.bar,
+    labels: _areaMonths,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: 'Desktop',
+        values: <double>[186, 305, -120, 73, -90, 214],
+      ),
+    ],
   );
 }
 
@@ -271,8 +423,16 @@ const List<ComponentPreview> chartPreviews = <ComponentPreview>[
   ComponentPreview('Area Chart - Icons', _chartAreaIcons),
   ComponentPreview('Area Chart - Gradient', _chartAreaGradient),
   ComponentPreview('Area Chart - Axes', _chartAreaAxes),
-  ComponentPreview('BarGrouped', _chartBarGrouped),
-  ComponentPreview('BarStacked', _chartBarStacked),
+  ComponentPreview('Bar Chart - Interactive', _chartBarInteractive),
+  ComponentPreview('Bar Chart', _chartBarDefault),
+  ComponentPreview('Bar Chart - Horizontal', _chartBarHorizontal),
+  ComponentPreview('Bar Chart - Multiple', _chartBarMultiple),
+  ComponentPreview('Bar Chart - Stacked + Legend', _chartBarStacked),
+  ComponentPreview('Bar Chart - Label', _chartBarLabel),
+  ComponentPreview('Bar Chart - Custom Label', _chartBarLabelCustom),
+  ComponentPreview('Bar Chart - Mixed', _chartBarMixed),
+  ComponentPreview('Bar Chart - Active', _chartBarActive),
+  ComponentPreview('Bar Chart - Negative', _chartBarNegative),
   ComponentPreview('Donut', _chartDonut),
   ComponentPreview('Scatter', _chartScatter),
   ComponentPreview('Sparkline', _chartSparkline),
@@ -487,9 +647,9 @@ class _AreaInteractive extends StatefulWidget {
 }
 
 class _AreaInteractiveState extends State<_AreaInteractive> {
-  static final List<double> _desktop = _trend(11);
-  static final List<double> _mobile = _trend(101);
-  static final List<String> _days = <String>[
+  static final List<double> desktopData = _trend(11);
+  static final List<double> mobileData = _trend(101);
+  static final List<String> dayLabels = <String>[
     for (var i = 0; i < 90; i++) _trendDay(i),
   ];
 
@@ -516,12 +676,15 @@ class _AreaInteractiveState extends State<_AreaInteractive> {
         Chart(
           type: ChartType.area,
           areaMode: ChartAreaMode.stacked,
-          labels: _days.sublist(90 - _count),
+          labels: dayLabels.sublist(90 - _count),
           series: <ChartSeries>[
-            ChartSeries(label: 'Mobile', values: _mobile.sublist(90 - _count)),
+            ChartSeries(
+              label: 'Mobile',
+              values: mobileData.sublist(90 - _count),
+            ),
             ChartSeries(
               label: 'Desktop',
-              values: _desktop.sublist(90 - _count),
+              values: desktopData.sublist(90 - _count),
             ),
           ],
         ),

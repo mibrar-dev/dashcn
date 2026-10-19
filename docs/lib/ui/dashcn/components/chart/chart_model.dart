@@ -48,6 +48,15 @@ enum ChartBarMode {
   stacked,
 }
 
+/// Bar orientation for [ChartType.bar].
+enum ChartBarLayout {
+  /// Categories along the x axis, values up the y axis.
+  vertical,
+
+  /// Categories along the y axis, values along the x axis.
+  horizontal,
+}
+
 /// Line shape for [ChartType.line] and [ChartType.area].
 enum ChartLineStyle {
   /// Curved (Catmull-Rom) stroke, the shadcn default.
@@ -216,6 +225,7 @@ class ChartSeries {
     this.fillOpacity,
     this.barRadius,
     this.icon,
+    this.pointColors,
   });
 
   /// Legend label; null hides the series from the legend.
@@ -252,6 +262,10 @@ class ChartSeries {
   /// colour dot (the "Icons" look).
   final Widget? icon;
 
+  /// Per-category colours, cycled by index (the "Mixed" bars and
+  /// "Dots Colors" markers look); null uses [color].
+  final List<Color>? pointColors;
+
   /// Returns a copy with the given fields replaced.
   ChartSeries copyWith({List<double>? values, String? Function()? label}) {
     return ChartSeries(
@@ -266,6 +280,7 @@ class ChartSeries {
       fillOpacity: fillOpacity,
       barRadius: barRadius,
       icon: icon,
+      pointColors: pointColors,
     );
   }
 }

@@ -28,7 +28,7 @@
   ],
   "api": {
     "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig"],
-    "enums": ["ChartType", "ChartBarMode", "ChartLineStyle", "ChartAreaMode", "ChartRadarGrid", "ChartTooltipIndicator"],
+    "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartRadarGrid", "ChartTooltipIndicator"],
     "constants": ["chartDefaults", "chartThemeOverrides"]
   },
   "theme": {

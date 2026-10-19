@@ -34,8 +34,11 @@ class Chart extends StatefulWidget {
     this.labels,
     this.type = ChartType.line,
     this.barMode = ChartBarMode.grouped,
+    this.barLayout = ChartBarLayout.vertical,
     this.lineStyle = ChartLineStyle.smooth,
     this.areaMode = ChartAreaMode.overlay,
+    this.showBarLabels = false,
+    this.showBarCategories = false,
     this.height = 220,
     this.showGrid,
     this.showAxes,
@@ -87,11 +90,21 @@ class Chart extends StatefulWidget {
   /// Bar arrangement.
   final ChartBarMode barMode;
 
+  /// Bar orientation ([ChartType.bar] only).
+  final ChartBarLayout barLayout;
+
   /// Line shape for line/area/sparkline strokes.
   final ChartLineStyle lineStyle;
 
   /// Area fill arrangement ([ChartType.area] with several series).
   final ChartAreaMode areaMode;
+
+  /// Whether value labels paint at the bar ends ([ChartType.bar] only).
+  final bool showBarLabels;
+
+  /// Whether category labels paint inside horizontal bars
+  /// ([ChartType.bar] with [ChartBarLayout.horizontal] only).
+  final bool showBarCategories;
 
   /// Plot height.
   final double height;
@@ -415,6 +428,7 @@ class _ChartState extends State<Chart> {
               series[si].color ??
               surface.seriesPalette[si % surface.seriesPalette.length],
           label: series[si].label,
+          pointColors: series[si].pointColors,
           gradient: series[si].gradient,
           strokeWidth: series[si].strokeWidth ?? surface.strokeWidth,
           dash: series[si].dash,
@@ -504,8 +518,11 @@ class _ChartState extends State<Chart> {
         painter: ChartCartesianPainter(
           type: widget.type,
           barMode: widget.barMode,
+          barLayout: widget.barLayout,
           lineStyle: widget.lineStyle,
           areaMode: widget.areaMode,
+          showBarLabels: widget.showBarLabels,
+          showBarCategories: widget.showBarCategories,
           series: paints,
           min: lo,
           max: hi,
@@ -539,15 +556,29 @@ class _ChartState extends State<Chart> {
     }
     return LayoutBuilder(
       builder: (context, constraints) {
+        final bool horizontalBars =
+            widget.type == ChartType.bar &&
+            widget.barLayout == ChartBarLayout.horizontal;
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapDown: (d) =>
-              _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
-          onPanUpdate: (d) =>
-              _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
+          onTapDown: (d) => horizontalBars
+              ? _selectFromDy(d.localPosition.dy, constraints.maxHeight, series)
+              : _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
+          onPanUpdate: (d) => horizontalBars
+              ? _selectFromDy(d.localPosition.dy, constraints.maxHeight, series)
+              : _selectFromDx(d.localPosition.dx, constraints.maxWidth, series),
           child: MouseRegion(
-            onHover: (e) =>
-                _selectFromDx(e.localPosition.dx, constraints.maxWidth, series),
+            onHover: (e) => horizontalBars
+                ? _selectFromDy(
+                    e.localPosition.dy,
+                    constraints.maxHeight,
+                    series,
+                  )
+                : _selectFromDx(
+                    e.localPosition.dx,
+                    constraints.maxWidth,
+                    series,
+                  ),
             onExit: (_) => setState(() => _selected = null),
             child: Stack(
               fit: StackFit.expand,
@@ -569,6 +600,17 @@ class _ChartState extends State<Chart> {
       return;
     }
     final int idx = (dx / width * n).floor().clamp(0, n - 1);
+    if (idx != _selected) {
+      setState(() => _selected = idx);
+    }
+  }
+
+  void _selectFromDy(double dy, double height, List<ChartSeries> series) {
+    final int n = _categoryLength(series);
+    if (n == 0 || height <= 0) {
+      return;
+    }
+    final int idx = (dy / height * n).floor().clamp(0, n - 1);
     if (idx != _selected) {
       setState(() => _selected = idx);
     }
