@@ -19752,6 +19752,7 @@ Widget _pane(BuildContext context) => const _PaneDemo();
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
 
 Widget _default(BuildContext context) => ActionSheet<void>(
@@ -19770,6 +19771,7 @@ Widget _default(BuildContext context) => ActionSheet<void>(
       builder: '_destructive',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
 
 Widget _destructive(BuildContext context) => ActionSheet<void>(
@@ -19791,6 +19793,7 @@ Widget _destructive(BuildContext context) => ActionSheet<void>(
       builder: '_long',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
 
 Widget _long(BuildContext context) => ActionSheet<void>(
@@ -19808,6 +19811,7 @@ Widget _long(BuildContext context) => ActionSheet<void>(
       builder: '_customized',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
 
 Widget _customized(BuildContext context) => ActionSheet<void>(
@@ -19816,6 +19820,44 @@ Widget _customized(BuildContext context) => ActionSheet<void>(
     ActionSheetAction<void>(label: 'Do it'),
   ],
   theme: const ActionSheetTheme(),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Trigger',
+      builder: '_trigger',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _trigger(BuildContext context) => Center(
+  child: Button(
+    variant: ButtonVariant.outline,
+    size: ButtonSize.sm,
+    onPressed: () => showActionSheet<void>(
+      context: context,
+      title: 'Actions',
+      message: 'Choose an action',
+      actions: <ActionSheetAction<void>>[
+        ActionSheetAction<void>(
+          label: 'Edit',
+          icon: const Icon(LucideIcons.pencil),
+        ),
+        ActionSheetAction<void>(
+          label: 'Share',
+          icon: const Icon(LucideIcons.share),
+        ),
+        ActionSheetAction<void>(
+          label: 'Delete',
+          icon: const Icon(LucideIcons.trash),
+          isDestructive: true,
+        ),
+      ],
+      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+    ),
+    child: const Text('Open action sheet'),
+  ),
 );
 ''',
     ),

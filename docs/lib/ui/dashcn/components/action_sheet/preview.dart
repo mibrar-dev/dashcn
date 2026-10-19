@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/icons/lucide_icons.dart';
+import '../button/button.dart';
 import 'action_sheet.dart';
 
 Widget _default(BuildContext context) => ActionSheet<void>(
@@ -44,9 +45,39 @@ Widget _customized(BuildContext context) => ActionSheet<void>(
   theme: const ActionSheetTheme(),
 );
 
+Widget _trigger(BuildContext context) => Center(
+  child: Button(
+    variant: ButtonVariant.outline,
+    size: ButtonSize.sm,
+    onPressed: () => showActionSheet<void>(
+      context: context,
+      title: 'Actions',
+      message: 'Choose an action',
+      actions: <ActionSheetAction<void>>[
+        ActionSheetAction<void>(
+          label: 'Edit',
+          icon: const Icon(LucideIcons.pencil),
+        ),
+        ActionSheetAction<void>(
+          label: 'Share',
+          icon: const Icon(LucideIcons.share),
+        ),
+        ActionSheetAction<void>(
+          label: 'Delete',
+          icon: const Icon(LucideIcons.trash),
+          isDestructive: true,
+        ),
+      ],
+      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+    ),
+    child: const Text('Open action sheet'),
+  ),
+);
+
 const List<ComponentPreview> actionSheetPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
   ComponentPreview('Destructive', _destructive),
   ComponentPreview('Long', _long),
   ComponentPreview('Customized', _customized),
+  ComponentPreview('Trigger', _trigger),
 ];
