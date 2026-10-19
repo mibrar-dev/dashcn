@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'examples/accordion.dart' as accordion_example;
 import 'examples/alert.dart' as alert_example;
 import 'examples/alert_dialog.dart' as alert_dialog_example;
+import 'examples/audio_player.dart' as audio_player_example;
 import 'examples/autocomplete.dart' as autocomplete_example;
 import 'examples/avatar.dart' as avatar_example;
 import 'examples/badge.dart' as badge_example;
@@ -95,6 +96,7 @@ import 'examples/toggle.dart' as toggle_example;
 import 'examples/tooltip.dart' as tooltip_example;
 import 'examples/tracker.dart' as tracker_example;
 import 'examples/tree.dart' as tree_example;
+import 'examples/video_player.dart' as video_player_example;
 
 /// Pumps [builder] under [direction] with no settling.
 ///
@@ -242,6 +244,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'accordion': accordion_example.scorecardExample,
   'alert': alert_example.scorecardExample,
   'alert_dialog': alert_dialog_example.scorecardExample,
+  'audio_player': audio_player_example.scorecardExample,
   'autocomplete': autocomplete_example.scorecardExample,
   'avatar': avatar_example.scorecardExample,
   'badge': badge_example.scorecardExample,
@@ -326,6 +329,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'tooltip': tooltip_example.scorecardExample,
   'tracker': tracker_example.scorecardExample,
   'tree': tree_example.scorecardExample,
+  'video_player': video_player_example.scorecardExample,
 };
 
 void main() {

@@ -1,0 +1,92 @@
+{
+  "id": "video_player",
+  "name": "Video Player",
+  "category": "Typography & Media",
+  "description": "Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.",
+  "tier": "component",
+  "install": "dashcn add video_player",
+  "import": "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
+  "tags": [
+    "media",
+    "video",
+    "player",
+    "scrub",
+    "captions",
+    "fullscreen"
+  ],
+  "deps": {
+    "foundation": [
+      "constants",
+      "icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [
+      "motion",
+      "surface",
+      "touch_hit_area"
+    ],
+    "components": []
+  },
+  "files": [
+    "video_player.dart",
+    "video_player_buttons.dart",
+    "video_player_controller.dart",
+    "video_player_controls.dart",
+    "video_player_scrub.dart",
+    "video_player_style.dart",
+    "video_player_theme.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": [
+      "VideoPlayer",
+      "VideoControlsBar",
+      "VideoScrubBar",
+      "VideoPlayerTheme",
+      "VideoPlaybackController",
+      "FakeVideoPlaybackController",
+      "VolumePainter"
+    ],
+    "typedefs": [
+      "VideoPartBuilder",
+      "VideoScrubChanged"
+    ],
+    "functions": [
+      "formatMediaTime",
+      "videoIconButton",
+      "videoPlayButton"
+    ],
+    "constants": [
+      "videoPlayerDefaults",
+      "videoPlayerThemeOverrides"
+    ]
+  },
+  "theme": {
+    "class": "VideoPlayerTheme",
+    "userFile": "video_player_theme.dart",
+    "defaults": "videoPlayerDefaults",
+    "fields": {
+      "background": "ThemedColor? - frame fill, black",
+      "scrim": "ThemedColor? - control bar scrim",
+      "foreground": "ThemedColor? - icons and labels on the scrim, white",
+      "accent": "ThemedColor? - played fill, primary",
+      "track": "ThemedColor? - unplayed track, translucent white",
+      "buffered": "ThemedColor? - buffered fill, translucent white",
+      "thumb": "ThemedColor? - scrub thumb, white",
+      "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+      "controlsPadding": "EdgeInsetsGeometry? - null = 8/4",
+      "controlSize": "double? - centre play button diameter, 56",
+      "iconSize": "double? - bar button icons, 20",
+      "trackHeight": "double? - scrub track height, 4",
+      "timeTextStyle": "TextStyle? - time labels",
+      "captionsTextStyle": "TextStyle? - captions overlay",
+      "surfaceOpacity": "double? - control bar opacity leg",
+      "surfaceBlur": "double? - control bar blur leg",
+      "fadeDuration": "Duration? - controls fade, 150ms",
+      "controlsTimeout": "Duration? - reserved auto-hide delay, 3s"
+    }
+  }
+}

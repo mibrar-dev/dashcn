@@ -87,6 +87,8 @@ import 'package:dashcn/src/components/pinned_sheet/pinned_sheet.dart';
 import 'package:dashcn/src/components/scaffold/scaffold.dart';
 import 'package:dashcn/src/components/select/select.dart';
 import 'package:dashcn/src/components/toast/toast.dart';
+import 'package:dashcn/src/components/video_player/video_player.dart';
+import 'package:dashcn/src/components/audio_player/audio_player.dart';
 import 'package:dashcn/src/components/gooey_toast/gooey_toast.dart';
 import 'package:dashcn/src/components/tooltip/tooltip.dart';
 import 'package:dashcn/src/components/window/window.dart';
@@ -891,6 +893,22 @@ void main() {
     });
   });
 
+  group('video_player', () {
+    testWidgets('control bar frosts', (tester) async {
+      await tester.pumpWidget(_frame(const VideoPlayer()));
+      await tester.pump();
+      _expectGlass(tester, find.byType(VideoControlsBar));
+    });
+  });
+
+  group('audio_player', () {
+    testWidgets('card frosts', (tester) async {
+      await tester.pumpWidget(_frame(const AudioPlayer(title: 'Frost')));
+      await tester.pump();
+      _expectGlass(tester, find.byType(AudioPlayer));
+    });
+  });
+
   group('registry coverage', () {
     test('every registry id is tested or allow-listed', () {
       final Map<String, Object?> manifest = _readManifest();
@@ -939,6 +957,8 @@ const Set<String> _tested = <String>{
   'formatted_input',
   'file_picker',
   'dropzone',
+  'video_player',
+  'audio_player',
 };
 
 /// Registry ids with no frosted surface, and why.

@@ -997,6 +997,110 @@
       ],
       "userOwned": []
     },
+    "audio_player": {
+      "api": {
+        "classes": [
+          "AudioPlayer",
+          "AudioPlayerBody",
+          "AudioProgressBar",
+          "AudioPlayerTheme",
+          "AudioPlaybackController",
+          "FakeAudioPlaybackController",
+          "AudioTransportRow",
+          "AudioSpeedButton"
+        ],
+        "constants": [
+          "audioPlayerDefaults",
+          "audioPlayerThemeOverrides"
+        ],
+        "enums": [
+          "AudioPlayerVariant"
+        ],
+        "functions": [
+          "formatAudioTime",
+          "audioSmallButton",
+          "audioPlayButton"
+        ],
+        "typedefs": [
+          "AudioPartBuilder",
+          "AudioSeekChanged"
+        ]
+      },
+      "category": "Typography & Media",
+      "deps": {
+        "components": [],
+        "foundation": [
+          "constants",
+          "icons"
+        ],
+        "primitives": [
+          "motion",
+          "surface"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.",
+      "entry": "components/audio_player/audio_player.dart",
+      "files": [
+        "components/audio_player/audio_player.dart",
+        "components/audio_player/audio_player_controller.dart",
+        "components/audio_player/audio_player_layout.dart",
+        "components/audio_player/audio_player_progress.dart",
+        "components/audio_player/audio_player_style.dart",
+        "components/audio_player/audio_player_transport.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
+      "install": "dashcn add audio_player",
+      "listed": true,
+      "name": "Audio Player",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "media",
+        "audio",
+        "player",
+        "waveform",
+        "cover",
+        "skip"
+      ],
+      "theme": {
+        "class": "AudioPlayerTheme",
+        "defaults": "audioPlayerDefaults",
+        "fields": {
+          "accent": "ThemedColor? - played fill and play button, primary",
+          "background": "ThemedColor? - card fill, card token",
+          "borderColor": "ThemedColor? - card border, border",
+          "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+          "borderWidth": "double? - 1",
+          "buffered": "ThemedColor? - buffered fill, muted",
+          "controlSize": "double? - play button diameter, 48",
+          "coverBackground": "ThemedColor? - cover placeholder, muted",
+          "coverRadius": "BorderRadiusGeometry? - 12",
+          "coverSize": "double? - cover edge, 176",
+          "fadeDuration": "Duration? - state fades, 150ms",
+          "foreground": "ThemedColor? - title and icons, cardForeground",
+          "iconSize": "double? - transport icons, 20",
+          "mutedForeground": "ThemedColor? - subtitle and times, mutedForeground",
+          "padding": "EdgeInsetsGeometry? - null = 12/8",
+          "subtitleTextStyle": "TextStyle? - track subtitle",
+          "surfaceBlur": "double? - card blur leg",
+          "surfaceOpacity": "double? - card opacity leg",
+          "thumb": "ThemedColor? - scrub thumb, primary",
+          "timeTextStyle": "TextStyle? - time labels",
+          "titleTextStyle": "TextStyle? - track title",
+          "track": "ThemedColor? - unplayed track, secondary",
+          "trackHeight": "double? - progress height, 4"
+        },
+        "userFile": "audio_player_theme.dart"
+      },
+      "userOwned": [
+        "components/audio_player/audio_player_theme.dart"
+      ]
+    },
     "autocomplete": {
       "api": {
         "classes": [
@@ -9391,6 +9495,102 @@
         "components/triple_dots/triple_dots_theme.dart"
       ]
     },
+    "video_player": {
+      "api": {
+        "classes": [
+          "VideoPlayer",
+          "VideoControlsBar",
+          "VideoScrubBar",
+          "VideoPlayerTheme",
+          "VideoPlaybackController",
+          "FakeVideoPlaybackController",
+          "VolumePainter"
+        ],
+        "constants": [
+          "videoPlayerDefaults",
+          "videoPlayerThemeOverrides"
+        ],
+        "functions": [
+          "formatMediaTime",
+          "videoIconButton",
+          "videoPlayButton"
+        ],
+        "typedefs": [
+          "VideoPartBuilder",
+          "VideoScrubChanged"
+        ]
+      },
+      "category": "Typography & Media",
+      "deps": {
+        "components": [],
+        "foundation": [
+          "constants",
+          "icons"
+        ],
+        "primitives": [
+          "motion",
+          "surface",
+          "touch_hit_area"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.",
+      "entry": "components/video_player/video_player.dart",
+      "files": [
+        "components/video_player/video_player.dart",
+        "components/video_player/video_player_buttons.dart",
+        "components/video_player/video_player_controller.dart",
+        "components/video_player/video_player_controls.dart",
+        "components/video_player/video_player_scrub.dart",
+        "components/video_player/video_player_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
+      "install": "dashcn add video_player",
+      "listed": true,
+      "name": "Video Player",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "media",
+        "video",
+        "player",
+        "scrub",
+        "captions",
+        "fullscreen"
+      ],
+      "theme": {
+        "class": "VideoPlayerTheme",
+        "defaults": "videoPlayerDefaults",
+        "fields": {
+          "accent": "ThemedColor? - played fill, primary",
+          "background": "ThemedColor? - frame fill, black",
+          "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+          "buffered": "ThemedColor? - buffered fill, translucent white",
+          "captionsTextStyle": "TextStyle? - captions overlay",
+          "controlSize": "double? - centre play button diameter, 56",
+          "controlsPadding": "EdgeInsetsGeometry? - null = 8/4",
+          "controlsTimeout": "Duration? - reserved auto-hide delay, 3s",
+          "fadeDuration": "Duration? - controls fade, 150ms",
+          "foreground": "ThemedColor? - icons and labels on the scrim, white",
+          "iconSize": "double? - bar button icons, 20",
+          "scrim": "ThemedColor? - control bar scrim",
+          "surfaceBlur": "double? - control bar blur leg",
+          "surfaceOpacity": "double? - control bar opacity leg",
+          "thumb": "ThemedColor? - scrub thumb, white",
+          "timeTextStyle": "TextStyle? - time labels",
+          "track": "ThemedColor? - unplayed track, translucent white",
+          "trackHeight": "double? - scrub track height, 4"
+        },
+        "userFile": "video_player_theme.dart"
+      },
+      "userOwned": [
+        "components/video_player/video_player_theme.dart"
+      ]
+    },
     "window": {
       "api": {
         "classes": [
@@ -9557,6 +9757,14 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
+    "components/audio_player/audio_player.dart": "ecaf4eb86af12eb3583880517a1da64127140b6966819d5b27746820ab00857a",
+    "components/audio_player/audio_player_controller.dart": "390d191fa90b4f74b667f2256471f0d4b8fb247689972b352380075041f54d47",
+    "components/audio_player/audio_player_layout.dart": "2b90265c5cdbb39c614fb997b9b04b9a546909106a3dbd24b1540417abbb0cd2",
+    "components/audio_player/audio_player_progress.dart": "f2ec3bc9901b7391576676c981ac34769acd17a7d7d3da15e7d5d9870c0dd948",
+    "components/audio_player/audio_player_style.dart": "4099e2f519ce8953e540cafa3a8419c778139cb4918de64839d263753caace46",
+    "components/audio_player/audio_player_theme.dart": "4f2893a478a068da7c8556c940b66d859934fc79feedb4784092ca7571ff2adf",
+    "components/audio_player/audio_player_transport.dart": "2a0379dd2fb19f9cfbef9a890ec4fdd04d5d82264953e8d9f819f9283d95f1dc",
+    "components/audio_player/preview.dart": "981d0e85a962265ea1d509fb1798ebefe59219c7357450526096b79827643bc3",
     "components/autocomplete/autocomplete.dart": "388132b3f4a2d856dff78c76afd9c04bbea61ffdf581d3742d250dde625b38a6",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
     "components/autocomplete/autocomplete_theme.dart": "2eab0681ae203c27bc4d77c94f4e32e678e9e7242a472e05c78e0959e38460e0",
@@ -10002,6 +10210,14 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
+    "components/video_player/preview.dart": "9ad2666348a8ff5562c416e0585d552a5f7c06713f3c0005bdc8df713e78b8c0",
+    "components/video_player/video_player.dart": "90290d8c53e271a41184176a4c31f7b2c0a3840d97bfcfa80d4d986fb64dcc17",
+    "components/video_player/video_player_buttons.dart": "dd2546e7d4ec944a224b91dde1820b882bf7ca917c598519e45765a31802bc52",
+    "components/video_player/video_player_controller.dart": "7475d702a721685f9d808b5ed58a6f7be053224300cbeeac4f2ab89b7563d8be",
+    "components/video_player/video_player_controls.dart": "e1f47f4ed26489710e0142e9d2abe90b72efa5ada42719bf776ec081c27da4ec",
+    "components/video_player/video_player_scrub.dart": "7179b9ede67c38616f835e02692fccdc2a394ed6ae3f1232e07b8cdeb0eeaf23",
+    "components/video_player/video_player_style.dart": "4a6491d272e5acb4cfeb89c6c4d935b0b69de290c193caa04a4da0f94644a186",
+    "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
     "components/window/preview.dart": "7d373102672ef69e98d43739567329fb2141a671385a0c9338a44d18c735dd82",
     "components/window/window.dart": "b994378dfd18a060237beeb3d03ba5e60ecb0fa400e6de2d3ef6692f9a28ec01",
     "components/window/window_style.dart": "19cfa15bfcae96faec1468d28beb26ac49eabad7e1f6cf0d28268b1a831d852d",

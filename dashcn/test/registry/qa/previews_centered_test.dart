@@ -25,6 +25,7 @@ import '../themes/generated_theme.dart';
 import 'package:dashcn/src/components/accordion/preview.dart';
 import 'package:dashcn/src/components/alert/preview.dart';
 import 'package:dashcn/src/components/alert_dialog/preview.dart';
+import 'package:dashcn/src/components/audio_player/preview.dart';
 import 'package:dashcn/src/components/autocomplete/preview.dart';
 import 'package:dashcn/src/components/avatar/preview.dart';
 import 'package:dashcn/src/components/badge/preview.dart';
@@ -109,6 +110,7 @@ import 'package:dashcn/src/components/toggle/preview.dart';
 import 'package:dashcn/src/components/tooltip/preview.dart';
 import 'package:dashcn/src/components/tracker/preview.dart';
 import 'package:dashcn/src/components/tree/preview.dart';
+import 'package:dashcn/src/components/video_player/preview.dart';
 
 /// Stage size the docs page hands an example.
 const Size _stageSize = Size(720, 420);
@@ -215,6 +217,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'accordion': accordionPreviews,
       'alert': alertPreviews,
       'alert_dialog': alertDialogPreviews,
+      'audio_player': audioPlayerPreviews,
       'autocomplete': autocompletePreviews,
       'avatar': avatarPreviews,
       'badge': badgePreviews,
@@ -299,6 +302,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'tooltip': tooltipPreviews,
       'tracker': trackerPreviews,
       'tree': treePreviews,
+      'video_player': videoPlayerPreviews,
     };
 
 /// The union of the painted content inside [stage], in stage coordinates.
