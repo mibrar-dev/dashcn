@@ -43,18 +43,21 @@
   <link rel="manifest" href="manifest.json">
 
   <!--
-    First-paint placeholder. Self-contained (no images, no CDN): the old
-    standard.js loader shipped 536K of component screenshots and hard-coded
-    component names, both removed with the old docs app. Removed on
-    `flutter-first-frame`.
+    First-paint placeholder. The primary boot animation is the Rive file
+    boot.riv (built offline from docs/rive/boot, no account needed), drawn
+    on the canvas below with the @rive-app/canvas runtime pinned to an
+    exact version on jsDelivr. It plays one state machine named `boot`
+    with a number input `progress` (JS advances it, capped at 90) and a
+    boolean input `ready` (set on `flutter-first-frame`, when the bird
+    swoops to the page edge, grips it, and carries it up and away
+    like lifting a sheet of paper; smooth lift-away, then this node
+    is removed).
 
-    Branded boot animation: the bird glyph from brand/svg/glyph.svg is
-    inlined below (same gradient stops/paths as mark-light/mark-dark, minus
-    the rounded tile so it sits cleanly on either page background). Intro
-    (~1.6s): stroke outlines draw on -> full-colour fills fade in -> a
-    single sheen sweep crosses the body -> the "dashcn" wordmark fades and
-    rises -> "Loading docs" appears with pulsing dots. Afterwards only the
-    mark breathes softly and the dots pulse, until Flutter removes this node.
+    The old CSS animation markup is kept as a .boot-fallback: it shows
+    immediately, stays if the .riv fails to load or WebAssembly/canvas is
+    unavailable within 3 s, and is the static finished frame under
+    prefers-reduced-motion (Rive is not started there at all). Removed on
+    `flutter-first-frame`.
   -->
   <style>
     html, body {
@@ -108,6 +111,23 @@
       height: 72px;
       /* Soft loop after the intro: gentle breathe until Flutter takes over. */
       animation: boot-breathe 2400ms ease-in-out 1600ms infinite;
+    }
+    /* Rive canvas: hidden until the runtime reports the .riv loaded; the
+       CSS fallback above stays visible until then (and forever if loading
+       fails, WebAssembly/canvas is missing, or reduced motion is on). */
+    #boot-rive {
+      display: none;
+      width: min(300px, 78vw);
+      height: auto;
+    }
+    #docs-first-paint.rive-on #boot-rive {
+      display: block;
+    }
+    #docs-first-paint.rive-on .boot-fallback {
+      display: none;
+    }
+    #docs-first-paint .boot-fallback {
+      display: contents;
     }
     #docs-first-paint .boot-mark svg {
       display: block;
@@ -276,12 +296,30 @@
   </script>
   <script>
     // Drop the placeholder as soon as Flutter paints its first frame.
-    window.addEventListener('flutter-first-frame', function () {
-      var placeholder = document.getElementById('docs-first-paint');
-      if (placeholder) {
-        placeholder.remove();
+    // When the Rive loader is active, first play the lift-off (ready = true:
+    // the flock converges on the top edge and carries the page away) and
+    // remove the node once the outro has had time to play (200 ms blend +
+    // 600 ms lift); otherwise remove it immediately, exactly as before.
+    (function () {
+      var OUTRO_MS = 850;
+      function removePlaceholder() {
+        var placeholder = document.getElementById('docs-first-paint');
+        if (placeholder) {
+          placeholder.remove();
+        }
       }
-    });
+      window.addEventListener('flutter-first-frame', function () {
+        try {
+          if (window.__bootRiveDone && window.__bootRiveDone()) {
+            window.setTimeout(removePlaceholder, OUTRO_MS);
+            return;
+          }
+        } catch (_) {
+          // Fall through to immediate removal.
+        }
+        removePlaceholder();
+      });
+    })();
     // Keep the page background in sync with the active preset/mode so any
     // area Flutter does not paint (overscroll, resize gaps) matches the app.
     window.addEventListener('dashcn_theme_changed', function (event) {
@@ -298,6 +336,8 @@
 </head>
 <body>
   <div id="docs-first-paint" role="status" aria-label="Loading docs">
+    <canvas id="boot-rive" width="400" height="440" aria-hidden="true"></canvas>
+    <div class="boot-fallback">
     <div class="boot-mark">
       <svg viewBox="12 14 240 240" width="72" height="72" aria-hidden="true" focusable="false">
         <defs>
@@ -354,7 +394,188 @@
     </div>
     <div class="boot-word">dashcn</div>
     <div class="boot-status">Loading docs<span class="boot-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    </div>
   </div>
+  <script>
+    // Rive boot loader. Replaces the CSS fallback above with the boot.riv
+    // animation once the pinned runtime and the file have loaded.
+    //
+    // - Artboard BootDark/BootLight follows html[data-theme], else the
+    //   prefers-color-scheme media query (same rule as the page CSS).
+    // - prefers-reduced-motion: Rive is never started; the CSS fallback
+    //   already renders its finished state with no animation.
+    // - If the runtime or the .riv fails (or takes longer than 3 s), the
+    //   CSS fallback simply stays.
+    (function () {
+      var RIVE_VERSION = '2.44.0';
+      var RIVE_CDN = 'https://cdn.jsdelivr.net/npm/@rive-app/canvas@' + RIVE_VERSION + '/rive.min.js';
+      var TIMEOUT_MS = 3000;
+      var TICK_MS = 140;
+      var PROGRESS_CAP = 90;
+
+      var placeholder = document.getElementById('docs-first-paint');
+      var canvas = document.getElementById('boot-rive');
+      if (!placeholder || !canvas) {
+        return;
+      }
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          return;
+        }
+        if (!window.WebAssembly || !canvas.getContext) {
+          return;
+        }
+      } catch (_) {
+        return;
+      }
+
+      var settled = false;
+      var instance = null;
+      var progressInput = null;
+      var readyInput = null;
+      var ticker = 0;
+      var progress = 0;
+
+      function artboard() {
+        try {
+          var t = document.documentElement.getAttribute('data-theme');
+          if (t === 'light') {
+            return 'BootLight';
+          }
+          if (t === 'dark') {
+            return 'BootDark';
+          }
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            return 'BootLight';
+          }
+        } catch (_) {
+          // Fall through to dark.
+        }
+        return 'BootDark';
+      }
+
+      function stopTicker() {
+        if (ticker) {
+          window.clearInterval(ticker);
+          ticker = 0;
+        }
+      }
+
+      function fail() {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        stopTicker();
+        instance = null;
+        progressInput = null;
+        readyInput = null;
+        // The CSS fallback stays visible; nothing else to do.
+      }
+
+      function startTicker() {
+        stopTicker();
+        ticker = window.setInterval(function () {
+          if (!progressInput) {
+            return;
+          }
+          progress = Math.min(PROGRESS_CAP, progress + 1 + Math.random() * 2.5);
+          try {
+            progressInput.value = progress;
+          } catch (_) {
+            stopTicker();
+          }
+        }, TICK_MS);
+      }
+
+      // Called by the flutter-first-frame listener: when Rive is up, fire
+      // the fly-off and report back so removal waits for the outro.
+      window.__bootRiveDone = function () {
+        if (!instance || !readyInput) {
+          return false;
+        }
+        try {
+          if (progressInput) {
+            progressInput.value = 100;
+          }
+          readyInput.value = true;
+        } catch (_) {
+          return false;
+        }
+        stopTicker();
+        return true;
+      };
+
+      function init() {
+        if (settled) {
+          return;
+        }
+        var runtime = window.rive;
+        if (!runtime || !runtime.Rive) {
+          fail();
+          return;
+        }
+        try {
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(400 * dpr);
+          canvas.height = Math.round(440 * dpr);
+          instance = new runtime.Rive({
+            src: 'boot.riv',
+            artboard: artboard(),
+            stateMachine: 'boot',
+            canvas: canvas,
+            autoplay: true,
+            layout: new runtime.Layout({ fit: 'contain', alignment: 'center' }),
+            onLoad: function () {
+              if (settled) {
+                return;
+              }
+              settled = true;
+              try {
+                var inputs = instance.stateMachineInputs('boot') || [];
+                for (var i = 0; i < inputs.length; i++) {
+                  if (inputs[i].name === 'progress') {
+                    progressInput = inputs[i];
+                  } else if (inputs[i].name === 'ready') {
+                    readyInput = inputs[i];
+                  }
+                }
+              } catch (_) {
+                progressInput = null;
+                readyInput = null;
+              }
+              placeholder.classList.add('rive-on');
+              startTicker();
+            },
+            onLoadError: function () {
+              fail();
+            },
+          });
+        } catch (_) {
+          fail();
+        }
+      }
+
+      window.setTimeout(function () {
+        if (!settled || !instance) {
+          // If the runtime script itself never arrived, give up; if the
+          // instance exists but hasn't loaded, keep waiting for it only
+          // when the fallback is already acceptable either way. Either
+          // path leaves the CSS fallback in place.
+          if (!instance) {
+            fail();
+          }
+        }
+      }, TIMEOUT_MS);
+
+      var script = document.createElement('script');
+      script.src = RIVE_CDN;
+      script.async = true;
+      script.onload = init;
+      script.onerror = fail;
+      document.head.appendChild(script);
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
