@@ -82,6 +82,7 @@ class Chart extends StatefulWidget {
     this.initialSelectedIndex,
     this.pie = const ChartPieConfig(),
     this.theme,
+    this.onSelected,
   });
 
   /// Single-series shorthand; wrapped as one unnamed series.
@@ -229,6 +230,10 @@ class Chart extends StatefulWidget {
   /// Widget-leg theme override.
   final ChartTheme? theme;
 
+  /// Called when the highlighted slice/category changes through
+  /// hover or tap; null when the pointer leaves the plot.
+  final ValueChanged<int?>? onSelected;
+
   @override
   State<Chart> createState() => _ChartState();
 }
@@ -291,6 +296,7 @@ class _ChartState extends State<Chart> {
   void _dismiss() {
     if (_selected != null && mounted) {
       setState(() => _selected = null);
+      widget.onSelected?.call(null);
     }
   }
 
@@ -595,6 +601,8 @@ class _ChartState extends State<Chart> {
           barGap: surface.barGap,
           barGroupGap: surface.barGroupGap,
           textDirection: dir,
+          backgroundColor:
+              surface.backgroundColor ?? Theme.of(context).colors.background,
         ),
       );
     }
@@ -806,6 +814,7 @@ class _ChartState extends State<Chart> {
                         radar: widget.radar,
                         gridColor: surface.gridColor,
                         tickStyle: surface.tickStyle,
+                        valueStyle: surface.legendStyle,
                         progress: progress,
                         selectedIndex: _selected,
                         textDirection: Directionality.of(context),
@@ -1051,6 +1060,10 @@ class _ChartState extends State<Chart> {
     List<ChartSeriesPaint> paints,
     int index,
   ) {
+    // Stacked pies share one month per slice index: one row per series.
+    if (widget.pie.stacked && series.length > 1) {
+      return _buildStackedPieTooltip(surface, series, index);
+    }
     String? label;
     double? raw;
     Color? color;
@@ -1098,6 +1111,35 @@ class _ChartState extends State<Chart> {
         ),
       ],
     );
+  }
+
+  /// Tooltip data for stacked pies: one row per series at [index].
+  ChartTooltipData? _buildStackedPieTooltip(
+    ChartSurface surface,
+    List<ChartSeries> series,
+    int index,
+  ) {
+    final List<ChartTooltipRow> rows = <ChartTooltipRow>[
+      for (var si = 0; si < series.length; si++)
+        if (index < series[si].values.length)
+          ChartTooltipRow(
+            label: series[si].label ?? 'Series ${si + 1}',
+            value: series[si].values[index],
+            color:
+                series[si].color ??
+                surface.seriesPalette[si % surface.seriesPalette.length],
+            icon: series[si].icon,
+          ),
+    ];
+    if (rows.isEmpty) {
+      return null;
+    }
+    String? title;
+    if (widget.tooltip.showLabel) {
+      title =
+          widget.tooltip.labelFormatter?.call(index) ?? _categoryTitle(index);
+    }
+    return ChartTooltipData(index: index, label: title, rows: rows);
   }
 
   double _radialFraction(
@@ -1173,7 +1215,12 @@ class _ChartState extends State<Chart> {
       ];
     }
 
-    Widget ring(ChartSeriesPaint p, ChartSeries s, double ringHole) {
+    Widget ring(
+      ChartSeriesPaint p,
+      ChartSeries s,
+      double ringHole, [
+      double radiusScale = 1,
+    ]) {
       return SizedBox.expand(
         child: CustomPaint(
           painter: ChartPiePainter(
@@ -1187,6 +1234,7 @@ class _ChartState extends State<Chart> {
             selectedIndex: _selected,
             strokeColor: Theme.of(context).colors.background,
             textDirection: dir,
+            radiusScale: radiusScale,
           ),
         ),
       );
@@ -1194,12 +1242,13 @@ class _ChartState extends State<Chart> {
 
     Widget plot;
     if (widget.pie.stacked && paints.length > 1) {
+      // Inner pie outer 60, outer ring 70-90 of a 90 radius.
       plot = Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          ring(paints.first, series.first, 0),
+          ring(paints.first, series.first, 0, 60 / 90),
           for (var i = 1; i < paints.length; i++)
-            ring(paints[i], series[i], 0.62),
+            ring(paints[i], series[i], 70 / 90),
         ],
       );
     } else if (paints.isEmpty) {
@@ -1212,10 +1261,7 @@ class _ChartState extends State<Chart> {
         final Size frame = constraints.biggest;
         Offset? anchor;
         ChartTooltipData? tip;
-        if (surface.showTooltip &&
-            _selected != null &&
-            !widget.pie.stacked &&
-            paints.isNotEmpty) {
+        if (surface.showTooltip && _selected != null && paints.isNotEmpty) {
           final List<double> values = paints.first.values;
           anchor = chartPieAnchor(
             size: frame,
@@ -1268,11 +1314,13 @@ class _ChartState extends State<Chart> {
     if (idx == null) {
       if (_selected != null && mounted) {
         setState(() => _selected = null);
+        widget.onSelected?.call(null);
       }
       return;
     }
     if (idx != _selected) {
       setState(() => _selected = idx);
+      widget.onSelected?.call(idx);
     }
   }
 
@@ -1284,8 +1332,10 @@ class _ChartState extends State<Chart> {
     }
     if (idx == _selected) {
       setState(() => _selected = null);
+      widget.onSelected?.call(null);
     } else {
       setState(() => _selected = idx);
+      widget.onSelected?.call(idx);
     }
   }
 

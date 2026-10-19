@@ -1322,6 +1322,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Widget-leg theme override.',
       ),
+      DocsApiParam(
+        name: 'onSelected',
+        type: 'ValueChanged<int?>?',
+        isRequired: false,
+        doc:
+            'Called when the highlighted slice/category changes through\nhover or tap; null when the pointer leaves the plot.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),

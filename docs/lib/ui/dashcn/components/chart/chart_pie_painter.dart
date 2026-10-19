@@ -23,6 +23,7 @@ class ChartPiePainter extends CustomPainter {
     required this.selectedIndex,
     required this.strokeColor,
     required this.textDirection,
+    this.radiusScale = 1,
   });
 
   /// Slice values (first series).
@@ -55,12 +56,17 @@ class ChartPiePainter extends CustomPainter {
   /// Layout direction.
   final TextDirection textDirection;
 
+  /// Outer radius multiplier (the stacked inner pie uses 60/90).
+  final double radiusScale;
+
   @override
   void paint(Canvas canvas, Size size) {
     final double total = values.fold(0, (a, b) => a + b.abs());
     final Offset center = Offset(size.width / 2, size.height / 2);
     final double pad = pie.labels == ChartPieLabels.outside ? 52 : 4;
-    final double radius = math.min(size.width, size.height) / 2 - pad;
+    final double radius =
+        (math.min(size.width, size.height) / 2 - pad) *
+        radiusScale.clamp(0.1, 1.0);
     if (radius <= 0 || total <= 0) {
       return;
     }
@@ -82,7 +88,8 @@ class ChartPiePainter extends CustomPainter {
       }
       final double drawSweep = math.min(sweep, remaining);
       final bool sel = selectedIndex == i;
-      final Offset offsetCenter = sel
+      // Donut selection expands outward; full-pie selection explodes.
+      final Offset offsetCenter = sel && !donut
           ? Offset(
               center.dx + math.cos(drawStart + drawSweep / 2) * 6,
               center.dy + math.sin(drawStart + drawSweep / 2) * 6,
@@ -90,21 +97,59 @@ class ChartPiePainter extends CustomPainter {
           : center;
       final Color color = colors[i % colors.length];
       if (donut) {
-        final Rect rect = Rect.fromCircle(
-          center: offsetCenter,
-          radius: ringRadius,
-        );
-        canvas.drawArc(
-          rect,
-          drawStart,
-          drawSweep,
-          false,
-          Paint()
-            ..color = color
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = ringWidth + (sel ? 3 : 0)
-            ..strokeCap = StrokeCap.butt,
-        );
+        final double outer = ringRadius + ringWidth / 2;
+        if (sel) {
+          // Selected slice grows outward by 10 logical pixels.
+          final Rect grown = Rect.fromCircle(
+            center: offsetCenter,
+            radius: ringRadius + 5,
+          );
+          canvas.drawArc(
+            grown,
+            drawStart,
+            drawSweep,
+            false,
+            Paint()
+              ..color = color
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = ringWidth + 10
+              ..strokeCap = StrokeCap.butt,
+          );
+          if (pie.activeRing) {
+            // Extra band from outer + 12 to outer + 25.
+            final Rect band = Rect.fromCircle(
+              center: offsetCenter,
+              radius: outer + 18.5,
+            );
+            canvas.drawArc(
+              band,
+              drawStart,
+              drawSweep,
+              false,
+              Paint()
+                ..color = color
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 13
+                ..strokeCap = StrokeCap.butt,
+            );
+          }
+        } else {
+          final Rect rect = Rect.fromCircle(
+            center: offsetCenter,
+            radius: ringRadius,
+          );
+          canvas.drawArc(
+            rect,
+            drawStart,
+            drawSweep,
+            false,
+            Paint()
+              ..color = color
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = ringWidth
+              ..strokeCap = StrokeCap.butt,
+          );
+        }
       } else {
         final Paint fill = Paint()
           ..color = color
@@ -221,6 +266,7 @@ class ChartPiePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant ChartPiePainter old) {
     return old.hole != hole ||
+        old.radiusScale != radiusScale ||
         old.pie != pie ||
         old.progress != progress ||
         old.selectedIndex != selectedIndex ||

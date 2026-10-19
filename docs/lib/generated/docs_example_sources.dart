@@ -3396,20 +3396,18 @@ Widget _chartLineDotsCustom(BuildContext context) {
   return const Chart(
     labels: _areaMonths,
     showMarkers: true,
+    tooltip: ChartTooltipConfig(showLabel: false),
     series: <ChartSeries>[
       ChartSeries(
         label: 'Desktop',
         values: _barDesktop,
-        markerShape: ChartMarkerShape.star,
+        markerShape: ChartMarkerShape.commit,
       ),
-      ChartSeries(label: 'Mobile', values: _barMobile),
     ],
   );
 }
 
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
-
-const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
 
 const List<String> _areaMonths = <String>[
   'Jan',
@@ -4445,10 +4443,13 @@ Widget _chartBarActive(BuildContext context) {
     type: ChartType.bar,
     labels: _browserNames,
     showLegend: false,
+    barRadius: 8,
     initialSelectedIndex: 2,
+    tooltip: const ChartTooltipConfig(showLabel: false),
     series: <ChartSeries>[
       ChartSeries(
-        values: _browserVisitors,
+        // Same order as the reference: firefox (275) is the active index.
+        values: const <double>[187, 200, 275, 173, 90],
         pointColors: _browserColors(context),
       ),
     ],
@@ -4772,10 +4773,12 @@ Widget _chartPieStacked(BuildContext context) {
     type: ChartType.donut,
     height: 250,
     labels: <String>['January', 'February', 'March', 'April', 'May'],
+    showLegend: false,
     pie: ChartPieConfig(stacked: true),
+    tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
     series: <ChartSeries>[
-      ChartSeries(values: <double>[186, 305, 237, 173, 209]),
-      ChartSeries(values: <double>[80, 200, 120, 190, 130]),
+      ChartSeries(label: 'Desktop', values: <double>[186, 305, 237, 173, 209]),
+      ChartSeries(label: 'Mobile', values: <double>[80, 200, 120, 190, 130]),
     ],
   );
 }
@@ -4800,7 +4803,7 @@ List<Color> _browserColors(BuildContext context) {
   ];
 }
 
-/// Interactive donut chart with month buttons driving the active slice.
+/// Interactive donut chart with a dropdown driving the active slice.
 class _PieInteractive extends StatefulWidget {
   const _PieInteractive();
 
@@ -4826,11 +4829,15 @@ class _PieInteractiveState extends State<_PieInteractive> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _RangeButtons(
-          options: months,
-          selected: months[_active],
-          onSelect: (String value) =>
-              setState(() => _active = months.indexOf(value)),
+        Align(
+          alignment: Alignment.centerRight,
+          child: _PieDropdown(
+            options: months,
+            selected: months[_active],
+            dots: _browserColors(context),
+            onSelect: (String value) =>
+                setState(() => _active = months.indexOf(value)),
+          ),
         ),
         const SizedBox(height: 8),
         Chart(
@@ -4838,8 +4845,15 @@ class _PieInteractiveState extends State<_PieInteractive> {
           height: 250,
           labels: months,
           initialSelectedIndex: _active,
+          onSelected: (int? index) {
+            if (index != null && index != _active) {
+              setState(() => _active = index);
+            }
+          },
           centerLabel: '${visitors[_active].toInt()}',
           centerSublabel: 'Visitors',
+          pie: const ChartPieConfig(activeRing: true),
+          tooltip: const ChartTooltipConfig(showLabel: false),
           series: <ChartSeries>[
             ChartSeries(values: visitors, pointColors: _browserColors(context)),
           ],
@@ -4849,53 +4863,140 @@ class _PieInteractiveState extends State<_PieInteractive> {
   }
 }
 
-Widget _chartPieInteractive(BuildContext context) => const _PieInteractive();
-
-/// Range-filter buttons for the interactive examples.
-class _RangeButtons extends StatelessWidget {
-  const _RangeButtons({
+/// Minimal dropdown trigger with an expanding option list (widgets only).
+class _PieDropdown extends StatefulWidget {
+  const _PieDropdown({
     required this.options,
     required this.selected,
+    required this.dots,
     required this.onSelect,
   });
 
   final List<String> options;
   final String selected;
+
+  /// Swatch per option, in option order.
+  final List<Color> dots;
+
   final ValueChanged<String> onSelect;
+
+  @override
+  State<_PieDropdown> createState() => _PieDropdownState();
+}
+
+class _PieDropdownState extends State<_PieDropdown> {
+  bool _open = false;
+
+  Color _dot(int index) {
+    if (widget.dots.isEmpty) {
+      return const Color(0x00000000);
+    }
+    return widget.dots[index % widget.dots.length];
+  }
+
+  Widget _swatch(int index) {
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        color: _dot(index),
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colors;
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+    final TextStyle itemStyle = TextStyle(
+      fontSize: 12,
+      color: colors.foreground,
+    );
+    final int selectedIndex = widget.options
+        .indexOf(widget.selected)
+        .clamp(0, widget.options.length - 1);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        for (final String option in options)
-          GestureDetector(
-            onTap: () => onSelect(option),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: option == selected ? colors.foreground : colors.border,
+        GestureDetector(
+          onTap: () => setState(() => _open = !_open),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: colors.border),
+              color: colors.background,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _swatch(selectedIndex),
+                const SizedBox(width: 6),
+                Text(widget.selected, style: itemStyle),
+                const SizedBox(width: 6),
+                Icon(
+                  LucideIcons.chevronDown,
+                  size: 14,
+                  color: colors.mutedForeground,
                 ),
-              ),
-              child: Text(
-                option,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: option == selected
-                      ? colors.foreground
-                      : colors.mutedForeground,
-                ),
-              ),
+              ],
+            ),
+          ),
+        ),
+        if (_open)
+          Container(
+            margin: const EdgeInsets.only(top: 4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: colors.border),
+              color: colors.popover,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                for (var i = 0; i < widget.options.length; i++)
+                  GestureDetector(
+                    onTap: () {
+                      widget.onSelect(widget.options[i]);
+                      setState(() => _open = false);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      color: widget.options[i] == widget.selected
+                          ? colors.accent
+                          : const Color(0x00000000),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          _swatch(i),
+                          const SizedBox(width: 6),
+                          Text(
+                            widget.options[i],
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: widget.options[i] == widget.selected
+                                  ? colors.accentForeground
+                                  : colors.foreground,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
       ],
     );
   }
 }
+
+Widget _chartPieInteractive(BuildContext context) => const _PieInteractive();
 ''',
     ),
     DocsExampleSource(
@@ -5013,7 +5114,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarDefault(BuildContext context) {
   return const Chart(
@@ -5043,7 +5144,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarDots(BuildContext context) {
   return const Chart(
@@ -5074,7 +5175,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarLinesOnly(BuildContext context) {
   return const Chart(
@@ -5104,7 +5205,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
@@ -5140,7 +5241,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCustom(BuildContext context) {
   return const Chart(
@@ -5171,7 +5272,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridNone(BuildContext context) {
   return const Chart(
@@ -5202,7 +5303,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircle(BuildContext context) {
   return const Chart(
@@ -5233,7 +5334,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircleNoLines(BuildContext context) {
   return const Chart(
@@ -5264,7 +5365,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircleFilled(BuildContext context) {
   return const Chart(
@@ -5295,7 +5396,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridFilled(BuildContext context) {
   return const Chart(
@@ -5326,7 +5427,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
@@ -5361,7 +5462,7 @@ const List<String> _radarMonths = <String>[
   'June',
 ];
 
-const List<double> _radarDesktop = <double>[186, 305, 237, 273, 209, 214];
+const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 

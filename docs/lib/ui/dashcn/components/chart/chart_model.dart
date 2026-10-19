@@ -69,8 +69,11 @@ enum ChartMarkerShape {
   /// Filled diamond.
   diamond,
 
-  /// Five-point star (the "Custom Dots" look).
+  /// Five-point star.
   star,
+
+  /// Vertical line with a centre ring (the "Custom Dots" look).
+  commit,
 }
 
 /// Line shape for [ChartType.line] and [ChartType.area].
@@ -482,6 +485,7 @@ class ChartPieConfig {
     this.labelValues = false,
     this.showDividers = true,
     this.stacked = false,
+    this.activeRing = false,
   });
 
   /// Where slice labels paint.
@@ -498,16 +502,22 @@ class ChartPieConfig {
   /// look, first series innermost).
   final bool stacked;
 
+  /// Whether the selected donut slice paints an extra outer band
+  /// (the "Interactive" look).
+  final bool activeRing;
+
   @override
   bool operator ==(Object other) =>
       other is ChartPieConfig &&
       other.labels == labels &&
       other.labelValues == labelValues &&
       other.showDividers == showDividers &&
-      other.stacked == stacked;
+      other.stacked == stacked &&
+      other.activeRing == activeRing;
 
   @override
-  int get hashCode => Object.hash(labels, labelValues, showDividers, stacked);
+  int get hashCode =>
+      Object.hash(labels, labelValues, showDividers, stacked, activeRing);
 }
 
 /// Axis configuration: every visual part can be toggled or restyled.

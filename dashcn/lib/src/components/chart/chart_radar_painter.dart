@@ -21,6 +21,7 @@ class ChartRadarPainter extends CustomPainter {
     required this.radar,
     required this.gridColor,
     required this.tickStyle,
+    required this.valueStyle,
     required this.progress,
     required this.selectedIndex,
     required this.textDirection,
@@ -44,6 +45,9 @@ class ChartRadarPainter extends CustomPainter {
   /// Axis label style.
   final TextStyle tickStyle;
 
+  /// Axis value style (series numbers above each name).
+  final TextStyle valueStyle;
+
   /// Entrance progress 0..1 (scales radii).
   final double progress;
 
@@ -60,10 +64,19 @@ class ChartRadarPainter extends CustomPainter {
       return;
     }
     final double scale = maxValue > 0 ? maxValue : 1;
+    final TextStyle numberStyle = valueStyle.copyWith(
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
+    );
+    final TextStyle slashStyle = tickStyle.copyWith(
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
+    );
+    final TextStyle monthStyle = tickStyle.copyWith(fontSize: 12);
     final List<TextPainter> labels = <TextPainter>[
       for (var i = 0; i < n; i++)
         TextPainter(
-          text: TextSpan(text: _axisLabel(i), style: tickStyle),
+          text: TextSpan(text: _axisLabel(i), style: monthStyle),
           textDirection: textDirection,
           textAlign: TextAlign.center,
         )..layout(),
@@ -72,7 +85,9 @@ class ChartRadarPainter extends CustomPainter {
       if (radar.showValues)
         for (var i = 0; i < n; i++)
           TextPainter(
-            text: TextSpan(text: _axisValues(i), style: tickStyle),
+            text: TextSpan(
+              children: _axisValueSpans(i, numberStyle, slashStyle),
+            ),
             textDirection: textDirection,
             textAlign: TextAlign.center,
           )..layout(),
@@ -133,13 +148,22 @@ class ChartRadarPainter extends CustomPainter {
     return '$i';
   }
 
-  String _axisValues(int i) {
-    final List<String> parts = <String>[];
-    for (final ChartSeriesPaint s in series) {
-      final double v = i < s.values.length ? s.values[i] : 0;
-      parts.add(_compact(v));
+  /// Value spans for the custom tick: numbers in [numberStyle] joined
+  /// by muted slashes.
+  List<InlineSpan> _axisValueSpans(
+    int i,
+    TextStyle numberStyle,
+    TextStyle slashStyle,
+  ) {
+    final List<InlineSpan> spans = <InlineSpan>[];
+    for (var si = 0; si < series.length; si++) {
+      final double v = i < series[si].values.length ? series[si].values[i] : 0;
+      spans.add(TextSpan(text: _compact(v), style: numberStyle));
+      if (si < series.length - 1) {
+        spans.add(TextSpan(text: '/', style: slashStyle));
+      }
     }
-    return parts.join('/');
+    return spans;
   }
 
   String _compact(double v) {
@@ -278,21 +302,34 @@ class ChartRadarPainter extends CustomPainter {
   ) {
     for (var i = 0; i < n; i++) {
       final Offset outer = _point(center, radius + 8, i, n);
-      double dy = outer.dy - labels[i].height / 2;
-      if (i == 0) {
-        dy = outer.dy - labels[i].height - 2;
-      } else if ((i * 2) == n) {
-        dy = outer.dy + 2;
-      }
-      double dx = outer.dx - labels[i].width / 2;
-      dx = dx.clamp(0, double.infinity);
       if (radar.showValues && i < values.length) {
-        values[i].paint(canvas, Offset(dx, dy));
+        // Custom tick: "desktop/mobile" on one line, month below.
+        final double totalH = values[i].height + 2 + labels[i].height;
+        double dy = outer.dy - totalH / 2;
+        if (i == 0) {
+          dy -= 10;
+        }
+        final double vx = (outer.dx - values[i].width / 2).clamp(
+          0,
+          double.infinity,
+        );
+        values[i].paint(canvas, Offset(vx, dy));
         labels[i].paint(
           canvas,
-          Offset(outer.dx - labels[i].width / 2, dy + values[i].height + 2),
+          Offset(
+            (outer.dx - labels[i].width / 2).clamp(0, double.infinity),
+            dy + values[i].height + 2,
+          ),
         );
       } else {
+        double dy = outer.dy - labels[i].height / 2;
+        if (i == 0) {
+          dy = outer.dy - labels[i].height / 2 - 10;
+        } else if ((i * 2) == n) {
+          dy = outer.dy + 2;
+        }
+        double dx = outer.dx - labels[i].width / 2;
+        dx = dx.clamp(0, double.infinity);
         labels[i].paint(canvas, Offset(dx, dy));
       }
     }
@@ -304,6 +341,7 @@ class ChartRadarPainter extends CustomPainter {
         old.categories != categories ||
         old.radar != radar ||
         old.gridColor != gridColor ||
+        old.valueStyle != valueStyle ||
         old.progress != progress ||
         old.selectedIndex != selectedIndex ||
         old.textDirection != textDirection ||
