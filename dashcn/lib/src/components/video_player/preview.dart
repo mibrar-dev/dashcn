@@ -31,24 +31,27 @@ class _DefaultVideoState extends State<_DefaultVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 360,
-      child: VideoPlayer(
-        controller: _controller,
-        content: Container(
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
+              ),
             ),
-          ),
-          // Explicit light-on-dark demo copy: the harness stage paints the
-          // default (dark) text style, which falls below 4.5:1 on this
-          // gradient. Real frames are video pixels, not text.
-          child: const Text(
-            'Demo frame',
-            style: TextStyle(
-              color: Color(0xFFFFFFFF),
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+            // Explicit light-on-dark demo copy: the harness stage paints the
+            // default (dark) text style, which falls below 4.5:1 on this
+            // gradient. Real frames are video pixels, not text.
+            child: const Text(
+              'Demo frame',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -81,14 +84,17 @@ class _PosterVideoState extends State<_PosterVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 360,
-      child: VideoPlayer(
-        controller: _controller,
-        poster: Container(
-          color: const Color(0xFF18181B),
-          alignment: Alignment.center,
-          child: const Icon(LucideIcons.image, size: 40),
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          poster: Container(
+            color: const Color(0xFF18181B),
+            alignment: Alignment.center,
+            child: const Icon(LucideIcons.image, size: 40),
+          ),
+          captions: const Text('Captions: hello, world'),
         ),
-        captions: const Text('Captions: hello, world'),
       ),
     );
   }
@@ -115,7 +121,13 @@ class _LoadingVideoState extends State<_LoadingVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 360, child: VideoPlayer(controller: _controller));
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(controller: _controller),
+      ),
+    );
   }
 }
 
@@ -145,7 +157,13 @@ class _ErrorVideoState extends State<_ErrorVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 360, child: VideoPlayer(controller: _controller));
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(controller: _controller),
+      ),
+    );
   }
 }
 
@@ -174,11 +192,14 @@ class _FullscreenVideoState extends State<_FullscreenVideo> {
       children: <Widget>[
         SizedBox(
           width: 360,
-          child: VideoPlayer(
-            controller: _controller,
-            content: const ColoredBox(color: Color(0xFF27272A)),
-            onFullscreenRequested: () =>
-                setState(() => _status = 'fullscreen requested'),
+          child: ColoredBox(
+            color: const Color(0xFF000000),
+            child: VideoPlayer(
+              controller: _controller,
+              content: const ColoredBox(color: Color(0xFF27272A)),
+              onFullscreenRequested: () =>
+                  setState(() => _status = 'fullscreen requested'),
+            ),
           ),
         ),
         Text(_status),
@@ -210,26 +231,29 @@ class _CustomVideoState extends State<_CustomVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 360,
-      child: VideoPlayer(
-        controller: _controller,
-        content: const ColoredBox(color: Color(0xFF3F3F46)),
-        theme: const VideoPlayerTheme(
-          accent: ThemedColor.value(Color(0xFFE11D48)),
-          controlSize: 64,
-        ),
-        playButtonBuilder: (context, c) => GestureDetector(
-          onTap: c.toggle,
-          child: Container(
-            width: 64,
-            height: 64,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE11D48),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-              color: const Color(0xFFFFFFFF),
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: const ColoredBox(color: Color(0xFF3F3F46)),
+          theme: const VideoPlayerTheme(
+            accent: ThemedColor.value(Color(0xFFE11D48)),
+            controlSize: 64,
+          ),
+          playButtonBuilder: (context, c) => GestureDetector(
+            onTap: c.toggle,
+            child: Container(
+              width: 64,
+              height: 64,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE11D48),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+                color: const Color(0xFFFFFFFF),
+              ),
             ),
           ),
         ),
