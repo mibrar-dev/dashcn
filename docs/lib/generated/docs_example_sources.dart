@@ -19746,90 +19746,14 @@ Widget _pane(BuildContext context) => const _PaneDemo();
   ],
   'action_sheet': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Default',
+      name: 'Trigger',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
 
-Widget _default(BuildContext context) => ActionSheet<void>(
-  title: 'Actions',
-  message: 'Choose an action',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
-  ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Destructive',
-      builder: '_destructive',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/dashcn/components/button/button.dart';
-import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
-
-Widget _destructive(BuildContext context) => ActionSheet<void>(
-  title: 'Delete item?',
-  message: 'This cannot be undone.',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(
-      label: 'Delete',
-      icon: Icon(LucideIcons.trash),
-      isDestructive: true,
-    ),
-  ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Long',
-      builder: '_long',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/dashcn/components/button/button.dart';
-import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
-
-Widget _long(BuildContext context) => ActionSheet<void>(
-  title: 'Many actions',
-  actions: List<ActionSheetAction<void>>.generate(
-    12,
-    (int i) => ActionSheetAction<void>(label: 'Action ${i + 1}'),
-  ),
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Customized',
-      builder: '_customized',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/dashcn/components/button/button.dart';
-import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
-
-Widget _customized(BuildContext context) => ActionSheet<void>(
-  title: 'Customized',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Do it'),
-  ],
-  theme: const ActionSheetTheme(),
-);
-''',
-    ),
-    DocsExampleSource(
-      name: 'Trigger',
-      builder: '_trigger',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
-import 'package:<your_app>/ui/dashcn/components/button/button.dart';
-import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
-
-Widget _trigger(BuildContext context) => Center(
+Widget _default(BuildContext context) => Center(
   child: Button(
     variant: ButtonVariant.outline,
     size: ButtonSize.sm,
@@ -19856,6 +19780,107 @@ Widget _trigger(BuildContext context) => Center(
     ),
     child: const Text('Open action sheet'),
   ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Destructive',
+      builder: '_destructive',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _destructive(BuildContext context) => Center(
+  child: Button(
+    variant: ButtonVariant.destructive,
+    size: ButtonSize.sm,
+    onPressed: () => showActionSheet<void>(
+      context: context,
+      title: 'Delete item?',
+      message: 'This cannot be undone.',
+      actions: <ActionSheetAction<void>>[
+        ActionSheetAction<void>(
+          label: 'Delete',
+          icon: const Icon(LucideIcons.trash),
+          isDestructive: true,
+        ),
+      ],
+      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+    ),
+    child: const Text('Delete item'),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Long',
+      builder: '_long',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _long(BuildContext context) => Center(
+  child: Button(
+    variant: ButtonVariant.secondary,
+    size: ButtonSize.sm,
+    onPressed: () => showActionSheet<void>(
+      context: context,
+      title: 'Many actions',
+      actions: List<ActionSheetAction<void>>.generate(
+        12,
+        (int i) => ActionSheetAction<void>(label: 'Action ${i + 1}'),
+      ),
+      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+    ),
+    child: const Text('Many actions'),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _customized(BuildContext context) => Center(
+  child: Button(
+    variant: ButtonVariant.outline,
+    size: ButtonSize.sm,
+    onPressed: () => showActionSheet<void>(
+      context: context,
+      title: 'Customized',
+      actions: const <ActionSheetAction<void>>[
+        ActionSheetAction<void>(label: 'Do it'),
+      ],
+      theme: const ActionSheetTheme(),
+      cancelAction: const ActionSheetAction<void>(label: 'Dismiss'),
+    ),
+    child: const Text('Customized'),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Inline',
+      builder: '_inline',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+
+Widget _inline(BuildContext context) => ActionSheet<void>(
+  title: 'Inline sheet',
+  message: 'Embedded directly into a layout',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
+    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
 );
 ''',
     ),

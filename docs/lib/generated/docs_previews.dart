@@ -245,11 +245,11 @@ const Map<String, List<String>> kComponentPreviews = <String, List<String>>{
   'stepper': <String>['Default', 'Vertical', 'Sizes', 'Failed step'],
   'tabs': <String>['Default', 'Disabled', 'Tab pane'],
   'action_sheet': <String>[
-    'Default',
+    'Trigger',
     'Destructive',
     'Long',
     'Customized',
-    'Trigger',
+    'Inline',
   ],
   'alert_dialog': <String>[
     'Delete account',
