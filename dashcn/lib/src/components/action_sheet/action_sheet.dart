@@ -54,8 +54,9 @@ class ActionSheet<T> extends StatelessWidget {
           defaults: actionSheetDefaults,
         );
     final Color bg =
-        (resolved.backgroundColor ?? ThemedColor.ref(ColorRef.background))
-            .resolve(ambient.colors);
+        (resolved.backgroundColor ?? ThemedColor.ref(ColorRef.card)).resolve(
+          ambient.colors,
+        );
     final Color divider =
         (resolved.dividerColor ?? ThemedColor.ref(ColorRef.border)).resolve(
           ambient.colors,
@@ -75,33 +76,41 @@ class ActionSheet<T> extends StatelessWidget {
                           ThemedColor.ref(ColorRef.mutedForeground))
                       .resolve(ambient.colors)
                 : ambient.colors.foreground);
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          action.onPressed?.call();
-          Navigator.of(context).pop(action.value);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          child: Row(
-            children: <Widget>[
-              if (action.icon != null) ...<Widget>[
-                action.icon!,
-                const SizedBox(width: 12),
-              ],
-              Expanded(
-                child: Text(
-                  action.label,
-                  style: (resolved.actionStyle ?? const TextStyle(fontSize: 16))
-                      .copyWith(
-                        color: color,
-                        fontWeight: action.isDefault
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
+      return Semantics(
+        button: true,
+        label: action.label,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            action.onPressed?.call();
+            final NavigatorState navigator = Navigator.of(context);
+            if (navigator.canPop()) {
+              navigator.pop(action.value);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Row(
+              children: <Widget>[
+                if (action.icon != null) ...<Widget>[
+                  action.icon!,
+                  const SizedBox(width: 12),
+                ],
+                Expanded(
+                  child: Text(
+                    action.label,
+                    style:
+                        (resolved.actionStyle ?? const TextStyle(fontSize: 16))
+                            .copyWith(
+                              color: color,
+                              fontWeight: action.isDefault
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                            ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -198,7 +207,13 @@ Future<T?> showActionSheet<T>({
     context: context,
     builder: (_) => content,
     draggable: true,
+    expands: false,
+    maxSize: 340,
     barrierDismissible: true,
     useRootNavigator: useRootNavigator,
+    theme: const DrawerTheme(
+      padding: EdgeInsets.zero,
+      background: ThemedColor.ref(ColorRef.card),
+    ),
   );
 }
