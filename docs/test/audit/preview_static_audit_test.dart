@@ -106,7 +106,7 @@ void main() {
     final File outFile = File(path)..parent.createSync(recursive: true);
     outFile.writeAsStringSync(out.toString());
     debugPrint('wrote $path (${rows.length} rows)');
-    expect(rows.length, 130);
+    expect(rows.length, 132);
     // P6-F4 contract gates: no pinned themes anywhere; no variant dumps in
     // old galleries. Named examples may iterate `.values` inside ONE example
     // (button Sizes, stepper sizes, toast placements): the page still shows

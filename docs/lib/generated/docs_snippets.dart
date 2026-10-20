@@ -3655,6 +3655,31 @@ await key.currentState!.refresh();''',
           'pppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppp',
     ),
   ],
+  'audio_player': <DocsSnippet>[
+    DocsSnippet(
+      id: 'audio_player.0',
+      componentId: 'audio_player',
+      language: 'dart',
+      code: r'''final controller = FakeAudioPlaybackController(
+  duration: const Duration(minutes: 4, seconds: 5),
+);
+
+AudioPlayer(
+  controller: controller,
+  title: 'Midnight drive',
+  subtitle: 'Neon Coastline',
+)
+
+// Compact row:
+AudioPlayer(
+  controller: controller,
+  variant: AudioPlayerVariant.compact,
+  title: 'Compact episode',
+)''',
+      tokenClasses:
+          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppsssssssssssssssspppppcccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppp',
+    ),
+  ],
   'code_snippet': <DocsSnippet>[
     DocsSnippet(
       id: 'code_snippet.0',
@@ -3775,6 +3800,25 @@ await key.currentState!.refresh();''',
 );''',
       tokenClasses:
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+  ],
+  'video_player': <DocsSnippet>[
+    DocsSnippet(
+      id: 'video_player.0',
+      componentId: 'video_player',
+      language: 'dart',
+      code: r'''final controller = FakeVideoPlaybackController(
+  duration: const Duration(minutes: 3, seconds: 42),
+);
+
+VideoPlayer(
+  controller: controller,
+  content: ColoredBox(color: Color(0xFF27272A)),
+  captions: const Text('Hello, world'),
+  onFullscreenRequested: () => enterFullscreen(),
+)''',
+      tokenClasses:
+          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'alpha': <DocsSnippet>[
@@ -5569,6 +5613,20 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>['lib/ui/dashcn/components/tooltip/tooltip_theme.dart'],
   ),
+  'audio_player': DocsFileList(
+    componentId: 'audio_player',
+    files: <String>[
+      'lib/ui/dashcn/components/audio_player/audio_player.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_controller.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_layout.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_progress.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_style.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_transport.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/audio_player/audio_player_theme.dart',
+    ],
+  ),
   'code_snippet': DocsFileList(
     componentId: 'code_snippet',
     files: <String>[
@@ -5605,6 +5663,20 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/qr_code/qr_code_style.dart',
     ],
     userOwned: <String>['lib/ui/dashcn/components/qr_code/qr_code_theme.dart'],
+  ),
+  'video_player': DocsFileList(
+    componentId: 'video_player',
+    files: <String>[
+      'lib/ui/dashcn/components/video_player/video_player.dart',
+      'lib/ui/dashcn/components/video_player/video_player_buttons.dart',
+      'lib/ui/dashcn/components/video_player/video_player_controller.dart',
+      'lib/ui/dashcn/components/video_player/video_player_controls.dart',
+      'lib/ui/dashcn/components/video_player/video_player_scrub.dart',
+      'lib/ui/dashcn/components/video_player/video_player_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/video_player/video_player_theme.dart',
+    ],
   ),
   'alpha': DocsFileList(
     componentId: 'alpha',

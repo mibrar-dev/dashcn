@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 130 installable components, ordered by category then id.
+/// All 132 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -1394,6 +1394,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     placement: 'center',
   ),
   DocsComponent(
+    id: 'audio_player',
+    name: 'Audio Player',
+    category: 'Typography & Media',
+    description:
+        'Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.',
+    install: 'dashcn add audio_player',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
+    fileCount: 7,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
     id: 'code_snippet',
     name: 'Code Snippet',
     category: 'Typography & Media',
@@ -1445,6 +1459,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     import:
         "import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';",
     fileCount: 4,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'video_player',
+    name: 'Video Player',
+    category: 'Typography & Media',
+    description:
+        'Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.',
+    install: 'dashcn add video_player',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
+    fileCount: 7,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -2180,7 +2208,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 130 components as index-grid links, alphabetical by name.
+/// All 132 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'action_sheet', name: 'Action Sheet'),
@@ -2190,6 +2218,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'anchor', name: 'Anchor'),
   DocsComponentLink(id: 'app', name: 'App'),
   DocsComponentLink(id: 'async', name: 'Async'),
+  DocsComponentLink(id: 'audio_player', name: 'Audio Player'),
   DocsComponentLink(id: 'autocomplete', name: 'Autocomplete'),
   DocsComponentLink(id: 'avatar', name: 'Avatar'),
   DocsComponentLink(id: 'backdrop_transform', name: 'Backdrop Transform'),
@@ -2313,6 +2342,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'tracker', name: 'Tracker'),
   DocsComponentLink(id: 'tree', name: 'Tree'),
   DocsComponentLink(id: 'triple_dots', name: 'Triple Dots'),
+  DocsComponentLink(id: 'video_player', name: 'Video Player'),
   DocsComponentLink(id: 'wheel_picker', name: 'Wheel Picker'),
   DocsComponentLink(id: 'window', name: 'Window'),
 ];
@@ -2325,10 +2355,10 @@ const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 10),
   DocsCategory(id: 'Navigation', count: 6),
+  DocsCategory(id: 'Typography & Media', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
   DocsCategory(id: 'Buttons & Actions', count: 4),
-  DocsCategory(id: 'Typography & Media', count: 4),
   DocsCategory(id: 'Animation & Effects', count: 3),
   DocsCategory(id: 'Date & Time', count: 3),
   DocsCategory(id: 'Color', count: 1),
@@ -2336,8 +2366,8 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 130, // manifest entries
-  listedComponents: 94, // listed only
+  components: 132, // manifest entries
+  listedComponents: 96, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2464,6 +2494,17 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
         ],
       ),
       DocsComponentCategory(
+        id: 'Typography & Media',
+        components: <DocsComponentLink>[
+          DocsComponentLink(id: 'audio_player', name: 'Audio Player'),
+          DocsComponentLink(id: 'code_snippet', name: 'Code Snippet'),
+          DocsComponentLink(id: 'image', name: 'Image'),
+          DocsComponentLink(id: 'markdown', name: 'Markdown'),
+          DocsComponentLink(id: 'qr_code', name: 'Qr Code'),
+          DocsComponentLink(id: 'video_player', name: 'Video Player'),
+        ],
+      ),
+      DocsComponentCategory(
         id: 'Feedback',
         components: <DocsComponentLink>[
           DocsComponentLink(id: 'alert', name: 'Alert'),
@@ -2490,15 +2531,6 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'fab', name: 'Fab'),
           DocsComponentLink(id: 'toggle', name: 'Toggle'),
           DocsComponentLink(id: 'toolbar', name: 'Toolbar'),
-        ],
-      ),
-      DocsComponentCategory(
-        id: 'Typography & Media',
-        components: <DocsComponentLink>[
-          DocsComponentLink(id: 'code_snippet', name: 'Code Snippet'),
-          DocsComponentLink(id: 'image', name: 'Image'),
-          DocsComponentLink(id: 'markdown', name: 'Markdown'),
-          DocsComponentLink(id: 'qr_code', name: 'Qr Code'),
         ],
       ),
       DocsComponentCategory(

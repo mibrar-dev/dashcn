@@ -306,10 +306,34 @@ kKeyboardRows = <String, List<DocsKeyboardRow>>{
   'popup': <DocsKeyboardRow>[],
   'refresh_trigger': <DocsKeyboardRow>[],
   'tooltip': <DocsKeyboardRow>[],
+  'audio_player': <DocsKeyboardRow>[
+    DocsKeyboardRow(
+      keys: 'space',
+      action: '/ k play-pause, ← / → seek 5s, j / l skip back/forward,',
+      source: 'Keyboard',
+    ),
+    DocsKeyboardRow(
+      keys: 'Home / End',
+      action: 'm mute. The progress bar adds arrows, and .',
+      source: 'Keyboard',
+    ),
+  ],
   'code_snippet': <DocsKeyboardRow>[],
   'image': <DocsKeyboardRow>[],
   'markdown': <DocsKeyboardRow>[],
   'qr_code': <DocsKeyboardRow>[],
+  'video_player': <DocsKeyboardRow>[
+    DocsKeyboardRow(
+      keys: 'space',
+      action: '/ k play-pause, ← / → seek 5s, m mute, f fullscreen,',
+      source: 'Keyboard',
+    ),
+    DocsKeyboardRow(
+      keys: 'Home / End',
+      action: 'l loop. The scrub bar adds arrows, and .',
+      source: 'Keyboard',
+    ),
+  ],
   'alpha': <DocsKeyboardRow>[],
   'anchor': <DocsKeyboardRow>[],
   'app': <DocsKeyboardRow>[
@@ -1351,6 +1375,14 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
+  'audio_player': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
+    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
+    DocsDep(id: 'icons', kind: DocsDepKind.foundation),
+    DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
+  ],
   'code_snippet': <DocsDep>[
     DocsDep(id: 'syntax_highlight', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
@@ -1374,6 +1406,15 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'qr_code': <DocsDep>[
+    DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
+  ],
+  'video_player': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
+    DocsDep(id: 'constants', kind: DocsDepKind.foundation),
+    DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],

@@ -590,9 +590,9 @@ void main() {
       );
       expect(homeEnd.action, 'the first or last day of the focused week');
       expect(homeEnd.source, 'Keyboard');
-      // Exactly five components document keyboard rows (the four before, plus
-      // image_lightbox, which documents its arrow/escape keys).
-      expect(kKeyboardGaps.length, kComponents.length - 7);
+      // Exactly nine components document keyboard rows (the seven before, plus
+      // the fab and segmented control, which document their keys).
+      expect(kKeyboardGaps.length, kComponents.length - 9);
     },
   );
 

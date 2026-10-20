@@ -1,0 +1,100 @@
+{
+  "id": "audio_player",
+  "name": "Audio Player",
+  "category": "Typography & Media",
+  "description": "Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.",
+  "tier": "component",
+  "install": "dashcn add audio_player",
+  "import": "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
+  "tags": [
+    "media",
+    "audio",
+    "player",
+    "waveform",
+    "cover",
+    "skip"
+  ],
+  "deps": {
+    "foundation": [
+      "constants",
+      "icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [
+      "motion",
+      "surface"
+    ],
+    "components": []
+  },
+  "files": [
+    "audio_player.dart",
+    "audio_player_controller.dart",
+    "audio_player_layout.dart",
+    "audio_player_progress.dart",
+    "audio_player_style.dart",
+    "audio_player_theme.dart",
+    "audio_player_transport.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": [
+      "AudioPlayer",
+      "AudioPlayerBody",
+      "AudioProgressBar",
+      "AudioPlayerTheme",
+      "AudioPlaybackController",
+      "FakeAudioPlaybackController",
+      "AudioTransportRow",
+      "AudioSpeedButton"
+    ],
+    "enums": [
+      "AudioPlayerVariant"
+    ],
+    "typedefs": [
+      "AudioPartBuilder",
+      "AudioSeekChanged"
+    ],
+    "functions": [
+      "formatAudioTime",
+      "audioSmallButton",
+      "audioPlayButton"
+    ],
+    "constants": [
+      "audioPlayerDefaults",
+      "audioPlayerThemeOverrides"
+    ]
+  },
+  "theme": {
+    "class": "AudioPlayerTheme",
+    "userFile": "audio_player_theme.dart",
+    "defaults": "audioPlayerDefaults",
+    "fields": {
+      "background": "ThemedColor? - card fill, card token",
+      "foreground": "ThemedColor? - title and icons, cardForeground",
+      "mutedForeground": "ThemedColor? - subtitle and times, mutedForeground",
+      "accent": "ThemedColor? - played fill and play button, primary",
+      "track": "ThemedColor? - unplayed track, secondary",
+      "buffered": "ThemedColor? - buffered fill, muted",
+      "thumb": "ThemedColor? - scrub thumb, primary",
+      "coverBackground": "ThemedColor? - cover placeholder, muted",
+      "borderColor": "ThemedColor? - card border, border",
+      "borderWidth": "double? - 1",
+      "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+      "padding": "EdgeInsetsGeometry? - null = 12/8",
+      "coverSize": "double? - cover edge, 176",
+      "coverRadius": "BorderRadiusGeometry? - 12",
+      "controlSize": "double? - play button diameter, 48",
+      "iconSize": "double? - transport icons, 20",
+      "trackHeight": "double? - progress height, 4",
+      "titleTextStyle": "TextStyle? - track title",
+      "subtitleTextStyle": "TextStyle? - track subtitle",
+      "timeTextStyle": "TextStyle? - time labels",
+      "surfaceOpacity": "double? - card opacity leg",
+      "surfaceBlur": "double? - card blur leg",
+      "fadeDuration": "Duration? - state fades, 150ms"
+    }
+  }
+}
