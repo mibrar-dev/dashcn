@@ -121,6 +121,8 @@ import 'package:docs/ui/dashcn/components/switch/preview.dart'
     deferred as preview_switch;
 import 'package:docs/ui/dashcn/components/text_area/preview.dart'
     deferred as preview_text_area;
+import 'package:docs/ui/dashcn/components/wheel_picker/preview.dart'
+    deferred as preview_wheel_picker;
 import 'package:docs/ui/dashcn/components/accordion/preview.dart'
     deferred as preview_accordion;
 import 'package:docs/ui/dashcn/components/card/preview.dart'
@@ -177,6 +179,8 @@ import 'package:docs/ui/dashcn/components/gooey_toast/preview.dart'
     deferred as preview_gooey_toast;
 import 'package:docs/ui/dashcn/components/hover_card/preview.dart'
     deferred as preview_hover_card;
+import 'package:docs/ui/dashcn/components/image_lightbox/preview.dart'
+    deferred as preview_image_lightbox;
 import 'package:docs/ui/dashcn/components/popup/preview.dart'
     deferred as preview_popup;
 import 'package:docs/ui/dashcn/components/refresh_trigger/preview.dart'
@@ -527,6 +531,11 @@ Future<Widget> loadComponentPreview(
       builder: preview_text_area.textAreaPreviews[exampleIndex].builder,
     ),
   ),
+  'wheel_picker' => preview_wheel_picker.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_wheel_picker.wheelPickerPreviews[exampleIndex].builder,
+    ),
+  ),
   'accordion' => preview_accordion.loadLibrary().then(
     (_) => Builder(
       builder: preview_accordion.accordionPreviews[exampleIndex].builder,
@@ -656,6 +665,12 @@ Future<Widget> loadComponentPreview(
   'hover_card' => preview_hover_card.loadLibrary().then(
     (_) => Builder(
       builder: preview_hover_card.hoverCardPreviews[exampleIndex].builder,
+    ),
+  ),
+  'image_lightbox' => preview_image_lightbox.loadLibrary().then(
+    (_) => Builder(
+      builder:
+          preview_image_lightbox.imageLightboxPreviews[exampleIndex].builder,
     ),
   ),
   'popup' => preview_popup.loadLibrary().then(

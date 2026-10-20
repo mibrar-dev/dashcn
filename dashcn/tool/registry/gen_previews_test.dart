@@ -452,6 +452,13 @@ const Map<String, String> _whitelistBoth = <String, String>{
   'card_image/Horizontal': 'both: throws under sibling rework (base-caught)',
   'card_image/Vertical': 'both: throws under sibling rework (base-caught)',
   'table/Data table': 'both: throws under sibling rework (base-caught)',
+  // Full-stage overlay: the lightbox paints edge to edge (scrim, top bar,
+  // caption, thumbnail strip) by design, so its union is the stage, not a
+  // centred box.
+  'image_lightbox/Default': 'both: full-stage overlay',
+  'image_lightbox/Minimal': 'both: full-stage overlay',
+  'image_lightbox/Customized': 'both: full-stage overlay',
+  'image_lightbox/From thumbnails': 'both: full-stage overlay',
 };
 
 /// Examples exempt vertically (docked chrome, fixed alignment columns,

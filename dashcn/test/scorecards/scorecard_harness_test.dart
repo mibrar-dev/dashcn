@@ -50,6 +50,7 @@ import 'examples/formatted_input.dart' as formatted_input_example;
 import 'examples/gooey_toast.dart' as gooey_toast_example;
 import 'examples/hover_card.dart' as hover_card_example;
 import 'examples/image.dart' as image_example;
+import 'examples/image_lightbox.dart' as image_lightbox_example;
 import 'examples/input.dart' as input_example;
 import 'examples/input_otp.dart' as input_otp_example;
 import 'examples/item_picker.dart' as item_picker_example;
@@ -99,6 +100,7 @@ import 'examples/tooltip.dart' as tooltip_example;
 import 'examples/tracker.dart' as tracker_example;
 import 'examples/tree.dart' as tree_example;
 import 'examples/video_player.dart' as video_player_example;
+import 'examples/wheel_picker.dart' as wheel_picker_example;
 
 /// Pumps [builder] under [direction] with no settling.
 ///
@@ -285,6 +287,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'gooey_toast': gooey_toast_example.scorecardExample,
   'hover_card': hover_card_example.scorecardExample,
   'image': image_example.scorecardExample,
+  'image_lightbox': image_lightbox_example.scorecardExample,
   'input': input_example.scorecardExample,
   'input_otp': input_otp_example.scorecardExample,
   'item_picker': item_picker_example.scorecardExample,
@@ -334,6 +337,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'tracker': tracker_example.scorecardExample,
   'tree': tree_example.scorecardExample,
   'video_player': video_player_example.scorecardExample,
+  'wheel_picker': wheel_picker_example.scorecardExample,
 };
 
 void main() {
