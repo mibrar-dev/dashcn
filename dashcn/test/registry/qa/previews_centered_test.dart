@@ -26,6 +26,7 @@ import 'package:dashcn/src/components/accordion/preview.dart';
 import 'package:dashcn/src/components/action_sheet/preview.dart';
 import 'package:dashcn/src/components/alert/preview.dart';
 import 'package:dashcn/src/components/alert_dialog/preview.dart';
+import 'package:dashcn/src/components/audio_player/preview.dart';
 import 'package:dashcn/src/components/autocomplete/preview.dart';
 import 'package:dashcn/src/components/avatar/preview.dart';
 import 'package:dashcn/src/components/badge/preview.dart';
@@ -112,6 +113,7 @@ import 'package:dashcn/src/components/toggle/preview.dart';
 import 'package:dashcn/src/components/tooltip/preview.dart';
 import 'package:dashcn/src/components/tracker/preview.dart';
 import 'package:dashcn/src/components/tree/preview.dart';
+import 'package:dashcn/src/components/video_player/preview.dart';
 import 'package:dashcn/src/components/wheel_picker/preview.dart';
 
 /// Stage size the docs page hands an example.
@@ -227,6 +229,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'action_sheet': actionSheetPreviews,
       'alert': alertPreviews,
       'alert_dialog': alertDialogPreviews,
+      'audio_player': audioPlayerPreviews,
       'autocomplete': autocompletePreviews,
       'avatar': avatarPreviews,
       'badge': badgePreviews,
@@ -313,6 +316,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'tooltip': tooltipPreviews,
       'tracker': trackerPreviews,
       'tree': treePreviews,
+      'video_player': videoPlayerPreviews,
       'wheel_picker': wheelPickerPreviews,
     };
 

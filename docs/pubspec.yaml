@@ -48,6 +48,13 @@ dependencies:
   # imports) and referenced presets tree-shake to ~16 KB gzip. Exact pin: the
   # frame SVG artwork is compiled const data, so upgrades change pixels.
   device_preview: 3.0.0
+  # Media adapters only (`lib/media/`): the kit stays dependency-free, so the
+  # `package:video_player` -> `VideoPlaybackController` bridge lives here.
+  # Widgets-only plugin (Texture-based, no material/cupertino imports).
+  video_player: ^2.14.1
+  # Media adapters only (`lib/media/`): the `just_audio` -> `AudioPlaybackController`
+  # bridge lives here. Pure-Dart audio playback (no widgets at all).
+  just_audio: ^0.10.6
 
 dev_dependencies:
   flutter_test:

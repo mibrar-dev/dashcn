@@ -187,6 +187,8 @@ import 'package:docs/ui/dashcn/components/refresh_trigger/preview.dart'
     deferred as preview_refresh_trigger;
 import 'package:docs/ui/dashcn/components/tooltip/preview.dart'
     deferred as preview_tooltip;
+import 'package:docs/ui/dashcn/components/audio_player/preview.dart'
+    deferred as preview_audio_player;
 import 'package:docs/ui/dashcn/components/code_snippet/preview.dart'
     deferred as preview_code_snippet;
 import 'package:docs/ui/dashcn/components/image/preview.dart'
@@ -195,6 +197,8 @@ import 'package:docs/ui/dashcn/components/markdown/preview.dart'
     deferred as preview_markdown;
 import 'package:docs/ui/dashcn/components/qr_code/preview.dart'
     deferred as preview_qr_code;
+import 'package:docs/ui/dashcn/components/video_player/preview.dart'
+    deferred as preview_video_player;
 import 'package:docs/ui/dashcn/components/alpha/preview.dart'
     deferred as preview_alpha;
 import 'package:docs/ui/dashcn/components/anchor/preview.dart'
@@ -682,6 +686,11 @@ Future<Widget> loadComponentPreview(
     (_) =>
         Builder(builder: preview_tooltip.tooltipPreviews[exampleIndex].builder),
   ),
+  'audio_player' => preview_audio_player.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_audio_player.audioPlayerPreviews[exampleIndex].builder,
+    ),
+  ),
   'code_snippet' => preview_code_snippet.loadLibrary().then(
     (_) => Builder(
       builder: preview_code_snippet.codeSnippetPreviews[exampleIndex].builder,
@@ -698,6 +707,11 @@ Future<Widget> loadComponentPreview(
   'qr_code' => preview_qr_code.loadLibrary().then(
     (_) =>
         Builder(builder: preview_qr_code.qrCodePreviews[exampleIndex].builder),
+  ),
+  'video_player' => preview_video_player.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_video_player.videoPlayerPreviews[exampleIndex].builder,
+    ),
   ),
   'alpha' => preview_alpha.loadLibrary().then(
     (_) => preview_alpha.AlphaPreview(),

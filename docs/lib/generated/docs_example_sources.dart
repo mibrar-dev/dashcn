@@ -22992,6 +22992,309 @@ Widget _container(BuildContext context) {
 ''',
     ),
   ],
+  'audio_player': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Default full player with title and subtitle.
+class _DefaultAudio extends StatefulWidget {
+  const _DefaultAudio();
+
+  @override
+  State<_DefaultAudio> createState() => _DefaultAudioState();
+}
+
+class _DefaultAudioState extends State<_DefaultAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Midnight drive',
+        subtitle: 'Neon Coastline',
+      ),
+    );
+  }
+}
+
+Widget _default(BuildContext context) => const _DefaultAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Compact',
+      builder: '_compact',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Compact single-row player.
+class _CompactAudio extends StatefulWidget {
+  const _CompactAudio();
+
+  @override
+  State<_CompactAudio> createState() => _CompactAudioState();
+}
+
+class _CompactAudioState extends State<_CompactAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    isPlaying: true,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        variant: AudioPlayerVariant.compact,
+        title: 'Compact episode',
+      ),
+    );
+  }
+}
+
+Widget _compact(BuildContext context) => const _CompactAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Cover art',
+      builder: '_cover',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Player with a cover-art slot.
+class _CoverAudio extends StatefulWidget {
+  const _CoverAudio();
+
+  @override
+  State<_CoverAudio> createState() => _CoverAudioState();
+}
+
+class _CoverAudioState extends State<_CoverAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Cover story',
+        subtitle: 'Side A',
+        cover: Container(
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[Color(0xFF7C3AED), Color(0xFFEC4899)],
+            ),
+          ),
+          child: const Icon(
+            LucideIcons.music,
+            size: 48,
+            color: Color(0xFFFFFFFF),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _cover(BuildContext context) => const _CoverAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Waveform slot',
+      builder: '_waveform',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Waveform slot replacing the progress bar.
+class _WaveformAudio extends StatefulWidget {
+  const _WaveformAudio();
+
+  @override
+  State<_WaveformAudio> createState() => _WaveformAudioState();
+}
+
+class _WaveformAudioState extends State<_WaveformAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Waveform mix',
+        waveformBuilder: (context, c, defaults) => GestureDetector(
+          onTapDown: (_) => c.seekTo(c.duration * 0.75),
+          child: SizedBox(
+            height: 48,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                for (int i = 0; i < 32; i++)
+                  Container(
+                    width: 4,
+                    height: 12 + (i % 5) * 6.0,
+                    margin: const EdgeInsets.symmetric(horizontal: 1),
+                    color: const Color(0xFF71717A),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _waveform(BuildContext context) => const _WaveformAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Skip and speed',
+      builder: '_skip',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Skip back/forward and speed controls.
+class _SkipAudio extends StatefulWidget {
+  const _SkipAudio();
+
+  @override
+  State<_SkipAudio> createState() => _SkipAudioState();
+}
+
+class _SkipAudioState extends State<_SkipAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    playbackSpeed: 1.5,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Skip demo',
+        skipBack: const Duration(seconds: 15),
+        skipForward: const Duration(seconds: 30),
+      ),
+    );
+  }
+}
+
+Widget _skip(BuildContext context) => const _SkipAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_custom',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Customized theme plus a custom play button.
+class _CustomAudio extends StatefulWidget {
+  const _CustomAudio();
+
+  @override
+  State<_CustomAudio> createState() => _CustomAudioState();
+}
+
+class _CustomAudioState extends State<_CustomAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Custom theme',
+        subtitle: 'Rose accent',
+        theme: const AudioPlayerTheme(
+          accent: ThemedColor.value(Color(0xFFE11D48)),
+          controlSize: 56,
+        ),
+        playButtonBuilder: (context, c) => GestureDetector(
+          onTap: c.toggle,
+          child: Container(
+            width: 56,
+            height: 56,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE11D48),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Icon(
+              c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+              color: const Color(0xFFFFFFFF),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _custom(BuildContext context) => const _CustomAudio();
+''',
+    ),
+  ],
   'code_snippet': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -23403,6 +23706,326 @@ class _Shapes extends StatelessWidget {
 }
 
 Widget _shapes(BuildContext context) => const _Shapes();
+''',
+    ),
+  ],
+  'video_player': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Default player with a poster frame behind the content.
+class _DefaultVideo extends StatefulWidget {
+  const _DefaultVideo();
+
+  @override
+  State<_DefaultVideo> createState() => _DefaultVideoState();
+}
+
+class _DefaultVideoState extends State<_DefaultVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
+              ),
+            ),
+            // Explicit light-on-dark demo copy: the harness stage paints the
+            // default (dark) text style, which falls below 4.5:1 on this
+            // gradient. Real frames are video pixels, not text.
+            child: const Text(
+              'Demo frame',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _default(BuildContext context) => const _DefaultVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Poster and captions',
+      builder: '_poster',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Player with a poster still and captions.
+class _PosterVideo extends StatefulWidget {
+  const _PosterVideo();
+
+  @override
+  State<_PosterVideo> createState() => _PosterVideoState();
+}
+
+class _PosterVideoState extends State<_PosterVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    position: Duration.zero,
+    duration: const Duration(minutes: 2, seconds: 5),
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          poster: Container(
+            color: const Color(0xFF18181B),
+            alignment: Alignment.center,
+            child: const Icon(LucideIcons.image, size: 40),
+          ),
+          captions: const Text('Captions: hello, world'),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _poster(BuildContext context) => const _PosterVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Loading',
+      builder: '_loading',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Loading state with the indicator slot.
+class _LoadingVideo extends StatefulWidget {
+  const _LoadingVideo();
+
+  @override
+  State<_LoadingVideo> createState() => _LoadingVideoState();
+}
+
+class _LoadingVideoState extends State<_LoadingVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    isBuffering: true,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(controller: _controller),
+      ),
+    );
+  }
+}
+
+Widget _loading(BuildContext context) => const _LoadingVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Error',
+      builder: '_error',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Error state with a retry slot.
+class _ErrorVideo extends StatefulWidget {
+  const _ErrorVideo();
+
+  @override
+  State<_ErrorVideo> createState() => _ErrorVideoState();
+}
+
+class _ErrorVideoState extends State<_ErrorVideo> {
+  late final FakeVideoPlaybackController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = FakeVideoPlaybackController();
+    _controller.setError(Exception('network'));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(controller: _controller),
+      ),
+    );
+  }
+}
+
+Widget _error(BuildContext context) => const _ErrorVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Fullscreen callback',
+      builder: '_fullscreen',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Fullscreen callback demo.
+class _FullscreenVideo extends StatefulWidget {
+  const _FullscreenVideo();
+
+  @override
+  State<_FullscreenVideo> createState() => _FullscreenVideoState();
+}
+
+class _FullscreenVideoState extends State<_FullscreenVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+  String _status = 'windowed';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          width: 360,
+          child: ColoredBox(
+            color: const Color(0xFF000000),
+            child: VideoPlayer(
+              controller: _controller,
+              content: const ColoredBox(color: Color(0xFF27272A)),
+              onFullscreenRequested: () =>
+                  setState(() => _status = 'fullscreen requested'),
+            ),
+          ),
+        ),
+        Text(_status),
+      ],
+    );
+  }
+}
+
+Widget _fullscreen(BuildContext context) => const _FullscreenVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_custom',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Customized theme, custom scrub colours and a custom play button.
+class _CustomVideo extends StatefulWidget {
+  const _CustomVideo();
+
+  @override
+  State<_CustomVideo> createState() => _CustomVideoState();
+}
+
+class _CustomVideoState extends State<_CustomVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    playbackSpeed: 1.5,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: const ColoredBox(color: Color(0xFF3F3F46)),
+          theme: const VideoPlayerTheme(
+            accent: ThemedColor.value(Color(0xFFE11D48)),
+            controlSize: 64,
+          ),
+          playButtonBuilder: (context, c) => GestureDetector(
+            onTap: c.toggle,
+            child: Container(
+              width: 64,
+              height: 64,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE11D48),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+                color: const Color(0xFFFFFFFF),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _custom(BuildContext context) => const _CustomVideo();
 ''',
     ),
   ],
