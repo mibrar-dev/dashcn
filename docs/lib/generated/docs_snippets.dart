@@ -870,6 +870,22 @@ FileDiffViewer(layout: FileDiffLayout.split, files: files);''',
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
+  'list_tile': <DocsSnippet>[
+    DocsSnippet(
+      id: 'list_tile.0',
+      componentId: 'list_tile',
+      language: 'dart',
+      code: r'''ListTile(
+  leading: Icon(LucideIcons.user),
+  title: Text('Title'),
+  subtitle: Text('Subtitle'),
+  trailing: Icon(LucideIcons.chevronRight),
+  onTap: () {},
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+  ],
   'number_ticker': <DocsSnippet>[
     DocsSnippet(
       id: 'number_ticker.0',
@@ -3045,6 +3061,23 @@ controller.setStepState(1, null); // cleared''',
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
+  'action_sheet': <DocsSnippet>[
+    DocsSnippet(
+      id: 'action_sheet.0',
+      componentId: 'action_sheet',
+      language: 'dart',
+      code: r'''showActionSheet<void>(
+  context: context,
+  title: 'Actions',
+  actions: [
+    ActionSheetAction(label: 'Edit', onPressed: () {}),
+  ],
+  cancelAction: ActionSheetAction(label: 'Cancel'),
+);''',
+      tokenClasses:
+          'ppppppppppppppppkkkkppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppp',
+    ),
+  ],
   'alert_dialog': <DocsSnippet>[
     DocsSnippet(
       id: 'alert_dialog.0',
@@ -4656,6 +4689,16 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut_theme.dart',
     ],
   ),
+  'list_tile': DocsFileList(
+    componentId: 'list_tile',
+    files: <String>[
+      'lib/ui/dashcn/components/list_tile/list_tile.dart',
+      'lib/ui/dashcn/components/list_tile/list_tile_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/list_tile/list_tile_theme.dart',
+    ],
+  ),
   'number_ticker': DocsFileList(
     componentId: 'number_ticker',
     files: <String>[
@@ -5157,6 +5200,16 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/tabs/tabs_style.dart',
     ],
     userOwned: <String>['lib/ui/dashcn/components/tabs/tabs_theme.dart'],
+  ),
+  'action_sheet': DocsFileList(
+    componentId: 'action_sheet',
+    files: <String>[
+      'lib/ui/dashcn/components/action_sheet/action_sheet.dart',
+      'lib/ui/dashcn/components/action_sheet/action_sheet_style.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/action_sheet/action_sheet_theme.dart',
+    ],
   ),
   'alert_dialog': DocsFileList(
     componentId: 'alert_dialog',

@@ -99,6 +99,9 @@ enum DocsRoute {
   /// `/docs/starters/<id>` — one starter, routes + create command.
   starter,
 
+  /// `/debug-motion` — TEMPORARY visual-proof harness (deleted before merge).
+  debugMotion,
+
   /// Anything else; rendered as a not-found page.
   notFound,
 }
@@ -249,6 +252,11 @@ class DocsRouteConfiguration {
   static DocsRouteConfiguration starter(String id) =>
       DocsRouteConfiguration._(DocsRoute.starter, starterId: id);
 
+  /// `/debug-motion` — TEMPORARY visual-proof harness (deleted before merge).
+  static const DocsRouteConfiguration debugMotion = DocsRouteConfiguration._(
+    DocsRoute.debugMotion,
+  );
+
   /// `/docs/components/<id>`.
   static DocsRouteConfiguration component(String id) =>
       DocsRouteConfiguration._(DocsRoute.component, componentId: id);
@@ -280,6 +288,9 @@ class DocsRouteConfiguration {
     }
     if (path.length == 1 && path[0] == 'themes') {
       return themes;
+    }
+    if (path.length == 1 && path[0] == 'debug-motion') {
+      return debugMotion;
     }
     if (path[0] == 'charts') {
       if (path.length == 1) {
@@ -386,6 +397,7 @@ class DocsRouteConfiguration {
     DocsRoute.flow => '/docs/flows/$flowId',
     DocsRoute.starters => '/docs/starters',
     DocsRoute.starter => '/docs/starters/$starterId',
+    DocsRoute.debugMotion => '/debug-motion',
     DocsRoute.notFound => raw ?? '/',
   };
 
@@ -412,6 +424,7 @@ class DocsRouteConfiguration {
     DocsRoute.flow => flowId ?? 'Flow',
     DocsRoute.starters => 'Starters',
     DocsRoute.starter => starterId ?? 'Starter',
+    DocsRoute.debugMotion => 'Debug motion',
     DocsRoute.notFound => 'Not found',
   };
 

@@ -1,0 +1,40 @@
+{
+  "id": "action_sheet",
+  "name": "ActionSheet",
+  "category": "Overlays",
+  "description": "A bottom sheet of actions with title and message, destructive and cancel actions, icons, scrollable list, drag to dismiss, and a centered dialog variant on wide screens.",
+  "tier": "component",
+  "listed": true,
+  "install": "dashcn add action_sheet",
+  "import": "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
+  "tags": ["overlay", "sheet", "actions", "modal"],
+  "deps": {
+    "foundation": ["icons"],
+    "theme": ["color_tokens", "density", "theme"],
+    "primitives": [],
+    "components": ["dialog", "drawer"]
+  },
+  "files": [
+    "action_sheet.dart",
+    "action_sheet_style.dart",
+    "action_sheet_theme.dart",
+    "preview.dart"
+  ],
+  "api": {
+    "classes": ["ActionSheet", "ActionSheetAction", "ActionSheetTheme", "ActionSheetStyle"],
+    "functions": ["showActionSheet"],
+    "constants": ["actionSheetDefaults", "actionSheetThemeOverrides"]
+  },
+  "theme": {
+    "class": "ActionSheetTheme",
+    "userFile": "action_sheet_theme.dart",
+    "defaults": "actionSheetDefaults",
+    "fields": {
+      "backgroundColor": "ThemedColor? - sheet background",
+      "titleStyle": "TextStyle? - title text style",
+      "messageStyle": "TextStyle? - message text style",
+      "destructiveColor": "ThemedColor? - destructive action colour",
+      "cancelColor": "ThemedColor? - cancel action colour"
+    }
+  }
+}
