@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../focus_outline.dart';
 import '../motion/error_shake.dart';
+import '../motion/motion_collapse.dart';
 import '../motion/motion_enter.dart';
 
 /// The standard visual shell around a text field's content.
@@ -107,23 +108,31 @@ class EditableTextShell extends StatelessWidget {
       ),
     );
     final message = errorText;
-    if (message != null) {
-      // The field shakes once when the error appears while the message
-      // fades in; both are transform/opacity only, so layout never jumps.
-      field = ErrorShake(
-        trigger: message,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            field,
-            Padding(
-              padding: EdgeInsets.only(top: gap),
-              child: MotionEnter(child: Text(message, style: errorStyle)),
-            ),
-          ],
-        ),
-      );
-    }
+    // The field shakes once when the error appears while the message fades
+    // in; both are transform/opacity only, so layout never jumps. The message
+    // stays mounted while its collapse exit plays, so clearing the error
+    // shrinks the message away (siblings slide up) instead of cutting it.
+    field = ErrorShake(
+      trigger: message,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          field,
+          MotionCollapse(
+            visible: message != null,
+            child: message == null
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: EdgeInsets.only(top: gap),
+                    child: MotionEnter(
+                      child: Text(message, style: errorStyle),
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
     return field;
   }
 }

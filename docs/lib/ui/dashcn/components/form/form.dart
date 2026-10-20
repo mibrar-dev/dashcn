@@ -12,6 +12,7 @@ import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_entry.dart';
 import '../../primitives/form_core/validation.dart';
 import '../../primitives/motion/error_shake.dart';
+import '../../primitives/motion/motion_collapse.dart';
 import '../../primitives/motion/motion_enter.dart';
 import 'form_style.dart';
 
@@ -243,20 +244,31 @@ class FormFieldMessages extends StatelessWidget {
           Gap(spacing),
           DefaultTextStyle.merge(style: hintStyle, child: hintWidget),
         ],
-        if (messageText != null) ...<Widget>[
-          Gap(spacing),
-          // The error shakes once when it appears while the message fades
-          // in; both are transform/opacity only, so layout never jumps.
-          ErrorShake(
-            trigger: messageText,
-            child: MotionEnter(
-              child: DefaultTextStyle.merge(
-                style: messageStyle,
-                child: Text(messageText),
-              ),
-            ),
-          ),
-        ],
+        // The error shakes once when it appears while the message fades
+        // in; both are transform/opacity only, so layout never jumps.
+        // Clearing the message plays the collapse exit (height + fade)
+        // instead of cutting the row.
+        MotionCollapse(
+          visible: messageText != null,
+          child: messageText == null
+              ? const SizedBox.shrink()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Gap(spacing),
+                    ErrorShake(
+                      trigger: messageText,
+                      child: MotionEnter(
+                        child: DefaultTextStyle.merge(
+                          style: messageStyle,
+                          child: Text(messageText),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ],
     );
   }

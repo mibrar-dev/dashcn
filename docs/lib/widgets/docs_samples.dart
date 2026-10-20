@@ -132,6 +132,53 @@ final ThemeData still = theme.copyWith(
   motion: () => const MotionTokens(enabled: false),
 );
 '''),
+  'motion-categories': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/theme/theme.dart';
+
+// Category legs: retime one animation family from one place. Null keeps
+// the component default, so unset legs reproduce today's timing exactly.
+final ThemeData motion = Theme.of(context).copyWith(
+  motion: () => const MotionTokens(
+    overlayEnterDuration: Duration(milliseconds: 150),
+    overlayExitDuration: Duration(milliseconds: 120),
+    stateDuration: Duration(milliseconds: 180),
+    stateCurve: Curves.easeOut,
+  ),
+);
+
+// Per-phase resolution inside a component: per-instance, category, default.
+final Duration enter = theme.motion.resolveOverlayEnterDuration(
+  theme.motion.durations.base,
+);
+final Duration state = theme.motion.resolveStateDuration(
+  theme.motion.durations.fast,
+);
+'''),
+  'motion-presence': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/primitives/motion/motion_collapse.dart';
+import 'package:your_app/ui/dashcn/primitives/motion/motion_presence.dart';
+import 'package:your_app/ui/dashcn/primitives/motion/motion_spec.dart';
+
+// Presence: the banner exits before it unmounts.
+MotionPresence(
+  visible: show,
+  onExited: () => debugPrint('exit finished'),
+  child: const Text('Saved.'),
+)
+
+// Collapse: the error shrinks away; siblings slide up underneath.
+MotionCollapse(
+  visible: error != null,
+  child: Text(error ?? ''),
+)
+
+// Per-instance override: slow exit, custom transition, or instant snap.
+const MotionSpec(
+  exitDuration: Duration(milliseconds: 450),
+  exit: fadeMotionTransition,
+  disabled: false,
+)
+'''),
   'responsive': DocsSample('dart', r'''
 import 'package:your_app/ui/dashcn/theme/theme.dart';
 

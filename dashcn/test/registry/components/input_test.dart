@@ -225,6 +225,8 @@ void main() {
 
     await tester.tap(find.byIcon(LucideIcons.refreshCw));
     await tester.pump();
+    // The error collapses away (height + fade) instead of vanishing.
+    await tester.pumpAndSettle();
     expect(find.text('Required'), findsNothing);
     expect(_surface(tester).border, Border.all(color: colors.input));
   });
@@ -244,6 +246,8 @@ void main() {
 
     await tester.enterText(find.byType(EditableText), 'good');
     await tester.pump();
+    // The error collapses away (height + fade) instead of vanishing.
+    await tester.pumpAndSettle();
     expect(find.text('Required'), findsNothing);
   });
 
