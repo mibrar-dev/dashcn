@@ -590,9 +590,9 @@ void main() {
       );
       expect(homeEnd.action, 'the first or last day of the focused week');
       expect(homeEnd.source, 'Keyboard');
-      // Exactly four components document keyboard rows; `app` gained its
-      // shortcuts section, so the gap count dropped by one.
-      expect(kKeyboardGaps.length, kComponents.length - 4);
+      // Exactly five components document keyboard rows (the four before, plus
+      // image_lightbox, which documents its arrow/escape keys).
+      expect(kKeyboardGaps.length, kComponents.length - 5);
     },
   );
 
