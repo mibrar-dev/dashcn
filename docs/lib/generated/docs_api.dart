@@ -4819,6 +4819,110 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     ],
     members: <DocsApiMember>[],
   ),
+  'wheel_picker': DocsApiTable(
+    componentId: 'wheel_picker',
+    symbol: 'WheelPicker',
+    hasApiTable: true,
+    parseClean: true,
+    summary: 'A scrolling wheel picker with one or more columns.',
+    params: <DocsApiParam>[
+      DocsApiParam(
+        name: 'columns',
+        type: 'List<WheelColumn>',
+        isRequired: true,
+        doc: 'The wheel columns, left to right.',
+      ),
+      DocsApiParam(
+        name: 'value',
+        type: 'List<int>?',
+        isRequired: false,
+        doc:
+            'The selected index of every column; null makes the picker uncontrolled.',
+      ),
+      DocsApiParam(
+        name: 'initialValue',
+        type: 'List<int>?',
+        isRequired: false,
+        doc: 'Initial selection when [value] is null.',
+      ),
+      DocsApiParam(
+        name: 'onChanged',
+        type: 'ValueChanged<List<int>>?',
+        isRequired: false,
+        doc:
+            'Called with the selected index of every column; never fires haptics.',
+      ),
+      DocsApiParam(
+        name: 'itemHeight',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Row height override; null resolves `WheelPickerTheme.itemHeight`.',
+      ),
+      DocsApiParam(
+        name: 'visibleItems',
+        type: 'int?',
+        isRequired: false,
+        defaultValue: '5',
+        doc: 'Number of visible rows override; null resolves the theme (5).',
+      ),
+      DocsApiParam(
+        name: 'looping',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc:
+            'Whether each column loops forever instead of clamping at the ends.',
+      ),
+      DocsApiParam(
+        name: 'perspective',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Whether the wheel renders as a 3D cylinder instead of flat rows.',
+      ),
+      DocsApiParam(
+        name: 'enabled',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Overrides the enabled state; null means `onChanged != null`.',
+      ),
+      DocsApiParam(
+        name: 'focusNode',
+        type: 'FocusNode?',
+        isRequired: false,
+        doc: 'Focus node for keyboard control.',
+      ),
+      DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Accessible label for the whole picker.',
+      ),
+      DocsApiParam(
+        name: 'bandBuilder',
+        type: 'WheelBandBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the centred selection band; null paints the themed band.',
+      ),
+      DocsApiParam(
+        name: 'separatorBuilder',
+        type: 'WheelSeparatorBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the separator after a column; null paints the themed 1px rule.',
+      ),
+      DocsApiParam(
+        name: 'theme',
+        type: 'WheelPickerTheme?',
+        isRequired: false,
+        doc:
+            'Widget-leg theme override, merged over the component/app/defaults legs.',
+      ),
+    ],
+    members: <DocsApiMember>[],
+  ),
   'accordion': DocsApiTable(
     componentId: 'accordion',
     symbol: 'Accordion',
@@ -6381,6 +6485,114 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'PopupAdaptive?',
         isRequired: false,
         doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
+      ),
+    ],
+    members: <DocsApiMember>[],
+  ),
+  'image_lightbox': DocsApiTable(
+    componentId: 'image_lightbox',
+    symbol: 'ImageLightbox',
+    hasApiTable: true,
+    parseClean: true,
+    summary: 'A full-screen lightbox over a list of [LightboxImage]s.',
+    params: <DocsApiParam>[
+      DocsApiParam(
+        name: 'images',
+        type: 'List<LightboxImage>',
+        isRequired: true,
+        doc: 'The images to show.',
+      ),
+      DocsApiParam(
+        name: 'initialIndex',
+        type: 'int',
+        isRequired: false,
+        defaultValue: '0',
+        doc: 'The image to open on.',
+      ),
+      DocsApiParam(
+        name: 'showThumbnails',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'true',
+        doc: 'Whether the thumbnail strip shows.',
+      ),
+      DocsApiParam(
+        name: 'showCounter',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'true',
+        doc: 'Whether the counter shows.',
+      ),
+      DocsApiParam(
+        name: 'minScale',
+        type: 'double',
+        isRequired: false,
+        defaultValue: '1',
+        doc: 'Minimum zoom scale.',
+      ),
+      DocsApiParam(
+        name: 'maxScale',
+        type: 'double',
+        isRequired: false,
+        defaultValue: '4',
+        doc: 'Maximum zoom scale.',
+      ),
+      DocsApiParam(
+        name: 'doubleTapScale',
+        type: 'double',
+        isRequired: false,
+        defaultValue: '2',
+        doc: 'Scale a double-tap zooms to.',
+      ),
+      DocsApiParam(
+        name: 'onChanged',
+        type: 'ValueChanged<int>?',
+        isRequired: false,
+        doc: 'Called with the current image index on every page change.',
+      ),
+      DocsApiParam(
+        name: 'scrimBuilder',
+        type: 'LightboxScrimBuilder?',
+        isRequired: false,
+        doc: 'Replaces the scrim; null paints the themed barrier colour.',
+      ),
+      DocsApiParam(
+        name: 'imageBuilder',
+        type: 'LightboxImageBuilder?',
+        isRequired: false,
+        doc:
+            'Replaces the main image; null renders the `image` component\'s `Picture`.',
+      ),
+      DocsApiParam(
+        name: 'captionBuilder',
+        type: 'LightboxCaptionBuilder?',
+        isRequired: false,
+        doc: 'Replaces the caption; null renders the themed caption text.',
+      ),
+      DocsApiParam(
+        name: 'counterBuilder',
+        type: 'LightboxCounterBuilder?',
+        isRequired: false,
+        doc: 'Replaces the counter; null renders the themed `n / total` text.',
+      ),
+      DocsApiParam(
+        name: 'closeButtonBuilder',
+        type: 'LightboxCloseBuilder?',
+        isRequired: false,
+        doc: 'Replaces the close button; null renders the themed × button.',
+      ),
+      DocsApiParam(
+        name: 'thumbnailBuilder',
+        type: 'LightboxThumbnailBuilder?',
+        isRequired: false,
+        doc: 'Replaces one thumbnail; null renders the themed thumbnail.',
+      ),
+      DocsApiParam(
+        name: 'theme',
+        type: 'ImageLightboxTheme?',
+        isRequired: false,
+        doc:
+            'Widget-leg theme override, merged over the component/app/defaults legs.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -11881,6 +12093,106 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[],
   ),
+  'wheel_picker': DocsThemeTable(
+    componentId: 'wheel_picker',
+    themeClass: 'WheelPickerTheme',
+    themeDefaults: 'wheelPickerDefaults',
+    userFile: 'wheel_picker_theme.dart',
+    userOwned: true,
+    hasTheme: true,
+    fields: <DocsThemeField>[
+      DocsThemeField(
+        name: 'borderRadius',
+        type: 'BorderRadiusGeometry?',
+        description: 'null = radiusLg',
+      ),
+      DocsThemeField(
+        name: 'diameterRatio',
+        type: 'double?',
+        description: '3D cylinder; null = 1.6',
+      ),
+      DocsThemeField(
+        name: 'fadeColor',
+        type: 'ThemedColor?',
+        description: 'edge fade base; null = background token',
+      ),
+      DocsThemeField(
+        name: 'fadeHeight',
+        type: 'double?',
+        description: 'null = 32',
+      ),
+      DocsThemeField(
+        name: 'fontSize',
+        type: 'double?',
+        description: 'null = 16',
+      ),
+      DocsThemeField(
+        name: 'fontWeight',
+        type: 'FontWeight?',
+        description: 'selected row weight; null = w600',
+      ),
+      DocsThemeField(
+        name: 'foreground',
+        type: 'ThemedColor?',
+        description: 'selected row text; null = foreground token',
+      ),
+      DocsThemeField(
+        name: 'itemHeight',
+        type: 'double?',
+        description: 'row height; null = 48 (a comfortable touch target)',
+      ),
+      DocsThemeField(
+        name: 'mutedForeground',
+        type: 'ThemedColor?',
+        description: 'unselected row text; null = mutedForeground token',
+      ),
+      DocsThemeField(
+        name: 'perspective',
+        type: 'double?',
+        description: '3D amount when the perspective flag is on; null = 0.003',
+      ),
+      DocsThemeField(
+        name: 'selectionBorderColor',
+        type: 'ThemedColor?',
+        description: 'band border; null = border token',
+      ),
+      DocsThemeField(
+        name: 'selectionBorderRadius',
+        type: 'BorderRadiusGeometry?',
+        description: 'null = radiusMd',
+      ),
+      DocsThemeField(
+        name: 'selectionBorderWidth',
+        type: 'double?',
+        description: 'null = 1',
+      ),
+      DocsThemeField(
+        name: 'selectionColor',
+        type: 'ThemedColor?',
+        description: 'selection band fill; null = accent at 12% alpha',
+      ),
+      DocsThemeField(
+        name: 'separatorColor',
+        type: 'ThemedColor?',
+        description: 'column separators; null = border token',
+      ),
+      DocsThemeField(
+        name: 'separatorWidth',
+        type: 'double?',
+        description: 'null = 1',
+      ),
+      DocsThemeField(
+        name: 'surfaceColor',
+        type: 'ThemedColor?',
+        description: 'wheel container fill; null = background token',
+      ),
+      DocsThemeField(
+        name: 'visibleItems',
+        type: 'int?',
+        description: 'rows shown; null = 5',
+      ),
+    ],
+  ),
   'accordion': DocsThemeTable(
     componentId: 'accordion',
     themeClass: 'AccordionTheme',
@@ -13118,6 +13430,107 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         name: 'wait',
         type: 'Duration?',
         description: 'show delay after the pointer enters; null = 500 ms',
+      ),
+    ],
+  ),
+  'image_lightbox': DocsThemeTable(
+    componentId: 'image_lightbox',
+    themeClass: 'ImageLightboxTheme',
+    themeDefaults: 'imageLightboxDefaults',
+    userFile: 'image_lightbox_theme.dart',
+    userOwned: true,
+    hasTheme: true,
+    fields: <DocsThemeField>[
+      DocsThemeField(
+        name: 'barrierColor',
+        type: 'ThemedColor?',
+        description: 'scrim behind the image; null = 60% black',
+      ),
+      DocsThemeField(
+        name: 'captionPadding',
+        type: 'EdgeInsetsGeometry?',
+        description: 'null = 12h / 8v',
+      ),
+      DocsThemeField(
+        name: 'closeButtonBackground',
+        type: 'ThemedColor?',
+        description: 'close button fill; null = background token',
+      ),
+      DocsThemeField(
+        name: 'closeButtonColor',
+        type: 'ThemedColor?',
+        description: 'close glyph; null = foreground token',
+      ),
+      DocsThemeField(
+        name: 'doubleTapScale',
+        type: 'double?',
+        description: 'double-tap zoom target; null = 2',
+      ),
+      DocsThemeField(
+        name: 'foreground',
+        type: 'ThemedColor?',
+        description: 'counter and caption text; null = foreground token',
+      ),
+      DocsThemeField(
+        name: 'maxScale',
+        type: 'double?',
+        description: 'maximum zoom; null = 4',
+      ),
+      DocsThemeField(
+        name: 'minScale',
+        type: 'double?',
+        description: 'minimum zoom; null = 1',
+      ),
+      DocsThemeField(
+        name: 'mutedForeground',
+        type: 'ThemedColor?',
+        description: 'hints; null = mutedForeground token',
+      ),
+      DocsThemeField(
+        name: 'showCounter',
+        type: 'bool?',
+        description: 'null = true',
+      ),
+      DocsThemeField(
+        name: 'showThumbnails',
+        type: 'bool?',
+        description: 'null = true',
+      ),
+      DocsThemeField(
+        name: 'surfaceColor',
+        type: 'ThemedColor?',
+        description:
+            'caption/thumbnail chrome fill; null = background token (frosted)',
+      ),
+      DocsThemeField(
+        name: 'thumbnailBorderColor',
+        type: 'ThemedColor?',
+        description: 'null = accent token',
+      ),
+      DocsThemeField(
+        name: 'thumbnailBorderRadius',
+        type: 'BorderRadiusGeometry?',
+        description: 'null = radiusMd',
+      ),
+      DocsThemeField(
+        name: 'thumbnailBorderWidth',
+        type: 'double?',
+        description: 'selected thumbnail border; null = 2',
+      ),
+      DocsThemeField(
+        name: 'thumbnailHeight',
+        type: 'double?',
+        description: 'thumbnail strip height; null = 56',
+      ),
+      DocsThemeField(
+        name: 'transitionDuration',
+        type: 'Duration?',
+        description: 'open/close transition; null = 250ms',
+      ),
+      DocsThemeField(
+        name: 'zoomDuration',
+        type: 'Duration?',
+        description: 'double-tap zoom; null = 150ms',
       ),
     ],
   ),

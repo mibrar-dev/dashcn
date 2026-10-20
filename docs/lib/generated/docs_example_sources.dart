@@ -15620,6 +15620,345 @@ Widget _disabled(BuildContext context) {
 ''',
     ),
   ],
+  'wheel_picker': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// One wheel column of numbers, 01-12.
+const List<String> _hours = <String>[
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+];
+
+/// A single-column hour wheel; owns its selection.
+class _DefaultWheel extends StatefulWidget {
+  const _DefaultWheel();
+
+  @override
+  State<_DefaultWheel> createState() => _DefaultWheelState();
+}
+
+class _DefaultWheelState extends State<_DefaultWheel> {
+  List<int> _value = <int>[3];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        WheelPicker(
+          columns: <WheelColumn>[WheelColumn(items: _hours)],
+          value: _value,
+          onChanged: (List<int> value) => setState(() => _value = value),
+        ),
+        Gap(theme.spacing.lg),
+        Text(
+          _hours[_value[0]],
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _default(BuildContext context) => const _DefaultWheel();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Time',
+      builder: '_time',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// One wheel column of numbers, 01-12.
+const List<String> _hours = <String>[
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+];
+
+/// A three-column time picker (hours / minutes / meridiem).
+class _TimeWheel extends StatefulWidget {
+  const _TimeWheel();
+
+  @override
+  State<_TimeWheel> createState() => _TimeWheelState();
+}
+
+class _TimeWheelState extends State<_TimeWheel> {
+  List<int> _value = <int>[3, 25, 1];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        WheelPicker(
+          columns: <WheelColumn>[
+            WheelColumn(items: _hours),
+            WheelColumn(
+              items: <String>[
+                for (int m = 0; m < 60; m += 5) m.toString().padLeft(2, '0'),
+              ],
+            ),
+            WheelColumn(items: <String>['AM', 'PM']),
+          ],
+          value: _value,
+          onChanged: (List<int> value) => setState(() => _value = value),
+        ),
+        Gap(theme.spacing.lg),
+        Text(
+          '${_hours[_value[0]]}:${_value[1].toString().padLeft(2, '0')} '
+          '${_value[2] == 0 ? 'AM' : 'PM'}',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _time(BuildContext context) => const _TimeWheel();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Looping',
+      builder: '_looping',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// A looping wheel that never clamps at the ends.
+class _LoopingWheel extends StatefulWidget {
+  const _LoopingWheel();
+
+  @override
+  State<_LoopingWheel> createState() => _LoopingWheelState();
+}
+
+class _LoopingWheelState extends State<_LoopingWheel> {
+  static const List<String> _colours = <String>[
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Violet',
+  ];
+  List<int> _value = <int>[0];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        WheelPicker(
+          columns: <WheelColumn>[WheelColumn(items: _colours)],
+          value: _value,
+          looping: true,
+          onChanged: (List<int> value) => setState(() => _value = value),
+        ),
+        Gap(theme.spacing.lg),
+        Text(
+          _colours[_value[0]],
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _looping(BuildContext context) => const _LoopingWheel();
+''',
+    ),
+    DocsExampleSource(
+      name: '3D Perspective',
+      builder: '_perspective',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// A 3D cylinder wheel with custom row content.
+class _PerspectiveWheel extends StatefulWidget {
+  const _PerspectiveWheel();
+
+  @override
+  State<_PerspectiveWheel> createState() => _PerspectiveWheelState();
+}
+
+class _PerspectiveWheelState extends State<_PerspectiveWheel> {
+  List<int> _value = <int>[2];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        WheelPicker(
+          columns: <WheelColumn>[
+            WheelColumn(
+              items: <String>['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+              builder: (BuildContext context, int index) {
+                final bool selected = index == _value[0];
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: selected
+                            ? theme.colors.accent
+                            : theme.colors.mutedForeground,
+                      ),
+                    ),
+                    const Gap(6),
+                    Text(
+                      String.fromCharCode(65 + index),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: selected
+                            ? FontWeight.w700
+                            : FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+          value: _value,
+          perspective: true,
+          onChanged: (List<int> value) => setState(() => _value = value),
+        ),
+        Gap(theme.spacing.lg),
+        Text(
+          'letter ${String.fromCharCode(65 + _value[0])}',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _perspective(BuildContext context) => const _PerspectiveWheel();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// A customized wheel: theme overrides and a fixed column width.
+class _CustomizedWheel extends StatefulWidget {
+  const _CustomizedWheel();
+
+  @override
+  State<_CustomizedWheel> createState() => _CustomizedWheelState();
+}
+
+class _CustomizedWheelState extends State<_CustomizedWheel> {
+  static const List<String> _sizes = <String>['Small', 'Medium', 'Large'];
+  static const List<String> _codes = <String>['S', 'M', 'L', 'XL'];
+  List<int> _value = <int>[1, 0];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        WheelPicker(
+          columns: <WheelColumn>[
+            WheelColumn(items: _sizes, width: 120),
+            WheelColumn(items: _codes),
+          ],
+          value: _value,
+          theme: const WheelPickerTheme(
+            itemHeight: 36,
+            visibleItems: 3,
+            selectionColor: ThemedColor.ref(ColorRef.accent, alpha: 0.25),
+            fontSize: 15,
+          ),
+          onChanged: (List<int> value) => setState(() => _value = value),
+        ),
+        Gap(theme.spacing.lg),
+        Text(
+          '${_sizes[_value[0]]} / ${_codes[_value[1]]}',
+          style: TextStyle(color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _customized(BuildContext context) => const _CustomizedWheel();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Read-only',
+      builder: '_readOnly',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
+
+/// A read-only wheel with no callback.
+Widget _readOnly(BuildContext context) {
+  return const SizedBox(
+    width: 120,
+    child: WheelPicker(
+      columns: <WheelColumn>[
+        WheelColumn(items: <String>['One', 'Two', 'Three']),
+      ],
+      initialValue: <int>[1],
+    ),
+  );
+}
+''',
+    ),
+  ],
   'accordion': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -22000,6 +22339,289 @@ Widget _richContent(BuildContext context) {
     child: const Text('@dashcn (rich)'),
   );
 }
+''',
+    ),
+  ],
+  'image_lightbox': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_default',
+      code: r'''import 'dart:convert';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
+
+const String _redPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
+
+const String _greenPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
+
+const String _bluePng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
+
+const String _amberPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
+
+final List<LightboxImage> _photos = <LightboxImage>[
+  LightboxImage(
+    image: MemoryImage(base64Decode(_redPng)),
+    caption: 'Red sample',
+    semanticLabel: 'Red sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_greenPng)),
+    caption: 'Green sample',
+    semanticLabel: 'Green sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_bluePng)),
+    caption: 'Blue sample',
+    semanticLabel: 'Blue sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_amberPng)),
+    caption: 'Amber sample',
+    semanticLabel: 'Amber sample image',
+  ),
+];
+
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
+/// The default lightbox: counter, captions and the thumbnail strip.
+Widget _default(BuildContext context) {
+  return _framed(ImageLightbox(images: _photos));
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Minimal',
+      builder: '_minimal',
+      code: r'''import 'dart:convert';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
+
+const String _redPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
+
+const String _greenPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
+
+const String _bluePng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
+
+const String _amberPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
+
+final List<LightboxImage> _photos = <LightboxImage>[
+  LightboxImage(
+    image: MemoryImage(base64Decode(_redPng)),
+    caption: 'Red sample',
+    semanticLabel: 'Red sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_greenPng)),
+    caption: 'Green sample',
+    semanticLabel: 'Green sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_bluePng)),
+    caption: 'Blue sample',
+    semanticLabel: 'Blue sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_amberPng)),
+    caption: 'Amber sample',
+    semanticLabel: 'Amber sample image',
+  ),
+];
+
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
+/// A single image with no chrome.
+Widget _minimal(BuildContext context) {
+  return _framed(
+    ImageLightbox(
+      images: <LightboxImage>[_photos[1]],
+      showCounter: false,
+      showThumbnails: false,
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'dart:convert';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
+
+const String _redPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
+
+const String _greenPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
+
+const String _bluePng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
+
+const String _amberPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
+
+final List<LightboxImage> _photos = <LightboxImage>[
+  LightboxImage(
+    image: MemoryImage(base64Decode(_redPng)),
+    caption: 'Red sample',
+    semanticLabel: 'Red sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_greenPng)),
+    caption: 'Green sample',
+    semanticLabel: 'Green sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_bluePng)),
+    caption: 'Blue sample',
+    semanticLabel: 'Blue sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_amberPng)),
+    caption: 'Amber sample',
+    semanticLabel: 'Amber sample image',
+  ),
+];
+
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
+/// A customized lightbox: theme overrides and a deeper scrim.
+Widget _customized(BuildContext context) {
+  return _framed(
+    ImageLightbox(
+      images: _photos,
+      theme: const ImageLightboxTheme(
+        barrierColor: ThemedColor.value(Color(0xCC000000)),
+        maxScale: 5,
+        thumbnailHeight: 64,
+        thumbnailBorderWidth: 3,
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'From thumbnails',
+      builder: '_gallery',
+      code: r'''import 'dart:convert';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/image/image.dart';
+import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
+
+const String _redPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
+
+const String _greenPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
+
+const String _bluePng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
+
+const String _amberPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
+
+final List<LightboxImage> _photos = <LightboxImage>[
+  LightboxImage(
+    image: MemoryImage(base64Decode(_redPng)),
+    caption: 'Red sample',
+    semanticLabel: 'Red sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_greenPng)),
+    caption: 'Green sample',
+    semanticLabel: 'Green sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_bluePng)),
+    caption: 'Blue sample',
+    semanticLabel: 'Blue sample image',
+  ),
+  LightboxImage(
+    image: MemoryImage(base64Decode(_amberPng)),
+    caption: 'Amber sample',
+    semanticLabel: 'Amber sample image',
+  ),
+];
+
+/// A lightbox opened from a thumbnail grid, the way a caller uses it.
+class _Gallery extends StatefulWidget {
+  const _Gallery();
+
+  @override
+  State<_Gallery> createState() => _GalleryState();
+}
+
+class _GalleryState extends State<_Gallery> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Wrap(
+      spacing: theme.spacing.md,
+      runSpacing: theme.spacing.md,
+      children: <Widget>[
+        for (int i = 0; i < _photos.length; i++)
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => showImageLightbox<void>(
+              context: context,
+              images: _photos,
+              initialIndex: i,
+            ),
+            child: ClipRRect(
+              borderRadius: theme.borderRadiusMd,
+              child: Picture(
+                image: _photos[i].image,
+                width: 72,
+                height: 72,
+                fit: BoxFit.cover,
+                semanticLabel: _photos[i].semanticLabel,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+Widget _gallery(BuildContext context) => const _Gallery();
 ''',
     ),
   ],
