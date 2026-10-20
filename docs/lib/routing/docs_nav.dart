@@ -61,10 +61,12 @@ const List<DocsNavLink> kChartLinks = <DocsNavLink>[
 ];
 
 /// The sidebar `Sections` group, top to bottom (spec §1).
+///
+/// Charts lives in the header nav (full-width gallery, like Blocks), not in
+/// the sidebar.
 const List<DocsNavLink> kDocsSections = <DocsNavLink>[
   DocsNavLink(label: 'Introduction', location: '/docs'),
   DocsNavLink(label: 'Components', location: '/docs/components'),
-  DocsNavLink(label: 'Charts', location: '/charts'),
   DocsNavLink(label: 'Installation', location: '/docs/installation'),
   DocsNavLink(
     label: 'Package or own the code?',

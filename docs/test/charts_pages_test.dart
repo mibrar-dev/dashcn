@@ -1,114 +1,34 @@
-// Charts section tests: the `/charts` hub and the family pages.
+// Charts gallery tests: `/charts` shows every family section on one
+// full-width page; `/charts/<family>` shows just that family.
 //
-// The hub has one card per chart family; each family page shows every one of
-// its examples as its own Preview | Code card. The old
+// Both routes render without the docs sidebar. Each card carries its title,
+// description, live chart, a Copy button and a View code dialog. The old
 // `/docs/components/chart` URL resolves to the hub.
 //
-// The line family mounts the Streaming example (a periodic timer), whose
-// repeating frames never let the scheduler settle: navigation here uses
-// bounded pumps instead of `pumpAndSettle` (the same reason
-// `component_examples_test.dart` avoids settling the full sweep).
+// Navigation uses bounded pumps instead of `pumpAndSettle` (chart previews
+// can hold repeating tickers, the same reason `component_examples_test.dart`
+// avoids settling the full sweep).
 
-import 'package:docs/pages/charts_family_page.dart';
-import 'package:docs/pages/charts_hub_page.dart';
+import 'package:docs/pages/charts_data.dart';
+import 'package:docs/pages/charts_gallery.dart';
+import 'package:docs/pages/charts_section.dart';
+import 'package:docs/routing/docs_nav.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/widgets/docs_header.dart';
 import 'package:docs/widgets/docs_sidebar.dart';
-import 'package:docs/widgets/example_preview_card.dart';
+import 'package:docs/widgets/sidebar_groups.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/app_harness.dart';
 
 /// Family id to the named `chart` previews it must show, in display order.
-const Map<String, List<String>> kChartFamilyExamples = <String, List<String>>{
-  'area': <String>[
-    'Area Chart - Interactive',
-    'Area Chart',
-    'Area Chart - Linear',
-    'Area Chart - Step',
-    'Area Chart - Legend',
-    'Area Chart - Stacked',
-    'Area Chart - Stacked Expanded',
-    'Area Chart - Icons',
-    'Area Chart - Gradient',
-    'Area Chart - Axes',
-  ],
-  'bar': <String>[
-    'Bar Chart - Interactive',
-    'Bar Chart',
-    'Bar Chart - Horizontal',
-    'Bar Chart - Multiple',
-    'Bar Chart - Stacked + Legend',
-    'Bar Chart - Label',
-    'Bar Chart - Custom Label',
-    'Bar Chart - Mixed',
-    'Bar Chart - Active',
-    'Bar Chart - Negative',
-  ],
-  'line': <String>[
-    'Line Chart - Interactive',
-    'Line Chart',
-    'Line Chart - Linear',
-    'Line Chart - Step',
-    'Line Chart - Multiple',
-    'Line Chart - Dots',
-    'Line Chart - Custom Dots',
-    'Line Chart - Dots Colors',
-    'Line Chart - Label',
-    'Line Chart - Custom Label',
-  ],
-  'pie': <String>[
-    'Pie Chart',
-    'Pie Chart - Separator None',
-    'Pie Chart - Label',
-    'Pie Chart - Custom Label',
-    'Pie Chart - Label List',
-    'Pie Chart - Legend',
-    'Pie Chart - Donut',
-    'Pie Chart - Donut Active',
-    'Pie Chart - Donut with Text',
-    'Pie Chart - Stacked',
-    'Pie Chart - Interactive',
-  ],
-  'radar': <String>[
-    'Radar Chart',
-    'Radar Chart - Dots',
-    'Radar Chart - Lines Only',
-    'Radar Chart - Custom Label',
-    'Radar Chart - Grid Custom',
-    'Radar Chart - Grid None',
-    'Radar Chart - Grid Circle',
-    'Radar Chart - Grid Circle - No lines',
-    'Radar Chart - Grid Circle Filled',
-    'Radar Chart - Grid Filled',
-    'Radar Chart - Multiple',
-    'Radar Chart - Legend',
-  ],
-  'radial': <String>[
-    'Radial Chart',
-    'Radial Chart - Label',
-    'Radial Chart - Grid',
-    'Radial Chart - Text',
-    'Radial Chart - Shape',
-    'Radial Chart - Stacked',
-  ],
-  'tooltip': <String>[
-    'Tooltip - Default',
-    'Tooltip - Line Indicator',
-    'Tooltip - No Indicator',
-    'Tooltip - Custom label',
-    'Tooltip - Label Formatter',
-    'Tooltip - No Label',
-    'Tooltip - Formatter',
-    'Tooltip - Icons',
-    'Tooltip - Advanced',
-  ],
-  'scatter': <String>['Scatter'],
+Map<String, List<String>> get kChartFamilyExamples => <String, List<String>>{
+  for (final ChartFamily family in kChartFamilies) family.id: family.examples,
 };
 
-/// Bounded settle: enough frames for the deferred preview chunk and the lazy
-/// cards, without hanging on the Streaming example's repeating timer.
+/// Bounded settle: enough frames for the deferred preview chunk, without
+/// hanging on any repeating ticker.
 Future<void> _pumpSoon(WidgetTester tester) async {
   for (int i = 0; i < 30; i++) {
     await tester.pump(const Duration(milliseconds: 100));
@@ -125,6 +45,12 @@ Future<void> _go(
   await _pumpSoon(tester);
 }
 
+/// Total example cards across every family.
+int get _totalExamples => kChartFamilies.fold<int>(
+  0,
+  (int sum, ChartFamily family) => sum + family.examples.length,
+);
+
 void main() {
   group('charts routes', () {
     test('parse maps the charts sitemap', () {
@@ -132,12 +58,15 @@ void main() {
         DocsRouteConfiguration.parse('/charts'),
         DocsRouteConfiguration.charts,
       );
-      for (final String id in kChartFamilyExamples.keys) {
+      for (final ChartFamily family in kChartFamilies) {
         expect(
-          DocsRouteConfiguration.parse('/charts/$id'),
-          DocsRouteConfiguration.chartFamily(id),
+          DocsRouteConfiguration.parse('/charts/${family.id}'),
+          DocsRouteConfiguration.chartFamily(family.id),
         );
-        expect(DocsRouteConfiguration.chartFamily(id).location, '/charts/$id');
+        expect(
+          DocsRouteConfiguration.chartFamily(family.id).location,
+          '/charts/${family.id}',
+        );
       }
     });
 
@@ -166,78 +95,154 @@ void main() {
   });
 
   group('charts hub', () {
-    testWidgets('hero and one card per family', (WidgetTester tester) async {
+    testWidgets('hero has title, subtitle and two actions', (
+      WidgetTester tester,
+    ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await _go(tester, delegate, '/charts');
       expect(find.text('Charts'), findsWidgets);
       expect(
-        find.byType(ChartFamilyCard),
+        find.text(
+          'Copy-paste charts for every dataset, from trends to breakdowns.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Browse charts'), findsOneWidget);
+      expect(find.text('Documentation'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('hub shows every family section with every example card', (
+      WidgetTester tester,
+    ) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      await _go(tester, delegate, '/charts');
+      expect(
+        find.byType(ChartFamilySection),
         findsNWidgets(kChartFamilies.length),
       );
+      expect(find.byType(ChartExampleCard), findsNWidgets(_totalExamples));
       for (final ChartFamily family in kChartFamilies) {
-        expect(find.text(family.title), findsWidgets, reason: family.id);
         expect(
-          find.text('Open ${family.title}'),
+          find.byKey(ValueKey<String>('chart-family-section-${family.id}')),
           findsOneWidget,
           reason: family.id,
         );
+        for (final String name in family.examples) {
+          expect(find.text(name), findsWidgets, reason: '${family.id}/$name');
+        }
       }
       // No Components-style trust table on the hub.
       expect(find.text('How we measure'), findsNothing);
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('hub cards link to their family pages', (
+    testWidgets('family nav pills link to their family pages', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await _go(tester, delegate, '/charts');
-      await tester.tap(find.text('Open Area'));
+      expect(find.byType(ChartFamilyNav), findsOneWidget);
+      for (final ChartFamily family in kChartFamilies) {
+        expect(
+          find.byKey(ValueKey<String>('chart-family-pill-${family.id}')),
+          findsOneWidget,
+          reason: family.id,
+        );
+      }
+      await tester.tap(find.text('Area'));
       await _pumpSoon(tester);
       expect(
         delegate.currentConfiguration,
         DocsRouteConfiguration.chartFamily('area'),
       );
-      expect(find.text('Area'), findsWidgets);
+      expect(find.byType(ChartFamilySection), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('charts pages have no sidebar', (WidgetTester tester) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      await _go(tester, delegate, '/charts');
+      expect(find.byType(DocsSidebar), findsNothing);
+      expect(find.byType(ChartFamilyNav), findsOneWidget);
+      await _go(tester, delegate, '/charts/line');
+      expect(find.byType(DocsSidebar), findsNothing);
+      expect(find.byType(ChartFamilyNav), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('hub fits 375px with no overflow', (WidgetTester tester) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(
+        tester,
+        width: 375,
+        height: 812,
+      );
+      tester.takeException();
+      await _go(tester, delegate, '/charts');
+      for (int i = 0; i < _totalExamples; i++) {
+        await tester.ensureVisible(find.byType(ChartExampleCard).at(i));
+        await tester.pump(const Duration(milliseconds: 100));
+      }
       expect(tester.takeException(), isNull);
     });
   });
 
   group('chart family pages', () {
-    testWidgets('each family shows every example with preview+code tabs', (
+    testWidgets('each family shows just its own section and cards', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       for (final MapEntry<String, List<String>> entry
           in kChartFamilyExamples.entries) {
         await _go(tester, delegate, '/charts/${entry.key}');
-        final int count = entry.value.length;
+        expect(find.byType(ChartFamilySection), findsOneWidget);
         expect(
-          find.byType(ExamplePreviewCard),
-          findsNWidgets(count),
+          find.byType(ChartExampleCard),
+          findsNWidgets(entry.value.length),
           reason: entry.key,
-        );
-        expect(
-          find.descendant(
-            of: find.byType(ExamplePreviewCard),
-            matching: find.text('Preview'),
-          ),
-          findsNWidgets(count),
-          reason: '${entry.key} preview tabs',
-        );
-        expect(
-          find.descendant(
-            of: find.byType(ExamplePreviewCard),
-            matching: find.text('Code'),
-          ),
-          findsNWidgets(count),
-          reason: '${entry.key} code tabs',
         );
         for (final String name in entry.value) {
           expect(find.text(name), findsWidgets, reason: '${entry.key}/$name');
         }
         expect(tester.takeException(), isNull, reason: entry.key);
       }
+    });
+
+    testWidgets('documentation button resolves to the charts hub', (
+      WidgetTester tester,
+    ) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      await _go(tester, delegate, '/charts/area');
+      await tester.tap(find.text('Documentation'));
+      await _pumpSoon(tester);
+      expect(
+        delegate.currentConfiguration,
+        DocsRouteConfiguration.charts,
+        reason: '/docs/components/chart resolves to the hub',
+      );
+      expect(
+        find.byType(ChartFamilySection),
+        findsNWidgets(kChartFamilies.length),
+      );
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('view code opens the example code dialog', (
+      WidgetTester tester,
+    ) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      await _go(tester, delegate, '/charts/area');
+      await tester.ensureVisible(find.text('View code').first);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.text('View code').first);
+      await _pumpSoon(tester);
+      expect(
+        find.byKey(const ValueKey<String>('chart-code-dialog')),
+        findsOneWidget,
+      );
+      // The dialog offers its own copy control.
+      expect(find.text('Copy'), findsWidgets);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('each family page fits 375px with no overflow', (
@@ -249,21 +254,24 @@ void main() {
         height: 812,
       );
       tester.takeException();
-      for (final String id in kChartFamilyExamples.keys) {
-        await _go(tester, delegate, '/charts/$id');
-        // Reveal the below-fold cards too: lazy placeholders keep the stage
-        // height, so only revealed cards can overflow.
-        for (int i = 0; i < kChartFamilyExamples[id]!.length; i++) {
-          await tester.ensureVisible(find.byType(ExamplePreviewCard).at(i));
-          await _pumpSoon(tester);
+      for (final MapEntry<String, List<String>> entry
+          in kChartFamilyExamples.entries) {
+        await _go(tester, delegate, '/charts/${entry.key}');
+        for (int i = 0; i < entry.value.length; i++) {
+          await tester.ensureVisible(find.byType(ChartExampleCard).at(i));
+          await tester.pump(const Duration(milliseconds: 100));
         }
-        expect(tester.takeException(), isNull, reason: 'overflow at $id@375');
+        expect(
+          tester.takeException(),
+          isNull,
+          reason: 'overflow at ${entry.key}@375',
+        );
       }
     });
   });
 
   group('charts navigation', () {
-    testWidgets('header and sidebar list Charts, not the chart component', (
+    testWidgets('header keeps Charts; sidebar drops the Charts group', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(
@@ -280,23 +288,52 @@ void main() {
       );
       final Finder sidebar = find.byType(DocsSidebar);
       expect(sidebar, findsOneWidget);
+      // Neither the Sections entry nor the family rows remain.
       expect(
         find.descendant(of: sidebar, matching: find.text('Charts')),
-        findsWidgets,
+        findsNothing,
       );
       for (final ChartFamily family in kChartFamilies) {
         expect(
           find.descendant(of: sidebar, matching: find.text(family.title)),
-          findsWidgets,
+          findsNothing,
           reason: family.id,
         );
       }
-      // `chart` left the Components list: no sidebar row is named Chart.
-      expect(
-        find.descendant(of: sidebar, matching: find.text('Chart')),
-        findsNothing,
-      );
       expect(tester.takeException(), isNull);
+    });
+
+    test('sections and sidebar rows have no charts entries', () {
+      for (final DocsNavLink link in kDocsSections) {
+        expect(link.location.startsWith('/charts'), isFalse);
+      }
+      final List<SidebarRow> rows = buildSidebarRows('/docs');
+      expect(
+        rows.any(
+          (SidebarRow row) =>
+              row.label == 'Charts' ||
+              (row.location ?? '').startsWith('/charts'),
+        ),
+        isFalse,
+      );
+      // The header still lists Charts (it owns the gallery link now).
+      expect(
+        kHeaderNav.any((DocsNavLink link) => link.location == '/charts'),
+        isTrue,
+      );
+    });
+
+    test('family nav links resolve to family pages', () {
+      for (final DocsNavLink link in kChartLinks) {
+        final DocsRouteConfiguration config = DocsRouteConfiguration.parse(
+          link.location,
+        );
+        expect(config.route, DocsRoute.chartFamily, reason: link.location);
+      }
+      expect(chartGalleryFamilyIds, hasLength(kChartFamilies.length));
+      for (final ChartFamily family in kChartFamilies) {
+        expect(chartGalleryFamilyIds, contains(family.id));
+      }
     });
   });
 }
