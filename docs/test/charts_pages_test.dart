@@ -247,6 +247,27 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('view code dialog fits 375px with no overflow', (
+      WidgetTester tester,
+    ) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(
+        tester,
+        width: 375,
+        height: 812,
+      );
+      tester.takeException();
+      await _go(tester, delegate, '/charts/area');
+      await tester.ensureVisible(find.text('View code').first);
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.tap(find.text('View code').first);
+      await _pumpSoon(tester);
+      expect(
+        find.byKey(const ValueKey<String>('chart-code-dialog')),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('each family page fits 375px with no overflow', (
       WidgetTester tester,
     ) async {

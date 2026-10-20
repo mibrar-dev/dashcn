@@ -280,17 +280,27 @@ Future<void> showChartCodeDialog(
                 ],
               ),
               Gap(theme.spacing.md),
-              SizedBox(
-                width: 640,
-                height: 420,
-                child: ClipRRect(
-                  borderRadius: theme.borderRadiusLg,
-                  child: SingleChildScrollView(
-                    child: SelectableCode(
-                      child: ExampleSnippetCode(code: code),
+              // Cap the code pane at the viewport: the dialog shell already
+              // caps its own card, but this fixed pane must shrink too or a
+              // 375px phone overflows horizontally.
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  final double width = constraints.maxWidth.isFinite
+                      ? constraints.maxWidth.clamp(0.0, 640.0)
+                      : 640.0;
+                  return SizedBox(
+                    width: width,
+                    height: 420,
+                    child: ClipRRect(
+                      borderRadius: theme.borderRadiusLg,
+                      child: SingleChildScrollView(
+                        child: SelectableCode(
+                          child: ExampleSnippetCode(code: code),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
