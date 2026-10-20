@@ -19,6 +19,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'themes/generated_theme.dart';
 
 import 'package:dashcn/src/components/accordion/preview.dart';
+import 'package:dashcn/src/components/action_sheet/preview.dart';
 import 'package:dashcn/src/components/alert/preview.dart';
 import 'package:dashcn/src/components/alert_dialog/preview.dart';
 import 'package:dashcn/src/components/audio_player/preview.dart';
@@ -63,6 +64,7 @@ import 'package:dashcn/src/components/input/preview.dart';
 import 'package:dashcn/src/components/input_otp/preview.dart';
 import 'package:dashcn/src/components/item_picker/preview.dart';
 import 'package:dashcn/src/components/keyboard_shortcut/preview.dart';
+import 'package:dashcn/src/components/list_tile/preview.dart';
 import 'package:dashcn/src/components/markdown/preview.dart';
 import 'package:dashcn/src/components/menu/preview.dart';
 import 'package:dashcn/src/components/menubar/preview.dart';
@@ -134,6 +136,7 @@ const List<String> _pending = <String>[];
 final Map<String, List<ComponentPreview>> _previews =
     <String, List<ComponentPreview>>{
       'accordion': accordionPreviews,
+      'action_sheet': actionSheetPreviews,
       'alert': alertPreviews,
       'alert_dialog': alertDialogPreviews,
       'audio_player': audioPlayerPreviews,
@@ -178,6 +181,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'input_otp': inputOtpPreviews,
       'item_picker': itemPickerPreviews,
       'keyboard_shortcut': keyboardShortcutPreviews,
+      'list_tile': listTilePreviews,
       'markdown': markdownPreviews,
       'menu': menuPreviews,
       'menubar': menubarPreviews,

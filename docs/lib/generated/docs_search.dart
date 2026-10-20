@@ -468,6 +468,21 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
+    label: 'List Tile',
+    kind: DocsSearchKind.component,
+    route: '/docs/components/list_tile',
+    tag: '3 files',
+    keywords: <String>[
+      'ListTile',
+      'list_tile',
+      'dense',
+      'grouped',
+      'list',
+      'row',
+      'tile',
+    ],
+  ),
+  DocsSearchEntry(
     label: 'Number Ticker',
     kind: DocsSearchKind.component,
     route: '/docs/components/number_ticker',
@@ -1278,6 +1293,20 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
       'reorder',
       'tabpane',
       'tabs',
+    ],
+  ),
+  DocsSearchEntry(
+    label: 'Action Sheet',
+    kind: DocsSearchKind.component,
+    route: '/docs/components/action_sheet',
+    tag: '3 files',
+    keywords: <String>[
+      'ActionSheet',
+      'action_sheet',
+      'actions',
+      'modal',
+      'overlay',
+      'sheet',
     ],
   ),
   DocsSearchEntry(
