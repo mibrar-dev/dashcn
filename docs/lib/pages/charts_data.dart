@@ -79,6 +79,8 @@ const List<ChartFamily> kChartFamilies = <ChartFamily>[
       'Line Chart - Dots Colors',
       'Line Chart - Label',
       'Line Chart - Custom Label',
+      'Sparkline',
+      'Streaming',
     ],
   ),
   ChartFamily(
