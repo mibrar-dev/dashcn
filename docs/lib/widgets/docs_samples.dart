@@ -160,24 +160,28 @@ import 'package:your_app/ui/dashcn/primitives/motion/motion_presence.dart';
 import 'package:your_app/ui/dashcn/primitives/motion/motion_spec.dart';
 
 // Presence: the banner exits before it unmounts.
-MotionPresence(
-  visible: show,
-  onExited: () => debugPrint('exit finished'),
-  child: const Text('Saved.'),
-)
+Widget buildBanner(bool show) {
+  return MotionPresence(
+    visible: show,
+    onExited: () => debugPrint('exit finished'),
+    child: const Text('Saved.'),
+  );
+}
 
 // Collapse: the error shrinks away; siblings slide up underneath.
-MotionCollapse(
-  visible: error != null,
-  child: Text(error ?? ''),
-)
+Widget buildError(String? error) {
+  return MotionCollapse(
+    visible: error != null,
+    child: Text(error ?? ''),
+  );
+}
 
 // Per-instance override: slow exit, custom transition, or instant snap.
-const MotionSpec(
+const MotionSpec slowExit = MotionSpec(
   exitDuration: Duration(milliseconds: 450),
   exit: fadeMotionTransition,
   disabled: false,
-)
+);
 '''),
   'responsive': DocsSample('dart', r'''
 import 'package:your_app/ui/dashcn/theme/theme.dart';

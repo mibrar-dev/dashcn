@@ -10278,7 +10278,7 @@
     "primitives/text/text.dart": "4cece6a202ccb22b0bd594bee50e0fc2321a00f1c564f84c47c5669c77d83e4d",
     "primitives/text/text_extension.dart": "7d605af4f73ae19383eefe81bf4e6685e22bb23ac9018460f838ca19bf812557",
     "primitives/text_editing/editable_text_host.dart": "387b0aa9fbdf7ab9eca27a37b0e01a77eec6e2f98ad95eedded67b44e84a7489",
-    "primitives/text_editing/editable_text_shell.dart": "19f56ac1cb7bcc831389ef887331c69e088bc05671b8c7d72c113a76485fca78",
+    "primitives/text_editing/editable_text_shell.dart": "c04ffa5c8720a52c79f0fa342db2d2cfdc31bbdc180e9527a3b6ebd271482137",
     "primitives/text_editing/editable_text_style.dart": "a80e0b200b39002ff3bec820310b66d8b8d78c6b6b51e842114cc73860fa215c",
     "primitives/text_editing/editable_text_validation.dart": "f7f40ddcdb957c4f6688d11ac1fb63c2a07cdabd767da677f5822e8ceb36b0ec",
     "primitives/text_editing/segmented_editing.dart": "6db4d4e18c09aed9e4aa90a5d0a3d0ca092b5f200359488b3ab3eb4195cac6ee",

@@ -9,6 +9,7 @@ import '../focus_outline.dart';
 import '../motion/error_shake.dart';
 import '../motion/motion_collapse.dart';
 import '../motion/motion_enter.dart';
+import '../motion/motion_scope.dart';
 
 /// The standard visual shell around a text field's content.
 ///
@@ -108,30 +109,110 @@ class EditableTextShell extends StatelessWidget {
       ),
     );
     final message = errorText;
-    // The field shakes once when the error appears while the message fades
-    // in; both are transform/opacity only, so layout never jumps. The message
-    // stays mounted while its collapse exit plays, so clearing the error
-    // shrinks the message away (siblings slide up) instead of cutting it.
-    field = ErrorShake(
+    // The message stays mounted while its collapse exit plays, so clearing
+    // the error shrinks the message away instead of cutting it. The wrapper
+    // only mounts while showing or exiting (see [_ShellError]).
+    field = _ShellError(
+      message: message,
+      gap: gap,
+      errorStyle: errorStyle,
+      child: field,
+    );
+    return field;
+  }
+}
+
+/// Error message under the field, mounted only while showing or exiting.
+///
+/// A wrapper [Column] loosens the field's height constraint (flex lays out
+/// non-flex children unbounded), which overflows fixed-height rows that the
+/// bare field fits. While settled with no message this returns [child]
+/// directly — the pre-motion tree — and only mounts the column for the
+/// enter and the collapse exit. Under reduced motion the message cuts
+/// instantly, so the column never mounts for the hide.
+class _ShellError extends StatefulWidget {
+  /// Creates the error wrapper.
+  const _ShellError({
+    required this.message,
+    required this.gap,
+    required this.errorStyle,
+    required this.child,
+  });
+
+  /// Error message rendered below the field; null hides it.
+  final String? message;
+
+  /// Gap between the field and [message].
+  final double gap;
+
+  /// Style of [message].
+  final TextStyle? errorStyle;
+
+  /// The field content.
+  final Widget child;
+
+  @override
+  State<_ShellError> createState() => _ShellErrorState();
+}
+
+class _ShellErrorState extends State<_ShellError> {
+  bool _open = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _open = widget.message != null;
+  }
+
+  @override
+  void didUpdateWidget(covariant _ShellError oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.message != null) {
+      _open = true;
+    }
+  }
+
+  void _handleExited() {
+    // Runs when the collapse finishes — or synchronously inside the child's
+    // update under reduced motion. Always defer past the exiting frame, and
+    // schedule that frame: a bare post-frame callback never runs while the
+    // scheduler is idle.
+    WidgetsBinding.instance.scheduleFrame();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && widget.message == null) {
+        setState(() => _open = false);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final String? message = widget.message;
+    if (message == null && (!_open || motionReduced(context))) {
+      return widget.child;
+    }
+    return ErrorShake(
       trigger: message,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          field,
+          widget.child,
           MotionCollapse(
             visible: message != null,
+            onExited: _handleExited,
             child: message == null
                 ? const SizedBox.shrink()
                 : Padding(
-                    padding: EdgeInsets.only(top: gap),
-                    child: MotionEnter(child: Text(message, style: errorStyle)),
+                    padding: EdgeInsets.only(top: widget.gap),
+                    child: MotionEnter(
+                      child: Text(message, style: widget.errorStyle),
+                    ),
                   ),
           ),
         ],
       ),
     );
-    return field;
   }
 }
 
