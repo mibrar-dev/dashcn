@@ -22123,9 +22123,17 @@ final List<LightboxImage> _photos = <LightboxImage>[
   ),
 ];
 
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
 /// The default lightbox: counter, captions and the thumbnail strip.
 Widget _default(BuildContext context) {
-  return ImageLightbox(images: _photos);
+  return _framed(ImageLightbox(images: _photos));
 }
 ''',
     ),
@@ -22174,12 +22182,22 @@ final List<LightboxImage> _photos = <LightboxImage>[
   ),
 ];
 
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
 /// A single image with no chrome.
 Widget _minimal(BuildContext context) {
-  return ImageLightbox(
-    images: <LightboxImage>[_photos[1]],
-    showCounter: false,
-    showThumbnails: false,
+  return _framed(
+    ImageLightbox(
+      images: <LightboxImage>[_photos[1]],
+      showCounter: false,
+      showThumbnails: false,
+    ),
   );
 }
 ''',
@@ -22229,15 +22247,25 @@ final List<LightboxImage> _photos = <LightboxImage>[
   ),
 ];
 
+/// A fixed box is inherent to a full-screen overlay: the docs stage only
+/// bounds the width (the page scrollable leaves the height unbounded), so the
+/// lightbox gets a bounded viewport of its own — the same convention the
+/// `drawer` preview uses for its mock app viewport.
+Widget _framed(Widget child) {
+  return SizedBox(width: double.infinity, height: 360, child: child);
+}
+
 /// A customized lightbox: theme overrides and a deeper scrim.
 Widget _customized(BuildContext context) {
-  return ImageLightbox(
-    images: _photos,
-    theme: const ImageLightboxTheme(
-      barrierColor: ThemedColor.value(Color(0xCC000000)),
-      maxScale: 5,
-      thumbnailHeight: 64,
-      thumbnailBorderWidth: 3,
+  return _framed(
+    ImageLightbox(
+      images: _photos,
+      theme: const ImageLightboxTheme(
+        barrierColor: ThemedColor.value(Color(0xCC000000)),
+        maxScale: 5,
+        thumbnailHeight: 64,
+        thumbnailBorderWidth: 3,
+      ),
     ),
   );
 }
