@@ -1,0 +1,125 @@
+{
+  "id": "segmented_control",
+  "name": "Segmented Control",
+  "category": "Forms & Inputs",
+  "description": "Row of mutually exclusive (or multi-select) choices with a sliding thumb, icons or labels, disabled segments and intrinsic or full-width sizing.",
+  "tier": "component",
+  "install": "dashcn add segmented_control",
+  "import": "import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';",
+  "tags": [
+    "control",
+    "segmented",
+    "select",
+    "filter",
+    "toggle"
+  ],
+  "deps": {
+    "foundation": [
+      "data",
+      "platform"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "theme"
+    ],
+    "primitives": [
+      "clickable",
+      "measured_extent",
+      "motion",
+      "roving_group",
+      "surface",
+      "touch_hit_area"
+    ],
+    "components": []
+  },
+  "files": [
+    "preview.dart",
+    "segmented_control.dart",
+    "segmented_control_button.dart",
+    "segmented_control_defaults.dart",
+    "segmented_control_keys.dart",
+    "segmented_control_metrics.dart",
+    "segmented_control_segment.dart",
+    "segmented_control_selection.dart",
+    "segmented_control_style.dart",
+    "segmented_control_theme.dart",
+    "segmented_control_thumb.dart"
+  ],
+  "api": {
+    "classes": [
+      "SegmentedControl",
+      "SegmentedControlButton",
+      "SegmentedControlController",
+      "SegmentedControlMetrics",
+      "SegmentedControlScope",
+      "SegmentedControlSegment",
+      "SegmentedControlStyle",
+      "SegmentedControlTheme",
+      "SegmentedControlWidths"
+    ],
+    "enums": [
+      "SegmentedControlSize",
+      "SegmentedControlSelection"
+    ],
+    "typedefs": [
+      "SegmentedControlSegmentBuilder"
+    ],
+    "functions": [
+      "buildSegmentedControlRow",
+      "buildSegmentedControlStack",
+      "buildSegmentedControlThumbs",
+      "buildSegmentedControlTrack",
+      "resolveSegmentedControlTheme",
+      "segmentedControlActions",
+      "segmentedControlHeightFor",
+      "segmentedControlIconFor",
+      "segmentedControlInitialSelection",
+      "segmentedControlInitialValue",
+      "segmentedControlIsEnabled",
+      "segmentedControlMetrics",
+      "segmentedControlSegmentFor",
+      "segmentedControlSelection",
+      "segmentedControlShortcuts",
+      "segmentedControlToggled"
+    ],
+    "constants": [
+      "segmentedControlDefaults",
+      "segmentedControlThemeOverrides",
+      "segmentedControlDefaultTextStyle"
+    ]
+  },
+  "theme": {
+    "class": "SegmentedControlTheme",
+    "userFile": "segmented_control_theme.dart",
+    "defaults": "segmentedControlDefaults",
+    "fields": {
+      "control": "SegmentedControlStyle? - the track and the thumb",
+      "segment": "SegmentedControlStyle? - the segments",
+      "background": "ThemedColor? - the track fill",
+      "thumbBackground": "ThemedColor? - the sliding thumb fill",
+      "thumbBorderColor": "ThemedColor? - the thumb border",
+      "thumbBorderWidth": "double? - the thumb border width, 1",
+      "foreground": "StateValue<ThemedColor>? - unselected icon/label colour",
+      "selectedForeground": "StateValue<ThemedColor>? - selected icon/label colour",
+      "borderColor": "ThemedColor? - the control's border",
+      "borderWidth": "double? - the control's border width",
+      "borderRadius": "BorderRadiusGeometry? - the control's radius, 8",
+      "padding": "EdgeInsetsGeometry? - the control's padding, 3",
+      "segmentPadding": "EdgeInsetsGeometry? - the padding inside a segment, 8",
+      "gap": "double? - the gap between two segments, 0",
+      "textStyle": "TextStyle? - the label style, 13 w500",
+      "iconSize": "double? - the icon size, 14/16/18",
+      "height": "double? - the control's height, 28/32/36",
+      "surfaceOpacity": "double? - the track's surface opacity override",
+      "surfaceBlur": "double? - the track's surface blur override",
+      "shadows": "List<BoxShadow>? - the control's shadow"
+    }
+  },
+  "notes": [
+    "A segmented control selects a value; it does not own content. Use `tabs` for navigation and `toolbar` for actions.",
+    "The thumb slides with the theme motion tokens (fast duration, spring curve) and collapses to zero under reduced motion.",
+    "In multiple-selection mode every selected segment gets its own thumb; the single thumb slides only in single-selection mode.",
+    "The arrow keys walk the segments and pick them, like a radio group; the horizontal map is mirrored in RTL."
+  ]
+}

@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 129 installable components, ordered by category then id.
+/// All 132 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -200,6 +200,19 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     placement: 'center',
   ),
   DocsComponent(
+    id: 'fab',
+    name: 'Fab',
+    category: 'Buttons & Actions',
+    description:
+        'Floating action button in three sizes plus an extended pill shape, with a speed dial, a positions helper, hide-on-scroll and a tooltip.',
+    install: 'dashcn add fab',
+    import: "import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';",
+    fileCount: 9,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
     id: 'toggle',
     name: 'Toggle',
     category: 'Buttons & Actions',
@@ -209,6 +222,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     import:
         "import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';",
     fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'toolbar',
+    name: 'Toolbar',
+    category: 'Buttons & Actions',
+    description:
+        'Row or column of actions, toggles, separators and groups, with a responsive overflow menu and arrow-key roving focus.',
+    install: 'dashcn add toolbar',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';",
+    fileCount: 12,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -807,6 +834,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     import:
         "import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';",
     fileCount: 5,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
+    id: 'segmented_control',
+    name: 'Segmented Control',
+    category: 'Forms & Inputs',
+    description:
+        'Row of mutually exclusive (or multi-select) choices with a sliding thumb, icons or labels, disabled segments and intrinsic or full-width sizing.',
+    install: 'dashcn add segmented_control',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';",
+    fileCount: 10,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -2167,7 +2208,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 129 components as index-grid links, alphabetical by name.
+/// All 132 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'action_sheet', name: 'Action Sheet'),
@@ -2214,6 +2255,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'empty_state', name: 'Empty State'),
   DocsComponentLink(id: 'error_system', name: 'Error System'),
   DocsComponentLink(id: 'eye_dropper', name: 'Eye Dropper'),
+  DocsComponentLink(id: 'fab', name: 'Fab'),
   DocsComponentLink(id: 'feature_carousel', name: 'Feature Carousel'),
   DocsComponentLink(id: 'file_diff_viewer', name: 'File Diff Viewer'),
   DocsComponentLink(id: 'file_picker', name: 'File Picker'),
@@ -2266,6 +2308,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'scrollbar', name: 'Scrollbar'),
   DocsComponentLink(id: 'scrollview', name: 'Scrollview'),
   DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
+  DocsComponentLink(id: 'segmented_control', name: 'Segmented Control'),
   DocsComponentLink(id: 'select', name: 'Select'),
   DocsComponentLink(id: 'selectable', name: 'Selectable'),
   DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
@@ -2294,6 +2337,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'timeline_animation', name: 'Timeline Animation'),
   DocsComponentLink(id: 'toast', name: 'Toast'),
   DocsComponentLink(id: 'toggle', name: 'Toggle'),
+  DocsComponentLink(id: 'toolbar', name: 'Toolbar'),
   DocsComponentLink(id: 'tooltip', name: 'Tooltip'),
   DocsComponentLink(id: 'tracker', name: 'Tracker'),
   DocsComponentLink(id: 'tree', name: 'Tree'),
@@ -2306,7 +2350,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
 /// Catalog categories, count descending then id.
 const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Utilities (building blocks)', count: 36),
-  DocsCategory(id: 'Forms & Inputs', count: 22),
+  DocsCategory(id: 'Forms & Inputs', count: 23),
   DocsCategory(id: 'Data Display', count: 19),
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 10),
@@ -2314,16 +2358,16 @@ const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Typography & Media', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
+  DocsCategory(id: 'Buttons & Actions', count: 4),
   DocsCategory(id: 'Animation & Effects', count: 3),
   DocsCategory(id: 'Date & Time', count: 3),
-  DocsCategory(id: 'Buttons & Actions', count: 2),
   DocsCategory(id: 'Color', count: 1),
 ];
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 129, // manifest entries
-  listedComponents: 93, // listed only
+  components: 132, // manifest entries
+  listedComponents: 96, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2374,6 +2418,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'phone_input', name: 'Phone Input'),
           DocsComponentLink(id: 'radio_group', name: 'Radio Group'),
           DocsComponentLink(id: 'search_bar', name: 'Search Bar'),
+          DocsComponentLink(id: 'segmented_control', name: 'Segmented Control'),
           DocsComponentLink(id: 'select', name: 'Select'),
           DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
           DocsComponentLink(id: 'slider', name: 'Slider'),
@@ -2480,6 +2525,15 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
         ],
       ),
       DocsComponentCategory(
+        id: 'Buttons & Actions',
+        components: <DocsComponentLink>[
+          DocsComponentLink(id: 'button', name: 'Button'),
+          DocsComponentLink(id: 'fab', name: 'Fab'),
+          DocsComponentLink(id: 'toggle', name: 'Toggle'),
+          DocsComponentLink(id: 'toolbar', name: 'Toolbar'),
+        ],
+      ),
+      DocsComponentCategory(
         id: 'Animation & Effects',
         components: <DocsComponentLink>[
           DocsComponentLink(id: 'border_loading', name: 'Border Loading'),
@@ -2493,13 +2547,6 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'calendar', name: 'Calendar'),
           DocsComponentLink(id: 'date_picker', name: 'Date Picker'),
           DocsComponentLink(id: 'time_picker', name: 'Time Picker'),
-        ],
-      ),
-      DocsComponentCategory(
-        id: 'Buttons & Actions',
-        components: <DocsComponentLink>[
-          DocsComponentLink(id: 'button', name: 'Button'),
-          DocsComponentLink(id: 'toggle', name: 'Toggle'),
         ],
       ),
       DocsComponentCategory(

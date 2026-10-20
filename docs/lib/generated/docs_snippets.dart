@@ -314,6 +314,73 @@ BorderLoading(
           'pppppppppppppppppppppppppppppkkkkkpppppppkkkkkpppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppssssssssssssssssssssssssssssssssspppppppppppppppppppppppkkkkkppppppsssssssssppppp',
     ),
   ],
+  'fab': <DocsSnippet>[
+    DocsSnippet(
+      id: 'fab.0',
+      componentId: 'fab',
+      language: 'dart',
+      code: r'''Fab(
+  icon: const Icon(LucideIcons.plus),
+  semanticLabel: 'Add item',
+  tooltip: 'Add item',
+  onPressed: _add,
+);''',
+      tokenClasses:
+          'pppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppsssssssssspppppppppppppssssssssssppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'fab.1',
+      componentId: 'fab',
+      language: 'dart',
+      code: r'''Fab(
+  icon: const Icon(LucideIcons.pencil),
+  label: const Text('Compose'),
+  onPressed: _compose,
+);''',
+      tokenClasses:
+          'pppppppppppppkkkkkppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssspppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'fab.2',
+      componentId: 'fab',
+      language: 'dart',
+      code: r'''FabSpeedDial(
+  icon: const Icon(LucideIcons.plus),
+  actions: <FabSpeedDialAction>[
+    FabSpeedDialAction(icon: const Icon(LucideIcons.image), onPressed: _photo),
+    FabSpeedDialAction(icon: const Icon(LucideIcons.camera), onPressed: _camera),
+  ],
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'fab.3',
+      componentId: 'fab',
+      language: 'dart',
+      code: r'''Stack(
+  children: <Widget>[
+    FabPositioner(
+      position: FabPosition.bottomEnd,
+      child: Fab(icon: const Icon(LucideIcons.plus), onPressed: _add),
+    ),
+  ],
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'fab.4',
+      componentId: 'fab',
+      language: 'dart',
+      code: r'''FabHideOnScroll(
+  controller: scrollController,
+  child: Fab(icon: const Icon(LucideIcons.plus), onPressed: _add),
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+  ],
   'toggle': <DocsSnippet>[
     DocsSnippet(
       id: 'toggle.0',
@@ -351,6 +418,52 @@ Toggle(controller: controller, child: const Text('Show sidebar'));
 );''',
       tokenClasses:
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssppppp',
+    ),
+  ],
+  'toolbar': <DocsSnippet>[
+    DocsSnippet(
+      id: 'toolbar.0',
+      componentId: 'toolbar',
+      language: 'dart',
+      code: r'''Toolbar(
+  children: <Widget>[
+    ToolbarItem(
+      tooltip: 'Undo',
+      semanticLabel: 'Undo',
+      onPressed: _undo,
+      child: const Icon(LucideIcons.rotateCw),
+    ),
+    const ToolbarSeparator(),
+    ToolbarToggleItem(
+      value: bold,
+      onChanged: (bool value) => setState(() => bold = value),
+      tooltip: 'Bold',
+      semanticLabel: 'Bold',
+      child: const Icon(LucideIcons.bold),
+    ),
+  ],
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppsssssspppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'toolbar.1',
+      componentId: 'toolbar',
+      language: 'dart',
+      code: r'''Toolbar(
+  children: <Widget>[
+    ToolbarGroup(
+      children: <Widget>[
+        ToolbarItem(child: const Icon(LucideIcons.bold), onPressed: _bold),
+        ToolbarItem(child: const Icon(LucideIcons.italic), onPressed: _italic),
+      ],
+    ),
+    const ToolbarSeparator(),
+    ToolbarGroup(children: <Widget>[/* ... */]),
+  ],
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccppppppppppp',
     ),
   ],
   'color_picker': <DocsSnippet>[
@@ -2036,6 +2149,46 @@ SearchBar<String>(
 );''',
       tokenClasses:
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppppppppppppp',
+    ),
+  ],
+  'segmented_control': <DocsSnippet>[
+    DocsSnippet(
+      id: 'segmented_control.0',
+      componentId: 'segmented_control',
+      language: 'dart',
+      code: r'''SegmentedControl<String>(
+  value: range,
+  onChanged: (String value) => setState(() => range = value),
+  segments: const <SegmentedControlSegment<String>>[
+    SegmentedControlSegment<String>(value: 'day', label: Text('Day')),
+    SegmentedControlSegment<String>(value: 'week', label: Text('Week')),
+  ],
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppssssspppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppssssssppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'segmented_control.1',
+      componentId: 'segmented_control',
+      language: 'dart',
+      code: r'''SegmentedControl<String>(
+  selection: SegmentedControlSelection.multiple,
+  values: selected,
+  onValuesChanged: (Set<String> values) => setState(() => selected = values),
+  segments: segments,
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'segmented_control.2',
+      componentId: 'segmented_control',
+      language: 'dart',
+      code:
+          r'''final controller = SegmentedControlController<String>(<String>{'day'});
+SegmentedControl<String>(controller: controller, segments: segments);''',
+      tokenClasses:
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'select': <DocsSnippet>[
@@ -4659,6 +4812,20 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>['lib/ui/dashcn/components/button/button_theme.dart'],
   ),
+  'fab': DocsFileList(
+    componentId: 'fab',
+    files: <String>[
+      'lib/ui/dashcn/components/fab/fab.dart',
+      'lib/ui/dashcn/components/fab/fab_content.dart',
+      'lib/ui/dashcn/components/fab/fab_defaults.dart',
+      'lib/ui/dashcn/components/fab/fab_hide_on_scroll.dart',
+      'lib/ui/dashcn/components/fab/fab_positioner.dart',
+      'lib/ui/dashcn/components/fab/fab_speed_dial.dart',
+      'lib/ui/dashcn/components/fab/fab_speed_dial_action.dart',
+      'lib/ui/dashcn/components/fab/fab_style.dart',
+    ],
+    userOwned: <String>['lib/ui/dashcn/components/fab/fab_theme.dart'],
+  ),
   'toggle': DocsFileList(
     componentId: 'toggle',
     files: <String>[
@@ -4666,6 +4833,23 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/toggle/toggle_style.dart',
     ],
     userOwned: <String>['lib/ui/dashcn/components/toggle/toggle_theme.dart'],
+  ),
+  'toolbar': DocsFileList(
+    componentId: 'toolbar',
+    files: <String>[
+      'lib/ui/dashcn/components/toolbar/toolbar.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_defaults.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_group.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_item.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_item_surface.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_items.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_keys.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_overflow.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_style.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_surface.dart',
+      'lib/ui/dashcn/components/toolbar/toolbar_toggle_item.dart',
+    ],
+    userOwned: <String>['lib/ui/dashcn/components/toolbar/toolbar_theme.dart'],
   ),
   'color_picker': DocsFileList(
     componentId: 'color_picker',
@@ -5064,6 +5248,23 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/search_bar/search_bar_theme.dart',
+    ],
+  ),
+  'segmented_control': DocsFileList(
+    componentId: 'segmented_control',
+    files: <String>[
+      'lib/ui/dashcn/components/segmented_control/segmented_control.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_button.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_defaults.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_keys.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_metrics.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_segment.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_selection.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_style.dart',
+      'lib/ui/dashcn/components/segmented_control/segmented_control_thumb.dart',
+    ],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/segmented_control/segmented_control_theme.dart',
     ],
   ),
   'select': DocsFileList(

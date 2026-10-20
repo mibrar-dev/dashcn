@@ -48,7 +48,13 @@ class _Block {
 /// Dart file names per block id.
 final Map<String, List<String>> _files = <String, List<String>>{};
 
-void main(List<String> args) {
+void main([List<String>? args]) {
+  // `flutter test test tool` loads every `*_test.dart` file under tool/ and
+  // calls its `main()` with no arguments. This file is a generator, not a
+  // test, so there is nothing to run in that context.
+  if (args == null || Platform.environment['FLUTTER_TEST'] == 'true') {
+    return;
+  }
   final check = args.contains('--check');
   final root = _appRoot();
   final blocks = _readBlocks(root);

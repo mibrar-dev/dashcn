@@ -55,6 +55,7 @@ import 'package:dashcn/src/components/drawer/preview.dart';
 import 'package:dashcn/src/components/dropdown_menu/preview.dart';
 import 'package:dashcn/src/components/dropzone/preview.dart';
 import 'package:dashcn/src/components/empty_state/preview.dart';
+import 'package:dashcn/src/components/fab/preview.dart';
 import 'package:dashcn/src/components/feature_carousel/preview.dart';
 import 'package:dashcn/src/components/file_diff_viewer/preview.dart';
 import 'package:dashcn/src/components/file_picker/preview.dart';
@@ -91,6 +92,7 @@ import 'package:dashcn/src/components/resizable/preview.dart';
 import 'package:dashcn/src/components/scaffold/preview.dart';
 import 'package:dashcn/src/components/scrollbar/preview.dart';
 import 'package:dashcn/src/components/search_bar/preview.dart';
+import 'package:dashcn/src/components/segmented_control/preview.dart';
 import 'package:dashcn/src/components/select/preview.dart';
 import 'package:dashcn/src/components/signature_pad/preview.dart';
 import 'package:dashcn/src/components/skeleton/preview.dart';
@@ -110,6 +112,7 @@ import 'package:dashcn/src/components/time_picker/preview.dart';
 import 'package:dashcn/src/components/timeline/preview.dart';
 import 'package:dashcn/src/components/toast/preview.dart';
 import 'package:dashcn/src/components/toggle/preview.dart';
+import 'package:dashcn/src/components/toolbar/preview.dart';
 import 'package:dashcn/src/components/tooltip/preview.dart';
 import 'package:dashcn/src/components/tracker/preview.dart';
 import 'package:dashcn/src/components/tree/preview.dart';
@@ -258,6 +261,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'dropdown_menu': dropdownMenuPreviews,
       'dropzone': dropzonePreviews,
       'empty_state': emptyStatePreviews,
+      'fab': fabPreviews,
       'feature_carousel': featureCarouselPreviews,
       'file_diff_viewer': fileDiffViewerPreviews,
       'file_picker': filePickerPreviews,
@@ -294,6 +298,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'scaffold': scaffoldPreviews,
       'scrollbar': scrollbarPreviews,
       'search_bar': searchBarPreviews,
+      'segmented_control': segmentedControlPreviews,
       'select': selectPreviews,
       'signature_pad': signaturePadPreviews,
       'skeleton': skeletonPreviews,
@@ -313,6 +318,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'timeline': timelinePreviews,
       'toast': toastPreviews,
       'toggle': togglePreviews,
+      'toolbar': toolbarPreviews,
       'tooltip': tooltipPreviews,
       'tracker': trackerPreviews,
       'tree': treePreviews,
