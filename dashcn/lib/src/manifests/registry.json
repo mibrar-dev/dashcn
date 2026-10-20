@@ -682,6 +682,73 @@
         "components/accordion/accordion_theme.dart"
       ]
     },
+    "action_sheet": {
+      "api": {
+        "classes": [
+          "ActionSheet",
+          "ActionSheetAction",
+          "ActionSheetTheme",
+          "ActionSheetStyle"
+        ],
+        "constants": [
+          "actionSheetDefaults",
+          "actionSheetThemeOverrides"
+        ],
+        "functions": [
+          "showActionSheet"
+        ]
+      },
+      "category": "Overlays",
+      "deps": {
+        "components": [
+          "dialog",
+          "drawer"
+        ],
+        "foundation": [
+          "icons"
+        ],
+        "primitives": [],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "A bottom sheet of actions with title and message, destructive and cancel actions, icons, scrollable list, drag to dismiss, and a centered dialog variant on wide screens.",
+      "entry": "components/action_sheet/action_sheet.dart",
+      "files": [
+        "components/action_sheet/action_sheet.dart",
+        "components/action_sheet/action_sheet_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
+      "install": "dashcn add action_sheet",
+      "listed": true,
+      "name": "ActionSheet",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "overlay",
+        "sheet",
+        "actions",
+        "modal"
+      ],
+      "theme": {
+        "class": "ActionSheetTheme",
+        "defaults": "actionSheetDefaults",
+        "fields": {
+          "backgroundColor": "ThemedColor? - sheet background",
+          "cancelColor": "ThemedColor? - cancel action colour",
+          "destructiveColor": "ThemedColor? - destructive action colour",
+          "messageStyle": "TextStyle? - message text style",
+          "titleStyle": "TextStyle? - title text style"
+        },
+        "userFile": "action_sheet_theme.dart"
+      },
+      "userOwned": [
+        "components/action_sheet/action_sheet_theme.dart"
+      ]
+    },
     "alert": {
       "api": {
         "classes": [
@@ -5322,6 +5389,74 @@
         "components/keyboard_shortcut/keyboard_shortcut_theme.dart"
       ]
     },
+    "list_tile": {
+      "api": {
+        "classes": [
+          "ListTile",
+          "ListTileGroup",
+          "ListTileTheme",
+          "ListTileStyle"
+        ],
+        "constants": [
+          "listTileDefaults",
+          "listTileThemeOverrides"
+        ]
+      },
+      "category": "Data Display",
+      "deps": {
+        "components": [],
+        "foundation": [
+          "gap",
+          "icons"
+        ],
+        "primitives": [
+          "clickable"
+        ],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "A single-line to three-line list row with leading, title, subtitle and trailing slots, dense/comfortable sizing, selected and disabled states, tap and long-press, plus a grouped list helper.",
+      "entry": "components/list_tile/list_tile.dart",
+      "files": [
+        "components/list_tile/list_tile.dart",
+        "components/list_tile/list_tile_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';",
+      "install": "dashcn add list_tile",
+      "listed": true,
+      "name": "ListTile",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "list",
+        "tile",
+        "row",
+        "dense",
+        "grouped"
+      ],
+      "theme": {
+        "class": "ListTileTheme",
+        "defaults": "listTileDefaults",
+        "fields": {
+          "iconColor": "ThemedColor? - leading icon colour",
+          "padding": "EdgeInsetsGeometry? - row padding",
+          "selectedColor": "ThemedColor? - selected fill",
+          "subtitleColor": "ThemedColor? - subtitle colour",
+          "subtitleStyle": "TextStyle? - subtitle text style",
+          "textColor": "ThemedColor? - title colour",
+          "tileColor": "ThemedColor? - resting fill",
+          "titleStyle": "TextStyle? - title text style"
+        },
+        "userFile": "list_tile_theme.dart"
+      },
+      "userOwned": [
+        "components/list_tile/list_tile_theme.dart"
+      ]
+    },
     "locale_utils": {
       "api": {
         "classes": [
@@ -9543,6 +9678,10 @@
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
     "components/accordion/preview.dart": "3d725fd596bf24362fae5618a50e19b63390192b6569632378c33652eead48bf",
+    "components/action_sheet/action_sheet.dart": "4bab73a074483aa01bd09ac22936ab954635623c803d0983fd4b12c69ac9729e",
+    "components/action_sheet/action_sheet_style.dart": "ba2f9eede2442d81ad2cc55e9519cee0662e16cd03138849fad404b50aa2525b",
+    "components/action_sheet/action_sheet_theme.dart": "7625dffe23b1c6d072aff7b8abe2358cc50f2062ebb8ea35292d1c7d8b910f61",
+    "components/action_sheet/preview.dart": "522c5b9534538ebbd572ac624ba41bf2e6079f30faab3c77165c7b8e82d43765",
     "components/alert/alert.dart": "fd0c4190aebf8ff2354c21ee84ae90a5755167e86db513b6b487003a0f9955d4",
     "components/alert/alert_style.dart": "be146d30c1607d5d580df03a0b57f94e798e1246ff6866742fd0bbeb3ae4743b",
     "components/alert/alert_theme.dart": "c0d6deb5deb53267de56ef33059c9493d9c856fa99a402fbee2c9dde5c2d40f1",
@@ -9788,6 +9927,10 @@
     "components/keyboard_shortcut/keyboard_shortcut_style.dart": "981aa7be785620b33caca32d9edf0a2b7471a0bade61ce4d957220bcc0f4e563",
     "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "941fa588703a84c03383b57ab34acf6e12bbb1867aaa53a8b8d2ffd55b6b9d20",
     "components/keyboard_shortcut/preview.dart": "7ed36a064a5c686d52625cf6ee86f145bfc99a6f536e2147844596bf9a407a38",
+    "components/list_tile/list_tile.dart": "3a89dd78194a6dff600b3437b4c84416b104cb0e4b9e53f13db61a7a28d8deab",
+    "components/list_tile/list_tile_style.dart": "046ea98d6d63eaf49135833eae7564c759110a65c4c4a2f17643a8249ce6f756",
+    "components/list_tile/list_tile_theme.dart": "9fe37645a2f02c97f12f51e30bbcdac3d7451a501bd6a11ae7bca4469f7e62ac",
+    "components/list_tile/preview.dart": "8d956681dd1d371bdfe1fff02cc3b2c693a115ccf2cc60729f9c0b6d873dafda",
     "components/locale_utils/locale_utils.dart": "97b51cf3d2300968c48fa2b0da4eac7f568aca6be602d26385734626b9211297",
     "components/locale_utils/preview.dart": "bbdecec2a45f805e2d6b9206804c3abaf20843399d5cb9f893804f174b8bdc80",
     "components/markdown/markdown.dart": "95e5d2f476a80d91e456302896a0a17762defd47c4265228f01f2f0f6485a3f1",

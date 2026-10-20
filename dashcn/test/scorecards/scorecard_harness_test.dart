@@ -9,6 +9,7 @@ import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'examples/accordion.dart' as accordion_example;
+import 'examples/action_sheet.dart' as action_sheet_example;
 import 'examples/alert.dart' as alert_example;
 import 'examples/alert_dialog.dart' as alert_dialog_example;
 import 'examples/autocomplete.dart' as autocomplete_example;
@@ -52,6 +53,7 @@ import 'examples/input.dart' as input_example;
 import 'examples/input_otp.dart' as input_otp_example;
 import 'examples/item_picker.dart' as item_picker_example;
 import 'examples/keyboard_shortcut.dart' as keyboard_shortcut_example;
+import 'examples/list_tile.dart' as list_tile_example;
 import 'examples/markdown.dart' as markdown_example;
 import 'examples/menu.dart' as menu_example;
 import 'examples/menubar.dart' as menubar_example;
@@ -240,6 +242,7 @@ Map<String, Object?> guidelineResult(Evaluation evaluation) {
 
 final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'accordion': accordion_example.scorecardExample,
+  'action_sheet': action_sheet_example.scorecardExample,
   'alert': alert_example.scorecardExample,
   'alert_dialog': alert_dialog_example.scorecardExample,
   'autocomplete': autocomplete_example.scorecardExample,
@@ -283,6 +286,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'input_otp': input_otp_example.scorecardExample,
   'item_picker': item_picker_example.scorecardExample,
   'keyboard_shortcut': keyboard_shortcut_example.scorecardExample,
+  'list_tile': list_tile_example.scorecardExample,
   'markdown': markdown_example.scorecardExample,
   'menu': menu_example.scorecardExample,
   'menubar': menubar_example.scorecardExample,
