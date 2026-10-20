@@ -908,6 +908,9 @@ void main() {
       await tester.pumpWidget(_frame(const AudioPlayer(title: 'Frost')));
       await tester.pump();
       _expectGlass(tester, find.byType(AudioPlayer));
+    });
+  });
+
   group('image_lightbox', () {
     testWidgets('chrome frosts through the surface primitive', (tester) async {
       await tester.pumpWidget(
