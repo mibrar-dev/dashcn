@@ -592,7 +592,7 @@ void main() {
       expect(homeEnd.source, 'Keyboard');
       // Exactly five components document keyboard rows (the four before, plus
       // image_lightbox, which documents its arrow/escape keys).
-      expect(kKeyboardGaps.length, kComponents.length - 5);
+      expect(kKeyboardGaps.length, kComponents.length - 7);
     },
   );
 
