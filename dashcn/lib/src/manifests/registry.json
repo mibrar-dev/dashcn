@@ -10210,7 +10210,7 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
-    "components/video_player/preview.dart": "9ad2666348a8ff5562c416e0585d552a5f7c06713f3c0005bdc8df713e78b8c0",
+    "components/video_player/preview.dart": "7c7e349f01491b8c00edf391aba913cf74813b348c9a6b52c1cd6d0da85a947d",
     "components/video_player/video_player.dart": "90290d8c53e271a41184176a4c31f7b2c0a3840d97bfcfa80d4d986fb64dcc17",
     "components/video_player/video_player_buttons.dart": "dd2546e7d4ec944a224b91dde1820b882bf7ca917c598519e45765a31802bc52",
     "components/video_player/video_player_controller.dart": "7475d702a721685f9d808b5ed58a6f7be053224300cbeeac4f2ab89b7563d8be",
