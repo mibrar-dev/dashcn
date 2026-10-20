@@ -22861,7 +22861,17 @@ class _DefaultVideoState extends State<_DefaultVideo> {
               colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
             ),
           ),
-          child: const Text('Demo frame'),
+          // Explicit light-on-dark demo copy: the harness stage paints the
+          // default (dark) text style, which falls below 4.5:1 on this
+          // gradient. Real frames are video pixels, not text.
+          child: const Text(
+            'Demo frame',
+            style: TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
