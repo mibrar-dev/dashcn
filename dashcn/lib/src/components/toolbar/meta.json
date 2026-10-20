@@ -1,0 +1,125 @@
+{
+  "id": "toolbar",
+  "name": "Toolbar",
+  "category": "Buttons & Actions",
+  "description": "Row or column of actions, toggles, separators and groups, with a responsive overflow menu and arrow-key roving focus.",
+  "tier": "component",
+  "install": "dashcn add toolbar",
+  "import": "import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';",
+  "tags": [
+    "control",
+    "toolbar",
+    "actions",
+    "group",
+    "overflow",
+    "toggle"
+  ],
+  "deps": {
+    "foundation": [
+      "data",
+      "icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "theme"
+    ],
+    "primitives": [
+      "clickable",
+      "measured_extent",
+      "roving_group",
+      "touch_hit_area"
+    ],
+    "components": [
+      "menu",
+      "tooltip"
+    ]
+  },
+  "files": [
+    "preview.dart",
+    "toolbar.dart",
+    "toolbar_defaults.dart",
+    "toolbar_group.dart",
+    "toolbar_item.dart",
+    "toolbar_item_surface.dart",
+    "toolbar_items.dart",
+    "toolbar_keys.dart",
+    "toolbar_overflow.dart",
+    "toolbar_style.dart",
+    "toolbar_surface.dart",
+    "toolbar_theme.dart",
+    "toolbar_toggle_item.dart"
+  ],
+  "api": {
+    "classes": [
+      "Toolbar",
+      "ToolbarItem",
+      "ToolbarToggleItem",
+      "ToolbarToggleController",
+      "ToolbarSeparator",
+      "ToolbarGroup",
+      "ToolbarItemSurface",
+      "ToolbarItemData",
+      "ToolbarStyle",
+      "ToolbarTheme"
+    ],
+    "enums": [
+      "ToolbarAxis",
+      "ToolbarSize"
+    ],
+    "functions": [
+      "buildToolbarOverflowButton",
+      "buildToolbarScopedItem",
+      "buildToolbarSurface",
+      "resolveToolbarTheme",
+      "toolbarActions",
+      "toolbarIconFor",
+      "toolbarItemBoxFor",
+      "toolbarItemPadding",
+      "toolbarLabelledRow",
+      "toolbarMenuRow",
+      "toolbarShortcuts",
+      "toolbarVisibleCount"
+    ],
+    "constants": [
+      "toolbarDefaults",
+      "toolbarThemeOverrides",
+      "toolbarDefaultGap",
+      "toolbarDefaultTextStyle",
+      "toolbarToggleBackground"
+    ]
+  },
+  "theme": {
+    "class": "ToolbarTheme",
+    "userFile": "toolbar_theme.dart",
+    "defaults": "toolbarDefaults",
+    "fields": {
+      "container": "ToolbarStyle? - the toolbar's own surface",
+      "item": "ToolbarStyle? - the toolbar's items",
+      "group": "ToolbarStyle? - the toolbar's groups",
+      "separator": "ToolbarStyle? - the toolbar's separators",
+      "background": "ThemedColor? - container fill, null draws none",
+      "borderColor": "ThemedColor? - container border, null draws none",
+      "borderWidth": "double? - used when borderColor resolves",
+      "borderRadius": "BorderRadiusGeometry? - container radius",
+      "padding": "EdgeInsetsGeometry? - container padding, 4 px",
+      "gap": "double? - space between items, 8 px",
+      "itemSize": "double? - item box, 32/36/40 px from the size table",
+      "itemPadding": "EdgeInsetsGeometry? - padding inside an item",
+      "iconSize": "double? - icon size, 16/18/20 px from the size table",
+      "textStyle": "TextStyle? - item label style, 13 w500",
+      "itemBackground": "StateValue<ThemedColor>? - per-state item fill",
+      "itemForeground": "StateValue<ThemedColor>? - per-state item colour",
+      "separatorColor": "ThemedColor? - separator colour, the border token",
+      "separatorThickness": "double? - separator thickness, 1 px",
+      "groupBackground": "ThemedColor? - group fill",
+      "groupBorderRadius": "BorderRadiusGeometry? - group radius",
+      "groupPadding": "EdgeInsetsGeometry? - padding inside a group"
+    }
+  },
+  "notes": [
+    "The toolbar measures its items after the layout and moves the trailing ones into an overflow menu when they no longer fit; the row itself is laid out with unbounded constraints so it never reports a flex overflow.",
+    "The arrow keys walk the items through `primitives/roving_group.dart`; the horizontal map is mirrored in RTL.",
+    "`ToolbarToggleItem` is controlled with `value` + `onChanged` and uncontrolled with a `ToolbarToggleController`."
+  ]
+}

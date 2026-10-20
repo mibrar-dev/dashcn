@@ -74,7 +74,9 @@ import 'package:dashcn/src/components/drawer/drawer_style.dart';
 import 'package:dashcn/src/components/drawer_container/drawer_container.dart';
 import 'package:dashcn/src/components/dropdown_menu/dropdown_menu.dart';
 import 'package:dashcn/src/components/dropzone/dropzone.dart';
+import 'package:dashcn/src/components/fab/fab.dart';
 import 'package:dashcn/src/components/file_picker/file_picker.dart';
+import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/components/formatted_input/formatted_input.dart';
 import 'package:dashcn/src/components/hover_card/hover_card.dart';
 import 'package:dashcn/src/components/image_lightbox/image_lightbox.dart';
@@ -205,6 +207,9 @@ void _expectGlass(WidgetTester tester, Finder scope) {
   );
 }
 
+/// A no-op press handler for the surface groups.
+void _noop() {}
+
 /// Parks a mouse pointer ready to move; one gesture per test.
 Future<TestGesture> _mouse(WidgetTester tester) async {
   final TestGesture gesture = await tester.createGesture(
@@ -221,6 +226,21 @@ void main() {
     testWidgets('fill is translucent with a blur', (tester) async {
       await tester.pumpWidget(_frame(const Card(child: Text('body'))));
       _expectGlass(tester, find.byType(Card));
+    });
+  });
+
+  group('fab', () {
+    testWidgets('fill is translucent with a blur', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          const Fab(
+            icon: Icon(LucideIcons.plus),
+            semanticLabel: 'Add',
+            onPressed: _noop,
+          ),
+        ),
+      );
+      _expectGlass(tester, find.byType(Fab));
     });
   });
 
@@ -940,6 +960,7 @@ void main() {
 /// Registry ids exercised by the groups above.
 const Set<String> _tested = <String>{
   'card',
+  'fab',
   'dialog',
   'alert_dialog',
   'drawer',
@@ -1013,6 +1034,9 @@ const Map<String, String> _allowList = <String, String>{
   'error_system': 'error mapping, no paint',
   'eye_dropper': 'color sampling tool; popup surface covered via menu',
   'feature_carousel': 'composed carousel; no own surface paint',
+  'segmented_control':
+      'selection control; the track is an inline fill and the thumb is a '
+      'control surface, not a floating overlay',
   'file_diff_viewer': 'diff text layout, no surface of its own',
   'filter_bar': 'composed of controls; no own surface',
   'form': 'form scope, no paint',
@@ -1068,6 +1092,9 @@ const Map<String, String> _allowList = <String, String>{
   'swiper': 'dismiss scrim only; panel chrome is the drawer surface',
   'switch': 'control, not a surface',
   'switcher': 'segmented control; controls, not a surface',
+  'toolbar':
+      'action bar; the container is an inline track and the items are '
+      'controls, not a floating overlay',
   'table': 'data grid; cells are inline fills, not a floating surface',
   'tabs': 'tab controls; panels are caller content',
   'text_animate': 'animated text, no surface',
