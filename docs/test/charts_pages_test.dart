@@ -150,7 +150,9 @@ void main() {
           reason: family.id,
         );
       }
-      await tester.tap(find.text('Area'));
+      await tester.tap(
+        find.byKey(const ValueKey<String>('chart-family-pill-area')),
+      );
       await _pumpSoon(tester);
       expect(
         delegate.currentConfiguration,
@@ -288,12 +290,18 @@ void main() {
       );
       final Finder sidebar = find.byType(DocsSidebar);
       expect(sidebar, findsOneWidget);
-      // Neither the Sections entry nor the family rows remain.
+      // Neither the Sections entry nor the Charts group label remain.
+      // `Tooltip` is skipped below: the tooltip *component* keeps its own
+      // sidebar row (the row model test below proves no row links to
+      // /charts).
       expect(
         find.descendant(of: sidebar, matching: find.text('Charts')),
         findsNothing,
       );
       for (final ChartFamily family in kChartFamilies) {
+        if (family.title == 'Tooltip') {
+          continue;
+        }
         expect(
           find.descendant(of: sidebar, matching: find.text(family.title)),
           findsNothing,
