@@ -15536,7 +15536,7 @@ class _DefaultWheelState extends State<_DefaultWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -15546,7 +15546,7 @@ class _DefaultWheelState extends State<_DefaultWheel> {
         ),
         Gap(theme.spacing.lg),
         Text(
-          _value[0] == 0 ? '—' : _hours[_value[0]],
+          _hours[_value[0]],
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -15596,7 +15596,7 @@ class _TimeWheelState extends State<_TimeWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -15644,41 +15644,31 @@ class _LoopingWheel extends StatefulWidget {
 }
 
 class _LoopingWheelState extends State<_LoopingWheel> {
+  static const List<String> _colours = <String>[
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Violet',
+  ];
   List<int> _value = <int>[0];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
-          columns: <WheelColumn>[
-            WheelColumn(
-              items: <String>[
-                'Red',
-                'Orange',
-                'Yellow',
-                'Green',
-                'Blue',
-                'Violet',
-              ],
-            ),
-          ],
+          columns: <WheelColumn>[WheelColumn(items: _colours)],
           value: _value,
           looping: true,
           onChanged: (List<int> value) => setState(() => _value = value),
         ),
         Gap(theme.spacing.lg),
         Text(
-          <String>[
-            'Red',
-            'Orange',
-            'Yellow',
-            'Green',
-            'Blue',
-            'Violet',
-          ][_value[0]],
+          _colours[_value[0]],
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -15712,7 +15702,7 @@ class _PerspectiveWheelState extends State<_PerspectiveWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -15784,21 +15774,20 @@ class _CustomizedWheel extends StatefulWidget {
 }
 
 class _CustomizedWheelState extends State<_CustomizedWheel> {
+  static const List<String> _sizes = <String>['Small', 'Medium', 'Large'];
+  static const List<String> _codes = <String>['S', 'M', 'L', 'XL'];
   List<int> _value = <int>[1, 0];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
           columns: <WheelColumn>[
-            WheelColumn(
-              items: <String>['Small', 'Medium', 'Large'],
-              width: 120,
-            ),
-            WheelColumn(items: <String>['S', 'M', 'L', 'XL']),
+            WheelColumn(items: _sizes, width: 120),
+            WheelColumn(items: _codes),
           ],
           value: _value,
           theme: const WheelPickerTheme(
@@ -15811,8 +15800,7 @@ class _CustomizedWheelState extends State<_CustomizedWheel> {
         ),
         Gap(theme.spacing.lg),
         Text(
-          '${<String>['Small', 'Medium', 'Large'][_value[0]]} / '
-          '${<String>['S', 'M', 'L', 'XL'][_value[1]]}',
+          '${_sizes[_value[0]]} / ${_codes[_value[1]]}',
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -15834,11 +15822,14 @@ import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
 
 /// A read-only wheel with no callback.
 Widget _readOnly(BuildContext context) {
-  return const WheelPicker(
-    columns: <WheelColumn>[
-      WheelColumn(items: <String>['One', 'Two', 'Three']),
-    ],
-    initialValue: <int>[1],
+  return const SizedBox(
+    width: 120,
+    child: WheelPicker(
+      columns: <WheelColumn>[
+        WheelColumn(items: <String>['One', 'Two', 'Three']),
+      ],
+      initialValue: <int>[1],
+    ),
   );
 }
 ''',
@@ -22098,16 +22089,16 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
 
 const String _redPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeUlEQVR4nO3PQQkAMAzAwAqrfxUTMxF7HINABFzm7H7dcEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFj108cEE8uoIF1wAAAABJRU5ErkJggg==';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
 
 const String _greenPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMJOY0oCH8OITBAtxmnf11wwUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBeYGhLQX0+xwAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
 
 const String _bluePng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMYIY1jCH8OITBAtxm7fN1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBiJcBeEcEbwAAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
 
 const String _amberPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfH7AYzhyH8OITBAtzm7PV1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYB8r6Bli/A9wUAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
 
 final List<LightboxImage> _photos = <LightboxImage>[
   LightboxImage(
@@ -22149,16 +22140,16 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
 
 const String _redPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeUlEQVR4nO3PQQkAMAzAwAqrfxUTMxF7HINABFzm7H7dcEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFj108cEE8uoIF1wAAAABJRU5ErkJggg==';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
 
 const String _greenPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMJOY0oCH8OITBAtxmnf11wwUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBeYGhLQX0+xwAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
 
 const String _bluePng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMYIY1jCH8OITBAtxm7fN1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBiJcBeEcEbwAAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
 
 const String _amberPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfH7AYzhyH8OITBAtzm7PV1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYB8r6Bli/A9wUAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
 
 final List<LightboxImage> _photos = <LightboxImage>[
   LightboxImage(
@@ -22204,16 +22195,16 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
 
 const String _redPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeUlEQVR4nO3PQQkAMAzAwAqrfxUTMxF7HINABFzm7H7dcEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFj108cEE8uoIF1wAAAABJRU5ErkJggg==';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
 
 const String _greenPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMJOY0oCH8OITBAtxmnf11wwUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBeYGhLQX0+xwAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
 
 const String _bluePng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMYIY1jCH8OITBAtxm7fN1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBiJcBeEcEbwAAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
 
 const String _amberPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfH7AYzhyH8OITBAtzm7PV1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYB8r6Bli/A9wUAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
 
 final List<LightboxImage> _photos = <LightboxImage>[
   LightboxImage(
@@ -22263,16 +22254,16 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';
 
 const String _redPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeUlEQVR4nO3PQQkAMAzAwAqrfxUTMxF7HINABFzm7H7dcEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFj108cEE8uoIF1wAAAABJRU5ErkJggg==';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUElEQVR42u3PQREAAAQAMITRP5AwUni42xospzs+q3hOQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA4N4CDKIBqK4z/20AAAAASUVORK5CYII=';
 
 const String _greenPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMJOY0oCH8OITBAtxmnf11wwUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBeYGhLQX0+xwAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgIRGETo1PBQdI6aNZ0XPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9HxJZAYMtZ/JwAAAAAElFTkSuQmCC';
 
 const String _bluePng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfMYIY1jCH8OITBAtxm7fN1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBY0oAUNaEEDWtCAFjSgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYBiJcBeEcEbwAAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMJgXlCEfE1PBQdI6aFZPXPbiOAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYF9Hy4iAfMxiKoyAAAAAElFTkSuQmCC';
 
 const String _amberPng =
-    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAeklEQVR4nO3PUQkAIBTAwBfH7AYzhyH8OITBAtzm7PV1wwUNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWNKAFDWhBA1rQgBQ1oQQNa0IAWPHYB8r6Bli/A9wUAAAAASUVORK5CYII';
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUUlEQVR42u3PMQ0AMAgAMNiBZbTiZio4SFoHzemKy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA7hbAdZfb5ZtAAAAAElFTkSuQmCC';
 
 final List<LightboxImage> _photos = <LightboxImage>[
   LightboxImage(
