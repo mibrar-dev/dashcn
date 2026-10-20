@@ -1005,6 +1005,314 @@ Widget _buttonDisabled(BuildContext context) {
 ''',
     ),
   ],
+  'fab': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_fabDefault',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// The default example: one round floating action button.
+Widget _fabDefault(BuildContext context) {
+  return const Center(
+    child: Fab(
+      icon: Icon(LucideIcons.plus),
+      semanticLabel: 'Add item',
+      tooltip: 'Add item',
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Sizes',
+      builder: '_fabSizes',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// The three fixed sizes, side by side.
+Widget _fabSizes(BuildContext context) {
+  final double spacing = Theme.of(context).spacing.md;
+  return Center(
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        const Fab(
+          icon: Icon(LucideIcons.plus),
+          size: FabSize.sm,
+          semanticLabel: 'Add item (small)',
+        ),
+        Gap(spacing),
+        const Fab(
+          icon: Icon(LucideIcons.plus),
+          size: FabSize.md,
+          semanticLabel: 'Add item (regular)',
+        ),
+        Gap(spacing),
+        const Fab(
+          icon: Icon(LucideIcons.plus),
+          size: FabSize.lg,
+          semanticLabel: 'Add item (large)',
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Extended',
+      builder: '_fabExtended',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// The extended (pill) shape with a label.
+Widget _fabExtended(BuildContext context) {
+  return const Center(
+    child: Fab(
+      icon: Icon(LucideIcons.pencil),
+      label: Text('Compose'),
+      semanticLabel: 'Compose',
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Speed dial',
+      builder: '_fabSpeedDial',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// The speed dial: a main button that unfolds three mini actions.
+class _FabSpeedDialExample extends StatefulWidget {
+  const _FabSpeedDialExample();
+
+  @override
+  State<_FabSpeedDialExample> createState() => _FabSpeedDialExampleState();
+}
+
+class _FabSpeedDialExampleState extends State<_FabSpeedDialExample> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FabSpeedDial(
+        icon: const Icon(LucideIcons.plus),
+        expanded: _expanded,
+        onExpandedChanged: (bool value) => setState(() => _expanded = value),
+        semanticLabel: 'Create',
+        tooltip: 'Create',
+        actions: <FabSpeedDialAction>[
+          FabSpeedDialAction(
+            icon: const Icon(LucideIcons.fileText),
+            tooltip: 'New document',
+            semanticLabel: 'New document',
+          ),
+          FabSpeedDialAction(
+            icon: const Icon(LucideIcons.image),
+            tooltip: 'New image',
+            semanticLabel: 'New image',
+          ),
+          FabSpeedDialAction(
+            icon: const Icon(LucideIcons.camera),
+            tooltip: 'Take a photo',
+            semanticLabel: 'Take a photo',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _fabSpeedDial(BuildContext context) => const _FabSpeedDialExample();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Positions',
+      builder: '_fabPositions',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// The positions helper: the same button in four anchor positions.
+Widget _fabPositions(BuildContext context) {
+  final ThemeData theme = Theme.of(context);
+  return Center(
+    child: SizedBox(
+      width: 260,
+      height: 200,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colors.muted.withValues(alpha: 0.4),
+          borderRadius: theme.borderRadiusLg,
+        ),
+        child: const Stack(
+          children: <Widget>[
+            FabPositioner(
+              position: FabPosition.topStart,
+              child: Fab(
+                icon: Icon(LucideIcons.heart),
+                size: FabSize.sm,
+                semanticLabel: 'Favourite',
+              ),
+            ),
+            FabPositioner(
+              position: FabPosition.topEnd,
+              child: Fab(
+                icon: Icon(LucideIcons.share),
+                size: FabSize.sm,
+                semanticLabel: 'Share',
+              ),
+            ),
+            FabPositioner(
+              position: FabPosition.bottomStart,
+              child: Fab(
+                icon: Icon(LucideIcons.trash),
+                size: FabSize.sm,
+                semanticLabel: 'Delete',
+              ),
+            ),
+            FabPositioner(
+              position: FabPosition.bottomEnd,
+              child: Fab(
+                icon: Icon(LucideIcons.settings),
+                size: FabSize.sm,
+                semanticLabel: 'Settings',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Hide on scroll',
+      builder: '_fabHideOnScroll',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// Hide on scroll: the button slides away while the list scrolls down.
+class _FabHideOnScrollExample extends StatefulWidget {
+  const _FabHideOnScrollExample();
+
+  @override
+  State<_FabHideOnScrollExample> createState() =>
+      _FabHideOnScrollExampleState();
+}
+
+class _FabHideOnScrollExampleState extends State<_FabHideOnScrollExample> {
+  final ScrollController _controller = ScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Center(
+      child: SizedBox(
+        width: 280,
+        height: 220,
+        child: Stack(
+          children: <Widget>[
+            ListView.builder(
+              controller: _controller,
+              padding: EdgeInsets.all(theme.spacing.md),
+              itemCount: 12,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: theme.spacing.sm),
+                  child: Text('Row ${index + 1}'),
+                );
+              },
+            ),
+            Positioned(
+              right: theme.spacing.md,
+              bottom: theme.spacing.md,
+              child: FabHideOnScroll(
+                controller: _controller,
+                child: const Fab(
+                  icon: Icon(LucideIcons.plus),
+                  size: FabSize.sm,
+                  semanticLabel: 'Add item',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _fabHideOnScroll(BuildContext context) =>
+    const _FabHideOnScrollExample();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_fabCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
+
+/// A customised button: secondary fill, custom radius and no elevation.
+Widget _fabCustomized(BuildContext context) {
+  return const Center(
+    child: Fab(
+      icon: Icon(LucideIcons.zap),
+      label: Text('Launch'),
+      semanticLabel: 'Launch',
+      style: FabStyle(
+        background: StateValue(rest: ThemedColor.ref(ColorRef.secondary)),
+        foreground: StateValue(
+          rest: ThemedColor.ref(ColorRef.secondaryForeground),
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        elevation: 0,
+        gap: 6,
+      ),
+    ),
+  );
+}
+''',
+    ),
+  ],
   'toggle': <DocsExampleSource>[
     DocsExampleSource(
       name: 'Default',
@@ -1177,6 +1485,284 @@ Widget _toggleDisabled(BuildContext context) {
       Gap(spacing.md),
       const Toggle(value: false, onChanged: null, child: Text('Off')),
     ],
+  );
+}
+''',
+    ),
+  ],
+  'toolbar': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_toolbarDefault',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// The default example: a horizontal row of actions.
+Widget _toolbarDefault(BuildContext context) {
+  return const Center(
+    child: Toolbar(
+      children: <Widget>[
+        ToolbarItem(
+          tooltip: 'Undo',
+          semanticLabel: 'Undo',
+          child: Icon(LucideIcons.rotateCw),
+        ),
+        ToolbarItem(
+          tooltip: 'Redo',
+          semanticLabel: 'Redo',
+          child: Icon(LucideIcons.refreshCw),
+        ),
+        ToolbarSeparator(),
+        ToolbarItem(
+          tooltip: 'Share',
+          semanticLabel: 'Share',
+          child: Icon(LucideIcons.share),
+        ),
+        ToolbarItem(
+          tooltip: 'Delete',
+          semanticLabel: 'Delete',
+          child: Icon(LucideIcons.trash),
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Vertical',
+      builder: '_toolbarVertical',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// A vertical toolbar (a rail).
+Widget _toolbarVertical(BuildContext context) {
+  return const Center(
+    child: Toolbar(
+      axis: ToolbarAxis.vertical,
+      children: <Widget>[
+        ToolbarItem(
+          tooltip: 'Home',
+          semanticLabel: 'Home',
+          child: Icon(LucideIcons.compass),
+        ),
+        ToolbarItem(
+          tooltip: 'Files',
+          semanticLabel: 'Files',
+          child: Icon(LucideIcons.folder),
+        ),
+        ToolbarItem(
+          tooltip: 'Search',
+          semanticLabel: 'Search',
+          child: Icon(LucideIcons.search),
+        ),
+        ToolbarSeparator(),
+        ToolbarItem(
+          tooltip: 'Settings',
+          semanticLabel: 'Settings',
+          child: Icon(LucideIcons.settings),
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Groups',
+      builder: '_toolbarGroups',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// Groups and separators.
+Widget _toolbarGroups(BuildContext context) {
+  return const Center(
+    child: Toolbar(
+      children: <Widget>[
+        ToolbarGroup(
+          children: <Widget>[
+            ToolbarItem(
+              tooltip: 'Bold',
+              semanticLabel: 'Bold',
+              child: Icon(LucideIcons.bold),
+            ),
+            ToolbarItem(
+              tooltip: 'Italic',
+              semanticLabel: 'Italic',
+              child: Icon(LucideIcons.italic),
+            ),
+          ],
+        ),
+        ToolbarSeparator(),
+        ToolbarGroup(
+          children: <Widget>[
+            ToolbarItem(
+              tooltip: 'Align left',
+              semanticLabel: 'Align left',
+              child: Icon(LucideIcons.alignLeft),
+            ),
+            ToolbarItem(
+              tooltip: 'Align centre',
+              semanticLabel: 'Align centre',
+              child: Icon(LucideIcons.alignCenter),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Toggles',
+      builder: '_toolbarToggles',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// Toggle items keep an on/off state.
+class _ToolbarToggles extends StatefulWidget {
+  const _ToolbarToggles();
+
+  @override
+  State<_ToolbarToggles> createState() => _ToolbarTogglesState();
+}
+
+class _ToolbarTogglesState extends State<_ToolbarToggles> {
+  bool _bold = false;
+  bool _italic = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Toolbar(
+        children: <Widget>[
+          ToolbarToggleItem(
+            value: _bold,
+            onChanged: (bool value) => setState(() => _bold = value),
+            tooltip: 'Bold',
+            semanticLabel: 'Bold',
+            child: Icon(LucideIcons.bold),
+          ),
+          ToolbarToggleItem(
+            value: _italic,
+            onChanged: (bool value) => setState(() => _italic = value),
+            tooltip: 'Italic',
+            semanticLabel: 'Italic',
+            child: Icon(LucideIcons.italic),
+          ),
+          const ToolbarSeparator(),
+          const ToolbarItem(
+            tooltip: 'Print',
+            semanticLabel: 'Print',
+            child: Icon(LucideIcons.printer),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _toolbarToggles(BuildContext context) => const _ToolbarToggles();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Overflow',
+      builder: '_toolbarOverflow',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// The overflow menu: the toolbar is narrower than its items.
+Widget _toolbarOverflow(BuildContext context) {
+  return const Center(
+    child: SizedBox(
+      width: 200,
+      child: Toolbar(
+        children: <Widget>[
+          ToolbarItem(
+            tooltip: 'Undo',
+            semanticLabel: 'Undo',
+            child: Icon(LucideIcons.rotateCw),
+          ),
+          ToolbarItem(
+            tooltip: 'Redo',
+            semanticLabel: 'Redo',
+            child: Icon(LucideIcons.refreshCw),
+          ),
+          ToolbarItem(
+            tooltip: 'Copy',
+            semanticLabel: 'Copy',
+            child: Icon(LucideIcons.copy),
+          ),
+          ToolbarItem(
+            tooltip: 'Share',
+            semanticLabel: 'Share',
+            child: Icon(LucideIcons.share),
+          ),
+          ToolbarItem(
+            tooltip: 'Delete',
+            semanticLabel: 'Delete',
+            child: Icon(LucideIcons.trash),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_toolbarCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
+
+/// A customised toolbar: a filled container with an outlined item.
+Widget _toolbarCustomized(BuildContext context) {
+  return Center(
+    child: Toolbar(
+      style: ToolbarStyle(
+        background: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
+        borderColor: ThemedColor.ref(ColorRef.border),
+        borderWidth: 1,
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        gap: 4,
+        itemBackground: const StateValue(
+          rest: ThemedColor.ref(ColorRef.background),
+          hovered: ThemedColor.ref(ColorRef.background),
+          pressed: ThemedColor.ref(ColorRef.background),
+        ),
+      ),
+      children: <Widget>[
+        ToolbarItem(
+          tooltip: 'Save',
+          semanticLabel: 'Save',
+          child: const Icon(LucideIcons.save),
+        ),
+        ToolbarItem(
+          tooltip: 'Upload',
+          semanticLabel: 'Upload',
+          child: const Icon(LucideIcons.upload),
+        ),
+        ToolbarItem(
+          tooltip: 'Download',
+          semanticLabel: 'Download',
+          child: const Icon(LucideIcons.download),
+        ),
+      ],
+    ),
   );
 }
 ''',
@@ -14817,6 +15403,265 @@ class _SearchBarCustomRowState extends State<_SearchBarCustomRow> {
 }
 
 Widget _searchBarCustomRow(BuildContext context) => const _SearchBarCustomRow();
+''',
+    ),
+  ],
+  'segmented_control': <DocsExampleSource>[
+    DocsExampleSource(
+      name: 'Default',
+      builder: '_segmentedDefault',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// The default example: one selected segment out of three.
+class _SegmentedDefault extends StatefulWidget {
+  const _SegmentedDefault();
+
+  @override
+  State<_SegmentedDefault> createState() => _SegmentedDefaultState();
+}
+
+class _SegmentedDefaultState extends State<_SegmentedDefault> {
+  String _value = 'day';
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SegmentedControl<String>(
+        value: _value,
+        onChanged: (String value) => setState(() => _value = value),
+        segments: const <SegmentedControlSegment<String>>[
+          SegmentedControlSegment<String>(value: 'day', label: Text('Day')),
+          SegmentedControlSegment<String>(value: 'week', label: Text('Week')),
+          SegmentedControlSegment<String>(value: 'month', label: Text('Month')),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _segmentedDefault(BuildContext context) => const _SegmentedDefault();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Icons',
+      builder: '_segmentedIcons',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// Icons only.
+class _SegmentedIcons extends StatefulWidget {
+  const _SegmentedIcons();
+
+  @override
+  State<_SegmentedIcons> createState() => _SegmentedIconsState();
+}
+
+class _SegmentedIconsState extends State<_SegmentedIcons> {
+  int _value = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SegmentedControl<int>(
+        value: _value,
+        onChanged: (int value) => setState(() => _value = value),
+        segments: const <SegmentedControlSegment<int>>[
+          SegmentedControlSegment<int>(
+            value: 0,
+            icon: Icon(LucideIcons.list),
+            semanticLabel: 'List',
+          ),
+          SegmentedControlSegment<int>(
+            value: 1,
+            icon: Icon(LucideIcons.layoutGrid),
+            semanticLabel: 'Grid',
+          ),
+          SegmentedControlSegment<int>(
+            value: 2,
+            icon: Icon(LucideIcons.layers),
+            semanticLabel: 'Layers',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _segmentedIcons(BuildContext context) => const _SegmentedIcons();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Multiple',
+      builder: '_segmentedMultiple',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// Multiple selection: any number of segments can be picked.
+class _SegmentedMultiple extends StatefulWidget {
+  const _SegmentedMultiple();
+
+  @override
+  State<_SegmentedMultiple> createState() => _SegmentedMultipleState();
+}
+
+class _SegmentedMultipleState extends State<_SegmentedMultiple> {
+  Set<String> _values = <String>{'bold'};
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SegmentedControl<String>(
+        selection: SegmentedControlSelection.multiple,
+        values: _values,
+        onValuesChanged: (Set<String> values) =>
+            setState(() => _values = values),
+        segments: const <SegmentedControlSegment<String>>[
+          SegmentedControlSegment<String>(
+            value: 'bold',
+            icon: Icon(LucideIcons.bold),
+            semanticLabel: 'Bold',
+          ),
+          SegmentedControlSegment<String>(
+            value: 'italic',
+            icon: Icon(LucideIcons.italic),
+            semanticLabel: 'Italic',
+          ),
+          SegmentedControlSegment<String>(
+            value: 'underline',
+            icon: Icon(LucideIcons.underline),
+            semanticLabel: 'Underline',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _segmentedMultiple(BuildContext context) => const _SegmentedMultiple();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Disabled',
+      builder: '_segmentedDisabled',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// A disabled segment.
+class _SegmentedDisabled extends StatefulWidget {
+  const _SegmentedDisabled();
+
+  @override
+  State<_SegmentedDisabled> createState() => _SegmentedDisabledState();
+}
+
+class _SegmentedDisabledState extends State<_SegmentedDisabled> {
+  String _value = 'a';
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SegmentedControl<String>(
+        value: _value,
+        onChanged: (String value) => setState(() => _value = value),
+        segments: const <SegmentedControlSegment<String>>[
+          SegmentedControlSegment<String>(value: 'a', label: Text('A')),
+          SegmentedControlSegment<String>(
+            value: 'b',
+            label: Text('B'),
+            enabled: false,
+          ),
+          SegmentedControlSegment<String>(value: 'c', label: Text('C')),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _segmentedDisabled(BuildContext context) => const _SegmentedDisabled();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Full width',
+      builder: '_segmentedFullWidth',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// The control filling the width it is given.
+class _SegmentedFullWidth extends StatefulWidget {
+  const _SegmentedFullWidth();
+
+  @override
+  State<_SegmentedFullWidth> createState() => _SegmentedFullWidthState();
+}
+
+class _SegmentedFullWidthState extends State<_SegmentedFullWidth> {
+  int _value = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 320,
+        child: SegmentedControl<int>(
+          expand: true,
+          value: _value,
+          onChanged: (int value) => setState(() => _value = value),
+          segments: const <SegmentedControlSegment<int>>[
+            SegmentedControlSegment<int>(value: 0, label: Text('One')),
+            SegmentedControlSegment<int>(value: 1, label: Text('Two')),
+            SegmentedControlSegment<int>(value: 2, label: Text('Three')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _segmentedFullWidth(BuildContext context) => const _SegmentedFullWidth();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_segmentedCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';
+
+/// A customised control: a rounded track and a filled thumb.
+Widget _segmentedCustomized(BuildContext context) {
+  return const Center(
+    child: SegmentedControl<String>(
+      value: 'left',
+      onChanged: _noop,
+      style: SegmentedControlStyle(
+        background: ThemedColor.ref(ColorRef.accent, alpha: 0.25),
+        thumbBackground: ThemedColor.ref(ColorRef.accent),
+        thumbBorderColor: ThemedColor.ref(ColorRef.accent),
+        thumbBorderWidth: 1,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        padding: EdgeInsets.all(4),
+      ),
+      segments: <SegmentedControlSegment<String>>[
+        SegmentedControlSegment<String>(value: 'left', label: Text('Left')),
+        SegmentedControlSegment<String>(value: 'right', label: Text('Right')),
+      ],
+    ),
+  );
+}
+
+void _noop(String value) {}
 ''',
     ),
   ],

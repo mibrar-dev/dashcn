@@ -21,8 +21,12 @@ import 'package:docs/ui/dashcn/components/text_animate/preview.dart'
     deferred as preview_text_animate;
 import 'package:docs/ui/dashcn/components/button/preview.dart'
     deferred as preview_button;
+import 'package:docs/ui/dashcn/components/fab/preview.dart'
+    deferred as preview_fab;
 import 'package:docs/ui/dashcn/components/toggle/preview.dart'
     deferred as preview_toggle;
+import 'package:docs/ui/dashcn/components/toolbar/preview.dart'
+    deferred as preview_toolbar;
 import 'package:docs/ui/dashcn/components/color_picker/preview.dart'
     deferred as preview_color_picker;
 import 'package:docs/ui/dashcn/components/avatar/preview.dart'
@@ -109,6 +113,8 @@ import 'package:docs/ui/dashcn/components/radio_group/preview.dart'
     deferred as preview_radio_group;
 import 'package:docs/ui/dashcn/components/search_bar/preview.dart'
     deferred as preview_search_bar;
+import 'package:docs/ui/dashcn/components/segmented_control/preview.dart'
+    deferred as preview_segmented_control;
 import 'package:docs/ui/dashcn/components/select/preview.dart'
     deferred as preview_select;
 import 'package:docs/ui/dashcn/components/signature_pad/preview.dart'
@@ -299,9 +305,16 @@ Future<Widget> loadComponentPreview(
     (_) =>
         Builder(builder: preview_button.buttonPreviews[exampleIndex].builder),
   ),
+  'fab' => preview_fab.loadLibrary().then(
+    (_) => Builder(builder: preview_fab.fabPreviews[exampleIndex].builder),
+  ),
   'toggle' => preview_toggle.loadLibrary().then(
     (_) =>
         Builder(builder: preview_toggle.togglePreviews[exampleIndex].builder),
+  ),
+  'toolbar' => preview_toolbar.loadLibrary().then(
+    (_) =>
+        Builder(builder: preview_toolbar.toolbarPreviews[exampleIndex].builder),
   ),
   'color_picker' => preview_color_picker.loadLibrary().then(
     (_) => Builder(
@@ -498,6 +511,13 @@ Future<Widget> loadComponentPreview(
   'search_bar' => preview_search_bar.loadLibrary().then(
     (_) => Builder(
       builder: preview_search_bar.searchBarPreviews[exampleIndex].builder,
+    ),
+  ),
+  'segmented_control' => preview_segmented_control.loadLibrary().then(
+    (_) => Builder(
+      builder: preview_segmented_control
+          .segmentedControlPreviews[exampleIndex]
+          .builder,
     ),
   ),
   'select' => preview_select.loadLibrary().then(

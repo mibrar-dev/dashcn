@@ -40,6 +40,7 @@ import 'examples/drawer.dart' as drawer_example;
 import 'examples/dropdown_menu.dart' as dropdown_menu_example;
 import 'examples/dropzone.dart' as dropzone_example;
 import 'examples/empty_state.dart' as empty_state_example;
+import 'examples/fab.dart' as fab_example;
 import 'examples/feature_carousel.dart' as feature_carousel_example;
 import 'examples/file_diff_viewer.dart' as file_diff_viewer_example;
 import 'examples/file_picker.dart' as file_picker_example;
@@ -76,6 +77,7 @@ import 'examples/resizable.dart' as resizable_example;
 import 'examples/scaffold.dart' as scaffold_example;
 import 'examples/scrollbar.dart' as scrollbar_example;
 import 'examples/search_bar.dart' as search_bar_example;
+import 'examples/segmented_control.dart' as segmented_control_example;
 import 'examples/select.dart' as select_example;
 import 'examples/signature_pad.dart' as signature_pad_example;
 import 'examples/skeleton.dart' as skeleton_example;
@@ -95,6 +97,7 @@ import 'examples/time_picker.dart' as time_picker_example;
 import 'examples/timeline.dart' as timeline_example;
 import 'examples/toast.dart' as toast_example;
 import 'examples/toggle.dart' as toggle_example;
+import 'examples/toolbar.dart' as toolbar_example;
 import 'examples/tooltip.dart' as tooltip_example;
 import 'examples/tracker.dart' as tracker_example;
 import 'examples/tree.dart' as tree_example;
@@ -275,6 +278,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'dropdown_menu': dropdown_menu_example.scorecardExample,
   'dropzone': dropzone_example.scorecardExample,
   'empty_state': empty_state_example.scorecardExample,
+  'fab': fab_example.scorecardExample,
   'feature_carousel': feature_carousel_example.scorecardExample,
   'file_diff_viewer': file_diff_viewer_example.scorecardExample,
   'file_picker': file_picker_example.scorecardExample,
@@ -311,6 +315,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'scaffold': scaffold_example.scorecardExample,
   'scrollbar': scrollbar_example.scorecardExample,
   'search_bar': search_bar_example.scorecardExample,
+  'segmented_control': segmented_control_example.scorecardExample,
   'select': select_example.scorecardExample,
   'signature_pad': signature_pad_example.scorecardExample,
   'skeleton': skeleton_example.scorecardExample,
@@ -330,6 +335,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'timeline': timeline_example.scorecardExample,
   'toast': toast_example.scorecardExample,
   'toggle': toggle_example.scorecardExample,
+  'toolbar': toolbar_example.scorecardExample,
   'tooltip': tooltip_example.scorecardExample,
   'tracker': tracker_example.scorecardExample,
   'tree': tree_example.scorecardExample,

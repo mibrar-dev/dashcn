@@ -3902,6 +3902,117 @@
         "components/eye_dropper/eye_dropper_theme.dart"
       ]
     },
+    "fab": {
+      "api": {
+        "classes": [
+          "Fab",
+          "FabSpeedDial",
+          "FabSpeedDialAction",
+          "FabPositioner",
+          "FabHideOnScroll",
+          "FabStyle",
+          "FabTheme"
+        ],
+        "constants": [
+          "fabDefaults",
+          "fabThemeOverrides",
+          "fabDefaultGap",
+          "fabDefaultTextStyle",
+          "fabPositionerDefaultPadding"
+        ],
+        "enums": [
+          "FabSize",
+          "FabShape",
+          "FabPosition",
+          "FabSpeedDialDirection",
+          "FabHideOnScrollDirection"
+        ],
+        "functions": [
+          "buildFabContent",
+          "fabAlignmentFor",
+          "fabBoxFor",
+          "fabIconFor"
+        ],
+        "typedefs": [
+          "FabSpeedDialActionBuilder"
+        ]
+      },
+      "category": "Buttons & Actions",
+      "deps": {
+        "components": [
+          "tooltip"
+        ],
+        "foundation": [],
+        "primitives": [
+          "animated_value_builder",
+          "clickable",
+          "hidden",
+          "motion",
+          "surface",
+          "touch_hit_area"
+        ],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "Floating action button in three sizes plus an extended pill shape, with a speed dial, a positions helper, hide-on-scroll and a tooltip.",
+      "entry": "components/fab/fab.dart",
+      "files": [
+        "components/fab/fab.dart",
+        "components/fab/fab_content.dart",
+        "components/fab/fab_defaults.dart",
+        "components/fab/fab_hide_on_scroll.dart",
+        "components/fab/fab_positioner.dart",
+        "components/fab/fab_speed_dial.dart",
+        "components/fab/fab_speed_dial_action.dart",
+        "components/fab/fab_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';",
+      "install": "dashcn add fab",
+      "listed": true,
+      "name": "Floating Action Button",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "control",
+        "button",
+        "floating",
+        "action",
+        "speed-dial",
+        "scroll"
+      ],
+      "theme": {
+        "class": "FabTheme",
+        "defaults": "fabDefaults",
+        "fields": {
+          "background": "StateValue<ThemedColor>? - per-state fill",
+          "borderColor": "StateValue<ThemedColor>? - null draws no border",
+          "borderRadius": "BorderRadiusGeometry? - null = pill/circle",
+          "borderWidth": "double? - used when borderColor resolves",
+          "elevation": "double? - shadow strength, 3 (2 for a mini action)",
+          "extended": "FabStyle? - the pill (icon plus label) button",
+          "foreground": "StateValue<ThemedColor>? - per-state icon/label colour",
+          "gap": "double? - gap between icon and label, 8",
+          "iconSize": "double? - icon size, from the size table",
+          "labelPadding": "EdgeInsetsGeometry? - gap between icon and label",
+          "mini": "FabStyle? - a speed-dial mini action",
+          "padding": "EdgeInsetsGeometry? - inner padding of the button box",
+          "shadowColor": "ThemedColor? - shadow colour, foreground at 25%",
+          "size": "double? - box size override",
+          "standard": "FabStyle? - the round (icon only) button",
+          "surfaceBlur": "double? - floating fill blur override",
+          "surfaceOpacity": "double? - floating fill opacity override",
+          "textStyle": "TextStyle? - label style, 14 w600"
+        },
+        "userFile": "fab_theme.dart"
+      },
+      "userOwned": [
+        "components/fab/fab_theme.dart"
+      ]
+    },
     "feature_carousel": {
       "api": {
         "classes": [
@@ -7619,6 +7730,129 @@
         "components/search_bar/search_bar_theme.dart"
       ]
     },
+    "segmented_control": {
+      "api": {
+        "classes": [
+          "SegmentedControl",
+          "SegmentedControlButton",
+          "SegmentedControlController",
+          "SegmentedControlMetrics",
+          "SegmentedControlScope",
+          "SegmentedControlSegment",
+          "SegmentedControlStyle",
+          "SegmentedControlTheme",
+          "SegmentedControlWidths"
+        ],
+        "constants": [
+          "segmentedControlDefaults",
+          "segmentedControlThemeOverrides",
+          "segmentedControlDefaultTextStyle"
+        ],
+        "enums": [
+          "SegmentedControlSize",
+          "SegmentedControlSelection"
+        ],
+        "functions": [
+          "buildSegmentedControlRow",
+          "buildSegmentedControlStack",
+          "buildSegmentedControlThumbs",
+          "buildSegmentedControlTrack",
+          "resolveSegmentedControlTheme",
+          "segmentedControlActions",
+          "segmentedControlHeightFor",
+          "segmentedControlIconFor",
+          "segmentedControlInitialSelection",
+          "segmentedControlInitialValue",
+          "segmentedControlIsEnabled",
+          "segmentedControlMetrics",
+          "segmentedControlSegmentFor",
+          "segmentedControlSelection",
+          "segmentedControlShortcuts",
+          "segmentedControlToggled"
+        ],
+        "typedefs": [
+          "SegmentedControlSegmentBuilder"
+        ]
+      },
+      "category": "Forms & Inputs",
+      "deps": {
+        "components": [],
+        "foundation": [
+          "data",
+          "platform"
+        ],
+        "primitives": [
+          "clickable",
+          "measured_extent",
+          "motion",
+          "roving_group",
+          "surface",
+          "touch_hit_area"
+        ],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "Row of mutually exclusive (or multi-select) choices with a sliding thumb, icons or labels, disabled segments and intrinsic or full-width sizing.",
+      "entry": "components/segmented_control/segmented_control.dart",
+      "files": [
+        "components/segmented_control/segmented_control.dart",
+        "components/segmented_control/segmented_control_button.dart",
+        "components/segmented_control/segmented_control_defaults.dart",
+        "components/segmented_control/segmented_control_keys.dart",
+        "components/segmented_control/segmented_control_metrics.dart",
+        "components/segmented_control/segmented_control_segment.dart",
+        "components/segmented_control/segmented_control_selection.dart",
+        "components/segmented_control/segmented_control_style.dart",
+        "components/segmented_control/segmented_control_thumb.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';",
+      "install": "dashcn add segmented_control",
+      "listed": true,
+      "name": "Segmented Control",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "control",
+        "segmented",
+        "select",
+        "filter",
+        "toggle"
+      ],
+      "theme": {
+        "class": "SegmentedControlTheme",
+        "defaults": "segmentedControlDefaults",
+        "fields": {
+          "background": "ThemedColor? - the track fill",
+          "borderColor": "ThemedColor? - the control's border",
+          "borderRadius": "BorderRadiusGeometry? - the control's radius, 8",
+          "borderWidth": "double? - the control's border width",
+          "control": "SegmentedControlStyle? - the track and the thumb",
+          "foreground": "StateValue<ThemedColor>? - unselected icon/label colour",
+          "gap": "double? - the gap between two segments, 0",
+          "height": "double? - the control's height, 28/32/36",
+          "iconSize": "double? - the icon size, 14/16/18",
+          "padding": "EdgeInsetsGeometry? - the control's padding, 3",
+          "segment": "SegmentedControlStyle? - the segments",
+          "segmentPadding": "EdgeInsetsGeometry? - the padding inside a segment, 8",
+          "selectedForeground": "StateValue<ThemedColor>? - selected icon/label colour",
+          "shadows": "List<BoxShadow>? - the control's shadow",
+          "surfaceBlur": "double? - the track's surface blur override",
+          "surfaceOpacity": "double? - the track's surface opacity override",
+          "textStyle": "TextStyle? - the label style, 13 w500",
+          "thumbBackground": "ThemedColor? - the sliding thumb fill",
+          "thumbBorderColor": "ThemedColor? - the thumb border",
+          "thumbBorderWidth": "double? - the thumb border width, 1"
+        },
+        "userFile": "segmented_control_theme.dart"
+      },
+      "userOwned": [
+        "components/segmented_control/segmented_control_theme.dart"
+      ]
+    },
     "select": {
       "api": {
         "classes": [
@@ -9331,6 +9565,130 @@
         "components/toggle/toggle_theme.dart"
       ]
     },
+    "toolbar": {
+      "api": {
+        "classes": [
+          "Toolbar",
+          "ToolbarItem",
+          "ToolbarToggleItem",
+          "ToolbarToggleController",
+          "ToolbarSeparator",
+          "ToolbarGroup",
+          "ToolbarItemSurface",
+          "ToolbarItemData",
+          "ToolbarStyle",
+          "ToolbarTheme"
+        ],
+        "constants": [
+          "toolbarDefaults",
+          "toolbarThemeOverrides",
+          "toolbarDefaultGap",
+          "toolbarDefaultTextStyle",
+          "toolbarToggleBackground"
+        ],
+        "enums": [
+          "ToolbarAxis",
+          "ToolbarSize"
+        ],
+        "functions": [
+          "buildToolbarOverflowButton",
+          "buildToolbarScopedItem",
+          "buildToolbarSurface",
+          "resolveToolbarTheme",
+          "toolbarActions",
+          "toolbarIconFor",
+          "toolbarItemBoxFor",
+          "toolbarItemPadding",
+          "toolbarLabelledRow",
+          "toolbarMenuRow",
+          "toolbarShortcuts",
+          "toolbarVisibleCount"
+        ]
+      },
+      "category": "Buttons & Actions",
+      "deps": {
+        "components": [
+          "menu",
+          "tooltip"
+        ],
+        "foundation": [
+          "data",
+          "icons"
+        ],
+        "primitives": [
+          "clickable",
+          "measured_extent",
+          "roving_group",
+          "touch_hit_area"
+        ],
+        "theme": [
+          "color_tokens",
+          "density",
+          "theme"
+        ]
+      },
+      "description": "Row or column of actions, toggles, separators and groups, with a responsive overflow menu and arrow-key roving focus.",
+      "entry": "components/toolbar/toolbar.dart",
+      "files": [
+        "components/toolbar/toolbar.dart",
+        "components/toolbar/toolbar_defaults.dart",
+        "components/toolbar/toolbar_group.dart",
+        "components/toolbar/toolbar_item.dart",
+        "components/toolbar/toolbar_item_surface.dart",
+        "components/toolbar/toolbar_items.dart",
+        "components/toolbar/toolbar_keys.dart",
+        "components/toolbar/toolbar_overflow.dart",
+        "components/toolbar/toolbar_style.dart",
+        "components/toolbar/toolbar_surface.dart",
+        "components/toolbar/toolbar_toggle_item.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';",
+      "install": "dashcn add toolbar",
+      "listed": true,
+      "name": "Toolbar",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "control",
+        "toolbar",
+        "actions",
+        "group",
+        "overflow",
+        "toggle"
+      ],
+      "theme": {
+        "class": "ToolbarTheme",
+        "defaults": "toolbarDefaults",
+        "fields": {
+          "background": "ThemedColor? - container fill, null draws none",
+          "borderColor": "ThemedColor? - container border, null draws none",
+          "borderRadius": "BorderRadiusGeometry? - container radius",
+          "borderWidth": "double? - used when borderColor resolves",
+          "container": "ToolbarStyle? - the toolbar's own surface",
+          "gap": "double? - space between items, 8 px",
+          "group": "ToolbarStyle? - the toolbar's groups",
+          "groupBackground": "ThemedColor? - group fill",
+          "groupBorderRadius": "BorderRadiusGeometry? - group radius",
+          "groupPadding": "EdgeInsetsGeometry? - padding inside a group",
+          "iconSize": "double? - icon size, 16/18/20 px from the size table",
+          "item": "ToolbarStyle? - the toolbar's items",
+          "itemBackground": "StateValue<ThemedColor>? - per-state item fill",
+          "itemForeground": "StateValue<ThemedColor>? - per-state item colour",
+          "itemPadding": "EdgeInsetsGeometry? - padding inside an item",
+          "itemSize": "double? - item box, 32/36/40 px from the size table",
+          "padding": "EdgeInsetsGeometry? - container padding, 4 px",
+          "separator": "ToolbarStyle? - the toolbar's separators",
+          "separatorColor": "ThemedColor? - separator colour, the border token",
+          "separatorThickness": "double? - separator thickness, 1 px",
+          "textStyle": "TextStyle? - item label style, 13 w500"
+        },
+        "userFile": "toolbar_theme.dart"
+      },
+      "userOwned": [
+        "components/toolbar/toolbar_theme.dart"
+      ]
+    },
     "tooltip": {
       "api": {
         "classes": [
@@ -10036,6 +10394,16 @@
     "components/eye_dropper/eye_dropper_style.dart": "02c3fc7649214d871e26f7b7df386fe58a2d6f33997491a062f930d43c2701e8",
     "components/eye_dropper/eye_dropper_theme.dart": "c499e35f3dadc757d06df59d4d54162777485d73a556e10a964aafd80c5da6fc",
     "components/eye_dropper/preview.dart": "b54abbd3e7c8e2d88a85ea58a7f396378cc885b6411fcfea164a827509654bec",
+    "components/fab/fab.dart": "1c2b3921bac4126369eddd734b5ab4e48e7d1e9ddb4e10f1d1a1024f06bdbcae",
+    "components/fab/fab_content.dart": "7b2ed63bfd9c5ce55887324179f686a58b267c6f8a70150253933ed41b30635d",
+    "components/fab/fab_defaults.dart": "eddf8d649ed8033088610e21c2d96beda77e894adf5b3b05d7fd832213fbfc1c",
+    "components/fab/fab_hide_on_scroll.dart": "da5d164ab8647240f1261832ad358c615849f0e75bc5ec25b66e3f92ee3d25ce",
+    "components/fab/fab_positioner.dart": "cf4bfde4cf6c5cf4a52379fbd62334fb0b099a8ca2262beb8aa7c572d3440619",
+    "components/fab/fab_speed_dial.dart": "c4c6f6623d6132846a63a3a98ca02b4e49eaf4a8d75721cab4c9c442f883b950",
+    "components/fab/fab_speed_dial_action.dart": "ae86399bb50c7af9487fbc5a7a0366599f903e00743858a12953e72c385524f5",
+    "components/fab/fab_style.dart": "599e61873342d7792f1336d47d3758909435fb8f75e54885552f0e74f53e91f7",
+    "components/fab/fab_theme.dart": "abc09e1c3734de7af293384e841c0bb782eed78af92beeca50eca2f399b34b7b",
+    "components/fab/preview.dart": "83062814bacb387c75b685490e2818818c0d059f07bf571597b6a7337b29effc",
     "components/feature_carousel/feature_carousel.dart": "a46e09269de997732f0622c5edae40526d536123305367ff807b27c0668dbb48",
     "components/feature_carousel/feature_carousel_style.dart": "7babb2b594395c7aebb992637ead7901390bf5f6d16567b2ce51abb50bdba2e5",
     "components/feature_carousel/feature_carousel_theme.dart": "bc401376b9e42c10c783a15c53bcd5e56038815e3c7549db7c3f4bf3aea64e69",
@@ -10230,6 +10598,17 @@
     "components/search_bar/search_bar_results.dart": "db194fecaa561b31aa533ba456e36b8ff2f6c2ad5b094a903cd2d1fda3b0f655",
     "components/search_bar/search_bar_style.dart": "4df537ff36957863949a31258af3a74f3966e2208e844f133bf9570040d4208d",
     "components/search_bar/search_bar_theme.dart": "abde4c8fe4cb8c2e8e083cf0634b95dbbc7475bc9f1769024a572506e0918665",
+    "components/segmented_control/preview.dart": "1e2733eda33d7d13ad4d91c28db597c4996be859778f6756e1dfdd8b4944b951",
+    "components/segmented_control/segmented_control.dart": "77d9882c520a8e01314f591efef916f1800dfaaab83b3793f8dfa976847d6593",
+    "components/segmented_control/segmented_control_button.dart": "c9bf8eafc8111f74793b9ab27b1fbf39cffbb016f280d7f7c73b9b8b634f6fd6",
+    "components/segmented_control/segmented_control_defaults.dart": "67650cb379e80282b5e33330e572b22d5b4436d3b8408ef1edae3437ce05ad77",
+    "components/segmented_control/segmented_control_keys.dart": "03f3473e59d4dbd57c3fd723cf33e9574ccb60f238fdf4e6a58fd99b6410c567",
+    "components/segmented_control/segmented_control_metrics.dart": "deff36039556b3da10c7cd11ae80510e008380f80ec21d64bc1feab7a6c54163",
+    "components/segmented_control/segmented_control_segment.dart": "4cd69a0508f7d2cfad28465c5a7e776453dce851c30704f149fc6d67c25db106",
+    "components/segmented_control/segmented_control_selection.dart": "9555f63baf101fa1569c0dd4f0e94e3d8c64851a7eecea13b0b851a9b281a18c",
+    "components/segmented_control/segmented_control_style.dart": "33a0c8aa870a6bbb322d3592aa15570be5fc9fb4cfa17c1cf3dc19a3258a3c01",
+    "components/segmented_control/segmented_control_theme.dart": "27e6291c98370d6be3e33252db0fa823dbace5a5178849ca44608c5f40ec55ea",
+    "components/segmented_control/segmented_control_thumb.dart": "d3c57bb95618b48ecd66c026d678e46445402090e4908c10a669bbca2594911c",
     "components/select/preview.dart": "191fb361d8a34504e3487bf22665e78d9aa78faca13cf53f40674314a909e6ac",
     "components/select/select.dart": "451a4faf51870aa7104db70c2d78245279a388caec527af4efddfc7ed07205b5",
     "components/select/select_style.dart": "89a0db3d5038f1521a01bf890134b5b78b1efe5a102790f4344596583f81ff0b",
@@ -10323,6 +10702,19 @@
     "components/toggle/toggle.dart": "22cc8f8a7769d4ea73e698db2875d572229f1a09ce196f949e3f1fc7d3c1ee97",
     "components/toggle/toggle_style.dart": "0d766a0621012968d00715fb487871f349bf4dba232057f25d3e8b6ad395a4ad",
     "components/toggle/toggle_theme.dart": "94686b183df1d6836a145134f26e66f9e3d2ec07ce495b60fe165748c5840520",
+    "components/toolbar/preview.dart": "8bfbd0e5f504484f87ca150163bc1e83908ca28c248297fe1aee2c27fdc654f2",
+    "components/toolbar/toolbar.dart": "a067fd940807410753d8bf880fa2994d796e626f307aa30e63e699935f03c627",
+    "components/toolbar/toolbar_defaults.dart": "a907bc6a5db039f7a6f7960b98610326877e688949b25cca44a4eb2ea374e531",
+    "components/toolbar/toolbar_group.dart": "53606873a6d6a63846a231bf5abaa5db698175f54b2ddcbbbff80d4de747a5e9",
+    "components/toolbar/toolbar_item.dart": "d06ec9f227f18b11ba74cc90f1d7bd745bef51a5f030867d9058db2df0f234b6",
+    "components/toolbar/toolbar_item_surface.dart": "f4654b2b0fe448407e297c60cc878149ea20ca1e059ce78f30c4fd4f07d1a75a",
+    "components/toolbar/toolbar_items.dart": "100238e41fcf6725d1d2dad7a245707857c4f13aa3d896564ee685e94d840469",
+    "components/toolbar/toolbar_keys.dart": "1e0e43b501c2a31a4214bfa88e108f0c0a733cf202d6b5e11b506fe7e13d4ee4",
+    "components/toolbar/toolbar_overflow.dart": "a03292d5a106b06f78ef7a417af5a1d62fd26448963d7e43918e337c6452054a",
+    "components/toolbar/toolbar_style.dart": "6ed4afdb726c9556b3c0af1823aa14a9c1a8b38643fa072e6f0dd74b1bf465b2",
+    "components/toolbar/toolbar_surface.dart": "993d2e734cf6583ea7d4f95f13d917862c1523323673e88da738f9c596fa83c5",
+    "components/toolbar/toolbar_theme.dart": "4a4b8ddd831ee83bd372a1a041c8225db41ff5727b83e486e781852eaaf05856",
+    "components/toolbar/toolbar_toggle_item.dart": "0057910c9fcc0a292a36c0f5577dc53b576a30fe90c4a67159876e1cdee431f9",
     "components/tooltip/preview.dart": "2898f8f0a90ef1f3ad2f288c122499b81ebcbb4802dd6efe5d1db33220d5d3f7",
     "components/tooltip/tooltip.dart": "1ce5e8e0b1da34f7c3a56b2c465566114e41c99f2c6d403d6c75bcba8a8069d4",
     "components/tooltip/tooltip_style.dart": "39d6b17632bb934ded7b9497c6eab29b15c75e7e672a7e3743b5cee516914976",
@@ -10524,6 +10916,7 @@
     "primitives/markdown_parser/media.dart": "e0d5276615123f49858df5785c0d623e56f7f66f37d327fc65eaf97e88bd90aa",
     "primitives/markdown_parser/view.dart": "b48e46af8e32397abdca9d0d0c3bf132832ce7f532e369bfd457df05f785f8cd",
     "primitives/masonry_layout.dart": "12ceeef658a8374e4868fa63dc275dab73c7389b2f6de1e1abb7c447f63a0e79",
+    "primitives/measured_extent.dart": "25bbb75970195c4101be632e51588a4e25333fbe78467cd06ee9ce97d78c0c02",
     "primitives/menu_nav.dart": "4a262310ce078a6a88d2796af5c505fb07cf0bc1b0b12bbe2531e6ece27d8c6f",
     "primitives/menu_rows.dart": "9ec2cc45cae1bbcddc5637fc1afe5f6befe03e6304e4e1df7766da80099eba7c",
     "primitives/motion/error_shake.dart": "ec20039de34621b0ec5236a8fdcc6a37a1eb86f4f78c817759edbd8c0fef5f1d",
@@ -11494,6 +11887,14 @@
       },
       "files": [
         "primitives/masonry_layout.dart"
+      ]
+    },
+    "measured_extent": {
+      "deps": {
+        "primitives": []
+      },
+      "files": [
+        "primitives/measured_extent.dart"
       ]
     },
     "menu_nav": {

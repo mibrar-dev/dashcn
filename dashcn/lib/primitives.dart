@@ -128,6 +128,7 @@ export 'src/primitives/markdown_parser/markdown_parser.dart';
 export 'src/primitives/markdown_parser/media.dart';
 export 'src/primitives/markdown_parser/view.dart';
 export 'src/primitives/masonry_layout.dart';
+export 'src/primitives/measured_extent.dart';
 export 'src/primitives/menu_nav.dart';
 export 'src/primitives/menu_rows.dart';
 export 'src/primitives/motion/error_shake.dart';

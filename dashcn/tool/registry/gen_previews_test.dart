@@ -34,7 +34,13 @@ class _PreviewEntry {
 /// Newline character, spelled out so the template below stays literal.
 final String _nl = String.fromCharCode(10);
 
-void main(List<String> args) {
+void main([List<String>? args]) {
+  // `flutter test test tool` loads every `*_test.dart` file under tool/ and
+  // calls its `main()` with no arguments. This file is a generator, not a
+  // test, so there is nothing to run in that context.
+  if (args == null || Platform.environment['FLUTTER_TEST'] == 'true') {
+    return;
+  }
   final check = args.contains('--check');
   final root = _appRoot();
   final entries = <_PreviewEntry>[];
