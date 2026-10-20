@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/surface.dart';
+import '../../primitives/tap_target.dart';
 import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
@@ -24,11 +25,13 @@ class VideoControlsBar extends StatefulWidget {
     this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
     this.showFullscreenButton = true,
     this.onFullscreenRequested,
+    this.initialSpeedOpen = false,
     this.playButtonBuilder,
     this.progressBuilder,
     this.timeLabelBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.captionsButtonBuilder,
     this.fullscreenButtonBuilder,
     this.controlsBuilder,
   });
@@ -54,6 +57,9 @@ class VideoControlsBar extends StatefulWidget {
   /// Fullscreen callback.
   final VoidCallback? onFullscreenRequested;
 
+  /// Whether the speed menu starts open.
+  final bool initialSpeedOpen;
+
   /// Builder slots (mirrors [VideoPlayer] slots).
   final VideoPartBuilder? playButtonBuilder;
   final Widget Function(
@@ -65,6 +71,7 @@ class VideoControlsBar extends StatefulWidget {
   final VideoPartBuilder? timeLabelBuilder;
   final VideoPartBuilder? volumeBuilder;
   final VideoPartBuilder? speedBuilder;
+  final VideoPartBuilder? captionsButtonBuilder;
   final VideoPartBuilder? fullscreenButtonBuilder;
   final Widget Function(
     BuildContext context,
@@ -78,13 +85,18 @@ class VideoControlsBar extends StatefulWidget {
 }
 
 class _VideoControlsBarState extends State<VideoControlsBar> {
-  bool _speedOpen = false;
+  late bool _speedOpen;
+
+  @override
+  void initState() {
+    super.initState();
+    _speedOpen = widget.initialSpeedOpen;
+  }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Below ~380px the mute-only cluster keeps the row inside the bar.
         final bool narrow = constraints.maxWidth < 380;
         return _bar(context, compactVolume: narrow);
       },
@@ -111,7 +123,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -119,19 +131,45 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           _scrub(context, c),
           Row(
             children: <Widget>[
-              videoPlayButton(
-                context,
-                style,
-                widget.fg,
-                c,
-                overrideBuilder: widget.playButtonBuilder,
+              Flexible(
+                fit: FlexFit.loose,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: videoPlayButton(
+                    context,
+                    style,
+                    widget.fg,
+                    c,
+                    overrideBuilder: widget.playButtonBuilder,
+                  ),
+                ),
               ),
-              Flexible(child: _timeLabel(context, c)),
               if (widget.volumeBuilder != null)
                 widget.volumeBuilder!(context, c)
               else
                 _volumeCluster(context, c, compact: compactVolume),
+              Flexible(
+                fit: FlexFit.loose,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: _timeLabel(context, c),
+                ),
+              ),
               if (!compactVolume) const Spacer(),
+              if (widget.captionsButtonBuilder != null)
+                widget.captionsButtonBuilder!(context, c)
+              else
+                videoIconButton(
+                  label: c.areCaptionsEnabled
+                      ? 'Hide captions'
+                      : 'Show captions',
+                  icon: c.areCaptionsEnabled
+                      ? LucideIcons.captions
+                      : LucideIcons.captionsOff,
+                  size: style.iconSize ?? 16,
+                  fg: widget.fg,
+                  onTap: c.toggleCaptions,
+                ),
               if (widget.speedBuilder != null)
                 widget.speedBuilder!(context, c)
               else
@@ -141,7 +179,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
                     videoIconButton(
                       label: 'Fullscreen',
                       icon: LucideIcons.fullscreen,
-                      size: style.iconSize ?? 20,
+                      size: style.iconSize ?? 16,
                       fg: widget.fg,
                       onTap: widget.onFullscreenRequested,
                     ),
@@ -152,7 +190,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     );
     bar = GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       child: bar,
     );
     final Widget defaults = AnimatedOpacity(
@@ -186,13 +224,20 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
 
   Widget _timeLabel(BuildContext context, VideoPlaybackController c) {
     if (widget.timeLabelBuilder != null) {
-      return widget.timeLabelBuilder!(context, c);
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: DefaultTextStyle.merge(
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          child: widget.timeLabelBuilder!(context, c),
+        ),
+      );
     }
     final Duration total = c.duration <= Duration.zero
         ? const Duration(minutes: 3, seconds: 42)
         : c.duration;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Text(
         '${formatMediaTime(c.position)} / ${formatMediaTime(total)}',
         maxLines: 1,
@@ -212,7 +257,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     final Widget mute = videoIconButton(
       label: c.isMuted ? 'Unmute' : 'Mute',
       icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
-      size: widget.style.iconSize ?? 20,
+      size: widget.style.iconSize ?? 16,
       fg: widget.fg,
       onTap: () => c.setMuted(!c.isMuted),
     );
@@ -230,17 +275,21 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           decreasedValue: '${(((level - 0.1).clamp(0.0, 1.0)) * 100).round()}%',
           onIncrease: () => c.setVolume(level + 0.1),
           onDecrease: () => c.setVolume(level - 0.1),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (_) => c.setVolume(0.5),
-            child: SizedBox(
-              width: 72,
-              height: 48,
-              child: CustomPaint(
-                painter: VolumePainter(
-                  value: level,
-                  fill: widget.fg,
-                  rtl: Directionality.of(context) == TextDirection.rtl,
+          child: TapTarget(
+            minWidth: 48,
+            minHeight: 48,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (_) => c.setVolume(0.5),
+              child: SizedBox(
+                width: 56,
+                height: 32,
+                child: CustomPaint(
+                  painter: VolumePainter(
+                    value: level,
+                    fill: widget.fg,
+                    rtl: Directionality.of(context) == TextDirection.rtl,
+                  ),
                 ),
               ),
             ),
@@ -260,8 +309,9 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
         if (_speedOpen)
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xCC000000),
+              color: const Color(0xEE18181B),
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0x33FFFFFF)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -276,19 +326,23 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
                     child: Semantics(
                       label: 'Speed ${s}x',
                       button: true,
-                      child: Container(
-                        width: 72,
-                        height: 44,
-                        alignment: Alignment.center,
-                        child: ExcludeSemantics(
-                          child: Text(
-                            '${s}x',
-                            style: TextStyle(
-                              color: widget.fg,
-                              fontSize: 12,
-                              fontWeight: c.playbackSpeed == s
-                                  ? FontWeight.w700
-                                  : FontWeight.w400,
+                      child: TapTarget(
+                        minWidth: 68,
+                        minHeight: 48,
+                        child: Container(
+                          width: 68,
+                          height: 32,
+                          alignment: Alignment.center,
+                          child: ExcludeSemantics(
+                            child: Text(
+                              '${s}x',
+                              style: TextStyle(
+                                color: widget.fg,
+                                fontSize: 12,
+                                fontWeight: c.playbackSpeed == s
+                                    ? FontWeight.w700
+                                    : FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),
@@ -301,7 +355,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
         videoIconButton(
           label: 'Playback speed ${c.playbackSpeed}x',
           icon: LucideIcons.settings,
-          size: widget.style.iconSize ?? 20,
+          size: widget.style.iconSize ?? 16,
           fg: widget.fg,
           text: '${c.playbackSpeed}x',
           onTap: () => setState(() => _speedOpen = !_speedOpen),

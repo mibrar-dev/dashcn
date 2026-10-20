@@ -10,7 +10,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
 import 'video_player.dart';
 
-/// Default player with a poster frame behind the content.
+/// Default player with compact density.
 class _DefaultVideo extends StatefulWidget {
   const _DefaultVideo();
 
@@ -42,11 +42,213 @@ class _DefaultVideoState extends State<_DefaultVideo> {
                 colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
               ),
             ),
-            // Explicit light-on-dark demo copy: the harness stage paints the
-            // default (dark) text style, which falls below 4.5:1 on this
-            // gradient. Real frames are video pixels, not text.
             child: const Text(
               'Demo frame',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Player with comfortable density tokens.
+class _ComfortableVideo extends StatefulWidget {
+  const _ComfortableVideo();
+
+  @override
+  State<_ComfortableVideo> createState() => _ComfortableVideoState();
+}
+
+class _ComfortableVideoState extends State<_ComfortableVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          theme: const VideoPlayerTheme(
+            controlSize: 56,
+            iconSize: 20,
+            controlsPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          ),
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF0F172A), Color(0xFF334155)],
+              ),
+            ),
+            child: const Text(
+              'Comfortable density',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Player scaled for phone width.
+class _PhoneVideo extends StatefulWidget {
+  const _PhoneVideo();
+
+  @override
+  State<_PhoneVideo> createState() => _PhoneVideoState();
+}
+
+class _PhoneVideoState extends State<_PhoneVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 320,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF1E1B4B), Color(0xFF4338CA)],
+              ),
+            ),
+            child: const Text(
+              'Phone width (320px)',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Player with control bar visible.
+class _ControlBarOpenVideo extends StatefulWidget {
+  const _ControlBarOpenVideo();
+
+  @override
+  State<_ControlBarOpenVideo> createState() => _ControlBarOpenVideoState();
+}
+
+class _ControlBarOpenVideoState extends State<_ControlBarOpenVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    isPlaying: false,
+    position: const Duration(minutes: 1, seconds: 15),
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF047857), Color(0xFF10B981)],
+              ),
+            ),
+            child: const Text(
+              'Control bar open',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Player with speed menu opened.
+class _SpeedMenuOpenVideo extends StatefulWidget {
+  const _SpeedMenuOpenVideo();
+
+  @override
+  State<_SpeedMenuOpenVideo> createState() => _SpeedMenuOpenVideoState();
+}
+
+class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    playbackSpeed: 1.25,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          controlsBuilder: (context, c, defaults) => VideoControlsBar(
+            controller: c,
+            style: videoPlayerDefaults,
+            fg: const Color(0xFFFFFFFF),
+            fade: Duration.zero,
+            initialSpeedOpen: true,
+          ),
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF4C1D95), Color(0xFF7C3AED)],
+              ),
+            ),
+            child: const Text(
+              'Speed menu open',
               style: TextStyle(
                 color: Color(0xFFFFFFFF),
                 fontSize: 16,
@@ -263,20 +465,23 @@ class _CustomVideoState extends State<_CustomVideo> {
 }
 
 Widget _default(BuildContext context) => const _DefaultVideo();
-
+Widget _comfortable(BuildContext context) => const _ComfortableVideo();
+Widget _phone(BuildContext context) => const _PhoneVideo();
+Widget _controlBarOpen(BuildContext context) => const _ControlBarOpenVideo();
+Widget _speedMenuOpen(BuildContext context) => const _SpeedMenuOpenVideo();
 Widget _poster(BuildContext context) => const _PosterVideo();
-
 Widget _loading(BuildContext context) => const _LoadingVideo();
-
 Widget _error(BuildContext context) => const _ErrorVideo();
-
 Widget _fullscreen(BuildContext context) => const _FullscreenVideo();
-
 Widget _custom(BuildContext context) => const _CustomVideo();
 
 /// Named docs examples for `video_player`; the first entry is the default.
 const List<ComponentPreview> videoPlayerPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
+  ComponentPreview('Comfortable', _comfortable),
+  ComponentPreview('Phone width', _phone),
+  ComponentPreview('Control bar open', _controlBarOpen),
+  ComponentPreview('Speed menu open', _speedMenuOpen),
   ComponentPreview('Poster and captions', _poster),
   ComponentPreview('Loading', _loading),
   ComponentPreview('Error', _error),

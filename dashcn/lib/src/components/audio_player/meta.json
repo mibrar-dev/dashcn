@@ -21,11 +21,14 @@
     ],
     "theme": [
       "color_tokens",
+      "density",
       "theme"
     ],
     "primitives": [
+      "focus_outline",
       "motion",
-      "surface"
+      "surface",
+      "tap_target"
     ],
     "components": []
   },

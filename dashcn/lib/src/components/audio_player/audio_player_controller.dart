@@ -2,7 +2,7 @@
 //
 // The kit ships no media plugin: the UI drives this small `ChangeNotifier`
 // interface (play, pause, seek, position, duration, buffered, volume, mute,
-// speed, looping). `FakeAudioPlaybackController` backs previews and tests.
+// speed, looping, cues). `FakeAudioPlaybackController` backs previews and tests.
 
 import 'package:flutter/widgets.dart';
 
@@ -37,6 +37,9 @@ abstract class AudioPlaybackController extends ChangeNotifier {
 
   /// Last fatal error, if any.
   Object? get error;
+
+  /// Optional transcript / lyric cues.
+  List<String> get cues => const <String>[];
 
   /// Starts playback.
   Future<void> play();
@@ -81,6 +84,7 @@ class FakeAudioPlaybackController extends AudioPlaybackController {
     bool? isPlaying,
     bool? isBuffering,
     bool? isLooping,
+    List<String>? cues,
     this.onPlay,
     this.onPause,
     this.onSeek,
@@ -92,7 +96,8 @@ class FakeAudioPlaybackController extends AudioPlaybackController {
        _playbackSpeed = playbackSpeed ?? 1.0,
        _isPlaying = isPlaying ?? false,
        _isBuffering = isBuffering ?? false,
-       _isLooping = isLooping ?? false;
+       _isLooping = isLooping ?? false,
+       _cues = cues ?? const <String>[];
 
   final Duration _duration;
   Duration _position;
@@ -103,6 +108,7 @@ class FakeAudioPlaybackController extends AudioPlaybackController {
   bool _isPlaying;
   bool _isBuffering;
   bool _isLooping;
+  final List<String> _cues;
   Object? _error;
 
   /// Called on play (for callback tests).
@@ -140,6 +146,9 @@ class FakeAudioPlaybackController extends AudioPlaybackController {
 
   @override
   bool get isLooping => _isLooping;
+
+  @override
+  List<String> get cues => _cues;
 
   @override
   Object? get error => _error;

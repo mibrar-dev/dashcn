@@ -30,6 +30,7 @@ class AudioPlayerBody extends StatelessWidget {
     this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
     this.showVolume = true,
     this.showSpeed = true,
+    this.initialSpeedOpen = false,
     this.coverBuilder,
     this.titleBuilder,
     this.subtitleBuilder,
@@ -42,42 +43,20 @@ class AudioPlayerBody extends StatelessWidget {
     this.loadingBuilder,
   });
 
-  /// Compact row or full card.
   final AudioPlayerVariant variant;
-
-  /// Playback controller.
   final AudioPlaybackController controller;
-
-  /// Resolved theme.
   final AudioPlayerTheme style;
-
-  /// Foreground colour.
   final Color fg;
-
-  /// Muted colour.
   final Color muted;
-
-  /// Track title.
   final String? title;
-
-  /// Track subtitle.
   final String? subtitle;
-
-  /// Cover art.
   final Widget? cover;
-
-  /// Skip steps.
   final Duration skipBack;
   final Duration skipForward;
-
-  /// Speeds offered.
   final List<double> supportedSpeeds;
-
-  /// Whether volume/speed show.
   final bool showVolume;
   final bool showSpeed;
-
-  /// Builder slots.
+  final bool initialSpeedOpen;
   final AudioPartBuilder? coverBuilder;
   final AudioPartBuilder? titleBuilder;
   final AudioPartBuilder? subtitleBuilder;
@@ -117,6 +96,7 @@ class AudioPlayerBody extends StatelessWidget {
           overrideBuilder: playButtonBuilder,
           loadingOverride: loadingBuilder,
         ),
+        const SizedBox(width: 8),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -136,80 +116,89 @@ class AudioPlayerBody extends StatelessWidget {
   }
 
   Widget _full(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        _cover(context),
-        _title(context),
-        _subtitle(context),
-        _progress(context),
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                formatAudioTime(controller.position),
-                style:
-                    style.timeTextStyle ??
-                    TextStyle(color: muted, fontSize: 12),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double screenWidth =
+            MediaQuery.maybeSizeOf(context)?.width ?? double.infinity;
+        final bool isPhone = screenWidth <= 400 || constraints.maxWidth < 340;
+        final Widget? coverWidget = _cover(context);
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                if (coverWidget != null) ...[
+                  coverWidget,
+                  const SizedBox(width: 10),
+                ],
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[_title(context), _subtitle(context)],
+                  ),
+                ),
+                if (controller.isBuffering)
+                  Icon(LucideIcons.loaderCircle, size: 16, color: muted),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _progress(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    formatAudioTime(controller.position),
+                    style:
+                        style.timeTextStyle ??
+                        TextStyle(color: muted, fontSize: 12),
+                  ),
+                  Text(
+                    formatAudioTime(controller.duration),
+                    style:
+                        style.timeTextStyle ??
+                        TextStyle(color: muted, fontSize: 12),
+                  ),
+                ],
               ),
-              Text(
-                formatAudioTime(controller.duration),
-                style:
-                    style.timeTextStyle ??
-                    TextStyle(color: muted, fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-        AudioTransportRow(
-          controller: controller,
-          style: style,
-          fg: fg,
-          skipBack: skipBack,
-          skipForward: skipForward,
-          supportedSpeeds: supportedSpeeds,
-          showVolume: showVolume,
-          showSpeed: showSpeed,
-          controlsBuilder: controlsBuilder,
-          playButtonBuilder: playButtonBuilder,
-          volumeBuilder: volumeBuilder,
-          speedBuilder: speedBuilder,
-          loadingBuilder: loadingBuilder,
-        ),
-      ],
+            ),
+            AudioTransportRow(
+              controller: controller,
+              style: style,
+              fg: fg,
+              skipBack: skipBack,
+              skipForward: skipForward,
+              supportedSpeeds: supportedSpeeds,
+              showVolume: !isPhone && showVolume,
+              showSpeed: showSpeed,
+              initialSpeedOpen: initialSpeedOpen,
+              controlsBuilder: controlsBuilder,
+              playButtonBuilder: playButtonBuilder,
+              volumeBuilder: volumeBuilder,
+              speedBuilder: speedBuilder,
+              loadingBuilder: loadingBuilder,
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _cover(BuildContext context) {
+  Widget? _cover(BuildContext context) {
     if (coverBuilder != null) return coverBuilder!(context, controller);
+    if (cover == null) return null;
     final ThemeColors colors = Theme.of(context).colors;
-    final double size = style.coverSize ?? 176;
+    final double size = style.coverSize ?? 44;
     final BorderRadiusGeometry radius =
-        style.coverRadius ?? BorderRadius.circular(12);
-    final Widget art =
-        cover ??
-        Container(
-          width: size,
-          height: size,
-          alignment: Alignment.center,
-          child: Icon(
-            controller.isBuffering
-                ? LucideIcons.loaderCircle
-                : LucideIcons.audioLines,
-            size: 48,
-            color: fg,
-          ),
-        );
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: ClipRRect(
-        borderRadius: radius,
-        child: ColoredBox(
-          color: style.coverBackground?.resolve(colors) ?? colors.muted,
-          child: SizedBox(width: size, height: size, child: art),
-        ),
+        style.coverRadius ?? BorderRadius.circular(6);
+    return ClipRRect(
+      borderRadius: radius,
+      child: ColoredBox(
+        color: style.coverBackground?.resolve(colors) ?? colors.muted,
+        child: SizedBox(width: size, height: size, child: cover!),
       ),
     );
   }
@@ -223,14 +212,12 @@ class AudioPlayerBody extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style:
           style.titleTextStyle ??
-          TextStyle(color: fg, fontSize: 14, fontWeight: FontWeight.w600),
+          TextStyle(color: fg, fontSize: 13, fontWeight: FontWeight.w600),
     );
   }
 
   Widget _subtitle(BuildContext context) {
-    if (subtitleBuilder != null) {
-      return subtitleBuilder!(context, controller);
-    }
+    if (subtitleBuilder != null) return subtitleBuilder!(context, controller);
     if (subtitle == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 2),

@@ -8,7 +8,65 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
+
+/// Sizing metrics for `video_player` across density levels.
+class VideoPlayerMetrics {
+  /// Creates sizing metrics.
+  const VideoPlayerMetrics({
+    required this.controlSize,
+    required this.iconSize,
+    required this.controlsPadding,
+    required this.trackHeight,
+    required this.fontSize,
+  });
+
+  /// Centre play button diameter.
+  final double controlSize;
+
+  /// Icon size for bar controls.
+  final double iconSize;
+
+  /// Internal padding of the control bar.
+  final EdgeInsetsGeometry controlsPadding;
+
+  /// Scrub bar track height.
+  final double trackHeight;
+
+  /// Time and speed label font size.
+  final double fontSize;
+
+  /// Compact metrics (default look).
+  static const VideoPlayerMetrics compact = VideoPlayerMetrics(
+    controlSize: 48,
+    iconSize: 16,
+    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 10, vertical: 6),
+    trackHeight: 4,
+    fontSize: 12,
+  );
+
+  /// Comfortable metrics.
+  static const VideoPlayerMetrics comfortable = VideoPlayerMetrics(
+    controlSize: 56,
+    iconSize: 20,
+    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
+    trackHeight: 4,
+    fontSize: 13,
+  );
+
+  /// Touch metrics for phone screens.
+  static const VideoPlayerMetrics touch = VideoPlayerMetrics(
+    controlSize: 64,
+    iconSize: 24,
+    controlsPadding: EdgeInsetsDensity.pxSymmetric(
+      horizontal: 16,
+      vertical: 10,
+    ),
+    trackHeight: 6,
+    fontSize: 14,
+  );
+}
 
 /// Visual contract of the video player chrome.
 class VideoPlayerTheme extends ComponentThemeData
@@ -177,37 +235,6 @@ class VideoPlayerTheme extends ComponentThemeData
     );
   }
 
-  /// Discrete fields step at t < 0.5; geometry lerps.
-  static VideoPlayerTheme lerp(
-    VideoPlayerTheme a,
-    VideoPlayerTheme b,
-    double t,
-  ) {
-    return VideoPlayerTheme(
-      themeDensity: t < 0.5 ? a.themeDensity : b.themeDensity,
-      themeSpacing: t < 0.5 ? a.themeSpacing : b.themeSpacing,
-      themeShadows: t < 0.5 ? a.themeShadows : b.themeShadows,
-      background: t < 0.5 ? a.background : b.background,
-      scrim: t < 0.5 ? a.scrim : b.scrim,
-      foreground: t < 0.5 ? a.foreground : b.foreground,
-      accent: t < 0.5 ? a.accent : b.accent,
-      track: t < 0.5 ? a.track : b.track,
-      buffered: t < 0.5 ? a.buffered : b.buffered,
-      thumb: t < 0.5 ? a.thumb : b.thumb,
-      borderRadius: t < 0.5 ? a.borderRadius : b.borderRadius,
-      controlsPadding: t < 0.5 ? a.controlsPadding : b.controlsPadding,
-      controlSize: t < 0.5 ? a.controlSize : b.controlSize,
-      iconSize: t < 0.5 ? a.iconSize : b.iconSize,
-      trackHeight: t < 0.5 ? a.trackHeight : b.trackHeight,
-      timeTextStyle: t < 0.5 ? a.timeTextStyle : b.timeTextStyle,
-      captionsTextStyle: t < 0.5 ? a.captionsTextStyle : b.captionsTextStyle,
-      surfaceOpacity: t < 0.5 ? a.surfaceOpacity : b.surfaceOpacity,
-      surfaceBlur: t < 0.5 ? a.surfaceBlur : b.surfaceBlur,
-      fadeDuration: t < 0.5 ? a.fadeDuration : b.fadeDuration,
-      controlsTimeout: t < 0.5 ? a.controlsTimeout : b.controlsTimeout,
-    );
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -270,9 +297,10 @@ const VideoPlayerTheme videoPlayerDefaults = VideoPlayerTheme(
   track: ThemedColor.value(Color(0x59FFFFFF)),
   buffered: ThemedColor.value(Color(0x99FFFFFF)),
   thumb: ThemedColor.value(Color(0xFFFFFFFF)),
-  controlSize: 56,
-  iconSize: 20,
+  controlSize: 48,
+  iconSize: 16,
   trackHeight: 4,
+  controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 10, vertical: 6),
   fadeDuration: kDefaultDuration,
   controlsTimeout: Duration(seconds: 3),
 );
