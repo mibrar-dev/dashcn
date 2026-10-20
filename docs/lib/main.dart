@@ -25,6 +25,7 @@ import 'pages/cli_reference.dart';
 import 'pages/component_page.dart' deferred as component_page;
 import 'pages/components_index_page.dart';
 import 'pages/dark_mode_page.dart';
+import 'pages/debug_motion_page.dart';
 import 'pages/getting_started.dart';
 import 'pages/introduction_page.dart';
 import 'pages/landing_page.dart';
@@ -315,6 +316,10 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
       load: starters_pages.loadLibrary,
       builder: (BuildContext context) =>
           starters_pages.StarterPage(starterId: config.starterId!),
+    ),
+    // TEMPORARY visual-proof harness (deleted before merge).
+    DocsRoute.debugMotion => DebugMotionPage(
+      demo: config.sourceUri?.queryParameters['case'] ?? 'dialog',
     ),
     _ => DocsPlaceholderPage(config: config),
   };

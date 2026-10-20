@@ -5633,6 +5633,8 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
   'swipe_actions': DocsFileList(
     componentId: 'swipe_actions',
     files: <String>[
+      'lib/ui/dashcn/components/swipe_actions/swipe_action.dart',
+      'lib/ui/dashcn/components/swipe_actions/swipe_action_buttons.dart',
       'lib/ui/dashcn/components/swipe_actions/swipe_actions.dart',
     ],
     userOwned: <String>[],

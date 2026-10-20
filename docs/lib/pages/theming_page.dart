@@ -15,6 +15,7 @@ import '../widgets/docs_article.dart';
 import '../widgets/docs_samples.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/heading_anchor.dart';
+import '../widgets/motion_demos.dart';
 import '../widgets/theme_token_table.dart';
 import '../widgets/typeset.dart';
 
@@ -196,6 +197,45 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['motion']!.code,
             language: 'dart',
           ),
+          const HeadingAnchor(
+            id: 'motion-categories',
+            title: 'Motion Categories',
+          ),
+          const TypesetParagraph(
+            'Three category legs retime one animation family from a single '
+            'place, without touching the per-component defaults: '
+            'overlayEnterDuration and overlayExitDuration (popovers, dialogs, '
+            'toasts, sheets), stateDuration (toggles, checks, tabs, progress, '
+            'badge and chip paint, error show and hide), plus the matching '
+            'overlayEnterCurve, overlayExitCurve and stateCurve. A null leg '
+            'keeps the component default, so setting a leg only changes the '
+            'family it names. Every leg scales with the intensity multiplier.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['motion-categories']!.code,
+            language: 'dart',
+          ),
+          const HeadingAnchor(
+            id: 'motion-presence',
+            title: 'Exits and Per-Instance Overrides',
+          ),
+          const TypesetParagraph(
+            'Inline content that appears conditionally — banners, error '
+            'messages, chips, list rows — exits through two primitives. '
+            'MotionPresence keeps the child mounted while the exit plays, '
+            'then unmounts it and reports onExited; MotionCollapse adds the '
+            'height shrink, so siblings slide up underneath. Both accept a '
+            'MotionSpec override (durations, curves, delay, custom enter and '
+            'exit builders, disabled for an instant snap) that wins over the '
+            'theme for that instance only.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['motion-presence']!.code,
+            language: 'dart',
+          ),
+          const Gap(16),
+          const MotionDemos(),
+          const Gap(16),
           const HeadingAnchor(
             id: 'responsive-popups',
             title: 'Responsive popups',

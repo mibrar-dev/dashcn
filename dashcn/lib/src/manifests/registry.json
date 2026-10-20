@@ -4388,7 +4388,8 @@
           "focus_outline",
           "form_core",
           "surface",
-          "text_editing"
+          "text_editing",
+          "motion"
         ],
         "theme": [
           "color_tokens",
@@ -8401,6 +8402,7 @@
         "classes": [
           "SwipeActions",
           "SwipeAction",
+          "SwipeActionButtons",
           "SwipeActionsController"
         ]
       },
@@ -8410,14 +8412,19 @@
           "button"
         ],
         "foundation": [],
-        "primitives": [],
+        "primitives": [
+          "motion"
+        ],
         "theme": [
-          "theme"
+          "theme",
+          "motion"
         ]
       },
       "description": "Swipe a row to reveal trailing actions; dismiss-to-delete; RTL-aware with a keyboard/semantics alternative.",
       "entry": "components/swipe_actions/swipe_actions.dart",
       "files": [
+        "components/swipe_actions/swipe_action.dart",
+        "components/swipe_actions/swipe_action_buttons.dart",
         "components/swipe_actions/swipe_actions.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
@@ -9944,7 +9951,7 @@
     "components/chat/chat_style.dart": "cd22e156aeefff4544be5be163863933b604f8550154ff6d2dbedf2222caf040",
     "components/chat/chat_theme.dart": "4ff153f91c624960b3f5343e29f853ec254d42e8a0f652244e7c347d0617987f",
     "components/chat/preview.dart": "89ba01e317c8d6fd29b023fed6c7bedf71ae1b3401d20aa47b6da70c6b03d78e",
-    "components/checkbox/checkbox.dart": "2529c9916cef7938cba67354c87a433ac84b8c9330448e2eb59e7400cdf7c1cf",
+    "components/checkbox/checkbox.dart": "1b604f7ffe4d57b5734ec0fadd4aa3b8f79a84a2e9c131d56d45ae6161f27029",
     "components/checkbox/checkbox_style.dart": "878bb28dc9c6ca36f741942413effbbb7ba8537da5f99623dcfc6605ebd433fa",
     "components/checkbox/checkbox_theme.dart": "df42943c3de1be7807b4d1f5406183bfd5c063d093e12beb6f48bb792b810381",
     "components/checkbox/preview.dart": "ac41f8f6f562367f91b227e1be5e9eb973ab0795573812685fd6d947232eacb9",
@@ -10045,11 +10052,11 @@
     "components/filter_bar/filter_bar_style.dart": "951b8888a6740c8a203a3b9d71d86b2f6f6ddd2ba82aa3ff4163b64680e7389b",
     "components/filter_bar/filter_bar_theme.dart": "23285d875e48fc719a90e5d2c7a319a87930cf0582212aae84a3f0b33ae367d1",
     "components/filter_bar/preview.dart": "e17ee2fc7c31fac73808595d813281a23d2a44a502b296e59e34e569992830ec",
-    "components/form/form.dart": "22fe058fd8fbbe00b8c217ffe866aef8061f664ea04ca1f2e2075ec498d9197c",
+    "components/form/form.dart": "cff3437d974557780aebe7d6beee223d8f378c54c68320af73a94b1fe5bf5850",
     "components/form/form_style.dart": "a65166cea466a2241b03b018592f8b80e8fe89740305dc20d81390baaae1b386",
     "components/form/form_theme.dart": "e6d52bb4896eca6b9b8e4ff457879c2b40ed4866ef87efd5a396a9858236b2b3",
     "components/form/preview.dart": "0377ce6f53965f46002abd35f2b45d3a237e6e358ee939967b144e3a47445132",
-    "components/formatted_input/formatted_input.dart": "7002b8689118d87f3e67c1830b7656047123227e11908bbaa0c348f78780a767",
+    "components/formatted_input/formatted_input.dart": "b74d0d39ec7afc35383dc0dfb7e478208ebc250087d5f486d903cdeef3081dd8",
     "components/formatted_input/formatted_input_flow.dart": "c67335d167a4b14b9fdbefbb4211bf2a9609ffc647b50bdb0a8a09a16b2c9f8f",
     "components/formatted_input/formatted_input_style.dart": "6df4fe1117bf1730b67f8cdb5bec3c66ac56dbb35ba2545cf2835d2397cd501e",
     "components/formatted_input/formatted_input_theme.dart": "3ebf79e3757d5a3233cb0855c8798846bb54dff1df15fa8db49319f6dff6e4a4",
@@ -10098,7 +10105,7 @@
     "components/input/input_style.dart": "0cd1aaf0d078e68e35f87378090e1b1d7240b507f76da78f39147cd0b6096b4b",
     "components/input/input_theme.dart": "d3ea4501f6b2e86b77eecc28516ad149fae31ab6dd3b9e6242a1b39fd2a3af08",
     "components/input/preview.dart": "9bc674680f0c8be61ec1ed24040a1980a5ead399d2728d36eae431e2f37a8288",
-    "components/input_otp/input_otp.dart": "cc9786fe7dfe4e61fb62a55a9b69575b39d2683613581a3c97afdcb88e7508e1",
+    "components/input_otp/input_otp.dart": "302b0db6a122aae9703f3a5f787dee0edc89633fee78269e95bcee43b28243ca",
     "components/input_otp/input_otp_style.dart": "94bb34189be568d0f50c05d29e71a9a7468c0280c70ff221856b0d2e93dba506",
     "components/input_otp/input_otp_theme.dart": "5e2f3b0c3147a60ebbe931876111b31eaa1be5dd116f07fa5622b8dfc59fe218",
     "components/input_otp/preview.dart": "f07cebfdb9a34ab3eaecfa6bc7a0af8e1fe12a46011aabbc37a355fba1d961d5",
@@ -10268,8 +10275,10 @@
     "components/steps/steps.dart": "56dbf1f22c20698ffa933c6311149e42156dc22e6c782d3c5d9be3272414b500",
     "components/steps/steps_style.dart": "9199e49f41feeea60abc3ead6baeb178ff29e906dca611b5f4928a59d8b13272",
     "components/steps/steps_theme.dart": "3ae02e6c7990e17e81b74eca3ee31cded8fb5278cbdd53bed7d785ba5183ff18",
-    "components/swipe_actions/preview.dart": "f51fc66a56cb1ae16170f429998a38d72c6d2bd19322593bd2f8a1c08637395b",
-    "components/swipe_actions/swipe_actions.dart": "e50354a37cb07f43c31919642da87b307dff8f7e425ef5fd17698b26ce50507c",
+    "components/swipe_actions/preview.dart": "4e283ee40ff17e82ca4b2ff2560af75552730fef51416c328841c3553de7f984",
+    "components/swipe_actions/swipe_action.dart": "dfcc60d37d37fbcbdbf3d77734fc0a2e00f4f189f9126a487a784dda143efd19",
+    "components/swipe_actions/swipe_action_buttons.dart": "267d37df0ab096f97d42f578393941cd473d84192529fe653ce68c8e9bc15096",
+    "components/swipe_actions/swipe_actions.dart": "69747bde888fc1483dcaad03ece5a55a221d54f56b1bba64c89c5309f919d828",
     "components/swiper/preview.dart": "d76e99b227ee05dc762552cc6c6e6c7bc6654bb1f4f2a359879e68050d76eb5b",
     "components/swiper/swiper.dart": "b66f990a31484c353464efa0ac83b870806c17ad96032d9f754b5505a4d0f51c",
     "components/swiper/swiper_style.dart": "a8e57f8ce3c90ff8033b4d7b94299c359854c8ae9835cd835100ead6ab41685e",
@@ -10287,7 +10296,7 @@
     "components/table/table_style.dart": "370ab37c594b002f36a6128c94ef2603df6b88eee0f4e2b523c3b5627bf21aab",
     "components/table/table_theme.dart": "873f3a4b284509606bad00a7a82f7b7939fc6b1ef03a5ac7120065f961978309",
     "components/tabs/preview.dart": "e13331460fee672fb8de0d0a3789d91c88b5987f12c7981383c0243fe7eee458",
-    "components/tabs/tabs.dart": "7e82ea0252a732a15fc6a3c7b76c71ccf3db27cd91f2d5ec556ce2ca038d80ee",
+    "components/tabs/tabs.dart": "0bf46997e35bbee638c3a35a406f5d1393b2a33ce10fd4684fc9af87f2d07e51",
     "components/tabs/tabs_style.dart": "e8bdc00514ba0e4e360d5b7fa49b3cb6bb2bb8371b3e4045d41c79bb8a793cbd",
     "components/tabs/tabs_theme.dart": "cebfae48a5f2739e15abbc3c9e8ec1de8f7ac1c82b9d7e13982a31441555371c",
     "components/text_animate/preview.dart": "ee14ff77056dd872cb85e051c3cd022cc35f865d7aa57c5cb9dc4a5b36d09a1b",
@@ -10427,7 +10436,7 @@
     "primitives/focus_outline.dart": "ada3901336b9a76e8dd98d1c434a473e5c6c7602c2d257dcb78bcf727d35afbc",
     "primitives/form_core/form_builders.dart": "bfa036ea629f243558ceb78993e3bb448300033ffff19963b574966f95af05b1",
     "primitives/form_core/form_control.dart": "5cb89ff7ac898e05e8e4b722862056bfd0e992df2c30f2e0dd35d2bd5700ffdc",
-    "primitives/form_core/form_controller.dart": "2b7c10d5afd9e932bcd6bd0dfe5e5c49bd9258aa7b4f234dc30c42576a380911",
+    "primitives/form_core/form_controller.dart": "fd4907473c4d4d68687b1b262b4794f977f3855c5cb3939e707b6c9d124b3eb3",
     "primitives/form_core/form_core.dart": "9b434ea6eb612bf4beefb37af49da5f4ada4b5cc2dfc5316bc1d237e512863ad",
     "primitives/form_core/form_entry.dart": "7842f8fcff74d953d5575c3eaded154bd2ecc18a171d80548c953e3353715b4d",
     "primitives/form_core/form_value.dart": "0bcf67745e5cfd7bf19fce94243c950e8b8a8e361654d86314379eabf6c21bf0",
@@ -10520,10 +10529,13 @@
     "primitives/motion/error_shake.dart": "ec20039de34621b0ec5236a8fdcc6a37a1eb86f4f78c817759edbd8c0fef5f1d",
     "primitives/motion/fade_slide_in.dart": "69ce1bc3d16618eeabd28b97d72fb48d32b65f7a16fd281ee2a6870f0ce7b4bf",
     "primitives/motion/hover_elevate.dart": "52da1e7fab4f0fbd322503654546bfad814908f04177f7a9d838424fe52ccf88",
-    "primitives/motion/motion.dart": "8698949cb85d2e68183a1fbbf2b213bb8d70d69e8b6e1d71e0e65c0cb4691b52",
+    "primitives/motion/motion.dart": "884e40bb73e80d315ef7a12c14b7be724064646e2db25f7faaac68541ecb8691",
     "primitives/motion/motion_chevron.dart": "da1507a55a75045160b13cc7843e5388e5b13f99deb3be301996797f8d797428",
+    "primitives/motion/motion_collapse.dart": "1bdf0ea554f81aaf8a717e5cf89dbc0cd5bb8cf5b061ebbbc075becc6dd2088c",
     "primitives/motion/motion_enter.dart": "8627c056675dda026488fae327a2525aa419b07039d12e69587b181974dc4723",
+    "primitives/motion/motion_presence.dart": "fee6fa22be60fae2068bbce284cf373899c7af72124e0a6b0331b591739079ab",
     "primitives/motion/motion_scope.dart": "b728e4a7ed808c46d640e4066cfebd26ed2b3fe5df580137d201fe37d08f2a9f",
+    "primitives/motion/motion_spec.dart": "b20858afc06f3505db6c9552e8e424aed910b4863f74adcdf367f0e279c37b62",
     "primitives/motion/press_scale.dart": "78df358795ca97adb52415061394a75a3bc351b73e772604919acb801875731e",
     "primitives/motion/scale_in.dart": "2f6d79448df5ed72c2f39d252ff873701ea5426643c72e749e22503bd3cbcc5d",
     "primitives/motion/stagger.dart": "24a88b059948205512e07a43b91e6259453e9ffc3e25642f2387036c7065e6ad",
@@ -10598,7 +10610,7 @@
     "primitives/text/text.dart": "4cece6a202ccb22b0bd594bee50e0fc2321a00f1c564f84c47c5669c77d83e4d",
     "primitives/text/text_extension.dart": "7d605af4f73ae19383eefe81bf4e6685e22bb23ac9018460f838ca19bf812557",
     "primitives/text_editing/editable_text_host.dart": "387b0aa9fbdf7ab9eca27a37b0e01a77eec6e2f98ad95eedded67b44e84a7489",
-    "primitives/text_editing/editable_text_shell.dart": "84ac9b943bbfc37dd67bcdb98d1eb52cce33a43ad779fece415a79d66cb99d3f",
+    "primitives/text_editing/editable_text_shell.dart": "c04ffa5c8720a52c79f0fa342db2d2cfdc31bbdc180e9527a3b6ebd271482137",
     "primitives/text_editing/editable_text_style.dart": "a80e0b200b39002ff3bec820310b66d8b8d78c6b6b51e842114cc73860fa215c",
     "primitives/text_editing/editable_text_validation.dart": "f7f40ddcdb957c4f6688d11ac1fb63c2a07cdabd767da677f5822e8ceb36b0ec",
     "primitives/text_editing/segmented_editing.dart": "6db4d4e18c09aed9e4aa90a5d0a3d0ca092b5f200359488b3ab3eb4195cac6ee",
@@ -10663,7 +10675,7 @@
     "theme/interop/writers/dtcg_writer.dart": "ce8d22dbf1a1310da59fc515de0cb13c08e2d165c779d4df0c524f49807f2c28",
     "theme/interop/writers/tailwind_v4_writer.dart": "dea2b70e34a124633df15fb8765cc085611ebbb7409bb4566ca660451eac228b",
     "theme/interop/writers/web_css_writer.dart": "b300addee24819ff6b40d4458dd5dea9a513c6f1e046e22bad838a48b9f19303",
-    "theme/motion.dart": "9d88db34013fd3d5255cde048e43654c3886d81416d94ca8ecd285dc91ea79a3",
+    "theme/motion.dart": "8e17d353a27de6277381c197ed27475ad8974e538f5f4bd6cb217ed9d576385f",
     "theme/syntax_colors.dart": "09bf4279cb0c78202ef2e71c1579f65972faf8c4ea22bc1d23b5aa79fa60aa85",
     "theme/theme.dart": "239176986a8fc978c3c9a3005c0799773bd234d36c23ac625de9ad7f8d6bcc8b",
     "theme/tokens.dart": "e4d0355e416ec86b111690f2a4bd0e1d26208c7549e7d0ce4dd9c27018582ca1",
@@ -11515,8 +11527,11 @@
         "primitives/motion/hover_elevate.dart",
         "primitives/motion/motion.dart",
         "primitives/motion/motion_chevron.dart",
+        "primitives/motion/motion_collapse.dart",
         "primitives/motion/motion_enter.dart",
+        "primitives/motion/motion_presence.dart",
         "primitives/motion/motion_scope.dart",
+        "primitives/motion/motion_spec.dart",
         "primitives/motion/press_scale.dart",
         "primitives/motion/scale_in.dart",
         "primitives/motion/stagger.dart"

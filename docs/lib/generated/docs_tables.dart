@@ -834,6 +834,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'formatted_input': <DocsDep>[
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
@@ -1470,6 +1471,8 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'swipe_actions': <DocsDep>[
     DocsDep(id: 'button', kind: DocsDepKind.component),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'swiper': <DocsDep>[

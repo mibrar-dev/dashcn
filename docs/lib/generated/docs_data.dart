@@ -1831,7 +1831,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add swipe_actions',
     import:
         "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
-    fileCount: 1,
+    fileCount: 3,
     stability: 'stable',
     listed: true,
     placement: 'center',

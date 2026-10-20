@@ -607,6 +607,8 @@ void main() {
         _frame(InputOtp(length: 4, initialValue: '0000', validator: null)),
       );
       await tester.pump();
+      // The message collapses away (height + fade) instead of vanishing.
+      await tester.pumpAndSettle();
       expect(find.text('Bad'), findsNothing);
     });
   });

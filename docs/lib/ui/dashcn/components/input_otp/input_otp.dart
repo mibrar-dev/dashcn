@@ -9,6 +9,7 @@ import '../../primitives/focus_outline.dart';
 import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_value.dart';
 import '../../primitives/motion/error_shake.dart';
+import '../../primitives/motion/motion_collapse.dart';
 import '../../primitives/motion/motion_enter.dart';
 import '../../primitives/text_editing/editable_text_host.dart';
 import '../../primitives/text_editing/editable_text_validation.dart';
@@ -414,30 +415,35 @@ class _InputOtpState extends State<InputOtp>
       ),
     );
     final String? error = _isComplete ? _validation.errorText : null;
-    return error == null ? row : _withError(row, error, theme);
-  }
-
-  Widget _withError(Widget row, String error, ThemeData theme) => ErrorShake(
-    trigger: error,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        row,
-        Padding(
-          padding: EdgeInsets.only(top: theme.spacing.xs),
-          child: MotionEnter(
-            child: Text(
-              error,
-              style: theme.typography.xSmall.copyWith(
-                color: theme.colors.destructive,
-              ),
-            ),
+    // The error row stays mounted while its collapse exit plays, so
+    // clearing the error shrinks the message away instead of cutting it.
+    return ErrorShake(
+      trigger: error,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          row,
+          MotionCollapse(
+            visible: error != null,
+            child: error == null
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: EdgeInsets.only(top: theme.spacing.xs),
+                    child: MotionEnter(
+                      child: Text(
+                        error,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colors.destructive,
+                        ),
+                      ),
+                    ),
+                  ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 
   void _submit(String value) {
     widget.onSubmitted?.call(value);
