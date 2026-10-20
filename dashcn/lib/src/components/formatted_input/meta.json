@@ -24,7 +24,8 @@
       "focus_outline",
       "form_core",
       "surface",
-      "text_editing"
+      "text_editing",
+      "motion"
     ],
     "components": []
   },

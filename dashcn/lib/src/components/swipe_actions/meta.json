@@ -9,13 +9,13 @@
   "tags": ["swipe", "dismiss", "actions", "list", "gesture"],
   "deps": {
     "foundation": [],
-    "theme": ["theme"],
-    "primitives": [],
+    "theme": ["theme", "motion"],
+    "primitives": ["motion"],
     "components": ["button"]
   },
-  "files": ["swipe_actions.dart", "preview.dart"],
+  "files": ["swipe_actions.dart", "swipe_action.dart", "swipe_action_buttons.dart", "preview.dart"],
   "api": {
-    "classes": ["SwipeActions", "SwipeAction", "SwipeActionsController"]
+    "classes": ["SwipeActions", "SwipeAction", "SwipeActionButtons", "SwipeActionsController"]
   },
   "theme": null,
   "notes": [

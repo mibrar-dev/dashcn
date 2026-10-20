@@ -312,6 +312,8 @@ void main() {
 
       await tester.enterText(find.byType(TextArea), 'abcd');
       await tester.pump();
+      // The error collapses away (height + fade) instead of vanishing.
+      await tester.pumpAndSettle();
       expect(find.text('Too short'), findsNothing);
     });
 

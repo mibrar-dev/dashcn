@@ -327,6 +327,8 @@ void main() {
     await _type(tester, 0, '555');
     await _type(tester, 1, '123');
     await _type(tester, 2, '4567');
+    // The error collapses away (height + fade) instead of vanishing.
+    await tester.pumpAndSettle();
     expect(find.text('Enter a full number.'), findsNothing);
     expect(find.byType(EditableText), findsNWidgets(3));
   });
@@ -596,6 +598,8 @@ void main() {
     await _type(tester, 0, '555');
     await _type(tester, 1, '123');
     await _type(tester, 2, '4567');
+    // The error collapses away (height + fade) instead of vanishing.
+    await tester.pumpAndSettle();
     expect(find.text('Enter a full number.'), findsNothing);
   });
 }

@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../primitives/fade_scroll.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/motion/motion_spec.dart';
 import '../../primitives/roving_group.dart';
 import '../../primitives/tab_container.dart';
 import '../../theme/density.dart';
@@ -37,6 +38,7 @@ class Tabs extends StatefulWidget {
     this.expand = false,
     this.theme,
     this.containerTheme,
+    this.motion,
   });
 
   final int index;
@@ -47,6 +49,11 @@ class Tabs extends StatefulWidget {
 
   /// Container layout defaults; resolved and forwarded to [TabContainer].
   final TabContainerTheme? containerTheme;
+
+  /// Opt-in pill-fill animation. Null keeps the instant fill the contract
+  /// pins for first-frame colours; pass a spec (e.g. `const MotionSpec()`)
+  /// to cross-fade the selected pill instead.
+  final MotionSpec? motion;
 
   @override
   State<Tabs> createState() => _TabsState();
@@ -168,9 +175,11 @@ class _TabsState extends State<Tabs> {
       shortcuts: _registry.shortcuts,
       actions: _registry.actions,
       onPressed: enabled ? () => data.onSelect?.call(data.index) : null,
-      // The pill fill swaps instantly (the contract pins first-frame
-      // colours); the selected label scales up slightly for motion.
-      child: Container(
+      // The pill fill swaps instantly by default (the contract pins
+      // first-frame colours); with a `motion` leg it cross-fades through a
+      // decoration tween instead. The selected label always scales up
+      // slightly for motion.
+      child: _TabPill(
         decoration: BoxDecoration(
           color: selected
               ? (style.selectedColor ?? tabsDefaults.selectedColor!) //
@@ -183,31 +192,82 @@ class _TabsState extends State<Tabs> {
           style.tabPadding ?? tabsDefaults.tabPadding!,
           ambient.density.baseContentPadding * ambient.scaling,
         ),
-        // Pill triggers fill the strip (h-9 = 36, p-[3px]): 30px boxes.
-        // Upstream is h-[calc(100%-1px)] (29); the 1px compensates its
-        // transparent border, which these borderless pills omit.
-        // Horizontal padding only (px-2); the label centers in the box.
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 30, minWidth: 0),
-          child: Center(
-            child: AnimatedScale(
-              scale: selected ? 1.05 : 1.0,
-              duration: resolveMotionDuration(
-                context,
-                ambient.motion.durations.fast,
-              ),
-              curve: ambient.motion.curves.standard,
-              child: DefaultTextStyle.merge(
-                style: base.copyWith(color: labelColor),
-                textAlign: TextAlign.center,
-                child: label,
-              ),
-            ),
+        motion: widget.motion,
+        selected: selected,
+        labelStyle: base.copyWith(color: labelColor),
+        label: label,
+      ),
+    );
+    return widget.expand ? Expanded(child: button) : button;
+  }
+}
+
+/// One pill tab: the selected fill plus the scaling label.
+///
+/// Without a [motion] leg the fill is a plain `Container` (instant swap —
+/// the contract pins first-frame colours). With a leg the fill cross-fades
+/// through a decoration tween on the state clock.
+class _TabPill extends StatelessWidget {
+  const _TabPill({
+    required this.decoration,
+    required this.padding,
+    required this.motion,
+    required this.selected,
+    required this.labelStyle,
+    required this.label,
+  });
+
+  final BoxDecoration decoration;
+  final EdgeInsetsGeometry padding;
+  final MotionSpec? motion;
+  final bool selected;
+  final TextStyle labelStyle;
+  final Widget label;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData ambient = Theme.of(context);
+    // Pill triggers fill the strip (h-9 = 36, p-[3px]): 30px boxes.
+    // Upstream is h-[calc(100%-1px)] (29); the 1px compensates its
+    // transparent border, which these borderless pills omit.
+    // Horizontal padding only (px-2); the label centers in the box.
+    final Widget content = ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 30, minWidth: 0),
+      child: Center(
+        child: AnimatedScale(
+          scale: selected ? 1.05 : 1.0,
+          duration: resolveMotionDuration(
+            context,
+            ambient.motion.durations.fast,
+          ),
+          curve: ambient.motion.curves.standard,
+          child: DefaultTextStyle.merge(
+            style: labelStyle,
+            textAlign: TextAlign.center,
+            child: label,
           ),
         ),
       ),
     );
-    return widget.expand ? Expanded(child: button) : button;
+    final MotionSpec? spec = motion;
+    if (spec == null || !spec.animates(context)) {
+      return Container(
+        decoration: decoration,
+        padding: padding,
+        child: content,
+      );
+    }
+    return AnimatedContainer(
+      duration: spec.resolveEnterDuration(
+        context,
+        ambient.motion.durations.fast,
+        state: true,
+      ),
+      curve: spec.resolveEnterCurve(context, ambient.motion.curves.standard),
+      decoration: decoration,
+      padding: padding,
+      child: content,
+    );
   }
 }
 

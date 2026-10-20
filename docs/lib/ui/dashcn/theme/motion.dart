@@ -230,7 +230,11 @@ enum MotionCurveName {
 /// every motion helper resolves to zero duration and the end value.
 /// [intensity] scales every animation from one place; [customDurationMultiplier],
 /// [customPressScale], [customEnterOffset] and [customCurve] apply only when
-/// [intensity] is [MotionIntensity.custom].
+/// [intensity] is [MotionIntensity.custom]. The category legs
+/// ([overlayEnterDuration], [overlayExitDuration], [stateDuration] and the
+/// three category curves) retime one family of animations from one place;
+/// null keeps the component's own default, so adding them never changes
+/// today's timing until a user sets a leg.
 @immutable
 class MotionTokens {
   /// Creates motion tokens.
@@ -243,6 +247,12 @@ class MotionTokens {
     this.customPressScale = 0.96,
     this.customEnterOffset = 8.0,
     this.customCurve = MotionCurveName.emphasizedOut,
+    this.overlayEnterDuration,
+    this.overlayExitDuration,
+    this.stateDuration,
+    this.overlayEnterCurve,
+    this.overlayExitCurve,
+    this.stateCurve,
   });
 
   /// Named durations (100/150/200/300 ms) before the intensity multiplier.
@@ -268,6 +278,31 @@ class MotionTokens {
 
   /// Enter curve used only for [MotionIntensity.custom].
   final MotionCurveName customCurve;
+
+  /// Category leg: how long overlay ENTER transitions run (popovers, dialogs,
+  /// toasts, sheets). Null keeps each component's own default.
+  final Duration? overlayEnterDuration;
+
+  /// Category leg: how long overlay EXIT transitions run. Null keeps each
+  /// component's own default.
+  final Duration? overlayExitDuration;
+
+  /// Category leg: how long state-change transitions run (toggles, checks,
+  /// tabs, progress, badge/chip paint, error show/hide). Null keeps each
+  /// component's own default.
+  final Duration? stateDuration;
+
+  /// Category leg: curve for overlay ENTER transitions. Null keeps the
+  /// component default (usually emphasized-out).
+  final Curve? overlayEnterCurve;
+
+  /// Category leg: curve for overlay EXIT transitions. Null keeps the
+  /// component default (usually emphasized-in).
+  final Curve? overlayExitCurve;
+
+  /// Category leg: curve for state-change transitions. Null keeps the
+  /// component default (usually standard).
+  final Curve? stateCurve;
 
   /// Duration multiplier for the current intensity, in one place.
   ///
@@ -348,6 +383,58 @@ class MotionTokens {
     return base;
   }
 
+  /// Resolves an overlay ENTER duration from one place.
+  ///
+  /// Precedence: explicit per-instance leg, then the theme category leg
+  /// ([overlayEnterDuration]), then the caller's [base] (each overlay keeps
+  /// its own default, so unset legs reproduce today's timing exactly).
+  /// The winner scales with the intensity multiplier.
+  Duration resolveOverlayEnterDuration(Duration base, {Duration? override}) {
+    return scaledDuration(override ?? overlayEnterDuration ?? base);
+  }
+
+  /// Resolves an overlay EXIT duration from one place.
+  ///
+  /// Same precedence as the enter leg: per-instance, category
+  /// ([overlayExitDuration]), then the caller's [base].
+  Duration resolveOverlayExitDuration(Duration base, {Duration? override}) {
+    return scaledDuration(override ?? overlayExitDuration ?? base);
+  }
+
+  /// Resolves a state-change duration from one place.
+  ///
+  /// Same precedence: per-instance, category ([stateDuration]), [base].
+  Duration resolveStateDuration(Duration base, {Duration? override}) {
+    return scaledDuration(override ?? stateDuration ?? base);
+  }
+
+  /// Resolves an overlay ENTER curve: per-instance, category
+  /// ([overlayEnterCurve]), then the caller's [base].
+  Curve resolveOverlayEnterCurve(Curve base, {Curve? override}) {
+    if (override != null) {
+      return override;
+    }
+    return overlayEnterCurve ?? resolveEnterCurve(base);
+  }
+
+  /// Resolves an overlay EXIT curve: per-instance, category
+  /// ([overlayExitCurve]), then the caller's [base].
+  Curve resolveOverlayExitCurve(Curve base, {Curve? override}) {
+    if (override != null) {
+      return override;
+    }
+    return overlayExitCurve ?? base;
+  }
+
+  /// Resolves a state-change curve: per-instance, category ([stateCurve]),
+  /// then the caller's [base].
+  Curve resolveStateCurve(Curve base, {Curve? override}) {
+    if (override != null) {
+      return override;
+    }
+    return stateCurve ?? base;
+  }
+
   /// Returns a copy with the given fields replaced.
   MotionTokens copyWith({
     MotionDurations? durations,
@@ -358,6 +445,12 @@ class MotionTokens {
     double? customPressScale,
     double? customEnterOffset,
     MotionCurveName? customCurve,
+    Duration? overlayEnterDuration,
+    Duration? overlayExitDuration,
+    Duration? stateDuration,
+    Curve? overlayEnterCurve,
+    Curve? overlayExitCurve,
+    Curve? stateCurve,
   }) {
     return MotionTokens(
       durations: durations ?? this.durations,
@@ -369,6 +462,12 @@ class MotionTokens {
       customPressScale: customPressScale ?? this.customPressScale,
       customEnterOffset: customEnterOffset ?? this.customEnterOffset,
       customCurve: customCurve ?? this.customCurve,
+      overlayEnterDuration: overlayEnterDuration ?? this.overlayEnterDuration,
+      overlayExitDuration: overlayExitDuration ?? this.overlayExitDuration,
+      stateDuration: stateDuration ?? this.stateDuration,
+      overlayEnterCurve: overlayEnterCurve ?? this.overlayEnterCurve,
+      overlayExitCurve: overlayExitCurve ?? this.overlayExitCurve,
+      stateCurve: stateCurve ?? this.stateCurve,
     );
   }
 
@@ -390,7 +489,13 @@ class MotionTokens {
         other.customDurationMultiplier == customDurationMultiplier &&
         other.customPressScale == customPressScale &&
         other.customEnterOffset == customEnterOffset &&
-        other.customCurve == customCurve;
+        other.customCurve == customCurve &&
+        other.overlayEnterDuration == overlayEnterDuration &&
+        other.overlayExitDuration == overlayExitDuration &&
+        other.stateDuration == stateDuration &&
+        other.overlayEnterCurve == overlayEnterCurve &&
+        other.overlayExitCurve == overlayExitCurve &&
+        other.stateCurve == stateCurve;
   }
 
   @override
@@ -403,5 +508,11 @@ class MotionTokens {
     customPressScale,
     customEnterOffset,
     customCurve,
+    overlayEnterDuration,
+    overlayExitDuration,
+    stateDuration,
+    overlayEnterCurve,
+    overlayExitCurve,
+    stateCurve,
   );
 }
