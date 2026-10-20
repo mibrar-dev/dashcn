@@ -32,6 +32,59 @@ class ChartTooltipLayout {
   final ChartTooltipPlacement placement;
 }
 
+/// Picks the radar tooltip side: toward the chart interior.
+///
+/// * [anchor] above the frame middle requests [ChartTooltipPlacement.bottom]
+///   (the box hangs below the vertex, over the web, clear of the label ring).
+/// * [anchor] at or below the middle requests [ChartTooltipPlacement.top].
+///
+/// Vertical only on purpose: the axis labels sit to the left and right of
+/// every upper vertex, so a left/right box from a top vertex always lands on
+/// a neighbour label (June to the left, February to the right on a
+/// January–June web). The interior has no labels. Flip and clamp still apply
+/// downstream in [resolveChartTooltip], and callers honour an explicit
+/// non-default [ChartTooltipConfig.placement] untouched.
+ChartTooltipPlacement chartRadarTooltipPlacement({
+  required Offset anchor,
+  required Size frameSize,
+}) {
+  return anchor.dy < frameSize.height / 2
+      ? ChartTooltipPlacement.bottom
+      : ChartTooltipPlacement.top;
+}
+
+/// Resolves the full radar tooltip request: interior side plus band clearance.
+///
+/// Returns the [chartRadarTooltipPlacement] side and the total offset: the
+/// caller's [baseOffset] plus, for bottom-placed boxes only, a downward push
+/// so the box top clears the upper side-label band. The band bottom sits at
+/// roughly `frameHeight / 2 - 42` (half the side-label span below the centre
+/// on the default 260 px height; on taller frames the target only moves the
+/// box deeper over the label-free interior, never back over labels).
+/// Lower-half vertices keep plain top placement: their boxes already sit
+/// mid-chart, and pushing them further up would drive them into the upper
+/// band. [gap] must match the tooltip widget's gap.
+({ChartTooltipPlacement placement, Offset offset}) resolveRadarTooltip({
+  required Offset anchor,
+  required Size frameSize,
+  required Offset baseOffset,
+  double gap = 8,
+}) {
+  final ChartTooltipPlacement placement = chartRadarTooltipPlacement(
+    anchor: anchor,
+    frameSize: frameSize,
+  );
+  if (placement == ChartTooltipPlacement.top) {
+    return (placement: placement, offset: baseOffset);
+  }
+  final double target = frameSize.height / 2 - 42;
+  final double deficit = target - (anchor.dy + gap + baseOffset.dy);
+  if (deficit <= 0) {
+    return (placement: placement, offset: baseOffset);
+  }
+  return (placement: placement, offset: baseOffset + Offset(0, deficit));
+}
+
 /// Snaps a local pointer offset to the nearest category index.
 ///
 /// [local] is the pointer position along the axis, [extent] is the chart

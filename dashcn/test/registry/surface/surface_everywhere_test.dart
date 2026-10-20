@@ -978,6 +978,7 @@ const Set<String> _tested = <String>{
 /// `pinned_sheet`).
 const Map<String, String> _allowList = <String, String>{
   'accordion': 'layout container; rows draw no surface fill',
+  'action_sheet': 'overlay sheet; chrome covered via drawer/pinned_sheet',
   'alert': 'inline banner fill, not a floating surface',
   'alpha': 'color utility, no widget surface',
   'anchor': 'positioning utility, no paint',
@@ -1026,6 +1027,7 @@ const Map<String, String> _allowList = <String, String>{
   'item_picker': 'picker rows; popup surface covered via menu',
   'wheel_picker': 'inline scrolling control; no floating surface of its own',
   'keyboard_shortcut': 'hint label, no surface',
+  'list_tile': 'row layout; no floating surface',
   'locale_utils': 'localization utility, no paint',
   'markdown': 'text rendering, no surface of its own',
   'media_query': 'media utility, no paint',

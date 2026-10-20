@@ -32,7 +32,7 @@
   "api": {
     "classes": ["Chart", "ChartSeries", "ChartAxis", "ChartController", "ChartTheme", "ChartSurface", "ChartRadarConfig", "ChartRadialConfig", "ChartTooltipConfig", "ChartTooltipData", "ChartTooltipRow", "ChartPieConfig", "ChartAnchoredTooltip", "ChartTooltipCard", "ChartTooltipLayout"],
     "enums": ["ChartType", "ChartBarMode", "ChartBarLayout", "ChartLineStyle", "ChartAreaMode", "ChartMarkerShape", "ChartRadarGrid", "ChartTooltipIndicator", "ChartTooltipPlacement", "ChartPieLabels"],
-    "functions": ["chartCompactValue", "chartPercentTick", "barBaseline", "chartTooltipNearestIndex", "chartTooltipNearestSpreadIndex", "chartTooltipMaxWidth", "resolveChartTooltip", "chartCartesianAnchor", "chartPieAnchor", "chartRadialAnchor", "chartRadarAnchor"],
+    "functions": ["chartCompactValue", "chartPercentTick", "barBaseline", "chartTooltipNearestIndex", "chartTooltipNearestSpreadIndex", "chartTooltipMaxWidth", "resolveChartTooltip", "chartRadarTooltipPlacement", "resolveRadarTooltip", "chartCartesianAnchor", "chartPieAnchor", "chartRadialAnchor", "chartRadarAnchor"],
     "constants": ["chartDefaults", "chartThemeOverrides", "chartTooltipGutter", "chartTooltipGap", "chartTooltipDefaultMaxWidth"]
   },
   "theme": {

@@ -2,6 +2,8 @@
 // Run: dart run tool/gen_exports.dart
 export 'src/components/accordion/accordion.dart';
 export 'src/components/accordion/accordion_style.dart';
+export 'src/components/action_sheet/action_sheet.dart';
+export 'src/components/action_sheet/action_sheet_style.dart';
 export 'src/components/alert/alert.dart';
 export 'src/components/alert/alert_style.dart';
 export 'src/components/alert_dialog/alert_dialog.dart';
@@ -138,6 +140,8 @@ export 'src/components/item_picker/item_picker.dart';
 export 'src/components/item_picker/item_picker_style.dart';
 export 'src/components/keyboard_shortcut/keyboard_shortcut.dart';
 export 'src/components/keyboard_shortcut/keyboard_shortcut_style.dart';
+export 'src/components/list_tile/list_tile.dart';
+export 'src/components/list_tile/list_tile_style.dart';
 export 'src/components/locale_utils/locale_utils.dart';
 export 'src/components/markdown/markdown.dart';
 export 'src/components/markdown/markdown_style.dart';
