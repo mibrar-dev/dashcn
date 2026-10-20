@@ -787,6 +787,25 @@ class _ChartState extends State<Chart> {
             rtl: Directionality.of(context) == TextDirection.rtl,
           );
         }
+        // Radar tooltips park toward the chart interior (upper vertices read
+        // bottom, lower vertices read top) with clearance below the upper
+        // side-label band, because axis labels ring the web: a side box from
+        // a top vertex always lands on a neighbour label. An explicit
+        // non-default tooltip placement is honoured untouched (no directional
+        // override, no extra offset).
+        ChartTooltipPlacement? radarPlacement;
+        Offset tooltipOffset = widget.tooltip.offset;
+        if (anchor != null &&
+            widget.tooltip.placement == ChartTooltipPlacement.top) {
+          final ({Offset offset, ChartTooltipPlacement placement}) resolved =
+              resolveRadarTooltip(
+                anchor: anchor,
+                frameSize: frame,
+                baseOffset: widget.tooltip.offset,
+              );
+          radarPlacement = resolved.placement;
+          tooltipOffset = resolved.offset;
+        }
         return TapRegion(
           onTapOutside: (_) => _dismiss(),
           child: GestureDetector(
@@ -824,8 +843,8 @@ class _ChartState extends State<Chart> {
                   if (anchor != null && _selected != null)
                     ChartAnchoredTooltip(
                       anchor: anchor,
-                      placement: widget.tooltip.placement,
-                      offset: widget.tooltip.offset,
+                      placement: radarPlacement ?? widget.tooltip.placement,
+                      offset: tooltipOffset,
                       child: ChartTooltipCard(
                         data: _tooltipDataFor(surface, series, _selected!),
                         config: widget.tooltip,
