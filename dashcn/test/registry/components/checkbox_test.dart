@@ -136,6 +136,9 @@ void main() {
             ),
           ),
         );
+        // The box fill glides between values (TweenAnimationBuilder), so
+        // settle before asserting the end colour.
+        await tester.pumpAndSettle();
         expect(find.text(value.name), findsOneWidget);
         expect(
           _decoration(tester, const <WidgetState>{}).color,
@@ -708,6 +711,8 @@ void main() {
       );
       await tester.tap(find.byType(Checkbox));
       await tester.pump();
+      // The fill glides checked -> unchecked; the end colour lands on settle.
+      await tester.pumpAndSettle();
       expect(
         _decoration(tester, const <WidgetState>{}).color,
         _alpha(ThemeColors.lightFallback.input, 0),

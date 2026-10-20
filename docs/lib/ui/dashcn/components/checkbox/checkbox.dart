@@ -461,12 +461,8 @@ class _CheckboxBox extends StatelessWidget {
       tween: DecorationTween(end: decoration),
       duration: fillDuration,
       curve: fillCurve,
-      builder:
-          (
-            BuildContext context,
-            Decoration? value,
-            Widget? child,
-          ) => DecoratedBox(
+      builder: (BuildContext context, Decoration? value, Widget? child) =>
+          DecoratedBox(
             key: kCheckboxBoxKey,
             decoration: value ?? decoration,
             child: child,

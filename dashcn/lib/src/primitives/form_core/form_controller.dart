@@ -354,6 +354,12 @@ class FormController extends ChangeNotifier {
     if (_disposed) {
       return;
     }
+    // A post-frame callback alone never runs while the scheduler is idle
+    // (pump() is a no-op with no scheduled frame, and a quiet release UI
+    // draws none either), so schedule the frame the callback rides on.
+    // Without this a submit on a settled screen never mirrors its errors
+    // until something else draws.
+    WidgetsBinding.instance.scheduleFrame();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_disposed) {
         notifyListeners();

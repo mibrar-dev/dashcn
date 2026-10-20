@@ -339,6 +339,8 @@ void main() {
       await _type(tester, 'ab');
       expect(find.text('Too short.'), findsOneWidget);
       await _type(tester, 'abcd');
+      // The cleared error plays its collapse exit before unmounting.
+      await tester.pumpAndSettle();
       expect(find.text('Too short.'), findsNothing);
     });
 

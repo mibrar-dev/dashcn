@@ -85,11 +85,13 @@ void main() {
   testWidgets('buttons fade in with the reveal progress', (tester) async {
     await _pump(tester, _row(onDelete: () {}));
     // A partial drag reveals the single action partway: the button wrapper
-    // carries a partial opacity (no jump from 0 to 1).
-    final gesture = await tester.startGesture(
-      tester.getCenter(find.text('row')),
-    );
-    await gesture.moveBy(const Offset(-60, 0));
+    // carries a partial opacity (no jump from 0 to 1). Two on-surface steps
+    // so the horizontal drag wins the arena before the reveal is read.
+    final Offset center = tester.getCenter(find.text('row'));
+    final gesture = await tester.startGesture(center);
+    await gesture.moveTo(center + const Offset(-30, 0));
+    await tester.pump();
+    await gesture.moveTo(center + const Offset(-60, 0));
     await tester.pump();
     // The reveal wrapper is one of several Opacity ancestors (the Button
     // paints its own); it carries the partial progress.

@@ -155,6 +155,8 @@ void main() {
       expect(called, isFalse);
       await tester.enterText(find.byType(EditableText).at(2), 'newpassword1');
       await settleValidation(tester);
+      // The cleared message plays its collapse exit before unmounting.
+      await tester.pumpAndSettle();
       expect(find.text('Passwords do not match.'), findsNothing);
       await tapSubmit(tester, 'Update password');
       await finishSubmit(tester);

@@ -142,11 +142,7 @@ Widget _customBuilders(BuildContext context) {
             ),
             onPressed: () {},
           ),
-          SwipeAction(
-            label: 'Delete',
-            destructive: true,
-            onPressed: () {},
-          ),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
         ],
         onDismissed: () {},
         child: Card(
@@ -186,11 +182,7 @@ Widget _motionOverride(BuildContext context) {
         ),
         actions: <SwipeAction>[
           SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(
-            label: 'Delete',
-            destructive: true,
-            onPressed: () {},
-          ),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
         ],
         onDismissed: () {},
         child: Card(

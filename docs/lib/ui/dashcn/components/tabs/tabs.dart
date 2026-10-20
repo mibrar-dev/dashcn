@@ -251,7 +251,11 @@ class _TabPill extends StatelessWidget {
     );
     final MotionSpec? spec = motion;
     if (spec == null || !spec.animates(context)) {
-      return Container(decoration: decoration, padding: padding, child: content);
+      return Container(
+        decoration: decoration,
+        padding: padding,
+        child: content,
+      );
     }
     return AnimatedContainer(
       duration: spec.resolveEnterDuration(

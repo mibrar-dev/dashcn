@@ -233,9 +233,10 @@ class FormFieldMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     final Widget? hintWidget = hint;
     final String? messageText = message;
-    if (hintWidget == null && messageText == null) {
-      return const SizedBox.shrink();
-    }
+    // No early shrink return: the collapse stays mounted at a stable tree
+    // position so a just-cleared message can play its height + fade exit
+    // instead of being cut. With no hint and no message this sizes to zero
+    // (a min column around the gone collapse), exactly like the shrink.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

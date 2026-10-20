@@ -129,6 +129,11 @@ class MotionPresenceState extends State<MotionPresence>
   bool _gone = false;
   bool _exiting = false;
 
+  /// The pre-removal child, frozen on the visible→hidden flip and shown
+  /// while the exit plays. Parents usually swap [child] in the same rebuild
+  /// that hides it; without the freeze the exit would animate the new child.
+  Widget? _exitingChild;
+
   /// Whether the child has unmounted after the exit.
   bool get isGone => _gone;
 
@@ -209,9 +214,11 @@ class MotionPresenceState extends State<MotionPresence>
     if (widget.visible) {
       _gone = false;
       _exiting = false;
+      _exitingChild = null;
       _resolve();
       _controller.forward();
     } else {
+      _exitingChild = oldWidget.child;
       _startExit();
     }
   }
@@ -249,16 +256,18 @@ class MotionPresenceState extends State<MotionPresence>
         : motion.resolveOverlayExitCurve(
             widget.exitCurve ?? motion.curves.emphasizedIn,
           );
+    // The controller spans the ENTER length (delay lead-in included) and the
+    // enter drive starts after the lead, so the delay postpones it. The exit
+    // reuses the same span, so a mid-exit re-show continues smoothly.
+    final int totalMs = delay.inMilliseconds + enter.inMilliseconds;
+    _controller.duration = Duration(milliseconds: totalMs <= 0 ? 1 : totalMs);
+    final double lead = totalMs <= 0 ? 0.0 : delay.inMilliseconds / totalMs;
     _enter = _controller.drive(
-      CurveTween(curve: Interval(0.0, 1.0, curve: enterCurve)),
+      CurveTween(curve: Interval(lead, 1.0, curve: enterCurve)),
     );
     _exit = _controller.drive(
       CurveTween(curve: Interval(0.0, 1.0, curve: exitCurve)),
     );
-    // The controller always spans the ENTER length (delay lead-in included);
-    // the exit reuses the same span so a mid-exit re-show continues smoothly.
-    final int totalMs = delay.inMilliseconds + enter.inMilliseconds;
-    _controller.duration = Duration(milliseconds: totalMs <= 0 ? 1 : totalMs);
     _exitDuration = exit;
   }
 
@@ -303,9 +312,10 @@ class MotionPresenceState extends State<MotionPresence>
     if (_reduced) {
       return widget.child;
     }
+    // While exiting, the frozen pre-removal child plays; otherwise live.
     return AnimatedBuilder(
       animation: _controller,
-      child: widget.child,
+      child: _exitingChild ?? widget.child,
       builder: (BuildContext context, Widget? child) {
         if (_exiting) {
           return _exitBuilder(child!, _exit);

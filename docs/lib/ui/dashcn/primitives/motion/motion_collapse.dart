@@ -78,6 +78,12 @@ class MotionCollapseState extends State<MotionCollapse>
   late final AnimationController _controller = AnimationController(vsync: this);
   bool _gone = false;
 
+  /// The pre-removal child, frozen on the visible→hidden flip and shown
+  /// while the exit plays. Parents usually swap [widget.child] to an empty
+  /// box in the same rebuild that hides it; without the freeze the exit
+  /// would animate emptiness.
+  Widget? _exitingChild;
+
   /// Whether the child has unmounted after the exit.
   bool get isGone => _gone;
 
@@ -181,16 +187,21 @@ class MotionCollapseState extends State<MotionCollapse>
       return;
     }
     if (widget.visible) {
+      _exitingChild = null;
       setState(() => _gone = false);
       _controller.duration = _enterDuration();
       _controller.forward();
     } else {
+      _exitingChild = oldWidget.child;
       _controller.duration = _exitDuration();
       _controller.reverse().then((_) {
         if (!mounted || widget.visible) {
           return;
         }
-        setState(() => _gone = true);
+        setState(() {
+          _gone = true;
+          _exitingChild = null;
+        });
         widget.onExited?.call();
       });
     }
@@ -219,6 +230,8 @@ class MotionCollapseState extends State<MotionCollapse>
     );
     // Fade first so text never clips harshly, then collapse the height;
     // the clip pins to the chosen edge while siblings slide underneath.
+    // While exiting, the frozen pre-removal child plays; otherwise live.
+    final Widget content = _exitingChild ?? widget.child;
     return ClipRect(
       child: FadeTransition(
         opacity: curved,
@@ -226,7 +239,7 @@ class MotionCollapseState extends State<MotionCollapse>
           sizeFactor: curved,
           axis: Axis.vertical,
           alignment: widget.alignment,
-          child: widget.child,
+          child: content,
         ),
       ),
     );

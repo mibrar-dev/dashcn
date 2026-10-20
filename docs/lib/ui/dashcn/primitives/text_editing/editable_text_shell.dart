@@ -125,9 +125,7 @@ class EditableTextShell extends StatelessWidget {
                 ? const SizedBox.shrink()
                 : Padding(
                     padding: EdgeInsets.only(top: gap),
-                    child: MotionEnter(
-                      child: Text(message, style: errorStyle),
-                    ),
+                    child: MotionEnter(child: Text(message, style: errorStyle)),
                   ),
           ),
         ],

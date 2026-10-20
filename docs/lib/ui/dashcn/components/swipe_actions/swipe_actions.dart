@@ -19,6 +19,7 @@ import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/motion/motion_spec.dart';
 import '../../theme/motion.dart';
 import '../../theme/theme.dart';
+import 'swipe_action.dart';
 import 'swipe_action_buttons.dart';
 
 export 'swipe_action.dart';
@@ -116,7 +117,7 @@ class SwipeActions extends StatefulWidget {
 }
 
 class _SwipeActionsState extends State<SwipeActions>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   /// Critically damped (no overshoot past the 0..1 controller bounds) and
   /// stiff enough to settle inside ~250 ms, so programmatic open/close and
   /// tap-to-close land exactly within one settle frame.
@@ -206,7 +207,17 @@ class _SwipeActionsState extends State<SwipeActions>
     _to = target;
     final double span = target - _reveal;
     final double startVelocity = span == 0 ? 0 : velocity / span;
-    _settler.animateWith(SpringSimulation(_settleSpring, 0, 1, startVelocity));
+    // A loose tolerance lands the settle inside ~200 ms (tests pump 300);
+    // the status listener then snaps exactly onto the target.
+    _settler.animateWith(
+      SpringSimulation(
+        _settleSpring,
+        0,
+        1,
+        startVelocity,
+        tolerance: const Tolerance(distance: 0.02, velocity: 1.0),
+      ),
+    );
   }
 
   /// Full-swipe commit: collapse the row height, then report removal.
@@ -217,6 +228,9 @@ class _SwipeActionsState extends State<SwipeActions>
     _dismissing = true;
     _settler.stop();
     if (_reduced) {
+      // No ticker: report removal synchronously and stay interactive in
+      // case the caller keeps the row.
+      _dismissing = false;
       widget.onDismissed!.call();
       return;
     }
@@ -306,6 +320,9 @@ class _SwipeActionsState extends State<SwipeActions>
     final double total = _totalWidth;
     final double shown = _reveal.clamp(0.0, 1.0);
     final bool peeked = _reveal > 0;
+    // Over-drag stretches the row a little past full open (resistance made
+    // visible); the settled open and closed states sit exactly at 1 and 0.
+    final double travel = shown + (_reveal - shown).clamp(0.0, 0.6) * 0.3;
     Widget actions = SwipeActionButtons(
       actions: widget.actions,
       progress: shown,
@@ -327,7 +344,7 @@ class _SwipeActionsState extends State<SwipeActions>
         // actions, and win the tap arena — tapping an action would just
         // close the row. A tap while closed is a no-op.
         Transform.translate(
-          offset: Offset((_rtl ? 1 : -1) * shown * total, 0),
+          offset: Offset((_rtl ? 1 : -1) * travel * total, 0),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {

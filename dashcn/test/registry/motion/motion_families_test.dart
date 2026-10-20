@@ -18,6 +18,7 @@ import 'package:dashcn/src/components/collapsible/preview.dart';
 import 'package:dashcn/src/components/dialog/preview.dart';
 import 'package:dashcn/src/components/dot_indicator/preview.dart';
 import 'package:dashcn/src/components/drawer/preview.dart';
+import 'package:dashcn/src/components/form/form.dart';
 import 'package:dashcn/src/components/form/preview.dart';
 import 'package:dashcn/src/components/input/input.dart';
 import 'package:dashcn/src/components/input/preview.dart';
@@ -35,7 +36,6 @@ import 'package:dashcn/src/components/toast/preview.dart';
 import 'package:dashcn/src/components/toast/toast.dart';
 import 'package:dashcn/src/components/toggle/preview.dart';
 import 'package:dashcn/src/foundation/component_preview.dart';
-import 'package:dashcn/src/primitives/form_core/form_core.dart';
 import 'package:dashcn/src/primitives/motion/error_shake.dart';
 import 'package:dashcn/src/primitives/motion/fade_slide_in.dart';
 import 'package:dashcn/src/primitives/selectable_radio/selectable_radio.dart'
@@ -372,12 +372,21 @@ void main() {
       expectMid: (WidgetTester tester) {
         // The shake ran (count) and the message is mid-fade; exact
         // shake-frame timing varies with the async validation landing.
+        // Scoped to the field message: the input shell mounts its own
+        // (idle) ErrorShake so the exit can play on clear.
+        final Finder messageScope = find.descendant(
+          of: find.byType(FormFieldMessages),
+          matching: find.byType(ErrorShake),
+        );
         final ErrorShakeState state = tester.state<ErrorShakeState>(
-          find.byType(ErrorShake),
+          messageScope,
         );
         expect(state.shakeCount, 1);
         final FadeSlideInState fade = tester.state<FadeSlideInState>(
-          find.byType(FadeSlideIn),
+          find.descendant(
+            of: find.byType(FormFieldMessages),
+            matching: find.byType(FadeSlideIn),
+          ),
         );
         expect(fade.progress, greaterThan(0.0));
         expect(fade.progress, lessThan(1.0));
