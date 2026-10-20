@@ -217,6 +217,9 @@ class ChartExampleCard extends StatelessWidget {
               const Divider(thickness: 1),
               PreviewStage(
                 minHeight: kChartGalleryStageHeight,
+                // No dot-pattern blur: 69 cards share one page and the blur
+                // layer is expensive; the reference cards are plain too.
+                pattern: false,
                 child: PreviewExampleLoader(
                   componentId: 'chart',
                   exampleIndex: exampleIndex,
