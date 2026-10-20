@@ -8,6 +8,9 @@ import 'package:flutter/widgets.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/form_core/form_core.dart';
 import '../../primitives/form_core/form_value.dart';
+import '../../primitives/motion/error_shake.dart';
+import '../../primitives/motion/motion_collapse.dart';
+import '../../primitives/motion/motion_enter.dart';
 import '../../primitives/surface.dart';
 import '../../primitives/text_editing/editable_text_validation.dart';
 import '../../primitives/text_editing/segmented_editing.dart';
@@ -381,24 +384,33 @@ class _FormattedInputState extends State<FormattedInput>
       ),
     );
     final String? error = _errorText;
-    if (error == null) {
-      return body;
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        body,
-        Padding(
-          padding: EdgeInsets.only(top: theme.spacing.xs),
-          child: Text(
-            error,
-            style: theme.typography.xSmall.copyWith(
-              color: theme.colors.destructive,
-            ),
+    // Matches the other fields: the error shakes once while fading in, and
+    // stays mounted while its collapse exit plays on clear.
+    return ErrorShake(
+      trigger: error,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          body,
+          MotionCollapse(
+            visible: error != null,
+            child: error == null
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: EdgeInsets.only(top: theme.spacing.xs),
+                    child: MotionEnter(
+                      child: Text(
+                        error,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colors.destructive,
+                        ),
+                      ),
+                    ),
+                  ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

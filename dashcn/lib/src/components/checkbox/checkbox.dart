@@ -15,6 +15,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/form_core/form_value.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/motion/motion_spec.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/motion.dart';
@@ -96,6 +97,7 @@ class Checkbox extends StatefulWidget {
     this.onHover,
     this.onFocusChange,
     this.theme,
+    this.motion,
   }) : assert(
          controller == null ||
              (value == CheckboxValue.unchecked && onChanged == null),
@@ -150,6 +152,9 @@ class Checkbox extends StatefulWidget {
 
   /// Widget-leg override, merged over the component/app/defaults.
   final CheckboxStyle? theme;
+
+  /// Per-instance motion override for the box fill and indicator.
+  final MotionSpec? motion;
 
   @override
   State<Checkbox> createState() => _CheckboxState();
@@ -299,6 +304,7 @@ class _CheckboxState extends State<Checkbox>
       indicatorColor: indicatorColor,
       value: value,
       colors: theme.colors,
+      motion: widget.motion,
     );
 
     final Widget row = Row(
@@ -367,6 +373,7 @@ class _CheckboxBox extends StatelessWidget {
     required this.indicatorColor,
     required this.value,
     required this.colors,
+    this.motion,
   });
 
   final double size;
@@ -378,6 +385,9 @@ class _CheckboxBox extends StatelessWidget {
   final Color? indicatorColor;
   final CheckboxValue value;
   final ThemeColors colors;
+
+  /// Per-instance motion override for the box fill and indicator.
+  final MotionSpec? motion;
 
   @override
   Widget build(BuildContext context) {
@@ -397,13 +407,25 @@ class _CheckboxBox extends StatelessWidget {
     );
     // The check mark scales in with a spring while fading: a subtle draw-in
     // that never changes layout (the 16 px box keeps its size so tap targets
-    // and label metrics never shift). Under reduced motion it snaps with no
+    // and label metrics never shift). The box fill/border cross-fades through
+    // an AnimatedContainer on the same clock, so value and hover changes
+    // glide instead of jumping. Under reduced motion both snap with no
     // ticker.
     final MotionTokens motion = Theme.of(context).motion;
-    final Duration indicatorDuration = resolveMotionDuration(
-      context,
-      _checkboxIndicatorDuration,
-    );
+    final MotionSpec? spec = this.motion;
+    final Duration fillDuration = spec != null
+        ? spec.resolveEnterDuration(context, motion.durations.fast, state: true)
+        : motion.resolveStateDuration(motion.durations.fast);
+    final Curve fillCurve = spec != null
+        ? spec.resolveEnterCurve(context, motion.curves.standard)
+        : motion.resolveStateCurve(motion.curves.standard);
+    final Duration indicatorDuration = spec != null
+        ? spec.resolveEnterDuration(
+            context,
+            _checkboxIndicatorDuration,
+            state: true,
+          )
+        : resolveMotionDuration(context, _checkboxIndicatorDuration);
     final bool shown = indicatorColor != null;
     final Widget indicator = AnimatedOpacity(
       duration: indicatorDuration,
@@ -432,9 +454,19 @@ class _CheckboxBox extends StatelessWidget {
         ),
       ),
     );
-    return DecoratedBox(
-      key: kCheckboxBoxKey,
-      decoration: decoration,
+    // The box keeps its `DecoratedBox` identity (tests read its decoration
+    // by key): the fill/border cross-fades through a decoration tween on
+    // the same clock instead.
+    return TweenAnimationBuilder<Decoration?>(
+      tween: DecorationTween(end: decoration),
+      duration: fillDuration,
+      curve: fillCurve,
+      builder: (BuildContext context, Decoration? value, Widget? child) =>
+          DecoratedBox(
+            key: kCheckboxBoxKey,
+            decoration: value ?? decoration,
+            child: child,
+          ),
       child: SizedBox.fromSize(
         size: Size.square(size),
         child: Center(child: indicator),

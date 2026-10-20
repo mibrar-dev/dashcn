@@ -2852,6 +2852,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Widget-leg override, merged over the component/app/defaults.',
       ),
+      DocsApiParam(
+        name: 'motion',
+        type: 'MotionSpec?',
+        isRequired: false,
+        doc: 'Per-instance motion override for the box fill and indicator.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -6077,6 +6083,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc:
             'Container layout defaults; resolved and forwarded to [TabContainer].',
       ),
+      DocsApiParam(
+        name: 'motion',
+        type: 'MotionSpec?',
+        isRequired: false,
+        doc:
+            'Opt-in pill-fill animation. Null keeps the instant fill the contract\npins for first-frame colours; pass a spec (e.g. `const MotionSpec()`)\nto cross-fade the selected pill instead.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -9192,7 +9205,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'VoidCallback?',
         isRequired: false,
         doc:
-            'Called on a full swipe (drag past the actions + release). Null disables\ndismissing; the row then settles open at most.',
+            'Called AFTER the full-swipe collapse completes. Null disables\ndismissing; the row then settles open at most.',
       ),
       DocsApiParam(
         name: 'actionExtent',
@@ -9207,6 +9220,21 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'SwipeActionsController?',
         isRequired: false,
         doc: 'Programmatic control; a private one is unused when null.',
+      ),
+      DocsApiParam(
+        name: 'motion',
+        type: 'MotionSpec?',
+        isRequired: false,
+        doc:
+            'Per-instance motion override: retimes the spring settle and the commit\ncollapse, or disables them (snap) via `MotionSpec.disabled`.',
+      ),
+      DocsApiParam(
+        name: 'dismissThreshold',
+        type: 'double',
+        isRequired: false,
+        defaultValue: '1.05',
+        doc:
+            'Reveal fraction past which a release commits a dismiss (1.0 = exactly\nthe full actions width). Lower commits earlier.',
       ),
     ],
     members: <DocsApiMember>[],

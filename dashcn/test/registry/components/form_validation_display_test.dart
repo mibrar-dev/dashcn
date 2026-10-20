@@ -213,6 +213,8 @@ void main() {
     await tester.enterText(find.byType(EditableText), 'ada@example.com');
     await tester.pump();
     await tester.pump();
+    // The cleared message plays its collapse exit before unmounting.
+    await tester.pumpAndSettle();
     expect(find.text(_badEmail), findsNothing);
 
     // Still live after the fix: breaking it again reports at once.
@@ -252,6 +254,8 @@ void main() {
     controller.reset();
     await tester.pump();
     await tester.pump();
+    // The cleared message plays its collapse exit before unmounting.
+    await tester.pumpAndSettle();
     expect(find.text(_badEmail), findsNothing);
     expect(controller.isSubmitted, isFalse);
     // Values survive a validation reset.
@@ -260,16 +264,18 @@ void main() {
     // The field is quiet again until it is edited or submitted.
     expect(controller.getDisplayError(_emailKey), isNull);
 
-    // A submit re-arms every invalid field...
+    // A submit re-arms every invalid field (settle: the mirror lands on
+    // the post-frame notify, one frame later under load).
     await controller.submit(context);
-    await tester.pump();
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.text(_badEmail), findsOneWidget);
 
     // ...and so does a fresh edit.
     controller.reset();
     await tester.pump();
     await tester.pump();
+    // The cleared message plays its collapse exit before unmounting.
+    await tester.pumpAndSettle();
     expect(find.text(_badEmail), findsNothing);
     await tester.enterText(find.byType(EditableText), 'still-broken');
     await tester.pump();
