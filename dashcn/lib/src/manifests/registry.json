@@ -10949,7 +10949,7 @@
     "components/video_player/video_player_buttons.dart": "476613eb2fce95bfd0042daec041cee932bae553a452ab6193b3f7822bdad242",
     "components/video_player/video_player_controller.dart": "c60f2fcadeff12b0cc1485df32080f9afd6538f389254ec68126257699b938f2",
     "components/video_player/video_player_controls.dart": "bd7da14e72e16118dd87517e6ea65ffb3e183b9c162138849e6649ed2b9f76b8",
-    "components/video_player/video_player_scrub.dart": "065f9c0b2bcaf7c13dc0c1a0d8f7cf699ac13fa17d7e11069ce4a461ab31e0f8",
+    "components/video_player/video_player_scrub.dart": "1a701e407afebcd80e7c28bd85b5269b0c8025b239ee39bca13aa9927375cbf2",
     "components/video_player/video_player_style.dart": "f2cd183d39118665c533f6bb32a0541c7b13acdc3b0ea69bad12435ebe6beb3f",
     "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
     "components/wheel_picker/preview.dart": "2b2f9404f1e5d3c194fde4a0b16065412b07f60706d46bec8fba385eb8f9487e",
