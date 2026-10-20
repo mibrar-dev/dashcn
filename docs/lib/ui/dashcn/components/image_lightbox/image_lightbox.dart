@@ -332,6 +332,7 @@ class _ImageLightboxState extends State<ImageLightbox> {
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
+              excludeFromSemantics: true,
               onTap: () => Navigator.of(context).maybePop(),
               child:
                   widget.scrimBuilder?.call(context) ??
@@ -371,8 +372,8 @@ class _ImageLightboxState extends State<ImageLightbox> {
           label: 'Close',
           button: true,
           child: Container(
-            width: 40,
-            height: 40,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: closeBackground,
               shape: BoxShape.circle,
@@ -393,6 +394,7 @@ class _ImageLightboxState extends State<ImageLightbox> {
               ),
             const Spacer(),
             GestureDetector(
+              key: const ValueKey<String>('dashcn.image_lightbox.close'),
               behavior: HitTestBehavior.opaque,
               onTap: close,
               child: closeButton,

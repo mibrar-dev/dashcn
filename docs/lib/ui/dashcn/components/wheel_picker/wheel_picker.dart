@@ -149,6 +149,16 @@ const int _loopRepeats = 10000;
 /// requires `perspective > 0`, and this renders identically to no perspective.
 const double _flatPerspective = 0.0001;
 
+/// Very large diameter ratio for the flat wheel. `ListWheelScrollView` rotates
+/// rows by up to `asin(1 / diameterRatio)`, so a large value keeps the rows
+/// unrotated (a `1.0` ratio would tilt edge rows by a full 90°).
+const double _flatDiameterRatio = 100;
+
+/// Column width used when the incoming width is loose or unbounded and the
+/// column has no explicit [WheelColumn.width]. Comfortably wider than the 48px
+/// minimum touch target.
+const double _defaultColumnWidth = 88;
+
 class _WheelPickerState extends State<WheelPicker> {
   late List<FixedExtentScrollController> _controllers;
   late List<int> _selected;
@@ -342,6 +352,20 @@ class _WheelPickerState extends State<WheelPicker> {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          _build(context, constraints),
+    );
+  }
+
+  Widget _build(BuildContext context, BoxConstraints constraints) {
+    // Columns share the incoming width only when the caller pins it (a
+    // `SizedBox`, an `Expanded`, a stretched column). Under a loose or
+    // unbounded width each column sizes to [_defaultColumnWidth] instead, so a
+    // wheel placed beside other widgets never eats the whole row.
+    final bool bounded = constraints.hasBoundedWidth;
+    final bool fill =
+        bounded && (constraints.maxWidth - constraints.minWidth).abs() < 0.5;
     final WheelPickerTheme style = _style(context);
     final ThemeData theme = Theme.of(context);
     final double itemHeight = widget.itemHeight ?? style.itemHeight ?? 48;
@@ -368,7 +392,9 @@ class _WheelPickerState extends State<WheelPicker> {
         controller: _controllers[i],
         physics: const FixedExtentScrollPhysics(),
         itemExtent: itemHeight,
-        diameterRatio: widget.perspective ? (style.diameterRatio ?? 1.6) : 1.0,
+        diameterRatio: widget.perspective
+            ? (style.diameterRatio ?? 1.6)
+            : _flatDiameterRatio,
         // ListWheelScrollView requires perspective > 0; the flat default uses a
         // near-zero value that renders identically to no perspective.
         perspective: widget.perspective
@@ -409,11 +435,15 @@ class _WheelPickerState extends State<WheelPicker> {
       Widget sized = column.width != null
           ? SizedBox(width: column.width, height: wheelHeight, child: wheel)
           : SizedBox(height: wheelHeight, child: wheel);
-      children.add(
-        column.width != null
-            ? sized
-            : Flexible(flex: column.flex.round().clamp(1, 1000), child: sized),
-      );
+      if (column.width != null) {
+        children.add(sized);
+      } else if (fill) {
+        children.add(
+          Flexible(flex: column.flex.round().clamp(1, 1000), child: sized),
+        );
+      } else {
+        children.add(SizedBox(width: _defaultColumnWidth, child: sized));
+      }
       if (i < widget.columns.length - 1) {
         children.add(
           widget.separatorBuilder?.call(context, i) ??

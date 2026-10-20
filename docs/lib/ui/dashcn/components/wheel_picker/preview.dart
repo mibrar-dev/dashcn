@@ -4,8 +4,10 @@
 // from the ambient theme, so the examples follow the selected preset and the
 // site light/dark toggle.
 //
-// The interactive examples own their selection and echo it, so a scroll or a
-// key press shows what the widget reports; the read-only example stays inert.
+// Each example stacks the wheel over its echo text so it never competes for
+// horizontal space; the interactive ones own their selection and echo it, so a
+// scroll or a key press shows what the widget reports; the read-only example
+// stays inert.
 
 import 'package:flutter/widgets.dart';
 
@@ -45,7 +47,7 @@ class _DefaultWheelState extends State<_DefaultWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -55,7 +57,7 @@ class _DefaultWheelState extends State<_DefaultWheel> {
         ),
         Gap(theme.spacing.lg),
         Text(
-          _value[0] == 0 ? '—' : _hours[_value[0]],
+          _hours[_value[0]],
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -79,7 +81,7 @@ class _TimeWheelState extends State<_TimeWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -117,41 +119,31 @@ class _LoopingWheel extends StatefulWidget {
 }
 
 class _LoopingWheelState extends State<_LoopingWheel> {
+  static const List<String> _colours = <String>[
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Violet',
+  ];
   List<int> _value = <int>[0];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
-          columns: <WheelColumn>[
-            WheelColumn(
-              items: <String>[
-                'Red',
-                'Orange',
-                'Yellow',
-                'Green',
-                'Blue',
-                'Violet',
-              ],
-            ),
-          ],
+          columns: <WheelColumn>[WheelColumn(items: _colours)],
           value: _value,
           looping: true,
           onChanged: (List<int> value) => setState(() => _value = value),
         ),
         Gap(theme.spacing.lg),
         Text(
-          <String>[
-            'Red',
-            'Orange',
-            'Yellow',
-            'Green',
-            'Blue',
-            'Violet',
-          ][_value[0]],
+          _colours[_value[0]],
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -175,7 +167,7 @@ class _PerspectiveWheelState extends State<_PerspectiveWheel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
@@ -237,21 +229,20 @@ class _CustomizedWheel extends StatefulWidget {
 }
 
 class _CustomizedWheelState extends State<_CustomizedWheel> {
+  static const List<String> _sizes = <String>['Small', 'Medium', 'Large'];
+  static const List<String> _codes = <String>['S', 'M', 'L', 'XL'];
   List<int> _value = <int>[1, 0];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         WheelPicker(
           columns: <WheelColumn>[
-            WheelColumn(
-              items: <String>['Small', 'Medium', 'Large'],
-              width: 120,
-            ),
-            WheelColumn(items: <String>['S', 'M', 'L', 'XL']),
+            WheelColumn(items: _sizes, width: 120),
+            WheelColumn(items: _codes),
           ],
           value: _value,
           theme: const WheelPickerTheme(
@@ -264,8 +255,7 @@ class _CustomizedWheelState extends State<_CustomizedWheel> {
         ),
         Gap(theme.spacing.lg),
         Text(
-          '${<String>['Small', 'Medium', 'Large'][_value[0]]} / '
-          '${<String>['S', 'M', 'L', 'XL'][_value[1]]}',
+          '${_sizes[_value[0]]} / ${_codes[_value[1]]}',
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
       ],
@@ -277,11 +267,14 @@ Widget _customized(BuildContext context) => const _CustomizedWheel();
 
 /// A read-only wheel with no callback.
 Widget _readOnly(BuildContext context) {
-  return const WheelPicker(
-    columns: <WheelColumn>[
-      WheelColumn(items: <String>['One', 'Two', 'Three']),
-    ],
-    initialValue: <int>[1],
+  return const SizedBox(
+    width: 120,
+    child: WheelPicker(
+      columns: <WheelColumn>[
+        WheelColumn(items: <String>['One', 'Two', 'Three']),
+      ],
+      initialValue: <int>[1],
+    ),
   );
 }
 
