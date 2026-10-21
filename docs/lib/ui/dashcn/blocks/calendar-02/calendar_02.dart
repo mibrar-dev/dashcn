@@ -48,6 +48,7 @@ class _Calendar02State extends State<Calendar02> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            final strings = ComponentLocalizations.of(context);
             final bool aside = constraints.maxWidth >= 960;
             final Widget calendar = Card(
               child: Column(
@@ -85,7 +86,7 @@ class _Calendar02State extends State<Calendar02> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Book a meeting', style: theme.typography.h2),
+                Text(strings.blockBookMeeting, style: theme.typography.h2),
                 Gap(theme.spacing.xs),
                 Text(
                   'Pick a day, then a time that suits you.',
@@ -216,6 +217,7 @@ class _Calendar02Agenda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
@@ -226,8 +228,8 @@ class _Calendar02Agenda extends StatelessWidget {
           Gap(theme.spacing.sm),
           Text(
             slot == null
-                ? 'Four slots left, 30 minutes each. Pick one.'
-                : 'Picked $slot, 30 minutes.',
+                ? strings.blockFourSlots
+                : strings.blockPickedSlot(slot),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -251,7 +253,7 @@ class _Calendar02Agenda extends StatelessWidget {
           Button(
             enabled: slot != null,
             onPressed: onBook,
-            child: const Text('Book a meeting'),
+            child: Text(strings.blockBookMeeting),
           ),
         ],
       ),

@@ -856,4 +856,699 @@ class ComponentLocalizationsRu extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'Качество: Авто';
+
+  @override
+  String get blockDontHaveAccount => 'Нет учётной записи?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'Уже есть учётная запись?';
+
+  @override
+  String get blockNoAccountYet => 'Ещё нет учётной записи?';
+
+  @override
+  String get blockHaveAnAccount => 'Есть учётная запись?';
+
+  @override
+  String get blockCreateOne => 'Создать';
+
+  @override
+  String get blockCreateAccount => 'Создать учётную запись';
+
+  @override
+  String get blockCreateYourAccount => 'Создайте учётную запись';
+
+  @override
+  String get blockForgotYourPassword => 'Забыли пароль?';
+
+  @override
+  String get blockBackToSignIn => 'Назад ко входу';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'Введите учётные данные для доступа к рабочей области.';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'Введите учётные данные, чтобы продолжить.';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'Введите данные ниже, чтобы продолжить.';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'Введите адрес электронной почты, чтобы создать учётную запись.';
+
+  @override
+  String get blockSignedInWelcomeBack => 'Вход выполнен — с возвращением.';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'Учётная запись создана — проверьте входящие, чтобы подтвердить её.';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'Пробный период начат — проверьте входящие, чтобы подтвердить его.';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'Пароли не совпадают.';
+
+  @override
+  String get blockCurrentPassword => 'Текущий пароль';
+
+  @override
+  String get blockNewPassword => 'Новый пароль';
+
+  @override
+  String get blockConfirmNewPassword => 'Подтвердите новый пароль';
+
+  @override
+  String get blockUpdatePassword => 'Обновить пароль';
+
+  @override
+  String get blockPasswordUpdated => 'Пароль обновлён.';
+
+  @override
+  String get blockPasswordHintChange =>
+      'Минимум 8 символов. Изменение завершит сеансы в других местах.';
+
+  @override
+  String get blockUsername => 'Имя пользователя';
+
+  @override
+  String get blockUsernameHint => 'Строчные буквы, цифры, подчёркивания.';
+
+  @override
+  String get blockYourAvatar => 'Ваш аватар';
+
+  @override
+  String get blockUploadImage => 'Загрузить изображение';
+
+  @override
+  String get blockBio => 'О себе';
+
+  @override
+  String get blockBioHint => 'Расскажите немного о себе';
+
+  @override
+  String get blockBioCounterHint => 'До 160 символов.';
+
+  @override
+  String get blockProfileSaved => 'Профиль сохранён.';
+
+  @override
+  String get blockSaveChanges => 'Сохранить изменения';
+
+  @override
+  String get blockInviteMember => 'Пригласить участника';
+
+  @override
+  String get blockRoleAdmin => 'Администратор';
+
+  @override
+  String get blockRoleOwner => 'Владелец';
+
+  @override
+  String get blockRoleMember => 'Участник';
+
+  @override
+  String get blockTeam => 'Команда';
+
+  @override
+  String get blockProfile => 'Профиль';
+
+  @override
+  String get blockSignInWithEmail => 'Войти с помощью почты';
+
+  @override
+  String get blockSignUp => 'Зарегистрироваться';
+
+  @override
+  String get blockPickWayYouPrefer => 'Выберите удобный способ.';
+
+  @override
+  String blockContinueWith(Object? provider) => 'Продолжить с $provider';
+
+  @override
+  String get blockCreating => 'Создание…';
+
+  @override
+  String get blockSigningIn => 'Выполняется вход…';
+
+  @override
+  String get blockSending => 'Отправка…';
+
+  @override
+  String get blockSaving => 'Сохранение…';
+
+  @override
+  String get blockPaying => 'Оплата…';
+
+  @override
+  String get blockSendResetLink => 'Отправить ссылку для сброса';
+
+  @override
+  String get blockResetPassword => 'Сбросить пароль';
+
+  @override
+  String get blockResetLinkSent =>
+      'Ссылка для сброса отправлена. Проверьте входящие, чтобы продолжить.';
+
+  @override
+  String get blockWeWillEmailReset =>
+      'Мы отправим вам ссылку для сброса по почте.';
+
+  @override
+  String get blockMustAcceptTerms => 'Чтобы продолжить, примите условия.';
+
+  @override
+  String get blockCheckInbox => 'Проверьте входящие';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'Введите отправленный вам 6-значный код.';
+
+  @override
+  String get blockCodeVerifiedSignedIn =>
+      'Код подтверждён. Вы вошли в систему.';
+
+  @override
+  String get blockEmailVerifiedSet => 'Почта подтверждена — всё готово.';
+
+  @override
+  String get blockVerifyYourEmail => 'Подтвердите почту';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'Мы отправили 6-значный код на адрес $email.';
+
+  @override
+  String get blockDidntGetCode => 'Не получили код?';
+
+  @override
+  String get blockBack => 'Назад';
+
+  @override
+  String get blockBackToCart => 'Назад в корзину';
+
+  @override
+  String get blockBackToSettings => 'Назад к настройкам';
+
+  @override
+  String get blockOneAccountEverything => 'Одна учётная запись для всего.';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'Начните 14-дневный пробный период. Карта не нужна.';
+
+  @override
+  String get blockNotifications => 'Уведомления';
+
+  @override
+  String get blockNotifChoose => 'Выберите, о чём и где хотите узнавать.';
+
+  @override
+  String get blockEmailNotifications => 'Уведомления по почте';
+
+  @override
+  String get blockPushNotifications => 'Push-уведомления';
+
+  @override
+  String get blockMentionsReplies => 'Упоминания и ответы';
+
+  @override
+  String get blockDeliveredToDevices => 'Доставлено на ваши устройства';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'Почта · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'Push · $channel';
+
+  @override
+  String get blockQuietHours => 'Тихие часы';
+
+  @override
+  String get blockWeeklyDigest => 'Еженедельная сводка';
+
+  @override
+  String get blockWeeklyDigestBlurb =>
+      'Одно письмо каждый понедельник обо всём произошедшем.';
+
+  @override
+  String get blockPreferencesSaved => 'Настройки сохранены.';
+
+  @override
+  String get blockSavePreferences => 'Сохранить настройки';
+
+  @override
+  String get blockReset => 'Сбросить';
+
+  @override
+  String get blockWelcomeAboard => 'Добро пожаловать';
+
+  @override
+  String get blockQuickTour =>
+      'Краткий обзор перед началом использования приложения.';
+
+  @override
+  String get blockStayInLoop => 'Будьте в курсе';
+
+  @override
+  String get blockMessagesArriveMoment =>
+      'Сообщения и обновления приходят в момент их появления.';
+
+  @override
+  String get blockNeverMissThing => 'Ничего не пропускайте';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'Отправляем только важное: ответы, напоминания и оповещения безопасности. Позже можно изменить.';
+
+  @override
+  String get blockEnableNotifications => 'Включить уведомления?';
+
+  @override
+  String get blockAllowNotifications => 'Разрешить уведомления';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'Разрешите уведомления, чтобы использовать приложение по максимуму.';
+
+  @override
+  String get blockNotNow => 'Не сейчас';
+
+  @override
+  String get blockSkip => 'Пропустить';
+
+  @override
+  String get blockGetStarted => 'Начать';
+
+  @override
+  String get blockMessages => 'Сообщения';
+
+  @override
+  String get blockNoConversations => 'Нет бесед';
+
+  @override
+  String get blockPullRefreshChat =>
+      'Потяните, чтобы обновить, или начните новый чат.';
+
+  @override
+  String get blockMute => 'Заглушить';
+
+  @override
+  String get blockMuted => 'Заглушено';
+
+  @override
+  String get blockAttach => 'Прикрепить';
+
+  @override
+  String get blockAttachFile => 'Файл';
+
+  @override
+  String get blockAttachPhoto => 'Фото';
+
+  @override
+  String get blockWriteMessage => 'Напишите сообщение…';
+
+  @override
+  String get blockYourCart => 'Ваша корзина';
+
+  @override
+  String get blockAddSomethingFirst => 'Сначала добавьте что-нибудь любимое.';
+
+  @override
+  String get blockCartEmpty => 'Корзина пуста';
+
+  @override
+  String get blockCheckout => 'Оформление заказа';
+
+  @override
+  String blockQty(int quantity) => 'Кол-во $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => 'Оплатить $amount';
+
+  @override
+  String get blockPayment => 'Оплата';
+
+  @override
+  String get blockCardNumber => 'Номер карты';
+
+  @override
+  String get blockExpiry => 'Срок действия';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'Адрес доставки';
+
+  @override
+  String get blockStreet => 'Улица';
+
+  @override
+  String get blockCity => 'Город';
+
+  @override
+  String get blockSaveAndContinue => 'Сохранить и продолжить';
+
+  @override
+  String get blockOrderPlaced => 'Заказ оформлен';
+
+  @override
+  String get blockOrderThanks =>
+      'Спасибо за покупку. Подтверждение уже в пути.';
+
+  @override
+  String get blockContinueShopping => 'Продолжить покупки';
+
+  @override
+  String get blockSchedule => 'Расписание';
+
+  @override
+  String get blockPickDateRangeReport => 'Выберите диапазон дат для отчёта.';
+
+  @override
+  String get blockPickDateRange => 'Выбрать диапазон дат';
+
+  @override
+  String get blockTapAnotherDay =>
+      'коснитесь другого дня, чтобы расширить диапазон';
+
+  @override
+  String get blockBookMeeting => 'Забронировать встречу';
+
+  @override
+  String get blockPickDayTime => 'Выберите день, затем подходящее время.';
+
+  @override
+  String get blockFourSlots =>
+      'Осталось четыре окна по 30 минут. Выберите одно.';
+
+  @override
+  String blockPickedSlot(Object? slot) => 'Выбрано $slot, 30 минут.';
+
+  @override
+  String get blockOverview => 'Обзор';
+
+  @override
+  String get blockRevenueOrdersBlurb => 'Выручка, подписки и последние заказы.';
+
+  @override
+  String get blockTotalRevenue => 'Общая выручка';
+
+  @override
+  String get blockSubscriptions => 'Подписки';
+
+  @override
+  String get blockSales => 'Продажи';
+
+  @override
+  String get blockRevenueByMonth => 'Выручка по месяцам';
+
+  @override
+  String get blockRecentSales => 'Недавние продажи';
+
+  @override
+  String get blockViewAll => 'Показать всё';
+
+  @override
+  String get blockTransactions => 'Транзакции';
+
+  @override
+  String get blockFilterTransactions => 'Фильтровать транзакции';
+
+  @override
+  String get blockCustomer => 'Клиент';
+
+  @override
+  String get blockAmount => 'Сумма';
+
+  @override
+  String get blockMethod => 'Способ';
+
+  @override
+  String get blockStatus => 'Статус';
+
+  @override
+  String get blockPaid => 'Оплачено';
+
+  @override
+  String get blockPending => 'В ожидании';
+
+  @override
+  String get blockRefunded => 'Возвращено';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      'Нет транзакций, соответствующих "$query".';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => '$delta к прошлому месяцу';
+
+  @override
+  String get blockAnalytics => 'Аналитика';
+
+  @override
+  String get blockSessionsDevicesBlurb =>
+      'Сеансы, устройства и источники трафика.';
+
+  @override
+  String get blockSearchReports => 'Поиск по отчётам';
+
+  @override
+  String get blockLast30Days => 'Последние 30 дней';
+
+  @override
+  String get blockAllDevices => 'Все устройства';
+
+  @override
+  String get blockSessions => 'Сеансы';
+
+  @override
+  String get blockUsers => 'Пользователи';
+
+  @override
+  String get blockAvgSession => 'Ср. сеанс';
+
+  @override
+  String get blockBounceRate => 'Показатель отказов';
+
+  @override
+  String get blockConversions => 'Конверсии';
+
+  @override
+  String get blockByDevice => 'По устройствам';
+
+  @override
+  String get blockDesktop => 'ПК';
+
+  @override
+  String get blockMobile => 'Мобильные';
+
+  @override
+  String get blockTablet => 'Планшет';
+
+  @override
+  String get blockDirect => 'Прямой';
+
+  @override
+  String get blockReferral => 'Переход';
+
+  @override
+  String get blockSocial => 'Соцсети';
+
+  @override
+  String get blockTrafficSources => 'Источники трафика';
+
+  @override
+  String get blockVisitors => 'Посетители';
+
+  @override
+  String get blockHome => 'Главная';
+
+  @override
+  String get blockInbox => 'Входящие';
+
+  @override
+  String get blockCalendar => 'Календарь';
+
+  @override
+  String get blockCompose => 'Написать';
+
+  @override
+  String get blockMarkAllRead => 'Отметить всё прочитанным';
+
+  @override
+  String get blockStarred => 'Помеченные';
+
+  @override
+  String get blockSnoozed => 'Отложенные';
+
+  @override
+  String get blockUnread => 'Непрочитанные';
+
+  @override
+  String get blockDocuments => 'Документы';
+
+  @override
+  String get blockReports => 'Отчёты';
+
+  @override
+  String get blockDashboard => 'Панель';
+
+  @override
+  String get blockStorage => 'Хранилище';
+
+  @override
+  String get blockNavigation => 'Навигация';
+
+  @override
+  String get blockSharedWithYou => 'Доступно вам';
+
+  @override
+  String get blockRecentProjects => 'Недавние проекты';
+
+  @override
+  String get blockStorageUsed => 'Занято места';
+
+  @override
+  String get blockOpen => 'Открыть';
+
+  @override
+  String get blockLive => 'Вживую';
+
+  @override
+  String get blockMembers => 'Участники';
+
+  @override
+  String get blockProjects => 'Проекты';
+
+  @override
+  String get blockDeploys => 'Развёртывания';
+
+  @override
+  String get blockActivity => 'Активность';
+
+  @override
+  String get blockRecentFiles => 'Недавние файлы';
+
+  @override
+  String get blockUsageThisMonth => 'Использование за месяц';
+
+  @override
+  String get blockUpgradePlan => 'Улучшить тариф';
+
+  @override
+  String blockNoMatches(Object? query) => 'Нет совпадений для "$query".';
+
+  @override
+  String get blockWorkspaces => 'Рабочие области';
+
+  @override
+  String get blockPricing => 'Тарифы';
+
+  @override
+  String get blockPlansScale => 'Тарифы, которые растут вместе с вами';
+
+  @override
+  String get blockPlansBlurb =>
+      'Начните бесплатно и улучшайте тариф по мере роста команды. Каждый тариф включает полную библиотеку компонентов и пресеты темы.';
+
+  @override
+  String get blockPerUserMonth => 'за пользователя в месяц';
+
+  @override
+  String get blockSubscribe => 'Подписаться';
+
+  @override
+  String get blockContactSales => 'Связаться с отделом продаж';
+
+  @override
+  String get blockPromoCode => 'Промокод';
+
+  @override
+  String get blockApplyCode => 'Применить код';
+
+  @override
+  String get blockHaveCodeEnter => 'Есть код? Введите его ниже.';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'Код применён — скидка отобразится при оформлении.';
+
+  @override
+  String get blockFaqTitle => 'Вопросы';
+
+  @override
+  String get blockFaqChangePlans => 'Можно ли сменить тариф позже?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'Да. Улучшения действуют сразу, понижения — со следующего цикла.';
+
+  @override
+  String get blockFaqFreeTrial => 'Есть ли бесплатный пробный период?';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'Каждый тариф начинается с 14 дней, карта не нужна.';
+
+  @override
+  String get blockAccount => 'Учётная запись';
+
+  @override
+  String get blockGeneral => 'Общие';
+
+  @override
+  String get blockAppearance => 'Оформление';
+
+  @override
+  String get blockDarkMode => 'Тёмная тема';
+
+  @override
+  String get blockPreferences => 'Настройки';
+
+  @override
+  String get blockSignOut => 'Выйти';
+
+  @override
+  String get blockSignOutConfirm => 'Выйти?';
+
+  @override
+  String get blockSignOutBlurb => 'Вы всегда сможете войти снова.';
+
+  @override
+  String get blockSounds => 'Звуки';
+
+  @override
+  String get blockWhatYouGet => 'Что вы получаете';
+
+  @override
+  String get blockAllComponentCategories => 'Все категории компонентов';
+
+  @override
+  String get blockPrioritySupport => 'Приоритетная поддержка';
+
+  @override
+  String get blockUnlimitedProjectsTrial =>
+      'Безлимитные проекты во время пробного периода';
+
+  @override
+  String get blockTrialDaysLeft => 'Осталось 14 дней пробного периода';
+
+  @override
+  String get blockStarterChat => 'Чат';
+
+  @override
+  String get blockStarterShop => 'Магазин';
+
+  @override
+  String get blockStarterCart => 'Корзина';
+
+  @override
+  String get blockAddToCart => 'В корзину';
 }

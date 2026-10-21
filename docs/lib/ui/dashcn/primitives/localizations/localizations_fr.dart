@@ -863,4 +863,710 @@ class ComponentLocalizationsFr extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'Qualité Auto';
+
+  @override
+  String get blockDontHaveAccount => 'Pas encore de compte ?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'Vous avez déjà un compte ?';
+
+  @override
+  String get blockNoAccountYet => 'Pas encore de compte ?';
+
+  @override
+  String get blockHaveAnAccount => 'Vous avez un compte ?';
+
+  @override
+  String get blockCreateOne => 'Créez-en un';
+
+  @override
+  String get blockCreateAccount => 'Créer un compte';
+
+  @override
+  String get blockCreateYourAccount => 'Créez votre compte';
+
+  @override
+  String get blockForgotYourPassword => 'Mot de passe oublié ?';
+
+  @override
+  String get blockBackToSignIn => 'Retour à la connexion';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'Saisissez vos identifiants pour accéder à votre espace de travail.';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'Saisissez vos identifiants pour continuer.';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'Saisissez vos informations ci-dessous pour continuer.';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'Saisissez votre e-mail ci-dessous pour créer votre compte.';
+
+  @override
+  String get blockSignedInWelcomeBack => 'Connecté — bon retour parmi nous.';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'Compte créé — vérifiez votre boîte de réception pour le valider.';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'Essai démarré — vérifiez votre boîte de réception pour le valider.';
+
+  @override
+  String get blockPasswordsDoNotMatch =>
+      'Les mots de passe ne correspondent pas.';
+
+  @override
+  String get blockCurrentPassword => 'Mot de passe actuel';
+
+  @override
+  String get blockNewPassword => 'Nouveau mot de passe';
+
+  @override
+  String get blockConfirmNewPassword => 'Confirmer le nouveau mot de passe';
+
+  @override
+  String get blockUpdatePassword => 'Mettre à jour le mot de passe';
+
+  @override
+  String get blockPasswordUpdated => 'Mot de passe mis à jour.';
+
+  @override
+  String get blockPasswordHintChange =>
+      '8 caractères minimum. La modifier vous déconnecte ailleurs.';
+
+  @override
+  String get blockUsername => 'Nom d’utilisateur';
+
+  @override
+  String get blockUsernameHint =>
+      'Minuscules, chiffres, traits de soulignement.';
+
+  @override
+  String get blockYourAvatar => 'Votre avatar';
+
+  @override
+  String get blockUploadImage => 'Importer une image';
+
+  @override
+  String get blockBio => 'Biographie';
+
+  @override
+  String get blockBioHint => 'Parlez-nous un peu de vous';
+
+  @override
+  String get blockBioCounterHint => '160 caractères maximum.';
+
+  @override
+  String get blockProfileSaved => 'Profil enregistré.';
+
+  @override
+  String get blockSaveChanges => 'Enregistrer les modifications';
+
+  @override
+  String get blockInviteMember => 'Inviter un membre';
+
+  @override
+  String get blockRoleAdmin => 'Admin';
+
+  @override
+  String get blockRoleOwner => 'Propriétaire';
+
+  @override
+  String get blockRoleMember => 'Membre';
+
+  @override
+  String get blockTeam => 'Équipe';
+
+  @override
+  String get blockProfile => 'Profil';
+
+  @override
+  String get blockSignInWithEmail => 'Se connecter avec un e-mail';
+
+  @override
+  String get blockSignUp => 'S’inscrire';
+
+  @override
+  String get blockPickWayYouPrefer =>
+      'Choisissez la méthode que vous préférez.';
+
+  @override
+  String blockContinueWith(Object? provider) => 'Continuer avec $provider';
+
+  @override
+  String get blockCreating => 'Création en cours…';
+
+  @override
+  String get blockSigningIn => 'Connexion en cours…';
+
+  @override
+  String get blockSending => 'Envoi en cours…';
+
+  @override
+  String get blockSaving => 'Enregistrement en cours…';
+
+  @override
+  String get blockPaying => 'Paiement en cours…';
+
+  @override
+  String get blockSendResetLink => 'Envoyer le lien de réinitialisation';
+
+  @override
+  String get blockResetPassword => 'Réinitialiser le mot de passe';
+
+  @override
+  String get blockResetLinkSent =>
+      'Lien de réinitialisation envoyé. Vérifiez votre boîte de réception pour continuer.';
+
+  @override
+  String get blockWeWillEmailReset =>
+      'Nous vous enverrons un lien de réinitialisation par e-mail.';
+
+  @override
+  String get blockMustAcceptTerms =>
+      'Vous devez accepter les conditions pour continuer.';
+
+  @override
+  String get blockCheckInbox => 'Vérifiez votre boîte de réception';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'Saisissez le code à 6 chiffres que nous vous avons envoyé.';
+
+  @override
+  String get blockCodeVerifiedSignedIn => 'Code vérifié. Vous êtes connecté.';
+
+  @override
+  String get blockEmailVerifiedSet => 'E-mail vérifié — tout est prêt.';
+
+  @override
+  String get blockVerifyYourEmail => 'Vérifiez votre e-mail';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'Nous avons envoyé un code à 6 chiffres à $email.';
+
+  @override
+  String get blockDidntGetCode => 'Vous n’avez pas reçu le code ?';
+
+  @override
+  String get blockBack => 'Retour';
+
+  @override
+  String get blockBackToCart => 'Retour au panier';
+
+  @override
+  String get blockBackToSettings => 'Retour aux paramètres';
+
+  @override
+  String get blockOneAccountEverything => 'Un seul compte pour tout.';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'Démarrez votre essai de 14 jours. Aucune carte bancaire requise.';
+
+  @override
+  String get blockNotifications => 'Notifications';
+
+  @override
+  String get blockNotifChoose =>
+      'Choisissez ce dont vous voulez être informé, et où.';
+
+  @override
+  String get blockEmailNotifications => 'Notifications par e-mail';
+
+  @override
+  String get blockPushNotifications => 'Notifications push';
+
+  @override
+  String get blockMentionsReplies => 'Mentions et réponses';
+
+  @override
+  String get blockDeliveredToDevices => 'Livré sur vos appareils';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'E-mail · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'Push · $channel';
+
+  @override
+  String get blockQuietHours => 'Heures silencieuses';
+
+  @override
+  String get blockWeeklyDigest => 'Résumé hebdomadaire';
+
+  @override
+  String get blockWeeklyDigestBlurb =>
+      'Un e-mail chaque lundi avec tout ce qui s’est passé.';
+
+  @override
+  String get blockPreferencesSaved => 'Préférences enregistrées.';
+
+  @override
+  String get blockSavePreferences => 'Enregistrer les préférences';
+
+  @override
+  String get blockReset => 'Réinitialiser';
+
+  @override
+  String get blockWelcomeAboard => 'Bienvenue à bord';
+
+  @override
+  String get blockQuickTour =>
+      'Une visite rapide avant d’utiliser l’application.';
+
+  @override
+  String get blockStayInLoop => 'Restez informé';
+
+  @override
+  String get blockMessagesArriveMoment =>
+      'Les messages et nouveautés arrivent dès qu’ils se produisent.';
+
+  @override
+  String get blockNeverMissThing => 'Ne manquez rien';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'Nous n’envoyons que l’essentiel : réponses, rappels et alertes de sécurité. Vous pourrez modifier cela plus tard.';
+
+  @override
+  String get blockEnableNotifications => 'Activer les notifications ?';
+
+  @override
+  String get blockAllowNotifications => 'Autoriser les notifications';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'Autorisez les notifications pour profiter au mieux de l’application.';
+
+  @override
+  String get blockNotNow => 'Pas maintenant';
+
+  @override
+  String get blockSkip => 'Passer';
+
+  @override
+  String get blockGetStarted => 'Commencer';
+
+  @override
+  String get blockMessages => 'Messages';
+
+  @override
+  String get blockNoConversations => 'Aucune conversation';
+
+  @override
+  String get blockPullRefreshChat =>
+      'Tirez pour actualiser ou démarrez une nouvelle discussion.';
+
+  @override
+  String get blockMute => 'Mettre en sourdine';
+
+  @override
+  String get blockMuted => 'En sourdine';
+
+  @override
+  String get blockAttach => 'Joindre';
+
+  @override
+  String get blockAttachFile => 'Fichier';
+
+  @override
+  String get blockAttachPhoto => 'Photo';
+
+  @override
+  String get blockWriteMessage => 'Écrivez un message…';
+
+  @override
+  String get blockYourCart => 'Votre panier';
+
+  @override
+  String get blockAddSomethingFirst =>
+      'Ajoutez d’abord quelque chose que vous aimez.';
+
+  @override
+  String get blockCartEmpty => 'Le panier est vide';
+
+  @override
+  String get blockCheckout => 'Commander';
+
+  @override
+  String blockQty(int quantity) => 'Qté $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => 'Payer $amount';
+
+  @override
+  String get blockPayment => 'Paiement';
+
+  @override
+  String get blockCardNumber => 'Numéro de carte';
+
+  @override
+  String get blockExpiry => 'Expiration';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'Adresse de livraison';
+
+  @override
+  String get blockStreet => 'Rue';
+
+  @override
+  String get blockCity => 'Ville';
+
+  @override
+  String get blockSaveAndContinue => 'Enregistrer et continuer';
+
+  @override
+  String get blockOrderPlaced => 'Commande passée';
+
+  @override
+  String get blockOrderThanks =>
+      'Merci de vos achats. Une confirmation est en route.';
+
+  @override
+  String get blockContinueShopping => 'Continuer mes achats';
+
+  @override
+  String get blockSchedule => 'Planning';
+
+  @override
+  String get blockPickDateRangeReport =>
+      'Choisissez une plage de dates pour votre rapport.';
+
+  @override
+  String get blockPickDateRange => 'Choisir une plage de dates';
+
+  @override
+  String get blockTapAnotherDay =>
+      'touchez un autre jour pour étendre la plage';
+
+  @override
+  String get blockBookMeeting => 'Réserver une réunion';
+
+  @override
+  String get blockPickDayTime =>
+      'Choisissez un jour, puis un horaire qui vous convient.';
+
+  @override
+  String get blockFourSlots =>
+      'Il reste quatre créneaux de 30 minutes. Choisissez-en un.';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot sélectionné, 30 minutes.';
+
+  @override
+  String get blockOverview => 'Aperçu';
+
+  @override
+  String get blockRevenueOrdersBlurb =>
+      'Revenus, abonnements et commandes les plus récentes.';
+
+  @override
+  String get blockTotalRevenue => 'Chiffre d’affaires total';
+
+  @override
+  String get blockSubscriptions => 'Abonnements';
+
+  @override
+  String get blockSales => 'Ventes';
+
+  @override
+  String get blockRevenueByMonth => 'Revenus par mois';
+
+  @override
+  String get blockRecentSales => 'Ventes récentes';
+
+  @override
+  String get blockViewAll => 'Tout voir';
+
+  @override
+  String get blockTransactions => 'Transactions';
+
+  @override
+  String get blockFilterTransactions => 'Filtrer les transactions';
+
+  @override
+  String get blockCustomer => 'Client';
+
+  @override
+  String get blockAmount => 'Montant';
+
+  @override
+  String get blockMethod => 'Moyen';
+
+  @override
+  String get blockStatus => 'Statut';
+
+  @override
+  String get blockPaid => 'Payé';
+
+  @override
+  String get blockPending => 'En attente';
+
+  @override
+  String get blockRefunded => 'Remboursé';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      'Aucune transaction ne correspond à « $query ».';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) =>
+      '$delta par rapport au mois dernier';
+
+  @override
+  String get blockAnalytics => 'Statistiques';
+
+  @override
+  String get blockSessionsDevicesBlurb =>
+      'Sessions, appareils et origine du trafic.';
+
+  @override
+  String get blockSearchReports => 'Rechercher dans les rapports';
+
+  @override
+  String get blockLast30Days => '30 derniers jours';
+
+  @override
+  String get blockAllDevices => 'Tous les appareils';
+
+  @override
+  String get blockSessions => 'Sessions';
+
+  @override
+  String get blockUsers => 'Utilisateurs';
+
+  @override
+  String get blockAvgSession => 'Session moy.';
+
+  @override
+  String get blockBounceRate => 'Taux de rebond';
+
+  @override
+  String get blockConversions => 'Conversions';
+
+  @override
+  String get blockByDevice => 'Par appareil';
+
+  @override
+  String get blockDesktop => 'Ordinateur';
+
+  @override
+  String get blockMobile => 'Mobile';
+
+  @override
+  String get blockTablet => 'Tablette';
+
+  @override
+  String get blockDirect => 'Direct';
+
+  @override
+  String get blockReferral => 'Parrainage';
+
+  @override
+  String get blockSocial => 'Réseaux sociaux';
+
+  @override
+  String get blockTrafficSources => 'Sources de trafic';
+
+  @override
+  String get blockVisitors => 'Visiteurs';
+
+  @override
+  String get blockHome => 'Accueil';
+
+  @override
+  String get blockInbox => 'Boîte de réception';
+
+  @override
+  String get blockCalendar => 'Calendrier';
+
+  @override
+  String get blockCompose => 'Rédiger';
+
+  @override
+  String get blockMarkAllRead => 'Tout marquer comme lu';
+
+  @override
+  String get blockStarred => 'Suivis';
+
+  @override
+  String get blockSnoozed => 'En attente';
+
+  @override
+  String get blockUnread => 'Non lus';
+
+  @override
+  String get blockDocuments => 'Documents';
+
+  @override
+  String get blockReports => 'Rapports';
+
+  @override
+  String get blockDashboard => 'Tableau de bord';
+
+  @override
+  String get blockStorage => 'Stockage';
+
+  @override
+  String get blockNavigation => 'Navigation';
+
+  @override
+  String get blockSharedWithYou => 'Partagé avec vous';
+
+  @override
+  String get blockRecentProjects => 'Projets récents';
+
+  @override
+  String get blockStorageUsed => 'Stockage utilisé';
+
+  @override
+  String get blockOpen => 'Ouvrir';
+
+  @override
+  String get blockLive => 'En direct';
+
+  @override
+  String get blockMembers => 'Membres';
+
+  @override
+  String get blockProjects => 'Projets';
+
+  @override
+  String get blockDeploys => 'Déploiements';
+
+  @override
+  String get blockActivity => 'Activité';
+
+  @override
+  String get blockRecentFiles => 'Fichiers récents';
+
+  @override
+  String get blockUsageThisMonth => 'Utilisation ce mois-ci';
+
+  @override
+  String get blockUpgradePlan => 'Passer au plan supérieur';
+
+  @override
+  String blockNoMatches(Object? query) => 'Aucun résultat pour « $query ».';
+
+  @override
+  String get blockWorkspaces => 'Espaces de travail';
+
+  @override
+  String get blockPricing => 'Tarifs';
+
+  @override
+  String get blockPlansScale => 'Des formules qui grandissent avec vous';
+
+  @override
+  String get blockPlansBlurb =>
+      'Commencez gratuitement, passez au niveau supérieur quand votre équipe grandit. Chaque formule inclut toute la bibliothèque de composants et les préréglages de thème.';
+
+  @override
+  String get blockPerUserMonth => 'par utilisateur / mois';
+
+  @override
+  String get blockSubscribe => 'S’abonner';
+
+  @override
+  String get blockContactSales => 'Contacter les ventes';
+
+  @override
+  String get blockPromoCode => 'Code promo';
+
+  @override
+  String get blockApplyCode => 'Appliquer le code';
+
+  @override
+  String get blockHaveCodeEnter =>
+      'Vous avez un code ? Saisissez-le ci-dessous.';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'Code appliqué — votre remise s’affiche au moment du paiement.';
+
+  @override
+  String get blockFaqTitle => 'Questions';
+
+  @override
+  String get blockFaqChangePlans => 'Puis-je changer de formule plus tard ?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'Oui. Les surclassements s’appliquent aussitôt, les rétrogradations au cycle suivant.';
+
+  @override
+  String get blockFaqFreeTrial => 'Y a-t-il un essai gratuit ?';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'Chaque formule commence par 14 jours, sans carte requise.';
+
+  @override
+  String get blockAccount => 'Compte';
+
+  @override
+  String get blockGeneral => 'Général';
+
+  @override
+  String get blockAppearance => 'Apparence';
+
+  @override
+  String get blockDarkMode => 'Mode sombre';
+
+  @override
+  String get blockPreferences => 'Préférences';
+
+  @override
+  String get blockSignOut => 'Se déconnecter';
+
+  @override
+  String get blockSignOutConfirm => 'Se déconnecter ?';
+
+  @override
+  String get blockSignOutBlurb =>
+      'Vous pourrez toujours vous reconnecter plus tard.';
+
+  @override
+  String get blockSounds => 'Sons';
+
+  @override
+  String get blockWhatYouGet => 'Ce que vous obtenez';
+
+  @override
+  String get blockAllComponentCategories =>
+      'Toutes les catégories de composants';
+
+  @override
+  String get blockPrioritySupport => 'Assistance prioritaire';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'Projets illimités pendant l’essai';
+
+  @override
+  String get blockTrialDaysLeft => 'Plus que 14 jours d’essai';
+
+  @override
+  String get blockStarterChat => 'Discussion';
+
+  @override
+  String get blockStarterShop => 'Boutique';
+
+  @override
+  String get blockStarterCart => 'Panier';
+
+  @override
+  String get blockAddToCart => 'Ajouter au panier';
 }

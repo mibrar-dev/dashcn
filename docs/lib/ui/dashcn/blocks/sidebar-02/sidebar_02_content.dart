@@ -11,6 +11,7 @@ import '../../components/divider/divider.dart';
 import '../../components/progress/progress.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The sample content area: stats, usage, files and activity.
 class Sidebar02Content extends StatelessWidget {
@@ -22,6 +23,7 @@ class Sidebar02Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -53,7 +55,10 @@ class Sidebar02Content extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Usage this month', style: theme.typography.textLarge),
+              Text(
+                strings.blockUsageThisMonth,
+                style: theme.typography.textLarge,
+              ),
               Gap(theme.spacing.lg),
               const Progress(value: 0.68),
               Gap(theme.spacing.sm),
@@ -66,7 +71,7 @@ class Sidebar02Content extends StatelessWidget {
               Gap(theme.spacing.lg),
               const Divider(),
               Gap(theme.spacing.lg),
-              Button(onPressed: () {}, child: const Text('Upgrade plan')),
+              Button(onPressed: () {}, child: Text(strings.blockUpgradePlan)),
             ],
           ),
         ),
@@ -141,6 +146,7 @@ class _Sidebar02Files extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     const List<(String, String, String)> files = <(String, String, String)>[
       ('SM', 'Summer lookbook.pdf', '2.4 MB · edited 3m ago'),
@@ -152,7 +158,7 @@ class _Sidebar02Files extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Recent files', style: theme.typography.textLarge),
+          Text(strings.blockRecentFiles, style: theme.typography.textLarge),
           Gap(theme.spacing.lg),
           for (final (String, String, String) file in files) ...<Widget>[
             Row(
@@ -190,6 +196,7 @@ class _Sidebar02Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Ada deployed Marketing site to production', '12m ago'),
@@ -201,7 +208,7 @@ class _Sidebar02Activity extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Activity', style: theme.typography.textLarge),
+          Text(strings.blockActivity, style: theme.typography.textLarge),
           Gap(theme.spacing.lg),
           for (final (String, String) event in events) ...<Widget>[
             Row(

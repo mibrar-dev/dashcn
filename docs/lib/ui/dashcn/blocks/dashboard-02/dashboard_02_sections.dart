@@ -10,12 +10,14 @@ import '../../components/progress/progress.dart';
 import '../../components/tabs/tabs.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 class Dashboard02Chart extends StatelessWidget {
   const Dashboard02Chart({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<double> series = <double>[
@@ -40,7 +42,10 @@ class Dashboard02Chart extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: Text('Visitors', style: theme.typography.textLarge),
+                child: Text(
+                  strings.blockVisitors,
+                  style: theme.typography.textLarge,
+                ),
               ),
               const Spacer(),
               const _Dashboard02Legend('Desktop', 0),
@@ -121,6 +126,7 @@ class Dashboard02Sources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<_Dashboard02Source> sources = <_Dashboard02Source>[
@@ -134,7 +140,7 @@ class Dashboard02Sources extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Traffic sources', style: theme.typography.textLarge),
+          Text(strings.blockTrafficSources, style: theme.typography.textLarge),
           Gap(spacing.lg),
           for (final source in sources) ...<Widget>[
             Text(source.label, style: theme.typography.textSmall),
@@ -162,6 +168,7 @@ class Dashboard02Devices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
     const List<_Dashboard02Device> devices = <_Dashboard02Device>[
@@ -174,7 +181,7 @@ class Dashboard02Devices extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('By device', style: theme.typography.textLarge),
+          Text(strings.blockByDevice, style: theme.typography.textLarge),
           Gap(spacing.lg),
           for (final device in devices) ...<Widget>[
             _Dashboard02DeviceRow(device: device),
@@ -249,6 +256,7 @@ class _Dashboard02TabsState extends State<Dashboard02Tabs> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     // `Tabs` measures its strip at natural width; on a phone the three labels
     // do not fit, so the strip scrolls instead of overflowing.
     return SingleChildScrollView(
@@ -256,10 +264,10 @@ class _Dashboard02TabsState extends State<Dashboard02Tabs> {
       child: Tabs(
         index: _index,
         onChanged: (int value) => setState(() => _index = value),
-        children: const <TabItem>[
-          TabItem(child: Text('Overview')),
-          TabItem(child: Text('Sessions')),
-          TabItem(child: Text('Conversions')),
+        children: <TabItem>[
+          TabItem(child: Text(strings.blockOverview)),
+          TabItem(child: Text(strings.blockSessions)),
+          TabItem(child: Text(strings.blockConversions)),
         ],
       ),
     );

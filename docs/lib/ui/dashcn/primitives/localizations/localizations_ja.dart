@@ -833,4 +833,672 @@ class ComponentLocalizationsJa extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => '画質 自動';
+
+  @override
+  String get blockDontHaveAccount => 'アカウントをお持ちでないですか?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'すでにアカウントをお持ちですか?';
+
+  @override
+  String get blockNoAccountYet => 'まだアカウントがありませんか?';
+
+  @override
+  String get blockHaveAnAccount => 'アカウントをお持ちですか?';
+
+  @override
+  String get blockCreateOne => '作成する';
+
+  @override
+  String get blockCreateAccount => 'アカウントを作成';
+
+  @override
+  String get blockCreateYourAccount => 'アカウントを作成する';
+
+  @override
+  String get blockForgotYourPassword => 'パスワードをお忘れですか?';
+
+  @override
+  String get blockBackToSignIn => 'サインインに戻る';
+
+  @override
+  String get blockEnterCredentialsWorkspace => 'ワークスペースにアクセスするには資格情報を入力してください。';
+
+  @override
+  String get blockEnterCredentialsContinue => '続行するには資格情報を入力してください。';
+
+  @override
+  String get blockEnterDetailsContinue => '続行するには以下に詳細を入力してください。';
+
+  @override
+  String get blockEnterEmailCreateAccount => 'アカウントを作成するには以下にメールアドレスを入力してください。';
+
+  @override
+  String get blockSignedInWelcomeBack => 'サインインしました。おかえりなさい。';
+
+  @override
+  String get blockAccountCreatedVerify => 'アカウントを作成しました。確認のため受信トレイをご覧ください。';
+
+  @override
+  String get blockTrialStartedVerify => 'トライアルを開始しました。確認のため受信トレイをご覧ください。';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'パスワードが一致しません。';
+
+  @override
+  String get blockCurrentPassword => '現在のパスワード';
+
+  @override
+  String get blockNewPassword => '新しいパスワード';
+
+  @override
+  String get blockConfirmNewPassword => '新しいパスワードを確認';
+
+  @override
+  String get blockUpdatePassword => 'パスワードを更新';
+
+  @override
+  String get blockPasswordUpdated => 'パスワードを更新しました。';
+
+  @override
+  String get blockPasswordHintChange => '8文字以上。変更すると他の場所からサインアウトします。';
+
+  @override
+  String get blockUsername => 'ユーザー名';
+
+  @override
+  String get blockUsernameHint => '小文字、数字、アンダースコア。';
+
+  @override
+  String get blockYourAvatar => 'あなたのアバター';
+
+  @override
+  String get blockUploadImage => '画像をアップロード';
+
+  @override
+  String get blockBio => '自己紹介';
+
+  @override
+  String get blockBioHint => 'あなたについて少し教えてください';
+
+  @override
+  String get blockBioCounterHint => '最大160文字。';
+
+  @override
+  String get blockProfileSaved => 'プロフィールを保存しました。';
+
+  @override
+  String get blockSaveChanges => '変更を保存';
+
+  @override
+  String get blockInviteMember => 'メンバーを招待';
+
+  @override
+  String get blockRoleAdmin => '管理者';
+
+  @override
+  String get blockRoleOwner => 'オーナー';
+
+  @override
+  String get blockRoleMember => 'メンバー';
+
+  @override
+  String get blockTeam => 'チーム';
+
+  @override
+  String get blockProfile => 'プロフィール';
+
+  @override
+  String get blockSignInWithEmail => 'メールでサインイン';
+
+  @override
+  String get blockSignUp => 'サインアップ';
+
+  @override
+  String get blockPickWayYouPrefer => 'お好みの方法を選んでください。';
+
+  @override
+  String blockContinueWith(Object? provider) => '$provider で続行';
+
+  @override
+  String get blockCreating => '作成中…';
+
+  @override
+  String get blockSigningIn => 'サインイン中…';
+
+  @override
+  String get blockSending => '送信中…';
+
+  @override
+  String get blockSaving => '保存中…';
+
+  @override
+  String get blockPaying => '支払い中…';
+
+  @override
+  String get blockSendResetLink => 'リセットリンクを送信';
+
+  @override
+  String get blockResetPassword => 'パスワードをリセット';
+
+  @override
+  String get blockResetLinkSent => 'リセットリンクを送信しました。続行するには受信トレイをご確認ください。';
+
+  @override
+  String get blockWeWillEmailReset => 'リセットリンクをメールでお送りします。';
+
+  @override
+  String get blockMustAcceptTerms => '続行するには利用規約に同意してください。';
+
+  @override
+  String get blockCheckInbox => '受信トレイを確認';
+
+  @override
+  String get blockEnterSixDigitCode => 'お送りした6桁のコードを入力してください。';
+
+  @override
+  String get blockCodeVerifiedSignedIn => 'コードを確認しました。サインインしています。';
+
+  @override
+  String get blockEmailVerifiedSet => 'メールを確認しました。準備完了です。';
+
+  @override
+  String get blockVerifyYourEmail => 'メールを確認する';
+
+  @override
+  String blockWeSentCodeTo(Object? email) => '$email に6桁のコードを送信しました。';
+
+  @override
+  String get blockDidntGetCode => 'コードが届きませんでしたか?';
+
+  @override
+  String get blockBack => '戻る';
+
+  @override
+  String get blockBackToCart => 'カートに戻る';
+
+  @override
+  String get blockBackToSettings => '設定に戻る';
+
+  @override
+  String get blockOneAccountEverything => 'すべてに1つのアカウント。';
+
+  @override
+  String get blockStartTrialNoCard => '14日間のトライアルを開始。クレジットカードは不要です。';
+
+  @override
+  String get blockNotifications => '通知';
+
+  @override
+  String get blockNotifChoose => '何についてどこで知りたいかを選択してください。';
+
+  @override
+  String get blockEmailNotifications => 'メール通知';
+
+  @override
+  String get blockPushNotifications => 'プッシュ通知';
+
+  @override
+  String get blockMentionsReplies => 'メンションと返信';
+
+  @override
+  String get blockDeliveredToDevices => 'お使いのデバイスに配信';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'メール · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'プッシュ · $channel';
+
+  @override
+  String get blockQuietHours => 'クワイエットアワー';
+
+  @override
+  String get blockWeeklyDigest => '週間ダイジェスト';
+
+  @override
+  String get blockWeeklyDigestBlurb => '毎週月曜日に起きたことをまとめたメールを1通。';
+
+  @override
+  String get blockPreferencesSaved => '設定を保存しました。';
+
+  @override
+  String get blockSavePreferences => '設定を保存';
+
+  @override
+  String get blockReset => 'リセット';
+
+  @override
+  String get blockWelcomeAboard => 'ようこそ';
+
+  @override
+  String get blockQuickTour => 'アプリを使い始める前のクイックツアー。';
+
+  @override
+  String get blockStayInLoop => '最新情報をチェック';
+
+  @override
+  String get blockMessagesArriveMoment => 'メッセージと更新は発生した瞬間に届きます。';
+
+  @override
+  String get blockNeverMissThing => '見逃しなし';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      '重要なものだけを送信します: 返信、リマインダー、セキュリティアラート。後で変更できます。';
+
+  @override
+  String get blockEnableNotifications => '通知を有効にしますか?';
+
+  @override
+  String get blockAllowNotifications => '通知を許可';
+
+  @override
+  String get blockAllowNotificationsBlurb => 'アプリを最大限に活用するには通知を許可してください。';
+
+  @override
+  String get blockNotNow => '後で';
+
+  @override
+  String get blockSkip => 'スキップ';
+
+  @override
+  String get blockGetStarted => 'はじめる';
+
+  @override
+  String get blockMessages => 'メッセージ';
+
+  @override
+  String get blockNoConversations => '会話がありません';
+
+  @override
+  String get blockPullRefreshChat => '引っ張って更新するか、新しいチャットを開始してください。';
+
+  @override
+  String get blockMute => 'ミュート';
+
+  @override
+  String get blockMuted => 'ミュート中';
+
+  @override
+  String get blockAttach => '添付';
+
+  @override
+  String get blockAttachFile => 'ファイル';
+
+  @override
+  String get blockAttachPhoto => '写真';
+
+  @override
+  String get blockWriteMessage => 'メッセージを書く…';
+
+  @override
+  String get blockYourCart => 'カート';
+
+  @override
+  String get blockAddSomethingFirst => 'まずお気に入りを1つ追加してください。';
+
+  @override
+  String get blockCartEmpty => 'カートは空です';
+
+  @override
+  String get blockCheckout => 'チェックアウト';
+
+  @override
+  String blockQty(int quantity) => '数量 $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '$amount を支払う';
+
+  @override
+  String get blockPayment => 'お支払い';
+
+  @override
+  String get blockCardNumber => 'カード番号';
+
+  @override
+  String get blockExpiry => '有効期限';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => '配送先住所';
+
+  @override
+  String get blockStreet => '番地';
+
+  @override
+  String get blockCity => '市区町村';
+
+  @override
+  String get blockSaveAndContinue => '保存して続行';
+
+  @override
+  String get blockOrderPlaced => '注文が確定しました';
+
+  @override
+  String get blockOrderThanks => 'お買い上げありがとうございます。確認メールをお送りします。';
+
+  @override
+  String get blockContinueShopping => '買い物を続ける';
+
+  @override
+  String get blockSchedule => 'スケジュール';
+
+  @override
+  String get blockPickDateRangeReport => 'レポートの期間を選択してください。';
+
+  @override
+  String get blockPickDateRange => '期間を選択';
+
+  @override
+  String get blockTapAnotherDay => '別の日をタップして期間を延長';
+
+  @override
+  String get blockBookMeeting => '会議を予約';
+
+  @override
+  String get blockPickDayTime => '日を選んでから都合のよい時間を選んでください。';
+
+  @override
+  String get blockFourSlots => '30分枠があと4つあります。1つ選択してください。';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot を選択、30分。';
+
+  @override
+  String get blockOverview => '概要';
+
+  @override
+  String get blockRevenueOrdersBlurb => '収益、サブスクリプション、最新の注文。';
+
+  @override
+  String get blockTotalRevenue => '総収益';
+
+  @override
+  String get blockSubscriptions => 'サブスクリプション';
+
+  @override
+  String get blockSales => '売上';
+
+  @override
+  String get blockRevenueByMonth => '月別収益';
+
+  @override
+  String get blockRecentSales => '最近の売上';
+
+  @override
+  String get blockViewAll => 'すべて見る';
+
+  @override
+  String get blockTransactions => '取引';
+
+  @override
+  String get blockFilterTransactions => '取引を絞り込む';
+
+  @override
+  String get blockCustomer => '顧客';
+
+  @override
+  String get blockAmount => '金額';
+
+  @override
+  String get blockMethod => '方法';
+
+  @override
+  String get blockStatus => 'ステータス';
+
+  @override
+  String get blockPaid => '支払い済み';
+
+  @override
+  String get blockPending => '保留中';
+
+  @override
+  String get blockRefunded => '返金済み';
+
+  @override
+  String blockNoTransactions(Object? query) => '“$query”に一致する取引がありません。';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => '先月比 $delta';
+
+  @override
+  String get blockAnalytics => 'アナリティクス';
+
+  @override
+  String get blockSessionsDevicesBlurb => 'セッション、デバイス、トラフィックの流入元。';
+
+  @override
+  String get blockSearchReports => 'レポートを検索';
+
+  @override
+  String get blockLast30Days => '過去30日間';
+
+  @override
+  String get blockAllDevices => 'すべてのデバイス';
+
+  @override
+  String get blockSessions => 'セッション';
+
+  @override
+  String get blockUsers => 'ユーザー';
+
+  @override
+  String get blockAvgSession => '平均セッション';
+
+  @override
+  String get blockBounceRate => '直帰率';
+
+  @override
+  String get blockConversions => 'コンバージョン';
+
+  @override
+  String get blockByDevice => 'デバイス別';
+
+  @override
+  String get blockDesktop => 'デスクトップ';
+
+  @override
+  String get blockMobile => 'モバイル';
+
+  @override
+  String get blockTablet => 'タブレット';
+
+  @override
+  String get blockDirect => '直接';
+
+  @override
+  String get blockReferral => 'リファラル';
+
+  @override
+  String get blockSocial => 'ソーシャル';
+
+  @override
+  String get blockTrafficSources => 'トラフィックソース';
+
+  @override
+  String get blockVisitors => '訪問者';
+
+  @override
+  String get blockHome => 'ホーム';
+
+  @override
+  String get blockInbox => '受信トレイ';
+
+  @override
+  String get blockCalendar => 'カレンダー';
+
+  @override
+  String get blockCompose => '作成';
+
+  @override
+  String get blockMarkAllRead => 'すべて既読にする';
+
+  @override
+  String get blockStarred => 'スター付き';
+
+  @override
+  String get blockSnoozed => 'スヌーズ中';
+
+  @override
+  String get blockUnread => '未読';
+
+  @override
+  String get blockDocuments => 'ドキュメント';
+
+  @override
+  String get blockReports => 'レポート';
+
+  @override
+  String get blockDashboard => 'ダッシュボード';
+
+  @override
+  String get blockStorage => 'ストレージ';
+
+  @override
+  String get blockNavigation => 'ナビゲーション';
+
+  @override
+  String get blockSharedWithYou => 'あなたと共有';
+
+  @override
+  String get blockRecentProjects => '最近のプロジェクト';
+
+  @override
+  String get blockStorageUsed => '使用中のストレージ';
+
+  @override
+  String get blockOpen => '開く';
+
+  @override
+  String get blockLive => 'ライブ';
+
+  @override
+  String get blockMembers => 'メンバー';
+
+  @override
+  String get blockProjects => 'プロジェクト';
+
+  @override
+  String get blockDeploys => 'デプロイ';
+
+  @override
+  String get blockActivity => 'アクティビティ';
+
+  @override
+  String get blockRecentFiles => '最近のファイル';
+
+  @override
+  String get blockUsageThisMonth => '今月の使用量';
+
+  @override
+  String get blockUpgradePlan => 'プランをアップグレード';
+
+  @override
+  String blockNoMatches(Object? query) => '“$query”に一致する結果がありません。';
+
+  @override
+  String get blockWorkspaces => 'ワークスペース';
+
+  @override
+  String get blockPricing => '料金';
+
+  @override
+  String get blockPlansScale => 'あなたとともに成長するプラン';
+
+  @override
+  String get blockPlansBlurb =>
+      '無料で開始し、チームの成長に合わせてアップグレード。すべてのプランに完全なコンポーネントライブラリとテーマプリセットが含まれます。';
+
+  @override
+  String get blockPerUserMonth => 'ユーザーあたり / 月';
+
+  @override
+  String get blockSubscribe => '申し込む';
+
+  @override
+  String get blockContactSales => '営業に問い合わせる';
+
+  @override
+  String get blockPromoCode => 'プロモコード';
+
+  @override
+  String get blockApplyCode => 'コードを適用';
+
+  @override
+  String get blockHaveCodeEnter => 'コードをお持ちですか? 以下に入力してください。';
+
+  @override
+  String get blockCodeAppliedDiscount => 'コードを適用しました。割引はチェックアウト時に表示されます。';
+
+  @override
+  String get blockFaqTitle => 'よくある質問';
+
+  @override
+  String get blockFaqChangePlans => '後でプランを変更できますか?';
+
+  @override
+  String get blockFaqChangePlansAnswer => 'はい。アップグレードは即時適用、ダウングレードは次回サイクルからです。';
+
+  @override
+  String get blockFaqFreeTrial => '無料トライアルはありますか?';
+
+  @override
+  String get blockFaqFreeTrialAnswer => 'すべてのプランは14日間から開始、カードは不要です。';
+
+  @override
+  String get blockAccount => 'アカウント';
+
+  @override
+  String get blockGeneral => '一般';
+
+  @override
+  String get blockAppearance => '外観';
+
+  @override
+  String get blockDarkMode => 'ダークモード';
+
+  @override
+  String get blockPreferences => '設定';
+
+  @override
+  String get blockSignOut => 'サインアウト';
+
+  @override
+  String get blockSignOutConfirm => 'サインアウトしますか?';
+
+  @override
+  String get blockSignOutBlurb => '後でいつでも再びサインインできます。';
+
+  @override
+  String get blockSounds => 'サウンド';
+
+  @override
+  String get blockWhatYouGet => '内容';
+
+  @override
+  String get blockAllComponentCategories => 'すべてのコンポーネントカテゴリ';
+
+  @override
+  String get blockPrioritySupport => '優先サポート';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'トライアル中は無制限のプロジェクト';
+
+  @override
+  String get blockTrialDaysLeft => 'トライアル残り14日';
+
+  @override
+  String get blockStarterChat => 'チャット';
+
+  @override
+  String get blockStarterShop => 'ショップ';
+
+  @override
+  String get blockStarterCart => 'カート';
+
+  @override
+  String get blockAddToCart => 'カートに追加';
 }

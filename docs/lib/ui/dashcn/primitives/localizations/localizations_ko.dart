@@ -830,4 +830,673 @@ class ComponentLocalizationsKo extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => '화질 자동';
+
+  @override
+  String get blockDontHaveAccount => '계정이 없으신가요?';
+
+  @override
+  String get blockAlreadyHaveAccount => '이미 계정이 있으신가요?';
+
+  @override
+  String get blockNoAccountYet => '아직 계정이 없으신가요?';
+
+  @override
+  String get blockHaveAnAccount => '계정이 있으신가요?';
+
+  @override
+  String get blockCreateOne => '만들기';
+
+  @override
+  String get blockCreateAccount => '계정 만들기';
+
+  @override
+  String get blockCreateYourAccount => '계정 만들기';
+
+  @override
+  String get blockForgotYourPassword => '비밀번호를 잊으셨나요?';
+
+  @override
+  String get blockBackToSignIn => '로그인으로 돌아가기';
+
+  @override
+  String get blockEnterCredentialsWorkspace => '워크스페이스에 액세스하려면 자격 증명을 입력하세요.';
+
+  @override
+  String get blockEnterCredentialsContinue => '계속하려면 자격 증명을 입력하세요.';
+
+  @override
+  String get blockEnterDetailsContinue => '계속하려면 아래에 세부 정보를 입력하세요.';
+
+  @override
+  String get blockEnterEmailCreateAccount => '계정을 만들려면 아래에 이메일을 입력하세요.';
+
+  @override
+  String get blockSignedInWelcomeBack => '로그인됨 — 다시 오신 것을 환영합니다.';
+
+  @override
+  String get blockAccountCreatedVerify => '계정이 생성됨 — 확인하려면 받은 편지함을 확인하세요.';
+
+  @override
+  String get blockTrialStartedVerify => '체험이 시작됨 — 확인하려면 받은 편지함을 확인하세요.';
+
+  @override
+  String get blockPasswordsDoNotMatch => '비밀번호가 일치하지 않습니다.';
+
+  @override
+  String get blockCurrentPassword => '현재 비밀번호';
+
+  @override
+  String get blockNewPassword => '새 비밀번호';
+
+  @override
+  String get blockConfirmNewPassword => '새 비밀번호 확인';
+
+  @override
+  String get blockUpdatePassword => '비밀번호 업데이트';
+
+  @override
+  String get blockPasswordUpdated => '비밀번호가 업데이트됨.';
+
+  @override
+  String get blockPasswordHintChange => '8자 이상. 변경하면 다른 곳에서 로그아웃됩니다.';
+
+  @override
+  String get blockUsername => '사용자 이름';
+
+  @override
+  String get blockUsernameHint => '소문자, 숫자, 밑줄.';
+
+  @override
+  String get blockYourAvatar => '내 아바타';
+
+  @override
+  String get blockUploadImage => '이미지 업로드';
+
+  @override
+  String get blockBio => '소개';
+
+  @override
+  String get blockBioHint => '자신에 대해 조금 알려주세요';
+
+  @override
+  String get blockBioCounterHint => '최대 160자.';
+
+  @override
+  String get blockProfileSaved => '프로필이 저장됨.';
+
+  @override
+  String get blockSaveChanges => '변경 사항 저장';
+
+  @override
+  String get blockInviteMember => '구성원 초대';
+
+  @override
+  String get blockRoleAdmin => '관리자';
+
+  @override
+  String get blockRoleOwner => '소유자';
+
+  @override
+  String get blockRoleMember => '구성원';
+
+  @override
+  String get blockTeam => '팀';
+
+  @override
+  String get blockProfile => '프로필';
+
+  @override
+  String get blockSignInWithEmail => '이메일로 로그인';
+
+  @override
+  String get blockSignUp => '가입하기';
+
+  @override
+  String get blockPickWayYouPrefer => '원하는 방식을 선택하세요.';
+
+  @override
+  String blockContinueWith(Object? provider) => '$provider(으)로 계속하기';
+
+  @override
+  String get blockCreating => '만드는 중…';
+
+  @override
+  String get blockSigningIn => '로그인 중…';
+
+  @override
+  String get blockSending => '보내는 중…';
+
+  @override
+  String get blockSaving => '저장 중…';
+
+  @override
+  String get blockPaying => '결제 중…';
+
+  @override
+  String get blockSendResetLink => '재설정 링크 보내기';
+
+  @override
+  String get blockResetPassword => '비밀번호 재설정';
+
+  @override
+  String get blockResetLinkSent => '재설정 링크가 전송됨. 계속하려면 받은 편지함을 확인하세요.';
+
+  @override
+  String get blockWeWillEmailReset => '재설정 링크를 이메일로 보내드리겠습니다.';
+
+  @override
+  String get blockMustAcceptTerms => '계속하려면 약관에 동의해야 합니다.';
+
+  @override
+  String get blockCheckInbox => '받은 편지함 확인';
+
+  @override
+  String get blockEnterSixDigitCode => '보내드린 6자리 코드를 입력하세요.';
+
+  @override
+  String get blockCodeVerifiedSignedIn => '코드가 확인됨. 로그인되었습니다.';
+
+  @override
+  String get blockEmailVerifiedSet => '이메일이 확인됨 — 준비 완료.';
+
+  @override
+  String get blockVerifyYourEmail => '이메일 확인';
+
+  @override
+  String blockWeSentCodeTo(Object? email) => '$email(으)로 6자리 코드를 보냈습니다.';
+
+  @override
+  String get blockDidntGetCode => '코드를 받지 못하셨나요?';
+
+  @override
+  String get blockBack => '뒤로';
+
+  @override
+  String get blockBackToCart => '장바구니로 돌아가기';
+
+  @override
+  String get blockBackToSettings => '설정으로 돌아가기';
+
+  @override
+  String get blockOneAccountEverything => '모든 것을 위한 하나의 계정.';
+
+  @override
+  String get blockStartTrialNoCard => '14일 체험을 시작하세요. 신용카드가 필요 없습니다.';
+
+  @override
+  String get blockNotifications => '알림';
+
+  @override
+  String get blockNotifChoose => '무엇에 대해 어디에서 듣고 싶은지 선택하세요.';
+
+  @override
+  String get blockEmailNotifications => '이메일 알림';
+
+  @override
+  String get blockPushNotifications => '푸시 알림';
+
+  @override
+  String get blockMentionsReplies => '멘션 및 답글';
+
+  @override
+  String get blockDeliveredToDevices => '내 기기에 전송됨';
+
+  @override
+  String blockEmailChannel(Object? channel) => '이메일 · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => '푸시 · $channel';
+
+  @override
+  String get blockQuietHours => '방해 금지 시간';
+
+  @override
+  String get blockWeeklyDigest => '주간 다이제스트';
+
+  @override
+  String get blockWeeklyDigestBlurb => '일어난 모든 일을 담은 이메일, 매주 월요일.';
+
+  @override
+  String get blockPreferencesSaved => '환경설정이 저장됨.';
+
+  @override
+  String get blockSavePreferences => '환경설정 저장';
+
+  @override
+  String get blockReset => '재설정';
+
+  @override
+  String get blockWelcomeAboard => '환영합니다';
+
+  @override
+  String get blockQuickTour => '앱 사용 전 간단한 둘러보기.';
+
+  @override
+  String get blockStayInLoop => '소식을 받아보세요';
+
+  @override
+  String get blockMessagesArriveMoment => '메시지와 업데이트가 발생하는 즉시 도착합니다.';
+
+  @override
+  String get blockNeverMissThing => '아무것도 놓치지 마세요';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      '중요한 것만 보냅니다: 답글, 리마인더 및 보안 알림. 나중에 변경할 수 있습니다.';
+
+  @override
+  String get blockEnableNotifications => '알림을 사용하시겠습니까?';
+
+  @override
+  String get blockAllowNotifications => '알림 허용';
+
+  @override
+  String get blockAllowNotificationsBlurb => '앱을 최대한 활용하려면 알림을 허용하세요.';
+
+  @override
+  String get blockNotNow => '나중에';
+
+  @override
+  String get blockSkip => '건너뛰기';
+
+  @override
+  String get blockGetStarted => '시작하기';
+
+  @override
+  String get blockMessages => '메시지';
+
+  @override
+  String get blockNoConversations => '대화 없음';
+
+  @override
+  String get blockPullRefreshChat => '당겨서 새로고침하거나 새 채팅을 시작하세요.';
+
+  @override
+  String get blockMute => '음소거';
+
+  @override
+  String get blockMuted => '음소거됨';
+
+  @override
+  String get blockAttach => '첨부';
+
+  @override
+  String get blockAttachFile => '파일';
+
+  @override
+  String get blockAttachPhoto => '사진';
+
+  @override
+  String get blockWriteMessage => '메시지 작성…';
+
+  @override
+  String get blockYourCart => '내 장바구니';
+
+  @override
+  String get blockAddSomethingFirst => '먼저 마음에 드는 것을 추가하세요.';
+
+  @override
+  String get blockCartEmpty => '장바구니가 비어 있음';
+
+  @override
+  String get blockCheckout => '결제하기';
+
+  @override
+  String blockQty(int quantity) => '수량 $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '$amount 결제';
+
+  @override
+  String get blockPayment => '결제';
+
+  @override
+  String get blockCardNumber => '카드 번호';
+
+  @override
+  String get blockExpiry => '만료일';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => '배송 주소';
+
+  @override
+  String get blockStreet => '도로명';
+
+  @override
+  String get blockCity => '도시';
+
+  @override
+  String get blockSaveAndContinue => '저장하고 계속하기';
+
+  @override
+  String get blockOrderPlaced => '주문이 완료됨';
+
+  @override
+  String get blockOrderThanks => '이용해 주셔서 감사합니다. 확인서가 전송 중입니다.';
+
+  @override
+  String get blockContinueShopping => '계속 쇼핑하기';
+
+  @override
+  String get blockSchedule => '일정';
+
+  @override
+  String get blockPickDateRangeReport => '보고서의 날짜 범위를 선택하세요.';
+
+  @override
+  String get blockPickDateRange => '날짜 범위 선택';
+
+  @override
+  String get blockTapAnotherDay => '다른 날짜를 탭하여 범위 확장';
+
+  @override
+  String get blockBookMeeting => '회의 예약';
+
+  @override
+  String get blockPickDayTime => '날짜를 고른 뒤 편한 시간을 선택하세요.';
+
+  @override
+  String get blockFourSlots => '30분 슬롯 4개 남음. 하나를 선택하세요.';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot 선택, 30분.';
+
+  @override
+  String get blockOverview => '개요';
+
+  @override
+  String get blockRevenueOrdersBlurb => '수익, 구독 및 최근 주문.';
+
+  @override
+  String get blockTotalRevenue => '총 수익';
+
+  @override
+  String get blockSubscriptions => '구독';
+
+  @override
+  String get blockSales => '매출';
+
+  @override
+  String get blockRevenueByMonth => '월별 수익';
+
+  @override
+  String get blockRecentSales => '최근 매출';
+
+  @override
+  String get blockViewAll => '모두 보기';
+
+  @override
+  String get blockTransactions => '거래';
+
+  @override
+  String get blockFilterTransactions => '거래 필터링';
+
+  @override
+  String get blockCustomer => '고객';
+
+  @override
+  String get blockAmount => '금액';
+
+  @override
+  String get blockMethod => '수단';
+
+  @override
+  String get blockStatus => '상태';
+
+  @override
+  String get blockPaid => '결제됨';
+
+  @override
+  String get blockPending => '보류 중';
+
+  @override
+  String get blockRefunded => '환불됨';
+
+  @override
+  String blockNoTransactions(Object? query) => '“$query”와(과) 일치하는 거래가 없습니다.';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => '지난달 대비 $delta';
+
+  @override
+  String get blockAnalytics => '분석';
+
+  @override
+  String get blockSessionsDevicesBlurb => '세션, 기기 및 트래픽 유입 경로.';
+
+  @override
+  String get blockSearchReports => '보고서 검색';
+
+  @override
+  String get blockLast30Days => '지난 30일';
+
+  @override
+  String get blockAllDevices => '모든 기기';
+
+  @override
+  String get blockSessions => '세션';
+
+  @override
+  String get blockUsers => '사용자';
+
+  @override
+  String get blockAvgSession => '평균 세션';
+
+  @override
+  String get blockBounceRate => '이탈률';
+
+  @override
+  String get blockConversions => '전환';
+
+  @override
+  String get blockByDevice => '기기별';
+
+  @override
+  String get blockDesktop => '데스크톱';
+
+  @override
+  String get blockMobile => '모바일';
+
+  @override
+  String get blockTablet => '태블릿';
+
+  @override
+  String get blockDirect => '직접';
+
+  @override
+  String get blockReferral => '추천';
+
+  @override
+  String get blockSocial => '소셜';
+
+  @override
+  String get blockTrafficSources => '트래픽 소스';
+
+  @override
+  String get blockVisitors => '방문자';
+
+  @override
+  String get blockHome => '홈';
+
+  @override
+  String get blockInbox => '받은 편지함';
+
+  @override
+  String get blockCalendar => '캘린더';
+
+  @override
+  String get blockCompose => '쓰기';
+
+  @override
+  String get blockMarkAllRead => '모두 읽음으로 표시';
+
+  @override
+  String get blockStarred => '별표';
+
+  @override
+  String get blockSnoozed => '다시 알림';
+
+  @override
+  String get blockUnread => '읽지 않음';
+
+  @override
+  String get blockDocuments => '문서';
+
+  @override
+  String get blockReports => '보고서';
+
+  @override
+  String get blockDashboard => '대시보드';
+
+  @override
+  String get blockStorage => '저장소';
+
+  @override
+  String get blockNavigation => '탐색';
+
+  @override
+  String get blockSharedWithYou => '나와 공유됨';
+
+  @override
+  String get blockRecentProjects => '최근 프로젝트';
+
+  @override
+  String get blockStorageUsed => '사용 중인 저장소';
+
+  @override
+  String get blockOpen => '열기';
+
+  @override
+  String get blockLive => '라이브';
+
+  @override
+  String get blockMembers => '구성원';
+
+  @override
+  String get blockProjects => '프로젝트';
+
+  @override
+  String get blockDeploys => '배포';
+
+  @override
+  String get blockActivity => '활동';
+
+  @override
+  String get blockRecentFiles => '최근 파일';
+
+  @override
+  String get blockUsageThisMonth => '이번 달 사용량';
+
+  @override
+  String get blockUpgradePlan => '플랜 업그레이드';
+
+  @override
+  String blockNoMatches(Object? query) => '“$query”에 대한 결과 없음.';
+
+  @override
+  String get blockWorkspaces => '워크스페이스';
+
+  @override
+  String get blockPricing => '요금제';
+
+  @override
+  String get blockPlansScale => '함께 성장하는 플랜';
+
+  @override
+  String get blockPlansBlurb =>
+      '무료로 시작하고 팀이 성장하면 업그레이드하세요. 모든 플랜에 전체 컴포넌트 라이브러리와 테마 프리셋이 포함됩니다.';
+
+  @override
+  String get blockPerUserMonth => '사용자당 / 월';
+
+  @override
+  String get blockSubscribe => '구독하기';
+
+  @override
+  String get blockContactSales => '영업팀에 문의';
+
+  @override
+  String get blockPromoCode => '프로모 코드';
+
+  @override
+  String get blockApplyCode => '코드 적용';
+
+  @override
+  String get blockHaveCodeEnter => '코드가 있으신가요? 아래에 입력하세요.';
+
+  @override
+  String get blockCodeAppliedDiscount => '코드가 적용됨 — 할인이 결제 시 표시됩니다.';
+
+  @override
+  String get blockFaqTitle => '질문';
+
+  @override
+  String get blockFaqChangePlans => '나중에 플랜을 변경할 수 있나요?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      '예. 업그레이드는 즉시 적용되며 다운그레이드는 다음 주기부터 적용됩니다.';
+
+  @override
+  String get blockFaqFreeTrial => '무료 체험이 있나요?';
+
+  @override
+  String get blockFaqFreeTrialAnswer => '모든 플랜은 14일로 시작하며 카드가 필요 없습니다.';
+
+  @override
+  String get blockAccount => '계정';
+
+  @override
+  String get blockGeneral => '일반';
+
+  @override
+  String get blockAppearance => '모양';
+
+  @override
+  String get blockDarkMode => '다크 모드';
+
+  @override
+  String get blockPreferences => '환경설정';
+
+  @override
+  String get blockSignOut => '로그아웃';
+
+  @override
+  String get blockSignOutConfirm => '로그아웃하시겠습니까?';
+
+  @override
+  String get blockSignOutBlurb => '나중에 언제든 다시 로그인할 수 있습니다.';
+
+  @override
+  String get blockSounds => '사운드';
+
+  @override
+  String get blockWhatYouGet => '제공 내용';
+
+  @override
+  String get blockAllComponentCategories => '모든 컴포넌트 카테고리';
+
+  @override
+  String get blockPrioritySupport => '우선 지원';
+
+  @override
+  String get blockUnlimitedProjectsTrial => '체험 기간 중 무제한 프로젝트';
+
+  @override
+  String get blockTrialDaysLeft => '체험 14일 남음';
+
+  @override
+  String get blockStarterChat => '채팅';
+
+  @override
+  String get blockStarterShop => '쇼핑';
+
+  @override
+  String get blockStarterCart => '장바구니';
+
+  @override
+  String get blockAddToCart => '장바구니에 추가';
 }

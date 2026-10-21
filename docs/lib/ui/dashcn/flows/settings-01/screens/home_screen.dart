@@ -13,6 +13,7 @@ import '../../../components/switch/switch.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'account_sheet.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Grouped settings list.
 class Settings01HomeScreen extends StatefulWidget {
@@ -73,18 +74,18 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
     final bool? confirmed = await showAlertDialog<bool>(
       context: context,
       useRootNavigator: false,
-      title: const Text('Sign out?'),
-      description: const Text('You can always sign back in later.'),
+      title: Text(ComponentLocalizations.of(context).blockSignOutConfirm),
+      description: Text(ComponentLocalizations.of(context).blockSignOutBlurb),
       actionsBuilder: (BuildContext dialogContext) => <Widget>[
         Button(
           variant: ButtonVariant.outline,
           onPressed: () => Navigator.pop(dialogContext, false),
-          child: const Text('Cancel'),
+          child: Text(ComponentLocalizations.of(context).buttonCancel),
         ),
         Button(
           variant: ButtonVariant.destructive,
           onPressed: () => Navigator.pop(dialogContext, true),
-          child: const Text('Sign out'),
+          child: Text(ComponentLocalizations.of(context).blockSignOut),
         ),
       ],
     );
@@ -95,6 +96,7 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -135,10 +137,10 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
                       ),
                       Gap(appTheme.spacing.lg),
                       _Section(
-                        title: 'Preferences',
+                        title: strings.blockPreferences,
                         children: <Widget>[
                           _ToggleRow(
-                            label: 'Notifications',
+                            label: strings.blockNotifications,
                             value: _notifications,
                             onChanged: (bool value) {
                               setState(() => _notifications = value);
@@ -146,7 +148,7 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
                             },
                           ),
                           _ToggleRow(
-                            label: 'Dark mode',
+                            label: strings.blockDarkMode,
                             value: _darkMode,
                             onChanged: (bool value) {
                               setState(() => _darkMode = value);
@@ -157,21 +159,21 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
                       ),
                       Gap(appTheme.spacing.md),
                       _Section(
-                        title: 'General',
+                        title: strings.blockGeneral,
                         children: <Widget>[
                           _NavRow(
-                            label: 'Notifications',
+                            label: strings.blockNotifications,
                             onTap: () => Navigator.of(
                               context,
                             ).pushNamed('/notifications'),
                           ),
                           _NavRow(
-                            label: 'Appearance',
+                            label: strings.blockAppearance,
                             onTap: () =>
                                 Navigator.of(context).pushNamed('/appearance'),
                           ),
                           _NavRow(
-                            label: 'Account',
+                            label: strings.blockAccount,
                             onTap: () => setState(() => _sheetOpen = true),
                           ),
                         ],
@@ -181,7 +183,7 @@ class _Settings01HomeScreenState extends State<Settings01HomeScreen> {
                         key: const ValueKey<String>('settings01.signout'),
                         variant: ButtonVariant.outline,
                         onPressed: _confirmSignOut,
-                        child: const Text('Sign out'),
+                        child: Text(strings.blockSignOut),
                       ),
                     ],
                   ),

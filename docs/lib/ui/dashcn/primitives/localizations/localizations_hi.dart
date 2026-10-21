@@ -852,4 +852,694 @@ class ComponentLocalizationsHi extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'गुणवत्ता ऑटो';
+
+  @override
+  String get blockDontHaveAccount => 'खाता नहीं है?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'क्या पहले से खाता है?';
+
+  @override
+  String get blockNoAccountYet => 'अभी तक खाता नहीं है?';
+
+  @override
+  String get blockHaveAnAccount => 'खाता है?';
+
+  @override
+  String get blockCreateOne => 'एक बनाएं';
+
+  @override
+  String get blockCreateAccount => 'खाता बनाएं';
+
+  @override
+  String get blockCreateYourAccount => 'अपना खाता बनाएं';
+
+  @override
+  String get blockForgotYourPassword => 'पासवर्ड भूल गए?';
+
+  @override
+  String get blockBackToSignIn => 'साइन इन पर वापस जाएं';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'अपने कार्यक्षेत्र तक पहुंचने के लिए अपने क्रेडेंशियल दर्ज करें।';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'जारी रखने के लिए अपने क्रेडेंशियल दर्ज करें।';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'जारी रखने के लिए नीचे अपना विवरण दर्ज करें।';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'अपना खाता बनाने के लिए नीचे अपना ईमेल दर्ज करें।';
+
+  @override
+  String get blockSignedInWelcomeBack => 'साइन इन हो गया — वापस स्वागत है।';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'खाता बन गया — सत्यापित करने के लिए अपना इनबॉक्स देखें।';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'परीक्षण शुरू हो गया — सत्यापित करने के लिए अपना इनबॉक्स देखें।';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'पासवर्ड मेल नहीं खाते।';
+
+  @override
+  String get blockCurrentPassword => 'वर्तमान पासवर्ड';
+
+  @override
+  String get blockNewPassword => 'नया पासवर्ड';
+
+  @override
+  String get blockConfirmNewPassword => 'नए पासवर्ड की पुष्टि करें';
+
+  @override
+  String get blockUpdatePassword => 'पासवर्ड अपडेट करें';
+
+  @override
+  String get blockPasswordUpdated => 'पासवर्ड अपडेट हो गया।';
+
+  @override
+  String get blockPasswordHintChange =>
+      'कम से कम 8 वर्ण। इसे बदलने से आप अन्य जगहों से साइन आउट हो जाएंगे।';
+
+  @override
+  String get blockUsername => 'उपयोगकर्ता नाम';
+
+  @override
+  String get blockUsernameHint => 'छोटे अक्षर, अंक, अंडरस्कोर।';
+
+  @override
+  String get blockYourAvatar => 'आपका अवतार';
+
+  @override
+  String get blockUploadImage => 'छवि अपलोड करें';
+
+  @override
+  String get blockBio => 'परिचय';
+
+  @override
+  String get blockBioHint => 'अपने बारे में थोड़ा बताएं';
+
+  @override
+  String get blockBioCounterHint => 'अधिकतम 160 वर्ण।';
+
+  @override
+  String get blockProfileSaved => 'प्रोफ़ाइल सहेजी गई।';
+
+  @override
+  String get blockSaveChanges => 'परिवर्तन सहेजें';
+
+  @override
+  String get blockInviteMember => 'सदस्य आमंत्रित करें';
+
+  @override
+  String get blockRoleAdmin => 'व्यवस्थापक';
+
+  @override
+  String get blockRoleOwner => 'स्वामी';
+
+  @override
+  String get blockRoleMember => 'सदस्य';
+
+  @override
+  String get blockTeam => 'टीम';
+
+  @override
+  String get blockProfile => 'प्रोफ़ाइल';
+
+  @override
+  String get blockSignInWithEmail => 'ईमेल से साइन इन करें';
+
+  @override
+  String get blockSignUp => 'साइन अप करें';
+
+  @override
+  String get blockPickWayYouPrefer => 'अपना पसंदीदा तरीका चुनें।';
+
+  @override
+  String blockContinueWith(Object? provider) => '$provider के साथ जारी रखें';
+
+  @override
+  String get blockCreating => 'बनाया जा रहा है…';
+
+  @override
+  String get blockSigningIn => 'साइन इन हो रहा है…';
+
+  @override
+  String get blockSending => 'भेजा जा रहा है…';
+
+  @override
+  String get blockSaving => 'सहेजा जा रहा है…';
+
+  @override
+  String get blockPaying => 'भुगतान हो रहा है…';
+
+  @override
+  String get blockSendResetLink => 'रीसेट लिंक भेजें';
+
+  @override
+  String get blockResetPassword => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get blockResetLinkSent =>
+      'रीसेट लिंक भेजा गया। जारी रखने के लिए अपना इनबॉक्स देखें।';
+
+  @override
+  String get blockWeWillEmailReset => 'हम आपको ईमेल से रीसेट लिंक भेजेंगे।';
+
+  @override
+  String get blockMustAcceptTerms =>
+      'जारी रखने के लिए आपको शर्तें स्वीकार करनी होंगी।';
+
+  @override
+  String get blockCheckInbox => 'अपना इनबॉक्स देखें';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'आपको भेजा गया 6 अंकों का कोड दर्ज करें।';
+
+  @override
+  String get blockCodeVerifiedSignedIn => 'कोड सत्यापित। आप साइन इन हैं।';
+
+  @override
+  String get blockEmailVerifiedSet => 'ईमेल सत्यापित — सब तैयार है।';
+
+  @override
+  String get blockVerifyYourEmail => 'अपना ईमेल सत्यापित करें';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'हमने $email पर छह अंकों का कोड भेजा है।';
+
+  @override
+  String get blockDidntGetCode => 'कोड नहीं मिला?';
+
+  @override
+  String get blockBack => 'पीछे';
+
+  @override
+  String get blockBackToCart => 'कार्ट पर वापस जाएं';
+
+  @override
+  String get blockBackToSettings => 'सेटिंग्स पर वापस जाएं';
+
+  @override
+  String get blockOneAccountEverything => 'सब कुछ के लिए एक खाता।';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'अपना 14-दिवसीय परीक्षण शुरू करें। क्रेडिट कार्ड की आवश्यकता नहीं।';
+
+  @override
+  String get blockNotifications => 'सूचनाएं';
+
+  @override
+  String get blockNotifChoose =>
+      'चुनें कि आप किस बारे में और कहां सुनना चाहते हैं।';
+
+  @override
+  String get blockEmailNotifications => 'ईमेल सूचनाएं';
+
+  @override
+  String get blockPushNotifications => 'पुश सूचनाएं';
+
+  @override
+  String get blockMentionsReplies => 'उल्लेख और उत्तर';
+
+  @override
+  String get blockDeliveredToDevices => 'आपके उपकरणों पर वितरित';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'ईमेल · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'पुश · $channel';
+
+  @override
+  String get blockQuietHours => 'शांत समय';
+
+  @override
+  String get blockWeeklyDigest => 'साप्ताहिक सारांश';
+
+  @override
+  String get blockWeeklyDigestBlurb => 'हर सोमवार को सब कुछ के साथ एक ईमेल।';
+
+  @override
+  String get blockPreferencesSaved => 'प्राथमिकताएं सहेजी गईं।';
+
+  @override
+  String get blockSavePreferences => 'प्राथमिकताएं सहेजें';
+
+  @override
+  String get blockReset => 'रीसेट करें';
+
+  @override
+  String get blockWelcomeAboard => 'स्वागत है';
+
+  @override
+  String get blockQuickTour => 'ऐप का उपयोग शुरू करने से पहले एक त्वरित परिचय।';
+
+  @override
+  String get blockStayInLoop => 'अपडेट रहें';
+
+  @override
+  String get blockMessagesArriveMoment => 'संदेश और अपडेट होते ही पहुंचते हैं।';
+
+  @override
+  String get blockNeverMissThing => 'कुछ भी न चूकें';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'हम केवल महत्वपूर्ण भेजते हैं: उत्तर, अनुस्मारक और सुरक्षा अलर्ट। आप इसे बाद में बदल सकते हैं।';
+
+  @override
+  String get blockEnableNotifications => 'सूचनाएं सक्षम करें?';
+
+  @override
+  String get blockAllowNotifications => 'सूचनाओं की अनुमति दें';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'ऐप का भरपूर लाभ लेने के लिए सूचनाओं की अनुमति दें।';
+
+  @override
+  String get blockNotNow => 'अभी नहीं';
+
+  @override
+  String get blockSkip => 'छोड़ें';
+
+  @override
+  String get blockGetStarted => 'शुरू करें';
+
+  @override
+  String get blockMessages => 'संदेश';
+
+  @override
+  String get blockNoConversations => 'कोई वार्तालाप नहीं';
+
+  @override
+  String get blockPullRefreshChat =>
+      'रीफ़्रेश करने के लिए खींचें या नई चैट शुरू करें।';
+
+  @override
+  String get blockMute => 'म्यूट करें';
+
+  @override
+  String get blockMuted => 'म्यूट किया गया';
+
+  @override
+  String get blockAttach => 'संलग्न करें';
+
+  @override
+  String get blockAttachFile => 'फ़ाइल';
+
+  @override
+  String get blockAttachPhoto => 'फ़ोटो';
+
+  @override
+  String get blockWriteMessage => 'संदेश लिखें…';
+
+  @override
+  String get blockYourCart => 'आपकी कार्ट';
+
+  @override
+  String get blockAddSomethingFirst => 'पहले कुछ ऐसा जोड़ें जो आपको पसंद हो।';
+
+  @override
+  String get blockCartEmpty => 'कार्ट खाली है';
+
+  @override
+  String get blockCheckout => 'चेकआउट';
+
+  @override
+  String blockQty(int quantity) => 'मात्रा $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '$amount का भुगतान करें';
+
+  @override
+  String get blockPayment => 'भुगतान';
+
+  @override
+  String get blockCardNumber => 'कार्ड नंबर';
+
+  @override
+  String get blockExpiry => 'समाप्ति';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'वितरण पता';
+
+  @override
+  String get blockStreet => 'गली';
+
+  @override
+  String get blockCity => 'शहर';
+
+  @override
+  String get blockSaveAndContinue => 'सहेजें और जारी रखें';
+
+  @override
+  String get blockOrderPlaced => 'ऑर्डर हो गया';
+
+  @override
+  String get blockOrderThanks =>
+      'हमारे साथ खरीदारी के लिए धन्यवाद। पुष्टि आ रही है।';
+
+  @override
+  String get blockContinueShopping => 'खरीदारी जारी रखें';
+
+  @override
+  String get blockSchedule => 'अनुसूची';
+
+  @override
+  String get blockPickDateRangeReport => 'अपनी रिपोर्ट के लिए तिथि सीमा चुनें।';
+
+  @override
+  String get blockPickDateRange => 'तिथि सीमा चुनें';
+
+  @override
+  String get blockTapAnotherDay => 'सीमा बढ़ाने के लिए दूसरे दिन पर टैप करें';
+
+  @override
+  String get blockBookMeeting => 'मीटिंग बुक करें';
+
+  @override
+  String get blockPickDayTime => 'एक दिन चुनें, फिर उपयुक्त समय चुनें।';
+
+  @override
+  String get blockFourSlots => '30-30 मिनट के चार स्लॉट बचे हैं। एक चुनें।';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot चुना गया, 30 मिनट।';
+
+  @override
+  String get blockOverview => 'अवलोकन';
+
+  @override
+  String get blockRevenueOrdersBlurb =>
+      'राजस्व, सदस्यताएं और सबसे हाल के ऑर्डर।';
+
+  @override
+  String get blockTotalRevenue => 'कुल राजस्व';
+
+  @override
+  String get blockSubscriptions => 'सदस्यताएं';
+
+  @override
+  String get blockSales => 'बिक्री';
+
+  @override
+  String get blockRevenueByMonth => 'माह अनुसार राजस्व';
+
+  @override
+  String get blockRecentSales => 'हाल की बिक्री';
+
+  @override
+  String get blockViewAll => 'सभी देखें';
+
+  @override
+  String get blockTransactions => 'लेनदेन';
+
+  @override
+  String get blockFilterTransactions => 'लेनदेन फ़िल्टर करें';
+
+  @override
+  String get blockCustomer => 'ग्राहक';
+
+  @override
+  String get blockAmount => 'राशि';
+
+  @override
+  String get blockMethod => 'विधि';
+
+  @override
+  String get blockStatus => 'स्थिति';
+
+  @override
+  String get blockPaid => 'भुगतान किया गया';
+
+  @override
+  String get blockPending => 'लंबित';
+
+  @override
+  String get blockRefunded => 'वापस किया गया';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      '“$query” से कोई लेनदेन मेल नहीं खाता।';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => 'पिछले महीने से $delta';
+
+  @override
+  String get blockAnalytics => 'विश्लेषण';
+
+  @override
+  String get blockSessionsDevicesBlurb =>
+      'सत्र, उपकरण और ट्रैफ़िक कहां से आया।';
+
+  @override
+  String get blockSearchReports => 'रिपोर्ट खोजें';
+
+  @override
+  String get blockLast30Days => 'पिछले 30 दिन';
+
+  @override
+  String get blockAllDevices => 'सभी उपकरण';
+
+  @override
+  String get blockSessions => 'सत्र';
+
+  @override
+  String get blockUsers => 'उपयोगकर्ता';
+
+  @override
+  String get blockAvgSession => 'औसत सत्र';
+
+  @override
+  String get blockBounceRate => 'बाउंस दर';
+
+  @override
+  String get blockConversions => 'रूपांतरण';
+
+  @override
+  String get blockByDevice => 'उपकरण अनुसार';
+
+  @override
+  String get blockDesktop => 'डेस्कटॉप';
+
+  @override
+  String get blockMobile => 'मोबाइल';
+
+  @override
+  String get blockTablet => 'टैबलेट';
+
+  @override
+  String get blockDirect => 'प्रत्यक्ष';
+
+  @override
+  String get blockReferral => 'रेफ़रल';
+
+  @override
+  String get blockSocial => 'सोशल';
+
+  @override
+  String get blockTrafficSources => 'ट्रैफ़िक स्रोत';
+
+  @override
+  String get blockVisitors => 'आगंतुक';
+
+  @override
+  String get blockHome => 'होम';
+
+  @override
+  String get blockInbox => 'इनबॉक्स';
+
+  @override
+  String get blockCalendar => 'कैलेंडर';
+
+  @override
+  String get blockCompose => 'लिखें';
+
+  @override
+  String get blockMarkAllRead => 'सभी को पढ़ा हुआ चिह्नित करें';
+
+  @override
+  String get blockStarred => 'तारांकित';
+
+  @override
+  String get blockSnoozed => 'स्थगित';
+
+  @override
+  String get blockUnread => 'अपठित';
+
+  @override
+  String get blockDocuments => 'दस्तावेज़';
+
+  @override
+  String get blockReports => 'रिपोर्ट';
+
+  @override
+  String get blockDashboard => 'डैशबोर्ड';
+
+  @override
+  String get blockStorage => 'संग्रहण';
+
+  @override
+  String get blockNavigation => 'नेविगेशन';
+
+  @override
+  String get blockSharedWithYou => 'आपके साथ साझा किया गया';
+
+  @override
+  String get blockRecentProjects => 'हाल के प्रोजेक्ट';
+
+  @override
+  String get blockStorageUsed => 'उपयोग किया गया संग्रहण';
+
+  @override
+  String get blockOpen => 'खोलें';
+
+  @override
+  String get blockLive => 'लाइव';
+
+  @override
+  String get blockMembers => 'सदस्य';
+
+  @override
+  String get blockProjects => 'प्रोजेक्ट';
+
+  @override
+  String get blockDeploys => 'परिनियोजन';
+
+  @override
+  String get blockActivity => 'गतिविधि';
+
+  @override
+  String get blockRecentFiles => 'हाल की फ़ाइलें';
+
+  @override
+  String get blockUsageThisMonth => 'इस माह का उपयोग';
+
+  @override
+  String get blockUpgradePlan => 'योजना अपग्रेड करें';
+
+  @override
+  String blockNoMatches(Object? query) => '“$query” के लिए कोई परिणाम नहीं।';
+
+  @override
+  String get blockWorkspaces => 'कार्यक्षेत्र';
+
+  @override
+  String get blockPricing => 'मूल्य निर्धारण';
+
+  @override
+  String get blockPlansScale => 'योजनाएं जो आपके साथ बढ़ें';
+
+  @override
+  String get blockPlansBlurb =>
+      'मुफ़्त में शुरू करें, जब आपकी टीम बढ़े तो अपग्रेड करें। हर योजना में पूर्ण घटक लाइब्रेरी और थीम प्रीसेट शामिल हैं।';
+
+  @override
+  String get blockPerUserMonth => 'प्रति उपयोगकर्ता / माह';
+
+  @override
+  String get blockSubscribe => 'सदस्यता लें';
+
+  @override
+  String get blockContactSales => 'बिक्री से संपर्क करें';
+
+  @override
+  String get blockPromoCode => 'प्रोमो कोड';
+
+  @override
+  String get blockApplyCode => 'कोड लागू करें';
+
+  @override
+  String get blockHaveCodeEnter => 'कोड है? नीचे दर्ज करें।';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'कोड लागू — आपकी छूट चेकआउट पर दिखेगी।';
+
+  @override
+  String get blockFaqTitle => 'प्रश्न';
+
+  @override
+  String get blockFaqChangePlans => 'क्या मैं बाद में योजना बदल सकता हूं?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'हां। अपग्रेड तुरंत लागू होते हैं, डाउनग्रेड अगले चक्र से।';
+
+  @override
+  String get blockFaqFreeTrial => 'क्या मुफ़्त परीक्षण है?';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'हर योजना 14 दिनों से शुरू होती है, कार्ड की आवश्यकता नहीं।';
+
+  @override
+  String get blockAccount => 'खाता';
+
+  @override
+  String get blockGeneral => 'सामान्य';
+
+  @override
+  String get blockAppearance => 'दिखावट';
+
+  @override
+  String get blockDarkMode => 'डार्क मोड';
+
+  @override
+  String get blockPreferences => 'प्राथमिकताएं';
+
+  @override
+  String get blockSignOut => 'साइन आउट करें';
+
+  @override
+  String get blockSignOutConfirm => 'साइन आउट करें?';
+
+  @override
+  String get blockSignOutBlurb => 'आप बाद में हमेशा वापस साइन इन कर सकते हैं।';
+
+  @override
+  String get blockSounds => 'ध्वनियां';
+
+  @override
+  String get blockWhatYouGet => 'आपको क्या मिलता है';
+
+  @override
+  String get blockAllComponentCategories => 'सभी घटक श्रेणियां';
+
+  @override
+  String get blockPrioritySupport => 'प्राथमिकता सहायता';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'परीक्षण के दौरान असीमित प्रोजेक्ट';
+
+  @override
+  String get blockTrialDaysLeft => 'आपके परीक्षण में 14 दिन बचे हैं';
+
+  @override
+  String get blockStarterChat => 'चैट';
+
+  @override
+  String get blockStarterShop => 'दुकान';
+
+  @override
+  String get blockStarterCart => 'कार्ट';
+
+  @override
+  String get blockAddToCart => 'कार्ट में जोड़ें';
 }

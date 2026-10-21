@@ -6,6 +6,7 @@ import '../../../components/button/button.dart';
 import '../../../foundation/gap.dart';
 import '../../../foundation/icons/radix_icons.dart';
 import '../../../theme/theme.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Order confirmation; Done calls [onDone].
 class Checkout01SuccessScreen extends StatelessWidget {
@@ -17,6 +18,7 @@ class Checkout01SuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -43,8 +45,7 @@ class Checkout01SuccessScreen extends StatelessWidget {
                   ),
                   Gap(appTheme.spacing.sm),
                   Text(
-                    'Thanks for shopping with us. A confirmation '
-                    'is on its way.',
+                    strings.blockOrderThanks,
                     textAlign: TextAlign.center,
                     style: appTheme.typography.textMuted.copyWith(
                       color: appTheme.colors.mutedForeground,
@@ -54,7 +55,7 @@ class Checkout01SuccessScreen extends StatelessWidget {
                   Button(
                     key: const ValueKey<String>('checkout01.done'),
                     onPressed: onDone,
-                    child: const Text('Continue shopping'),
+                    child: Text(strings.blockContinueShopping),
                   ),
                 ],
               ),

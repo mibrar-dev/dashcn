@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'localizations_blocks.dart';
 import 'localizations_chrome.dart';
 import 'localizations_date_time.dart';
 import 'localizations_delegate.dart';
@@ -14,6 +15,7 @@ import 'localizations_overlay.dart';
 // Keeps `ComponentLocalizations.delegate`, `ComponentLocalizationsDelegate` and
 // `lookupComponentLocalizations` reachable from this one import, and exposes the
 // domain mixins the class is built from.
+export 'localizations_blocks.dart';
 export 'localizations_chrome.dart';
 export 'localizations_dashcn.dart';
 export 'localizations_date_time.dart';
@@ -49,7 +51,8 @@ class ComponentLocalizations
         ComponentLocalizationsMisc,
         ComponentLocalizationsMedia,
         ComponentLocalizationsChrome,
-        ComponentLocalizationsError {
+        ComponentLocalizationsError,
+        ComponentLocalizationsBlocks {
   const ComponentLocalizations(this.locale);
 
   /// The English defaults, for code that has no [BuildContext] to call [of]

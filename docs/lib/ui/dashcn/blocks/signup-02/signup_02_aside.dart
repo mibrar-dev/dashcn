@@ -8,6 +8,7 @@ import '../../components/progress/progress.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The brand panel: muted fill edge to edge, the product mark top-left, the
 /// trial summary in the middle and a quote anchored at the bottom. No
@@ -18,6 +19,7 @@ class Signup02Aside extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return ColoredBox(
       color: theme.colors.card,
@@ -59,7 +61,7 @@ class Signup02Aside extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('What you get', style: theme.typography.h3),
+                    Text(strings.blockWhatYouGet, style: theme.typography.h3),
                     Gap(theme.spacing.lg),
                     for (final String line in const <String>[
                       'Unlimited projects during the trial',

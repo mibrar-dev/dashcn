@@ -8,6 +8,7 @@ import '../../../components/card/card.dart';
 import '../../../foundation/gap.dart';
 import '../../../foundation/icons/radix_icons.dart';
 import '../../../theme/theme.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Permission ask; Allow resolves true, Not now resolves false.
 class Onboarding01PermissionScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class Onboarding01PermissionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -51,8 +53,7 @@ class Onboarding01PermissionScreen extends StatelessWidget {
                         ),
                         Gap(appTheme.spacing.sm),
                         Text(
-                          'We only send what matters: replies, reminders '
-                          'and security alerts. You can change this later.',
+                          strings.blockNotifPermissionBlurb,
                           textAlign: TextAlign.center,
                           style: appTheme.typography.textMuted.copyWith(
                             color: appTheme.colors.mutedForeground,
@@ -61,20 +62,20 @@ class Onboarding01PermissionScreen extends StatelessWidget {
                         Gap(appTheme.spacing.xl),
                         Button(
                           onPressed: () => onResolve(true),
-                          child: const Text('Allow notifications'),
+                          child: Text(strings.blockAllowNotifications),
                         ),
                         Gap(appTheme.spacing.sm),
                         Button(
                           variant: ButtonVariant.outline,
                           onPressed: () => onResolve(false),
-                          child: const Text('Not now'),
+                          child: Text(strings.blockNotNow),
                         ),
                         Gap(appTheme.spacing.sm),
                         Button(
                           variant: ButtonVariant.ghost,
                           size: ButtonSize.sm,
                           onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Back'),
+                          child: Text(strings.blockBack),
                         ),
                       ],
                     ),

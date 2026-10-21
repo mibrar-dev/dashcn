@@ -9,6 +9,7 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The sample screen inside the shell: stats, projects and activity.
 class Sidebar03Content extends StatelessWidget {
@@ -118,6 +119,7 @@ class Sidebar03ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
@@ -129,7 +131,7 @@ class Sidebar03ProjectCard extends StatelessWidget {
               Expanded(child: Text(name, style: theme.typography.textLarge)),
               Badge(
                 variant: BadgeVariant.secondary,
-                child: Text('Live', style: theme.typography.xSmall),
+                child: Text(strings.blockLive, style: theme.typography.xSmall),
               ),
             ],
           ),
@@ -144,7 +146,7 @@ class Sidebar03ProjectCard extends StatelessWidget {
           Button(
             variant: ButtonVariant.outline,
             onPressed: () {},
-            child: const Text('Open'),
+            child: Text(strings.blockOpen),
           ),
         ],
       ),
@@ -157,6 +159,7 @@ class _Sidebar03Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Ada pushed 3 commits to Atlas', '3m ago'),
@@ -173,7 +176,10 @@ class _Sidebar03Activity extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(theme.spacing.lg),
-            child: Text('Activity', style: theme.typography.textLarge),
+            child: Text(
+              strings.blockActivity,
+              style: theme.typography.textLarge,
+            ),
           ),
           const Divider(),
           for (final (String, String) event in events) ...<Widget>[

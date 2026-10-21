@@ -74,6 +74,7 @@ export 'src/primitives/localizations/locale_parts.dart';
 export 'src/primitives/localizations/localizations.dart';
 export 'src/primitives/localizations/localizations_ar.dart';
 export 'src/primitives/localizations/localizations_bg.dart';
+export 'src/primitives/localizations/localizations_blocks.dart';
 export 'src/primitives/localizations/localizations_bn.dart';
 export 'src/primitives/localizations/localizations_chrome.dart';
 export 'src/primitives/localizations/localizations_cs.dart';
