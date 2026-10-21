@@ -466,14 +466,14 @@ void main() {
     });
   });
 
-  testWidgets('header is h-10 px-2 and body cells are p-2', (tester) async {
+  testWidgets('header is h-9 px-2 and body cells are p-2', (tester) async {
     await tester.pumpWidget(_frame(child: _table()));
     final Rect header = tester.getRect(
       find
           .ancestor(of: find.text('Name'), matching: find.byType(RawCell))
           .first,
     );
-    expect(header.height, greaterThanOrEqualTo(40));
+    expect(header.height, greaterThanOrEqualTo(36));
     final Padding headPadding = tester.widget<Padding>(
       find
           .ancestor(of: find.text('Name'), matching: find.byType(Padding))

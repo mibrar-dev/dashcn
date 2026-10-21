@@ -260,6 +260,23 @@ void main() {
     expect(find.text('Del'), findsOneWidget);
   });
 
+  testWidgets('explicit actionExtent honors the 48 px touch floor', (
+    tester,
+  ) async {
+    await _pump(
+      tester,
+      SwipeActions(
+        actionExtent: 20,
+        actions: <SwipeAction>[SwipeAction(label: 'Del', onPressed: () {})],
+        child: const Text('row'),
+      ),
+    );
+    // A -48 drag reveals the full clamped 48 px tile, not 20 px.
+    await tester.drag(find.text('row'), const Offset(-48, 0));
+    await _pumpSettle(tester);
+    expect(find.text('Del'), findsOneWidget);
+  });
+
   testWidgets('custom runBuilder and contentBuilder swap visuals', (
     tester,
   ) async {

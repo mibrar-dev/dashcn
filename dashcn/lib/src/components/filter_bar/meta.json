@@ -2,18 +2,20 @@
   "id": "filter_bar",
   "name": "FilterBar",
   "category": "Layout",
-  "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and a mobile sheet presentation; backed by a typed filter engine.",
+  "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and inline, popup, dialog and sheet presentations; backed by a typed filter engine.",
   "tier": "component",
   "install": "dashcn add filter_bar",
   "import": "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
   "tags": [
-    "layout",
+    "density",
+    "dialog",
     "filters",
-    "search",
-    "sort",
-    "sheet",
+    "layout",
     "menu",
-    "density"
+    "popup",
+    "search",
+    "sheet",
+    "sort"
   ],
   "deps": {
     "foundation": [
@@ -37,6 +39,7 @@
       "button",
       "chip",
       "date_picker",
+      "dialog",
       "drawer",
       "input",
       "popup",
@@ -49,6 +52,7 @@
     "filter_bar_controls.dart",
     "filter_bar_inline.dart",
     "filter_bar_layout.dart",
+    "filter_bar_dialog.dart",
     "filter_bar_menu.dart",
     "filter_bar_overflow.dart",
     "filter_bar_search.dart",
@@ -96,11 +100,17 @@
     ],
     "functions": [
       "openFilterBarMenu",
-      "openFilterBarSheet"
+      "openFilterBarSheet",
+      "openFilterBarDialog"
     ],
-    "constants": ["filterBarThemeOverrides"],
+    "constants": [
+      "filterBarThemeOverrides"
+    ],
     "providedByPrimitives": {
-      "filter_core": ["filterBarDefaults", "FilterMatchers"]
+      "filter_core": [
+        "filterBarDefaults",
+        "FilterMatchers"
+      ]
     }
   },
   "theme": {

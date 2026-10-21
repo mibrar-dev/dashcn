@@ -201,10 +201,17 @@ class _SwipeActionsState extends State<SwipeActions>
   }
 
   double _extent(BuildContext context) {
-    if (widget.actionExtent != null) return widget.actionExtent!;
+    // Explicit extents still honor the 48 px touch minimum: a caller-passed
+    // narrow tile would otherwise break the touch floor and the reveal math
+    // (the reveal width is actions * extent, matching the stretched row).
+    if (widget.actionExtent != null) {
+      final double explicit = widget.actionExtent!;
+      return explicit < 48 ? 48 : explicit;
+    }
     final SwipeActionsTheme resolved = _resolvedTheme(context);
     if (resolved.actionWidth != null) {
-      return resolved.actionWidth! * Theme.of(context).scaling;
+      final double themed = resolved.actionWidth! * Theme.of(context).scaling;
+      return themed < 48 ? 48 : themed;
     }
     return swipeActionWidthForTokens(_tokens(context, resolved)) *
         Theme.of(context).scaling;

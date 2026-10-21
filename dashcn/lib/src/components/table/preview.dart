@@ -104,7 +104,10 @@ class _DataTableState extends State<_DataTable> {
 
   final ResizableTableController _resize = ResizableTableController(
     defaultColumnWidth: 120,
-    defaultRowHeight: 44,
+    // Compact density row height (32-40 band; header uses 36): the grid
+    // scrolls inside its frame via the controllers below, and every header
+    // divider drags to resize its column while row dividers resize rows.
+    defaultRowHeight: 36,
     columnWidths: <int, double>{0: 40},
     widthConstraints: <int, ConstrainedTableSize>{
       0: ConstrainedTableSize(min: 32, max: 64),
@@ -197,10 +200,12 @@ class _DataTableState extends State<_DataTable> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Fixed rows (header + page) fill this box exactly: every row is
-            // the controller's 44 px, so narrower viewports scroll instead of
-            // overflowing and the stage centres the box.
+            // the controller's 36 px compact height, so narrower viewports
+            // scroll instead of overflowing and the stage centres the box.
+            // Drag any header divider to resize that column; drag a row
+            // divider to resize the row.
             SizedBox(
-              height: (_pageSize + 1) * 44,
+              height: (_pageSize + 1) * 36,
               child: TableView(
                 resizeController: _resize,
                 horizontalController: _horizontal,
@@ -342,60 +347,90 @@ class _DataTableState extends State<_DataTable> {
 }
 
 /// A small static invoice grid with a total footer.
-class _InvoicesTable extends StatelessWidget {
+///
+/// Scrolls inside its frame and supports column/row resize via header and
+/// row divider drags, like the data table above.
+class _InvoicesTable extends StatefulWidget {
   const _InvoicesTable();
+
+  @override
+  State<_InvoicesTable> createState() => _InvoicesTableState();
+}
+
+class _InvoicesTableState extends State<_InvoicesTable> {
+  final ResizableTableController _resize = ResizableTableController(
+    defaultColumnWidth: 90,
+    defaultRowHeight: 36,
+  );
+  final ScrollController _horizontal = ScrollController();
+  final ScrollController _vertical = ScrollController();
+
+  @override
+  void dispose() {
+    _resize.dispose();
+    _horizontal.dispose();
+    _vertical.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
-        child: TableView(
-          columnWidths: <int, TableSize>{
-            1: FixedTableSize(80),
-            2: FixedTableSize(80),
-            3: FixedTableSize(90),
-          },
-          rows: <TableViewRow>[
-            TableViewHeader(
-              cells: <TableViewCell>[
-                TableViewCell(child: Text('Invoice')),
-                TableViewCell(child: Text('Status')),
-                TableViewCell(child: Text('Method')),
-                TableViewCell(child: Text('Amount')),
-              ],
-            ),
-            TableViewRow(
-              cells: <TableViewCell>[
-                TableViewCell(child: Text('INV-001')),
-                TableViewCell(child: Text('Paid')),
-                TableViewCell(child: Text('Card')),
-                TableViewCell(child: Text('\$250.00')),
-              ],
-            ),
-            TableViewRow(
-              cells: <TableViewCell>[
-                TableViewCell(child: Text('INV-002')),
-                TableViewCell(child: Text('Pending')),
-                TableViewCell(child: Text('PayPal')),
-                TableViewCell(child: Text('\$150.00')),
-              ],
-            ),
-            TableViewRow(
-              cells: <TableViewCell>[
-                TableViewCell(child: Text('INV-003')),
-                TableViewCell(child: Text('Overdue')),
-                TableViewCell(child: Text('Transfer')),
-                TableViewCell(child: Text('\$350.00')),
-              ],
-            ),
-            TableViewFooter(
-              cells: <TableViewCell>[
-                TableViewCell(columnSpan: 3, child: Text('Total')),
-                TableViewCell(child: Text('\$750.00')),
-              ],
-            ),
-          ],
+        child: SizedBox(
+          // Header + 4 body rows + footer at the 36 px compact row height.
+          height: 6 * 36,
+          child: TableView(
+            resizeController: _resize,
+            horizontalController: _horizontal,
+            verticalController: _vertical,
+            columnWidths: <int, TableSize>{
+              1: FixedTableSize(80),
+              2: FixedTableSize(80),
+              3: FixedTableSize(90),
+            },
+            rows: <TableViewRow>[
+              TableViewHeader(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('Invoice')),
+                  TableViewCell(child: Text('Status')),
+                  TableViewCell(child: Text('Method')),
+                  TableViewCell(child: Text('Amount')),
+                ],
+              ),
+              TableViewRow(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('INV-001')),
+                  TableViewCell(child: Text('Paid')),
+                  TableViewCell(child: Text('Card')),
+                  TableViewCell(child: Text('\$250.00')),
+                ],
+              ),
+              TableViewRow(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('INV-002')),
+                  TableViewCell(child: Text('Pending')),
+                  TableViewCell(child: Text('PayPal')),
+                  TableViewCell(child: Text('\$150.00')),
+                ],
+              ),
+              TableViewRow(
+                cells: <TableViewCell>[
+                  TableViewCell(child: Text('INV-003')),
+                  TableViewCell(child: Text('Overdue')),
+                  TableViewCell(child: Text('Transfer')),
+                  TableViewCell(child: Text('\$350.00')),
+                ],
+              ),
+              TableViewFooter(
+                cells: <TableViewCell>[
+                  TableViewCell(columnSpan: 3, child: Text('Total')),
+                  TableViewCell(child: Text('\$750.00')),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

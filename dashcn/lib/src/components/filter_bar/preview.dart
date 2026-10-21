@@ -100,13 +100,74 @@ class _OverflowFilterBarState extends State<_OverflowFilterBar> {
         sortOptions: _sortOptions,
         enableDateRange: true,
         resultsCount: 12,
-        presentation: FilterBarPresentation.menu,
+        // Anchored compact popup menu (the canonical anchored variant).
+        presentation: FilterBarPresentation.popup,
+      ),
+    );
+  }
+}
+
+/// Narrow bar that opens its overflow in a centred dialog.
+class _DialogFilterBar extends StatefulWidget {
+  const _DialogFilterBar();
+
+  @override
+  State<_DialogFilterBar> createState() => _DialogFilterBarState();
+}
+
+class _DialogFilterBarState extends State<_DialogFilterBar> {
+  FilterState _state = const FilterState(search: 'theme', sortId: 'newest');
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 340,
+      child: FilterBar(
+        state: _state,
+        onStateChanged: (FilterState next) => setState(() => _state = next),
+        sortOptions: _sortOptions,
+        enableDateRange: true,
+        resultsCount: 12,
+        // Centred dialog: same tokens as the inline bar and popup menu.
+        presentation: FilterBarPresentation.dialog,
+      ),
+    );
+  }
+}
+
+/// Narrow bar that opens its overflow in a bottom sheet on phone widths.
+class _SheetFilterBar extends StatefulWidget {
+  const _SheetFilterBar();
+
+  @override
+  State<_SheetFilterBar> createState() => _SheetFilterBarState();
+}
+
+class _SheetFilterBarState extends State<_SheetFilterBar> {
+  FilterState _state = const FilterState(search: 'theme', sortId: 'newest');
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 340,
+      child: FilterBar(
+        state: _state,
+        onStateChanged: (FilterState next) => setState(() => _state = next),
+        sortOptions: _sortOptions,
+        enableDateRange: true,
+        resultsCount: 12,
+        // Bottom sheet on phone widths via the drawer sheet scaffold.
+        presentation: FilterBarPresentation.sheet,
       ),
     );
   }
 }
 
 Widget _overflowMenu(BuildContext context) => const _OverflowFilterBar();
+
+Widget _dialog(BuildContext context) => const _DialogFilterBar();
+
+Widget _sheet(BuildContext context) => const _SheetFilterBar();
 
 /// Overflow menu shown open with a filter applied.
 class _OpenMenuFilterBar extends StatefulWidget {
@@ -208,7 +269,9 @@ Widget _customized(BuildContext context) => const _CustomizedFilterBar();
 const List<ComponentPreview> filterBarPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
   ComponentPreview('With chips', _withChips),
-  ComponentPreview('Overflow menu', _overflowMenu),
+  ComponentPreview('Popup', _overflowMenu),
+  ComponentPreview('Dialog', _dialog),
+  ComponentPreview('Sheet', _sheet),
   ComponentPreview('Overflow menu open', _openMenu),
   ComponentPreview('Customized', _customized),
 ];

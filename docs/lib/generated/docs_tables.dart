@@ -1139,6 +1139,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'chip', kind: DocsDepKind.component),
     DocsDep(id: 'date_picker', kind: DocsDepKind.component),
+    DocsDep(id: 'dialog', kind: DocsDepKind.component),
     DocsDep(id: 'drawer', kind: DocsDepKind.component),
     DocsDep(id: 'input', kind: DocsDepKind.component),
     DocsDep(id: 'popup', kind: DocsDepKind.component),

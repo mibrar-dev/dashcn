@@ -84,7 +84,10 @@
         "MenuSeparator",
         "columnMenuBuilder"
       ]
-    }
+    },
+    "functions": [
+      "menuItemPaddingOf"
+    ]
   },
   "theme": {
     "class": "MenuTheme",

@@ -295,9 +295,9 @@ const TableCellTheme tableCellDefaults = TableCellTheme(
   padding: tableCellPadding,
 );
 
-/// Default header-cell styling: upstream v4 `TableHead` (`h-10 px-2`, medium
-/// `muted-foreground` text, left-aligned and vertically centred by the cell
-/// view).
+/// Default header-cell styling: compact `TableHead` (`h-9` = 36 px on the
+/// density scale, upstream v4 `h-10 px-2`), medium `muted-foreground` text,
+/// left-aligned and vertically centred by the cell view.
 const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(
     hovered: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
@@ -309,7 +309,7 @@ const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   borderWidth: 1,
   textStyle: TextStyle(fontWeight: FontWeight.w500),
   padding: tableHeadCellPadding,
-  minHeight: 40,
+  minHeight: 36,
 );
 
 /// Default footer-cell styling: medium muted-foreground text, no border.

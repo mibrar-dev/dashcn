@@ -255,8 +255,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.04,
-      p90Ms: 0.051,
+      p50Ms: 0.041,
+      p90Ms: 0.053,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -300,8 +300,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 281.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.041,
-      p90Ms: 0.05,
+      p50Ms: 0.044,
+      p90Ms: 0.064,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -345,8 +345,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.04,
-      p90Ms: 0.05,
+      p50Ms: 0.042,
+      p90Ms: 0.054,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -390,8 +390,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 302.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.039,
-      p90Ms: 0.083,
+      p50Ms: 0.038,
+      p90Ms: 0.058,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -436,7 +436,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.037,
-      p90Ms: 0.068,
+      p90Ms: 0.061,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -480,8 +480,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 339.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.034,
-      p90Ms: 0.048,
+      p50Ms: 0.037,
+      p90Ms: 0.058,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -525,8 +525,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.035,
-      p90Ms: 0.052,
+      p50Ms: 0.036,
+      p90Ms: 0.06,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -570,8 +570,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.033,
-      p90Ms: 0.115,
+      p50Ms: 0.031,
+      p90Ms: 0.045,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -615,8 +615,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 286.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.354,
-      p90Ms: 0.405,
+      p50Ms: 0.361,
+      p90Ms: 0.44,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -660,8 +660,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 536.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.031,
-      p90Ms: 0.04,
+      p50Ms: 0.033,
+      p90Ms: 0.063,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -705,8 +705,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.033,
+      p50Ms: 0.027,
+      p90Ms: 0.032,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -726,13 +726,15 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
         exempt: null,
       ),
       androidTapTarget: DocsScorecardCheck(
-        passed: true,
-        message: null,
+        passed: false,
+        message:
+            'SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 26, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 27, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 28, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 29, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 1, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 2, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 3, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 4, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 5, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 6, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 7, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 8, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 9, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 10, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 11, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 12, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 13, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 14, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 15, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 16, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 17, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 18, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 19, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 20, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 21, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 22, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 23, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 24, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 25, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 26, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 27, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 28, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 29, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 30, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 31, 2024", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en',
         exempt: null,
       ),
       iOSTapTarget: DocsScorecardCheck(
-        passed: true,
-        message: null,
+        passed: false,
+        message:
+            'SemanticsNode#5(Rect.fromLTRB(276.0, 44.0, 308.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 26, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#6(Rect.fromLTRB(312.0, 44.0, 344.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 27, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#7(Rect.fromLTRB(348.0, 44.0, 380.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 28, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#8(Rect.fromLTRB(384.0, 44.0, 416.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Feb 29, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#9(Rect.fromLTRB(420.0, 44.0, 452.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 1, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#10(Rect.fromLTRB(456.0, 44.0, 488.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 2, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#11(Rect.fromLTRB(492.0, 44.0, 524.0, 76.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 3, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#12(Rect.fromLTRB(276.0, 80.0, 308.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 4, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#13(Rect.fromLTRB(312.0, 80.0, 344.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 5, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#14(Rect.fromLTRB(348.0, 80.0, 380.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 6, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#15(Rect.fromLTRB(384.0, 80.0, 416.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 7, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#16(Rect.fromLTRB(420.0, 80.0, 452.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 8, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#17(Rect.fromLTRB(456.0, 80.0, 488.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 9, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#18(Rect.fromLTRB(492.0, 80.0, 524.0, 112.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 10, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#19(Rect.fromLTRB(276.0, 116.0, 308.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 11, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#20(Rect.fromLTRB(312.0, 116.0, 344.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 12, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#21(Rect.fromLTRB(348.0, 116.0, 380.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 13, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#22(Rect.fromLTRB(384.0, 116.0, 416.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 14, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#23(Rect.fromLTRB(420.0, 116.0, 452.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 15, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#24(Rect.fromLTRB(456.0, 116.0, 488.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 16, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#25(Rect.fromLTRB(492.0, 116.0, 524.0, 148.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 17, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#26(Rect.fromLTRB(276.0, 152.0, 308.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 18, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#27(Rect.fromLTRB(312.0, 152.0, 344.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 19, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#28(Rect.fromLTRB(348.0, 152.0, 380.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 20, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#29(Rect.fromLTRB(384.0, 152.0, 416.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 21, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#30(Rect.fromLTRB(420.0, 152.0, 452.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 22, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#31(Rect.fromLTRB(456.0, 152.0, 488.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 23, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#32(Rect.fromLTRB(492.0, 152.0, 524.0, 184.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 24, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#33(Rect.fromLTRB(276.0, 188.0, 308.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 25, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#34(Rect.fromLTRB(312.0, 188.0, 344.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 26, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#35(Rect.fromLTRB(348.0, 188.0, 380.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 27, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#36(Rect.fromLTRB(384.0, 188.0, 416.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 28, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#37(Rect.fromLTRB(420.0, 188.0, 452.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 29, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#38(Rect.fromLTRB(456.0, 188.0, 488.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 30, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/\nSemanticsNode#39(Rect.fromLTRB(492.0, 188.0, 524.0, 220.0), actions: [tap], flags: [isButton, hasEnabledState, isEnabled, hasSelectedState], label: "Mar 31, 2024", textDirection: ltr): expected tap target size of at least Size(44.0, 44.0), but found Size(32.0, 32.0)\nSee also: https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/',
         exempt: null,
       ),
       semantics: DocsScorecardSemantics(
@@ -750,8 +752,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 455.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.027,
-      p90Ms: 0.033,
+      p50Ms: 0.028,
+      p90Ms: 0.035,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -795,8 +797,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 360.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.028,
+      p50Ms: 0.027,
+      p90Ms: 0.041,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -840,8 +842,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 518.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.024,
-      p90Ms: 0.025,
+      p50Ms: 0.026,
+      p90Ms: 0.029,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -930,8 +932,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 172.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.073,
+      p50Ms: 0.026,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -975,8 +977,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 608.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.026,
+      p50Ms: 0.024,
+      p90Ms: 0.029,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1020,8 +1022,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 550.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.028,
+      p50Ms: 0.03,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1065,8 +1067,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 692.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.022,
-      p90Ms: 0.027,
+      p50Ms: 0.024,
+      p90Ms: 0.028,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1110,8 +1112,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 245.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.025,
+      p50Ms: 0.021,
+      p90Ms: 0.028,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1155,8 +1157,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 80.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.02,
+      p50Ms: 0.02,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1200,8 +1202,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 696.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.028,
+      p50Ms: 0.02,
+      p90Ms: 0.024,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1246,7 +1248,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.022,
-      p90Ms: 0.043,
+      p90Ms: 0.031,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1291,7 +1293,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.022,
-      p90Ms: 0.033,
+      p90Ms: 0.036,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1335,8 +1337,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 776.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.04,
+      p50Ms: 0.027,
+      p90Ms: 0.05,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1380,8 +1382,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 644.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.021,
+      p50Ms: 0.019,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1426,7 +1428,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.018,
-      p90Ms: 0.021,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1470,8 +1472,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.023,
+      p50Ms: 0.02,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1515,8 +1517,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 358.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.029,
+      p50Ms: 0.021,
+      p90Ms: 0.026,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1561,7 +1563,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.018,
-      p90Ms: 0.034,
+      p90Ms: 0.038,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1605,8 +1607,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 399.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.02,
+      p50Ms: 0.018,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1650,8 +1652,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 246.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.019,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1695,8 +1697,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 208.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.03,
+      p50Ms: 0.018,
+      p90Ms: 0.028,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1740,8 +1742,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.018,
+      p50Ms: 0.019,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1830,8 +1832,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 501.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.03,
+      p50Ms: 0.019,
+      p90Ms: 0.032,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1876,7 +1878,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.017,
-      p90Ms: 0.02,
+      p90Ms: 0.022,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -1920,12 +1922,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 671.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.023,
-      p90Ms: 0.044,
+      p50Ms: 0.021,
+      p90Ms: 0.039,
       frames: 120,
       label: 'test environment (relative)',
     ),
-    tests: DocsScorecardTests(count: 27, passed: true),
+    tests: DocsScorecardTests(count: 29, passed: true),
   ),
   'form': DocsScorecard(
     componentId: 'form',
@@ -1965,8 +1967,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.02,
+      p50Ms: 0.019,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2010,8 +2012,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 753.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.039,
+      p50Ms: 0.017,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2100,8 +2102,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.018,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2145,8 +2147,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.019,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2190,8 +2192,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 710.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.018,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2236,7 +2238,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.017,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2280,8 +2282,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 562.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.044,
+      p50Ms: 0.023,
+      p90Ms: 0.041,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2370,8 +2372,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 408.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.021,
+      p50Ms: 0.02,
+      p90Ms: 0.029,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2415,8 +2417,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 670.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.025,
-      p90Ms: 0.049,
+      p50Ms: 0.018,
+      p90Ms: 0.035,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2460,8 +2462,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 334.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.024,
+      p50Ms: 0.016,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2505,12 +2507,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 745.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.019,
-      p90Ms: 0.02,
+      p50Ms: 0.018,
+      p90Ms: 0.025,
       frames: 120,
       label: 'test environment (relative)',
     ),
-    tests: DocsScorecardTests(count: 38, passed: true),
+    tests: DocsScorecardTests(count: 39, passed: true),
   ),
   'menubar': DocsScorecard(
     componentId: 'menubar',
@@ -2550,8 +2552,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 732.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.016,
+      p50Ms: 0.027,
+      p90Ms: 0.058,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2596,7 +2598,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2640,7 +2642,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 670.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
+      p50Ms: 0.016,
       p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
@@ -2685,8 +2687,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 574.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
-      p90Ms: 0.038,
+      p50Ms: 0.021,
+      p90Ms: 0.042,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2730,7 +2732,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 744.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.02,
+      p50Ms: 0.019,
       p90Ms: 0.032,
       frames: 120,
       label: 'test environment (relative)',
@@ -2776,7 +2778,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.016,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2820,8 +2822,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: -1287.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.215,
-      p90Ms: 0.323,
+      p50Ms: 0.217,
+      p90Ms: 0.284,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2865,8 +2867,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 656.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.043,
+      p50Ms: 0.019,
+      p90Ms: 0.047,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2911,7 +2913,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -2956,7 +2958,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3001,7 +3003,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.016,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3045,8 +3047,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.018,
+      p50Ms: 0.018,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3135,8 +3137,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 718.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.017,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3180,7 +3182,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 0.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
+      p50Ms: 0.016,
       p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
@@ -3225,8 +3227,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 691.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.02,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3315,8 +3317,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.018,
-      p90Ms: 0.039,
+      p50Ms: 0.019,
+      p90Ms: 0.037,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3360,8 +3362,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 592.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.023,
+      p50Ms: 0.016,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3450,8 +3452,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 36.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.019,
+      p50Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3540,12 +3542,12 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 620.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.201,
-      p90Ms: 0.252,
+      p50Ms: 0.199,
+      p90Ms: 0.276,
       frames: 120,
       label: 'test environment (relative)',
     ),
-    tests: DocsScorecardTests(count: 41, passed: true),
+    tests: DocsScorecardTests(count: 44, passed: true),
   ),
   'slider': DocsScorecard(
     componentId: 'slider',
@@ -3585,8 +3587,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.016,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3631,7 +3633,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.017,
-      p90Ms: 0.041,
+      p90Ms: 0.023,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3675,8 +3677,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.329,
-      p90Ms: 0.435,
+      p50Ms: 0.357,
+      p90Ms: 0.489,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3720,8 +3722,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.019,
+      p50Ms: 0.018,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3765,8 +3767,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 646.6666666666667,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.015,
+      p50Ms: 0.016,
+      p90Ms: 0.017,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3810,8 +3812,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 779.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.015,
+      p50Ms: 0.016,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3860,7 +3862,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       frames: 120,
       label: 'test environment (relative)',
     ),
-    tests: DocsScorecardTests(count: 26, passed: true),
+    tests: DocsScorecardTests(count: 27, passed: true),
   ),
   'switch': DocsScorecard(
     componentId: 'switch',
@@ -3900,8 +3902,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 576.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.016,
-      p90Ms: 0.017,
+      p50Ms: 0.015,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -3946,7 +3948,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.017,
-      p90Ms: 0.028,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4036,7 +4038,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.017,
-      p90Ms: 0.018,
+      p90Ms: 0.02,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4080,8 +4082,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.02,
+      p50Ms: 0.017,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4125,8 +4127,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 694.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
-      p90Ms: 0.03,
+      p50Ms: 0.019,
+      p90Ms: 0.025,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4171,7 +4173,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.016,
-      p90Ms: 0.019,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4216,7 +4218,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.015,
-      p90Ms: 0.015,
+      p90Ms: 0.016,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4260,8 +4262,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 379.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.015,
+      p50Ms: 0.017,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4306,7 +4308,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.015,
-      p90Ms: 0.016,
+      p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4350,8 +4352,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.015,
-      p90Ms: 0.019,
+      p50Ms: 0.017,
+      p90Ms: 0.021,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4395,7 +4397,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: null,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.017,
+      p50Ms: 0.016,
       p90Ms: 0.018,
       frames: 120,
       label: 'test environment (relative)',
@@ -4440,8 +4442,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 8.0,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.026,
-      p90Ms: 0.05,
+      p50Ms: 0.018,
+      p90Ms: 0.051,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4486,7 +4488,7 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
     ),
     frames: DocsScorecardFrames(
       p50Ms: 0.015,
-      p90Ms: 0.015,
+      p90Ms: 0.019,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4530,8 +4532,8 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
       rtlX: 384.0007167857057,
     ),
     frames: DocsScorecardFrames(
-      p50Ms: 0.021,
-      p90Ms: 0.024,
+      p50Ms: 0.017,
+      p90Ms: 0.033,
       frames: 120,
       label: 'test environment (relative)',
     ),
@@ -4540,13 +4542,13 @@ const Map<String, DocsScorecard> kScorecards = <String, DocsScorecard>{
 };
 
 /// Generator timestamp (UTC ISO) for the card footer.
-const String kScorecardsGeneratedAt = '2026-10-21T18:52:19.135851Z';
+const String kScorecardsGeneratedAt = '2026-10-21T20:56:07.294824Z';
 
 /// Full commit hash at generation time.
-const String kScorecardsCommit = '10d17f45217e06310325902964516d06d328f6a6';
+const String kScorecardsCommit = '6f7b933d68a9850cba3931006aaa04ef3acaa8e6';
 
 /// Short commit hash (7 chars) for the card footer.
-const String kScorecardsCommitShort = '10d17f4';
+const String kScorecardsCommitShort = '6f7b933';
 
 /// Flutter/Dart version at generation time.
 const String kScorecardsFlutter = '3.47.7 / Dart 3.13.5';
