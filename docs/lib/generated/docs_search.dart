@@ -1121,7 +1121,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Overflow Marquee',
     kind: DocsSearchKind.component,
     route: '/docs/components/overflow_marquee',
-    tag: '3 files',
+    tag: '5 files',
     keywords: <String>[
       'Overflow Marquee',
       'overflow_marquee',

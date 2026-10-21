@@ -1024,11 +1024,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Overflow Marquee',
     category: 'Layout',
     description:
-        'Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.',
+        'Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.',
     install: 'dashcn add overflow_marquee',
     import:
         "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
-    fileCount: 3,
+    fileCount: 5,
     stability: 'stable',
     listed: true,
     placement: 'center',

@@ -6713,30 +6713,36 @@
       "api": {
         "classes": [
           "OverflowMarquee",
-          "OverflowMarqueeTheme"
+          "OverflowMarqueeTheme",
+          "MarqueeController",
+          "MarqueeSurface"
         ],
         "constants": [
           "overflowMarqueeDefaults",
           "overflowMarqueeThemeOverrides"
         ],
-        "enums": []
+        "enums": [
+          "AxisDirectional"
+        ]
       },
       "category": "Layout",
       "deps": {
         "components": [],
-        "foundation": [],
-        "primitives": [
-          "animation"
+        "foundation": [
+          "geometry"
         ],
+        "primitives": [],
         "theme": [
           "color_tokens",
           "theme"
         ]
       },
-      "description": "Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.",
+      "description": "Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.",
       "entry": "components/overflow_marquee/overflow_marquee.dart",
       "files": [
         "components/overflow_marquee/overflow_marquee.dart",
+        "components/overflow_marquee/overflow_marquee_controller.dart",
+        "components/overflow_marquee/overflow_marquee_render.dart",
         "components/overflow_marquee/overflow_marquee_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
@@ -6759,10 +6765,15 @@
         "fields": {
           "curve": "Curve? - easing of each run",
           "delayDuration": "Duration? - pause at each end",
-          "direction": "Axis? - horizontal | vertical",
-          "duration": "Duration? - time of one `step` run",
+          "direction": "AxisDirectional? - start | end | up | down (RTL-aware)",
+          "duration": "Duration? - legacy run time",
           "fadePortion": "double? - edge fade fraction of the visible extent, clamped 0..0.5",
-          "step": "double? - pixels covered per `duration`"
+          "gap": "double? - gap between repeating copies in continuous loop",
+          "loop": "bool? - whether marquee loops continuously",
+          "pauseOnFocus": "bool? - pause animation on keyboard focus",
+          "pauseOnHover": "bool? - pause animation on pointer hover",
+          "speed": "double? - scroll speed in pixels per second",
+          "step": "double? - pixels covered per duration"
         },
         "userFile": "overflow_marquee_theme.dart"
       },
@@ -10871,10 +10882,12 @@
     "components/outlined_container/outlined_container_style.dart": "0e12ecce67716dbdd99deeb5fe0221f72a0fa63b4c5fca4c2944b8ef531fd851",
     "components/outlined_container/outlined_container_theme.dart": "2ff9ce8f7b07661e30de79553beaac6a5b3b9d96c8433f2149e4e1d5b3781d0b",
     "components/outlined_container/preview.dart": "eb0540391f30d6efa2d64a977396c521eddf38b893e091d4ac121708ecbfba96",
-    "components/overflow_marquee/overflow_marquee.dart": "87218a6a25c3ce90e940d72c54f7e0555352d21eed3ff116e910513e71dbcb12",
-    "components/overflow_marquee/overflow_marquee_style.dart": "210aea1d0adee4212bb559a97d9aa46007d28416a833bfc2b51421a0ad7b0281",
-    "components/overflow_marquee/overflow_marquee_theme.dart": "0de11dcafd93dad41b8d7f9a97a27d457f09659d56a5a303400bc9fa9864ddbe",
-    "components/overflow_marquee/preview.dart": "8b29eff941c1cb347a6e701cdf46e29c14aef33d25e273310f8fb72effcca5eb",
+    "components/overflow_marquee/overflow_marquee.dart": "5262fd9caa613bfa19e3f5a2145cc0a843086e3b7e7a1568d0acd33ee69025dd",
+    "components/overflow_marquee/overflow_marquee_controller.dart": "5403c934b0c9af950ac2c3cdeff1526988ff276b4d4060faa7539631dd638fac",
+    "components/overflow_marquee/overflow_marquee_render.dart": "cbb98badaa9d8cfd48a24c915ee3317e47c8b9ad18c1a468fdccb734cfe87c0d",
+    "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
+    "components/overflow_marquee/overflow_marquee_theme.dart": "a0d064556b916170fc3ffadaeb7991e963cd5b07d987f803330724b9f8902a1f",
+    "components/overflow_marquee/preview.dart": "08cd923e7f3564ae2ad586784da215b6c5404f5b50a3b0f84df52c766e59c966",
     "components/overlay_configuration/overlay_configuration.dart": "91188b9ada185780b1464fa7ca3f1586fc8c0fc336fe78d86f19003a16f9e84c",
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
