@@ -6,11 +6,33 @@
   "tier": "component",
   "install": "dashcn add code_snippet",
   "import": "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",
-  "tags": ["display", "code", "snippet", "pre", "syntax"],
+  "tags": [
+    "display",
+    "code",
+    "snippet",
+    "pre",
+    "syntax"
+  ],
   "deps": {
-    "foundation": ["gap", "icons", "platform"],
-    "theme": ["color_tokens", "density", "motion", "theme"],
-    "primitives": ["clickable", "syntax_highlight", "text", "text_editing", "touch_hit_area"],
+    "foundation": [
+      "gap",
+      "icons",
+      "platform"
+    ],
+    "theme": [
+      "color_tokens",
+      "density",
+      "motion",
+      "theme"
+    ],
+    "primitives": [
+      "clickable",
+      "surface",
+      "syntax_highlight",
+      "text",
+      "text_editing",
+      "touch_hit_area"
+    ],
     "components": []
   },
   "files": [
@@ -20,8 +42,14 @@
     "preview.dart"
   ],
   "api": {
-    "classes": ["CodeSnippet", "CodeSnippetTheme"],
-    "constants": ["codeSnippetDefaults", "codeSnippetThemeOverrides"]
+    "classes": [
+      "CodeSnippet",
+      "CodeSnippetTheme"
+    ],
+    "constants": [
+      "codeSnippetDefaults",
+      "codeSnippetThemeOverrides"
+    ]
   },
   "theme": {
     "class": "CodeSnippetTheme",

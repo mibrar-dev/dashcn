@@ -2176,7 +2176,8 @@
         "primitives": [
           "chart",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -2603,6 +2604,7 @@
         ],
         "primitives": [
           "clickable",
+          "surface",
           "syntax_highlight",
           "text",
           "text_editing",
@@ -3987,7 +3989,8 @@
         "primitives": [
           "error_handling",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -4264,7 +4267,8 @@
           "animation",
           "clickable",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -7925,6 +7929,7 @@
           "input_features",
           "localizations",
           "search",
+          "surface",
           "text"
         ],
         "theme": [
@@ -9930,6 +9935,7 @@
           "localizations",
           "measured_extent",
           "roving_group",
+          "surface",
           "touch_hit_area"
         ],
         "theme": [
