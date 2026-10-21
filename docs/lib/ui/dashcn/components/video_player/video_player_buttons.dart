@@ -2,10 +2,11 @@
 //
 // Split from the controls bar so both files stay small.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/touch_hit_area.dart';
+import '../../primitives/tap_target.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
 
@@ -25,7 +26,25 @@ String formatMediaTime(Duration value) {
   return '$m:${s.toString().padLeft(2, '0')}';
 }
 
-/// 48px accessible icon button.
+/// Formats a duration as spoken text for accessibility.
+String _formatSpokenDuration(Duration value) {
+  final int total = value.inSeconds.clamp(0, 86400 * 99);
+  final int h = total ~/ 3600;
+  final int m = (total % 3600) ~/ 60;
+  final int s = total % 60;
+  final List<String> parts = <String>[];
+  if (h > 0) parts.add('$h ${h == 1 ? "hour" : "hours"}');
+  if (m > 0) parts.add('$m ${m == 1 ? "minute" : "minutes"}');
+  if (s > 0 || parts.isEmpty) parts.add('$s ${s == 1 ? "second" : "seconds"}');
+  return parts.join(' ');
+}
+
+/// Formats playhead and duration as slider valuetext time.
+String formatVideoTimeValuetext(Duration position, Duration duration) {
+  return '${_formatSpokenDuration(position)} of ${_formatSpokenDuration(duration)}';
+}
+
+/// Accessible icon button for player chrome.
 Widget videoIconButton({
   required String label,
   required IconData icon,
@@ -34,24 +53,28 @@ Widget videoIconButton({
   String? text,
   VoidCallback? onTap,
 }) {
-  return TouchHitArea(
-    vertical: 4,
-    horizontal: 4,
-    child: Semantics(
-      label: label,
-      button: true,
+  return Semantics(
+    label: label,
+    button: true,
+    child: TapTarget(
+      minWidth: 48,
+      minHeight: 48,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: SizedBox(
-          width: 48,
-          height: 48,
+          width: 32,
+          height: 32,
           child: Center(
             child: text != null
                 ? ExcludeSemantics(
                     child: Text(
                       text,
-                      style: TextStyle(color: fg, fontSize: 12),
+                      style: TextStyle(
+                        color: fg,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   )
                 : Icon(icon, size: size, color: fg),
@@ -62,7 +85,7 @@ Widget videoIconButton({
   );
 }
 
-/// Centre play/pause button.
+/// Centre or bar play/pause button.
 Widget videoPlayButton(
   BuildContext context,
   VideoPlayerTheme style,
@@ -72,33 +95,74 @@ Widget videoPlayButton(
   VideoPartBuilder? overrideBuilder,
 }) {
   if (overrideBuilder != null && !big) return overrideBuilder(context, c);
-  final double size = big ? (style.controlSize ?? 56) : 48;
-  return TouchHitArea(
-    vertical: 4,
-    horizontal: 4,
-    child: Semantics(
-      label: c.isPlaying ? 'Pause' : 'Play',
-      button: true,
+  final double size = big ? (style.controlSize ?? 56) : 32;
+  final double iconSize = big ? 28 : (style.iconSize ?? 16);
+  return Semantics(
+    label: c.isPlaying ? 'Pause' : 'Play',
+    button: true,
+    child: TapTarget(
+      minWidth: 48,
+      minHeight: 48,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: c.toggle,
         child: Container(
           width: size,
           height: size,
-          decoration: const BoxDecoration(
-            color: Color(0x99000000),
+          decoration: BoxDecoration(
+            color: big ? const Color(0x99000000) : const Color(0x33FFFFFF),
             shape: BoxShape.circle,
           ),
           alignment: Alignment.center,
           child: Icon(
             c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-            size: big ? 28 : (style.iconSize ?? 20),
+            size: iconSize,
             color: fg,
           ),
         ),
       ),
     ),
   );
+}
+
+/// Handles keyboard events for video playback.
+KeyEventResult handleVideoKey({
+  required KeyEvent event,
+  required VideoPlaybackController controller,
+  VoidCallback? onFullscreenRequested,
+}) {
+  if (event is! KeyDownEvent) return KeyEventResult.ignored;
+  switch (event.logicalKey) {
+    case LogicalKeyboardKey.space:
+    case LogicalKeyboardKey.keyK:
+      controller.toggle();
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowRight:
+      controller.seekTo(controller.position + const Duration(seconds: 5));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowLeft:
+      controller.seekTo(controller.position - const Duration(seconds: 5));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowUp:
+      controller.setVolume((controller.volume + 0.1).clamp(0.0, 1.0));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowDown:
+      controller.setVolume((controller.volume - 0.1).clamp(0.0, 1.0));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyM:
+      controller.setMuted(!controller.isMuted);
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyF:
+      onFullscreenRequested?.call();
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyC:
+      controller.toggleCaptions();
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyL:
+      controller.setLooping(!controller.isLooping);
+      return KeyEventResult.handled;
+  }
+  return KeyEventResult.ignored;
 }
 
 /// Inline volume track painter.
@@ -121,29 +185,32 @@ class VolumePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double cy = size.height / 2;
-    final Paint paint = Paint()..style = PaintingStyle.fill;
-    paint.color = fill.withValues(alpha: 0.35);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, cy - 2, size.width, 4),
-        const Radius.circular(2),
-      ),
-      paint,
-    );
-    paint.color = fill;
-    final double w = size.width * value.clamp(0.0, 1.0);
-    final Rect rect = rtl
-        ? Rect.fromLTWH(size.width - w, cy - 2, w, 4)
-        : Rect.fromLTWH(0, cy - 2, w, 4);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(2)),
-      paint,
-    );
+    final double midY = size.height / 2;
+    final Paint track = Paint()
+      ..color = fill.withAlpha(0x59)
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+    final Paint active = Paint()
+      ..color = fill
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(Offset(0, midY), Offset(size.width, midY), track);
+    final double fillWidth = size.width * value.clamp(0.0, 1.0);
+    if (rtl) {
+      canvas.drawLine(
+        Offset(size.width, midY),
+        Offset(size.width - fillWidth, midY),
+        active,
+      );
+    } else {
+      canvas.drawLine(Offset(0, midY), Offset(fillWidth, midY), active);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant VolumePainter old) {
-    return old.value != value || old.fill != fill || old.rtl != rtl;
-  }
+  bool shouldRepaint(VolumePainter oldDelegate) =>
+      oldDelegate.value != value ||
+      oldDelegate.fill != fill ||
+      oldDelegate.rtl != rtl;
 }

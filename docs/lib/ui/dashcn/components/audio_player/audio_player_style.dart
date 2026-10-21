@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 
 /// Layout of the audio player.
@@ -15,8 +16,90 @@ enum AudioPlayerVariant {
   /// Single row: play, title, progress, time.
   compact,
 
-  /// Cover art on top with full control rows.
+  /// Card with cover art, title/subtitle, progress and transport rows.
   full,
+}
+
+/// Sizing metrics for `audio_player` across density levels.
+class AudioPlayerMetrics {
+  /// Creates sizing metrics.
+  const AudioPlayerMetrics({
+    required this.playButtonSize,
+    required this.smallButtonSize,
+    required this.iconSize,
+    required this.coverSize,
+    required this.padding,
+    required this.trackHeight,
+    required this.titleFontSize,
+    required this.subtitleFontSize,
+    required this.timeFontSize,
+  });
+
+  /// Play button diameter.
+  final double playButtonSize;
+
+  /// Secondary transport button diameter.
+  final double smallButtonSize;
+
+  /// Transport icon size.
+  final double iconSize;
+
+  /// Square cover art width/height.
+  final double coverSize;
+
+  /// Internal card padding.
+  final EdgeInsetsGeometry padding;
+
+  /// Scrub bar track height.
+  final double trackHeight;
+
+  /// Title font size.
+  final double titleFontSize;
+
+  /// Subtitle font size.
+  final double subtitleFontSize;
+
+  /// Time label font size.
+  final double timeFontSize;
+
+  /// Compact metrics (default look).
+  static const AudioPlayerMetrics compact = AudioPlayerMetrics(
+    playButtonSize: 32,
+    smallButtonSize: 32,
+    iconSize: 16,
+    coverSize: 44,
+    padding: EdgeInsetsDensity.pxAll(12),
+    trackHeight: 4,
+    titleFontSize: 13,
+    subtitleFontSize: 12,
+    timeFontSize: 11,
+  );
+
+  /// Comfortable metrics.
+  static const AudioPlayerMetrics comfortable = AudioPlayerMetrics(
+    playButtonSize: 40,
+    smallButtonSize: 36,
+    iconSize: 18,
+    coverSize: 48,
+    padding: EdgeInsetsDensity.pxAll(16),
+    trackHeight: 4,
+    titleFontSize: 14,
+    subtitleFontSize: 13,
+    timeFontSize: 12,
+  );
+
+  /// Touch metrics for phone screens.
+  static const AudioPlayerMetrics touch = AudioPlayerMetrics(
+    playButtonSize: 48,
+    smallButtonSize: 44,
+    iconSize: 20,
+    coverSize: 56,
+    padding: EdgeInsetsDensity.pxAll(16),
+    trackHeight: 6,
+    titleFontSize: 15,
+    subtitleFontSize: 14,
+    timeFontSize: 13,
+  );
 }
 
 /// Visual contract of the audio player.
@@ -103,22 +186,22 @@ class AudioPlayerTheme extends ComponentThemeData
   /// Progress track height.
   final double? trackHeight;
 
-  /// Title text style.
+  /// Track title text style.
   final TextStyle? titleTextStyle;
 
-  /// Subtitle text style.
+  /// Track subtitle text style.
   final TextStyle? subtitleTextStyle;
 
   /// Time label text style.
   final TextStyle? timeTextStyle;
 
-  /// Surface opacity leg for the player card.
+  /// Surface opacity leg.
   final double? surfaceOpacity;
 
-  /// Surface blur leg for the player card.
+  /// Surface blur leg.
   final double? surfaceBlur;
 
-  /// Fade duration for state changes.
+  /// Fade duration for states.
   final Duration? fadeDuration;
 
   /// Returns a copy with the given fields replaced.
@@ -223,42 +306,6 @@ class AudioPlayerTheme extends ComponentThemeData
     );
   }
 
-  /// Discrete fields step at t < 0.5; geometry lerps.
-  static AudioPlayerTheme lerp(
-    AudioPlayerTheme a,
-    AudioPlayerTheme b,
-    double t,
-  ) {
-    return AudioPlayerTheme(
-      themeDensity: t < 0.5 ? a.themeDensity : b.themeDensity,
-      themeSpacing: t < 0.5 ? a.themeSpacing : b.themeSpacing,
-      themeShadows: t < 0.5 ? a.themeShadows : b.themeShadows,
-      background: t < 0.5 ? a.background : b.background,
-      foreground: t < 0.5 ? a.foreground : b.foreground,
-      mutedForeground: t < 0.5 ? a.mutedForeground : b.mutedForeground,
-      accent: t < 0.5 ? a.accent : b.accent,
-      track: t < 0.5 ? a.track : b.track,
-      buffered: t < 0.5 ? a.buffered : b.buffered,
-      thumb: t < 0.5 ? a.thumb : b.thumb,
-      coverBackground: t < 0.5 ? a.coverBackground : b.coverBackground,
-      borderColor: t < 0.5 ? a.borderColor : b.borderColor,
-      borderWidth: t < 0.5 ? a.borderWidth : b.borderWidth,
-      borderRadius: t < 0.5 ? a.borderRadius : b.borderRadius,
-      padding: t < 0.5 ? a.padding : b.padding,
-      coverSize: t < 0.5 ? a.coverSize : b.coverSize,
-      coverRadius: t < 0.5 ? a.coverRadius : b.coverRadius,
-      controlSize: t < 0.5 ? a.controlSize : b.controlSize,
-      iconSize: t < 0.5 ? a.iconSize : b.iconSize,
-      trackHeight: t < 0.5 ? a.trackHeight : b.trackHeight,
-      titleTextStyle: t < 0.5 ? a.titleTextStyle : b.titleTextStyle,
-      subtitleTextStyle: t < 0.5 ? a.subtitleTextStyle : b.subtitleTextStyle,
-      timeTextStyle: t < 0.5 ? a.timeTextStyle : b.timeTextStyle,
-      surfaceOpacity: t < 0.5 ? a.surfaceOpacity : b.surfaceOpacity,
-      surfaceBlur: t < 0.5 ? a.surfaceBlur : b.surfaceBlur,
-      fadeDuration: t < 0.5 ? a.fadeDuration : b.fadeDuration,
-    );
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -334,9 +381,10 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   coverBackground: ThemedColor.ref(ColorRef.muted),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
-  controlSize: 48,
-  iconSize: 20,
-  coverSize: 176,
+  controlSize: 32,
+  iconSize: 16,
+  coverSize: 44,
+  padding: EdgeInsetsDensity.pxAll(12),
   trackHeight: 4,
   fadeDuration: kDefaultDuration,
 );

@@ -6,6 +6,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/tap_target.dart';
+import 'audio_player_transport.dart';
+
 /// Value the bar reports.
 typedef AudioSeekChanged = void Function(Duration position);
 
@@ -71,6 +74,7 @@ class AudioProgressBar extends StatefulWidget {
 class _AudioProgressBarState extends State<AudioProgressBar> {
   FocusNode? _owned;
   bool _focused = false;
+  bool _hovered = false;
 
   FocusNode get _node => widget.focusNode ?? (_owned ??= FocusNode());
 
@@ -121,61 +125,77 @@ class _AudioProgressBarState extends State<AudioProgressBar> {
       label: widget.semanticLabel ?? 'Seek',
       slider: true,
       enabled: widget.enabled,
-      value: '${widget.position.inSeconds}s of ${widget.duration.inSeconds}s',
+      value: formatAudioTimeValuetext(widget.position, widget.duration),
       increasedValue:
           '${(widget.position + const Duration(seconds: 5)).inSeconds}s',
       decreasedValue:
           '${(widget.position - const Duration(seconds: 5)).inSeconds}s',
       onIncrease: widget.enabled ? () => _step(1) : null,
       onDecrease: widget.enabled ? () => _step(-1) : null,
-      child: Focus(
-        focusNode: _node,
-        onFocusChange: (v) => setState(() => _focused = v),
-        onKeyEvent: (node, event) {
-          if (!widget.enabled || event is! KeyDownEvent) {
+      child: TapTarget(
+        minHeight: 48,
+        child: Focus(
+          focusNode: _node,
+          onFocusChange: (v) => setState(() => _focused = v),
+          onKeyEvent: (node, event) {
+            if (!widget.enabled || event is! KeyDownEvent) {
+              return KeyEventResult.ignored;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+              _step(1);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+              _step(-1);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.home) {
+              widget.onSeek?.call(Duration.zero);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.end) {
+              widget.onSeek?.call(widget.duration);
+              return KeyEventResult.handled;
+            }
             return KeyEventResult.ignored;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-            _step(1);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-            _step(-1);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.home) {
-            widget.onSeek?.call(Duration.zero);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.end) {
-            widget.onSeek?.call(widget.duration);
-            return KeyEventResult.handled;
-          }
-          return KeyEventResult.ignored;
-        },
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) {
-            final RenderBox box = context.findRenderObject()! as RenderBox;
-            _seekFromDx(box.globalToLocal(d.globalPosition).dx, box.size.width);
           },
-          onHorizontalDragUpdate: (d) {
-            final RenderBox box = context.findRenderObject()! as RenderBox;
-            _seekFromDx(box.globalToLocal(d.globalPosition).dx, box.size.width);
-          },
-          child: SizedBox(
-            height: 48,
-            child: CustomPaint(
-              painter: _AudioBarPainter(
-                fraction: _fraction,
-                bufferedFraction: _bufferedFraction,
-                trackColor: widget.trackColor,
-                bufferedColor: widget.bufferedColor,
-                fillColor: widget.fillColor,
-                thumbColor: widget.thumbColor,
-                trackHeight: widget.trackHeight,
-                focused: _focused,
-                rtl: rtl,
+          child: MouseRegion(
+            cursor: widget.enabled
+                ? SystemMouseCursors.click
+                : SystemMouseCursors.basic,
+            onEnter: (_) => setState(() => _hovered = true),
+            onExit: (_) => setState(() => _hovered = false),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (d) {
+                final RenderBox box = context.findRenderObject()! as RenderBox;
+                _seekFromDx(
+                  box.globalToLocal(d.globalPosition).dx,
+                  box.size.width,
+                );
+              },
+              onHorizontalDragUpdate: (d) {
+                final RenderBox box = context.findRenderObject()! as RenderBox;
+                _seekFromDx(
+                  box.globalToLocal(d.globalPosition).dx,
+                  box.size.width,
+                );
+              },
+              child: SizedBox(
+                height: 24,
+                child: CustomPaint(
+                  painter: _AudioBarPainter(
+                    fraction: _fraction,
+                    bufferedFraction: _bufferedFraction,
+                    trackColor: widget.trackColor,
+                    bufferedColor: widget.bufferedColor,
+                    fillColor: widget.fillColor,
+                    thumbColor: widget.thumbColor,
+                    trackHeight: widget.trackHeight,
+                    focused: _focused || _hovered,
+                    rtl: rtl,
+                  ),
+                ),
               ),
             ),
           ),
@@ -235,7 +255,7 @@ class _AudioBarPainter extends CustomPainter {
       final double fw = size.width * fraction;
       final Rect fRect = rtl
           ? Rect.fromLTWH(size.width - fw, cy - half, fw, trackHeight)
-          : Rect.fromLTWH(0, cy - 2, fw, trackHeight);
+          : Rect.fromLTWH(0, cy - half, fw, trackHeight);
       paint.color = fillColor;
       canvas.drawRRect(
         RRect.fromRectAndRadius(fRect, Radius.circular(half)),
@@ -244,7 +264,7 @@ class _AudioBarPainter extends CustomPainter {
     }
     final double tx = rtl ? size.width * (1 - fraction) : size.width * fraction;
     paint.color = thumbColor;
-    canvas.drawCircle(Offset(tx, cy), focused ? 8 : 6, paint);
+    canvas.drawCircle(Offset(tx, cy), focused ? 6 : 4, paint);
   }
 
   @override

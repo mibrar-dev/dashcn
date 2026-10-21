@@ -8826,6 +8826,14 @@ kControlSpecs = <String, ComponentControls>{
         defaultValue: 'true',
       ),
       ControlSpec(
+        name: 'initialSpeedOpen',
+        label: 'Initial Speed Open',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+      ),
+      ControlSpec(
         name: 'semanticLabel',
         label: 'Semantic Label',
         kind: ControlKind.text,
@@ -9608,6 +9616,14 @@ kControlSpecs = <String, ComponentControls>{
         readOnlyReason: 'callback',
       ),
       ControlSpec(
+        name: 'captionsButtonBuilder',
+        label: 'Captions Button Builder',
+        kind: ControlKind.readOnly,
+        type: 'VideoPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
         name: 'fullscreenButtonBuilder',
         label: 'Fullscreen Button Builder',
         kind: ControlKind.readOnly,
@@ -9675,6 +9691,13 @@ kControlSpecs = <String, ComponentControls>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'initialCaptionsEnabled',
+        label: 'Initial Captions Enabled',
+        kind: ControlKind.toggle,
+        type: 'bool?',
+        isRequired: false,
       ),
     ],
   ),

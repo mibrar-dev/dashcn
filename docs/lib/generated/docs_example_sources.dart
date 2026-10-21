@@ -23889,7 +23889,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
 
-/// Default full player with title and subtitle.
+/// Default compact card with title and subtitle.
 class _DefaultAudio extends StatefulWidget {
   const _DefaultAudio();
 
@@ -23920,6 +23920,138 @@ class _DefaultAudioState extends State<_DefaultAudio> {
 }
 
 Widget _default(BuildContext context) => const _DefaultAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Comfortable',
+      builder: '_comfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Player with comfortable density tokens.
+class _ComfortableAudio extends StatefulWidget {
+  const _ComfortableAudio();
+
+  @override
+  State<_ComfortableAudio> createState() => _ComfortableAudioState();
+}
+
+class _ComfortableAudioState extends State<_ComfortableAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Comfortable edition',
+        subtitle: 'Studio Master',
+        theme: const AudioPlayerTheme(
+          controlSize: 40,
+          iconSize: 18,
+          coverSize: 48,
+          padding: EdgeInsets.all(16),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _comfortable(BuildContext context) => const _ComfortableAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Phone width',
+      builder: '_phone',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Responsive player on phone width (volume hidden).
+class _PhoneAudio extends StatefulWidget {
+  const _PhoneAudio();
+
+  @override
+  State<_PhoneAudio> createState() => _PhoneAudioState();
+}
+
+class _PhoneAudioState extends State<_PhoneAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 320,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Mobile podcast',
+        subtitle: 'Volume hidden on phone',
+      ),
+    );
+  }
+}
+
+Widget _phone(BuildContext context) => const _PhoneAudio();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Speed menu open',
+      builder: '_speedMenuOpen',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Player with speed menu open.
+class _SpeedMenuOpenAudio extends StatefulWidget {
+  const _SpeedMenuOpenAudio();
+
+  @override
+  State<_SpeedMenuOpenAudio> createState() => _SpeedMenuOpenAudioState();
+}
+
+class _SpeedMenuOpenAudioState extends State<_SpeedMenuOpenAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    playbackSpeed: 1.5,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: AudioPlayer(
+        controller: _controller,
+        title: 'Speed menu open',
+        subtitle: '1.5x selected',
+        initialSpeedOpen: true,
+      ),
+    );
+  }
+}
+
+Widget _speedMenuOpen(BuildContext context) => const _SpeedMenuOpenAudio();
 ''',
     ),
     DocsExampleSource(
@@ -24007,7 +24139,7 @@ class _CoverAudioState extends State<_CoverAudio> {
           ),
           child: const Icon(
             LucideIcons.music,
-            size: 48,
+            size: 24,
             color: Color(0xFFFFFFFF),
           ),
         ),
@@ -24054,14 +24186,14 @@ class _WaveformAudioState extends State<_WaveformAudio> {
         waveformBuilder: (context, c, defaults) => GestureDetector(
           onTapDown: (_) => c.seekTo(c.duration * 0.75),
           child: SizedBox(
-            height: 48,
+            height: 24,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 for (int i = 0; i < 32; i++)
                   Container(
                     width: 4,
-                    height: 12 + (i % 5) * 6.0,
+                    height: 8 + (i % 5) * 3.0,
                     margin: const EdgeInsets.symmetric(horizontal: 1),
                     color: const Color(0xFF71717A),
                   ),
@@ -24156,13 +24288,13 @@ class _CustomAudioState extends State<_CustomAudio> {
         subtitle: 'Rose accent',
         theme: const AudioPlayerTheme(
           accent: ThemedColor.value(Color(0xFFE11D48)),
-          controlSize: 56,
+          controlSize: 48,
         ),
         playButtonBuilder: (context, c) => GestureDetector(
           onTap: c.toggle,
           child: Container(
-            width: 56,
-            height: 56,
+            width: 48,
+            height: 48,
             decoration: const BoxDecoration(
               color: Color(0xFFE11D48),
               shape: BoxShape.circle,
@@ -24606,7 +24738,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 
-/// Default player with a poster frame behind the content.
+/// Default player with compact density.
 class _DefaultVideo extends StatefulWidget {
   const _DefaultVideo();
 
@@ -24638,9 +24770,6 @@ class _DefaultVideoState extends State<_DefaultVideo> {
                 colors: <Color>[Color(0xFF312E81), Color(0xFF0EA5E9)],
               ),
             ),
-            // Explicit light-on-dark demo copy: the harness stage paints the
-            // default (dark) text style, which falls below 4.5:1 on this
-            // gradient. Real frames are video pixels, not text.
             child: const Text(
               'Demo frame',
               style: TextStyle(
@@ -24657,6 +24786,255 @@ class _DefaultVideoState extends State<_DefaultVideo> {
 }
 
 Widget _default(BuildContext context) => const _DefaultVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Comfortable',
+      builder: '_comfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Player with comfortable density tokens.
+class _ComfortableVideo extends StatefulWidget {
+  const _ComfortableVideo();
+
+  @override
+  State<_ComfortableVideo> createState() => _ComfortableVideoState();
+}
+
+class _ComfortableVideoState extends State<_ComfortableVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          theme: const VideoPlayerTheme(
+            controlSize: 56,
+            iconSize: 20,
+            controlsPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          ),
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF0F172A), Color(0xFF334155)],
+              ),
+            ),
+            child: const Text(
+              'Comfortable density',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _comfortable(BuildContext context) => const _ComfortableVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Phone width',
+      builder: '_phone',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Player scaled for phone width.
+class _PhoneVideo extends StatefulWidget {
+  const _PhoneVideo();
+
+  @override
+  State<_PhoneVideo> createState() => _PhoneVideoState();
+}
+
+class _PhoneVideoState extends State<_PhoneVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 320,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF1E1B4B), Color(0xFF4338CA)],
+              ),
+            ),
+            child: const Text(
+              'Phone width (320px)',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _phone(BuildContext context) => const _PhoneVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Control bar open',
+      builder: '_controlBarOpen',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Player with control bar visible.
+class _ControlBarOpenVideo extends StatefulWidget {
+  const _ControlBarOpenVideo();
+
+  @override
+  State<_ControlBarOpenVideo> createState() => _ControlBarOpenVideoState();
+}
+
+class _ControlBarOpenVideoState extends State<_ControlBarOpenVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    isPlaying: false,
+    position: const Duration(minutes: 1, seconds: 15),
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF047857), Color(0xFF10B981)],
+              ),
+            ),
+            child: const Text(
+              'Control bar open',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _controlBarOpen(BuildContext context) => const _ControlBarOpenVideo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Speed menu open',
+      builder: '_speedMenuOpen',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Player with speed menu opened.
+class _SpeedMenuOpenVideo extends StatefulWidget {
+  const _SpeedMenuOpenVideo();
+
+  @override
+  State<_SpeedMenuOpenVideo> createState() => _SpeedMenuOpenVideoState();
+}
+
+class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
+  final FakeVideoPlaybackController _controller = FakeVideoPlaybackController(
+    playbackSpeed: 1.25,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: ColoredBox(
+        color: const Color(0xFF000000),
+        child: VideoPlayer(
+          controller: _controller,
+          controlsBuilder: (context, c, defaults) => VideoControlsBar(
+            controller: c,
+            style: videoPlayerDefaults,
+            fg: const Color(0xFFFFFFFF),
+            fade: Duration.zero,
+            initialSpeedOpen: true,
+          ),
+          content: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xFF4C1D95), Color(0xFF7C3AED)],
+              ),
+            ),
+            child: const Text(
+              'Speed menu open',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _speedMenuOpen(BuildContext context) => const _SpeedMenuOpenVideo();
 ''',
     ),
     DocsExampleSource(

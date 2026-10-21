@@ -2,10 +2,32 @@
 //
 // The kit ships no media plugin: the UI drives this small `ChangeNotifier`
 // interface (play, pause, seek, position, duration, buffered, volume, mute,
-// speed, looping) and the docs app shows how to wire `package:video_player`
+// speed, looping, captions). The docs app shows how to wire `package:video_player`
 // to it. `FakeVideoPlaybackController` backs previews and tests.
 
 import 'package:flutter/widgets.dart';
+
+/// One caption cue with a start, end and text.
+class VideoCaptionCue {
+  /// Creates a caption cue.
+  const VideoCaptionCue({
+    required this.start,
+    required this.end,
+    required this.text,
+  });
+
+  /// Cue start timestamp.
+  final Duration start;
+
+  /// Cue end timestamp.
+  final Duration end;
+
+  /// Cue text to display.
+  final String text;
+
+  /// Whether this cue is active at [position].
+  bool isActive(Duration position) => position >= start && position <= end;
+}
 
 /// Minimal playback surface the video UI needs. Implemented by the docs
 /// `package:video_player` adapter and by [FakeVideoPlaybackController].
@@ -40,6 +62,12 @@ abstract class VideoPlaybackController extends ChangeNotifier {
   /// Last fatal error, if any.
   Object? get error;
 
+  /// Caption cues for subtitles; empty by default.
+  List<VideoCaptionCue> get cues => const <VideoCaptionCue>[];
+
+  /// Whether captions are currently turned on.
+  bool get areCaptionsEnabled => false;
+
   /// Starts playback.
   Future<void> play();
 
@@ -66,6 +94,12 @@ abstract class VideoPlaybackController extends ChangeNotifier {
 
   /// Enables or disables looping.
   Future<void> setLooping(bool looping);
+
+  /// Enables or disables captions.
+  Future<void> setCaptionsEnabled(bool enabled) async {}
+
+  /// Toggles caption visibility.
+  Future<void> toggleCaptions() => setCaptionsEnabled(!areCaptionsEnabled);
 }
 
 /// In-memory [VideoPlaybackController] for previews and tests.
@@ -84,6 +118,8 @@ class FakeVideoPlaybackController extends VideoPlaybackController {
     bool? isPlaying,
     bool? isBuffering,
     bool? isLooping,
+    bool? areCaptionsEnabled,
+    List<VideoCaptionCue>? cues,
     this.onPlay,
     this.onPause,
     this.onSeek,
@@ -95,7 +131,9 @@ class FakeVideoPlaybackController extends VideoPlaybackController {
        _playbackSpeed = playbackSpeed ?? 1.0,
        _isPlaying = isPlaying ?? false,
        _isBuffering = isBuffering ?? false,
-       _isLooping = isLooping ?? false;
+       _isLooping = isLooping ?? false,
+       _areCaptionsEnabled = areCaptionsEnabled ?? false,
+       _cues = cues ?? const <VideoCaptionCue>[];
 
   final Duration _duration;
   Duration _position;
@@ -106,6 +144,8 @@ class FakeVideoPlaybackController extends VideoPlaybackController {
   bool _isPlaying;
   bool _isBuffering;
   bool _isLooping;
+  bool _areCaptionsEnabled;
+  final List<VideoCaptionCue> _cues;
   Object? _error;
 
   /// Called on play (for callback tests).
@@ -143,6 +183,12 @@ class FakeVideoPlaybackController extends VideoPlaybackController {
 
   @override
   bool get isLooping => _isLooping;
+
+  @override
+  bool get areCaptionsEnabled => _areCaptionsEnabled;
+
+  @override
+  List<VideoCaptionCue> get cues => _cues;
 
   @override
   Object? get error => _error;
@@ -214,6 +260,12 @@ class FakeVideoPlaybackController extends VideoPlaybackController {
   @override
   Future<void> setLooping(bool looping) async {
     _isLooping = looping;
+    notifyListeners();
+  }
+
+  @override
+  Future<void> setCaptionsEnabled(bool enabled) async {
+    _areCaptionsEnabled = enabled;
     notifyListeners();
   }
 }

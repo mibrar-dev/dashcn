@@ -1,14 +1,16 @@
 // The `video_player` component: a dependency-free video chrome.
 //
 // The UI drives a [VideoPlaybackController] (play, pause, seek, position,
-// duration, buffered, volume, mute, speed, looping). The docs app wires
+// duration, buffered, volume, mute, speed, looping, captions). The docs app wires
 // `package:video_player` to it; the kit ships [FakeVideoPlaybackController].
 
-import 'package:flutter/services.dart';
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -21,13 +23,6 @@ export 'video_player_controller.dart';
 export 'video_player_controls.dart';
 export 'video_player_scrub.dart';
 export 'video_player_style.dart';
-
-/// Reserved strip for the floating control bar: scrub (48) + button row
-/// (48) + outer offset (8) + margin.
-///
-/// The tap-to-toggle detector stops above this strip so bar buttons never
-/// compete with playback toggling.
-const double _barReserve = 112;
 
 /// A video frame with poster, play overlay, scrub bar and control bar.
 class VideoPlayer extends StatefulWidget {
@@ -54,6 +49,7 @@ class VideoPlayer extends StatefulWidget {
     this.timeLabelBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.captionsButtonBuilder,
     this.fullscreenButtonBuilder,
     this.loadingBuilder,
     this.errorBuilder,
@@ -62,6 +58,7 @@ class VideoPlayer extends StatefulWidget {
     this.initialMuted = false,
     this.initialSpeed = 1.0,
     this.initialLooping = false,
+    this.initialCaptionsEnabled,
   });
 
   /// Playback controller; an internal fake is owned when null.
@@ -134,6 +131,9 @@ class VideoPlayer extends StatefulWidget {
   /// Overrides the speed menu.
   final VideoPartBuilder? speedBuilder;
 
+  /// Overrides the captions toggle button.
+  final VideoPartBuilder? captionsButtonBuilder;
+
   /// Overrides the fullscreen button.
   final VideoPartBuilder? fullscreenButtonBuilder;
 
@@ -158,6 +158,9 @@ class VideoPlayer extends StatefulWidget {
   /// Uncontrolled initial looping.
   final bool initialLooping;
 
+  /// Uncontrolled initial captions enabled.
+  final bool? initialCaptionsEnabled;
+
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
 }
@@ -165,6 +168,9 @@ class VideoPlayer extends StatefulWidget {
 class _VideoPlayerState extends State<VideoPlayer> {
   VideoPlaybackController? _owned;
   FocusNode? _ownedFocus;
+  Timer? _hideTimer;
+  bool _controlsVisible = true;
+  bool _focused = false;
 
   VideoPlaybackController get _controller =>
       widget.controller ??
@@ -174,6 +180,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
         isMuted: widget.initialMuted,
         playbackSpeed: widget.initialSpeed,
         isLooping: widget.initialLooping,
+        areCaptionsEnabled:
+            widget.initialCaptionsEnabled ?? (widget.captions != null),
       ));
 
   FocusNode get _focus => widget.focusNode ?? (_ownedFocus ??= FocusNode());
@@ -191,36 +199,24 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void dispose() {
+    _hideTimer?.cancel();
     _owned?.dispose();
     _ownedFocus?.dispose();
     super.dispose();
   }
 
-  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
-    if (event is! KeyDownEvent) return KeyEventResult.ignored;
-    final c = _controller;
-    switch (event.logicalKey) {
-      case LogicalKeyboardKey.space:
-      case LogicalKeyboardKey.keyK:
-        c.toggle();
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.arrowRight:
-        c.seekTo(c.position + const Duration(seconds: 5));
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.arrowLeft:
-        c.seekTo(c.position - const Duration(seconds: 5));
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyM:
-        c.setMuted(!c.isMuted);
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyF:
-        widget.onFullscreenRequested?.call();
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyL:
-        c.setLooping(!c.isLooping);
-        return KeyEventResult.handled;
+  void _onActivity({Duration timeout = const Duration(seconds: 3)}) {
+    if (!_controlsVisible) {
+      setState(() => _controlsVisible = true);
     }
-    return KeyEventResult.ignored;
+    _hideTimer?.cancel();
+    if (_controller.isPlaying) {
+      _hideTimer = Timer(timeout, () {
+        if (mounted && _controller.isPlaying) {
+          setState(() => _controlsVisible = false);
+        }
+      });
+    }
   }
 
   @override
@@ -253,6 +249,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final bool showPoster =
         widget.poster != null && !c.isPlaying && c.position <= Duration.zero;
 
+    if (!c.isPlaying && !_controlsVisible) {
+      _controlsVisible = true;
+    }
+
     Widget stage = Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -275,75 +275,96 @@ class _VideoPlayerState extends State<VideoPlayer> {
           Center(
             child:
                 widget.errorBuilder?.call(context, c.error!) ??
-                Text('Playback failed', style: TextStyle(color: fg)),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'Playback failed',
+                      style: TextStyle(color: fg, fontSize: 13),
+                    ),
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: c.play,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0x33FFFFFF),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          'Retry',
+                          style: TextStyle(color: fg, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
           ),
         if (!c.isPlaying && c.error == null && !c.isBuffering)
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: widget.showControls ? _barReserve : 0,
-            child: Center(
-              child: videoPlayButton(context, style, fg, c, big: true),
-            ),
-          ),
-        if (widget.captions != null)
-          Positioned(
-            left: 12,
-            right: 12,
-            bottom: widget.showControls ? 96 : 12,
-            child: DefaultTextStyle(
-              style:
-                  style.captionsTextStyle ?? TextStyle(color: fg, fontSize: 13),
-              textAlign: TextAlign.center,
-              child: widget.captions!,
-            ),
-          ),
+          Center(child: videoPlayButton(context, style, fg, c, big: true)),
+        _captionOverlay(context, style, fg, c),
       ],
     );
-    // The tap-to-toggle detector covers only the media area above the
-    // control bar: the bar owns its own hit region, so pressing a button
-    // never competes with (or toggles) playback.
-    final Widget stageTap = GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: c.toggle,
-      child: stage,
-    );
-    Widget frame = Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: widget.showControls ? _barReserve : 0,
-          child: stageTap,
-        ),
-        if (widget.showControls)
-          Positioned(
-            left: 8,
-            right: 8,
-            bottom: 8,
-            child: VideoControlsBar(
-              controller: c,
-              style: style,
-              fg: fg,
-              fade: fade,
-              supportedSpeeds: widget.supportedSpeeds,
-              showFullscreenButton: widget.showFullscreenButton,
-              onFullscreenRequested: widget.onFullscreenRequested,
-              playButtonBuilder: widget.playButtonBuilder,
-              progressBuilder: widget.progressBuilder,
-              timeLabelBuilder: widget.timeLabelBuilder,
-              volumeBuilder: widget.volumeBuilder,
-              speedBuilder: widget.speedBuilder,
-              fullscreenButtonBuilder: widget.fullscreenButtonBuilder,
-              controlsBuilder: widget.controlsBuilder,
-            ),
+
+    Widget frame = MouseRegion(
+      onHover: (_) => _onActivity(
+        timeout: style.controlsTimeout ?? const Duration(seconds: 3),
+      ),
+      onEnter: (_) => _onActivity(
+        timeout: style.controlsTimeout ?? const Duration(seconds: 3),
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              c.toggle();
+              _onActivity(
+                timeout: style.controlsTimeout ?? const Duration(seconds: 3),
+              );
+            },
+            child: stage,
           ),
-      ],
+          if (widget.showControls)
+            Positioned(
+              left: 8,
+              right: 8,
+              bottom: 8,
+              child: AnimatedOpacity(
+                opacity: _controlsVisible ? 1.0 : 0.0,
+                duration: fade,
+                child: IgnorePointer(
+                  ignoring: !_controlsVisible,
+                  child: VideoControlsBar(
+                    controller: c,
+                    style: style,
+                    fg: fg,
+                    fade: fade,
+                    supportedSpeeds: widget.supportedSpeeds,
+                    showFullscreenButton: widget.showFullscreenButton,
+                    onFullscreenRequested: widget.onFullscreenRequested,
+                    playButtonBuilder: widget.playButtonBuilder,
+                    progressBuilder: widget.progressBuilder,
+                    timeLabelBuilder: widget.timeLabelBuilder,
+                    volumeBuilder: widget.volumeBuilder,
+                    speedBuilder: widget.speedBuilder,
+                    captionsButtonBuilder: widget.captionsButtonBuilder,
+                    fullscreenButtonBuilder: widget.fullscreenButtonBuilder,
+                    controlsBuilder: widget.controlsBuilder,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
+
     frame = ClipRRect(borderRadius: radius, child: frame);
+    frame = FocusOutline(focused: _focused, borderRadius: radius, child: frame);
     frame = Semantics(
       label: widget.semanticLabel ?? 'Video player',
       child: frame,
@@ -351,8 +372,64 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return Focus(
       focusNode: _focus,
       autofocus: widget.autofocus,
-      onKeyEvent: _onKey,
+      onFocusChange: (v) => setState(() => _focused = v),
+      onKeyEvent: (node, event) {
+        _onActivity();
+        return handleVideoKey(
+          event: event,
+          controller: c,
+          onFullscreenRequested: widget.onFullscreenRequested,
+        );
+      },
       child: AspectRatio(aspectRatio: widget.aspectRatio, child: frame),
+    );
+  }
+
+  Widget _captionOverlay(
+    BuildContext context,
+    VideoPlayerTheme style,
+    Color fg,
+    VideoPlaybackController c,
+  ) {
+    if (!c.areCaptionsEnabled && widget.initialCaptionsEnabled == false) {
+      return const SizedBox.shrink();
+    }
+    String? cueText;
+    for (final cue in c.cues) {
+      if (cue.isActive(c.position)) {
+        cueText = cue.text;
+        break;
+      }
+    }
+    final Widget? captionWidget = cueText != null
+        ? Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xCC000000),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              cueText,
+              style:
+                  style.captionsTextStyle ?? TextStyle(color: fg, fontSize: 13),
+              textAlign: TextAlign.center,
+            ),
+          )
+        : widget.captions;
+
+    if (captionWidget == null) return const SizedBox.shrink();
+
+    return Positioned(
+      left: 12,
+      right: 12,
+      bottom: widget.showControls ? 64 : 12,
+      child: Center(
+        child: DefaultTextStyle(
+          style: style.captionsTextStyle ?? TextStyle(color: fg, fontSize: 13),
+          textAlign: TextAlign.center,
+          child: captionWidget,
+        ),
+      ),
     );
   }
 }
