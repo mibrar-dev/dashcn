@@ -21727,7 +21727,7 @@ import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.d
 Widget _compact(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.compact,
   title: 'Compact (default)',
-  message: 'Row 32-36, icon 16, padding 12/6',
+  message: 'Row 40, icon 16, padding 12/6',
   actions: const <ActionSheetAction<void>>[
     ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
     ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
