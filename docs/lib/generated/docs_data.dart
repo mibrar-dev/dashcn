@@ -1263,7 +1263,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add action_sheet',
     import:
         "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
-    fileCount: 3,
+    fileCount: 6,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -1900,7 +1900,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add swipe_actions',
     import:
         "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
-    fileCount: 3,
+    fileCount: 5,
     stability: 'stable',
     listed: true,
     placement: 'center',

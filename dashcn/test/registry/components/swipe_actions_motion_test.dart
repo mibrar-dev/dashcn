@@ -166,8 +166,8 @@ void main() {
     final gesture = await tester.startGesture(center);
     // Two on-surface steps: the first opens the row, the second over-drags
     // past the full width. Resistance stretches the row a little instead of
-    // tracking the finger 1:1.
-    await gesture.moveTo(center + const Offset(-76, 0));
+    // tracking the finger 1:1. Compact tile is ~56 wide.
+    await gesture.moveTo(center + const Offset(-56, 0));
     await tester.pump();
     await gesture.moveTo(center + const Offset(-160, 0));
     await tester.pump();
@@ -177,8 +177,8 @@ void main() {
     );
     final Transform widget = tester.widget<Transform>(translated.first);
     final double dx = widget.transform.getTranslation().x.abs();
-    // Past the 76 px actions width, but far short of the 160 px drag.
-    expect(dx, greaterThan(76));
+    // Past the 56 px actions width, but far short of the 160 px drag.
+    expect(dx, greaterThan(56));
     expect(dx, lessThan(160));
     await gesture.up();
     await _pumpSettle(tester);
@@ -211,8 +211,8 @@ void main() {
       _row(onDelete: () {}, onDismissed: () => dismissed++),
       disableAnimations: true,
     );
-    // A short drag snaps open (below the 1.05 commit line).
-    await tester.drag(find.text('row'), const Offset(-60, 0));
+    // A short drag snaps open (below the 1.05 commit line, compact tile ~56).
+    await tester.drag(find.text('row'), const Offset(-50, 0));
     await tester.pump();
     expect(find.text('Delete'), findsOneWidget);
     expect(dismissed, 0);

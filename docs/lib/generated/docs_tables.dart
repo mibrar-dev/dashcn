@@ -1287,9 +1287,14 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'action_sheet': <DocsDep>[
     DocsDep(id: 'dialog', kind: DocsDepKind.component),
     DocsDep(id: 'drawer', kind: DocsDepKind.component),
+    DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
+    DocsDep(id: 'platform', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'alert_dialog': <DocsDep>[
@@ -1582,8 +1587,10 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'swipe_actions': <DocsDep>[
-    DocsDep(id: 'button', kind: DocsDepKind.component),
+    DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],

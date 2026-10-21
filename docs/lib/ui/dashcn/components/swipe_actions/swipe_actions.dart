@@ -17,13 +17,17 @@ import 'package:flutter/widgets.dart';
 
 import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/motion/motion_spec.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'swipe_action.dart';
 import 'swipe_action_buttons.dart';
+import 'swipe_actions_style.dart';
 
 export 'swipe_action.dart';
 export 'swipe_action_buttons.dart';
+export 'swipe_actions_style.dart';
+export 'swipe_actions_theme.dart';
 
 /// Programmatic control of a [SwipeActions] row: [open] / [close] settle it,
 /// [dismiss] plays the full-swipe commit (collapse, then `onDismissed`), and
@@ -59,7 +63,27 @@ class SwipeActionsController extends ChangeNotifier {
   }
 }
 
+/// Builds the whole trailing actions run; [defaultRun] is the density-sized
+/// [SwipeActionButtons]. Return any widget to swap the run.
+typedef SwipeActionsRunBuilder =
+    Widget Function(BuildContext context, Widget defaultRun, double progress);
+
+/// Builds the row content with its reveal [progress]; [defaultContent] is
+/// the caller [child] stretched to the row width.
+typedef SwipeActionsContentBuilder =
+    Widget Function(
+      BuildContext context,
+      Widget defaultContent,
+      double progress,
+    );
+
 /// Swipe a row to reveal trailing [actions]; optionally dismiss-to-delete.
+///
+/// Density-sized by default ([DensityTokens.compact]): each action tile is
+/// ~56 px wide with a 16 px icon and 11-12 px label; comfortable and touch
+/// grow from the tokens. The row min-height follows the tokens, the reveal
+/// scales with the drag, and a full swipe collapses the row before
+/// [onDismissed] fires.
 ///
 /// The row needs a bounded width (a list row); the child is stretched to
 /// fill it so taps land on the row rather than the hidden actions.
@@ -82,10 +106,14 @@ class SwipeActions extends StatefulWidget {
     required this.child,
     this.actions = const <SwipeAction>[],
     this.onDismissed,
-    this.actionExtent = 76,
+    this.actionExtent,
     this.controller,
     this.motion,
     this.dismissThreshold = 1.05,
+    this.densityTokens,
+    this.theme,
+    this.runBuilder,
+    this.contentBuilder,
   });
 
   /// The row content, slid aside as the actions reveal.
@@ -98,8 +126,10 @@ class SwipeActions extends StatefulWidget {
   /// dismissing; the row then settles open at most.
   final VoidCallback? onDismissed;
 
-  /// Width of one action; the revealed run is `actions.length * actionExtent`.
-  final double actionExtent;
+  /// Width of one action; null resolves from the density tokens
+  /// (`control + 24`: 56 compact / 64 comfortable / 72 touch).
+  /// The revealed run is `actions.length * actionExtent`.
+  final double? actionExtent;
 
   /// Programmatic control; a private one is unused when null.
   final SwipeActionsController? controller;
@@ -111,6 +141,20 @@ class SwipeActions extends StatefulWidget {
   /// Reveal fraction past which a release commits a dismiss (1.0 = exactly
   /// the full actions width). Lower commits earlier.
   final double dismissThreshold;
+
+  /// Per-instance density tokens. Null resolves through the component theme
+  /// legs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone
+  /// widths (< [kPhoneWidthBreakpoint]) use touch unless this is set.
+  final DensityTokens? densityTokens;
+
+  /// Per-instance style override (action width, icon/label sizes, row min).
+  final SwipeActionsTheme? theme;
+
+  /// Swaps the whole trailing actions run.
+  final SwipeActionsRunBuilder? runBuilder;
+
+  /// Swaps the row content (receives the reveal progress).
+  final SwipeActionsContentBuilder? contentBuilder;
 
   @override
   State<SwipeActions> createState() => _SwipeActionsState();
@@ -135,11 +179,53 @@ class _SwipeActionsState extends State<SwipeActions>
   bool _dismissing = false;
   double _collapse = 1;
 
-  double get _totalWidth => widget.actions.length * widget.actionExtent;
+  SwipeActionsTheme _resolvedTheme(BuildContext context) {
+    return resolveComponentStyle<SwipeActionsTheme, SwipeActionsTheme>(
+      context,
+      widget: widget.theme,
+      select: (t) => t,
+      defaults: swipeActionsDefaults,
+    );
+  }
 
-  /// Drag unit in px: the actions width, or a fixed run when action-less
-  /// rows still dismiss.
-  double get _unit => _totalWidth > 0 ? _totalWidth : 96;
+  DensityTokens _tokens(BuildContext context, SwipeActionsTheme resolved) {
+    return widget.densityTokens ??
+        resolved.themeDensityTokens ??
+        ComponentTheme.maybeOf<SwipeActionsTheme>(
+          context,
+        )?.themeDensityTokens ??
+        ComponentThemes.maybeOf<SwipeActionsTheme>(
+          context,
+        )?.themeDensityTokens ??
+        resolveDensityTokens(context);
+  }
+
+  double _extent(BuildContext context) {
+    if (widget.actionExtent != null) return widget.actionExtent!;
+    final SwipeActionsTheme resolved = _resolvedTheme(context);
+    if (resolved.actionWidth != null) {
+      return resolved.actionWidth! * Theme.of(context).scaling;
+    }
+    return swipeActionWidthForTokens(_tokens(context, resolved)) *
+        Theme.of(context).scaling;
+  }
+
+  double get _totalWidth {
+    // Contextful: resolves the density default when no explicit extent.
+    // Called during build/drag when `context` is mounted.
+    double extent;
+    try {
+      extent = _extent(context);
+    } catch (_) {
+      extent = 56;
+    }
+    return widget.actions.length * extent;
+  }
+
+  double get _unit {
+    final double total = _totalWidth;
+    return total > 0 ? total : 96;
+  }
 
   bool get _rtl => Directionality.of(context) == TextDirection.rtl;
 
@@ -317,17 +403,30 @@ class _SwipeActionsState extends State<SwipeActions>
     if (widget.actions.isEmpty && widget.onDismissed == null) {
       return widget.child;
     }
-    final double total = _totalWidth;
+    final SwipeActionsTheme resolved = _resolvedTheme(context);
+    final DensityTokens tokens = _tokens(context, resolved);
+    final double scaling = Theme.of(context).scaling;
+    final double extent =
+        widget.actionExtent ??
+        resolved.actionWidth ??
+        swipeActionWidthForTokens(tokens) * scaling;
+    // Keep an explicit widget extent exact; a theme width scales.
+    final double total =
+        widget.actions.length * (widget.actionExtent ?? extent);
     final double shown = _reveal.clamp(0.0, 1.0);
     final bool peeked = _reveal > 0;
     // Over-drag stretches the row a little past full open (resistance made
     // visible); the settled open and closed states sit exactly at 1 and 0.
     final double travel = shown + (_reveal - shown).clamp(0.0, 0.6) * 0.3;
-    Widget actions = SwipeActionButtons(
+    Widget defaultRun = SwipeActionButtons(
       actions: widget.actions,
       progress: shown,
-      actionExtent: widget.actionExtent,
+      actionExtent: widget.actionExtent ?? extent,
+      densityTokens: widget.densityTokens,
+      theme: widget.theme,
     );
+    Widget actions =
+        widget.runBuilder?.call(context, defaultRun, shown) ?? defaultRun;
     if (!peeked || _dismissing) {
       actions = ExcludeSemantics(
         child: ExcludeFocus(
@@ -335,6 +434,15 @@ class _SwipeActionsState extends State<SwipeActions>
         ),
       );
     }
+    Widget defaultContent = SizedBox(
+      width: double.infinity,
+      child: widget.child,
+    );
+    final Widget content =
+        widget.contentBuilder?.call(context, defaultContent, shown) ??
+        defaultContent;
+    final double rowMin =
+        (resolved.rowMinHeight ?? tokens.rowMinHeight) * scaling;
     Widget row = Stack(
       children: <Widget>[
         Positioned.fill(child: actions),
@@ -352,7 +460,10 @@ class _SwipeActionsState extends State<SwipeActions>
                 _animateTo(0);
               }
             },
-            child: SizedBox(width: double.infinity, child: widget.child),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: rowMin),
+              child: content,
+            ),
           ),
         ),
       ],

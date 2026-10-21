@@ -8527,6 +8527,8 @@ Widget _kbdGhost(BuildContext context) {
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8542,10 +8544,99 @@ Widget _default(BuildContext context) => _wrap(
 ''',
     ),
     DocsExampleSource(
+      name: 'Compact',
+      builder: '_compact',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _compact(BuildContext context) => _wrap(
+  const ListTile(
+    densityTokens: DensityTokens.compact,
+    leading: Icon(LucideIcons.user),
+    title: Text('Compact (default)'),
+    subtitle: Text('Row 32-36, icon 16'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Comfortable',
+      builder: '_comfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _comfortable(BuildContext context) => _wrap(
+  const ListTile(
+    densityTokens: DensityTokens.comfortable,
+    leading: Icon(LucideIcons.user),
+    title: Text('Comfortable'),
+    subtitle: Text('Row 40-44, icon 20'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Avatar',
+      builder: '_avatar',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _avatar(BuildContext context) => _wrap(
+  const ListTile(
+    leading: Avatar(initials: 'IB', size: 32),
+    title: Text('Avatar 32 (compact)'),
+    subtitle: Text('Avatar sizes follow density'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Avatar comfortable',
+      builder: '_avatarComfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _avatarComfortable(BuildContext context) => _wrap(
+  const ListTile(
+    densityTokens: DensityTokens.comfortable,
+    leading: Avatar(initials: 'IB', size: 40),
+    title: Text('Avatar 40 (comfortable)'),
+    subtitle: Text('Row 40-44, icon 20'),
+    trailing: Icon(LucideIcons.chevronRight),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
       name: 'Dense',
       builder: '_dense',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8566,6 +8657,8 @@ Widget _dense(BuildContext context) => _wrap(
       builder: '_threeLine',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8586,6 +8679,8 @@ Widget _threeLine(BuildContext context) => _wrap(
       builder: '_selected',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8605,6 +8700,8 @@ Widget _selected(BuildContext context) => _wrap(
       builder: '_disabled',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8624,6 +8721,8 @@ Widget _disabled(BuildContext context) => _wrap(
       builder: '_customized',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
@@ -8638,6 +8737,28 @@ Widget _customized(BuildContext context) => _wrap(
     title: const Text('Customized'),
     subtitle: const Text('With style override'),
     trailing: const Icon(LucideIcons.heart),
+  ),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Grouped',
+      builder: '_grouped',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
+
+Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
+
+Widget _grouped(BuildContext context) => _wrap(
+  const ListTileGroup(
+    children: <Widget>[
+      ListTile(title: Text('First'), leading: Icon(LucideIcons.user)),
+      ListTile(title: Text('Second'), leading: Icon(LucideIcons.user)),
+      ListTile(title: Text('Third'), leading: Icon(LucideIcons.user)),
+    ],
   ),
 );
 ''',
@@ -20979,8 +21100,10 @@ Widget _pane(BuildContext context) => const _PaneDemo();
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
 
 Widget _default(BuildContext context) => Center(
   child: Button(
@@ -21017,8 +21140,10 @@ Widget _default(BuildContext context) => Center(
       builder: '_destructive',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
 
 Widget _destructive(BuildContext context) => Center(
   child: Button(
@@ -21047,8 +21172,10 @@ Widget _destructive(BuildContext context) => Center(
       builder: '_long',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
 
 Widget _long(BuildContext context) => Center(
   child: Button(
@@ -21069,12 +21196,58 @@ Widget _long(BuildContext context) => Center(
 ''',
     ),
     DocsExampleSource(
+      name: 'Compact',
+      builder: '_compact',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
+
+Widget _compact(BuildContext context) => ActionSheet<void>(
+  densityTokens: DensityTokens.compact,
+  title: 'Compact (default)',
+  message: 'Row 32-36, icon 16, padding 12/6',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
+    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Comfortable',
+      builder: '_comfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
+
+Widget _comfortable(BuildContext context) => ActionSheet<void>(
+  densityTokens: DensityTokens.comfortable,
+  title: 'Comfortable',
+  message: 'Row 40-44, icon 20, padding 14/8',
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
+    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
       name: 'Customized',
       builder: '_customized',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
 
 Widget _customized(BuildContext context) => Center(
   child: Button(
@@ -21095,12 +21268,52 @@ Widget _customized(BuildContext context) => Center(
 ''',
     ),
     DocsExampleSource(
+      name: 'Builders',
+      builder: '_builders',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
+
+Widget _builders(BuildContext context) => ActionSheet<void>(
+  title: 'Builders',
+  message: 'Custom title and row',
+  titleBuilder: (BuildContext context, String title, TextStyle style) => Text(
+    title.toUpperCase(),
+    style: style.copyWith(fontWeight: FontWeight.w800),
+    textAlign: TextAlign.center,
+  ),
+  actionBuilder:
+      (
+        BuildContext context,
+        ActionSheetAction<void> action,
+        Widget row,
+        bool isCancel,
+      ) => Container(
+        decoration: const BoxDecoration(
+          border: Border(left: BorderSide(color: Color(0xFF888888), width: 2)),
+        ),
+        child: row,
+      ),
+  actions: const <ActionSheetAction<void>>[
+    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
+    ActionSheetAction<void>(label: 'Delete', isDestructive: true),
+  ],
+  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+);
+''',
+    ),
+    DocsExampleSource(
       name: 'Inline',
       builder: '_inline',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';
+import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.dart';
 
 Widget _inline(BuildContext context) => ActionSheet<void>(
   title: 'Inline sheet',
@@ -26599,6 +26812,7 @@ Widget _narrow(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
@@ -26692,11 +26906,106 @@ Widget _default(BuildContext context) => const _SwipeActionsDemo();
 ''',
     ),
     DocsExampleSource(
+      name: 'Compact',
+      builder: '_compact',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+Widget _compact(BuildContext context) {
+  final ThemeData appTheme = Theme.of(context);
+  return ColoredBox(
+    color: appTheme.colors.background,
+    child: Padding(
+      padding: EdgeInsets.all(appTheme.spacing.sm),
+      child: SwipeActions(
+        densityTokens: DensityTokens.compact,
+        actions: <SwipeAction>[
+          SwipeAction(label: 'Archive', onPressed: () {}),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+        ],
+        onDismissed: () {},
+        child: Card(
+          child: SizedBox(
+            height: 36,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Compact row 36, tile 56',
+                  style: appTheme.typography.textSmall.copyWith(
+                    color: appTheme.colors.foreground,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Comfortable',
+      builder: '_comfortable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+Widget _comfortable(BuildContext context) {
+  final ThemeData appTheme = Theme.of(context);
+  return ColoredBox(
+    color: appTheme.colors.background,
+    child: Padding(
+      padding: EdgeInsets.all(appTheme.spacing.sm),
+      child: SwipeActions(
+        densityTokens: DensityTokens.comfortable,
+        actions: <SwipeAction>[
+          SwipeAction(label: 'Archive', onPressed: () {}),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+        ],
+        onDismissed: () {},
+        child: Card(
+          child: SizedBox(
+            height: 44,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Comfortable row 44, tile 64',
+                  style: appTheme.typography.textSmall.copyWith(
+                    color: appTheme.colors.foreground,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
       name: 'Right to left',
       builder: '_rightToLeft',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
@@ -26798,6 +27107,7 @@ Widget _rightToLeft(BuildContext context) => const Directionality(
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
@@ -26870,6 +27180,7 @@ Widget _customBuilders(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
