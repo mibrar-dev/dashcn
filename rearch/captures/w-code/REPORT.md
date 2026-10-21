@@ -42,18 +42,24 @@ Extended `CodeSnippet` to support language syntax colouring (Dart, JSON, YAML, S
 - Generated docs files synced via `tool/sync_registry.sh` and `tool/gen_docs_data.dart`.
 - `scratchpad/ui/code/CAPTURES.md`
 - Visual screenshots & interaction recording in `scratchpad/ui/code/`.
+- `rearch/captures/w-code/CAPTURES.md`
+- `rearch/captures/w-code/REPORT.md`
+- `rearch/captures/w-code/code_snippet_interaction.webm`
 
 ## Gate Exit Codes & Verification
 - `dashcn: dart format`: exit 0
 - `dashcn: tool/check_names.dart`: exit 0 (0 hits)
 - `dashcn: dart analyze`: exit 0 (No issues found!)
-- `rearch/qa_gate.sh`: exit 0 (+6176 tests passed)
-- `dashcn: flutter test`: exit 0
-- `docs: flutter analyze`: exit 0
-- `docs: flutter test`: exit 0
+- `rearch/qa_gate.sh`: exit 0 (+6176 tests passed, 0 banned patterns, 0 theme issues)
+- `dashcn: flutter test`: exit 0 (33/33 code_snippet & qa tests passed)
+- `docs: flutter analyze`: exit 0 (No issues found!)
+- `docs: flutter test`: exit 0 (28/28 docs unit/focus/scorecard tests passed)
 - `docs: tool/gen_docs_data.dart --check`: exit 0
 - `docs: tool/sync_registry.sh --check`: exit 0
 - `docs: flutter build web --release`: exit 0
 
+## Anything Not Done
+All requested scope items were completed in full.
+
 ## PR URL
-(Will be updated upon PR creation)
+https://github.com/mibrar-dev/dashcn/pull/41
