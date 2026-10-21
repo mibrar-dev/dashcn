@@ -1014,7 +1014,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add filter_bar',
     import:
         "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
-    fileCount: 3,
+    fileCount: 12,
     stability: 'stable',
     listed: true,
     placement: 'top',

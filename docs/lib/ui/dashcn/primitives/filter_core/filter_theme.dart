@@ -19,12 +19,15 @@ class FilterBarTheme extends ComponentThemeData
   /// Creates a filter bar theme.
   const FilterBarTheme({
     super.themeDensity,
+    super.themeDensityTokens,
     super.themeSpacing,
     super.themeShadows,
     this.spacing,
     this.runSpacing,
     this.searchWidth,
     this.controlWidth,
+    this.controlHeight,
+    this.iconSize,
     this.dense,
   });
 
@@ -40,6 +43,12 @@ class FilterBarTheme extends ComponentThemeData
   /// Width of the sort and date controls.
   final double? controlWidth;
 
+  /// Height of the controls (search, sort, date).
+  final double? controlHeight;
+
+  /// Icon size across filter controls.
+  final double? iconSize;
+
   /// Compact paddings and small buttons.
   final bool? dense;
 
@@ -51,12 +60,15 @@ class FilterBarTheme extends ComponentThemeData
     }
     return FilterBarTheme(
       themeDensity: themeDensity ?? fallback.themeDensity,
+      themeDensityTokens: themeDensityTokens ?? fallback.themeDensityTokens,
       themeSpacing: themeSpacing ?? fallback.themeSpacing,
       themeShadows: themeShadows ?? fallback.themeShadows,
       spacing: spacing ?? fallback.spacing,
       runSpacing: runSpacing ?? fallback.runSpacing,
       searchWidth: searchWidth ?? fallback.searchWidth,
       controlWidth: controlWidth ?? fallback.controlWidth,
+      controlHeight: controlHeight ?? fallback.controlHeight,
+      iconSize: iconSize ?? fallback.iconSize,
       dense: dense ?? fallback.dense,
     );
   }
@@ -68,34 +80,41 @@ class FilterBarTheme extends ComponentThemeData
     }
     return other is FilterBarTheme &&
         other.themeDensity == themeDensity &&
+        other.themeDensityTokens == themeDensityTokens &&
         other.themeSpacing == themeSpacing &&
         other.themeShadows == themeShadows &&
         other.spacing == spacing &&
         other.runSpacing == runSpacing &&
         other.searchWidth == searchWidth &&
         other.controlWidth == controlWidth &&
+        other.controlHeight == controlHeight &&
+        other.iconSize == iconSize &&
         other.dense == dense;
   }
 
   @override
   int get hashCode => Object.hash(
     themeDensity,
+    themeDensityTokens,
     themeSpacing,
     themeShadows,
     spacing,
     runSpacing,
     searchWidth,
     controlWidth,
+    controlHeight,
+    iconSize,
     dense,
   );
 }
 
-/// Token-derived defaults: 12px spacing, 8px run spacing, 220px search,
-/// 180px sort/date controls, comfortable density.
+/// Token-derived defaults: 8px spacing, 8px run spacing, 220px search,
+/// 180px sort/date controls, compact density.
 const FilterBarTheme filterBarDefaults = FilterBarTheme(
-  spacing: 12,
+  spacing: 8,
   runSpacing: 8,
   searchWidth: 220,
   controlWidth: 180,
+  iconSize: 16,
   dense: false,
 );

@@ -11,7 +11,9 @@
     "filters",
     "search",
     "sort",
-    "sheet"
+    "sheet",
+    "menu",
+    "density"
   ],
   "deps": {
     "foundation": [
@@ -25,7 +27,10 @@
       "filter_core",
       "form_core",
       "input_features",
-      "localizations"
+      "localizations",
+      "overlay",
+      "popover",
+      "surface"
     ],
     "components": [
       "button",
@@ -38,8 +43,17 @@
   },
   "files": [
     "filter_bar.dart",
+    "filter_bar_body.dart",
+    "filter_bar_controls.dart",
+    "filter_bar_inline.dart",
+    "filter_bar_layout.dart",
+    "filter_bar_menu.dart",
+    "filter_bar_overflow.dart",
+    "filter_bar_search.dart",
+    "filter_bar_sheet.dart",
     "filter_bar_style.dart",
     "filter_bar_theme.dart",
+    "filter_bar_triggers.dart",
     "preview.dart"
   ],
   "preview": {
@@ -48,8 +62,10 @@
   "api": {
     "classes": [
       "FilterBar",
+      "FilterBarStyle",
       "FilterBarTheme",
       "FilterBarSheetScaffold",
+      "FilterBarOverflowMenu",
       "FilterBarSearchField",
       "FilterBarSortControl",
       "FilterBarDateControl",
@@ -73,6 +89,13 @@
     "enums": [
       "FilterBarPresentation"
     ],
+    "typedefs": [
+      "FilterBarOverflowTrigger"
+    ],
+    "functions": [
+      "openFilterBarMenu",
+      "openFilterBarSheet"
+    ],
     "constants": ["filterBarThemeOverrides"],
     "providedByPrimitives": {
       "filter_core": ["filterBarDefaults", "FilterMatchers"]
@@ -83,10 +106,12 @@
     "userFile": "filter_bar_theme.dart",
     "defaults": "filterBarDefaults",
     "fields": {
-      "spacing": "double? - gap between controls, 12 by default",
+      "spacing": "double? - gap between controls, 8 by default",
       "runSpacing": "double? - gap between wrapped runs, 8 by default",
       "searchWidth": "double? - search field width, 220 by default",
       "controlWidth": "double? - sort/date control width, 180 by default",
+      "controlHeight": "double? - control height override (32 compact, 40 comfortable, 48 touch)",
+      "iconSize": "double? - icon size override (16 compact, 20 comfortable, 24 touch)",
       "dense": "bool? - compact padding and small buttons, false by default"
     }
   }

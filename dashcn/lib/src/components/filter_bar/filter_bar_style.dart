@@ -1,355 +1,246 @@
-// Registry-owned logic for the `filter_bar` component: [FilterBarTheme] and
-// its token-derived `filterBarDefaults`, the presentation enum, the custom
-// filter descriptor, the sheet chrome and the control sub-widgets (search,
-// sort, date, clear, sheet trigger).
+// Visual styling and configuration for the `filter_bar` component.
 //
-// The flat component folder puts the old `filter_bar_style.dart` here (its
-// `FilterBarSheetScaffold` was public there too); the value engine lives in
-// `primitives/filter_core/`. User-owned overrides live in
-// `filter_bar_theme.dart`.
+// Defines [FilterBarStyle] for per-instance token overrides, the
+// [FilterBarPresentation] enum, and re-exports the primitives theme data
+// ([FilterBarTheme], [filterBarDefaults]).
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/filter_core/filter_state.dart';
-import '../../primitives/form_core/object_form_field.dart';
-import '../../primitives/input_features/adornment_features.dart';
-import '../../primitives/localizations/localizations.dart';
-import '../../theme/theme.dart';
-import '../button/button.dart';
-import '../date_picker/date_picker.dart';
-import '../input/input.dart';
-import '../select/select.dart';
 
 export '../../primitives/filter_core/filter_group.dart';
 export '../../primitives/filter_core/filter_theme.dart';
+export 'filter_bar_controls.dart';
+export 'filter_bar_overflow.dart';
 
 /// How a `FilterBar` presents its controls.
-enum FilterBarPresentation { inline, sheet, autoSheet }
+enum FilterBarPresentation {
+  /// All controls inline within the bar.
+  inline,
+
+  /// Controls presented in a drawer sheet.
+  sheet,
+
+  /// Responsive: sheet presentation below [FilterBar.sheetBreakpoint].
+  autoSheet,
+
+  /// Controls overflow into an anchored compact menu.
+  menu,
+
+  /// Responsive: compact menu overflow below [FilterBar.sheetBreakpoint].
+  autoMenu,
+}
 
 /// Resolves the next state when "clear all" runs.
 typedef FilterBarClearResolver = FilterState Function(FilterState current);
 
-/// The search field of a `FilterBar` (leading icon + clear action).
-class FilterBarSearchField extends StatelessWidget {
-  /// Creates the search field.
-  const FilterBarSearchField({
-    super.key,
-    required this.controller,
-    required this.onChanged,
-    this.width = 220,
+/// Per-instance style overrides for every visual token of [FilterBar].
+class FilterBarStyle {
+  /// Creates a filter bar style.
+  const FilterBarStyle({
+    this.backgroundColor,
+    this.borderColor,
+    this.borderRadius,
+    this.padding,
+    this.spacing,
+    this.runSpacing,
+    this.searchWidth,
+    this.controlWidth,
+    this.controlHeight,
+    this.iconSize,
+    this.textStyle,
+    this.mutedTextStyle,
+    this.chipPadding,
+    this.chipTextStyle,
+    this.chipIconSize,
+    this.elevation,
+    this.surfaceOpacity,
+    this.surfaceBlur,
+    this.dense,
+    this.overflowMenuWidth,
   });
 
-  /// Owns the query text.
-  final TextEditingController controller;
+  /// Background color of the filter bar container.
+  final Color? backgroundColor;
 
-  /// Called on every edit (the bar debounces it).
-  final ValueChanged<String> onChanged;
+  /// Border color of the filter bar container.
+  final Color? borderColor;
 
-  /// Fixed field width.
-  final double width;
+  /// Border radius of the filter bar container.
+  final BorderRadiusGeometry? borderRadius;
 
-  @override
-  Widget build(BuildContext context) {
-    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
-    return SizedBox(
-      width: width,
-      child: Semantics(
-        textField: true,
-        label: l10n.filterSearch,
-        child: Input(
-          controller: controller,
-          placeholder: Text(l10n.filterSearch),
-          onChanged: onChanged,
-          // v5 keeps the h-9 box: the leading icon (24) plus the default v8
-          // padding would measure 40+.
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-          features: const [
-            InputLeadingFeature(Icon(LucideIcons.search)),
-            InputClearFeature(),
-          ],
-        ),
-      ),
+  /// Inset padding inside the filter bar container.
+  final EdgeInsetsGeometry? padding;
+
+  /// Gap between controls on the same run.
+  final double? spacing;
+
+  /// Gap between wrapped runs.
+  final double? runSpacing;
+
+  /// Fixed width of the search field.
+  final double? searchWidth;
+
+  /// Fixed width of the sort and date controls.
+  final double? controlWidth;
+
+  /// Height of the controls (search, sort, date).
+  final double? controlHeight;
+
+  /// Icon size across filter controls.
+  final double? iconSize;
+
+  /// Main typography for labels and inputs.
+  final TextStyle? textStyle;
+
+  /// Typography for counters and secondary text.
+  final TextStyle? mutedTextStyle;
+
+  /// Padding for active filter chips.
+  final EdgeInsetsGeometry? chipPadding;
+
+  /// Typography for active filter chip labels.
+  final TextStyle? chipTextStyle;
+
+  /// Icon size for the chip remove button.
+  final double? chipIconSize;
+
+  /// Elevation / box shadows.
+  final List<BoxShadow>? elevation;
+
+  /// Surface fill opacity for floating surfaces (menu/sheet).
+  final double? surfaceOpacity;
+
+  /// Frosted-glass backdrop blur sigma.
+  final double? surfaceBlur;
+
+  /// Compact paddings and small buttons.
+  final bool? dense;
+
+  /// Width of the compact overflow menu.
+  final double? overflowMenuWidth;
+
+  /// Creates a copy with the given fields replaced.
+  FilterBarStyle copyWith({
+    Color? backgroundColor,
+    Color? borderColor,
+    BorderRadiusGeometry? borderRadius,
+    EdgeInsetsGeometry? padding,
+    double? spacing,
+    double? runSpacing,
+    double? searchWidth,
+    double? controlWidth,
+    double? controlHeight,
+    double? iconSize,
+    TextStyle? textStyle,
+    TextStyle? mutedTextStyle,
+    EdgeInsetsGeometry? chipPadding,
+    TextStyle? chipTextStyle,
+    double? chipIconSize,
+    List<BoxShadow>? elevation,
+    double? surfaceOpacity,
+    double? surfaceBlur,
+    bool? dense,
+    double? overflowMenuWidth,
+  }) {
+    return FilterBarStyle(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      borderColor: borderColor ?? this.borderColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      padding: padding ?? this.padding,
+      spacing: spacing ?? this.spacing,
+      runSpacing: runSpacing ?? this.runSpacing,
+      searchWidth: searchWidth ?? this.searchWidth,
+      controlWidth: controlWidth ?? this.controlWidth,
+      controlHeight: controlHeight ?? this.controlHeight,
+      iconSize: iconSize ?? this.iconSize,
+      textStyle: textStyle ?? this.textStyle,
+      mutedTextStyle: mutedTextStyle ?? this.mutedTextStyle,
+      chipPadding: chipPadding ?? this.chipPadding,
+      chipTextStyle: chipTextStyle ?? this.chipTextStyle,
+      chipIconSize: chipIconSize ?? this.chipIconSize,
+      elevation: elevation ?? this.elevation,
+      surfaceOpacity: surfaceOpacity ?? this.surfaceOpacity,
+      surfaceBlur: surfaceBlur ?? this.surfaceBlur,
+      dense: dense ?? this.dense,
+      overflowMenuWidth: overflowMenuWidth ?? this.overflowMenuWidth,
     );
   }
-}
 
-/// The sort dropdown of a `FilterBar`.
-class FilterBarSortControl extends StatelessWidget {
-  /// Creates the sort control.
-  const FilterBarSortControl({
-    super.key,
-    required this.value,
-    required this.options,
-    required this.onChanged,
-    this.width = 180,
-  });
-
-  /// Selected option id, or null.
-  final String? value;
-
-  /// Options offered by the dropdown.
-  final List<FilterSortOption> options;
-
-  /// Called with the next option id (null clears the sort).
-  final ValueChanged<String?> onChanged;
-
-  /// Fixed control width.
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: Select<String>(
-        value: value,
-        onChanged: onChanged,
-        // 48px trigger meets the touch minimum.
-        triggerMinHeight: 48,
-        placeholder: Text(ComponentLocalizations.of(context).filterSort),
-        itemBuilder: (context, value) => Text(_label(value)),
-        items: <Widget>[
-          for (final FilterSortOption option in options)
-            SelectItem<String>(value: option.id, child: Text(option.label)),
-        ],
-      ),
+  /// Merges this style with [other]; fields in this style win over [other].
+  FilterBarStyle merge(FilterBarStyle? other) {
+    if (other == null) return this;
+    return FilterBarStyle(
+      backgroundColor: backgroundColor ?? other.backgroundColor,
+      borderColor: borderColor ?? other.borderColor,
+      borderRadius: borderRadius ?? other.borderRadius,
+      padding: padding ?? other.padding,
+      spacing: spacing ?? other.spacing,
+      runSpacing: runSpacing ?? other.runSpacing,
+      searchWidth: searchWidth ?? other.searchWidth,
+      controlWidth: controlWidth ?? other.controlWidth,
+      controlHeight: controlHeight ?? other.controlHeight,
+      iconSize: iconSize ?? other.iconSize,
+      textStyle: textStyle ?? other.textStyle,
+      mutedTextStyle: mutedTextStyle ?? other.mutedTextStyle,
+      chipPadding: chipPadding ?? other.chipPadding,
+      chipTextStyle: chipTextStyle ?? other.chipTextStyle,
+      chipIconSize: chipIconSize ?? other.chipIconSize,
+      elevation: elevation ?? other.elevation,
+      surfaceOpacity: surfaceOpacity ?? other.surfaceOpacity,
+      surfaceBlur: surfaceBlur ?? other.surfaceBlur,
+      dense: dense ?? other.dense,
+      overflowMenuWidth: overflowMenuWidth ?? other.overflowMenuWidth,
     );
   }
 
-  String _label(String id) {
-    for (final FilterSortOption option in options) {
-      if (option.id == id) {
-        return option.label;
-      }
-    }
-    return id;
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is FilterBarStyle &&
+        other.backgroundColor == backgroundColor &&
+        other.borderColor == borderColor &&
+        other.borderRadius == borderRadius &&
+        other.padding == padding &&
+        other.spacing == spacing &&
+        other.runSpacing == runSpacing &&
+        other.searchWidth == searchWidth &&
+        other.controlWidth == controlWidth &&
+        other.controlHeight == controlHeight &&
+        other.iconSize == iconSize &&
+        other.textStyle == textStyle &&
+        other.mutedTextStyle == mutedTextStyle &&
+        other.chipPadding == chipPadding &&
+        other.chipTextStyle == chipTextStyle &&
+        other.chipIconSize == chipIconSize &&
+        other.elevation == elevation &&
+        other.surfaceOpacity == surfaceOpacity &&
+        other.surfaceBlur == surfaceBlur &&
+        other.dense == dense &&
+        other.overflowMenuWidth == overflowMenuWidth;
   }
-}
-
-/// The date-range control of a `FilterBar` (popover editor).
-class FilterBarDateControl extends StatelessWidget {
-  /// Creates the date control.
-  const FilterBarDateControl({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    this.width = 180,
-  });
-
-  /// Selected span, or null.
-  final FilterDateRange? value;
-
-  /// Called with the next span (null clears it).
-  final ValueChanged<FilterDateRange?> onChanged;
-
-  /// Fixed control width.
-  final double width;
 
   @override
-  Widget build(BuildContext context) {
-    final FilterDateRange? range = value;
-    // h-9 like every other control: the ObjectFormField trigger's own
-    // padding/minHeight would otherwise measure 54. A fixed box height, the
-    // border-box metric the `button` size table also keeps as a literal
-    // (h-9 = 36), so it is deliberately NOT density-scaled; only padding is.
-    return SizedBox(
-      width: width,
-      height: 36,
-      child: DateRangePicker(
-        value: range == null
-            ? null
-            : DateTimeRange(
-                range.start ?? range.end!,
-                range.end ?? range.start!,
-              ),
-        mode: PromptMode.popover,
-        placeholder: Text(ComponentLocalizations.of(context).filterDateRange),
-        onChanged: (DateTimeRange? next) => onChanged(
-          next == null
-              ? null
-              : FilterDateRange(start: next.start, end: next.end),
-        ),
-      ),
-    );
-  }
-}
-
-/// The clear-all action of a `FilterBar`.
-class FilterBarClearButton extends StatelessWidget {
-  /// Creates the clear button.
-  const FilterBarClearButton({
-    super.key,
-    required this.enabled,
-    required this.onPressed,
-    this.dense = false,
-  });
-
-  /// Whether the action is active.
-  final bool enabled;
-
-  /// Called when pressed.
-  final VoidCallback onPressed;
-
-  /// Compact size.
-  final bool dense;
-
-  @override
-  Widget build(BuildContext context) {
-    return Button(
-      variant: ButtonVariant.ghost,
-      size: dense ? ButtonSize.sm : ButtonSize.md,
-      onPressed: enabled ? onPressed : null,
-      child: Text(ComponentLocalizations.of(context).filterClearAll),
-    );
-  }
-}
-
-/// The sheet trigger of a `FilterBar` (label plus active-filter count).
-class FilterBarSheetTrigger extends StatelessWidget {
-  /// Creates the sheet trigger.
-  const FilterBarSheetTrigger({
-    super.key,
-    required this.activeCount,
-    required this.onPressed,
-    this.dense = false,
-  });
-
-  /// Number of active filters, appended to the label when non-zero.
-  final int activeCount;
-
-  /// Opens the sheet.
-  final VoidCallback onPressed;
-
-  /// Compact size.
-  final bool dense;
-
-  @override
-  Widget build(BuildContext context) {
-    final String label = ComponentLocalizations.of(context).filterFilters;
-    return Button(
-      variant: ButtonVariant.secondary,
-      size: dense ? ButtonSize.sm : ButtonSize.md,
-      onPressed: onPressed,
-      leading: const Icon(LucideIcons.slidersHorizontal),
-      child: Text(activeCount == 0 ? label : '$label ($activeCount)'),
-    );
-  }
-}
-
-/// The card used inside the mobile filter sheet.
-///
-/// Public because the old `filter_bar_style.dart` exposed it and apps may
-/// reuse the sheet chrome; `FilterBar` builds it internally.
-class FilterBarSheetScaffold extends StatelessWidget {
-  /// Creates a sheet scaffold.
-  const FilterBarSheetScaffold({
-    super.key,
-    required this.title,
-    required this.child,
-    this.onClose,
-    this.footer,
-    this.maxHeight = 560,
-    this.contentPadding,
-  });
-
-  /// Sheet title.
-  final String title;
-
-  /// Sheet body.
-  final Widget child;
-
-  /// Called by the close button; null hides it.
-  final VoidCallback? onClose;
-
-  /// Optional footer pinned below the body.
-  final Widget? footer;
-
-  /// Maximum card height before the body scrolls.
-  final double maxHeight;
-
-  /// Padding around the body.
-  final EdgeInsetsGeometry? contentPadding;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData ambient = Theme.of(context);
-    final double scale = ambient.scaling;
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.all(ambient.spacing.sm),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: ambient.colors.card,
-            border: Border.all(color: ambient.colors.border),
-            borderRadius: ambient.borderRadiusXl,
-            boxShadow: ambient.tokens.shadows.shadowLg,
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: maxHeight * scale),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(
-                    ambient.spacing.md,
-                    ambient.spacing.sm,
-                    ambient.spacing.sm,
-                    ambient.spacing.sm,
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: ambient.typography.large.copyWith(
-                            color: ambient.colors.foreground,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      if (onClose != null)
-                        Button(
-                          variant: ButtonVariant.ghost,
-                          size: ButtonSize.icon,
-                          onPressed: onClose,
-                          child: const Icon(LucideIcons.x),
-                        ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: SingleChildScrollView(
-                    padding:
-                        contentPadding ??
-                        // Flush under the title row (it already carries the
-                        // `sm` bottom), so the top inset is a deliberate 0.
-                        EdgeInsetsDirectional.fromSTEB(
-                          ambient.spacing.md,
-                          0,
-                          ambient.spacing.md,
-                          ambient.spacing.md,
-                        ),
-                    child: child,
-                  ),
-                ),
-                if (footer != null)
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                      // Flush under the scrolling body (it already carries the
-                      // `md` bottom), so the top inset is a deliberate 0.
-                      ambient.spacing.md,
-                      0,
-                      ambient.spacing.md,
-                      ambient.spacing.md,
-                    ),
-                    child: footer,
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  int get hashCode => Object.hashAll(<Object?>[
+    backgroundColor,
+    borderColor,
+    borderRadius,
+    padding,
+    spacing,
+    runSpacing,
+    searchWidth,
+    controlWidth,
+    controlHeight,
+    iconSize,
+    textStyle,
+    mutedTextStyle,
+    chipPadding,
+    chipTextStyle,
+    chipIconSize,
+    elevation,
+    surfaceOpacity,
+    surfaceBlur,
+    dense,
+    overflowMenuWidth,
+  ]);
 }

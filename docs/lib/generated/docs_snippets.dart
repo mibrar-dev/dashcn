@@ -2618,6 +2618,17 @@ FilterBar(controller: controller, sortOptions: _sortOptions)''',
       id: 'filter_bar.4',
       componentId: 'filter_bar',
       language: 'dart',
+      code: r'''FilterBar(
+  initialState: const FilterState(sortId: 'newest'),
+  sortOptions: _sortOptions,
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppkkkkkpppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'filter_bar.5',
+      componentId: 'filter_bar',
+      language: 'dart',
       code:
           r'''final statusField = FilterField<String>(id: 'status', matcher: FilterMatchers.exact());
 
@@ -2645,7 +2656,7 @@ FilterBar(
           'kkkkkpppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppkkkkkppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppssssssppppppppppppppssssssppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppsssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
-      id: 'filter_bar.5',
+      id: 'filter_bar.6',
       componentId: 'filter_bar',
       language: 'dart',
       code: r'''final bindings = <FilterBinding<Order>>[
@@ -2656,23 +2667,22 @@ final filtered = _state.whereMatches(orders, bindings);''',
           'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
-      id: 'filter_bar.6',
+      id: 'filter_bar.7',
       componentId: 'filter_bar',
       language: 'dart',
       code: r'''FilterBar(
   state: _state,
-  customFilters: _filters,
-  groups: const <FilterGroup>[
-    FilterGroup(id: 'catalog', title: 'Catalog', filterIds: <String>['category', 'brand']),
-    FilterGroup(id: 'price', title: 'Pricing', filterIds: <String>['price', 'rating']),
-  ],
+  presentation: FilterBarPresentation.autoMenu,
+  sheetBreakpoint: 720,
+  sortOptions: _sortOptions,
+  enableDateRange: true,
   onStateChanged: (next) => setState(() => _state = next),
 )''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppssssssssspppppppppsssssssssppppppppppppppppppppppssssssssssppsssssssppppppppppppppppppppppppssssssspppppppppsssssssssppppppppppppppppppppppsssssssppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
-      id: 'filter_bar.7',
+      id: 'filter_bar.8',
       componentId: 'filter_bar',
       language: 'dart',
       code: r'''FilterBar(
@@ -2684,6 +2694,24 @@ final filtered = _state.whereMatches(orders, bindings);''',
 )''',
       tokenClasses:
           'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'filter_bar.9',
+      componentId: 'filter_bar',
+      language: 'dart',
+      code: r'''FilterBar(
+  state: _state,
+  densityTokens: DensityTokens.comfortable,
+  style: FilterBarStyle(
+    borderRadius: BorderRadius.circular(16),
+    padding: const EdgeInsets.all(12),
+    controlHeight: 40,
+    searchWidth: 260,
+  ),
+  onStateChanged: (next) => setState(() => _state = next),
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'overflow_marquee': <DocsSnippet>[
@@ -5367,7 +5395,16 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'filter_bar',
     files: <String>[
       'lib/ui/dashcn/components/filter_bar/filter_bar.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_body.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_controls.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_inline.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_layout.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_menu.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_overflow.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_search.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_sheet.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_style.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_triggers.dart',
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/filter_bar/filter_bar_theme.dart',
