@@ -140,8 +140,19 @@ Widget _skeletonDefault(BuildContext context) => const _SkeletonSkeletonBlock();
 
 Widget _skeletonCard(BuildContext context) => const _SkeletonSkeletonCard();
 
+Widget _skeletonList(BuildContext context) => const SkeletonList(itemCount: 3);
+
+Widget _skeletonLoadingCard(BuildContext context) =>
+    const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+
+Widget _skeletonTable(BuildContext context) =>
+    const SkeletonTable(columns: 3, rows: 4);
+
 /// Named docs examples for `skeleton`; the first entry is the default.
 const List<ComponentPreview> skeletonPreviews = <ComponentPreview>[
   ComponentPreview('Default', _skeletonDefault),
   ComponentPreview('Card', _skeletonCard),
+  ComponentPreview('List', _skeletonList),
+  ComponentPreview('Loading card', _skeletonLoadingCard),
+  ComponentPreview('Table', _skeletonTable),
 ];

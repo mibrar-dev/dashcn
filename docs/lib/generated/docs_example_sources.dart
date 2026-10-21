@@ -12505,6 +12505,44 @@ class _SkeletonSkeletonCard extends StatelessWidget {
 Widget _skeletonCard(BuildContext context) => const _SkeletonSkeletonCard();
 ''',
     ),
+    DocsExampleSource(
+      name: 'List',
+      builder: '_skeletonList',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonList(BuildContext context) => const SkeletonList(itemCount: 3);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Loading card',
+      builder: '_skeletonLoadingCard',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonLoadingCard(BuildContext context) =>
+    const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Table',
+      builder: '_skeletonTable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonTable(BuildContext context) =>
+    const SkeletonTable(columns: 3, rows: 4);
+''',
+    ),
   ],
   'spinner': <DocsExampleSource>[
     DocsExampleSource(
@@ -19168,7 +19206,9 @@ Widget _single(BuildContext context) {
       builder: '_commandDefault',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
@@ -19294,7 +19334,9 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
       builder: '_commandWithGroups',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
@@ -19414,6 +19456,102 @@ class _CommandPaletteState extends State<_CommandPalette> {
 /// The palette with grouped results.
 Widget _commandWithGroups(BuildContext context) =>
     const _CommandPalette(buildGroups: true);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Dialog',
+      builder: '_commandDialog',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+/// Commands the palette offers.
+const List<String> _commandValues = <String>[
+  'Calendar',
+  'Search Emoji',
+  'Launch',
+  'Profile',
+  'Mail',
+  'Settings',
+];
+
+/// A trigger that opens the palette as a modal dialog with `showCommandDialog`.
+class _CommandDialogTrigger extends StatelessWidget {
+  const _CommandDialogTrigger();
+
+  Stream<List<Widget>> _results(BuildContext context, String? query) async* {
+    final List<String> ranked = rankCommandLabels(_commandValues, query);
+    yield <Widget>[
+      for (final String value in ranked)
+        SubFocusListItem(minHeight: 48, title: Text(value)),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      variant: ButtonVariant.outline,
+      size: ButtonSize.sm,
+      onPressed: () =>
+          showCommandDialog<void>(context: context, builder: _results),
+      child: const Text('Open command palette'),
+    );
+  }
+}
+
+Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_commandCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+/// Commands the palette offers.
+const List<String> _commandValues = <String>[
+  'Calendar',
+  'Search Emoji',
+  'Launch',
+  'Profile',
+  'Mail',
+  'Settings',
+];
+
+/// A customized palette: widget-leg theme override (tinted fill).
+Widget _commandCustomized(BuildContext context) {
+  return Center(
+    child: SizedBox(
+      width: 320,
+      child: SizedBox(
+        height: 300,
+        child: Command(
+          debounceDuration: Duration.zero,
+          theme: const CommandTheme(
+            background: ThemedColor.value(Color(0xFFF0FDF4)),
+          ),
+          builder: (context, query) async* {
+            final List<String> ranked = rankCommandLabels(
+              _commandValues,
+              query,
+            );
+            yield <Widget>[
+              for (final String value in ranked)
+                SubFocusListItem(minHeight: 48, title: Text(value)),
+            ];
+          },
+        ),
+      ),
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -19607,6 +19745,7 @@ Widget _contextMenuWithSubmenu(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19708,6 +19847,7 @@ Widget _dropdownMenuDefault(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19809,6 +19949,7 @@ Widget _dropdownMenuWithShortcut(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19910,6 +20051,7 @@ Widget _dropdownMenuWithCheckboxItem(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19951,6 +20093,33 @@ class _DropdownMenuTrigger extends StatelessWidget {
 /// An anchored dropdown opened from a button.
 Widget _dropdownMenuTriggerExample(BuildContext context) =>
     const _DropdownMenuTrigger();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_dropdownMenuCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+
+/// A customized surface: widget-leg theme override (tinted fill).
+Widget _dropdownMenuCustomized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: DropdownMenu(
+      theme: MenuPopupTheme(background: ThemedColor.value(Color(0xFFF0FDF4))),
+      children: <Widget>[
+        MenuButton(child: Text('Profile')),
+        MenuButton(child: Text('Settings')),
+      ],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -24081,6 +24250,7 @@ Widget _gallery(BuildContext context) => const _Gallery();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -24137,6 +24307,7 @@ Widget _default(BuildContext context) {
       name: 'Anchored',
       builder: '_anchored',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -24199,6 +24370,69 @@ class _AnchoredDemo extends StatelessWidget {
 }
 
 Widget _anchored(BuildContext context) => const _AnchoredDemo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';
+
+/// The profile card shown on the popup surface by both examples.
+class _ProfileCard extends StatelessWidget {
+  const _ProfileCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Ibrar Ali'),
+              SizedBox(height: 2),
+              Text('ibrar@example.com', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
+        const MenuSeparator(),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            'Signed in with a passkey',
+            style: TextStyle(
+              fontSize: 12,
+              color: Theme.of(context).colors.mutedForeground,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A customized surface: widget-leg theme override (tinted fill, no border).
+Widget _customized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: MenuPopup(
+      theme: MenuPopupTheme(
+        background: ThemedColor.value(Color(0xFFF0FDF4)),
+        borderWidth: 0,
+      ),
+      children: <Widget>[_ProfileCard()],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -24795,13 +25029,15 @@ Widget _custom(BuildContext context) => const _CustomAudio();
       builder: '_codeSnippetDefault',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
-/// A plain snippet.
+/// Default snippet with syntax colouring and copy button.
 Widget _codeSnippetDefault(BuildContext context) {
-  // P7-TH1: centred in the stage (was centerStart).
   return const Align(
     alignment: Alignment.center,
     child: CodeSnippet(code: Text('const greeting = "hello";')),
@@ -24814,6 +25050,9 @@ Widget _codeSnippetDefault(BuildContext context) {
       builder: '_codeSnippetWithActions',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
@@ -24827,8 +25066,6 @@ class _CodeSnippetAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector pill, matching the README snippet.
     return Button(
       size: ButtonSize.sm,
       variant: ButtonVariant.ghost,
@@ -24838,7 +25075,7 @@ class _CodeSnippetAction extends StatelessWidget {
   }
 }
 
-/// A snippet with an actions row.
+/// A snippet with an extra action button alongside the copy button.
 class _CodeSnippetWithActions extends StatefulWidget {
   const _CodeSnippetWithActions();
 
@@ -24854,21 +25091,25 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        CodeSnippet(
-          actions: <Widget>[
-            _CodeSnippetAction(
-              label: 'Copy',
-              onPressed: () => setState(() => _status = 'copied'),
-            ),
-            _CodeSnippetAction(
-              label: 'Run',
-              onPressed: () => setState(() => _status = 'running'),
-            ),
-          ],
-          code: const Text('flutter run -d chrome'),
+        SizedBox(
+          width: 320,
+          child: CodeSnippet(
+            showCopyButton: false,
+            actions: <Widget>[
+              _CodeSnippetAction(
+                label: 'Copy',
+                onPressed: () => setState(() => _status = 'copied'),
+              ),
+              _CodeSnippetAction(
+                label: 'Run',
+                onPressed: () => setState(() => _status = 'running'),
+              ),
+            ],
+            code: const Text('flutter run -d chrome'),
+          ),
         ),
         Gap(spacing.sm),
         Text(
@@ -24892,21 +25133,224 @@ Widget _codeSnippetWithActions(BuildContext context) =>
       builder: '_codeSnippetLongLines',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
-/// A long line that scrolls inside its bounded box.
+/// A long line that scrolls horizontally inside its bounded box without overflowing.
 Widget _codeSnippetLongLines(BuildContext context) {
-  // P7-TH1: the 320px box is centred in the stage (was centerStart).
   return const Align(
     alignment: Alignment.center,
     child: SizedBox(
       width: 320,
       child: CodeSnippet(
         code: Text(
-          'void main() { runApp(const MyApp(home: Center(child: Text("wide")))); }',
+          'void main() { runApp(const MyApp(home: Center(child: Text("long line scrolls horizontally inside code block")))); }',
         ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Languages',
+      builder: '_codeSnippetLanguages',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
+
+/// Interactive showcase across the supported languages.
+class _CodeSnippetLanguages extends StatefulWidget {
+  const _CodeSnippetLanguages();
+
+  @override
+  State<_CodeSnippetLanguages> createState() => _CodeSnippetLanguagesState();
+}
+
+class _CodeSnippetLanguagesState extends State<_CodeSnippetLanguages> {
+  int _selected = 0;
+
+  static const List<({String label, String lang, String code})> _samples = [
+    (
+      label: 'Dart',
+      lang: 'dart',
+      code: 'void main() {\n  runApp(const MyApp());\n}',
+    ),
+    (
+      label: 'JSON',
+      lang: 'json',
+      code:
+          '{\n  "name": "dashcn",\n  "version": "1.0.0",\n  "private": true\n}',
+    ),
+    (
+      label: 'YAML',
+      lang: 'yaml',
+      code: 'name: dashcn\nversion: 1.0.0\nenvironment:\n  sdk: ^3.0.0',
+    ),
+    (
+      label: 'Shell',
+      lang: 'bash',
+      code: 'flutter pub add dashcn\ndashcn add code_snippet',
+    ),
+    (
+      label: 'TypeScript',
+      lang: 'ts',
+      code: 'interface User {\n  id: string;\n  name: string;\n}',
+    ),
+    (
+      label: 'HTML',
+      lang: 'html',
+      code: '<div class="card">\n  <span id="title">Hello</span>\n</div>',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final current = _samples[_selected];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for (int i = 0; i < _samples.length; i++) ...<Widget>[
+                if (i > 0) Gap(theme.spacing.xs),
+                Clickable(
+                  onPressed: () => setState(() => _selected = i),
+                  padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(
+                      horizontal: theme.spacing.sm,
+                      vertical: theme.spacing.xs,
+                    ),
+                  ),
+                  decoration: WidgetStateProperty.resolveWith<Decoration?>((
+                    states,
+                  ) {
+                    final bool active = i == _selected;
+                    return BoxDecoration(
+                      color: active
+                          ? theme.colors.primary
+                          : states.contains(WidgetState.hovered)
+                          ? theme.colors.muted
+                          : null,
+                      borderRadius: theme.borderRadiusSm,
+                    );
+                  }),
+                  child: Text(
+                    _samples[i].label,
+                    style: theme.typography.small.copyWith(
+                      color: i == _selected
+                          ? theme.colors.primaryForeground
+                          : theme.colors.mutedForeground,
+                      fontWeight: i == _selected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        Gap(theme.spacing.sm),
+        SizedBox(
+          width: 380,
+          child: CodeSnippet(
+            key: ValueKey<String>(current.lang),
+            language: current.lang,
+            code: Text(current.code),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _codeSnippetLanguages(BuildContext context) =>
+    const _CodeSnippetLanguages();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_codeSnippetCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
+
+/// A customized snippet using builder slots and per-instance style overrides.
+Widget _codeSnippetCustomized(BuildContext context) {
+  return Align(
+    alignment: Alignment.center,
+    child: SizedBox(
+      width: 360,
+      child: CodeSnippet(
+        theme: const CodeSnippetTheme(
+          borderColor: ThemedColor.ref(ColorRef.primary),
+          borderWidth: 1.5,
+        ),
+        copyButtonBuilder: (context, onCopy, copied) {
+          final theme = Theme.of(context);
+          return Clickable(
+            onPressed: onCopy,
+            focusOutline: true,
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(
+                horizontal: theme.spacing.sm,
+                vertical: theme.spacing.xs,
+              ),
+            ),
+            decoration: WidgetStateProperty.resolveWith<Decoration?>((states) {
+              return BoxDecoration(
+                color: copied
+                    ? theme.colors.primary.withValues(alpha: 0.2)
+                    : theme.colors.muted,
+                borderRadius: theme.borderRadiusSm,
+              );
+            }),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  copied ? LucideIcons.check : LucideIcons.copy,
+                  size: 13,
+                  color: copied
+                      ? theme.colors.primary
+                      : theme.colors.foreground,
+                ),
+                Gap(theme.spacing.xs),
+                Text(
+                  copied ? 'Copied!' : 'Copy',
+                  style: theme.typography.small.copyWith(
+                    fontSize: 12,
+                    color: copied
+                        ? theme.colors.primary
+                        : theme.colors.foreground,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        code: const Text('final custom = CodeSnippetCustomized();'),
       ),
     ),
   );

@@ -66,7 +66,12 @@ void main() {
     });
 
     test('defaults only the tokens v3 never named', () {
-      expect(result.report.ignored, isEmpty);
+      // `@layer base` is a transparent wrapper: one report line, and the
+      // inner declarations still parse.
+      expect(
+        result.report.ignored.map((IgnoredEntry e) => e.variable),
+        <String>['@layer base'],
+      );
       final Set<String> defaulted = <String>{
         for (final DefaultedEntry e in result.report.defaulted) e.token,
       };
@@ -96,7 +101,11 @@ void main() {
       expect(result.theme.radius, 0.625);
       expect(result.theme.fonts['sans'], '"Inter", ui-sans-serif, sans-serif');
       expect(result.report.mapped.length, 68);
-      expect(result.report.ignored, isEmpty);
+      // The `@import "tailwindcss"` line is reported, never silent.
+      expect(
+        result.report.ignored.map((IgnoredEntry e) => e.variable),
+        <String>['@import "tailwindcss"'],
+      );
     });
   });
 
@@ -141,7 +150,8 @@ void main() {
           e.variable: e.reason,
       };
       final Map<String, String> reasons = ignored();
-      expect(result.report.ignored.length, 15);
+      expect(result.report.ignored.length, 16);
+      expect(reasons['@import "tailwindcss"'], contains('not a theme token'));
       for (final String size in <String>[
         '--shadow-2xs',
         '--shadow-xs',

@@ -26,7 +26,10 @@ void main() {
       expect(result.format, WebImportFormat.css);
       expect(result.report.mapped.length, 65);
       expect(result.report.defaulted.length, 4);
-      expect(result.report.ignored.length, 0);
+      expect(
+        result.report.ignored.map((IgnoredEntry e) => e.variable),
+        <String>['@layer base'],
+      );
       expect(result.document.light.length, 32);
       expect(result.document.dark.length, 32);
     });
@@ -38,7 +41,10 @@ void main() {
       expect(result.format, WebImportFormat.css);
       expect(result.report.mapped.length, 68);
       expect(result.report.defaulted.length, 4);
-      expect(result.report.ignored.length, 0);
+      expect(
+        result.report.ignored.map((IgnoredEntry e) => e.variable),
+        <String>['@import "tailwindcss"'],
+      );
     });
 
     test('tweakcn-style CSS', () {
@@ -48,7 +54,7 @@ void main() {
       expect(result.format, WebImportFormat.css);
       expect(result.report.mapped.length, 85);
       expect(result.report.defaulted.length, 4);
-      expect(result.report.ignored.length, 15);
+      expect(result.report.ignored.length, 16);
     });
 
     test('tailwind v4 @theme CSS', () {

@@ -826,7 +826,9 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'skeleton': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
+    DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'spinner': <DocsDep>[
@@ -1220,6 +1222,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover', kind: DocsDepKind.primitive),
     DocsDep(id: 'sheet_overlay', kind: DocsDepKind.primitive),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'menu': <DocsDep>[
@@ -1377,6 +1380,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'menu', kind: DocsDepKind.component),
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover', kind: DocsDepKind.primitive),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'refresh_trigger': <DocsDep>[
@@ -1412,12 +1416,17 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'code_snippet': <DocsDep>[
+    DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'syntax_highlight', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'text_editing', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
+    DocsDep(id: 'icons', kind: DocsDepKind.foundation),
+    DocsDep(id: 'platform', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'image': <DocsDep>[
