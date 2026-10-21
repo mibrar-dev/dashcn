@@ -1536,6 +1536,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
       'display',
       'pre',
       'snippet',
+      'syntax',
     ],
   ),
   DocsSearchEntry(
