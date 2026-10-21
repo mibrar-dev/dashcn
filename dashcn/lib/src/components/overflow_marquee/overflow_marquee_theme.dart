@@ -8,8 +8,9 @@
 //
 //   const OverflowMarqueeTheme overflowMarqueeThemeOverrides =
 //       OverflowMarqueeTheme(
-//         duration: Duration(seconds: 6),
-//         delayDuration: Duration(seconds: 1),
+//         speed: 60.0,
+//         gap: 32.0,
+//         direction: AxisDirectional.start,
 //         fadePortion: 0.15,
 //       );
 

@@ -50,6 +50,11 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   expressions: ^0.2.5+2
+  # Pure-Dart DEFLATE for the `dcn1_` preset-string codec
+  # (`theme/interop/preset_codec.dart`): `dart:io` compression is unavailable
+  # on web, where the docs Theme Studio must generate the same string live.
+  # No Flutter/material import; used for encode/decode only.
+  archive: ^4.0.0
   # Pure-Dart QR encoder (no Flutter/material import; deps: meta only).
   # Used by the `qr_code` component's matrix wrapper.
   qr: ^4.0.0

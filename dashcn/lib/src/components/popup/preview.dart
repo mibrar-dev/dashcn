@@ -7,6 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import '../menu/menu.dart';
@@ -78,8 +79,23 @@ class _AnchoredDemo extends StatelessWidget {
 
 Widget _anchored(BuildContext context) => const _AnchoredDemo();
 
+/// A customized surface: widget-leg theme override (tinted fill, no border).
+Widget _customized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: MenuPopup(
+      theme: MenuPopupTheme(
+        background: ThemedColor.value(Color(0xFFF0FDF4)),
+        borderWidth: 0,
+      ),
+      children: <Widget>[_ProfileCard()],
+    ),
+  );
+}
+
 /// Named docs examples for `popup`; the first entry is the default.
 const List<ComponentPreview> popupPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
   ComponentPreview('Anchored', _anchored),
+  ComponentPreview('Customized', _customized),
 ];

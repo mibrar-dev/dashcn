@@ -2563,20 +2563,25 @@
       "deps": {
         "components": [],
         "foundation": [
-          "gap"
+          "gap",
+          "icons",
+          "platform"
         ],
         "primitives": [
+          "clickable",
           "syntax_highlight",
           "text",
-          "text_editing"
+          "text_editing",
+          "touch_hit_area"
         ],
         "theme": [
           "color_tokens",
           "density",
+          "motion",
           "theme"
         ]
       },
-      "description": "Scrollable code block with optional top-right action buttons.",
+      "description": "Scrollable code block with syntax colouring, copy button and selectable text.",
       "entry": "components/code_snippet/code_snippet.dart",
       "files": [
         "components/code_snippet/code_snippet.dart",
@@ -2593,17 +2598,25 @@
         "display",
         "code",
         "snippet",
-        "pre"
+        "pre",
+        "syntax"
       ],
       "theme": {
         "class": "CodeSnippetTheme",
         "defaults": "codeSnippetDefaults",
         "fields": {
+          "actionSpacing": "double? - space between action items, 4",
           "background": "ThemedColor? - container fill, card token",
           "borderColor": "ThemedColor? - border color, border token",
           "borderRadius": "BorderRadiusGeometry? - null = ambient radiusLg",
           "borderWidth": "double? - scaled border width, 1",
-          "padding": "EdgeInsetsGeometry? - density padding, wider on the right"
+          "copiedIcon": "IconData? - feedback icon, Lucide check",
+          "copiedIconColor": "ThemedColor? - copied icon color, primary",
+          "copyFeedbackDuration": "Duration? - duration to show copied feedback, 2000ms",
+          "copyIcon": "IconData? - idle copy icon, Lucide copy",
+          "copyIconColor": "ThemedColor? - idle copy icon color, mutedForeground",
+          "padding": "EdgeInsetsGeometry? - density padding, wider on the end",
+          "showCopyButton": "bool? - whether copy action renders by default"
         },
         "userFile": "code_snippet_theme.dart"
       },
@@ -3077,6 +3090,11 @@
       "api": {
         "classes": [
           "ContextMenu"
+        ],
+        "constants": [
+          "kContextMenuMinWidth",
+          "kContextMenuMaxWidth",
+          "kContextMenuMinTargetSize"
         ],
         "functions": [
           "showContextMenu"
@@ -3644,7 +3662,8 @@
           "sheet_overlay"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "A menu surface anchored below the widget that opened it, plus the showDropdown helper. Rows, traversal and the popup surface come from the menu component.",
@@ -6705,30 +6724,36 @@
       "api": {
         "classes": [
           "OverflowMarquee",
-          "OverflowMarqueeTheme"
+          "OverflowMarqueeTheme",
+          "MarqueeController",
+          "MarqueeSurface"
         ],
         "constants": [
           "overflowMarqueeDefaults",
           "overflowMarqueeThemeOverrides"
         ],
-        "enums": []
+        "enums": [
+          "AxisDirectional"
+        ]
       },
       "category": "Layout",
       "deps": {
         "components": [],
-        "foundation": [],
-        "primitives": [
-          "animation"
+        "foundation": [
+          "geometry"
         ],
+        "primitives": [],
         "theme": [
           "color_tokens",
           "theme"
         ]
       },
-      "description": "Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.",
+      "description": "Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.",
       "entry": "components/overflow_marquee/overflow_marquee.dart",
       "files": [
         "components/overflow_marquee/overflow_marquee.dart",
+        "components/overflow_marquee/overflow_marquee_controller.dart",
+        "components/overflow_marquee/overflow_marquee_render.dart",
         "components/overflow_marquee/overflow_marquee_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
@@ -6751,10 +6776,15 @@
         "fields": {
           "curve": "Curve? - easing of each run",
           "delayDuration": "Duration? - pause at each end",
-          "direction": "Axis? - horizontal | vertical",
-          "duration": "Duration? - time of one `step` run",
+          "direction": "AxisDirectional? - start | end | up | down (RTL-aware)",
+          "duration": "Duration? - legacy run time",
           "fadePortion": "double? - edge fade fraction of the visible extent, clamped 0..0.5",
-          "step": "double? - pixels covered per `duration`"
+          "gap": "double? - gap between repeating copies in continuous loop",
+          "loop": "bool? - whether marquee loops continuously",
+          "pauseOnFocus": "bool? - pause animation on keyboard focus",
+          "pauseOnHover": "bool? - pause animation on pointer hover",
+          "speed": "double? - scroll speed in pixels per second",
+          "step": "double? - pixels covered per duration"
         },
         "userFile": "overflow_marquee_theme.dart"
       },
@@ -7117,7 +7147,8 @@
           "popover"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
@@ -8255,7 +8286,15 @@
       "api": {
         "classes": [
           "Skeleton",
-          "SkeletonTheme"
+          "SkeletonTheme",
+          "SkeletonStyle",
+          "SkeletonBlock",
+          "SkeletonLine",
+          "SkeletonAvatar",
+          "SkeletonCard",
+          "SkeletonList",
+          "SkeletonTable",
+          "SkeletonMirror"
         ],
         "constants": [
           "kSkeletonSweepDuration",
@@ -8263,6 +8302,18 @@
           "kSkeletonSweepFade",
           "skeletonDefaults",
           "skeletonThemeOverrides"
+        ],
+        "functions": [
+          "resolveSkeletonTokens",
+          "resolveSkeletonTheme",
+          "skeletonLineHeight",
+          "skeletonLineGap",
+          "skeletonAvatarSize",
+          "skeletonRowHeight"
+        ],
+        "typedefs": [
+          "SkeletonLineBuilder",
+          "SkeletonMirrorBuilder"
         ]
       },
       "category": "Feedback",
@@ -8271,18 +8322,25 @@
         "foundation": [],
         "primitives": [
           "animation",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "Widgets-only loading placeholder with a repeating shimmer sweep; replaces the banned skeletonizer package.",
       "entry": "components/skeleton/skeleton.dart",
       "files": [
         "components/skeleton/skeleton.dart",
-        "components/skeleton/skeleton_style.dart"
+        "components/skeleton/skeleton_compose.dart",
+        "components/skeleton/skeleton_layout.dart",
+        "components/skeleton/skeleton_mirror.dart",
+        "components/skeleton/skeleton_shapes.dart",
+        "components/skeleton/skeleton_style.dart",
+        "components/skeleton/skeleton_table.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
       "install": "dashcn add skeleton",
@@ -8301,10 +8359,16 @@
         "class": "SkeletonTheme",
         "defaults": "skeletonDefaults",
         "fields": {
+          "avatarSize": "double? - avatar diameter; null = density controlHeight",
           "borderRadius": "BorderRadiusGeometry? - null = theme borderRadiusMd",
-          "curve": "Curve? - sweep easing; null = Curves.linear",
-          "duration": "Duration? - one sweep; null = 2 x kDefaultDuration",
+          "curve": "Curve? - sweep easing; null = motion standard curve",
+          "duration": "Duration? - one sweep; null = 800ms, scaled by motion intensity",
           "fromColor": "ThemedColor? - leading sweep fill; null = muted",
+          "lineGap": "double? - gap between lines; null = density gap",
+          "lineHeight": "double? - text-line height; null = density bodyTextSize",
+          "rowHeight": "double? - list/table row height; null = density rowMinHeight",
+          "surfaceBlur": "double? - card surface blur; null = ambient",
+          "surfaceOpacity": "double? - card surface opacity; null = ambient",
           "toColor": "ThemedColor? - trailing sweep fill; null = accent"
         },
         "userFile": "skeleton_theme.dart"
@@ -10538,13 +10602,13 @@
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
     "components/accordion/preview.dart": "3d725fd596bf24362fae5618a50e19b63390192b6569632378c33652eead48bf",
-    "components/action_sheet/action_sheet.dart": "7acf533b6cc298cb1273ce87c2251a000287f5c40f2a914cf4f965cd5d7e433c",
+    "components/action_sheet/action_sheet.dart": "90ecbcf8e00cb7834a3920b1054a4df051a33c10166f5927438e3401d9c4fc32",
     "components/action_sheet/action_sheet_action.dart": "28b41cd014006b84542599d6fdf6999b35f7fa19dea33742aedd3eae29373f47",
     "components/action_sheet/action_sheet_row.dart": "6c874ba88b6828d96b3afcf99fe187f180f33b17f38efaddebe1a61f19e77711",
-    "components/action_sheet/action_sheet_show.dart": "57752173117424362962b0c379ee7fcc5fc4234e1724f20512908047b0ef9f6d",
+    "components/action_sheet/action_sheet_show.dart": "a93ca4b0a31b5f36f2f89faa35745d5af352068eec9e3ca082707836d5c337e5",
     "components/action_sheet/action_sheet_style.dart": "70f6c31eed9fe927aae7ff9e9012ebea9acc6e4c4f48b525eb0073ad18eb2eca",
     "components/action_sheet/action_sheet_theme.dart": "7625dffe23b1c6d072aff7b8abe2358cc50f2062ebb8ea35292d1c7d8b910f61",
-    "components/action_sheet/preview.dart": "030853dfdc77af91a7d5bafc893c4cff9670dd14be5aae58a1e8c1ae7ad5e67f",
+    "components/action_sheet/preview.dart": "db62c2cab09340243c3ed41f8cfaffb07bdf531f3aaeef7c100ed285135c5dd6",
     "components/alert/alert.dart": "fd0c4190aebf8ff2354c21ee84ae90a5755167e86db513b6b487003a0f9955d4",
     "components/alert/alert_style.dart": "be146d30c1607d5d580df03a0b57f94e798e1246ff6866742fd0bbeb3ae4743b",
     "components/alert/alert_theme.dart": "c0d6deb5deb53267de56ef33059c9493d9c856fa99a402fbee2c9dde5c2d40f1",
@@ -10655,10 +10719,10 @@
     "components/chip_input/chip_input_style.dart": "15357b593ec6374a96f9176ee8364ab0a061d563ea36b06e4678cebaebbe9a82",
     "components/chip_input/chip_input_theme.dart": "879e69b1c259e2e9f98676530560c6e8b516ffd3b8b68c4813f5988b8c535216",
     "components/chip_input/preview.dart": "3f57d41ed56fc41867803330140a9df7ccec0124443a57f2ab9e4b097036838b",
-    "components/code_snippet/code_snippet.dart": "0c178d7cc758e1be18bfe9ed36a94f1903570d7a71a54fc7c665266240fb9c5e",
-    "components/code_snippet/code_snippet_style.dart": "0e21351004640c9ebc1a578ed74eb14847ab0fd07ed92c17239ffa4c13342811",
+    "components/code_snippet/code_snippet.dart": "71f625cf5495a1310a7e2a245403edb724d7b3c66fd5922b391c1b1ffd39a2ee",
+    "components/code_snippet/code_snippet_style.dart": "18afdd6cd5c7113a115f83e2597f4e6ec346d8770817549c231a5b1bea9a470d",
     "components/code_snippet/code_snippet_theme.dart": "dfd9af928c0f207c3c0504fc6d16b998101614ba5c9203addebe811435fa61ad",
-    "components/code_snippet/preview.dart": "5e086cab689652b59ce18359deb3ea0836c97368cbe9380287b60df941480209",
+    "components/code_snippet/preview.dart": "94581950f85743730bed8fbfa52e827c21d7c80a2c086d80c34376246aab2687",
     "components/collapsible/collapsible.dart": "b45f5846ed86ffe8fa3aebdbd0b828f0582725fb600d4c3d77ba4350fb740f6d",
     "components/collapsible/collapsible_style.dart": "8e191890455c5413b0e2935bc3c0055719cd55391fb09c47b1b65e83436c441e",
     "components/collapsible/collapsible_theme.dart": "1188197762885e137a5259ed54d27644cf69c00c7b76f4a1fde2abe75bfc49c7",
@@ -10680,9 +10744,9 @@
     "components/command/command.dart": "245b22c488fcc72c70a09da6899ee117dbb7dc4dc86d465088990c50ed109f75",
     "components/command/command_style.dart": "b654d0abd3a57693ed7cce920b5d19fcb0987fc34ee6bb00efb45271946f481c",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
-    "components/command/preview.dart": "1612c0873909727fad820aef901d6163d4f613d8f080d9a07fd0b809cc99cf7b",
-    "components/context_menu/context_menu.dart": "17f5a3e9fbf25a3c1c0c788735baa9b7086605155b5c8e2ba0a88497571d0cb8",
-    "components/context_menu/preview.dart": "9644907336ca79a0e111c22ec28c632097a02e58c8c69bb8d8505d770eaba418",
+    "components/command/preview.dart": "6bca11356367b524b2fb8039bc63d005a242220d9b31e682068614e82824d1c3",
+    "components/context_menu/context_menu.dart": "772a63bfc28cfce1352c21faeaf50bc124ab95f3fdf4892fb72fd1ad6793721e",
+    "components/context_menu/preview.dart": "0363b06f0a9647fffa5a83af217a2619a94afc70128d7bb3aab1e4a5d5841935",
     "components/country_flag/country_flag.dart": "622df38c59cf9181a86b8218e136557f2ba662700f084c2415ee4dd5fb9e3e52",
     "components/country_flag/country_flag_style.dart": "a37d73e15798fc1ab3a3529e0be6225965952a8d915ad67a954c3b09a1fc8a2e",
     "components/country_flag/country_flag_theme.dart": "7f90d6328b6b707afca974525591185ffa7e72bf3b0fe01ead9ec669cae54477",
@@ -10710,8 +10774,8 @@
     "components/drawer/preview.dart": "013127b7fec18ef932ec61ec7788254b513160c1c91a3ec8c7cbdb4e4de76c6c",
     "components/drawer_container/drawer_container.dart": "b47d1930ceee7447633d7ff9dd05065844ddf977f572dbe7b009bed9fa971e6b",
     "components/drawer_container/preview.dart": "5792cb97c2012fdff4af4736af804eea92fe59efcf7e357b917d89f3c84f70ce",
-    "components/dropdown_menu/dropdown_menu.dart": "8cfdb5d180b17540570a209f810f74b1340fe8552109ffd780dcdf7a6a86b441",
-    "components/dropdown_menu/preview.dart": "afa463b633d851e2aa73f8b26f282ac926acba18accd41853b00f9274047a16c",
+    "components/dropdown_menu/dropdown_menu.dart": "7b8c2a3c414299972aa08bfe87a4c786f2f6726296ebfcab0921a812f639124a",
+    "components/dropdown_menu/preview.dart": "54b44051cadf197ca8fc5c75fcd95537b979b1ccac6625d9c39265a010708df9",
     "components/dropzone/dropzone.dart": "0871fe6a8960c8623245e13e0f32867da7988b2bc341c907b5d470e630778bde",
     "components/dropzone/dropzone_style.dart": "aa5692203a2b4dc89db723921747b84e997a76b6d89c5e3022fe9b0b034109eb",
     "components/dropzone/dropzone_theme.dart": "f74280420d94eb62255a3990f4169135e22f6d26ede50cec8ac111cf62d7ce24",
@@ -10872,10 +10936,12 @@
     "components/outlined_container/outlined_container_style.dart": "0e12ecce67716dbdd99deeb5fe0221f72a0fa63b4c5fca4c2944b8ef531fd851",
     "components/outlined_container/outlined_container_theme.dart": "2ff9ce8f7b07661e30de79553beaac6a5b3b9d96c8433f2149e4e1d5b3781d0b",
     "components/outlined_container/preview.dart": "eb0540391f30d6efa2d64a977396c521eddf38b893e091d4ac121708ecbfba96",
-    "components/overflow_marquee/overflow_marquee.dart": "87218a6a25c3ce90e940d72c54f7e0555352d21eed3ff116e910513e71dbcb12",
-    "components/overflow_marquee/overflow_marquee_style.dart": "210aea1d0adee4212bb559a97d9aa46007d28416a833bfc2b51421a0ad7b0281",
-    "components/overflow_marquee/overflow_marquee_theme.dart": "0de11dcafd93dad41b8d7f9a97a27d457f09659d56a5a303400bc9fa9864ddbe",
-    "components/overflow_marquee/preview.dart": "8b29eff941c1cb347a6e701cdf46e29c14aef33d25e273310f8fb72effcca5eb",
+    "components/overflow_marquee/overflow_marquee.dart": "5262fd9caa613bfa19e3f5a2145cc0a843086e3b7e7a1568d0acd33ee69025dd",
+    "components/overflow_marquee/overflow_marquee_controller.dart": "5403c934b0c9af950ac2c3cdeff1526988ff276b4d4060faa7539631dd638fac",
+    "components/overflow_marquee/overflow_marquee_render.dart": "cbb98badaa9d8cfd48a24c915ee3317e47c8b9ad18c1a468fdccb734cfe87c0d",
+    "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
+    "components/overflow_marquee/overflow_marquee_theme.dart": "a0d064556b916170fc3ffadaeb7991e963cd5b07d987f803330724b9f8902a1f",
+    "components/overflow_marquee/preview.dart": "08cd923e7f3564ae2ad586784da215b6c5404f5b50a3b0f84df52c766e59c966",
     "components/overlay_configuration/overlay_configuration.dart": "91188b9ada185780b1464fa7ca3f1586fc8c0fc336fe78d86f19003a16f9e84c",
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
@@ -10892,8 +10958,8 @@
     "components/phone_input/preview.dart": "7fe76b9992e56e0b202bea1c3084d896e24ba1bfff8fefa0fb69fe35bd916679",
     "components/pinned_sheet/pinned_sheet.dart": "e7a61822a08ee5abdda77df0bb56eb5e2fe81c47b537620e97927c4c70a3dfc8",
     "components/pinned_sheet/preview.dart": "c268060255945b62f34b3983a0bc95553339b2f6728f2822e672b69ec7f6a7a3",
-    "components/popup/popup.dart": "a67509f0345a3cd39032ecd0562db000c6a5a544889181b81ec984f712758ecf",
-    "components/popup/preview.dart": "4498acc319132183fa6786af308883635ad2579a1e608f4ebf2b294aecf9f582",
+    "components/popup/popup.dart": "4ec34d81e5b0632ba2985e64c8e856426bb68ae84b8df06fb6023cb96fd82ad0",
+    "components/popup/preview.dart": "f5e357563850f43630e61f3fc01182e7840b3027ef44ddb0b47d4b4fa1f1c7f7",
     "components/progress/preview.dart": "e62737f25038abf886a76c241a491f20262ae84ea1453e64b0fe19f5172fdabe",
     "components/progress/progress.dart": "59bff582771b65727ea93916751c99cd7bacda99ee7cbcf4a8f4822ef9c0fdf5",
     "components/progress/progress_style.dart": "dea8eea72d1ed044648f1c34cc424ae2bfc6548f4c7d8a5c4553fef3c2395f16",
@@ -10965,9 +11031,14 @@
     "components/signature_pad/signature_pad_controller.dart": "57f7c5e790c32cc1ae9755ffa103db5b5ddef4d65943263cd7cb1d2ac15533d6",
     "components/signature_pad/signature_pad_style.dart": "df8b4f0cadc6b6911521eafc7330d897822437e1079b95a6917d3659b5e737b9",
     "components/signature_pad/signature_pad_theme.dart": "25f7d4a29239a4372c732b5f9663625c6bca325c476b49ab259744b9d654c107",
-    "components/skeleton/preview.dart": "a3fcdd6a603a0e652b4b0a2939a1d56e09d113682120f8d0990c1002af73504e",
-    "components/skeleton/skeleton.dart": "34b9d029b61944be40d100c12d6273bc13c2e164b22620d96e8d01c67afae6d5",
-    "components/skeleton/skeleton_style.dart": "0581ed33a6dc25f7dd9f1671cb0b317ac6eac777e6c09470311e7b28d7d39486",
+    "components/skeleton/preview.dart": "9e8a76b294f45898043a65b502278e66e954835f40caf06042f9c00829ac3a4a",
+    "components/skeleton/skeleton.dart": "2ab4e2edcaba74b8105a6e916cb7dafded846196dff01a61e7b85ff0a22cc1b8",
+    "components/skeleton/skeleton_compose.dart": "87970a23f38fcef8ea0bc6dcdf34f352ba6c851c2582c05f8656acc3689960a1",
+    "components/skeleton/skeleton_layout.dart": "57affbae6ec411f1eb4cb347932d48dc5b372a4c2814f4685e48c490177908d2",
+    "components/skeleton/skeleton_mirror.dart": "92b1e7c31bd8e4a6615b1dea9afce8d1afbffd7ffc7c9027aac9b13f17ea6e85",
+    "components/skeleton/skeleton_shapes.dart": "971f664fe155b16c61d034e743c4a7d614dfc675eb5fffd035b4eb76a27135bd",
+    "components/skeleton/skeleton_style.dart": "85145c06055ea0a15179fad7636d8a8e0b2c95b5a47efcdf9d329d340bbaf1b8",
+    "components/skeleton/skeleton_table.dart": "00d857bb8fca46ac9f4b69a3d09cd398784ad29b80100347eb1133f1760be04a",
     "components/skeleton/skeleton_theme.dart": "c78eb0e915c9ed5ef4e204c83d68f337139427fe67f12c5e361c01b3985bb0c5",
     "components/slider/preview.dart": "c125f85795f4286053370142f6aca4f2abc8052cb247feb9df328855157b0ce6",
     "components/slider/slider.dart": "d76d7514975555383c6629e9f3390bec0c97aceeddde35ac785f81f7984d7a37",
@@ -11341,7 +11412,7 @@
     "primitives/subfocus_scope.dart": "1e7c84b191bfe5d3310bb34febe4f011afe1635784f2153be4f2c25b8d74b68f",
     "primitives/surface.dart": "15d09eb9c87a99368fa29a539bef869411d9fe3b1cdf5f23b0ba19bb58610c6d",
     "primitives/syntax_highlight/syntax_highlight.dart": "0c3b99aab9dc4d1e0c319d96e7655dfce77b69c9e4509b3a3fd5dd351b64c895",
-    "primitives/syntax_highlight/syntax_language.dart": "54f6020aea77269a9da5053b64c75fdb8a933d2761551d0ad3e6f88a9007fb25",
+    "primitives/syntax_highlight/syntax_language.dart": "d8902893a94c1c13dc59b274b237eaee0184bc3eced4a1fcaff56f5179de183d",
     "primitives/syntax_highlight/syntax_lexer.dart": "41ae6464e40827b420807b2fd25a28dc49e1ef8fc597a283766e1ed4839c29b1",
     "primitives/syntax_highlight/syntax_scanners.dart": "72b5c886cc5960a9478a6ebd3b562138f56843d03a0cab907be8edacf687a0a7",
     "primitives/syntax_highlight/syntax_scanners_c_like.dart": "4a5d4550bf44a0568819322fb316fde181dcfa2f5f42066e71e9afc8bc4db6a9",
@@ -11413,15 +11484,17 @@
     "theme/density.dart": "2813f3a54d5194322135fea3318bb3aeadaf43cb82e1228c741ed825bca472a5",
     "theme/density_tokens.dart": "ad9d76349d27b3469505b6a77d9b61c1fd7ac16268dee6f69e26320a127c836d",
     "theme/interop/color_space.dart": "9c8766deeb3d885b5f8c96c13ceb9ca4f051daa22161f3dafd67fa778931d48c",
-    "theme/interop/css_theme_parser.dart": "6fbc97d1c7d8914de68e9562c6a1ed2fa0315c9a2ae9795af9071001cf837de4",
+    "theme/interop/css_theme_parser.dart": "42aff8d8c6cb5bd7ad11823ab00c17eb38ed64175a84dafe8ea092612c00a139",
     "theme/interop/css_values.dart": "402790f6da707db062633a94b272ddb0bde61674d3594f1489e95e701a2a16a5",
+    "theme/interop/google_fonts_catalogue.dart": "a1134cdeac2a65e163c7fc0c022e9f033a03aacfae7ce1d87c63e6af86383966",
     "theme/interop/internal/color_format.dart": "f8f8c71929b7ea9bb0ed412aa389abccfcc2a4f83bc7a30f6f5c1cec42654c03",
-    "theme/interop/internal/css_mapping.dart": "fe01c482748d5688046cba85bae3eeab7aa9094e515b6776e61a0be310ea7daf",
-    "theme/interop/internal/css_syntax.dart": "30da2c33b95d9a3f0801334001453ae0a9a5b37e28338ddf377e02ed751beb64",
+    "theme/interop/internal/css_mapping.dart": "dc3ed8e9a95d5ebfbabda2490d271efd53ff3778ab2b8b9accf39e4a64813f9d",
+    "theme/interop/internal/css_syntax.dart": "8593d320454a6c6f9c5afb4cf1a4c20775e0a9918996f6fd87419ae906257e41",
     "theme/interop/internal/theme_diagnostics.dart": "2b47951be412273a42d3356578992efdaaa0b0885164038f501ce824c1006995",
     "theme/interop/internal/token_inventory.dart": "b6e32b7d68302375a28909c36662967f731896abff606d572ccf4f6c9030cc67",
-    "theme/interop/interop.dart": "e758007770853291cc2b0f4e91cf2740e68c970ef6886803d835b150c8c1b093",
+    "theme/interop/interop.dart": "727a9cfde2ce9df22536643ef5a3aef8cd781d6b048eb3e80e3c10ddf96fceb1",
     "theme/interop/mapping.dart": "ffc3dbd8a8eae1b2c6785c6bf83d8468dc77862a385eb1c8aad1985f9f7a4841",
+    "theme/interop/preset_codec.dart": "9b6ccf5d90e1455dacd95f6b08f9122477a396ecfe707ab5c4fcc1ddf2572a70",
     "theme/interop/tailwind_v3_parser.dart": "19f791c0e2c29c87ff0bad11f6108acb166630286d23e04294b82d76e66c9b72",
     "theme/interop/theme_model.dart": "eae68cee70cfb30fc7bd80afa357ab75f6f7ba9f3dc303392ef925c6f61f072c",
     "theme/interop/web_color_parser.dart": "77ff065e04d133a739f035f967929c1c424dc93161674426dff8b2c3e2c7bf3b",
@@ -13120,6 +13193,7 @@
         "theme/interop/color_space.dart",
         "theme/interop/css_theme_parser.dart",
         "theme/interop/css_values.dart",
+        "theme/interop/google_fonts_catalogue.dart",
         "theme/interop/internal/color_format.dart",
         "theme/interop/internal/css_mapping.dart",
         "theme/interop/internal/css_syntax.dart",
@@ -13127,6 +13201,7 @@
         "theme/interop/internal/token_inventory.dart",
         "theme/interop/interop.dart",
         "theme/interop/mapping.dart",
+        "theme/interop/preset_codec.dart",
         "theme/interop/tailwind_v3_parser.dart",
         "theme/interop/theme_model.dart",
         "theme/interop/web_color_parser.dart",
@@ -13134,6 +13209,12 @@
         "theme/interop/writers/dtcg_writer.dart",
         "theme/interop/writers/tailwind_v4_writer.dart",
         "theme/interop/writers/web_css_writer.dart"
+      ],
+      "packages": [
+        {
+          "constraint": "^4.0.0",
+          "name": "archive"
+        }
       ]
     },
     "motion": {

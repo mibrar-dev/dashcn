@@ -12505,6 +12505,44 @@ class _SkeletonSkeletonCard extends StatelessWidget {
 Widget _skeletonCard(BuildContext context) => const _SkeletonSkeletonCard();
 ''',
     ),
+    DocsExampleSource(
+      name: 'List',
+      builder: '_skeletonList',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonList(BuildContext context) => const SkeletonList(itemCount: 3);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Loading card',
+      builder: '_skeletonLoadingCard',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonLoadingCard(BuildContext context) =>
+    const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Table',
+      builder: '_skeletonTable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonTable(BuildContext context) =>
+    const SkeletonTable(columns: 3, rows: 4);
+''',
+    ),
   ],
   'spinner': <DocsExampleSource>[
     DocsExampleSource(
@@ -18049,8 +18087,8 @@ Widget _customized(BuildContext context) => const _CustomizedFilterBar();
   ],
   'overflow_marquee': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Now playing',
-      builder: '_nowPlaying',
+      name: 'Default',
+      builder: '_defaultMarquee',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -18059,7 +18097,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18072,7 +18109,56 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// Now-playing row with a play/pause toggle: long song titles scroll.
+Widget _defaultMarquee(BuildContext context) {
+  final theme = Theme.of(context);
+  return SizedBox(
+    width: 340,
+    child: _band(
+      context,
+      Row(
+        children: <Widget>[
+          Icon(LucideIcons.bell, size: 16, color: theme.colors.primary),
+          Gap(theme.spacing.sm),
+          const Expanded(
+            child: OverflowMarquee(
+              speed: 45.0,
+              gap: 28.0,
+              child: Text(
+                'Breaking News: dashcn continuous marquee components now live across all platforms! • '
+                'Seamless looping with soft edge fades • Fully keyboard accessible',
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Now playing',
+      builder: '_nowPlaying',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
 class _NowPlaying extends StatefulWidget {
   const _NowPlaying();
 
@@ -18081,76 +18167,82 @@ class _NowPlaying extends StatefulWidget {
 }
 
 class _NowPlayingState extends State<_NowPlaying> {
-  bool _playing = true;
+  final MarqueeController _controller = MarqueeController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          width: 320,
-          child: _band(
-            context,
-            Row(
-              children: <Widget>[
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: theme.colors.muted,
-                    borderRadius: BorderRadius.circular(6),
+    return SizedBox(
+      width: 320,
+      child: _band(
+        context,
+        Row(
+          children: <Widget>[
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: theme.colors.muted,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Center(
+                child: Icon(
+                  LucideIcons.music,
+                  size: 20,
+                  color: theme.colors.primary,
+                ),
+              ),
+            ),
+            Gap(theme.spacing.sm),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  OverflowMarquee(
+                    controller: _controller,
+                    speed: 40.0,
+                    gap: 32.0,
+                    child: const Text(
+                      'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      LucideIcons.music,
-                      size: 20,
+                  Text(
+                    _controller.isPlaying ? 'Playing · Synthwave' : 'Paused',
+                    style: TextStyle(
+                      fontSize: 12,
                       color: theme.colors.mutedForeground,
                     ),
                   ),
-                ),
-                Gap(theme.spacing.sm),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const OverflowMarquee(
-                        duration: Duration(seconds: 6),
-                        child: Text(
-                          'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
-                        ),
-                      ),
-                      Text(
-                        _playing ? 'Playing · Synthwave' : 'Paused · Synthwave',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: theme.colors.mutedForeground,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Gap(theme.spacing.sm),
-                Button(
-                  size: ButtonSize.icon,
-                  variant: ButtonVariant.ghost,
-                  onPressed: () => setState(() => _playing = !_playing),
-                  child: Semantics(
-                    label: _playing ? 'Pause' : 'Play',
-                    child: Icon(
-                      _playing ? LucideIcons.pause : LucideIcons.play,
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            Gap(theme.spacing.sm),
+            Button(
+              size: ButtonSize.icon,
+              variant: ButtonVariant.ghost,
+              onPressed: () {
+                _controller.toggle();
+                setState(() {});
+              },
+              child: Semantics(
+                label: _controller.isPlaying ? 'Pause' : 'Play',
+                child: Icon(
+                  _controller.isPlaying ? LucideIcons.pause : LucideIcons.play,
+                  size: 16,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -18169,7 +18261,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18182,11 +18273,10 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// A live-news band: a LIVE badge plus scrolling headlines.
 Widget _newsTicker(BuildContext context) {
   final theme = Theme.of(context);
   return SizedBox(
-    width: 320,
+    width: 340,
     child: _band(
       context,
       Row(
@@ -18195,11 +18285,12 @@ Widget _newsTicker(BuildContext context) {
           Gap(theme.spacing.sm),
           const Expanded(
             child: OverflowMarquee(
-              duration: Duration(seconds: 12),
+              speed: 55.0,
+              gap: 32.0,
               child: Text(
-                'dashcn 1.0 ships 145 components  •  '
-                'pull-to-refresh learns trackpads  •  '
-                'dots keep their gaps  •  '
+                'dashcn 1.0 ships 145 components • '
+                'pull-to-refresh learns trackpads • '
+                'continuous marquees loop seamlessly • '
                 'cards never collapse',
               ),
             ),
@@ -18212,8 +18303,8 @@ Widget _newsTicker(BuildContext context) {
 ''',
     ),
     DocsExampleSource(
-      name: 'Filename',
-      builder: '_filenameCard',
+      name: 'Vertical',
+      builder: '_verticalCredits',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -18222,7 +18313,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18235,33 +18325,147 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// A long filename scrolling inside a fixed-width file card.
-Widget _filenameCard(BuildContext context) {
-  final theme = Theme.of(context);
+Widget _verticalCredits(BuildContext context) {
   return SizedBox(
-    width: 240,
+    width: 280,
+    height: 96,
     child: _band(
       context,
-      Row(
-        children: <Widget>[
-          Icon(
-            LucideIcons.fileText,
-            size: 16,
-            color: theme.colors.mutedForeground,
+      const Center(
+        child: OverflowMarquee(
+          direction: AxisDirectional.up,
+          speed: 25.0,
+          gap: 16.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Directed by dashcn Team', style: TextStyle(fontSize: 13)),
+              Text(
+                'Original Score by Synthwave',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                'Starring Continuous Marquee',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                'Special Thanks to Open Source',
+                style: TextStyle(fontSize: 11),
+              ),
+            ],
           ),
-          Gap(theme.spacing.sm),
-          const Expanded(
-            child: OverflowMarquee(
-              duration: Duration(seconds: 5),
-              child: Text('quarterly-report-final-v2-ACTUAL-final.pdf'),
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'RTL reverse',
+      builder: '_rtlTicker',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
+Widget _rtlTicker(BuildContext context) {
+  return Directionality(
+    textDirection: TextDirection.rtl,
+    child: SizedBox(
+      width: 320,
+      child: Builder(
+        builder: (context) {
+          final theme = Theme.of(context);
+          return _band(
+            context,
+            Row(
+              children: <Widget>[
+                const Badge(child: Text('عاجل')),
+                Gap(theme.spacing.sm),
+                const Expanded(
+                  child: OverflowMarquee(
+                    direction: AxisDirectional.start,
+                    speed: 45.0,
+                    gap: 30.0,
+                    child: Text(
+                      'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+                    ),
+                  ),
+                ),
+              ],
             ),
+          );
+        },
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customizedMarquee',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
+Widget _customizedMarquee(BuildContext context) {
+  final theme = Theme.of(context);
+  return SizedBox(
+    width: 340,
+    child: _band(
+      context,
+      OverflowMarquee(
+        speed: 75.0,
+        gap: 40.0,
+        fadePortion: 0.15,
+        leading: Padding(
+          padding: EdgeInsets.only(right: theme.spacing.sm),
+          child: const Badge(
+            variant: BadgeVariant.secondary,
+            child: Text('FAST'),
           ),
-          Gap(theme.spacing.sm),
-          Text(
-            '2.4 MB',
-            style: TextStyle(fontSize: 11, color: theme.colors.mutedForeground),
-          ),
-        ],
+        ),
+        trailing: Padding(
+          padding: EdgeInsets.only(left: theme.spacing.sm),
+          child: Icon(LucideIcons.zap, size: 16, color: theme.colors.primary),
+        ),
+        child: const Text(
+          'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
       ),
     ),
   );
@@ -19002,7 +19206,9 @@ Widget _single(BuildContext context) {
       builder: '_commandDefault',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
@@ -19128,7 +19334,9 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
       builder: '_commandWithGroups',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
@@ -19250,6 +19458,102 @@ Widget _commandWithGroups(BuildContext context) =>
     const _CommandPalette(buildGroups: true);
 ''',
     ),
+    DocsExampleSource(
+      name: 'Dialog',
+      builder: '_commandDialog',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+/// Commands the palette offers.
+const List<String> _commandValues = <String>[
+  'Calendar',
+  'Search Emoji',
+  'Launch',
+  'Profile',
+  'Mail',
+  'Settings',
+];
+
+/// A trigger that opens the palette as a modal dialog with `showCommandDialog`.
+class _CommandDialogTrigger extends StatelessWidget {
+  const _CommandDialogTrigger();
+
+  Stream<List<Widget>> _results(BuildContext context, String? query) async* {
+    final List<String> ranked = rankCommandLabels(_commandValues, query);
+    yield <Widget>[
+      for (final String value in ranked)
+        SubFocusListItem(minHeight: 48, title: Text(value)),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      variant: ButtonVariant.outline,
+      size: ButtonSize.sm,
+      onPressed: () =>
+          showCommandDialog<void>(context: context, builder: _results),
+      child: const Text('Open command palette'),
+    );
+  }
+}
+
+Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_commandCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+/// Commands the palette offers.
+const List<String> _commandValues = <String>[
+  'Calendar',
+  'Search Emoji',
+  'Launch',
+  'Profile',
+  'Mail',
+  'Settings',
+];
+
+/// A customized palette: widget-leg theme override (tinted fill).
+Widget _commandCustomized(BuildContext context) {
+  return Center(
+    child: SizedBox(
+      width: 320,
+      child: SizedBox(
+        height: 300,
+        child: Command(
+          debounceDuration: Duration.zero,
+          theme: const CommandTheme(
+            background: ThemedColor.value(Color(0xFFF0FDF4)),
+          ),
+          builder: (context, query) async* {
+            final List<String> ranked = rankCommandLabels(
+              _commandValues,
+              query,
+            );
+            yield <Widget>[
+              for (final String value in ranked)
+                SubFocusListItem(minHeight: 48, title: Text(value)),
+            ];
+          },
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
   ],
   'context_menu': <DocsExampleSource>[
     DocsExampleSource(
@@ -19262,11 +19566,85 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
 import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
 
-/// The right-click surface.
-class _ContextMenuSurface extends StatefulWidget {
-  const _ContextMenuSurface({this.withSubmenu = false});
+/// Visible gesture hint: an icon plus the platform's open gesture.
+///
+/// Touch platforms read "Long-press …", desktop reads "Right-click …", and
+/// the caption always names both so the demo is discoverable either way.
+class _GestureHint extends StatelessWidget {
+  const _GestureHint({required this.action});
 
+  /// What the hinted surface does, e.g. 'this card'.
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TargetPlatform platform = theme.platform;
+    final bool touch =
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.android ||
+        platform == TargetPlatform.fuchsia;
+    // Short lines on purpose: the hint must stay inside the 232px card
+    // content on every font (widget-test fonts run wider than Inter).
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              touch ? LucideIcons.hand : LucideIcons.mousePointerClick,
+              size: 14,
+              color: theme.colors.foreground,
+            ),
+            SizedBox(width: theme.spacing.xs),
+            Flexible(
+              child: Text(
+                '${touch ? 'Long-press' : 'Right-click'} $action',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colors.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: theme.spacing.xs),
+        Text(
+          'Desktop: right-click · touch: long-press',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContextMenuSurface extends StatefulWidget {
+  const _ContextMenuSurface({
+    this.hintAction = 'here',
+    this.targetPadding = const EdgeInsets.all(8),
+    this.minTargetSize = kContextMenuMinTargetSize,
+    this.menuMinWidth,
+    this.menuMaxWidth,
+    this.popupTheme,
+    this.withSubmenu = false,
+    this.child,
+    this.showTargetOutline = false,
+  });
+
+  final String hintAction;
+  final EdgeInsetsGeometry targetPadding;
+  final double? minTargetSize;
+  final double? menuMinWidth;
+  final double? menuMaxWidth;
+  final MenuPopupTheme? popupTheme;
   final bool withSubmenu;
+  final bool showTargetOutline;
+
+  /// Custom trigger child; null draws the default card.
+  final Widget? child;
 
   @override
   State<_ContextMenuSurface> createState() => _ContextMenuSurfaceState();
@@ -19278,11 +19656,48 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    Widget trigger =
+        widget.child ??
+        Container(
+          width: 280,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusMd,
+          ),
+          child: _GestureHint(action: widget.hintAction),
+        );
+    if (widget.showTargetOutline) {
+      // The muted wash marks the padded hit region around the child so the
+      // expanded target is visible, not just larger.
+      trigger = Container(
+        padding: widget.targetPadding,
+        decoration: BoxDecoration(
+          color: theme.colors.muted,
+          borderRadius: theme.borderRadiusMd,
+        ),
+        child: trigger,
+      );
+    }
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          // Custom-child demos (e.g. the bare touch icon) label the trigger
+          // with the same gesture hint the cards carry inside.
+          if (widget.child != null) ...<Widget>[
+            _GestureHint(action: widget.hintAction),
+            SizedBox(height: theme.spacing.md),
+          ],
           ContextMenu(
+            targetPadding: widget.showTargetOutline
+                ? EdgeInsets.zero
+                : widget.targetPadding,
+            minTargetSize: widget.minTargetSize,
+            menuMinWidth: widget.menuMinWidth,
+            menuMaxWidth: widget.menuMaxWidth,
+            popupTheme: widget.popupTheme,
+            semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
                 child: const Text('Back'),
@@ -19310,20 +19725,7 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
                 onPressed: (_) {},
               ),
             ],
-            child: Container(
-              width: 220,
-              padding: EdgeInsetsDensity.pxAll(32),
-              decoration: BoxDecoration(
-                border: Border.all(color: theme.colors.border),
-                borderRadius: theme.borderRadiusMd,
-              ),
-              child: Text(
-                widget.withSubmenu
-                    ? 'Right-click: the submenu row is enabled'
-                    : 'Right-click anywhere on this card',
-                style: TextStyle(color: theme.colors.mutedForeground),
-              ),
-            ),
+            child: trigger,
           ),
           SizedBox(height: theme.spacing.md),
           Text(
@@ -19352,11 +19754,85 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
 import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
 
-/// The right-click surface.
-class _ContextMenuSurface extends StatefulWidget {
-  const _ContextMenuSurface({this.withSubmenu = false});
+/// Visible gesture hint: an icon plus the platform's open gesture.
+///
+/// Touch platforms read "Long-press …", desktop reads "Right-click …", and
+/// the caption always names both so the demo is discoverable either way.
+class _GestureHint extends StatelessWidget {
+  const _GestureHint({required this.action});
 
+  /// What the hinted surface does, e.g. 'this card'.
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TargetPlatform platform = theme.platform;
+    final bool touch =
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.android ||
+        platform == TargetPlatform.fuchsia;
+    // Short lines on purpose: the hint must stay inside the 232px card
+    // content on every font (widget-test fonts run wider than Inter).
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              touch ? LucideIcons.hand : LucideIcons.mousePointerClick,
+              size: 14,
+              color: theme.colors.foreground,
+            ),
+            SizedBox(width: theme.spacing.xs),
+            Flexible(
+              child: Text(
+                '${touch ? 'Long-press' : 'Right-click'} $action',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colors.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: theme.spacing.xs),
+        Text(
+          'Desktop: right-click · touch: long-press',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContextMenuSurface extends StatefulWidget {
+  const _ContextMenuSurface({
+    this.hintAction = 'here',
+    this.targetPadding = const EdgeInsets.all(8),
+    this.minTargetSize = kContextMenuMinTargetSize,
+    this.menuMinWidth,
+    this.menuMaxWidth,
+    this.popupTheme,
+    this.withSubmenu = false,
+    this.child,
+    this.showTargetOutline = false,
+  });
+
+  final String hintAction;
+  final EdgeInsetsGeometry targetPadding;
+  final double? minTargetSize;
+  final double? menuMinWidth;
+  final double? menuMaxWidth;
+  final MenuPopupTheme? popupTheme;
   final bool withSubmenu;
+  final bool showTargetOutline;
+
+  /// Custom trigger child; null draws the default card.
+  final Widget? child;
 
   @override
   State<_ContextMenuSurface> createState() => _ContextMenuSurfaceState();
@@ -19368,11 +19844,48 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    Widget trigger =
+        widget.child ??
+        Container(
+          width: 280,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusMd,
+          ),
+          child: _GestureHint(action: widget.hintAction),
+        );
+    if (widget.showTargetOutline) {
+      // The muted wash marks the padded hit region around the child so the
+      // expanded target is visible, not just larger.
+      trigger = Container(
+        padding: widget.targetPadding,
+        decoration: BoxDecoration(
+          color: theme.colors.muted,
+          borderRadius: theme.borderRadiusMd,
+        ),
+        child: trigger,
+      );
+    }
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          // Custom-child demos (e.g. the bare touch icon) label the trigger
+          // with the same gesture hint the cards carry inside.
+          if (widget.child != null) ...<Widget>[
+            _GestureHint(action: widget.hintAction),
+            SizedBox(height: theme.spacing.md),
+          ],
           ContextMenu(
+            targetPadding: widget.showTargetOutline
+                ? EdgeInsets.zero
+                : widget.targetPadding,
+            minTargetSize: widget.minTargetSize,
+            menuMinWidth: widget.menuMinWidth,
+            menuMaxWidth: widget.menuMaxWidth,
+            popupTheme: widget.popupTheme,
+            semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
                 child: const Text('Back'),
@@ -19400,20 +19913,7 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
                 onPressed: (_) {},
               ),
             ],
-            child: Container(
-              width: 220,
-              padding: EdgeInsetsDensity.pxAll(32),
-              decoration: BoxDecoration(
-                border: Border.all(color: theme.colors.border),
-                borderRadius: theme.borderRadiusMd,
-              ),
-              child: Text(
-                widget.withSubmenu
-                    ? 'Right-click: the submenu row is enabled'
-                    : 'Right-click anywhere on this card',
-                style: TextStyle(color: theme.colors.mutedForeground),
-              ),
-            ),
+            child: trigger,
           ),
           SizedBox(height: theme.spacing.md),
           Text(
@@ -19430,7 +19930,598 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 
 /// A surface whose menu row opens a submenu.
 Widget _contextMenuWithSubmenu(BuildContext context) =>
-    const _ContextMenuSurface(withSubmenu: true);
+    const _ContextMenuSurface(hintAction: 'this card', withSubmenu: true);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Touch target',
+      builder: '_contextMenuTouchTarget',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
+
+/// Visible gesture hint: an icon plus the platform's open gesture.
+///
+/// Touch platforms read "Long-press …", desktop reads "Right-click …", and
+/// the caption always names both so the demo is discoverable either way.
+class _GestureHint extends StatelessWidget {
+  const _GestureHint({required this.action});
+
+  /// What the hinted surface does, e.g. 'this card'.
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TargetPlatform platform = theme.platform;
+    final bool touch =
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.android ||
+        platform == TargetPlatform.fuchsia;
+    // Short lines on purpose: the hint must stay inside the 232px card
+    // content on every font (widget-test fonts run wider than Inter).
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              touch ? LucideIcons.hand : LucideIcons.mousePointerClick,
+              size: 14,
+              color: theme.colors.foreground,
+            ),
+            SizedBox(width: theme.spacing.xs),
+            Flexible(
+              child: Text(
+                '${touch ? 'Long-press' : 'Right-click'} $action',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colors.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: theme.spacing.xs),
+        Text(
+          'Desktop: right-click · touch: long-press',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContextMenuSurface extends StatefulWidget {
+  const _ContextMenuSurface({
+    this.hintAction = 'here',
+    this.targetPadding = const EdgeInsets.all(8),
+    this.minTargetSize = kContextMenuMinTargetSize,
+    this.menuMinWidth,
+    this.menuMaxWidth,
+    this.popupTheme,
+    this.withSubmenu = false,
+    this.child,
+    this.showTargetOutline = false,
+  });
+
+  final String hintAction;
+  final EdgeInsetsGeometry targetPadding;
+  final double? minTargetSize;
+  final double? menuMinWidth;
+  final double? menuMaxWidth;
+  final MenuPopupTheme? popupTheme;
+  final bool withSubmenu;
+  final bool showTargetOutline;
+
+  /// Custom trigger child; null draws the default card.
+  final Widget? child;
+
+  @override
+  State<_ContextMenuSurface> createState() => _ContextMenuSurfaceState();
+}
+
+class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
+  String? _lastAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    Widget trigger =
+        widget.child ??
+        Container(
+          width: 280,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusMd,
+          ),
+          child: _GestureHint(action: widget.hintAction),
+        );
+    if (widget.showTargetOutline) {
+      // The muted wash marks the padded hit region around the child so the
+      // expanded target is visible, not just larger.
+      trigger = Container(
+        padding: widget.targetPadding,
+        decoration: BoxDecoration(
+          color: theme.colors.muted,
+          borderRadius: theme.borderRadiusMd,
+        ),
+        child: trigger,
+      );
+    }
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // Custom-child demos (e.g. the bare touch icon) label the trigger
+          // with the same gesture hint the cards carry inside.
+          if (widget.child != null) ...<Widget>[
+            _GestureHint(action: widget.hintAction),
+            SizedBox(height: theme.spacing.md),
+          ],
+          ContextMenu(
+            targetPadding: widget.showTargetOutline
+                ? EdgeInsets.zero
+                : widget.targetPadding,
+            minTargetSize: widget.minTargetSize,
+            menuMinWidth: widget.menuMinWidth,
+            menuMaxWidth: widget.menuMaxWidth,
+            popupTheme: widget.popupTheme,
+            semanticsLabel: 'Actions for ${widget.hintAction}',
+            items: <Widget>[
+              MenuButton(
+                child: const Text('Back'),
+                onPressed: (_) => _run('Went back'),
+              ),
+              MenuButton(
+                child: const Text('Reload'),
+                onPressed: (_) => _run('Reloaded the page'),
+              ),
+              MenuButton(
+                trailing: const MenuShortcut(shortcut: '⌘C'),
+                child: const Text('Copy link'),
+                onPressed: (_) => _run('Copied the link'),
+              ),
+              const MenuSeparator(),
+              MenuButton(
+                trailing: const Icon(LucideIcons.chevronRight, size: 14),
+                enabled: widget.withSubmenu,
+                child: const Text('More tools'),
+                onPressed: (_) {},
+              ),
+              MenuButton(
+                enabled: false,
+                child: const Text('Inspect'),
+                onPressed: (_) {},
+              ),
+            ],
+            child: trigger,
+          ),
+          SizedBox(height: theme.spacing.md),
+          Text(
+            _lastAction ?? 'Pick an action from the menu',
+            style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _run(String action) => setState(() => _lastAction = action);
+}
+
+/// A 24px icon trigger: the 48px touch floor keeps it hittable on mobile.
+Widget _contextMenuTouchTarget(BuildContext context) {
+  final ThemeData theme = Theme.of(context);
+  return _ContextMenuSurface(
+    hintAction: 'the icon',
+    // The 48px touch floor is the point of this demo: pass it explicitly.
+    minTargetSize: kContextMenuMinTargetSize,
+    child: Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        border: Border.all(color: theme.colors.border),
+        borderRadius: theme.borderRadiusSm,
+      ),
+      child: Icon(LucideIcons.hand, size: 14, color: theme.colors.foreground),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Expanded target',
+      builder: '_contextMenuExpandedTarget',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
+
+/// Visible gesture hint: an icon plus the platform's open gesture.
+///
+/// Touch platforms read "Long-press …", desktop reads "Right-click …", and
+/// the caption always names both so the demo is discoverable either way.
+class _GestureHint extends StatelessWidget {
+  const _GestureHint({required this.action});
+
+  /// What the hinted surface does, e.g. 'this card'.
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TargetPlatform platform = theme.platform;
+    final bool touch =
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.android ||
+        platform == TargetPlatform.fuchsia;
+    // Short lines on purpose: the hint must stay inside the 232px card
+    // content on every font (widget-test fonts run wider than Inter).
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              touch ? LucideIcons.hand : LucideIcons.mousePointerClick,
+              size: 14,
+              color: theme.colors.foreground,
+            ),
+            SizedBox(width: theme.spacing.xs),
+            Flexible(
+              child: Text(
+                '${touch ? 'Long-press' : 'Right-click'} $action',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colors.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: theme.spacing.xs),
+        Text(
+          'Desktop: right-click · touch: long-press',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContextMenuSurface extends StatefulWidget {
+  const _ContextMenuSurface({
+    this.hintAction = 'here',
+    this.targetPadding = const EdgeInsets.all(8),
+    this.minTargetSize = kContextMenuMinTargetSize,
+    this.menuMinWidth,
+    this.menuMaxWidth,
+    this.popupTheme,
+    this.withSubmenu = false,
+    this.child,
+    this.showTargetOutline = false,
+  });
+
+  final String hintAction;
+  final EdgeInsetsGeometry targetPadding;
+  final double? minTargetSize;
+  final double? menuMinWidth;
+  final double? menuMaxWidth;
+  final MenuPopupTheme? popupTheme;
+  final bool withSubmenu;
+  final bool showTargetOutline;
+
+  /// Custom trigger child; null draws the default card.
+  final Widget? child;
+
+  @override
+  State<_ContextMenuSurface> createState() => _ContextMenuSurfaceState();
+}
+
+class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
+  String? _lastAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    Widget trigger =
+        widget.child ??
+        Container(
+          width: 280,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusMd,
+          ),
+          child: _GestureHint(action: widget.hintAction),
+        );
+    if (widget.showTargetOutline) {
+      // The muted wash marks the padded hit region around the child so the
+      // expanded target is visible, not just larger.
+      trigger = Container(
+        padding: widget.targetPadding,
+        decoration: BoxDecoration(
+          color: theme.colors.muted,
+          borderRadius: theme.borderRadiusMd,
+        ),
+        child: trigger,
+      );
+    }
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // Custom-child demos (e.g. the bare touch icon) label the trigger
+          // with the same gesture hint the cards carry inside.
+          if (widget.child != null) ...<Widget>[
+            _GestureHint(action: widget.hintAction),
+            SizedBox(height: theme.spacing.md),
+          ],
+          ContextMenu(
+            targetPadding: widget.showTargetOutline
+                ? EdgeInsets.zero
+                : widget.targetPadding,
+            minTargetSize: widget.minTargetSize,
+            menuMinWidth: widget.menuMinWidth,
+            menuMaxWidth: widget.menuMaxWidth,
+            popupTheme: widget.popupTheme,
+            semanticsLabel: 'Actions for ${widget.hintAction}',
+            items: <Widget>[
+              MenuButton(
+                child: const Text('Back'),
+                onPressed: (_) => _run('Went back'),
+              ),
+              MenuButton(
+                child: const Text('Reload'),
+                onPressed: (_) => _run('Reloaded the page'),
+              ),
+              MenuButton(
+                trailing: const MenuShortcut(shortcut: '⌘C'),
+                child: const Text('Copy link'),
+                onPressed: (_) => _run('Copied the link'),
+              ),
+              const MenuSeparator(),
+              MenuButton(
+                trailing: const Icon(LucideIcons.chevronRight, size: 14),
+                enabled: widget.withSubmenu,
+                child: const Text('More tools'),
+                onPressed: (_) {},
+              ),
+              MenuButton(
+                enabled: false,
+                child: const Text('Inspect'),
+                onPressed: (_) {},
+              ),
+            ],
+            child: trigger,
+          ),
+          SizedBox(height: theme.spacing.md),
+          Text(
+            _lastAction ?? 'Pick an action from the menu',
+            style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _run(String action) => setState(() => _lastAction = action);
+}
+
+/// The padded hit region, drawn as a muted wash around the card.
+Widget _contextMenuExpandedTarget(BuildContext context) =>
+    const _ContextMenuSurface(
+      hintAction: 'the wash',
+      targetPadding: EdgeInsets.all(28),
+      showTargetOutline: true,
+    );
+''',
+    ),
+    DocsExampleSource(
+      name: 'Compact menu',
+      builder: '_contextMenuCompactMenu',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';
+
+/// Visible gesture hint: an icon plus the platform's open gesture.
+///
+/// Touch platforms read "Long-press …", desktop reads "Right-click …", and
+/// the caption always names both so the demo is discoverable either way.
+class _GestureHint extends StatelessWidget {
+  const _GestureHint({required this.action});
+
+  /// What the hinted surface does, e.g. 'this card'.
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TargetPlatform platform = theme.platform;
+    final bool touch =
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.android ||
+        platform == TargetPlatform.fuchsia;
+    // Short lines on purpose: the hint must stay inside the 232px card
+    // content on every font (widget-test fonts run wider than Inter).
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              touch ? LucideIcons.hand : LucideIcons.mousePointerClick,
+              size: 14,
+              color: theme.colors.foreground,
+            ),
+            SizedBox(width: theme.spacing.xs),
+            Flexible(
+              child: Text(
+                '${touch ? 'Long-press' : 'Right-click'} $action',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colors.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: theme.spacing.xs),
+        Text(
+          'Desktop: right-click · touch: long-press',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContextMenuSurface extends StatefulWidget {
+  const _ContextMenuSurface({
+    this.hintAction = 'here',
+    this.targetPadding = const EdgeInsets.all(8),
+    this.minTargetSize = kContextMenuMinTargetSize,
+    this.menuMinWidth,
+    this.menuMaxWidth,
+    this.popupTheme,
+    this.withSubmenu = false,
+    this.child,
+    this.showTargetOutline = false,
+  });
+
+  final String hintAction;
+  final EdgeInsetsGeometry targetPadding;
+  final double? minTargetSize;
+  final double? menuMinWidth;
+  final double? menuMaxWidth;
+  final MenuPopupTheme? popupTheme;
+  final bool withSubmenu;
+  final bool showTargetOutline;
+
+  /// Custom trigger child; null draws the default card.
+  final Widget? child;
+
+  @override
+  State<_ContextMenuSurface> createState() => _ContextMenuSurfaceState();
+}
+
+class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
+  String? _lastAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    Widget trigger =
+        widget.child ??
+        Container(
+          width: 280,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colors.border),
+            borderRadius: theme.borderRadiusMd,
+          ),
+          child: _GestureHint(action: widget.hintAction),
+        );
+    if (widget.showTargetOutline) {
+      // The muted wash marks the padded hit region around the child so the
+      // expanded target is visible, not just larger.
+      trigger = Container(
+        padding: widget.targetPadding,
+        decoration: BoxDecoration(
+          color: theme.colors.muted,
+          borderRadius: theme.borderRadiusMd,
+        ),
+        child: trigger,
+      );
+    }
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // Custom-child demos (e.g. the bare touch icon) label the trigger
+          // with the same gesture hint the cards carry inside.
+          if (widget.child != null) ...<Widget>[
+            _GestureHint(action: widget.hintAction),
+            SizedBox(height: theme.spacing.md),
+          ],
+          ContextMenu(
+            targetPadding: widget.showTargetOutline
+                ? EdgeInsets.zero
+                : widget.targetPadding,
+            minTargetSize: widget.minTargetSize,
+            menuMinWidth: widget.menuMinWidth,
+            menuMaxWidth: widget.menuMaxWidth,
+            popupTheme: widget.popupTheme,
+            semanticsLabel: 'Actions for ${widget.hintAction}',
+            items: <Widget>[
+              MenuButton(
+                child: const Text('Back'),
+                onPressed: (_) => _run('Went back'),
+              ),
+              MenuButton(
+                child: const Text('Reload'),
+                onPressed: (_) => _run('Reloaded the page'),
+              ),
+              MenuButton(
+                trailing: const MenuShortcut(shortcut: '⌘C'),
+                child: const Text('Copy link'),
+                onPressed: (_) => _run('Copied the link'),
+              ),
+              const MenuSeparator(),
+              MenuButton(
+                trailing: const Icon(LucideIcons.chevronRight, size: 14),
+                enabled: widget.withSubmenu,
+                child: const Text('More tools'),
+                onPressed: (_) {},
+              ),
+              MenuButton(
+                enabled: false,
+                child: const Text('Inspect'),
+                onPressed: (_) {},
+              ),
+            ],
+            child: trigger,
+          ),
+          SizedBox(height: theme.spacing.md),
+          Text(
+            _lastAction ?? 'Pick an action from the menu',
+            style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _run(String action) => setState(() => _lastAction = action);
+}
+
+/// A customized menu: clamped width plus a per-instance surface override.
+Widget _contextMenuCompactMenu(BuildContext context) =>
+    const _ContextMenuSurface(
+      hintAction: 'this card',
+      menuMinWidth: 200,
+      menuMaxWidth: 240,
+      popupTheme: MenuPopupTheme(padding: EdgeInsetsDensity.pxAll(8)),
+    );
 ''',
     ),
   ],
@@ -19441,6 +20532,7 @@ Widget _contextMenuWithSubmenu(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19542,6 +20634,7 @@ Widget _dropdownMenuDefault(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19643,6 +20736,7 @@ Widget _dropdownMenuWithShortcut(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19744,6 +20838,7 @@ Widget _dropdownMenuWithCheckboxItem(BuildContext context) =>
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -19785,6 +20880,33 @@ class _DropdownMenuTrigger extends StatelessWidget {
 /// An anchored dropdown opened from a button.
 Widget _dropdownMenuTriggerExample(BuildContext context) =>
     const _DropdownMenuTrigger();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_dropdownMenuCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/overlay.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
+
+/// A customized surface: widget-leg theme override (tinted fill).
+Widget _dropdownMenuCustomized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: DropdownMenu(
+      theme: MenuPopupTheme(background: ThemedColor.value(Color(0xFFF0FDF4))),
+      children: <Widget>[
+        MenuButton(child: Text('Profile')),
+        MenuButton(child: Text('Settings')),
+      ],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -21392,7 +22514,7 @@ import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.d
 Widget _compact(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.compact,
   title: 'Compact (default)',
-  message: 'Row 32-36, icon 16, padding 12/6',
+  message: 'Row 40, icon 16, padding 12/6',
   actions: const <ActionSheetAction<void>>[
     ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
     ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
@@ -23915,6 +25037,7 @@ Widget _gallery(BuildContext context) => const _Gallery();
       name: 'Default',
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -23971,6 +25094,7 @@ Widget _default(BuildContext context) {
       name: 'Anchored',
       builder: '_anchored',
       code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
@@ -24033,6 +25157,69 @@ class _AnchoredDemo extends StatelessWidget {
 }
 
 Widget _anchored(BuildContext context) => const _AnchoredDemo();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';
+import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';
+
+/// The profile card shown on the popup surface by both examples.
+class _ProfileCard extends StatelessWidget {
+  const _ProfileCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Ibrar Ali'),
+              SizedBox(height: 2),
+              Text('ibrar@example.com', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
+        const MenuSeparator(),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            'Signed in with a passkey',
+            style: TextStyle(
+              fontSize: 12,
+              color: Theme.of(context).colors.mutedForeground,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A customized surface: widget-leg theme override (tinted fill, no border).
+Widget _customized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: MenuPopup(
+      theme: MenuPopupTheme(
+        background: ThemedColor.value(Color(0xFFF0FDF4)),
+        borderWidth: 0,
+      ),
+      children: <Widget>[_ProfileCard()],
+    ),
+  );
+}
 ''',
     ),
   ],
@@ -24845,13 +26032,15 @@ Widget _liveAudio(BuildContext context) => const _LiveAudio();
       builder: '_codeSnippetDefault',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
-/// A plain snippet.
+/// Default snippet with syntax colouring and copy button.
 Widget _codeSnippetDefault(BuildContext context) {
-  // P7-TH1: centred in the stage (was centerStart).
   return const Align(
     alignment: Alignment.center,
     child: CodeSnippet(code: Text('const greeting = "hello";')),
@@ -24864,6 +26053,9 @@ Widget _codeSnippetDefault(BuildContext context) {
       builder: '_codeSnippetWithActions',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
@@ -24877,8 +26069,6 @@ class _CodeSnippetAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A real Button (keyboard, hover, focus ring, semantics) instead of a
-    // hand-rolled GestureDetector pill, matching the README snippet.
     return Button(
       size: ButtonSize.sm,
       variant: ButtonVariant.ghost,
@@ -24888,7 +26078,7 @@ class _CodeSnippetAction extends StatelessWidget {
   }
 }
 
-/// A snippet with an actions row.
+/// A snippet with an extra action button alongside the copy button.
 class _CodeSnippetWithActions extends StatefulWidget {
   const _CodeSnippetWithActions();
 
@@ -24904,21 +26094,25 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        CodeSnippet(
-          actions: <Widget>[
-            _CodeSnippetAction(
-              label: 'Copy',
-              onPressed: () => setState(() => _status = 'copied'),
-            ),
-            _CodeSnippetAction(
-              label: 'Run',
-              onPressed: () => setState(() => _status = 'running'),
-            ),
-          ],
-          code: const Text('flutter run -d chrome'),
+        SizedBox(
+          width: 320,
+          child: CodeSnippet(
+            showCopyButton: false,
+            actions: <Widget>[
+              _CodeSnippetAction(
+                label: 'Copy',
+                onPressed: () => setState(() => _status = 'copied'),
+              ),
+              _CodeSnippetAction(
+                label: 'Run',
+                onPressed: () => setState(() => _status = 'running'),
+              ),
+            ],
+            code: const Text('flutter run -d chrome'),
+          ),
         ),
         Gap(spacing.sm),
         Text(
@@ -24942,21 +26136,224 @@ Widget _codeSnippetWithActions(BuildContext context) =>
       builder: '_codeSnippetLongLines',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
 
-/// A long line that scrolls inside its bounded box.
+/// A long line that scrolls horizontally inside its bounded box without overflowing.
 Widget _codeSnippetLongLines(BuildContext context) {
-  // P7-TH1: the 320px box is centred in the stage (was centerStart).
   return const Align(
     alignment: Alignment.center,
     child: SizedBox(
       width: 320,
       child: CodeSnippet(
         code: Text(
-          'void main() { runApp(const MyApp(home: Center(child: Text("wide")))); }',
+          'void main() { runApp(const MyApp(home: Center(child: Text("long line scrolls horizontally inside code block")))); }',
         ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Languages',
+      builder: '_codeSnippetLanguages',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
+
+/// Interactive showcase across the supported languages.
+class _CodeSnippetLanguages extends StatefulWidget {
+  const _CodeSnippetLanguages();
+
+  @override
+  State<_CodeSnippetLanguages> createState() => _CodeSnippetLanguagesState();
+}
+
+class _CodeSnippetLanguagesState extends State<_CodeSnippetLanguages> {
+  int _selected = 0;
+
+  static const List<({String label, String lang, String code})> _samples = [
+    (
+      label: 'Dart',
+      lang: 'dart',
+      code: 'void main() {\n  runApp(const MyApp());\n}',
+    ),
+    (
+      label: 'JSON',
+      lang: 'json',
+      code:
+          '{\n  "name": "dashcn",\n  "version": "1.0.0",\n  "private": true\n}',
+    ),
+    (
+      label: 'YAML',
+      lang: 'yaml',
+      code: 'name: dashcn\nversion: 1.0.0\nenvironment:\n  sdk: ^3.0.0',
+    ),
+    (
+      label: 'Shell',
+      lang: 'bash',
+      code: 'flutter pub add dashcn\ndashcn add code_snippet',
+    ),
+    (
+      label: 'TypeScript',
+      lang: 'ts',
+      code: 'interface User {\n  id: string;\n  name: string;\n}',
+    ),
+    (
+      label: 'HTML',
+      lang: 'html',
+      code: '<div class="card">\n  <span id="title">Hello</span>\n</div>',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final current = _samples[_selected];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for (int i = 0; i < _samples.length; i++) ...<Widget>[
+                if (i > 0) Gap(theme.spacing.xs),
+                Clickable(
+                  onPressed: () => setState(() => _selected = i),
+                  padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(
+                      horizontal: theme.spacing.sm,
+                      vertical: theme.spacing.xs,
+                    ),
+                  ),
+                  decoration: WidgetStateProperty.resolveWith<Decoration?>((
+                    states,
+                  ) {
+                    final bool active = i == _selected;
+                    return BoxDecoration(
+                      color: active
+                          ? theme.colors.primary
+                          : states.contains(WidgetState.hovered)
+                          ? theme.colors.muted
+                          : null,
+                      borderRadius: theme.borderRadiusSm,
+                    );
+                  }),
+                  child: Text(
+                    _samples[i].label,
+                    style: theme.typography.small.copyWith(
+                      color: i == _selected
+                          ? theme.colors.primaryForeground
+                          : theme.colors.mutedForeground,
+                      fontWeight: i == _selected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        Gap(theme.spacing.sm),
+        SizedBox(
+          width: 380,
+          child: CodeSnippet(
+            key: ValueKey<String>(current.lang),
+            language: current.lang,
+            code: Text(current.code),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _codeSnippetLanguages(BuildContext context) =>
+    const _CodeSnippetLanguages();
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_codeSnippetCustomized',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/primitives/clickable.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';
+
+/// A customized snippet using builder slots and per-instance style overrides.
+Widget _codeSnippetCustomized(BuildContext context) {
+  return Align(
+    alignment: Alignment.center,
+    child: SizedBox(
+      width: 360,
+      child: CodeSnippet(
+        theme: const CodeSnippetTheme(
+          borderColor: ThemedColor.ref(ColorRef.primary),
+          borderWidth: 1.5,
+        ),
+        copyButtonBuilder: (context, onCopy, copied) {
+          final theme = Theme.of(context);
+          return Clickable(
+            onPressed: onCopy,
+            focusOutline: true,
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(
+                horizontal: theme.spacing.sm,
+                vertical: theme.spacing.xs,
+              ),
+            ),
+            decoration: WidgetStateProperty.resolveWith<Decoration?>((states) {
+              return BoxDecoration(
+                color: copied
+                    ? theme.colors.primary.withValues(alpha: 0.2)
+                    : theme.colors.muted,
+                borderRadius: theme.borderRadiusSm,
+              );
+            }),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  copied ? LucideIcons.check : LucideIcons.copy,
+                  size: 13,
+                  color: copied
+                      ? theme.colors.primary
+                      : theme.colors.foreground,
+                ),
+                Gap(theme.spacing.xs),
+                Text(
+                  copied ? 'Copied!' : 'Copy',
+                  style: theme.typography.small.copyWith(
+                    fontSize: 12,
+                    color: copied
+                        ? theme.colors.primary
+                        : theme.colors.foreground,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        code: const Text('final custom = CodeSnippetCustomized();'),
       ),
     ),
   );

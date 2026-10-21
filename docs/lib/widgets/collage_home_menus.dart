@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/command/command.dart';
-import '../ui/dashcn/components/dialog/dialog.dart';
 import '../ui/dashcn/components/dropdown_menu/dropdown_menu.dart';
 import '../ui/dashcn/components/menu/menu.dart';
 import '../ui/dashcn/components/menubar/menubar.dart';
@@ -133,26 +132,26 @@ class HomeCommandCard extends StatelessWidget {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           leading: const Icon(LucideIcons.search, size: 14),
-          onPressed: () => showDialog<void>(
+          // Single surface: `showCommandDialog` presents the `Command`
+          // palette through a transparent dialog shell, so only the
+          // palette's own border paints (a plain `showDialog` + `Command`
+          // would stack the dialog card border behind the palette border).
+          onPressed: () => showCommandDialog<void>(
             context: context,
-            builder: (BuildContext dialogContext) => SizedBox(
-              width: 320,
-              child: Command(
-                debounceDuration: Duration.zero,
-                searchPlaceholder: const Text('Type a command...'),
-                builder: (BuildContext context, String? query) async* {
-                  yield <Widget>[
-                    for (final String command in _commands)
-                      if (query == null ||
-                          command.toLowerCase().contains(query.toLowerCase()))
-                        SubFocusListItem(
-                          title: Text(command),
-                          onTap: () => Navigator.pop(dialogContext),
-                        ),
-                  ];
-                },
-              ),
-            ),
+            constraints: const BoxConstraints(maxWidth: 320),
+            debounceDuration: Duration.zero,
+            searchPlaceholder: const Text('Type a command...'),
+            builder: (BuildContext context, String? query) async* {
+              yield <Widget>[
+                for (final String command in _commands)
+                  if (query == null ||
+                      command.toLowerCase().contains(query.toLowerCase()))
+                    SubFocusListItem(
+                      title: Text(command),
+                      onTap: () => Navigator.pop(context),
+                    ),
+              ];
+            },
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

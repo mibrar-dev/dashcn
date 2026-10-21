@@ -2792,7 +2792,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'Skeleton',
     hasApiTable: true,
     parseClean: true,
-    summary: 'A shimmering placeholder shown while [content] is still loading.',
+    summary: 'A shimmering placeholder shown while [child] is still loading.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -2821,6 +2821,26 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'SkeletonTheme?',
         isRequired: false,
         doc: 'Widget-leg theme override, merged on top of the other legs.',
+      ),
+      DocsApiParam(
+        name: 'style',
+        type: 'SkeletonStyle?',
+        isRequired: false,
+        doc: 'Per-instance style override; merged over [theme].',
+      ),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs then the ambient `ThemeData.densityTokens`; phone widths use touch\nunless this is set.',
+      ),
+      DocsApiParam(
+        name: 'semanticsLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Accessible label for the loading placeholder; null reads `Loading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -5583,8 +5603,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'OverflowMarquee',
     hasApiTable: true,
     parseClean: true,
-    summary:
-        'Scrolls [child] along [direction] when it overflows its container and stays still when it fits. The scroll ping-pongs — rest, one run of the overflow, rest, back — with fades at both clipped edges; under reduced motion (`MediaQuery.disableAnimations`) the content holds its position.',
+    summary: 'Scrolls [child] along [direction] in a continuous seamless loop.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -5594,28 +5613,81 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'direction',
-        type: 'Axis?',
+        type: 'Object?',
         isRequired: false,
-        doc: 'Scroll axis; null uses the theme, then `Axis.horizontal`.',
+        doc: 'Scroll direction: [AxisDirectional] or legacy [Axis].',
+      ),
+      DocsApiParam(
+        name: 'speed',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Speed in pixels per second; overrides [step] and [duration].',
+      ),
+      DocsApiParam(
+        name: 'gap',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Gap between looping instances in pixels.',
+      ),
+      DocsApiParam(
+        name: 'pauseOnHover',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether hovering pauses the marquee.',
+      ),
+      DocsApiParam(
+        name: 'pauseOnFocus',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether keyboard focus pauses the marquee.',
+      ),
+      DocsApiParam(
+        name: 'loop',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether the marquee loops continuously.',
+      ),
+      DocsApiParam(
+        name: 'controller',
+        type: 'MarqueeController?',
+        isRequired: false,
+        doc: 'Controller for external play/pause management.',
+      ),
+      DocsApiParam(
+        name: 'leading',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Optional builder slot placed before the scrolling marquee.',
+      ),
+      DocsApiParam(
+        name: 'trailing',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Optional builder slot placed after the scrolling marquee.',
+      ),
+      DocsApiParam(
+        name: 'builder',
+        type: 'Widget Function(BuildContext context, Widget child)?',
+        isRequired: false,
+        doc: 'Builder wrapping the scrolling subtree.',
       ),
       DocsApiParam(
         name: 'duration',
         type: 'Duration?',
         isRequired: false,
-        doc:
-            'Time one run of [step] pixels takes; a run scales with the overflow.',
+        doc: 'Time one run of [step] pixels takes (legacy timing).',
       ),
       DocsApiParam(
         name: 'delayDuration',
         type: 'Duration?',
         isRequired: false,
-        doc: 'Pause at each end of a run.',
+        doc: 'Pause at each end of a run (legacy timing).',
       ),
       DocsApiParam(
         name: 'step',
         type: 'double?',
         isRequired: false,
-        doc: 'Pixels covered per [duration].',
+        doc: 'Pixels covered per [duration] (legacy timing).',
       ),
       DocsApiParam(
         name: 'fadePortion',
@@ -5634,7 +5706,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'theme',
         type: 'OverflowMarqueeTheme?',
         isRequired: false,
-        doc: 'Widget-leg theme override, merged on top of the other legs.',
+        doc: 'Widget-leg theme override.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -6100,6 +6172,42 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
       ),
+      DocsApiParam(
+        name: 'targetPadding',
+        type: 'EdgeInsetsGeometry',
+        isRequired: false,
+        defaultValue: 'const EdgeInsets.all(8)',
+        doc:
+            'Extra hit region around [child] that still opens the menu. Visual and\nlayout size are unchanged (the expansion is transparent hit-test only).',
+      ),
+      DocsApiParam(
+        name: 'minTargetSize',
+        type: 'double?',
+        isRequired: false,
+        defaultValue: 'kContextMenuMinTargetSize',
+        doc:
+            'Minimum trigger hit width/height on touch platforms (iOS, Android,\nFuchsia); null disables the floor. Desktop keeps the author\'s hit area\n(child plus [targetPadding]) because right-click targets are\npointer-precise. Layout size is always [child]\'s size.',
+      ),
+      DocsApiParam(
+        name: 'menuMinWidth',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Minimum menu width; null resolves `popupTheme.minWidth`, then\n[kContextMenuMinWidth] (compact default).',
+      ),
+      DocsApiParam(
+        name: 'menuMaxWidth',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Maximum menu width; null resolves [kContextMenuMaxWidth].',
+      ),
+      DocsApiParam(
+        name: 'semanticsLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Screen-reader label for the trigger; null leaves semantics untouched.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -6130,6 +6238,35 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         defaultValue: 'false',
         doc:
             'Whether the group takes focus on mount; true for opened overlays.',
+      ),
+      DocsApiParam(
+        name: 'width',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Exact popup width; null hugs the content between [minWidth]-[maxWidth].',
+      ),
+      DocsApiParam(
+        name: 'minWidth',
+        type: 'double',
+        isRequired: false,
+        defaultValue: 'kOverlayMinWidthCompact',
+        doc:
+            'Minimum popup width; defaults to the compact overlay minimum (160).',
+      ),
+      DocsApiParam(
+        name: 'maxWidth',
+        type: 'double',
+        isRequired: false,
+        defaultValue: 'kOverlayMaxWidthCompact',
+        doc:
+            'Maximum popup width; defaults to the compact overlay maximum (320).',
+      ),
+      DocsApiParam(
+        name: 'maxHeight',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Maximum popup height; null keeps the MenuPopup default (360).',
       ),
     ],
     members: <DocsApiMember>[],
@@ -7374,13 +7511,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Scrollable code block with optional top-right [actions] (copy, run).',
+        'Scrollable code block with syntax colouring, top-right [actions] and a built-in copy button.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'code',
         type: 'Widget',
         isRequired: true,
-        doc: 'Code content (usually a [Text]).',
+        doc: 'Code content widget (typically a [Text] or [Text.rich]).',
       ),
       DocsApiParam(
         name: 'constraints',
@@ -7393,20 +7530,72 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'List<Widget>',
         isRequired: false,
         defaultValue: 'const <Widget>[]',
-        doc: 'Action buttons in the top-right corner.',
+        doc: 'Custom action buttons in the top-right corner.',
+      ),
+      DocsApiParam(
+        name: 'rawCode',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Optional verbatim code string to copy and highlight. When omitted, the\nsource text is extracted from [code] if it is a [Text].',
       ),
       DocsApiParam(
         name: 'language',
         type: 'String?',
         isRequired: false,
         doc:
-            'Language id or fence tag (`dart`, `js`, `py`, …) used for syntax\nhighlighting. When null, the language is auto-detected from the code\ntext (fence tag first, then conservative content signals); unknown\ncontent stays plain.',
+            'Language id or fence tag (`dart`, `json`, `yaml`, `sh`, `js`, `html`, …)\nused for syntax highlighting. When null, the language is auto-detected.',
+      ),
+      DocsApiParam(
+        name: 'showCopyButton',
+        type: 'bool?',
+        isRequired: false,
+        doc:
+            'Whether the copy button renders in the actions row. When null, resolves\nfrom the theme (default true).',
+      ),
+      DocsApiParam(
+        name: 'copied',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Controlled copy state. When null, state is managed internally.',
+      ),
+      DocsApiParam(
+        name: 'onCopiedChange',
+        type: 'ValueChanged<bool>?',
+        isRequired: false,
+        doc:
+            'Called when the copied state changes (in both controlled and uncontrolled\nmodes).',
+      ),
+      DocsApiParam(
+        name: 'onCopy',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc: 'Called when the copy button is activated.',
+      ),
+      DocsApiParam(
+        name: 'copyButtonBuilder',
+        type: 'CodeSnippetCopyButtonBuilder?',
+        isRequired: false,
+        doc: 'Builder slot for replacing the copy button widget.',
+      ),
+      DocsApiParam(
+        name: 'actionsBuilder',
+        type: 'CodeSnippetActionsBuilder?',
+        isRequired: false,
+        doc: 'Builder slot for customizing the entire actions row.',
+      ),
+      DocsApiParam(
+        name: 'codeBuilder',
+        type: 'CodeSnippetCodeBuilder?',
+        isRequired: false,
+        doc:
+            'Builder slot for customizing or wrapping the highlighted code widget.',
       ),
       DocsApiParam(
         name: 'theme',
         type: 'CodeSnippetTheme?',
         isRequired: false,
-        doc: 'Widget-leg theme override, merged over the other legs.',
+        doc: 'Widget-leg theme override.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -11944,6 +12133,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'avatarSize',
+        type: 'double?',
+        description: 'avatar diameter; null = density controlHeight',
+      ),
+      DocsThemeField(
         name: 'borderRadius',
         type: 'BorderRadiusGeometry?',
         description: 'null = theme borderRadiusMd',
@@ -11951,17 +12145,42 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'curve',
         type: 'Curve?',
-        description: 'sweep easing; null = Curves.linear',
+        description: 'sweep easing; null = motion standard curve',
       ),
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'one sweep; null = 2 x kDefaultDuration',
+        description: 'one sweep; null = 800ms, scaled by motion intensity',
       ),
       DocsThemeField(
         name: 'fromColor',
         type: 'ThemedColor?',
         description: 'leading sweep fill; null = muted',
+      ),
+      DocsThemeField(
+        name: 'lineGap',
+        type: 'double?',
+        description: 'gap between lines; null = density gap',
+      ),
+      DocsThemeField(
+        name: 'lineHeight',
+        type: 'double?',
+        description: 'text-line height; null = density bodyTextSize',
+      ),
+      DocsThemeField(
+        name: 'rowHeight',
+        type: 'double?',
+        description: 'list/table row height; null = density rowMinHeight',
+      ),
+      DocsThemeField(
+        name: 'surfaceBlur',
+        type: 'double?',
+        description: 'card surface blur; null = ambient',
+      ),
+      DocsThemeField(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        description: 'card surface opacity; null = ambient',
       ),
       DocsThemeField(
         name: 'toColor',
@@ -13619,13 +13838,13 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       ),
       DocsThemeField(
         name: 'direction',
-        type: 'Axis?',
-        description: 'horizontal | vertical',
+        type: 'AxisDirectional?',
+        description: 'start | end | up | down (RTL-aware)',
       ),
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'time of one `step` run',
+        description: 'legacy run time',
       ),
       DocsThemeField(
         name: 'fadePortion',
@@ -13633,9 +13852,34 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'edge fade fraction of the visible extent, clamped 0..0.5',
       ),
       DocsThemeField(
+        name: 'gap',
+        type: 'double?',
+        description: 'gap between repeating copies in continuous loop',
+      ),
+      DocsThemeField(
+        name: 'loop',
+        type: 'bool?',
+        description: 'whether marquee loops continuously',
+      ),
+      DocsThemeField(
+        name: 'pauseOnFocus',
+        type: 'bool?',
+        description: 'pause animation on keyboard focus',
+      ),
+      DocsThemeField(
+        name: 'pauseOnHover',
+        type: 'bool?',
+        description: 'pause animation on pointer hover',
+      ),
+      DocsThemeField(
+        name: 'speed',
+        type: 'double?',
+        description: 'scroll speed in pixels per second',
+      ),
+      DocsThemeField(
         name: 'step',
         type: 'double?',
-        description: 'pixels covered per `duration`',
+        description: 'pixels covered per duration',
       ),
     ],
   ),
@@ -14998,6 +15242,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'actionSpacing',
+        type: 'double?',
+        description: 'space between action items, 4',
+      ),
+      DocsThemeField(
         name: 'background',
         type: 'ThemedColor?',
         description: 'container fill, card token',
@@ -15018,9 +15267,39 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'scaled border width, 1',
       ),
       DocsThemeField(
+        name: 'copiedIcon',
+        type: 'IconData?',
+        description: 'feedback icon, Lucide check',
+      ),
+      DocsThemeField(
+        name: 'copiedIconColor',
+        type: 'ThemedColor?',
+        description: 'copied icon color, primary',
+      ),
+      DocsThemeField(
+        name: 'copyFeedbackDuration',
+        type: 'Duration?',
+        description: 'duration to show copied feedback, 2000ms',
+      ),
+      DocsThemeField(
+        name: 'copyIcon',
+        type: 'IconData?',
+        description: 'idle copy icon, Lucide copy',
+      ),
+      DocsThemeField(
+        name: 'copyIconColor',
+        type: 'ThemedColor?',
+        description: 'idle copy icon color, mutedForeground',
+      ),
+      DocsThemeField(
         name: 'padding',
         type: 'EdgeInsetsGeometry?',
-        description: 'density padding, wider on the right',
+        description: 'density padding, wider on the end',
+      ),
+      DocsThemeField(
+        name: 'showCopyButton',
+        type: 'bool?',
+        description: 'whether copy action renders by default',
       ),
     ],
   ),

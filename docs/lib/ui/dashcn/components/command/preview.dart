@@ -11,7 +11,9 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../primitives/subfocus_list_item.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../button/button.dart';
 import 'command.dart';
 
 /// Commands the palette offers.
@@ -135,8 +137,64 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
 Widget _commandWithGroups(BuildContext context) =>
     const _CommandPalette(buildGroups: true);
 
+/// A trigger that opens the palette as a modal dialog with `showCommandDialog`.
+class _CommandDialogTrigger extends StatelessWidget {
+  const _CommandDialogTrigger();
+
+  Stream<List<Widget>> _results(BuildContext context, String? query) async* {
+    final List<String> ranked = rankCommandLabels(_commandValues, query);
+    yield <Widget>[
+      for (final String value in ranked)
+        SubFocusListItem(minHeight: 48, title: Text(value)),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      variant: ButtonVariant.outline,
+      size: ButtonSize.sm,
+      onPressed: () =>
+          showCommandDialog<void>(context: context, builder: _results),
+      child: const Text('Open command palette'),
+    );
+  }
+}
+
+Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
+
+/// A customized palette: widget-leg theme override (tinted fill).
+Widget _commandCustomized(BuildContext context) {
+  return Center(
+    child: SizedBox(
+      width: 320,
+      child: SizedBox(
+        height: 300,
+        child: Command(
+          debounceDuration: Duration.zero,
+          theme: const CommandTheme(
+            background: ThemedColor.value(Color(0xFFF0FDF4)),
+          ),
+          builder: (context, query) async* {
+            final List<String> ranked = rankCommandLabels(
+              _commandValues,
+              query,
+            );
+            yield <Widget>[
+              for (final String value in ranked)
+                SubFocusListItem(minHeight: 48, title: Text(value)),
+            ];
+          },
+        ),
+      ),
+    ),
+  );
+}
+
 /// Named docs examples for `command`; the first entry is the default.
 const List<ComponentPreview> commandPreviews = <ComponentPreview>[
   ComponentPreview('Default', _commandDefault),
   ComponentPreview('With groups', _commandWithGroups),
+  ComponentPreview('Dialog', _commandDialog),
+  ComponentPreview('Customized', _commandCustomized),
 ];
