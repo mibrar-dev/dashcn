@@ -64,8 +64,9 @@ class ActionSheet<T> extends StatelessWidget {
     return densityTokens ??
         resolved.themeDensityTokens ??
         ComponentTheme.maybeOf<ActionSheetTheme>(context)?.themeDensityTokens ??
-        ComponentThemes.maybeOf<ActionSheetTheme>(context)
-            ?.themeDensityTokens ??
+        ComponentThemes.maybeOf<ActionSheetTheme>(
+          context,
+        )?.themeDensityTokens ??
         resolveDensityTokens(context);
   }
 
