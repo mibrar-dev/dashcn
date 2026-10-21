@@ -177,7 +177,10 @@ void main() {
     );
     await tester.pump();
     expect(_textSize(tester, 'Fast'), 36);
-    expect(_textSize(tester, controller.primaryActionLabel), 32);
+    expect(
+      _textSize(tester, controller.primaryActionLabel ?? 'Add to chat'),
+      32,
+    );
     await tester.pumpWidget(const SizedBox.shrink());
   });
 

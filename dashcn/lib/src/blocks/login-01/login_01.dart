@@ -22,6 +22,7 @@ import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// Values submitted by [Login01].
@@ -153,7 +154,10 @@ class _Login01State extends State<Login01> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text('Sign in', style: theme.typography.h3),
+                      Text(
+                        ComponentLocalizations.of(context).authSignIn,
+                        style: theme.typography.h3,
+                      ),
                       Gap(theme.spacing.xs),
                       Text(
                         'Enter your credentials to access your workspace.',
@@ -164,7 +168,9 @@ class _Login01State extends State<Login01> {
                       Gap(theme.spacing.xl),
                       FormItem<String>(
                         key: _emailKey,
-                        label: const Text('Email'),
+                        label: Text(
+                          ComponentLocalizations.of(context).authEmail,
+                        ),
                         validator:
                             const NotEmptyValidator() & const EmailValidator(),
                         showErrors: const <FormValidationMode>{
@@ -182,11 +188,17 @@ class _Login01State extends State<Login01> {
                       Gap(theme.spacing.md),
                       FormItem<String>(
                         key: _passwordKey,
-                        label: const Text('Password'),
+                        label: Text(
+                          ComponentLocalizations.of(context).authPassword,
+                        ),
                         trailingLabel: Button(
                           variant: ButtonVariant.link,
                           onPressed: widget.onForgotPassword ?? () {},
-                          child: const Text('Forgot password?'),
+                          child: Text(
+                            ComponentLocalizations.of(
+                              context,
+                            ).authForgotPassword,
+                          ),
                         ),
                         validator:
                             const NotEmptyValidator() &
@@ -217,7 +229,9 @@ class _Login01State extends State<Login01> {
                           value: _rememberMe,
                           onChanged: (CheckboxValue value) =>
                               setState(() => _rememberMe = value),
-                          label: const Text('Remember me'),
+                          label: Text(
+                            ComponentLocalizations.of(context).authRememberMe,
+                          ),
                         ),
                       ),
                       Gap(theme.spacing.xl),
@@ -227,7 +241,9 @@ class _Login01State extends State<Login01> {
                             throw StateError('Login01: validation failed.');
                           }
                         },
-                        child: const Text('Sign in'),
+                        child: Text(
+                          ComponentLocalizations.of(context).authSignIn,
+                        ),
                       ),
                       if (_succeeded) ...<Widget>[
                         Gap(theme.spacing.lg),
@@ -244,7 +260,9 @@ class _Login01State extends State<Login01> {
                       Button(
                         variant: ButtonVariant.outline,
                         onPressed: widget.onCreateAccount ?? () {},
-                        child: const Text('Create an account'),
+                        child: Text(
+                          ComponentLocalizations.of(context).authCreateAccount,
+                        ),
                       ),
                     ],
                   ),

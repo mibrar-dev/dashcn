@@ -10,6 +10,7 @@ import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_fake.dart';
 import 'audio_player_layout.dart';
@@ -296,7 +297,9 @@ class _AudioPlayerState extends State<AudioPlayer> {
         skipForward: widget.skipForward,
       ),
       child: Semantics(
-        label: widget.semanticLabel ?? 'Audio player',
+        label:
+            widget.semanticLabel ??
+            ComponentLocalizations.of(context).mediaAudioPlayer,
         child: card,
       ),
     );

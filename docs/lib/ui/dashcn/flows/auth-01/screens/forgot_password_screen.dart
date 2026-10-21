@@ -9,6 +9,7 @@ import '../../../components/input/input.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Forgot-password form with a sent-state.
 class Auth01ForgotPasswordScreen extends StatefulWidget {
@@ -58,10 +59,11 @@ class _Auth01ForgotPasswordScreenState
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Auth01Scaffold(
-      title: 'Reset password',
-      subtitle: 'We will email you a reset link.',
+      title: strings.blockResetPassword,
+      subtitle: strings.blockWeWillEmailReset,
       children: <Widget>[
         if (_sent)
           Text(
@@ -75,7 +77,7 @@ class _Auth01ForgotPasswordScreenState
             controller: _controller,
             child: FormItem<String>(
               key: _emailKey,
-              label: const Text('Email'),
+              label: Text(strings.authEmail),
               validator: const NotEmptyValidator() & const EmailValidator(),
               // Errors surface on submit only: the mount-time report lands as
               // `changed`, so including it would flag pristine fields.
@@ -100,7 +102,7 @@ class _Auth01ForgotPasswordScreenState
           variant: ButtonVariant.ghost,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Back to sign in'),
+          child: Text(strings.blockBackToSignIn),
         ),
       ],
     );

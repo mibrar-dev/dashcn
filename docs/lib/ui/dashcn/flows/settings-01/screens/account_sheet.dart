@@ -8,6 +8,7 @@ import '../../../components/button/button.dart';
 import '../../../components/pinned_sheet/pinned_sheet.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Account summary with a Close button wired to [controller].
 class Settings01AccountSheet extends StatelessWidget {
@@ -38,6 +39,7 @@ class Settings01AccountSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(appTheme.spacing.lg),
@@ -72,7 +74,7 @@ class Settings01AccountSheet extends StatelessWidget {
               controller.close();
               onClose();
             },
-            child: const Text('Close'),
+            child: Text(strings.actionClose),
           ),
         ],
       ),

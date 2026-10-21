@@ -21,20 +21,20 @@ class SaasShell extends StatefulWidget {
 class _SaasShellState extends State<SaasShell> {
   int _index = 0;
 
-  List<NavigationBarItem> get _items => const <NavigationBarItem>[
+  List<NavigationBarItem> _items(ComponentLocalizations strings) => <NavigationBarItem>[
     NavigationItem(
       key: ValueKey<String>('saas.tab.dashboard'),
-      label: Text('Dashboard'),
+      label: Text(strings.blockDashboard),
       child: Icon(RadixIcons.home),
     ),
     NavigationItem(
       key: ValueKey<String>('saas.tab.pricing'),
-      label: Text('Pricing'),
+      label: Text(strings.blockPricing),
       child: Icon(RadixIcons.cardStack),
     ),
     NavigationItem(
       key: ValueKey<String>('saas.tab.settings'),
-      label: Text('Settings'),
+      label: Text(strings.errorActionSettings),
       child: Icon(RadixIcons.gear),
     ),
   ];
@@ -59,6 +59,7 @@ class _SaasShellState extends State<SaasShell> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final bool wide = constraints.maxWidth >= 720;
@@ -70,7 +71,7 @@ class _SaasShellState extends State<SaasShell> {
               : NavigationContainerType.bar,
           index: _index,
           onSelected: (int value) => setState(() => _index = value),
-          children: _items,
+          children: _items(strings),
         );
         if (wide) {
           return Row(

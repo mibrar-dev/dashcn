@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'overflow_marquee_controller.dart';
 import 'overflow_marquee_render.dart';
 import 'overflow_marquee_style.dart';
+import '../../primitives/localizations/localizations.dart';
 
 export 'overflow_marquee_controller.dart';
 export 'overflow_marquee_render.dart' show MarqueeLayout, RenderMarquee;
@@ -291,7 +292,7 @@ class _OverflowMarqueeState extends State<OverflowMarquee>
 
     return Semantics(
       container: true,
-      label: 'Marquee scrolling content',
+      label: ComponentLocalizations.of(context).marqueeContent,
       child: result,
     );
   }

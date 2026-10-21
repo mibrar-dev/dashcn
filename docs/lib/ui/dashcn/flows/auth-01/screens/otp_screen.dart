@@ -7,6 +7,7 @@ import '../../../components/input_otp/input_otp.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// OTP verify form; completing the code calls [onVerify] then [onVerified].
 class Auth01OtpScreen extends StatefulWidget {
@@ -47,10 +48,11 @@ class _Auth01OtpScreenState extends State<Auth01OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Auth01Scaffold(
-      title: 'Check your inbox',
-      subtitle: 'Enter the 6-digit code we sent you.',
+      title: strings.blockCheckInbox,
+      subtitle: strings.blockEnterSixDigitCode,
       children: <Widget>[
         InputOtp(
           key: const ValueKey<String>('auth01.otp.code'),
@@ -91,7 +93,7 @@ class _Auth01OtpScreenState extends State<Auth01OtpScreen> {
           variant: ButtonVariant.ghost,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Back'),
+          child: Text(strings.blockBack),
         ),
       ],
     );

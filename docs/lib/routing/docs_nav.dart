@@ -75,6 +75,10 @@ const List<DocsNavLink> kDocsSections = <DocsNavLink>[
   DocsNavLink(label: 'Alongside Material', location: '/docs/material'),
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
+  DocsNavLink(
+    label: 'Internationalization',
+    location: '/docs/internationalization',
+  ),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),
   DocsNavLink(label: 'How we measure', location: '/docs/scorecards'),
 ];
@@ -93,6 +97,10 @@ const List<DocsNavLink> kDocsPageChain = <DocsNavLink>[
   DocsNavLink(label: 'Alongside Material', location: '/docs/material'),
   DocsNavLink(label: 'Theming', location: '/docs/theming'),
   DocsNavLink(label: 'Dark Mode', location: '/docs/dark-mode'),
+  DocsNavLink(
+    label: 'Internationalization',
+    location: '/docs/internationalization',
+  ),
   DocsNavLink(label: 'CLI', location: '/docs/cli'),
   DocsNavLink(label: 'How we measure', location: '/docs/scorecards'),
 ];

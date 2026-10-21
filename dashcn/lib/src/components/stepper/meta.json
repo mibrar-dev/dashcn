@@ -25,6 +25,7 @@
     ],
     "primitives": [
       "clickable",
+      "localizations",
       "motion"
     ],
     "components": []

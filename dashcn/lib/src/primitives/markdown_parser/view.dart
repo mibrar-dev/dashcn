@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../text_editing/text_editing.dart';
+import '../localizations/localizations.dart';
 import '../../theme/theme.dart';
 import 'api.dart';
 import 'block_parser.dart';
@@ -63,7 +64,9 @@ Widget buildMarkdownBlock({
             style,
             callbacks,
             style.body,
-            (block.summary ?? '').isEmpty ? 'Details' : block.summary!,
+            (block.summary ?? '').isEmpty
+                ? ComponentLocalizations.of(context).markdownDetails
+                : block.summary!,
           ),
         ),
         for (final sub in parseMarkdownDocument(block.text).blocks)

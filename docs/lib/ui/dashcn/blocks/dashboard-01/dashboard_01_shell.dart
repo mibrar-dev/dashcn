@@ -7,6 +7,7 @@ import '../../components/avatar/avatar.dart';
 import '../../components/button/button.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The app-shell top bar: product mark, actions and the account avatar.
 class Dashboard01ShellBar extends StatelessWidget {
@@ -15,6 +16,7 @@ class Dashboard01ShellBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(
@@ -56,7 +58,7 @@ class Dashboard01ShellBar extends StatelessWidget {
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () {},
-            child: const Text('Share'),
+            child: Text(strings.menuShare),
           ),
           Gap(theme.spacing.sm),
           const Avatar(initials: 'AC'),

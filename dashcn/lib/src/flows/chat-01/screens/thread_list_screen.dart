@@ -12,6 +12,7 @@ import '../../../components/swipe_actions/swipe_actions.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Thread list with refresh + swipe actions.
 class Chat01ThreadListScreen extends StatefulWidget {
@@ -56,6 +57,7 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -68,16 +70,16 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Messages', style: appTheme.typography.h3),
+                  Text(strings.blockMessages, style: appTheme.typography.h3),
                   Gap(appTheme.spacing.md),
                   Expanded(
                     child: RefreshTrigger(
                       onRefresh: widget.onRefresh,
                       child: _threads.isEmpty
-                          ? const SingleChildScrollView(
+                          ? SingleChildScrollView(
                               physics: AlwaysScrollableScrollPhysics(),
                               child: EmptyState(
-                                title: Text('No conversations'),
+                                title: Text(strings.blockNoConversations),
                                 description: Text(
                                   'Pull to refresh or start a new chat.',
                                 ),
@@ -100,7 +102,7 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
                                       onPressed: () => _mute(thread),
                                     ),
                                     SwipeAction(
-                                      label: 'Delete',
+                                      label: strings.menuDelete,
                                       destructive: true,
                                       onPressed: () => _delete(thread),
                                     ),

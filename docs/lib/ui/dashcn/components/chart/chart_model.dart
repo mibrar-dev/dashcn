@@ -381,7 +381,7 @@ class ChartTooltipConfig {
     this.valueFormatter,
     this.valueSuffix,
     this.showTotal = false,
-    this.totalLabel = 'Total',
+    this.totalLabel,
     this.placement = ChartTooltipPlacement.top,
     this.offset = Offset.zero,
     this.builder,
@@ -406,8 +406,9 @@ class ChartTooltipConfig {
   /// Whether a total row paints after the last row.
   final bool showTotal;
 
-  /// Total row label.
-  final String totalLabel;
+  /// Total row label; null falls back to the locale's
+  /// [ComponentLocalizations.chartTotalLabel].
+  final String? totalLabel;
 
   /// Where the tooltip sits relative to its mark; flips when crowded.
   final ChartTooltipPlacement placement;

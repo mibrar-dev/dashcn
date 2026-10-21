@@ -261,14 +261,15 @@ MarkdownDocument parseMarkdownDocument(String data) {
   return (match.group(1)!, buffer.join('\n').trimRight(), i);
 }
 
-/// Parses a `<details>` … `</details>` block; summary defaults to `Details`.
+/// Parses a `<details>` … `</details>` block; an absent summary stays empty
+/// so the renderer can substitute the locale's details label.
 /// Returns the block and the next line index, or null when [index] does not
 /// open one. Unclosed blocks run to the end of input.
 (MarkdownBlock, int)? _parseDetailsBlock(List<String> lines, int index) {
   if (!lines[index].trimLeft().toLowerCase().startsWith('<details')) {
     return null;
   }
-  var summary = 'Details';
+  var summary = '';
   final body = <String>[];
   var i = index + 1;
   while (i < lines.length &&

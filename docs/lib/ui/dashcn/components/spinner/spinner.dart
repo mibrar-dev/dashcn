@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'spinner_style.dart';
 
 export 'spinner_style.dart';
@@ -68,7 +69,9 @@ class Spinner extends StatelessWidget {
     );
 
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: SizedBox(
         width: surface.size,
         height: surface.size,

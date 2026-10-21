@@ -106,7 +106,7 @@ void main() {
       const delegate = ComponentLocalizations.delegate;
       expect(
         ComponentLocalizations.supportedLocales.length,
-        40,
+        42,
         reason: 'one table per shipped locale, plus the English fallback',
       );
 

@@ -10,6 +10,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Async lifecycle of a button: idle, loading, success or failure.
 enum ButtonStatus { idle, loading, success, failure }
@@ -18,12 +19,29 @@ enum ButtonStatus { idle, loading, success, failure }
 const Duration buttonDefaultStatusReset = Duration(milliseconds: 1500);
 
 /// Screen-reader announcement for a non-idle status; null when idle.
+///
+/// English fallback for code without a [BuildContext]; widget builds should
+/// prefer [buttonStatusAnnouncementOf], which reads the ambient locale.
 String? buttonStatusAnnouncement(ButtonStatus status) {
   return switch (status) {
     ButtonStatus.idle => null,
     ButtonStatus.loading => 'Loading',
     ButtonStatus.success => 'Success',
     ButtonStatus.failure => 'Failure',
+  };
+}
+
+/// Locale-aware [buttonStatusAnnouncement] for widget builds.
+///
+/// Reads the ambient [ComponentLocalizations]; falls back to English when no
+/// delegate was installed.
+String? buttonStatusAnnouncementOf(BuildContext context, ButtonStatus status) {
+  final ComponentLocalizations strings = ComponentLocalizations.of(context);
+  return switch (status) {
+    ButtonStatus.idle => null,
+    ButtonStatus.loading => strings.announcementLoading,
+    ButtonStatus.success => strings.announcementSuccess,
+    ButtonStatus.failure => strings.announcementFailure,
   };
 }
 

@@ -155,7 +155,8 @@ void main() {
       await tester.pumpWidget(
         _frame(
           child: const EmptyState(variant: EmptyStateVariant.errorFallback),
-          locale: const Locale('tr'),
+          // Bulgarian ships no empty-state table: the English defaults show.
+          locale: const Locale('bg'),
         ),
       );
       expect(find.text('Something went wrong'), findsOneWidget);

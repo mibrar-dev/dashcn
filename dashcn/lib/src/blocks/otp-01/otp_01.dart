@@ -20,6 +20,7 @@ import '../../components/button/button.dart';
 import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../components/input_otp/input_otp.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
@@ -135,6 +136,7 @@ class _Otp01State extends State<Otp01> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final String email = widget.email ?? 'ada@example.com';
     final Widget card = ConstrainedBox(
@@ -148,10 +150,10 @@ class _Otp01State extends State<Otp01> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Verify your email', style: theme.typography.h2),
+              Text(strings.blockVerifyYourEmail, style: theme.typography.h2),
               Gap(theme.spacing.sm),
               Text(
-                'We sent a six-digit code to $email.',
+                strings.blockWeSentCodeTo(email),
                 style: theme.typography.textMuted.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -162,7 +164,7 @@ class _Otp01State extends State<Otp01> {
                   constraints: const BoxConstraints(maxWidth: 320),
                   child: FormItem<String>(
                     key: _codeKey,
-                    label: const Text('Code'),
+                    label: Text(ComponentLocalizations.of(context).authCode),
                     validator: _codeValidator,
                     showErrors: const <FormValidationMode>{
                       FormValidationMode.changed,
@@ -185,7 +187,7 @@ class _Otp01State extends State<Otp01> {
               Button(
                 status: _status.status,
                 onPressed: _submit,
-                child: const Text('Verify'),
+                child: Text(ComponentLocalizations.of(context).actionVerify),
               ),
               if (_succeeded) ...<Widget>[
                 Gap(theme.spacing.lg),
@@ -203,7 +205,9 @@ class _Otp01State extends State<Otp01> {
                 child: Button(
                   variant: ButtonVariant.link,
                   onPressed: widget.onChangeEmail ?? () {},
-                  child: const Text('Use a different email'),
+                  child: Text(
+                    ComponentLocalizations.of(context).authUseDifferentEmail,
+                  ),
                 ),
               ),
             ],
@@ -261,7 +265,7 @@ class _Otp01Resend extends StatelessWidget {
         const Spacer(),
         if (secondsLeft > 0)
           Text(
-            'Resend in ${secondsLeft}s',
+            ComponentLocalizations.of(context).resendInSeconds(secondsLeft),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -270,7 +274,7 @@ class _Otp01Resend extends StatelessWidget {
           Button(
             variant: ButtonVariant.link,
             onPressed: onResend,
-            child: const Text('Resend'),
+            child: Text(ComponentLocalizations.of(context).actionResend),
           ),
       ],
     );

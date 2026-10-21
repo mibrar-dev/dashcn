@@ -14,6 +14,7 @@ import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// Scores a password 0-4: length, case mix, digit, special character.
@@ -88,6 +89,7 @@ class Signup02Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return FormScope(
       controller: controller,
@@ -96,7 +98,7 @@ class Signup02Form extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Create your account', style: theme.typography.h2),
+          Text(strings.blockCreateYourAccount, style: theme.typography.h2),
           Gap(theme.spacing.sm),
           Text(
             'Start your 14-day trial. No credit card required.',
@@ -109,7 +111,7 @@ class Signup02Form extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) {
               final Widget first = FormItem<String>(
                 key: firstNameKey,
-                label: const Text('First name'),
+                label: Text(ComponentLocalizations.of(context).authFirstName),
                 validator:
                     const NotEmptyValidator() &
                     const LengthValidator(min: 2, max: 50),
@@ -123,7 +125,7 @@ class Signup02Form extends StatelessWidget {
               );
               final Widget last = FormItem<String>(
                 key: lastNameKey,
-                label: const Text('Last name'),
+                label: Text(ComponentLocalizations.of(context).authLastName),
                 validator:
                     const NotEmptyValidator() &
                     const LengthValidator(min: 2, max: 50),
@@ -157,7 +159,7 @@ class Signup02Form extends StatelessWidget {
           Gap(theme.spacing.md),
           FormItem<String>(
             key: emailKey,
-            label: const Text('Work email'),
+            label: Text(ComponentLocalizations.of(context).authWorkEmail),
             validator: const NotEmptyValidator() & const EmailValidator(),
             showErrors: _show,
             child: Input(
@@ -171,14 +173,14 @@ class Signup02Form extends StatelessWidget {
           Gap(theme.spacing.md),
           FormItem<String>(
             key: passwordKey,
-            label: const Text('Password'),
-            hint: const Text('At least 8 characters.'),
+            label: Text(ComponentLocalizations.of(context).authPassword),
+            hint: Text(ComponentLocalizations.of(context).authPasswordHint),
             validator:
                 const NotEmptyValidator() & const LengthValidator(min: 8),
             showErrors: _show,
             child: Input(
               controller: passwordController,
-              hintText: 'At least 8 characters',
+              hintText: ComponentLocalizations.of(context).authPasswordHint,
               obscureText: true,
               textInputAction: TextInputAction.done,
               focusNode: passwordFocus,
@@ -244,7 +246,7 @@ class Signup02Form extends StatelessWidget {
                 throw StateError('Signup02: validation failed.');
               }
             },
-            child: const Text('Start free trial'),
+            child: Text(ComponentLocalizations.of(context).actionStartTrial),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),
@@ -272,7 +274,7 @@ class Signup02Form extends StatelessWidget {
               Button(
                 variant: ButtonVariant.link,
                 onPressed: onSignIn ?? () {},
-                child: const Text('Sign in'),
+                child: Text(ComponentLocalizations.of(context).authSignIn),
               ),
             ],
           ),

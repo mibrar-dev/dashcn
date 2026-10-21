@@ -56,6 +56,9 @@ enum DocsRoute {
   /// `/docs/dark-mode` — mode toggle explanation.
   darkMode,
 
+  /// `/docs/internationalization` — locale tables, RTL, language switcher.
+  internationalization,
+
   /// `/docs/cli` — CLI reference.
   cli,
 
@@ -185,6 +188,10 @@ class DocsRouteConfiguration {
   static const DocsRouteConfiguration darkMode = DocsRouteConfiguration._(
     DocsRoute.darkMode,
   );
+
+  /// `/docs/internationalization`.
+  static const DocsRouteConfiguration internationalization =
+      DocsRouteConfiguration._(DocsRoute.internationalization);
 
   /// `/docs/cli`.
   static const DocsRouteConfiguration cli = DocsRouteConfiguration._(
@@ -338,6 +345,8 @@ class DocsRouteConfiguration {
           return theming;
         case 'dark-mode':
           return darkMode;
+        case 'internationalization':
+          return internationalization;
         case 'cli':
           return cli;
         case 'scorecards':
@@ -372,6 +381,7 @@ class DocsRouteConfiguration {
     DocsRoute.material => '/docs/material',
     DocsRoute.theming => '/docs/theming',
     DocsRoute.darkMode => '/docs/dark-mode',
+    DocsRoute.internationalization => '/docs/internationalization',
     DocsRoute.cli => '/docs/cli',
     DocsRoute.scorecards => '/docs/scorecards',
     DocsRoute.components => '/docs/components',
@@ -398,6 +408,7 @@ class DocsRouteConfiguration {
     DocsRoute.material => 'Using dashcn alongside Material',
     DocsRoute.theming => 'Theming',
     DocsRoute.darkMode => 'Dark mode',
+    DocsRoute.internationalization => 'Internationalization',
     DocsRoute.cli => 'CLI reference',
     DocsRoute.scorecards => 'How we measure',
     DocsRoute.components => 'Components',

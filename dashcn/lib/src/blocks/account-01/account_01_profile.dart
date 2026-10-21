@@ -16,6 +16,7 @@ import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 class Account01ProfileData {
   /// Creates the submitted values.
@@ -123,6 +124,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: FormScope(
@@ -132,7 +134,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text('Profile', style: theme.typography.textLarge),
+            Text(strings.blockProfile, style: theme.typography.textLarge),
             Gap(theme.spacing.sm),
             Text(
               'This is how others will see you on the site.',
@@ -152,12 +154,15 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Your avatar', style: theme.typography.textSmall),
+                      Text(
+                        strings.blockYourAvatar,
+                        style: theme.typography.textSmall,
+                      ),
                       Gap(theme.spacing.sm),
                       Button(
                         variant: ButtonVariant.outline,
                         onPressed: widget.onUploadAvatar ?? () {},
-                        child: const Text('Upload image'),
+                        child: Text(strings.blockUploadImage),
                       ),
                     ],
                   ),
@@ -169,9 +174,10 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Gap(theme.spacing.lg),
             LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
+                final strings = ComponentLocalizations.of(context);
                 final Widget name = FormItem<String>(
                   key: _nameKey,
-                  label: const Text('Name'),
+                  label: Text(strings.authName),
                   validator:
                       const NotEmptyValidator() &
                       const LengthValidator(min: 2, max: 50),
@@ -185,8 +191,8 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                 );
                 final Widget username = FormItem<String>(
                   key: _usernameKey,
-                  label: const Text('Username'),
-                  hint: const Text('Lowercase letters, digits, underscores.'),
+                  label: Text(strings.blockUsername),
+                  hint: Text(strings.blockUsernameHint),
                   validator: _usernameValidator,
                   showErrors: _show,
                   child: Input(
@@ -218,13 +224,13 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Gap(theme.spacing.lg),
             FormItem<String>(
               key: _bioKey,
-              label: const Text('Bio'),
-              hint: const Text('Up to 160 characters.'),
+              label: Text(strings.blockBio),
+              hint: Text(strings.blockBioCounterHint),
               validator: const LengthValidator(max: 160),
               showErrors: _show,
               // `Input` (not `TextArea`) so the field reports into the form.
               child: Input(
-                hintText: 'Tell us a little bit about yourself',
+                hintText: strings.blockBioHint,
                 minLines: 3,
                 maxLines: 5,
                 maxLength: 160,
@@ -263,7 +269,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                     throw StateError('Account01Profile: validation failed.');
                   }
                 },
-                child: const Text('Save changes'),
+                child: Text(strings.blockSaveChanges),
               ),
             ),
             if (_succeeded) ...<Widget>[

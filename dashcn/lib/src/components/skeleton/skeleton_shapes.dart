@@ -8,6 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'skeleton.dart';
@@ -55,7 +56,7 @@ class SkeletonBlock extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Custom builder for the block; receives the default shimmer box.
@@ -141,7 +142,7 @@ class SkeletonLine extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Custom builder for each bar; receives the default shimmer bar.
@@ -170,7 +171,9 @@ class SkeletonLine extends StatelessWidget {
         (lineGap ?? resolved.lineGap ?? tokens.gap) * ambient.scaling;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -247,7 +250,7 @@ class SkeletonAvatar extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Custom builder for the avatar; receives the default shimmer disc.

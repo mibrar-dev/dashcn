@@ -11,7 +11,7 @@
   "deps": {
     "foundation": [],
     "theme": ["color_tokens", "theme"],
-    "primitives": ["motion", "chart"],
+    "primitives": ["chart", "localizations", "motion"],
     "components": []
   },
   "files": [

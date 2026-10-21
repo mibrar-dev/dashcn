@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_style.dart';
 import 'audio_player_transport.dart';
@@ -60,7 +61,9 @@ class AudioExpandedTransport extends StatelessWidget {
       children: <Widget>[
         shuffleBuilder?.call(context, c) ??
             _toggleButton(
-              label: c.isShuffled ? 'Disable shuffle' : 'Enable shuffle',
+              label: c.isShuffled
+                  ? ComponentLocalizations.of(context).mediaShuffleDisable
+                  : ComponentLocalizations.of(context).mediaShuffleEnable,
               icon: LucideIcons.shuffle,
               active: c.isShuffled,
               fg: fg,
@@ -71,7 +74,7 @@ class AudioExpandedTransport extends StatelessWidget {
         const SizedBox(width: 4),
         previousBuilder?.call(context, c) ??
             _transportButton(
-              label: 'Previous track',
+              label: ComponentLocalizations.of(context).mediaPreviousTrack,
               icon: LucideIcons.skipBack,
               fg: fg,
               size: iconSize,
@@ -82,7 +85,7 @@ class AudioExpandedTransport extends StatelessWidget {
         const SizedBox(width: 8),
         nextBuilder?.call(context, c) ??
             _transportButton(
-              label: 'Next track',
+              label: ComponentLocalizations.of(context).mediaNextTrack,
               icon: LucideIcons.skipForward,
               fg: fg,
               size: iconSize,
@@ -91,7 +94,9 @@ class AudioExpandedTransport extends StatelessWidget {
         const SizedBox(width: 4),
         repeatBuilder?.call(context, c) ??
             _toggleButton(
-              label: c.isLooping ? 'Disable repeat' : 'Enable repeat',
+              label: c.isLooping
+                  ? ComponentLocalizations.of(context).mediaRepeatDisable
+                  : ComponentLocalizations.of(context).mediaRepeatEnable,
               icon: LucideIcons.repeat,
               active: c.isLooping,
               fg: fg,
@@ -120,7 +125,9 @@ class AudioExpandedTransport extends StatelessWidget {
             color: const Color(0xFFFFFFFF),
           );
     return Semantics(
-      label: c.isPlaying ? 'Pause' : 'Play',
+      label: c.isPlaying
+          ? ComponentLocalizations.of(context).mediaPause
+          : ComponentLocalizations.of(context).mediaPlay,
       button: true,
       child: TapTarget(
         minWidth: 56,

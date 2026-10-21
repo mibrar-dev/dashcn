@@ -21,6 +21,7 @@ import '../../components/input/input.dart';
 import 'sidebar_03_content.dart';
 import 'sidebar_03_sidebar.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 
@@ -261,7 +262,12 @@ class _Sidebar03Header extends StatelessWidget {
               ),
               if (showSearch) ...<Widget>[
                 Gap(theme.spacing.md),
-                const SizedBox(width: 200, child: Input(hintText: 'Search')),
+                SizedBox(
+                  width: 200,
+                  child: Input(
+                    hintText: ComponentLocalizations.of(context).filterSearch,
+                  ),
+                ),
               ],
               Gap(theme.spacing.md),
               const Avatar(initials: 'AC'),

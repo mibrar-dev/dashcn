@@ -12,6 +12,7 @@ import '../../components/form/form.dart';
 import '../../components/input_otp/input_otp.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Values submitted by the [Pricing01PromoForm] promo-code form.
 class Pricing01PromoData {
@@ -77,6 +78,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 384),
@@ -97,7 +99,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
             Gap(theme.spacing.md),
             FormItem<String>(
               key: _codeKey,
-              label: const Text('Promo code'),
+              label: Text(strings.blockPromoCode),
               validator: _codeValidator,
               showErrors: const <FormValidationMode>{
                 FormValidationMode.changed,
@@ -117,7 +119,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
                   throw StateError('Pricing01Promo: validation failed.');
                 }
               },
-              child: const Text('Apply code'),
+              child: Text(strings.blockApplyCode),
             ),
             if (_succeeded) ...<Widget>[
               Gap(theme.spacing.lg),

@@ -4,17 +4,43 @@
   "name": "Onboarding 01",
   "description": "Three swipeable intro pages with Skip and Next, ending in a notification permission ask.",
   "viewport": "mobile",
-  "screens": ["Pages", "Permission"],
+  "screens": [
+    "Pages",
+    "Permission"
+  ],
   "entry": "flow.dart",
-  "files": ["flow.dart", "screens/pages_screen.dart", "screens/permission_screen.dart", "README.md"],
+  "files": [
+    "flow.dart",
+    "screens/pages_screen.dart",
+    "screens/permission_screen.dart",
+    "README.md"
+  ],
   "deps": {
-    "foundation": ["gap", "icons"],
-    "theme": ["theme"],
-    "primitives": [],
-    "components": ["button", "card", "carousel", "dot_indicator", "page_route"],
+    "foundation": [
+      "gap",
+      "icons"
+    ],
+    "theme": [
+      "theme"
+    ],
+    "primitives": [
+      "localizations"
+    ],
+    "components": [
+      "button",
+      "card",
+      "carousel",
+      "dot_indicator",
+      "page_route"
+    ],
     "blocks": []
   },
-  "tags": ["onboarding", "intro", "permission", "carousel"],
+  "tags": [
+    "onboarding",
+    "intro",
+    "permission",
+    "carousel"
+  ],
   "install": "dashcn add flow:onboarding-01",
   "import": "import 'package:<your_app>/ui/dashcn/flows/onboarding-01/flow.dart';"
 }

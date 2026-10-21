@@ -15,6 +15,7 @@ import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Values submitted by the [Account01PasswordForm] password form.
 class Account01PasswordData {
@@ -131,11 +132,12 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
         // the FormScope, not the State context above it.
         child: Builder(
           builder: (BuildContext formContext) {
+            final strings = ComponentLocalizations.of(context);
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text('Password', style: theme.typography.textLarge),
+                Text(strings.authPassword, style: theme.typography.textLarge),
                 Gap(theme.spacing.sm),
                 Text(
                   'At least 8 characters. Changing it signs you out elsewhere.',
@@ -148,7 +150,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Gap(theme.spacing.lg),
                 FormItem<String>(
                   key: _currentKey,
-                  label: const Text('Current password'),
+                  label: Text(strings.blockCurrentPassword),
                   validator: const NotEmptyValidator(),
                   showErrors: _show,
                   child: Input(
@@ -162,8 +164,8 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Gap(theme.spacing.lg),
                 FormItem<String>(
                   key: _newKey,
-                  label: const Text('New password'),
-                  hint: const Text('At least 8 characters.'),
+                  label: Text(strings.blockNewPassword),
+                  hint: Text(strings.authPasswordHint),
                   validator:
                       const NotEmptyValidator() & const LengthValidator(min: 8),
                   showErrors: _show,
@@ -178,7 +180,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Gap(theme.spacing.lg),
                 FormItem<String>(
                   key: _confirmKey,
-                  label: const Text('Confirm new password'),
+                  label: Text(strings.blockConfirmNewPassword),
                   validator: _confirmValidator,
                   showErrors: _show,
                   child: Input(
@@ -200,7 +202,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                         );
                       }
                     },
-                    child: const Text('Update password'),
+                    child: Text(strings.blockUpdatePassword),
                   ),
                 ),
                 if (_succeeded) ...<Widget>[

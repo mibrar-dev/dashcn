@@ -10,6 +10,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
 import 'social_buttons.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Sign-up form; a valid submit calls [onSignUp] then shows `/otp`.
 class Auth01SignUpScreen extends StatefulWidget {
@@ -64,10 +65,11 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Auth01Scaffold(
-      title: 'Create an account',
-      subtitle: 'One account for everything.',
+      title: strings.authCreateAccount,
+      subtitle: strings.blockOneAccountEverything,
       children: <Widget>[
         FormScope(
           controller: _controller,
@@ -76,7 +78,7 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
             children: <Widget>[
               FormItem<String>(
                 key: _nameKey,
-                label: const Text('Name'),
+                label: Text(strings.authName),
                 validator: const NotEmptyValidator(),
                 // Errors surface on submit only: the mount-time report lands as
                 // `changed`, so including it would flag pristine fields.
@@ -91,7 +93,7 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
               Gap(appTheme.spacing.md),
               FormItem<String>(
                 key: _emailKey,
-                label: const Text('Email'),
+                label: Text(strings.authEmail),
                 validator: const NotEmptyValidator() & const EmailValidator(),
                 // Errors surface on submit only: the mount-time report lands as
                 // `changed`, so including it would flag pristine fields.
@@ -107,8 +109,8 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
               Gap(appTheme.spacing.md),
               FormItem<String>(
                 key: _passwordKey,
-                label: const Text('Password'),
-                hint: const Text('At least 8 characters.'),
+                label: Text(strings.authPassword),
+                hint: Text(strings.authPasswordHint),
                 validator:
                     const NotEmptyValidator() & const LengthValidator(min: 8),
                 // Errors surface on submit only: the mount-time report lands as
@@ -149,7 +151,7 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
               variant: ButtonVariant.link,
               size: ButtonSize.sm,
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Sign in'),
+              child: Text(strings.authSignIn),
             ),
           ],
         ),

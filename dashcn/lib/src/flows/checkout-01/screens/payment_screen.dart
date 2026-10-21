@@ -8,6 +8,7 @@ import '../../../components/input/input.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Card form; Pay calls [onPlaceOrder] then shows `/success`.
 class Checkout01PaymentScreen extends StatefulWidget {
@@ -63,6 +64,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -75,7 +77,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Payment', style: appTheme.typography.h3),
+                  Text(strings.blockPayment, style: appTheme.typography.h3),
                   Gap(appTheme.spacing.xs),
                   Text(
                     'Deliver to ${widget.order.address.street}, '
@@ -92,7 +94,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                       children: <Widget>[
                         FormItem<String>(
                           key: _numberKey,
-                          label: const Text('Card number'),
+                          label: Text(strings.blockCardNumber),
                           validator:
                               const NotEmptyValidator() &
                               const LengthValidator(min: 12),
@@ -114,7 +116,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                             Expanded(
                               child: FormItem<String>(
                                 key: _expiryKey,
-                                label: const Text('Expiry'),
+                                label: Text(strings.blockExpiry),
                                 validator: const NotEmptyValidator(),
                                 // Errors surface on submit only: the mount-time
                                 // report lands as `changed`, so including it
@@ -134,7 +136,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                             Expanded(
                               child: FormItem<String>(
                                 key: _cvcKey,
-                                label: const Text('CVC'),
+                                label: Text(strings.blockCvc),
                                 validator:
                                     const NotEmptyValidator() &
                                     const LengthValidator(min: 3),
@@ -163,8 +165,10 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                     onPressed: _busy ? null : _pay,
                     child: Text(
                       _busy
-                          ? 'Paying…'
-                          : 'Pay \$${widget.order.total.toStringAsFixed(2)}',
+                          ? strings.blockPaying
+                          : strings.blockPayTotal(
+                              '\$${widget.order.total.toStringAsFixed(2)}',
+                            ),
                     ),
                   ),
                   Gap(appTheme.spacing.sm),
@@ -172,7 +176,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                     variant: ButtonVariant.ghost,
                     size: ButtonSize.sm,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Back to cart'),
+                    child: Text(strings.blockBackToCart),
                   ),
                 ],
               ),

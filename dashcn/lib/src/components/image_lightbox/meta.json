@@ -27,6 +27,7 @@
       "theme"
     ],
     "primitives": [
+      "localizations",
       "motion",
       "surface"
     ],
