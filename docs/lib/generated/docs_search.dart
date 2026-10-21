@@ -680,7 +680,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Skeleton',
     kind: DocsSearchKind.component,
     route: '/docs/components/skeleton',
-    tag: '3 files',
+    tag: '8 files',
     keywords: <String>[
       'Skeleton',
       'skeleton',

@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/skeleton/skeleton.dart';
 import 'package:dashcn/src/primitives/animation.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
+import 'package:dashcn/src/theme/density_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -293,4 +294,310 @@ void main() {
       expect(_sweepColors(tester).length, 3);
     });
   });
+
+  group('shapes', () {
+    testWidgets('line renders one bar per line, last one short', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_frame(const SkeletonLine(lines: 3)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      // Three shimmer boxes: two full-width plus one fractional.
+      expect(find.byType(FractionallySizedBox), findsOneWidget);
+      final FractionallySizedBox last = tester.widget(
+        find.byType(FractionallySizedBox),
+      );
+      expect(last.widthFactor, 0.6);
+    });
+
+    testWidgets('single-line fills the width', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonLine(lines: 1)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byType(FractionallySizedBox), findsNothing);
+    });
+
+    testWidgets('avatar is a square disc at the density control height', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_frame(const SkeletonAvatar()));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      expect(tester.getSize(find.byType(SkeletonAvatar)), const Size(32, 32));
+    });
+
+    testWidgets('avatar honours an explicit size', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonAvatar(size: 48)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.getSize(find.byType(SkeletonAvatar)), const Size(48, 48));
+    });
+
+    testWidgets('block honours width and height', (tester) async {
+      await tester.pumpWidget(
+        _frame(const SkeletonBlock(width: 120, height: 24)),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.getSize(find.byType(SkeletonBlock)), const Size(120, 24));
+    });
+
+    testWidgets('custom line builder swaps every bar', (tester) async {
+      var calls = 0;
+      await tester.pumpWidget(
+        _frame(
+          SkeletonLine(
+            lines: 2,
+            lineBuilder: (context, index, isLast, bar) {
+              calls++;
+              return SizedBox(key: ValueKey('custom-$index'), height: 8);
+            },
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(calls, 2);
+      expect(find.byKey(const ValueKey('custom-0')), findsOneWidget);
+      expect(find.byKey(const ValueKey('custom-1')), findsOneWidget);
+    });
+
+    testWidgets('custom avatar builder replaces the disc', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          SkeletonAvatar(
+            avatarBuilder: (context, disc) =>
+                const SizedBox(key: ValueKey('ava'), width: 10, height: 10),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byKey(const ValueKey('ava')), findsOneWidget);
+    });
+  });
+
+  group('compose', () {
+    testWidgets('card paints a frosted surface', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonCard()));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SkeletonAvatar), findsOneWidget);
+      expect(find.byType(SkeletonLine), findsAtLeastNWidgets(1));
+    });
+
+    testWidgets('card footer is opt-in', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonCard(showFooter: false)));
+      await tester.pump(const Duration(milliseconds: 100));
+      // Header title (2 lines) + content (2 lines), no footer line.
+      expect(find.byType(SkeletonLine), findsNWidgets(2));
+      await tester.pumpWidget(_frame(const SkeletonCard(showFooter: true)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byType(SkeletonLine), findsNWidgets(3));
+    });
+
+    testWidgets('list renders one row per item', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonList(itemCount: 3)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SkeletonAvatar), findsNWidgets(3));
+    });
+
+    testWidgets('list custom builders run per row', (tester) async {
+      var titles = 0;
+      await tester.pumpWidget(
+        _frame(
+          SkeletonList(
+            itemCount: 2,
+            titleBuilder: (context, index, title) {
+              titles++;
+              return title;
+            },
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(titles, 2);
+    });
+
+    testWidgets('table renders header plus body grid', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonTable(columns: 3, rows: 4)));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      // Header blocks + body lines.
+      expect(find.byType(SkeletonBlock), findsNWidgets(3));
+      expect(find.byType(SkeletonLine), findsNWidgets(12));
+    });
+
+    testWidgets('table hides the header on demand', (tester) async {
+      await tester.pumpWidget(
+        _frame(const SkeletonTable(columns: 2, rows: 2, showHeader: false)),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byType(SkeletonBlock), findsNothing);
+      expect(find.byType(SkeletonLine), findsNWidgets(4));
+    });
+
+    testWidgets('table cell builder swaps cells', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          SkeletonTable(
+            columns: 2,
+            rows: 1,
+            showHeader: false,
+            cellBuilder: (context, row, column, cell) =>
+                SizedBox(key: ValueKey('cell-$row-$column'), height: 8),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byKey(const ValueKey('cell-0-0')), findsOneWidget);
+      expect(find.byKey(const ValueKey('cell-0-1')), findsOneWidget);
+    });
+  });
+
+  group('mirror', () {
+    testWidgets('enabled fills the child box with the placeholder', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          const SkeletonMirror(
+            placeholderBuilder: _mirrorPlaceholder,
+            child: SizedBox(width: 200, height: 60),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SkeletonLine), findsOneWidget);
+      // The stack sizes itself to the real child box.
+      expect(tester.getSize(find.byType(SkeletonMirror)), const Size(200, 60));
+    });
+
+    testWidgets('disabled paints the child', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          const SkeletonMirror(
+            enabled: false,
+            placeholderBuilder: _mirrorPlaceholder,
+            child: Text('loaded'),
+          ),
+        ),
+      );
+      expect(find.text('loaded'), findsOneWidget);
+      expect(find.byType(SkeletonLine), findsNothing);
+    });
+
+    testWidgets('real child is hidden from semantics while loading', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          const SkeletonMirror(
+            placeholderBuilder: _mirrorPlaceholder,
+            child: Text('secret'),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      // The invisible layout child keeps its box but drops its semantics.
+      expect(find.byType(ExcludeSemantics), findsOneWidget);
+    });
+  });
+
+  group('density + motion + a11y', () {
+    testWidgets('touch tokens grow the avatar', (tester) async {
+      await tester.pumpWidget(
+        _frame(const SkeletonAvatar(densityTokens: DensityTokens.touch)),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.getSize(find.byType(SkeletonAvatar)), const Size(48, 48));
+    });
+
+    testWidgets('theme row height wins over the density default', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          const SkeletonList(itemCount: 1, theme: SkeletonTheme(rowHeight: 56)),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SkeletonAvatar), findsOneWidget);
+    });
+
+    testWidgets('reduced motion parks the sweep with no ticker', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: ComponentThemes(
+            themes: const <ComponentThemeData>[],
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: MediaQuery(
+                data: const MediaQueryData(disableAnimations: true),
+                child: const Skeleton(child: _content),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byType(RepeatedAnimationBuilder), findsNothing);
+      expect(find.byType(Container), findsWidgets);
+    });
+
+    testWidgets('placeholders announce a loading label', (tester) async {
+      await tester.pumpWidget(_frame(const SkeletonLine(lines: 1)));
+      await tester.pump(const Duration(milliseconds: 100));
+      final Semantics semantics = tester.widget(find.byType(Semantics).first);
+      expect(semantics.properties.label, 'Loading');
+    });
+
+    testWidgets('RTL mirrors without overflow', (tester) async {
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: ComponentThemes(
+            themes: const <ComponentThemeData>[],
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: const SkeletonLine(lines: 3),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('375px phone width fits list, card and table', (tester) async {
+      Future<void> pump(Widget child) async {
+        await tester.pumpWidget(
+          Theme(
+            data: const ThemeData(),
+            child: ComponentThemes(
+              themes: const <ComponentThemeData>[],
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Center(child: SizedBox(width: 375, child: child)),
+              ),
+            ),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 100));
+        expect(
+          tester.takeException(),
+          isNull,
+          reason: 'overflow in ${child.runtimeType}',
+        );
+      }
+
+      await pump(const SkeletonList(itemCount: 3));
+      await pump(const SkeletonCard());
+      await pump(const SkeletonTable(columns: 3, rows: 4));
+      await pump(const SkeletonLine(lines: 3));
+    });
+  });
 }
+
+Widget _mirrorPlaceholder(BuildContext context) => const SkeletonLine(lines: 2);

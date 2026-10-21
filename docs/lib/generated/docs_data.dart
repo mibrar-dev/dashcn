@@ -596,7 +596,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add skeleton',
     import:
         "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
-    fileCount: 3,
+    fileCount: 8,
     stability: 'stable',
     listed: true,
     placement: 'center',

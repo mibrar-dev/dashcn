@@ -1428,15 +1428,52 @@ const Progress(
       id: 'skeleton.1',
       componentId: 'skeleton',
       language: 'dart',
-      code: r'''const Skeleton(
-  borderRadius: BorderRadius.all(Radius.circular(40)),
-  child: SizedBox(width: 80, height: 80),
-);''',
+      code: r'''const SkeletonLine(lines: 3);
+const SkeletonAvatar();
+const SkeletonBlock(width: 120);''',
       tokenClasses:
-          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'skeleton.2',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''const SkeletonList(itemCount: 3);
+const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+const SkeletonTable(columns: 3, rows: 4);''',
+      tokenClasses:
+          'kkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppkkkkpppkkkkkpppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.3',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''SkeletonMirror(
+  enabled: loading,
+  placeholderBuilder: (context) => const SkeletonLine(lines: 2),
+  child: ProfileRow(user: user),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.4',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''SkeletonLine(
+  lines: 3,
+  lineBuilder: (context, index, isLast, bar) => bar,
+);
+SkeletonList(
+  itemCount: 3,
+  leadingBuilder: (context, index, avatar) => avatar,
+  titleBuilder: (context, index, title) => title,
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.5',
       componentId: 'skeleton',
       language: 'dart',
       code: r'''Skeleton(
@@ -1448,7 +1485,7 @@ const Progress(
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
-      id: 'skeleton.3',
+      id: 'skeleton.6',
       componentId: 'skeleton',
       language: 'dart',
       code: r'''const SkeletonTheme skeletonThemeOverrides = SkeletonTheme(
@@ -5176,7 +5213,12 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'skeleton',
     files: <String>[
       'lib/ui/dashcn/components/skeleton/skeleton.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_compose.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_layout.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_mirror.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_shapes.dart',
       'lib/ui/dashcn/components/skeleton/skeleton_style.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_table.dart',
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/skeleton/skeleton_theme.dart',
