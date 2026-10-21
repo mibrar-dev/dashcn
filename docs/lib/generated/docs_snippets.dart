@@ -3660,24 +3660,20 @@ await key.currentState!.refresh();''',
       id: 'audio_player.0',
       componentId: 'audio_player',
       language: 'dart',
-      code: r'''final controller = FakeAudioPlaybackController(
-  duration: const Duration(minutes: 4, seconds: 5),
-);
+      code:
+          r'''final controller = FakeAudioPlaybackController(tracks: demoAudioTracks);
 
+// Compact pill (default):
+AudioPlayer(controller: controller, onDownload: () {})
+
+// Expanded card:
 AudioPlayer(
   controller: controller,
-  title: 'Midnight drive',
-  subtitle: 'Neon Coastline',
-)
-
-// Compact row:
-AudioPlayer(
-  controller: controller,
-  variant: AudioPlayerVariant.compact,
-  title: 'Compact episode',
+  variant: AudioPlayerVariant.full,
+  cover: Image.network(demoAudioTracks.first.coverUrl!),
 )''',
       tokenClasses:
-          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssppppppppppppppsssssssssssssssspppppcccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppp',
+          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppcccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'code_snippet': <DocsSnippet>[
@@ -3807,18 +3803,20 @@ AudioPlayer(
       id: 'video_player.0',
       componentId: 'video_player',
       language: 'dart',
-      code: r'''final controller = FakeVideoPlaybackController(
-  duration: const Duration(minutes: 3, seconds: 42),
-);
+      code:
+          r'''final inner = VideoPlayerController.networkUrl(Uri.parse(demoVideoSources[0].uri!));
+await inner.initialize();
+final controller = PluginVideoAdapter(inner); // docs-only
 
 VideoPlayer(
   controller: controller,
-  content: ColoredBox(color: Color(0xFF27272A)),
-  captions: const Text('Hello, world'),
+  title: 'For Bigger Blazes',
+  subtitle: 'Season 3 episode 6',
+  content: controller.buildView(),
   onFullscreenRequested: () => enterFullscreen(),
 )''',
       tokenClasses:
-          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssppppppppppppppsssssssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
   ],
   'alpha': <DocsSnippet>[
@@ -5617,8 +5615,14 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'audio_player',
     files: <String>[
       'lib/ui/dashcn/components/audio_player/audio_player.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_compact.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_compact_parts.dart',
       'lib/ui/dashcn/components/audio_player/audio_player_controller.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_expanded.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_expanded_transport.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_fake.dart',
       'lib/ui/dashcn/components/audio_player/audio_player_layout.dart',
+      'lib/ui/dashcn/components/audio_player/audio_player_playlist.dart',
       'lib/ui/dashcn/components/audio_player/audio_player_progress.dart',
       'lib/ui/dashcn/components/audio_player/audio_player_style.dart',
       'lib/ui/dashcn/components/audio_player/audio_player_transport.dart',
@@ -5671,8 +5675,11 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/video_player/video_player_buttons.dart',
       'lib/ui/dashcn/components/video_player/video_player_controller.dart',
       'lib/ui/dashcn/components/video_player/video_player_controls.dart',
+      'lib/ui/dashcn/components/video_player/video_player_header.dart',
+      'lib/ui/dashcn/components/video_player/video_player_menu.dart',
       'lib/ui/dashcn/components/video_player/video_player_scrub.dart',
       'lib/ui/dashcn/components/video_player/video_player_style.dart',
+      'lib/ui/dashcn/components/video_player/video_player_volume.dart',
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/video_player/video_player_theme.dart',

@@ -2,6 +2,7 @@
 //
 // One focused demo per example; the first entry is the default. Every example
 // owns its `FakeAudioPlaybackController` and shrink-wraps in a bounded box.
+// The playlist examples use the three SPEC reference tracks.
 
 import 'package:flutter/widgets.dart';
 
@@ -10,7 +11,22 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
 import 'audio_player.dart';
 
-/// Default compact card with title and subtitle.
+/// Gradient cover used by the previews (the live app passes real artwork).
+Widget _coverArt(List<Color> colors) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: colors,
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    ),
+    alignment: Alignment.center,
+    child: const Icon(LucideIcons.music, size: 56, color: Color(0xFFFFFFFF)),
+  );
+}
+
+/// Default: expanded card on the three-track SPEC playlist.
 class _DefaultAudio extends StatefulWidget {
   const _DefaultAudio();
 
@@ -19,7 +35,9 @@ class _DefaultAudio extends StatefulWidget {
 }
 
 class _DefaultAudioState extends State<_DefaultAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    tracks: demoAudioTracks,
+  );
 
   @override
   void dispose() {
@@ -33,23 +51,63 @@ class _DefaultAudioState extends State<_DefaultAudio> {
       width: 360,
       child: AudioPlayer(
         controller: _controller,
-        title: 'Midnight drive',
-        subtitle: 'Neon Coastline',
+        variant: AudioPlayerVariant.full,
+        cover: _coverArt(const <Color>[Color(0xFF7C3AED), Color(0xFFEC4899)]),
       ),
     );
   }
 }
 
-/// Player with comfortable density tokens.
-class _ComfortableAudio extends StatefulWidget {
-  const _ComfortableAudio();
+/// Compact pill on the SPEC playlist (single shared controller concept).
+class _CompactAudio extends StatefulWidget {
+  const _CompactAudio();
 
   @override
-  State<_ComfortableAudio> createState() => _ComfortableAudioState();
+  State<_CompactAudio> createState() => _CompactAudioState();
 }
 
-class _ComfortableAudioState extends State<_ComfortableAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+class _CompactAudioState extends State<_CompactAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    isPlaying: true,
+    position: const Duration(minutes: 1, seconds: 1),
+    duration: const Duration(minutes: 5, seconds: 40),
+    tracks: demoAudioTracks,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 420,
+      child: AudioPlayer(
+        controller: _controller,
+        variant: AudioPlayerVariant.compact,
+        onDownload: () {},
+      ),
+    );
+  }
+}
+
+/// Expanded card, second track selected.
+class _ExpandedAudio extends StatefulWidget {
+  const _ExpandedAudio();
+
+  @override
+  State<_ExpandedAudio> createState() => _ExpandedAudioState();
+}
+
+class _ExpandedAudioState extends State<_ExpandedAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    tracks: demoAudioTracks,
+    currentIndex: 1,
+    position: const Duration(seconds: 29),
+    duration: const Duration(minutes: 6, seconds: 12),
+  );
 
   @override
   void dispose() {
@@ -63,20 +121,62 @@ class _ComfortableAudioState extends State<_ComfortableAudio> {
       width: 360,
       child: AudioPlayer(
         controller: _controller,
-        title: 'Comfortable edition',
-        subtitle: 'Studio Master',
-        theme: const AudioPlayerTheme(
-          controlSize: 40,
-          iconSize: 18,
-          coverSize: 48,
-          padding: EdgeInsets.all(16),
+        variant: AudioPlayerVariant.full,
+        cover: _coverArt(const <Color>[Color(0xFF0EA5E9), Color(0xFF312E81)]),
+      ),
+    );
+  }
+}
+
+/// One controller drives the compact pill and the expanded card together.
+class _SharedAudio extends StatefulWidget {
+  const _SharedAudio();
+
+  @override
+  State<_SharedAudio> createState() => _SharedAudioState();
+}
+
+class _SharedAudioState extends State<_SharedAudio> {
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    tracks: demoAudioTracks,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 360,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            AudioPlayer(
+              controller: _controller,
+              variant: AudioPlayerVariant.compact,
+              onDownload: () {},
+            ),
+            const SizedBox(height: 12),
+            AudioPlayer(
+              controller: _controller,
+              variant: AudioPlayerVariant.full,
+              cover: _coverArt(const <Color>[
+                Color(0xFF059669),
+                Color(0xFF10B981),
+              ]),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-/// Responsive player on phone width (volume hidden).
+/// Compact pill at phone width (volume icon stays, slider overlays).
 class _PhoneAudio extends StatefulWidget {
   const _PhoneAudio();
 
@@ -85,7 +185,9 @@ class _PhoneAudio extends StatefulWidget {
 }
 
 class _PhoneAudioState extends State<_PhoneAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    tracks: demoAudioTracks,
+  );
 
   @override
   void dispose() {
@@ -99,202 +201,14 @@ class _PhoneAudioState extends State<_PhoneAudio> {
       width: 320,
       child: AudioPlayer(
         controller: _controller,
-        title: 'Mobile podcast',
-        subtitle: 'Volume hidden on phone',
-      ),
-    );
-  }
-}
-
-/// Player with speed menu open.
-class _SpeedMenuOpenAudio extends StatefulWidget {
-  const _SpeedMenuOpenAudio();
-
-  @override
-  State<_SpeedMenuOpenAudio> createState() => _SpeedMenuOpenAudioState();
-}
-
-class _SpeedMenuOpenAudioState extends State<_SpeedMenuOpenAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
-    playbackSpeed: 1.5,
-  );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
-        controller: _controller,
-        title: 'Speed menu open',
-        subtitle: '1.5x selected',
-        initialSpeedOpen: true,
-      ),
-    );
-  }
-}
-
-/// Compact single-row player.
-class _CompactAudio extends StatefulWidget {
-  const _CompactAudio();
-
-  @override
-  State<_CompactAudio> createState() => _CompactAudioState();
-}
-
-class _CompactAudioState extends State<_CompactAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
-    isPlaying: true,
-  );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
-        controller: _controller,
         variant: AudioPlayerVariant.compact,
-        title: 'Compact episode',
+        onDownload: () {},
       ),
     );
   }
 }
 
-/// Player with a cover-art slot.
-class _CoverAudio extends StatefulWidget {
-  const _CoverAudio();
-
-  @override
-  State<_CoverAudio> createState() => _CoverAudioState();
-}
-
-class _CoverAudioState extends State<_CoverAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
-        controller: _controller,
-        title: 'Cover story',
-        subtitle: 'Side A',
-        cover: Container(
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: <Color>[Color(0xFF7C3AED), Color(0xFFEC4899)],
-            ),
-          ),
-          child: const Icon(
-            LucideIcons.music,
-            size: 24,
-            color: Color(0xFFFFFFFF),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Waveform slot replacing the progress bar.
-class _WaveformAudio extends StatefulWidget {
-  const _WaveformAudio();
-
-  @override
-  State<_WaveformAudio> createState() => _WaveformAudioState();
-}
-
-class _WaveformAudioState extends State<_WaveformAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
-        controller: _controller,
-        title: 'Waveform mix',
-        waveformBuilder: (context, c, defaults) => GestureDetector(
-          onTapDown: (_) => c.seekTo(c.duration * 0.75),
-          child: SizedBox(
-            height: 24,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                for (int i = 0; i < 32; i++)
-                  Container(
-                    width: 4,
-                    height: 8 + (i % 5) * 3.0,
-                    margin: const EdgeInsets.symmetric(horizontal: 1),
-                    color: const Color(0xFF71717A),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Skip back/forward and speed controls.
-class _SkipAudio extends StatefulWidget {
-  const _SkipAudio();
-
-  @override
-  State<_SkipAudio> createState() => _SkipAudioState();
-}
-
-class _SkipAudioState extends State<_SkipAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
-    playbackSpeed: 1.5,
-  );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
-        controller: _controller,
-        title: 'Skip demo',
-        skipBack: const Duration(seconds: 15),
-        skipForward: const Duration(seconds: 30),
-      ),
-    );
-  }
-}
-
-/// Customized theme plus a custom play button.
+/// Customized theme plus a custom play button and download slot.
 class _CustomAudio extends StatefulWidget {
   const _CustomAudio();
 
@@ -303,7 +217,9 @@ class _CustomAudio extends StatefulWidget {
 }
 
 class _CustomAudioState extends State<_CustomAudio> {
-  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController();
+  final FakeAudioPlaybackController _controller = FakeAudioPlaybackController(
+    tracks: demoAudioTracks,
+  );
 
   @override
   void dispose() {
@@ -317,17 +233,16 @@ class _CustomAudioState extends State<_CustomAudio> {
       width: 360,
       child: AudioPlayer(
         controller: _controller,
-        title: 'Custom theme',
-        subtitle: 'Rose accent',
+        variant: AudioPlayerVariant.full,
         theme: const AudioPlayerTheme(
           accent: ThemedColor.value(Color(0xFFE11D48)),
-          controlSize: 48,
+          controlSize: 56,
         ),
         playButtonBuilder: (context, c) => GestureDetector(
           onTap: c.toggle,
           child: Container(
-            width: 48,
-            height: 48,
+            width: 56,
+            height: 56,
             decoration: const BoxDecoration(
               color: Color(0xFFE11D48),
               shape: BoxShape.circle,
@@ -345,24 +260,18 @@ class _CustomAudioState extends State<_CustomAudio> {
 }
 
 Widget _default(BuildContext context) => const _DefaultAudio();
-Widget _comfortable(BuildContext context) => const _ComfortableAudio();
-Widget _phone(BuildContext context) => const _PhoneAudio();
-Widget _speedMenuOpen(BuildContext context) => const _SpeedMenuOpenAudio();
 Widget _compact(BuildContext context) => const _CompactAudio();
-Widget _cover(BuildContext context) => const _CoverAudio();
-Widget _waveform(BuildContext context) => const _WaveformAudio();
-Widget _skip(BuildContext context) => const _SkipAudio();
+Widget _expanded(BuildContext context) => const _ExpandedAudio();
+Widget _shared(BuildContext context) => const _SharedAudio();
+Widget _phone(BuildContext context) => const _PhoneAudio();
 Widget _custom(BuildContext context) => const _CustomAudio();
 
 /// Named docs examples for `audio_player`; the first entry is the default.
 const List<ComponentPreview> audioPlayerPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
-  ComponentPreview('Comfortable', _comfortable),
-  ComponentPreview('Phone width', _phone),
-  ComponentPreview('Speed menu open', _speedMenuOpen),
   ComponentPreview('Compact', _compact),
-  ComponentPreview('Cover art', _cover),
-  ComponentPreview('Waveform slot', _waveform),
-  ComponentPreview('Skip and speed', _skip),
+  ComponentPreview('Expanded card', _expanded),
+  ComponentPreview('Shared playlist', _shared),
+  ComponentPreview('Phone width', _phone),
   ComponentPreview('Customized', _custom),
 ];

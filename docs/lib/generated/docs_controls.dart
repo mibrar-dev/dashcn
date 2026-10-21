@@ -8756,7 +8756,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.select,
         type: 'AudioPlayerVariant',
         isRequired: false,
-        defaultValue: 'full',
+        defaultValue: 'compact',
         options: <String>['compact', 'full'],
       ),
       ControlSpec(
@@ -8806,7 +8806,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.readOnly,
         type: 'List<double>',
         isRequired: false,
-        defaultValue: 'const <double>[0.5, 1, 1.5, 2]',
+        defaultValue: 'kAudioSpeeds',
         readOnlyReason: 'widget slot',
       ),
       ControlSpec(
@@ -8832,6 +8832,14 @@ kControlSpecs = <String, ComponentControls>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'onDownload',
+        label: 'On Download',
+        kind: ControlKind.readOnly,
+        type: 'VoidCallback?',
+        isRequired: false,
+        readOnlyReason: 'callback',
       ),
       ControlSpec(
         name: 'semanticLabel',
@@ -8907,6 +8915,38 @@ kControlSpecs = <String, ComponentControls>{
         readOnlyReason: 'callback',
       ),
       ControlSpec(
+        name: 'previousBuilder',
+        label: 'Previous Builder',
+        kind: ControlKind.readOnly,
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
+        name: 'nextBuilder',
+        label: 'Next Builder',
+        kind: ControlKind.readOnly,
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
+        name: 'shuffleBuilder',
+        label: 'Shuffle Builder',
+        kind: ControlKind.readOnly,
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
+        name: 'repeatBuilder',
+        label: 'Repeat Builder',
+        kind: ControlKind.readOnly,
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
         name: 'volumeBuilder',
         label: 'Volume Builder',
         kind: ControlKind.readOnly,
@@ -8917,6 +8957,14 @@ kControlSpecs = <String, ComponentControls>{
       ControlSpec(
         name: 'speedBuilder',
         label: 'Speed Builder',
+        kind: ControlKind.readOnly,
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
+        name: 'downloadBuilder',
+        label: 'Download Builder',
         kind: ControlKind.readOnly,
         type: 'AudioPartBuilder?',
         isRequired: false,
@@ -9476,6 +9524,21 @@ kControlSpecs = <String, ComponentControls>{
     isConst: true,
     controls: <ControlSpec>[
       ControlSpec(
+        name: 'title',
+        label: 'Title',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+        defaultValue: '\'Video Player\'',
+      ),
+      ControlSpec(
+        name: 'subtitle',
+        label: 'Subtitle',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+      ),
+      ControlSpec(
         name: 'poster',
         label: 'Poster',
         kind: ControlKind.readOnly,
@@ -9518,6 +9581,13 @@ kControlSpecs = <String, ComponentControls>{
         defaultValue: 'true',
       ),
       ControlSpec(
+        name: 'controlsVisible',
+        label: 'Controls Visible',
+        kind: ControlKind.toggle,
+        type: 'bool?',
+        isRequired: false,
+      ),
+      ControlSpec(
         name: 'showFullscreenButton',
         label: 'Show Fullscreen Button',
         kind: ControlKind.toggle,
@@ -9531,7 +9601,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.readOnly,
         type: 'List<double>',
         isRequired: false,
-        defaultValue: 'const <double>[0.5, 1, 1.5, 2]',
+        defaultValue: 'kVideoSpeeds',
         readOnlyReason: 'widget slot',
       ),
       ControlSpec(
@@ -9592,6 +9662,14 @@ kControlSpecs = <String, ComponentControls>{
         readOnlyReason: 'unresolved type',
       ),
       ControlSpec(
+        name: 'headerBuilder',
+        label: 'Header Builder',
+        kind: ControlKind.readOnly,
+        type: 'VideoPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
         name: 'timeLabelBuilder',
         label: 'Time Label Builder',
         kind: ControlKind.readOnly,
@@ -9610,6 +9688,14 @@ kControlSpecs = <String, ComponentControls>{
       ControlSpec(
         name: 'speedBuilder',
         label: 'Speed Builder',
+        kind: ControlKind.readOnly,
+        type: 'VideoPartBuilder?',
+        isRequired: false,
+        readOnlyReason: 'callback',
+      ),
+      ControlSpec(
+        name: 'moreBuilder',
+        label: 'More Builder',
         kind: ControlKind.readOnly,
         type: 'VideoPartBuilder?',
         isRequired: false,

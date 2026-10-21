@@ -45,20 +45,23 @@ String formatVideoTimeValuetext(Duration position, Duration duration) {
 }
 
 /// Accessible icon button for player chrome.
+///
+/// [minTarget] floors the tap target (48 default; SPEC allows 32 compact).
 Widget videoIconButton({
   required String label,
   required IconData icon,
   required double size,
   required Color fg,
   String? text,
+  double minTarget = 48,
   VoidCallback? onTap,
 }) {
   return Semantics(
     label: label,
     button: true,
     child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
+      minWidth: minTarget,
+      minHeight: minTarget,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
@@ -92,17 +95,18 @@ Widget videoPlayButton(
   Color fg,
   VideoPlaybackController c, {
   bool big = false,
+  double minTarget = 48,
   VideoPartBuilder? overrideBuilder,
 }) {
   if (overrideBuilder != null && !big) return overrideBuilder(context, c);
-  final double size = big ? (style.controlSize ?? 56) : 32;
+  final double size = big ? (style.controlSize ?? 64) : 32;
   final double iconSize = big ? 28 : (style.iconSize ?? 16);
   return Semantics(
     label: c.isPlaying ? 'Pause' : 'Play',
     button: true,
     child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
+      minWidth: big ? 48 : minTarget,
+      minHeight: big ? 48 : minTarget,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: c.toggle,
@@ -112,6 +116,7 @@ Widget videoPlayButton(
           decoration: BoxDecoration(
             color: big ? const Color(0x99000000) : const Color(0x33FFFFFF),
             shape: BoxShape.circle,
+            border: big ? Border.all(color: const Color(0x33FFFFFF)) : null,
           ),
           alignment: Alignment.center,
           child: Icon(
@@ -126,22 +131,29 @@ Widget videoPlayButton(
 }
 
 /// Handles keyboard events for video playback.
+///
+/// Space/K toggles; Left/Right seek 10 s (5 s with Shift); Up/Down volume;
+/// M mute; F fullscreen; C captions.
 KeyEventResult handleVideoKey({
   required KeyEvent event,
   required VideoPlaybackController controller,
   VoidCallback? onFullscreenRequested,
 }) {
   if (event is! KeyDownEvent) return KeyEventResult.ignored;
+  final bool shift = HardwareKeyboard.instance.isShiftPressed;
+  final Duration step = shift
+      ? const Duration(seconds: 5)
+      : const Duration(seconds: 10);
   switch (event.logicalKey) {
     case LogicalKeyboardKey.space:
     case LogicalKeyboardKey.keyK:
       controller.toggle();
       return KeyEventResult.handled;
     case LogicalKeyboardKey.arrowRight:
-      controller.seekTo(controller.position + const Duration(seconds: 5));
+      controller.seekTo(controller.position + step);
       return KeyEventResult.handled;
     case LogicalKeyboardKey.arrowLeft:
-      controller.seekTo(controller.position - const Duration(seconds: 5));
+      controller.seekTo(controller.position - step);
       return KeyEventResult.handled;
     case LogicalKeyboardKey.arrowUp:
       controller.setVolume((controller.volume + 0.1).clamp(0.0, 1.0));
@@ -157,9 +169,6 @@ KeyEventResult handleVideoKey({
       return KeyEventResult.handled;
     case LogicalKeyboardKey.keyC:
       controller.toggleCaptions();
-      return KeyEventResult.handled;
-    case LogicalKeyboardKey.keyL:
-      controller.setLooping(!controller.isLooping);
       return KeyEventResult.handled;
   }
   return KeyEventResult.ignored;

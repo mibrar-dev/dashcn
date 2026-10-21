@@ -21,8 +21,11 @@ import 'video_player_style.dart';
 
 export 'video_player_controller.dart';
 export 'video_player_controls.dart';
+export 'video_player_header.dart';
+export 'video_player_menu.dart';
 export 'video_player_scrub.dart';
 export 'video_player_style.dart';
+export 'video_player_volume.dart';
 
 /// A video frame with poster, play overlay, scrub bar and control bar.
 class VideoPlayer extends StatefulWidget {
@@ -30,13 +33,16 @@ class VideoPlayer extends StatefulWidget {
   const VideoPlayer({
     super.key,
     this.controller,
+    this.title,
+    this.subtitle,
     this.poster,
     this.content,
     this.captions,
     this.aspectRatio = 16 / 9,
     this.showControls = true,
+    this.controlsVisible,
     this.showFullscreenButton = true,
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.supportedSpeeds = kVideoSpeeds,
     this.onFullscreenRequested,
     this.semanticLabel,
     this.focusNode,
@@ -46,9 +52,11 @@ class VideoPlayer extends StatefulWidget {
     this.controlsBuilder,
     this.playButtonBuilder,
     this.progressBuilder,
+    this.headerBuilder,
     this.timeLabelBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.moreBuilder,
     this.captionsButtonBuilder,
     this.fullscreenButtonBuilder,
     this.loadingBuilder,
@@ -64,6 +72,12 @@ class VideoPlayer extends StatefulWidget {
   /// Playback controller; an internal fake is owned when null.
   final VideoPlaybackController? controller;
 
+  /// Title shown in the control bar header.
+  final String? title;
+
+  /// Subtitle shown under the title (e.g. "Season 3 episode 6").
+  final String? subtitle;
+
   /// Still shown before first play (or when no [content]).
   final Widget? poster;
 
@@ -78,6 +92,11 @@ class VideoPlayer extends StatefulWidget {
 
   /// Whether the control bar is shown.
   final bool showControls;
+
+  /// Pins control bar visibility (null = auto-hide while playing).
+  ///
+  /// Test/screenshot escape hatch: `false` renders the hidden state.
+  final bool? controlsVisible;
 
   /// Whether the fullscreen button is shown.
   final bool showFullscreenButton;
@@ -122,6 +141,9 @@ class VideoPlayer extends StatefulWidget {
   )?
   progressBuilder;
 
+  /// Overrides the bar header (title/subtitle/time).
+  final VideoPartBuilder? headerBuilder;
+
   /// Overrides the time labels.
   final VideoPartBuilder? timeLabelBuilder;
 
@@ -130,6 +152,9 @@ class VideoPlayer extends StatefulWidget {
 
   /// Overrides the speed menu.
   final VideoPartBuilder? speedBuilder;
+
+  /// Overrides the more (three dots) menu.
+  final VideoPartBuilder? moreBuilder;
 
   /// Overrides the captions toggle button.
   final VideoPartBuilder? captionsButtonBuilder;
@@ -206,6 +231,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   void _onActivity({Duration timeout = const Duration(seconds: 3)}) {
+    if (widget.controlsVisible != null) return;
     if (!_controlsVisible) {
       setState(() => _controlsVisible = true);
     }
@@ -240,16 +266,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final Color fg =
         style.foreground?.resolve(colors) ?? const Color(0xFFFFFFFF);
     final BorderRadiusGeometry radius =
-        style.borderRadius ?? ambient.borderRadiusLg;
+        style.borderRadius ?? BorderRadius.circular(18);
     final Duration fade = resolveMotionDuration(
       context,
       style.fadeDuration ?? kDefaultDuration,
     );
     final VideoPlaybackController c = _controller;
+    final bool controlsVisible = widget.controlsVisible ?? _controlsVisible;
     final bool showPoster =
         widget.poster != null && !c.isPlaying && c.position <= Duration.zero;
 
-    if (!c.isPlaying && !_controlsVisible) {
+    if (!c.isPlaying && !controlsVisible) {
       _controlsVisible = true;
     }
 
@@ -331,27 +358,31 @@ class _VideoPlayerState extends State<VideoPlayer> {
           ),
           if (widget.showControls)
             Positioned(
-              left: 8,
-              right: 8,
-              bottom: 8,
+              left: 16,
+              right: 16,
+              bottom: 16,
               child: AnimatedOpacity(
-                opacity: _controlsVisible ? 1.0 : 0.0,
+                opacity: controlsVisible ? 1.0 : 0.0,
                 duration: fade,
                 child: IgnorePointer(
-                  ignoring: !_controlsVisible,
+                  ignoring: !controlsVisible,
                   child: VideoControlsBar(
                     controller: c,
                     style: style,
                     fg: fg,
                     fade: fade,
+                    title: widget.title,
+                    subtitle: widget.subtitle,
                     supportedSpeeds: widget.supportedSpeeds,
                     showFullscreenButton: widget.showFullscreenButton,
                     onFullscreenRequested: widget.onFullscreenRequested,
                     playButtonBuilder: widget.playButtonBuilder,
                     progressBuilder: widget.progressBuilder,
+                    headerBuilder: widget.headerBuilder,
                     timeLabelBuilder: widget.timeLabelBuilder,
                     volumeBuilder: widget.volumeBuilder,
                     speedBuilder: widget.speedBuilder,
+                    moreBuilder: widget.moreBuilder,
                     captionsButtonBuilder: widget.captionsButtonBuilder,
                     fullscreenButtonBuilder: widget.fullscreenButtonBuilder,
                     controlsBuilder: widget.controlsBuilder,
@@ -363,7 +394,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
       ),
     );
 
-    frame = ClipRRect(borderRadius: radius, child: frame);
+    frame = Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF27272A)),
+        borderRadius: radius,
+      ),
+      child: ClipRRect(borderRadius: radius, child: frame),
+    );
     frame = FocusOutline(focused: _focused, borderRadius: radius, child: frame);
     frame = Semantics(
       label: widget.semanticLabel ?? 'Video player',

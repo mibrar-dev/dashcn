@@ -1,18 +1,23 @@
-// Layouts for `audio_player`: compact row and full card sections.
+// Layouts for `audio_player`: SPEC compact pill vs expanded card.
 //
-// Split from `audio_player.dart` so both files stay small.
+// Split from `audio_player.dart` so both files stay small. The two bodies
+// share one [AudioPlaybackController] (playlist, speed, volume).
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/icons/lucide_icons.dart';
-import '../../theme/color_tokens.dart';
-import '../../theme/theme.dart';
+import 'audio_player_compact.dart';
 import 'audio_player_controller.dart';
+import 'audio_player_expanded.dart';
 import 'audio_player_progress.dart';
 import 'audio_player_style.dart';
 import 'audio_player_transport.dart';
 
-/// Compact row and full card body.
+export 'audio_player_compact.dart';
+export 'audio_player_compact_parts.dart';
+export 'audio_player_expanded.dart';
+export 'audio_player_expanded_transport.dart';
+
+/// Compact pill or expanded card body.
 class AudioPlayerBody extends StatelessWidget {
   /// Creates a body.
   const AudioPlayerBody({
@@ -25,12 +30,10 @@ class AudioPlayerBody extends StatelessWidget {
     this.title,
     this.subtitle,
     this.cover,
-    this.skipBack = const Duration(seconds: 10),
-    this.skipForward = const Duration(seconds: 10),
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.supportedSpeeds = kAudioSpeeds,
     this.showVolume = true,
     this.showSpeed = true,
-    this.initialSpeedOpen = false,
+    this.onDownload,
     this.coverBuilder,
     this.titleBuilder,
     this.subtitleBuilder,
@@ -38,25 +41,53 @@ class AudioPlayerBody extends StatelessWidget {
     this.waveformBuilder,
     this.controlsBuilder,
     this.playButtonBuilder,
+    this.previousBuilder,
+    this.nextBuilder,
+    this.shuffleBuilder,
+    this.repeatBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.downloadBuilder,
     this.loadingBuilder,
   });
 
+  /// Compact pill or expanded card.
   final AudioPlayerVariant variant;
+
+  /// Shared playback controller.
   final AudioPlaybackController controller;
+
+  /// Resolved theme.
   final AudioPlayerTheme style;
+
+  /// Primary text/icons.
   final Color fg;
+
+  /// Secondary text.
   final Color muted;
+
+  /// Fallback title / artist when the controller has no track.
   final String? title;
+
+  /// Fallback artist when the controller has no track.
   final String? subtitle;
+
+  /// Cover art shown by the expanded card.
   final Widget? cover;
-  final Duration skipBack;
-  final Duration skipForward;
+
+  /// Speeds cycled by the compact chip.
   final List<double> supportedSpeeds;
+
+  /// Whether the volume cluster shows.
   final bool showVolume;
+
+  /// Whether the speed control shows.
   final bool showSpeed;
-  final bool initialSpeedOpen;
+
+  /// Called when the compact download icon is tapped.
+  final VoidCallback? onDownload;
+
+  /// Builder slots for every visible part.
   final AudioPartBuilder? coverBuilder;
   final AudioPartBuilder? titleBuilder;
   final AudioPartBuilder? subtitleBuilder;
@@ -74,178 +105,58 @@ class AudioPlayerBody extends StatelessWidget {
   waveformBuilder;
   final AudioPartBuilder? controlsBuilder;
   final AudioPartBuilder? playButtonBuilder;
+  final AudioPartBuilder? previousBuilder;
+  final AudioPartBuilder? nextBuilder;
+  final AudioPartBuilder? shuffleBuilder;
+  final AudioPartBuilder? repeatBuilder;
   final AudioPartBuilder? volumeBuilder;
   final AudioPartBuilder? speedBuilder;
+  final AudioPartBuilder? downloadBuilder;
   final AudioPartBuilder? loadingBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return variant == AudioPlayerVariant.compact
-        ? _compact(context)
-        : _full(context);
-  }
-
-  Widget _compact(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        audioPlayButton(
-          context,
-          style,
-          fg,
-          controller,
-          overrideBuilder: playButtonBuilder,
-          loadingOverride: loadingBuilder,
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[_title(context), _progress(context)],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(
-            formatAudioTime(controller.position),
-            style: style.timeTextStyle ?? TextStyle(color: muted, fontSize: 12),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _full(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final double screenWidth =
-            MediaQuery.maybeSizeOf(context)?.width ?? double.infinity;
-        final bool isPhone = screenWidth <= 400 || constraints.maxWidth < 340;
-        final Widget? coverWidget = _cover(context);
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                if (coverWidget != null) ...[
-                  coverWidget,
-                  const SizedBox(width: 10),
-                ],
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[_title(context), _subtitle(context)],
-                  ),
-                ),
-                if (controller.isBuffering)
-                  Icon(LucideIcons.loaderCircle, size: 16, color: muted),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _progress(context),
-            Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    formatAudioTime(controller.position),
-                    style:
-                        style.timeTextStyle ??
-                        TextStyle(color: muted, fontSize: 12),
-                  ),
-                  Text(
-                    formatAudioTime(controller.duration),
-                    style:
-                        style.timeTextStyle ??
-                        TextStyle(color: muted, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            AudioTransportRow(
-              controller: controller,
-              style: style,
-              fg: fg,
-              skipBack: skipBack,
-              skipForward: skipForward,
-              supportedSpeeds: supportedSpeeds,
-              showVolume: !isPhone && showVolume,
-              showSpeed: showSpeed,
-              initialSpeedOpen: initialSpeedOpen,
-              controlsBuilder: controlsBuilder,
-              playButtonBuilder: playButtonBuilder,
-              volumeBuilder: volumeBuilder,
-              speedBuilder: speedBuilder,
-              loadingBuilder: loadingBuilder,
-            ),
-          ],
+    switch (variant) {
+      case AudioPlayerVariant.compact:
+        return AudioCompactPill(
+          controller: controller,
+          style: style,
+          fg: fg,
+          muted: muted,
+          title: title,
+          subtitle: subtitle,
+          supportedSpeeds: supportedSpeeds,
+          showVolume: showVolume,
+          showSpeed: showSpeed,
+          onDownload: onDownload,
+          playButtonBuilder: playButtonBuilder,
+          volumeBuilder: volumeBuilder,
+          speedBuilder: speedBuilder,
+          downloadBuilder: downloadBuilder,
         );
-      },
-    );
-  }
-
-  Widget? _cover(BuildContext context) {
-    if (coverBuilder != null) return coverBuilder!(context, controller);
-    if (cover == null) return null;
-    final ThemeColors colors = Theme.of(context).colors;
-    final double size = style.coverSize ?? 44;
-    final BorderRadiusGeometry radius =
-        style.coverRadius ?? BorderRadius.circular(6);
-    return ClipRRect(
-      borderRadius: radius,
-      child: ColoredBox(
-        color: style.coverBackground?.resolve(colors) ?? colors.muted,
-        child: SizedBox(width: size, height: size, child: cover!),
-      ),
-    );
-  }
-
-  Widget _title(BuildContext context) {
-    if (titleBuilder != null) return titleBuilder!(context, controller);
-    if (title == null) return const SizedBox.shrink();
-    return Text(
-      title!,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style:
-          style.titleTextStyle ??
-          TextStyle(color: fg, fontSize: 13, fontWeight: FontWeight.w600),
-    );
-  }
-
-  Widget _subtitle(BuildContext context) {
-    if (subtitleBuilder != null) return subtitleBuilder!(context, controller);
-    if (subtitle == null) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.only(top: 2),
-      child: Text(
-        subtitle!,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: style.subtitleTextStyle ?? TextStyle(color: muted, fontSize: 12),
-      ),
-    );
-  }
-
-  Widget _progress(BuildContext context) {
-    final ThemeColors colors = Theme.of(context).colors;
-    final AudioProgressBar defaults = AudioProgressBar(
-      position: controller.position,
-      duration: controller.duration,
-      buffered: controller.buffered,
-      onSeek: controller.seekTo,
-      trackColor: style.track?.resolve(colors) ?? colors.secondary,
-      bufferedColor: style.buffered?.resolve(colors) ?? colors.muted,
-      fillColor: style.accent?.resolve(colors) ?? colors.primary,
-      thumbColor: style.thumb?.resolve(colors) ?? colors.primary,
-      trackHeight: style.trackHeight ?? 4,
-    );
-    if (waveformBuilder != null) {
-      return waveformBuilder!(context, controller, defaults);
+      case AudioPlayerVariant.full:
+        return AudioExpandedCard(
+          controller: controller,
+          style: style,
+          fg: fg,
+          muted: muted,
+          title: title,
+          subtitle: subtitle,
+          cover: cover,
+          supportedSpeeds: supportedSpeeds,
+          coverBuilder: coverBuilder,
+          titleBuilder: titleBuilder,
+          subtitleBuilder: subtitleBuilder,
+          progressBuilder: progressBuilder,
+          waveformBuilder: waveformBuilder,
+          controlsBuilder: controlsBuilder,
+          playButtonBuilder: playButtonBuilder,
+          previousBuilder: previousBuilder,
+          nextBuilder: nextBuilder,
+          shuffleBuilder: shuffleBuilder,
+          repeatBuilder: repeatBuilder,
+          loadingBuilder: loadingBuilder,
+        );
     }
-    return progressBuilder?.call(context, controller, defaults) ?? defaults;
   }
 }

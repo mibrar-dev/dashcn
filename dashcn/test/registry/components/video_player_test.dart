@@ -1,8 +1,9 @@
 // Widget and unit tests for the `video_player` component.
 //
-// Covers: rendering, controlled/uncontrolled, callbacks, keyboard, RTL,
-// reduced motion, theme + style overrides, custom builders and a 375px
-// phone-width overflow guard.
+// Covers: SPEC glass bar with title header, 10s skips, more menu (speeds,
+// captions), live badge, bar hidden state, controlled/uncontrolled,
+// callbacks, keyboard (10s, 5s with Shift), RTL, reduced motion, theme and
+// style overrides, custom builders and a 375px phone-width overflow guard.
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -20,7 +21,7 @@ Widget _frame({
 }) {
   Widget body = Directionality(
     textDirection: direction,
-    child: Center(child: SizedBox(width: 360, child: child)),
+    child: Center(child: SizedBox(width: 640, child: child)),
   );
   if (reducedMotion) {
     body = MediaQuery(
@@ -79,17 +80,41 @@ void main() {
       expect(c.isPlaying, isFalse);
       c.dispose();
     });
+
+    test('demo sources cover mp4, live and camera', () {
+      expect(demoVideoSources, hasLength(3));
+      expect(demoVideoSources[0].uri, isNotNull);
+      expect(demoVideoSources[0].isLive, isFalse);
+      expect(demoVideoSources[1].isLive, isTrue);
+      expect(demoVideoSources[1].uri, isNotNull);
+      expect(demoVideoSources[2].isCamera, isTrue);
+    });
   });
 
-  testWidgets('renders time labels and controls', (tester) async {
+  testWidgets('renders title header, times and seek buttons', (tester) async {
     final FakeVideoPlaybackController c = FakeVideoPlaybackController();
     addTearDown(c.dispose);
-    await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+    await tester.pumpWidget(
+      _frame(
+        child: VideoPlayer(
+          controller: c,
+          title: 'For Bigger Blazes',
+          subtitle: 'Season 3 episode 6',
+        ),
+      ),
+    );
+    expect(find.text('For Bigger Blazes'), findsOneWidget);
+    expect(find.text('Season 3 episode 6'), findsOneWidget);
     expect(find.text('0:37 / 3:42'), findsOneWidget);
     expect(find.bySemanticsLabel('Play'), findsWidgets);
+    expect(find.bySemanticsLabel('Back 10 seconds'), findsOneWidget);
+    expect(find.bySemanticsLabel('Forward 10 seconds'), findsOneWidget);
     expect(find.bySemanticsLabel('Mute'), findsOneWidget);
     expect(find.bySemanticsLabel('Fullscreen'), findsOneWidget);
-    expect(find.bySemanticsLabel('Playback speed 1.0x'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('More options, playback speed 1.0x'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('play overlay toggles playback', (tester) async {
@@ -103,7 +128,7 @@ void main() {
     expect(find.bySemanticsLabel('Pause'), findsWidgets);
   });
 
-  testWidgets('mute, speed and fullscreen callbacks fire', (tester) async {
+  testWidgets('mute, more menu speed and fullscreen fire', (tester) async {
     final FakeVideoPlaybackController c = FakeVideoPlaybackController();
     addTearDown(c.dispose);
     var fullscreen = 0;
@@ -119,15 +144,81 @@ void main() {
     await tester.pump();
     expect(c.isMuted, isTrue);
 
-    await tester.tap(find.bySemanticsLabel('Playback speed 1.0x'));
+    await tester.tap(
+      find.bySemanticsLabel('More options, playback speed 1.0x'),
+    );
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
     expect(find.bySemanticsLabel('Speed 2.0x'), findsOneWidget);
+    expect(find.bySemanticsLabel('Captions off'), findsOneWidget);
     await tester.tap(find.bySemanticsLabel('Speed 2.0x'));
     await tester.pump();
     expect(c.playbackSpeed, 2.0);
 
     await tester.tap(find.bySemanticsLabel('Fullscreen'));
     expect(fullscreen, 1);
+  });
+
+  testWidgets('skip buttons seek 10 seconds', (tester) async {
+    final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+    addTearDown(c.dispose);
+    await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+    final Duration before = c.position;
+    await tester.tap(find.bySemanticsLabel('Forward 10 seconds'));
+    await tester.pump();
+    expect(c.position, before + const Duration(seconds: 10));
+    await tester.tap(find.bySemanticsLabel('Back 10 seconds'));
+    await tester.pump();
+    expect(c.position, before);
+  });
+
+  testWidgets('captions toggle from the bar and the menu', (tester) async {
+    final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+      cues: const <VideoCaptionCue>[
+        VideoCaptionCue(
+          start: Duration(seconds: 10),
+          end: Duration(seconds: 15),
+          text: 'Hello, world',
+        ),
+      ],
+    );
+    addTearDown(c.dispose);
+    await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+    await tester.tap(find.bySemanticsLabel('Show captions'));
+    await tester.pump();
+    expect(c.areCaptionsEnabled, isTrue);
+    await tester.tap(
+      find.bySemanticsLabel('More options, playback speed 1.0x'),
+    );
+    await tester.pump();
+    expect(find.bySemanticsLabel('Captions on'), findsOneWidget);
+  });
+
+  testWidgets('live source shows a LIVE badge without total', (tester) async {
+    final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+      isPlaying: true,
+      isLive: true,
+      sourceLabel: 'HLS test stream',
+    );
+    addTearDown(c.dispose);
+    await tester.pumpWidget(
+      _frame(
+        child: VideoPlayer(controller: c, title: 'Live stream'),
+      ),
+    );
+    expect(find.textContaining('LIVE'), findsOneWidget);
+    expect(find.text('0:37 / 3:42'), findsNothing);
+  });
+
+  testWidgets('pinned hidden bar keeps the centre play button', (tester) async {
+    final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+    addTearDown(c.dispose);
+    await tester.pumpWidget(
+      _frame(child: VideoPlayer(controller: c, controlsVisible: false)),
+    );
+    await tester.pump();
+    expect(find.byType(VideoControlsBar), findsOneWidget);
+    expect(find.bySemanticsLabel('Play'), findsWidgets);
   });
 
   testWidgets('uncontrolled mode owns a fake controller', (tester) async {
@@ -154,7 +245,7 @@ void main() {
     expect(find.text('Playback failed'), findsOneWidget);
   });
 
-  testWidgets('keyboard: space/k/arrows/m/f', (tester) async {
+  testWidgets('keyboard: space/k/arrows/shift/m/f/c', (tester) async {
     final FakeVideoPlaybackController c = FakeVideoPlaybackController();
     addTearDown(c.dispose);
     var fullscreen = 0;
@@ -177,16 +268,21 @@ void main() {
     final Duration before = c.position;
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
     await tester.pump();
-    expect(c.position, before + const Duration(seconds: 5));
+    expect(c.position, before + const Duration(seconds: 10));
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
     await tester.pump();
-    expect(c.position, before);
+    expect(c.position, before + const Duration(seconds: 5));
     await tester.sendKeyEvent(LogicalKeyboardKey.keyM);
     await tester.pump();
     expect(c.isMuted, isTrue);
     await tester.sendKeyEvent(LogicalKeyboardKey.keyF);
     await tester.pump();
     expect(fullscreen, 1);
+    await tester.sendKeyEvent(LogicalKeyboardKey.keyC);
+    await tester.pump();
+    expect(c.areCaptionsEnabled, isTrue);
   });
 
   testWidgets('renders in RTL without overflow', (tester) async {
@@ -195,7 +291,7 @@ void main() {
     await tester.pumpWidget(
       _frame(
         direction: TextDirection.rtl,
-        child: VideoPlayer(controller: c),
+        child: VideoPlayer(controller: c, title: 'RTL'),
       ),
     );
     expect(tester.takeException(), isNull);
@@ -239,14 +335,14 @@ void main() {
           controller: c,
           progressBuilder: (context, controller, defaults) =>
               const Text('custom scrub'),
-          timeLabelBuilder: (context, controller) => const Text('custom time'),
+          headerBuilder: (context, controller) => const Text('custom header'),
           playButtonBuilder: (context, controller) => const Text('custom play'),
           captions: const Text('caption track'),
         ),
       ),
     );
     expect(find.text('custom scrub'), findsOneWidget);
-    expect(find.text('custom time'), findsOneWidget);
+    expect(find.text('custom header'), findsOneWidget);
     expect(find.text('custom play'), findsWidgets);
     expect(find.text('caption track'), findsOneWidget);
   });
@@ -267,6 +363,8 @@ void main() {
               width: 375,
               child: VideoPlayer(
                 controller: c,
+                title: 'A long title that must ellipsize gracefully',
+                subtitle: 'Season 3 episode 6',
                 captions: const Text('A caption line'),
               ),
             ),

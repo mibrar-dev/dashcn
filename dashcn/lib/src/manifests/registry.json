@@ -1069,16 +1069,24 @@
         "classes": [
           "AudioPlayer",
           "AudioPlayerBody",
+          "AudioCompactPill",
+          "AudioExpandedCard",
+          "AudioExpandedTransport",
+          "AudioSpeedChip",
+          "AudioVolumeButton",
           "AudioProgressBar",
           "AudioPlayerTheme",
           "AudioPlaybackController",
+          "AudioTrack",
           "FakeAudioPlaybackController",
           "AudioTransportRow",
           "AudioSpeedButton"
         ],
         "constants": [
           "audioPlayerDefaults",
-          "audioPlayerThemeOverrides"
+          "audioPlayerThemeOverrides",
+          "kAudioSpeeds",
+          "demoAudioTracks"
         ],
         "enums": [
           "AudioPlayerVariant"
@@ -1086,7 +1094,10 @@
         "functions": [
           "formatAudioTime",
           "audioSmallButton",
-          "audioPlayButton"
+          "audioPlayButton",
+          "audioPillButton",
+          "resolveAudioTitle",
+          "resolveAudioArtist"
         ],
         "typedefs": [
           "AudioPartBuilder",
@@ -1112,12 +1123,18 @@
           "theme"
         ]
       },
-      "description": "Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.",
+      "description": "SPEC compact pill and expanded playlist card sharing one dependency-free controller (tracks, shuffle, repeat, speed cycling, volume slider, download).",
       "entry": "components/audio_player/audio_player.dart",
       "files": [
         "components/audio_player/audio_player.dart",
+        "components/audio_player/audio_player_compact.dart",
+        "components/audio_player/audio_player_compact_parts.dart",
         "components/audio_player/audio_player_controller.dart",
+        "components/audio_player/audio_player_expanded.dart",
+        "components/audio_player/audio_player_expanded_transport.dart",
+        "components/audio_player/audio_player_fake.dart",
         "components/audio_player/audio_player_layout.dart",
+        "components/audio_player/audio_player_playlist.dart",
         "components/audio_player/audio_player_progress.dart",
         "components/audio_player/audio_player_style.dart",
         "components/audio_player/audio_player_transport.dart"
@@ -10107,17 +10124,25 @@
           "VideoScrubBar",
           "VideoPlayerTheme",
           "VideoPlaybackController",
+          "VideoSource",
+          "VideoCaptionCue",
           "FakeVideoPlaybackController",
           "VolumePainter"
         ],
         "constants": [
           "videoPlayerDefaults",
-          "videoPlayerThemeOverrides"
+          "videoPlayerThemeOverrides",
+          "kVideoSpeeds",
+          "demoVideoSources"
         ],
         "functions": [
           "formatMediaTime",
           "videoIconButton",
-          "videoPlayButton"
+          "videoPlayButton",
+          "videoBarHeader",
+          "videoMoreButton",
+          "videoMenuSection",
+          "videoVolumeCluster"
         ],
         "typedefs": [
           "VideoPartBuilder",
@@ -10143,15 +10168,18 @@
           "theme"
         ]
       },
-      "description": "Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.",
+      "description": "SPEC glass control bar (title header, 10s skips, speed/captions more-menu, auto-hide), 64px centre button, live badge and camera fallback.",
       "entry": "components/video_player/video_player.dart",
       "files": [
         "components/video_player/video_player.dart",
         "components/video_player/video_player_buttons.dart",
         "components/video_player/video_player_controller.dart",
         "components/video_player/video_player_controls.dart",
+        "components/video_player/video_player_header.dart",
+        "components/video_player/video_player_menu.dart",
         "components/video_player/video_player_scrub.dart",
-        "components/video_player/video_player_style.dart"
+        "components/video_player/video_player_style.dart",
+        "components/video_player/video_player_volume.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
       "install": "dashcn add video_player",
@@ -10174,11 +10202,11 @@
         "fields": {
           "accent": "ThemedColor? - played fill, primary",
           "background": "ThemedColor? - frame fill, black",
-          "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
+          "borderRadius": "BorderRadiusGeometry? - null = 18px frame",
           "buffered": "ThemedColor? - buffered fill, translucent white",
           "captionsTextStyle": "TextStyle? - captions overlay",
-          "controlSize": "double? - centre play button diameter, 56",
-          "controlsPadding": "EdgeInsetsGeometry? - null = 8/4",
+          "controlSize": "double? - centre play button diameter, 64",
+          "controlsPadding": "EdgeInsetsGeometry? - null = 10/6",
           "controlsTimeout": "Duration? - reserved auto-hide delay, 3s",
           "fadeDuration": "Duration? - controls fade, 150ms",
           "foreground": "ThemedColor? - icons and labels on the scrim, white",
@@ -10451,14 +10479,20 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
-    "components/audio_player/audio_player.dart": "ca01653d589dd5fbda8aee2cb35b92ec8cb9dbdf980f273b041cdcae49fd9cbd",
-    "components/audio_player/audio_player_controller.dart": "f727bc98bfeca7effe89e2b5ca185013fff43377ac76d8f23db007c8179a8c4b",
-    "components/audio_player/audio_player_layout.dart": "fcf34e6233e3e3a7012e7659989f74728ac728c9d588b63d422d4427a808b59b",
+    "components/audio_player/audio_player.dart": "3c0c2772f02e53648bb505c6a234e946aa0a8d6fc8eb20fb2d2ae54d14759316",
+    "components/audio_player/audio_player_compact.dart": "dfe873145be43a777b59cc1ad7e51bb6049f0827f3598bfafadd7b5ec737738d",
+    "components/audio_player/audio_player_compact_parts.dart": "58fd88a976230b8cdcdf33d916ae36985d17be46d768da4caeac885ddc48a303",
+    "components/audio_player/audio_player_controller.dart": "89bb4cf98f16086f8231d23eb285572a79cb9f4cad3f95a1d563da27cc27a8fc",
+    "components/audio_player/audio_player_expanded.dart": "6760fe29e451aef4a308e45cd3437f536972778e2ee50b608ede3cc8551683ae",
+    "components/audio_player/audio_player_expanded_transport.dart": "195bee4d12144c8736bf7cc262402ae013958bad0cb17b3aa76190ba41f4a958",
+    "components/audio_player/audio_player_fake.dart": "75e3d972d81d1e607edf84069d25456185f33d605f43b5a889a1aaa2451992bf",
+    "components/audio_player/audio_player_layout.dart": "e4f2cf9202726bffa239a2ec11b1778dcfeddee1e90782a830370c42b2dcba3f",
+    "components/audio_player/audio_player_playlist.dart": "72543b238e0bf6ba981c6adbc7b810bdf5b04c725f8f080396be5156cd3721b1",
     "components/audio_player/audio_player_progress.dart": "30082bcc6067ce347f4071fcbbda23e80f97729286fc0d3d9353fef8068c76c1",
     "components/audio_player/audio_player_style.dart": "2ae5551ab84022bf7dae61926ea6e9b0e8c8d5a48f2f1f34c7730587bee677af",
     "components/audio_player/audio_player_theme.dart": "4f2893a478a068da7c8556c940b66d859934fc79feedb4784092ca7571ff2adf",
-    "components/audio_player/audio_player_transport.dart": "fe6ead8ed5ff056e88ebfa188ae8b5bc650fc1a54946f0359ebea3c8c6fe3591",
-    "components/audio_player/preview.dart": "fb46ac7b1587dca262a567de8bc44cfb5b9291d7d3db241ca730209f86b1532b",
+    "components/audio_player/audio_player_transport.dart": "231ab0c8ab7e5349d6e9ca9630de700282f79d2034d3f879927f34f4497a6e3f",
+    "components/audio_player/preview.dart": "74ede1443a29b8fdf2237e5bfc8cdd2e7204e4cdcaae07d1704d51a86c28af99",
     "components/autocomplete/autocomplete.dart": "388132b3f4a2d856dff78c76afd9c04bbea61ffdf581d3742d250dde625b38a6",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
     "components/autocomplete/autocomplete_theme.dart": "2eab0681ae203c27bc4d77c94f4e32e678e9e7242a472e05c78e0959e38460e0",
@@ -10948,14 +10982,17 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
-    "components/video_player/preview.dart": "521cbabde4eb340e444a3427befee7ef7eb5eb23530f2ce7a9db08de888bf026",
-    "components/video_player/video_player.dart": "7ac31e59c51e624a16094cfd2036e3bd219c914405fe4df5eeb5b46da419c91a",
-    "components/video_player/video_player_buttons.dart": "476613eb2fce95bfd0042daec041cee932bae553a452ab6193b3f7822bdad242",
-    "components/video_player/video_player_controller.dart": "c60f2fcadeff12b0cc1485df32080f9afd6538f389254ec68126257699b938f2",
-    "components/video_player/video_player_controls.dart": "bd7da14e72e16118dd87517e6ea65ffb3e183b9c162138849e6649ed2b9f76b8",
+    "components/video_player/preview.dart": "70c1ecab0fc1435f124d5d61b70239c30dabe154942be9cd5d97ae18cfc8944c",
+    "components/video_player/video_player.dart": "e9b285e7fbe06baa1e78c02e97ea3612160ca16dd4bdd8738624c5b89506788e",
+    "components/video_player/video_player_buttons.dart": "8c9cd786f301c3c9647c361c6fc9b11e01d3a8256178dd7fb624610c32a081e9",
+    "components/video_player/video_player_controller.dart": "91d61dd72dee87cf50238b4e7aef54afabd9744d37068d31d06d6c4a169455d4",
+    "components/video_player/video_player_controls.dart": "5c7f2078efde02f3d24900a4a7f73bdd5886173dd6be03c47b45d32feaa16bb3",
+    "components/video_player/video_player_header.dart": "d3e7821b49e76a77b0b14921df8d659047b28fef4f1377ad8062cfb1239a9105",
+    "components/video_player/video_player_menu.dart": "d96e88973259cd05afd828a63634098dab1f5ceefb47d56bed7e3ed60b4f1224",
     "components/video_player/video_player_scrub.dart": "1a701e407afebcd80e7c28bd85b5269b0c8025b239ee39bca13aa9927375cbf2",
     "components/video_player/video_player_style.dart": "f2cd183d39118665c533f6bb32a0541c7b13acdc3b0ea69bad12435ebe6beb3f",
     "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
+    "components/video_player/video_player_volume.dart": "71eb093533d867f71a04ae2a4404db22f10b51d08f491e0d963926ac1e15caea",
     "components/wheel_picker/preview.dart": "2b2f9404f1e5d3c194fde4a0b16065412b07f60706d46bec8fba385eb8f9487e",
     "components/wheel_picker/wheel_picker.dart": "162a256c3c00af3f8a816f8a3193f9c34271f88afec889bfc6a56406c7d081a1",
     "components/wheel_picker/wheel_picker_style.dart": "c039c94653fc534558ca0aeb40a1c0d5a30c4898099d2850f932b3b130be91e2",

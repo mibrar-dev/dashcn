@@ -2,7 +2,7 @@
   "id": "video_player",
   "name": "Video Player",
   "category": "Typography & Media",
-  "description": "Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.",
+  "description": "SPEC glass control bar (title header, 10s skips, speed/captions more-menu, auto-hide), 64px centre button, live badge and camera fallback.",
   "tier": "component",
   "install": "dashcn add video_player",
   "import": "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
@@ -37,9 +37,12 @@
     "video_player_buttons.dart",
     "video_player_controller.dart",
     "video_player_controls.dart",
+    "video_player_header.dart",
+    "video_player_menu.dart",
     "video_player_scrub.dart",
     "video_player_style.dart",
     "video_player_theme.dart",
+    "video_player_volume.dart",
     "preview.dart"
   ],
   "api": {
@@ -49,6 +52,8 @@
       "VideoScrubBar",
       "VideoPlayerTheme",
       "VideoPlaybackController",
+      "VideoSource",
+      "VideoCaptionCue",
       "FakeVideoPlaybackController",
       "VolumePainter"
     ],
@@ -59,11 +64,17 @@
     "functions": [
       "formatMediaTime",
       "videoIconButton",
-      "videoPlayButton"
+      "videoPlayButton",
+      "videoBarHeader",
+      "videoMoreButton",
+      "videoMenuSection",
+      "videoVolumeCluster"
     ],
     "constants": [
       "videoPlayerDefaults",
-      "videoPlayerThemeOverrides"
+      "videoPlayerThemeOverrides",
+      "kVideoSpeeds",
+      "demoVideoSources"
     ]
   },
   "theme": {
@@ -78,9 +89,9 @@
       "track": "ThemedColor? - unplayed track, translucent white",
       "buffered": "ThemedColor? - buffered fill, translucent white",
       "thumb": "ThemedColor? - scrub thumb, white",
-      "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
-      "controlsPadding": "EdgeInsetsGeometry? - null = 8/4",
-      "controlSize": "double? - centre play button diameter, 56",
+      "borderRadius": "BorderRadiusGeometry? - null = 18px frame",
+      "controlsPadding": "EdgeInsetsGeometry? - null = 10/6",
+      "controlSize": "double? - centre play button diameter, 64",
       "iconSize": "double? - bar button icons, 20",
       "trackHeight": "double? - scrub track height, 4",
       "timeTextStyle": "TextStyle? - time labels",

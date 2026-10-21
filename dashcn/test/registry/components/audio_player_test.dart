@@ -1,8 +1,9 @@
 // Widget and unit tests for the `audio_player` component.
 //
-// Covers: rendering, compact/full layouts, controlled/uncontrolled,
-// callbacks, keyboard, RTL, reduced motion, theme + style overrides, custom
-// builders (cover, waveform) and a 375px phone-width overflow guard.
+// Covers: SPEC compact pill and expanded card, shared playlist controller,
+// shuffle/next/previous/repeat, speed cycling, download, controlled and
+// uncontrolled modes, callbacks, keyboard, RTL, reduced motion, theme and
+// style overrides, custom builders and a 375px phone-width overflow guard.
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,12 @@ import 'package:dashcn/src/components/audio_player/audio_player.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+const List<AudioTrack> _tracks = <AudioTrack>[
+  AudioTrack(title: 'Track one', artist: 'Artist A'),
+  AudioTrack(title: 'Track two', artist: 'Artist B'),
+  AudioTrack(title: 'Track three', artist: 'Artist C'),
+];
 
 Widget _frame({
   ThemeData data = const ThemeData(),
@@ -20,7 +27,7 @@ Widget _frame({
 }) {
   Widget body = Directionality(
     textDirection: direction,
-    child: Center(child: SizedBox(width: 360, child: child)),
+    child: Center(child: SizedBox(width: 420, child: child)),
   );
   if (reducedMotion) {
     body = MediaQuery(
@@ -37,8 +44,8 @@ Widget _frame({
 void main() {
   group('formatAudioTime', () {
     test('formats m:ss and h:mm:ss', () {
-      expect(formatAudioTime(const Duration(minutes: 1, seconds: 12)), '1:12');
-      expect(formatAudioTime(const Duration(minutes: 4, seconds: 5)), '4:05');
+      expect(formatAudioTime(const Duration(minutes: 1, seconds: 1)), '1:01');
+      expect(formatAudioTime(const Duration(minutes: 5, seconds: 40)), '5:40');
       expect(
         formatAudioTime(const Duration(hours: 2, minutes: 3, seconds: 4)),
         '2:03:04',
@@ -70,81 +77,168 @@ void main() {
       expect(calls, greaterThan(0));
       c.dispose();
     });
+
+    test('playlist next/previous/setTrack/shuffle advance', () async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      expect(c.currentTrack?.title, 'Track one');
+      expect(c.hasPrevious, isFalse);
+      expect(c.hasNext, isTrue);
+      await c.next();
+      expect(c.currentIndex, 1);
+      expect(c.currentTrack?.title, 'Track two');
+      await c.previous();
+      expect(c.currentIndex, 0);
+      await c.setTrack(2);
+      expect(c.currentTrack?.title, 'Track three');
+      expect(c.hasNext, isFalse);
+      await c.next();
+      expect(c.currentIndex, 2);
+      await c.toggleShuffle();
+      expect(c.isShuffled, isTrue);
+      await c.next();
+      expect(c.position, Duration.zero);
+    });
+
+    test('cycleSpeed walks kAudioSpeeds and wraps', () async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController();
+      addTearDown(c.dispose);
+      await c.cycleSpeed();
+      expect(c.playbackSpeed, 1.25);
+      await c.cycleSpeed();
+      expect(c.playbackSpeed, 1.5);
+      await c.setPlaybackSpeed(3);
+      await c.cycleSpeed();
+      expect(c.playbackSpeed, 1.0);
+    });
   });
 
-  testWidgets('full layout renders title, times and transport', (tester) async {
-    final FakeAudioPlaybackController c = FakeAudioPlaybackController();
-    addTearDown(c.dispose);
-    await tester.pumpWidget(
-      _frame(
-        child: AudioPlayer(
-          controller: c,
-          title: 'Midnight drive',
-          subtitle: 'Neon Coastline',
-        ),
-      ),
+  testWidgets('compact pill shows times, title, volume, speed, download', (
+    tester,
+  ) async {
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      position: const Duration(minutes: 1, seconds: 1),
+      duration: const Duration(minutes: 5, seconds: 40),
+      tracks: _tracks,
     );
-    expect(find.text('Midnight drive'), findsOneWidget);
-    expect(find.text('Neon Coastline'), findsOneWidget);
-    expect(find.text('1:12'), findsOneWidget);
-    expect(find.text('4:05'), findsOneWidget);
-    expect(find.bySemanticsLabel('Play'), findsOneWidget);
-    expect(find.bySemanticsLabel('Back 10 seconds'), findsOneWidget);
-    expect(find.bySemanticsLabel('Forward 10 seconds'), findsOneWidget);
-    expect(find.bySemanticsLabel('Enable repeat'), findsOneWidget);
-  });
-
-  testWidgets('compact layout renders one row', (tester) async {
-    final FakeAudioPlaybackController c = FakeAudioPlaybackController();
     addTearDown(c.dispose);
+    var downloaded = 0;
     await tester.pumpWidget(
       _frame(
         child: AudioPlayer(
           controller: c,
           variant: AudioPlayerVariant.compact,
-          title: 'Compact episode',
+          onDownload: () => downloaded++,
         ),
       ),
     );
-    expect(find.text('Compact episode'), findsOneWidget);
-    expect(find.text('1:12'), findsOneWidget);
+    expect(find.text('1:01'), findsOneWidget);
+    expect(find.text('5:40'), findsOneWidget);
+    expect(find.text('Track one'), findsOneWidget);
     expect(find.bySemanticsLabel('Play'), findsOneWidget);
-    expect(find.bySemanticsLabel('Back 10 seconds'), findsNothing);
+    expect(find.bySemanticsLabel('Mute'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Playback speed 1.0x, tap to change'),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel('Download'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Download'));
+    expect(downloaded, 1);
   });
 
-  testWidgets('play, skip, speed, repeat and mute work', (tester) async {
+  testWidgets('compact speed chip cycles 1x, 1.25x, 1.5x, 2x, 3x', (
+    tester,
+  ) async {
     final FakeAudioPlaybackController c = FakeAudioPlaybackController();
+    addTearDown(c.dispose);
+    await tester.pumpWidget(_frame(child: AudioPlayer(controller: c)));
+    await tester.tap(
+      find.bySemanticsLabel('Playback speed 1.0x, tap to change'),
+    );
+    await tester.pump();
+    expect(c.playbackSpeed, 1.25);
+  });
+
+  testWidgets('expanded card shows playlist chrome and transport', (
+    tester,
+  ) async {
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      tracks: _tracks,
+      position: const Duration(seconds: 29),
+      duration: const Duration(minutes: 6, seconds: 12),
+    );
     addTearDown(c.dispose);
     await tester.pumpWidget(
       _frame(
-        child: AudioPlayer(controller: c, title: 'Skip demo'),
+        child: AudioPlayer(
+          controller: c,
+          variant: AudioPlayerVariant.full,
+          cover: const Text('artwork pixels'),
+        ),
       ),
     );
-    await tester.tap(find.bySemanticsLabel('Play'));
-    await tester.pump();
-    expect(c.isPlaying, isTrue);
+    expect(find.text('Track one'), findsOneWidget);
+    expect(find.text('ARTIST A'), findsOneWidget);
+    expect(find.text('0:29 / 6:12'), findsOneWidget);
+    expect(find.text('artwork pixels'), findsOneWidget);
+    expect(find.bySemanticsLabel('Play'), findsOneWidget);
+    expect(find.bySemanticsLabel('Previous track'), findsOneWidget);
+    expect(find.bySemanticsLabel('Next track'), findsOneWidget);
+    expect(find.bySemanticsLabel('Enable shuffle'), findsOneWidget);
+    expect(find.bySemanticsLabel('Enable repeat'), findsOneWidget);
+  });
 
-    final Duration before = c.position;
-    await tester.tap(find.bySemanticsLabel('Forward 10 seconds'));
+  testWidgets('expanded next/previous move through the playlist', (
+    tester,
+  ) async {
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      tracks: _tracks,
+    );
+    addTearDown(c.dispose);
+    await tester.pumpWidget(
+      _frame(
+        child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+      ),
+    );
+    await tester.tap(find.bySemanticsLabel('Next track'));
     await tester.pump();
-    expect(c.position, before + const Duration(seconds: 10));
-    await tester.tap(find.bySemanticsLabel('Back 10 seconds'));
+    expect(find.text('Track two'), findsOneWidget);
+    expect(find.text('ARTIST B'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Previous track'));
     await tester.pump();
-    expect(c.position, before);
-
-    await tester.tap(find.bySemanticsLabel('Playback speed 1.0x'));
+    expect(find.text('Track one'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Enable shuffle'));
     await tester.pump();
-    await tester.tap(find.bySemanticsLabel('Speed 2.0x').first);
-    await tester.pump();
-    expect(c.playbackSpeed, 2.0);
-
+    expect(c.isShuffled, isTrue);
     await tester.tap(find.bySemanticsLabel('Enable repeat'));
     await tester.pump();
     expect(c.isLooping, isTrue);
+  });
 
-    await tester.tap(find.bySemanticsLabel('Mute'));
+  testWidgets('one controller drives compact and expanded together', (
+    tester,
+  ) async {
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      tracks: _tracks,
+    );
+    addTearDown(c.dispose);
+    await tester.pumpWidget(
+      _frame(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            AudioPlayer(controller: c, variant: AudioPlayerVariant.compact),
+            AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+          ],
+        ),
+      ),
+    );
+    expect(find.text('Track one'), findsNWidgets(2));
+    await c.setTrack(2);
     await tester.pump();
-    expect(c.isMuted, isTrue);
+    expect(find.text('Track three'), findsNWidgets(2));
   });
 
   testWidgets('uncontrolled mode owns a fake controller', (tester) async {
@@ -159,7 +253,13 @@ void main() {
     final FakeAudioPlaybackController c = FakeAudioPlaybackController();
     addTearDown(c.dispose);
     await tester.pumpWidget(
-      _frame(child: AudioPlayer(controller: c, autofocus: true)),
+      _frame(
+        child: AudioPlayer(
+          controller: c,
+          variant: AudioPlayerVariant.full,
+          autofocus: true,
+        ),
+      ),
     );
     await tester.pump();
     await tester.sendKeyEvent(LogicalKeyboardKey.space);
@@ -181,16 +281,18 @@ void main() {
   });
 
   testWidgets('renders in RTL without overflow', (tester) async {
-    final FakeAudioPlaybackController c = FakeAudioPlaybackController();
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      tracks: _tracks,
+    );
     addTearDown(c.dispose);
     await tester.pumpWidget(
       _frame(
         direction: TextDirection.rtl,
-        child: AudioPlayer(controller: c, title: 'RTL'),
+        child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
       ),
     );
     expect(tester.takeException(), isNull);
-    expect(find.text('RTL'), findsOneWidget);
+    expect(find.text('Track one'), findsOneWidget);
   });
 
   testWidgets('renders under reduced motion', (tester) async {
@@ -211,6 +313,7 @@ void main() {
       _frame(
         child: AudioPlayer(
           controller: c,
+          variant: AudioPlayerVariant.full,
           title: 'Themed',
           theme: const AudioPlayerTheme(
             titleTextStyle: TextStyle(color: custom),
@@ -229,40 +332,30 @@ void main() {
       _frame(
         child: AudioPlayer(
           controller: c,
+          variant: AudioPlayerVariant.full,
           title: 'Hidden title',
           titleBuilder: (context, controller) => const Text('custom title'),
           waveformBuilder: (context, controller, defaults) =>
-              const Text('custom waveform'),
+              const Text('custom wave'),
           coverBuilder: (context, controller) => const Text('custom cover'),
+          previousBuilder: (context, controller) => const Text('custom prev'),
         ),
       ),
     );
     expect(find.text('custom title'), findsOneWidget);
-    expect(find.text('custom waveform'), findsOneWidget);
+    expect(find.text('custom wave'), findsOneWidget);
     expect(find.text('custom cover'), findsOneWidget);
+    expect(find.text('custom prev'), findsOneWidget);
     expect(find.text('Hidden title'), findsNothing);
-  });
-
-  testWidgets('cover slot renders artwork', (tester) async {
-    final FakeAudioPlaybackController c = FakeAudioPlaybackController();
-    addTearDown(c.dispose);
-    await tester.pumpWidget(
-      _frame(
-        child: AudioPlayer(
-          controller: c,
-          title: 'Artwork',
-          cover: const Text('artwork pixels'),
-        ),
-      ),
-    );
-    expect(find.text('artwork pixels'), findsOneWidget);
   });
 
   testWidgets('375px phone width has no overflow', (tester) async {
     tester.view.physicalSize = const Size(375, 800);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    final FakeAudioPlaybackController full = FakeAudioPlaybackController();
+    final FakeAudioPlaybackController full = FakeAudioPlaybackController(
+      tracks: _tracks,
+    );
     addTearDown(full.dispose);
     await tester.pumpWidget(
       Theme(
@@ -274,8 +367,7 @@ void main() {
               width: 375,
               child: AudioPlayer(
                 controller: full,
-                title: 'A long track title that must ellipsize',
-                subtitle: 'A long subtitle that must ellipsize too',
+                variant: AudioPlayerVariant.full,
               ),
             ),
           ),
@@ -285,7 +377,9 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
 
-    final FakeAudioPlaybackController compact = FakeAudioPlaybackController();
+    final FakeAudioPlaybackController compact = FakeAudioPlaybackController(
+      tracks: _tracks,
+    );
     addTearDown(compact.dispose);
     await tester.pumpWidget(
       Theme(
@@ -298,7 +392,6 @@ void main() {
               child: AudioPlayer(
                 controller: compact,
                 variant: AudioPlayerVariant.compact,
-                title: 'A long compact title that must ellipsize',
               ),
             ),
           ),
@@ -307,6 +400,6 @@ void main() {
     );
     await tester.pump();
     expect(tester.takeException(), isNull);
-    expect(find.byIcon(LucideIcons.play), findsOneWidget);
+    expect(find.byIcon(LucideIcons.play), findsWidgets);
   });
 }

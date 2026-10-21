@@ -2,7 +2,7 @@
   "id": "audio_player",
   "name": "Audio Player",
   "category": "Typography & Media",
-  "description": "Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.",
+  "description": "SPEC compact pill and expanded playlist card sharing one dependency-free controller (tracks, shuffle, repeat, speed cycling, volume slider, download).",
   "tier": "component",
   "install": "dashcn add audio_player",
   "import": "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
@@ -34,8 +34,14 @@
   },
   "files": [
     "audio_player.dart",
+    "audio_player_compact.dart",
+    "audio_player_compact_parts.dart",
     "audio_player_controller.dart",
+    "audio_player_expanded.dart",
+    "audio_player_expanded_transport.dart",
+    "audio_player_fake.dart",
     "audio_player_layout.dart",
+    "audio_player_playlist.dart",
     "audio_player_progress.dart",
     "audio_player_style.dart",
     "audio_player_theme.dart",
@@ -46,9 +52,15 @@
     "classes": [
       "AudioPlayer",
       "AudioPlayerBody",
+      "AudioCompactPill",
+      "AudioExpandedCard",
+      "AudioExpandedTransport",
+      "AudioSpeedChip",
+      "AudioVolumeButton",
       "AudioProgressBar",
       "AudioPlayerTheme",
       "AudioPlaybackController",
+      "AudioTrack",
       "FakeAudioPlaybackController",
       "AudioTransportRow",
       "AudioSpeedButton"
@@ -63,11 +75,16 @@
     "functions": [
       "formatAudioTime",
       "audioSmallButton",
-      "audioPlayButton"
+      "audioPlayButton",
+      "audioPillButton",
+      "resolveAudioTitle",
+      "resolveAudioArtist"
     ],
     "constants": [
       "audioPlayerDefaults",
-      "audioPlayerThemeOverrides"
+      "audioPlayerThemeOverrides",
+      "kAudioSpeeds",
+      "demoAudioTracks"
     ]
   },
   "theme": {

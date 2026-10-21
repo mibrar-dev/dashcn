@@ -1,15 +1,22 @@
-// Control bar for `video_player`: scrub + buttons + volume + speed.
+// Control bar for `video_player`: header + scrub + buttons + more menu.
+//
+// SPEC: frosted bar inset ~16px, radius ~14. Top: title (white 14) and muted
+// subtitle, elapsed/total right. Thin progress with dot thumb. Bottom row:
+// play, back 10s, forward 10s left; volume, captions, fullscreen, more right.
+// The more menu holds speeds (0.5x-3x), captions on/off and quality.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/surface.dart';
-import '../../primitives/tap_target.dart';
 import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
+import 'video_player_header.dart';
+import 'video_player_menu.dart';
 import 'video_player_scrub.dart';
 import 'video_player_style.dart';
+import 'video_player_volume.dart';
 
 export 'video_player_buttons.dart';
 
@@ -22,15 +29,19 @@ class VideoControlsBar extends StatefulWidget {
     required this.style,
     required this.fg,
     required this.fade,
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.title,
+    this.subtitle,
+    this.supportedSpeeds = kVideoSpeeds,
     this.showFullscreenButton = true,
     this.onFullscreenRequested,
     this.initialSpeedOpen = false,
     this.playButtonBuilder,
     this.progressBuilder,
+    this.headerBuilder,
     this.timeLabelBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.moreBuilder,
     this.captionsButtonBuilder,
     this.fullscreenButtonBuilder,
     this.controlsBuilder,
@@ -48,16 +59,22 @@ class VideoControlsBar extends StatefulWidget {
   /// Controls fade duration.
   final Duration fade;
 
-  /// Speeds offered.
+  /// Title shown in the bar header (white 14).
+  final String? title;
+
+  /// Subtitle shown under the title (muted).
+  final String? subtitle;
+
+  /// Speeds offered by the more menu.
   final List<double> supportedSpeeds;
 
-  /// Whether fullscreen shows.
+  /// Whether the fullscreen button shows.
   final bool showFullscreenButton;
 
   /// Fullscreen callback.
   final VoidCallback? onFullscreenRequested;
 
-  /// Whether the speed menu starts open.
+  /// Whether the more menu starts open.
   final bool initialSpeedOpen;
 
   /// Builder slots (mirrors [VideoPlayer] slots).
@@ -68,9 +85,11 @@ class VideoControlsBar extends StatefulWidget {
     VideoScrubBar defaults,
   )?
   progressBuilder;
+  final VideoPartBuilder? headerBuilder;
   final VideoPartBuilder? timeLabelBuilder;
   final VideoPartBuilder? volumeBuilder;
   final VideoPartBuilder? speedBuilder;
+  final VideoPartBuilder? moreBuilder;
   final VideoPartBuilder? captionsButtonBuilder;
   final VideoPartBuilder? fullscreenButtonBuilder;
   final Widget Function(
@@ -85,12 +104,12 @@ class VideoControlsBar extends StatefulWidget {
 }
 
 class _VideoControlsBarState extends State<VideoControlsBar> {
-  late bool _speedOpen;
+  late bool _menuOpen;
 
   @override
   void initState() {
     super.initState();
-    _speedOpen = widget.initialSpeedOpen;
+    _menuOpen = widget.initialSpeedOpen;
   }
 
   @override
@@ -120,77 +139,44 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     Widget bar = Container(
       padding:
           style.controlsPadding ??
-          const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _scrub(context, c),
-          Row(
-            children: <Widget>[
-              Flexible(
-                fit: FlexFit.loose,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: videoPlayButton(
-                    context,
-                    style,
-                    widget.fg,
-                    c,
-                    overrideBuilder: widget.playButtonBuilder,
-                  ),
-                ),
-              ),
-              if (widget.volumeBuilder != null)
-                widget.volumeBuilder!(context, c)
-              else
-                _volumeCluster(context, c, compact: compactVolume),
-              Flexible(
-                fit: FlexFit.loose,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: _timeLabel(context, c),
-                ),
-              ),
-              if (!compactVolume) const Spacer(),
-              if (widget.captionsButtonBuilder != null)
-                widget.captionsButtonBuilder!(context, c)
-              else
-                videoIconButton(
-                  label: c.areCaptionsEnabled
-                      ? 'Hide captions'
-                      : 'Show captions',
-                  icon: c.areCaptionsEnabled
-                      ? LucideIcons.captions
-                      : LucideIcons.captionsOff,
-                  size: style.iconSize ?? 16,
-                  fg: widget.fg,
-                  onTap: c.toggleCaptions,
-                ),
-              if (widget.speedBuilder != null)
-                widget.speedBuilder!(context, c)
-              else
-                _speedMenu(context, c),
-              if (widget.showFullscreenButton)
-                widget.fullscreenButtonBuilder?.call(context, c) ??
-                    videoIconButton(
-                      label: 'Fullscreen',
-                      icon: LucideIcons.fullscreen,
-                      size: style.iconSize ?? 16,
-                      fg: widget.fg,
-                      onTap: widget.onFullscreenRequested,
-                    ),
-            ],
+          videoBarHeader(
+            context: context,
+            c: c,
+            style: style,
+            fg: widget.fg,
+            total: _total,
+            title: widget.title ?? c.sourceLabel,
+            subtitle: widget.subtitle,
+            headerBuilder: widget.headerBuilder,
+            timeLabelBuilder: widget.timeLabelBuilder,
           ),
+          const SizedBox(height: 2),
+          _scrub(context, c),
+          if (_menuOpen &&
+              widget.moreBuilder == null &&
+              widget.speedBuilder == null)
+            videoMenuSection(
+              c: c,
+              style: style,
+              fg: widget.fg,
+              speeds: widget.supportedSpeeds,
+              onDone: () => setState(() => _menuOpen = false),
+            ),
+          _buttons(context, c, compactVolume: compactVolume),
         ],
       ),
     );
     bar = GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(14),
       child: bar,
     );
     final Widget defaults = AnimatedOpacity(
@@ -201,14 +187,18 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     return widget.controlsBuilder?.call(context, c, defaults) ?? defaults;
   }
 
+  Duration _total(VideoPlaybackController c) {
+    if (c.duration > Duration.zero) return c.duration;
+    return const Duration(minutes: 3, seconds: 42);
+  }
+
   Widget _scrub(BuildContext context, VideoPlaybackController c) {
     final colors = Theme.of(context).colors;
     final VideoScrubBar defaults = VideoScrubBar(
       position: c.position,
-      duration: c.duration <= Duration.zero
-          ? const Duration(minutes: 3, seconds: 42)
-          : c.duration,
+      duration: _total(c),
       buffered: c.buffered,
+      enabled: !c.isLive,
       onSeek: c.seekTo,
       trackColor:
           widget.style.track?.resolve(colors) ?? const Color(0x59FFFFFF),
@@ -222,145 +212,88 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     return widget.progressBuilder?.call(context, c, defaults) ?? defaults;
   }
 
-  Widget _timeLabel(BuildContext context, VideoPlaybackController c) {
-    if (widget.timeLabelBuilder != null) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: DefaultTextStyle.merge(
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          child: widget.timeLabelBuilder!(context, c),
-        ),
-      );
-    }
-    final Duration total = c.duration <= Duration.zero
-        ? const Duration(minutes: 3, seconds: 42)
-        : c.duration;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Text(
-        '${formatMediaTime(c.position)} / ${formatMediaTime(total)}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style:
-            widget.style.timeTextStyle ??
-            TextStyle(color: widget.fg, fontSize: 12),
-      ),
-    );
-  }
-
-  Widget _volumeCluster(
+  Widget _buttons(
     BuildContext context,
     VideoPlaybackController c, {
-    bool compact = false,
+    required bool compactVolume,
   }) {
-    final Widget mute = videoIconButton(
-      label: c.isMuted ? 'Unmute' : 'Mute',
-      icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
-      size: widget.style.iconSize ?? 16,
-      fg: widget.fg,
-      onTap: () => c.setMuted(!c.isMuted),
-    );
-    if (compact) return mute;
-    final double level = c.isMuted ? 0 : c.volume;
+    final double iconSize = widget.style.iconSize ?? 16;
+    // SPEC compact density: 32px targets under 380px bar width.
+    final double target = compactVolume ? 32 : 48;
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        mute,
-        Semantics(
-          label: 'Volume',
-          slider: true,
-          value: '${(level * 100).round()}%',
-          increasedValue: '${(((level + 0.1).clamp(0.0, 1.0)) * 100).round()}%',
-          decreasedValue: '${(((level - 0.1).clamp(0.0, 1.0)) * 100).round()}%',
-          onIncrease: () => c.setVolume(level + 0.1),
-          onDecrease: () => c.setVolume(level - 0.1),
-          child: TapTarget(
-            minWidth: 48,
-            minHeight: 48,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTapDown: (_) => c.setVolume(0.5),
-              child: SizedBox(
-                width: 56,
-                height: 32,
-                child: CustomPaint(
-                  painter: VolumePainter(
-                    value: level,
-                    fill: widget.fg,
-                    rtl: Directionality.of(context) == TextDirection.rtl,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        videoPlayButton(
+          context,
+          widget.style,
+          widget.fg,
+          c,
+          minTarget: target,
+          overrideBuilder: widget.playButtonBuilder,
         ),
+        videoIconButton(
+          label: 'Back 10 seconds',
+          icon: LucideIcons.skipBack,
+          size: iconSize,
+          fg: widget.fg,
+          minTarget: target,
+          onTap: () => c.seekBy(const Duration(seconds: -10)),
+        ),
+        videoIconButton(
+          label: 'Forward 10 seconds',
+          icon: LucideIcons.skipForward,
+          size: iconSize,
+          fg: widget.fg,
+          minTarget: target,
+          onTap: () => c.seekBy(const Duration(seconds: 10)),
+        ),
+        const Spacer(),
+        if (widget.volumeBuilder != null)
+          widget.volumeBuilder!(context, c)
+        else
+          videoVolumeCluster(
+            context: context,
+            c: c,
+            style: widget.style,
+            fg: widget.fg,
+            compact: compactVolume,
+            minTarget: target,
+          ),
+        if (widget.captionsButtonBuilder != null)
+          widget.captionsButtonBuilder!(context, c)
+        else
+          videoIconButton(
+            label: c.areCaptionsEnabled ? 'Hide captions' : 'Show captions',
+            icon: c.areCaptionsEnabled
+                ? LucideIcons.captions
+                : LucideIcons.captionsOff,
+            size: iconSize,
+            fg: widget.fg,
+            minTarget: target,
+            onTap: c.toggleCaptions,
+          ),
+        if (widget.showFullscreenButton)
+          widget.fullscreenButtonBuilder?.call(context, c) ??
+              videoIconButton(
+                label: 'Fullscreen',
+                icon: LucideIcons.fullscreen,
+                size: iconSize,
+                fg: widget.fg,
+                minTarget: target,
+                onTap: widget.onFullscreenRequested,
+              ),
+        widget.moreBuilder?.call(context, c) ??
+            (widget.speedBuilder?.call(context, c) ??
+                videoMoreButton(
+                  style: widget.style,
+                  fg: widget.fg,
+                  c: c,
+                  minTarget: target,
+                  onTap: () => setState(() => _menuOpen = !_menuOpen),
+                )),
       ],
     );
   }
 
-  Widget _speedMenu(BuildContext context, VideoPlaybackController c) {
-    final List<double> speeds = widget.supportedSpeeds.isEmpty
-        ? const <double>[1]
-        : widget.supportedSpeeds;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        if (_speedOpen)
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xEE18181B),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color(0x33FFFFFF)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                for (final double s in speeds)
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      c.setPlaybackSpeed(s);
-                      setState(() => _speedOpen = false);
-                    },
-                    child: Semantics(
-                      label: 'Speed ${s}x',
-                      button: true,
-                      child: TapTarget(
-                        minWidth: 68,
-                        minHeight: 48,
-                        child: Container(
-                          width: 68,
-                          height: 32,
-                          alignment: Alignment.center,
-                          child: ExcludeSemantics(
-                            child: Text(
-                              '${s}x',
-                              style: TextStyle(
-                                color: widget.fg,
-                                fontSize: 12,
-                                fontWeight: c.playbackSpeed == s
-                                    ? FontWeight.w700
-                                    : FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        videoIconButton(
-          label: 'Playback speed ${c.playbackSpeed}x',
-          icon: LucideIcons.settings,
-          size: widget.style.iconSize ?? 16,
-          fg: widget.fg,
-          text: '${c.playbackSpeed}x',
-          onTap: () => setState(() => _speedOpen = !_speedOpen),
-        ),
-      ],
-    );
-  }
+  /// Speed/captions menu section: wrapping speed chips, captions toggle and
+  /// quality note (SPEC more-menu).
 }

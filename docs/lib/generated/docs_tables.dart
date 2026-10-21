@@ -324,13 +324,13 @@ kKeyboardRows = <String, List<DocsKeyboardRow>>{
   'qr_code': <DocsKeyboardRow>[],
   'video_player': <DocsKeyboardRow>[
     DocsKeyboardRow(
-      keys: 'space',
-      action: '/ k play-pause, ← / → seek 5s, m mute, f fullscreen,',
+      keys: 'space / Shift',
+      action: '/ k play-pause, ← / → seek 10s (5s with ), ↑ / ↓',
       source: 'Keyboard',
     ),
     DocsKeyboardRow(
       keys: 'Home / End',
-      action: 'l loop. The scrub bar adds arrows, and .',
+      action: 'and , with spoken valuetext.',
       source: 'Keyboard',
     ),
   ],
