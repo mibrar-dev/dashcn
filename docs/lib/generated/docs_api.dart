@@ -816,17 +816,17 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'overflowLabel',
-        type: 'String',
+        type: 'String?',
         isRequired: false,
-        defaultValue: '\'More\'',
-        doc: 'The overflow button\'s hover label.',
+        doc:
+            'The overflow button\'s hover label; null falls back to the locale\'s\n[ComponentLocalizations.toolbarMore].',
       ),
       DocsApiParam(
         name: 'overflowSemanticLabel',
-        type: 'String',
+        type: 'String?',
         isRequired: false,
-        defaultValue: '\'More actions\'',
-        doc: 'The overflow button\'s accessible name.',
+        doc:
+            'The overflow button\'s accessible name; null falls back to the locale\'s\n[ComponentLocalizations.toolbarMoreActions].',
       ),
       DocsApiParam(
         name: 'style',

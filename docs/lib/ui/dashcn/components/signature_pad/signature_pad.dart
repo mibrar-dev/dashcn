@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'signature_pad_controller.dart';
 import 'signature_pad_style.dart';
 
@@ -261,7 +262,9 @@ class _SignaturePadState extends State<SignaturePad> {
             variableWidth: _activeVariable ?? pad.variableWidth,
           );
     return Semantics(
-      label: widget.semanticsLabel ?? 'Signature pad',
+      label:
+          widget.semanticsLabel ??
+          ComponentLocalizations.of(context).signaturePadLabel,
       readOnly: widget.readOnly,
       enabled: widget.enabled,
       child: Opacity(

@@ -337,4 +337,497 @@ class ComponentLocalizationsKo extends ComponentLocalizations {
 
   @override
   String get durationSecond => '초';
+
+  @override
+  String get dropzoneIdle => '파일을 업로드하려면 찾아보기';
+
+  @override
+  String get dropzoneDragging => '파일을 드롭하여 업로드';
+
+  @override
+  String get dropzoneUploading => '파일을 업로드하는 중...';
+
+  @override
+  String get dropzoneSuccess => '파일 준비 완료';
+
+  @override
+  String get dropzoneError => '계속하려면 오류를 수정하세요';
+
+  @override
+  String get dropzoneDisabled => '파일 업로드가 비활성화됨';
+
+  @override
+  String get dropzoneBrowse => '파일 찾아보기';
+
+  @override
+  String get emptyStateEmptyTitle => '아직 아무것도 없습니다';
+
+  @override
+  String get emptyStateEmptyDescription => '시작하려면 첫 항목을 만드세요.';
+
+  @override
+  String get emptyStateNoResultsTitle => '결과를 찾을 수 없습니다';
+
+  @override
+  String get emptyStateNoResultsDescription => '필터나 검색어를 조정해 보세요.';
+
+  @override
+  String get emptyStateErrorTitle => '문제가 발생했습니다';
+
+  @override
+  String get emptyStateErrorDescription => '이 데이터를 로드할 수 없습니다. 잠시 후 다시 시도하세요.';
+
+  @override
+  String get filterSearch => '검색';
+
+  @override
+  String get filterSort => '정렬';
+
+  @override
+  String get filterDateRange => '날짜 범위';
+
+  @override
+  String get filterClearAll => '모두 지우기';
+
+  @override
+  String get filterFilters => '필터';
+
+  @override
+  String filterActiveCount(int count) => '활성 필터 ${_number(count)}개';
+
+  @override
+  String filterResultsCount(int count) => '결과 ${_number(count)}개';
+
+  @override
+  String get fileUploadChoose => '파일 선택';
+
+  @override
+  String get fileUploadNoFile => '선택된 파일 없음';
+
+  @override
+  String get fileUploadPickFailed => '파일 선택에 실패했습니다.';
+
+  @override
+  String get fileUploadTooMany => '파일을 너무 많이 선택했습니다.';
+
+  @override
+  String get fileUploadTooLarge => '파일이 너무 큽니다.';
+
+  @override
+  String get fileUploadInvalidType => '허용되지 않는 파일 형식입니다.';
+
+  @override
+  String get fileUploadUploadFailed => '업로드에 실패했습니다.';
+
+  @override
+  String fileUploadUploadFailedFor(String name) => '$name 업로드에 실패했습니다.';
+
+  @override
+  String get fileUploadStatusQueued => '대기 중';
+
+  @override
+  String get fileUploadStatusUploading => '업로드 중';
+
+  @override
+  String get fileUploadStatusCompleted => '완료됨';
+
+  @override
+  String get fileUploadStatusFailed => '실패';
+
+  @override
+  String get fileUploadUnknownType => '파일';
+
+  @override
+  String get fileUploadRemove => '파일 제거';
+
+  @override
+  String get fileUploadRetry => '업로드 다시 시도';
+
+  @override
+  String get fileUploadPreview => '파일 미리 보기';
+
+  @override
+  String get fileUploadDownload => '파일 다운로드';
+
+  @override
+  String get errorSomethingWentWrong => '문제가 발생했습니다';
+
+  @override
+  String get errorUnexpectedMessage => '다시 시도하거나 문제가 지속되면 지원팀에 문의하세요.';
+
+  @override
+  String get errorActionRetry => '다시 시도';
+
+  @override
+  String get errorActionReport => '신고';
+
+  @override
+  String get errorActionBack => '뒤로 가기';
+
+  @override
+  String get errorActionLogin => '로그인';
+
+  @override
+  String get errorActionSettings => '설정';
+
+  @override
+  String get errorActionContactSupport => '지원팀에 문의';
+
+  @override
+  String get errorBadRequest => '잘못된 요청';
+
+  @override
+  String get errorBadRequestMessage => '요청이 유효하지 않습니다. 검토한 후 다시 시도하세요.';
+
+  @override
+  String get errorUnauthorized => '권한 없음';
+
+  @override
+  String get errorLoginRequiredMessage => '계속하려면 로그인하세요.';
+
+  @override
+  String get errorAccessDenied => '액세스 거부됨';
+
+  @override
+  String get errorAccessDeniedMessage => '이 작업을 수행할 권한이 없습니다.';
+
+  @override
+  String get errorNotFound => '찾을 수 없음';
+
+  @override
+  String get errorNotFoundMessage => '찾으시는 내용을 발견하지 못했습니다.';
+
+  @override
+  String get errorConflict => '충돌';
+
+  @override
+  String get errorConflictMessage => '이 작업이 기존 데이터와 충돌합니다.';
+
+  @override
+  String get errorInvalidData => '유효하지 않은 데이터';
+
+  @override
+  String get errorInvalidDataMessage => '일부 필드를 확인해야 합니다.';
+
+  @override
+  String get errorTooManyRequests => '요청이 너무 많습니다';
+
+  @override
+  String get errorTooManyRequestsMessage => '잠시 기다렸다가 다시 시도하세요.';
+
+  @override
+  String get errorServerError => '서버 오류';
+
+  @override
+  String get errorServerErrorMessage => '서버에 문제가 발생했습니다. 다시 시도하세요.';
+
+  @override
+  String get errorRequestTimedOut => '요청 시간 초과';
+
+  @override
+  String get errorRequestTimedOutMessage => '서버 응답이 너무 오래 걸립니다.';
+
+  @override
+  String get errorAuthenticationRequired => '인증 필요';
+
+  @override
+  String get errorInvalidInput => '유효하지 않은 입력';
+
+  @override
+  String get errorReviewFieldsMessage => '강조 표시된 필드를 검토하세요.';
+
+  @override
+  String get errorPlatformError => '플랫폼 오류';
+
+  @override
+  String get errorDeviceErrorMessage => '이 기기에서 문제가 발생했습니다.';
+
+  @override
+  String get errorConnectionFailed => '연결 실패';
+
+  @override
+  String get errorConnectionFailedMessage => '인터넷 연결을 확인하고 다시 시도하세요.';
+
+  @override
+  String get errorSecureConnectionFailed => '보안 연결 실패';
+
+  @override
+  String get errorSecureConnectionMessage => '보안 연결을 설정할 수 없습니다.';
+
+  @override
+  String get tableResizeColumn => '열 크기 조정';
+
+  @override
+  String get tableResizeRow => '행 크기 조정';
+
+  @override
+  String get resizableHandle => '크기 조정 핸들';
+
+  @override
+  String get spellCheckNoSuggestions => '제안 없음';
+
+  @override
+  String get announcementLoading => '로드 중';
+
+  @override
+  String get announcementSuccess => '성공';
+
+  @override
+  String get announcementFailure => '실패';
+
+  @override
+  String get toolbarMore => '더보기';
+
+  @override
+  String get toolbarMoreActions => '작업 더보기';
+
+  @override
+  String get treeCollapse => '접기';
+
+  @override
+  String get treeExpand => '펼치기';
+
+  @override
+  String get markdownDetails => '세부 정보';
+
+  @override
+  String get carouselLabel => '추천 캐러셀';
+
+  @override
+  String get carouselPrimaryAction => '채팅에 추가';
+
+  @override
+  String carouselItemPreview(Object? title) =>
+      '추천 미리 보기: ${title ?? mediaUntitled}';
+
+  @override
+  String carouselPageOf(int position, int length) =>
+      '${_number(length)}페이지 중 ${_number(position)}페이지';
+
+  @override
+  String stepperStep(int index) => '${_number(index + 1)}단계';
+
+  @override
+  String paginationPage(Object? page) => '${_number(page)}페이지';
+
+  @override
+  String chartSeriesDefault(int index) => '시리즈 ${_number(index + 1)}';
+
+  @override
+  String chartSliceDefault(int index) => '조각 ${_number(index)}';
+
+  @override
+  String chartCategoryDefault(int index) => '카테고리 ${_number(index)}';
+
+  @override
+  String get chartValueDefault => '값';
+
+  @override
+  String get chartKindLine => '선';
+
+  @override
+  String get chartKindArea => '영역';
+
+  @override
+  String get chartKindBar => '막대';
+
+  @override
+  String get chartKindDonut => '도넛';
+
+  @override
+  String get chartKindPie => '원';
+
+  @override
+  String get chartKindSparkline => '스파크라인';
+
+  @override
+  String get chartKindScatter => '산점도';
+
+  @override
+  String get chartKindRadar => '레이더';
+
+  @override
+  String get chartKindRadial => '방사형';
+
+  @override
+  String chartSummaryEmpty(Object? kind) => '데이터 없는 $kind 차트';
+
+  @override
+  String chartSummary(int series, int points, Object? kind) =>
+      '$kind 차트: 시리즈 ${_number(series)}개, 포인트 ${_number(points)}개';
+
+  @override
+  String get colorFieldHsv => 'HSV 색상 필드';
+
+  @override
+  String get colorFieldHsl => 'HSL 색상 필드';
+
+  @override
+  String get actionClear => '지우기';
+
+  @override
+  String get actionApply => '적용';
+
+  @override
+  String get actionVerify => '확인';
+
+  @override
+  String get actionResend => '다시 보내기';
+
+  @override
+  String resendInSeconds(int seconds) => '${_number(seconds)}초 후 다시 보내기';
+
+  @override
+  String get authCode => '코드';
+
+  @override
+  String get authEmail => '이메일';
+
+  @override
+  String get authPassword => '비밀번호';
+
+  @override
+  String get authName => '이름';
+
+  @override
+  String get authSignIn => '로그인';
+
+  @override
+  String get authForgotPassword => '비밀번호를 잊으셨나요?';
+
+  @override
+  String get authRememberMe => '로그인 상태 유지';
+
+  @override
+  String get authCreateAccount => '계정 만들기';
+
+  @override
+  String get actionClose => '닫기';
+
+  @override
+  String get mediaPlay => '재생';
+
+  @override
+  String get mediaPause => '일시 정지';
+
+  @override
+  String get mediaMute => '음소거';
+
+  @override
+  String get mediaUnmute => '음소거 해제';
+
+  @override
+  String get mediaVolume => '음량';
+
+  @override
+  String get mediaSeek => '탐색';
+
+  @override
+  String get mediaDownload => '다운로드';
+
+  @override
+  String get mediaAudioPlayer => '오디오 플레이어';
+
+  @override
+  String get mediaVideoPlayer => '비디오 플레이어';
+
+  @override
+  String get mediaUntitled => '제목 없음';
+
+  @override
+  String get mediaPlaybackFailed => '재생에 실패했습니다';
+
+  @override
+  String get mediaPreviousTrack => '이전 트랙';
+
+  @override
+  String get mediaNextTrack => '다음 트랙';
+
+  @override
+  String get mediaShuffleDisable => '셔플 끄기';
+
+  @override
+  String get mediaShuffleEnable => '셔플 켜기';
+
+  @override
+  String get mediaRepeatDisable => '반복 끄기';
+
+  @override
+  String get mediaRepeatEnable => '반복 켜기';
+
+  @override
+  String mediaPlaybackSpeed(Object? speed) => '재생 속도 ${speed}x (탭하여 변경)';
+
+  @override
+  String mediaPositionOf(Object position, Object duration) =>
+      '$position / $duration';
+
+  @override
+  String mediaHours(int count) => '${_number(count)}시간';
+
+  @override
+  String mediaMinutes(int count) => '${_number(count)}분';
+
+  @override
+  String mediaSeconds(int count) => '${_number(count)}초';
+
+  @override
+  String get signaturePadLabel => '서명란';
+
+  @override
+  String get qrCodeLabel => 'QR 코드';
+
+  @override
+  String get marqueeContent => '스크롤 콘텐츠';
+
+  @override
+  String mediaSkipBack(int seconds) => '${_number(seconds)}초 뒤로';
+
+  @override
+  String mediaSkipForward(int seconds) => '${_number(seconds)}초 앞으로';
+
+  @override
+  String get mediaCaptionsShow => '자막 표시';
+
+  @override
+  String get mediaCaptionsHide => '자막 숨기기';
+
+  @override
+  String get mediaCaptionsOn => '자막 켜짐';
+
+  @override
+  String get mediaCaptionsOff => '자막 꺼짐';
+
+  @override
+  String get mediaFullscreen => '전체 화면';
+
+  @override
+  String mediaMoreOptionsSpeed(Object? speed) => '옵션 더보기, 재생 속도 ${speed}x';
+
+  @override
+  String mediaSpeed(Object? speed) => '속도 ${speed}x';
+
+  @override
+  String get actionStartTrial => '무료 체험 시작';
+
+  @override
+  String get authFirstName => '이름';
+
+  @override
+  String get authLastName => '성';
+
+  @override
+  String get authPasswordHint => '8자 이상.';
+
+  @override
+  String get authUseDifferentEmail => '다른 이메일 사용';
+
+  @override
+  String get authWorkEmail => '직장 이메일';
+
+  @override
+  String get chartTotalLabel => '합계';
+
+  @override
+  String get mediaQualityAuto => '화질 자동';
 }

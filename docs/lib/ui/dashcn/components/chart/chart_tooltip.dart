@@ -5,6 +5,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import 'chart_model.dart';
 import 'chart_style.dart';
 import 'chart_tooltip_placement.dart';
@@ -193,7 +194,9 @@ class ChartTooltipCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: _row(
                     ChartTooltipRow(
-                      label: config.totalLabel,
+                      label:
+                          config.totalLabel ??
+                          ComponentLocalizations.of(context).chartTotalLabel,
                       value: total,
                       color: surface.tooltipStyle.color,
                     ),

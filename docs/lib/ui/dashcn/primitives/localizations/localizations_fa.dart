@@ -339,4 +339,515 @@ class ComponentLocalizationsFa extends ComponentLocalizations {
 
   @override
   String get durationSecond => 'ثانیه';
+
+  @override
+  String get dropzoneIdle => 'مرور برای آپلود فایل‌ها';
+
+  @override
+  String get dropzoneDragging => 'فایل‌ها را برای آپلود رها کنید';
+
+  @override
+  String get dropzoneUploading => 'در حال آپلود فایل‌ها...';
+
+  @override
+  String get dropzoneSuccess => 'فایل‌ها آماده‌اند';
+
+  @override
+  String get dropzoneError => 'برای ادامه خطاها را برطرف کنید';
+
+  @override
+  String get dropzoneDisabled => 'آپلود فایل غیرفعال است';
+
+  @override
+  String get dropzoneBrowse => 'مرور فایل‌ها';
+
+  @override
+  String get emptyStateEmptyTitle => 'هنوز چیزی اینجا نیست';
+
+  @override
+  String get emptyStateEmptyDescription =>
+      'برای شروع اولین مورد را ایجاد کنید.';
+
+  @override
+  String get emptyStateNoResultsTitle => 'نتیجه‌ای یافت نشد';
+
+  @override
+  String get emptyStateNoResultsDescription =>
+      'فیلترها یا عبارت‌های جستجو را تنظیم کنید.';
+
+  @override
+  String get emptyStateErrorTitle => 'مشکلی پیش آمد';
+
+  @override
+  String get emptyStateErrorDescription =>
+      'نتوانستیم این داده‌ها را بارگیری کنیم. لحظاتی دیگر دوباره تلاش کنید.';
+
+  @override
+  String get filterSearch => 'جستجو';
+
+  @override
+  String get filterSort => 'مرتب‌سازی';
+
+  @override
+  String get filterDateRange => 'بازه زمانی';
+
+  @override
+  String get filterClearAll => 'پاک کردن همه';
+
+  @override
+  String get filterFilters => 'فیلترها';
+
+  @override
+  String filterActiveCount(int count) => '${_number(count)} فیلتر فعال';
+
+  @override
+  String filterResultsCount(int count) => '${_number(count)} نتیجه';
+
+  @override
+  String get fileUploadChoose => 'انتخاب فایل';
+
+  @override
+  String get fileUploadNoFile => 'فایلی انتخاب نشده است';
+
+  @override
+  String get fileUploadPickFailed => 'انتخاب فایل ناموفق بود.';
+
+  @override
+  String get fileUploadTooMany => 'فایل‌های زیادی انتخاب شده است.';
+
+  @override
+  String get fileUploadTooLarge => 'فایل خیلی بزرگ است.';
+
+  @override
+  String get fileUploadInvalidType => 'نوع فایل مجاز نیست.';
+
+  @override
+  String get fileUploadUploadFailed => 'آپلود ناموفق بود.';
+
+  @override
+  String fileUploadUploadFailedFor(String name) => 'آپلود $name ناموفق بود.';
+
+  @override
+  String get fileUploadStatusQueued => 'در صف';
+
+  @override
+  String get fileUploadStatusUploading => 'در حال آپلود';
+
+  @override
+  String get fileUploadStatusCompleted => 'تکمیل‌شده';
+
+  @override
+  String get fileUploadStatusFailed => 'ناموفق';
+
+  @override
+  String get fileUploadUnknownType => 'فایل';
+
+  @override
+  String get fileUploadRemove => 'حذف فایل';
+
+  @override
+  String get fileUploadRetry => 'تلاش مجدد برای آپلود';
+
+  @override
+  String get fileUploadPreview => 'پیش‌نمایش فایل';
+
+  @override
+  String get fileUploadDownload => 'دانلود فایل';
+
+  @override
+  String get errorSomethingWentWrong => 'مشکلی پیش آمد';
+
+  @override
+  String get errorUnexpectedMessage =>
+      'لطفاً دوباره تلاش کنید یا اگر مشکل ادامه داشت با پشتیبانی تماس بگیرید.';
+
+  @override
+  String get errorActionRetry => 'تلاش مجدد';
+
+  @override
+  String get errorActionReport => 'گزارش';
+
+  @override
+  String get errorActionBack => 'بازگشت';
+
+  @override
+  String get errorActionLogin => 'ورود';
+
+  @override
+  String get errorActionSettings => 'تنظیمات';
+
+  @override
+  String get errorActionContactSupport => 'تماس با پشتیبانی';
+
+  @override
+  String get errorBadRequest => 'درخواست نامعتبر';
+
+  @override
+  String get errorBadRequestMessage =>
+      'درخواست نامعتبر بود. لطفاً بازبینی و دوباره تلاش کنید.';
+
+  @override
+  String get errorUnauthorized => 'غیرمجاز';
+
+  @override
+  String get errorLoginRequiredMessage => 'لطفاً برای ادامه وارد شوید.';
+
+  @override
+  String get errorAccessDenied => 'دسترسی رد شد';
+
+  @override
+  String get errorAccessDeniedMessage => 'شما اجازه انجام این کار را ندارید.';
+
+  @override
+  String get errorNotFound => 'یافت نشد';
+
+  @override
+  String get errorNotFoundMessage =>
+      'نتوانستیم آنچه را جستجو می‌کردید پیدا کنیم.';
+
+  @override
+  String get errorConflict => 'تعارض';
+
+  @override
+  String get errorConflictMessage =>
+      'این اقدام با داده‌های موجود در تعارض است.';
+
+  @override
+  String get errorInvalidData => 'داده نامعتبر';
+
+  @override
+  String get errorInvalidDataMessage => 'برخی فیلدها نیاز به توجه شما دارند.';
+
+  @override
+  String get errorTooManyRequests => 'درخواست‌های بیش از حد';
+
+  @override
+  String get errorTooManyRequestsMessage =>
+      'لطفاً لحظه‌ای صبر کنید و دوباره تلاش کنید.';
+
+  @override
+  String get errorServerError => 'خطای سرور';
+
+  @override
+  String get errorServerErrorMessage =>
+      'سرور با مشکل مواجه شد. لطفاً دوباره تلاش کنید.';
+
+  @override
+  String get errorRequestTimedOut => 'مهلت درخواست تمام شد';
+
+  @override
+  String get errorRequestTimedOutMessage => 'پاسخ سرور خیلی طول کشیده است.';
+
+  @override
+  String get errorAuthenticationRequired => 'احراز هویت لازم است';
+
+  @override
+  String get errorInvalidInput => 'ورودی نامعتبر';
+
+  @override
+  String get errorReviewFieldsMessage =>
+      'لطفاً فیلدهای مشخص‌شده را بازبینی کنید.';
+
+  @override
+  String get errorPlatformError => 'خطای سکو';
+
+  @override
+  String get errorDeviceErrorMessage => 'در این دستگاه مشکلی پیش آمد.';
+
+  @override
+  String get errorConnectionFailed => 'اتصال ناموفق بود';
+
+  @override
+  String get errorConnectionFailedMessage =>
+      'اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.';
+
+  @override
+  String get errorSecureConnectionFailed => 'اتصال امن ناموفق بود';
+
+  @override
+  String get errorSecureConnectionMessage =>
+      'نتوانستیم اتصال امنی برقرار کنیم.';
+
+  @override
+  String get tableResizeColumn => 'تغییر اندازه ستون';
+
+  @override
+  String get tableResizeRow => 'تغییر اندازه ردیف';
+
+  @override
+  String get resizableHandle => 'دستگیره تغییر اندازه';
+
+  @override
+  String get spellCheckNoSuggestions => 'پیشنهادی نیست';
+
+  @override
+  String get announcementLoading => 'در حال بارگیری';
+
+  @override
+  String get announcementSuccess => 'موفقیت';
+
+  @override
+  String get announcementFailure => 'شکست';
+
+  @override
+  String get toolbarMore => 'بیشتر';
+
+  @override
+  String get toolbarMoreActions => 'اقدامات بیشتر';
+
+  @override
+  String get treeCollapse => 'بستن';
+
+  @override
+  String get treeExpand => 'گسترش';
+
+  @override
+  String get markdownDetails => 'جزئیات';
+
+  @override
+  String get carouselLabel => 'چرخونک ویژه';
+
+  @override
+  String get carouselPrimaryAction => 'افزودن به گفتگو';
+
+  @override
+  String carouselItemPreview(Object? title) =>
+      'پیش‌نمایش ویژگی: ${title ?? mediaUntitled}';
+
+  @override
+  String carouselPageOf(int position, int length) =>
+      'صفحه ${_number(position)} از ${_number(length)}';
+
+  @override
+  String stepperStep(int index) => 'مرحله ${_number(index + 1)}';
+
+  @override
+  String paginationPage(Object? page) => 'صفحه ${_number(page)}';
+
+  @override
+  String chartSeriesDefault(int index) => 'سری ${_number(index + 1)}';
+
+  @override
+  String chartSliceDefault(int index) => 'برش ${_number(index)}';
+
+  @override
+  String chartCategoryDefault(int index) => 'دسته ${_number(index)}';
+
+  @override
+  String get chartValueDefault => 'مقدار';
+
+  @override
+  String get chartKindLine => 'خطی';
+
+  @override
+  String get chartKindArea => 'ناحیه‌ای';
+
+  @override
+  String get chartKindBar => 'میله‌ای';
+
+  @override
+  String get chartKindDonut => 'دونات';
+
+  @override
+  String get chartKindPie => 'دایره‌ای';
+
+  @override
+  String get chartKindSparkline => 'خط جرقه‌ای';
+
+  @override
+  String get chartKindScatter => 'پراکندگی';
+
+  @override
+  String get chartKindRadar => 'راداری';
+
+  @override
+  String get chartKindRadial => 'شعاعی';
+
+  @override
+  String chartSummaryEmpty(Object? kind) => 'نمودار $kind بدون داده';
+
+  @override
+  String chartSummary(int series, int points, Object? kind) =>
+      'نمودار $kind با ${_number(series)} سری و ${_number(points)} نقطه';
+
+  @override
+  String get colorFieldHsv => 'فیلد رنگ HSV';
+
+  @override
+  String get colorFieldHsl => 'فیلد رنگ HSL';
+
+  @override
+  String get actionClear => 'پاک کردن';
+
+  @override
+  String get actionApply => 'اعمال';
+
+  @override
+  String get actionVerify => 'تأیید';
+
+  @override
+  String get actionResend => 'ارسال مجدد';
+
+  @override
+  String resendInSeconds(int seconds) =>
+      'ارسال مجدد در ${_number(seconds)} ثانیه';
+
+  @override
+  String get authCode => 'کد';
+
+  @override
+  String get authEmail => 'ایمیل';
+
+  @override
+  String get authPassword => 'گذرواژه';
+
+  @override
+  String get authName => 'نام';
+
+  @override
+  String get authSignIn => 'ورود';
+
+  @override
+  String get authForgotPassword => 'گذرواژه را فراموش کردید؟';
+
+  @override
+  String get authRememberMe => 'مرا به خاطر بسپار';
+
+  @override
+  String get authCreateAccount => 'ایجاد حساب';
+
+  @override
+  String get actionClose => 'بستن';
+
+  @override
+  String get mediaPlay => 'پخش';
+
+  @override
+  String get mediaPause => 'توقف';
+
+  @override
+  String get mediaMute => 'بی‌صدا';
+
+  @override
+  String get mediaUnmute => 'باصدا';
+
+  @override
+  String get mediaVolume => 'صدا';
+
+  @override
+  String get mediaSeek => 'جستجو در رسانه';
+
+  @override
+  String get mediaDownload => 'دانلود';
+
+  @override
+  String get mediaAudioPlayer => 'پخش‌کننده صوتی';
+
+  @override
+  String get mediaVideoPlayer => 'پخش‌کننده ویدیویی';
+
+  @override
+  String get mediaUntitled => 'بدون عنوان';
+
+  @override
+  String get mediaPlaybackFailed => 'پخش ناموفق بود';
+
+  @override
+  String get mediaPreviousTrack => 'قطعه قبلی';
+
+  @override
+  String get mediaNextTrack => 'قطعه بعدی';
+
+  @override
+  String get mediaShuffleDisable => 'غیرفعال کردن پخش تصادفی';
+
+  @override
+  String get mediaShuffleEnable => 'فعال کردن پخش تصادفی';
+
+  @override
+  String get mediaRepeatDisable => 'غیرفعال کردن تکرار';
+
+  @override
+  String get mediaRepeatEnable => 'فعال کردن تکرار';
+
+  @override
+  String mediaPlaybackSpeed(Object? speed) =>
+      'سرعت پخش ${speed}x، برای تغییر ضربه بزنید';
+
+  @override
+  String mediaPositionOf(Object position, Object duration) =>
+      '$position از $duration';
+
+  @override
+  String mediaHours(int count) =>
+      count == 1 ? '۱ ساعت' : '${_number(count)} ساعت';
+
+  @override
+  String mediaMinutes(int count) =>
+      count == 1 ? '۱ دقیقه' : '${_number(count)} دقیقه';
+
+  @override
+  String mediaSeconds(int count) =>
+      count == 1 ? '۱ ثانیه' : '${_number(count)} ثانیه';
+
+  @override
+  String get signaturePadLabel => 'صفحه امضا';
+
+  @override
+  String get qrCodeLabel => 'کد QR';
+
+  @override
+  String get marqueeContent => 'محتوای متحرک';
+
+  @override
+  String mediaSkipBack(int seconds) => 'برگشت ${_number(seconds)} ثانیه';
+
+  @override
+  String mediaSkipForward(int seconds) => 'جلو ${_number(seconds)} ثانیه';
+
+  @override
+  String get mediaCaptionsShow => 'نمایش زیرنویس';
+
+  @override
+  String get mediaCaptionsHide => 'پنهان کردن زیرنویس';
+
+  @override
+  String get mediaCaptionsOn => 'زیرنویس روشن';
+
+  @override
+  String get mediaCaptionsOff => 'زیرنویس خاموش';
+
+  @override
+  String get mediaFullscreen => 'تمام‌صفحه';
+
+  @override
+  String mediaMoreOptionsSpeed(Object? speed) =>
+      'گزینه‌های بیشتر، سرعت پخش ${speed}x';
+
+  @override
+  String mediaSpeed(Object? speed) => 'سرعت ${speed}x';
+
+  @override
+  String get actionStartTrial => 'شروع آزمایش رایگان';
+
+  @override
+  String get authFirstName => 'نام';
+
+  @override
+  String get authLastName => 'نام خانوادگی';
+
+  @override
+  String get authPasswordHint => 'حداقل ۸ نویسه.';
+
+  @override
+  String get authUseDifferentEmail => 'استفاده از رایانامه دیگر';
+
+  @override
+  String get authWorkEmail => 'رایانامه کاری';
+
+  @override
+  String get chartTotalLabel => 'جمع';
+
+  @override
+  String get mediaQualityAuto => 'کیفیت خودکار';
 }

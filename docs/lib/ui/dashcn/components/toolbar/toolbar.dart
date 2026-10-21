@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/measured_extent.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/roving_group.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -42,8 +43,8 @@ class Toolbar extends StatefulWidget {
     this.size = ToolbarSize.md,
     this.overflow = true,
     this.overflowIcon,
-    this.overflowLabel = 'More',
-    this.overflowSemanticLabel = 'More actions',
+    this.overflowLabel,
+    this.overflowSemanticLabel,
     this.style,
     this.theme,
   });
@@ -64,11 +65,13 @@ class Toolbar extends StatefulWidget {
   /// The overflow button's icon; null uses a "more" glyph.
   final Widget? overflowIcon;
 
-  /// The overflow button's hover label.
-  final String overflowLabel;
+  /// The overflow button's hover label; null falls back to the locale's
+  /// [ComponentLocalizations.toolbarMore].
+  final String? overflowLabel;
 
-  /// The overflow button's accessible name.
-  final String overflowSemanticLabel;
+  /// The overflow button's accessible name; null falls back to the locale's
+  /// [ComponentLocalizations.toolbarMoreActions].
+  final String? overflowSemanticLabel;
 
   /// Widget-leg style override for the whole toolbar.
   final ToolbarStyle? style;
@@ -197,8 +200,12 @@ class _ToolbarState extends State<Toolbar> {
                 shortcuts: shortcuts,
                 actions: actions,
                 icon: widget.overflowIcon ?? const Icon(LucideIcons.ellipsis),
-                tooltip: widget.overflowLabel,
-                semanticLabel: widget.overflowSemanticLabel,
+                tooltip:
+                    widget.overflowLabel ??
+                    ComponentLocalizations.of(context).toolbarMore,
+                semanticLabel:
+                    widget.overflowSemanticLabel ??
+                    ComponentLocalizations.of(context).toolbarMoreActions,
                 onPressed: () => _openOverflow(context, visible),
               ),
             ),

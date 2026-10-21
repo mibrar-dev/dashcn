@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -19,9 +20,12 @@ Widget videoMoreButton({
   required VideoPlaybackController c,
   required double minTarget,
   required VoidCallback onTap,
+  ComponentLocalizations? strings,
 }) {
   return videoIconButton(
-    label: 'More options, playback speed ${c.playbackSpeed}x',
+    label:
+        strings?.mediaMoreOptionsSpeed(c.playbackSpeed) ??
+        'More options, playback speed ${c.playbackSpeed}x',
     icon: LucideIcons.ellipsis,
     size: style.iconSize ?? 16,
     fg: fg,
@@ -38,6 +42,7 @@ Widget videoMenuSection({
   required Color fg,
   required List<double> speeds,
   required VoidCallback onDone,
+  ComponentLocalizations? strings,
 }) {
   final List<double> steps = speeds.isEmpty ? const <double>[1] : speeds;
   return Container(
@@ -62,7 +67,7 @@ Widget videoMenuSection({
                   onDone();
                 },
                 child: Semantics(
-                  label: 'Speed ${s}x',
+                  label: strings?.mediaSpeed(s) ?? 'Speed ${s}x',
                   button: true,
                   child: TapTarget(
                     minWidth: 48,
@@ -107,7 +112,9 @@ Widget videoMenuSection({
                   onDone();
                 },
                 child: Semantics(
-                  label: c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
+                  label: c.areCaptionsEnabled
+                      ? strings?.mediaCaptionsOn ?? 'Captions on'
+                      : strings?.mediaCaptionsOff ?? 'Captions off',
                   button: true,
                   child: TapTarget(
                     minHeight: 32,
@@ -126,7 +133,7 @@ Widget videoMenuSection({
             ),
             ExcludeSemantics(
               child: Text(
-                'Quality Auto',
+                strings?.mediaQualityAuto ?? 'Quality Auto',
                 style: TextStyle(color: fg.withAlpha(0xB3), fontSize: 12),
               ),
             ),

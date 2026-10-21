@@ -341,4 +341,511 @@ class ComponentLocalizationsAr extends ComponentLocalizations {
 
   @override
   String get durationSecond => 'ثانية';
+
+  @override
+  String get dropzoneIdle => 'تصفح لرفع الملفات';
+
+  @override
+  String get dropzoneDragging => 'أفلت الملفات للرفع';
+
+  @override
+  String get dropzoneUploading => 'جارٍ رفع الملفات...';
+
+  @override
+  String get dropzoneSuccess => 'الملفات جاهزة';
+
+  @override
+  String get dropzoneError => 'أصلح الأخطاء للمتابعة';
+
+  @override
+  String get dropzoneDisabled => 'رفع الملفات معطل';
+
+  @override
+  String get dropzoneBrowse => 'تصفح الملفات';
+
+  @override
+  String get emptyStateEmptyTitle => 'لا يوجد شيء هنا بعد';
+
+  @override
+  String get emptyStateEmptyDescription => 'أنشئ العنصر الأول للبدء.';
+
+  @override
+  String get emptyStateNoResultsTitle => 'لم يتم العثور على نتائج';
+
+  @override
+  String get emptyStateNoResultsDescription =>
+      'حاول ضبط عوامل التصفية أو عبارات البحث.';
+
+  @override
+  String get emptyStateErrorTitle => 'حدث خطأ ما';
+
+  @override
+  String get emptyStateErrorDescription =>
+      'تعذر تحميل هذه البيانات. حاول مرة أخرى بعد قليل.';
+
+  @override
+  String get filterSearch => 'بحث';
+
+  @override
+  String get filterSort => 'فرز';
+
+  @override
+  String get filterDateRange => 'النطاق الزمني';
+
+  @override
+  String get filterClearAll => 'مسح الكل';
+
+  @override
+  String get filterFilters => 'عوامل التصفية';
+
+  @override
+  String filterActiveCount(int count) =>
+      '${_number(count)} من عوامل التصفية النشطة';
+
+  @override
+  String filterResultsCount(int count) => '${_number(count)} من النتائج';
+
+  @override
+  String get fileUploadChoose => 'اختر ملفًا';
+
+  @override
+  String get fileUploadNoFile => 'لم يتم اختيار ملف';
+
+  @override
+  String get fileUploadPickFailed => 'فشل اختيار الملف.';
+
+  @override
+  String get fileUploadTooMany => 'تم اختيار ملفات كثيرة جدًا.';
+
+  @override
+  String get fileUploadTooLarge => 'الملف كبير جدًا.';
+
+  @override
+  String get fileUploadInvalidType => 'نوع الملف غير مسموح به.';
+
+  @override
+  String get fileUploadUploadFailed => 'فشل الرفع.';
+
+  @override
+  String fileUploadUploadFailedFor(String name) => 'فشل الرفع للملف $name.';
+
+  @override
+  String get fileUploadStatusQueued => 'في الانتظار';
+
+  @override
+  String get fileUploadStatusUploading => 'جارٍ الرفع';
+
+  @override
+  String get fileUploadStatusCompleted => 'مكتمل';
+
+  @override
+  String get fileUploadStatusFailed => 'فشل';
+
+  @override
+  String get fileUploadUnknownType => 'ملف';
+
+  @override
+  String get fileUploadRemove => 'إزالة الملف';
+
+  @override
+  String get fileUploadRetry => 'إعادة محاولة الرفع';
+
+  @override
+  String get fileUploadPreview => 'معاينة الملف';
+
+  @override
+  String get fileUploadDownload => 'تنزيل الملف';
+
+  @override
+  String get errorSomethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String get errorUnexpectedMessage =>
+      'يرجى المحاولة مرة أخرى أو الاتصال بالدعم إذا استمرت المشكلة.';
+
+  @override
+  String get errorActionRetry => 'إعادة المحاولة';
+
+  @override
+  String get errorActionReport => 'الإبلاغ';
+
+  @override
+  String get errorActionBack => 'رجوع';
+
+  @override
+  String get errorActionLogin => 'تسجيل الدخول';
+
+  @override
+  String get errorActionSettings => 'الإعدادات';
+
+  @override
+  String get errorActionContactSupport => 'الاتصال بالدعم';
+
+  @override
+  String get errorBadRequest => 'طلب غير صالح';
+
+  @override
+  String get errorBadRequestMessage =>
+      'الطلب غير صالح. يرجى المراجعة والمحاولة مرة أخرى.';
+
+  @override
+  String get errorUnauthorized => 'غير مصرح';
+
+  @override
+  String get errorLoginRequiredMessage => 'يرجى تسجيل الدخول للمتابعة.';
+
+  @override
+  String get errorAccessDenied => 'تم رفض الوصول';
+
+  @override
+  String get errorAccessDeniedMessage => 'ليس لديك إذن لتنفيذ هذا الإجراء.';
+
+  @override
+  String get errorNotFound => 'غير موجود';
+
+  @override
+  String get errorNotFoundMessage => 'تعذر العثور على ما كنت تبحث عنه.';
+
+  @override
+  String get errorConflict => 'تعارض';
+
+  @override
+  String get errorConflictMessage => 'يتعارض هذا الإجراء مع البيانات الموجودة.';
+
+  @override
+  String get errorInvalidData => 'بيانات غير صالحة';
+
+  @override
+  String get errorInvalidDataMessage => 'بعض الحقول تحتاج إلى انتباهك.';
+
+  @override
+  String get errorTooManyRequests => 'طلبات كثيرة جدًا';
+
+  @override
+  String get errorTooManyRequestsMessage =>
+      'يرجى الانتظار قليلًا ثم المحاولة مرة أخرى.';
+
+  @override
+  String get errorServerError => 'خطأ في الخادم';
+
+  @override
+  String get errorServerErrorMessage =>
+      'واجه الخادم مشكلة. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errorRequestTimedOut => 'انتهت مهلة الطلب';
+
+  @override
+  String get errorRequestTimedOutMessage => 'يستغرق الخادم وقتًا طويلًا للرد.';
+
+  @override
+  String get errorAuthenticationRequired => 'المصادقة مطلوبة';
+
+  @override
+  String get errorInvalidInput => 'إدخال غير صالح';
+
+  @override
+  String get errorReviewFieldsMessage => 'يرجى مراجعة الحقول المميزة.';
+
+  @override
+  String get errorPlatformError => 'خطأ في المنصة';
+
+  @override
+  String get errorDeviceErrorMessage => 'حدث خطأ ما على هذا الجهاز.';
+
+  @override
+  String get errorConnectionFailed => 'فشل الاتصال';
+
+  @override
+  String get errorConnectionFailedMessage =>
+      'تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+
+  @override
+  String get errorSecureConnectionFailed => 'فشل الاتصال الآمن';
+
+  @override
+  String get errorSecureConnectionMessage => 'تعذر إنشاء اتصال آمن.';
+
+  @override
+  String get tableResizeColumn => 'تغيير حجم العمود';
+
+  @override
+  String get tableResizeRow => 'تغيير حجم الصف';
+
+  @override
+  String get resizableHandle => 'مقبض تغيير الحجم';
+
+  @override
+  String get spellCheckNoSuggestions => 'لا توجد اقتراحات';
+
+  @override
+  String get announcementLoading => 'جارٍ التحميل';
+
+  @override
+  String get announcementSuccess => 'نجاح';
+
+  @override
+  String get announcementFailure => 'فشل';
+
+  @override
+  String get toolbarMore => 'المزيد';
+
+  @override
+  String get toolbarMoreActions => 'المزيد من الإجراءات';
+
+  @override
+  String get treeCollapse => 'طي';
+
+  @override
+  String get treeExpand => 'توسيع';
+
+  @override
+  String get markdownDetails => 'التفاصيل';
+
+  @override
+  String get carouselLabel => 'كاروسيل مميز';
+
+  @override
+  String get carouselPrimaryAction => 'أضف إلى الدردشة';
+
+  @override
+  String carouselItemPreview(Object? title) =>
+      'معاينة الميزة: ${title ?? mediaUntitled}';
+
+  @override
+  String carouselPageOf(int position, int length) =>
+      'الصفحة ${_number(position)} من ${_number(length)}';
+
+  @override
+  String stepperStep(int index) => 'الخطوة ${_number(index + 1)}';
+
+  @override
+  String paginationPage(Object? page) => 'الصفحة ${_number(page)}';
+
+  @override
+  String chartSeriesDefault(int index) => 'السلسلة ${_number(index + 1)}';
+
+  @override
+  String chartSliceDefault(int index) => 'الشريحة ${_number(index)}';
+
+  @override
+  String chartCategoryDefault(int index) => 'الفئة ${_number(index)}';
+
+  @override
+  String get chartValueDefault => 'القيمة';
+
+  @override
+  String get chartKindLine => 'خط';
+
+  @override
+  String get chartKindArea => 'مساحة';
+
+  @override
+  String get chartKindBar => 'شريط';
+
+  @override
+  String get chartKindDonut => 'دونت';
+
+  @override
+  String get chartKindPie => 'دائري';
+
+  @override
+  String get chartKindSparkline => 'خط مصغر';
+
+  @override
+  String get chartKindScatter => 'مبعثر';
+
+  @override
+  String get chartKindRadar => 'راداري';
+
+  @override
+  String get chartKindRadial => 'شعاعي';
+
+  @override
+  String chartSummaryEmpty(Object? kind) => 'مخطط $kind بدون بيانات';
+
+  @override
+  String chartSummary(int series, int points, Object? kind) =>
+      'مخطط $kind يحتوي على ${_number(series)} من السلاسل و ${_number(points)} من النقاط';
+
+  @override
+  String get colorFieldHsv => 'حقل ألوان HSV';
+
+  @override
+  String get colorFieldHsl => 'حقل ألوان HSL';
+
+  @override
+  String get actionClear => 'مسح';
+
+  @override
+  String get actionApply => 'تطبيق';
+
+  @override
+  String get actionVerify => 'تحقق';
+
+  @override
+  String get actionResend => 'إعادة الإرسال';
+
+  @override
+  String resendInSeconds(int seconds) =>
+      'إعادة الإرسال خلال ${_number(seconds)} ث';
+
+  @override
+  String get authCode => 'الرمز';
+
+  @override
+  String get authEmail => 'البريد الإلكتروني';
+
+  @override
+  String get authPassword => 'كلمة المرور';
+
+  @override
+  String get authName => 'الاسم';
+
+  @override
+  String get authSignIn => 'تسجيل الدخول';
+
+  @override
+  String get authForgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get authRememberMe => 'تذكرني';
+
+  @override
+  String get authCreateAccount => 'إنشاء حساب';
+
+  @override
+  String get actionClose => 'إغلاق';
+
+  @override
+  String get mediaPlay => 'تشغيل';
+
+  @override
+  String get mediaPause => 'إيقاف مؤقت';
+
+  @override
+  String get mediaMute => 'كتم';
+
+  @override
+  String get mediaUnmute => 'إلغاء الكتم';
+
+  @override
+  String get mediaVolume => 'مستوى الصوت';
+
+  @override
+  String get mediaSeek => 'تقديم';
+
+  @override
+  String get mediaDownload => 'تنزيل';
+
+  @override
+  String get mediaAudioPlayer => 'مشغل الصوت';
+
+  @override
+  String get mediaVideoPlayer => 'مشغل الفيديو';
+
+  @override
+  String get mediaUntitled => 'بدون عنوان';
+
+  @override
+  String get mediaPlaybackFailed => 'فشل التشغيل';
+
+  @override
+  String get mediaPreviousTrack => 'المقطع السابق';
+
+  @override
+  String get mediaNextTrack => 'المقطع التالي';
+
+  @override
+  String get mediaShuffleDisable => 'تعطيل التشغيل العشوائي';
+
+  @override
+  String get mediaShuffleEnable => 'تمكين التشغيل العشوائي';
+
+  @override
+  String get mediaRepeatDisable => 'تعطيل التكرار';
+
+  @override
+  String get mediaRepeatEnable => 'تمكين التكرار';
+
+  @override
+  String mediaPlaybackSpeed(Object? speed) =>
+      'سرعة التشغيل ${speed}x، انقر للتغيير';
+
+  @override
+  String mediaPositionOf(Object position, Object duration) =>
+      '$position من $duration';
+
+  @override
+  String mediaHours(int count) =>
+      count == 1 ? 'ساعة واحدة' : '${_number(count)} ساعات';
+
+  @override
+  String mediaMinutes(int count) =>
+      count == 1 ? 'دقيقة واحدة' : '${_number(count)} دقائق';
+
+  @override
+  String mediaSeconds(int count) =>
+      count == 1 ? 'ثانية واحدة' : '${_number(count)} ثوانٍ';
+
+  @override
+  String get signaturePadLabel => 'لوحة التوقيع';
+
+  @override
+  String get qrCodeLabel => 'رمز QR';
+
+  @override
+  String get marqueeContent => 'محتوى الشريط المتحرك';
+
+  @override
+  String mediaSkipBack(int seconds) => 'رجوع ${_number(seconds)} ثانية';
+
+  @override
+  String mediaSkipForward(int seconds) => 'تقديم ${_number(seconds)} ثانية';
+
+  @override
+  String get mediaCaptionsShow => 'إظهار الترجمة';
+
+  @override
+  String get mediaCaptionsHide => 'إخفاء الترجمة';
+
+  @override
+  String get mediaCaptionsOn => 'الترجمة مفعّلة';
+
+  @override
+  String get mediaCaptionsOff => 'الترجمة معطّلة';
+
+  @override
+  String get mediaFullscreen => 'ملء الشاشة';
+
+  @override
+  String mediaMoreOptionsSpeed(Object? speed) =>
+      'مزيد من الخيارات، سرعة التشغيل ${speed}x';
+
+  @override
+  String mediaSpeed(Object? speed) => 'السرعة ${speed}x';
+
+  @override
+  String get actionStartTrial => 'بدء التجربة المجانية';
+
+  @override
+  String get authFirstName => 'الاسم الأول';
+
+  @override
+  String get authLastName => 'اسم العائلة';
+
+  @override
+  String get authPasswordHint => '8 أحرف على الأقل.';
+
+  @override
+  String get authUseDifferentEmail => 'استخدام بريد إلكتروني مختلف';
+
+  @override
+  String get authWorkEmail => 'البريد الإلكتروني للعمل';
+
+  @override
+  String get chartTotalLabel => 'الإجمالي';
+
+  @override
+  String get mediaQualityAuto => 'الجودة تلقائية';
 }

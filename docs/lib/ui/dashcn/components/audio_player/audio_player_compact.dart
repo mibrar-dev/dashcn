@@ -10,6 +10,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/tap_target.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'audio_player_compact_parts.dart';
 import 'audio_player_playlist.dart';
 import 'audio_player_style.dart';
@@ -84,7 +85,11 @@ class AudioCompactPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AudioPlaybackController c = controller;
-    final String name = resolveAudioTitle(c, title);
+    final String name = resolveAudioTitle(
+      c,
+      title,
+      ComponentLocalizations.of(context),
+    );
     final double fraction = c.duration <= Duration.zero
         ? 0
         : (c.position.inMicroseconds / c.duration.inMicroseconds).clamp(
@@ -138,7 +143,7 @@ class AudioCompactPill extends StatelessWidget {
                       ),
                 downloadBuilder?.call(context, c) ??
                     audioPillButton(
-                      label: 'Download',
+                      label: ComponentLocalizations.of(context).mediaDownload,
                       icon: LucideIcons.download,
                       fg: fg,
                       onTap: onDownload,
@@ -180,7 +185,9 @@ class AudioCompactPill extends StatelessWidget {
   Widget _iconPlay(BuildContext context, AudioPlaybackController c) {
     if (playButtonBuilder != null) return playButtonBuilder!(context, c);
     return Semantics(
-      label: c.isPlaying ? 'Pause' : 'Play',
+      label: c.isPlaying
+          ? ComponentLocalizations.of(context).mediaPause
+          : ComponentLocalizations.of(context).mediaPlay,
       button: true,
       child: TapTarget(
         minWidth: 48,
