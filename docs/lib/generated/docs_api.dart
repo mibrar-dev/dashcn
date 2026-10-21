@@ -6100,6 +6100,42 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         doc: 'Responsive adaptive mode; null resolves the theme token (auto).',
       ),
+      DocsApiParam(
+        name: 'targetPadding',
+        type: 'EdgeInsetsGeometry',
+        isRequired: false,
+        defaultValue: 'const EdgeInsets.all(8)',
+        doc:
+            'Extra hit region around [child] that still opens the menu. Visual size\nis unchanged (the padding is transparent); it only widens the target.',
+      ),
+      DocsApiParam(
+        name: 'minTargetSize',
+        type: 'double?',
+        isRequired: false,
+        defaultValue: 'kContextMenuMinTargetSize',
+        doc:
+            'Minimum trigger width/height on touch platforms (iOS, Android,\nFuchsia); null disables the floor. Desktop keeps the author\'s layout\nbecause right-click targets are pointer-precise.',
+      ),
+      DocsApiParam(
+        name: 'menuMinWidth',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Minimum menu width; null resolves `popupTheme.minWidth`, then\n[kContextMenuMinWidth] (compact default).',
+      ),
+      DocsApiParam(
+        name: 'menuMaxWidth',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Maximum menu width; null resolves [kContextMenuMaxWidth].',
+      ),
+      DocsApiParam(
+        name: 'semanticsLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Screen-reader label for the trigger; null leaves semantics untouched.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),

@@ -268,7 +268,13 @@ const Map<String, List<String>> kComponentPreviews = <String, List<String>>{
   'sortable': <String>['Default', 'Grid'],
   'steps': <String>['Default', 'Custom indicators', 'Single step'],
   'command': <String>['Default', 'With groups'],
-  'context_menu': <String>['Default', 'With submenu'],
+  'context_menu': <String>[
+    'Default',
+    'With submenu',
+    'Touch target',
+    'Expanded target',
+    'Compact menu',
+  ],
   'dropdown_menu': <String>[
     'Default',
     'With shortcut',
@@ -469,7 +475,7 @@ const Map<String, int> kComponentPreviewCounts = <String, int>{
   'sortable': 2,
   'steps': 3,
   'command': 2,
-  'context_menu': 2,
+  'context_menu': 5,
   'dropdown_menu': 4,
   'menu': 3,
   'menubar': 2,

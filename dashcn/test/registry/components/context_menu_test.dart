@@ -18,13 +18,14 @@ Widget _frame(
   Widget child, {
   ThemeData data = const ThemeData(),
   List<ComponentThemeData> app = const <ComponentThemeData>[],
+  TextDirection textDirection = TextDirection.ltr,
 }) {
   return Theme(
     data: data,
     child: ComponentThemes(
       themes: app,
       child: Directionality(
-        textDirection: TextDirection.ltr,
+        textDirection: textDirection,
         child: TapRegionSurface(
           child: Overlay(
             initialEntries: <OverlayEntry>[
@@ -149,7 +150,7 @@ void main() {
     expect(find.text('Copy link'), findsNothing);
   });
 
-  testWidgets('rows are 32 high and the surface uses the popover token', (
+  testWidgets('rows are 32 high and the popup keeps the compact clamp', (
     tester,
   ) async {
     const ThemeData theme = ThemeData();
@@ -158,7 +159,8 @@ void main() {
     await _openAt(tester, const Offset(100, 100));
     expect(tester.getSize(find.byType(RovingRow).first).height, 32);
     final Size size = tester.getSize(find.byType(MenuPopup));
-    expect(size.width, greaterThanOrEqualTo(128));
+    expect(size.width, greaterThanOrEqualTo(160));
+    expect(size.width, lessThanOrEqualTo(320));
     final Container surface = tester.widget<Container>(
       find
           .descendant(
@@ -315,5 +317,214 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
     expect(picked, isTrue);
+  });
+
+  group('enlarged target', () {
+    Widget anchoredTrigger({
+      double? minTargetSize = 48,
+      EdgeInsetsGeometry targetPadding = const EdgeInsets.all(8),
+    }) {
+      return Align(
+        alignment: Alignment.topLeft,
+        child: ContextMenu(
+          minTargetSize: minTargetSize,
+          targetPadding: targetPadding,
+          items: <Widget>[
+            MenuButton(child: const Text('Copy link'), onPressed: (_) {}),
+          ],
+          child: const SizedBox(width: 24, height: 24),
+        ),
+      );
+    }
+
+    testWidgets('touch platforms floor a small trigger at 48px', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          anchoredTrigger(),
+          data: const ThemeData(platform: TargetPlatform.android),
+        ),
+      );
+      await tester.pump();
+      final Size size = tester.getSize(find.byType(ContextMenu));
+      expect(size.width, 48);
+      expect(size.height, 48);
+    });
+
+    testWidgets('desktop keeps the author-sized trigger', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          anchoredTrigger(),
+          data: const ThemeData(platform: TargetPlatform.macOS),
+        ),
+      );
+      await tester.pump();
+      // 24px child + 8px padding on each side, no touch floor.
+      final Size size = tester.getSize(find.byType(ContextMenu));
+      expect(size.width, 40);
+      expect(size.height, 40);
+    });
+
+    testWidgets('a null floor disables the touch minimum', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          anchoredTrigger(minTargetSize: null),
+          data: const ThemeData(platform: TargetPlatform.android),
+        ),
+      );
+      await tester.pump();
+      final Size size = tester.getSize(find.byType(ContextMenu));
+      expect(size.width, 40);
+      expect(size.height, 40);
+    });
+
+    testWidgets('targetPadding widens the hit area beyond the child', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          anchoredTrigger(),
+          data: const ThemeData(platform: TargetPlatform.macOS),
+        ),
+      );
+      await tester.pump();
+      // 4px right of the 24px child edge: outside the child, inside the
+      // 8px padding, so the menu still opens.
+      await _openAt(tester, const Offset(28, 12));
+      expect(find.text('Copy link'), findsOneWidget);
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      // Past the padding the tap lands on nothing and opens nothing.
+      await _openAt(tester, const Offset(200, 200));
+      expect(find.text('Copy link'), findsNothing);
+    });
+  });
+
+  group('menu width clamp', () {
+    testWidgets('a custom clamp is honoured', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          ContextMenu(
+            menuMinWidth: 200,
+            menuMaxWidth: 200,
+            items: <Widget>[
+              MenuButton(child: const Text('Copy link'), onPressed: (_) {}),
+            ],
+            child: const ColoredBox(
+              color: Color(0xFFEEEEEE),
+              child: SizedBox(width: 600, height: 400),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await _openAt(tester, const Offset(100, 100));
+      expect(tester.getSize(find.byType(MenuPopup)).width, closeTo(200, 0.5));
+    });
+
+    testWidgets('a long label wraps instead of widening past 320', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          ContextMenu(
+            items: <Widget>[
+              MenuButton(
+                child: const Text(
+                  'Copy link Copy link Copy link Copy link Copy link '
+                  'Copy link Copy link Copy link',
+                ),
+                onPressed: (_) {},
+              ),
+            ],
+            child: const ColoredBox(
+              color: Color(0xFFEEEEEE),
+              child: SizedBox(width: 600, height: 400),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await _openAt(tester, const Offset(100, 100));
+      expect(
+        tester.getSize(find.byType(MenuPopup)).width,
+        lessThanOrEqualTo(320.5),
+      );
+    });
+  });
+
+  testWidgets('RTL opens on the reading side of the pointer', (tester) async {
+    await tester.pumpWidget(
+      _frame(_wrapped(), textDirection: TextDirection.rtl),
+    );
+    await tester.pump();
+    const Offset at = Offset(400, 300);
+    await _openAt(tester, at);
+    expect(find.text('Copy link'), findsOneWidget);
+    final Offset topLeft = tester.getTopLeft(find.byType(MenuPopup));
+    expect(topLeft.dx, lessThanOrEqualTo(at.dx));
+  });
+
+  testWidgets('semanticsLabel labels the trigger', (tester) async {
+    await tester.pumpWidget(
+      _frame(
+        ContextMenu(
+          semanticsLabel: 'File actions',
+          items: <Widget>[
+            MenuButton(child: const Text('Copy link'), onPressed: (_) {}),
+          ],
+          child: const SizedBox(width: 100, height: 100),
+        ),
+      ),
+    );
+    await tester.pump();
+    expect(find.bySemanticsLabel('File actions'), findsOneWidget);
+  });
+
+  testWidgets('the menu still opens with animations disabled', (tester) async {
+    await tester.pumpWidget(
+      MediaQuery(
+        data: const MediaQueryData(disableAnimations: true),
+        child: _frame(_wrapped()),
+      ),
+    );
+    await tester.pump();
+    await _openAt(tester, const Offset(100, 100));
+    expect(find.text('Copy link'), findsOneWidget);
+  });
+
+  testWidgets('a 375px phone viewport opens the menu without overflow', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+    await tester.pumpWidget(
+      _frame(
+        const ContextMenu(
+          items: <Widget>[
+            MenuButton(child: Text('Back')),
+            MenuButton(child: Text('Reload')),
+            MenuButton(child: Text('Copy link')),
+          ],
+          child: ColoredBox(
+            color: Color(0xFFEEEEEE),
+            child: SizedBox(width: 375, height: 600),
+          ),
+        ),
+        data: const ThemeData(platform: TargetPlatform.iOS),
+      ),
+    );
+    await tester.pump();
+    // Near the right edge: the popover keeps the 160px surface on-screen.
+    await tester.longPressAt(const Offset(350, 200));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Copy link'), findsOneWidget);
+    await tester.pumpAndSettle();
   });
 }
