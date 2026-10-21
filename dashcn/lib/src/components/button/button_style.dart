@@ -40,6 +40,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
   /// Creates a button theme with one nullable slice per variant.
   const ButtonTheme({
     super.themeDensity,
+    super.themeDensityTokens,
     super.themeSpacing,
     super.themeShadows,
     this.primary,
@@ -102,6 +103,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
   }) {
     return ButtonTheme(
       themeDensity: themeDensity,
+      themeDensityTokens: themeDensityTokens,
       themeSpacing: themeSpacing,
       themeShadows: themeShadows,
       primary: primary == null ? this.primary : primary(),
@@ -123,6 +125,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
     }
     return ButtonTheme(
       themeDensity: themeDensity ?? fallback.themeDensity,
+      themeDensityTokens: themeDensityTokens ?? fallback.themeDensityTokens,
       themeSpacing: themeSpacing ?? fallback.themeSpacing,
       themeShadows: themeShadows ?? fallback.themeShadows,
       primary: primary?.merge(fallback.primary) ?? fallback.primary,
@@ -161,6 +164,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
 
     return ButtonTheme(
       themeDensity: t < 0.5 ? a.themeDensity : b.themeDensity,
+      themeDensityTokens: t < 0.5 ? a.themeDensityTokens : b.themeDensityTokens,
       themeSpacing: t < 0.5 ? a.themeSpacing : b.themeSpacing,
       themeShadows: t < 0.5 ? a.themeShadows : b.themeShadows,
       primary: row(a.primary, b.primary),
@@ -181,6 +185,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
     }
     return other is ButtonTheme &&
         other.themeDensity == themeDensity &&
+        other.themeDensityTokens == themeDensityTokens &&
         other.themeSpacing == themeSpacing &&
         other.themeShadows == themeShadows &&
         other.primary == primary &&
@@ -196,6 +201,7 @@ class ButtonTheme extends ComponentThemeData implements Mergeable<ButtonTheme> {
   @override
   int get hashCode => Object.hash(
     themeDensity,
+    themeDensityTokens,
     themeSpacing,
     themeShadows,
     primary,

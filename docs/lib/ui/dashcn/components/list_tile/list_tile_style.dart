@@ -17,6 +17,7 @@ class ListTileTheme extends ComponentThemeData
     implements Mergeable<ListTileTheme> {
   const ListTileTheme({
     super.themeDensity,
+    super.themeDensityTokens,
     super.themeSpacing,
     super.themeShadows,
     this.padding,
@@ -74,6 +75,7 @@ class ListTileTheme extends ComponentThemeData
   }) {
     return ListTileTheme(
       themeDensity: themeDensity,
+      themeDensityTokens: themeDensityTokens,
       themeSpacing: themeSpacing,
       themeShadows: themeShadows,
       padding: padding ?? this.padding,
@@ -100,6 +102,7 @@ class ListTileTheme extends ComponentThemeData
     if (fallback == null) return this;
     return ListTileTheme(
       themeDensity: themeDensity ?? fallback.themeDensity,
+      themeDensityTokens: themeDensityTokens ?? fallback.themeDensityTokens,
       themeSpacing: themeSpacing ?? fallback.themeSpacing,
       themeShadows: themeShadows ?? fallback.themeShadows,
       padding: padding ?? fallback.padding,
@@ -130,6 +133,7 @@ class ListTileTheme extends ComponentThemeData
     if (identical(this, other)) return true;
     return other is ListTileTheme &&
         other.themeDensity == themeDensity &&
+        other.themeDensityTokens == themeDensityTokens &&
         other.themeSpacing == themeSpacing &&
         other.themeShadows == themeShadows &&
         other.padding == padding &&
@@ -153,6 +157,7 @@ class ListTileTheme extends ComponentThemeData
   @override
   int get hashCode => Object.hashAll([
     themeDensity,
+    themeDensityTokens,
     themeSpacing,
     themeShadows,
     padding,

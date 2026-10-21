@@ -10,7 +10,7 @@
   "tags": ["list", "tile", "row", "dense", "grouped"],
   "deps": {
     "foundation": ["gap", "icons"],
-    "theme": ["color_tokens", "density", "theme"],
+    "theme": ["color_tokens", "density", "density_tokens", "theme"],
     "primitives": ["clickable"],
     "components": []
   },

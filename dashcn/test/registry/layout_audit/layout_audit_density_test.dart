@@ -22,6 +22,7 @@ import 'package:dashcn/src/components/tabs/tabs.dart';
 import 'package:dashcn/src/components/table/table.dart';
 import 'package:dashcn/src/components/toast/toast.dart';
 import 'package:dashcn/src/theme/density.dart';
+import 'package:dashcn/src/theme/density_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -154,16 +155,52 @@ Widget _cell() => TableCellView(
 
 void main() {
   group('compliant components scale with density', () {
-    testWidgets('button: px-4 scales (the reference implementation)', (
+    testWidgets('button: md padding follows DensityTokens (DESIGN.md)', (
       tester,
     ) async {
-      final List<EdgeInsets> measured = await measurePadding(
-        tester,
-        Button(onPressed: () {}, child: const Text('Button')),
-        Button,
-      );
-      expectScaled(measured, horizontal: 16, vertical: 0, label: 'button');
-      expectMonotonic(measured, 'button');
+      // DESIGN.md reference: md keeps the upstream px-4 step at compact
+      // (16) and steps up per preset (comfortable 20, touch 24).
+      const List<DensityTokens> tokens = <DensityTokens>[
+        DensityTokens.compact,
+        DensityTokens.comfortable,
+        DensityTokens.touch,
+      ];
+      const List<double> expected = <double>[16, 20, 24];
+      for (int i = 0; i < tokens.length; i++) {
+        await tester.pumpWidget(
+          auditFrame(
+            density: Density.defaultDensity,
+            child: Theme(
+              data: ThemeData(densityTokens: tokens[i]),
+              child: ComponentThemes(
+                themes: const <ComponentThemeData>[],
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: looseHost(
+                    child: Button(
+                      densityTokens: tokens[i],
+                      onPressed: () {},
+                      child: const Text('Button'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        final EdgeInsets measured = resolvedPaddingOf(tester, Button);
+        expect(
+          measured.left,
+          closeTo(expected[i], 0.001),
+          reason: '${tokens[i].preset} left',
+        );
+        expect(
+          measured.right,
+          closeTo(expected[i], 0.001),
+          reason: '${tokens[i].preset} right',
+        );
+        expect(measured.top, 0, reason: 'vertical padding is none');
+      }
     });
 
     testWidgets('dialog: p-6 scales via EdgeInsetsDensity', (tester) async {

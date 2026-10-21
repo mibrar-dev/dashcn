@@ -20,6 +20,7 @@ import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/theme/density_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/announcement.dart';
 import '../widgets/block_card.dart';
@@ -192,7 +193,14 @@ class FlowCard extends StatelessWidget {
                           child: Text(flow.viewport),
                         ),
                         const Spacer(),
-                        CopyButton(text: flow.install, showLabel: true),
+                        // Narrow touch viewports use an icon-only copy
+                        // button so the badge row never overflows.
+                        CopyButton(
+                          text: flow.install,
+                          showLabel:
+                              MediaQuery.widthOf(context) >=
+                              kPhoneWidthBreakpoint,
+                        ),
                       ],
                     ),
                     const Gap(12),

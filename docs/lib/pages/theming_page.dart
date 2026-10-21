@@ -11,6 +11,7 @@ import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../widgets/code_figure.dart';
+import '../widgets/density_demos.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_samples.dart';
 import '../widgets/docs_shell.dart';
@@ -141,6 +142,27 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['component-theme']!.code,
             language: 'dart',
           ),
+          const HeadingAnchor(
+            id: 'sizing-and-density',
+            title: 'Sizing and density',
+          ),
+          const TypesetParagraph(
+            'Density tokens set the default look: compact is the default '
+            'everywhere (control 32, icon 16, row 32-36), comfortable steps '
+            'up (control 40, icon 20, row 40-44), and touch targets phone '
+            'widths automatically (control 48, icon 24, row 48-56). The '
+            'spacing scale is a 4 px base (4, 8, 12, 16, 24, 32) with no '
+            'ad-hoc values; button and list tile are the reference '
+            'components that follow these tokens. Override any token per '
+            'instance or in the theme.',
+          ),
+          DocsCodeFigure(
+            code: kThemingSamples['sizing']!.code,
+            language: 'dart',
+          ),
+          const Gap(16),
+          const DensityDemos(),
+          const Gap(16),
           const HeadingAnchor(id: 'glass-surfaces', title: 'Glass Surfaces'),
           const TypesetParagraph(
             'Two optional mode-independent tokens make floating surfaces '

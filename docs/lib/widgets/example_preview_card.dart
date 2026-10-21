@@ -18,6 +18,7 @@ import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/tabs/tabs.dart';
+import '../ui/dashcn/theme/density_tokens.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -284,6 +285,7 @@ class _ExampleToolbar extends StatelessWidget {
         TabItem(child: Text('Code')),
       ],
     );
+    final bool narrow = MediaQuery.widthOf(context) < kPhoneWidthBreakpoint;
     final Widget actions = Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -296,7 +298,9 @@ class _ExampleToolbar extends StatelessWidget {
           child: Button(
             key: ValueKey<String>('preview-theme-toggle-$exampleIndex'),
             variant: ButtonVariant.outline,
-            size: ButtonSize.sm,
+            // Narrow phones (touch density) use xs actions so the tab strip
+            // + actions stay on one row at 320 px.
+            size: narrow ? ButtonSize.xs : ButtonSize.sm,
             onPressed: onToggle,
             child: Icon(
               stageBrightness == Brightness.dark
@@ -307,12 +311,12 @@ class _ExampleToolbar extends StatelessWidget {
           ),
         ),
         // P7-TH1: gap-2 between the toggle and the copy button.
-        Gap(Theme.of(context).spacing.sm),
+        Gap(narrow ? theme.spacing.xs : theme.spacing.sm),
         CopyButton(
           key: ValueKey<String>('example-copy-$exampleIndex'),
           text: copyText,
           variant: ButtonVariant.ghost,
-          size: ButtonSize.sm,
+          size: narrow ? ButtonSize.xs : ButtonSize.sm,
         ),
       ],
     );

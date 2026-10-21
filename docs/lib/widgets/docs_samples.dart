@@ -70,6 +70,39 @@ final Widget scoped = ComponentTheme<ButtonTheme>(
 // 3. The app leg: the user-owned button_theme.dart registered at the root
 //    through DashcnApp(componentThemes: appComponentThemes).
 '''),
+  'sizing': DocsSample('dart', r'''
+import 'package:your_app/ui/dashcn/components/button/button.dart';
+import 'package:your_app/ui/dashcn/components/list_tile/list_tile.dart';
+import 'package:your_app/ui/dashcn/theme/density_tokens.dart';
+import 'package:your_app/ui/dashcn/theme/theme.dart';
+
+// Compact is the default everywhere: control 32, icon 16, row 32-36.
+final ThemeData compact = const ThemeData(); // densityTokens is compact
+
+// Comfortable steps up: control 40, icon 20, row 40-44.
+final ThemeData comfortable = compact.copyWith(
+  densityTokens: () => DensityTokens.comfortable,
+);
+
+// Phone widths (< 600) use touch automatically: control 48, icon 24,
+// row 48-56. An explicit override still wins on phones.
+final DensityTokens tokens = resolveDensityTokens(context);
+final double icon = resolveIconSize(tokens); // 16 / 20 / 24
+final double capped = buttonIconSize(tokens); // <= control * 0.6
+
+// Per instance (button + list_tile are the reference components):
+final Widget touchButton = Button(
+  densityTokens: DensityTokens.touch,
+  onPressed: () {},
+  child: const Text('Save changes'),
+);
+final Widget comfyTile = ListTile(
+  densityTokens: DensityTokens.comfortable,
+  title: const Text('Title truncates, never grows the row'),
+);
+
+// Spacing scale: 4 px base (4, 8, 12, 16, 24, 32). No ad-hoc values.
+'''),
   'animated': DocsSample('dart', r'''
 import 'package:your_app/ui/dashcn/theme/theme.dart';
 
