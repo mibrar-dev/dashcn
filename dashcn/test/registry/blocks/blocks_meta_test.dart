@@ -38,7 +38,7 @@ void main() {
     'account-01': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'avatar',
@@ -53,7 +53,7 @@ void main() {
     'account-02': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'breadcrumb',
@@ -79,7 +79,7 @@ void main() {
     'dashboard-01': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'avatar',
         'badge',
@@ -152,7 +152,7 @@ void main() {
     'pricing-01': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'badge',
@@ -166,13 +166,13 @@ void main() {
     'sidebar-01': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>['button', 'card', 'divider', 'drawer'],
     },
     'sidebar-02': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'avatar',
         'badge',
