@@ -104,31 +104,13 @@ class _MenuButtonState extends State<MenuButton> {
     assert(group != null, 'MenuButton must be a child of MenuGroup');
     if (group == null) return;
     group.closeOthers();
-    // Bar roots open below the trigger; nested levels open to the side.
-    // Edges are directional (RTL mirrors them) and the physical offset
-    // mirrors too. A bar trigger in the trailing half anchors to its
-    // trailing edge (the menu opens under the trigger, aligned to its
-    // right edge where the trigger is at the right in LTR) so the popup
-    // never overflows the viewport edge.
+    // Bar roots open below the trigger's start edge; nested levels open to
+    // the side. Edges are directional (RTL mirrors them) and the physical
+    // offset mirrors too.
     final bool below =
         group.parent == null && group.direction == Axis.horizontal;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
-    bool alignEnd = false;
-    if (below) {
-      final RenderObject? render = context.findRenderObject();
-      if (render is RenderBox && render.hasSize) {
-        final Offset global = render.localToGlobal(Offset.zero);
-        final double screenWidth = MediaQuery.sizeOf(context).width;
-        final double centerX = global.dx + render.size.width / 2;
-        final bool atTrailing = rtl
-            ? centerX < screenWidth / 2
-            : centerX > screenWidth / 2;
-        alignEnd = atTrailing;
-      }
-    }
-    final Offset fallback = below
-        ? (alignEnd ? const Offset(4, 8) : const Offset(-4, 8))
-        : const Offset(8, -4);
+    final Offset fallback = below ? const Offset(-4, 8) : const Offset(8, -4);
     final Offset raw =
         group.subMenuOffset ??
         _menuThemeOf(context, widget.theme).subMenuOffset ??
@@ -137,15 +119,9 @@ class _MenuButtonState extends State<MenuButton> {
     showMenuPopover<void>(
       context: context,
       controller: _controller,
-      alignment: below
-          ? (alignEnd
-                ? AlignmentDirectional.topEnd
-                : AlignmentDirectional.topStart)
-          : AlignmentDirectional.topStart,
+      alignment: AlignmentDirectional.topStart,
       anchorAlignment: below
-          ? (alignEnd
-                ? AlignmentDirectional.bottomEnd
-                : AlignmentDirectional.bottomStart)
+          ? AlignmentDirectional.bottomStart
           : AlignmentDirectional.topEnd,
       offset: offset,
       popupBuilder: (context) => MenuPopup(
