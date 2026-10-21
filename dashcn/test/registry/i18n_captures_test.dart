@@ -260,7 +260,10 @@ class _PickerScene extends StatelessWidget {
                 ],
               ),
               // Hidden trigger label (excluded from the capture's story).
-              child: Text(_triggerLabel(locale)),
+              child: Builder(
+                builder: (BuildContext c) =>
+                    Text(_triggerLabel(Localizations.localeOf(c))),
+              ),
             ),
           ],
         ),
