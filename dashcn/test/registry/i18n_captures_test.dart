@@ -28,8 +28,14 @@ const double _dpr = 2.0;
 Directory get _outDir =>
     Directory('${Directory.current.path}/../scratchpad/ui/i18n/captures');
 
+/// The captures need the macOS system Arabic font; other hosts skip them.
+final String? _skipReason = Platform.isMacOS
+    ? null
+    : 'i18n captures need macOS system fonts (run on macOS)';
+
 void main() {
   setUpAll(() async {
+    if (_skipReason != null) return;
     await _loadFonts();
     _outDir.createSync(recursive: true);
   });
@@ -61,7 +67,7 @@ void main() {
             brightness: brightness,
             size: size,
           );
-        });
+        }, skip: _skipReason != null);
       }
     }
   }
