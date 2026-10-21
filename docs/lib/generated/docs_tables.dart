@@ -1129,6 +1129,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'date_picker', kind: DocsDepKind.component),
     DocsDep(id: 'drawer', kind: DocsDepKind.component),
     DocsDep(id: 'input', kind: DocsDepKind.component),
+    DocsDep(id: 'popup', kind: DocsDepKind.component),
     DocsDep(id: 'select', kind: DocsDepKind.component),
     DocsDep(id: 'filter_core', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
@@ -1139,6 +1140,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'overflow_marquee': <DocsDep>[
