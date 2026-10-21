@@ -4165,7 +4165,8 @@
         "theme": [
           "color_tokens",
           "density",
-          "theme"
+          "theme",
+          "tokens"
         ]
       },
       "description": "Floating action button in three sizes plus an extended pill shape, with a speed dial, a positions helper, hide-on-scroll and a tooltip.",
@@ -6157,6 +6158,7 @@
         "theme": [
           "color_tokens",
           "density",
+          "density_tokens",
           "theme"
         ]
       },

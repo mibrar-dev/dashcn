@@ -22,6 +22,7 @@
     "theme": [
       "color_tokens",
       "density",
+      "density_tokens",
       "theme"
     ],
     "primitives": [
