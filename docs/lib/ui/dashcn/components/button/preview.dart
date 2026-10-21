@@ -106,9 +106,14 @@ class _ButtonIconState extends State<_ButtonIcon> {
           child: const Icon(LucideIcons.settings, size: 16),
         ),
         Gap(theme.spacing.md),
-        Text(
-          _presses == 0 ? 'not pressed yet' : 'pressed $_presses time(s)',
-          style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+        // Truncate on narrow touch viewports instead of overflowing the row.
+        Flexible(
+          child: Text(
+            _presses == 0 ? 'not pressed yet' : 'pressed $_presses time(s)',
+            style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

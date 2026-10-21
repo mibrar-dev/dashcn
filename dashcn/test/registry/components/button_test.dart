@@ -194,6 +194,7 @@ void main() {
     expect(probe.decoration(rest)!.color, colors.primary);
     expect(probe.text(rest)!.color, colors.primaryForeground);
     expect(probe.icon(rest)!.color, colors.primaryForeground);
+    // DESIGN.md compact (default): md horizontal padding is 12.
     expect(probe.padding(), const EdgeInsets.symmetric(horizontal: 16));
 
     await _pump(
@@ -209,6 +210,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 200));
     probe = _probe(tester);
     expect(probe.padding(), EdgeInsets.zero);
+    // Compact (default) icon buttons are square at the row max (36).
     expect(tester.getSize(find.byType(Button)), const Size(36, 36));
 
     const ThemeColors dark = ThemeColors.darkFallback;
@@ -538,6 +540,8 @@ void main() {
     testWidgets('outline, secondary and ghost measure their dashcn height', (
       tester,
     ) async {
+      // DESIGN.md compact (default, upstream): sm is the control height
+      // (32) and md is the row max (36).
       const Map<ButtonSize, double> heights = <ButtonSize, double>{
         ButtonSize.xs: 28,
         ButtonSize.sm: 32,

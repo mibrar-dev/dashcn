@@ -13,7 +13,7 @@ import 'package:dashcn/src/components/spinner/spinner.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
-import 'package:dashcn/src/theme/density.dart';
+import 'package:dashcn/src/theme/density_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -197,10 +197,12 @@ void main() {
   });
 
   testWidgets('compact density narrows the statusful padding', (tester) async {
+    // DESIGN.md: compact md keeps the upstream px-4 step (16); touch steps
+    // up to 24. The component-theme tokens leg drives the statusful padding.
     await _pump(
       tester,
       ComponentTheme<ButtonTheme>(
-        data: const ButtonTheme(themeDensity: Density.compactDensity),
+        data: const ButtonTheme(themeDensityTokens: DensityTokens.touch),
         child: Button(onPressedAsync: () async {}, child: const Text('Go')),
       ),
     );
@@ -212,7 +214,7 @@ void main() {
     );
     expect(
       clickable.padding?.resolve(const <WidgetState>{}),
-      const EdgeInsets.symmetric(horizontal: 8),
+      const EdgeInsets.symmetric(horizontal: 24),
     );
   });
 

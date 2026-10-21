@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'button_style.dart';
 
@@ -63,6 +64,9 @@ double buttonInnerMin(
 /// is zero: the `Clickable` padding wraps the `ConstrainedBox`, so any
 /// vertical padding would stack on top of `minHeight` (52 instead of 36 for
 /// md). Height comes from `minHeight` + centering; all sizes use 14px w500.
+///
+/// Kept for back-compat (layout audit, existing callers). New code should
+/// use [buttonMetricsForTokens], which is the DESIGN.md reference table.
 ButtonSizeMetrics buttonMetricsFor(ButtonSize size, Density density) {
   final double scale =
       density.baseContentPadding / Density.defaultDensity.baseContentPadding;
@@ -97,6 +101,80 @@ ButtonSizeMetrics buttonMetricsFor(ButtonSize size, Density density) {
       padding: EdgeInsets.zero,
       minHeight: 36,
       minWidth: 36,
+    ),
+  };
+}
+
+/// DESIGN.md reference size table, driven by [DensityTokens].
+///
+/// `sm` height is the token control height (32 compact / 40 comfortable /
+/// 48 touch) and `md` is the token row max (36 / 44 / 56); `xs` steps 4 px
+/// below `sm` and `lg` steps 4 px above `md`, so compact reproduces the
+/// upstream web kit exactly (xs 28 / sm 32 / md 36 / lg 40) while
+/// comfortable and touch grow density-driven inside their row bounds
+/// (comfortable 36/40/44/48, touch 44/48/56/60). Icon buttons are square
+/// at the row max. Horizontal padding keeps the upstream px steps at
+/// compact (xs 8 / sm 12 / md 16 / lg 24) and steps up per preset
+/// (comfortable 10/14/20/28, touch 12/16/24/32); vertical padding stays
+/// zero (height comes from `minHeight` + centering, as above). Label text
+/// is the token body size at w500; icons resolve via [buttonIconSize]
+/// (never more than 60% of the control height).
+ButtonSizeMetrics buttonMetricsForTokens(
+  ButtonSize size,
+  DensityTokens tokens,
+) {
+  final double control = tokens.controlHeight;
+  final double rowMax = tokens.rowMaxHeight;
+  final double xsH;
+  final double smH;
+  final double mdH;
+  final double lgH;
+  switch (tokens.preset) {
+    case DensityPreset.compact:
+      xsH = 8;
+      smH = 12;
+      mdH = 16;
+      lgH = 24;
+    case DensityPreset.comfortable:
+      xsH = 10;
+      smH = 14;
+      mdH = 20;
+      lgH = 28;
+    case DensityPreset.touch:
+      xsH = 12;
+      smH = 16;
+      mdH = 24;
+      lgH = 32;
+  }
+  final TextStyle text = TextStyle(
+    fontSize: tokens.bodyTextSize,
+    fontWeight: FontWeight.w500,
+  );
+  return switch (size) {
+    ButtonSize.xs => ButtonSizeMetrics(
+      padding: EdgeInsets.symmetric(horizontal: xsH),
+      minHeight: control - 4,
+      textStyle: text,
+    ),
+    ButtonSize.sm => ButtonSizeMetrics(
+      padding: EdgeInsets.symmetric(horizontal: smH),
+      minHeight: control,
+      textStyle: text,
+    ),
+    ButtonSize.md => ButtonSizeMetrics(
+      padding: EdgeInsets.symmetric(horizontal: mdH),
+      minHeight: rowMax,
+      textStyle: text,
+    ),
+    ButtonSize.lg => ButtonSizeMetrics(
+      padding: EdgeInsets.symmetric(horizontal: lgH),
+      minHeight: rowMax + 4,
+      textStyle: text,
+    ),
+    ButtonSize.icon => ButtonSizeMetrics(
+      padding: EdgeInsets.zero,
+      minHeight: rowMax,
+      minWidth: rowMax,
     ),
   };
 }

@@ -562,6 +562,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc:
             'Widget-leg style override, merged on top of the component/app/defaults.',
       ),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone\nwidths (< [kPhoneWidthBreakpoint]) use touch unless this is set.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -2034,6 +2041,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+      ),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone\nwidths (< [kPhoneWidthBreakpoint]) use touch unless this is set.',
       ),
     ],
     members: <DocsApiMember>[],

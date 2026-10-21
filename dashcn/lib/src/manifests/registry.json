@@ -1639,10 +1639,12 @@
         "enums": [
           "ButtonVariant",
           "ButtonSize",
-          "ButtonStatus"
+          "ButtonStatus",
+          "DensityPreset"
         ],
         "functions": [
           "buttonMetricsFor",
+          "buttonMetricsForTokens",
           "buttonInnerMin",
           "buttonStatusAnnouncement",
           "resolveButtonStatusIcon"
@@ -1666,6 +1668,7 @@
         "theme": [
           "color_tokens",
           "density",
+          "density_tokens",
           "theme"
         ]
       },
@@ -5746,6 +5749,7 @@
         "theme": [
           "color_tokens",
           "density",
+          "density_tokens",
           "theme"
         ]
       },
@@ -10511,17 +10515,17 @@
     "components/breadcrumb/breadcrumb_style.dart": "2e6efea101aead02fea42ca9abc75992fbc698423909429e18e047171c98d2cc",
     "components/breadcrumb/breadcrumb_theme.dart": "842da6f375e259c45d93d4f0dfbf8d615b957cfa991832d6d1598ad8a528e1cf",
     "components/breadcrumb/preview.dart": "0e1539d90283bbd62c36d0626e1b7a9e92c16c50d3a193d7dc52e676d244d3a7",
-    "components/button/button.dart": "46a0ad0c125dd8caf017b3c9e645b7b9ff7049d7ee28ea6cc1b61f146c8c1330",
+    "components/button/button.dart": "0e4df715f79c462aa2b832ce3525222cdceb954cd14a053e3b3eeb8cc7493c34",
     "components/button/button_defaults.dart": "c39887571daea75a7d0cad617af3fecf74131033859e4fc06a68a10688ff337c",
     "components/button/button_group.dart": "9b6f20f7d3fd9fb30b144d7f6f14ee3451ed273ee55853f0e01b7612b7461d40",
-    "components/button/button_layout.dart": "525546de57125eaa35d2ca7b14a0effd0e4c0dc21d87f87e66fbdd99bfb3545f",
+    "components/button/button_layout.dart": "55686cad2e52513096ce29113eaf30516acc189e6a0c68940a926c0ec3348518",
     "components/button/button_status.dart": "01f134b3c4d4f5e58af5dcc250129f035997d4897ff3460158b2a9bd81c7f940",
     "components/button/button_status_content.dart": "6a3e9660ebb1f81a9a8982f404420911136748490b634fda81bc5a67307bb9ff",
     "components/button/button_status_style.dart": "b39db42311806df5e3eb789205eb3a5182675305bc12d7f04ce546454d5ccf31",
-    "components/button/button_style.dart": "46ea397bfd0622890e6b084c47fcb135d6c1b55a9454e14676acf800a23b85c0",
+    "components/button/button_style.dart": "8414ee475196b6d6001cf3382cb6575ca128cc04c72533131ed4026ec1afda43",
     "components/button/button_theme.dart": "a4ceccd77737db86c9e64fef356753d9a68d145102f4c650b5c1b54a99f4510c",
     "components/button/button_variant_style.dart": "e70449891acbe761e3e28496a26349ee3752cfa4156b88639c5229908bebac4c",
-    "components/button/preview.dart": "0809d3172ac5a26c3f52ad26d43b072c6dba7f0f55462ef5380575c0993d00b4",
+    "components/button/preview.dart": "8147439e270a3d3c2d9757ea73e6b77fe9327f1f3bc6d55037a361e8dfc24924",
     "components/button/preview_status.dart": "f92e506448d035ff450ffe6bb40a5ea148b0a9d8a6c937b791e3a1cfc72c1793",
     "components/calendar/calendar.dart": "9882528209d2c7a410da2dfd40546117a722771ab33a495b87d1b00e3975c9a5",
     "components/calendar/calendar_style.dart": "6fe8d02e1ea6d85340d1faefaa7d116c636576ecdd671082003e8f70254fb2a8",
@@ -10530,7 +10534,7 @@
     "components/card/card.dart": "4e09085cba68ace995c203f9b8bda499ce504875daf41d34ce1914edd87e7e75",
     "components/card/card_style.dart": "dd286ab2628bd81571552226aa6058f7c6549af3803c795cf093d830de717239",
     "components/card/card_theme.dart": "dc68ea51686fc254fff76c4d2397d0bc579fbd0ebf992130dde845d5eb63ed54",
-    "components/card/preview.dart": "55de540c84a300393cca1dc9755d3ed941413db4fcab3356ea90dab110832525",
+    "components/card/preview.dart": "668888eccf40dfb21378eb258902c1dd1bbf957dabe9c3780fbe4294af0ff930",
     "components/card_image/card_image.dart": "f7e4c8b5238f8fe4d9e4c51dbf1c13ae95764794b8463379b866b222058339a8",
     "components/card_image/card_image_style.dart": "da285701b4c21a9ebbb541dbc2d29d0cb0c0f5568172c5e9d21f1cc90b97c029",
     "components/card_image/card_image_theme.dart": "4934ed979dea72bfbc1736686bed9d533e5c30bda465bd8361acebe9176008db",
@@ -10732,8 +10736,8 @@
     "components/keyboard_shortcut/keyboard_shortcut_style.dart": "981aa7be785620b33caca32d9edf0a2b7471a0bade61ce4d957220bcc0f4e563",
     "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "941fa588703a84c03383b57ab34acf6e12bbb1867aaa53a8b8d2ffd55b6b9d20",
     "components/keyboard_shortcut/preview.dart": "7ed36a064a5c686d52625cf6ee86f145bfc99a6f536e2147844596bf9a407a38",
-    "components/list_tile/list_tile.dart": "3a89dd78194a6dff600b3437b4c84416b104cb0e4b9e53f13db61a7a28d8deab",
-    "components/list_tile/list_tile_style.dart": "046ea98d6d63eaf49135833eae7564c759110a65c4c4a2f17643a8249ce6f756",
+    "components/list_tile/list_tile.dart": "91f93340c4ec1c404ae0a95e4b5376d525fa24e736d73c5f2e60b5eef20e2d6d",
+    "components/list_tile/list_tile_style.dart": "fef15a45cc636c717e1f01fc7de6e8d5d38cec4af80d64e87f3aa65dd9941622",
     "components/list_tile/list_tile_theme.dart": "9fe37645a2f02c97f12f51e30bbcdac3d7451a501bd6a11ae7bca4469f7e62ac",
     "components/list_tile/preview.dart": "8d956681dd1d371bdfe1fff02cc3b2c693a115ccf2cc60729f9c0b6d873dafda",
     "components/locale_utils/locale_utils.dart": "97b51cf3d2300968c48fa2b0da4eac7f568aca6be602d26385734626b9211297",
@@ -10903,7 +10907,7 @@
     "components/steps/steps_theme.dart": "3ae02e6c7990e17e81b74eca3ee31cded8fb5278cbdd53bed7d785ba5183ff18",
     "components/swipe_actions/preview.dart": "4e283ee40ff17e82ca4b2ff2560af75552730fef51416c328841c3553de7f984",
     "components/swipe_actions/swipe_action.dart": "dfcc60d37d37fbcbdbf3d77734fc0a2e00f4f189f9126a487a784dda143efd19",
-    "components/swipe_actions/swipe_action_buttons.dart": "267d37df0ab096f97d42f578393941cd473d84192529fe653ce68c8e9bc15096",
+    "components/swipe_actions/swipe_action_buttons.dart": "ef54d4f5f24638b38f82d4b1b144e6681447bc2a0fd13cf9442eb891cb0d3b2c",
     "components/swipe_actions/swipe_actions.dart": "69747bde888fc1483dcaad03ece5a55a221d54f56b1bba64c89c5309f919d828",
     "components/swiper/preview.dart": "d76e99b227ee05dc762552cc6c6e6c7bc6654bb1f4f2a359879e68050d76eb5b",
     "components/swiper/swiper.dart": "b66f990a31484c353464efa0ac83b870806c17ad96032d9f754b5505a4d0f51c",
@@ -10917,7 +10921,7 @@
     "components/switcher/switcher.dart": "aa4e8773071c76def13a47cd432172c48d17dcce0247d6c598cfc3e4adf6060c",
     "components/switcher/switcher_style.dart": "57fb558ad95d2e79e9368390fd86f79fad9bf4b0bf2f9cb51746d4ff604e9dd3",
     "components/switcher/switcher_theme.dart": "12ddca42797f97ff480412bcddc162ebedbf0eee5e29c368d9dff1596ba46a16",
-    "components/table/preview.dart": "2f572cd9f9a2d67a166e2baf83af1fd97947c931c08c5f487e61e953bd16d20f",
+    "components/table/preview.dart": "975c3ed77a04a868ea56c9e6e07f3da0de4f33693a99402d40622d9ba4ea145d",
     "components/table/table.dart": "85f38db69e9fd358fd14fe51be5680d489f6fbb07f07fed3990475d0c070f55f",
     "components/table/table_style.dart": "370ab37c594b002f36a6128c94ef2603df6b88eee0f4e2b523c3b5627bf21aab",
     "components/table/table_theme.dart": "873f3a4b284509606bad00a7a82f7b7939fc6b1ef03a5ac7120065f961978309",
@@ -11309,6 +11313,7 @@
     "theme/color_utils.dart": "250556c16c4bc54be6375229c47f7fe085a90f79b4544c96b7617760ad52c709",
     "theme/contrast.dart": "12213175a084c32caf98cc749ab2fe8226e3112307002ffc7db303022545c46f",
     "theme/density.dart": "2813f3a54d5194322135fea3318bb3aeadaf43cb82e1228c741ed825bca472a5",
+    "theme/density_tokens.dart": "ad9d76349d27b3469505b6a77d9b61c1fd7ac16268dee6f69e26320a127c836d",
     "theme/interop/color_space.dart": "9c8766deeb3d885b5f8c96c13ceb9ca4f051daa22161f3dafd67fa778931d48c",
     "theme/interop/css_theme_parser.dart": "6fbc97d1c7d8914de68e9562c6a1ed2fa0315c9a2ae9795af9071001cf837de4",
     "theme/interop/css_values.dart": "402790f6da707db062633a94b272ddb0bde61674d3594f1489e95e701a2a16a5",
@@ -11328,7 +11333,7 @@
     "theme/interop/writers/web_css_writer.dart": "b300addee24819ff6b40d4458dd5dea9a513c6f1e046e22bad838a48b9f19303",
     "theme/motion.dart": "8e17d353a27de6277381c197ed27475ad8974e538f5f4bd6cb217ed9d576385f",
     "theme/syntax_colors.dart": "09bf4279cb0c78202ef2e71c1579f65972faf8c4ea22bc1d23b5aa79fa60aa85",
-    "theme/theme.dart": "239176986a8fc978c3c9a3005c0799773bd234d36c23ac625de9ad7f8d6bcc8b",
+    "theme/theme.dart": "5a1163ffb59889615f8a7f050f1149ea78df21a4d13523d6207074f943986d0a",
     "theme/tokens.dart": "e4d0355e416ec86b111690f2a4bd0e1d26208c7549e7d0ce4dd9c27018582ca1",
     "theme/typography.dart": "87c5cdef20bb8983494343890d038c6c7ae55a1cdb0286dd3a63bd99c3e4a2c8",
     "themes/amber-minimal.json": "13a12831d4ff5f6d49d5375d631c40ccd4e0db522686e89f5c872e362eca73d1",
@@ -12994,6 +12999,11 @@
     "density": {
       "files": [
         "theme/density.dart"
+      ]
+    },
+    "density_tokens": {
+      "files": [
+        "theme/density_tokens.dart"
       ]
     },
     "interop": {

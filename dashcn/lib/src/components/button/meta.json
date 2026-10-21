@@ -24,6 +24,7 @@
     "theme": [
       "color_tokens",
       "density",
+      "density_tokens",
       "theme"
     ],
     "primitives": [
@@ -66,10 +67,12 @@
     "enums": [
       "ButtonVariant",
       "ButtonSize",
-      "ButtonStatus"
+      "ButtonStatus",
+      "DensityPreset"
     ],
     "functions": [
       "buttonMetricsFor",
+      "buttonMetricsForTokens",
       "buttonInnerMin",
       "buttonStatusAnnouncement",
       "resolveButtonStatusIcon"
