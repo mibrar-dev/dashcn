@@ -102,7 +102,8 @@ DESIGN.md sizing/density foundation in `dashcn/lib/src/theme/`:
 
 - Commit message trailer: `Co-Authored-By: Claude Opus 5.5
   <noreply@anthropic.com>`.
-- PR: <PR-URL below> (base `main`, ends with the Claude Code footer).
+- PR: https://github.com/mibrar-dev/dashcn/pull/35 (base `main`,
+  ends with the Claude Code footer).
 - Captures: see `CAPTURES.md` (10 PNGs: 1280×800 + 375×812, light +
   dark, browser real-font + flutter-test layout proofs). No RenderFlex
   overflow at 375 in any density for button/list_tile (asserted in
