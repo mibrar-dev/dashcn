@@ -255,6 +255,7 @@ export 'src/components/skeleton/skeleton_layout.dart';
 export 'src/components/skeleton/skeleton_mirror.dart';
 export 'src/components/skeleton/skeleton_shapes.dart';
 export 'src/components/skeleton/skeleton_style.dart';
+export 'src/components/skeleton/skeleton_table.dart';
 export 'src/components/slider/slider.dart';
 export 'src/components/slider/slider_style.dart';
 export 'src/components/sortable/sortable.dart';
