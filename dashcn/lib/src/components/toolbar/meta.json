@@ -29,6 +29,7 @@
       "localizations",
       "measured_extent",
       "roving_group",
+      "surface",
       "touch_hit_area"
     ],
     "components": [
