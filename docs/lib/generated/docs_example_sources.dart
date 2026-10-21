@@ -25471,7 +25471,27 @@ Widget _container(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient cover used by the previews (the live app passes real artwork).
 Widget _coverArt(List<Color> colors) {
@@ -25509,9 +25529,9 @@ class _DefaultAudioState extends State<_DefaultAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         cover: _coverArt(const <Color>[Color(0xFF7C3AED), Color(0xFFEC4899)]),
@@ -25529,7 +25549,27 @@ Widget _default(BuildContext context) => const _DefaultAudio();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Compact pill on the SPEC playlist (single shared controller concept).
 class _CompactAudio extends StatefulWidget {
@@ -25555,9 +25595,9 @@ class _CompactAudioState extends State<_CompactAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 420,
-      child: AudioPlayer(
+    return _capped(
+      420,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.compact,
         onDownload: () {},
@@ -25575,7 +25615,27 @@ Widget _compact(BuildContext context) => const _CompactAudio();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient cover used by the previews (the live app passes real artwork).
 Widget _coverArt(List<Color> colors) {
@@ -25616,9 +25676,9 @@ class _ExpandedAudioState extends State<_ExpandedAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         cover: _coverArt(const <Color>[Color(0xFF0EA5E9), Color(0xFF312E81)]),
@@ -25636,7 +25696,33 @@ Widget _expanded(BuildContext context) => const _ExpandedAudio();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
+
+/// Density gap for the shared example (12 px at the default density).
+double _gapMd(BuildContext context) {
+  final ThemeData ambient = Theme.of(context);
+  return ambient.density.baseGap * ambient.scaling * gapMd;
+}
 
 /// Gradient cover used by the previews (the live app passes real artwork).
 Widget _coverArt(List<Color> colors) {
@@ -25674,9 +25760,9 @@ class _SharedAudioState extends State<_SharedAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: SingleChildScrollView(
+    return _capped(
+      360,
+      SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -25685,7 +25771,7 @@ class _SharedAudioState extends State<_SharedAudio> {
               variant: AudioPlayerVariant.compact,
               onDownload: () {},
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: _gapMd(context)),
             AudioPlayer(
               controller: _controller,
               variant: AudioPlayerVariant.full,
@@ -25710,7 +25796,27 @@ Widget _shared(BuildContext context) => const _SharedAudio();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Compact pill at phone width (volume icon stays, slider overlays).
 class _PhoneAudio extends StatefulWidget {
@@ -25733,9 +25839,9 @@ class _PhoneAudioState extends State<_PhoneAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      child: AudioPlayer(
+    return _capped(
+      320,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.compact,
         onDownload: () {},
@@ -25753,7 +25859,27 @@ Widget _phone(BuildContext context) => const _PhoneAudio();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
+import 'package:<your_app>/ui/dashcn/theme/density.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Customized theme plus a custom play button and download slot.
 class _CustomAudio extends StatefulWidget {
@@ -25776,9 +25902,9 @@ class _CustomAudioState extends State<_CustomAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         theme: const AudioPlayerTheme(
@@ -25817,6 +25943,7 @@ Widget _custom(BuildContext context) => const _CustomAudio();
       code: r'''import 'package:docs/media/audio_adapter.dart';
 import 'package:docs/ui/dashcn/components/audio_player/audio_player.dart';
 import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/web_bridge.dart';
 import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart';
@@ -25899,12 +26026,23 @@ class _LiveAudioState extends State<_LiveAudio> {
   Widget build(BuildContext context) {
     final JustAudioAdapter? adapter = _adapter;
     if (adapter == null) {
-      return const SizedBox(
-        width: 360,
-        height: 120,
-        child: Center(
-          child: Text('Loading live audio…', style: TextStyle(fontSize: 13)),
-        ),
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double avail = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : 360;
+          final double width = avail < 360 ? avail : 360;
+          return SizedBox(
+            width: width,
+            height: 120,
+            child: const Center(
+              child: Text(
+                'Loading live audio…',
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+          );
+        },
       );
     }
     return ListenableBuilder(
@@ -25916,55 +26054,67 @@ class _LiveAudioState extends State<_LiveAudio> {
           Color(0xFF7C3AED),
           Color(0xFFEC4899),
         ];
-        return SizedBox(
-          width: 360,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _TrackSelector(adapter: adapter),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 360,
-                child: AudioPlayer(
-                  controller: adapter,
-                  variant: AudioPlayerVariant.compact,
-                  onDownload: _downloadCurrent,
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 360,
-                child: AudioPlayer(
-                  controller: adapter,
-                  variant: AudioPlayerVariant.full,
-                  cover: coverUrl == null
-                      ? _coverFallback(gradient)
-                      : Image.network(
-                          coverUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (
-                                BuildContext context,
-                                Object error,
-                                StackTrace? stackTrace,
-                              ) => _coverFallback(gradient),
-                        ),
-                ),
-              ),
-              if (adapter.error != null || _failed)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    'Playback failed: ${adapter.error ?? 'could not load track'}',
-                    style: const TextStyle(
-                      color: Color(0xFFDC2626),
-                      fontSize: 12,
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double avail = constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : 360;
+            final double width = avail < 360 ? avail : 360;
+            final double gap =
+                Theme.of(context).density.baseGap *
+                Theme.of(context).scaling *
+                1.5;
+            return SizedBox(
+              width: width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _TrackSelector(adapter: adapter),
+                  SizedBox(height: gap),
+                  SizedBox(
+                    width: width,
+                    child: AudioPlayer(
+                      controller: adapter,
+                      variant: AudioPlayerVariant.compact,
+                      onDownload: _downloadCurrent,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-            ],
-          ),
+                  SizedBox(height: gap),
+                  SizedBox(
+                    width: width,
+                    child: AudioPlayer(
+                      controller: adapter,
+                      variant: AudioPlayerVariant.full,
+                      cover: coverUrl == null
+                          ? _coverFallback(gradient)
+                          : Image.network(
+                              coverUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder:
+                                  (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                  ) => _coverFallback(gradient),
+                            ),
+                    ),
+                  ),
+                  if (adapter.error != null || _failed)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        'Playback failed: ${adapter.error ?? 'could not load track'}',
+                        style: const TextStyle(
+                          color: Color(0xFFDC2626),
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
@@ -26659,6 +26809,24 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
+
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
@@ -26703,9 +26871,9 @@ class _DefaultVideoState extends State<_DefaultVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -26731,6 +26899,24 @@ Widget _default(BuildContext context) => const _DefaultVideo();
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -26778,9 +26964,9 @@ class _LiveVideoState extends State<_LiveVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -26807,6 +26993,24 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
+
 /// Live camera feed: fallback message when permission is denied.
 class _CameraVideo extends StatefulWidget {
   const _CameraVideo();
@@ -26829,9 +27033,9 @@ class _CameraVideoState extends State<_CameraVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -26868,6 +27072,24 @@ Widget _camera(BuildContext context) => const _CameraVideo();
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -26914,9 +27136,9 @@ class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -26951,6 +27173,24 @@ Widget _speedMenuOpen(BuildContext context) => const _SpeedMenuOpenVideo();
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -27010,9 +27250,9 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -27038,6 +27278,24 @@ Widget _captions(BuildContext context) => const _CaptionsVideo();
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -27084,9 +27342,9 @@ class _BarHiddenVideoState extends State<_BarHiddenVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -27113,6 +27371,24 @@ Widget _barHidden(BuildContext context) => const _BarHiddenVideo();
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -27158,9 +27434,9 @@ class _PhoneVideoState extends State<_PhoneVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      child: ClipRRect(
+    return _capped(
+      320,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -27187,6 +27463,24 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
+
 /// Customized theme and custom play button.
 class _CustomVideo extends StatefulWidget {
   const _CustomVideo();
@@ -27208,9 +27502,9 @@ class _CustomVideoState extends State<_CustomVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,

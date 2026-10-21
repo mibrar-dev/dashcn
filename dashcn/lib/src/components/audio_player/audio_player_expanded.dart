@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/surface.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
@@ -253,14 +254,35 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
         ? 1
         : (c.currentIndex + 1).clamp(1, total);
     final ThemeData ambient = Theme.of(context);
-    return Container(
-      color: ambient.colors.card.withAlpha(0xF2),
-      padding: const EdgeInsets.all(16),
+    final Color cardBase =
+        widget.style.background?.resolve(ambient.colors) ?? ambient.colors.card;
+    final double? opacity = resolveSurfaceOpacity(
+      context,
+      component: widget.style.surfaceOpacity,
+    );
+    final double? blur = resolveSurfaceBlur(
+      context,
+      component: widget.style.surfaceBlur,
+    );
+    final double densityBase =
+        ambient.density.baseContentPadding * ambient.scaling;
+    final EdgeInsetsGeometry panelPadding = resolveEdgeInsets(
+      const EdgeInsetsDensity.pxAll(16),
+      densityBase,
+    );
+    // Details overlay frosts like every other surface: the scrim and the
+    // inner card both paint through surfaceColor + GlassSurface so the
+    // global opacity/blur legs reach them (navigation-bar parity).
+    final Color scrim = surfaceColor(cardBase.withAlpha(0xF2), opacity);
+    final Color cardPaint = surfaceColor(cardBase, opacity);
+    final Widget panel = Container(
+      color: scrim,
+      padding: panelPadding,
       child: Center(
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: panelPadding,
           decoration: BoxDecoration(
-            color: ambient.colors.card,
+            color: cardPaint,
             border: Border.all(color: ambient.colors.border),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -343,6 +365,11 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
           ),
         ),
       ),
+    );
+    return GlassSurface(
+      surfaceBlur: blur,
+      borderRadius: BorderRadius.circular(12),
+      child: panel,
     );
   }
 

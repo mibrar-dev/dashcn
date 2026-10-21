@@ -58,11 +58,17 @@ class AudioExpandedTransport extends StatelessWidget {
     final AudioPlaybackController c = controller;
     if (controlsBuilder != null) return controlsBuilder!(context, c);
     final double iconSize = style.iconSize ?? 18;
-    // 12 px density gaps between transport controls.
+    // 12 px density gaps between transport controls. Wrap (not Row) so
+    // custom builders with wide content wrap to a second line instead of
+    // overflowing the 386 px card content (scorecard 48 px targets fit
+    // in one line for the default buttons).
     final ThemeData ambient = Theme.of(context);
     final double controlGap = ambient.density.baseGap * ambient.scaling * gapMd;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: controlGap,
+      runSpacing: controlGap,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         shuffleBuilder?.call(context, c) ??
             _toggleButton(
@@ -76,7 +82,6 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.toggleShuffle,
             ),
-        SizedBox(width: controlGap),
         previousBuilder?.call(context, c) ??
             _transportButton(
               label: ComponentLocalizations.of(context).mediaPreviousTrack,
@@ -85,9 +90,7 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.previous,
             ),
-        SizedBox(width: controlGap),
         playButtonBuilder?.call(context, c) ?? _bigPlay(context, c),
-        SizedBox(width: controlGap),
         nextBuilder?.call(context, c) ??
             _transportButton(
               label: ComponentLocalizations.of(context).mediaNextTrack,
@@ -96,7 +99,6 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.next,
             ),
-        SizedBox(width: controlGap),
         repeatBuilder?.call(context, c) ??
             _toggleButton(
               label: c.isLooping
@@ -158,14 +160,15 @@ Widget _transportButton({
   required double size,
   VoidCallback? onTap,
 }) {
+  // Scorecard tap-target floor: 48x48 meets Android (48) and iOS (44).
   return FocusableTap(
     label: label,
     onTap: onTap,
-    minWidth: 32,
-    minHeight: 32,
+    minWidth: 48,
+    minHeight: 48,
     child: SizedBox(
-      width: 40,
-      height: 40,
+      width: 48,
+      height: 48,
       child: Center(
         child: Icon(icon, size: size, color: fg),
       ),
@@ -185,11 +188,11 @@ Widget _toggleButton({
   return FocusableTap(
     label: label,
     onTap: onTap,
-    minWidth: 32,
-    minHeight: 32,
+    minWidth: 48,
+    minHeight: 48,
     child: SizedBox(
-      width: 40,
-      height: 40,
+      width: 48,
+      height: 48,
       child: Center(
         child: Icon(icon, size: size, color: active ? fg : muted),
       ),

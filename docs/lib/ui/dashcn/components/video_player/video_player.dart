@@ -11,7 +11,9 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/constants.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
 import 'video_player_controller.dart';
@@ -477,10 +479,34 @@ class _VideoPlayerState extends State<VideoPlayer> {
     if (title == null && widget.subtitle == null) {
       return const SizedBox.shrink();
     }
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    final ThemeData ambient = Theme.of(context);
+    final VideoPlayerTheme style =
+        resolveComponentStyle<VideoPlayerTheme, VideoPlayerTheme>(
+          context,
+          widget: widget.theme,
+          select: (t) => t,
+          defaults: videoPlayerDefaults,
+        );
+    final Color base =
+        style.scrim?.resolve(ambient.colors) ?? const Color(0x99000000);
+    final double? opacity = resolveSurfaceOpacity(
+      context,
+      component: style.surfaceOpacity,
+    );
+    final double? blur = resolveSurfaceBlur(
+      context,
+      component: style.surfaceBlur,
+    );
+    final double densityBase =
+        ambient.density.baseContentPadding * ambient.scaling;
+    final EdgeInsetsGeometry padding = resolveEdgeInsets(
+      const EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
+      densityBase,
+    );
+    final Widget bar = Container(
+      padding: padding,
       decoration: BoxDecoration(
-        color: const Color(0x99000000),
+        color: surfaceColor(base, opacity),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -507,6 +533,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
             ),
         ],
       ),
+    );
+    return GlassSurface(
+      surfaceBlur: blur,
+      borderRadius: BorderRadius.circular(10),
+      child: bar,
     );
   }
 }
