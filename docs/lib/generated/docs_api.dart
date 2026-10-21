@@ -2840,7 +2840,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'String?',
         isRequired: false,
         doc:
-            'Accessible label for the loading placeholder; null reads `Loading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
+            'Accessible label for the loading placeholder; null reads the locale `announcementLoading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
       ),
     ],
     members: <DocsApiMember>[],
