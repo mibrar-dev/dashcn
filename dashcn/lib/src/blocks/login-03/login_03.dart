@@ -22,6 +22,7 @@ import '../../components/divider/divider.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 
@@ -131,7 +132,10 @@ class _Login03State extends State<Login03> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Text('Sign in', style: theme.typography.h2),
+                    Text(
+                      ComponentLocalizations.of(context).authSignIn,
+                      style: theme.typography.h2,
+                    ),
                     Gap(theme.spacing.sm),
                     Text(
                       'Pick the way you prefer.',
@@ -189,7 +193,9 @@ class _Login03State extends State<Login03> {
                         children: <Widget>[
                           FormItem<String>(
                             key: _emailKey,
-                            label: const Text('Email'),
+                            label: Text(
+                              ComponentLocalizations.of(context).authEmail,
+                            ),
                             validator:
                                 const NotEmptyValidator() &
                                 const EmailValidator(),
@@ -208,7 +214,9 @@ class _Login03State extends State<Login03> {
                           Gap(theme.spacing.md),
                           FormItem<String>(
                             key: _passwordKey,
-                            label: const Text('Password'),
+                            label: Text(
+                              ComponentLocalizations.of(context).authPassword,
+                            ),
                             validator:
                                 const NotEmptyValidator() &
                                 const LengthValidator(min: 8),
@@ -217,7 +225,9 @@ class _Login03State extends State<Login03> {
                               FormValidationMode.submitted,
                             },
                             child: Input(
-                              hintText: 'Password',
+                              hintText: ComponentLocalizations.of(
+                                context,
+                              ).authPassword,
                               obscureText: true,
                               textInputAction: TextInputAction.done,
                               focusNode: _passwordFocus,

@@ -5,6 +5,7 @@
 // and cover placeholders only.
 
 import 'audio_player_controller.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The three SPEC tracks, in order.
 const List<AudioTrack> demoAudioTracks = <AudioTrack>[
@@ -35,10 +36,17 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
 ];
 
 /// Resolves the compact pill title: track title, then widget title.
-String resolveAudioTitle(AudioPlaybackController controller, String? title) {
+///
+/// English fallback for code without a [BuildContext]; widget builds should
+/// pass the ambient [ComponentLocalizations] so the fallback is localized.
+String resolveAudioTitle(
+  AudioPlaybackController controller,
+  String? title, [
+  ComponentLocalizations? strings,
+]) {
   final AudioTrack? track = controller.currentTrack;
   if (track != null) return track.title;
-  return title ?? 'Untitled';
+  return title ?? strings?.mediaUntitled ?? 'Untitled';
 }
 
 /// Resolves the artist line: track artist, then widget subtitle.

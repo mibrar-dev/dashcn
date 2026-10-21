@@ -19,6 +19,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/date_math.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// A scheduling panel: a month calendar and the selected day's agenda.
@@ -160,18 +161,25 @@ class _Calendar02Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Row(
       children: <Widget>[
         Expanded(
           child: Text(
-            '${_monthName(view.month)} ${view.year}',
+            '${_monthName(ComponentLocalizations.of(context), view.month)} ${view.year}',
             style: theme.typography.textLarge,
           ),
         ),
         Gap(theme.spacing.md),
-        _Calendar02Step(icon: LucideIcons.chevronLeft, onPressed: onPrevious),
+        _Calendar02Step(
+          icon: rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
+          onPressed: onPrevious,
+        ),
         Gap(theme.spacing.sm),
-        _Calendar02Step(icon: LucideIcons.chevronRight, onPressed: onNext),
+        _Calendar02Step(
+          icon: rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+          onPressed: onNext,
+        ),
       ],
     );
   }
@@ -319,18 +327,10 @@ class _Calendar02Slot extends StatelessWidget {
   }
 }
 
-String _monthName(int month) => switch (month) {
-  1 => 'January',
-  2 => 'February',
-  3 => 'March',
-  4 => 'April',
-  5 => 'May',
-  6 => 'June',
-  7 => 'July',
-  8 => 'August',
-  9 => 'September',
-  10 => 'October',
-  11 => 'November',
-  12 => 'December',
-  _ => 'Month $month',
-};
+/// Full month name from the locale (replaces the hardcoded English table).
+String _monthName(ComponentLocalizations strings, int month) {
+  if (month < DateTime.january || month > DateTime.december) {
+    return 'Month $month';
+  }
+  return strings.getMonth(month);
+}

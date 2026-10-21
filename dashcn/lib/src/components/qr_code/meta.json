@@ -20,7 +20,7 @@
       "color_tokens",
       "theme"
     ],
-    "primitives": [],
+    "primitives": ["localizations"],
     "components": []
   },
   "files": [

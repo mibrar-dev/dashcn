@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'qr_code_matrix.dart';
 import 'qr_code_style.dart';
 
@@ -202,7 +203,7 @@ class QrCode extends StatelessWidget {
     final QrMatrix matrix = QrMatrix.encode(data, level: errorCorrectLevel);
     final bool clears = center != null && centerFraction > 0;
     return Semantics(
-      label: semanticsLabel ?? 'QR code',
+      label: semanticsLabel ?? ComponentLocalizations.of(context).qrCodeLabel,
       image: true,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

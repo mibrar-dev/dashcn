@@ -175,30 +175,31 @@ class Pagination extends StatelessWidget {
         final bool labelled = !compact && withLabel;
         final bool skipFirst = !compact && showSkipToFirstPage;
         final bool skipLast = !compact && showSkipToLastPage;
+        final bool rtl = Directionality.of(context) == TextDirection.rtl;
         final int firstShown = _firstShown(window);
         final int lastShown = _lastShown(window);
 
         final List<Widget> children = <Widget>[];
         if (!hidePreviousOnFirstPage || hasPrevious) {
-          children.add(_previous(localizations, labelled, iconSize));
+          children.add(_previous(localizations, labelled, iconSize, rtl));
         }
         if (firstShown > 1) {
           if (skipFirst && firstShown - 1 > 1) {
             children.add(_pageButton(1));
           }
-          children.add(_ellipsis(firstShown - 1));
+          children.add(_ellipsis(context, firstShown - 1));
         }
         for (final int p in _window(window)) {
           children.add(_pageButton(p));
         }
         if (lastShown < totalPages) {
-          children.add(_ellipsis(lastShown + 1));
+          children.add(_ellipsis(context, lastShown + 1));
           if (skipLast && lastShown + 1 < totalPages) {
             children.add(_pageButton(totalPages));
           }
         }
         if (!hideNextOnLastPage || hasNext) {
-          children.add(_next(localizations, labelled, iconSize));
+          children.add(_next(localizations, labelled, iconSize, rtl));
         }
 
         return IntrinsicHeight(
@@ -275,16 +276,22 @@ class Pagination extends StatelessWidget {
       variant: isCurrent ? ButtonVariant.outline : ButtonVariant.ghost,
       size: ButtonSize.sm,
       onPressed: () => onPageChanged(pageNumber),
-      child: Text('$pageNumber'),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Text('$pageNumber'),
+      ),
     );
   }
 
-  Widget _ellipsis(int targetPage) {
+  Widget _ellipsis(BuildContext context, int targetPage) {
     return Button(
       variant: ButtonVariant.ghost,
       size: ButtonSize.sm,
       onPressed: () => onPageChanged(targetPage),
-      child: Semantics(label: 'Page $targetPage', child: const TripleDots()),
+      child: Semantics(
+        label: ComponentLocalizations.of(context).paginationPage(targetPage),
+        child: const TripleDots(),
+      ),
     );
   }
 
@@ -292,6 +299,7 @@ class Pagination extends StatelessWidget {
     ComponentLocalizations localizations,
     bool withLabel,
     double iconSize,
+    bool rtl,
   ) {
     final VoidCallback? onPressed = hasPrevious
         ? () => onPageChanged(_current - 1)
@@ -301,7 +309,10 @@ class Pagination extends StatelessWidget {
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
         onPressed: onPressed,
-        leading: Icon(LucideIcons.chevronLeft, size: iconSize),
+        leading: Icon(
+          rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
+          size: iconSize,
+        ),
         child: Text(localizations.buttonPrevious),
       );
     }
@@ -311,7 +322,10 @@ class Pagination extends StatelessWidget {
       onPressed: onPressed,
       child: Semantics(
         label: localizations.buttonPrevious,
-        child: Icon(LucideIcons.chevronLeft, size: iconSize),
+        child: Icon(
+          rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
+          size: iconSize,
+        ),
       ),
     );
   }
@@ -320,6 +334,7 @@ class Pagination extends StatelessWidget {
     ComponentLocalizations localizations,
     bool withLabel,
     double iconSize,
+    bool rtl,
   ) {
     final VoidCallback? onPressed = hasNext
         ? () => onPageChanged(_current + 1)
@@ -329,7 +344,10 @@ class Pagination extends StatelessWidget {
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
         onPressed: onPressed,
-        trailing: Icon(LucideIcons.chevronRight, size: iconSize),
+        trailing: Icon(
+          rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+          size: iconSize,
+        ),
         child: Text(localizations.buttonNext),
       );
     }
@@ -339,7 +357,10 @@ class Pagination extends StatelessWidget {
       onPressed: onPressed,
       child: Semantics(
         label: localizations.buttonNext,
-        child: Icon(LucideIcons.chevronRight, size: iconSize),
+        child: Icon(
+          rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+          size: iconSize,
+        ),
       ),
     );
   }

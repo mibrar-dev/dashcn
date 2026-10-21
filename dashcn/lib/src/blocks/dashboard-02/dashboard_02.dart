@@ -11,6 +11,7 @@ import '../../components/card/card.dart';
 import '../../components/input/input.dart';
 import 'dashboard_02_sections.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// An analytics workspace: chart, device split and traffic sources.
@@ -156,7 +157,12 @@ class _Dashboard02ShellBar extends StatelessWidget {
               ),
               const Spacer(),
               if (showSearch) ...<Widget>[
-                const SizedBox(width: 200, child: Input(hintText: 'Search')),
+                SizedBox(
+                  width: 200,
+                  child: Input(
+                    hintText: ComponentLocalizations.of(context).filterSearch,
+                  ),
+                ),
                 Gap(theme.spacing.sm),
               ],
               Button(onPressed: () {}, child: const Text('Share')),

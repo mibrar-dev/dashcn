@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_scope.dart';
 import 'carousel_style.dart';
 
@@ -361,7 +362,7 @@ class _CarouselState extends State<Carousel>
             child: Semantics(
               container: true,
               explicitChildNodes: true,
-              value: _semanticsValue(),
+              value: _semanticsValue(ComponentLocalizations.of(context)),
               child: stack,
             ),
           );
@@ -388,7 +389,7 @@ class _CarouselState extends State<Carousel>
   }
 
   /// Screen-reader position, e.g. `Page 2 of 5`; null when unbounded.
-  String? _semanticsValue() {
+  String? _semanticsValue(ComponentLocalizations strings) {
     final int? count = widget.itemCount;
     if (count == null) {
       return null;
@@ -397,7 +398,7 @@ class _CarouselState extends State<Carousel>
         .resolvedIndex(itemCount: count, wrap: _resolved.wrap!)
         .round()
         .clamp(0, count - 1);
-    return 'Page ${index + 1} of $count';
+    return strings.carouselPageOf(index + 1, count);
   }
 
   /// Steps one page for keyboard input; left/up go back in LTR and forward

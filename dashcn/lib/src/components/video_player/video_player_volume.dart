@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -20,7 +21,9 @@ Widget videoVolumeCluster({
   double minTarget = 48,
 }) {
   final Widget mute = videoIconButton(
-    label: c.isMuted ? 'Unmute' : 'Mute',
+    label: c.isMuted
+        ? ComponentLocalizations.of(context).mediaUnmute
+        : ComponentLocalizations.of(context).mediaMute,
     icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
     size: style.iconSize ?? 16,
     fg: fg,
@@ -34,7 +37,7 @@ Widget videoVolumeCluster({
     children: <Widget>[
       mute,
       Semantics(
-        label: 'Volume',
+        label: ComponentLocalizations.of(context).mediaVolume,
         slider: true,
         value: '${(level * 100).round()}%',
         increasedValue: '${(((level + 0.1).clamp(0.0, 1.0)) * 100).round()}%',

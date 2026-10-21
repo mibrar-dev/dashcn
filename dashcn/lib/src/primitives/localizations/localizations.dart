@@ -1,22 +1,27 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'localizations_chrome.dart';
 import 'localizations_date_time.dart';
 import 'localizations_delegate.dart';
 import 'localizations_error.dart';
 import 'localizations_files.dart';
 import 'localizations_form.dart';
+import 'localizations_media.dart';
 import 'localizations_misc.dart';
 import 'localizations_overlay.dart';
 
 // Keeps `ComponentLocalizations.delegate`, `ComponentLocalizationsDelegate` and
 // `lookupComponentLocalizations` reachable from this one import, and exposes the
 // domain mixins the class is built from.
+export 'localizations_chrome.dart';
+export 'localizations_dashcn.dart';
 export 'localizations_date_time.dart';
 export 'localizations_delegate.dart';
 export 'localizations_error.dart';
 export 'localizations_files.dart';
 export 'localizations_form.dart';
+export 'localizations_media.dart';
 export 'localizations_misc.dart';
 export 'localizations_overlay.dart';
 
@@ -42,6 +47,8 @@ class ComponentLocalizations
         ComponentLocalizationsDateTime,
         ComponentLocalizationsFiles,
         ComponentLocalizationsMisc,
+        ComponentLocalizationsMedia,
+        ComponentLocalizationsChrome,
         ComponentLocalizationsError {
   const ComponentLocalizations(this.locale);
 
@@ -108,6 +115,8 @@ class ComponentLocalizations
     Locale('ms'),
     Locale('nb'),
     Locale('nl'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+    Locale('pt', 'BR'),
     Locale('pl'),
     Locale('ps'),
     Locale('pt'),

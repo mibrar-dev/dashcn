@@ -336,4 +336,496 @@ class ComponentLocalizationsZh extends ComponentLocalizations {
 
   @override
   String get durationSecond => '秒';
+
+  @override
+  String get dropzoneIdle => '浏览以上传文件';
+
+  @override
+  String get dropzoneDragging => '拖放文件以上传';
+
+  @override
+  String get dropzoneUploading => '正在上传文件...';
+
+  @override
+  String get dropzoneSuccess => '文件已就绪';
+
+  @override
+  String get dropzoneError => '请修复错误以继续';
+
+  @override
+  String get dropzoneDisabled => '文件上传已禁用';
+
+  @override
+  String get dropzoneBrowse => '浏览文件';
+
+  @override
+  String get emptyStateEmptyTitle => '这里还没有内容';
+
+  @override
+  String get emptyStateEmptyDescription => '创建您的第一个项目以开始。';
+
+  @override
+  String get emptyStateNoResultsTitle => '未找到结果';
+
+  @override
+  String get emptyStateNoResultsDescription => '请尝试调整筛选条件或搜索词。';
+
+  @override
+  String get emptyStateErrorTitle => '出现了一些问题';
+
+  @override
+  String get emptyStateErrorDescription => '我们无法加载这些数据。请稍后再试。';
+
+  @override
+  String get filterSearch => '搜索';
+
+  @override
+  String get filterSort => '排序';
+
+  @override
+  String get filterDateRange => '日期范围';
+
+  @override
+  String get filterClearAll => '全部清除';
+
+  @override
+  String get filterFilters => '筛选';
+
+  @override
+  String filterActiveCount(int count) => '${_number(count)} 个生效的筛选';
+
+  @override
+  String filterResultsCount(int count) => '${_number(count)} 个结果';
+
+  @override
+  String get fileUploadChoose => '选择文件';
+
+  @override
+  String get fileUploadNoFile => '未选择文件';
+
+  @override
+  String get fileUploadPickFailed => '文件选择失败。';
+
+  @override
+  String get fileUploadTooMany => '选择的文件过多。';
+
+  @override
+  String get fileUploadTooLarge => '文件太大。';
+
+  @override
+  String get fileUploadInvalidType => '不允许此文件类型。';
+
+  @override
+  String get fileUploadUploadFailed => '上传失败。';
+
+  @override
+  String fileUploadUploadFailedFor(String name) => '$name 上传失败。';
+
+  @override
+  String get fileUploadStatusQueued => '排队中';
+
+  @override
+  String get fileUploadStatusUploading => '上传中';
+
+  @override
+  String get fileUploadStatusCompleted => '已完成';
+
+  @override
+  String get fileUploadStatusFailed => '失败';
+
+  @override
+  String get fileUploadUnknownType => '文件';
+
+  @override
+  String get fileUploadRemove => '移除文件';
+
+  @override
+  String get fileUploadRetry => '重试上传';
+
+  @override
+  String get fileUploadPreview => '预览文件';
+
+  @override
+  String get fileUploadDownload => '下载文件';
+
+  @override
+  String get errorSomethingWentWrong => '出现了一些问题';
+
+  @override
+  String get errorUnexpectedMessage => '请重试，如果问题仍然存在，请联系支持人员。';
+
+  @override
+  String get errorActionRetry => '重试';
+
+  @override
+  String get errorActionReport => '举报';
+
+  @override
+  String get errorActionBack => '返回';
+
+  @override
+  String get errorActionLogin => '登录';
+
+  @override
+  String get errorActionSettings => '设置';
+
+  @override
+  String get errorActionContactSupport => '联系支持人员';
+
+  @override
+  String get errorBadRequest => '错误的请求';
+
+  @override
+  String get errorBadRequestMessage => '请求无效。请检查后重试。';
+
+  @override
+  String get errorUnauthorized => '未授权';
+
+  @override
+  String get errorLoginRequiredMessage => '请登录以继续。';
+
+  @override
+  String get errorAccessDenied => '访问被拒绝';
+
+  @override
+  String get errorAccessDeniedMessage => '您没有执行此操作的权限。';
+
+  @override
+  String get errorNotFound => '未找到';
+
+  @override
+  String get errorNotFoundMessage => '我们找不到您要查找的内容。';
+
+  @override
+  String get errorConflict => '冲突';
+
+  @override
+  String get errorConflictMessage => '此操作与现有数据冲突。';
+
+  @override
+  String get errorInvalidData => '无效数据';
+
+  @override
+  String get errorInvalidDataMessage => '部分字段需要您的关注。';
+
+  @override
+  String get errorTooManyRequests => '请求过多';
+
+  @override
+  String get errorTooManyRequestsMessage => '请稍候片刻，然后重试。';
+
+  @override
+  String get errorServerError => '服务器错误';
+
+  @override
+  String get errorServerErrorMessage => '服务器遇到了问题。请重试。';
+
+  @override
+  String get errorRequestTimedOut => '请求超时';
+
+  @override
+  String get errorRequestTimedOutMessage => '服务器响应时间过长。';
+
+  @override
+  String get errorAuthenticationRequired => '需要身份验证';
+
+  @override
+  String get errorInvalidInput => '输入无效';
+
+  @override
+  String get errorReviewFieldsMessage => '请检查突出显示的字段。';
+
+  @override
+  String get errorPlatformError => '平台错误';
+
+  @override
+  String get errorDeviceErrorMessage => '此设备出现了一些问题。';
+
+  @override
+  String get errorConnectionFailed => '连接失败';
+
+  @override
+  String get errorConnectionFailedMessage => '请检查您的互联网连接，然后重试。';
+
+  @override
+  String get errorSecureConnectionFailed => '安全连接失败';
+
+  @override
+  String get errorSecureConnectionMessage => '我们无法建立安全连接。';
+
+  @override
+  String get tableResizeColumn => '调整列宽';
+
+  @override
+  String get tableResizeRow => '调整行高';
+
+  @override
+  String get resizableHandle => '大小调整手柄';
+
+  @override
+  String get spellCheckNoSuggestions => '没有建议';
+
+  @override
+  String get announcementLoading => '正在加载';
+
+  @override
+  String get announcementSuccess => '成功';
+
+  @override
+  String get announcementFailure => '失败';
+
+  @override
+  String get toolbarMore => '更多';
+
+  @override
+  String get toolbarMoreActions => '更多操作';
+
+  @override
+  String get treeCollapse => '收起';
+
+  @override
+  String get treeExpand => '展开';
+
+  @override
+  String get markdownDetails => '详情';
+
+  @override
+  String get carouselLabel => '精选轮播';
+
+  @override
+  String get carouselPrimaryAction => '添加到聊天';
+
+  @override
+  String carouselItemPreview(Object? title) => '精选预览：${title ?? mediaUntitled}';
+
+  @override
+  String carouselPageOf(int position, int length) =>
+      '第 ${_number(position)} 页，共 ${_number(length)} 页';
+
+  @override
+  String stepperStep(int index) => '第 ${_number(index + 1)} 步';
+
+  @override
+  String paginationPage(Object? page) => '第 ${_number(page)} 页';
+
+  @override
+  String chartSeriesDefault(int index) => '系列 ${_number(index + 1)}';
+
+  @override
+  String chartSliceDefault(int index) => '切片 ${_number(index)}';
+
+  @override
+  String chartCategoryDefault(int index) => '类别 ${_number(index)}';
+
+  @override
+  String get chartValueDefault => '数值';
+
+  @override
+  String get chartKindLine => '折线';
+
+  @override
+  String get chartKindArea => '面积';
+
+  @override
+  String get chartKindBar => '柱状';
+
+  @override
+  String get chartKindDonut => '环形';
+
+  @override
+  String get chartKindPie => '饼形';
+
+  @override
+  String get chartKindSparkline => '迷你图';
+
+  @override
+  String get chartKindScatter => '散点';
+
+  @override
+  String get chartKindRadar => '雷达';
+
+  @override
+  String get chartKindRadial => '径向';
+
+  @override
+  String chartSummaryEmpty(Object? kind) => '无数据的 $kind 图表';
+
+  @override
+  String chartSummary(int series, int points, Object? kind) =>
+      '$kind 图表：${_number(series)} 个系列，${_number(points)} 个数据点';
+
+  @override
+  String get colorFieldHsv => 'HSV 颜色区域';
+
+  @override
+  String get colorFieldHsl => 'HSL 颜色区域';
+
+  @override
+  String get actionClear => '清除';
+
+  @override
+  String get actionApply => '应用';
+
+  @override
+  String get actionVerify => '验证';
+
+  @override
+  String get actionResend => '重新发送';
+
+  @override
+  String resendInSeconds(int seconds) => '${_number(seconds)} 秒后重新发送';
+
+  @override
+  String get authCode => '验证码';
+
+  @override
+  String get authEmail => '电子邮箱';
+
+  @override
+  String get authPassword => '密码';
+
+  @override
+  String get authName => '姓名';
+
+  @override
+  String get authSignIn => '登录';
+
+  @override
+  String get authForgotPassword => '忘记密码？';
+
+  @override
+  String get authRememberMe => '记住我';
+
+  @override
+  String get authCreateAccount => '创建账号';
+
+  @override
+  String get actionClose => '关闭';
+
+  @override
+  String get mediaPlay => '播放';
+
+  @override
+  String get mediaPause => '暂停';
+
+  @override
+  String get mediaMute => '静音';
+
+  @override
+  String get mediaUnmute => '取消静音';
+
+  @override
+  String get mediaVolume => '音量';
+
+  @override
+  String get mediaSeek => '快进快退';
+
+  @override
+  String get mediaDownload => '下载';
+
+  @override
+  String get mediaAudioPlayer => '音频播放器';
+
+  @override
+  String get mediaVideoPlayer => '视频播放器';
+
+  @override
+  String get mediaUntitled => '未命名';
+
+  @override
+  String get mediaPlaybackFailed => '播放失败';
+
+  @override
+  String get mediaPreviousTrack => '上一首';
+
+  @override
+  String get mediaNextTrack => '下一首';
+
+  @override
+  String get mediaShuffleDisable => '关闭随机播放';
+
+  @override
+  String get mediaShuffleEnable => '开启随机播放';
+
+  @override
+  String get mediaRepeatDisable => '关闭重复播放';
+
+  @override
+  String get mediaRepeatEnable => '开启重复播放';
+
+  @override
+  String mediaPlaybackSpeed(Object? speed) => '播放速度 ${speed}x，点击更改';
+
+  @override
+  String mediaPositionOf(Object position, Object duration) =>
+      '$position / $duration';
+
+  @override
+  String mediaHours(int count) => '${_number(count)} 小时';
+
+  @override
+  String mediaMinutes(int count) => '${_number(count)} 分钟';
+
+  @override
+  String mediaSeconds(int count) => '${_number(count)} 秒';
+
+  @override
+  String get signaturePadLabel => '签名区';
+
+  @override
+  String get qrCodeLabel => '二维码';
+
+  @override
+  String get marqueeContent => '滚动内容';
+
+  @override
+  String mediaSkipBack(int seconds) => '后退 ${_number(seconds)} 秒';
+
+  @override
+  String mediaSkipForward(int seconds) => '前进 ${_number(seconds)} 秒';
+
+  @override
+  String get mediaCaptionsShow => '显示字幕';
+
+  @override
+  String get mediaCaptionsHide => '隐藏字幕';
+
+  @override
+  String get mediaCaptionsOn => '字幕已开启';
+
+  @override
+  String get mediaCaptionsOff => '字幕已关闭';
+
+  @override
+  String get mediaFullscreen => '全屏';
+
+  @override
+  String mediaMoreOptionsSpeed(Object? speed) => '更多选项，播放速度 ${speed}x';
+
+  @override
+  String mediaSpeed(Object? speed) => '速度 ${speed}x';
+
+  @override
+  String get actionStartTrial => '开始免费试用';
+
+  @override
+  String get authFirstName => '名';
+
+  @override
+  String get authLastName => '姓';
+
+  @override
+  String get authPasswordHint => '至少8个字符。';
+
+  @override
+  String get authUseDifferentEmail => '使用其他电子邮箱';
+
+  @override
+  String get authWorkEmail => '工作邮箱';
+
+  @override
+  String get chartTotalLabel => '总计';
+
+  @override
+  String get mediaQualityAuto => '画质 自动';
 }

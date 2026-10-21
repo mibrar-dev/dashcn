@@ -19,6 +19,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/date_math.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// A date-range card: the calendar, a range summary and footer actions.
@@ -171,21 +172,23 @@ class _Calendar01Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
     final String months = twoMonths
-        ? '${_monthName(view.month)} - ${_monthName(view.next.month)} '
-              '${view.next.year}'
-        : '${_monthName(view.month)} ${view.year}';
+        ? '${_monthName(strings, view.month)} - '
+              '${_monthName(strings, view.next.month)} ${view.next.year}'
+        : '${_monthName(strings, view.month)} ${view.year}';
     return Row(
       children: <Widget>[
         Expanded(child: Text(months, style: theme.typography.textLarge)),
         Gap(theme.spacing.md),
         _Calendar01Step(
-          icon: LucideIcons.chevronLeft,
+          icon: rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
           onPressed: () => onShift(-1),
         ),
         Gap(theme.spacing.sm),
         _Calendar01Step(
-          icon: LucideIcons.chevronRight,
+          icon: rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
           onPressed: () => onShift(1),
         ),
       ],
@@ -251,7 +254,7 @@ class _Calendar01Footer extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Text(
-            _summary(value),
+            _summary(ComponentLocalizations.of(context), value),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -261,73 +264,69 @@ class _Calendar01Footer extends StatelessWidget {
         Button(
           variant: ButtonVariant.outline,
           onPressed: onClear,
-          child: const Text('Clear'),
+          child: Text(ComponentLocalizations.of(context).actionClear),
         ),
         Gap(theme.spacing.sm),
-        Button(onPressed: onApply, child: const Text('Apply')),
+        Button(
+          onPressed: onApply,
+          child: Text(ComponentLocalizations.of(context).actionApply),
+        ),
       ],
     );
   }
 }
 
 /// The live range summary for the footer: the picked dates first.
-String _summary(CalendarValue? value) {
+///
+/// Month names come from the locale; the surrounding demo sentences stay
+/// English block sample content (preview.dart doctrine).
+String _summary(ComponentLocalizations strings, CalendarValue? value) {
   final CalendarValue? current = value;
   if (current is RangeCalendarValue) {
     final int nights = current.end.difference(current.start).inDays;
-    final String range = _rangeLabel(current.start, current.end);
+    final String range = _rangeLabel(strings, current.start, current.end);
     if (nights <= 0) {
       return '$range · Same-day stay';
     }
     return '$range · $nights night${nights == 1 ? '' : 's'}';
   }
   if (current is SingleCalendarValue) {
-    return '${_shortLabel(current.date)} — '
+    return '${_shortLabel(strings, current.date)} — '
         'tap another day to extend the range';
   }
   return 'Pick a date range';
 }
 
 /// Compact range label: `Oct 12–18, 2026`, or `Oct 30 – Nov 2, 2026`.
-String _rangeLabel(DateTime start, DateTime end) {
+String _rangeLabel(
+  ComponentLocalizations strings,
+  DateTime start,
+  DateTime end,
+) {
   if (start.year == end.year && start.month == end.month) {
-    return '${_shortMonth(start.month)} ${start.day}–${end.day}, '
+    return '${_shortMonth(strings, start.month)} ${start.day}–${end.day}, '
         '${start.year}';
   }
-  return '${_shortLabel(start)} – ${_shortLabel(end)}, ${end.year}';
+  return '${_shortLabel(strings, start)} – ${_shortLabel(strings, end)}, '
+      '${end.year}';
 }
 
 /// Compact day label: `Oct 12`.
-String _shortLabel(DateTime date) => '${_shortMonth(date.month)} ${date.day}';
+String _shortLabel(ComponentLocalizations strings, DateTime date) =>
+    '${_shortMonth(strings, date.month)} ${date.day}';
 
-String _shortMonth(int month) => switch (month) {
-  1 => 'Jan',
-  2 => 'Feb',
-  3 => 'Mar',
-  4 => 'Apr',
-  5 => 'May',
-  6 => 'Jun',
-  7 => 'Jul',
-  8 => 'Aug',
-  9 => 'Sep',
-  10 => 'Oct',
-  11 => 'Nov',
-  12 => 'Dec',
-  _ => 'M$month',
-};
+/// Abbreviated month from the locale (replaces the hardcoded English table).
+String _shortMonth(ComponentLocalizations strings, int month) {
+  if (month < DateTime.january || month > DateTime.december) {
+    return 'M$month';
+  }
+  return strings.getAbbreviatedMonth(month);
+}
 
-String _monthName(int month) => switch (month) {
-  1 => 'January',
-  2 => 'February',
-  3 => 'March',
-  4 => 'April',
-  5 => 'May',
-  6 => 'June',
-  7 => 'July',
-  8 => 'August',
-  9 => 'September',
-  10 => 'October',
-  11 => 'November',
-  12 => 'December',
-  _ => 'Month $month',
-};
+/// Full month name from the locale (replaces the hardcoded English table).
+String _monthName(ComponentLocalizations strings, int month) {
+  if (month < DateTime.january || month > DateTime.december) {
+    return 'Month $month';
+  }
+  return strings.getMonth(month);
+}

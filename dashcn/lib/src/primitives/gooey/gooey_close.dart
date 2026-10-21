@@ -11,6 +11,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../clickable.dart';
+import '../localizations/localizations.dart';
 
 /// Close button for an expanded gooey toast.
 class GooeyCloseButton extends StatelessWidget {
@@ -36,7 +37,7 @@ class GooeyCloseButton extends StatelessWidget {
       },
       child: Semantics(
         button: true,
-        label: 'Dismiss',
+        label: ComponentLocalizations.of(context).dialogDismiss,
         child: Clickable(
           onPressed: onDismiss,
           onFocus: onFocusChange,

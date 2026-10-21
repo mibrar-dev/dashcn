@@ -21,6 +21,7 @@ import '../../components/checkbox/checkbox.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// Values submitted by [Signup01].
@@ -141,7 +142,10 @@ class _Signup01State extends State<Signup01> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Create an account', style: theme.typography.h2),
+              Text(
+                ComponentLocalizations.of(context).authCreateAccount,
+                style: theme.typography.h2,
+              ),
               Gap(theme.spacing.sm),
               Text(
                 'Enter your email below to create your account.',
@@ -152,7 +156,7 @@ class _Signup01State extends State<Signup01> {
               Gap(theme.spacing.xl),
               FormItem<String>(
                 key: _nameKey,
-                label: const Text('Name'),
+                label: Text(ComponentLocalizations.of(context).authName),
                 validator:
                     const NotEmptyValidator() &
                     const LengthValidator(min: 2, max: 50),
@@ -170,7 +174,7 @@ class _Signup01State extends State<Signup01> {
               Gap(theme.spacing.md),
               FormItem<String>(
                 key: _emailKey,
-                label: const Text('Email'),
+                label: Text(ComponentLocalizations.of(context).authEmail),
                 validator: const NotEmptyValidator() & const EmailValidator(),
                 showErrors: const <FormValidationMode>{
                   FormValidationMode.changed,
@@ -187,8 +191,8 @@ class _Signup01State extends State<Signup01> {
               Gap(theme.spacing.md),
               FormItem<String>(
                 key: _passwordKey,
-                label: const Text('Password'),
-                hint: const Text('At least 8 characters.'),
+                label: Text(ComponentLocalizations.of(context).authPassword),
+                hint: Text(ComponentLocalizations.of(context).authPasswordHint),
                 validator:
                     const NotEmptyValidator() & const LengthValidator(min: 8),
                 showErrors: const <FormValidationMode>{
@@ -196,7 +200,7 @@ class _Signup01State extends State<Signup01> {
                   FormValidationMode.submitted,
                 },
                 child: Input(
-                  hintText: 'Password',
+                  hintText: ComponentLocalizations.of(context).authPassword,
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                   focusNode: _passwordFocus,
@@ -253,7 +257,7 @@ class _Signup01State extends State<Signup01> {
                   Button(
                     variant: ButtonVariant.link,
                     onPressed: widget.onSignIn ?? () {},
-                    child: const Text('Sign in'),
+                    child: Text(ComponentLocalizations.of(context).authSignIn),
                   ),
                 ],
               ),
