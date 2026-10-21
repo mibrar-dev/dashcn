@@ -22109,11 +22109,16 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 
 /// Width below which the shells switch to the phone bar + drawer pattern.
-const double kSidebarPhoneWidth = 560.0;
+///
+/// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
+/// the docs 295 px example stage (375 px viewport) and any narrow stage use
+/// the phone bar (no 240 px rail) instead of overflowing.
+const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
 const double kSidebarFallbackHeight = 360.0;
@@ -22160,6 +22165,10 @@ class _DemoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Density tokens drive the card thumb (control height: 32 compact,
+    // 48 touch) and the gaps, so the content tracks compact/touch density
+    // instead of hard-coding 32/8.
+    final DensityTokens tokens = resolveDensityTokens(context);
     final Widget cards = Column(
       children: <Widget>[
         for (int i = 0; i < 6; i++)
@@ -22174,14 +22183,14 @@ class _DemoContent extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: tokens.controlHeight,
+                  height: tokens.controlHeight,
                   decoration: BoxDecoration(
                     color: theme.colors.accent,
                     borderRadius: theme.borderRadiusSm,
                   ),
                 ),
-                Gap(theme.spacing.sm),
+                Gap(tokens.gap),
                 Expanded(
                   child: Text(
                     'Card ${i + 1}',
@@ -22283,6 +22292,8 @@ class _PhoneDemoState extends State<_PhoneDemo> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Density-aware menu glyph (16 compact, 24 touch) and gaps.
+    final DensityTokens tokens = resolveDensityTokens(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final Widget bar = Container(
@@ -22301,9 +22312,9 @@ class _PhoneDemoState extends State<_PhoneDemo> {
                 variant: ButtonVariant.ghost,
                 size: ButtonSize.icon,
                 onPressed: _openNav,
-                child: const Icon(LucideIcons.menu, size: 18),
+                child: Icon(LucideIcons.menu, size: resolveIconSize(tokens)),
               ),
-              Gap(theme.spacing.md),
+              Gap(tokens.gap),
               Expanded(
                 child: Text(
                   widget.selected,
@@ -22341,7 +22352,11 @@ class _PhoneDemoState extends State<_PhoneDemo> {
 }
 
 /// Full sidebar beside content on wide stages, phone bar + drawer below
-/// 560 px. Collapse control and account footer included.
+/// [kSidebarPhoneWidth] (the density phone breakpoint). Narrow desktop
+/// stages use the collapsed 56 px rail so the 240 px rail never overflows
+/// the docs 560 px example stage; the content column scrolls vertically
+/// when the stage height is bounded. Collapse control and account footer
+/// included.
 class _DashboardDemo extends StatefulWidget {
   const _DashboardDemo();
 
@@ -22359,7 +22374,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
       builder: (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth.isFinite
             ? constraints.maxWidth
-            : 600;
+            : kPhoneWidthBreakpoint;
         final double height = constraints.maxHeight.isFinite
             ? constraints.maxHeight
             : kSidebarFallbackHeight;
@@ -22370,6 +22385,11 @@ class _DashboardDemoState extends State<_DashboardDemo> {
             onSelected: (String id) => setState(() => _selected = id),
           );
         } else {
+          // Docs stages (560 px at 1440 px viewports, 295 px at 375 px
+          // viewports which take the phone branch above) stay overflow-free:
+          // tight desktop widths keep the collapsed rail (narrower sidebar
+          // inside the stage) instead of forcing the full 240 px rail.
+          final bool narrowStage = width < 720;
           body = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -22377,7 +22397,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
                 sections: _sampleSections(),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
-                collapsed: _collapsed,
+                collapsed: narrowStage ? true : _collapsed,
                 onToggleCollapsed: () =>
                     setState(() => _collapsed = !_collapsed),
                 user: _sampleUser,
@@ -22394,7 +22414,8 @@ class _DashboardDemoState extends State<_DashboardDemo> {
 }
 
 /// Collapsed 56 px icon rail beside content, with tooltips on every row.
-/// Below 560 px the rail stays beside a squeezed content column.
+/// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
+/// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
   const _CollapsedDemo();
 
@@ -22451,6 +22472,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 
@@ -22496,6 +22518,10 @@ class _DemoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Density tokens drive the card thumb (control height: 32 compact,
+    // 48 touch) and the gaps, so the content tracks compact/touch density
+    // instead of hard-coding 32/8.
+    final DensityTokens tokens = resolveDensityTokens(context);
     final Widget cards = Column(
       children: <Widget>[
         for (int i = 0; i < 6; i++)
@@ -22510,14 +22536,14 @@ class _DemoContent extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: tokens.controlHeight,
+                  height: tokens.controlHeight,
                   decoration: BoxDecoration(
                     color: theme.colors.accent,
                     borderRadius: theme.borderRadiusSm,
                   ),
                 ),
-                Gap(theme.spacing.sm),
+                Gap(tokens.gap),
                 Expanded(
                   child: Text(
                     'Card ${i + 1}',
@@ -22619,6 +22645,8 @@ class _PhoneDemoState extends State<_PhoneDemo> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Density-aware menu glyph (16 compact, 24 touch) and gaps.
+    final DensityTokens tokens = resolveDensityTokens(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final Widget bar = Container(
@@ -22637,9 +22665,9 @@ class _PhoneDemoState extends State<_PhoneDemo> {
                 variant: ButtonVariant.ghost,
                 size: ButtonSize.icon,
                 onPressed: _openNav,
-                child: const Icon(LucideIcons.menu, size: 18),
+                child: Icon(LucideIcons.menu, size: resolveIconSize(tokens)),
               ),
-              Gap(theme.spacing.md),
+              Gap(tokens.gap),
               Expanded(
                 child: Text(
                   widget.selected,
@@ -22676,9 +22704,9 @@ class _PhoneDemoState extends State<_PhoneDemo> {
   }
 }
 
-/// Phone shell: the bar opens the same sidebar in a drawer. Fills the stage
-/// height (capped at a 400 px phone width) so it reads as a phone mock on
-/// desktop stages and full-bleed on phones.
+/// Phone shell: the bar opens the same sidebar in a drawer. Sized to its
+/// stage (capped at the density overlay max width) so it reads as a phone
+/// mock on desktop stages and full-bleed on phones.
 class _DrawerDemo extends StatefulWidget {
   const _DrawerDemo();
 
@@ -22693,9 +22721,14 @@ class _DrawerDemoState extends State<_DrawerDemo> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        // Density-aware phone cap (320 compact, 400 touch) sized to the
+        // stage: full-bleed at 375 px viewports (295 px stage), capped mock
+        // at 1440 px viewports (560 px stage).
+        final DensityTokens tokens = resolveDensityTokens(context);
+        final double cap = tokens.overlayMaxWidth;
         final double width = constraints.maxWidth.isFinite
-            ? (constraints.maxWidth > 400 ? 400 : constraints.maxWidth)
-            : 360;
+            ? (constraints.maxWidth > cap ? cap : constraints.maxWidth)
+            : cap;
         final double height = constraints.maxHeight.isFinite
             ? constraints.maxHeight
             : 560;
@@ -22723,8 +22756,16 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
+
+/// Width below which the shells switch to the phone bar + drawer pattern.
+///
+/// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
+/// the docs 295 px example stage (375 px viewport) and any narrow stage use
+/// the phone bar (no 240 px rail) instead of overflowing.
+const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
 const double kSidebarFallbackHeight = 360.0;
@@ -22771,6 +22812,10 @@ class _DemoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Density tokens drive the card thumb (control height: 32 compact,
+    // 48 touch) and the gaps, so the content tracks compact/touch density
+    // instead of hard-coding 32/8.
+    final DensityTokens tokens = resolveDensityTokens(context);
     final Widget cards = Column(
       children: <Widget>[
         for (int i = 0; i < 6; i++)
@@ -22785,14 +22830,14 @@ class _DemoContent extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: tokens.controlHeight,
+                  height: tokens.controlHeight,
                   decoration: BoxDecoration(
                     color: theme.colors.accent,
                     borderRadius: theme.borderRadiusSm,
                   ),
                 ),
-                Gap(theme.spacing.sm),
+                Gap(tokens.gap),
                 Expanded(
                   child: Text(
                     'Card ${i + 1}',
@@ -22862,7 +22907,8 @@ class _DemoContent extends StatelessWidget {
 }
 
 /// Collapsed 56 px icon rail beside content, with tooltips on every row.
-/// Below 560 px the rail stays beside a squeezed content column.
+/// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
+/// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
   const _CollapsedDemo();
 

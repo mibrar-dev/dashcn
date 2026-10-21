@@ -420,7 +420,10 @@ class _DocsArticleState extends State<DocsArticle> {
           children: <Widget>[
             title,
             Gap(theme.spacing.md),
-            badges,
+            // WIP pages carry three badges (count + stability + the long
+            // "Work in progress" note): the badge Wrap needs a bounded width
+            // so it wraps instead of overflowing the 640 px article.
+            Flexible(child: badges),
             Gap(theme.spacing.md),
             actions,
           ],
