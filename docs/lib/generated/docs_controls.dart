@@ -3505,6 +3505,21 @@ kControlSpecs = <String, ComponentControls>{
         isRequired: false,
         readOnlyReason: 'complex type',
       ),
+      ControlSpec(
+        name: 'densityTokens',
+        label: 'Density Tokens',
+        kind: ControlKind.readOnly,
+        type: 'DensityTokens?',
+        isRequired: false,
+        readOnlyReason: 'unresolved type',
+      ),
+      ControlSpec(
+        name: 'semanticsLabel',
+        label: 'Semantics Label',
+        kind: ControlKind.text,
+        type: 'String?',
+        isRequired: false,
+      ),
     ],
   ),
   'spinner': ComponentControls(

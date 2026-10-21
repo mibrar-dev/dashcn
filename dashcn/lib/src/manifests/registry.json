@@ -8276,7 +8276,15 @@
       "api": {
         "classes": [
           "Skeleton",
-          "SkeletonTheme"
+          "SkeletonTheme",
+          "SkeletonStyle",
+          "SkeletonBlock",
+          "SkeletonLine",
+          "SkeletonAvatar",
+          "SkeletonCard",
+          "SkeletonList",
+          "SkeletonTable",
+          "SkeletonMirror"
         ],
         "constants": [
           "kSkeletonSweepDuration",
@@ -8284,6 +8292,18 @@
           "kSkeletonSweepFade",
           "skeletonDefaults",
           "skeletonThemeOverrides"
+        ],
+        "functions": [
+          "resolveSkeletonTokens",
+          "resolveSkeletonTheme",
+          "skeletonLineHeight",
+          "skeletonLineGap",
+          "skeletonAvatarSize",
+          "skeletonRowHeight"
+        ],
+        "typedefs": [
+          "SkeletonLineBuilder",
+          "SkeletonMirrorBuilder"
         ]
       },
       "category": "Feedback",
@@ -8292,18 +8312,25 @@
         "foundation": [],
         "primitives": [
           "animation",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "Widgets-only loading placeholder with a repeating shimmer sweep; replaces the banned skeletonizer package.",
       "entry": "components/skeleton/skeleton.dart",
       "files": [
         "components/skeleton/skeleton.dart",
-        "components/skeleton/skeleton_style.dart"
+        "components/skeleton/skeleton_compose.dart",
+        "components/skeleton/skeleton_layout.dart",
+        "components/skeleton/skeleton_mirror.dart",
+        "components/skeleton/skeleton_shapes.dart",
+        "components/skeleton/skeleton_style.dart",
+        "components/skeleton/skeleton_table.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
       "install": "dashcn add skeleton",
@@ -8322,10 +8349,16 @@
         "class": "SkeletonTheme",
         "defaults": "skeletonDefaults",
         "fields": {
+          "avatarSize": "double? - avatar diameter; null = density controlHeight",
           "borderRadius": "BorderRadiusGeometry? - null = theme borderRadiusMd",
-          "curve": "Curve? - sweep easing; null = Curves.linear",
-          "duration": "Duration? - one sweep; null = 2 x kDefaultDuration",
+          "curve": "Curve? - sweep easing; null = motion standard curve",
+          "duration": "Duration? - one sweep; null = 800ms, scaled by motion intensity",
           "fromColor": "ThemedColor? - leading sweep fill; null = muted",
+          "lineGap": "double? - gap between lines; null = density gap",
+          "lineHeight": "double? - text-line height; null = density bodyTextSize",
+          "rowHeight": "double? - list/table row height; null = density rowMinHeight",
+          "surfaceBlur": "double? - card surface blur; null = ambient",
+          "surfaceOpacity": "double? - card surface opacity; null = ambient",
           "toColor": "ThemedColor? - trailing sweep fill; null = accent"
         },
         "userFile": "skeleton_theme.dart"
@@ -10979,9 +11012,14 @@
     "components/signature_pad/signature_pad_controller.dart": "57f7c5e790c32cc1ae9755ffa103db5b5ddef4d65943263cd7cb1d2ac15533d6",
     "components/signature_pad/signature_pad_style.dart": "df8b4f0cadc6b6911521eafc7330d897822437e1079b95a6917d3659b5e737b9",
     "components/signature_pad/signature_pad_theme.dart": "25f7d4a29239a4372c732b5f9663625c6bca325c476b49ab259744b9d654c107",
-    "components/skeleton/preview.dart": "a3fcdd6a603a0e652b4b0a2939a1d56e09d113682120f8d0990c1002af73504e",
-    "components/skeleton/skeleton.dart": "34b9d029b61944be40d100c12d6273bc13c2e164b22620d96e8d01c67afae6d5",
-    "components/skeleton/skeleton_style.dart": "0581ed33a6dc25f7dd9f1671cb0b317ac6eac777e6c09470311e7b28d7d39486",
+    "components/skeleton/preview.dart": "9e8a76b294f45898043a65b502278e66e954835f40caf06042f9c00829ac3a4a",
+    "components/skeleton/skeleton.dart": "2ab4e2edcaba74b8105a6e916cb7dafded846196dff01a61e7b85ff0a22cc1b8",
+    "components/skeleton/skeleton_compose.dart": "87970a23f38fcef8ea0bc6dcdf34f352ba6c851c2582c05f8656acc3689960a1",
+    "components/skeleton/skeleton_layout.dart": "57affbae6ec411f1eb4cb347932d48dc5b372a4c2814f4685e48c490177908d2",
+    "components/skeleton/skeleton_mirror.dart": "92b1e7c31bd8e4a6615b1dea9afce8d1afbffd7ffc7c9027aac9b13f17ea6e85",
+    "components/skeleton/skeleton_shapes.dart": "971f664fe155b16c61d034e743c4a7d614dfc675eb5fffd035b4eb76a27135bd",
+    "components/skeleton/skeleton_style.dart": "85145c06055ea0a15179fad7636d8a8e0b2c95b5a47efcdf9d329d340bbaf1b8",
+    "components/skeleton/skeleton_table.dart": "00d857bb8fca46ac9f4b69a3d09cd398784ad29b80100347eb1133f1760be04a",
     "components/skeleton/skeleton_theme.dart": "c78eb0e915c9ed5ef4e204c83d68f337139427fe67f12c5e361c01b3985bb0c5",
     "components/slider/preview.dart": "c125f85795f4286053370142f6aca4f2abc8052cb247feb9df328855157b0ce6",
     "components/slider/slider.dart": "d76d7514975555383c6629e9f3390bec0c97aceeddde35ac785f81f7984d7a37",
