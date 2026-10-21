@@ -8,6 +8,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/animation.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -236,10 +237,22 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         ],
       ],
     );
+    // Frosted glass: the section backdrop carries the ambient
+    // surfaceOpacity and the blur wraps the painted fill (no extra layer at
+    // the opaque default, so defaults render identical).
+    final Color backdropPaint = surfaceColor(
+      colors.background,
+      ambient.surfaceOpacity,
+    );
     final Widget stack = Stack(
       alignment: Alignment.center,
       children: <Widget>[
-        Positioned.fill(child: ColoredBox(color: colors.background)),
+        Positioned.fill(
+          child: GlassSurface(
+            surfaceBlur: ambient.surfaceBlur,
+            child: ColoredBox(color: backdropPaint),
+          ),
+        ),
         body,
       ],
     );

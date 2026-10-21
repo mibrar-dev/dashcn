@@ -2176,7 +2176,8 @@
         "primitives": [
           "chart",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -2603,6 +2604,7 @@
         ],
         "primitives": [
           "clickable",
+          "surface",
           "syntax_highlight",
           "text",
           "text_editing",
@@ -3987,7 +3989,8 @@
         "primitives": [
           "error_handling",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -4264,7 +4267,8 @@
           "animation",
           "clickable",
           "localizations",
-          "motion"
+          "motion",
+          "surface"
         ],
         "theme": [
           "color_tokens",
@@ -7933,6 +7937,7 @@
           "input_features",
           "localizations",
           "search",
+          "surface",
           "text"
         ],
         "theme": [
@@ -9938,6 +9943,7 @@
           "localizations",
           "measured_extent",
           "roving_group",
+          "surface",
           "touch_hit_area"
         ],
         "theme": [
@@ -10757,7 +10763,7 @@
     "components/chart/chart_radial_painter.dart": "7892d1230f8d09eb7a4ae54f316c9cd5f252554900e1f6b1f329e24f108bb6e4",
     "components/chart/chart_style.dart": "072d6693d40228efa0529f8dd574973ece0847f32887e211108049a3aa88e4b4",
     "components/chart/chart_theme.dart": "04d7d3946ee7ff3f6a62467d96bc1d7690148e6e1daa691bb3244773ce579842",
-    "components/chart/chart_tooltip.dart": "c626ffb5d917315c922e235e1ad0248daf46b480aa18c5b5657eab02578ae6db",
+    "components/chart/chart_tooltip.dart": "9794120e2ede9106cc2049adf273b12ba5eb67328700b4f15a76ad423598e6aa",
     "components/chart/chart_tooltip_anchor.dart": "339638849858d3765a6869af799f9f835fc41797a7577c73f60c6b51ddea6223",
     "components/chart/chart_tooltip_placement.dart": "12d6e394b4b837ce74f6add76b0f893c2cb3373cf9ab687f6b95de3881b71a5f",
     "components/chart/preview.dart": "aee6446e2326111eee816bd5b52d77c9d316a5355a3d663db8e4197be2d0a977",
@@ -10777,7 +10783,7 @@
     "components/chip_input/chip_input_style.dart": "15357b593ec6374a96f9176ee8364ab0a061d563ea36b06e4678cebaebbe9a82",
     "components/chip_input/chip_input_theme.dart": "879e69b1c259e2e9f98676530560c6e8b516ffd3b8b68c4813f5988b8c535216",
     "components/chip_input/preview.dart": "3f57d41ed56fc41867803330140a9df7ccec0124443a57f2ab9e4b097036838b",
-    "components/code_snippet/code_snippet.dart": "71f625cf5495a1310a7e2a245403edb724d7b3c66fd5922b391c1b1ffd39a2ee",
+    "components/code_snippet/code_snippet.dart": "eb08cdb31c9fa40ea7c886c2ce13c60ef94a6895de786a36106cdc68091aa13e",
     "components/code_snippet/code_snippet_style.dart": "18afdd6cd5c7113a115f83e2597f4e6ec346d8770817549c231a5b1bea9a470d",
     "components/code_snippet/code_snippet_theme.dart": "dfd9af928c0f207c3c0504fc6d16b998101614ba5c9203addebe811435fa61ad",
     "components/code_snippet/preview.dart": "94581950f85743730bed8fbfa52e827c21d7c80a2c086d80c34376246aab2687",
@@ -10842,7 +10848,7 @@
     "components/empty_state/empty_state_style.dart": "54e4aec947f700ad85f74fecc90c1956528c68b993f15513f1f11208e2747541",
     "components/empty_state/empty_state_theme.dart": "27d46efcd0fd3411ca4b811fd7713d0cf913a16235aa09d88b2dc5d07149aa76",
     "components/empty_state/preview.dart": "3e828220284bbfc17b0e285fd4d24c7e8aa88f6622b32ea56ccb1b8def6a17cc",
-    "components/error_system/error_system.dart": "fc2c2585fff12f49f3b6a4ff98e072330d92443e0e8a28575f0e6395b3ac149d",
+    "components/error_system/error_system.dart": "0c509652b8332be0eecdd9c15c8adf3ecb9dcb582efa592f98bddfbb631d1aff",
     "components/error_system/error_system_style.dart": "499be3e91d7b479c14d53969f4f460151fa2e971ba56256a34a6089fd90b38a8",
     "components/error_system/error_system_theme.dart": "b4ca5cc8682fe0bbdf3098b5c9f7dc5c212caf8b6a559a5a7ed20f671b9c8209",
     "components/error_system/preview.dart": "058ac506994cf7943fb05cd2f91d495c919fdece948c2b4aa821b0fc43f20019",
@@ -10860,7 +10866,7 @@
     "components/fab/fab_style.dart": "22c40562e87237548561badf5fb7970b12da8bebdffc3e891f68ededce00a9da",
     "components/fab/fab_theme.dart": "abc09e1c3734de7af293384e841c0bb782eed78af92beeca50eca2f399b34b7b",
     "components/fab/preview.dart": "efbd96949acc426aab6b259b836a691a4ca3920ba268bd74a2f876a19842cbd4",
-    "components/feature_carousel/feature_carousel.dart": "66f037feb0da8c0e4bbeb4971e4d5aa9eaa374e9f7a535e54e3008deb100cc3f",
+    "components/feature_carousel/feature_carousel.dart": "6dbdabd3ea2f795d32b09e090c37e28de8447fe01d68224290dff06bb1cbcff3",
     "components/feature_carousel/feature_carousel_style.dart": "c1f6debc0a72cc09b808362f01268ac0519ccf2432b4b33d0c0df254bc05429f",
     "components/feature_carousel/feature_carousel_theme.dart": "bc401376b9e42c10c783a15c53bcd5e56038815e3c7549db7c3f4bf3aea64e69",
     "components/feature_carousel/preview.dart": "04d619cf0b0a1875b6e51c70579e7e85f2e669a5ba6637e356eeda36a52b049a",
@@ -11061,7 +11067,7 @@
     "components/scrollview/preview.dart": "c56e41a11e8fbb1e2575b2e49adce410acae361eaa3cebf81fb839e2c1e68d98",
     "components/scrollview/scrollview.dart": "1c14ef9d11337e35ee768b768080126694739a4c8f8b7f521ccfd456028d268a",
     "components/search_bar/preview.dart": "c7e2871e2f9fd799171e05cb294876f51487387db725328d7bfbcb8890ca1fec",
-    "components/search_bar/search_bar.dart": "efda43198cd0a26d7709cc759c4900e231ea417df7544c039c0e233dc2fbfe97",
+    "components/search_bar/search_bar.dart": "e6a9ee66f9cc6b229ec9edbbdc6cf0246e4d4d01476cfcf5d81598e325e0d888",
     "components/search_bar/search_bar_nav.dart": "9d5a7d3d865315d33bb4509f2c94cbee79ced260c688f20e25d7dbac99e0c41f",
     "components/search_bar/search_bar_results.dart": "db194fecaa561b31aa533ba456e36b8ff2f6c2ad5b094a903cd2d1fda3b0f655",
     "components/search_bar/search_bar_style.dart": "4df537ff36957863949a31258af3a74f3966e2208e844f133bf9570040d4208d",
@@ -11187,7 +11193,7 @@
     "components/toolbar/toolbar_keys.dart": "1e0e43b501c2a31a4214bfa88e108f0c0a733cf202d6b5e11b506fe7e13d4ee4",
     "components/toolbar/toolbar_overflow.dart": "a03292d5a106b06f78ef7a417af5a1d62fd26448963d7e43918e337c6452054a",
     "components/toolbar/toolbar_style.dart": "6ed4afdb726c9556b3c0af1823aa14a9c1a8b38643fa072e6f0dd74b1bf465b2",
-    "components/toolbar/toolbar_surface.dart": "993d2e734cf6583ea7d4f95f13d917862c1523323673e88da738f9c596fa83c5",
+    "components/toolbar/toolbar_surface.dart": "cad2512477d1f86afb3efac806b7e8cbe62936276ba1f0b3fd20a78b6baaea62",
     "components/toolbar/toolbar_theme.dart": "4a4b8ddd831ee83bd372a1a041c8225db41ff5727b83e486e781852eaaf05856",
     "components/toolbar/toolbar_toggle_item.dart": "0057910c9fcc0a292a36c0f5577dc53b576a30fe90c4a67159876e1cdee431f9",
     "components/tooltip/preview.dart": "2898f8f0a90ef1f3ad2f288c122499b81ebcbb4802dd6efe5d1db33220d5d3f7",
