@@ -80,6 +80,7 @@ import 'examples/scrollbar.dart' as scrollbar_example;
 import 'examples/search_bar.dart' as search_bar_example;
 import 'examples/segmented_control.dart' as segmented_control_example;
 import 'examples/select.dart' as select_example;
+import 'examples/sidebar.dart' as sidebar_example;
 import 'examples/signature_pad.dart' as signature_pad_example;
 import 'examples/skeleton.dart' as skeleton_example;
 import 'examples/slider.dart' as slider_example;
@@ -320,6 +321,7 @@ final Map<String, WidgetBuilder> scorecardCases = <String, WidgetBuilder>{
   'search_bar': search_bar_example.scorecardExample,
   'segmented_control': segmented_control_example.scorecardExample,
   'select': select_example.scorecardExample,
+  'sidebar': sidebar_example.scorecardExample,
   'signature_pad': signature_pad_example.scorecardExample,
   'skeleton': skeleton_example.scorecardExample,
   'slider': slider_example.scorecardExample,

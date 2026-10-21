@@ -30,6 +30,13 @@ import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/docs_tokens.dart';
 
+/// Components whose docs page carries the work-in-progress badge.
+const Set<String> _workInProgressIds = <String>{
+  'audio_player',
+  'video_player',
+  'sidebar',
+};
+
 /// `/docs/components/<id>` — the component template.
 class ComponentPage extends StatefulWidget {
   /// Creates the page for [componentId].
@@ -84,6 +91,11 @@ class _ComponentPageState extends State<ComponentPage> {
             variant: BadgeVariant.outline,
             child: Text(component.stability),
           ),
+          if (_workInProgressIds.contains(widget.componentId))
+            const Badge(
+              variant: BadgeVariant.outline,
+              child: Text('Work in progress: bugs may occur.'),
+            ),
         ],
         children: <Widget>[
           ComponentPreviewCard(componentId: widget.componentId),

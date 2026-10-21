@@ -8258,6 +8258,93 @@
         "components/selectable/selectable_theme.dart"
       ]
     },
+    "sidebar": {
+      "api": {
+        "classes": [
+          "DashboardSidebar",
+          "SidebarItem",
+          "SidebarSection",
+          "SidebarUser",
+          "SidebarTheme"
+        ],
+        "constants": [
+          "sidebarDefaults",
+          "sidebarThemeOverrides",
+          "kSidebarExpandedWidth",
+          "kSidebarCollapsedWidth",
+          "kSidebarItemHeight",
+          "kSidebarIconSize",
+          "kSidebarGroupLabelSize"
+        ]
+      },
+      "category": "Navigation",
+      "deps": {
+        "components": [
+          "avatar",
+          "badge",
+          "tooltip"
+        ],
+        "foundation": [
+          "gap",
+          "icons"
+        ],
+        "primitives": [
+          "clickable",
+          "localizations",
+          "motion",
+          "surface"
+        ],
+        "theme": [
+          "color_tokens",
+          "theme"
+        ]
+      },
+      "description": "Production dashboard sidebar: header with collapse control, grouped navigation with badges and sub-menus, and an account footer. Renders fixed on desktop and inside a drawer on phone widths.",
+      "entry": "components/sidebar/sidebar.dart",
+      "files": [
+        "components/sidebar/sidebar.dart",
+        "components/sidebar/sidebar_style.dart"
+      ],
+      "import": "import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';",
+      "install": "dashcn add sidebar",
+      "listed": true,
+      "name": "Sidebar",
+      "preview": {
+        "placement": "center"
+      },
+      "tags": [
+        "sidebar",
+        "navigation",
+        "dashboard",
+        "drawer",
+        "rail",
+        "menu"
+      ],
+      "theme": {
+        "class": "SidebarTheme",
+        "defaults": "sidebarDefaults",
+        "fields": {
+          "activeBackground": "ThemedColor? - selected row fill, default sidebarAccent",
+          "activeForeground": "ThemedColor? - selected row foreground, default sidebarAccentForeground",
+          "background": "ThemedColor? - rail fill, default sidebar",
+          "borderColor": "ThemedColor? - rail edge border, default sidebarBorder",
+          "collapsedWidth": "double? - collapsed rail width, default 56",
+          "expandedWidth": "double? - expanded rail width, default 240",
+          "foreground": "ThemedColor? - rail foreground, default sidebarForeground",
+          "groupLabelColor": "ThemedColor? - group label colour, default mutedForeground",
+          "iconSize": "double? - navigation and header icon size, default 16",
+          "itemHeight": "double? - navigation row height, default 32",
+          "itemPadding": "EdgeInsetsGeometry? - row inner padding, default 8x4",
+          "itemRadius": "BorderRadiusGeometry? - row corner radius, default theme.borderRadiusMd",
+          "surfaceBlur": "double? - frosted-glass blur leg, default none",
+          "surfaceOpacity": "double? - frosted-glass opacity leg, default opaque"
+        },
+        "userFile": "sidebar_theme.dart"
+      },
+      "userOwned": [
+        "components/sidebar/sidebar_theme.dart"
+      ]
+    },
     "signature_pad": {
       "api": {
         "classes": [
@@ -11082,6 +11169,10 @@
     "components/selectable/selectable.dart": "2c48592851f1d87e02ab5dbe3dfae40ee4372bbff1021673f2f7a79a6a663b06",
     "components/selectable/selectable_style.dart": "b8d3ee601dbb1b311bea16d0d552fec5033eacaceb5e9b1e158e48723ed32391",
     "components/selectable/selectable_theme.dart": "5458cecf1a831324a482edab1931a046b2b4c9cc496d086cdcdf244af0d84895",
+    "components/sidebar/preview.dart": "7b070b08f9f446dd058969207026f811efb9c656f104a9d53a8789fa241045f8",
+    "components/sidebar/sidebar.dart": "2cc2ee3d24c51e95aaa9d0992b504e620a1c1f5c0e0074ea8f6a2dbb184325f2",
+    "components/sidebar/sidebar_style.dart": "81c7ebacdf46475b448832b9bcb219bd6295f43bf3e5b7803b8324981a0a951f",
+    "components/sidebar/sidebar_theme.dart": "37ee65f7b0ef7fdfd23a0d3cd513cbc30000f53a850191f69ea713457720ef99",
     "components/signature_pad/preview.dart": "0575906c965b59960183612731bf46040b547350aed6db655debb45e8660739e",
     "components/signature_pad/signature_pad.dart": "5169883483eda0654fb56430355100e8e88c21c5589c7ffced3655e8a4f24c93",
     "components/signature_pad/signature_pad_controller.dart": "57f7c5e790c32cc1ae9755ffa103db5b5ddef4d65943263cd7cb1d2ac15533d6",

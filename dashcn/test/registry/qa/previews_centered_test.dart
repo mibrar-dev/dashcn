@@ -94,6 +94,7 @@ import 'package:dashcn/src/components/scrollbar/preview.dart';
 import 'package:dashcn/src/components/search_bar/preview.dart';
 import 'package:dashcn/src/components/segmented_control/preview.dart';
 import 'package:dashcn/src/components/select/preview.dart';
+import 'package:dashcn/src/components/sidebar/preview.dart';
 import 'package:dashcn/src/components/signature_pad/preview.dart';
 import 'package:dashcn/src/components/skeleton/preview.dart';
 import 'package:dashcn/src/components/slider/preview.dart';
@@ -300,6 +301,7 @@ final Map<String, List<ComponentPreview>> _previews =
       'search_bar': searchBarPreviews,
       'segmented_control': segmentedControlPreviews,
       'select': selectPreviews,
+      'sidebar': sidebarPreviews,
       'signature_pad': signaturePadPreviews,
       'skeleton': skeletonPreviews,
       'slider': sliderPreviews,

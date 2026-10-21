@@ -300,6 +300,7 @@ const Map<String, List<String>> kComponentPreviews = <String, List<String>>{
   'navigation_bar': <String>['Default', 'With labels', 'Sidebar'],
   'navigation_menu': <String>['Default', 'Content list', 'With icons'],
   'pagination': <String>['Labelled', 'Icon only'],
+  'sidebar': <String>['Dashboard', 'Drawer', 'Collapsed'],
   'stepper': <String>['Default', 'Vertical', 'Sizes', 'Failed step'],
   'tabs': <String>['Default', 'Disabled', 'Tab pane'],
   'action_sheet': <String>[
@@ -499,6 +500,7 @@ const Map<String, int> kComponentPreviewCounts = <String, int>{
   'navigation_bar': 3,
   'navigation_menu': 3,
   'pagination': 2,
+  'sidebar': 3,
   'stepper': 4,
   'tabs': 3,
   'action_sheet': 8,

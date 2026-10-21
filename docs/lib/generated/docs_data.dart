@@ -141,7 +141,7 @@ class DocsThemeToken {
   final String cssVar;
 }
 
-/// All 132 installable components, ordered by category then id.
+/// All 133 installable components, ordered by category then id.
 const List<DocsComponent> kComponents = <DocsComponent>[
   DocsComponent(
     id: 'border_loading',
@@ -1228,6 +1228,20 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     placement: 'center',
   ),
   DocsComponent(
+    id: 'sidebar',
+    name: 'Sidebar',
+    category: 'Navigation',
+    description:
+        'Production dashboard sidebar: header with collapse control, grouped navigation with badges and sub-menus, and an account footer. Renders fixed on desktop and inside a drawer on phone widths.',
+    install: 'dashcn add sidebar',
+    import:
+        "import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';",
+    fileCount: 3,
+    stability: 'stable',
+    listed: true,
+    placement: 'center',
+  ),
+  DocsComponent(
     id: 'stepper',
     name: 'Stepper',
     category: 'Navigation',
@@ -2208,7 +2222,7 @@ const List<DocsThemeToken> kThemeTokens = <DocsThemeToken>[
   DocsThemeToken(name: 'radius', cssVar: '--radius'),
 ];
 
-/// All 132 components as index-grid links, alphabetical by name.
+/// All 133 components as index-grid links, alphabetical by name.
 const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'accordion', name: 'Accordion'),
   DocsComponentLink(id: 'action_sheet', name: 'Action Sheet'),
@@ -2311,6 +2325,7 @@ const List<DocsComponentLink> kComponentLinks = <DocsComponentLink>[
   DocsComponentLink(id: 'segmented_control', name: 'Segmented Control'),
   DocsComponentLink(id: 'select', name: 'Select'),
   DocsComponentLink(id: 'selectable', name: 'Selectable'),
+  DocsComponentLink(id: 'sidebar', name: 'Sidebar'),
   DocsComponentLink(id: 'signature_pad', name: 'Signature Pad'),
   DocsComponentLink(id: 'skeleton', name: 'Skeleton'),
   DocsComponentLink(id: 'slider', name: 'Slider'),
@@ -2354,7 +2369,7 @@ const List<DocsCategory> kCategories = <DocsCategory>[
   DocsCategory(id: 'Data Display', count: 19),
   DocsCategory(id: 'Layout', count: 11),
   DocsCategory(id: 'Overlays', count: 10),
-  DocsCategory(id: 'Navigation', count: 6),
+  DocsCategory(id: 'Navigation', count: 7),
   DocsCategory(id: 'Typography & Media', count: 6),
   DocsCategory(id: 'Feedback', count: 5),
   DocsCategory(id: 'Menus', count: 5),
@@ -2366,8 +2381,8 @@ const List<DocsCategory> kCategories = <DocsCategory>[
 
 /// Stats band values, each with its derivation.
 const DocsStats kStats = DocsStats(
-  components: 132, // manifest entries
-  listedComponents: 96, // listed only
+  components: 133, // manifest entries
+  listedComponents: 97, // listed only
   presets: 43, // themes/index.json entries
   materialImports: 0, // registry import directives
   modes: 2, // distinct preset modes
@@ -2489,6 +2504,7 @@ const List<DocsComponentCategory> kComponentCategoryGroups =
           DocsComponentLink(id: 'navigation_bar', name: 'Navigation Bar'),
           DocsComponentLink(id: 'navigation_menu', name: 'Navigation Menu'),
           DocsComponentLink(id: 'pagination', name: 'Pagination'),
+          DocsComponentLink(id: 'sidebar', name: 'Sidebar'),
           DocsComponentLink(id: 'stepper', name: 'Stepper'),
           DocsComponentLink(id: 'tabs', name: 'Tabs'),
         ],
