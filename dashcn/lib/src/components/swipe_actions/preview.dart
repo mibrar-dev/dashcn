@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/motion/motion_spec.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import '../card/card.dart';
 import 'swipe_actions.dart';
@@ -100,6 +101,76 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
 }
 
 Widget _default(BuildContext context) => const _SwipeActionsDemo();
+
+Widget _compact(BuildContext context) {
+  final ThemeData appTheme = Theme.of(context);
+  return ColoredBox(
+    color: appTheme.colors.background,
+    child: Padding(
+      padding: EdgeInsets.all(appTheme.spacing.sm),
+      child: SwipeActions(
+        densityTokens: DensityTokens.compact,
+        actions: <SwipeAction>[
+          SwipeAction(label: 'Archive', onPressed: () {}),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+        ],
+        onDismissed: () {},
+        child: Card(
+          child: SizedBox(
+            height: 36,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Compact row 36, tile 56',
+                  style: appTheme.typography.textSmall.copyWith(
+                    color: appTheme.colors.foreground,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _comfortable(BuildContext context) {
+  final ThemeData appTheme = Theme.of(context);
+  return ColoredBox(
+    color: appTheme.colors.background,
+    child: Padding(
+      padding: EdgeInsets.all(appTheme.spacing.sm),
+      child: SwipeActions(
+        densityTokens: DensityTokens.comfortable,
+        actions: <SwipeAction>[
+          SwipeAction(label: 'Archive', onPressed: () {}),
+          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+        ],
+        onDismissed: () {},
+        child: Card(
+          child: SizedBox(
+            height: 44,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Comfortable row 44, tile 64',
+                  style: appTheme.typography.textSmall.copyWith(
+                    color: appTheme.colors.foreground,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
 Widget _rightToLeft(BuildContext context) => const Directionality(
   textDirection: TextDirection.rtl,
@@ -210,6 +281,8 @@ Widget _motionOverride(BuildContext context) {
 /// Named docs examples for `swipe_actions`; the first entry is the default.
 const List<ComponentPreview> swipeActionsPreviews = <ComponentPreview>[
   ComponentPreview('Default', _default),
+  ComponentPreview('Compact', _compact),
+  ComponentPreview('Comfortable', _comfortable),
   ComponentPreview('Right to left', _rightToLeft),
   ComponentPreview('Custom builders', _customBuilders),
   ComponentPreview('Motion override', _motionOverride),

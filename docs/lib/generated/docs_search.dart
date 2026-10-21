@@ -1365,7 +1365,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Action Sheet',
     kind: DocsSearchKind.component,
     route: '/docs/components/action_sheet',
-    tag: '3 files',
+    tag: '6 files',
     keywords: <String>[
       'ActionSheet',
       'action_sheet',
@@ -1986,7 +1986,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Swipe Actions',
     kind: DocsSearchKind.component,
     route: '/docs/components/swipe_actions',
-    tag: '3 files',
+    tag: '5 files',
     keywords: <String>[
       'SwipeActions',
       'swipe_actions',

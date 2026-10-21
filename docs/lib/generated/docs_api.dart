@@ -6548,6 +6548,8 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'ActionSheet',
     hasApiTable: true,
     parseClean: true,
+    summary:
+        'A density-sized action sheet: title + message + actions + cancel.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'actions',
@@ -6562,6 +6564,37 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
       ),
       DocsApiParam(name: 'theme', type: 'ActionSheetTheme?', isRequired: false),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone\nwidths (< [kPhoneWidthBreakpoint]) use touch unless this is set.',
+      ),
+      DocsApiParam(
+        name: 'titleBuilder',
+        type: 'ActionSheetTitleBuilder?',
+        isRequired: false,
+        doc: 'Swaps the title widget.',
+      ),
+      DocsApiParam(
+        name: 'messageBuilder',
+        type: 'ActionSheetMessageBuilder?',
+        isRequired: false,
+        doc: 'Swaps the message widget.',
+      ),
+      DocsApiParam(
+        name: 'actionBuilder',
+        type: 'ActionSheetActionBuilder<T>?',
+        isRequired: false,
+        doc: 'Swaps any action row.',
+      ),
+      DocsApiParam(
+        name: 'dividerBuilder',
+        type: 'ActionSheetDividerBuilder?',
+        isRequired: false,
+        doc: 'Swaps the dividers.',
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -7654,7 +7687,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A video frame with poster, play overlay, scrub bar and control bar.',
+        'SPEC glass control bar over a 16:9 frame: title header, 10s skips, speed/captions more-menu, auto-hide, live badge and camera fallback.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'controller',
@@ -9829,11 +9862,10 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'actionExtent',
-        type: 'double',
+        type: 'double?',
         isRequired: false,
-        defaultValue: '76',
         doc:
-            'Width of one action; the revealed run is `actions.length * actionExtent`.',
+            'Width of one action; null resolves from the density tokens\n(`control + 24`: 56 compact / 64 comfortable / 72 touch).\nThe revealed run is `actions.length * actionExtent`.',
       ),
       DocsApiParam(
         name: 'controller',
@@ -9855,6 +9887,32 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         defaultValue: '1.05',
         doc:
             'Reveal fraction past which a release commits a dismiss (1.0 = exactly\nthe full actions width). Lower commits earlier.',
+      ),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone\nwidths (< [kPhoneWidthBreakpoint]) use touch unless this is set.',
+      ),
+      DocsApiParam(
+        name: 'theme',
+        type: 'SwipeActionsTheme?',
+        isRequired: false,
+        doc:
+            'Per-instance style override (action width, icon/label sizes, row min).',
+      ),
+      DocsApiParam(
+        name: 'runBuilder',
+        type: 'SwipeActionsRunBuilder?',
+        isRequired: false,
+        doc: 'Swaps the whole trailing actions run.',
+      ),
+      DocsApiParam(
+        name: 'contentBuilder',
+        type: 'SwipeActionsContentBuilder?',
+        isRequired: false,
+        doc: 'Swaps the row content (receives the reveal progress).',
       ),
     ],
     members: <DocsApiMember>[],
@@ -14222,6 +14280,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'sheet background',
       ),
       DocsThemeField(
+        name: 'borderRadius',
+        type: 'BorderRadius?',
+        description: 'sheet radius',
+      ),
+      DocsThemeField(
         name: 'cancelColor',
         type: 'ThemedColor?',
         description: 'cancel action colour',
@@ -14232,14 +14295,64 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'destructive action colour',
       ),
       DocsThemeField(
+        name: 'dividerColor',
+        type: 'ThemedColor?',
+        description: 'divider colour',
+      ),
+      DocsThemeField(
+        name: 'iconSize',
+        type: 'double?',
+        description: 'row icon size (tokens.iconSize)',
+      ),
+      DocsThemeField(
+        name: 'maxWidth',
+        type: 'double?',
+        description: 'desktop max width (320 compact)',
+      ),
+      DocsThemeField(
+        name: 'messageSpacing',
+        type: 'double?',
+        description: 'header gap (tokens.gap)',
+      ),
+      DocsThemeField(
         name: 'messageStyle',
         type: 'TextStyle?',
         description: 'message text style',
       ),
       DocsThemeField(
+        name: 'padding',
+        type: 'EdgeInsetsGeometry?',
+        description: 'sheet padding',
+      ),
+      DocsThemeField(
+        name: 'rowMinHeight',
+        type: 'double?',
+        description: 'row min height (tokens.rowMinHeight)',
+      ),
+      DocsThemeField(
+        name: 'surfaceBlur',
+        type: 'double?',
+        description: 'frosted blur',
+      ),
+      DocsThemeField(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        description: 'frosted opacity',
+      ),
+      DocsThemeField(
+        name: 'titleSpacing',
+        type: 'double?',
+        description: 'title gap (tokens.gap/2)',
+      ),
+      DocsThemeField(
         name: 'titleStyle',
         type: 'TextStyle?',
         description: 'title text style',
+      ),
+      DocsThemeField(
+        name: 'transitionDuration',
+        type: 'Duration?',
+        description: 'open animation',
       ),
     ],
   ),
@@ -15816,12 +15929,38 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
   ),
   'swipe_actions': DocsThemeTable(
     componentId: 'swipe_actions',
-    themeClass: '',
-    themeDefaults: '',
-    userFile: '',
-    userOwned: false,
-    hasTheme: false,
-    fields: <DocsThemeField>[],
+    themeClass: 'SwipeActionsTheme',
+    themeDefaults: 'swipeActionsDefaults',
+    userFile: 'swipe_actions_theme.dart',
+    userOwned: true,
+    hasTheme: true,
+    fields: <DocsThemeField>[
+      DocsThemeField(
+        name: 'actionWidth',
+        type: 'double?',
+        description: 'tile width (control+24)',
+      ),
+      DocsThemeField(
+        name: 'iconLabelGap',
+        type: 'double?',
+        description: 'icon/label gap',
+      ),
+      DocsThemeField(
+        name: 'iconSize',
+        type: 'double?',
+        description: 'tile icon size',
+      ),
+      DocsThemeField(
+        name: 'labelStyle',
+        type: 'TextStyle?',
+        description: 'tile label style',
+      ),
+      DocsThemeField(
+        name: 'rowMinHeight',
+        type: 'double?',
+        description: 'row min height',
+      ),
+    ],
   ),
   'swiper': DocsThemeTable(
     componentId: 'swiper',

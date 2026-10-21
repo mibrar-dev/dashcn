@@ -19,8 +19,8 @@ const ValueKey<String> _send = ValueKey<String>('chat01.send');
 const ValueKey<String> _attach = ValueKey<String>('chat01.attach');
 const ValueKey<String> _photo = ValueKey<String>('chat01.attach.photo');
 
-/// Width of the revealed two-action run (2 x 76 px).
-const double _actionsWidth = 152;
+/// Width of the revealed two-action run (2 x 56 px compact tiles).
+const double _actionsWidth = 112;
 
 /// Fling direction dismissing a row (mirrored under RTL).
 Offset _fling(TextDirection direction) => direction == TextDirection.rtl
@@ -70,10 +70,7 @@ void main() {
           totalWidth: _actionsWidth,
         );
         await tester.tap(
-          find.descendant(
-            of: studioRow,
-            matching: find.widgetWithText(Button, 'Mute'),
-          ),
+          find.descendant(of: studioRow, matching: find.text('Mute')),
         );
         await flowSettle(tester);
         expect(muted, <String>['studio']);
@@ -129,10 +126,7 @@ void main() {
           totalWidth: _actionsWidth,
         );
         await tester.tap(
-          find.descendant(
-            of: adaRow,
-            matching: find.widgetWithText(Button, 'Delete'),
-          ),
+          find.descendant(of: adaRow, matching: find.text('Delete')),
         );
         await flowSettle(tester);
         expect(deleted, <String>['ada']);
