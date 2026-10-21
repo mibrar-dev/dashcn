@@ -90,7 +90,7 @@ Regenerated (generators only, no hand edits):
 
 ## PR
 
-- URL: TBD (filled after `gh pr create`).
+- URL: https://github.com/mibrar-dev/dashcn/pull/50
 - Base: `main`, repo `mibrar-dev/dashcn`, branch `feat/surface-tokens-audit`.
 
 ## Not done / follow-ups
