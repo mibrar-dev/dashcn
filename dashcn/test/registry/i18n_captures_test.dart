@@ -104,6 +104,13 @@ ThemeData _theme(Brightness brightness) => ThemeData(
 );
 
 /// Frame: theme, locale strings, implied direction and a [Navigator].
+/// The capture harness's dialog trigger, in the locale under test.
+String _triggerLabel(Locale locale) => switch (locale.languageCode) {
+  'ar' => 'فتح الحوار',
+  'de' => 'Dialog öffnen',
+  _ => 'Open dialog',
+};
+
 Widget _frame(ThemeData data, Locale locale, Size size) {
   return Theme(
     data: data,
@@ -184,7 +191,7 @@ Future<void> _capture(
     RepaintBoundary(key: key, child: _frame(_theme(brightness), locale, size)),
   );
   await tester.pump();
-  await _tap(tester, find.text('open-dialog'));
+  await _tap(tester, find.text(_triggerLabel(locale)));
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 320));
 
@@ -253,7 +260,7 @@ class _PickerScene extends StatelessWidget {
                 ],
               ),
               // Hidden trigger label (excluded from the capture's story).
-              child: const Text('open-dialog'),
+              child: Text(_triggerLabel(locale)),
             ),
           ],
         ),
