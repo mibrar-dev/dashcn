@@ -28,17 +28,26 @@ Widget buildFilterBarResponsive({
 
   final bool overflow = switch (widget.presentation) {
     FilterBarPresentation.inline => false,
-    FilterBarPresentation.sheet || FilterBarPresentation.menu => true,
+    FilterBarPresentation.sheet ||
+    FilterBarPresentation.menu ||
+    FilterBarPresentation.popup ||
+    FilterBarPresentation.dialog => true,
     FilterBarPresentation.autoSheet || FilterBarPresentation.autoMenu =>
       constraints.maxWidth.isFinite &&
           constraints.maxWidth < widget.sheetBreakpoint,
   };
 
   final bool isMenu = switch (widget.presentation) {
-    FilterBarPresentation.menu || FilterBarPresentation.autoMenu => true,
-    FilterBarPresentation.sheet || FilterBarPresentation.autoSheet => false,
+    FilterBarPresentation.menu ||
+    FilterBarPresentation.popup ||
+    FilterBarPresentation.autoMenu => true,
+    FilterBarPresentation.sheet ||
+    FilterBarPresentation.autoSheet ||
+    FilterBarPresentation.dialog ||
     FilterBarPresentation.inline => false,
   };
+
+  final bool isDialog = widget.presentation == FilterBarPresentation.dialog;
 
   final Widget searchWidget =
       widget.searchBuilder?.call(context, searchController, onSearchChanged) ??
@@ -53,7 +62,26 @@ Widget buildFilterBarResponsive({
       );
 
   void handleOpen(BuildContext btnContext) {
-    if (isMenu) {
+    if (isDialog) {
+      openFilterBarDialog(
+        context: btnContext,
+        stateMirror: stateMirror,
+        tokens: tokens,
+        theme: theme,
+        onEmit: onEmit,
+        sortOptions: widget.sortOptions,
+        enableDateRange: widget.enableDateRange,
+        customFilters: widget.customFilters,
+        trailingFilters: widget.trailingFilters,
+        showClearAllWhenEmpty: widget.showClearAllWhenEmpty,
+        style: st,
+        resultsCount: widget.resultsCount,
+        onClearAll: onClearAll,
+        contentPadding: widget.sheetContentPadding,
+        sortBuilder: widget.sortBuilder,
+        dateBuilder: widget.dateBuilder,
+      );
+    } else if (isMenu) {
       openFilterBarMenu(
         triggerContext: btnContext,
         stateMirror: stateMirror,

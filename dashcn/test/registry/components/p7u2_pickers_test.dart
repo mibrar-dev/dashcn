@@ -6,8 +6,8 @@
 // column, so a calendar sat inside a mostly empty card. This file measures the
 // dialogs: the card must be exactly as wide as its content (the calendar grid,
 // or the time columns), no more, and no more than 384x480 at the default
-// density (seven 48px touch cells plus gaps and shell). Footer buttons are
-// Cancel then Save, right-aligned, gap-2 apart.
+// density (seven 32px compact cells plus gaps and shell = 272 wide). Footer
+// buttons are Cancel then Save, right-aligned, gap-2 apart.
 //
 // The matrix is the one the brief asks for: light and dark, neutral and claude,
 // compact/default/comfortable density.
@@ -143,9 +143,11 @@ void main() {
           ? saveButton.bottom
           : cancelButton.bottom;
       // `p-0` card: it starts at the caption row (which is `size-(--cell-size)`
-      // tall, 48) and ends `p-3` below the taller footer button.
+      // tall, 32 at the default density — the compact day-cell size, so the
+      // dialog is content-sized, not a fixed frame) and ends `p-3` below the
+      // taller footer button.
       expect(card.top, closeTo(caption.top, 0.5));
-      expect(caption.height, closeTo(48, 0.5));
+      expect(caption.height, closeTo(32, 0.5));
       expect(card.bottom - contentBottom, closeTo(12, 0.5));
       // Caption row + `gap-2`, then the grid, then `gap-3` and the footer row.
       expect(grid.top - caption.bottom, closeTo(8, 0.5));
@@ -226,9 +228,9 @@ void main() {
         await tester.tap(find.text('Save'));
         await tester.pumpAndSettle();
       }
-      // 48px touch cells, scaled: 24 / 48 / 60.
-      expect(cells, <double>[24, 48, 60]);
-      // compact < default < comfortable, all within the reference bounds.
+      // 32px compact day cells, density-scaled: 16 / 32 / 40.
+      expect(cells, <double>[16, 32, 40]);
+      // compact < default < spacious, all within the reference bounds.
       expect(widths[0], lessThan(widths[1]));
       expect(widths[1], lessThan(widths[2]));
       expect(widths.every((double w) => w <= 384 * 1.3), isTrue);

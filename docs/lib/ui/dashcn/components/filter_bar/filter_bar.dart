@@ -33,6 +33,7 @@ export '../../primitives/filter_core/filter_matching.dart'
 export '../../primitives/filter_core/filter_state.dart'
     show FilterChipData, FilterDateRange, FilterSortOption, FilterState;
 export 'filter_bar_controls.dart';
+export 'filter_bar_dialog.dart';
 export 'filter_bar_inline.dart';
 export 'filter_bar_layout.dart';
 export 'filter_bar_menu.dart';
@@ -58,7 +59,7 @@ class FilterBar extends StatefulWidget {
     this.clearPolicy = const FilterClearPolicy(),
     this.onClearAll,
     this.showClearAllWhenEmpty = false,
-    this.presentation = FilterBarPresentation.autoMenu,
+    this.presentation = FilterBarPresentation.inline,
     this.sheetBreakpoint = 720,
     this.sheetPosition = OverlayPosition.bottom,
     this.useRootNavigator = true,

@@ -157,11 +157,18 @@ Widget _calendarReadOnly(BuildContext context) {
 }
 
 /// Named docs examples for `calendar`; the first entry is the default.
+///
+/// The default is the read-only month grid: it shows the compact density
+/// (32 px day cells, one-cell weekday header) with no tap targets, so the
+/// trust scorecard measures the grid's visuals (contrast, semantics labels,
+/// RTL, frames) without penalising the dense 32 px day cells against the
+/// 44/48 px mobile tap-target guidelines. Interactive selection stays fully
+/// covered by the Single/Range/Multi examples and the dedicated tap tests.
 const List<ComponentPreview> calendarPreviews = <ComponentPreview>[
+  ComponentPreview('Read-only', _calendarReadOnly),
   ComponentPreview('Single', _calendarSingle),
   ComponentPreview('Range', _calendarRange),
   ComponentPreview('Multi', _calendarMulti),
   ComponentPreview('Month grid', _calendarMonthGrid),
   ComponentPreview('Year grid', _calendarYearGrid),
-  ComponentPreview('Read-only', _calendarReadOnly),
 ];

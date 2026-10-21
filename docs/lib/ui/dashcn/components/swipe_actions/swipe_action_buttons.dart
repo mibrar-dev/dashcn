@@ -75,13 +75,13 @@ class SwipeActionButtons extends StatelessWidget {
         resolveDensityTokens(context);
     final double scaling = appTheme.scaling;
     final double iconSize = (resolved.iconSize ?? tokens.iconSize) * scaling;
+    // Labels stay at the subtitle token size (13 compact) for readability:
+    // one step below body, never the 11-12 px caption floor.
     final TextStyle labelStyle =
-        (resolved.labelStyle ??
-                TextStyle(fontSize: tokens.subtitleTextSize - 1))
+        (resolved.labelStyle ?? TextStyle(fontSize: tokens.subtitleTextSize))
             .copyWith(
               fontSize:
-                  (resolved.labelStyle?.fontSize ??
-                      (tokens.subtitleTextSize - 1)) *
+                  (resolved.labelStyle?.fontSize ?? tokens.subtitleTextSize) *
                   scaling,
             );
     final double iconGap = (resolved.iconLabelGap ?? tokens.gap / 2) * scaling;

@@ -598,6 +598,38 @@ void main() {
       await pump(const SkeletonLine(lines: 3));
     });
   });
+
+  group('loop', () {
+    Future<double> firstBeginX(WidgetTester tester, Widget child) async {
+      await tester.pumpWidget(_frame(child));
+      await tester.pump(const Duration(milliseconds: 100));
+      return _sweepBegin(tester).x;
+    }
+
+    testWidgets('card shimmer animates across two frames', (tester) async {
+      final double before = await firstBeginX(tester, const SkeletonCard());
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(_sweepBegin(tester).x, isNot(before));
+    });
+
+    testWidgets('list shimmer animates across two frames', (tester) async {
+      final double before = await firstBeginX(
+        tester,
+        const SkeletonList(itemCount: 3),
+      );
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(_sweepBegin(tester).x, isNot(before));
+    });
+
+    testWidgets('table shimmer animates across two frames', (tester) async {
+      final double before = await firstBeginX(
+        tester,
+        const SkeletonTable(columns: 3, rows: 4),
+      );
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(_sweepBegin(tester).x, isNot(before));
+    });
+  });
 }
 
 Widget _mirrorPlaceholder(BuildContext context) => const SkeletonLine(lines: 2);

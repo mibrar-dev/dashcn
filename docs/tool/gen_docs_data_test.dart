@@ -764,12 +764,12 @@ void main() {
         'Disabled',
       ]);
       expect(kComponentPreviews['calendar'], <String>[
+        'Read-only',
         'Single',
         'Range',
         'Multi',
         'Month grid',
         'Year grid',
-        'Read-only',
       ]);
       expect(kComponentPreviewCounts['button'], 14);
       expect(kComponentPreviewCounts['calendar'], 6);

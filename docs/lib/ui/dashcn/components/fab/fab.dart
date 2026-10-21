@@ -18,6 +18,7 @@ import '../../primitives/surface.dart';
 import '../../primitives/touch_hit_area.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../theme/tokens.dart';
 import '../tooltip/tooltip.dart';
 import 'fab_content.dart';
 import 'fab_style.dart';
@@ -185,20 +186,38 @@ class _FabState extends State<Fab> {
     );
 
     final double elevation = resolved.elevation ?? 0;
-    final Color shadowColor =
-        resolved.shadowColor?.resolve(ambient.colors) ??
-        ambient.colors.foreground.withValues(alpha: 0.25);
+    // Shadows come from the theme tokens, not a hand-rolled formula: the
+    // elevation step picks a shadow scale entry (mini elevation 2 -> Md,
+    // standard/extended elevation 3 -> Lg). A per-instance shadowColor tints
+    // the token shadows; without one the token colour stands.
+    List<BoxShadow> tokenShadowsFor(double level) {
+      final ShadowScale base = ambient.tokens.shadows;
+      if (level <= 0) return const <BoxShadow>[];
+      if (level <= 1) return base.shadowSm;
+      if (level <= 2) return base.shadowMd;
+      if (level <= 3) return base.shadowLg;
+      return base.shadowXl;
+    }
+
+    final Color? tint = resolved.shadowColor?.resolve(ambient.colors);
     final List<BoxShadow> shadows = elevation <= 0
         ? const <BoxShadow>[]
-        : <BoxShadow>[
-            BoxShadow(
-              color: shadowColor.withValues(
-                alpha: (shadowColor.a * elevation).clamp(0.0, 1.0),
-              ),
-              blurRadius: 12 * elevation,
-              offset: Offset(0, 3 * elevation),
-            ),
-          ];
+        : (tint == null
+              ? tokenShadowsFor(elevation)
+              : <BoxShadow>[
+                  for (final BoxShadow s in tokenShadowsFor(elevation))
+                    BoxShadow(
+                      color: Color.fromARGB(
+                        (s.color.a * 255).round().clamp(0, 255),
+                        (tint.r * 255).round().clamp(0, 255),
+                        (tint.g * 255).round().clamp(0, 255),
+                        (tint.b * 255).round().clamp(0, 255),
+                      ),
+                      offset: s.offset,
+                      blurRadius: s.blurRadius,
+                      spreadRadius: s.spreadRadius,
+                    ),
+                ]);
 
     final Widget content = buildFabContent(
       context: context,

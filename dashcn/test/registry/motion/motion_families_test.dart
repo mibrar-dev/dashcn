@@ -605,7 +605,9 @@ void main() {
     ),
     _Family(
       name: 'calendar month slide',
-      preview: calendarPreviews.first,
+      // The Single example (named, not first: the default is the read-only
+      // grid): it carries the month steppers the slide needs.
+      preview: calendarPreviews.firstWhere((p) => p.name == 'Single'),
       interact: (WidgetTester tester) async {
         await tester.tap(find.text('>'));
       },

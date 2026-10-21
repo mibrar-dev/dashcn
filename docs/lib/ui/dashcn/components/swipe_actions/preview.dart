@@ -62,7 +62,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
                 onDismissed: () => _remove(row),
                 child: Card(
                   child: SizedBox(
-                    height: 56,
+                    // Compact density row (36 px, within the 32-40 compact
+                    // band); the action tiles stretch to this height so the
+                    // swipe reveal always matches the row.
+                    height: 36,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Align(
@@ -194,8 +197,8 @@ Widget _customBuilders(BuildContext context) {
               child: Transform.scale(
                 scale: 0.6 + 0.4 * progress,
                 child: Container(
-                  width: 56,
-                  height: 56,
+                  width: 32,
+                  height: 32,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: appTheme.colors.primary,
@@ -218,7 +221,8 @@ Widget _customBuilders(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            height: 56,
+            // Compact density row; the custom builders above stretch to it.
+            height: 36,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
@@ -258,7 +262,8 @@ Widget _motionOverride(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            height: 56,
+            // Compact density row.
+            height: 36,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
