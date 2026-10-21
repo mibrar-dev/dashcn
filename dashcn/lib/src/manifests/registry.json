@@ -1630,11 +1630,7 @@
           "buttonMetricsForTokens",
           "buttonInnerMin",
           "buttonStatusAnnouncement",
-          "resolveButtonStatusIcon",
-          "resolveDensityTokens",
-          "resolveIconSize",
-          "buttonIconSize",
-          "isPhoneWidth"
+          "resolveButtonStatusIcon"
         ]
       },
       "category": "Buttons & Actions",
