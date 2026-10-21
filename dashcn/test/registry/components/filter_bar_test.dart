@@ -424,6 +424,35 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Clear all'), findsNothing);
     });
+
+    testWidgets('popup opens the anchored compact menu', (tester) async {
+      await _pump(
+        tester,
+        width: 500,
+        sortOptions: _sorts,
+        presentation: FilterBarPresentation.popup,
+      );
+      expect(find.byType(FilterBarSheetTrigger), findsOneWidget);
+      await tester.tap(find.byType(FilterBarSheetTrigger));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(FilterBarOverflowMenu), findsOneWidget);
+    });
+
+    testWidgets('dialog opens the centred filter dialog', (tester) async {
+      await _pump(
+        tester,
+        width: 500,
+        sortOptions: _sorts,
+        presentation: FilterBarPresentation.dialog,
+      );
+      expect(find.byType(FilterBarSheetTrigger), findsOneWidget);
+      await tester.tap(find.byType(FilterBarSheetTrigger));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(FilterBarSheetScaffold), findsOneWidget);
+      expect(find.text('Filters'), findsWidgets);
+    });
   });
 
   group('theme', () {

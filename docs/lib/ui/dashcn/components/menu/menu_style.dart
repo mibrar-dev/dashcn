@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 
 /// Item-row contract: upstream `px-2 py-1.5 text-sm rounded-sm`, hover fill
@@ -376,6 +377,20 @@ const EdgeInsetsGeometry menuItemDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
   vertical: 6,
 );
+
+/// Row padding from the density tokens: horizontal `gap` (8 compact),
+/// vertical `verticalPadding` (6 compact), times [scale].
+///
+/// Equals the upstream `px-2 py-1.5` at the default density while staying on
+/// the token scale at every other density (DESIGN.md: paddings from the
+/// 4 px scale; upstream `px-2 py-1.5`; Apple HIG 44 pt rows compact to
+/// 32-40; Material compact rows 32-40).
+EdgeInsetsGeometry menuItemPaddingOf(DensityTokens tokens, double scale) {
+  return EdgeInsets.symmetric(
+    horizontal: tokens.gap * scale,
+    vertical: tokens.verticalPadding * scale,
+  );
+}
 
 /// Token-derived popup baseline.
 const MenuPopupTheme menuPopupDefaults = MenuPopupTheme(

@@ -139,9 +139,11 @@ void main() {
           .colors
           .primary;
       expect(_anyCalendarPaints(tester, lightPrimary), isTrue);
-      // The Read-only example is card index 5; flip just that card.
+      // The Read-only example is card index 0 (the default); flip just that
+      // card. It seeds SingleCalendarValue(Mar 14 2024), so the flipped card
+      // paints the dark primary.
       final Finder toggle = find.byKey(
-        const ValueKey<String>('preview-theme-toggle-5'),
+        const ValueKey<String>('preview-theme-toggle-0'),
       );
       await tester.ensureVisible(toggle);
       await tester.pumpAndSettle();

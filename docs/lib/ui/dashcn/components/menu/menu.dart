@@ -110,7 +110,26 @@ class _MenuButtonState extends State<MenuButton> {
     final bool below =
         group.parent == null && group.direction == Axis.horizontal;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
-    final Offset fallback = below ? const Offset(-4, 8) : const Offset(8, -4);
+    // When the trigger sits at the right edge, the submenu anchors to the
+    // trigger's left edge (opens left) instead of clipping past the screen:
+    // flip the side when the trigger's right edge plus one compact menu
+    // width (160) would overflow the viewport.
+    bool openLeft = false;
+    if (!below) {
+      try {
+        final RenderBox box = context.findRenderObject()! as RenderBox;
+        final double right = box.localToGlobal(Offset.zero).dx + box.size.width;
+        final double screen = MediaQuery.sizeOf(context).width;
+        final double need =
+            DensityTokens.compact.overlayMinWidth * Theme.of(context).scaling;
+        if (right + need > screen - 4) openLeft = true;
+      } on FlutterError {
+        // No MediaQuery or no render box (tests): keep opening right.
+      }
+    }
+    final Offset fallback = below
+        ? const Offset(-4, 8)
+        : (openLeft ? const Offset(-8, -4) : const Offset(8, -4));
     final Offset raw =
         group.subMenuOffset ??
         _menuThemeOf(context, widget.theme).subMenuOffset ??
@@ -119,10 +138,16 @@ class _MenuButtonState extends State<MenuButton> {
     showMenuPopover<void>(
       context: context,
       controller: _controller,
-      alignment: AlignmentDirectional.topStart,
+      alignment: below
+          ? AlignmentDirectional.topStart
+          : (openLeft
+                ? AlignmentDirectional.topEnd
+                : AlignmentDirectional.topStart),
       anchorAlignment: below
           ? AlignmentDirectional.bottomStart
-          : AlignmentDirectional.topEnd,
+          : (openLeft
+                ? AlignmentDirectional.topStart
+                : AlignmentDirectional.topEnd),
       offset: offset,
       popupBuilder: (context) => MenuPopup(
         children: <Widget>[
@@ -219,6 +244,19 @@ RovingRow _plainRow(
   // so dangerous actions stay readable instead of dimming.
   const Set<WidgetState> hovered = <WidgetState>{WidgetState.hovered};
   final Color destructiveColor = app.colors.destructive;
+  // Row padding comes from the density tokens (horizontal `gap`, vertical
+  // `verticalPadding`: 8/6 compact on the 4 px scale), so rows keep their
+  // padding at every density and the focus ring never clips against the
+  // popup's `p-1` inset. An explicit theme `itemPadding` still wins.
+  final DensityTokens tokens = resolveDensityTokens(context);
+  final EdgeInsetsGeometry basePadding =
+      style.itemPadding ?? menuItemPaddingOf(tokens, app.scaling);
+  final EdgeInsetsGeometry padding = style.itemPadding == null
+      ? basePadding.add(group?.itemPadding ?? EdgeInsets.zero)
+      : resolveEdgeInsets(
+          style.itemPadding!,
+          app.density.baseContentPadding * app.scaling,
+        ).add(group?.itemPadding ?? EdgeInsets.zero);
   return RovingRow(
     enabled: enabled,
     focusNode: focusNode,
@@ -238,10 +276,7 @@ RovingRow _plainRow(
     radius: (style.borderRadius ?? app.borderRadiusSm).resolve(
       Directionality.of(context),
     ),
-    padding: resolveEdgeInsets(
-      style.itemPadding ?? menuItemDefaultPadding,
-      app.density.baseContentPadding * app.scaling,
-    ).add(group?.itemPadding ?? EdgeInsets.zero),
+    padding: padding,
     textStyle: style.textStyle,
     // Popup rows use the density tokens (normal padding) instead of a
     // hardcoded compact height; the menubar bar passes 48 for its triggers.
