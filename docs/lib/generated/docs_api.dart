@@ -7454,13 +7454,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'Scrollable code block with optional top-right [actions] (copy, run).',
+        'Scrollable code block with syntax colouring, top-right [actions] and a built-in copy button.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'code',
         type: 'Widget',
         isRequired: true,
-        doc: 'Code content (usually a [Text]).',
+        doc: 'Code content widget (typically a [Text] or [Text.rich]).',
       ),
       DocsApiParam(
         name: 'constraints',
@@ -7473,20 +7473,72 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'List<Widget>',
         isRequired: false,
         defaultValue: 'const <Widget>[]',
-        doc: 'Action buttons in the top-right corner.',
+        doc: 'Custom action buttons in the top-right corner.',
+      ),
+      DocsApiParam(
+        name: 'rawCode',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Optional verbatim code string to copy and highlight. When omitted, the\nsource text is extracted from [code] if it is a [Text].',
       ),
       DocsApiParam(
         name: 'language',
         type: 'String?',
         isRequired: false,
         doc:
-            'Language id or fence tag (`dart`, `js`, `py`, …) used for syntax\nhighlighting. When null, the language is auto-detected from the code\ntext (fence tag first, then conservative content signals); unknown\ncontent stays plain.',
+            'Language id or fence tag (`dart`, `json`, `yaml`, `sh`, `js`, `html`, …)\nused for syntax highlighting. When null, the language is auto-detected.',
+      ),
+      DocsApiParam(
+        name: 'showCopyButton',
+        type: 'bool?',
+        isRequired: false,
+        doc:
+            'Whether the copy button renders in the actions row. When null, resolves\nfrom the theme (default true).',
+      ),
+      DocsApiParam(
+        name: 'copied',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Controlled copy state. When null, state is managed internally.',
+      ),
+      DocsApiParam(
+        name: 'onCopiedChange',
+        type: 'ValueChanged<bool>?',
+        isRequired: false,
+        doc:
+            'Called when the copied state changes (in both controlled and uncontrolled\nmodes).',
+      ),
+      DocsApiParam(
+        name: 'onCopy',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc: 'Called when the copy button is activated.',
+      ),
+      DocsApiParam(
+        name: 'copyButtonBuilder',
+        type: 'CodeSnippetCopyButtonBuilder?',
+        isRequired: false,
+        doc: 'Builder slot for replacing the copy button widget.',
+      ),
+      DocsApiParam(
+        name: 'actionsBuilder',
+        type: 'CodeSnippetActionsBuilder?',
+        isRequired: false,
+        doc: 'Builder slot for customizing the entire actions row.',
+      ),
+      DocsApiParam(
+        name: 'codeBuilder',
+        type: 'CodeSnippetCodeBuilder?',
+        isRequired: false,
+        doc:
+            'Builder slot for customizing or wrapping the highlighted code widget.',
       ),
       DocsApiParam(
         name: 'theme',
         type: 'CodeSnippetTheme?',
         isRequired: false,
-        doc: 'Widget-leg theme override, merged over the other legs.',
+        doc: 'Widget-leg theme override.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -15102,6 +15154,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'actionSpacing',
+        type: 'double?',
+        description: 'space between action items, 4',
+      ),
+      DocsThemeField(
         name: 'background',
         type: 'ThemedColor?',
         description: 'container fill, card token',
@@ -15122,9 +15179,39 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'scaled border width, 1',
       ),
       DocsThemeField(
+        name: 'copiedIcon',
+        type: 'IconData?',
+        description: 'feedback icon, Lucide check',
+      ),
+      DocsThemeField(
+        name: 'copiedIconColor',
+        type: 'ThemedColor?',
+        description: 'copied icon color, primary',
+      ),
+      DocsThemeField(
+        name: 'copyFeedbackDuration',
+        type: 'Duration?',
+        description: 'duration to show copied feedback, 2000ms',
+      ),
+      DocsThemeField(
+        name: 'copyIcon',
+        type: 'IconData?',
+        description: 'idle copy icon, Lucide copy',
+      ),
+      DocsThemeField(
+        name: 'copyIconColor',
+        type: 'ThemedColor?',
+        description: 'idle copy icon color, mutedForeground',
+      ),
+      DocsThemeField(
         name: 'padding',
         type: 'EdgeInsetsGeometry?',
-        description: 'density padding, wider on the right',
+        description: 'density padding, wider on the end',
+      ),
+      DocsThemeField(
+        name: 'showCopyButton',
+        type: 'bool?',
+        description: 'whether copy action renders by default',
       ),
     ],
   ),

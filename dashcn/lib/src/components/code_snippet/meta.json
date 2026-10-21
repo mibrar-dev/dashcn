@@ -2,15 +2,15 @@
   "id": "code_snippet",
   "name": "CodeSnippet",
   "category": "Typography & Media",
-  "description": "Scrollable code block with optional top-right action buttons.",
+  "description": "Scrollable code block with syntax colouring, copy button and selectable text.",
   "tier": "component",
   "install": "dashcn add code_snippet",
   "import": "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",
-  "tags": ["display", "code", "snippet", "pre"],
+  "tags": ["display", "code", "snippet", "pre", "syntax"],
   "deps": {
-    "foundation": ["gap"],
-    "theme": ["color_tokens", "density", "theme"],
-    "primitives": ["syntax_highlight", "text", "text_editing"],
+    "foundation": ["gap", "icons", "platform"],
+    "theme": ["color_tokens", "density", "motion", "theme"],
+    "primitives": ["clickable", "syntax_highlight", "text", "text_editing", "touch_hit_area"],
     "components": []
   },
   "files": [
@@ -32,7 +32,14 @@
       "borderColor": "ThemedColor? - border color, border token",
       "borderWidth": "double? - scaled border width, 1",
       "borderRadius": "BorderRadiusGeometry? - null = ambient radiusLg",
-      "padding": "EdgeInsetsGeometry? - density padding, wider on the right"
+      "padding": "EdgeInsetsGeometry? - density padding, wider on the end",
+      "showCopyButton": "bool? - whether copy action renders by default",
+      "copyIcon": "IconData? - idle copy icon, Lucide copy",
+      "copiedIcon": "IconData? - feedback icon, Lucide check",
+      "copyIconColor": "ThemedColor? - idle copy icon color, mutedForeground",
+      "copiedIconColor": "ThemedColor? - copied icon color, primary",
+      "actionSpacing": "double? - space between action items, 4",
+      "copyFeedbackDuration": "Duration? - duration to show copied feedback, 2000ms"
     }
   }
 }

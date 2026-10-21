@@ -3755,19 +3755,30 @@ AudioPlayer(
       componentId: 'code_snippet',
       language: 'dart',
       code: r'''CodeSnippet(
+  language: 'dart',
   constraints: const BoxConstraints(maxWidth: 480, maxHeight: 200),
+  code: const Text('void main() => runApp(const MyApp());'),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppsssssspppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssssssssssssssssssppppp',
+    ),
+    DocsSnippet(
+      id: 'code_snippet.2',
+      componentId: 'code_snippet',
+      language: 'dart',
+      code: r'''CodeSnippet(
   actions: [
     Button(
       size: ButtonSize.sm,
       variant: ButtonVariant.ghost,
-      onPressed: copy,
-      child: const Text('Copy'),
+      onPressed: runCode,
+      child: const Text('Run'),
     ),
   ],
   code: const Text('dart format .'),
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
     ),
   ],
   'image': <DocsSnippet>[
