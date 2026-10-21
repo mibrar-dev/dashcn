@@ -251,8 +251,44 @@ class _VideoPlayerState extends State<VideoPlayer> {
       setState(() => _controlsVisible = true);
     }
     _hideTimer?.cancel();
+    _hideTimer = null;
     if (_controller.isPlaying) {
       _hideTimer = Timer(timeout, () {
+        _hideTimer = null;
+        if (mounted && _controller.isPlaying) {
+          setState(() => _controlsVisible = false);
+        }
+      });
+    }
+  }
+
+  void _ensureAutoHide({Duration timeout = const Duration(seconds: 3)}) {
+    if (widget.controlsVisible != null) return;
+    if (!_controlsVisible || !_controller.isPlaying) return;
+    // Schedule the 3 s auto-hide when playback starts while the bar is up
+    // (initial playing state has no hover/tap to trigger [_onActivity]).
+    _hideTimer ??= Timer(timeout, () {
+      if (mounted && _controller.isPlaying) {
+        setState(() => _controlsVisible = false);
+      }
+      _hideTimer = null;
+    });
+  }
+
+  void _onPhoneTap({Duration timeout = const Duration(seconds: 3)}) {
+    if (widget.controlsVisible != null) return;
+    if (_controlsVisible) {
+      _hideTimer?.cancel();
+      _hideTimer = null;
+      setState(() => _controlsVisible = false);
+      return;
+    }
+    setState(() => _controlsVisible = true);
+    _hideTimer?.cancel();
+    _hideTimer = null;
+    if (_controller.isPlaying) {
+      _hideTimer = Timer(timeout, () {
+        _hideTimer = null;
         if (mounted && _controller.isPlaying) {
           setState(() => _controlsVisible = false);
         }
@@ -269,6 +305,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Widget _frame(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isPhone =
+            constraints.maxWidth.isFinite && constraints.maxWidth < 600;
+        return _frameBody(context, isPhone: isPhone);
+      },
+    );
+  }
+
+  Widget _frameBody(BuildContext context, {required bool isPhone}) {
+    _ensureAutoHide();
     final ThemeData ambient = Theme.of(context);
     final VideoPlayerTheme style =
         resolveComponentStyle<VideoPlayerTheme, VideoPlayerTheme>(
@@ -319,44 +366,74 @@ class _VideoPlayerState extends State<VideoPlayer> {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              c.toggle();
-              _onActivity(
-                timeout: style.controlsTimeout ?? const Duration(seconds: 3),
-              );
+              if (isPhone) {
+                // Phone (YouTube-mobile style): tap toggles the controls and
+                // the title overlay; playback toggles from the play button.
+                // Auto-hide follows after 3 s while playing.
+                _onPhoneTap(
+                  timeout: style.controlsTimeout ?? const Duration(seconds: 3),
+                );
+              } else {
+                // Desktop: tap toggles play; hover shows, 3 s hides.
+                c.toggle();
+                _onActivity(
+                  timeout: style.controlsTimeout ?? const Duration(seconds: 3),
+                );
+              }
             },
             child: stage,
           ),
+          if (widget.showControls && isPhone && controlsVisible)
+            Positioned(
+              left: 12,
+              right: 12,
+              top: 12,
+              child: _phoneTitle(context, fg),
+            ),
           if (widget.showControls)
             Positioned(
-              left: 16,
-              right: 16,
-              bottom: 16,
+              left: isPhone ? 8 : 16,
+              right: isPhone ? 8 : 16,
+              bottom: isPhone ? 8 : 16,
               child: AnimatedOpacity(
                 opacity: controlsVisible ? 1.0 : 0.0,
                 duration: fade,
                 child: IgnorePointer(
                   ignoring: !controlsVisible,
-                  child: VideoControlsBar(
-                    controller: c,
-                    style: style,
-                    fg: fg,
-                    fade: fade,
-                    title: widget.title,
-                    subtitle: widget.subtitle,
-                    supportedSpeeds: widget.supportedSpeeds,
-                    showFullscreenButton: widget.showFullscreenButton,
-                    onFullscreenRequested: widget.onFullscreenRequested,
-                    playButtonBuilder: widget.playButtonBuilder,
-                    progressBuilder: widget.progressBuilder,
-                    headerBuilder: widget.headerBuilder,
-                    timeLabelBuilder: widget.timeLabelBuilder,
-                    volumeBuilder: widget.volumeBuilder,
-                    speedBuilder: widget.speedBuilder,
-                    moreBuilder: widget.moreBuilder,
-                    captionsButtonBuilder: widget.captionsButtonBuilder,
-                    fullscreenButtonBuilder: widget.fullscreenButtonBuilder,
-                    controlsBuilder: widget.controlsBuilder,
-                  ),
+                  child: isPhone
+                      ? VideoMinimalBar(
+                          controller: c,
+                          style: style,
+                          fg: fg,
+                          showFullscreenButton: widget.showFullscreenButton,
+                          onFullscreenRequested: widget.onFullscreenRequested,
+                          playButtonBuilder: widget.playButtonBuilder,
+                          progressBuilder: widget.progressBuilder,
+                          fullscreenButtonBuilder:
+                              widget.fullscreenButtonBuilder,
+                        )
+                      : VideoControlsBar(
+                          controller: c,
+                          style: style,
+                          fg: fg,
+                          fade: fade,
+                          title: widget.title,
+                          subtitle: widget.subtitle,
+                          supportedSpeeds: widget.supportedSpeeds,
+                          showFullscreenButton: widget.showFullscreenButton,
+                          onFullscreenRequested: widget.onFullscreenRequested,
+                          playButtonBuilder: widget.playButtonBuilder,
+                          progressBuilder: widget.progressBuilder,
+                          headerBuilder: widget.headerBuilder,
+                          timeLabelBuilder: widget.timeLabelBuilder,
+                          volumeBuilder: widget.volumeBuilder,
+                          speedBuilder: widget.speedBuilder,
+                          moreBuilder: widget.moreBuilder,
+                          captionsButtonBuilder: widget.captionsButtonBuilder,
+                          fullscreenButtonBuilder:
+                              widget.fullscreenButtonBuilder,
+                          controlsBuilder: widget.controlsBuilder,
+                        ),
                 ),
               ),
             ),
@@ -391,6 +468,45 @@ class _VideoPlayerState extends State<VideoPlayer> {
         );
       },
       child: AspectRatio(aspectRatio: widget.aspectRatio, child: frame),
+    );
+  }
+
+  /// Phone title overlay: hidden until the user taps (controls visible).
+  Widget _phoneTitle(BuildContext context, Color fg) {
+    final String? title = widget.title ?? _controller.sourceLabel;
+    if (title == null && widget.subtitle == null) {
+      return const SizedBox.shrink();
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: const Color(0x99000000),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          if (title != null)
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: fg,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          if (widget.subtitle != null)
+            Text(
+              widget.subtitle!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: fg.withAlpha(0xB3), fontSize: 12),
+            ),
+        ],
+      ),
     );
   }
 }

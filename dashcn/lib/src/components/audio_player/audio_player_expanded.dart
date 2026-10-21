@@ -1,13 +1,18 @@
 // Expanded card for `audio_player` (SPEC reference 2).
 //
-// Portrait card (~360px wide, radius 20): circular-cropped cover art as a
-// big half-circle, equaliser glyph, uppercase artist, large centred title,
-// full-width progress with centred mono times, and a 5-button transport row
-// (shuffle, previous, 56px black play, next, repeat) wired to the playlist.
+// Portrait card (~360px wide, radius 20): full circular disc cover art that
+// rotates while playing (20 s per turn, paused when stopped), equaliser
+// glyph, uppercase artist, large centred title, full-width progress with
+// centred mono times, and a 5-button transport row (shuffle, previous, 56px
+// black play, next, repeat) wired to the playlist. Tapping the disc opens a
+// details panel on top of the card (title, artist, album, duration, track
+// number). Card padding is the 16 px density token; the transport row uses
+// 12 px density gaps.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/focus_tap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -19,7 +24,7 @@ import 'audio_player_style.dart';
 import 'audio_player_transport.dart';
 
 /// Expanded portrait card body; the card wrapper lives in [AudioPlayer].
-class AudioExpandedCard extends StatelessWidget {
+class AudioExpandedCard extends StatefulWidget {
   /// Creates an expanded card.
   const AudioExpandedCard({
     super.key,
@@ -66,7 +71,7 @@ class AudioExpandedCard extends StatelessWidget {
   /// Fallback artist when the controller has no track.
   final String? subtitle;
 
-  /// Cover art shown in the half-circle.
+  /// Cover art shown as the rotating disc.
   final Widget? cover;
 
   /// Speeds offered by the speed menu.
@@ -104,19 +109,26 @@ class AudioExpandedCard extends StatelessWidget {
   final AudioPartBuilder? loadingBuilder;
 
   @override
+  State<AudioExpandedCard> createState() => _AudioExpandedCardState();
+}
+
+class _AudioExpandedCardState extends State<AudioExpandedCard> {
+  bool _detailsOpen = false;
+
+  @override
   Widget build(BuildContext context) {
-    // Density-driven gaps: at the default density baseGap is 8, so these
-    // match the SPEC 12/6/8 rhythm while scaling with the theme instead of
-    // pinning larger fixed sizes that overflow the 720x420 docs stage.
+    // Density-driven gaps: at the default density baseGap is 8, so gapMd
+    // (1.5x) is the 12 px controls rhythm and xsGap keeps the tight
+    // artist/title stack. Card padding (16 px) lives in the body wrapper.
     final ThemeData ambient = Theme.of(context);
     final double gap = ambient.density.baseGap * ambient.scaling;
     final double sectionGap = gap * gapMd;
     final double xsGap = gap * 0.75;
-    return Column(
+    final Widget column = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _cover(context, gap),
+        _disc(context),
         SizedBox(height: sectionGap),
         _equaliser(context),
         SizedBox(height: sectionGap),
@@ -131,12 +143,22 @@ class AudioExpandedCard extends StatelessWidget {
         _transport(context),
       ],
     );
+    if (!_detailsOpen) return column;
+    return Stack(
+      children: <Widget>[
+        column,
+        Positioned.fill(child: _detailsPanel(context)),
+      ],
+    );
   }
 
-  Widget _cover(BuildContext context, double gap) {
-    if (coverBuilder != null) return coverBuilder!(context, controller);
+  Widget _disc(BuildContext context) {
+    if (widget.coverBuilder != null) {
+      final Widget custom = widget.coverBuilder!(context, widget.controller);
+      return _tappableDisc(context, custom);
+    }
     final Widget art =
-        cover ??
+        widget.cover ??
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -148,55 +170,197 @@ class AudioExpandedCard extends StatelessWidget {
           alignment: Alignment.center,
           child: const Icon(
             LucideIcons.music,
-            size: 56,
+            size: 48,
             color: Color(0xFFFFFFFF),
           ),
         );
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final double w = constraints.maxWidth.isFinite
-            ? constraints.maxWidth
-            : 328;
-        final double d = (w * 0.86).clamp(200.0, 300.0);
-        // Density-derived half-circle window: gap * 19 is 152 at the default
-        // density (8px base gap), 16 smaller than the fixed 168 that overflowed
-        // the 720x420 stage by 11px once the 48px touch targets land. The
-        // compact pill keeps its SPEC 48px height; only the expanded cover
-        // shrinks, and it still scales with the theme density.
-        final double coverHeight = gap * 19;
-        return SizedBox(
-          height: coverHeight,
-          child: Stack(
+    // Full disc, fully inside the card: 144 px circle centred with a ring
+    // and spindle hole, rotating while playing (20 s per turn).
+    final Widget disc = SizedBox(
+      width: 144,
+      height: 144,
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          _RotatingDisc(
+            isPlaying: widget.controller.isPlaying,
+            child: Container(
+              width: 144,
+              height: 144,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: widget.muted.withAlpha(0x59),
+                  width: 6,
+                ),
+              ),
+              child: ClipOval(child: art),
+            ),
+          ),
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: widget.muted.withAlpha(0x33),
+              border: Border.all(color: widget.fg.withAlpha(0x99), width: 2),
+            ),
+            alignment: Alignment.center,
+            child: Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.fg,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return Center(child: _tappableDisc(context, disc));
+  }
+
+  Widget _tappableDisc(BuildContext context, Widget disc) {
+    final String label = resolveAudioTitle(
+      widget.controller,
+      widget.title,
+      ComponentLocalizations.of(context),
+    );
+    return FocusableTap(
+      label: label,
+      onTap: () => setState(() => _detailsOpen = true),
+      minWidth: 144,
+      minHeight: 144,
+      circular: true,
+      child: disc,
+    );
+  }
+
+  Widget _detailsPanel(BuildContext context) {
+    final AudioPlaybackController c = widget.controller;
+    final AudioTrack? track = c.currentTrack;
+    final String title = resolveAudioTitle(
+      c,
+      widget.title,
+      ComponentLocalizations.of(context),
+    );
+    final String? artist = resolveAudioArtist(c, widget.subtitle);
+    final String album = track?.album ?? artist ?? title;
+    final String duration = formatAudioTime(c.duration);
+    final int total = c.tracks.isEmpty ? 1 : c.tracks.length;
+    final int current = c.tracks.isEmpty
+        ? 1
+        : (c.currentIndex + 1).clamp(1, total);
+    final ThemeData ambient = Theme.of(context);
+    return Container(
+      color: ambient.colors.card.withAlpha(0xF2),
+      padding: const EdgeInsets.all(16),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: ambient.colors.card,
+            border: Border.all(color: ambient.colors.border),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Positioned(
-                left: (w - d) / 2,
-                top: -(d - 160),
-                child: ClipOval(
-                  child: SizedBox(width: d, height: d, child: art),
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: widget.fg,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (artist != null) ...<Widget>[
+                const SizedBox(height: 4),
+                Text(
+                  artist,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: widget.muted, fontSize: 13),
+                ),
+              ],
+              const SizedBox(height: 4),
+              Text(
+                album,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: widget.muted, fontSize: 13),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                duration,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: widget.muted,
+                  fontSize: 12,
+                  fontFeatures: const <FontFeature>[
+                    FontFeature.tabularFigures(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '$current / $total',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: widget.muted, fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+              Center(
+                child: FocusableTap(
+                  label: ComponentLocalizations.of(context).dialogDismiss,
+                  onTap: () => setState(() => _detailsOpen = false),
+                  minWidth: 48,
+                  minHeight: 32,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ambient.colors.border),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(LucideIcons.x, size: 16, color: widget.fg),
+                  ),
                 ),
               ),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget _equaliser(BuildContext context) {
     final colors = Theme.of(context).colors;
     final AudioProgressBar defaults = AudioProgressBar(
-      position: controller.position,
-      duration: controller.duration,
-      buffered: controller.buffered,
-      onSeek: controller.seekTo,
-      trackColor: style.track?.resolve(colors) ?? colors.secondary,
-      bufferedColor: style.buffered?.resolve(colors) ?? colors.muted,
-      fillColor: fg,
-      thumbColor: fg,
-      trackHeight: style.trackHeight ?? 4,
+      position: widget.controller.position,
+      duration: widget.controller.duration,
+      buffered: widget.controller.buffered,
+      onSeek: widget.controller.seekTo,
+      trackColor: widget.style.track?.resolve(colors) ?? colors.secondary,
+      bufferedColor: widget.style.buffered?.resolve(colors) ?? colors.muted,
+      fillColor: widget.fg,
+      thumbColor: widget.fg,
+      trackHeight: widget.style.trackHeight ?? 4,
     );
-    if (waveformBuilder != null) {
-      return waveformBuilder!(context, controller, defaults);
+    if (widget.waveformBuilder != null) {
+      return widget.waveformBuilder!(context, widget.controller, defaults);
     }
     return ExcludeSemantics(
       child: Row(
@@ -208,7 +372,7 @@ class AudioExpandedCard extends StatelessWidget {
               height: 6 + (i % 3) * 5.0,
               margin: const EdgeInsets.symmetric(horizontal: 1.5),
               decoration: BoxDecoration(
-                color: muted,
+                color: widget.muted,
                 borderRadius: BorderRadius.circular(1.5),
               ),
             ),
@@ -218,8 +382,13 @@ class AudioExpandedCard extends StatelessWidget {
   }
 
   Widget _artist(BuildContext context) {
-    if (subtitleBuilder != null) return subtitleBuilder!(context, controller);
-    final String? artist = resolveAudioArtist(controller, subtitle);
+    if (widget.subtitleBuilder != null) {
+      return widget.subtitleBuilder!(context, widget.controller);
+    }
+    final String? artist = resolveAudioArtist(
+      widget.controller,
+      widget.subtitle,
+    );
     if (artist == null) return const SizedBox.shrink();
     // Row + Expanded lets the line flex to the available width and truncate
     // instead of forcing the Column wider/taller on narrow stages.
@@ -232,9 +401,9 @@ class AudioExpandedCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style:
-                style.subtitleTextStyle ??
+                widget.style.subtitleTextStyle ??
                 TextStyle(
-                  color: muted,
+                  color: widget.muted,
                   fontSize: 11,
                   letterSpacing: 1.2,
                   fontWeight: FontWeight.w500,
@@ -246,7 +415,9 @@ class AudioExpandedCard extends StatelessWidget {
   }
 
   Widget _title(BuildContext context) {
-    if (titleBuilder != null) return titleBuilder!(context, controller);
+    if (widget.titleBuilder != null) {
+      return widget.titleBuilder!(context, widget.controller);
+    }
     // Same flex + truncate contract as the compact pill title: the Expanded
     // gives the Row's remaining width to the label and the ellipsis keeps a
     // long track name on one line instead of overflowing the card.
@@ -255,16 +426,20 @@ class AudioExpandedCard extends StatelessWidget {
         Expanded(
           child: Text(
             resolveAudioTitle(
-              controller,
-              title,
+              widget.controller,
+              widget.title,
               ComponentLocalizations.of(context),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style:
-                style.titleTextStyle ??
-                TextStyle(color: fg, fontSize: 20, fontWeight: FontWeight.w600),
+                widget.style.titleTextStyle ??
+                TextStyle(
+                  color: widget.fg,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
           ),
         ),
       ],
@@ -274,45 +449,46 @@ class AudioExpandedCard extends StatelessWidget {
   Widget _progress(BuildContext context) {
     final colors = Theme.of(context).colors;
     final AudioProgressBar defaults = AudioProgressBar(
-      position: controller.position,
-      duration: controller.duration,
-      buffered: controller.buffered,
-      onSeek: controller.seekTo,
-      trackColor: style.track?.resolve(colors) ?? colors.secondary,
-      bufferedColor: style.buffered?.resolve(colors) ?? colors.muted,
-      fillColor: fg,
-      thumbColor: fg,
-      trackHeight: style.trackHeight ?? 4,
+      position: widget.controller.position,
+      duration: widget.controller.duration,
+      buffered: widget.controller.buffered,
+      onSeek: widget.controller.seekTo,
+      trackColor: widget.style.track?.resolve(colors) ?? colors.secondary,
+      bufferedColor: widget.style.buffered?.resolve(colors) ?? colors.muted,
+      fillColor: widget.fg,
+      thumbColor: widget.fg,
+      trackHeight: widget.style.trackHeight ?? 4,
     );
-    return progressBuilder?.call(context, controller, defaults) ?? defaults;
+    return widget.progressBuilder?.call(context, widget.controller, defaults) ??
+        defaults;
   }
 
   Widget _times(BuildContext context) {
-    final AudioPlaybackController c = controller;
+    final AudioPlaybackController c = widget.controller;
     final Widget times = Text(
       '${formatAudioTime(c.position)} / ${formatAudioTime(c.duration)}',
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
       style:
-          style.timeTextStyle ??
+          widget.style.timeTextStyle ??
           TextStyle(
-            color: muted,
+            color: widget.muted,
             fontSize: 12,
             fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
           ),
     );
-    if (!showSpeed && speedBuilder == null) return times;
+    if (!widget.showSpeed && widget.speedBuilder == null) return times;
     return Row(
       children: <Widget>[
         const SizedBox(width: 32),
         Expanded(child: times),
-        speedBuilder?.call(context, c) ??
+        widget.speedBuilder?.call(context, c) ??
             AudioSpeedButton(
               controller: c,
-              fg: fg,
-              supportedSpeeds: supportedSpeeds,
-              initialOpen: initialSpeedOpen,
+              fg: widget.fg,
+              supportedSpeeds: widget.supportedSpeeds,
+              initialOpen: widget.initialSpeedOpen,
             ),
       ],
     );
@@ -320,17 +496,69 @@ class AudioExpandedCard extends StatelessWidget {
 
   Widget _transport(BuildContext context) {
     return AudioExpandedTransport(
-      controller: controller,
-      style: style,
-      fg: fg,
-      muted: muted,
-      controlsBuilder: controlsBuilder,
-      playButtonBuilder: playButtonBuilder,
-      previousBuilder: previousBuilder,
-      nextBuilder: nextBuilder,
-      shuffleBuilder: shuffleBuilder,
-      repeatBuilder: repeatBuilder,
-      loadingBuilder: loadingBuilder,
+      controller: widget.controller,
+      style: widget.style,
+      fg: widget.fg,
+      muted: widget.muted,
+      controlsBuilder: widget.controlsBuilder,
+      playButtonBuilder: widget.playButtonBuilder,
+      previousBuilder: widget.previousBuilder,
+      nextBuilder: widget.nextBuilder,
+      shuffleBuilder: widget.shuffleBuilder,
+      repeatBuilder: widget.repeatBuilder,
+      loadingBuilder: widget.loadingBuilder,
     );
+  }
+}
+
+/// Disc rotation: one turn every 20 s while playing, frozen when stopped.
+///
+/// The animation controller repeats while [isPlaying] is true and stops
+/// (preserving the angle) when it flips false, so pause resumes smoothly
+/// without a jump.
+class _RotatingDisc extends StatefulWidget {
+  const _RotatingDisc({required this.isPlaying, required this.child});
+
+  final bool isPlaying;
+  final Widget child;
+
+  @override
+  State<_RotatingDisc> createState() => _RotatingDiscState();
+}
+
+class _RotatingDiscState extends State<_RotatingDisc>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _turns;
+
+  @override
+  void initState() {
+    super.initState();
+    _turns = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    );
+    if (widget.isPlaying) _turns.repeat();
+  }
+
+  @override
+  void didUpdateWidget(covariant _RotatingDisc oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isPlaying == oldWidget.isPlaying) return;
+    if (widget.isPlaying) {
+      _turns.repeat();
+    } else {
+      _turns.stop();
+    }
+  }
+
+  @override
+  void dispose() {
+    _turns.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(turns: _turns, child: widget.child);
   }
 }

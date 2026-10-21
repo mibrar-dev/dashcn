@@ -19,6 +19,8 @@ class AudioTrack {
   const AudioTrack({
     required this.title,
     required this.artist,
+    this.album,
+    this.trackNumber,
     this.coverUrl,
     this.src,
   });
@@ -28,6 +30,12 @@ class AudioTrack {
 
   /// Artist name (expanded card shows it uppercase, letter-spaced).
   final String artist;
+
+  /// Album name shown in the details sheet (falls back to artist).
+  final String? album;
+
+  /// 1-based track number shown in the details sheet.
+  final int? trackNumber;
 
   /// Cover art URL for the expanded card.
   final String? coverUrl;

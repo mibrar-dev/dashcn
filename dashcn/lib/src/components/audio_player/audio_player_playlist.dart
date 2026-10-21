@@ -12,6 +12,8 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
   AudioTrack(
     title: 'Southern Roots Boogie',
     artist: 'Falconer',
+    album: 'Southern Roots',
+    trackNumber: 1,
     coverUrl:
         'https://cdn.21st.dev/assets/mirror/ba/bafb64c13ba4ed85d598cc318a62f9a5129f3abaecee80943d495e7356fd0603.jpg',
     src:
@@ -20,6 +22,8 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
   AudioTrack(
     title: 'Sax Party',
     artist: 'Ofer Koren',
+    album: 'Sax Party EP',
+    trackNumber: 2,
     coverUrl:
         'https://cdn.21st.dev/assets/mirror/ca/ca5a0ecf3ecbf81caded68eb8929e9d2f060c50dfbefd6ca1c04792856a049.jpg',
     src:
@@ -28,6 +32,8 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
   AudioTrack(
     title: 'Nonsense',
     artist: 'Raw',
+    album: 'Raw Sessions',
+    trackNumber: 3,
     coverUrl:
         'https://cdn.21st.dev/assets/mirror/d0/d0d6fb080fce774573e95f73ac22b73be5e7b342d433bb8f73c9e4a15e.jpg',
     src:

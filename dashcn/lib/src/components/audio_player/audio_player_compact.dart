@@ -3,11 +3,15 @@
 // A single horizontal pill (~48px tall, radius 14, bottom-edge progress):
 // play/pause (icon only), elapsed, total, truncated title, volume + slider,
 // speed cycler, download. Hover/focus on the volume icon reveals the slider.
+// The bottom-edge progress is a draggable seek line (tap/drag seeks, time
+// labels update). Speed and volume keep 32 px compact hit targets. Card
+// padding is the 16 px density token; the controls row uses 12 px gaps.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import '../../primitives/localizations/localizations.dart';
@@ -99,13 +103,15 @@ class AudioCompactPill extends StatelessWidget {
     final ThemeData ambient = Theme.of(context);
     final Color fill =
         style.accent?.resolve(ambient.colors) ?? ambient.colors.primary;
+    // 12 px density gaps between the time cluster and the title.
+    final double controlGap = ambient.density.baseGap * ambient.scaling * gapMd;
 
     return SizedBox(
       height: 48,
       child: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(bottom: 3),
+            padding: const EdgeInsets.only(bottom: 5),
             child: Row(
               children: <Widget>[
                 _iconPlay(context, c),
@@ -119,7 +125,7 @@ class AudioCompactPill extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 2),
+                const SizedBox(width: 4),
                 Text(
                   formatAudioTime(c.duration),
                   style: TextStyle(
@@ -130,7 +136,7 @@ class AudioCompactPill extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: controlGap),
                 Expanded(
                   child: Text(
                     name,
@@ -164,15 +170,104 @@ class AudioCompactPill extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 12,
-            right: 12,
+            left: 16,
+            right: 16,
             bottom: 0,
-            height: 2,
+            height: 12,
             child:
                 progressBuilder?.call(context, c, fraction) ??
-                ExcludeSemantics(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(1),
+                _CompactSeekLine(
+                  controller: c,
+                  fraction: fraction,
+                  fg: fg,
+                  fill: fill,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _iconPlay(BuildContext context, AudioPlaybackController c) {
+    if (playButtonBuilder != null) return playButtonBuilder!(context, c);
+    return FocusableTap(
+      label: c.isPlaying
+          ? ComponentLocalizations.of(context).mediaPause
+          : ComponentLocalizations.of(context).mediaPlay,
+      onTap: c.toggle,
+      minWidth: 32,
+      minHeight: 32,
+      child: SizedBox(
+        width: 32,
+        height: 48,
+        child: Icon(
+          c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+          size: style.iconSize ?? 20,
+          color: fg,
+        ),
+      ),
+    );
+  }
+}
+
+/// Draggable bottom-edge seek line for the compact pill.
+///
+/// Tap jumps to the tapped position; horizontal drag seeks relative to the
+/// line width (RTL-aware). The time labels above update through the shared
+/// controller. The visual stays a 2 px line centred in a 12 px hit area so
+/// the pill keeps its 48 px height.
+class _CompactSeekLine extends StatelessWidget {
+  const _CompactSeekLine({
+    required this.controller,
+    required this.fraction,
+    required this.fg,
+    required this.fill,
+  });
+
+  final AudioPlaybackController controller;
+  final double fraction;
+  final Color fg;
+  final Color fill;
+
+  void _seek(BuildContext context, Offset globalPosition, Size size) {
+    final Duration duration = controller.duration;
+    if (duration <= Duration.zero || size.width <= 0) return;
+    final RenderBox box = context.findRenderObject()! as RenderBox;
+    final double dx = box.globalToLocal(globalPosition).dx;
+    final double w = size.width;
+    if (w <= 0) return;
+    double t = (dx / w).clamp(0.0, 1.0);
+    if (Directionality.of(context) == TextDirection.rtl) t = 1 - t;
+    controller.seekTo(
+      Duration(microseconds: (t * duration.inMicroseconds).round()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: ComponentLocalizations.of(context).mediaSeek,
+      slider: true,
+      value: formatAudioTimeValuetextIn(
+        context,
+        controller.position,
+        controller.duration,
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final Size size = Size(constraints.maxWidth, 12);
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) => _seek(context, d.globalPosition, size),
+            onHorizontalDragUpdate: (d) =>
+                _seek(context, d.globalPosition, size),
+            child: SizedBox(
+              height: 12,
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(1),
+                  child: SizedBox(
+                    height: 2,
                     child: ColoredBox(
                       color: fg.withAlpha(0x24),
                       child: Align(
@@ -188,27 +283,10 @@ class AudioCompactPill extends StatelessWidget {
                     ),
                   ),
                 ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _iconPlay(BuildContext context, AudioPlaybackController c) {
-    if (playButtonBuilder != null) return playButtonBuilder!(context, c);
-    return FocusableTap(
-      label: c.isPlaying
-          ? ComponentLocalizations.of(context).mediaPause
-          : ComponentLocalizations.of(context).mediaPlay,
-      onTap: c.toggle,
-      child: SizedBox(
-        width: 32,
-        height: 48,
-        child: Icon(
-          c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-          size: style.iconSize ?? 20,
-          color: fg,
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

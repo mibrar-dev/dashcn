@@ -312,7 +312,8 @@ class _AudioPlayerState extends State<AudioPlayer> {
 ///
 /// Theme padding uses density-px (`EdgeInsetsDensity`); plain insets pass
 /// through. The compact pill keeps horizontal padding only so the card stays
-/// ~48px tall (SPEC reference 1).
+/// ~48px tall (SPEC reference 1). The expanded card uses the 16 px density
+/// token; the compact pill uses 16 px horizontal.
 EdgeInsetsGeometry _resolveBodyPadding(
   EdgeInsetsGeometry? padding,
   double densityBase,
@@ -321,8 +322,8 @@ EdgeInsetsGeometry _resolveBodyPadding(
   final EdgeInsetsGeometry base =
       padding ??
       (compact
-          ? const EdgeInsets.symmetric(horizontal: 10)
-          : const EdgeInsets.all(16));
+          ? const EdgeInsetsDensity.pxSymmetric(horizontal: 16)
+          : const EdgeInsetsDensity.pxAll(16));
   final EdgeInsets resolved = resolveEdgeInsets(
     base,
     densityBase,

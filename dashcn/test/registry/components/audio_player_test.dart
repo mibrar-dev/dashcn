@@ -570,4 +570,104 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.bySemanticsLabel('Play'), findsOneWidget);
   });
+
+  group('players polish', () {
+    test('demo tracks carry album and track numbers', () {
+      expect(demoAudioTracks[0].album, 'Southern Roots');
+      expect(demoAudioTracks[0].trackNumber, 1);
+      expect(demoAudioTracks[1].trackNumber, 2);
+      expect(demoAudioTracks[2].album, isNotNull);
+    });
+
+    testWidgets('expanded disc sits fully inside the card', (tester) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: SizedBox(
+            width: 360,
+            child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+          ),
+        ),
+      );
+      // Disc is a full 144 px circle (no half-circle crop).
+      final Finder discs = find.byWidgetPredicate(
+        (Widget w) =>
+            w is Container &&
+            w.decoration is BoxDecoration &&
+            (w.decoration as BoxDecoration).shape == BoxShape.circle &&
+            w.constraints?.maxWidth == 144,
+      );
+      expect(discs, findsOneWidget);
+      expect(tester.getSize(discs).width, 144);
+      expect(tester.getSize(discs).height, 144);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tapping the disc opens the details panel', (tester) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+        duration: const Duration(minutes: 4, seconds: 5),
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: SizedBox(
+            width: 360,
+            child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+          ),
+        ),
+      );
+      // Details closed by default (no track position line).
+      expect(find.text('1 / 3'), findsNothing);
+      await tester.tap(find.bySemanticsLabel('Track one'));
+      await tester.pump();
+      // Panel shows title, artist, album, duration and track number.
+      expect(find.text('Track one'), findsWidgets);
+      expect(find.text('Artist A'), findsWidgets);
+      expect(find.text('4:05'), findsWidgets);
+      expect(find.text('1 / 3'), findsOneWidget);
+    });
+
+    testWidgets('compact progress line seeks on drag with time updating', (
+      tester,
+    ) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        position: const Duration(seconds: 30),
+        duration: const Duration(minutes: 4),
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(_frame(child: AudioPlayer(controller: c)));
+      expect(find.text('0:30'), findsOneWidget);
+      final Finder seek = find.bySemanticsLabel('Seek');
+      expect(seek, findsOneWidget);
+      final Offset center = tester.getCenter(seek);
+      final double width = tester.getSize(seek).width;
+      // Drag to ~75% of the line.
+      await tester.dragFrom(
+        Offset(center.dx - width * 0.3, center.dy),
+        Offset(width * 0.6, 0),
+      );
+      await tester.pump();
+      expect(c.position.inSeconds, greaterThan(100));
+      expect(find.text('0:30'), findsNothing);
+    });
+
+    testWidgets('compact speed and volume keep 32px targets', (tester) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(_frame(child: AudioPlayer(controller: c)));
+      final Size speed = tester.getSize(
+        find.bySemanticsLabel('Playback speed 1x, tap to change'),
+      );
+      expect(speed.width, 32);
+      final Size mute = tester.getSize(find.bySemanticsLabel('Mute'));
+      expect(mute.width, 32);
+    });
+  });
 }

@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_style.dart';
@@ -57,6 +58,9 @@ class AudioExpandedTransport extends StatelessWidget {
     final AudioPlaybackController c = controller;
     if (controlsBuilder != null) return controlsBuilder!(context, c);
     final double iconSize = style.iconSize ?? 18;
+    // 12 px density gaps between transport controls.
+    final ThemeData ambient = Theme.of(context);
+    final double controlGap = ambient.density.baseGap * ambient.scaling * gapMd;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -72,7 +76,7 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.toggleShuffle,
             ),
-        const SizedBox(width: 4),
+        SizedBox(width: controlGap),
         previousBuilder?.call(context, c) ??
             _transportButton(
               label: ComponentLocalizations.of(context).mediaPreviousTrack,
@@ -81,9 +85,9 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.previous,
             ),
-        const SizedBox(width: 8),
+        SizedBox(width: controlGap),
         playButtonBuilder?.call(context, c) ?? _bigPlay(context, c),
-        const SizedBox(width: 8),
+        SizedBox(width: controlGap),
         nextBuilder?.call(context, c) ??
             _transportButton(
               label: ComponentLocalizations.of(context).mediaNextTrack,
@@ -92,7 +96,7 @@ class AudioExpandedTransport extends StatelessWidget {
               size: iconSize,
               onTap: c.next,
             ),
-        const SizedBox(width: 4),
+        SizedBox(width: controlGap),
         repeatBuilder?.call(context, c) ??
             _toggleButton(
               label: c.isLooping
@@ -157,6 +161,8 @@ Widget _transportButton({
   return FocusableTap(
     label: label,
     onTap: onTap,
+    minWidth: 32,
+    minHeight: 32,
     child: SizedBox(
       width: 40,
       height: 40,
@@ -179,6 +185,8 @@ Widget _toggleButton({
   return FocusableTap(
     label: label,
     onTap: onTap,
+    minWidth: 32,
+    minHeight: 32,
     child: SizedBox(
       width: 40,
       height: 40,

@@ -84,6 +84,13 @@ class _ComponentPageState extends State<ComponentPage> {
             variant: BadgeVariant.outline,
             child: Text(component.stability),
           ),
+          if (_isWip(component.id)) ...<Widget>[
+            Badge(variant: BadgeVariant.outline, child: Text('WIP')),
+            Text(
+              'Work in progress: bugs may occur.',
+              style: TextStyle(fontSize: 12),
+            ),
+          ],
         ],
         children: <Widget>[
           ComponentPreviewCard(componentId: widget.componentId),
@@ -106,6 +113,11 @@ class _ComponentPageState extends State<ComponentPage> {
 
   static bool _hasMembers(String id) {
     return kApiTables[id]!.members.isNotEmpty;
+  }
+
+  /// Audio/video players are still being polished.
+  static bool _isWip(String id) {
+    return id == 'audio_player' || id == 'video_player';
   }
 
   static bool _hasThemeTable(String id) {
