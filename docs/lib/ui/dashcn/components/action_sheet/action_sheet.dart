@@ -64,9 +64,8 @@ class ActionSheet<T> extends StatelessWidget {
     return densityTokens ??
         resolved.themeDensityTokens ??
         ComponentTheme.maybeOf<ActionSheetTheme>(context)?.themeDensityTokens ??
-        ComponentThemes.maybeOf<ActionSheetTheme>(
-          context,
-        )?.themeDensityTokens ??
+        ComponentThemes.maybeOf<ActionSheetTheme>(context)
+            ?.themeDensityTokens ??
         resolveDensityTokens(context);
   }
 
@@ -111,8 +110,16 @@ class ActionSheet<T> extends StatelessWidget {
           horizontal: tokens.horizontalPadding * scaling,
           vertical: tokens.verticalPadding * scaling,
         );
+    // Compact rows are 40 (Material dense list) rather than the generic
+    // token 32: action rows are touch targets with 16px icons, so the
+    // compact default is taller than a menu row but still denser than the
+    // 48 touch rows phones resolve through [resolveDensityTokens].
     final double rowMin =
-        (resolved.rowMinHeight ?? tokens.rowMinHeight) * scaling;
+        (resolved.rowMinHeight ??
+            (tokens.preset == DensityPreset.compact
+                ? 40.0
+                : tokens.rowMinHeight)) *
+        scaling;
     final double iconSize = (resolved.iconSize ?? tokens.iconSize) * scaling;
     final double iconGap = tokens.gap * scaling;
     final double titleGap = (resolved.titleSpacing ?? tokens.gap / 2) * scaling;
