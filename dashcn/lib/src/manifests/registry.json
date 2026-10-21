@@ -3121,6 +3121,11 @@
         "classes": [
           "ContextMenu"
         ],
+        "constants": [
+          "kContextMenuMinWidth",
+          "kContextMenuMaxWidth",
+          "kContextMenuMinTargetSize"
+        ],
         "functions": [
           "showContextMenu"
         ]
@@ -10776,8 +10781,8 @@
     "components/command/command_style.dart": "b654d0abd3a57693ed7cce920b5d19fcb0987fc34ee6bb00efb45271946f481c",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
     "components/command/preview.dart": "6bca11356367b524b2fb8039bc63d005a242220d9b31e682068614e82824d1c3",
-    "components/context_menu/context_menu.dart": "17f5a3e9fbf25a3c1c0c788735baa9b7086605155b5c8e2ba0a88497571d0cb8",
-    "components/context_menu/preview.dart": "9644907336ca79a0e111c22ec28c632097a02e58c8c69bb8d8505d770eaba418",
+    "components/context_menu/context_menu.dart": "772a63bfc28cfce1352c21faeaf50bc124ab95f3fdf4892fb72fd1ad6793721e",
+    "components/context_menu/preview.dart": "0363b06f0a9647fffa5a83af217a2619a94afc70128d7bb3aab1e4a5d5841935",
     "components/country_flag/country_flag.dart": "622df38c59cf9181a86b8218e136557f2ba662700f084c2415ee4dd5fb9e3e52",
     "components/country_flag/country_flag_style.dart": "a37d73e15798fc1ab3a3529e0be6225965952a8d915ad67a954c3b09a1fc8a2e",
     "components/country_flag/country_flag_theme.dart": "7f90d6328b6b707afca974525591185ffa7e72bf3b0fe01ead9ec669cae54477",

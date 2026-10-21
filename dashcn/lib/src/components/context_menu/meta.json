@@ -37,6 +37,11 @@
     ],
     "functions": [
       "showContextMenu"
+    ],
+    "constants": [
+      "kContextMenuMinWidth",
+      "kContextMenuMaxWidth",
+      "kContextMenuMinTargetSize"
     ]
   },
   "theme": {
@@ -51,8 +56,9 @@
     "semantics": "rows are menu buttons; disabled rows dim to 50% opacity"
   },
   "sizes": {
-    "surface": "MenuPopup defaults: min-width 192 (12rem), padding 4, 1px border, radius md",
+    "surface": "showContextMenu clamps the popup: min-width 160, max-width 320 (compact default); row metrics stay density-scaled",
     "row": "menu row metrics (min-height 32)",
+    "target": "trigger hit area: child + targetPadding (8 all sides), floored to 48x48 on touch platforms",
     "offset": "menu opens 8 right of the pointer"
   },
   "notes": [
