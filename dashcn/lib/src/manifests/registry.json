@@ -4483,6 +4483,7 @@
           "date_picker",
           "drawer",
           "input",
+          "popup",
           "select"
         ],
         "foundation": [
@@ -4499,7 +4500,8 @@
           "surface"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and a mobile sheet presentation; backed by a typed filter engine.",

@@ -21,7 +21,8 @@
       "icons"
     ],
     "theme": [
-      "theme"
+      "theme",
+      "density_tokens"
     ],
     "primitives": [
       "filter_core",
@@ -38,6 +39,7 @@
       "date_picker",
       "drawer",
       "input",
+      "popup",
       "select"
     ]
   },
