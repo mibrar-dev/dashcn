@@ -27,7 +27,8 @@ export 'video_player_scrub.dart';
 export 'video_player_style.dart';
 export 'video_player_volume.dart';
 
-/// A video frame with poster, play overlay, scrub bar and control bar.
+/// SPEC glass control bar over a 16:9 frame: title header, 10s skips,
+/// speed/captions more-menu, auto-hide, live badge and camera fallback.
 class VideoPlayer extends StatefulWidget {
   /// Creates a video player.
   const VideoPlayer({

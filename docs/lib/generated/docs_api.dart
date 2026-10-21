@@ -7593,7 +7593,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A video frame with poster, play overlay, scrub bar and control bar.',
+        'SPEC glass control bar over a 16:9 frame: title header, 10s skips, speed/captions more-menu, auto-hide, live badge and camera fallback.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'controller',
