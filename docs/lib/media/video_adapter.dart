@@ -36,11 +36,31 @@ class PluginVideoAdapter extends VideoPlaybackController {
   /// The wrapped plugin controller; owned by the caller.
   final plugin.VideoPlayerController inner;
 
+  void _forward() => notifyListeners();
+
   double _unmutedVolume = 1;
   bool _isLive = false;
   String? _sourceLabel;
+  bool _captionsEnabled = false;
+  List<VideoCaptionCue> _cues = const <VideoCaptionCue>[];
 
-  void _forward() => notifyListeners();
+  @override
+  List<VideoCaptionCue> get cues => _cues;
+
+  /// Replaces the caption cues shown by the overlay.
+  void setCues(List<VideoCaptionCue> cues) {
+    _cues = cues;
+    notifyListeners();
+  }
+
+  @override
+  bool get areCaptionsEnabled => _captionsEnabled;
+
+  @override
+  Future<void> setCaptionsEnabled(bool enabled) async {
+    _captionsEnabled = enabled;
+    notifyListeners();
+  }
 
   /// Marks the current source live (LIVE badge, no total) with a label.
   void setSource({required bool isLive, String? label}) {

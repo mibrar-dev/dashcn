@@ -5,10 +5,12 @@
 // uncontrolled modes, callbacks, keyboard, RTL, reduced motion, theme and
 // style overrides, custom builders and a 375px phone-width overflow guard.
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/audio_player/audio_player.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
+import 'package:dashcn/src/primitives/focus_tap.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -140,7 +142,7 @@ void main() {
     expect(find.bySemanticsLabel('Play'), findsOneWidget);
     expect(find.bySemanticsLabel('Mute'), findsOneWidget);
     expect(
-      find.bySemanticsLabel('Playback speed 1.0x, tap to change'),
+      find.bySemanticsLabel('Playback speed 1x, tap to change'),
       findsOneWidget,
     );
     expect(find.bySemanticsLabel('Download'), findsOneWidget);
@@ -154,9 +156,7 @@ void main() {
     final FakeAudioPlaybackController c = FakeAudioPlaybackController();
     addTearDown(c.dispose);
     await tester.pumpWidget(_frame(child: AudioPlayer(controller: c)));
-    await tester.tap(
-      find.bySemanticsLabel('Playback speed 1.0x, tap to change'),
-    );
+    await tester.tap(find.bySemanticsLabel('Playback speed 1x, tap to change'));
     await tester.pump();
     expect(c.playbackSpeed, 1.25);
   });
@@ -401,5 +401,173 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
     expect(find.byIcon(LucideIcons.play), findsWidgets);
+  });
+
+  group('players fix', () {
+    test('demoAudioTracks match the SPEC URLs verbatim', () {
+      expect(demoAudioTracks.length, 3);
+      expect(demoAudioTracks[0].title, 'Southern Roots Boogie');
+      expect(
+        demoAudioTracks[0].src,
+        'https://cdn.21st.dev/assets/mirror/ca/cadd2666c5571e12fafdb21697b26aef6f196a5a9c28e708129870167679991d.mp3',
+      );
+      expect(
+        demoAudioTracks[1].src,
+        'https://cdn.21st.dev/assets/mirror/ab/ab5cb08483abe63edd2a2ce4d843ad8f3073fcbb4a738a94f6b7529df3e1b437.mp3',
+      );
+      expect(
+        demoAudioTracks[2].src,
+        'https://cdn.21st.dev/assets/mirror/79/793e6ffda56e28691998b90a55bdaf0f2bccb8950cd8a7ee9ef7421c4ebbafdb.mp3',
+      );
+    });
+
+    testWidgets('expanded card offers a speed menu', (tester) async {
+      tester.view.physicalSize = const Size(800, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+        ),
+      );
+      expect(
+        find.bySemanticsLabel('Playback speed 1x, tap to change'),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find.bySemanticsLabel('Playback speed 1x, tap to change'),
+      );
+      await tester.pump();
+      expect(find.bySemanticsLabel('Speed 1.25x'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Speed 1.25x'));
+      await tester.pump();
+      expect(c.playbackSpeed, 1.25);
+    });
+
+    testWidgets('expanded big play button defaults to 56px', (tester) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      expect(audioPlayerDefaults.controlSize, isNull);
+      await tester.pumpWidget(
+        _frame(
+          child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
+        ),
+      );
+      final Finder big = find.byWidgetPredicate(
+        (Widget w) =>
+            w is Container &&
+            w.decoration is BoxDecoration &&
+            (w.decoration as BoxDecoration).shape == BoxShape.circle &&
+            w.child is Icon,
+      );
+      expect(big, findsOneWidget);
+      expect(tester.getSize(big).width, 56);
+    });
+
+    testWidgets('initialSpeedOpen opens the expanded speed menu', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(800, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: AudioPlayer(
+            controller: c,
+            variant: AudioPlayerVariant.full,
+            initialSpeedOpen: true,
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('Speed 2x'), findsOneWidget);
+    });
+
+    testWidgets('compact volume slider maps taps to position', (tester) async {
+      final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+        tracks: _tracks,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(_frame(child: AudioPlayer(controller: c)));
+      final Finder mute = find.bySemanticsLabel('Mute');
+      expect(mute, findsOneWidget);
+      final TestGesture mouse = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
+      addTearDown(mouse.removePointer);
+      await mouse.addPointer(location: tester.getCenter(mute));
+      await tester.pump();
+      await mouse.moveTo(tester.getCenter(mute) + const Offset(2, 0));
+      await tester.pump();
+      expect(find.bySemanticsLabel('Volume'), findsOneWidget);
+      final Rect line = tester.getRect(find.bySemanticsLabel('Volume'));
+      await tester.tapAt(Offset(line.left + line.width * 0.25, line.center.dy));
+      await tester.pump();
+      expect(c.volume, closeTo(0.25, 0.05));
+      await tester.tapAt(Offset(line.left + line.width * 0.75, line.center.dy));
+      await tester.pump();
+      expect(c.volume, closeTo(0.75, 0.05));
+    });
+
+    testWidgets('FocusableTap activates on Enter and Space', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        _frame(
+          child: FocusableTap(
+            label: 'Probe',
+            autofocus: true,
+            onTap: () => taps++,
+            child: const SizedBox(width: 32, height: 32),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.space);
+      await tester.pump();
+      expect(taps, 2);
+    });
+  });
+  testWidgets('320px phone width has no overflow', (tester) async {
+    tester.view.physicalSize = const Size(320, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final FakeAudioPlaybackController c = FakeAudioPlaybackController(
+      position: const Duration(seconds: 37),
+      duration: const Duration(minutes: 3, seconds: 42),
+      tracks: _tracks,
+    );
+    addTearDown(c.dispose);
+    await tester.pumpWidget(
+      Theme(
+        data: const ThemeData(),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(
+            child: SizedBox(
+              width: 320,
+              child: AudioPlayer(
+                controller: c,
+                variant: AudioPlayerVariant.compact,
+                onDownload: () {},
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+    expect(find.bySemanticsLabel('Play'), findsOneWidget);
   });
 }

@@ -852,6 +852,9 @@ class ComponentLocalizationsUr extends ComponentLocalizations {
   String get mediaQualityAuto => 'کوالٹی خودکار';
 
   @override
+  String get mediaLiveBadge => 'براہ راست';
+
+  @override
   String get blockDontHaveAccount => 'اکاؤنٹ نہیں ہے؟';
 
   @override

@@ -38,6 +38,7 @@ export 'src/primitives/filter_core/filter_matching.dart';
 export 'src/primitives/filter_core/filter_state.dart';
 export 'src/primitives/filter_core/filter_theme.dart';
 export 'src/primitives/focus_outline.dart';
+export 'src/primitives/focus_tap.dart';
 export 'src/primitives/form_core/form_builders.dart';
 export 'src/primitives/form_core/form_control.dart';
 export 'src/primitives/form_core/form_controller.dart';

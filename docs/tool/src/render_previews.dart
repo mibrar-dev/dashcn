@@ -69,15 +69,23 @@ String renderDocsPreviews(DocsModel model) {
 /// registry D4's component pages load. Preview files arrive in the docs app
 /// through the registry mirror (`lib/ui/dashcn/components/<id>/preview.dart`,
 /// synced by `tool/sync_registry.sh` and hash-covered by the manifest).
+///
+/// Components with a docs-only sidecar ([sidecars], `docs/lib/media/`) get an
+/// extra deferred import; indices at or past [SidecarFacts.kitCount] load
+/// from the sidecar list instead of the kit list.
 String renderComponentPreviews(
   RegistryScan scan,
   Map<String, String?> previewClasses,
-  Map<String, String?> previewExamples,
-) {
+  Map<String, String?> previewExamples, [
+  Map<String, SidecarFacts> sidecars = const <String, SidecarFacts>{},
+]) {
   final StringBuffer out = StringBuffer()
     ..write(
       banner(
-        sources: const <String>['dashcn/lib/src/components/<id>/preview.dart'],
+        sources: const <String>[
+          'dashcn/lib/src/components/<id>/preview.dart',
+          'docs/lib/media/live_<id>.dart (sidecars)',
+        ],
         regenerate: 'dart run tool/gen_docs_data.dart',
         notes: <String>[
           'One deferred import per component; the chunk is fetched when a',
@@ -85,6 +93,8 @@ String renderComponentPreviews(
           'lists are read from the preview sources with package:analyzer.',
           'P6-F4: loadComponentPreview takes an example index into the',
           'named-example list (first entry is the default).',
+          'Components with a docs-only sidecar append live-plugin examples',
+          'after the kit ones (indices at/after the kit count).',
         ],
       ),
     )
@@ -94,6 +104,11 @@ String renderComponentPreviews(
   for (final ComponentFacts component in scan.components) {
     out.writeln(
       "import 'package:docs/ui/dashcn/components/${component.id}/preview.dart' deferred as ${_prefix(component.id)};",
+    );
+  }
+  for (final MapEntry<String, SidecarFacts> sidecar in sidecars.entries) {
+    out.writeln(
+      "import '${sidecar.value.importUri}' deferred as ${_sidecarPrefix(sidecar.key)};",
     );
   }
   out
@@ -119,13 +134,19 @@ String renderComponentPreviews(
     final String prefix = _prefix(component.id);
     final String? exampleList = previewExamples[component.id];
     final String? className = previewClasses[component.id];
+    final SidecarFacts? sidecar = sidecars[component.id];
     if (exampleList == null) {
       out.writeln(
         "      ${dartString(component.id)} => $prefix.loadLibrary().then((_) => $prefix.$className()),",
       );
-    } else {
+    } else if (sidecar == null) {
       out.writeln(
         "      ${dartString(component.id)} => $prefix.loadLibrary().then((_) => Builder(builder: $prefix.$exampleList[exampleIndex].builder)),",
+      );
+    } else {
+      final String sidecarPrefix = _sidecarPrefix(component.id);
+      out.writeln(
+        "      ${dartString(component.id)} => exampleIndex < ${sidecar.kitCount} ? $prefix.loadLibrary().then((_) => Builder(builder: $prefix.$exampleList[exampleIndex].builder)) : $sidecarPrefix.loadLibrary().then((_) => Builder(builder: $sidecarPrefix.${sidecar.exampleList}[exampleIndex - ${sidecar.kitCount}].builder)),",
       );
     }
   }
@@ -140,6 +161,9 @@ String renderComponentPreviews(
 
 String _prefix(String id) =>
     'preview_${id.replaceAll(RegExp('[^A-Za-z0-9_]'), '_')}';
+
+String _sidecarPrefix(String id) =>
+    'live_${id.replaceAll(RegExp('[^A-Za-z0-9_]'), '_')}';
 
 /// Renders `lib/previews/block_previews.dart`: the deferred block-preview
 /// registry the Blocks pages load (P6-B3).

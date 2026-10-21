@@ -830,6 +830,9 @@ class ComponentLocalizationsZh extends ComponentLocalizations {
   String get mediaQualityAuto => '画质 自动';
 
   @override
+  String get mediaLiveBadge => '直播';
+
+  @override
   String get blockDontHaveAccount => '还没有帐户？';
 
   @override

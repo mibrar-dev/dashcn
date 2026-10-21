@@ -25809,6 +25809,222 @@ class _CustomAudioState extends State<_CustomAudio> {
 Widget _custom(BuildContext context) => const _CustomAudio();
 ''',
     ),
+    DocsExampleSource(
+      name: 'Live playback',
+      description:
+          'Real just_audio playback: shared compact pill + expanded card.',
+      builder: '_liveAudio',
+      code: r'''import 'package:docs/media/audio_adapter.dart';
+import 'package:docs/ui/dashcn/components/audio_player/audio_player.dart';
+import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/web_bridge.dart';
+import 'package:flutter/widgets.dart';
+import 'package:just_audio/just_audio.dart';
+
+/// Gradient placeholder shown while a cover loads or when it 404s.
+Widget _coverFallback(List<Color> colors) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: colors,
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    ),
+    alignment: Alignment.center,
+    child: const Icon(LucideIcons.music, size: 56, color: Color(0xFFFFFFFF)),
+  );
+}
+
+/// File name for a track download.
+String _downloadName(AudioTrack track) =>
+    '${track.artist}-${track.title}'.replaceAll(RegExp('[^A-Za-z0-9]+'), '-');
+
+/// Live audio docs example: shared controller, compact + expanded.
+class _LiveAudio extends StatefulWidget {
+  const _LiveAudio();
+
+  @override
+  State<_LiveAudio> createState() => _LiveAudioState();
+}
+
+class _LiveAudioState extends State<_LiveAudio> {
+  audio.AudioPlayer? _player;
+  JustAudioAdapter? _adapter;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _start();
+  }
+
+  Future<void> _start() async {
+    final audio.AudioPlayer player = audio.AudioPlayer();
+    final JustAudioAdapter adapter = JustAudioAdapter(player);
+    try {
+      await adapter.setTracks(demoAudioTracks);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _player = player;
+        _adapter = adapter;
+        _failed = true;
+      });
+      return;
+    }
+    if (!mounted) {
+      adapter.dispose();
+      try {
+        await player.dispose();
+      } catch (_) {}
+      return;
+    }
+    setState(() {
+      _player = player;
+      _adapter = adapter;
+    });
+  }
+
+  @override
+  void dispose() {
+    _adapter?.dispose();
+    // Plugin dispose is fire-and-forget here; swallow the
+    // MissingPluginException it throws where plugins are absent (VM tests).
+    _player?.dispose().then((_) {}, onError: (_) {});
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final JustAudioAdapter? adapter = _adapter;
+    if (adapter == null) {
+      return const SizedBox(
+        width: 360,
+        height: 120,
+        child: Center(
+          child: Text('Loading live audio…', style: TextStyle(fontSize: 13)),
+        ),
+      );
+    }
+    return ListenableBuilder(
+      listenable: adapter,
+      builder: (BuildContext context, Widget? _) {
+        final AudioTrack? track = adapter.currentTrack;
+        final String? coverUrl = track?.coverUrl;
+        final List<Color> gradient = const <Color>[
+          Color(0xFF7C3AED),
+          Color(0xFFEC4899),
+        ];
+        return SizedBox(
+          width: 360,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _TrackSelector(adapter: adapter),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 360,
+                child: AudioPlayer(
+                  controller: adapter,
+                  variant: AudioPlayerVariant.compact,
+                  onDownload: _downloadCurrent,
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 360,
+                child: AudioPlayer(
+                  controller: adapter,
+                  variant: AudioPlayerVariant.full,
+                  cover: coverUrl == null
+                      ? _coverFallback(gradient)
+                      : Image.network(
+                          coverUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (
+                                BuildContext context,
+                                Object error,
+                                StackTrace? stackTrace,
+                              ) => _coverFallback(gradient),
+                        ),
+                ),
+              ),
+              if (adapter.error != null || _failed)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Playback failed: ${adapter.error ?? 'could not load track'}',
+                    style: const TextStyle(
+                      color: Color(0xFFDC2626),
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _downloadCurrent() {
+    final AudioTrack? track = _adapter?.currentTrack;
+    final String? src = track?.src;
+    if (src == null || track == null) return;
+    webDownloadUrl(src, '${_downloadName(track)}.mp3');
+  }
+}
+
+/// Track selector chips (docs chrome around the component).
+class _TrackSelector extends StatelessWidget {
+  const _TrackSelector({required this.adapter});
+
+  final JustAudioAdapter adapter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 0,
+      runSpacing: 8,
+      children: <Widget>[
+        for (int i = 0; i < adapter.tracks.length; i++)
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => adapter.setTrack(i),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: adapter.currentIndex == i
+                    ? const Color(0xFF18181B)
+                    : const Color(0x00000000),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: const Color(0xFF27272A)),
+              ),
+              child: Text(
+                adapter.tracks[i].title,
+                style: TextStyle(
+                  color: adapter.currentIndex == i
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xFF71717A),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+Widget _liveAudio(BuildContext context) => const _LiveAudio();
+''',
+    ),
   ],
   'code_snippet': <DocsExampleSource>[
     DocsExampleSource(
@@ -26446,7 +26662,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26488,8 +26705,8 @@ class _DefaultVideoState extends State<_DefaultVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -26518,7 +26735,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26562,8 +26780,8 @@ class _LiveVideoState extends State<_LiveVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Live stream',
@@ -26613,8 +26831,8 @@ class _CameraVideoState extends State<_CameraVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Live feed',
@@ -26654,7 +26872,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26697,8 +26916,8 @@ class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -26736,7 +26955,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26792,8 +27012,8 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Captioned premiere',
@@ -26822,7 +27042,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26865,8 +27086,8 @@ class _BarHiddenVideoState extends State<_BarHiddenVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           controlsVisible: false,
@@ -26896,7 +27117,8 @@ import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -26938,8 +27160,8 @@ class _PhoneVideoState extends State<_PhoneVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -26988,8 +27210,8 @@ class _CustomVideoState extends State<_CustomVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Custom theme',
@@ -27023,6 +27245,13 @@ class _CustomVideoState extends State<_CustomVideo> {
 
 Widget _custom(BuildContext context) => const _CustomVideo();
 ''',
+    ),
+    DocsExampleSource(
+      name: 'Live playback',
+      description: 'Real plugin playback: MP4, live HLS and camera sources.',
+      builder: '_liveVideo',
+      code:
+          'import \'package:docs/media/video_adapter.dart\';\nimport \'package:docs/ui/dashcn/components/video_player/video_player.dart\';\nimport \'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart\';\nimport \'package:docs/web_bridge.dart\';\nimport \'package:flutter/widgets.dart\';\nimport \'package:video_player/video_player.dart\';\n\n/// Inline WebVTT sample for the captions toggle.\nconst String _sampleVtt = \'\'\'\nWEBVTT\n\n00:00.000 --> 00:05.000\nHello, world\n\n00:05.000 --> 00:12.000\nButterfly wings at 24 frames\n\'\'\';\n\n/// Minimal WebVTT parser (cues with `start --> end` headers).\nList<VideoCaptionCue> parseWebVtt(String source) {\n  final List<VideoCaptionCue> cues = <VideoCaptionCue>[];\n  final List<String> lines = source.replaceAll(\'\\r\\n\', \'\\n\').split(\'\\n\');\n  int i = 0;\n  if (lines.isNotEmpty && lines.first.trim() == \'WEBVTT\') i = 1;\n  final RegExp stamp = RegExp(\n    r\'(?:(\\d+):)?([0-5]?\\d):([0-5]\\d)[.,](\\d{3})\\s*-->\\s*(?:(\\d+):)?([0-5]?\\d):([0-5]\\d)[.,](\\d{3})\',\n  );\n  Duration? toDuration(Match m, int h, int min, int s, int ms) {\n    final int hours = m.group(h) == null ? 0 : int.parse(m.group(h)!);\n    return Duration(\n      hours: hours,\n      minutes: int.parse(m.group(min)!),\n      seconds: int.parse(m.group(s)!),\n      milliseconds: int.parse(m.group(ms)!),\n    );\n  }\n\n  while (i < lines.length) {\n    final String line = lines[i].trim();\n    i++;\n    if (line.isEmpty) continue;\n    final Match? m = stamp.firstMatch(line);\n    if (m == null) continue;\n    final Duration start = toDuration(m, 1, 2, 3, 4)!;\n    final Duration end = toDuration(m, 5, 6, 7, 8)!;\n    final StringBuffer text = StringBuffer();\n    while (i < lines.length && lines[i].trim().isNotEmpty) {\n      if (text.isNotEmpty) text.write(\'\\n\');\n      text.write(lines[i].trim());\n      i++;\n    }\n    if (text.isNotEmpty) {\n      cues.add(VideoCaptionCue(start: start, end: end, text: text.toString()));\n    }\n  }\n  return cues;\n}\n\n/// Live video docs example: source switcher over real plugin playback.\nclass _LiveVideo extends StatefulWidget {\n  const _LiveVideo();\n\n  @override\n  State<_LiveVideo> createState() => _LiveVideoState();\n}\n\nclass _LiveVideoState extends State<_LiveVideo> {\n  int _sourceIndex = 0;\n  plugin.VideoPlayerController? _inner;\n  PluginVideoAdapter? _adapter;\n  bool _cameraGranted = false;\n  bool _cameraAsked = false;\n  Object? _loadError;\n\n  @override\n  void initState() {\n    super.initState();\n    _openSource(0);\n  }\n\n  @override\n  void dispose() {\n    _adapter?.dispose();\n    // See live_audio.dart: plugin dispose throws where plugins are absent.\n    _inner?.dispose().then((_) {}, onError: (_) {});\n    super.dispose();\n  }\n\n  Future<void> _openSource(int index) async {\n    final VideoSource source = demoVideoSources[index];\n    final plugin.VideoPlayerController? oldInner = _inner;\n    final PluginVideoAdapter? oldAdapter = _adapter;\n    oldAdapter?.dispose();\n    if (mounted) {\n      setState(() {\n        _sourceIndex = index;\n        _inner = null;\n        _adapter = null;\n        _loadError = null;\n        _cameraAsked = source.isCamera;\n      });\n    }\n    if (source.isCamera) {\n      final bool granted = await webRequestCamera();\n      if (!mounted) return;\n      setState(() => _cameraGranted = granted);\n      try {\n        await oldInner?.dispose();\n      } catch (_) {}\n      return;\n    }\n    final String? uri = source.uri;\n    if (uri == null) {\n      if (!mounted) return;\n      setState(() => _loadError = StateError(\'No playable URL\'));\n      try {\n        await oldInner?.dispose();\n      } catch (_) {}\n      return;\n    }\n    final plugin.VideoPlayerController inner =\n        plugin.VideoPlayerController.networkUrl(Uri.parse(uri));\n    final PluginVideoAdapter adapter = PluginVideoAdapter(inner);\n    adapter.setSource(isLive: source.isLive, label: source.detail);\n    adapter.setCues(parseWebVtt(_sampleVtt));\n    if (source.isLive) {\n      await adapter.setCaptionsEnabled(false);\n    } else {\n      // Demo default: captions on so the WebVTT sample shows; the bar and\n      // menu toggles turn them off.\n      await adapter.setCaptionsEnabled(true);\n    }\n    try {\n      await inner.initialize();\n    } catch (error) {\n      if (!mounted) {\n        adapter.dispose();\n        await inner.dispose();\n        return;\n      }\n      setState(() {\n        _inner = inner;\n        _adapter = adapter;\n        _loadError = error;\n      });\n      try {\n        await oldInner?.dispose();\n      } catch (_) {}\n      return;\n    }\n    if (!mounted) {\n      adapter.dispose();\n      await inner.dispose();\n      return;\n    }\n    setState(() {\n      _inner = inner;\n      _adapter = adapter;\n    });\n    await oldInner?.dispose();\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    return LayoutBuilder(\n      builder: (BuildContext context, BoxConstraints constraints) {\n        final double width = constraints.maxWidth.isFinite\n            ? constraints.maxWidth.clamp(320.0, 640.0)\n            : 640.0;\n        return SizedBox(\n          width: width,\n          child: Column(\n            mainAxisSize: MainAxisSize.min,\n            children: <Widget>[\n              _SourceSwitcher(current: _sourceIndex, onSelect: _openSource),\n              const SizedBox(height: 8),\n              _stage(width),\n            ],\n          ),\n        );\n      },\n    );\n  }\n\n  Widget _stage(double width) {\n    final VideoSource source = demoVideoSources[_sourceIndex];\n    if (source.isCamera) {\n      return AspectRatio(\n        aspectRatio: 16 / 9,\n        child: Container(\n          decoration: BoxDecoration(\n            color: const Color(0xFF18181B),\n            borderRadius: BorderRadius.circular(18),\n            border: Border.all(color: const Color(0xFF27272A)),\n          ),\n          alignment: Alignment.center,\n          child: !_cameraAsked\n              ? const SizedBox.shrink()\n              : _cameraGranted\n              ? const Column(\n                  mainAxisSize: MainAxisSize.min,\n                  children: <Widget>[\n                    Icon(LucideIcons.video, size: 32, color: Color(0xFFFFFFFF)),\n                    SizedBox(height: 8),\n                    Text(\n                      \'Camera live — feed renders on device browsers\',\n                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 13),\n                    ),\n                  ],\n                )\n              : const Column(\n                  mainAxisSize: MainAxisSize.min,\n                  children: <Widget>[\n                    Icon(\n                      LucideIcons.cameraOff,\n                      size: 32,\n                      color: Color(0xFFFFFFFF),\n                    ),\n                    SizedBox(height: 8),\n                    Text(\n                      \'Camera unavailable — permission denied\',\n                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 13),\n                    ),\n                  ],\n                ),\n        ),\n      );\n    }\n    final PluginVideoAdapter? adapter = _adapter;\n    final plugin.VideoPlayerController? inner = _inner;\n    if (adapter == null || inner == null) {\n      return AspectRatio(\n        aspectRatio: 16 / 9,\n        child: Container(\n          decoration: BoxDecoration(\n            color: const Color(0xFF000000),\n            borderRadius: BorderRadius.circular(18),\n            border: Border.all(color: const Color(0xFF27272A)),\n          ),\n          alignment: Alignment.center,\n          child: _loadError == null\n              ? const Icon(\n                  LucideIcons.loaderCircle,\n                  size: 32,\n                  color: Color(0xFFFFFFFF),\n                )\n              : Text(\n                  \'Playback failed: \$_loadError\',\n                  style: const TextStyle(\n                    color: Color(0xFFFFFFFF),\n                    fontSize: 12,\n                  ),\n                  textAlign: TextAlign.center,\n                ),\n        ),\n      );\n    }\n    return VideoPlayer(\n      controller: adapter,\n      title: source.label,\n      subtitle: source.detail,\n      content: adapter.buildView(),\n      errorBuilder: (BuildContext context, Object error) => Center(\n        child: Text(\n          \'Playback failed: \$error\',\n          style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),\n          textAlign: TextAlign.center,\n        ),\n      ),\n    );\n  }\n}\n\n/// Source switcher chips (docs chrome around the component).\nclass _SourceSwitcher extends StatelessWidget {\n  const _SourceSwitcher({required this.current, required this.onSelect});\n\n  final int current;\n  final ValueChanged<int> onSelect;\n\n  @override\n  Widget build(BuildContext context) {\n    return Wrap(\n      alignment: WrapAlignment.center,\n      runSpacing: 8,\n      children: <Widget>[\n        for (int i = 0; i < demoVideoSources.length; i++)\n          GestureDetector(\n            behavior: HitTestBehavior.opaque,\n            onTap: () => onSelect(i),\n            child: Container(\n              margin: const EdgeInsets.symmetric(horizontal: 4),\n              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),\n              decoration: BoxDecoration(\n                color: current == i\n                    ? const Color(0xFF18181B)\n                    : const Color(0x00000000),\n                borderRadius: BorderRadius.circular(999),\n                border: Border.all(color: const Color(0xFF27272A)),\n              ),\n              child: Text(\n                demoVideoSources[i].label,\n                style: TextStyle(\n                  color: current == i\n                      ? const Color(0xFFFFFFFF)\n                      : const Color(0xFF71717A),\n                  fontSize: 12,\n                  fontWeight: FontWeight.w600,\n                ),\n              ),\n            ),\n          ),\n      ],\n    );\n  }\n}\n\nWidget _liveVideo(BuildContext context) => const _LiveVideo();\n',
     ),
   ],
   'alpha': <DocsExampleSource>[],

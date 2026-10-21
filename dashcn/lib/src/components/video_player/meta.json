@@ -29,7 +29,8 @@
       "localizations",
       "motion",
       "surface",
-      "tap_target"
+      "tap_target",
+      "focus_tap"
     ],
     "components": []
   },
@@ -40,7 +41,10 @@
     "video_player_controls.dart",
     "video_player_header.dart",
     "video_player_menu.dart",
+    "video_player_metrics.dart",
     "video_player_scrub.dart",
+    "video_player_sources.dart",
+    "video_player_stage.dart",
     "video_player_style.dart",
     "video_player_theme.dart",
     "video_player_volume.dart",
@@ -56,7 +60,9 @@
       "VideoSource",
       "VideoCaptionCue",
       "FakeVideoPlaybackController",
-      "VolumePainter"
+      "VolumePainter",
+      "VideoPlayerMetrics",
+      "VideoPlayerStage"
     ],
     "typedefs": [
       "VideoPartBuilder",
@@ -69,7 +75,9 @@
       "videoBarHeader",
       "videoMoreButton",
       "videoMenuSection",
-      "videoVolumeCluster"
+      "videoVolumeCluster",
+      "resolveVideoMetrics",
+      "formatVideoSpeed"
     ],
     "constants": [
       "videoPlayerDefaults",
@@ -91,10 +99,10 @@
       "buffered": "ThemedColor? - buffered fill, translucent white",
       "thumb": "ThemedColor? - scrub thumb, white",
       "borderRadius": "BorderRadiusGeometry? - null = 18px frame",
-      "controlsPadding": "EdgeInsetsGeometry? - null = 10/6",
-      "controlSize": "double? - centre play button diameter, 64",
-      "iconSize": "double? - bar button icons, 20",
-      "trackHeight": "double? - scrub track height, 4",
+      "controlsPadding": "EdgeInsetsGeometry? - bar padding, null = density default (10h/6v compact)",
+      "controlSize": "double? - centre button, null = density default (64 compact)",
+      "iconSize": "double? - bar icons, null = density default (16 compact)",
+      "trackHeight": "double? - scrub height, null = density default (4 compact)",
       "timeTextStyle": "TextStyle? - time labels",
       "captionsTextStyle": "TextStyle? - captions overlay",
       "surfaceOpacity": "double? - control bar opacity leg",

@@ -797,7 +797,19 @@ void main() {
           '${scan.root}/components/${component.id}/preview.dart',
         ).readAsStringSync();
         final List<String> names = findPreviewExamples(source: source);
-        expect(kComponentPreviews[component.id], names, reason: component.id);
+        // Components with a docs-only sidecar append its live examples.
+        final String? sidecar = kPreviewSidecars[component.id];
+        if (sidecar == null) {
+          expect(kComponentPreviews[component.id], names, reason: component.id);
+          continue;
+        }
+        final String sidecarSource = File(
+          'lib/media/$sidecar',
+        ).readAsStringSync();
+        expect(kComponentPreviews[component.id], <String>[
+          ...names,
+          ...findPreviewExamples(source: sidecarSource),
+        ], reason: component.id);
       }
     });
   });

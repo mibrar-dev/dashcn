@@ -7366,6 +7366,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
+        doc: 'Whether the expanded card speed menu starts open.',
       ),
       DocsApiParam(
         name: 'onDownload',
@@ -15147,7 +15148,8 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'controlSize',
         type: 'double?',
-        description: 'play button diameter, 48',
+        description:
+            'play button diameter, null = 32 (pill rows) / 56 (expanded card)',
       ),
       DocsThemeField(
         name: 'coverBackground',
@@ -15177,7 +15179,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'iconSize',
         type: 'double?',
-        description: 'transport icons, 20',
+        description: 'button icons, null = density default (16 compact)',
       ),
       DocsThemeField(
         name: 'mutedForeground',
@@ -15187,7 +15189,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'padding',
         type: 'EdgeInsetsGeometry?',
-        description: 'null = 12/8',
+        description: 'card padding, density horizontal 10 (pill) / 16 (card)',
       ),
       DocsThemeField(
         name: 'subtitleTextStyle',
@@ -15227,7 +15229,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'trackHeight',
         type: 'double?',
-        description: 'progress height, 4',
+        description: 'progress height, null = density default (4 compact)',
       ),
     ],
   ),
@@ -15473,12 +15475,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'controlSize',
         type: 'double?',
-        description: 'centre play button diameter, 64',
+        description: 'centre button, null = density default (64 compact)',
       ),
       DocsThemeField(
         name: 'controlsPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'null = 10/6',
+        description: 'bar padding, null = density default (10h/6v compact)',
       ),
       DocsThemeField(
         name: 'controlsTimeout',
@@ -15498,7 +15500,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'iconSize',
         type: 'double?',
-        description: 'bar button icons, 20',
+        description: 'bar icons, null = density default (16 compact)',
       ),
       DocsThemeField(
         name: 'scrim',
@@ -15533,7 +15535,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'trackHeight',
         type: 'double?',
-        description: 'scrub track height, 4',
+        description: 'scrub height, null = density default (4 compact)',
       ),
     ],
   ),

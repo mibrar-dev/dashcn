@@ -854,6 +854,9 @@ class ComponentLocalizationsTr extends ComponentLocalizations {
   String get mediaQualityAuto => 'Kalite Otomatik';
 
   @override
+  String get mediaLiveBadge => 'CANLI';
+
+  @override
   String get blockDontHaveAccount => 'Hesabınız yok mu?';
 
   @override

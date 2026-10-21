@@ -1402,7 +1402,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add audio_player',
     import:
         "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
-    fileCount: 13,
+    fileCount: 14,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -1472,7 +1472,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add video_player',
     import:
         "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
-    fileCount: 10,
+    fileCount: 13,
     stability: 'stable',
     listed: true,
     placement: 'center',

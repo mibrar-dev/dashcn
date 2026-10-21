@@ -111,6 +111,9 @@ mixin ComponentLocalizationsMedia {
   /// Visible quality note in the player more-menu (auto quality).
   String get mediaQualityAuto => 'Quality Auto';
 
+  /// Visible live badge in the `video_player` control bar header.
+  String get mediaLiveBadge => 'LIVE';
+
   /// Default semantics label of a `signature_pad`.
   ///
   /// No Flutter ARB equivalent exists, so this is the English fallback only.

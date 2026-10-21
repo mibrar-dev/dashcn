@@ -73,6 +73,7 @@ class VideoScrubBar extends StatefulWidget {
 
 class _VideoScrubBarState extends State<VideoScrubBar> {
   FocusNode? _owned;
+  final GlobalKey _trackKey = GlobalKey();
   bool _focused = false;
   bool _hovered = false;
 
@@ -105,17 +106,34 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
     widget.onSeek?.call(Duration(microseconds: micros));
   }
 
-  void _step(int direction) {
+  void _step(int direction, {bool fine = false}) {
     if (!widget.enabled) return;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     final int dir = rtl ? -direction : direction;
-    Duration target = widget.position + Duration(seconds: 5 * dir);
+    // SPEC keyboard map: 10 s steps, 5 s with Shift.
+    Duration target =
+        widget.position + Duration(seconds: (fine ? 5 : 10) * dir);
     if (target <= Duration.zero) {
       target = Duration.zero;
     } else if (target >= widget.duration) {
       target = widget.duration;
     }
     widget.onSeek?.call(target);
+  }
+
+  RenderBox? get _trackBox =>
+      _trackKey.currentContext?.findRenderObject() as RenderBox?;
+
+  double get _trackWidth {
+    final RenderBox? box = _trackBox;
+    if (box == null || !box.hasSize) return 0;
+    return box.size.width;
+  }
+
+  Offset _trackLocal(Offset globalPosition) {
+    final RenderBox? box = _trackBox;
+    if (box == null || !box.hasSize) return Offset.zero;
+    return box.globalToLocal(globalPosition);
   }
 
   @override
@@ -134,9 +152,9 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
         widget.duration,
       ),
       increasedValue:
-          '${(widget.position + const Duration(seconds: 5)).inSeconds}s',
+          '${(widget.position + const Duration(seconds: 10)).inSeconds}s',
       decreasedValue:
-          '${(widget.position - const Duration(seconds: 5)).inSeconds}s',
+          '${(widget.position - const Duration(seconds: 10)).inSeconds}s',
       onIncrease: widget.enabled ? () => _step(1) : null,
       onDecrease: widget.enabled ? () => _step(-1) : null,
       child: Focus(
@@ -146,12 +164,13 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
           if (!widget.enabled || event is! KeyDownEvent) {
             return KeyEventResult.ignored;
           }
+          final bool fine = HardwareKeyboard.instance.isShiftPressed;
           if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-            _step(1);
+            _step(1, fine: fine);
             return KeyEventResult.handled;
           }
           if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-            _step(-1);
+            _step(-1, fine: fine);
             return KeyEventResult.handled;
           }
           if (event.logicalKey == LogicalKeyboardKey.home) {
@@ -173,20 +192,13 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTapDown: (d) {
-              final RenderBox box = context.findRenderObject()! as RenderBox;
-              _seekFromDx(
-                box.globalToLocal(d.globalPosition).dx,
-                box.size.width,
-              );
+              _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
             },
             onHorizontalDragUpdate: (d) {
-              final RenderBox box = context.findRenderObject()! as RenderBox;
-              _seekFromDx(
-                box.globalToLocal(d.globalPosition).dx,
-                box.size.width,
-              );
+              _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
             },
             child: SizedBox(
+              key: _trackKey,
               height: 24,
               child: CustomPaint(
                 painter: _ScrubPainter(

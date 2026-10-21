@@ -24,6 +24,7 @@ class DocsModel {
     required this.flowSources,
     required this.flowClasses,
     required this.scorecards,
+    this.previewSidecars = const <String, SidecarFacts>{},
   });
 
   /// Registry facts (components, presets, stats inputs).
@@ -75,6 +76,31 @@ class DocsModel {
 
   /// Measured scorecard facts from `manifests/scorecards.json`.
   final ScorecardsDoc scorecards;
+
+  /// Docs-only preview sidecars keyed by component id (F11 players fix).
+  ///
+  /// A sidecar (`docs/lib/media/live_<id>.dart`) appends live-plugin
+  /// examples after the kit examples; the kit stays dependency-free.
+  final Map<String, SidecarFacts> previewSidecars;
+}
+
+/// One docs-only preview sidecar for a component.
+class SidecarFacts {
+  /// Creates sidecar facts.
+  const SidecarFacts({
+    required this.importUri,
+    required this.exampleList,
+    required this.kitCount,
+  });
+
+  /// Deferred import URI of the sidecar library.
+  final String importUri;
+
+  /// Exported `const List<ComponentPreview>` in the sidecar.
+  final String exampleList;
+
+  /// Kit examples before the sidecar entries (branch threshold).
+  final int kitCount;
 }
 
 /// `// GENERATED CODE …` banner shared by every generated file.
