@@ -15,6 +15,7 @@ import '../../primitives/input_features/adornment_features.dart';
 import '../../primitives/input_features/input_features.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/search/search_index.dart';
+import '../../primitives/surface.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
@@ -390,22 +391,29 @@ class _SearchBarState<T> extends State<SearchBar<T>> {
       theme: resolved,
     );
 
-    final Widget surface = DecoratedBox(
-      decoration: BoxDecoration(
-        color: background,
-        border: borderWidth > 0
-            ? Border.all(color: border, width: borderWidth)
-            : null,
-        borderRadius: radius,
-        boxShadow: resolved.shadows ?? theme.tokens.shadows.shadowLg,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Semantics(label: hint, child: field),
-          Flexible(child: list),
-        ],
+    // Frosted glass: the popover fill carries the ambient surfaceOpacity
+    // and the blur wraps the painted surface (no extra layer at default).
+    final Color paint = surfaceColor(background, theme.surfaceOpacity);
+    final Widget surface = GlassSurface(
+      surfaceBlur: theme.surfaceBlur,
+      borderRadius: radius,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: paint,
+          border: borderWidth > 0
+              ? Border.all(color: border, width: borderWidth)
+              : null,
+          borderRadius: radius,
+          boxShadow: resolved.shadows ?? theme.tokens.shadows.shadowLg,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Semantics(label: hint, child: field),
+            Flexible(child: list),
+          ],
+        ),
       ),
     );
 

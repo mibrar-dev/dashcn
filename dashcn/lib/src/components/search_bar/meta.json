@@ -27,6 +27,7 @@
       "input_features",
       "localizations",
       "search",
+      "surface",
       "text"
     ],
     "components": [
@@ -81,7 +82,6 @@
       "textStyle": "TextStyle? - row text, default text-sm (14)",
       "shadows": "List<BoxShadow>? - surface shadows; empty draws none",
       "maxHeight": "double? - list height cap, default 300",
-      "minRowHeight": "double? - minimum row height for the touch minimum, default 48",
       "minRowHeight": "double? - minimum row height, default 48",
       "showLeading": "bool? - leading search icon, default true",
       "showClear": "bool? - trailing clear button, default true",
