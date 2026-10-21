@@ -2792,7 +2792,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'Skeleton',
     hasApiTable: true,
     parseClean: true,
-    summary: 'A shimmering placeholder shown while [content] is still loading.',
+    summary: 'A shimmering placeholder shown while [child] is still loading.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -2821,6 +2821,26 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'SkeletonTheme?',
         isRequired: false,
         doc: 'Widget-leg theme override, merged on top of the other legs.',
+      ),
+      DocsApiParam(
+        name: 'style',
+        type: 'SkeletonStyle?',
+        isRequired: false,
+        doc: 'Per-instance style override; merged over [theme].',
+      ),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+        doc:
+            'Per-instance density tokens. Null resolves through the component theme\nlegs then the ambient `ThemeData.densityTokens`; phone widths use touch\nunless this is set.',
+      ),
+      DocsApiParam(
+        name: 'semanticsLabel',
+        type: 'String?',
+        isRequired: false,
+        doc:
+            'Accessible label for the loading placeholder; null reads `Loading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -11943,6 +11963,11 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'avatarSize',
+        type: 'double?',
+        description: 'avatar diameter; null = density controlHeight',
+      ),
+      DocsThemeField(
         name: 'borderRadius',
         type: 'BorderRadiusGeometry?',
         description: 'null = theme borderRadiusMd',
@@ -11950,17 +11975,42 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'curve',
         type: 'Curve?',
-        description: 'sweep easing; null = Curves.linear',
+        description: 'sweep easing; null = motion standard curve',
       ),
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'one sweep; null = 2 x kDefaultDuration',
+        description: 'one sweep; null = 800ms, scaled by motion intensity',
       ),
       DocsThemeField(
         name: 'fromColor',
         type: 'ThemedColor?',
         description: 'leading sweep fill; null = muted',
+      ),
+      DocsThemeField(
+        name: 'lineGap',
+        type: 'double?',
+        description: 'gap between lines; null = density gap',
+      ),
+      DocsThemeField(
+        name: 'lineHeight',
+        type: 'double?',
+        description: 'text-line height; null = density bodyTextSize',
+      ),
+      DocsThemeField(
+        name: 'rowHeight',
+        type: 'double?',
+        description: 'list/table row height; null = density rowMinHeight',
+      ),
+      DocsThemeField(
+        name: 'surfaceBlur',
+        type: 'double?',
+        description: 'card surface blur; null = ambient',
+      ),
+      DocsThemeField(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        description: 'card surface opacity; null = ambient',
       ),
       DocsThemeField(
         name: 'toColor',

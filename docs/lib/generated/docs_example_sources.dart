@@ -12505,6 +12505,44 @@ class _SkeletonSkeletonCard extends StatelessWidget {
 Widget _skeletonCard(BuildContext context) => const _SkeletonSkeletonCard();
 ''',
     ),
+    DocsExampleSource(
+      name: 'List',
+      builder: '_skeletonList',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonList(BuildContext context) => const SkeletonList(itemCount: 3);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Loading card',
+      builder: '_skeletonLoadingCard',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonLoadingCard(BuildContext context) =>
+    const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+''',
+    ),
+    DocsExampleSource(
+      name: 'Table',
+      builder: '_skeletonTable',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';
+
+Widget _skeletonTable(BuildContext context) =>
+    const SkeletonTable(columns: 3, rows: 4);
+''',
+    ),
   ],
   'spinner': <DocsExampleSource>[
     DocsExampleSource(
