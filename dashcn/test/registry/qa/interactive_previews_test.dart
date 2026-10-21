@@ -250,10 +250,13 @@ void main() {
 
   testWidgets('context_menu: a picked row reports the action', (tester) async {
     await _pump(tester, _example(contextMenuPreviews, 'Default'));
-    await tester.tap(
-      find.text('Right-click anywhere on this card'),
-      buttons: kSecondaryButton,
+    // Desktop reads "Right-click here", touch "Long-press here"; match either.
+    final Finder hint = find.byWidgetPredicate(
+      (Widget w) =>
+          w is Text &&
+          RegExp(r'^(Right-click|Long-press) here$').hasMatch(w.data ?? ''),
     );
+    await tester.tap(hint, buttons: kSecondaryButton);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(find.text('Copy link'), findsOneWidget);

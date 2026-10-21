@@ -14,7 +14,13 @@ For a menu owned by a button use `dropdown_menu`; for a menu bar use
 ## Snippets
 
 ```dart
+// A larger hit area: 8px of padding plus a 48px floor on touch.
 ContextMenu(
+  targetPadding: EdgeInsets.all(12),
+  minTargetSize: 48,
+  semanticsLabel: 'File actions',
+  menuMinWidth: 200,
+  menuMaxWidth: 280,
   items: [
     MenuButton(child: Text('Copy link'), onPressed: (_) {}),
     MenuSeparator(),
@@ -37,8 +43,8 @@ await showContextMenu<void>(
 
 | Member | Props |
 |---|---|
-| `ContextMenu` | `child`, `items`, `behavior` (translucent), `direction` (vertical), `enabled`, `theme: MenuTheme`, `popupTheme: MenuPopupTheme?` |
-| `showContextMenu<T>` | `context`, `position` (global), `children`, `direction`, `theme`, `popupTheme` |
+| `ContextMenu` | `child`, `items`, `behavior` (translucent), `direction` (vertical), `enabled`, `theme: MenuTheme`, `popupTheme: MenuPopupTheme?`, `targetPadding` (8 all sides), `minTargetSize` (48, touch only), `menuMinWidth`/`menuMaxWidth` (160/320), `semanticsLabel` |
+| `showContextMenu<T>` | `context`, `position` (global), `children`, `direction`, `theme`, `popupTheme`, `minWidth` (160), `maxWidth` (320) |
 
 Keyboard: the menu's own engine: arrows, Home/End, Enter/Space, Escape and
 typeahead. An outside tap closes the menu without reaching the content

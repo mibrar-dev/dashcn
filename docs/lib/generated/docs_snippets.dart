@@ -3015,7 +3015,13 @@ OverflowMarquee(
       id: 'context_menu.0',
       componentId: 'context_menu',
       language: 'dart',
-      code: r'''ContextMenu(
+      code: r'''// A larger hit area: 8px of padding plus a 48px floor on touch.
+ContextMenu(
+  targetPadding: EdgeInsets.all(12),
+  minTargetSize: 48,
+  semanticsLabel: 'File actions',
+  menuMinWidth: 200,
+  menuMaxWidth: 280,
   items: [
     MenuButton(child: Text('Copy link'), onPressed: (_) {}),
     MenuSeparator(),
@@ -3024,7 +3030,7 @@ OverflowMarquee(
   child: Card(child: Text('Right-click me')),
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssspppppp',
     ),
     DocsSnippet(
       id: 'context_menu.1',
