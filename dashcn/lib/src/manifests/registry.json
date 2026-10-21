@@ -11423,15 +11423,17 @@
     "theme/density.dart": "2813f3a54d5194322135fea3318bb3aeadaf43cb82e1228c741ed825bca472a5",
     "theme/density_tokens.dart": "ad9d76349d27b3469505b6a77d9b61c1fd7ac16268dee6f69e26320a127c836d",
     "theme/interop/color_space.dart": "9c8766deeb3d885b5f8c96c13ceb9ca4f051daa22161f3dafd67fa778931d48c",
-    "theme/interop/css_theme_parser.dart": "6fbc97d1c7d8914de68e9562c6a1ed2fa0315c9a2ae9795af9071001cf837de4",
+    "theme/interop/css_theme_parser.dart": "42aff8d8c6cb5bd7ad11823ab00c17eb38ed64175a84dafe8ea092612c00a139",
     "theme/interop/css_values.dart": "402790f6da707db062633a94b272ddb0bde61674d3594f1489e95e701a2a16a5",
+    "theme/interop/google_fonts_catalogue.dart": "a1134cdeac2a65e163c7fc0c022e9f033a03aacfae7ce1d87c63e6af86383966",
     "theme/interop/internal/color_format.dart": "f8f8c71929b7ea9bb0ed412aa389abccfcc2a4f83bc7a30f6f5c1cec42654c03",
-    "theme/interop/internal/css_mapping.dart": "fe01c482748d5688046cba85bae3eeab7aa9094e515b6776e61a0be310ea7daf",
-    "theme/interop/internal/css_syntax.dart": "30da2c33b95d9a3f0801334001453ae0a9a5b37e28338ddf377e02ed751beb64",
+    "theme/interop/internal/css_mapping.dart": "dc3ed8e9a95d5ebfbabda2490d271efd53ff3778ab2b8b9accf39e4a64813f9d",
+    "theme/interop/internal/css_syntax.dart": "8593d320454a6c6f9c5afb4cf1a4c20775e0a9918996f6fd87419ae906257e41",
     "theme/interop/internal/theme_diagnostics.dart": "2b47951be412273a42d3356578992efdaaa0b0885164038f501ce824c1006995",
     "theme/interop/internal/token_inventory.dart": "b6e32b7d68302375a28909c36662967f731896abff606d572ccf4f6c9030cc67",
-    "theme/interop/interop.dart": "e758007770853291cc2b0f4e91cf2740e68c970ef6886803d835b150c8c1b093",
+    "theme/interop/interop.dart": "727a9cfde2ce9df22536643ef5a3aef8cd781d6b048eb3e80e3c10ddf96fceb1",
     "theme/interop/mapping.dart": "ffc3dbd8a8eae1b2c6785c6bf83d8468dc77862a385eb1c8aad1985f9f7a4841",
+    "theme/interop/preset_codec.dart": "9b6ccf5d90e1455dacd95f6b08f9122477a396ecfe707ab5c4fcc1ddf2572a70",
     "theme/interop/tailwind_v3_parser.dart": "19f791c0e2c29c87ff0bad11f6108acb166630286d23e04294b82d76e66c9b72",
     "theme/interop/theme_model.dart": "eae68cee70cfb30fc7bd80afa357ab75f6f7ba9f3dc303392ef925c6f61f072c",
     "theme/interop/web_color_parser.dart": "77ff065e04d133a739f035f967929c1c424dc93161674426dff8b2c3e2c7bf3b",
@@ -13119,6 +13121,7 @@
         "theme/interop/color_space.dart",
         "theme/interop/css_theme_parser.dart",
         "theme/interop/css_values.dart",
+        "theme/interop/google_fonts_catalogue.dart",
         "theme/interop/internal/color_format.dart",
         "theme/interop/internal/css_mapping.dart",
         "theme/interop/internal/css_syntax.dart",
@@ -13126,6 +13129,7 @@
         "theme/interop/internal/token_inventory.dart",
         "theme/interop/interop.dart",
         "theme/interop/mapping.dart",
+        "theme/interop/preset_codec.dart",
         "theme/interop/tailwind_v3_parser.dart",
         "theme/interop/theme_model.dart",
         "theme/interop/web_color_parser.dart",
@@ -13133,6 +13137,12 @@
         "theme/interop/writers/dtcg_writer.dart",
         "theme/interop/writers/tailwind_v4_writer.dart",
         "theme/interop/writers/web_css_writer.dart"
+      ],
+      "packages": [
+        {
+          "constraint": "^4.0.0",
+          "name": "archive"
+        }
       ]
     },
     "motion": {

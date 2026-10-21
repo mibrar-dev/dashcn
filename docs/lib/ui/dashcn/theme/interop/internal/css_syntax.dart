@@ -160,7 +160,16 @@ bool isDarkSelector(String selector) =>
 
 /// Splits a block body into `--name: value` entries (quote/paren aware so
 /// `url(data:…;…)` values survive); later entries win.
-Map<String, String> splitCssDeclarations(String body) {
+///
+/// Statements that are not declarations (`@apply …;`) and plain CSS
+/// properties (`letter-spacing: …`) are not variables, so they never enter
+/// the map; when [skippedAtRules] is given, `@…` statements are appended to
+/// it in source order so the caller can report them instead of dropping
+/// them silently.
+Map<String, String> splitCssDeclarations(
+  String body, [
+  List<String>? skippedAtRules,
+]) {
   final Map<String, String> out = <String, String>{};
   int depth = 0;
   bool quote = false;
@@ -174,6 +183,9 @@ Map<String, String> splitCssDeclarations(String body) {
     }
     final int colon = text.indexOf(':');
     if (colon < 0) {
+      if (text.startsWith('@')) {
+        skippedAtRules?.add(text);
+      }
       return;
     }
     final String name = text.substring(0, colon).trim();
