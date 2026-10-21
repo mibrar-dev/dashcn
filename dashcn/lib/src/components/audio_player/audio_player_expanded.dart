@@ -125,38 +125,59 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
     final double gap = ambient.density.baseGap * ambient.scaling;
     final double sectionGap = gap * gapMd;
     final double xsGap = gap * 0.75;
-    final Widget column = Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        _disc(context),
-        SizedBox(height: sectionGap),
-        _equaliser(context),
-        SizedBox(height: sectionGap),
-        _artist(context),
-        SizedBox(height: xsGap),
-        _title(context),
-        SizedBox(height: sectionGap),
-        _progress(context),
-        SizedBox(height: gap * gapSm),
-        _times(context),
-        SizedBox(height: sectionGap),
-        _transport(context),
-      ],
-    );
-    if (!_detailsOpen) return column;
-    return Stack(
-      children: <Widget>[
-        column,
-        Positioned.fill(child: _detailsPanel(context)),
-      ],
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        // Flexible disc: the loose card measures 439 px tall (405 px column
+        // + 16 px top/bottom padding + border) but the docs preview stage is
+        // a tight 720x420 box, so the column only gets ~388 px and a fixed
+        // 144 px disc overflows by 19 px. Shrink just the disc when the
+        // incoming height is bounded and too short; unbounded/phone layouts
+        // keep the full 144 px circle so existing size contracts hold.
+        double discSize = 144;
+        if (constraints.maxHeight.isFinite) {
+          const double reserve = 280;
+          const double minDisc = 96;
+          if (constraints.maxHeight < reserve + 144) {
+            discSize = (constraints.maxHeight - reserve).clamp(minDisc, 144);
+          }
+        }
+        if (constraints.maxWidth.isFinite && constraints.maxWidth < discSize) {
+          discSize = constraints.maxWidth;
+        }
+        final Widget column = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _disc(context, discSize),
+            SizedBox(height: sectionGap),
+            _equaliser(context),
+            SizedBox(height: sectionGap),
+            _artist(context),
+            SizedBox(height: xsGap),
+            _title(context),
+            SizedBox(height: sectionGap),
+            _progress(context),
+            SizedBox(height: gap * gapSm),
+            _times(context),
+            SizedBox(height: sectionGap),
+            _transport(context),
+          ],
+        );
+        if (!_detailsOpen) return column;
+        return Stack(
+          children: <Widget>[
+            column,
+            Positioned.fill(child: _detailsPanel(context)),
+          ],
+        );
+      },
     );
   }
 
-  Widget _disc(BuildContext context) {
+  Widget _disc(BuildContext context, [double discSize = 144]) {
     if (widget.coverBuilder != null) {
       final Widget custom = widget.coverBuilder!(context, widget.controller);
-      return _tappableDisc(context, custom);
+      return _tappableDisc(context, custom, discSize);
     }
     final Widget art =
         widget.cover ??
@@ -175,19 +196,21 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
             color: Color(0xFFFFFFFF),
           ),
         );
-    // Full disc, fully inside the card: 144 px circle centred with a ring
-    // and spindle hole, rotating while playing (20 s per turn).
+    // Full disc, fully inside the card: centred circle with a ring
+    // and spindle hole, rotating while playing (20 s per turn). The
+    // diameter is flexible (144 px loose, down to 96 px in the tight
+    // 720x420 preview) so the card keeps its 16 px bottom padding.
     final Widget disc = SizedBox(
-      width: 144,
-      height: 144,
+      width: discSize,
+      height: discSize,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           _RotatingDisc(
             isPlaying: widget.controller.isPlaying,
             child: Container(
-              width: 144,
-              height: 144,
+              width: discSize,
+              height: discSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -219,10 +242,14 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
         ],
       ),
     );
-    return Center(child: _tappableDisc(context, disc));
+    return Center(child: _tappableDisc(context, disc, discSize));
   }
 
-  Widget _tappableDisc(BuildContext context, Widget disc) {
+  Widget _tappableDisc(
+    BuildContext context,
+    Widget disc, [
+    double discSize = 144,
+  ]) {
     final String label = resolveAudioTitle(
       widget.controller,
       widget.title,
@@ -231,8 +258,8 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
     return FocusableTap(
       label: label,
       onTap: () => setState(() => _detailsOpen = true),
-      minWidth: 144,
-      minHeight: 144,
+      minWidth: discSize,
+      minHeight: discSize,
       circular: true,
       child: disc,
     );
