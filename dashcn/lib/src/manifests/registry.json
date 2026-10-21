@@ -8356,6 +8356,7 @@
         "foundation": [],
         "primitives": [
           "animation",
+          "localizations",
           "motion",
           "surface"
         ],
@@ -11598,7 +11599,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11655,7 +11658,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11706,7 +11711,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11756,7 +11763,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11803,7 +11812,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]

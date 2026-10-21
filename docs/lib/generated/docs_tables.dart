@@ -825,6 +825,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'skeleton': <DocsDep>[
     DocsDep(id: 'animation', kind: DocsDepKind.primitive),
+    DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
