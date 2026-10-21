@@ -113,7 +113,7 @@ vertically-centered-preview gate by design.
 
 ## Deliver
 
-- PR: <PR URL inserted after `gh pr create`>
+- PR: https://github.com/mibrar-dev/dashcn/pull/43
 - Trailer used: `Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>`
 - Left running: docs server on http://localhost:8874 (background http.server).
 - Not done: nothing in scope remains; suggested follow-up is the docs table /
