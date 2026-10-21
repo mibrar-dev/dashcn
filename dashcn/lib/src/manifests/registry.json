@@ -2558,20 +2558,25 @@
       "deps": {
         "components": [],
         "foundation": [
-          "gap"
+          "gap",
+          "icons",
+          "platform"
         ],
         "primitives": [
+          "clickable",
           "syntax_highlight",
           "text",
-          "text_editing"
+          "text_editing",
+          "touch_hit_area"
         ],
         "theme": [
           "color_tokens",
           "density",
+          "motion",
           "theme"
         ]
       },
-      "description": "Scrollable code block with optional top-right action buttons.",
+      "description": "Scrollable code block with syntax colouring, copy button and selectable text.",
       "entry": "components/code_snippet/code_snippet.dart",
       "files": [
         "components/code_snippet/code_snippet.dart",
@@ -2588,17 +2593,25 @@
         "display",
         "code",
         "snippet",
-        "pre"
+        "pre",
+        "syntax"
       ],
       "theme": {
         "class": "CodeSnippetTheme",
         "defaults": "codeSnippetDefaults",
         "fields": {
+          "actionSpacing": "double? - space between action items, 4",
           "background": "ThemedColor? - container fill, card token",
           "borderColor": "ThemedColor? - border color, border token",
           "borderRadius": "BorderRadiusGeometry? - null = ambient radiusLg",
           "borderWidth": "double? - scaled border width, 1",
-          "padding": "EdgeInsetsGeometry? - density padding, wider on the right"
+          "copiedIcon": "IconData? - feedback icon, Lucide check",
+          "copiedIconColor": "ThemedColor? - copied icon color, primary",
+          "copyFeedbackDuration": "Duration? - duration to show copied feedback, 2000ms",
+          "copyIcon": "IconData? - idle copy icon, Lucide copy",
+          "copyIconColor": "ThemedColor? - idle copy icon color, mutedForeground",
+          "padding": "EdgeInsetsGeometry? - density padding, wider on the end",
+          "showCopyButton": "bool? - whether copy action renders by default"
         },
         "userFile": "code_snippet_theme.dart"
       },
@@ -6700,30 +6713,36 @@
       "api": {
         "classes": [
           "OverflowMarquee",
-          "OverflowMarqueeTheme"
+          "OverflowMarqueeTheme",
+          "MarqueeController",
+          "MarqueeSurface"
         ],
         "constants": [
           "overflowMarqueeDefaults",
           "overflowMarqueeThemeOverrides"
         ],
-        "enums": []
+        "enums": [
+          "AxisDirectional"
+        ]
       },
       "category": "Layout",
       "deps": {
         "components": [],
-        "foundation": [],
-        "primitives": [
-          "animation"
+        "foundation": [
+          "geometry"
         ],
+        "primitives": [],
         "theme": [
           "color_tokens",
           "theme"
         ]
       },
-      "description": "Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.",
+      "description": "Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.",
       "entry": "components/overflow_marquee/overflow_marquee.dart",
       "files": [
         "components/overflow_marquee/overflow_marquee.dart",
+        "components/overflow_marquee/overflow_marquee_controller.dart",
+        "components/overflow_marquee/overflow_marquee_render.dart",
         "components/overflow_marquee/overflow_marquee_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
@@ -6746,10 +6765,15 @@
         "fields": {
           "curve": "Curve? - easing of each run",
           "delayDuration": "Duration? - pause at each end",
-          "direction": "Axis? - horizontal | vertical",
-          "duration": "Duration? - time of one `step` run",
+          "direction": "AxisDirectional? - start | end | up | down (RTL-aware)",
+          "duration": "Duration? - legacy run time",
           "fadePortion": "double? - edge fade fraction of the visible extent, clamped 0..0.5",
-          "step": "double? - pixels covered per `duration`"
+          "gap": "double? - gap between repeating copies in continuous loop",
+          "loop": "bool? - whether marquee loops continuously",
+          "pauseOnFocus": "bool? - pause animation on keyboard focus",
+          "pauseOnHover": "bool? - pause animation on pointer hover",
+          "speed": "double? - scroll speed in pixels per second",
+          "step": "double? - pixels covered per duration"
         },
         "userFile": "overflow_marquee_theme.dart"
       },
@@ -10641,10 +10665,10 @@
     "components/chip_input/chip_input_style.dart": "15357b593ec6374a96f9176ee8364ab0a061d563ea36b06e4678cebaebbe9a82",
     "components/chip_input/chip_input_theme.dart": "879e69b1c259e2e9f98676530560c6e8b516ffd3b8b68c4813f5988b8c535216",
     "components/chip_input/preview.dart": "3f57d41ed56fc41867803330140a9df7ccec0124443a57f2ab9e4b097036838b",
-    "components/code_snippet/code_snippet.dart": "0c178d7cc758e1be18bfe9ed36a94f1903570d7a71a54fc7c665266240fb9c5e",
-    "components/code_snippet/code_snippet_style.dart": "0e21351004640c9ebc1a578ed74eb14847ab0fd07ed92c17239ffa4c13342811",
+    "components/code_snippet/code_snippet.dart": "71f625cf5495a1310a7e2a245403edb724d7b3c66fd5922b391c1b1ffd39a2ee",
+    "components/code_snippet/code_snippet_style.dart": "18afdd6cd5c7113a115f83e2597f4e6ec346d8770817549c231a5b1bea9a470d",
     "components/code_snippet/code_snippet_theme.dart": "dfd9af928c0f207c3c0504fc6d16b998101614ba5c9203addebe811435fa61ad",
-    "components/code_snippet/preview.dart": "5e086cab689652b59ce18359deb3ea0836c97368cbe9380287b60df941480209",
+    "components/code_snippet/preview.dart": "94581950f85743730bed8fbfa52e827c21d7c80a2c086d80c34376246aab2687",
     "components/collapsible/collapsible.dart": "b45f5846ed86ffe8fa3aebdbd0b828f0582725fb600d4c3d77ba4350fb740f6d",
     "components/collapsible/collapsible_style.dart": "8e191890455c5413b0e2935bc3c0055719cd55391fb09c47b1b65e83436c441e",
     "components/collapsible/collapsible_theme.dart": "1188197762885e137a5259ed54d27644cf69c00c7b76f4a1fde2abe75bfc49c7",
@@ -10858,10 +10882,12 @@
     "components/outlined_container/outlined_container_style.dart": "0e12ecce67716dbdd99deeb5fe0221f72a0fa63b4c5fca4c2944b8ef531fd851",
     "components/outlined_container/outlined_container_theme.dart": "2ff9ce8f7b07661e30de79553beaac6a5b3b9d96c8433f2149e4e1d5b3781d0b",
     "components/outlined_container/preview.dart": "eb0540391f30d6efa2d64a977396c521eddf38b893e091d4ac121708ecbfba96",
-    "components/overflow_marquee/overflow_marquee.dart": "87218a6a25c3ce90e940d72c54f7e0555352d21eed3ff116e910513e71dbcb12",
-    "components/overflow_marquee/overflow_marquee_style.dart": "210aea1d0adee4212bb559a97d9aa46007d28416a833bfc2b51421a0ad7b0281",
-    "components/overflow_marquee/overflow_marquee_theme.dart": "0de11dcafd93dad41b8d7f9a97a27d457f09659d56a5a303400bc9fa9864ddbe",
-    "components/overflow_marquee/preview.dart": "8b29eff941c1cb347a6e701cdf46e29c14aef33d25e273310f8fb72effcca5eb",
+    "components/overflow_marquee/overflow_marquee.dart": "5262fd9caa613bfa19e3f5a2145cc0a843086e3b7e7a1568d0acd33ee69025dd",
+    "components/overflow_marquee/overflow_marquee_controller.dart": "5403c934b0c9af950ac2c3cdeff1526988ff276b4d4060faa7539631dd638fac",
+    "components/overflow_marquee/overflow_marquee_render.dart": "cbb98badaa9d8cfd48a24c915ee3317e47c8b9ad18c1a468fdccb734cfe87c0d",
+    "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
+    "components/overflow_marquee/overflow_marquee_theme.dart": "a0d064556b916170fc3ffadaeb7991e963cd5b07d987f803330724b9f8902a1f",
+    "components/overflow_marquee/preview.dart": "08cd923e7f3564ae2ad586784da215b6c5404f5b50a3b0f84df52c766e59c966",
     "components/overlay_configuration/overlay_configuration.dart": "91188b9ada185780b1464fa7ca3f1586fc8c0fc336fe78d86f19003a16f9e84c",
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
@@ -11323,7 +11349,7 @@
     "primitives/subfocus_scope.dart": "1e7c84b191bfe5d3310bb34febe4f011afe1635784f2153be4f2c25b8d74b68f",
     "primitives/surface.dart": "15d09eb9c87a99368fa29a539bef869411d9fe3b1cdf5f23b0ba19bb58610c6d",
     "primitives/syntax_highlight/syntax_highlight.dart": "0c3b99aab9dc4d1e0c319d96e7655dfce77b69c9e4509b3a3fd5dd351b64c895",
-    "primitives/syntax_highlight/syntax_language.dart": "54f6020aea77269a9da5053b64c75fdb8a933d2761551d0ad3e6f88a9007fb25",
+    "primitives/syntax_highlight/syntax_language.dart": "d8902893a94c1c13dc59b274b237eaee0184bc3eced4a1fcaff56f5179de183d",
     "primitives/syntax_highlight/syntax_lexer.dart": "41ae6464e40827b420807b2fd25a28dc49e1ef8fc597a283766e1ed4839c29b1",
     "primitives/syntax_highlight/syntax_scanners.dart": "72b5c886cc5960a9478a6ebd3b562138f56843d03a0cab907be8edacf687a0a7",
     "primitives/syntax_highlight/syntax_scanners_c_like.dart": "4a5d4550bf44a0568819322fb316fde181dcfa2f5f42066e71e9afc8bc4db6a9",

@@ -202,7 +202,9 @@ class PreviewStage extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: maxContent),
                     child: Align(
                       alignment: Alignment.center,
-                      child: child ?? const SizedBox.shrink(),
+                      child: SelectionContainer.disabled(
+                        child: child ?? const SizedBox.shrink(),
+                      ),
                     ),
                   ),
                 ),

@@ -120,16 +120,22 @@ SyntaxLanguage? syntaxLanguageGuess(String code) {
       RegExp(r'^\s*void\s+main\s*\(', multiLine: true).hasMatch(trimmed)) {
     return SyntaxLanguage.dart;
   }
-  if (RegExp(r'^#!\S*\b(?:ba)?sh\b|^#!\S*\bzsh\b').hasMatch(trimmed)) {
+  if (RegExp(r'^#!\S*\b(?:ba)?sh\b|^#!\S*\bzsh\b').hasMatch(trimmed) ||
+      RegExp(r'^\$\s+\w+').hasMatch(trimmed) ||
+      RegExp(
+        r'^(?:flutter|dart|npm|npx|pnpm|yarn|cargo|git|brew|docker|kubectl)\s+[a-z]',
+      ).hasMatch(trimmed)) {
     return SyntaxLanguage.bash;
   }
   if (RegExp(
-    r'^<!DOCTYPE html|^<html[\s>]',
-    caseSensitive: false,
-  ).hasMatch(trimmed)) {
-    return SyntaxLanguage.html;
-  }
-  if (RegExp(r'^<\?xml').hasMatch(trimmed)) {
+        r'^<!DOCTYPE html|^<html[\s>]',
+        caseSensitive: false,
+      ).hasMatch(trimmed) ||
+      RegExp(r'^<\?xml').hasMatch(trimmed) ||
+      RegExp(
+        r'^<([A-Za-z][\w-]*)(\s+[^>]*)?>[\s\S]*<\/\1>',
+        caseSensitive: false,
+      ).hasMatch(trimmed)) {
     return SyntaxLanguage.html;
   }
   if (RegExp(r'^import\s+(?:UIKit|Foundation|SwiftUI)\b').hasMatch(trimmed)) {
@@ -156,6 +162,16 @@ SyntaxLanguage? syntaxLanguageGuess(String code) {
   if ((body.startsWith('{') || body.startsWith('[')) &&
       RegExp(r'^[\s{}\[\]",:0-9aeflnrtyA-FLNR\.\-+]*$').hasMatch(body)) {
     return SyntaxLanguage.json;
+  }
+  if (RegExp(r'^---\s*$', multiLine: true).hasMatch(trimmed) ||
+      (RegExp(
+            r'^[a-zA-Z0-9_-]+:\s*(?:$|[^\s])',
+            multiLine: true,
+          ).hasMatch(trimmed) &&
+          !trimmed.contains('{') &&
+          !trimmed.contains(';') &&
+          RegExp(r':\s').hasMatch(trimmed))) {
+    return SyntaxLanguage.yaml;
   }
   return null;
 }

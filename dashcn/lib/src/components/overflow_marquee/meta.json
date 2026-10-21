@@ -2,7 +2,7 @@
   "id": "overflow_marquee",
   "name": "Overflow Marquee",
   "category": "Layout",
-  "description": "Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.",
+  "description": "Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.",
   "tier": "component",
   "install": "dashcn add overflow_marquee",
   "import": "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
@@ -14,18 +14,20 @@
     "animation"
   ],
   "deps": {
-    "foundation": [],
+    "foundation": [
+      "geometry"
+    ],
     "theme": [
       "color_tokens",
       "theme"
     ],
-    "primitives": [
-      "animation"
-    ],
+    "primitives": [],
     "components": []
   },
   "files": [
     "overflow_marquee.dart",
+    "overflow_marquee_controller.dart",
+    "overflow_marquee_render.dart",
     "overflow_marquee_style.dart",
     "overflow_marquee_theme.dart",
     "preview.dart"
@@ -33,9 +35,13 @@
   "api": {
     "classes": [
       "OverflowMarquee",
-      "OverflowMarqueeTheme"
+      "OverflowMarqueeTheme",
+      "MarqueeController",
+      "MarqueeSurface"
     ],
-    "enums": [],
+    "enums": [
+      "AxisDirectional"
+    ],
     "constants": [
       "overflowMarqueeDefaults",
       "overflowMarqueeThemeOverrides"
@@ -46,10 +52,15 @@
     "userFile": "overflow_marquee_theme.dart",
     "defaults": "overflowMarqueeDefaults",
     "fields": {
-      "direction": "Axis? - horizontal | vertical",
-      "duration": "Duration? - time of one `step` run",
+      "direction": "AxisDirectional? - start | end | up | down (RTL-aware)",
+      "speed": "double? - scroll speed in pixels per second",
+      "gap": "double? - gap between repeating copies in continuous loop",
+      "pauseOnHover": "bool? - pause animation on pointer hover",
+      "pauseOnFocus": "bool? - pause animation on keyboard focus",
+      "loop": "bool? - whether marquee loops continuously",
+      "duration": "Duration? - legacy run time",
       "delayDuration": "Duration? - pause at each end",
-      "step": "double? - pixels covered per `duration`",
+      "step": "double? - pixels covered per duration",
       "fadePortion": "double? - edge fade fraction of the visible extent, clamped 0..0.5",
       "curve": "Curve? - easing of each run"
     }

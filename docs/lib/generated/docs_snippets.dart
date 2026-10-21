@@ -2732,19 +2732,32 @@ final filtered = _state.whereMatches(orders, bindings);''',
       id: 'overflow_marquee.0',
       componentId: 'overflow_marquee',
       language: 'dart',
-      code: r'''OverflowMarquee(
-  duration: Duration(seconds: 8),
-  delayDuration: Duration(seconds: 1),
-  fadePortion: 0.15,
-  child: Text('A very long ticker line ...'),
+      code: r'''// Continuous horizontal ticker with edge fade
+OverflowMarquee(
+  speed: 50.0,
+  gap: 28.0,
+  child: Text('Breaking updates streaming continuously ...'),
 );
 
+// Controlled playback with play/pause controller
+final controller = MarqueeController();
+
 OverflowMarquee(
-  direction: Axis.vertical,
-  child: SizedBox(height: 96, child: Text('Vertical credits ...')),
+  controller: controller,
+  pauseOnHover: true,
+  child: Text('Midnight City — M83 (Extended Club Mix)'),
+);
+
+// Vertical credits scrolling upwards
+OverflowMarquee(
+  direction: AxisDirectional.up,
+  speed: 25.0,
+  child: Column(
+    children: [Text('Directed by ...'), Text('Produced by ...')],
+  ),
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssspppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppcccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppssssssssssssssssssssssssssssssssssssssssspppppppcccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppppppppsssssssssssssssssppppppppppp',
     ),
   ],
   'resizable': <DocsSnippet>[
@@ -3742,19 +3755,30 @@ AudioPlayer(
       componentId: 'code_snippet',
       language: 'dart',
       code: r'''CodeSnippet(
+  language: 'dart',
   constraints: const BoxConstraints(maxWidth: 480, maxHeight: 200),
+  code: const Text('void main() => runApp(const MyApp());'),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppsssssspppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssssssssssssssssssppppp',
+    ),
+    DocsSnippet(
+      id: 'code_snippet.2',
+      componentId: 'code_snippet',
+      language: 'dart',
+      code: r'''CodeSnippet(
   actions: [
     Button(
       size: ButtonSize.sm,
       variant: ButtonVariant.ghost,
-      onPressed: copy,
-      child: const Text('Copy'),
+      onPressed: runCode,
+      child: const Text('Run'),
     ),
   ],
   code: const Text('dart format .'),
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
     ),
   ],
   'image': <DocsSnippet>[
@@ -5451,6 +5475,8 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'overflow_marquee',
     files: <String>[
       'lib/ui/dashcn/components/overflow_marquee/overflow_marquee.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_controller.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_render.dart',
       'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_style.dart',
     ],
     userOwned: <String>[
