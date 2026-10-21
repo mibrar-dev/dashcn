@@ -2,9 +2,12 @@
 //
 // Six tabs over the live document: `Dart` (the exact `app_theme.dart`
 // `dashcn theme apply` writes), `JSON` (the canonical schema-v2 preset
-// document), `CLI` (how to apply it), plus the three web exports — `Web CSS
-// (v4)`, `Tailwind v4` and `Tokens (DTCG)` — rendered by the kit's interop
-// writers from the same document. Each tab copies its own payload with
+// document), `CLI` (how to apply it), `Preset string` (the live `dcn1_`
+// share string plus the `apply --preset` / `update --preset` commands,
+// regenerated from the document on every change — no file export step),
+// plus the three web exports — `Web CSS (v4)`, `Tailwind v4` and
+// `Tokens (DTCG)` — rendered by the kit's interop writers from the same
+// document. Each tab copies its own payload with
 // the site's 2 s copied state (file tabs also download it), and the whole
 // pane is syntax-highlighted from the language of the active tab (registry
 // `syntax_highlight`).
@@ -12,6 +15,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../state/site_theme_model.dart';
+import '../theme/preset_share.dart';
 import '../theme/theme_export.dart';
 import '../theme/theme_interop_bridge.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -37,6 +41,9 @@ enum GetCodeTab {
   /// How to apply it in a project.
   cli('CLI', 'bash'),
 
+  /// The live `dcn1_` share string plus the `--preset` commands.
+  preset('Preset string', 'bash'),
+
   /// `:root` + `.dark` CSS.
   webCss('Web CSS (v4)', 'css', WebExportFormat.webCss),
 
@@ -57,14 +64,16 @@ enum GetCodeTab {
   /// The web export format, or null for the document tabs.
   final WebExportFormat? format;
 
-  /// Whether the payload downloads as a file (the CLI tab is a guide).
-  bool get hasFile => this != cli;
+  /// Whether the payload downloads as a file (the CLI and preset tabs
+  /// are guides: copy-only).
+  bool get hasFile => this != cli && this != preset;
 
   /// The download file name for [documentId].
   String filename(String documentId) => switch (this) {
     GetCodeTab.dart => 'app_theme.dart',
     GetCodeTab.json => '$documentId.json',
     GetCodeTab.cli => 'theme-apply.txt',
+    GetCodeTab.preset => 'theme-preset.txt',
     GetCodeTab.webCss => WebExportFormat.webCss.filename,
     GetCodeTab.tailwind => WebExportFormat.tailwind.filename,
     GetCodeTab.dtcg => WebExportFormat.dtcg.filename,
@@ -147,10 +156,12 @@ class _GetCodeDialogState extends State<_GetCodeDialog> {
             SizedBox(
               width: 640,
               height: 288,
-              child: _CodePane(
-                code: getCodePayload(model, GetCodeTab.values[_index]),
-                language: GetCodeTab.values[_index].language,
-              ),
+              child: GetCodeTab.values[_index] == GetCodeTab.preset
+                  ? _PresetPane(model: model)
+                  : _CodePane(
+                      code: getCodePayload(model, GetCodeTab.values[_index]),
+                      language: GetCodeTab.values[_index].language,
+                    ),
             ),
           ],
         ),
@@ -247,8 +258,98 @@ String getCodePayload(SiteThemeModel model, GetCodeTab tab) {
     GetCodeTab.dart => model.dartSource,
     GetCodeTab.json => model.json,
     GetCodeTab.cli => themeCliGuide(model.document),
+    GetCodeTab.preset => presetShareGuide(model.document),
     GetCodeTab.webCss ||
     GetCodeTab.tailwind ||
     GetCodeTab.dtcg => throw StateError('unreachable'),
   };
+}
+
+/// The live preset-string pane: the `dcn1_` string in a read-only field
+/// with its own copy button, then both `--preset` commands prefilled.
+///
+/// The pane listens to [model], so the string updates on every token
+/// change in the builder — opening Get Code is never a stale export step.
+class _PresetPane extends StatefulWidget {
+  const _PresetPane({required this.model});
+
+  final SiteThemeModel model;
+
+  @override
+  State<_PresetPane> createState() => _PresetPaneState();
+}
+
+class _PresetPaneState extends State<_PresetPane> {
+  @override
+  void initState() {
+    super.initState();
+    widget.model.addListener(_refresh);
+  }
+
+  @override
+  void dispose() {
+    widget.model.removeListener(_refresh);
+    super.dispose();
+  }
+
+  void _refresh() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final DocsSiteColors site = DocsSiteColors.of(context);
+    final String preset = presetStringFromDocument(widget.model.document);
+    final TextStyle code = theme.typography.mono.copyWith(fontSize: 12);
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Preset string (updates live)',
+                  style: theme.typography.small.copyWith(
+                    color: theme.colors.mutedForeground,
+                  ),
+                ),
+              ),
+              CopyButton(
+                key: const ValueKey<String>('preset-string-copy'),
+                text: preset,
+                variant: ButtonVariant.outline,
+                size: ButtonSize.sm,
+                showLabel: true,
+                label: 'Copy',
+              ),
+            ],
+          ),
+          const Gap(8),
+          ClipRRect(
+            borderRadius: theme.borderRadiusLg,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: site.codeSurface,
+                border: Border.all(
+                  color: theme.colors.border.withValues(alpha: 0.4),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: SelectableCode(child: Text(preset, style: code)),
+              ),
+            ),
+          ),
+          const Gap(8),
+          SelectableCode(child: Text(presetApplyCommand(preset), style: code)),
+          const Gap(4),
+          SelectableCode(child: Text(presetUpdateCommand(preset), style: code)),
+        ],
+      ),
+    );
+  }
 }

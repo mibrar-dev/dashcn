@@ -5,6 +5,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -25,6 +26,13 @@ class CodeSnippetTheme extends ComponentThemeData
     this.borderWidth,
     this.borderRadius,
     this.padding,
+    this.showCopyButton,
+    this.copyIcon,
+    this.copiedIcon,
+    this.copyIconColor,
+    this.copiedIconColor,
+    this.actionSpacing,
+    this.copyFeedbackDuration,
   });
 
   /// Container fill. Default: the `card` token.
@@ -39,9 +47,30 @@ class CodeSnippetTheme extends ComponentThemeData
   /// Corner radius. Default: ambient `radiusLg`.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Inner padding. Default: one density step on three sides, 3.5 on the
-  /// right (room for the actions row).
+  /// Inner padding. Default: one density step on start/top/bottom, 3.5 on
+  /// the end (room for the top-right actions row).
   final EdgeInsetsGeometry? padding;
+
+  /// Whether the copy button renders in the actions row. Default: true.
+  final bool? showCopyButton;
+
+  /// Idle copy icon. Default: [LucideIcons.copy].
+  final IconData? copyIcon;
+
+  /// Feedback icon shown after copying. Default: [LucideIcons.check].
+  final IconData? copiedIcon;
+
+  /// Idle copy icon color. Default: `mutedForeground`.
+  final ThemedColor? copyIconColor;
+
+  /// Copied feedback icon color. Default: `primary`.
+  final ThemedColor? copiedIconColor;
+
+  /// Gap between action buttons in logical pixels, unscaled. Default: 4.
+  final double? actionSpacing;
+
+  /// How long the copied feedback icon stays visible. Default: 2000 ms.
+  final Duration? copyFeedbackDuration;
 
   /// Returns a copy with the given fields replaced.
   CodeSnippetTheme copyWith({
@@ -50,6 +79,13 @@ class CodeSnippetTheme extends ComponentThemeData
     ValueGetter<double?>? borderWidth,
     ValueGetter<BorderRadiusGeometry?>? borderRadius,
     ValueGetter<EdgeInsetsGeometry?>? padding,
+    ValueGetter<bool?>? showCopyButton,
+    ValueGetter<IconData?>? copyIcon,
+    ValueGetter<IconData?>? copiedIcon,
+    ValueGetter<ThemedColor?>? copyIconColor,
+    ValueGetter<ThemedColor?>? copiedIconColor,
+    ValueGetter<double?>? actionSpacing,
+    ValueGetter<Duration?>? copyFeedbackDuration,
   }) {
     return CodeSnippetTheme(
       background: background == null ? this.background : background(),
@@ -57,6 +93,23 @@ class CodeSnippetTheme extends ComponentThemeData
       borderWidth: borderWidth == null ? this.borderWidth : borderWidth(),
       borderRadius: borderRadius == null ? this.borderRadius : borderRadius(),
       padding: padding == null ? this.padding : padding(),
+      showCopyButton: showCopyButton == null
+          ? this.showCopyButton
+          : showCopyButton(),
+      copyIcon: copyIcon == null ? this.copyIcon : copyIcon(),
+      copiedIcon: copiedIcon == null ? this.copiedIcon : copiedIcon(),
+      copyIconColor: copyIconColor == null
+          ? this.copyIconColor
+          : copyIconColor(),
+      copiedIconColor: copiedIconColor == null
+          ? this.copiedIconColor
+          : copiedIconColor(),
+      actionSpacing: actionSpacing == null
+          ? this.actionSpacing
+          : actionSpacing(),
+      copyFeedbackDuration: copyFeedbackDuration == null
+          ? this.copyFeedbackDuration
+          : copyFeedbackDuration(),
     );
   }
 
@@ -73,6 +126,14 @@ class CodeSnippetTheme extends ComponentThemeData
       borderWidth: borderWidth ?? fallback.borderWidth,
       borderRadius: borderRadius ?? fallback.borderRadius,
       padding: padding ?? fallback.padding,
+      showCopyButton: showCopyButton ?? fallback.showCopyButton,
+      copyIcon: copyIcon ?? fallback.copyIcon,
+      copiedIcon: copiedIcon ?? fallback.copiedIcon,
+      copyIconColor: copyIconColor ?? fallback.copyIconColor,
+      copiedIconColor: copiedIconColor ?? fallback.copiedIconColor,
+      actionSpacing: actionSpacing ?? fallback.actionSpacing,
+      copyFeedbackDuration:
+          copyFeedbackDuration ?? fallback.copyFeedbackDuration,
     );
   }
 
@@ -97,6 +158,15 @@ class CodeSnippetTheme extends ComponentThemeData
       borderWidth: scale(a.borderWidth, b.borderWidth),
       borderRadius: t < 0.5 ? a.borderRadius : b.borderRadius,
       padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t),
+      showCopyButton: t < 0.5 ? a.showCopyButton : b.showCopyButton,
+      copyIcon: t < 0.5 ? a.copyIcon : b.copyIcon,
+      copiedIcon: t < 0.5 ? a.copiedIcon : b.copiedIcon,
+      copyIconColor: t < 0.5 ? a.copyIconColor : b.copyIconColor,
+      copiedIconColor: t < 0.5 ? a.copiedIconColor : b.copiedIconColor,
+      actionSpacing: scale(a.actionSpacing, b.actionSpacing),
+      copyFeedbackDuration: t < 0.5
+          ? a.copyFeedbackDuration
+          : b.copyFeedbackDuration,
     );
   }
 
@@ -111,7 +181,14 @@ class CodeSnippetTheme extends ComponentThemeData
         other.borderColor == borderColor &&
         other.borderWidth == borderWidth &&
         other.borderRadius == borderRadius &&
-        other.padding == padding;
+        other.padding == padding &&
+        other.showCopyButton == showCopyButton &&
+        other.copyIcon == copyIcon &&
+        other.copiedIcon == copiedIcon &&
+        other.copyIconColor == copyIconColor &&
+        other.copiedIconColor == copiedIconColor &&
+        other.actionSpacing == actionSpacing &&
+        other.copyFeedbackDuration == copyFeedbackDuration;
   }
 
   @override
@@ -124,6 +201,13 @@ class CodeSnippetTheme extends ComponentThemeData
     borderWidth,
     borderRadius,
     padding,
+    showCopyButton,
+    copyIcon,
+    copiedIcon,
+    copyIconColor,
+    copiedIconColor,
+    actionSpacing,
+    copyFeedbackDuration,
   );
 }
 
@@ -132,5 +216,17 @@ const CodeSnippetTheme codeSnippetDefaults = CodeSnippetTheme(
   background: ThemedColor.ref(ColorRef.card),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
-  padding: EdgeInsetsDensity.only(left: 1, top: 1, right: 3.5, bottom: 1),
+  padding: DirectionalEdgeInsetsDensity.only(
+    start: 1,
+    top: 1,
+    end: 3.5,
+    bottom: 1,
+  ),
+  showCopyButton: true,
+  copyIcon: LucideIcons.copy,
+  copiedIcon: LucideIcons.check,
+  copyIconColor: ThemedColor.ref(ColorRef.mutedForeground),
+  copiedIconColor: ThemedColor.ref(ColorRef.primary),
+  actionSpacing: 4,
+  copyFeedbackDuration: Duration(milliseconds: 2000),
 );
