@@ -16,12 +16,13 @@ import 'feature_carousel_style.dart';
 
 export 'feature_carousel_style.dart';
 
-typedef FeatureCarouselCardBuilder = Widget Function(
-  BuildContext context,
-  FeatureCarouselItem item,
-  int index,
-  FeatureCarouselTheme theme,
-);
+typedef FeatureCarouselCardBuilder =
+    Widget Function(
+      BuildContext context,
+      FeatureCarouselItem item,
+      int index,
+      FeatureCarouselTheme theme,
+    );
 
 class FeatureCarousel extends StatefulWidget {
   const FeatureCarousel({

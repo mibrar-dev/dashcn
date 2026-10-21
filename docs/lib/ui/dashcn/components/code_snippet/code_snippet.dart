@@ -23,23 +23,16 @@ import 'code_snippet_style.dart';
 export 'code_snippet_style.dart';
 
 /// Builder slot for replacing the copy button widget.
-typedef CodeSnippetCopyButtonBuilder = Widget Function(
-  BuildContext context,
-  VoidCallback onCopy,
-  bool copied,
-);
+typedef CodeSnippetCopyButtonBuilder =
+    Widget Function(BuildContext context, VoidCallback onCopy, bool copied);
 
 /// Builder slot for customizing the entire actions row.
-typedef CodeSnippetActionsBuilder = Widget Function(
-  BuildContext context,
-  List<Widget> actions,
-);
+typedef CodeSnippetActionsBuilder =
+    Widget Function(BuildContext context, List<Widget> actions);
 
 /// Builder slot for customizing or wrapping the highlighted code widget.
-typedef CodeSnippetCodeBuilder = Widget Function(
-  BuildContext context,
-  Widget code,
-);
+typedef CodeSnippetCodeBuilder =
+    Widget Function(BuildContext context, Widget code);
 
 /// Scrollable code block with syntax colouring, top-right [actions] and a
 /// built-in copy button.

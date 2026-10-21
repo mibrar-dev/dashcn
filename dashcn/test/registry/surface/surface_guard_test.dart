@@ -23,17 +23,22 @@ class _Violation {
 /// Relative paths (under `lib/src/components/`) whose surface-token hit is a
 /// reviewed non-violation, with the reason it stays direct.
 const Map<String, String> _allowList = <String, String>{
-  'components/autocomplete/autocomplete.dart': 'delegates: colors.popover is the fill passed to MenuPopupSurface, which frosts internally.',
-  'components/avatar/avatar.dart': 'separator ring behind stacked avatars, not a floating/raised surface; no blur layer by design.',
+  'components/autocomplete/autocomplete.dart':
+      'delegates: colors.popover is the fill passed to MenuPopupSurface, which frosts internally.',
+  'components/avatar/avatar.dart':
+      'separator ring behind stacked avatars, not a floating/raised surface; no blur layer by design.',
   'components/chart/chart.dart':
       'canvas paints (backgroundColor, strokeColor), not a box surface.',
   'components/chart/chart_style.dart':
       'tooltipFill data; the box paint lives in chart_tooltip.dart (frosted).',
-  'components/eye_dropper/eye_dropper.dart': 'PixelGridPainter canvas background; stays opaque so sampled colours stay accurate.',
+  'components/eye_dropper/eye_dropper.dart':
+      'PixelGridPainter canvas background; stays opaque so sampled colours stay accurate.',
   'components/file_diff_viewer/file_diff_viewer.dart':
       'contrast fallback for marker ink, not a fill paint.',
-  'components/file_diff_viewer/file_diff_viewer_style.dart': 'FileDiffSurface data; the container is an inline diff-text layout, not a floating surface.',
-  'components/gooey_toast/gooey_toast_options.dart': 'contrast reference for ensureToneContrast, not a paint; the toast paints via GooeySurface.',
+  'components/file_diff_viewer/file_diff_viewer_style.dart':
+      'FileDiffSurface data; the container is an inline diff-text layout, not a floating surface.',
+  'components/gooey_toast/gooey_toast_options.dart':
+      'contrast reference for ensureToneContrast, not a paint; the toast paints via GooeySurface.',
   'components/markdown/markdown_style.dart':
       'renderer data (surface/onSurface), not a box paint here.',
   'components/number_ticker/number_ticker.dart':
