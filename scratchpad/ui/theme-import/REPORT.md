@@ -178,7 +178,7 @@ runs captured `tail`'s exit; all gates above were re-verified with
 
 ## §7 PR
 
-PR URL: (filled after `gh pr create --repo mibrar-dev/dashcn --base main`)
+PR URL: https://github.com/mibrar-dev/dashcn/pull/42
 
 Body ends with: 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 — NOT merged, per the brief.
