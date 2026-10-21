@@ -3639,7 +3639,8 @@
           "sheet_overlay"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "A menu surface anchored below the widget that opened it, plus the showDropdown helper. Rows, traversal and the popup surface come from the menu component.",
@@ -7123,7 +7124,8 @@
           "popover"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
@@ -10677,7 +10679,7 @@
     "components/command/command.dart": "245b22c488fcc72c70a09da6899ee117dbb7dc4dc86d465088990c50ed109f75",
     "components/command/command_style.dart": "b654d0abd3a57693ed7cce920b5d19fcb0987fc34ee6bb00efb45271946f481c",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
-    "components/command/preview.dart": "1612c0873909727fad820aef901d6163d4f613d8f080d9a07fd0b809cc99cf7b",
+    "components/command/preview.dart": "6bca11356367b524b2fb8039bc63d005a242220d9b31e682068614e82824d1c3",
     "components/context_menu/context_menu.dart": "17f5a3e9fbf25a3c1c0c788735baa9b7086605155b5c8e2ba0a88497571d0cb8",
     "components/context_menu/preview.dart": "9644907336ca79a0e111c22ec28c632097a02e58c8c69bb8d8505d770eaba418",
     "components/country_flag/country_flag.dart": "622df38c59cf9181a86b8218e136557f2ba662700f084c2415ee4dd5fb9e3e52",
@@ -10707,8 +10709,8 @@
     "components/drawer/preview.dart": "013127b7fec18ef932ec61ec7788254b513160c1c91a3ec8c7cbdb4e4de76c6c",
     "components/drawer_container/drawer_container.dart": "b47d1930ceee7447633d7ff9dd05065844ddf977f572dbe7b009bed9fa971e6b",
     "components/drawer_container/preview.dart": "5792cb97c2012fdff4af4736af804eea92fe59efcf7e357b917d89f3c84f70ce",
-    "components/dropdown_menu/dropdown_menu.dart": "8cfdb5d180b17540570a209f810f74b1340fe8552109ffd780dcdf7a6a86b441",
-    "components/dropdown_menu/preview.dart": "afa463b633d851e2aa73f8b26f282ac926acba18accd41853b00f9274047a16c",
+    "components/dropdown_menu/dropdown_menu.dart": "7b8c2a3c414299972aa08bfe87a4c786f2f6726296ebfcab0921a812f639124a",
+    "components/dropdown_menu/preview.dart": "54b44051cadf197ca8fc5c75fcd95537b979b1ccac6625d9c39265a010708df9",
     "components/dropzone/dropzone.dart": "0871fe6a8960c8623245e13e0f32867da7988b2bc341c907b5d470e630778bde",
     "components/dropzone/dropzone_style.dart": "aa5692203a2b4dc89db723921747b84e997a76b6d89c5e3022fe9b0b034109eb",
     "components/dropzone/dropzone_theme.dart": "f74280420d94eb62255a3990f4169135e22f6d26ede50cec8ac111cf62d7ce24",
@@ -10891,8 +10893,8 @@
     "components/phone_input/preview.dart": "7fe76b9992e56e0b202bea1c3084d896e24ba1bfff8fefa0fb69fe35bd916679",
     "components/pinned_sheet/pinned_sheet.dart": "e7a61822a08ee5abdda77df0bb56eb5e2fe81c47b537620e97927c4c70a3dfc8",
     "components/pinned_sheet/preview.dart": "c268060255945b62f34b3983a0bc95553339b2f6728f2822e672b69ec7f6a7a3",
-    "components/popup/popup.dart": "a67509f0345a3cd39032ecd0562db000c6a5a544889181b81ec984f712758ecf",
-    "components/popup/preview.dart": "4498acc319132183fa6786af308883635ad2579a1e608f4ebf2b294aecf9f582",
+    "components/popup/popup.dart": "4ec34d81e5b0632ba2985e64c8e856426bb68ae84b8df06fb6023cb96fd82ad0",
+    "components/popup/preview.dart": "f5e357563850f43630e61f3fc01182e7840b3027ef44ddb0b47d4b4fa1f1c7f7",
     "components/progress/preview.dart": "e62737f25038abf886a76c241a491f20262ae84ea1453e64b0fe19f5172fdabe",
     "components/progress/progress.dart": "59bff582771b65727ea93916751c99cd7bacda99ee7cbcf4a8f4822ef9c0fdf5",
     "components/progress/progress_style.dart": "dea8eea72d1ed044648f1c34cc424ae2bfc6548f4c7d8a5c4553fef3c2395f16",

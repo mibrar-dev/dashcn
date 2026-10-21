@@ -1210,6 +1210,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover', kind: DocsDepKind.primitive),
     DocsDep(id: 'sheet_overlay', kind: DocsDepKind.primitive),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'menu': <DocsDep>[
@@ -1365,6 +1366,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'menu', kind: DocsDepKind.component),
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover', kind: DocsDepKind.primitive),
+    DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'refresh_trigger': <DocsDep>[
