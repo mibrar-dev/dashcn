@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/overlay.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import '../menu/menu.dart';
@@ -148,6 +149,20 @@ Widget _dropdownMenuWithShortcut(BuildContext context) =>
 Widget _dropdownMenuWithCheckboxItem(BuildContext context) =>
     const _DropdownMenuDropdown(withCheckbox: true);
 
+/// A customized surface: widget-leg theme override (tinted fill).
+Widget _dropdownMenuCustomized(BuildContext context) {
+  return const SizedBox(
+    width: 220,
+    child: DropdownMenu(
+      theme: MenuPopupTheme(background: ThemedColor.value(Color(0xFFF0FDF4))),
+      children: <Widget>[
+        MenuButton(child: Text('Profile')),
+        MenuButton(child: Text('Settings')),
+      ],
+    ),
+  );
+}
+
 /// An anchored dropdown opened from a button.
 Widget _dropdownMenuTriggerExample(BuildContext context) =>
     const _DropdownMenuTrigger();
@@ -158,4 +173,5 @@ const List<ComponentPreview> dropdownMenuPreviews = <ComponentPreview>[
   ComponentPreview('With shortcut', _dropdownMenuWithShortcut),
   ComponentPreview('With checkbox item', _dropdownMenuWithCheckboxItem),
   ComponentPreview('Trigger', _dropdownMenuTriggerExample),
+  ComponentPreview('Customized', _dropdownMenuCustomized),
 ];

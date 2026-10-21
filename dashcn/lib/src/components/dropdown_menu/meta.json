@@ -16,7 +16,8 @@
   "deps": {
     "foundation": [],
     "theme": [
-      "theme"
+      "theme",
+      "density_tokens"
     ],
     "primitives": [
       "overlay",
@@ -51,8 +52,8 @@
     "semantics": "rows are menu buttons; disabled rows dim to 50% opacity"
   },
   "sizes": {
-    "surface": "MenuPopup defaults: min-width 128 (8rem), hugs content, padding 4, 1px border, radius md, shadow-md; opens below the trigger start edge",
-    "row": "menu row metrics (min-height 32)"
+    "surface": "160-320 px wide (compact overlay bounds kOverlayMinWidthCompact/kOverlayMaxWidthCompact), hugs content, padding 4, 1px border, radius md, shadow-md; opens below the trigger start edge",
+    "row": "menu row metrics (min-height 32, density row height)"
   },
   "notes": [
     "DropdownMenuTheme (surfaceOpacity/surfaceBlur only) is deleted: the surface* fields were dropped with the dialog pilot and MenuPopup owns the surface tokens.",
