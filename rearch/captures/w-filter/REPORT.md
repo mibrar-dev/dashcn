@@ -110,7 +110,7 @@ Redesigned the `filter_bar` component on design tokens and density principles pe
 - Target repo: `mibrar-dev/dashcn`
 - Base: `main`
 - Branch: `feat/ui-filter-bar`
-- PR URL: (appended upon creation)
+- PR URL: https://github.com/mibrar-dev/dashcn/pull/39
 
 ## Anything not done
 - None. All requested features, density tokens, overflow menu, keyboard navigation, backward compatibility, builder slots, unit/widget tests, visual captures, and gates are complete.
