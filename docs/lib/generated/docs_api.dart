@@ -6203,6 +6203,35 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc:
             'Whether the group takes focus on mount; true for opened overlays.',
       ),
+      DocsApiParam(
+        name: 'width',
+        type: 'double?',
+        isRequired: false,
+        doc:
+            'Exact popup width; null hugs the content between [minWidth]-[maxWidth].',
+      ),
+      DocsApiParam(
+        name: 'minWidth',
+        type: 'double',
+        isRequired: false,
+        defaultValue: 'kOverlayMinWidthCompact',
+        doc:
+            'Minimum popup width; defaults to the compact overlay minimum (160).',
+      ),
+      DocsApiParam(
+        name: 'maxWidth',
+        type: 'double',
+        isRequired: false,
+        defaultValue: 'kOverlayMaxWidthCompact',
+        doc:
+            'Maximum popup width; defaults to the compact overlay maximum (320).',
+      ),
+      DocsApiParam(
+        name: 'maxHeight',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Maximum popup height; null keeps the MenuPopup default (360).',
+      ),
     ],
     members: <DocsApiMember>[],
   ),

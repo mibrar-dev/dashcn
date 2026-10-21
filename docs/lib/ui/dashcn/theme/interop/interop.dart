@@ -12,6 +12,33 @@ export 'color_space.dart'
     show WebColorException, Oklch, oklchFromArgb, argbFromOklch;
 export 'css_theme_parser.dart' show CssVariant, CssThemeResult, parseCssTheme;
 export 'tailwind_v3_parser.dart' show TailwindV3Result, parseTailwindV3Theme;
+export 'google_fonts_catalogue.dart'
+    show
+        FontResolution,
+        FontSource,
+        firstFontFamily,
+        googleFontsGetFontExpression,
+        googleFontsPubspecLine,
+        kGenericFontFamilies,
+        kGoogleFontsCacheFile,
+        kGoogleFontsFamilies,
+        kGoogleFontsMetadataUrl,
+        kGoogleFontsPackageName,
+        kGoogleFontsVersionPin,
+        localFontPubspecBlock,
+        resolveFontFamily;
+export 'preset_codec.dart'
+    show
+        PresetDiff,
+        PresetStoreResolver,
+        PresetStringException,
+        UnconfiguredPresetStoreResolver,
+        canonicalPresetJson,
+        decodePresetString,
+        diffPresetDocuments,
+        encodePresetString,
+        kPresetStringPrefix,
+        kPresetStringVersion;
 export 'theme_model.dart'
     show
         WebTheme,
