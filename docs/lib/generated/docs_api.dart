@@ -5418,7 +5418,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     hasApiTable: true,
     parseClean: true,
     summary:
-        'A controlled filter bar: search, sort, date range, custom filters, chips and an optional sheet presentation (`FilterBar(state: ..., ...)`).',
+        'A controlled/uncontrolled filter bar with density sizing and menu overflow.',
     params: <DocsApiParam>[
       DocsApiParam(name: 'state', type: 'FilterState?', isRequired: false),
       DocsApiParam(
@@ -5429,6 +5429,11 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       DocsApiParam(
         name: 'controller',
         type: 'FilterBarController?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'initialState',
+        type: 'FilterState?',
         isRequired: false,
       ),
       DocsApiParam(
@@ -5482,7 +5487,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'presentation',
         type: 'FilterBarPresentation',
         isRequired: false,
-        defaultValue: 'FilterBarPresentation.autoSheet',
+        defaultValue: 'FilterBarPresentation.autoMenu',
       ),
       DocsApiParam(
         name: 'sheetBreakpoint',
@@ -5514,6 +5519,62 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         defaultValue: 'const <FilterGroup>[]',
       ),
       DocsApiParam(name: 'theme', type: 'FilterBarTheme?', isRequired: false),
+      DocsApiParam(name: 'style', type: 'FilterBarStyle?', isRequired: false),
+      DocsApiParam(
+        name: 'densityTokens',
+        type: 'DensityTokens?',
+        isRequired: false,
+      ),
+      DocsApiParam(name: 'leading', type: 'Widget?', isRequired: false),
+      DocsApiParam(name: 'trailing', type: 'Widget?', isRequired: false),
+      DocsApiParam(
+        name: 'searchBuilder',
+        type:
+            'Widget Function(BuildContext, TextEditingController, ValueChanged<String>)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'sortBuilder',
+        type:
+            'Widget Function(BuildContext, String?, List<FilterSortOption>, ValueChanged<String?>)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'dateBuilder',
+        type:
+            'Widget Function(BuildContext, FilterDateRange?, ValueChanged<FilterDateRange?>)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'clearAllBuilder',
+        type: 'Widget Function(BuildContext, bool, VoidCallback)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'triggerBuilder',
+        type: 'Widget Function(BuildContext, int, VoidCallback)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'chipBuilder',
+        type: 'Widget Function(BuildContext, FilterChipData, VoidCallback)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'counterBuilder',
+        type: 'Widget Function(BuildContext, int?, int)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'overflowMenuBuilder',
+        type: 'Widget Function(BuildContext, FilterState, VoidCallback)?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'sheetBuilder',
+        type: 'Widget Function(BuildContext, FilterState, VoidCallback)?',
+        isRequired: false,
+      ),
     ],
     members: <DocsApiMember>[],
   ),
@@ -13499,6 +13560,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
     hasTheme: true,
     fields: <DocsThemeField>[
       DocsThemeField(
+        name: 'controlHeight',
+        type: 'double?',
+        description:
+            'control height override (32 compact, 40 comfortable, 48 touch)',
+      ),
+      DocsThemeField(
         name: 'controlWidth',
         type: 'double?',
         description: 'sort/date control width, 180 by default',
@@ -13507,6 +13574,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         name: 'dense',
         type: 'bool?',
         description: 'compact padding and small buttons, false by default',
+      ),
+      DocsThemeField(
+        name: 'iconSize',
+        type: 'double?',
+        description:
+            'icon size override (16 compact, 20 comfortable, 24 touch)',
       ),
       DocsThemeField(
         name: 'runSpacing',
@@ -13521,7 +13594,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'spacing',
         type: 'double?',
-        description: 'gap between controls, 12 by default',
+        description: 'gap between controls, 8 by default',
       ),
     ],
   ),

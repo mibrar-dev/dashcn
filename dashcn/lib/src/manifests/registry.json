@@ -4431,8 +4431,10 @@
       "api": {
         "classes": [
           "FilterBar",
+          "FilterBarStyle",
           "FilterBarTheme",
           "FilterBarSheetScaffold",
+          "FilterBarOverflowMenu",
           "FilterBarSearchField",
           "FilterBarSortControl",
           "FilterBarDateControl",
@@ -4459,12 +4461,19 @@
         "enums": [
           "FilterBarPresentation"
         ],
+        "functions": [
+          "openFilterBarMenu",
+          "openFilterBarSheet"
+        ],
         "providedByPrimitives": {
           "filter_core": [
             "filterBarDefaults",
             "FilterMatchers"
           ]
-        }
+        },
+        "typedefs": [
+          "FilterBarOverflowTrigger"
+        ]
       },
       "category": "Layout",
       "deps": {
@@ -4474,6 +4483,7 @@
           "date_picker",
           "drawer",
           "input",
+          "popup",
           "select"
         ],
         "foundation": [
@@ -4484,17 +4494,30 @@
           "filter_core",
           "form_core",
           "input_features",
-          "localizations"
+          "localizations",
+          "overlay",
+          "popover",
+          "surface"
         ],
         "theme": [
-          "theme"
+          "theme",
+          "density_tokens"
         ]
       },
       "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and a mobile sheet presentation; backed by a typed filter engine.",
       "entry": "components/filter_bar/filter_bar.dart",
       "files": [
         "components/filter_bar/filter_bar.dart",
-        "components/filter_bar/filter_bar_style.dart"
+        "components/filter_bar/filter_bar_body.dart",
+        "components/filter_bar/filter_bar_controls.dart",
+        "components/filter_bar/filter_bar_inline.dart",
+        "components/filter_bar/filter_bar_layout.dart",
+        "components/filter_bar/filter_bar_menu.dart",
+        "components/filter_bar/filter_bar_overflow.dart",
+        "components/filter_bar/filter_bar_search.dart",
+        "components/filter_bar/filter_bar_sheet.dart",
+        "components/filter_bar/filter_bar_style.dart",
+        "components/filter_bar/filter_bar_triggers.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
       "install": "dashcn add filter_bar",
@@ -4508,17 +4531,21 @@
         "filters",
         "search",
         "sort",
-        "sheet"
+        "sheet",
+        "menu",
+        "density"
       ],
       "theme": {
         "class": "FilterBarTheme",
         "defaults": "filterBarDefaults",
         "fields": {
+          "controlHeight": "double? - control height override (32 compact, 40 comfortable, 48 touch)",
           "controlWidth": "double? - sort/date control width, 180 by default",
           "dense": "bool? - compact padding and small buttons, false by default",
+          "iconSize": "double? - icon size override (16 compact, 20 comfortable, 24 touch)",
           "runSpacing": "double? - gap between wrapped runs, 8 by default",
           "searchWidth": "double? - search field width, 220 by default",
-          "spacing": "double? - gap between controls, 12 by default"
+          "spacing": "double? - gap between controls, 8 by default"
         },
         "userFile": "filter_bar_theme.dart"
       },
@@ -10709,10 +10736,19 @@
     "components/file_picker/file_picker_style.dart": "ccaea4bb80ebefe7b6117a9bbb6709309a7382a7f8fc41f7635e12abbbe0c7d0",
     "components/file_picker/file_picker_theme.dart": "53f28d6b6f45bf53e1eaa726cbbcc66b7a2a1f85b165402dc3f676fac83c1a39",
     "components/file_picker/preview.dart": "d61c869e75b6bf7ddb19f4f2924f016d380123c0126f8ec4d4e014dfaccea72f",
-    "components/filter_bar/filter_bar.dart": "84fdb195be8fac839c10939dd43f3023c56188791c16f65fc1dcd77df7ddeb03",
-    "components/filter_bar/filter_bar_style.dart": "951b8888a6740c8a203a3b9d71d86b2f6f6ddd2ba82aa3ff4163b64680e7389b",
+    "components/filter_bar/filter_bar.dart": "19fbdc5c9aaff569dc4ea2e726331cda016a6f0bba64a30f523b52b5a15873fc",
+    "components/filter_bar/filter_bar_body.dart": "9ce93e35c5a4f83a96e175dfe58147c182940d9bdffa4165f1d2774f184c88a9",
+    "components/filter_bar/filter_bar_controls.dart": "54420b8ccf2274b367073ed774611ae0aca11247ee22441eca4a1b55a035ee78",
+    "components/filter_bar/filter_bar_inline.dart": "548120f85f837ea88f55246bc2ea72faad0e2b243ae8d25d5b57307b123fc722",
+    "components/filter_bar/filter_bar_layout.dart": "a72c776b2729250709f75620897a866574275c9a4f122eb8294643f866d4c87b",
+    "components/filter_bar/filter_bar_menu.dart": "c7bfe79105f403410936cadcb2304d3c5eae9d40dce6fdf7c9d72de481194330",
+    "components/filter_bar/filter_bar_overflow.dart": "b7f854c9bf7a84a8a7cce46f1064c5ce4331a028a0a9e233172adc470297e586",
+    "components/filter_bar/filter_bar_search.dart": "a955f51938463eb8e6bb3b4494ebe08e6a34ae8b54ad0074a84ff43f54276ef3",
+    "components/filter_bar/filter_bar_sheet.dart": "46c0f0071e89e1712bd83f84990ff6cf3944ab43b71e9b1388714412f6f115c7",
+    "components/filter_bar/filter_bar_style.dart": "f47db5f062493b241c5abd1ff5448ef2a3647247c2c0d75f04a6fe055c31e06d",
     "components/filter_bar/filter_bar_theme.dart": "23285d875e48fc719a90e5d2c7a319a87930cf0582212aae84a3f0b33ae367d1",
-    "components/filter_bar/preview.dart": "e17ee2fc7c31fac73808595d813281a23d2a44a502b296e59e34e569992830ec",
+    "components/filter_bar/filter_bar_triggers.dart": "63f81be9b2f370a79b5880b50557eaa35605df623ff174eef6b2225b5d9a3d49",
+    "components/filter_bar/preview.dart": "5397b6fa0da75c9b551e5ef28ed5716683a706905d8b0c027c4e09ee28e3308f",
     "components/form/form.dart": "cff3437d974557780aebe7d6beee223d8f378c54c68320af73a94b1fe5bf5850",
     "components/form/form_style.dart": "a65166cea466a2241b03b018592f8b80e8fe89740305dc20d81390baaae1b386",
     "components/form/form_theme.dart": "e6d52bb4896eca6b9b8e4ff457879c2b40ed4866ef87efd5a396a9858236b2b3",
@@ -11130,7 +11166,7 @@
     "primitives/filter_core/filter_group.dart": "98c93fd01c0e58b46899c31ede8a77cae00407dcb5c38b3c33c08f3f26b11324",
     "primitives/filter_core/filter_matching.dart": "33f7bc184a377a4d81339bd185bd2dfc9e981bb9b7d70cd88324cb8c7b3fa5ef",
     "primitives/filter_core/filter_state.dart": "94b6c5f8f7f7eac95e4a87e0bc3290b335bbd99071475129743be87ca0d46dc7",
-    "primitives/filter_core/filter_theme.dart": "00a7a05c5b4579507f193eba362d46a66ecb6e53708e6aaf9846a84c3231dd82",
+    "primitives/filter_core/filter_theme.dart": "3295d07883b8ff2371d1517763d98781cbe6722bf94883a9e29388204fd6bd63",
     "primitives/focus_outline.dart": "ada3901336b9a76e8dd98d1c434a473e5c6c7602c2d257dcb78bcf727d35afbc",
     "primitives/form_core/form_builders.dart": "bfa036ea629f243558ceb78993e3bb448300033ffff19963b574966f95af05b1",
     "primitives/form_core/form_control.dart": "5cb89ff7ac898e05e8e4b722862056bfd0e992df2c30f2e0dd35d2bd5700ffdc",

@@ -1,32 +1,22 @@
-// The `filter_bar` component: search + sort + date + custom filters, chips,
-// a clear action and an optional mobile sheet.
+// The `filter_bar` component: search, sort, date, custom filters, chips,
+// clear-all action and compact overflow menu / mobile sheet presentation.
 //
-// Widgets-only. The value engine lives in `primitives/filter_core/`, the
-// theme, descriptors, sheet chrome and control sub-widgets in
-// `filter_bar_style.dart`; chips come from `chip` and the sheet route from
-// `drawer`.
-//
-// Old bugs fixed, not ported: the search debounce could resurrect cleared
-// text; the sheet went stale while open (it listens to a state mirror); the
-// staged `sheetBreakpoint` comparison (720 behaved like 768) is a raw compare;
-// a half-null date range maps to a one-day span; `controller` + `state` is an
-// assert; labels come from `primitives/localizations`.
+// Widgets-only. Density-driven (compact default): control heights, icon sizes
+// and gaps follow theme tokens. Overflow to compact menu on narrow widths.
 
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/gap.dart';
-import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/filter_core/filter_controller.dart';
 import '../../primitives/filter_core/filter_state.dart';
-import '../../primitives/localizations/localizations.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
-import '../chip/chip.dart';
 import '../drawer/drawer.dart';
+import 'filter_bar_body.dart';
+import 'filter_bar_search.dart';
 import 'filter_bar_style.dart';
 
-export 'filter_bar_style.dart';
 export '../../primitives/filter_core/filter_controller.dart'
     show
         FilterBarController,
@@ -42,16 +32,23 @@ export '../../primitives/filter_core/filter_matching.dart'
         FilterMatchers;
 export '../../primitives/filter_core/filter_state.dart'
     show FilterChipData, FilterDateRange, FilterSortOption, FilterState;
+export 'filter_bar_controls.dart';
+export 'filter_bar_inline.dart';
+export 'filter_bar_layout.dart';
+export 'filter_bar_menu.dart';
+export 'filter_bar_sheet.dart';
+export 'filter_bar_style.dart';
+export '../drawer/drawer.dart' show OverlayPosition;
 
-/// A controlled filter bar: search, sort, date range, custom filters, chips
-/// and an optional sheet presentation (`FilterBar(state: ..., ...)`).
+/// A controlled/uncontrolled filter bar with density sizing and menu overflow.
 class FilterBar extends StatefulWidget {
-  /// Creates a filter bar; provide a [controller] or [state]+[onStateChanged].
+  /// Creates a filter bar.
   const FilterBar({
     super.key,
     this.state,
     this.onStateChanged,
     this.controller,
+    this.initialState,
     this.sortOptions = const <FilterSortOption>[],
     this.enableDateRange = false,
     this.resultsCount,
@@ -61,18 +58,27 @@ class FilterBar extends StatefulWidget {
     this.clearPolicy = const FilterClearPolicy(),
     this.onClearAll,
     this.showClearAllWhenEmpty = false,
-    this.presentation = FilterBarPresentation.autoSheet,
+    this.presentation = FilterBarPresentation.autoMenu,
     this.sheetBreakpoint = 720,
     this.sheetPosition = OverlayPosition.bottom,
     this.useRootNavigator = true,
     this.sheetContentPadding,
     this.groups = const <FilterGroup>[],
     this.theme,
+    this.style,
+    this.densityTokens,
+    this.leading,
+    this.trailing,
+    this.searchBuilder,
+    this.sortBuilder,
+    this.dateBuilder,
+    this.clearAllBuilder,
+    this.triggerBuilder,
+    this.chipBuilder,
+    this.counterBuilder,
+    this.overflowMenuBuilder,
+    this.sheetBuilder,
   }) : assert(
-         controller != null || (state != null && onStateChanged != null),
-         'Provide either controller or both state and onStateChanged.',
-       ),
-       assert(
          controller == null || (state == null && onStateChanged == null),
          'controller and state/onStateChanged are mutually exclusive.',
        );
@@ -80,6 +86,7 @@ class FilterBar extends StatefulWidget {
   final FilterState? state;
   final ValueChanged<FilterState>? onStateChanged;
   final FilterBarController? controller;
+  final FilterState? initialState;
   final List<FilterSortOption> sortOptions;
   final bool enableDateRange;
   final int? resultsCount;
@@ -96,6 +103,38 @@ class FilterBar extends StatefulWidget {
   final EdgeInsetsGeometry? sheetContentPadding;
   final List<FilterGroup> groups;
   final FilterBarTheme? theme;
+  final FilterBarStyle? style;
+  final DensityTokens? densityTokens;
+
+  final Widget? leading;
+  final Widget? trailing;
+  final Widget Function(
+    BuildContext,
+    TextEditingController,
+    ValueChanged<String>,
+  )?
+  searchBuilder;
+  final Widget Function(
+    BuildContext,
+    String?,
+    List<FilterSortOption>,
+    ValueChanged<String?>,
+  )?
+  sortBuilder;
+  final Widget Function(
+    BuildContext,
+    FilterDateRange?,
+    ValueChanged<FilterDateRange?>,
+  )?
+  dateBuilder;
+  final Widget Function(BuildContext, bool, VoidCallback)? clearAllBuilder;
+  final Widget Function(BuildContext, int, VoidCallback)? triggerBuilder;
+  final Widget Function(BuildContext, FilterChipData, VoidCallback)?
+  chipBuilder;
+  final Widget Function(BuildContext, int?, int)? counterBuilder;
+  final Widget Function(BuildContext, FilterState, VoidCallback)?
+  overflowMenuBuilder;
+  final Widget Function(BuildContext, FilterState, VoidCallback)? sheetBuilder;
 
   @override
   State<FilterBar> createState() => _FilterBarState();
@@ -108,14 +147,18 @@ class _FilterBarState extends State<FilterBar> {
   final ValueNotifier<FilterState> _mirror = ValueNotifier<FilterState>(
     const FilterState(),
   );
+  FilterBarController? _internalController;
   Timer? _debounce;
   String _emittedSearch = '';
   FilterBarController? _attached;
 
   FilterState get _current =>
-      widget.controller?.value ?? widget.state ?? const FilterState();
+      widget.controller?.value ??
+      widget.state ??
+      _internalController?.value ??
+      const FilterState();
 
-  FilterBarTheme _style(BuildContext context) =>
+  FilterBarTheme _theme(BuildContext context) =>
       resolveComponentStyle<FilterBarTheme, FilterBarTheme>(
         context,
         widget: widget.theme,
@@ -123,10 +166,24 @@ class _FilterBarState extends State<FilterBar> {
         defaults: filterBarDefaults,
       );
 
+  DensityTokens _tokens(BuildContext context) =>
+      widget.densityTokens ??
+      widget.theme?.themeDensityTokens ??
+      ComponentTheme.maybeOf<FilterBarTheme>(context)?.themeDensityTokens ??
+      ComponentThemes.maybeOf<FilterBarTheme>(context)?.themeDensityTokens ??
+      resolveDensityTokens(context);
+
   @override
   void initState() {
     super.initState();
-    _attached = widget.controller;
+    if (widget.controller == null && widget.state == null) {
+      _internalController = FilterBarController(
+        widget.initialState ?? const FilterState(),
+      );
+      _attached = _internalController;
+    } else {
+      _attached = widget.controller;
+    }
     _attached?.addListener(_onControllerChanged);
     _emittedSearch = _current.search;
     _mirror.value = _current;
@@ -137,12 +194,10 @@ class _FilterBarState extends State<FilterBar> {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       _attached?.removeListener(_onControllerChanged);
-      _attached = widget.controller;
+      _attached = widget.controller ?? _internalController;
       _attached?.addListener(_onControllerChanged);
     }
-    if (widget.searchDebounce != oldWidget.searchDebounce) {
-      _debounce?.cancel();
-    }
+    if (widget.searchDebounce != oldWidget.searchDebounce) _debounce?.cancel();
     _syncSearch();
     _mirror.value = _current;
   }
@@ -151,6 +206,7 @@ class _FilterBarState extends State<FilterBar> {
   void dispose() {
     _debounce?.cancel();
     _attached?.removeListener(_onControllerChanged);
+    _internalController?.dispose();
     _search.dispose();
     _mirror.dispose();
     super.dispose();
@@ -159,35 +215,18 @@ class _FilterBarState extends State<FilterBar> {
   void _onControllerChanged() {
     _syncSearch();
     _mirror.value = _current;
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   void _syncSearch() {
     final String next = _current.search;
     if (next != _emittedSearch) {
       _emittedSearch = next;
-      final String prev = _search.text;
-      final TextSelection prevSelection = _search.selection;
-      _search.text = next;
-      if (!prevSelection.isValid) {
-        _search.selection = TextSelection.collapsed(offset: next.length);
-      } else {
-        final bool atEnd =
-            prevSelection.baseOffset == prev.length &&
-            prevSelection.extentOffset == prev.length;
-        final bool appended =
-            next.length >= prev.length && next.startsWith(prev);
-        if (atEnd && appended) {
-          _search.selection = TextSelection.collapsed(offset: next.length);
-        } else {
-          _search.selection = prevSelection.copyWith(
-            baseOffset: prevSelection.baseOffset.clamp(0, next.length),
-            extentOffset: prevSelection.extentOffset.clamp(0, next.length),
-          );
-        }
-      }
+      syncFilterSearchText(
+        controller: _search,
+        nextText: next,
+        lastEmittedText: _emittedSearch,
+      );
     }
   }
 
@@ -195,12 +234,14 @@ class _FilterBarState extends State<FilterBar> {
     if (next == _current) return;
     _mirror.value = next;
     widget.controller?.setValue(next);
+    _internalController?.setValue(next);
     widget.onStateChanged?.call(next);
-    if (widget.controller == null) setState(() {});
+    if (widget.controller == null && _internalController == null) {
+      setState(() {});
+    }
   }
 
   void _onSearchChanged(String value) {
-    // Cancel first: the old code let a pending timer fire after "clear all".
     _debounce?.cancel();
     _emittedSearch = value;
     void emit() => _emit(_current.copyWith(search: value));
@@ -220,202 +261,26 @@ class _FilterBarState extends State<FilterBar> {
         widget.onClearAll?.call(_current) ??
         _current.cleared(policy: widget.clearPolicy);
     _emittedSearch = next.search;
-    if (_search.text != next.search) {
-      _search.text = next.search;
-    }
+    if (_search.text != next.search) _search.text = next.search;
     _emit(next);
   }
 
-  bool _hasSheetContent(FilterState current) =>
-      widget.sortOptions.isNotEmpty ||
-      widget.enableDateRange ||
-      widget.customFilters.isNotEmpty ||
-      widget.trailingFilters.isNotEmpty ||
-      current.chips.isNotEmpty;
-
-  bool _useSheet(double width) => switch (widget.presentation) {
-    FilterBarPresentation.inline => false,
-    FilterBarPresentation.sheet => true,
-    FilterBarPresentation.autoSheet =>
-      width.isFinite && width < widget.sheetBreakpoint,
-  };
-
   @override
   Widget build(BuildContext context) {
-    final ThemeData ambient = Theme.of(context);
-    final FilterBarTheme style = _style(context);
-    final ComponentLocalizations l10n = ComponentLocalizations.of(context);
-    final FilterState current = _current;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final bool sheet = _useSheet(constraints.maxWidth);
-        final Widget body = sheet
-            ? Wrap(
-                spacing: style.spacing ?? 12,
-                runSpacing: style.runSpacing ?? 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: <Widget>[
-                  FilterBarSearchField(
-                    controller: _search,
-                    onChanged: _onSearchChanged,
-                    width: style.searchWidth ?? 220,
-                  ),
-                  // No dead trigger: render it only when the sheet has content.
-                  if (_hasSheetContent(current))
-                    FilterBarSheetTrigger(
-                      activeCount: current.activeFilterCount,
-                      onPressed: () => _openSheet(context),
-                      dense: style.dense ?? false,
-                    ),
-                ],
-              )
-            : _content(context, current, style, l10n, inSheet: false);
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border.all(color: ambient.colors.border),
-            borderRadius: ambient.borderRadiusMd,
-          ),
-          child: Padding(
-            padding: EdgeInsets.all((style.dense ?? false) ? 8 : 12),
-            child: body,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _content(
-    BuildContext context,
-    FilterState current,
-    FilterBarTheme style,
-    ComponentLocalizations l10n, {
-    required bool inSheet,
-  }) {
-    final ThemeData ambient = Theme.of(context);
-    final String? sortValue =
-        widget.sortOptions.any(
-          (FilterSortOption option) => option.id == current.sortId,
-        )
-        ? current.sortId
-        : null;
-    final TextStyle muted = ambient.typography.textMuted.copyWith(
-      color: ambient.colors.mutedForeground,
-    );
-    final List<Widget> others = <Widget>[
-      if (widget.sortOptions.isNotEmpty)
-        FilterBarSortControl(
-          value: sortValue,
-          options: widget.sortOptions,
-          onChanged: (String? next) => _emit(current.copyWith(sortId: next)),
-          width: style.controlWidth ?? 180,
-        ),
-      if (widget.enableDateRange)
-        FilterBarDateControl(
-          value: current.dateRange,
-          onChanged: (FilterDateRange? next) =>
-              _emit(current.copyWith(dateRange: next)),
-          width: style.controlWidth ?? 180,
-        ),
-      ...widget.trailingFilters,
-    ];
-    final Widget controls = FilterBarGroupedContent(
-      state: current,
-      onChanged: _emit,
-      groups: widget.groups,
-      customFilters: widget.customFilters,
-      trailing: others,
-      spacing: style.spacing ?? 12,
-      runSpacing: style.runSpacing ?? 8,
-    );
-    final List<Widget> slots = <Widget>[
-      if (!inSheet)
-        FilterBarSearchField(
-          controller: _search,
-          onChanged: _onSearchChanged,
-          width: style.searchWidth ?? 220,
-        ),
-      if (widget.groups.isEmpty)
-        controls
-      else
-        SizedBox(width: double.infinity, child: controls),
-    ];
-    final String? counter = _counterText(current, l10n);
-    if (counter != null) {
-      slots.add(Text(counter, style: muted));
-    }
-    if (widget.showClearAllWhenEmpty || current.hasActiveFilters) {
-      slots.add(
-        FilterBarClearButton(
-          enabled: current.hasActiveFilters,
-          onPressed: _clearAll,
-          dense: style.dense ?? false,
-        ),
-      );
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Wrap(
-          spacing: style.spacing ?? 12,
-          runSpacing: style.runSpacing ?? 8,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: slots,
-        ),
-        if (current.chips.isNotEmpty) ...<Widget>[
-          Gap(style.runSpacing ?? 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: <Widget>[
-              for (final FilterChipData chip in current.chips)
-                Chip(
-                  trailing: ChipButton(
-                    onPressed: () => _emit(current.withoutChip(chip.key)),
-                    semanticLabel: ComponentLocalizations.of(
-                      context,
-                    ).chipInputRemoveChip,
-                    child: const Icon(LucideIcons.x),
-                  ),
-                  child: Text(chip.label),
-                ),
-            ],
-          ),
-        ],
-      ],
-    );
-  }
-
-  String? _counterText(FilterState current, ComponentLocalizations l10n) {
-    if (widget.resultsCount != null) {
-      return l10n.filterResultsCount(widget.resultsCount!);
-    }
-    final int count = current.activeFilterCount;
-    return count == 0 ? null : l10n.filterActiveCount(count);
-  }
-
-  Future<void> _openSheet(BuildContext context) {
-    return openSheet<void>(
-      context: context,
-      position: widget.sheetPosition,
-      useRootNavigator: widget.useRootNavigator,
-      builder: (BuildContext sheetContext) {
-        return FilterBarSheetScaffold(
-          title: ComponentLocalizations.of(sheetContext).filterFilters,
-          contentPadding: widget.sheetContentPadding,
-          onClose: () => closeSheet(sheetContext),
-          child: ValueListenableBuilder<FilterState>(
-            valueListenable: _mirror,
-            builder: (BuildContext context, FilterState current, _) {
-              // Resolved from the sheet's own context so a theme change while
-              // the sheet is open is live instead of a stale snapshot.
-              final FilterBarTheme style = _style(context);
-              final ComponentLocalizations l10n = ComponentLocalizations.of(
-                context,
-              );
-              return _content(context, current, style, l10n, inSheet: true);
-            },
-          ),
+        return buildFilterBarResponsive(
+          context: context,
+          constraints: constraints,
+          widget: widget,
+          current: _current,
+          stateMirror: _mirror,
+          searchController: _search,
+          onEmit: _emit,
+          onClearAll: _clearAll,
+          onSearchChanged: _onSearchChanged,
+          theme: _theme(context),
+          tokens: _tokens(context),
         );
       },
     );

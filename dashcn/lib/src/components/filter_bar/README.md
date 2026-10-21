@@ -1,12 +1,17 @@
 # FilterBar (`filter_bar`)
 
 Search, sort, date-range and custom filters in one bar, with removable chips,
-a clear action and a mobile sheet presentation. Backed by the typed filter
-engine in `primitives/filter_core/` (matchers, bindings, controller).
+a clear action, and an overflow menu or mobile sheet presentation. Backed by the
+typed filter engine in `primitives/filter_core/` (matchers, bindings, controller).
+
+Rewritten on DESIGN.md density tokens: compact default (control 32 px, icon 16 px,
+spacing 8 px on the 4 px scale, row height 32-36 px), overflow to a compact menu
+on narrow widths, full token and style override surface, and builder slots for
+all visible parts.
 
 ## When to use
 
-- You need a controlled filter bar over a list/table.
+- You need a controlled or uncontrolled filter bar over a list/table.
 - You want a filter value you can also apply to models outside the UI
   (`FilterState.whereMatches`).
 
@@ -40,12 +45,21 @@ FilterBar(
 
 ## Common patterns
 
-### Controller
+### Controller (Controlled mode)
 
 ```dart
 final controller = FilterBarController(const FilterState(sortId: 'newest'));
 
 FilterBar(controller: controller, sortOptions: _sortOptions)
+```
+
+### Uncontrolled mode
+
+```dart
+FilterBar(
+  initialState: const FilterState(sortId: 'newest'),
+  sortOptions: _sortOptions,
+)
 ```
 
 ### Typed custom filter
@@ -84,25 +98,25 @@ final bindings = <FilterBinding<Order>>[
 final filtered = _state.whereMatches(orders, bindings);
 ```
 
-### Grouped filters
+### Overflow to compact menu on narrow widths
+
+By default (`FilterBarPresentation.autoMenu`), when the width falls below
+`sheetBreakpoint` (720 px), secondary controls overflow to a compact menu:
 
 ```dart
 FilterBar(
   state: _state,
-  customFilters: _filters,
-  groups: const <FilterGroup>[
-    FilterGroup(id: 'catalog', title: 'Catalog', filterIds: <String>['category', 'brand']),
-    FilterGroup(id: 'price', title: 'Pricing', filterIds: <String>['price', 'rating']),
-  ],
+  presentation: FilterBarPresentation.autoMenu,
+  sheetBreakpoint: 720,
+  sortOptions: _sortOptions,
+  enableDateRange: true,
   onStateChanged: (next) => setState(() => _state = next),
 )
 ```
 
-Group headers render above their filters; filters not covered by any group
-(and `trailingFilters`) render after the blocks. A `FilterGroup.itemBuilder`
-replaces the per-item renderer for that group.
-
 ### Sheet presentation
+
+To present as a bottom drawer on mobile:
 
 ```dart
 FilterBar(
@@ -114,70 +128,50 @@ FilterBar(
 )
 ```
 
+### Custom visual style and density override
+
+```dart
+FilterBar(
+  state: _state,
+  densityTokens: DensityTokens.comfortable,
+  style: FilterBarStyle(
+    borderRadius: BorderRadius.circular(16),
+    padding: const EdgeInsets.all(12),
+    controlHeight: 40,
+    searchWidth: 260,
+  ),
+  onStateChanged: (next) => setState(() => _state = next),
+)
+```
+
 ## API
 
-- `FilterBar(state, onStateChanged, controller, sortOptions, enableDateRange,
-  resultsCount, searchDebounce, trailingFilters, customFilters, clearPolicy,
-  onClearAll, showClearAllWhenEmpty, presentation, sheetBreakpoint,
-  sheetPosition, useRootNavigator, sheetContentPadding, groups, theme)` —
-  provide either `controller` or `state` + `onStateChanged` (asserted).
-- `FilterBarController` (`setValue`, `update`, `clear`), `FilterState`,
-  `FilterStateExtensions`
-  (`hasActiveFilters`, `activeFilterCount`, `withoutChip`, `cleared`,
-  `customValue`/`setCustomValue`, `valueOf`/`setValue`, `matcherIdOf`/
-  `setMatcherIdOf`, `matchesValue`, `matchesModel`, `whereMatches`).
-- `FilterMatcher`/`FilterMatchers` (`exact`, `contains`, `like`, `startsWith`,
-  `endsWith`, `anyOf`, `inSet`, `greaterThan`, `lessThan`), `FilterField`,
-  `FilterMatcherOption`, `FilterBinding`, `TypedFilterBinding`.
-- `FilterCustomFilter` (+ `.typed`), `FilterGroup`, `FilterClearPolicy`,
-  `FilterBarPresentation`, `FilterBarGroupedContent` (the grouped/flat
-  renderer, also usable standalone).
-- Sub-widgets (composable): `FilterBarSearchField`, `FilterBarSortControl`,
-  `FilterBarDateControl`, `FilterBarClearButton`, `FilterBarSheetTrigger`,
-  `FilterBarSheetScaffold`.
+- `FilterBar(state, onStateChanged, controller, initialState, sortOptions,
+  enableDateRange, resultsCount, searchDebounce, trailingFilters, customFilters,
+  clearPolicy, onClearAll, showClearAllWhenEmpty, presentation, sheetBreakpoint,
+  sheetPosition, useRootNavigator, sheetContentPadding, groups, theme, style,
+  densityTokens, leading, trailing, searchBuilder, sortBuilder, dateBuilder,
+  clearAllBuilder, triggerBuilder, chipBuilder, counterBuilder,
+  overflowMenuBuilder, sheetBuilder)`
+- `FilterBarStyle`: per-instance style overrides for visual tokens (colors,
+  radii, padding, sizes, typography, elevation, surface opacity/blur, menu width).
+- `FilterBarTheme`: theme data with density tokens support.
+- Sub-widgets: `FilterBarSearchField`, `FilterBarSortControl`, `FilterBarDateControl`,
+  `FilterBarClearButton`, `FilterBarSheetTrigger`, `FilterBarOverflowTrigger`,
+  `FilterBarOverflowMenu`, `FilterBarSheetScaffold`.
+- Functions: `openFilterBarMenu`, `openFilterBarSheet`.
 
 ### Theme fields
 
 | Field | Default | Effect |
 |---|---|---|
-| `spacing` | 12 | gap between controls |
+| `spacing` | 8 | gap between controls (4 px scale) |
 | `runSpacing` | 8 | gap between wrapped runs |
 | `searchWidth` | 220 | search field width |
 | `controlWidth` | 180 | sort/date control width |
+| `controlHeight` | 36 | control height (compact row max) |
+| `iconSize` | 16 | icon size across controls |
 | `dense` | false | compact padding and small buttons |
 
-Resolution: widget `theme` > nearest `ComponentTheme<FilterBarTheme>` >
-`ComponentThemes` app overrides > `filterBarDefaults`. The theme class lives
-in `primitives/filter_core/filter_theme.dart` (flat-folder budget) and is
-re-exported here.
-
-## Differences from the old `FilterBar`
-
-- The value engine moved to `primitives/filter_core/` (the old tree exposed it
-  as a second public entry, `filter_bar_logic.dart`); it is no longer a
-  component entry file.
-- Per-instance label parameters (`searchPlaceholder`, `searchLabel`,
-  `sortLabel`, `dateRangeLabel`, `clearAllLabel`, `sheetTriggerLabel`,
-  `sheetTitle`, `activeFilterCountLabel`) are gone: strings come from
-  `primitives/localizations` (`filterSearch`, `filterSort`,
-  `filterDateRange`, `filterClearAll`, `filterFilters`,
-  `filterActiveCount`, `filterResultsCount`).
-- `FilterBarStyle` became `FilterBarTheme` (per-field merge, four legs).
-- Grouping is restored with headers: `FilterGroup(id, title, filterIds,
-  itemBuilder)`; the model, the custom-filter descriptor and the renderer
-  (`FilterBarGroupedContent`) live in `primitives/filter_core/`. The old
-  grouped sheet dropped ungrouped filters — every filter renders exactly once
-  now (regression-tested).
-- `FilterSheetItemBuilder` (a byte-identical duplicate of
-  `FilterCustomFilterBuilder`) and `FilterField.label` are gone.
-- Fixed: the debounce timer can no longer resurrect cleared search text; the
-  sheet follows live state and resolves its theme from its own context (a theme
-  change while open is live, not a stale snapshot); external search updates
-  preserve the caret instead of dropping it; `sheetBreakpoint` compares the raw
-  width; a half-null date range maps to a one-day span; `controller` + `state`
-  is an assert; the sheet trigger only renders when there is something to show.
-- The sheet scaffold pads directionally (`EdgeInsetsDirectional`), so RTL
-  mirrors the title/body/footer insets.
-- `setMatcherIdOf` returns the same state for unknown ids (it used to return a
-  copy that stored nothing); `FilterState.hashCode` computes the custom-filter
-  hash once.
+Resolution: widget `style` > widget `theme` > nearest `ComponentTheme<FilterBarTheme>` >
+`ComponentThemes` app overrides > `filterBarDefaults`.
