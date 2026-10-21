@@ -1398,11 +1398,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Audio Player',
     category: 'Typography & Media',
     description:
-        'Dependency-free audio chrome with compact and full layouts, cover art, waveform-or-progress slot, skip back/forward, speed and volume controls.',
+        'SPEC compact pill and expanded playlist card sharing one dependency-free controller (tracks, shuffle, repeat, speed cycling, volume slider, download).',
     install: 'dashcn add audio_player',
     import:
         "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
-    fileCount: 7,
+    fileCount: 13,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -1468,11 +1468,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Video Player',
     category: 'Typography & Media',
     description:
-        'Dependency-free video chrome with poster, play overlay, buffered scrub bar, time labels, volume, speed menu, fullscreen callback and captions slot.',
+        'SPEC glass control bar (title header, 10s skips, speed/captions more-menu, auto-hide), 64px centre button, live badge and camera fallback.',
     install: 'dashcn add video_player',
     import:
         "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
-    fileCount: 7,
+    fileCount: 10,
     stability: 'stable',
     listed: true,
     placement: 'center',

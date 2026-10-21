@@ -164,7 +164,7 @@ class AudioSpeedButton extends StatefulWidget {
     super.key,
     required this.controller,
     required this.fg,
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.supportedSpeeds = kAudioSpeeds,
     this.initialOpen = false,
     this.overrideBuilder,
   });
@@ -288,7 +288,7 @@ class AudioTransportRow extends StatelessWidget {
     required this.fg,
     this.skipBack = const Duration(seconds: 10),
     this.skipForward = const Duration(seconds: 10),
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.supportedSpeeds = kAudioSpeeds,
     this.showVolume = true,
     this.showSpeed = true,
     this.initialSpeedOpen = false,

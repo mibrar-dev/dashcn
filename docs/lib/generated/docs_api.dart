@@ -7049,27 +7049,45 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'AudioPlayer',
     hasApiTable: true,
     parseClean: true,
-    summary: 'Compact or full audio player.',
+    summary: 'Compact pill or expanded card audio player.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'controller',
         type: 'AudioPlaybackController?',
         isRequired: false,
+        doc: 'Shared playback controller; an internal fake is owned when null.',
       ),
       DocsApiParam(
         name: 'variant',
         type: 'AudioPlayerVariant',
         isRequired: false,
-        defaultValue: 'AudioPlayerVariant.full',
+        defaultValue: 'AudioPlayerVariant.compact',
+        doc: 'Compact pill (default) or expanded card.',
       ),
-      DocsApiParam(name: 'title', type: 'String?', isRequired: false),
-      DocsApiParam(name: 'subtitle', type: 'String?', isRequired: false),
-      DocsApiParam(name: 'cover', type: 'Widget?', isRequired: false),
+      DocsApiParam(
+        name: 'title',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Fallback title when the controller has no track.',
+      ),
+      DocsApiParam(
+        name: 'subtitle',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Fallback artist when the controller has no track.',
+      ),
+      DocsApiParam(
+        name: 'cover',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Cover art shown by the expanded card.',
+      ),
       DocsApiParam(
         name: 'skipBack',
         type: 'Duration',
         isRequired: false,
         defaultValue: 'const Duration(seconds: 10)',
+        doc: 'Keyboard skip steps, J/L (10s each).',
       ),
       DocsApiParam(
         name: 'skipForward',
@@ -7081,19 +7099,22 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'supportedSpeeds',
         type: 'List<double>',
         isRequired: false,
-        defaultValue: 'const <double>[0.5, 1, 1.5, 2]',
+        defaultValue: 'kAudioSpeeds',
+        doc: 'Speeds cycled by the compact chip.',
       ),
       DocsApiParam(
         name: 'showVolume',
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+        doc: 'Whether the volume cluster shows.',
       ),
       DocsApiParam(
         name: 'showSpeed',
         type: 'bool',
         isRequired: false,
         defaultValue: 'true',
+        doc: 'Whether the speed control shows.',
       ),
       DocsApiParam(
         name: 'initialSpeedOpen',
@@ -7101,19 +7122,42 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         defaultValue: 'false',
       ),
-      DocsApiParam(name: 'semanticLabel', type: 'String?', isRequired: false),
-      DocsApiParam(name: 'focusNode', type: 'FocusNode?', isRequired: false),
+      DocsApiParam(
+        name: 'onDownload',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc: 'Called when the compact download icon is tapped.',
+      ),
+      DocsApiParam(
+        name: 'semanticLabel',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Accessible label for the player.',
+      ),
+      DocsApiParam(
+        name: 'focusNode',
+        type: 'FocusNode?',
+        isRequired: false,
+        doc: 'Focus node for keyboard control.',
+      ),
       DocsApiParam(
         name: 'autofocus',
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
+        doc: 'Whether to take focus on first build.',
       ),
-      DocsApiParam(name: 'theme', type: 'AudioPlayerTheme?', isRequired: false),
+      DocsApiParam(
+        name: 'theme',
+        type: 'AudioPlayerTheme?',
+        isRequired: false,
+        doc: 'Widget-leg theme override.',
+      ),
       DocsApiParam(
         name: 'coverBuilder',
         type: 'AudioPartBuilder?',
         isRequired: false,
+        doc: 'Builder slots for every visible part.',
       ),
       DocsApiParam(
         name: 'titleBuilder',
@@ -7148,12 +7192,37 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
       ),
       DocsApiParam(
+        name: 'previousBuilder',
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'nextBuilder',
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'shuffleBuilder',
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'repeatBuilder',
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+      ),
+      DocsApiParam(
         name: 'volumeBuilder',
         type: 'AudioPartBuilder?',
         isRequired: false,
       ),
       DocsApiParam(
         name: 'speedBuilder',
+        type: 'AudioPartBuilder?',
+        isRequired: false,
+      ),
+      DocsApiParam(
+        name: 'downloadBuilder',
         type: 'AudioPartBuilder?',
         isRequired: false,
       ),
@@ -7166,6 +7235,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'initialPosition',
         type: 'Duration?',
         isRequired: false,
+        doc: 'Uncontrolled initial state (used when [controller] is null).',
       ),
       DocsApiParam(name: 'initialVolume', type: 'double?', isRequired: false),
       DocsApiParam(
@@ -7518,6 +7588,18 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Playback controller; an internal fake is owned when null.',
       ),
       DocsApiParam(
+        name: 'title',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Title shown in the control bar header.',
+      ),
+      DocsApiParam(
+        name: 'subtitle',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Subtitle shown under the title (e.g. "Season 3 episode 6").',
+      ),
+      DocsApiParam(
         name: 'poster',
         type: 'Widget?',
         isRequired: false,
@@ -7550,6 +7632,13 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Whether the control bar is shown.',
       ),
       DocsApiParam(
+        name: 'controlsVisible',
+        type: 'bool?',
+        isRequired: false,
+        doc:
+            'Pins control bar visibility (null = auto-hide while playing).\n\nTest/screenshot escape hatch: `false` renders the hidden state.',
+      ),
+      DocsApiParam(
         name: 'showFullscreenButton',
         type: 'bool',
         isRequired: false,
@@ -7560,7 +7649,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'supportedSpeeds',
         type: 'List<double>',
         isRequired: false,
-        defaultValue: 'const <double>[0.5, 1, 1.5, 2]',
+        defaultValue: 'kVideoSpeeds',
         doc: 'Speeds offered by the speed menu.',
       ),
       DocsApiParam(
@@ -7621,6 +7710,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         doc: 'Overrides the scrub bar.',
       ),
       DocsApiParam(
+        name: 'headerBuilder',
+        type: 'VideoPartBuilder?',
+        isRequired: false,
+        doc: 'Overrides the bar header (title/subtitle/time).',
+      ),
+      DocsApiParam(
         name: 'timeLabelBuilder',
         type: 'VideoPartBuilder?',
         isRequired: false,
@@ -7637,6 +7732,12 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'VideoPartBuilder?',
         isRequired: false,
         doc: 'Overrides the speed menu.',
+      ),
+      DocsApiParam(
+        name: 'moreBuilder',
+        type: 'VideoPartBuilder?',
+        isRequired: false,
+        doc: 'Overrides the more (three dots) menu.',
       ),
       DocsApiParam(
         name: 'captionsButtonBuilder',
@@ -14878,7 +14979,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'borderRadius',
         type: 'BorderRadiusGeometry?',
-        description: 'null = radiusLg',
+        description: 'null = 18px frame',
       ),
       DocsThemeField(
         name: 'buffered',
@@ -14893,12 +14994,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'controlSize',
         type: 'double?',
-        description: 'centre play button diameter, 56',
+        description: 'centre play button diameter, 64',
       ),
       DocsThemeField(
         name: 'controlsPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'null = 8/4',
+        description: 'null = 10/6',
       ),
       DocsThemeField(
         name: 'controlsTimeout',

@@ -1,8 +1,6 @@
-// The `audio_player` component: compact and full audio chrome.
-//
-// The UI drives an [AudioPlaybackController] (play, pause, seek, volume,
-// mute, speed, looping). The docs app wires an audio plugin to it; the kit
-// ships [FakeAudioPlaybackController].
+// Compact pill + expanded card audio chrome on one shared controller.
+// Next/previous move through [AudioTrack]s; the docs app wires `just_audio`,
+// the kit ships [FakeAudioPlaybackController].
 
 import 'package:flutter/widgets.dart';
 
@@ -13,32 +11,37 @@ import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
+import 'audio_player_fake.dart';
 import 'audio_player_layout.dart';
 import 'audio_player_progress.dart';
 import 'audio_player_style.dart';
 import 'audio_player_transport.dart';
 
 export 'audio_player_controller.dart';
+export 'audio_player_fake.dart';
+export 'audio_player_layout.dart';
+export 'audio_player_playlist.dart';
 export 'audio_player_progress.dart';
 export 'audio_player_style.dart';
 export 'audio_player_transport.dart';
 
-/// Compact or full audio player.
+/// Compact pill or expanded card audio player.
 class AudioPlayer extends StatefulWidget {
   /// Creates an audio player.
   const AudioPlayer({
     super.key,
     this.controller,
-    this.variant = AudioPlayerVariant.full,
+    this.variant = AudioPlayerVariant.compact,
     this.title,
     this.subtitle,
     this.cover,
     this.skipBack = const Duration(seconds: 10),
     this.skipForward = const Duration(seconds: 10),
-    this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.supportedSpeeds = kAudioSpeeds,
     this.showVolume = true,
     this.showSpeed = true,
     this.initialSpeedOpen = false,
+    this.onDownload,
     this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
@@ -50,8 +53,13 @@ class AudioPlayer extends StatefulWidget {
     this.waveformBuilder,
     this.controlsBuilder,
     this.playButtonBuilder,
+    this.previousBuilder,
+    this.nextBuilder,
+    this.shuffleBuilder,
+    this.repeatBuilder,
     this.volumeBuilder,
     this.speedBuilder,
+    this.downloadBuilder,
     this.loadingBuilder,
     this.initialPosition,
     this.initialVolume,
@@ -60,21 +68,52 @@ class AudioPlayer extends StatefulWidget {
     this.initialLooping = false,
   });
 
+  /// Shared playback controller; an internal fake is owned when null.
   final AudioPlaybackController? controller;
+
+  /// Compact pill (default) or expanded card.
   final AudioPlayerVariant variant;
+
+  /// Fallback title when the controller has no track.
   final String? title;
+
+  /// Fallback artist when the controller has no track.
   final String? subtitle;
+
+  /// Cover art shown by the expanded card.
   final Widget? cover;
+
+  /// Keyboard skip steps, J/L (10s each).
   final Duration skipBack;
   final Duration skipForward;
+
+  /// Speeds cycled by the compact chip.
   final List<double> supportedSpeeds;
+
+  /// Whether the volume cluster shows.
   final bool showVolume;
+
+  /// Whether the speed control shows.
   final bool showSpeed;
-  final bool initialSpeedOpen;
+
+  final bool initialSpeedOpen; // Pill cycles speeds on tap.
+
+  /// Called when the compact download icon is tapped.
+  final VoidCallback? onDownload;
+
+  /// Accessible label for the player.
   final String? semanticLabel;
+
+  /// Focus node for keyboard control.
   final FocusNode? focusNode;
+
+  /// Whether to take focus on first build.
   final bool autofocus;
+
+  /// Widget-leg theme override.
   final AudioPlayerTheme? theme;
+
+  /// Builder slots for every visible part.
   final AudioPartBuilder? coverBuilder;
   final AudioPartBuilder? titleBuilder;
   final AudioPartBuilder? subtitleBuilder;
@@ -92,9 +131,16 @@ class AudioPlayer extends StatefulWidget {
   waveformBuilder;
   final AudioPartBuilder? controlsBuilder;
   final AudioPartBuilder? playButtonBuilder;
+  final AudioPartBuilder? previousBuilder;
+  final AudioPartBuilder? nextBuilder;
+  final AudioPartBuilder? shuffleBuilder;
+  final AudioPartBuilder? repeatBuilder;
   final AudioPartBuilder? volumeBuilder;
   final AudioPartBuilder? speedBuilder;
+  final AudioPartBuilder? downloadBuilder;
   final AudioPartBuilder? loadingBuilder;
+
+  /// Uncontrolled initial state (used when [controller] is null).
   final Duration? initialPosition;
   final double? initialVolume;
   final bool initialMuted;
@@ -170,8 +216,10 @@ class _AudioPlayerState extends State<AudioPlayer> {
       context,
       component: style.surfaceBlur,
     );
+    final bool compact = widget.variant == AudioPlayerVariant.compact;
     final BorderRadiusGeometry radius =
-        style.borderRadius ?? ambient.borderRadiusLg;
+        style.borderRadius ??
+        (compact ? BorderRadius.circular(14) : BorderRadius.circular(20));
     final Duration fade = resolveMotionDuration(
       context,
       style.fadeDuration ?? kDefaultDuration,
@@ -186,12 +234,10 @@ class _AudioPlayerState extends State<AudioPlayer> {
       title: widget.title,
       subtitle: widget.subtitle,
       cover: widget.cover,
-      skipBack: widget.skipBack,
-      skipForward: widget.skipForward,
       supportedSpeeds: widget.supportedSpeeds,
       showVolume: widget.showVolume,
       showSpeed: widget.showSpeed,
-      initialSpeedOpen: widget.initialSpeedOpen,
+      onDownload: widget.onDownload,
       coverBuilder: widget.coverBuilder,
       titleBuilder: widget.titleBuilder,
       subtitleBuilder: widget.subtitleBuilder,
@@ -199,14 +245,21 @@ class _AudioPlayerState extends State<AudioPlayer> {
       waveformBuilder: widget.waveformBuilder,
       controlsBuilder: widget.controlsBuilder,
       playButtonBuilder: widget.playButtonBuilder,
+      previousBuilder: widget.previousBuilder,
+      nextBuilder: widget.nextBuilder,
+      shuffleBuilder: widget.shuffleBuilder,
+      repeatBuilder: widget.repeatBuilder,
       volumeBuilder: widget.volumeBuilder,
       speedBuilder: widget.speedBuilder,
+      downloadBuilder: widget.downloadBuilder,
       loadingBuilder: widget.loadingBuilder,
     );
-    Widget card = Container(
+    Widget body = Container(
       padding:
           style.padding ??
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          (compact
+              ? const EdgeInsets.symmetric(horizontal: 10)
+              : const EdgeInsets.all(16)),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
         border: Border.all(
@@ -214,9 +267,22 @@ class _AudioPlayerState extends State<AudioPlayer> {
           width: style.borderWidth ?? 1,
         ),
         borderRadius: radius,
+        boxShadow: compact
+            ? const <BoxShadow>[
+                BoxShadow(
+                  color: Color(0x14000000),
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
+              ]
+            : null,
       ),
       child: AnimatedOpacity(opacity: 1, duration: fade, child: content),
     );
+    // The expanded cover art overflows its window by design (SPEC
+    // half-circle crop): clip it to the card. The compact pill never
+    // bleeds, and its shadow must paint outside the card.
+    Widget card = compact ? body : ClipRRect(borderRadius: radius, child: body);
     card = GlassSurface(surfaceBlur: blur, borderRadius: radius, child: card);
     card = FocusOutline(focused: _focused, borderRadius: radius, child: card);
     return Focus(

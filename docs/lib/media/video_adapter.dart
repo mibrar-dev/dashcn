@@ -37,8 +37,23 @@ class PluginVideoAdapter extends VideoPlaybackController {
   final plugin.VideoPlayerController inner;
 
   double _unmutedVolume = 1;
+  bool _isLive = false;
+  String? _sourceLabel;
 
   void _forward() => notifyListeners();
+
+  /// Marks the current source live (LIVE badge, no total) with a label.
+  void setSource({required bool isLive, String? label}) {
+    _isLive = isLive;
+    _sourceLabel = label;
+    notifyListeners();
+  }
+
+  @override
+  bool get isLive => _isLive;
+
+  @override
+  String? get sourceLabel => _sourceLabel;
 
   @override
   Duration get position => inner.value.position;

@@ -47,6 +47,9 @@ class JustAudioAdapter extends AudioPlaybackController {
 
   double _unmutedVolume = 1;
 
+  List<AudioTrack> _tracks = const <AudioTrack>[];
+  int _currentIndex = 0;
+
   @override
   Duration get position => player.position;
 
@@ -105,6 +108,62 @@ class JustAudioAdapter extends AudioPlaybackController {
   @override
   Future<void> setLooping(bool looping) =>
       player.setLoopMode(looping ? audio.LoopMode.one : audio.LoopMode.off);
+
+  /// Playlist: live URL, downloaded file or live stream per track.
+  @override
+  List<AudioTrack> get tracks => _tracks;
+
+  @override
+  int get currentIndex => _currentIndex;
+
+  /// Loads a queue; the first (or [index]) track starts loading.
+  Future<void> setTracks(List<AudioTrack> tracks, {int index = 0}) async {
+    _tracks = tracks;
+    _currentIndex = tracks.isEmpty
+        ? 0
+        : index.clamp(0, tracks.length - 1);
+    await _loadCurrent(autoPlay: false);
+    notifyListeners();
+  }
+
+  Future<void> _loadCurrent({bool autoPlay = true}) async {
+    final AudioTrack? track = currentTrack;
+    final String? src = track?.src;
+    if (src == null) return;
+    if (src.startsWith('http')) {
+      await player.setUrl(src);
+    } else {
+      await player.setFilePath(src);
+    }
+    if (autoPlay) await player.play();
+  }
+
+  @override
+  Future<void> next() async {
+    if (!hasNext) return;
+    _currentIndex++;
+    await _loadCurrent();
+    notifyListeners();
+  }
+
+  @override
+  Future<void> previous() async {
+    if (!hasPrevious) {
+      await seekTo(Duration.zero);
+      return;
+    }
+    _currentIndex--;
+    await _loadCurrent();
+    notifyListeners();
+  }
+
+  @override
+  Future<void> setTrack(int index) async {
+    if (_tracks.isEmpty) return;
+    _currentIndex = index.clamp(0, _tracks.length - 1);
+    await _loadCurrent();
+    notifyListeners();
+  }
 
   @override
   void dispose() {

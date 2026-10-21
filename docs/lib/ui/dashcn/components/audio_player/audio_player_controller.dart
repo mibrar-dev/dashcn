@@ -2,9 +2,39 @@
 //
 // The kit ships no media plugin: the UI drives this small `ChangeNotifier`
 // interface (play, pause, seek, position, duration, buffered, volume, mute,
-// speed, looping, cues). `FakeAudioPlaybackController` backs previews and tests.
+// speed, playlist, shuffle, looping). `FakeAudioPlaybackController` backs
+// previews and tests; the docs app wires `package:just_audio` to it.
 
 import 'package:flutter/widgets.dart';
+
+/// Standard speed steps for audio (SPEC: 1x, 1.25x, 1.5x, 2x, 3x).
+const List<double> kAudioSpeeds = <double>[1, 1.25, 1.5, 2, 3];
+
+/// One playable audio track: live URL, downloaded file or live stream.
+///
+/// The kit never fetches [src]: the docs app adapter (`just_audio`) loads it.
+/// Previews and tests use the title/artist/cover only.
+class AudioTrack {
+  /// Creates a track.
+  const AudioTrack({
+    required this.title,
+    required this.artist,
+    this.coverUrl,
+    this.src,
+  });
+
+  /// Track title (compact pill truncates with ellipsis).
+  final String title;
+
+  /// Artist name (expanded card shows it uppercase, letter-spaced).
+  final String artist;
+
+  /// Cover art URL for the expanded card.
+  final String? coverUrl;
+
+  /// Playable source: live URL, file path/URL or live stream URL.
+  final String? src;
+}
 
 /// Minimal playback surface the audio UI needs.
 abstract class AudioPlaybackController extends ChangeNotifier {
@@ -65,168 +95,50 @@ abstract class AudioPlaybackController extends ChangeNotifier {
   /// Sets the speed multiplier.
   Future<void> setPlaybackSpeed(double speed);
 
+  /// Cycles to the next entry of [speeds] (wraps around).
+  Future<void> cycleSpeed([List<double> speeds = kAudioSpeeds]) {
+    final List<double> steps = speeds.isEmpty ? const <double>[1] : speeds;
+    int next = steps.indexWhere((s) => s > playbackSpeed + 1e-9);
+    if (next < 0) next = 0;
+    return setPlaybackSpeed(steps[next]);
+  }
+
   /// Enables or disables looping.
   Future<void> setLooping(bool looping);
-}
 
-/// In-memory [AudioPlaybackController] for previews and tests.
-///
-/// No timers: `play` flips [isPlaying] only. Tests advance with [tick].
-class FakeAudioPlaybackController extends AudioPlaybackController {
-  /// Creates a fake with the given initial state.
-  FakeAudioPlaybackController({
-    Duration? duration,
-    Duration? position,
-    Duration? buffered,
-    double? volume,
-    bool? isMuted,
-    double? playbackSpeed,
-    bool? isPlaying,
-    bool? isBuffering,
-    bool? isLooping,
-    List<String>? cues,
-    this.onPlay,
-    this.onPause,
-    this.onSeek,
-  }) : _duration = duration ?? const Duration(minutes: 4, seconds: 5),
-       _position = position ?? const Duration(minutes: 1, seconds: 12),
-       _buffered = buffered ?? const Duration(minutes: 2, seconds: 30),
-       _volume = volume ?? 0.8,
-       _isMuted = isMuted ?? false,
-       _playbackSpeed = playbackSpeed ?? 1.0,
-       _isPlaying = isPlaying ?? false,
-       _isBuffering = isBuffering ?? false,
-       _isLooping = isLooping ?? false,
-       _cues = cues ?? const <String>[];
+  // -- Playlist (one shared controller drives compact + expanded) ----------
 
-  final Duration _duration;
-  Duration _position;
-  final Duration _buffered;
-  double _volume;
-  bool _isMuted;
-  double _playbackSpeed;
-  bool _isPlaying;
-  bool _isBuffering;
-  bool _isLooping;
-  final List<String> _cues;
-  Object? _error;
+  /// Tracks in the queue; empty when the player is source-agnostic.
+  List<AudioTrack> get tracks => const <AudioTrack>[];
 
-  /// Called on play (for callback tests).
-  final VoidCallback? onPlay;
+  /// Index of the current track into [tracks].
+  int get currentIndex => 0;
 
-  /// Called on pause (for callback tests).
-  final VoidCallback? onPause;
+  /// The current track, or null when [tracks] is empty.
+  AudioTrack? get currentTrack =>
+      tracks.isEmpty ? null : tracks[currentIndex.clamp(0, tracks.length - 1)];
 
-  /// Called with every seek target (for callback tests).
-  final ValueChanged<Duration>? onSeek;
+  /// Whether a next track exists.
+  bool get hasNext => currentIndex + 1 < tracks.length;
 
-  @override
-  Duration get position => _position;
+  /// Whether a previous track exists.
+  bool get hasPrevious => currentIndex > 0;
 
-  @override
-  Duration get duration => _duration;
+  /// Moves to the next track; no-op when [hasNext] is false.
+  Future<void> next() async {}
 
-  @override
-  Duration get buffered => _buffered;
+  /// Moves to the previous track; no-op when [hasPrevious] is false.
+  Future<void> previous() async {}
 
-  @override
-  double get volume => _volume;
+  /// Jumps to [index], clamped into [tracks].
+  Future<void> setTrack(int index) async {}
 
-  @override
-  bool get isMuted => _isMuted;
+  /// Whether shuffle is on.
+  bool get isShuffled => false;
 
-  @override
-  double get playbackSpeed => _playbackSpeed;
+  /// Enables or disables shuffle.
+  Future<void> setShuffled(bool shuffled) async {}
 
-  @override
-  bool get isPlaying => _isPlaying;
-
-  @override
-  bool get isBuffering => _isBuffering;
-
-  @override
-  bool get isLooping => _isLooping;
-
-  @override
-  List<String> get cues => _cues;
-
-  @override
-  Object? get error => _error;
-
-  /// Puts the controller into a loading state.
-  void setBuffering(bool value) {
-    _isBuffering = value;
-    notifyListeners();
-  }
-
-  /// Puts the controller into an error state.
-  void setError(Object? value) {
-    _error = value;
-    notifyListeners();
-  }
-
-  /// Advances the playhead without a seek callback.
-  void tick(Duration delta) {
-    if (_duration <= Duration.zero) return;
-    _position = _clampAudioPosition(_position + delta, _duration);
-    if (_position >= _duration && _isLooping) {
-      _position = Duration.zero;
-    } else if (_position >= _duration) {
-      _isPlaying = false;
-    }
-    notifyListeners();
-  }
-
-  @override
-  Future<void> play() async {
-    _isPlaying = true;
-    onPlay?.call();
-    notifyListeners();
-  }
-
-  @override
-  Future<void> pause() async {
-    _isPlaying = false;
-    onPause?.call();
-    notifyListeners();
-  }
-
-  @override
-  Future<void> seekTo(Duration position) async {
-    final Duration end = _duration <= Duration.zero ? position : _duration;
-    _position = _clampAudioPosition(position, end);
-    onSeek?.call(_position);
-    notifyListeners();
-  }
-
-  @override
-  Future<void> setVolume(double volume) async {
-    _volume = volume.clamp(0.0, 1.0);
-    notifyListeners();
-  }
-
-  @override
-  Future<void> setMuted(bool muted) async {
-    _isMuted = muted;
-    notifyListeners();
-  }
-
-  @override
-  Future<void> setPlaybackSpeed(double speed) async {
-    _playbackSpeed = speed;
-    notifyListeners();
-  }
-
-  @override
-  Future<void> setLooping(bool looping) async {
-    _isLooping = looping;
-    notifyListeners();
-  }
-}
-
-/// Clamps [value] into 0..[end].
-Duration _clampAudioPosition(Duration value, Duration end) {
-  if (value <= Duration.zero) return Duration.zero;
-  if (value >= end) return end;
-  return value;
+  /// Toggles shuffle.
+  Future<void> toggleShuffle() => setShuffled(!isShuffled);
 }
