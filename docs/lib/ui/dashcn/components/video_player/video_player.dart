@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
-import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
@@ -17,6 +16,7 @@ import '../../theme/theme.dart';
 import 'video_player_controller.dart';
 import 'video_player_controls.dart';
 import 'video_player_scrub.dart';
+import 'video_player_stage.dart';
 import 'video_player_style.dart';
 
 export 'video_player_controller.dart';
@@ -24,6 +24,7 @@ export 'video_player_controls.dart';
 export 'video_player_header.dart';
 export 'video_player_menu.dart';
 export 'video_player_scrub.dart';
+export 'video_player_stage.dart';
 export 'video_player_style.dart';
 export 'video_player_volume.dart';
 
@@ -215,11 +216,23 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void initState() {
     super.initState();
+    if (widget.controlsVisible != null) {
+      _controlsVisible = widget.controlsVisible!;
+    }
     if (widget.autofocus && widget.focusNode == null) {
       _ownedFocus = FocusNode(debugLabel: 'VideoPlayer');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _ownedFocus?.requestFocus();
       });
+    }
+  }
+
+  @override
+  void didUpdateWidget(VideoPlayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controlsVisible != null &&
+        widget.controlsVisible != oldWidget.controlsVisible) {
+      _controlsVisible = widget.controlsVisible!;
     }
   }
 
@@ -277,64 +290,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final bool showPoster =
         widget.poster != null && !c.isPlaying && c.position <= Duration.zero;
 
-    if (!c.isPlaying && !controlsVisible) {
-      _controlsVisible = true;
-    }
-
-    Widget stage = Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        ColoredBox(
-          color: style.background?.resolve(colors) ?? const Color(0xFF000000),
-        ),
-        if (widget.posterBuilder != null)
-          widget.posterBuilder!(context, c)
-        else if (widget.content != null)
-          widget.content!
-        else if (showPoster)
-          widget.poster!,
-        if (c.isBuffering)
-          Center(
-            child:
-                widget.loadingBuilder?.call(context, c) ??
-                Icon(LucideIcons.loaderCircle, size: 32, color: fg),
-          ),
-        if (c.error != null)
-          Center(
-            child:
-                widget.errorBuilder?.call(context, c.error!) ??
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      'Playback failed',
-                      style: TextStyle(color: fg, fontSize: 13),
-                    ),
-                    const SizedBox(height: 6),
-                    GestureDetector(
-                      onTap: c.play,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0x33FFFFFF),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          'Retry',
-                          style: TextStyle(color: fg, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-          ),
-        if (!c.isPlaying && c.error == null && !c.isBuffering)
-          Center(child: videoPlayButton(context, style, fg, c, big: true)),
-        _captionOverlay(context, style, fg, c),
-      ],
+    Widget stage = VideoPlayerStage(
+      controller: c,
+      style: style,
+      fg: fg,
+      showPoster: showPoster,
+      poster: widget.poster,
+      content: widget.content,
+      captions: widget.captions,
+      showControls: widget.showControls,
+      posterBuilder: widget.posterBuilder,
+      playButtonBuilder: widget.playButtonBuilder,
+      loadingBuilder: widget.loadingBuilder,
+      errorBuilder: widget.errorBuilder,
     );
 
     Widget frame = MouseRegion(
@@ -420,54 +388,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
         );
       },
       child: AspectRatio(aspectRatio: widget.aspectRatio, child: frame),
-    );
-  }
-
-  Widget _captionOverlay(
-    BuildContext context,
-    VideoPlayerTheme style,
-    Color fg,
-    VideoPlaybackController c,
-  ) {
-    if (!c.areCaptionsEnabled && widget.initialCaptionsEnabled == false) {
-      return const SizedBox.shrink();
-    }
-    String? cueText;
-    for (final cue in c.cues) {
-      if (cue.isActive(c.position)) {
-        cueText = cue.text;
-        break;
-      }
-    }
-    final Widget? captionWidget = cueText != null
-        ? Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color(0xCC000000),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              cueText,
-              style:
-                  style.captionsTextStyle ?? TextStyle(color: fg, fontSize: 13),
-              textAlign: TextAlign.center,
-            ),
-          )
-        : widget.captions;
-
-    if (captionWidget == null) return const SizedBox.shrink();
-
-    return Positioned(
-      left: 12,
-      right: 12,
-      bottom: widget.showControls ? 64 : 12,
-      child: Center(
-        child: DefaultTextStyle(
-          style: style.captionsTextStyle ?? TextStyle(color: fg, fontSize: 13),
-          textAlign: TextAlign.center,
-          child: captionWidget,
-        ),
-      ),
     );
   }
 }

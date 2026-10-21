@@ -28,7 +28,8 @@
       "focus_outline",
       "motion",
       "surface",
-      "tap_target"
+      "tap_target",
+      "focus_tap"
     ],
     "components": []
   },
@@ -41,6 +42,7 @@
     "audio_player_expanded_transport.dart",
     "audio_player_fake.dart",
     "audio_player_layout.dart",
+    "audio_player_metrics.dart",
     "audio_player_playlist.dart",
     "audio_player_progress.dart",
     "audio_player_style.dart",
@@ -63,7 +65,8 @@
       "AudioTrack",
       "FakeAudioPlaybackController",
       "AudioTransportRow",
-      "AudioSpeedButton"
+      "AudioSpeedButton",
+      "AudioPlayerMetrics"
     ],
     "enums": [
       "AudioPlayerVariant"
@@ -78,7 +81,9 @@
       "audioPlayButton",
       "audioPillButton",
       "resolveAudioTitle",
-      "resolveAudioArtist"
+      "resolveAudioArtist",
+      "resolveAudioMetrics",
+      "formatAudioSpeed"
     ],
     "constants": [
       "audioPlayerDefaults",
@@ -103,12 +108,12 @@
       "borderColor": "ThemedColor? - card border, border",
       "borderWidth": "double? - 1",
       "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
-      "padding": "EdgeInsetsGeometry? - null = 12/8",
+      "padding": "EdgeInsetsGeometry? - card padding, density horizontal 10 (pill) / 16 (card)",
       "coverSize": "double? - cover edge, 176",
       "coverRadius": "BorderRadiusGeometry? - 12",
-      "controlSize": "double? - play button diameter, 48",
-      "iconSize": "double? - transport icons, 20",
-      "trackHeight": "double? - progress height, 4",
+      "controlSize": "double? - play button diameter, null = 32 (pill rows) / 56 (expanded card)",
+      "iconSize": "double? - button icons, null = density default (16 compact)",
+      "trackHeight": "double? - progress height, null = density default (4 compact)",
       "titleTextStyle": "TextStyle? - track title",
       "subtitleTextStyle": "TextStyle? - track subtitle",
       "timeTextStyle": "TextStyle? - time labels",

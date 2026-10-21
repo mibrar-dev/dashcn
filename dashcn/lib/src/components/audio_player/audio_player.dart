@@ -9,6 +9,7 @@ import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_fake.dart';
@@ -20,6 +21,7 @@ import 'audio_player_transport.dart';
 export 'audio_player_controller.dart';
 export 'audio_player_fake.dart';
 export 'audio_player_layout.dart';
+export 'audio_player_metrics.dart';
 export 'audio_player_playlist.dart';
 export 'audio_player_progress.dart';
 export 'audio_player_style.dart';
@@ -96,7 +98,8 @@ class AudioPlayer extends StatefulWidget {
   /// Whether the speed control shows.
   final bool showSpeed;
 
-  final bool initialSpeedOpen; // Pill cycles speeds on tap.
+  /// Whether the expanded card speed menu starts open.
+  final bool initialSpeedOpen;
 
   /// Called when the compact download icon is tapped.
   final VoidCallback? onDownload;
@@ -208,6 +211,8 @@ class _AudioPlayerState extends State<AudioPlayer> {
     final Color muted =
         style.mutedForeground?.resolve(colors) ?? colors.mutedForeground;
     final Color base = style.background?.resolve(colors) ?? colors.card;
+    final double densityBase =
+        ambient.density.baseContentPadding * ambient.scaling;
     final double? opacity = resolveSurfaceOpacity(
       context,
       component: style.surfaceOpacity,
@@ -237,6 +242,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
       supportedSpeeds: widget.supportedSpeeds,
       showVolume: widget.showVolume,
       showSpeed: widget.showSpeed,
+      initialSpeedOpen: widget.initialSpeedOpen,
       onDownload: widget.onDownload,
       coverBuilder: widget.coverBuilder,
       titleBuilder: widget.titleBuilder,
@@ -255,11 +261,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
       loadingBuilder: widget.loadingBuilder,
     );
     Widget body = Container(
-      padding:
-          style.padding ??
-          (compact
-              ? const EdgeInsets.symmetric(horizontal: 10)
-              : const EdgeInsets.all(16)),
+      padding: _resolveBodyPadding(style.padding, densityBase, compact),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
         border: Border.all(
@@ -301,4 +303,27 @@ class _AudioPlayerState extends State<AudioPlayer> {
       ),
     );
   }
+}
+
+/// Resolves the card padding against [densityBase].
+///
+/// Theme padding uses density-px (`EdgeInsetsDensity`); plain insets pass
+/// through. The compact pill keeps horizontal padding only so the card stays
+/// ~48px tall (SPEC reference 1).
+EdgeInsetsGeometry _resolveBodyPadding(
+  EdgeInsetsGeometry? padding,
+  double densityBase,
+  bool compact,
+) {
+  final EdgeInsetsGeometry base =
+      padding ??
+      (compact
+          ? const EdgeInsets.symmetric(horizontal: 10)
+          : const EdgeInsets.all(16));
+  final EdgeInsets resolved = resolveEdgeInsets(
+    base,
+    densityBase,
+  ).resolve(TextDirection.ltr);
+  if (!compact) return resolved;
+  return EdgeInsets.only(left: resolved.left, right: resolved.right);
 }

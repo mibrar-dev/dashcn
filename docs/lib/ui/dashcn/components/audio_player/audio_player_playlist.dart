@@ -14,7 +14,7 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
     coverUrl:
         'https://cdn.21st.dev/assets/mirror/ba/bafb64c13ba4ed85d598cc318a62f9a5129f3abaecee80943d495e7356fd0603.jpg',
     src:
-        'https://cdn.21st.dev/assets/mirror/ca/cadd2666c5571e12fafdb21697a26aef6f196a5a9c28e708129870167679991d.mp3',
+        'https://cdn.21st.dev/assets/mirror/ca/cadd2666c5571e12fafdb21697b26aef6f196a5a9c28e708129870167679991d.mp3',
   ),
   AudioTrack(
     title: 'Sax Party',
@@ -22,15 +22,15 @@ const List<AudioTrack> demoAudioTracks = <AudioTrack>[
     coverUrl:
         'https://cdn.21st.dev/assets/mirror/ca/ca5a0ecf3ecbf81caded68eb8929e9d2f060c50dfbefd6ca1c04792856a049.jpg',
     src:
-        'https://cdn.21st.dev/assets/mirror/ab/ab5cb08483abe3edd2a2ce4d843ad8f3073cbb4a798d7462b9e4dc590d5ca.mp3',
+        'https://cdn.21st.dev/assets/mirror/ab/ab5cb08483abe63edd2a2ce4d843ad8f3073fcbb4a738a94f6b7529df3e1b437.mp3',
   ),
   AudioTrack(
     title: 'Nonsense',
     artist: 'Raw',
     coverUrl:
-        'https://cdn.21st.dev/assets/mirror/d0/d0d6fb080fce77435843ac5edf73ac22b73be5e7b342d433bb8f73c9e4a15e.jpg',
+        'https://cdn.21st.dev/assets/mirror/d0/d0d6fb080fce774573e95f73ac22b73be5e7b342d433bb8f73c9e4a15e.jpg',
     src:
-        'https://cdn.21st.dev/assets/mirror/79/793e6ffda56e2869198b0a55bdaf0f2bccb8950d42f1c4ebb42f7ddc4ebbdb.mp3',
+        'https://cdn.21st.dev/assets/mirror/79/793e6ffda56e28691998b90a55bdaf0f2bccb8950cd8a7ee9ef7421c4ebbafdb.mp3',
   ),
 ];
 

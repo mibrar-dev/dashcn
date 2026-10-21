@@ -8,64 +8,17 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
+import 'video_player_metrics.dart';
 
-/// Sizing metrics for `video_player` across density levels.
-class VideoPlayerMetrics {
-  /// Creates sizing metrics.
-  const VideoPlayerMetrics({
-    required this.controlSize,
-    required this.iconSize,
-    required this.controlsPadding,
-    required this.trackHeight,
-    required this.fontSize,
-  });
-
-  /// Centre play button diameter.
-  final double controlSize;
-
-  /// Icon size for bar controls.
-  final double iconSize;
-
-  /// Internal padding of the control bar.
-  final EdgeInsetsGeometry controlsPadding;
-
-  /// Scrub bar track height.
-  final double trackHeight;
-
-  /// Time and speed label font size.
-  final double fontSize;
-
-  /// Compact metrics (default look).
-  static const VideoPlayerMetrics compact = VideoPlayerMetrics(
-    controlSize: 48,
-    iconSize: 16,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 10, vertical: 6),
-    trackHeight: 4,
-    fontSize: 12,
-  );
-
-  /// Comfortable metrics.
-  static const VideoPlayerMetrics comfortable = VideoPlayerMetrics(
-    controlSize: 56,
-    iconSize: 20,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
-    trackHeight: 4,
-    fontSize: 13,
-  );
-
-  /// Touch metrics for phone screens.
-  static const VideoPlayerMetrics touch = VideoPlayerMetrics(
-    controlSize: 64,
-    iconSize: 24,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(
-      horizontal: 16,
-      vertical: 10,
-    ),
-    trackHeight: 6,
-    fontSize: 14,
-  );
+/// Metrics tables live in `video_player_metrics.dart`; resolved here
+/// from the theme `themeDensity` leg (null keeps the default SPEC look).
+VideoPlayerMetrics resolveVideoMetrics(VideoPlayerTheme style) {
+  final double? scale = style.themeDensity?.scale;
+  if (scale == null) return VideoPlayerMetrics.compact;
+  if (scale >= 1.25) return VideoPlayerMetrics.touch;
+  if (scale >= 1.0) return VideoPlayerMetrics.comfortable;
+  return VideoPlayerMetrics.compact;
 }
 
 /// Visual contract of the video player chrome.
@@ -297,10 +250,7 @@ const VideoPlayerTheme videoPlayerDefaults = VideoPlayerTheme(
   track: ThemedColor.value(Color(0x59FFFFFF)),
   buffered: ThemedColor.value(Color(0x99FFFFFF)),
   thumb: ThemedColor.value(Color(0xFFFFFFFF)),
-  controlSize: 48,
-  iconSize: 16,
-  trackHeight: 4,
-  controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 10, vertical: 6),
   fadeDuration: kDefaultDuration,
   controlsTimeout: Duration(seconds: 3),
+  surfaceBlur: 16,
 );

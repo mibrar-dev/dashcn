@@ -7,7 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/tap_target.dart';
+import '../../primitives/focus_tap.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -21,7 +21,7 @@ Widget videoMoreButton({
   required VoidCallback onTap,
 }) {
   return videoIconButton(
-    label: 'More options, playback speed ${c.playbackSpeed}x',
+    label: 'More options, playback speed ${formatVideoSpeed(c.playbackSpeed)}x',
     icon: LucideIcons.ellipsis,
     size: style.iconSize ?? 16,
     fg: fg,
@@ -55,40 +55,34 @@ Widget videoMenuSection({
           runSpacing: 6,
           children: <Widget>[
             for (final double s in steps)
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              FocusableTap(
+                label: 'Speed ${formatVideoSpeed(s)}x',
                 onTap: () {
                   c.setPlaybackSpeed(s);
                   onDone();
                 },
-                child: Semantics(
-                  label: 'Speed ${s}x',
-                  button: true,
-                  child: TapTarget(
-                    minWidth: 48,
-                    minHeight: 32,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: c.playbackSpeed == s ? fg : fg.withAlpha(0x66),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ExcludeSemantics(
-                        child: Text(
-                          '${s}x',
-                          style: TextStyle(
-                            color: fg,
-                            fontSize: 12,
-                            fontWeight: c.playbackSpeed == s
-                                ? FontWeight.w700
-                                : FontWeight.w400,
-                          ),
-                        ),
+                minWidth: 48,
+                minHeight: 32,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: c.playbackSpeed == s ? fg : fg.withAlpha(0x66),
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ExcludeSemantics(
+                    child: Text(
+                      '${formatVideoSpeed(s)}x',
+                      style: TextStyle(
+                        color: fg,
+                        fontSize: 12,
+                        fontWeight: c.playbackSpeed == s
+                            ? FontWeight.w700
+                            : FontWeight.w400,
                       ),
                     ),
                   ),
@@ -100,25 +94,20 @@ Widget videoMenuSection({
         Row(
           children: <Widget>[
             Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              child: FocusableTap(
+                label: c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
                 onTap: () {
                   c.toggleCaptions();
                   onDone();
                 },
-                child: Semantics(
-                  label: c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
-                  button: true,
-                  child: TapTarget(
-                    minHeight: 32,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: ExcludeSemantics(
-                        child: Text(
-                          c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
-                          style: TextStyle(color: fg, fontSize: 12),
-                        ),
-                      ),
+                minWidth: 48,
+                minHeight: 32,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ExcludeSemantics(
+                    child: Text(
+                      c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
+                      style: TextStyle(color: fg, fontSize: 12),
                     ),
                   ),
                 ),

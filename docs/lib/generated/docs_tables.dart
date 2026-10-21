@@ -1389,6 +1389,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'audio_player': <DocsDep>[
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
+    DocsDep(id: 'focus_tap', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'tap_target', kind: DocsDepKind.primitive),
@@ -1426,6 +1427,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'video_player': <DocsDep>[
     DocsDep(id: 'focus_outline', kind: DocsDepKind.primitive),
+    DocsDep(id: 'focus_tap', kind: DocsDepKind.primitive),
     DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
     DocsDep(id: 'tap_target', kind: DocsDepKind.primitive),

@@ -112,7 +112,7 @@ void main() {
     expect(find.bySemanticsLabel('Mute'), findsOneWidget);
     expect(find.bySemanticsLabel('Fullscreen'), findsOneWidget);
     expect(
-      find.bySemanticsLabel('More options, playback speed 1.0x'),
+      find.bySemanticsLabel('More options, playback speed 1x'),
       findsOneWidget,
     );
   });
@@ -144,14 +144,12 @@ void main() {
     await tester.pump();
     expect(c.isMuted, isTrue);
 
-    await tester.tap(
-      find.bySemanticsLabel('More options, playback speed 1.0x'),
-    );
+    await tester.tap(find.bySemanticsLabel('More options, playback speed 1x'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.bySemanticsLabel('Speed 2.0x'), findsOneWidget);
+    expect(find.bySemanticsLabel('Speed 2x'), findsOneWidget);
     expect(find.bySemanticsLabel('Captions off'), findsOneWidget);
-    await tester.tap(find.bySemanticsLabel('Speed 2.0x'));
+    await tester.tap(find.bySemanticsLabel('Speed 2x'));
     await tester.pump();
     expect(c.playbackSpeed, 2.0);
 
@@ -187,9 +185,7 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Show captions'));
     await tester.pump();
     expect(c.areCaptionsEnabled, isTrue);
-    await tester.tap(
-      find.bySemanticsLabel('More options, playback speed 1.0x'),
-    );
+    await tester.tap(find.bySemanticsLabel('More options, playback speed 1x'));
     await tester.pump();
     expect(find.bySemanticsLabel('Captions on'), findsOneWidget);
   });
@@ -327,7 +323,9 @@ void main() {
   });
 
   testWidgets('custom builders replace parts', (tester) async {
-    final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+    final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+      areCaptionsEnabled: true,
+    );
     addTearDown(c.dispose);
     await tester.pumpWidget(
       _frame(
@@ -376,5 +374,153 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.byType(VideoPlayer), findsOneWidget);
     expect(find.byType(VideoControlsBar), findsOneWidget);
+  });
+
+  group('players fix', () {
+    test('demoVideoSources cover mp4, live HLS and camera', () {
+      expect(demoVideoSources.length, 3);
+      expect(
+        demoVideoSources[0].uri,
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      );
+      expect(demoVideoSources[0].isLive, isFalse);
+      expect(demoVideoSources[1].isLive, isTrue);
+      expect(demoVideoSources[1].uri, endsWith('.m3u8'));
+      expect(demoVideoSources[2].isCamera, isTrue);
+      expect(demoVideoSources[2].uri, isNull);
+    });
+
+    testWidgets('centre play button defaults to a 64px glass circle', (
+      tester,
+    ) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      expect(videoPlayerDefaults.controlSize, isNull);
+      expect(videoPlayerDefaults.surfaceBlur, 16);
+      await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+      final Finder big = find.byWidgetPredicate(
+        (Widget w) =>
+            w is Container &&
+            w.decoration is BoxDecoration &&
+            (w.decoration as BoxDecoration).shape == BoxShape.circle &&
+            w.child is Icon &&
+            w.constraints?.maxWidth == 64,
+      );
+      expect(big, findsOneWidget);
+      expect(tester.getSize(big).width, 64);
+    });
+
+    testWidgets('skip buttons use rotate icons', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+      expect(find.byIcon(LucideIcons.rotateCcw), findsOneWidget);
+      expect(find.byIcon(LucideIcons.rotateCw), findsOneWidget);
+    });
+
+    testWidgets('live source shows a LIVE badge chip', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+        isLive: true,
+        isPlaying: true,
+        sourceLabel: 'HLS test stream',
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: VideoPlayer(controller: c, title: 'Live stream'),
+        ),
+      );
+      expect(find.text('LIVE'), findsOneWidget);
+    });
+
+    testWidgets('poster shows before content until play', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+        position: Duration.zero,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(
+          child: VideoPlayer(
+            controller: c,
+            poster: const Text('poster frame'),
+            content: const Text('video texture'),
+          ),
+        ),
+      );
+      expect(find.text('poster frame'), findsOneWidget);
+      expect(find.text('video texture'), findsNothing);
+      final Finder centrePlay = find.byWidgetPredicate(
+        (Widget w) =>
+            w is Container &&
+            w.decoration is BoxDecoration &&
+            (w.decoration as BoxDecoration).shape == BoxShape.circle &&
+            w.child is Icon &&
+            w.constraints?.maxWidth == 64,
+      );
+      expect(centrePlay, findsOneWidget);
+      await tester.tap(centrePlay);
+      await tester.pump();
+      expect(find.text('poster frame'), findsNothing);
+      expect(find.text('video texture'), findsOneWidget);
+    });
+
+    testWidgets('pinned hidden bar stays hidden while paused', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        _frame(child: VideoPlayer(controller: c, controlsVisible: false)),
+      );
+      await tester.pump();
+      expect(find.byType(VideoControlsBar), findsOneWidget);
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        0,
+      );
+      expect(
+        tester.widget<IgnorePointer>(find.byType(IgnorePointer).first).ignoring,
+        isTrue,
+      );
+      await tester.pump(const Duration(seconds: 4));
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        0,
+      );
+      expect(find.bySemanticsLabel('Play'), findsWidgets);
+    });
+
+    testWidgets('scrub arrows seek 10s, shift seeks 5s', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+        position: const Duration(seconds: 60),
+      );
+      addTearDown(c.dispose);
+      final FocusNode scrubFocus = FocusNode(debugLabel: 'scrub');
+      addTearDown(scrubFocus.dispose);
+      Duration? sought;
+      await tester.pumpWidget(
+        _frame(
+          child: VideoScrubBar(
+            position: c.position,
+            duration: c.duration,
+            buffered: c.buffered,
+            focusNode: scrubFocus,
+            onSeek: (Duration d) => sought = d,
+          ),
+        ),
+      );
+      scrubFocus.requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pump();
+      expect(sought, const Duration(seconds: 70));
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.shift);
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.shift);
+      await tester.pump();
+      expect(sought, const Duration(seconds: 65));
+    });
   });
 }

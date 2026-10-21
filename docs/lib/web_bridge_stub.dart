@@ -29,3 +29,9 @@ Future<String?> webPickTextFile(List<String> extensions) async => null;
 
 /// Downloads [text] as [filename]; no-op off web.
 void webDownloadText(String filename, String text) {}
+
+/// Downloads the file at [url] as [filename]; no-op off web.
+void webDownloadUrl(String url, String filename) {}
+
+/// Requests one-shot camera access; always false off web.
+Future<bool> webRequestCamera() async => false;

@@ -6,9 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/tap_target.dart';
+import '../../primitives/focus_tap.dart';
+import '../../primitives/surface.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
+
+/// Formats a speed multiplier without a trailing `.0` (`1x`, `0.5x`).
+String formatVideoSpeed(double speed) =>
+    speed.toString().replaceAll(RegExp(r'\.0$'), '');
 
 /// Builds one chrome part with live controller state.
 typedef VideoPartBuilder =
@@ -46,7 +51,7 @@ String formatVideoTimeValuetext(Duration position, Duration duration) {
 
 /// Accessible icon button for player chrome.
 ///
-/// [minTarget] floors the tap target (48 default; SPEC allows 32 compact).
+/// [minTarget] floors the tap target (48 default; 32 compact under 380px).
 Widget videoIconButton({
   required String label,
   required IconData icon,
@@ -56,39 +61,36 @@ Widget videoIconButton({
   double minTarget = 48,
   VoidCallback? onTap,
 }) {
-  return Semantics(
+  return FocusableTap(
     label: label,
-    button: true,
-    child: TapTarget(
-      minWidth: minTarget,
-      minHeight: minTarget,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 32,
-          height: 32,
-          child: Center(
-            child: text != null
-                ? ExcludeSemantics(
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        color: fg,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                : Icon(icon, size: size, color: fg),
-          ),
-        ),
+    onTap: onTap,
+    minWidth: minTarget,
+    minHeight: minTarget,
+    child: SizedBox(
+      width: 32,
+      height: 32,
+      child: Center(
+        child: text != null
+            ? ExcludeSemantics(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: fg,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            : Icon(icon, size: size, color: fg),
       ),
     ),
   );
 }
 
 /// Centre or bar play/pause button.
+///
+/// The big variant is the SPEC ~64px translucent glass circle; the bar
+/// variant is icon-only at 32px.
 Widget videoPlayButton(
   BuildContext context,
   VideoPlayerTheme style,
@@ -99,34 +101,40 @@ Widget videoPlayButton(
   VideoPartBuilder? overrideBuilder,
 }) {
   if (overrideBuilder != null && !big) return overrideBuilder(context, c);
-  final double size = big ? (style.controlSize ?? 64) : 32;
+  final double size = big
+      ? (style.controlSize ?? resolveVideoMetrics(style).controlSize)
+      : 32;
   final double iconSize = big ? 28 : (style.iconSize ?? 16);
-  return Semantics(
-    label: c.isPlaying ? 'Pause' : 'Play',
-    button: true,
-    child: TapTarget(
-      minWidth: big ? 48 : minTarget,
-      minHeight: big ? 48 : minTarget,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: c.toggle,
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: big ? const Color(0x99000000) : const Color(0x33FFFFFF),
-            shape: BoxShape.circle,
-            border: big ? Border.all(color: const Color(0x33FFFFFF)) : null,
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-            size: iconSize,
-            color: fg,
-          ),
-        ),
-      ),
+  final Widget visual = Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      color: big ? const Color(0x66FFFFFF) : const Color(0x33FFFFFF),
+      shape: BoxShape.circle,
+      border: big ? Border.all(color: const Color(0x80FFFFFF)) : null,
     ),
+    alignment: Alignment.center,
+    child: Icon(
+      c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+      size: iconSize,
+      color: big ? const Color(0xFF18181B) : fg,
+    ),
+  );
+  final Widget button = big
+      ? GlassSurface(
+          surfaceBlur:
+              resolveSurfaceBlur(context, component: style.surfaceBlur) ?? 8,
+          borderRadius: BorderRadius.circular(size / 2),
+          child: visual,
+        )
+      : visual;
+  return FocusableTap(
+    label: c.isPlaying ? 'Pause' : 'Play',
+    onTap: c.toggle,
+    minWidth: big ? 48 : minTarget,
+    minHeight: big ? 48 : minTarget,
+    circular: true,
+    child: button,
   );
 }
 

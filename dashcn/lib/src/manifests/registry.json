@@ -1101,7 +1101,8 @@
           "AudioTrack",
           "FakeAudioPlaybackController",
           "AudioTransportRow",
-          "AudioSpeedButton"
+          "AudioSpeedButton",
+          "AudioPlayerMetrics"
         ],
         "constants": [
           "audioPlayerDefaults",
@@ -1118,7 +1119,9 @@
           "audioPlayButton",
           "audioPillButton",
           "resolveAudioTitle",
-          "resolveAudioArtist"
+          "resolveAudioArtist",
+          "resolveAudioMetrics",
+          "formatAudioSpeed"
         ],
         "typedefs": [
           "AudioPartBuilder",
@@ -1136,7 +1139,8 @@
           "focus_outline",
           "motion",
           "surface",
-          "tap_target"
+          "tap_target",
+          "focus_tap"
         ],
         "theme": [
           "color_tokens",
@@ -1155,6 +1159,7 @@
         "components/audio_player/audio_player_expanded_transport.dart",
         "components/audio_player/audio_player_fake.dart",
         "components/audio_player/audio_player_layout.dart",
+        "components/audio_player/audio_player_metrics.dart",
         "components/audio_player/audio_player_playlist.dart",
         "components/audio_player/audio_player_progress.dart",
         "components/audio_player/audio_player_style.dart",
@@ -1185,15 +1190,15 @@
           "borderRadius": "BorderRadiusGeometry? - null = radiusLg",
           "borderWidth": "double? - 1",
           "buffered": "ThemedColor? - buffered fill, muted",
-          "controlSize": "double? - play button diameter, 48",
+          "controlSize": "double? - play button diameter, null = 32 (pill rows) / 56 (expanded card)",
           "coverBackground": "ThemedColor? - cover placeholder, muted",
           "coverRadius": "BorderRadiusGeometry? - 12",
           "coverSize": "double? - cover edge, 176",
           "fadeDuration": "Duration? - state fades, 150ms",
           "foreground": "ThemedColor? - title and icons, cardForeground",
-          "iconSize": "double? - transport icons, 20",
+          "iconSize": "double? - button icons, null = density default (16 compact)",
           "mutedForeground": "ThemedColor? - subtitle and times, mutedForeground",
-          "padding": "EdgeInsetsGeometry? - null = 12/8",
+          "padding": "EdgeInsetsGeometry? - card padding, density horizontal 10 (pill) / 16 (card)",
           "subtitleTextStyle": "TextStyle? - track subtitle",
           "surfaceBlur": "double? - card blur leg",
           "surfaceOpacity": "double? - card opacity leg",
@@ -1201,7 +1206,7 @@
           "timeTextStyle": "TextStyle? - time labels",
           "titleTextStyle": "TextStyle? - track title",
           "track": "ThemedColor? - unplayed track, secondary",
-          "trackHeight": "double? - progress height, 4"
+          "trackHeight": "double? - progress height, null = density default (4 compact)"
         },
         "userFile": "audio_player_theme.dart"
       },
@@ -10193,7 +10198,9 @@
           "VideoSource",
           "VideoCaptionCue",
           "FakeVideoPlaybackController",
-          "VolumePainter"
+          "VolumePainter",
+          "VideoPlayerMetrics",
+          "VideoPlayerStage"
         ],
         "constants": [
           "videoPlayerDefaults",
@@ -10208,7 +10215,9 @@
           "videoBarHeader",
           "videoMoreButton",
           "videoMenuSection",
-          "videoVolumeCluster"
+          "videoVolumeCluster",
+          "resolveVideoMetrics",
+          "formatVideoSpeed"
         ],
         "typedefs": [
           "VideoPartBuilder",
@@ -10226,7 +10235,8 @@
           "focus_outline",
           "motion",
           "surface",
-          "tap_target"
+          "tap_target",
+          "focus_tap"
         ],
         "theme": [
           "color_tokens",
@@ -10243,7 +10253,10 @@
         "components/video_player/video_player_controls.dart",
         "components/video_player/video_player_header.dart",
         "components/video_player/video_player_menu.dart",
+        "components/video_player/video_player_metrics.dart",
         "components/video_player/video_player_scrub.dart",
+        "components/video_player/video_player_sources.dart",
+        "components/video_player/video_player_stage.dart",
         "components/video_player/video_player_style.dart",
         "components/video_player/video_player_volume.dart"
       ],
@@ -10271,19 +10284,19 @@
           "borderRadius": "BorderRadiusGeometry? - null = 18px frame",
           "buffered": "ThemedColor? - buffered fill, translucent white",
           "captionsTextStyle": "TextStyle? - captions overlay",
-          "controlSize": "double? - centre play button diameter, 64",
-          "controlsPadding": "EdgeInsetsGeometry? - null = 10/6",
+          "controlSize": "double? - centre button, null = density default (64 compact)",
+          "controlsPadding": "EdgeInsetsGeometry? - bar padding, null = density default (10h/6v compact)",
           "controlsTimeout": "Duration? - reserved auto-hide delay, 3s",
           "fadeDuration": "Duration? - controls fade, 150ms",
           "foreground": "ThemedColor? - icons and labels on the scrim, white",
-          "iconSize": "double? - bar button icons, 20",
+          "iconSize": "double? - bar icons, null = density default (16 compact)",
           "scrim": "ThemedColor? - control bar scrim",
           "surfaceBlur": "double? - control bar blur leg",
           "surfaceOpacity": "double? - control bar opacity leg",
           "thumb": "ThemedColor? - scrub thumb, white",
           "timeTextStyle": "TextStyle? - time labels",
           "track": "ThemedColor? - unplayed track, translucent white",
-          "trackHeight": "double? - scrub track height, 4"
+          "trackHeight": "double? - scrub height, null = density default (4 compact)"
         },
         "userFile": "video_player_theme.dart"
       },
@@ -10548,19 +10561,20 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
-    "components/audio_player/audio_player.dart": "3c0c2772f02e53648bb505c6a234e946aa0a8d6fc8eb20fb2d2ae54d14759316",
-    "components/audio_player/audio_player_compact.dart": "dfe873145be43a777b59cc1ad7e51bb6049f0827f3598bfafadd7b5ec737738d",
-    "components/audio_player/audio_player_compact_parts.dart": "58fd88a976230b8cdcdf33d916ae36985d17be46d768da4caeac885ddc48a303",
+    "components/audio_player/audio_player.dart": "d8edba9bce32bf4add4ca530e2b11d8c2031531b1a72daba3550df85c4205494",
+    "components/audio_player/audio_player_compact.dart": "c5251f135a3b3c8e08c29cb9698f85e81e7e8d62b672f7281b12a3b7cbd3c9b6",
+    "components/audio_player/audio_player_compact_parts.dart": "8b319cced8c1b58124a237fe4900040a2e73ec62ab03fa01f6d932b604dc11a1",
     "components/audio_player/audio_player_controller.dart": "89bb4cf98f16086f8231d23eb285572a79cb9f4cad3f95a1d563da27cc27a8fc",
-    "components/audio_player/audio_player_expanded.dart": "6760fe29e451aef4a308e45cd3437f536972778e2ee50b608ede3cc8551683ae",
-    "components/audio_player/audio_player_expanded_transport.dart": "195bee4d12144c8736bf7cc262402ae013958bad0cb17b3aa76190ba41f4a958",
+    "components/audio_player/audio_player_expanded.dart": "9efa7e425e5ae91beb2f9dcf2b754cc13baa594e9eddb7b1cfb7779b79f2a738",
+    "components/audio_player/audio_player_expanded_transport.dart": "10ed9b3ff7ac746895e0cc65807c55fa7dff174d4b81d08827e81348ddbee55e",
     "components/audio_player/audio_player_fake.dart": "75e3d972d81d1e607edf84069d25456185f33d605f43b5a889a1aaa2451992bf",
-    "components/audio_player/audio_player_layout.dart": "e4f2cf9202726bffa239a2ec11b1778dcfeddee1e90782a830370c42b2dcba3f",
-    "components/audio_player/audio_player_playlist.dart": "72543b238e0bf6ba981c6adbc7b810bdf5b04c725f8f080396be5156cd3721b1",
+    "components/audio_player/audio_player_layout.dart": "2e8bd5d47162c23ddd695ad5273bdaa0dcbfe7e42bd25b65710a7a80bacfe8ca",
+    "components/audio_player/audio_player_metrics.dart": "353c5ae8e901acb97c61bde113917e46f5d0bec726b8990248cf981bfa02d098",
+    "components/audio_player/audio_player_playlist.dart": "b8d15b0172685a5e6a5eaf29ff07d80609080ee357aa7b885397c0cecad820fb",
     "components/audio_player/audio_player_progress.dart": "30082bcc6067ce347f4071fcbbda23e80f97729286fc0d3d9353fef8068c76c1",
-    "components/audio_player/audio_player_style.dart": "2ae5551ab84022bf7dae61926ea6e9b0e8c8d5a48f2f1f34c7730587bee677af",
+    "components/audio_player/audio_player_style.dart": "7ae37758d037892c27a32aaa72725f5e454f5abdae939813febcf094bd57c322",
     "components/audio_player/audio_player_theme.dart": "4f2893a478a068da7c8556c940b66d859934fc79feedb4784092ca7571ff2adf",
-    "components/audio_player/audio_player_transport.dart": "231ab0c8ab7e5349d6e9ca9630de700282f79d2034d3f879927f34f4497a6e3f",
+    "components/audio_player/audio_player_transport.dart": "87551673dfd1f97bb6fd9e616dc68307841b1d8f04789b8b7d2c56161a034d54",
     "components/audio_player/preview.dart": "74ede1443a29b8fdf2237e5bfc8cdd2e7204e4cdcaae07d1704d51a86c28af99",
     "components/autocomplete/autocomplete.dart": "388132b3f4a2d856dff78c76afd9c04bbea61ffdf581d3742d250dde625b38a6",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
@@ -11062,17 +11076,20 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
-    "components/video_player/preview.dart": "70c1ecab0fc1435f124d5d61b70239c30dabe154942be9cd5d97ae18cfc8944c",
-    "components/video_player/video_player.dart": "ab04229e90341af958dc20dab8f10529ba0d679207caeb3991baf9f42b24a812",
-    "components/video_player/video_player_buttons.dart": "8c9cd786f301c3c9647c361c6fc9b11e01d3a8256178dd7fb624610c32a081e9",
-    "components/video_player/video_player_controller.dart": "91d61dd72dee87cf50238b4e7aef54afabd9744d37068d31d06d6c4a169455d4",
-    "components/video_player/video_player_controls.dart": "5c7f2078efde02f3d24900a4a7f73bdd5886173dd6be03c47b45d32feaa16bb3",
-    "components/video_player/video_player_header.dart": "d3e7821b49e76a77b0b14921df8d659047b28fef4f1377ad8062cfb1239a9105",
-    "components/video_player/video_player_menu.dart": "d96e88973259cd05afd828a63634098dab1f5ceefb47d56bed7e3ed60b4f1224",
-    "components/video_player/video_player_scrub.dart": "1a701e407afebcd80e7c28bd85b5269b0c8025b239ee39bca13aa9927375cbf2",
-    "components/video_player/video_player_style.dart": "f2cd183d39118665c533f6bb32a0541c7b13acdc3b0ea69bad12435ebe6beb3f",
+    "components/video_player/preview.dart": "f3a531e49983aa2e874e45914088c21b50618a26cd424d2452e4f6fd4b2aa0ed",
+    "components/video_player/video_player.dart": "18003690bee690c0c4548c04944bfb0630e0ebe7cef5be6377f141b9918993be",
+    "components/video_player/video_player_buttons.dart": "0cee53cb61814fc19714c6f14921cf0f2775081665fa15c0a007731f32b57d24",
+    "components/video_player/video_player_controller.dart": "bc78d91775cf0ec4a6f54bd0df22b65ea936e33802340656c52fe5a203d7a3fe",
+    "components/video_player/video_player_controls.dart": "f2dc88f152d0d52bcd70be5a5ed80a316da8d48ecafdef0c77b966730e0ae1ce",
+    "components/video_player/video_player_header.dart": "45d44e266d74ad381ac2325cd40ad0d8c79ca29328aef1a3cc28b97c846be561",
+    "components/video_player/video_player_menu.dart": "e6a2c6a78045b1fd0a53aca053e92a04c16102de08dfcbd07c630c496911d74e",
+    "components/video_player/video_player_metrics.dart": "8a97de6f18f5183b3b7eda3779786243e58f0d6ad9359e7cde0b472034af5f6f",
+    "components/video_player/video_player_scrub.dart": "f8e3cffdae64cd983ead032a121d66c696a9d996d92a862a4ecb91e6850170f2",
+    "components/video_player/video_player_sources.dart": "0164fda686f960a3db4ac3d66e18dd902fe43d3bbc77efb7d601f9c4e1b02b4e",
+    "components/video_player/video_player_stage.dart": "39d46517d9ff3ae176c368818d0690e68ca8e3224979048af8ec80d4f5bc397a",
+    "components/video_player/video_player_style.dart": "bed501184d75e6c728bb80c89fd32c1e1e15d696b6692feed61806c3dce13bf5",
     "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
-    "components/video_player/video_player_volume.dart": "71eb093533d867f71a04ae2a4404db22f10b51d08f491e0d963926ac1e15caea",
+    "components/video_player/video_player_volume.dart": "6b562170401b77805ff5a88fc06f04de3c78d0c17ee1dd9e2da8044daf0c2cf4",
     "components/wheel_picker/preview.dart": "2b2f9404f1e5d3c194fde4a0b16065412b07f60706d46bec8fba385eb8f9487e",
     "components/wheel_picker/wheel_picker.dart": "162a256c3c00af3f8a816f8a3193f9c34271f88afec889bfc6a56406c7d081a1",
     "components/wheel_picker/wheel_picker_style.dart": "c039c94653fc534558ca0aeb40a1c0d5a30c4898099d2850f932b3b130be91e2",
@@ -11168,6 +11185,7 @@
     "primitives/filter_core/filter_state.dart": "94b6c5f8f7f7eac95e4a87e0bc3290b335bbd99071475129743be87ca0d46dc7",
     "primitives/filter_core/filter_theme.dart": "3295d07883b8ff2371d1517763d98781cbe6722bf94883a9e29388204fd6bd63",
     "primitives/focus_outline.dart": "ada3901336b9a76e8dd98d1c434a473e5c6c7602c2d257dcb78bcf727d35afbc",
+    "primitives/focus_tap.dart": "0bae98db37f74ebb8558896fd2e0e6c864f82749998dcf70b2af7c4133dd09f4",
     "primitives/form_core/form_builders.dart": "bfa036ea629f243558ceb78993e3bb448300033ffff19963b574966f95af05b1",
     "primitives/form_core/form_control.dart": "5cb89ff7ac898e05e8e4b722862056bfd0e992df2c30f2e0dd35d2bd5700ffdc",
     "primitives/form_core/form_controller.dart": "fd4907473c4d4d68687b1b262b4794f977f3855c5cb3939e707b6c9d124b3eb3",
@@ -12036,6 +12054,17 @@
       },
       "files": [
         "primitives/focus_outline.dart"
+      ]
+    },
+    "focus_tap": {
+      "deps": {
+        "primitives": [
+          "focus_outline",
+          "tap_target"
+        ]
+      },
+      "files": [
+        "primitives/focus_tap.dart"
       ]
     },
     "form_core": {

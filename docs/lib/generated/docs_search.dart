@@ -1512,7 +1512,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Audio Player',
     kind: DocsSearchKind.component,
     route: '/docs/components/audio_player',
-    tag: '13 files',
+    tag: '14 files',
     keywords: <String>[
       'Audio Player',
       'audio_player',
@@ -1587,7 +1587,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Video Player',
     kind: DocsSearchKind.component,
     route: '/docs/components/video_player',
-    tag: '10 files',
+    tag: '13 files',
     keywords: <String>[
       'Video Player',
       'video_player',

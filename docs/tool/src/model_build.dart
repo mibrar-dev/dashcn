@@ -34,6 +34,66 @@ const Set<String> kSnippetLanguages = <String>{
   'jsonc',
 };
 
+/// Docs-only preview sidecars: component id -> `docs/lib/media/` file.
+///
+/// A sidecar exports one `const List<ComponentPreview>` of live-plugin
+/// examples appended after the kit examples (the players fix: the kit stays
+/// dependency-free while the docs app shows real playback).
+const Map<String, String> kPreviewSidecars = <String, String>{
+  'audio_player': 'live_audio.dart',
+  'video_player': 'live_video.dart',
+};
+
+/// Locates `docs/lib/media` next to [registryRoot] (`dashcn/lib/src`).
+String _docsMediaDir(String registryRoot) {
+  final Directory root = Directory(registryRoot).absolute;
+  Directory dir = root;
+  for (int depth = 0; depth < 4; depth++) {
+    final Directory candidate = Directory('${dir.path}/docs/lib/media');
+    if (candidate.existsSync()) return candidate.path;
+    final Directory parent = dir.parent;
+    if (parent.path == dir.path) break;
+    dir = parent;
+  }
+  return '${root.path}/../../../docs/lib/media';
+}
+
+/// Appends a docs-only preview sidecar (live-plugin examples) to the kit
+/// examples of [component]. Missing sidecar files are skipped so the tool
+/// keeps working in checkouts without them.
+void _loadPreviewSidecar({
+  required Map<String, SidecarFacts> sidecars,
+  required String docsMediaDir,
+  required ComponentFacts component,
+  required Map<String, List<String>> previewExampleNames,
+  required Map<String, List<DocsExampleSourceFacts>> exampleSources,
+}) {
+  final String? file = kPreviewSidecars[component.id];
+  if (file == null) return;
+  final File sidecar = File('$docsMediaDir/$file');
+  if (!sidecar.existsSync()) return;
+  final String source = sidecar.readAsStringSync();
+  final String? listName = findPreviewExampleList(source: source);
+  final List<String> names = findPreviewExamples(source: source);
+  if (listName == null || names.isEmpty) return;
+  final List<String> kitNames =
+      previewExampleNames[component.id] ?? const <String>[];
+  previewExampleNames[component.id] = <String>[...kitNames, ...names];
+  exampleSources[component.id] = <DocsExampleSourceFacts>[
+    ...exampleSources[component.id] ?? const <DocsExampleSourceFacts>[],
+    ...extractExampleSources(
+      source: source,
+      previewDir: 'media',
+      componentImport: "import 'package:docs/media/$file';",
+    ),
+  ];
+  sidecars[component.id] = SidecarFacts(
+    importUri: 'package:docs/media/$file',
+    exampleList: listName,
+    kitCount: kitNames.length,
+  );
+}
+
 /// Locates `cli_snapshot.txt` (cwd first, then next to this entry point).
 String _findCliSnapshot() {
   final List<String> candidates = <String>['tool/cli_snapshot.txt'];
@@ -62,6 +122,8 @@ DocsModel buildDocsModel(String registryRoot) {
       <String, List<DocsExampleSourceFacts>>{};
   final Map<String, List<KeyboardRowFacts>> keyboard =
       <String, List<KeyboardRowFacts>>{};
+  final Map<String, SidecarFacts> sidecars = <String, SidecarFacts>{};
+  final String docsMediaDir = _docsMediaDir(registryRoot);
   final Map<String, List<ReadmeBlock>> snippets = <String, List<ReadmeBlock>>{};
 
   for (final ComponentFacts component in scan.components) {
@@ -115,6 +177,13 @@ DocsModel buildDocsModel(String registryRoot) {
       source: previewSource,
       previewDir: 'components/${component.id}',
       componentImport: component.import,
+    );
+    _loadPreviewSidecar(
+      sidecars: sidecars,
+      docsMediaDir: docsMediaDir,
+      component: component,
+      previewExampleNames: previewExampleNames,
+      exampleSources: exampleSources,
     );
     if (previewClasses[component.id] == null &&
         previewExamples[component.id] == null) {
@@ -196,6 +265,7 @@ DocsModel buildDocsModel(String registryRoot) {
     previewClasses: previewClasses,
     previewExamples: previewExamples,
     previewExampleNames: previewExampleNames,
+    previewSidecars: sidecars,
     exampleSources: exampleSources,
     keyboard: keyboard,
     snippets: snippets,
@@ -240,6 +310,7 @@ Map<String, String> renderBundle(
       model.scan,
       model.previewClasses,
       model.previewExamples,
+      model.previewSidecars,
     ),
     blockSourcesPath: renderBlockSources(model.scan, model.blockSources),
     blockPreviewsPath: renderBlockPreviews(model.scan, model.blockClasses),

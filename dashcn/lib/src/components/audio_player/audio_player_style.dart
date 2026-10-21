@@ -10,96 +10,27 @@ import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
+import 'audio_player_metrics.dart';
 
 /// Layout of the audio player.
 enum AudioPlayerVariant {
-  /// Single row: play, title, progress, time.
+  /// Compact pill (default) or expanded card.
   compact,
 
   /// Card with cover art, title/subtitle, progress and transport rows.
   full,
 }
 
-/// Sizing metrics for `audio_player` across density levels.
-class AudioPlayerMetrics {
-  /// Creates sizing metrics.
-  const AudioPlayerMetrics({
-    required this.playButtonSize,
-    required this.smallButtonSize,
-    required this.iconSize,
-    required this.coverSize,
-    required this.padding,
-    required this.trackHeight,
-    required this.titleFontSize,
-    required this.subtitleFontSize,
-    required this.timeFontSize,
-  });
-
-  /// Play button diameter.
-  final double playButtonSize;
-
-  /// Secondary transport button diameter.
-  final double smallButtonSize;
-
-  /// Transport icon size.
-  final double iconSize;
-
-  /// Square cover art width/height.
-  final double coverSize;
-
-  /// Internal card padding.
-  final EdgeInsetsGeometry padding;
-
-  /// Scrub bar track height.
-  final double trackHeight;
-
-  /// Title font size.
-  final double titleFontSize;
-
-  /// Subtitle font size.
-  final double subtitleFontSize;
-
-  /// Time label font size.
-  final double timeFontSize;
-
-  /// Compact metrics (default look).
-  static const AudioPlayerMetrics compact = AudioPlayerMetrics(
-    playButtonSize: 32,
-    smallButtonSize: 32,
-    iconSize: 16,
-    coverSize: 44,
-    padding: EdgeInsetsDensity.pxAll(12),
-    trackHeight: 4,
-    titleFontSize: 13,
-    subtitleFontSize: 12,
-    timeFontSize: 11,
-  );
-
-  /// Comfortable metrics.
-  static const AudioPlayerMetrics comfortable = AudioPlayerMetrics(
-    playButtonSize: 40,
-    smallButtonSize: 36,
-    iconSize: 18,
-    coverSize: 48,
-    padding: EdgeInsetsDensity.pxAll(16),
-    trackHeight: 4,
-    titleFontSize: 14,
-    subtitleFontSize: 13,
-    timeFontSize: 12,
-  );
-
-  /// Touch metrics for phone screens.
-  static const AudioPlayerMetrics touch = AudioPlayerMetrics(
-    playButtonSize: 48,
-    smallButtonSize: 44,
-    iconSize: 20,
-    coverSize: 56,
-    padding: EdgeInsetsDensity.pxAll(16),
-    trackHeight: 6,
-    titleFontSize: 15,
-    subtitleFontSize: 14,
-    timeFontSize: 13,
-  );
+/// Resolves the metrics table for [style].
+///
+/// Null `themeDensity` keeps the compact default look; an explicit density
+/// scale picks comfortable at 1.0+ and touch at 1.25+.
+AudioPlayerMetrics resolveAudioMetrics(AudioPlayerTheme style) {
+  final double? scale = style.themeDensity?.scale;
+  if (scale == null) return AudioPlayerMetrics.compact;
+  if (scale >= 1.25) return AudioPlayerMetrics.touch;
+  if (scale >= 1.0) return AudioPlayerMetrics.comfortable;
+  return AudioPlayerMetrics.compact;
 }
 
 /// Visual contract of the audio player.
@@ -381,10 +312,7 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   coverBackground: ThemedColor.ref(ColorRef.muted),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
-  controlSize: 32,
-  iconSize: 16,
   coverSize: 44,
-  padding: EdgeInsetsDensity.pxAll(12),
-  trackHeight: 4,
+  padding: EdgeInsetsDensity.pxSymmetric(horizontal: 10),
   fadeDuration: kDefaultDuration,
 );

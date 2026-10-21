@@ -29,6 +29,8 @@ class AudioExpandedCard extends StatelessWidget {
     this.subtitle,
     this.cover,
     this.supportedSpeeds = kAudioSpeeds,
+    this.showSpeed = true,
+    this.initialSpeedOpen = false,
     this.coverBuilder,
     this.titleBuilder,
     this.subtitleBuilder,
@@ -40,6 +42,7 @@ class AudioExpandedCard extends StatelessWidget {
     this.nextBuilder,
     this.shuffleBuilder,
     this.repeatBuilder,
+    this.speedBuilder,
     this.loadingBuilder,
   });
 
@@ -64,8 +67,14 @@ class AudioExpandedCard extends StatelessWidget {
   /// Cover art shown in the half-circle.
   final Widget? cover;
 
-  /// Speeds offered by long-press cycling (kept for API parity).
+  /// Speeds offered by the speed menu.
   final List<double> supportedSpeeds;
+
+  /// Whether the speed control shows.
+  final bool showSpeed;
+
+  /// Whether the expanded speed menu starts open.
+  final bool initialSpeedOpen;
 
   /// Builder slots for every visible part.
   final AudioPartBuilder? coverBuilder;
@@ -89,6 +98,7 @@ class AudioExpandedCard extends StatelessWidget {
   final AudioPartBuilder? nextBuilder;
   final AudioPartBuilder? shuffleBuilder;
   final AudioPartBuilder? repeatBuilder;
+  final AudioPartBuilder? speedBuilder;
   final AudioPartBuilder? loadingBuilder;
 
   @override
@@ -100,13 +110,13 @@ class AudioExpandedCard extends StatelessWidget {
         _cover(context),
         const SizedBox(height: 12),
         _equaliser(context),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         _artist(context),
-        const SizedBox(height: 4),
+        const SizedBox(height: 6),
         _title(context),
         const SizedBox(height: 12),
         _progress(context),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         _times(context),
         const SizedBox(height: 12),
         _transport(context),
@@ -243,7 +253,7 @@ class AudioExpandedCard extends StatelessWidget {
 
   Widget _times(BuildContext context) {
     final AudioPlaybackController c = controller;
-    return Text(
+    final Widget times = Text(
       '${formatAudioTime(c.position)} / ${formatAudioTime(c.duration)}',
       textAlign: TextAlign.center,
       style:
@@ -253,6 +263,20 @@ class AudioExpandedCard extends StatelessWidget {
             fontSize: 12,
             fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
           ),
+    );
+    if (!showSpeed && speedBuilder == null) return times;
+    return Row(
+      children: <Widget>[
+        const SizedBox(width: 32),
+        Expanded(child: times),
+        speedBuilder?.call(context, c) ??
+            AudioSpeedButton(
+              controller: c,
+              fg: fg,
+              supportedSpeeds: supportedSpeeds,
+              initialOpen: initialSpeedOpen,
+            ),
+      ],
     );
   }
 

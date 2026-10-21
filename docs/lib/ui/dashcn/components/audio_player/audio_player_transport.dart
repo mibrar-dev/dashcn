@@ -4,10 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/tap_target.dart';
+import '../../primitives/focus_tap.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_style.dart';
+
+/// Formats a speed multiplier without a trailing `.0` (`1x`, `1.25x`).
+String formatAudioSpeed(double speed) =>
+    speed.toString().replaceAll(RegExp(r'\.0$'), '');
 
 /// Builds one audio part with live controller state.
 typedef AudioPartBuilder =
@@ -51,22 +55,14 @@ Widget audioSmallButton({
   required Color fg,
   VoidCallback? onTap,
 }) {
-  return Semantics(
+  return FocusableTap(
     label: label,
-    button: true,
-    child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 32,
-          height: 32,
-          child: Center(
-            child: Icon(icon, size: size, color: fg),
-          ),
-        ),
+    onTap: onTap,
+    child: SizedBox(
+      width: 32,
+      height: 32,
+      child: Center(
+        child: Icon(icon, size: size, color: fg),
       ),
     ),
   );
@@ -95,27 +91,19 @@ Widget audioPlayButton(
         ? loadingOverride(context, c)
         : Icon(LucideIcons.loaderCircle, size: iconSize, color: fg);
   }
-  return Semantics(
+  return FocusableTap(
     label: c.isPlaying ? 'Pause' : 'Play',
-    button: true,
-    child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: c.toggle,
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color:
-                style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
-          ),
-          alignment: Alignment.center,
-          child: icon,
-        ),
+    onTap: c.toggle,
+    circular: true,
+    child: Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
       ),
+      alignment: Alignment.center,
+      child: icon,
     ),
   );
 }
@@ -211,33 +199,27 @@ class _AudioSpeedButtonState extends State<AudioSpeedButton> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 for (final double s in speeds)
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
+                  FocusableTap(
+                    label: 'Speed ${formatAudioSpeed(s)}x',
                     onTap: () {
                       c.setPlaybackSpeed(s);
                       setState(() => _open = false);
                     },
-                    child: Semantics(
-                      label: 'Speed ${s}x',
-                      button: true,
-                      child: TapTarget(
-                        minWidth: 64,
-                        minHeight: 48,
-                        child: Container(
-                          width: 64,
-                          height: 32,
-                          alignment: Alignment.center,
-                          child: ExcludeSemantics(
-                            child: Text(
-                              '${s}x',
-                              style: TextStyle(
-                                color: widget.fg,
-                                fontSize: 12,
-                                fontWeight: c.playbackSpeed == s
-                                    ? FontWeight.w700
-                                    : FontWeight.w400,
-                              ),
-                            ),
+                    minWidth: 64,
+                    minHeight: 32,
+                    child: Container(
+                      width: 64,
+                      height: 32,
+                      alignment: Alignment.center,
+                      child: ExcludeSemantics(
+                        child: Text(
+                          '${formatAudioSpeed(s)}x',
+                          style: TextStyle(
+                            color: widget.fg,
+                            fontSize: 12,
+                            fontWeight: c.playbackSpeed == s
+                                ? FontWeight.w700
+                                : FontWeight.w400,
                           ),
                         ),
                       ),
@@ -246,28 +228,20 @@ class _AudioSpeedButtonState extends State<AudioSpeedButton> {
               ],
             ),
           ),
-        Semantics(
-          label: 'Playback speed ${c.playbackSpeed}x',
-          button: true,
-          child: TapTarget(
-            minWidth: 48,
-            minHeight: 48,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => setState(() => _open = !_open),
-              child: SizedBox(
-                width: 32,
-                height: 32,
-                child: Center(
-                  child: ExcludeSemantics(
-                    child: Text(
-                      '${c.playbackSpeed}x',
-                      style: TextStyle(
-                        color: widget.fg,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+        FocusableTap(
+          label: 'Playback speed ${formatAudioSpeed(c.playbackSpeed)}x',
+          onTap: () => setState(() => _open = !_open),
+          child: SizedBox(
+            width: 32,
+            height: 32,
+            child: Center(
+              child: ExcludeSemantics(
+                child: Text(
+                  '${formatAudioSpeed(c.playbackSpeed)}x',
+                  style: TextStyle(
+                    color: widget.fg,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

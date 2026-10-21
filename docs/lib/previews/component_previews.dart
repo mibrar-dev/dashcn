@@ -2,6 +2,7 @@
 //
 // Sources:
 //   * dashcn/lib/src/components/<id>/preview.dart
+//   * docs/lib/media/live_<id>.dart (sidecars)
 //
 // Regenerate: dart run tool/gen_docs_data.dart
 //
@@ -10,6 +11,8 @@
 // lists are read from the preview sources with package:analyzer.
 // P6-F4: loadComponentPreview takes an example index into the
 // named-example list (first entry is the default).
+// Components with a docs-only sidecar append live-plugin examples
+// after the kit ones (indices at/after the kit count).
 
 import 'package:flutter/widgets.dart';
 
@@ -277,6 +280,8 @@ import 'package:docs/ui/dashcn/components/triple_dots/preview.dart'
     deferred as preview_triple_dots;
 import 'package:docs/ui/dashcn/components/window/preview.dart'
     deferred as preview_window;
+import 'package:docs/media/live_audio.dart' deferred as live_audio_player;
+import 'package:docs/media/live_video.dart' deferred as live_video_player;
 
 /// Loads the preview widget for [componentId] and [exampleIndex],
 /// fetching its deferred chunk first.
@@ -706,11 +711,22 @@ Future<Widget> loadComponentPreview(
     (_) =>
         Builder(builder: preview_tooltip.tooltipPreviews[exampleIndex].builder),
   ),
-  'audio_player' => preview_audio_player.loadLibrary().then(
-    (_) => Builder(
-      builder: preview_audio_player.audioPlayerPreviews[exampleIndex].builder,
-    ),
-  ),
+  'audio_player' =>
+    exampleIndex < 6
+        ? preview_audio_player.loadLibrary().then(
+            (_) => Builder(
+              builder: preview_audio_player
+                  .audioPlayerPreviews[exampleIndex]
+                  .builder,
+            ),
+          )
+        : live_audio_player.loadLibrary().then(
+            (_) => Builder(
+              builder: live_audio_player
+                  .liveAudioPlayerPreviews[exampleIndex - 6]
+                  .builder,
+            ),
+          ),
   'code_snippet' => preview_code_snippet.loadLibrary().then(
     (_) => Builder(
       builder: preview_code_snippet.codeSnippetPreviews[exampleIndex].builder,
@@ -728,11 +744,22 @@ Future<Widget> loadComponentPreview(
     (_) =>
         Builder(builder: preview_qr_code.qrCodePreviews[exampleIndex].builder),
   ),
-  'video_player' => preview_video_player.loadLibrary().then(
-    (_) => Builder(
-      builder: preview_video_player.videoPlayerPreviews[exampleIndex].builder,
-    ),
-  ),
+  'video_player' =>
+    exampleIndex < 8
+        ? preview_video_player.loadLibrary().then(
+            (_) => Builder(
+              builder: preview_video_player
+                  .videoPlayerPreviews[exampleIndex]
+                  .builder,
+            ),
+          )
+        : live_video_player.loadLibrary().then(
+            (_) => Builder(
+              builder: live_video_player
+                  .liveVideoPlayerPreviews[exampleIndex - 8]
+                  .builder,
+            ),
+          ),
   'alpha' => preview_alpha.loadLibrary().then(
     (_) => preview_alpha.AlphaPreview(),
   ),

@@ -2,9 +2,11 @@
 //
 // Split from `audio_player_compact.dart` so both files stay small.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/focus_tap.dart';
 import '../../primitives/tap_target.dart';
 import 'audio_player_controller.dart';
 
@@ -16,21 +18,13 @@ Widget audioPillButton({
   double size = 18,
   VoidCallback? onTap,
 }) {
-  return Semantics(
+  return FocusableTap(
     label: label,
-    button: true,
-    child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 32,
-          height: 48,
-          child: Icon(icon, size: size, color: fg),
-        ),
-      ),
+    onTap: onTap,
+    child: SizedBox(
+      width: 32,
+      height: 48,
+      child: Icon(icon, size: size, color: fg),
     ),
   );
 }
@@ -61,28 +55,20 @@ class AudioSpeedChip extends StatelessWidget {
       RegExp(r'\.0$'),
       '',
     );
-    return Semantics(
-      label: 'Playback speed ${c.playbackSpeed}x, tap to change',
-      button: true,
-      child: TapTarget(
-        minWidth: 48,
-        minHeight: 48,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => c.cycleSpeed(speeds),
-          child: SizedBox(
-            width: 32,
-            height: 48,
-            child: Center(
-              child: ExcludeSemantics(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: fg,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+    return FocusableTap(
+      label: 'Playback speed ${text}x, tap to change',
+      onTap: () => c.cycleSpeed(speeds),
+      child: SizedBox(
+        width: 32,
+        height: 48,
+        child: Center(
+          child: ExcludeSemantics(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: fg,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -141,42 +127,7 @@ class _AudioVolumeButtonState extends State<AudioVolumeButton> {
               fg: widget.fg,
               onTap: () => c.setMuted(!c.isMuted),
             ),
-            if (_open)
-              Semantics(
-                label: 'Volume',
-                slider: true,
-                value: '${(c.volume * 100).round()}%',
-                onIncrease: () => c.setVolume(c.volume + 0.1),
-                onDecrease: () => c.setVolume(c.volume - 0.1),
-                child: TapTarget(
-                  minHeight: 48,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onHorizontalDragUpdate: (d) =>
-                        c.setVolume(c.volume + d.delta.dx / 64),
-                    onTapDown: (d) {
-                      final RenderBox box =
-                          context.findRenderObject()! as RenderBox;
-                      final double t =
-                          (box.globalToLocal(d.globalPosition).dx /
-                                  box.size.width)
-                              .clamp(0.0, 1.0);
-                      c.setVolume(t);
-                    },
-                    child: SizedBox(
-                      width: 64,
-                      height: 48,
-                      child: CustomPaint(
-                        painter: _MiniLevel(
-                          value: c.isMuted ? 0 : c.volume,
-                          fill: widget.fg,
-                          rtl: Directionality.of(context) == TextDirection.rtl,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            if (_open) _VolumeSlider(controller: c, fg: widget.fg),
           ],
         ),
       ),
@@ -190,11 +141,15 @@ class _MiniLevel extends CustomPainter {
     required this.value,
     required this.fill,
     required this.rtl,
+    this.focused = false,
   });
 
   final double value;
   final Color fill;
   final bool rtl;
+
+  /// Whether the slider has keyboard focus (draws a focus underline).
+  final bool focused;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -218,9 +173,128 @@ class _MiniLevel extends CustomPainter {
     } else {
       canvas.drawLine(Offset(4, midY), Offset(4 + w, midY), active);
     }
+    if (focused) {
+      final Paint ring = Paint()
+        ..color = fill.withAlpha(0xB3)
+        ..strokeWidth = 1.5;
+      canvas.drawRRect(
+        RRect.fromLTRBR(
+          2,
+          midY - 8,
+          size.width - 2,
+          midY + 8,
+          const Radius.circular(4),
+        ),
+        ring,
+      );
+    }
   }
 
   @override
   bool shouldRepaint(_MiniLevel old) =>
-      old.value != value || old.fill != fill || old.rtl != rtl;
+      old.value != value ||
+      old.fill != fill ||
+      old.rtl != rtl ||
+      old.focused != focused;
+}
+
+/// Inline volume slider for the compact pill.
+///
+/// Tap maps to the tapped position of the 64px line (RTL-aware); drag moves
+/// relative to the line width; arrow keys step 10% when focused.
+class _VolumeSlider extends StatefulWidget {
+  /// Creates a volume slider.
+  const _VolumeSlider({required this.controller, required this.fg});
+
+  /// Playback controller.
+  final AudioPlaybackController controller;
+
+  /// Line colour.
+  final Color fg;
+
+  @override
+  State<_VolumeSlider> createState() => _VolumeSliderState();
+}
+
+class _VolumeSliderState extends State<_VolumeSlider> {
+  final GlobalKey _lineKey = GlobalKey();
+  bool _focused = false;
+
+  double get _level => widget.controller.isMuted ? 0 : widget.controller.volume;
+
+  double _fractionAt(Offset globalPosition) {
+    final RenderBox? box =
+        _lineKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box == null || !box.hasSize) return _level;
+    final double dx = box.globalToLocal(globalPosition).dx - 4;
+    final double w = box.size.width - 8;
+    if (w <= 0) return _level;
+    double t = (dx / w).clamp(0.0, 1.0);
+    if (Directionality.of(context) == TextDirection.rtl) t = 1 - t;
+    return t;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final AudioPlaybackController c = widget.controller;
+    return Semantics(
+      label: 'Volume',
+      slider: true,
+      value: '${(_level * 100).round()}%',
+      increasedValue: '${(((_level + 0.1).clamp(0.0, 1.0)) * 100).round()}%',
+      decreasedValue: '${(((_level - 0.1).clamp(0.0, 1.0)) * 100).round()}%',
+      onIncrease: () => c.setVolume(_level + 0.1),
+      onDecrease: () => c.setVolume(_level - 0.1),
+      child: Focus(
+        onFocusChange: (bool v) => setState(() => _focused = v),
+        onKeyEvent: (FocusNode node, KeyEvent event) {
+          if (event is! KeyDownEvent) return KeyEventResult.ignored;
+          if (event.logicalKey == LogicalKeyboardKey.arrowRight ||
+              event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            c.setVolume(_level + 0.1);
+            return KeyEventResult.handled;
+          }
+          if (event.logicalKey == LogicalKeyboardKey.arrowLeft ||
+              event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            c.setVolume(_level - 0.1);
+            return KeyEventResult.handled;
+          }
+          return KeyEventResult.ignored;
+        },
+        child: TapTarget(
+          minHeight: 48,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragUpdate: (DragUpdateDetails d) {
+              final RenderBox? box =
+                  _lineKey.currentContext?.findRenderObject() as RenderBox?;
+              if (box == null || !box.hasSize) return;
+              final double w = box.size.width - 8;
+              if (w <= 0) return;
+              final double step =
+                  Directionality.of(context) == TextDirection.rtl
+                  ? -d.delta.dx / w
+                  : d.delta.dx / w;
+              c.setVolume(_level + step);
+            },
+            onTapDown: (TapDownDetails d) =>
+                c.setVolume(_fractionAt(d.globalPosition)),
+            child: SizedBox(
+              key: _lineKey,
+              width: 64,
+              height: 48,
+              child: CustomPaint(
+                painter: _MiniLevel(
+                  value: _level,
+                  fill: widget.fg,
+                  focused: _focused,
+                  rtl: Directionality.of(context) == TextDirection.rtl,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
