@@ -111,7 +111,7 @@ Replaced custom layer painting with Flutter's standard `ShaderMask` widget wrapp
 
 ## 6. PR & Deliverable Information
 
-- **PR URL:** (Pending push & PR creation)
+- **PR URL:** https://github.com/mibrar-dev/dashcn/pull/40
 - **Branch:** `feat/ui-marquee`
 - **Base:** `main`
 - **Pending / Not Done:** None. Everything in scope is complete and verified.
