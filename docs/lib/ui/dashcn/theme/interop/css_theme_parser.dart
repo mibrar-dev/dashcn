@@ -82,7 +82,7 @@ CssThemeResult _parse(String source, ImportReport report) {
 }
 
 /// Why an at-rule statement is skipped: directives are build-time helpers,
-// never theme tokens, and each line says so.
+/// never theme tokens, and each line says so.
 String _atRuleReason(String statement) {
   if (statement.startsWith('@apply')) {
     return 'build-time utility inlining; not a theme token';
