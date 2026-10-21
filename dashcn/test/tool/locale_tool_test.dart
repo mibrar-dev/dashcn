@@ -1,5 +1,6 @@
 // Tests for the offline locale installer (`tool/locale.dart`) and its
 // manifest generator (`tool/gen_locale_manifest.dart`).
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -139,6 +140,71 @@ void main() {
       );
       expect(file.lastModifiedSync(), first);
       expect(file.readAsStringSync(), contains('Abbrechen'));
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('list --json reports direction and key counts per locale', () {
+    final List<String> lines = locale_tool.localeList(_manifest, json: true);
+    expect(lines, hasLength(1));
+    final Map<String, dynamic> payload =
+        jsonDecode(lines.single) as Map<String, dynamic>;
+    expect(payload['ar'], isNotNull);
+    expect((payload['ar'] as Map<String, dynamic>)['direction'], 'rtl');
+    expect((payload['de'] as Map<String, dynamic>)['direction'], 'ltr');
+    for (final MapEntry<String, dynamic> e in payload.entries) {
+      final Map<String, dynamic> detail = e.value as Map<String, dynamic>;
+      if (detail.containsKey('inherits')) {
+        // Regional variants override only what differs; the generated
+        // table is still complete via inheritance.
+        expect(detail['keys'], greaterThan(0));
+      } else {
+        expect(detail['keys'], greaterThan(200));
+      }
+    }
+    expect(payload['pt-BR']['inherits'], 'pt');
+    expect(payload['zh-Hans']['inherits'], 'zh');
+  });
+
+  test('loads from a vendored manifest path (CLI package offline copy)', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_vendor');
+    try {
+      final File vendored = File('${dir.path}/locale_tables.json')
+        ..writeAsStringSync(jsonEncode(_manifest));
+      final Map<String, dynamic> manifest = locale_tool.loadManifest(
+        vendored.path,
+      );
+      expect((manifest['locales'] as Map).containsKey('ar'), isTrue);
+      final String status = locale_tool.localeAdd(
+        manifest,
+        'ar',
+        dir: dir.path,
+      );
+      expect(status, contains('installed ar'));
+      expect(
+        File('${dir.path}/dashcn_locales/dashcn_locale_ar.dart').existsSync(),
+        isTrue,
+      );
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('barrel wires every installed locale and stays sorted', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
+    try {
+      locale_tool.localeAdd(_manifest, 'ja', dir: dir.path);
+      locale_tool.localeAdd(_manifest, 'ar', dir: dir.path);
+      final String barrel = File(
+        '${dir.path}/dashcn_locales/dashcn_locales.dart',
+      ).readAsStringSync();
+      expect(barrel, contains('DashcnLocaleJa'));
+      expect(barrel, contains('DashcnLocaleAr'));
+      expect(barrel, contains("const Locale('ar')"));
+      expect(barrel, contains('dashcnSupportedLocales'));
+      expect(barrel, contains('dashcnLocalesDelegates'));
+      expect(barrel, contains('isSupported'));
     } finally {
       dir.deleteSync(recursive: true);
     }

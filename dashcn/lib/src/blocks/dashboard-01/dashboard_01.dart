@@ -20,6 +20,7 @@ import 'dashboard_01_shell.dart';
 import 'dashboard_01_table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// A dashboard: stat tiles, a twelve-week bar chart and a recent table.
 class Dashboard01 extends StatelessWidget {
@@ -116,12 +117,13 @@ class _Dashboard01Header extends StatelessWidget {
   const _Dashboard01Header();
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Overview', style: theme.typography.h2),
+        Text(strings.blockOverview, style: theme.typography.h2),
         Gap(theme.spacing.xs),
         Text(
           'Revenue, subscriptions and the most recent orders.',
@@ -187,6 +189,7 @@ class _Dashboard01StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
@@ -203,7 +206,7 @@ class _Dashboard01StatCard extends StatelessWidget {
           Text(stat.value, style: theme.typography.h3),
           Gap(theme.spacing.sm),
           Text(
-            '${stat.delta} from last month',
+            strings.blockDeltaFromLastMonth(stat.delta),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -219,6 +222,7 @@ class _Dashboard01Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     // One series, one token: every bar uses `chart1`, the way the
     // reference area chart fills a single series.
@@ -241,7 +245,7 @@ class _Dashboard01Chart extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Revenue by month', style: theme.typography.textLarge),
+          Text(strings.blockRevenueByMonth, style: theme.typography.textLarge),
           Gap(theme.spacing.xs),
           Text(
             'January - June 2026',
@@ -284,13 +288,14 @@ class _Dashboard01Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Recent sales', style: theme.typography.textLarge),
+          Text(strings.blockRecentSales, style: theme.typography.textLarge),
           Gap(theme.spacing.lg),
           const _Dashboard01Sale('Olivia Martin', '\$1,999.00'),
           Gap(theme.spacing.md),
@@ -305,7 +310,7 @@ class _Dashboard01Activity extends StatelessWidget {
           Button(
             variant: ButtonVariant.outline,
             onPressed: () {},
-            child: const Text('View all'),
+            child: Text(strings.blockViewAll),
           ),
         ],
       ),

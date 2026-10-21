@@ -1,19 +1,20 @@
-// Offline locale installer for user projects.
+// Offline locale installer for user projects: the single implementation of
+// `dashcn locale add <code>` and `dashcn locale list`.
 //
 // Usage (from `dashcn/`):
-//   dart run tool/locale.dart list [--json]
-//   dart run tool/locale.dart add <code> [--dir <project-dir>]
+//   dart run tool/locale.dart list [--json] [--manifest <path>]
+//   dart run tool/locale.dart add <code> [--dir <project-dir>] [--manifest <path>]
 //
 // `add` writes `<dir>/dashcn_locales/dashcn_locale_<suffix>.dart` (a complete,
 // self-contained [ComponentLocalizations] subclass resolved from
 // `lib/src/manifests/locale_tables.json`, so installing never requires
 // pasting) and refreshes `<dir>/dashcn_locales/dashcn_locales.dart`, the
-// barrel exposing `dashcnLocalesDelegate` and `dashcnSupportedLocales`.
+// barrel exposing `dashcnLocalesDelegates` and `dashcnSupportedLocales`.
 // Re-adding is idempotent: identical content is left untouched.
 //
-// The same manifest powers the `dashcn_cli` `locale add`/`locale list`
-// commands (see scratchpad/ui/i18n/REPORT.md); this tool is the reference
-// implementation and stays offline: no network, no third-party packages.
+// `--manifest` points at a vendored copy of `locale_tables.json` (what the
+// `dashcn_cli` package ships for its own `locale add`/`locale list`), so the
+// tool stays offline: no network, no third-party packages.
 import 'dart:convert';
 import 'dart:io';
 
@@ -335,10 +336,21 @@ String localeAdd(
 
 void _usage() {
   stdout.writeln('usage:');
-  stdout.writeln('  dart run tool/locale.dart list [--json]');
   stdout.writeln(
-    '  dart run tool/locale.dart add <code> [--dir <project-dir>]',
+    '  dart run tool/locale.dart list [--json] [--manifest <path>]',
   );
+  stdout.writeln(
+    '  dart run tool/locale.dart add <code> [--dir <project-dir>] [--manifest <path>]',
+  );
+}
+
+/// Resolves `--manifest <path>` from [args], defaulting to the kit manifest.
+String _manifestPath(List<String> args) {
+  final int at = args.indexOf('--manifest');
+  if (at != -1 && at + 1 < args.length) {
+    return args[at + 1];
+  }
+  return _defaultManifestPath;
 }
 
 void main(List<String> args) {
@@ -346,7 +358,7 @@ void main(List<String> args) {
     _usage();
     return;
   }
-  final Map<String, dynamic> manifest = loadManifest();
+  final Map<String, dynamic> manifest = loadManifest(_manifestPath(args));
   switch (args.first) {
     case 'list':
       localeList(manifest, json: args.contains('--json'));

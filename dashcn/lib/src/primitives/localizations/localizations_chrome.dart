@@ -6,8 +6,9 @@
 ///
 /// Applied by `ComponentLocalizations`; every getter has an English default and
 /// translated locale tables may override it. Blocks reuse these keys for their
-/// buttons and field labels; narrative demo copy in blocks, flows and starters
-/// stays English sample content (the preview.dart doctrine).
+/// buttons and field labels; the wider blocks/flows/starters chrome lives in
+/// `ComponentLocalizationsBlocks`, and only demo data (names, messages,
+/// amounts, timestamps) stays English sample content.
 mixin ComponentLocalizationsChrome {
   /// Screen-reader announcement of a loading status.
   String get announcementLoading => 'Loading';

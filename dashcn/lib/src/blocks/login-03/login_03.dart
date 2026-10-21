@@ -124,6 +124,7 @@ class _Login03State extends State<Login03> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            final strings = ComponentLocalizations.of(context);
             final Widget card = ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 384),
               child: Card(
@@ -240,7 +241,7 @@ class _Login03State extends State<Login03> {
                             child: Button(
                               variant: ButtonVariant.link,
                               onPressed: widget.onForgotPassword ?? () {},
-                              child: const Text('Forgot your password?'),
+                              child: Text(strings.blockForgotYourPassword),
                             ),
                           ),
                           Gap(theme.spacing.md),
@@ -250,7 +251,7 @@ class _Login03State extends State<Login03> {
                                 throw StateError('Login03: validation failed.');
                               }
                             },
-                            child: const Text('Sign in with email'),
+                            child: Text(strings.blockSignInWithEmail),
                           ),
                           if (_succeeded) ...<Widget>[
                             Gap(theme.spacing.lg),
@@ -279,7 +280,7 @@ class _Login03State extends State<Login03> {
                         Button(
                           variant: ButtonVariant.link,
                           onPressed: widget.onSignUp ?? () {},
-                          child: const Text('Sign up'),
+                          child: Text(strings.blockSignUp),
                         ),
                       ],
                     ),

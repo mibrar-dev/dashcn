@@ -15,6 +15,7 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     return ListView(
       key: const ValueKey<String>('shop.page.grid'),
       padding: const EdgeInsets.all(16),
@@ -74,7 +75,7 @@ class ProductGrid extends StatelessWidget {
                             size: ButtonSize.sm,
                             onPressed: () =>
                                 repository.addToCart(product),
-                            child: const Text('Add to cart'),
+                            child: Text(strings.blockAddToCart),
                           ),
                         ],
                       ),

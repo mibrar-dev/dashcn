@@ -852,4 +852,701 @@ class ComponentLocalizationsTr extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'Kalite Otomatik';
+
+  @override
+  String get blockDontHaveAccount => 'Hesabınız yok mu?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'Zaten bir hesabınız var mı?';
+
+  @override
+  String get blockNoAccountYet => 'Henüz hesabınız yok mu?';
+
+  @override
+  String get blockHaveAnAccount => 'Hesabınız var mı?';
+
+  @override
+  String get blockCreateOne => 'Oluşturun';
+
+  @override
+  String get blockCreateAccount => 'Hesap oluştur';
+
+  @override
+  String get blockCreateYourAccount => 'Hesabınızı oluşturun';
+
+  @override
+  String get blockForgotYourPassword => 'Şifrenizi mi unuttunuz?';
+
+  @override
+  String get blockBackToSignIn => 'Girişe dön';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'Çalışma alanınıza erişmek için kimlik bilgilerinizi girin.';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'Devam etmek için kimlik bilgilerinizi girin.';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'Devam etmek için bilgilerinizi aşağıya girin.';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'Hesabınızı oluşturmak için e-postanızı aşağıya girin.';
+
+  @override
+  String get blockSignedInWelcomeBack => 'Giriş yapıldı — tekrar hoş geldiniz.';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'Hesap oluşturuldu — doğrulamak için gelen kutunuzu kontrol edin.';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'Deneme başlatıldı — doğrulamak için gelen kutunuzu kontrol edin.';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'Parolalar eşleşmiyor.';
+
+  @override
+  String get blockCurrentPassword => 'Mevcut parola';
+
+  @override
+  String get blockNewPassword => 'Yeni parola';
+
+  @override
+  String get blockConfirmNewPassword => 'Yeni parolayı onaylayın';
+
+  @override
+  String get blockUpdatePassword => 'Parolayı güncelle';
+
+  @override
+  String get blockPasswordUpdated => 'Parola güncellendi.';
+
+  @override
+  String get blockPasswordHintChange =>
+      'En az 8 karakter. Değiştirmek sizi başka yerlerde oturumdan çıkarır.';
+
+  @override
+  String get blockUsername => 'Kullanıcı adı';
+
+  @override
+  String get blockUsernameHint => 'Küçük harfler, rakamlar, alt çizgiler.';
+
+  @override
+  String get blockYourAvatar => 'Avatarınız';
+
+  @override
+  String get blockUploadImage => 'Görsel yükle';
+
+  @override
+  String get blockBio => 'Biyografi';
+
+  @override
+  String get blockBioHint => 'Bize kendinizden biraz bahsedin';
+
+  @override
+  String get blockBioCounterHint => 'En fazla 160 karakter.';
+
+  @override
+  String get blockProfileSaved => 'Profil kaydedildi.';
+
+  @override
+  String get blockSaveChanges => 'Değişiklikleri kaydet';
+
+  @override
+  String get blockInviteMember => 'Üye davet et';
+
+  @override
+  String get blockRoleAdmin => 'Yönetici';
+
+  @override
+  String get blockRoleOwner => 'Sahip';
+
+  @override
+  String get blockRoleMember => 'Üye';
+
+  @override
+  String get blockTeam => 'Ekip';
+
+  @override
+  String get blockProfile => 'Profil';
+
+  @override
+  String get blockSignInWithEmail => 'E-postayla giriş yap';
+
+  @override
+  String get blockSignUp => 'Kaydol';
+
+  @override
+  String get blockPickWayYouPrefer => 'Tercih ettiğiniz yöntemi seçin.';
+
+  @override
+  String blockContinueWith(Object? provider) => '$provider ile devam et';
+
+  @override
+  String get blockCreating => 'Oluşturuluyor…';
+
+  @override
+  String get blockSigningIn => 'Giriş yapılıyor…';
+
+  @override
+  String get blockSending => 'Gönderiliyor…';
+
+  @override
+  String get blockSaving => 'Kaydediliyor…';
+
+  @override
+  String get blockPaying => 'Ödeniyor…';
+
+  @override
+  String get blockSendResetLink => 'Sıfırlama bağlantısı gönder';
+
+  @override
+  String get blockResetPassword => 'Parolayı sıfırla';
+
+  @override
+  String get blockResetLinkSent =>
+      'Sıfırlama bağlantısı gönderildi. Devam etmek için gelen kutunuzu kontrol edin.';
+
+  @override
+  String get blockWeWillEmailReset =>
+      'Size e-postayla bir sıfırlama bağlantısı göndereceğiz.';
+
+  @override
+  String get blockMustAcceptTerms =>
+      'Devam etmek için koşulları kabul etmelisiniz.';
+
+  @override
+  String get blockCheckInbox => 'Gelen kutunuzu kontrol edin';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'Size gönderdiğimiz 6 haneli kodu girin.';
+
+  @override
+  String get blockCodeVerifiedSignedIn => 'Kod doğrulandı. Giriş yaptınız.';
+
+  @override
+  String get blockEmailVerifiedSet => 'E-posta doğrulandı — her şey hazır.';
+
+  @override
+  String get blockVerifyYourEmail => 'E-postanızı doğrulayın';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      '$email adresine altı haneli bir kod gönderdik.';
+
+  @override
+  String get blockDidntGetCode => 'Kodu almadınız mı?';
+
+  @override
+  String get blockBack => 'Geri';
+
+  @override
+  String get blockBackToCart => 'Sepete dön';
+
+  @override
+  String get blockBackToSettings => 'Ayarlara dön';
+
+  @override
+  String get blockOneAccountEverything => 'Her şey için tek hesap.';
+
+  @override
+  String get blockStartTrialNoCard =>
+      '14 günlük denemenizi başlatın. Kredi kartı gerekmez.';
+
+  @override
+  String get blockNotifications => 'Bildirimler';
+
+  @override
+  String get blockNotifChoose =>
+      'Ne hakkında ve nerede bilgi almak istediğinizi seçin.';
+
+  @override
+  String get blockEmailNotifications => 'E-posta bildirimleri';
+
+  @override
+  String get blockPushNotifications => 'Anlık bildirimler';
+
+  @override
+  String get blockMentionsReplies => 'Bahsetmeler ve yanıtlar';
+
+  @override
+  String get blockDeliveredToDevices => 'Cihazlarınıza iletildi';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'E-posta · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'Anlık · $channel';
+
+  @override
+  String get blockQuietHours => 'Sessiz saatler';
+
+  @override
+  String get blockWeeklyDigest => 'Haftalık özet';
+
+  @override
+  String get blockWeeklyDigestBlurb =>
+      'Olan biten her şeyle her pazartesi bir e-posta.';
+
+  @override
+  String get blockPreferencesSaved => 'Tercihler kaydedildi.';
+
+  @override
+  String get blockSavePreferences => 'Tercihleri kaydet';
+
+  @override
+  String get blockReset => 'Sıfırla';
+
+  @override
+  String get blockWelcomeAboard => 'Hoş geldiniz';
+
+  @override
+  String get blockQuickTour =>
+      'Uygulamayı kullanmaya başlamadan önce hızlı bir tur.';
+
+  @override
+  String get blockStayInLoop => 'Haberdar olun';
+
+  @override
+  String get blockMessagesArriveMoment =>
+      'Mesajlar ve güncellemeler olduğu anda ulaşır.';
+
+  @override
+  String get blockNeverMissThing => 'Hiçbir şeyi kaçırmayın';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'Yalnızca önemli olanları göndeririz: yanıtlar, hatırlatıcılar ve güvenlik uyarıları. Bunu daha sonra değiştirebilirsiniz.';
+
+  @override
+  String get blockEnableNotifications => 'Bildirimler açılsın mı?';
+
+  @override
+  String get blockAllowNotifications => 'Bildirimlere izin ver';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'Uygulamadan en iyi şekilde yararlanmak için bildirimlere izin verin.';
+
+  @override
+  String get blockNotNow => 'Şimdi değil';
+
+  @override
+  String get blockSkip => 'Atla';
+
+  @override
+  String get blockGetStarted => 'Başlayın';
+
+  @override
+  String get blockMessages => 'Mesajlar';
+
+  @override
+  String get blockNoConversations => 'Konuşma yok';
+
+  @override
+  String get blockPullRefreshChat =>
+      'Yenilemek için çekin veya yeni bir sohbet başlatın.';
+
+  @override
+  String get blockMute => 'Sessize al';
+
+  @override
+  String get blockMuted => 'Sessize alındı';
+
+  @override
+  String get blockAttach => 'Ekle';
+
+  @override
+  String get blockAttachFile => 'Dosya';
+
+  @override
+  String get blockAttachPhoto => 'Fotoğraf';
+
+  @override
+  String get blockWriteMessage => 'Mesaj yazın…';
+
+  @override
+  String get blockYourCart => 'Sepetiniz';
+
+  @override
+  String get blockAddSomethingFirst => 'Önce sevdiğiniz bir şey ekleyin.';
+
+  @override
+  String get blockCartEmpty => 'Sepet boş';
+
+  @override
+  String get blockCheckout => 'Ödeme';
+
+  @override
+  String blockQty(int quantity) => 'Adet $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '$amount öde';
+
+  @override
+  String get blockPayment => 'Ödeme';
+
+  @override
+  String get blockCardNumber => 'Kart numarası';
+
+  @override
+  String get blockExpiry => 'Son kullanma';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'Teslimat adresi';
+
+  @override
+  String get blockStreet => 'Sokak';
+
+  @override
+  String get blockCity => 'Şehir';
+
+  @override
+  String get blockSaveAndContinue => 'Kaydet ve devam et';
+
+  @override
+  String get blockOrderPlaced => 'Sipariş verildi';
+
+  @override
+  String get blockOrderThanks =>
+      'Bizden alışveriş yaptığınız için teşekkürler. Onay yolda.';
+
+  @override
+  String get blockContinueShopping => 'Alışverişe devam et';
+
+  @override
+  String get blockSchedule => 'Program';
+
+  @override
+  String get blockPickDateRangeReport =>
+      'Raporunuz için bir tarih aralığı seçin.';
+
+  @override
+  String get blockPickDateRange => 'Tarih aralığı seç';
+
+  @override
+  String get blockTapAnotherDay =>
+      'aralığı genişletmek için başka bir güne dokunun';
+
+  @override
+  String get blockBookMeeting => 'Toplantı planla';
+
+  @override
+  String get blockPickDayTime => 'Bir gün, ardından size uygun bir saat seçin.';
+
+  @override
+  String get blockFourSlots => '30 dakikalık dört slot kaldı. Birini seçin.';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot seçildi, 30 dakika.';
+
+  @override
+  String get blockOverview => 'Genel bakış';
+
+  @override
+  String get blockRevenueOrdersBlurb =>
+      'Gelir, abonelikler ve en son siparişler.';
+
+  @override
+  String get blockTotalRevenue => 'Toplam gelir';
+
+  @override
+  String get blockSubscriptions => 'Abonelikler';
+
+  @override
+  String get blockSales => 'Satışlar';
+
+  @override
+  String get blockRevenueByMonth => 'Aya göre gelir';
+
+  @override
+  String get blockRecentSales => 'Son satışlar';
+
+  @override
+  String get blockViewAll => 'Tümünü gör';
+
+  @override
+  String get blockTransactions => 'İşlemler';
+
+  @override
+  String get blockFilterTransactions => 'İşlemleri filtrele';
+
+  @override
+  String get blockCustomer => 'Müşteri';
+
+  @override
+  String get blockAmount => 'Tutar';
+
+  @override
+  String get blockMethod => 'Yöntem';
+
+  @override
+  String get blockStatus => 'Durum';
+
+  @override
+  String get blockPaid => 'Ödendi';
+
+  @override
+  String get blockPending => 'Bekliyor';
+
+  @override
+  String get blockRefunded => 'İade edildi';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      '“$query” ile eşleşen işlem yok.';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => 'geçen aya göre $delta';
+
+  @override
+  String get blockAnalytics => 'Analiz';
+
+  @override
+  String get blockSessionsDevicesBlurb =>
+      'Oturumlar, cihazlar ve trafiğin geldiği yer.';
+
+  @override
+  String get blockSearchReports => 'Raporlarda ara';
+
+  @override
+  String get blockLast30Days => 'Son 30 gün';
+
+  @override
+  String get blockAllDevices => 'Tüm cihazlar';
+
+  @override
+  String get blockSessions => 'Oturumlar';
+
+  @override
+  String get blockUsers => 'Kullanıcılar';
+
+  @override
+  String get blockAvgSession => 'Ort. oturum';
+
+  @override
+  String get blockBounceRate => 'Hemen çıkma oranı';
+
+  @override
+  String get blockConversions => 'Dönüşümler';
+
+  @override
+  String get blockByDevice => 'Cihaza göre';
+
+  @override
+  String get blockDesktop => 'Masaüstü';
+
+  @override
+  String get blockMobile => 'Mobil';
+
+  @override
+  String get blockTablet => 'Tablet';
+
+  @override
+  String get blockDirect => 'Doğrudan';
+
+  @override
+  String get blockReferral => 'Yönlendirme';
+
+  @override
+  String get blockSocial => 'Sosyal';
+
+  @override
+  String get blockTrafficSources => 'Trafik kaynakları';
+
+  @override
+  String get blockVisitors => 'Ziyaretçiler';
+
+  @override
+  String get blockHome => 'Ana sayfa';
+
+  @override
+  String get blockInbox => 'Gelen kutusu';
+
+  @override
+  String get blockCalendar => 'Takvim';
+
+  @override
+  String get blockCompose => 'Oluştur';
+
+  @override
+  String get blockMarkAllRead => 'Tümünü okundu işaretle';
+
+  @override
+  String get blockStarred => 'Yıldızlı';
+
+  @override
+  String get blockSnoozed => 'Ertelendi';
+
+  @override
+  String get blockUnread => 'Okunmadı';
+
+  @override
+  String get blockDocuments => 'Belgeler';
+
+  @override
+  String get blockReports => 'Raporlar';
+
+  @override
+  String get blockDashboard => 'Pano';
+
+  @override
+  String get blockStorage => 'Depolama';
+
+  @override
+  String get blockNavigation => 'Gezinme';
+
+  @override
+  String get blockSharedWithYou => 'Sizinle paylaşıldı';
+
+  @override
+  String get blockRecentProjects => 'Son projeler';
+
+  @override
+  String get blockStorageUsed => 'Kullanılan depolama';
+
+  @override
+  String get blockOpen => 'Aç';
+
+  @override
+  String get blockLive => 'Canlı';
+
+  @override
+  String get blockMembers => 'Üyeler';
+
+  @override
+  String get blockProjects => 'Projeler';
+
+  @override
+  String get blockDeploys => 'Dağıtımlar';
+
+  @override
+  String get blockActivity => 'Etkinlik';
+
+  @override
+  String get blockRecentFiles => 'Son dosyalar';
+
+  @override
+  String get blockUsageThisMonth => 'Bu ayki kullanım';
+
+  @override
+  String get blockUpgradePlan => 'Planı yükselt';
+
+  @override
+  String blockNoMatches(Object? query) => '“$query” için sonuç yok.';
+
+  @override
+  String get blockWorkspaces => 'Çalışma alanları';
+
+  @override
+  String get blockPricing => 'Fiyatlandırma';
+
+  @override
+  String get blockPlansScale => 'Sizinle büyüyen planlar';
+
+  @override
+  String get blockPlansBlurb =>
+      'Ücretsiz başlayın, ekibiniz büyüdüğünde yükseltin. Her plan eksiksiz bileşen kitaplığı ve tema hazır ayarlarını içerir.';
+
+  @override
+  String get blockPerUserMonth => 'kullanıcı başına / ay';
+
+  @override
+  String get blockSubscribe => 'Abone ol';
+
+  @override
+  String get blockContactSales => 'Satış ile iletişime geç';
+
+  @override
+  String get blockPromoCode => 'Promosyon kodu';
+
+  @override
+  String get blockApplyCode => 'Kodu uygula';
+
+  @override
+  String get blockHaveCodeEnter => 'Kodunuz var mı? Aşağıya girin.';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'Kod uygulandı — indiriminiz ödemede görünür.';
+
+  @override
+  String get blockFaqTitle => 'Sorular';
+
+  @override
+  String get blockFaqChangePlans => 'Planı daha sonra değiştirebilir miyim?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'Evet. Yükseltmeler hemen uygulanır, düşürmeler gelecek döngüden itibaren.';
+
+  @override
+  String get blockFaqFreeTrial => 'Ücretsiz deneme var mı?';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'Her plan 14 günle başlar, kart gerekmez.';
+
+  @override
+  String get blockAccount => 'Hesap';
+
+  @override
+  String get blockGeneral => 'Genel';
+
+  @override
+  String get blockAppearance => 'Görünüm';
+
+  @override
+  String get blockDarkMode => 'Koyu mod';
+
+  @override
+  String get blockPreferences => 'Tercihler';
+
+  @override
+  String get blockSignOut => 'Oturumu kapat';
+
+  @override
+  String get blockSignOutConfirm => 'Oturum kapatılsın mı?';
+
+  @override
+  String get blockSignOutBlurb =>
+      'Daha sonra her zaman tekrar giriş yapabilirsiniz.';
+
+  @override
+  String get blockSounds => 'Sesler';
+
+  @override
+  String get blockWhatYouGet => 'Neler alırsınız';
+
+  @override
+  String get blockAllComponentCategories => 'Tüm bileşen kategorileri';
+
+  @override
+  String get blockPrioritySupport => 'Öncelikli destek';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'Deneme sırasında sınırsız proje';
+
+  @override
+  String get blockTrialDaysLeft => 'Denemenizde 14 gün kaldı';
+
+  @override
+  String get blockStarterChat => 'Sohbet';
+
+  @override
+  String get blockStarterShop => 'Mağaza';
+
+  @override
+  String get blockStarterCart => 'Sepet';
+
+  @override
+  String get blockAddToCart => 'Sepete ekle';
 }

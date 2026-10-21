@@ -857,4 +857,703 @@ class ComponentLocalizationsNl extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'Kwaliteit Auto';
+
+  @override
+  String get blockDontHaveAccount => 'Nog geen account?';
+
+  @override
+  String get blockAlreadyHaveAccount => 'Heb je al een account?';
+
+  @override
+  String get blockNoAccountYet => 'Nog geen account?';
+
+  @override
+  String get blockHaveAnAccount => 'Heb je een account?';
+
+  @override
+  String get blockCreateOne => 'Maak er een';
+
+  @override
+  String get blockCreateAccount => 'Account aanmaken';
+
+  @override
+  String get blockCreateYourAccount => 'Maak je account aan';
+
+  @override
+  String get blockForgotYourPassword => 'Wachtwoord vergeten?';
+
+  @override
+  String get blockBackToSignIn => 'Terug naar inloggen';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'Voer je inloggegevens in voor toegang tot je werkruimte.';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'Voer je inloggegevens in om door te gaan.';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'Voer hieronder je gegevens in om door te gaan.';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'Voer hieronder je e-mailadres in om je account aan te maken.';
+
+  @override
+  String get blockSignedInWelcomeBack => 'Ingelogd — welkom terug.';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'Account aangemaakt — controleer je inbox om het te verifiëren.';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'Proefperiode gestart — controleer je inbox om deze te verifiëren.';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'Wachtwoorden komen niet overeen.';
+
+  @override
+  String get blockCurrentPassword => 'Huidig wachtwoord';
+
+  @override
+  String get blockNewPassword => 'Nieuw wachtwoord';
+
+  @override
+  String get blockConfirmNewPassword => 'Bevestig nieuw wachtwoord';
+
+  @override
+  String get blockUpdatePassword => 'Wachtwoord bijwerken';
+
+  @override
+  String get blockPasswordUpdated => 'Wachtwoord bijgewerkt.';
+
+  @override
+  String get blockPasswordHintChange =>
+      'Minimaal 8 tekens. Wijzigen meldt je elders af.';
+
+  @override
+  String get blockUsername => 'Gebruikersnaam';
+
+  @override
+  String get blockUsernameHint => 'Kleine letters, cijfers, underscores.';
+
+  @override
+  String get blockYourAvatar => 'Je avatar';
+
+  @override
+  String get blockUploadImage => 'Afbeelding uploaden';
+
+  @override
+  String get blockBio => 'Bio';
+
+  @override
+  String get blockBioHint => 'Vertel ons iets over jezelf';
+
+  @override
+  String get blockBioCounterHint => 'Maximaal 160 tekens.';
+
+  @override
+  String get blockProfileSaved => 'Profiel opgeslagen.';
+
+  @override
+  String get blockSaveChanges => 'Wijzigingen opslaan';
+
+  @override
+  String get blockInviteMember => 'Lid uitnodigen';
+
+  @override
+  String get blockRoleAdmin => 'Beheerder';
+
+  @override
+  String get blockRoleOwner => 'Eigenaar';
+
+  @override
+  String get blockRoleMember => 'Lid';
+
+  @override
+  String get blockTeam => 'Team';
+
+  @override
+  String get blockProfile => 'Profiel';
+
+  @override
+  String get blockSignInWithEmail => 'Inloggen met e-mail';
+
+  @override
+  String get blockSignUp => 'Aanmelden';
+
+  @override
+  String get blockPickWayYouPrefer => 'Kies de gewenste methode.';
+
+  @override
+  String blockContinueWith(Object? provider) => 'Doorgaan met $provider';
+
+  @override
+  String get blockCreating => 'Wordt gemaakt…';
+
+  @override
+  String get blockSigningIn => 'Wordt ingelogd…';
+
+  @override
+  String get blockSending => 'Wordt verzonden…';
+
+  @override
+  String get blockSaving => 'Wordt opgeslagen…';
+
+  @override
+  String get blockPaying => 'Wordt betaald…';
+
+  @override
+  String get blockSendResetLink => 'Link voor opnieuw instellen verzenden';
+
+  @override
+  String get blockResetPassword => 'Wachtwoord opnieuw instellen';
+
+  @override
+  String get blockResetLinkSent =>
+      'Link voor opnieuw instellen verzonden. Controleer je inbox om door te gaan.';
+
+  @override
+  String get blockWeWillEmailReset =>
+      'We mailen je een link voor opnieuw instellen.';
+
+  @override
+  String get blockMustAcceptTerms =>
+      'Je moet de voorwaarden accepteren om door te gaan.';
+
+  @override
+  String get blockCheckInbox => 'Controleer je inbox';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'Voer de 6-cijferige code in die we je hebben gestuurd.';
+
+  @override
+  String get blockCodeVerifiedSignedIn =>
+      'Code geverifieerd. Je bent ingelogd.';
+
+  @override
+  String get blockEmailVerifiedSet => 'E-mail geverifieerd — alles is klaar.';
+
+  @override
+  String get blockVerifyYourEmail => 'Verifieer je e-mailadres';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'We hebben een 6-cijferige code naar $email gestuurd.';
+
+  @override
+  String get blockDidntGetCode => 'Geen code ontvangen?';
+
+  @override
+  String get blockBack => 'Terug';
+
+  @override
+  String get blockBackToCart => 'Terug naar winkelwagen';
+
+  @override
+  String get blockBackToSettings => 'Terug naar instellingen';
+
+  @override
+  String get blockOneAccountEverything => 'Eén account voor alles.';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'Start je proefperiode van 14 dagen. Geen creditcard nodig.';
+
+  @override
+  String get blockNotifications => 'Meldingen';
+
+  @override
+  String get blockNotifChoose => 'Kies waarover en waar je wilt horen.';
+
+  @override
+  String get blockEmailNotifications => 'E-mailmeldingen';
+
+  @override
+  String get blockPushNotifications => 'Pushmeldingen';
+
+  @override
+  String get blockMentionsReplies => 'Vermeldingen en antwoorden';
+
+  @override
+  String get blockDeliveredToDevices => 'Bezorgd op je apparaten';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'E-mail · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'Push · $channel';
+
+  @override
+  String get blockQuietHours => 'Stille uren';
+
+  @override
+  String get blockWeeklyDigest => 'Wekelijks overzicht';
+
+  @override
+  String get blockWeeklyDigestBlurb =>
+      'Elke maandag één e-mail met alles wat er is gebeurd.';
+
+  @override
+  String get blockPreferencesSaved => 'Voorkeuren opgeslagen.';
+
+  @override
+  String get blockSavePreferences => 'Voorkeuren opslaan';
+
+  @override
+  String get blockReset => 'Opnieuw instellen';
+
+  @override
+  String get blockWelcomeAboard => 'Welkom aan boord';
+
+  @override
+  String get blockQuickTour =>
+      'Een korte rondleiding voordat je de app gebruikt.';
+
+  @override
+  String get blockStayInLoop => 'Blijf op de hoogte';
+
+  @override
+  String get blockMessagesArriveMoment =>
+      'Berichten en updates komen aan zodra ze gebeuren.';
+
+  @override
+  String get blockNeverMissThing => 'Mis niets';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'We sturen alleen wat ertoe doet: antwoorden, herinneringen en beveiligingswaarschuwingen. Je kunt dit later wijzigen.';
+
+  @override
+  String get blockEnableNotifications => 'Meldingen inschakelen?';
+
+  @override
+  String get blockAllowNotifications => 'Meldingen toestaan';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'Sta meldingen toe om het meeste uit de app te halen.';
+
+  @override
+  String get blockNotNow => 'Nu niet';
+
+  @override
+  String get blockSkip => 'Overslaan';
+
+  @override
+  String get blockGetStarted => 'Aan de slag';
+
+  @override
+  String get blockMessages => 'Berichten';
+
+  @override
+  String get blockNoConversations => 'Geen gesprekken';
+
+  @override
+  String get blockPullRefreshChat =>
+      'Trek om te vernieuwen of start een nieuwe chat.';
+
+  @override
+  String get blockMute => 'Dempen';
+
+  @override
+  String get blockMuted => 'Gedempt';
+
+  @override
+  String get blockAttach => 'Bijvoegen';
+
+  @override
+  String get blockAttachFile => 'Bestand';
+
+  @override
+  String get blockAttachPhoto => 'Foto';
+
+  @override
+  String get blockWriteMessage => 'Schrijf een bericht…';
+
+  @override
+  String get blockYourCart => 'Je winkelwagen';
+
+  @override
+  String get blockAddSomethingFirst => 'Voeg eerst iets toe wat je leuk vindt.';
+
+  @override
+  String get blockCartEmpty => 'Winkelwagen is leeg';
+
+  @override
+  String get blockCheckout => 'Afrekenen';
+
+  @override
+  String blockQty(int quantity) => 'Aantal $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => 'Betaal $amount';
+
+  @override
+  String get blockPayment => 'Betaling';
+
+  @override
+  String get blockCardNumber => 'Kaartnummer';
+
+  @override
+  String get blockExpiry => 'Vervaldatum';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'Bezorgadres';
+
+  @override
+  String get blockStreet => 'Straat';
+
+  @override
+  String get blockCity => 'Plaats';
+
+  @override
+  String get blockSaveAndContinue => 'Opslaan en doorgaan';
+
+  @override
+  String get blockOrderPlaced => 'Bestelling geplaatst';
+
+  @override
+  String get blockOrderThanks =>
+      'Bedankt voor je aankoop. Een bevestiging is onderweg.';
+
+  @override
+  String get blockContinueShopping => 'Verder winkelen';
+
+  @override
+  String get blockSchedule => 'Planning';
+
+  @override
+  String get blockPickDateRangeReport =>
+      'Kies een datumbereik voor je rapport.';
+
+  @override
+  String get blockPickDateRange => 'Kies een datumbereik';
+
+  @override
+  String get blockTapAnotherDay =>
+      'tik op een andere dag om het bereik te verlengen';
+
+  @override
+  String get blockBookMeeting => 'Vergadering boeken';
+
+  @override
+  String get blockPickDayTime =>
+      'Kies een dag en daarna een geschikt tijdstip.';
+
+  @override
+  String get blockFourSlots => 'Nog vier plekken van 30 minuten. Kies er een.';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot gekozen, 30 minuten.';
+
+  @override
+  String get blockOverview => 'Overzicht';
+
+  @override
+  String get blockRevenueOrdersBlurb =>
+      'Omzet, abonnementen en de meest recente bestellingen.';
+
+  @override
+  String get blockTotalRevenue => 'Totale omzet';
+
+  @override
+  String get blockSubscriptions => 'Abonnementen';
+
+  @override
+  String get blockSales => 'Verkopen';
+
+  @override
+  String get blockRevenueByMonth => 'Omzet per maand';
+
+  @override
+  String get blockRecentSales => 'Recente verkopen';
+
+  @override
+  String get blockViewAll => 'Alles bekijken';
+
+  @override
+  String get blockTransactions => 'Transacties';
+
+  @override
+  String get blockFilterTransactions => 'Transacties filteren';
+
+  @override
+  String get blockCustomer => 'Klant';
+
+  @override
+  String get blockAmount => 'Bedrag';
+
+  @override
+  String get blockMethod => 'Methode';
+
+  @override
+  String get blockStatus => 'Status';
+
+  @override
+  String get blockPaid => 'Betaald';
+
+  @override
+  String get blockPending => 'In behandeling';
+
+  @override
+  String get blockRefunded => 'Terugbetaald';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      'Geen transacties komen overeen met "$query".';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) =>
+      '$delta ten opzichte van vorige maand';
+
+  @override
+  String get blockAnalytics => 'Analyse';
+
+  @override
+  String get blockSessionsDevicesBlurb =>
+      'Sessies, apparaten en waar het verkeer vandaan kwam.';
+
+  @override
+  String get blockSearchReports => 'Rapporten zoeken';
+
+  @override
+  String get blockLast30Days => 'Laatste 30 dagen';
+
+  @override
+  String get blockAllDevices => 'Alle apparaten';
+
+  @override
+  String get blockSessions => 'Sessies';
+
+  @override
+  String get blockUsers => 'Gebruikers';
+
+  @override
+  String get blockAvgSession => 'Gem. sessie';
+
+  @override
+  String get blockBounceRate => 'Bouncepercentage';
+
+  @override
+  String get blockConversions => 'Conversies';
+
+  @override
+  String get blockByDevice => 'Per apparaat';
+
+  @override
+  String get blockDesktop => 'Desktop';
+
+  @override
+  String get blockMobile => 'Mobiel';
+
+  @override
+  String get blockTablet => 'Tablet';
+
+  @override
+  String get blockDirect => 'Direct';
+
+  @override
+  String get blockReferral => 'Verwijzing';
+
+  @override
+  String get blockSocial => 'Sociaal';
+
+  @override
+  String get blockTrafficSources => 'Verkeersbronnen';
+
+  @override
+  String get blockVisitors => 'Bezoekers';
+
+  @override
+  String get blockHome => 'Home';
+
+  @override
+  String get blockInbox => 'Inbox';
+
+  @override
+  String get blockCalendar => 'Agenda';
+
+  @override
+  String get blockCompose => 'Opstellen';
+
+  @override
+  String get blockMarkAllRead => 'Alles als gelezen markeren';
+
+  @override
+  String get blockStarred => 'Met ster';
+
+  @override
+  String get blockSnoozed => 'Gesnoozed';
+
+  @override
+  String get blockUnread => 'Ongelezen';
+
+  @override
+  String get blockDocuments => 'Documenten';
+
+  @override
+  String get blockReports => 'Rapporten';
+
+  @override
+  String get blockDashboard => 'Dashboard';
+
+  @override
+  String get blockStorage => 'Opslag';
+
+  @override
+  String get blockNavigation => 'Navigatie';
+
+  @override
+  String get blockSharedWithYou => 'Met je gedeeld';
+
+  @override
+  String get blockRecentProjects => 'Recente projecten';
+
+  @override
+  String get blockStorageUsed => 'Gebruikte opslag';
+
+  @override
+  String get blockOpen => 'Openen';
+
+  @override
+  String get blockLive => 'Live';
+
+  @override
+  String get blockMembers => 'Leden';
+
+  @override
+  String get blockProjects => 'Projecten';
+
+  @override
+  String get blockDeploys => 'Deployments';
+
+  @override
+  String get blockActivity => 'Activiteit';
+
+  @override
+  String get blockRecentFiles => 'Recente bestanden';
+
+  @override
+  String get blockUsageThisMonth => 'Gebruik deze maand';
+
+  @override
+  String get blockUpgradePlan => 'Abonnement upgraden';
+
+  @override
+  String blockNoMatches(Object? query) => 'Geen resultaten voor "$query".';
+
+  @override
+  String get blockWorkspaces => 'Werkruimten';
+
+  @override
+  String get blockPricing => 'Prijzen';
+
+  @override
+  String get blockPlansScale => 'Abonnementen die met je meegroeien';
+
+  @override
+  String get blockPlansBlurb =>
+      'Begin gratis en upgrade wanneer je team groeit. Elk abonnement bevat de volledige componentenbibliotheek en de themapresets.';
+
+  @override
+  String get blockPerUserMonth => 'per gebruiker / maand';
+
+  @override
+  String get blockSubscribe => 'Abonneren';
+
+  @override
+  String get blockContactSales => 'Neem contact op met verkoop';
+
+  @override
+  String get blockPromoCode => 'Promotiecode';
+
+  @override
+  String get blockApplyCode => 'Code toepassen';
+
+  @override
+  String get blockHaveCodeEnter => 'Heb je een code? Voer deze hieronder in.';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'Code toegepast — je korting is zichtbaar bij het afrekenen.';
+
+  @override
+  String get blockFaqTitle => 'Vragen';
+
+  @override
+  String get blockFaqChangePlans => 'Kan ik later van abonnement wisselen?';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'Ja. Upgrades gelden direct, downgrades vanaf de volgende cyclus.';
+
+  @override
+  String get blockFaqFreeTrial => 'Is er een gratis proefperiode?';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'Elk abonnement begint met 14 dagen, geen kaart nodig.';
+
+  @override
+  String get blockAccount => 'Account';
+
+  @override
+  String get blockGeneral => 'Algemeen';
+
+  @override
+  String get blockAppearance => 'Weergave';
+
+  @override
+  String get blockDarkMode => 'Donkere modus';
+
+  @override
+  String get blockPreferences => 'Voorkeuren';
+
+  @override
+  String get blockSignOut => 'Uitloggen';
+
+  @override
+  String get blockSignOutConfirm => 'Uitloggen?';
+
+  @override
+  String get blockSignOutBlurb => 'Je kunt je later altijd weer aanmelden.';
+
+  @override
+  String get blockSounds => 'Geluiden';
+
+  @override
+  String get blockWhatYouGet => 'Wat je krijgt';
+
+  @override
+  String get blockAllComponentCategories => 'Alle componentcategorieën';
+
+  @override
+  String get blockPrioritySupport => 'Prioriteitsondersteuning';
+
+  @override
+  String get blockUnlimitedProjectsTrial =>
+      'Onbeperkt projecten tijdens de proefperiode';
+
+  @override
+  String get blockTrialDaysLeft => 'Nog 14 dagen proefperiode';
+
+  @override
+  String get blockStarterChat => 'Chat';
+
+  @override
+  String get blockStarterShop => 'Winkel';
+
+  @override
+  String get blockStarterCart => 'Winkelwagen';
+
+  @override
+  String get blockAddToCart => 'In winkelwagen';
 }

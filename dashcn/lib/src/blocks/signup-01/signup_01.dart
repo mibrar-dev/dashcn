@@ -130,6 +130,7 @@ class _Signup01State extends State<Signup01> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final Widget card = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 384),
@@ -231,7 +232,7 @@ class _Signup01State extends State<Signup01> {
                     throw StateError('Signup01: validation failed.');
                   }
                 },
-                child: const Text('Create account'),
+                child: Text(strings.blockCreateAccount),
               ),
               if (_succeeded) ...<Widget>[
                 Gap(theme.spacing.lg),

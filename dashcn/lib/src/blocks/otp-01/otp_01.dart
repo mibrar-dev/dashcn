@@ -136,6 +136,7 @@ class _Otp01State extends State<Otp01> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final String email = widget.email ?? 'ada@example.com';
     final Widget card = ConstrainedBox(
@@ -149,10 +150,10 @@ class _Otp01State extends State<Otp01> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Verify your email', style: theme.typography.h2),
+              Text(strings.blockVerifyYourEmail, style: theme.typography.h2),
               Gap(theme.spacing.sm),
               Text(
-                'We sent a six-digit code to $email.',
+                strings.blockWeSentCodeTo(email),
                 style: theme.typography.textMuted.copyWith(
                   color: theme.colors.mutedForeground,
                 ),

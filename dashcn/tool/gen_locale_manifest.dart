@@ -52,6 +52,7 @@ const List<String> _mixinFiles = <String>[
   'localizations_media.dart',
   'localizations_chrome.dart',
   'localizations_error.dart',
+  'localizations_blocks.dart',
 ];
 
 /// Parses `String get name => body;` / `String name(sig) => body;` members.

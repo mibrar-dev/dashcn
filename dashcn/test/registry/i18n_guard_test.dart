@@ -18,13 +18,11 @@ class _Allowed {
 }
 
 /// Folder-level allowance: every remaining literal under these roots is demo
-/// sample content (the preview.dart doctrine). Control chrome in blocks uses
-/// the locale table; narrative copy stays English on purpose.
-const List<String> _sampleContentRoots = <String>[
-  'blocks/',
-  'flows/',
-  'starters/',
-];
+/// sample content (the preview.dart doctrine). Blocks, flows and starters
+/// carry no blanket exemption: their control chrome reads the locale table
+/// and only demo data (names, messages, amounts, timestamps) stays English,
+/// covered by the per-file entries below.
+const List<String> _sampleContentRoots = <String>[];
 
 /// Explicit per-exception allow-list. Each entry needs a reason.
 const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
@@ -221,6 +219,85 @@ const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
   ],
   'primitives/text_editing': <_Allowed>[
     _Allowed('', 'token fragment debug/empty separators; not UI words.'),
+  ],
+  // Blocks, flows and starters: control chrome reads ComponentLocalizations;
+  // the entries below are demo sample content (names, example emails,
+  // addresses, dates, version rows, legal link labels) adopters replace.
+  'blocks/login-01/login_01.dart': <_Allowed>[
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'blocks/account-01/account_01_profile.dart': <_Allowed>[
+    _Allowed("'Ada Lovelace'", 'demo name hint; sample content.'),
+    _Allowed("hintText: 'ada'", 'demo username hint; sample content.'),
+  ],
+  'blocks/sidebar-02/sidebar_02_panel.dart': <_Allowed>[
+    _Allowed("'Platform'", 'demo search facet; sample content.'),
+  ],
+  'blocks/sidebar-02/sidebar_02_content.dart': <_Allowed>[
+    _Allowed("'Stable'", 'demo version rows; sample content.'),
+    _Allowed("'Beta channel'", 'demo version rows; sample content.'),
+    _Allowed("'New: batches'", 'demo version rows; sample content.'),
+  ],
+  'blocks/signup-02/signup_02_form.dart': <_Allowed>[
+    _Allowed("'Ada'", 'demo name hints; sample content.'),
+    _Allowed("'Lovelace'", 'demo name hints; sample content.'),
+    _Allowed("'ada@example.com'", 'demo email hint; sample content.'),
+    _Allowed(
+      "'terms'",
+      'English legal link label; legal copy stays source-language.',
+    ),
+    _Allowed(
+      "'privacy policy'",
+      'English legal link label; legal copy stays source-language.',
+    ),
+  ],
+  'blocks/signup-02/signup_02_aside.dart': <_Allowed>[
+    _Allowed("'Acme Inc'", 'demo brand; sample content.'),
+  ],
+  'blocks/login-02/login_02.dart': <_Allowed>[
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'blocks/login-02/login_02_panel.dart': <_Allowed>[
+    _Allowed("'Acme Inc'", 'demo brand; sample content.'),
+  ],
+  'blocks/login-03/login_03.dart': <_Allowed>[
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'blocks/calendar-02/calendar_02.dart': <_Allowed>[
+    _Allowed("'Saturday, 10 October'", 'demo date heading; sample content.'),
+    _Allowed("'Calendar link'", 'demo link label; sample content.'),
+  ],
+  'blocks/signup-01/signup_01.dart': <_Allowed>[
+    _Allowed("'Ada Lovelace'", 'demo name hint; sample content.'),
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+    _Allowed(
+      "'terms'",
+      'English legal link label; legal copy stays source-language.',
+    ),
+    _Allowed(
+      "'privacy policy'",
+      'English legal link label; legal copy stays source-language.',
+    ),
+  ],
+  'flows/checkout-01/screens/address_sheet.dart': <_Allowed>[
+    _Allowed("'Ada Lovelace'", 'demo name hint; sample content.'),
+    _Allowed("'Springfield'", 'demo city hint; sample content.'),
+  ],
+  'flows/auth-01/screens/sign_up_screen.dart': <_Allowed>[
+    _Allowed("'Ada Lovelace'", 'demo name hint; sample content.'),
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'flows/auth-01/screens/forgot_password_screen.dart': <_Allowed>[
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'flows/auth-01/screens/sign_in_screen.dart': <_Allowed>[
+    _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
+  ],
+  'flows/settings-01/flow.dart': <_Allowed>[
+    _Allowed(
+      "this.userName = 'Ada Lovelace'",
+      'demo user default; sample content.',
+    ),
   ],
 };
 

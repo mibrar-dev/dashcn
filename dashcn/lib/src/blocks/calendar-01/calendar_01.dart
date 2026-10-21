@@ -52,6 +52,7 @@ class _Calendar01State extends State<Calendar01> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final Widget body = Align(
       alignment: Alignment.topCenter,
@@ -61,7 +62,7 @@ class _Calendar01State extends State<Calendar01> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text('Schedule', style: theme.typography.h2),
+            Text(strings.blockSchedule, style: theme.typography.h2),
             Gap(theme.spacing.xs),
             Text(
               'Pick a date range for your report.',

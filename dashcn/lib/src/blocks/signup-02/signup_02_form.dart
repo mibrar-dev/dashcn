@@ -89,6 +89,7 @@ class Signup02Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return FormScope(
       controller: controller,
@@ -97,7 +98,7 @@ class Signup02Form extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Create your account', style: theme.typography.h2),
+          Text(strings.blockCreateYourAccount, style: theme.typography.h2),
           Gap(theme.spacing.sm),
           Text(
             'Start your 14-day trial. No credit card required.',

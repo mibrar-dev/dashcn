@@ -850,4 +850,698 @@ class ComponentLocalizationsUr extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'کوالٹی خودکار';
+
+  @override
+  String get blockDontHaveAccount => 'اکاؤنٹ نہیں ہے؟';
+
+  @override
+  String get blockAlreadyHaveAccount => 'کیا پہلے سے اکاؤنٹ ہے؟';
+
+  @override
+  String get blockNoAccountYet => 'ابھی تک اکاؤنٹ نہیں ہے؟';
+
+  @override
+  String get blockHaveAnAccount => 'اکاؤنٹ ہے؟';
+
+  @override
+  String get blockCreateOne => 'بنائیں';
+
+  @override
+  String get blockCreateAccount => 'اکاؤنٹ بنائیں';
+
+  @override
+  String get blockCreateYourAccount => 'اپنا اکاؤنٹ بنائیں';
+
+  @override
+  String get blockForgotYourPassword => 'پاس ورڈ بھول گئے؟';
+
+  @override
+  String get blockBackToSignIn => 'سائن ان پر واپس جائیں';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'اپنے ورک اسپیس تک رسائی کے لیے اپنی اسناد درج کریں۔';
+
+  @override
+  String get blockEnterCredentialsContinue =>
+      'جاری رکھنے کے لیے اپنی اسناد درج کریں۔';
+
+  @override
+  String get blockEnterDetailsContinue =>
+      'جاری رکھنے کے لیے نیچے اپنی تفصیلات درج کریں۔';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'اپنا اکاؤنٹ بنانے کے لیے نیچے اپنا ای میل درج کریں۔';
+
+  @override
+  String get blockSignedInWelcomeBack => 'سائن ان ہو گیا — خوش آمدید۔';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'اکاؤنٹ بن گیا — تصدیق کے لیے اپنا ان باکس دیکھیں۔';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'آزمائش شروع ہو گئی — تصدیق کے لیے اپنا ان باکس دیکھیں۔';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'پاس ورڈز مماثل نہیں ہیں۔';
+
+  @override
+  String get blockCurrentPassword => 'موجودہ پاس ورڈ';
+
+  @override
+  String get blockNewPassword => 'نیا پاس ورڈ';
+
+  @override
+  String get blockConfirmNewPassword => 'نئے پاس ورڈ کی تصدیق کریں';
+
+  @override
+  String get blockUpdatePassword => 'پاس ورڈ اپ ڈیٹ کریں';
+
+  @override
+  String get blockPasswordUpdated => 'پاس ورڈ اپ ڈیٹ ہو گیا۔';
+
+  @override
+  String get blockPasswordHintChange =>
+      'کم از کم 8 حروف۔ اسے بدلنے سے آپ دوسری جگہوں سے سائن آؤٹ ہو جائیں گے۔';
+
+  @override
+  String get blockUsername => 'صارف نام';
+
+  @override
+  String get blockUsernameHint => 'چھوٹے حروف، ہندسے، انڈر اسکور۔';
+
+  @override
+  String get blockYourAvatar => 'آپ کا اوتار';
+
+  @override
+  String get blockUploadImage => 'تصویر اپ لوڈ کریں';
+
+  @override
+  String get blockBio => 'تعارف';
+
+  @override
+  String get blockBioHint => 'اپنے بارے میں تھوڑا بتائیں';
+
+  @override
+  String get blockBioCounterHint => 'زیادہ سے زیادہ 160 حروف۔';
+
+  @override
+  String get blockProfileSaved => 'پروفائل محفوظ ہو گئی۔';
+
+  @override
+  String get blockSaveChanges => 'تبدیلیاں محفوظ کریں';
+
+  @override
+  String get blockInviteMember => 'رکن مدعو کریں';
+
+  @override
+  String get blockRoleAdmin => 'منتظم';
+
+  @override
+  String get blockRoleOwner => 'مالک';
+
+  @override
+  String get blockRoleMember => 'رکن';
+
+  @override
+  String get blockTeam => 'ٹیم';
+
+  @override
+  String get blockProfile => 'پروفائل';
+
+  @override
+  String get blockSignInWithEmail => 'ای میل سے سائن ان کریں';
+
+  @override
+  String get blockSignUp => 'سائن اپ کریں';
+
+  @override
+  String get blockPickWayYouPrefer => 'اپنا پسندیدہ طریقہ منتخب کریں۔';
+
+  @override
+  String blockContinueWith(Object? provider) => '$provider کے ساتھ جاری رکھیں';
+
+  @override
+  String get blockCreating => 'بنایا جا رہا ہے…';
+
+  @override
+  String get blockSigningIn => 'سائن ان ہو رہا ہے…';
+
+  @override
+  String get blockSending => 'بھیجا جا رہا ہے…';
+
+  @override
+  String get blockSaving => 'محفوظ کیا جا رہا ہے…';
+
+  @override
+  String get blockPaying => 'ادائیگی ہو رہی ہے…';
+
+  @override
+  String get blockSendResetLink => 'ری سیٹ لنک بھیجیں';
+
+  @override
+  String get blockResetPassword => 'پاس ورڈ ری سیٹ کریں';
+
+  @override
+  String get blockResetLinkSent =>
+      'ری سیٹ لنک بھیج دیا گیا۔ جاری رکھنے کے لیے اپنا ان باکس دیکھیں۔';
+
+  @override
+  String get blockWeWillEmailReset =>
+      'ہم آپ کو ای میل سے ری سیٹ لنک بھیجیں گے۔';
+
+  @override
+  String get blockMustAcceptTerms =>
+      'جاری رکھنے کے لیے آپ کو شرائط قبول کرنی ہوں گی۔';
+
+  @override
+  String get blockCheckInbox => 'اپنا ان باکس دیکھیں';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'آپ کو بھیجا گیا 6 ہندسوں کا کوڈ درج کریں۔';
+
+  @override
+  String get blockCodeVerifiedSignedIn =>
+      'کوڈ کی تصدیق ہو گئی۔ آپ سائن ان ہیں۔';
+
+  @override
+  String get blockEmailVerifiedSet => 'ای میل کی تصدیق ہو گئی — سب تیار ہے۔';
+
+  @override
+  String get blockVerifyYourEmail => 'اپنے ای میل کی تصدیق کریں';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'ہم نے $email پر چھ ہندسوں کا کوڈ بھیجا ہے۔';
+
+  @override
+  String get blockDidntGetCode => 'کوڈ نہیں ملا؟';
+
+  @override
+  String get blockBack => 'پیچھے';
+
+  @override
+  String get blockBackToCart => 'کارٹ پر واپس جائیں';
+
+  @override
+  String get blockBackToSettings => 'ترتیبات پر واپس جائیں';
+
+  @override
+  String get blockOneAccountEverything => 'ہر چیز کے لیے ایک اکاؤنٹ۔';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'اپنی 14 روزہ آزمائش شروع کریں۔ کریڈٹ کارڈ درکار نہیں۔';
+
+  @override
+  String get blockNotifications => 'اطلاعات';
+
+  @override
+  String get blockNotifChoose =>
+      'منتخب کریں کہ آپ کس بارے میں اور کہاں سننا چاہتے ہیں۔';
+
+  @override
+  String get blockEmailNotifications => 'ای میل اطلاعات';
+
+  @override
+  String get blockPushNotifications => 'پش اطلاعات';
+
+  @override
+  String get blockMentionsReplies => 'تذکرے اور جوابات';
+
+  @override
+  String get blockDeliveredToDevices => 'آپ کے آلات پر پہنچایا گیا';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'ای میل · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'پش · $channel';
+
+  @override
+  String get blockQuietHours => 'خاموش اوقات';
+
+  @override
+  String get blockWeeklyDigest => 'ہفتہ وار خلاصہ';
+
+  @override
+  String get blockWeeklyDigestBlurb =>
+      'جو کچھ ہوا اس کے ساتھ ہر پیر کو ایک ای میل۔';
+
+  @override
+  String get blockPreferencesSaved => 'ترجیحات محفوظ ہو گئیں۔';
+
+  @override
+  String get blockSavePreferences => 'ترجیحات محفوظ کریں';
+
+  @override
+  String get blockReset => 'ری سیٹ کریں';
+
+  @override
+  String get blockWelcomeAboard => 'خوش آمدید';
+
+  @override
+  String get blockQuickTour => 'ایپ استعمال شروع کرنے سے پہلے ایک فوری تعارف۔';
+
+  @override
+  String get blockStayInLoop => 'باخبر رہیں';
+
+  @override
+  String get blockMessagesArriveMoment =>
+      'پیغامات اور اپ ڈیٹس ہوتے ہی پہنچتے ہیں۔';
+
+  @override
+  String get blockNeverMissThing => 'کچھ بھی مت چھوڑیں';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'ہم صرف اہم چیزیں بھیجتے ہیں: جوابات، یاد دہانیاں اور حفاظتی انتباہات۔ آپ اسے بعد میں بدل سکتے ہیں۔';
+
+  @override
+  String get blockEnableNotifications => 'اطلاعات فعال کریں؟';
+
+  @override
+  String get blockAllowNotifications => 'اطلاعات کی اجازت دیں';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'ایپ سے بھرپور فائدہ کے لیے اطلاعات کی اجازت دیں۔';
+
+  @override
+  String get blockNotNow => 'ابھی نہیں';
+
+  @override
+  String get blockSkip => 'چھوڑیں';
+
+  @override
+  String get blockGetStarted => 'شروع کریں';
+
+  @override
+  String get blockMessages => 'پیغامات';
+
+  @override
+  String get blockNoConversations => 'کوئی گفتگو نہیں';
+
+  @override
+  String get blockPullRefreshChat =>
+      'ریفریش کے لیے کھینچیں یا نئی چیٹ شروع کریں۔';
+
+  @override
+  String get blockMute => 'خاموش کریں';
+
+  @override
+  String get blockMuted => 'خاموش کیا گیا';
+
+  @override
+  String get blockAttach => 'منسلک کریں';
+
+  @override
+  String get blockAttachFile => 'فائل';
+
+  @override
+  String get blockAttachPhoto => 'تصویر';
+
+  @override
+  String get blockWriteMessage => 'پیغام لکھیں…';
+
+  @override
+  String get blockYourCart => 'آپ کی کارٹ';
+
+  @override
+  String get blockAddSomethingFirst =>
+      'پہلے کچھ ایسا شامل کریں جو آپ کو پسند ہو۔';
+
+  @override
+  String get blockCartEmpty => 'کارٹ خالی ہے';
+
+  @override
+  String get blockCheckout => 'چیک آؤٹ';
+
+  @override
+  String blockQty(int quantity) => 'مقدار $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '$amount ادا کریں';
+
+  @override
+  String get blockPayment => 'ادائیگی';
+
+  @override
+  String get blockCardNumber => 'کارڈ نمبر';
+
+  @override
+  String get blockExpiry => 'میعاد';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'ترسیل کا پتہ';
+
+  @override
+  String get blockStreet => 'گلی';
+
+  @override
+  String get blockCity => 'شہر';
+
+  @override
+  String get blockSaveAndContinue => 'محفوظ کریں اور جاری رکھیں';
+
+  @override
+  String get blockOrderPlaced => 'آرڈر ہو گیا';
+
+  @override
+  String get blockOrderThanks => 'ہم سے خریداری کا شکریہ۔ تصدیق آ رہی ہے۔';
+
+  @override
+  String get blockContinueShopping => 'خریداری جاری رکھیں';
+
+  @override
+  String get blockSchedule => 'شیڈول';
+
+  @override
+  String get blockPickDateRangeReport =>
+      'اپنی رپورٹ کے لیے تاریخ کی حد منتخب کریں۔';
+
+  @override
+  String get blockPickDateRange => 'تاریخ کی حد منتخب کریں';
+
+  @override
+  String get blockTapAnotherDay => 'حد بڑھانے کے لیے دوسرے دن پر ٹیپ کریں';
+
+  @override
+  String get blockBookMeeting => 'میٹنگ بک کریں';
+
+  @override
+  String get blockPickDayTime => 'ایک دن منتخب کریں، پھر مناسب وقت منتخب کریں۔';
+
+  @override
+  String get blockFourSlots => '30 منٹ کے چار سلاٹ باقی ہیں۔ ایک منتخب کریں۔';
+
+  @override
+  String blockPickedSlot(Object? slot) => '$slot منتخب، 30 منٹ۔';
+
+  @override
+  String get blockOverview => 'جائزہ';
+
+  @override
+  String get blockRevenueOrdersBlurb => 'آمدنی، سبسکرپشنز اور تازہ ترین آرڈرز۔';
+
+  @override
+  String get blockTotalRevenue => 'کل آمدنی';
+
+  @override
+  String get blockSubscriptions => 'سبسکرپشنز';
+
+  @override
+  String get blockSales => 'فروخت';
+
+  @override
+  String get blockRevenueByMonth => 'ماہ کے لحاظ سے آمدنی';
+
+  @override
+  String get blockRecentSales => 'حالیہ فروخت';
+
+  @override
+  String get blockViewAll => 'سب دیکھیں';
+
+  @override
+  String get blockTransactions => 'لین دین';
+
+  @override
+  String get blockFilterTransactions => 'لین دین فلٹر کریں';
+
+  @override
+  String get blockCustomer => 'گاہک';
+
+  @override
+  String get blockAmount => 'رقم';
+
+  @override
+  String get blockMethod => 'طریقہ';
+
+  @override
+  String get blockStatus => 'حالت';
+
+  @override
+  String get blockPaid => 'ادا شدہ';
+
+  @override
+  String get blockPending => 'زیر التواء';
+
+  @override
+  String get blockRefunded => 'واپس کیا گیا';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      '“$query” سے کوئی لین دین مماثل نہیں۔';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => 'پچھلے مہینے سے $delta';
+
+  @override
+  String get blockAnalytics => 'تجزیات';
+
+  @override
+  String get blockSessionsDevicesBlurb => 'سیشنز، آلات اور ٹریفک کہاں سے آئی۔';
+
+  @override
+  String get blockSearchReports => 'رپورٹس تلاش کریں';
+
+  @override
+  String get blockLast30Days => 'پچھلے 30 دن';
+
+  @override
+  String get blockAllDevices => 'تمام آلات';
+
+  @override
+  String get blockSessions => 'سیشنز';
+
+  @override
+  String get blockUsers => 'صارفین';
+
+  @override
+  String get blockAvgSession => 'اوسط سیشن';
+
+  @override
+  String get blockBounceRate => 'باؤنس ریٹ';
+
+  @override
+  String get blockConversions => 'تبادلوں';
+
+  @override
+  String get blockByDevice => 'آلے کے لحاظ سے';
+
+  @override
+  String get blockDesktop => 'ڈیسک ٹاپ';
+
+  @override
+  String get blockMobile => 'موبائل';
+
+  @override
+  String get blockTablet => 'ٹیبلٹ';
+
+  @override
+  String get blockDirect => 'براہ راست';
+
+  @override
+  String get blockReferral => 'ریفرل';
+
+  @override
+  String get blockSocial => 'سوشل';
+
+  @override
+  String get blockTrafficSources => 'ٹریفک ذرائع';
+
+  @override
+  String get blockVisitors => 'زائرین';
+
+  @override
+  String get blockHome => 'ہوم';
+
+  @override
+  String get blockInbox => 'ان باکس';
+
+  @override
+  String get blockCalendar => 'کیلنڈر';
+
+  @override
+  String get blockCompose => 'تحریر کریں';
+
+  @override
+  String get blockMarkAllRead => 'سب کو پڑھا ہوا نشان زد کریں';
+
+  @override
+  String get blockStarred => 'ستارہ زدہ';
+
+  @override
+  String get blockSnoozed => 'مؤخر';
+
+  @override
+  String get blockUnread => 'غیر پڑھا ہوا';
+
+  @override
+  String get blockDocuments => 'دستاویزات';
+
+  @override
+  String get blockReports => 'رپورٹس';
+
+  @override
+  String get blockDashboard => 'ڈیش بورڈ';
+
+  @override
+  String get blockStorage => 'اسٹوریج';
+
+  @override
+  String get blockNavigation => 'رہنمائی';
+
+  @override
+  String get blockSharedWithYou => 'آپ کے ساتھ شیئر کیا گیا';
+
+  @override
+  String get blockRecentProjects => 'حالیہ پراجیکٹس';
+
+  @override
+  String get blockStorageUsed => 'استعمال شدہ اسٹوریج';
+
+  @override
+  String get blockOpen => 'کھولیں';
+
+  @override
+  String get blockLive => 'براہ راست';
+
+  @override
+  String get blockMembers => 'اراکین';
+
+  @override
+  String get blockProjects => 'پراجیکٹس';
+
+  @override
+  String get blockDeploys => 'تعیناتیاں';
+
+  @override
+  String get blockActivity => 'سرگرمی';
+
+  @override
+  String get blockRecentFiles => 'حالیہ فائلیں';
+
+  @override
+  String get blockUsageThisMonth => 'اس ماہ کا استعمال';
+
+  @override
+  String get blockUpgradePlan => 'منصوبہ اپ گریڈ کریں';
+
+  @override
+  String blockNoMatches(Object? query) => '“$query” کے لیے کوئی نتائج نہیں۔';
+
+  @override
+  String get blockWorkspaces => 'ورک اسپیسز';
+
+  @override
+  String get blockPricing => 'قیمتیں';
+
+  @override
+  String get blockPlansScale => 'منصوبے جو آپ کے ساتھ بڑھیں';
+
+  @override
+  String get blockPlansBlurb =>
+      'مفت شروع کریں، جب آپ کی ٹیم بڑھے تو اپ گریڈ کریں۔ ہر منصوبے میں مکمل کمپوننٹ لائبریری اور تھیم پری سیٹس شامل ہیں۔';
+
+  @override
+  String get blockPerUserMonth => 'فی صارف / ماہ';
+
+  @override
+  String get blockSubscribe => 'سبسکرائب کریں';
+
+  @override
+  String get blockContactSales => 'سیلز سے رابطہ کریں';
+
+  @override
+  String get blockPromoCode => 'پرومو کوڈ';
+
+  @override
+  String get blockApplyCode => 'کوڈ لگائیں';
+
+  @override
+  String get blockHaveCodeEnter => 'کوڈ ہے؟ نیچے درج کریں۔';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'کوڈ لگا دیا گیا — آپ کی رعایت چیک آؤٹ پر نظر آئے گی۔';
+
+  @override
+  String get blockFaqTitle => 'سوالات';
+
+  @override
+  String get blockFaqChangePlans => 'کیا میں بعد میں منصوبہ بدل سکتا ہوں؟';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'جی ہاں۔ اپ گریڈ فوری نافذ ہوتے ہیں، ڈاؤن گریڈ اگلے چکر سے۔';
+
+  @override
+  String get blockFaqFreeTrial => 'کیا مفت آزمائش ہے؟';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'ہر منصوبہ 14 دن سے شروع ہوتا ہے، کارڈ درکار نہیں۔';
+
+  @override
+  String get blockAccount => 'اکاؤنٹ';
+
+  @override
+  String get blockGeneral => 'عمومی';
+
+  @override
+  String get blockAppearance => 'شکل';
+
+  @override
+  String get blockDarkMode => 'ڈارک موڈ';
+
+  @override
+  String get blockPreferences => 'ترجیحات';
+
+  @override
+  String get blockSignOut => 'سائن آؤٹ کریں';
+
+  @override
+  String get blockSignOutConfirm => 'سائن آؤٹ کریں؟';
+
+  @override
+  String get blockSignOutBlurb =>
+      'آپ بعد میں ہمیشہ دوبارہ سائن ان کر سکتے ہیں۔';
+
+  @override
+  String get blockSounds => 'آوازیں';
+
+  @override
+  String get blockWhatYouGet => 'آپ کو کیا ملتا ہے';
+
+  @override
+  String get blockAllComponentCategories => 'تمام کمپوننٹ زمرے';
+
+  @override
+  String get blockPrioritySupport => 'ترجیحی معاونت';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'آزمائش کے دوران لامحدود پراجیکٹس';
+
+  @override
+  String get blockTrialDaysLeft => 'آپ کی آزمائش میں 14 دن باقی ہیں';
+
+  @override
+  String get blockStarterChat => 'چیٹ';
+
+  @override
+  String get blockStarterShop => 'دکان';
+
+  @override
+  String get blockStarterCart => 'کارٹ';
+
+  @override
+  String get blockAddToCart => 'کارٹ میں شامل کریں';
 }

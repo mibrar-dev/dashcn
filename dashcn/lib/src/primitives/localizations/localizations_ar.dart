@@ -848,4 +848,688 @@ class ComponentLocalizationsAr extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => 'الجودة تلقائية';
+
+  @override
+  String get blockDontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get blockAlreadyHaveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get blockNoAccountYet => 'لا يوجد حساب بعد؟';
+
+  @override
+  String get blockHaveAnAccount => 'لديك حساب؟';
+
+  @override
+  String get blockCreateOne => 'أنشئ واحدًا';
+
+  @override
+  String get blockCreateAccount => 'إنشاء حساب';
+
+  @override
+  String get blockCreateYourAccount => 'أنشئ حسابك';
+
+  @override
+  String get blockForgotYourPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get blockBackToSignIn => 'العودة إلى تسجيل الدخول';
+
+  @override
+  String get blockEnterCredentialsWorkspace =>
+      'أدخل بيانات الاعتماد للوصول إلى مساحة العمل.';
+
+  @override
+  String get blockEnterCredentialsContinue => 'أدخل بيانات الاعتماد للمتابعة.';
+
+  @override
+  String get blockEnterDetailsContinue => 'أدخل بياناتك أدناه للمتابعة.';
+
+  @override
+  String get blockEnterEmailCreateAccount =>
+      'أدخل بريدك الإلكتروني أدناه لإنشاء حسابك.';
+
+  @override
+  String get blockSignedInWelcomeBack => 'تم تسجيل الدخول — أهلاً بعودتك.';
+
+  @override
+  String get blockAccountCreatedVerify =>
+      'تم إنشاء الحساب — تحقق من بريدك الوارد لتفعيله.';
+
+  @override
+  String get blockTrialStartedVerify =>
+      'بدأت الفترة التجريبية — تحقق من بريدك الوارد لتفعيلها.';
+
+  @override
+  String get blockPasswordsDoNotMatch => 'كلمتا المرور غير متطابقتين.';
+
+  @override
+  String get blockCurrentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get blockNewPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get blockConfirmNewPassword => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get blockUpdatePassword => 'تحديث كلمة المرور';
+
+  @override
+  String get blockPasswordUpdated => 'تم تحديث كلمة المرور.';
+
+  @override
+  String get blockPasswordHintChange =>
+      '8 أحرف على الأقل. تغييرها يسجّل خروجك في أماكن أخرى.';
+
+  @override
+  String get blockUsername => 'اسم المستخدم';
+
+  @override
+  String get blockUsernameHint => 'أحرف صغيرة وأرقام وشرطات سفلية.';
+
+  @override
+  String get blockYourAvatar => 'صورتك الرمزية';
+
+  @override
+  String get blockUploadImage => 'تحميل صورة';
+
+  @override
+  String get blockBio => 'نبذة';
+
+  @override
+  String get blockBioHint => 'أخبرنا قليلاً عن نفسك';
+
+  @override
+  String get blockBioCounterHint => 'حتى 160 حرفًا.';
+
+  @override
+  String get blockProfileSaved => 'تم حفظ الملف الشخصي.';
+
+  @override
+  String get blockSaveChanges => 'حفظ التغييرات';
+
+  @override
+  String get blockInviteMember => 'دعوة عضو';
+
+  @override
+  String get blockRoleAdmin => 'مشرف';
+
+  @override
+  String get blockRoleOwner => 'مالك';
+
+  @override
+  String get blockRoleMember => 'عضو';
+
+  @override
+  String get blockTeam => 'الفريق';
+
+  @override
+  String get blockProfile => 'الملف الشخصي';
+
+  @override
+  String get blockSignInWithEmail => 'تسجيل الدخول بالبريد الإلكتروني';
+
+  @override
+  String get blockSignUp => 'إنشاء حساب';
+
+  @override
+  String get blockPickWayYouPrefer => 'اختر الطريقة التي تناسبك.';
+
+  @override
+  String blockContinueWith(Object? provider) => 'المتابعة باستخدام $provider';
+
+  @override
+  String get blockCreating => 'جارٍ الإنشاء…';
+
+  @override
+  String get blockSigningIn => 'جارٍ تسجيل الدخول…';
+
+  @override
+  String get blockSending => 'جارٍ الإرسال…';
+
+  @override
+  String get blockSaving => 'جارٍ الحفظ…';
+
+  @override
+  String get blockPaying => 'جارٍ الدفع…';
+
+  @override
+  String get blockSendResetLink => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get blockResetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get blockResetLinkSent =>
+      'تم إرسال رابط إعادة التعيين. تحقق من بريدك الوارد للمتابعة.';
+
+  @override
+  String get blockWeWillEmailReset => 'سنرسل لك رابط إعادة التعيين عبر البريد.';
+
+  @override
+  String get blockMustAcceptTerms => 'يجب قبول الشروط للمتابعة.';
+
+  @override
+  String get blockCheckInbox => 'تحقق من بريدك الوارد';
+
+  @override
+  String get blockEnterSixDigitCode =>
+      'أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إليك.';
+
+  @override
+  String get blockCodeVerifiedSignedIn => 'تم التحقق من الرمز. تم تسجيل دخولك.';
+
+  @override
+  String get blockEmailVerifiedSet => 'تم التحقق من البريد — كل شيء جاهز.';
+
+  @override
+  String get blockVerifyYourEmail => 'تحقق من بريدك الإلكتروني';
+
+  @override
+  String blockWeSentCodeTo(Object? email) =>
+      'أرسلنا رمزًا من 6 أرقام إلى $email.';
+
+  @override
+  String get blockDidntGetCode => 'لم يصلك الرمز؟';
+
+  @override
+  String get blockBack => 'رجوع';
+
+  @override
+  String get blockBackToCart => 'العودة إلى السلة';
+
+  @override
+  String get blockBackToSettings => 'العودة إلى الإعدادات';
+
+  @override
+  String get blockOneAccountEverything => 'حساب واحد لكل شيء.';
+
+  @override
+  String get blockStartTrialNoCard =>
+      'ابدأ تجربتك المجانية لمدة 14 يومًا. لا حاجة لبطاقة ائتمان.';
+
+  @override
+  String get blockNotifications => 'الإشعارات';
+
+  @override
+  String get blockNotifChoose => 'اختر ما تريد سماعه، وأين.';
+
+  @override
+  String get blockEmailNotifications => 'إشعارات البريد الإلكتروني';
+
+  @override
+  String get blockPushNotifications => 'الإشعارات الفورية';
+
+  @override
+  String get blockMentionsReplies => 'المنشن والردود';
+
+  @override
+  String get blockDeliveredToDevices => 'تُسلَّم إلى أجهزتك';
+
+  @override
+  String blockEmailChannel(Object? channel) => 'البريد · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => 'فوري · $channel';
+
+  @override
+  String get blockQuietHours => 'ساعات الهدوء';
+
+  @override
+  String get blockWeeklyDigest => 'الملخص الأسبوعي';
+
+  @override
+  String get blockWeeklyDigestBlurb => 'بريد واحد كل يوم اثنين بكل ما حدث.';
+
+  @override
+  String get blockPreferencesSaved => 'تم حفظ التفضيلات.';
+
+  @override
+  String get blockSavePreferences => 'حفظ التفضيلات';
+
+  @override
+  String get blockReset => 'إعادة تعيين';
+
+  @override
+  String get blockWelcomeAboard => 'أهلاً بك';
+
+  @override
+  String get blockQuickTour => 'جولة سريعة قبل أن تبدأ استخدام التطبيق.';
+
+  @override
+  String get blockStayInLoop => 'ابقَ على اطلاع';
+
+  @override
+  String get blockMessagesArriveMoment => 'تصل الرسائل والتحديثات لحظة حدوثها.';
+
+  @override
+  String get blockNeverMissThing => 'لا يفوتك شيء';
+
+  @override
+  String get blockNotifPermissionBlurb =>
+      'نرسل فقط ما يهم: الردود والتذكيرات وتنبيهات الأمان. يمكنك تغيير ذلك لاحقًا.';
+
+  @override
+  String get blockEnableNotifications => 'تفعيل الإشعارات؟';
+
+  @override
+  String get blockAllowNotifications => 'السماح بالإشعارات';
+
+  @override
+  String get blockAllowNotificationsBlurb =>
+      'اسمح بالإشعارات لتحصل على أفضل تجربة من التطبيق.';
+
+  @override
+  String get blockNotNow => 'ليس الآن';
+
+  @override
+  String get blockSkip => 'تخطَّ';
+
+  @override
+  String get blockGetStarted => 'ابدأ';
+
+  @override
+  String get blockMessages => 'الرسائل';
+
+  @override
+  String get blockNoConversations => 'لا توجد محادثات';
+
+  @override
+  String get blockPullRefreshChat => 'اسحب للتحديث أو ابدأ محادثة جديدة.';
+
+  @override
+  String get blockMute => 'كتم';
+
+  @override
+  String get blockMuted => 'مكتوم';
+
+  @override
+  String get blockAttach => 'إرفاق';
+
+  @override
+  String get blockAttachFile => 'ملف';
+
+  @override
+  String get blockAttachPhoto => 'صورة';
+
+  @override
+  String get blockWriteMessage => 'اكتب رسالة…';
+
+  @override
+  String get blockYourCart => 'سلة التسوق';
+
+  @override
+  String get blockAddSomethingFirst => 'أضف شيئًا يعجبك أولاً.';
+
+  @override
+  String get blockCartEmpty => 'السلة فارغة';
+
+  @override
+  String get blockCheckout => 'إتمام الطلب';
+
+  @override
+  String blockQty(int quantity) => 'الكمية $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => 'ادفع $amount';
+
+  @override
+  String get blockPayment => 'الدفع';
+
+  @override
+  String get blockCardNumber => 'رقم البطاقة';
+
+  @override
+  String get blockExpiry => 'تاريخ الانتهاء';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => 'عنوان التوصيل';
+
+  @override
+  String get blockStreet => 'الشارع';
+
+  @override
+  String get blockCity => 'المدينة';
+
+  @override
+  String get blockSaveAndContinue => 'حفظ ومتابعة';
+
+  @override
+  String get blockOrderPlaced => 'تم تقديم الطلب';
+
+  @override
+  String get blockOrderThanks =>
+      'شكرًا لتسوقكم معنا. تأكيد الطلب في الطريق إليكم.';
+
+  @override
+  String get blockContinueShopping => 'مواصلة التسوق';
+
+  @override
+  String get blockSchedule => 'الجدول';
+
+  @override
+  String get blockPickDateRangeReport => 'اختر نطاقًا زمنيًا لتقريرك.';
+
+  @override
+  String get blockPickDateRange => 'اختر نطاقًا زمنيًا';
+
+  @override
+  String get blockTapAnotherDay => 'انقر يومًا آخر لتمديد النطاق';
+
+  @override
+  String get blockBookMeeting => 'احجز اجتماعًا';
+
+  @override
+  String get blockPickDayTime => 'اختر يومًا ثم وقتًا يناسبك.';
+
+  @override
+  String get blockFourSlots =>
+      'تبقت أربعة مواعيد، 30 دقيقة لكل منها. اختر واحدًا.';
+
+  @override
+  String blockPickedSlot(Object? slot) => 'تم اختيار $slot، 30 دقيقة.';
+
+  @override
+  String get blockOverview => 'نظرة عامة';
+
+  @override
+  String get blockRevenueOrdersBlurb => 'الإيرادات والاشتراكات وأحدث الطلبات.';
+
+  @override
+  String get blockTotalRevenue => 'إجمالي الإيرادات';
+
+  @override
+  String get blockSubscriptions => 'الاشتراكات';
+
+  @override
+  String get blockSales => 'المبيعات';
+
+  @override
+  String get blockRevenueByMonth => 'الإيرادات حسب الشهر';
+
+  @override
+  String get blockRecentSales => 'أحدث المبيعات';
+
+  @override
+  String get blockViewAll => 'عرض الكل';
+
+  @override
+  String get blockTransactions => 'المعاملات';
+
+  @override
+  String get blockFilterTransactions => 'تصفية المعاملات';
+
+  @override
+  String get blockCustomer => 'العميل';
+
+  @override
+  String get blockAmount => 'المبلغ';
+
+  @override
+  String get blockMethod => 'الطريقة';
+
+  @override
+  String get blockStatus => 'الحالة';
+
+  @override
+  String get blockPaid => 'مدفوعة';
+
+  @override
+  String get blockPending => 'قيد الانتظار';
+
+  @override
+  String get blockRefunded => 'مستردة';
+
+  @override
+  String blockNoTransactions(Object? query) =>
+      'لا توجد معاملات تطابق “$query”.';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => '$delta عن الشهر الماضي';
+
+  @override
+  String get blockAnalytics => 'التحليلات';
+
+  @override
+  String get blockSessionsDevicesBlurb => 'الجلسات والأجهزة ومصادر الزيارات.';
+
+  @override
+  String get blockSearchReports => 'البحث في التقارير';
+
+  @override
+  String get blockLast30Days => 'آخر 30 يومًا';
+
+  @override
+  String get blockAllDevices => 'كل الأجهزة';
+
+  @override
+  String get blockSessions => 'الجلسات';
+
+  @override
+  String get blockUsers => 'المستخدمون';
+
+  @override
+  String get blockAvgSession => 'متوسط الجلسة';
+
+  @override
+  String get blockBounceRate => 'معدل الارتداد';
+
+  @override
+  String get blockConversions => 'التحويلات';
+
+  @override
+  String get blockByDevice => 'حسب الجهاز';
+
+  @override
+  String get blockDesktop => 'سطح المكتب';
+
+  @override
+  String get blockMobile => 'الجوال';
+
+  @override
+  String get blockTablet => 'الجهاز اللوحي';
+
+  @override
+  String get blockDirect => 'مباشر';
+
+  @override
+  String get blockReferral => 'إحالة';
+
+  @override
+  String get blockSocial => 'اجتماعي';
+
+  @override
+  String get blockTrafficSources => 'مصادر الزيارات';
+
+  @override
+  String get blockVisitors => 'الزوار';
+
+  @override
+  String get blockHome => 'الرئيسية';
+
+  @override
+  String get blockInbox => 'البريد الوارد';
+
+  @override
+  String get blockCalendar => 'التقويم';
+
+  @override
+  String get blockCompose => 'إنشاء';
+
+  @override
+  String get blockMarkAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get blockStarred => 'مميزة بنجمة';
+
+  @override
+  String get blockSnoozed => 'مؤجلة';
+
+  @override
+  String get blockUnread => 'غير مقروءة';
+
+  @override
+  String get blockDocuments => 'المستندات';
+
+  @override
+  String get blockReports => 'التقارير';
+
+  @override
+  String get blockDashboard => 'لوحة التحكم';
+
+  @override
+  String get blockStorage => 'التخزين';
+
+  @override
+  String get blockNavigation => 'التنقل';
+
+  @override
+  String get blockSharedWithYou => 'مُشارَك معك';
+
+  @override
+  String get blockRecentProjects => 'المشاريع الأخيرة';
+
+  @override
+  String get blockStorageUsed => 'المساحة المستخدمة';
+
+  @override
+  String get blockOpen => 'فتح';
+
+  @override
+  String get blockLive => 'مباشر';
+
+  @override
+  String get blockMembers => 'الأعضاء';
+
+  @override
+  String get blockProjects => 'المشاريع';
+
+  @override
+  String get blockDeploys => 'عمليات النشر';
+
+  @override
+  String get blockActivity => 'النشاط';
+
+  @override
+  String get blockRecentFiles => 'الملفات الأخيرة';
+
+  @override
+  String get blockUsageThisMonth => 'الاستخدام هذا الشهر';
+
+  @override
+  String get blockUpgradePlan => 'ترقية الخطة';
+
+  @override
+  String blockNoMatches(Object? query) => 'لا توجد نتائج مطابقة لـ “$query”.';
+
+  @override
+  String get blockWorkspaces => 'مساحات العمل';
+
+  @override
+  String get blockPricing => 'الأسعار';
+
+  @override
+  String get blockPlansScale => 'خطط تنمو معك';
+
+  @override
+  String get blockPlansBlurb =>
+      'ابدأ مجانًا وقم بالترقية عندما ينمو فريقك. كل خطة تشمل مكتبة المكونات الكاملة وإعدادات المظهر.';
+
+  @override
+  String get blockPerUserMonth => 'لكل مستخدم شهريًا';
+
+  @override
+  String get blockSubscribe => 'اشترك';
+
+  @override
+  String get blockContactSales => 'تواصل مع المبيعات';
+
+  @override
+  String get blockPromoCode => 'الرمز الترويجي';
+
+  @override
+  String get blockApplyCode => 'تطبيق الرمز';
+
+  @override
+  String get blockHaveCodeEnter => 'لديك رمز؟ أدخله أدناه.';
+
+  @override
+  String get blockCodeAppliedDiscount =>
+      'تم تطبيق الرمز — يظهر خصمك عند الدفع.';
+
+  @override
+  String get blockFaqTitle => 'الأسئلة';
+
+  @override
+  String get blockFaqChangePlans => 'هل يمكنني تغيير الخطة لاحقًا؟';
+
+  @override
+  String get blockFaqChangePlansAnswer =>
+      'نعم. الترقيات فورية، والتخفيضات من الدورة القادمة.';
+
+  @override
+  String get blockFaqFreeTrial => 'هل هناك فترة تجريبية مجانية؟';
+
+  @override
+  String get blockFaqFreeTrialAnswer =>
+      'كل خطة تبدأ بـ 14 يومًا، دون الحاجة إلى بطاقة.';
+
+  @override
+  String get blockAccount => 'الحساب';
+
+  @override
+  String get blockGeneral => 'عام';
+
+  @override
+  String get blockAppearance => 'المظهر';
+
+  @override
+  String get blockDarkMode => 'الوضع الداكن';
+
+  @override
+  String get blockPreferences => 'التفضيلات';
+
+  @override
+  String get blockSignOut => 'تسجيل الخروج';
+
+  @override
+  String get blockSignOutConfirm => 'تسجيل الخروج؟';
+
+  @override
+  String get blockSignOutBlurb => 'يمكنك دائمًا تسجيل الدخول لاحقًا.';
+
+  @override
+  String get blockSounds => 'الأصوات';
+
+  @override
+  String get blockWhatYouGet => 'ماذا تحصل عليه';
+
+  @override
+  String get blockAllComponentCategories => 'كل فئات المكونات';
+
+  @override
+  String get blockPrioritySupport => 'دعم ذو أولوية';
+
+  @override
+  String get blockUnlimitedProjectsTrial => 'مشاريع غير محدودة أثناء التجربة';
+
+  @override
+  String get blockTrialDaysLeft => 'تبقى 14 يومًا على تجربتك';
+
+  @override
+  String get blockStarterChat => 'المحادثة';
+
+  @override
+  String get blockStarterShop => 'المتجر';
+
+  @override
+  String get blockStarterCart => 'السلة';
+
+  @override
+  String get blockAddToCart => 'أضف إلى السلة';
 }

@@ -3,7 +3,7 @@
 //
 // Renders under `flutter test` like `p7i-alert-dialog_captures_test.dart` and
 // writes one PNG per locale/brightness/size into
-// `scratchpad/ui/i18n/captures/` (committed, with CAPTURES.md).
+// `scratchpad/ui/i18n/captures/` (regenerated on demand, not committed).
 import 'dart:io';
 import 'dart:ui' as ui;
 

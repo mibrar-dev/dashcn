@@ -13,6 +13,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
 import 'attachments_sheet.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Conversation with composer; attach opens the attachments sheet.
 class Chat01ConversationScreen extends StatefulWidget {
@@ -91,6 +92,7 @@ class _Chat01ConversationScreenState extends State<Chat01ConversationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -111,7 +113,7 @@ class _Chat01ConversationScreenState extends State<Chat01ConversationScreen> {
                             variant: ButtonVariant.ghost,
                             size: ButtonSize.sm,
                             onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('‹ Back'),
+                            child: Text('‹ ${strings.blockBack}'),
                           ),
                           Expanded(
                             child: Text(
@@ -154,7 +156,7 @@ class _Chat01ConversationScreenState extends State<Chat01ConversationScreen> {
                             child: Input(
                               key: const ValueKey<String>('chat01.composer'),
                               controller: _composer,
-                              hintText: 'Write a message…',
+                              hintText: strings.blockWriteMessage,
                               textInputAction: TextInputAction.send,
                               onSubmitted: (_) => _send(),
                             ),

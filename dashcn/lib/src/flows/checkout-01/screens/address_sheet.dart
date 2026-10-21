@@ -10,6 +10,7 @@ import '../../../components/pinned_sheet/pinned_sheet.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Address form; Save validates, reports [onSaved], and closes via [onClose].
 class Checkout01AddressSheet extends StatefulWidget {
@@ -70,6 +71,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(appTheme.spacing.lg),
@@ -77,7 +79,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Delivery address', style: appTheme.typography.h3),
+          Text(strings.blockDeliveryAddress, style: appTheme.typography.h3),
           Gap(appTheme.spacing.md),
           FormScope(
             controller: _form,
@@ -86,7 +88,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
               children: <Widget>[
                 FormItem<String>(
                   key: _nameKey,
-                  label: const Text('Name'),
+                  label: Text(strings.authName),
                   validator: const NotEmptyValidator(),
                   // Errors surface on submit only: the mount-time report lands
                   // as `changed`, so including it would flag pristine fields.
@@ -101,7 +103,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
                 Gap(appTheme.spacing.sm),
                 FormItem<String>(
                   key: _streetKey,
-                  label: const Text('Street'),
+                  label: Text(strings.blockStreet),
                   validator: const NotEmptyValidator(),
                   // Errors surface on submit only: the mount-time report lands
                   // as `changed`, so including it would flag pristine fields.
@@ -116,7 +118,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
                 Gap(appTheme.spacing.sm),
                 FormItem<String>(
                   key: _cityKey,
-                  label: const Text('City'),
+                  label: Text(strings.blockCity),
                   validator: const NotEmptyValidator(),
                   // Errors surface on submit only: the mount-time report lands
                   // as `changed`, so including it would flag pristine fields.
@@ -144,7 +146,7 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
               widget.controller.close();
               widget.onClose();
             },
-            child: const Text('Close'),
+            child: Text(strings.actionClose),
           ),
         ],
       ),

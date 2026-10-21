@@ -828,4 +828,670 @@ class ComponentLocalizationsZh extends ComponentLocalizations {
 
   @override
   String get mediaQualityAuto => '画质 自动';
+
+  @override
+  String get blockDontHaveAccount => '还没有帐户？';
+
+  @override
+  String get blockAlreadyHaveAccount => '已有帐户？';
+
+  @override
+  String get blockNoAccountYet => '还没有帐户吗？';
+
+  @override
+  String get blockHaveAnAccount => '有帐户吗？';
+
+  @override
+  String get blockCreateOne => '创建一个';
+
+  @override
+  String get blockCreateAccount => '创建帐户';
+
+  @override
+  String get blockCreateYourAccount => '创建您的帐户';
+
+  @override
+  String get blockForgotYourPassword => '忘记密码？';
+
+  @override
+  String get blockBackToSignIn => '返回登录';
+
+  @override
+  String get blockEnterCredentialsWorkspace => '输入您的凭据以访问工作区。';
+
+  @override
+  String get blockEnterCredentialsContinue => '输入您的凭据以继续。';
+
+  @override
+  String get blockEnterDetailsContinue => '在下方输入您的详细信息以继续。';
+
+  @override
+  String get blockEnterEmailCreateAccount => '在下方输入您的电子邮件以创建帐户。';
+
+  @override
+  String get blockSignedInWelcomeBack => '已登录——欢迎回来。';
+
+  @override
+  String get blockAccountCreatedVerify => '帐户已创建——请检查收件箱进行验证。';
+
+  @override
+  String get blockTrialStartedVerify => '试用已开始——请检查收件箱进行验证。';
+
+  @override
+  String get blockPasswordsDoNotMatch => '密码不匹配。';
+
+  @override
+  String get blockCurrentPassword => '当前密码';
+
+  @override
+  String get blockNewPassword => '新密码';
+
+  @override
+  String get blockConfirmNewPassword => '确认新密码';
+
+  @override
+  String get blockUpdatePassword => '更新密码';
+
+  @override
+  String get blockPasswordUpdated => '密码已更新。';
+
+  @override
+  String get blockPasswordHintChange => '至少8个字符。更改后您将在其他地方退出登录。';
+
+  @override
+  String get blockUsername => '用户名';
+
+  @override
+  String get blockUsernameHint => '小写字母、数字、下划线。';
+
+  @override
+  String get blockYourAvatar => '您的头像';
+
+  @override
+  String get blockUploadImage => '上传图片';
+
+  @override
+  String get blockBio => '简介';
+
+  @override
+  String get blockBioHint => '简单介绍一下自己';
+
+  @override
+  String get blockBioCounterHint => '最多160个字符。';
+
+  @override
+  String get blockProfileSaved => '个人资料已保存。';
+
+  @override
+  String get blockSaveChanges => '保存更改';
+
+  @override
+  String get blockInviteMember => '邀请成员';
+
+  @override
+  String get blockRoleAdmin => '管理员';
+
+  @override
+  String get blockRoleOwner => '所有者';
+
+  @override
+  String get blockRoleMember => '成员';
+
+  @override
+  String get blockTeam => '团队';
+
+  @override
+  String get blockProfile => '个人资料';
+
+  @override
+  String get blockSignInWithEmail => '使用电子邮件登录';
+
+  @override
+  String get blockSignUp => '注册';
+
+  @override
+  String get blockPickWayYouPrefer => '选择您喜欢的方式。';
+
+  @override
+  String blockContinueWith(Object? provider) => '使用 $provider 继续';
+
+  @override
+  String get blockCreating => '创建中…';
+
+  @override
+  String get blockSigningIn => '登录中…';
+
+  @override
+  String get blockSending => '发送中…';
+
+  @override
+  String get blockSaving => '保存中…';
+
+  @override
+  String get blockPaying => '支付中…';
+
+  @override
+  String get blockSendResetLink => '发送重置链接';
+
+  @override
+  String get blockResetPassword => '重置密码';
+
+  @override
+  String get blockResetLinkSent => '重置链接已发送。请检查收件箱以继续。';
+
+  @override
+  String get blockWeWillEmailReset => '我们将通过电子邮件向您发送重置链接。';
+
+  @override
+  String get blockMustAcceptTerms => '您必须接受条款才能继续。';
+
+  @override
+  String get blockCheckInbox => '检查收件箱';
+
+  @override
+  String get blockEnterSixDigitCode => '输入我们发送给您的6位验证码。';
+
+  @override
+  String get blockCodeVerifiedSignedIn => '验证码已验证。您已登录。';
+
+  @override
+  String get blockEmailVerifiedSet => '电子邮件已验证——一切就绪。';
+
+  @override
+  String get blockVerifyYourEmail => '验证您的电子邮件';
+
+  @override
+  String blockWeSentCodeTo(Object? email) => '我们已向 $email 发送了六位数验证码。';
+
+  @override
+  String get blockDidntGetCode => '没有收到验证码？';
+
+  @override
+  String get blockBack => '返回';
+
+  @override
+  String get blockBackToCart => '返回购物车';
+
+  @override
+  String get blockBackToSettings => '返回设置';
+
+  @override
+  String get blockOneAccountEverything => '一个帐户搞定一切。';
+
+  @override
+  String get blockStartTrialNoCard => '开始14天试用。无需信用卡。';
+
+  @override
+  String get blockNotifications => '通知';
+
+  @override
+  String get blockNotifChoose => '选择您想了解的内容和渠道。';
+
+  @override
+  String get blockEmailNotifications => '电子邮件通知';
+
+  @override
+  String get blockPushNotifications => '推送通知';
+
+  @override
+  String get blockMentionsReplies => '提及和回复';
+
+  @override
+  String get blockDeliveredToDevices => '已发送到您的设备';
+
+  @override
+  String blockEmailChannel(Object? channel) => '电子邮件 · $channel';
+
+  @override
+  String blockPushChannel(Object? channel) => '推送 · $channel';
+
+  @override
+  String get blockQuietHours => '免打扰时间';
+
+  @override
+  String get blockWeeklyDigest => '每周摘要';
+
+  @override
+  String get blockWeeklyDigestBlurb => '每周一发送一封包含所有动态的电子邮件。';
+
+  @override
+  String get blockPreferencesSaved => '偏好设置已保存。';
+
+  @override
+  String get blockSavePreferences => '保存偏好设置';
+
+  @override
+  String get blockReset => '重置';
+
+  @override
+  String get blockWelcomeAboard => '欢迎加入';
+
+  @override
+  String get blockQuickTour => '开始使用应用前的快速导览。';
+
+  @override
+  String get blockStayInLoop => '随时了解动态';
+
+  @override
+  String get blockMessagesArriveMoment => '消息和更新会在发生时即时送达。';
+
+  @override
+  String get blockNeverMissThing => '不再错过任何事';
+
+  @override
+  String get blockNotifPermissionBlurb => '我们只发送重要内容：回复、提醒和安全警报。您稍后可以更改。';
+
+  @override
+  String get blockEnableNotifications => '启用通知？';
+
+  @override
+  String get blockAllowNotifications => '允许通知';
+
+  @override
+  String get blockAllowNotificationsBlurb => '允许通知以充分利用该应用。';
+
+  @override
+  String get blockNotNow => '暂不';
+
+  @override
+  String get blockSkip => '跳过';
+
+  @override
+  String get blockGetStarted => '开始使用';
+
+  @override
+  String get blockMessages => '消息';
+
+  @override
+  String get blockNoConversations => '暂无会话';
+
+  @override
+  String get blockPullRefreshChat => '下拉刷新或开始新的聊天。';
+
+  @override
+  String get blockMute => '静音';
+
+  @override
+  String get blockMuted => '已静音';
+
+  @override
+  String get blockAttach => '添加附件';
+
+  @override
+  String get blockAttachFile => '文件';
+
+  @override
+  String get blockAttachPhoto => '照片';
+
+  @override
+  String get blockWriteMessage => '写消息…';
+
+  @override
+  String get blockYourCart => '您的购物车';
+
+  @override
+  String get blockAddSomethingFirst => '先添加一件您喜欢的商品。';
+
+  @override
+  String get blockCartEmpty => '购物车是空的';
+
+  @override
+  String get blockCheckout => '结账';
+
+  @override
+  String blockQty(int quantity) => '数量 $quantity';
+
+  @override
+  String blockPayTotal(Object? amount) => '支付 $amount';
+
+  @override
+  String get blockPayment => '付款';
+
+  @override
+  String get blockCardNumber => '卡号';
+
+  @override
+  String get blockExpiry => '有效期';
+
+  @override
+  String get blockCvc => 'CVC';
+
+  @override
+  String get blockDeliveryAddress => '收货地址';
+
+  @override
+  String get blockStreet => '街道';
+
+  @override
+  String get blockCity => '城市';
+
+  @override
+  String get blockSaveAndContinue => '保存并继续';
+
+  @override
+  String get blockOrderPlaced => '订单已提交';
+
+  @override
+  String get blockOrderThanks => '感谢您的惠顾。确认信息正在发送中。';
+
+  @override
+  String get blockContinueShopping => '继续购物';
+
+  @override
+  String get blockSchedule => '日程';
+
+  @override
+  String get blockPickDateRangeReport => '为您的报告选择日期范围。';
+
+  @override
+  String get blockPickDateRange => '选择日期范围';
+
+  @override
+  String get blockTapAnotherDay => '点按另一天以扩展范围';
+
+  @override
+  String get blockBookMeeting => '预订会议';
+
+  @override
+  String get blockPickDayTime => '先选择日期，再选择合适的时间。';
+
+  @override
+  String get blockFourSlots => '还剩四个30分钟的名额。请选择一个。';
+
+  @override
+  String blockPickedSlot(Object? slot) => '已选择 $slot，30分钟。';
+
+  @override
+  String get blockOverview => '概览';
+
+  @override
+  String get blockRevenueOrdersBlurb => '收入、订阅和最新订单。';
+
+  @override
+  String get blockTotalRevenue => '总收入';
+
+  @override
+  String get blockSubscriptions => '订阅';
+
+  @override
+  String get blockSales => '销售额';
+
+  @override
+  String get blockRevenueByMonth => '按月收入';
+
+  @override
+  String get blockRecentSales => '最近销售';
+
+  @override
+  String get blockViewAll => '查看全部';
+
+  @override
+  String get blockTransactions => '交易';
+
+  @override
+  String get blockFilterTransactions => '筛选交易';
+
+  @override
+  String get blockCustomer => '客户';
+
+  @override
+  String get blockAmount => '金额';
+
+  @override
+  String get blockMethod => '方式';
+
+  @override
+  String get blockStatus => '状态';
+
+  @override
+  String get blockPaid => '已付款';
+
+  @override
+  String get blockPending => '待处理';
+
+  @override
+  String get blockRefunded => '已退款';
+
+  @override
+  String blockNoTransactions(Object? query) => '没有与“$query”匹配的交易。';
+
+  @override
+  String blockDeltaFromLastMonth(Object? delta) => '比上个月 $delta';
+
+  @override
+  String get blockAnalytics => '分析';
+
+  @override
+  String get blockSessionsDevicesBlurb => '会话、设备以及流量来源。';
+
+  @override
+  String get blockSearchReports => '搜索报告';
+
+  @override
+  String get blockLast30Days => '最近30天';
+
+  @override
+  String get blockAllDevices => '所有设备';
+
+  @override
+  String get blockSessions => '会话';
+
+  @override
+  String get blockUsers => '用户';
+
+  @override
+  String get blockAvgSession => '平均会话';
+
+  @override
+  String get blockBounceRate => '跳出率';
+
+  @override
+  String get blockConversions => '转化';
+
+  @override
+  String get blockByDevice => '按设备';
+
+  @override
+  String get blockDesktop => '桌面端';
+
+  @override
+  String get blockMobile => '移动端';
+
+  @override
+  String get blockTablet => '平板';
+
+  @override
+  String get blockDirect => '直接';
+
+  @override
+  String get blockReferral => '推荐';
+
+  @override
+  String get blockSocial => '社交';
+
+  @override
+  String get blockTrafficSources => '流量来源';
+
+  @override
+  String get blockVisitors => '访客';
+
+  @override
+  String get blockHome => '首页';
+
+  @override
+  String get blockInbox => '收件箱';
+
+  @override
+  String get blockCalendar => '日历';
+
+  @override
+  String get blockCompose => '写邮件';
+
+  @override
+  String get blockMarkAllRead => '全部标为已读';
+
+  @override
+  String get blockStarred => '已加星标';
+
+  @override
+  String get blockSnoozed => '已稍后提醒';
+
+  @override
+  String get blockUnread => '未读';
+
+  @override
+  String get blockDocuments => '文档';
+
+  @override
+  String get blockReports => '报告';
+
+  @override
+  String get blockDashboard => '仪表盘';
+
+  @override
+  String get blockStorage => '存储';
+
+  @override
+  String get blockNavigation => '导航';
+
+  @override
+  String get blockSharedWithYou => '与您共享';
+
+  @override
+  String get blockRecentProjects => '最近的项目';
+
+  @override
+  String get blockStorageUsed => '已用存储';
+
+  @override
+  String get blockOpen => '打开';
+
+  @override
+  String get blockLive => '直播';
+
+  @override
+  String get blockMembers => '成员';
+
+  @override
+  String get blockProjects => '项目';
+
+  @override
+  String get blockDeploys => '部署';
+
+  @override
+  String get blockActivity => '动态';
+
+  @override
+  String get blockRecentFiles => '最近的文件';
+
+  @override
+  String get blockUsageThisMonth => '本月用量';
+
+  @override
+  String get blockUpgradePlan => '升级方案';
+
+  @override
+  String blockNoMatches(Object? query) => '没有与“$query”匹配的结果。';
+
+  @override
+  String get blockWorkspaces => '工作区';
+
+  @override
+  String get blockPricing => '定价';
+
+  @override
+  String get blockPlansScale => '与您共同成长的方案';
+
+  @override
+  String get blockPlansBlurb => '免费开始，当您的团队壮大时再升级。每个方案都包含完整的组件库和主题预设。';
+
+  @override
+  String get blockPerUserMonth => '每用户 / 每月';
+
+  @override
+  String get blockSubscribe => '订阅';
+
+  @override
+  String get blockContactSales => '联系销售';
+
+  @override
+  String get blockPromoCode => '优惠码';
+
+  @override
+  String get blockApplyCode => '使用优惠码';
+
+  @override
+  String get blockHaveCodeEnter => '有优惠码？请在下方输入。';
+
+  @override
+  String get blockCodeAppliedDiscount => '优惠码已应用——您的折扣将在结账时显示。';
+
+  @override
+  String get blockFaqTitle => '常见问题';
+
+  @override
+  String get blockFaqChangePlans => '以后可以更换方案吗？';
+
+  @override
+  String get blockFaqChangePlansAnswer => '可以。升级立即生效，降级自下个周期起生效。';
+
+  @override
+  String get blockFaqFreeTrial => '有免费试用吗？';
+
+  @override
+  String get blockFaqFreeTrialAnswer => '每个方案都从14天开始，无需银行卡。';
+
+  @override
+  String get blockAccount => '帐户';
+
+  @override
+  String get blockGeneral => '通用';
+
+  @override
+  String get blockAppearance => '外观';
+
+  @override
+  String get blockDarkMode => '深色模式';
+
+  @override
+  String get blockPreferences => '偏好设置';
+
+  @override
+  String get blockSignOut => '退出登录';
+
+  @override
+  String get blockSignOutConfirm => '要退出登录吗？';
+
+  @override
+  String get blockSignOutBlurb => '您稍后随时可以重新登录。';
+
+  @override
+  String get blockSounds => '声音';
+
+  @override
+  String get blockWhatYouGet => '包含内容';
+
+  @override
+  String get blockAllComponentCategories => '所有组件类别';
+
+  @override
+  String get blockPrioritySupport => '优先支持';
+
+  @override
+  String get blockUnlimitedProjectsTrial => '试用期内项目数量不限';
+
+  @override
+  String get blockTrialDaysLeft => '试用还剩14天';
+
+  @override
+  String get blockStarterChat => '聊天';
+
+  @override
+  String get blockStarterShop => '商店';
+
+  @override
+  String get blockStarterCart => '购物车';
+
+  @override
+  String get blockAddToCart => '加入购物车';
 }
