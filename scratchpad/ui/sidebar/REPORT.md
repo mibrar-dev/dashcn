@@ -64,4 +64,4 @@ padding; two layout fixes applied (Dashboard width, Drawer phone mock).
 
 ## PR
 
-<PR_URL>
+https://github.com/mibrar-dev/dashcn/pull/53 (open, not merged).
