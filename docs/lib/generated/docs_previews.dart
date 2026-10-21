@@ -177,12 +177,12 @@ const Map<String, List<String>> kComponentPreviews = <String, List<String>>{
   'tracker': <String>['Default', 'Custom size', 'Themed'],
   'tree': <String>['Default', 'With selection', 'Multi-select', 'Large'],
   'calendar': <String>[
+    'Read-only',
     'Single',
     'Range',
     'Multi',
     'Month grid',
     'Year grid',
-    'Read-only',
   ],
   'date_picker': <String>['Single', 'Range', 'Dialog', 'Disabled', 'Inline'],
   'time_picker': <String>[

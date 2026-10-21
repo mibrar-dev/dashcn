@@ -9298,7 +9298,7 @@
           "borderColor": "StateValue<ThemedColor>? - border token (bottom)",
           "borderWidth": "double? - 1 (body/header), 0 (footer)",
           "foreground": "StateValue<ThemedColor>? - foreground (body); mutedForeground (head, footer, disabled)",
-          "minHeight": "double? - header h-10 (40)",
+          "minHeight": "double? - header h-9 (36) compact, upstream h-10",
           "padding": "EdgeInsetsGeometry? - p-2 (8) body; px-2 (8) head/footer",
           "textStyle": "TextStyle? - header w500"
         },
@@ -10741,7 +10741,7 @@
     "components/calendar/calendar.dart": "9882528209d2c7a410da2dfd40546117a722771ab33a495b87d1b00e3975c9a5",
     "components/calendar/calendar_style.dart": "25b87d30d09cdd0d19376fbd244e21d9be5a1586e5b4586ad35511fa26ea6b6b",
     "components/calendar/calendar_theme.dart": "53f9eedd84485f6043f6f5384f025265dcfbf42a21653a8931b504fcdf2e1a03",
-    "components/calendar/preview.dart": "5379a39b5e5cb23c5978dec60d6ca13fb9eb0a3dfcd31a0b7b449c3a939b570c",
+    "components/calendar/preview.dart": "f687d88a2a666413ee8ce0a4a8c306b078731da32e03b3ee89ccfb8801d8da38",
     "components/card/card.dart": "4e09085cba68ace995c203f9b8bda499ce504875daf41d34ce1914edd87e7e75",
     "components/card/card_style.dart": "dd286ab2628bd81571552226aa6058f7c6549af3803c795cf093d830de717239",
     "components/card/card_theme.dart": "dc68ea51686fc254fff76c4d2397d0bc579fbd0ebf992130dde845d5eb63ed54",

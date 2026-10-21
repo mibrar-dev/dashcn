@@ -11597,6 +11597,34 @@ Widget _treeLarge(BuildContext context) => const _LargeTree();
   ],
   'calendar': <DocsExampleSource>[
     DocsExampleSource(
+      name: 'Read-only',
+      builder: '_calendarReadOnly',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
+
+/// The month the examples show.
+final DateTime _calendarToday = DateTime(2024, 3, 14);
+
+/// The default month view, March 2024.
+final CalendarView _calendarMarch = CalendarView(2024, 3);
+
+/// Read-only: Sundays are disabled and the value does not change.
+Widget _calendarReadOnly(BuildContext context) {
+  return Calendar(
+    view: _calendarMarch,
+    now: _calendarToday,
+    value: SingleCalendarValue(_calendarToday),
+    stateBuilder: (DateTime date) => date.weekday == DateTime.sunday
+        ? DateState.disabled
+        : DateState.enabled,
+  );
+}
+''',
+    ),
+    DocsExampleSource(
       name: 'Single',
       builder: '_calendarSingle',
       code: r'''import 'package:flutter/widgets.dart';
@@ -11915,34 +11943,6 @@ class _CalendarYearGridPanelState extends State<_CalendarYearGridPanel> {
 
 Widget _calendarYearGrid(BuildContext context) =>
     const _CalendarYearGridPanel();
-''',
-    ),
-    DocsExampleSource(
-      name: 'Read-only',
-      builder: '_calendarReadOnly',
-      code: r'''import 'package:flutter/widgets.dart';
-import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
-import 'package:<your_app>/ui/dashcn/primitives/date_math.dart';
-import 'package:<your_app>/ui/dashcn/theme/theme.dart';
-import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';
-
-/// The month the examples show.
-final DateTime _calendarToday = DateTime(2024, 3, 14);
-
-/// The default month view, March 2024.
-final CalendarView _calendarMarch = CalendarView(2024, 3);
-
-/// Read-only: Sundays are disabled and the value does not change.
-Widget _calendarReadOnly(BuildContext context) {
-  return Calendar(
-    view: _calendarMarch,
-    now: _calendarToday,
-    value: SingleCalendarValue(_calendarToday),
-    stateBuilder: (DateTime date) => date.weekday == DateTime.sunday
-        ? DateState.disabled
-        : DateState.enabled,
-  );
-}
 ''',
     ),
   ],

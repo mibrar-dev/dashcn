@@ -1119,11 +1119,11 @@ void main() {
 
     testWidgets('the preview stepper buttons are 24x24', (tester) async {
       // `Calendar` owns no navigation: `view` is the caller's, so the month
-      // stepper belongs to the caller. The default example of the preview
-      // contract builds one, and its tap target is exactly 24x24.
-      await tester.pumpWidget(
-        _frame(Builder(builder: calendarPreviews.first.builder)),
-      );
+      // stepper belongs to the caller. The Single example builds one, and its
+      // tap target is exactly 24x24. (Selected by name: the default example
+      // is the read-only grid, which carries no steppers.)
+      final single = calendarPreviews.firstWhere((p) => p.name == 'Single');
+      await tester.pumpWidget(_frame(Builder(builder: single.builder)));
       final Finder steps = find.byWidgetPredicate(
         (Widget widget) =>
             widget is Container &&
