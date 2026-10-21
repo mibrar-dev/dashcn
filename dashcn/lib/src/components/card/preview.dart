@@ -64,24 +64,46 @@ class _CardDefaultState extends State<_CardDefault> {
                 ),
                 Gap(spacing.lg),
                 CardFooter(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Button(
-                        size: ButtonSize.sm,
-                        variant: ButtonVariant.ghost,
-                        onPressed: () =>
-                            setState(() => _status = 'Deploy cancelled'),
-                        child: const Text('Cancel'),
-                      ),
-                      Gap(spacing.sm),
-                      Button(
-                        size: ButtonSize.sm,
-                        onPressed: () =>
-                            setState(() => _status = 'Deploy queued'),
-                        child: const Text('Deploy'),
-                      ),
-                    ],
+                  child: Builder(
+                    builder: (context) {
+                      // Narrow phone viewports stack the touch-sized footer
+                      // actions; wider viewports keep them side by side.
+                      final bool stack = MediaQuery.widthOf(context) < 600;
+                      final List<Widget> actions = <Widget>[
+                        Button(
+                          size: ButtonSize.sm,
+                          variant: ButtonVariant.ghost,
+                          onPressed: () =>
+                              setState(() => _status = 'Deploy cancelled'),
+                          child: const Text('Cancel'),
+                        ),
+                        Button(
+                          size: ButtonSize.sm,
+                          onPressed: () =>
+                              setState(() => _status = 'Deploy queued'),
+                          child: const Text('Deploy'),
+                        ),
+                      ];
+                      if (!stack) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            actions[0],
+                            Gap(spacing.sm),
+                            actions[1],
+                          ],
+                        );
+                      }
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          actions[0],
+                          Gap(spacing.sm),
+                          actions[1],
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],

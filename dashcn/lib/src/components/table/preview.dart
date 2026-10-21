@@ -271,52 +271,68 @@ class _DataTableState extends State<_DataTable> {
               ),
             ),
             Gap(theme.spacing.md),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Text(
-                    '${_selected.length} of ${_members.length} selected',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colors.mutedForeground,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+            Builder(
+              builder: (context) {
+                // Narrow touch viewports hide the selection count and use
+                // icon-only pagination so the touch-sized controls fit.
+                final bool narrow = MediaQuery.widthOf(context) < 600;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Button(
-                      variant: ButtonVariant.outline,
-                      size: ButtonSize.sm,
-                      onPressed: page > 0
-                          ? () => setState(() => _page = page - 1)
-                          : null,
-                      leading: const Icon(LucideIcons.chevronLeft, size: 14),
-                      child: const Text('Prev'),
-                    ),
-                    Gap(theme.spacing.sm),
-                    Text(
-                      '${page + 1} / $totalPages',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: theme.colors.mutedForeground,
+                    if (!narrow)
+                      Flexible(
+                        child: Text(
+                          '${_selected.length} of ${_members.length} selected',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.colors.mutedForeground,
+                          ),
+                        ),
                       ),
-                    ),
-                    Gap(theme.spacing.sm),
-                    Button(
-                      variant: ButtonVariant.outline,
-                      size: ButtonSize.sm,
-                      onPressed: page + 1 < totalPages
-                          ? () => setState(() => _page = page + 1)
-                          : null,
-                      trailing: const Icon(LucideIcons.chevronRight, size: 14),
-                      child: const Text('Next'),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Button(
+                          variant: ButtonVariant.outline,
+                          size: narrow ? ButtonSize.icon : ButtonSize.sm,
+                          onPressed: page > 0
+                              ? () => setState(() => _page = page - 1)
+                              : null,
+                          leading: narrow
+                              ? null
+                              : const Icon(LucideIcons.chevronLeft, size: 14),
+                          child: narrow
+                              ? const Icon(LucideIcons.chevronLeft, size: 14)
+                              : const Text('Prev'),
+                        ),
+                        Gap(theme.spacing.sm),
+                        Text(
+                          '${page + 1} / $totalPages',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.colors.mutedForeground,
+                          ),
+                        ),
+                        Gap(theme.spacing.sm),
+                        Button(
+                          variant: ButtonVariant.outline,
+                          size: narrow ? ButtonSize.icon : ButtonSize.sm,
+                          onPressed: page + 1 < totalPages
+                              ? () => setState(() => _page = page + 1)
+                              : null,
+                          trailing: narrow
+                              ? null
+                              : const Icon(LucideIcons.chevronRight, size: 14),
+                          child: narrow
+                              ? const Icon(LucideIcons.chevronRight, size: 14)
+                              : const Text('Next'),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),

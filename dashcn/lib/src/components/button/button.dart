@@ -16,7 +16,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/touch_hit_area.dart';
 import '../../theme/color_tokens.dart';
-import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'button_defaults.dart';
 import 'button_group.dart';
@@ -75,6 +75,7 @@ class Button extends StatefulWidget {
     this.autofocus = false,
     this.enabled,
     this.theme,
+    this.densityTokens,
   });
 
   /// Button content, usually a `Text` or an `Icon`.
@@ -143,6 +144,11 @@ class Button extends StatefulWidget {
 
   /// Widget-leg style override, merged on top of the component/app/defaults.
   final ButtonVariantStyle? theme;
+
+  /// Per-instance density tokens. Null resolves through the component theme
+  /// legs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone
+  /// widths (< [kPhoneWidthBreakpoint]) use touch unless this is set.
+  final DensityTokens? densityTokens;
 
   @override
   State<Button> createState() => _ButtonState();
@@ -264,11 +270,15 @@ class _ButtonState extends State<Button> {
           select: (t) => t.forVariant(widget.variant),
           defaults: buttonDefaults.forVariant(widget.variant)!,
         );
-    final Density density =
-        ComponentTheme.maybeOf<ButtonTheme>(context)?.themeDensity ??
-        ComponentThemes.maybeOf<ButtonTheme>(context)?.themeDensity ??
-        theme.density;
-    final ButtonSizeMetrics metrics = buttonMetricsFor(widget.size, density);
+    final DensityTokens tokens =
+        widget.densityTokens ??
+        ComponentTheme.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
+        ComponentThemes.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
+        resolveDensityTokens(context);
+    final ButtonSizeMetrics metrics = buttonMetricsForTokens(
+      widget.size,
+      tokens,
+    );
     final ButtonGroupData? group = Data.maybeOf<ButtonGroupData>(context);
     // Touch platforms grow the hit box (transparent padding, never visuals)
     // to the platform minimum height. Joined groups are excluded: padding
@@ -306,7 +316,7 @@ class _ButtonState extends State<Button> {
     if (!statusful) {
       content = widget.child;
       if (widget.leading != null || widget.trailing != null) {
-        final double gap = theme.spacing.sm;
+        final double gap = tokens.gap * theme.scaling;
         content = Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -332,10 +342,16 @@ class _ButtonState extends State<Button> {
             widget.trailing == null,
         effective: effective,
         foreground: paint.restForeground(),
-        gap: theme.spacing.sm,
+        gap: tokens.gap * theme.scaling,
         child: widget.child,
       );
     }
+    // Density-driven icon size (16/20/24, capped at 60% of the control).
+    // Explicit `Icon(size: ...)` still wins over this default.
+    content = IconTheme.merge(
+      data: IconThemeData(size: buttonIconSize(tokens) * theme.scaling),
+      child: content,
+    );
     content = ConstrainedBox(
       constraints: BoxConstraints(
         minWidth: buttonInnerMin(

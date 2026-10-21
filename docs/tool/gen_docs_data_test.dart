@@ -74,6 +74,7 @@ void main() {
         'autofocus',
         'enabled',
         'theme',
+        'densityTokens',
       ]);
       expect(table.params.first.isRequired, isTrue);
       expect(table.params.first.type, 'Widget');

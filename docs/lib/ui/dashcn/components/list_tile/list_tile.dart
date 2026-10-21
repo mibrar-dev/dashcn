@@ -4,6 +4,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'list_tile_style.dart';
 
@@ -33,6 +34,7 @@ class ListTile extends StatelessWidget {
     this.subtitleColor,
     this.shape,
     this.enableFeedback = true,
+    this.densityTokens,
   });
 
   final Widget? leading;
@@ -56,6 +58,11 @@ class ListTile extends StatelessWidget {
   final ShapeBorder? shape;
   final bool enableFeedback;
 
+  /// Per-instance density tokens. Null resolves through the component theme
+  /// legs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone
+  /// widths (< [kPhoneWidthBreakpoint]) use touch unless this is set.
+  final DensityTokens? densityTokens;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
@@ -69,19 +76,31 @@ class ListTile extends StatelessWidget {
     final ListTileStyle resolved = (style ?? const ListTileStyle()).merge(
       container,
     );
+    final DensityTokens tokens =
+        densityTokens ??
+        container.themeDensityTokens ??
+        ComponentTheme.maybeOf<ListTileTheme>(context)?.themeDensityTokens ??
+        ComponentThemes.maybeOf<ListTileTheme>(context)?.themeDensityTokens ??
+        resolveDensityTokens(context);
     final bool isDense = dense ?? resolved.dense ?? false;
+    // Dense keeps the compact look: two px less vertical than the ambient
+    // tokens (6 -> 4 at compact, preserving the old dense default).
+    final double tokenVertical = isDense
+        ? (tokens.verticalPadding - 2).clamp(2.0, tokens.verticalPadding)
+        : tokens.verticalPadding;
     final double verticalPadding =
-        resolved.minVerticalPadding ?? (isDense ? 4.0 : 8.0) * ambient.scaling;
+        resolved.minVerticalPadding ?? tokenVertical * ambient.scaling;
     final EdgeInsetsGeometry padding = resolveEdgeInsets(
       contentPadding ??
           resolved.padding ??
           EdgeInsets.symmetric(
-            horizontal: 16 * ambient.scaling,
+            horizontal: tokens.horizontalPadding * ambient.scaling,
             vertical: verticalPadding,
           ),
       ambient.density.baseContentPadding * ambient.scaling,
     );
-    final double hGap = (resolved.horizontalTitleGap ?? 16.0) * ambient.scaling;
+    final double hGap =
+        (resolved.horizontalTitleGap ?? tokens.gap) * ambient.scaling;
     final double minLeading =
         (resolved.minLeadingWidth ?? 40.0) * ambient.scaling;
 
@@ -105,17 +124,28 @@ class ListTile extends StatelessWidget {
 
     final TextStyle titleStyle =
         (resolved.titleStyle ??
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.w400))
-            .copyWith(color: resolvedTextColor);
+                TextStyle(
+                  fontSize: tokens.bodyTextSize,
+                  fontWeight: FontWeight.w400,
+                ))
+            .copyWith(
+              color: resolvedTextColor,
+              overflow: TextOverflow.ellipsis,
+            );
     final TextStyle subtitleStyle =
-        (resolved.subtitleStyle ?? const TextStyle(fontSize: 14)).copyWith(
-          color: resolvedSubtitleColor ?? ambient.colors.mutedForeground,
-        );
+        (resolved.subtitleStyle ?? TextStyle(fontSize: tokens.subtitleTextSize))
+            .copyWith(
+              color: resolvedSubtitleColor ?? ambient.colors.mutedForeground,
+              overflow: TextOverflow.ellipsis,
+            );
 
     Widget? leadingWidget = leading;
-    if (leadingWidget != null && resolvedIconColor != null) {
+    if (leadingWidget != null) {
       leadingWidget = IconTheme.merge(
-        data: IconThemeData(color: resolvedIconColor),
+        data: IconThemeData(
+          color: resolvedIconColor,
+          size: tokens.iconSize * ambient.scaling,
+        ),
         child: leadingWidget,
       );
     }
@@ -141,9 +171,15 @@ class ListTile extends StatelessWidget {
             : CrossAxisAlignment.center,
         children: <Widget>[
           if (leading != null) ...<Widget>[
-            SizedBox(
-              width: resolved.leadingWidth ?? minLeading,
-              child: leadingWidget,
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: resolved.leadingWidth ?? minLeading,
+                maxHeight: tokens.rowMaxHeight * ambient.scaling,
+              ),
+              child: SizedBox(
+                width: resolved.leadingWidth ?? minLeading,
+                child: leadingWidget,
+              ),
             ),
             Gap(hGap),
           ],
@@ -154,13 +190,19 @@ class ListTile extends StatelessWidget {
               children: <Widget>[
                 titleWidget,
                 if (subtitleWidget != null) ...<Widget>[
-                  Gap(isDense ? 2 * ambient.scaling : 4 * ambient.scaling),
+                  Gap(
+                    (isDense ? tokens.gap / 4 : tokens.gap / 2) *
+                        ambient.scaling,
+                  ),
                   subtitleWidget,
                 ],
               ],
             ),
           ),
-          if (trailing != null) ...<Widget>[Gap(hGap), trailing!],
+          if (trailing != null) ...<Widget>[
+            Gap(hGap),
+            Flexible(child: trailing!),
+          ],
         ],
       ),
     );

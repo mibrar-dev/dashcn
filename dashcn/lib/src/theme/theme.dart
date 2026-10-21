@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import 'color_tokens.dart';
 import 'density.dart';
+import 'density_tokens.dart';
 import 'motion.dart';
 import 'syntax_colors.dart';
 import 'tokens.dart';
@@ -57,6 +58,7 @@ class ThemeData {
     this.iconTheme = const IconThemeProperties(),
     this.scaling = 1,
     this.density = Density.defaultDensity,
+    this.densityTokens = DensityTokens.compact,
     this.spacing = const SpacingScale(4.0),
     this.tracking = const TrackingScale(),
     this.touchTargets = TouchTargets.padded,
@@ -89,6 +91,9 @@ class ThemeData {
 
   /// Container/content padding and gap bases.
   final Density density;
+
+  /// Sizing/density tokens (compact default). See `density_tokens.dart`.
+  final DensityTokens densityTokens;
 
   /// Spacing scale for padding/margins.
   final SpacingScale spacing;
@@ -170,6 +175,7 @@ class ThemeData {
     ValueGetter<IconThemeProperties>? iconTheme,
     ValueGetter<double>? scaling,
     ValueGetter<Density>? density,
+    ValueGetter<DensityTokens>? densityTokens,
     ValueGetter<SpacingScale>? spacing,
     ValueGetter<TrackingScale>? tracking,
     ValueGetter<TouchTargets>? touchTargets,
@@ -193,6 +199,9 @@ class ThemeData {
       iconTheme: iconTheme == null ? this.iconTheme : iconTheme(),
       scaling: scaling == null ? this.scaling : scaling(),
       density: nextDensity,
+      densityTokens: densityTokens == null
+          ? this.densityTokens
+          : densityTokens(),
       spacing: nextSpacing,
       tracking: tracking == null ? this.tracking : tracking(),
       touchTargets: touchTargets == null ? this.touchTargets : touchTargets(),
@@ -247,6 +256,9 @@ class ThemeData {
       density: a.density == b.density
           ? a.density
           : Density.lerp(a.density, b.density, t),
+      densityTokens: a.densityTokens == b.densityTokens
+          ? a.densityTokens
+          : DensityTokens.lerp(a.densityTokens, b.densityTokens, t),
       spacing: a.spacing == b.spacing
           ? a.spacing
           : SpacingScale.lerp(a.spacing, b.spacing, t),
@@ -283,6 +295,7 @@ class ThemeData {
         other.iconTheme == iconTheme &&
         other.scaling == scaling &&
         other.density == density &&
+        other.densityTokens == densityTokens &&
         other.spacing == spacing &&
         other.tracking == tracking &&
         other.touchTargets == touchTargets &&
@@ -304,6 +317,7 @@ class ThemeData {
     iconTheme,
     scaling,
     density,
+    densityTokens,
     spacing,
     tracking,
     touchTargets,
@@ -445,12 +459,17 @@ class ThemeDataTween extends Tween<ThemeData> {
 abstract class ComponentThemeData {
   const ComponentThemeData({
     this.themeDensity,
+    this.themeDensityTokens,
     this.themeSpacing,
     this.themeShadows,
   });
 
   /// Optional density override for this component theme.
   final Density? themeDensity;
+
+  /// Optional sizing/density tokens override (compact default). Wins over
+  /// [themeDensity] when both are set on the same leg.
+  final DensityTokens? themeDensityTokens;
 
   /// Optional spacing override for this component theme.
   final SpacingScale? themeSpacing;
@@ -464,12 +483,18 @@ abstract class ComponentThemeData {
       other is ComponentThemeData &&
           runtimeType == other.runtimeType &&
           other.themeDensity == themeDensity &&
+          other.themeDensityTokens == themeDensityTokens &&
           other.themeSpacing == themeSpacing &&
           other.themeShadows == themeShadows;
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, themeDensity, themeSpacing, themeShadows);
+  int get hashCode => Object.hash(
+    runtimeType,
+    themeDensity,
+    themeDensityTokens,
+    themeSpacing,
+    themeShadows,
+  );
 }
 
 /// Tree-scoped component theme. Lookup is tree-only: it never falls back to

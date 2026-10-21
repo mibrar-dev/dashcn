@@ -73,6 +73,8 @@ class SwipeActionButtons extends StatelessWidget {
                           Text(
                             actions[i].label,
                             style: appTheme.typography.textSmall,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
