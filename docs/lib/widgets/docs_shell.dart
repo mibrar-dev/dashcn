@@ -100,46 +100,51 @@ class _DocsAppShellState extends State<DocsAppShell> {
               ),
           ],
         );
-        // The mobile nav is the reference's full-width popper (not a drawer):
-        // it fades in/out over 100 ms (`duration-100`), opacity-only, so the
-        // reduced-motion rule ("no transforms, ≤150 ms") holds unchanged.
+        // The mobile nav is a drawer: a panel slides in from the left over a
+        // dimmed scrim. Reduced motion snaps it (motionDuration is zero).
         final Widget content = Stack(
           children: <Widget>[
             shell,
-            if (_mobileNavOpen)
-              Positioned(
-                top: headerHeight,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: _closeMobileNav,
-                ),
-              ),
             Positioned(
               top: headerHeight,
               left: 0,
               right: 0,
+              bottom: 0,
               child: IgnorePointer(
                 ignoring: !_mobileNavOpen,
-                child: AnimatedSwitcher(
-                  duration: context.motionDuration(kDurationPopper),
-                  switchInCurve: kEaseStandard,
-                  switchOutCurve: kEaseIn,
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) =>
-                          FadeTransition(opacity: animation, child: child),
-                  child: _mobileNavOpen
-                      ? DocsMobileNav(
-                          key: const ValueKey<String>('mobile-nav'),
-                          delegate: widget.delegate,
-                          currentLocation: config.location,
-                          onNavigate: _closeMobileNav,
-                        )
-                      : const SizedBox.shrink(
-                          key: ValueKey<String>('mobile-nav-closed'),
-                        ),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: _closeMobileNav,
+                  child: AnimatedOpacity(
+                    opacity: _mobileNavOpen ? 1 : 0,
+                    duration: context.motionDuration(kDurationPopper * 2),
+                    child: const ColoredBox(color: Color(0x66000000)),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: headerHeight,
+              bottom: 0,
+              left: 0,
+              width: MediaQuery.sizeOf(context).width * 0.86 > 360
+                  ? 360
+                  : MediaQuery.sizeOf(context).width * 0.86,
+              child: ExcludeFocus(
+                excluding: !_mobileNavOpen,
+                child: ExcludeSemantics(
+                  excluding: !_mobileNavOpen,
+                  child: AnimatedSlide(
+                    offset: _mobileNavOpen ? Offset.zero : const Offset(-1, 0),
+                    duration: context.motionDuration(kDurationPopper * 2),
+                    curve: kEaseStandard,
+                    child: DocsMobileNav(
+                      key: const ValueKey<String>('mobile-nav'),
+                      delegate: widget.delegate,
+                      currentLocation: config.location,
+                      onNavigate: _closeMobileNav,
+                    ),
+                  ),
                 ),
               ),
             ),
