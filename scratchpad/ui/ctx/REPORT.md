@@ -119,5 +119,5 @@ sheet), `menu-open-1280-light.png`, the 375 widget test, and the video.
 
 ## Deliver
 
-- PR: <fill after `gh pr create`>
+- PR: https://github.com/mibrar-dev/dashcn/pull/47
 - Commit trailer: `Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>`
