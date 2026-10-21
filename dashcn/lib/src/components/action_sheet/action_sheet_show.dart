@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../theme/color_tokens.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import '../dialog/dialog.dart' as dialog_route;
@@ -43,11 +44,22 @@ Future<T?> showActionSheet<T>({
   );
   if (wide) {
     final Duration? custom = theme?.transitionDuration;
+    // Single surface: the dialog shell stays transparent (no border, no
+    // padding, no fill, no shadow) so only the `ActionSheet` surface paints.
+    // A default dialog theme would stack its card border + p-6 padding behind
+    // the sheet's own surface, doubling padding and drawing two surfaces.
     return dialog_route.showDialog<T>(
       context: context,
       builder: (_) => content,
       useRootNavigator: useRootNavigator,
-      theme: custom == null ? null : DialogTheme(transitionDuration: custom),
+      theme: DialogTheme(
+        background: const ThemedColor.value(Color(0x00000000)),
+        borderWidth: 0,
+        padding: EdgeInsets.zero,
+        maxWidth: null,
+        shadows: const <BoxShadow>[],
+        transitionDuration: custom,
+      ),
     );
   }
   final bool reduced =

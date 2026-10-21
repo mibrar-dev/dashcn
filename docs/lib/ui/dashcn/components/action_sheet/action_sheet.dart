@@ -108,11 +108,22 @@ class ActionSheet<T> extends StatelessWidget {
     final EdgeInsetsGeometry padding =
         resolved.padding ??
         EdgeInsets.symmetric(
-          horizontal: tokens.horizontalPadding * scaling,
+          // Vertical-only shell padding from the density tokens: rows carry
+          // their own horizontal padding, so a horizontal shell inset here
+          // would double the sides (12 + 12 = 24). Headers get their own
+          // horizontal inset below; dividers span the full sheet width.
           vertical: tokens.verticalPadding * scaling,
         );
+    // Compact rows are 40 (Material dense list) rather than the generic
+    // token 32: action rows are touch targets with 16px icons, so the
+    // compact default is taller than a menu row but still denser than the
+    // 48 touch rows phones resolve through [resolveDensityTokens].
     final double rowMin =
-        (resolved.rowMinHeight ?? tokens.rowMinHeight) * scaling;
+        (resolved.rowMinHeight ??
+            (tokens.preset == DensityPreset.compact
+                ? 40.0
+                : tokens.rowMinHeight)) *
+        scaling;
     final double iconSize = (resolved.iconSize ?? tokens.iconSize) * scaling;
     final double iconGap = tokens.gap * scaling;
     final double titleGap = (resolved.titleSpacing ?? tokens.gap / 2) * scaling;
@@ -194,7 +205,11 @@ class ActionSheet<T> extends StatelessWidget {
             children: <Widget>[
               if (title != null)
                 Padding(
-                  padding: EdgeInsets.only(bottom: titleGap),
+                  padding: EdgeInsets.only(
+                    left: tokens.horizontalPadding * scaling,
+                    right: tokens.horizontalPadding * scaling,
+                    bottom: titleGap,
+                  ),
                   child:
                       titleBuilder?.call(context, title!, titleStyle) ??
                       Text(
@@ -207,7 +222,11 @@ class ActionSheet<T> extends StatelessWidget {
                 ),
               if (message != null)
                 Padding(
-                  padding: EdgeInsets.only(bottom: contentGap),
+                  padding: EdgeInsets.only(
+                    left: tokens.horizontalPadding * scaling,
+                    right: tokens.horizontalPadding * scaling,
+                    bottom: contentGap,
+                  ),
                   child:
                       messageBuilder?.call(context, message!, messageStyle) ??
                       Text(
