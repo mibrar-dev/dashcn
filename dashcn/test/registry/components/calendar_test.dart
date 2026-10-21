@@ -131,12 +131,12 @@ void main() {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
       final Rect first = tester.getRect(_cellFinder(tester, '26'));
       final Rect second = tester.getRect(_cellFinder(tester, '27'));
-      expect(first.width, 48);
+      expect(first.width, 32);
       expect(second.left - first.right, 4);
       // The 1st sits four columns after the leading cell.
       expect(
         tester.getRect(_cellFinder(tester, '1')).left - first.left,
-        4 * 52,
+        4 * 36,
       );
     });
 
@@ -226,8 +226,8 @@ void main() {
             .first,
       );
       expect(cell.width, greaterThan(cell.height));
-      expect(cell.width, 56);
-      expect(cell.height, 48);
+      expect(cell.width, 48);
+      expect(cell.height, 32);
     });
   });
 
@@ -685,7 +685,7 @@ void main() {
         ),
       );
       expect(_fillOf(tester, '14'), _green);
-      expect(_cellOf(tester, '14').constraints!.maxHeight, 48);
+      expect(_cellOf(tester, '14').constraints!.maxHeight, 32);
     });
 
     testWidgets('cell size and gap are theme rows', (tester) async {
@@ -1070,10 +1070,10 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('a day cell is 48x48, the touch minimum', (tester) async {
+    testWidgets('a day cell is 32x32, the compact density', (tester) async {
       await tester.pumpWidget(_frame(const Calendar(view: march)));
-      expect(tester.getSize(_cellFinder(tester, '14')), const Size(48, 48));
-      expect(tester.getSize(_cellFinder(tester, '1')), const Size(48, 48));
+      expect(tester.getSize(_cellFinder(tester, '14')), const Size(32, 32));
+      expect(tester.getSize(_cellFinder(tester, '1')), const Size(32, 32));
     });
 
     testWidgets('the weekday header matches the day cell', (tester) async {
@@ -1095,16 +1095,16 @@ void main() {
       expect(tester.getRect(find.text('Mon')).center.dy, isNot(cell.center.dy));
     });
 
-    testWidgets('a month cell is 56x48 and a year cell too', (tester) async {
+    testWidgets('a month cell is 48x32 and a year cell too', (tester) async {
       await tester.pumpWidget(
         _frame(const Calendar(view: march, viewType: CalendarViewType.month)),
       );
-      expect(tester.getSize(_cellFinder(tester, 'Jan')), const Size(56, 48));
+      expect(tester.getSize(_cellFinder(tester, 'Jan')), const Size(48, 32));
 
       await tester.pumpWidget(
         _frame(const Calendar(view: march, viewType: CalendarViewType.year)),
       );
-      expect(tester.getSize(_cellFinder(tester, '2024')), const Size(56, 48));
+      expect(tester.getSize(_cellFinder(tester, '2024')), const Size(48, 32));
     });
 
     testWidgets('the theme rows scale the cell', (tester) async {
@@ -1119,11 +1119,11 @@ void main() {
 
     testWidgets('the preview stepper buttons are 24x24', (tester) async {
       // `Calendar` owns no navigation: `view` is the caller's, so the month
-      // stepper belongs to the caller. The default example of the preview
-      // contract builds one, and its tap target is exactly 24x24.
-      await tester.pumpWidget(
-        _frame(Builder(builder: calendarPreviews.first.builder)),
-      );
+      // stepper belongs to the caller. The Single example builds one, and its
+      // tap target is exactly 24x24. (Selected by name: the default example
+      // is the read-only grid, which carries no steppers.)
+      final single = calendarPreviews.firstWhere((p) => p.name == 'Single');
+      await tester.pumpWidget(_frame(Builder(builder: single.builder)));
       final Finder steps = find.byWidgetPredicate(
         (Widget widget) =>
             widget is Container &&
@@ -1231,16 +1231,16 @@ void main() {
         expect(tester.takeException(), isNull);
         final Size grid = tester.getSize(find.byType(Calendar));
         expect(grid.width, lessThanOrEqualTo(width));
-        // 384 px and up (seven 48 px cells, six 4 px gaps, 2x12 px shell)
+        // 272 px and up (seven 32 px cells, six 4 px gaps, 2x12 px shell)
         // hold the nominal cells; narrower columns shrink them (P6-P1: the
         // studio canvas leaves ~196 px at 768 px).
         final double cellWidth = tester
             .getSize(_cellFinder(tester, '14'))
             .width;
-        if (width >= 384) {
-          expect(cellWidth, 48);
+        if (width >= 272) {
+          expect(cellWidth, 32);
         } else {
-          expect(cellWidth, lessThan(48));
+          expect(cellWidth, lessThan(32));
           expect(cellWidth, greaterThanOrEqualTo(20));
         }
         // The weekday header keeps the shrunken pitch: the label *slot*

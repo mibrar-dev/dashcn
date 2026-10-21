@@ -151,6 +151,26 @@ void main() {
       expect(tester.getSize(find.byType(RovingRow).first).height, 32);
     });
 
+    testWidgets('row padding comes from the density tokens', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          _group(<MenuItem>[
+            MenuButton(child: const Text('Cut'), onPressed: (_) {}),
+          ]),
+        ),
+      );
+      await tester.pump();
+      // Compact tokens: horizontal gap 8, vertical padding 6 (4 px scale).
+      final RovingRow row = tester.widget<RovingRow>(
+        find.byType(RovingRow).first,
+      );
+      final EdgeInsets resolved = (row.padding! as EdgeInsets).resolve(
+        TextDirection.ltr,
+      );
+      expect(resolved.left, 8);
+      expect(resolved.top, 6);
+    });
+
     testWidgets('separator paints a 1px border rule', (tester) async {
       await tester.pumpWidget(_frame(_group(<Widget>[const MenuSeparator()])));
       await tester.pump();

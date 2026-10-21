@@ -19,7 +19,8 @@
     "theme": [
       "color_tokens",
       "density",
-      "theme"
+      "theme",
+      "tokens"
     ],
     "primitives": [
       "animated_value_builder",

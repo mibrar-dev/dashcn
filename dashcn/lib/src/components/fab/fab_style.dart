@@ -18,17 +18,21 @@ export 'fab_defaults.dart';
 
 /// Fixed sizes of the floating action button.
 ///
-/// The numbers are the button's own box. The touch target grows past them on
-/// touch platforms (the `TapTarget` primitive), so the painted button never
+/// The button box follows Material 3 FAB sizes (small 40, medium 56, large
+/// 64; mini 32/40/48), so the painted button is larger than a compact
+/// 32 px control by design — it is a floating surface, not an inline
+/// control. The mini sizes match the density tokens exactly (32 compact,
+/// 40 comfortable, 48 touch). The touch target grows past them on touch
+/// platforms (the `TapTarget` primitive), so the painted button never
 /// changes.
 enum FabSize {
-  /// 40 x 40 with an 18 px icon.
+  /// 40 x 40 with a 16 px icon (density compact icon).
   sm,
 
-  /// 56 x 56 with a 24 px icon (the default).
+  /// 56 x 56 with a 20 px icon (density comfortable icon; the default).
   md,
 
-  /// 64 x 64 with a 28 px icon.
+  /// 64 x 64 with a 24 px icon (density touch icon).
   lg,
 }
 
@@ -61,18 +65,14 @@ double fabBoxFor(FabSize size, FabShape shape) {
 }
 
 /// The icon size for [size] in [shape], in logical pixels.
+///
+/// Follows the density tokens (16 compact, 20 comfortable, 24 touch) so the
+/// icon never exceeds 60% of the button box (DESIGN.md icon rule).
 double fabIconFor(FabSize size, FabShape shape) {
-  if (shape == FabShape.mini) {
-    return switch (size) {
-      FabSize.sm => 16,
-      FabSize.md => 20,
-      FabSize.lg => 24,
-    };
-  }
   return switch (size) {
-    FabSize.sm => 18,
-    FabSize.md => 24,
-    FabSize.lg => 28,
+    FabSize.sm => 16,
+    FabSize.md => 20,
+    FabSize.lg => 24,
   };
 }
 

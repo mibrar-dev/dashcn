@@ -130,6 +130,7 @@ export 'src/components/file_picker/file_picker_style.dart';
 export 'src/components/filter_bar/filter_bar.dart';
 export 'src/components/filter_bar/filter_bar_body.dart';
 export 'src/components/filter_bar/filter_bar_controls.dart';
+export 'src/components/filter_bar/filter_bar_dialog.dart';
 export 'src/components/filter_bar/filter_bar_inline.dart';
 export 'src/components/filter_bar/filter_bar_layout.dart';
 export 'src/components/filter_bar/filter_bar_menu.dart';

@@ -22,6 +22,7 @@
     "theme": [
       "color_tokens",
       "density",
+      "density_tokens",
       "theme"
     ],
     "primitives": [
@@ -84,7 +85,10 @@
         "MenuSeparator",
         "columnMenuBuilder"
       ]
-    }
+    },
+    "functions": [
+      "menuItemPaddingOf"
+    ]
   },
   "theme": {
     "class": "MenuTheme",

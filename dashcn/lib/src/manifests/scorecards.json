@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-21T22:46:48.606342Z",
-  "commit": "33a81dc91257ce156119f8a42daa2913e11ac3be",
+  "generatedAt": "2026-10-21T23:13:07.425526Z",
+  "commit": "1da380b4fed3b6d36f17596405b835f9183dac77",
   "flutter": "3.47.7 / Dart 3.13.5",
   "components": {
     "accordion": {
@@ -35,8 +35,8 @@
         "rtlX": 562.0
       },
       "frames": {
-        "p50Ms": 0.025,
-        "p90Ms": 0.032,
+        "p50Ms": 0.023,
+        "p90Ms": 0.033,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -78,7 +78,7 @@
       },
       "frames": {
         "p50Ms": 0.025,
-        "p90Ms": 0.036,
+        "p90Ms": 0.04,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -119,8 +119,8 @@
         "rtlX": 644.0
       },
       "frames": {
-        "p50Ms": 0.025,
-        "p90Ms": 0.033,
+        "p50Ms": 0.024,
+        "p90Ms": 0.034,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -161,8 +161,8 @@
         "rtlX": 302.0
       },
       "frames": {
-        "p50Ms": 0.024,
-        "p90Ms": 0.033,
+        "p50Ms": 0.023,
+        "p90Ms": 0.057,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -199,17 +199,17 @@
         "renders": true,
         "mirrored": null,
         "message": "symmetric layout (no directional shift)",
-        "ltrX": 17.0,
-        "rtlX": 17.0
+        "ltrX": 11.0,
+        "rtlX": 11.0
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.031,
+        "p50Ms": 0.021,
+        "p90Ms": 0.029,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 28,
+        "count": 23,
         "passed": true
       }
     },
@@ -246,7 +246,7 @@
       },
       "frames": {
         "p50Ms": 0.022,
-        "p90Ms": 0.029,
+        "p90Ms": 0.031,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -287,8 +287,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.021,
-        "p90Ms": 0.033,
+        "p50Ms": 0.024,
+        "p90Ms": 0.039,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -329,8 +329,8 @@
         "rtlX": 358.0
       },
       "frames": {
-        "p50Ms": 0.022,
-        "p90Ms": 0.1,
+        "p50Ms": 0.02,
+        "p90Ms": 0.029,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -372,7 +372,7 @@
       },
       "frames": {
         "p50Ms": 0.219,
-        "p90Ms": 0.286,
+        "p90Ms": 0.301,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -413,8 +413,8 @@
         "rtlX": 536.0
       },
       "frames": {
-        "p50Ms": 0.016,
-        "p90Ms": 0.019,
+        "p50Ms": 0.018,
+        "p90Ms": 0.028,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -455,8 +455,8 @@
         "rtlX": 358.0
       },
       "frames": {
-        "p50Ms": 0.016,
-        "p90Ms": 0.021,
+        "p50Ms": 0.015,
+        "p90Ms": 0.022,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -493,12 +493,12 @@
         "renders": true,
         "mirrored": true,
         "message": null,
-        "ltrX": 331.0,
-        "rtlX": 455.0
+        "ltrX": 288.0,
+        "rtlX": 480.0
       },
       "frames": {
-        "p50Ms": 0.023,
-        "p90Ms": 0.048,
+        "p50Ms": 0.016,
+        "p90Ms": 0.022,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -540,7 +540,7 @@
       },
       "frames": {
         "p50Ms": 0.016,
-        "p90Ms": 0.026,
+        "p90Ms": 0.035,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -581,7 +581,7 @@
         "rtlX": 518.0
       },
       "frames": {
-        "p50Ms": 0.015,
+        "p50Ms": 0.014,
         "p90Ms": 0.016,
         "frames": 120,
         "label": "test environment (relative)"
@@ -624,7 +624,7 @@
       },
       "frames": {
         "p50Ms": 0.014,
-        "p90Ms": 0.018,
+        "p90Ms": 0.016,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -665,8 +665,8 @@
         "rtlX": 172.0
       },
       "frames": {
-        "p50Ms": 0.015,
-        "p90Ms": 0.022,
+        "p50Ms": 0.014,
+        "p90Ms": 0.023,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -707,8 +707,8 @@
         "rtlX": 608.0
       },
       "frames": {
-        "p50Ms": 0.017,
-        "p90Ms": 0.02,
+        "p50Ms": 0.014,
+        "p90Ms": 0.018,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -750,7 +750,7 @@
       },
       "frames": {
         "p50Ms": 0.017,
-        "p90Ms": 0.021,
+        "p90Ms": 0.031,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -792,7 +792,7 @@
       },
       "frames": {
         "p50Ms": 0.013,
-        "p90Ms": 0.02,
+        "p90Ms": 0.019,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -833,7 +833,7 @@
         "rtlX": 245.0
       },
       "frames": {
-        "p50Ms": 0.013,
+        "p50Ms": 0.011,
         "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
@@ -875,8 +875,8 @@
         "rtlX": 80.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.012,
+        "p50Ms": 0.011,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -918,7 +918,7 @@
       },
       "frames": {
         "p50Ms": 0.012,
-        "p90Ms": 0.014,
+        "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -960,7 +960,7 @@
       },
       "frames": {
         "p50Ms": 0.013,
-        "p90Ms": 0.016,
+        "p90Ms": 0.019,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1001,8 +1001,8 @@
         "rtlX": 293.5
       },
       "frames": {
-        "p50Ms": 0.013,
-        "p90Ms": 0.022,
+        "p50Ms": 0.011,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1043,8 +1043,8 @@
         "rtlX": 776.0
       },
       "frames": {
-        "p50Ms": 0.014,
-        "p90Ms": 0.033,
+        "p50Ms": 0.016,
+        "p90Ms": 0.041,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1086,7 +1086,7 @@
       },
       "frames": {
         "p50Ms": 0.011,
-        "p90Ms": 0.018,
+        "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1127,7 +1127,7 @@
         "rtlX": 316.0
       },
       "frames": {
-        "p50Ms": 0.012,
+        "p50Ms": 0.013,
         "p90Ms": 0.016,
         "frames": 120,
         "label": "test environment (relative)"
@@ -1169,8 +1169,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.013,
+        "p50Ms": 0.011,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1212,7 +1212,7 @@
       },
       "frames": {
         "p50Ms": 0.013,
-        "p90Ms": 0.016,
+        "p90Ms": 0.021,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1253,8 +1253,8 @@
         "rtlX": 588.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.029,
+        "p50Ms": 0.01,
+        "p90Ms": 0.023,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1295,8 +1295,8 @@
         "rtlX": 399.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.013,
+        "p50Ms": 0.012,
+        "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1337,8 +1337,8 @@
         "rtlX": 246.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p50Ms": 0.01,
+        "p90Ms": 0.014,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1379,8 +1379,8 @@
         "rtlX": 208.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.018,
+        "p50Ms": 0.01,
+        "p90Ms": 0.019,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1421,8 +1421,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.014,
+        "p50Ms": 0.013,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1464,7 +1464,7 @@
       },
       "frames": {
         "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1505,8 +1505,8 @@
         "rtlX": 501.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.017,
+        "p50Ms": 0.01,
+        "p90Ms": 0.016,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1548,7 +1548,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.014,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1589,13 +1589,13 @@
         "rtlX": 671.0
       },
       "frames": {
-        "p50Ms": 0.016,
-        "p90Ms": 0.034,
+        "p50Ms": 0.013,
+        "p90Ms": 0.031,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 27,
+        "count": 29,
         "passed": true
       }
     },
@@ -1632,7 +1632,7 @@
       },
       "frames": {
         "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p90Ms": 0.025,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1673,8 +1673,8 @@
         "rtlX": 753.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1715,8 +1715,8 @@
         "rtlX": 409.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.014,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1757,8 +1757,8 @@
         "rtlX": 0.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.011,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1799,8 +1799,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.013,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1841,8 +1841,8 @@
         "rtlX": 710.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.014,
+        "p50Ms": 0.009,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1925,8 +1925,8 @@
         "rtlX": 562.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.014,
+        "p50Ms": 0.01,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -1967,8 +1967,8 @@
         "rtlX": 748.5
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.015,
+        "p50Ms": 0.012,
+        "p90Ms": 0.017,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2009,8 +2009,8 @@
         "rtlX": 408.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.015,
+        "p50Ms": 0.009,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2052,7 +2052,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.013,
+        "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2094,7 +2094,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.011,
+        "p90Ms": 0.014,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2135,13 +2135,13 @@
         "rtlX": 745.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.013,
+        "p50Ms": 0.011,
+        "p90Ms": 0.017,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 38,
+        "count": 39,
         "passed": true
       }
     },
@@ -2177,8 +2177,8 @@
         "rtlX": 732.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.027,
+        "p50Ms": 0.01,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2220,7 +2220,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.01,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2261,8 +2261,8 @@
         "rtlX": 670.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p50Ms": 0.011,
+        "p90Ms": 0.017,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2303,8 +2303,8 @@
         "rtlX": 574.0
       },
       "frames": {
-        "p50Ms": 0.013,
-        "p90Ms": 0.024,
+        "p50Ms": 0.011,
+        "p90Ms": 0.029,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2345,7 +2345,7 @@
         "rtlX": 744.0
       },
       "frames": {
-        "p50Ms": 0.012,
+        "p50Ms": 0.01,
         "p90Ms": 0.021,
         "frames": 120,
         "label": "test environment (relative)"
@@ -2387,8 +2387,8 @@
         "rtlX": 763.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.014,
+        "p50Ms": 0.009,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2429,8 +2429,8 @@
         "rtlX": -1287.0
       },
       "frames": {
-        "p50Ms": 0.142,
-        "p90Ms": 0.228,
+        "p50Ms": 0.132,
+        "p90Ms": 0.19,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2472,7 +2472,7 @@
       },
       "frames": {
         "p50Ms": 0.012,
-        "p90Ms": 0.031,
+        "p90Ms": 0.028,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2513,8 +2513,8 @@
         "rtlX": 763.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.011,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2555,8 +2555,8 @@
         "rtlX": 648.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.023,
+        "p50Ms": 0.01,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2597,8 +2597,8 @@
         "rtlX": 661.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p50Ms": 0.009,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2639,8 +2639,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.018,
+        "p50Ms": 0.01,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2682,7 +2682,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2724,7 +2724,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2807,8 +2807,8 @@
         "rtlX": 691.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.01,
+        "p50Ms": 0.009,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2849,7 +2849,7 @@
         "rtlX": 84.0
       },
       "frames": {
-        "p50Ms": 0.01,
+        "p50Ms": 0.011,
         "p90Ms": 0.014,
         "frames": 120,
         "label": "test environment (relative)"
@@ -2891,8 +2891,8 @@
         "rtlX": 8.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.026,
+        "p50Ms": 0.011,
+        "p90Ms": 0.028,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -2933,8 +2933,8 @@
         "rtlX": 592.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.01,
+        "p50Ms": 0.009,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3017,8 +3017,8 @@
         "rtlX": 36.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p50Ms": 0.009,
+        "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3101,13 +3101,13 @@
         "rtlX": 620.0
       },
       "frames": {
-        "p50Ms": 0.133,
-        "p90Ms": 0.31,
+        "p50Ms": 0.125,
+        "p90Ms": 0.187,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 41,
+        "count": 44,
         "passed": true
       }
     },
@@ -3143,8 +3143,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.018,
+        "p50Ms": 0.009,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3185,8 +3185,8 @@
         "rtlX": 13.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.021,
+        "p50Ms": 0.009,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3227,8 +3227,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.223,
-        "p90Ms": 0.344,
+        "p50Ms": 0.228,
+        "p90Ms": 0.35,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3269,7 +3269,7 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.011,
+        "p50Ms": 0.01,
         "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
@@ -3312,7 +3312,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.011,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3353,7 +3353,7 @@
         "rtlX": 779.0
       },
       "frames": {
-        "p50Ms": 0.01,
+        "p50Ms": 0.009,
         "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
@@ -3395,13 +3395,13 @@
         "rtlX": 68.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.014,
+        "p50Ms": 0.011,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 26,
+        "count": 27,
         "passed": true
       }
     },
@@ -3437,8 +3437,8 @@
         "rtlX": 576.0
       },
       "frames": {
-        "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p50Ms": 0.009,
+        "p90Ms": 0.009,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3479,8 +3479,8 @@
         "rtlX": 482.0
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.023,
+        "p50Ms": 0.011,
+        "p90Ms": 0.02,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3521,8 +3521,8 @@
         "rtlX": 688.55
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.011,
+        "p50Ms": 0.011,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3563,8 +3563,8 @@
         "rtlX": 366.0
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.014,
+        "p50Ms": 0.011,
+        "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3605,8 +3605,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.018,
+        "p50Ms": 0.009,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3648,7 +3648,7 @@
       },
       "frames": {
         "p50Ms": 0.01,
-        "p90Ms": 0.013,
+        "p90Ms": 0.012,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3689,7 +3689,7 @@
         "rtlX": 680.0
       },
       "frames": {
-        "p50Ms": 0.01,
+        "p50Ms": 0.009,
         "p90Ms": 0.011,
         "frames": 120,
         "label": "test environment (relative)"
@@ -3732,7 +3732,7 @@
       },
       "frames": {
         "p50Ms": 0.009,
-        "p90Ms": 0.01,
+        "p90Ms": 0.009,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3774,7 +3774,7 @@
       },
       "frames": {
         "p50Ms": 0.011,
-        "p90Ms": 0.012,
+        "p90Ms": 0.015,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3815,8 +3815,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.012,
-        "p90Ms": 0.013,
+        "p50Ms": 0.009,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3857,7 +3857,7 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.012,
+        "p50Ms": 0.01,
         "p90Ms": 0.013,
         "frames": 120,
         "label": "test environment (relative)"
@@ -3899,8 +3899,8 @@
         "rtlX": null
       },
       "frames": {
-        "p50Ms": 0.01,
-        "p90Ms": 0.012,
+        "p50Ms": 0.012,
+        "p90Ms": 0.014,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3941,8 +3941,8 @@
         "rtlX": 8.0
       },
       "frames": {
-        "p50Ms": 0.016,
-        "p90Ms": 0.034,
+        "p50Ms": 0.01,
+        "p90Ms": 0.033,
         "frames": 120,
         "label": "test environment (relative)"
       },
@@ -3984,12 +3984,12 @@
       },
       "frames": {
         "p50Ms": 0.009,
-        "p90Ms": 0.011,
+        "p90Ms": 0.01,
         "frames": 120,
         "label": "test environment (relative)"
       },
       "tests": {
-        "count": 31,
+        "count": 26,
         "passed": true
       }
     },
@@ -4025,8 +4025,8 @@
         "rtlX": 384.0007167857057
       },
       "frames": {
-        "p50Ms": 0.009,
-        "p90Ms": 0.01,
+        "p50Ms": 0.01,
+        "p90Ms": 0.029,
         "frames": 120,
         "label": "test environment (relative)"
       },
