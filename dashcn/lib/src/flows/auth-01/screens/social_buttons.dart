@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../components/button/button.dart';
 import '../../../foundation/gap.dart';
+import '../../../primitives/localizations/localizations.dart';
 import '../../../theme/theme.dart';
 
 /// Google / Apple buttons reporting the provider id.
@@ -16,6 +17,7 @@ class Auth01SocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23,13 +25,13 @@ class Auth01SocialButtons extends StatelessWidget {
         Button(
           variant: ButtonVariant.outline,
           onPressed: () => onSocialSignIn?.call('google'),
-          child: const Text('Continue with Google'),
+          child: Text(strings.blockContinueWith('Google')),
         ),
         Gap(appTheme.spacing.sm),
         Button(
           variant: ButtonVariant.outline,
           onPressed: () => onSocialSignIn?.call('apple'),
-          child: const Text('Continue with Apple'),
+          child: Text(strings.blockContinueWith('Apple')),
         ),
       ],
     );

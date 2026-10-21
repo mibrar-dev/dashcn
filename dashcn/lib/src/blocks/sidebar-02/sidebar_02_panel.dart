@@ -10,6 +10,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The inset sidebar panel: product mark, live-filter search, grouped
 /// navigation and the user row. Shared by the desktop layout and the mobile
@@ -49,6 +50,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final String needle = _query.trim().toLowerCase();
     List<String> match(List<String> items) => needle.isEmpty
@@ -121,7 +123,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
           if (platform.isNotEmpty && projects.isNotEmpty) Gap(theme.spacing.md),
           if (projects.isNotEmpty)
             _Sidebar02Group(
-              label: 'Projects',
+              label: strings.blockProjects,
               items: projects,
               links: _links,
               selected: widget.selected,
@@ -131,7 +133,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: theme.spacing.lg),
               child: Text(
-                'No matches for "$_query".',
+                strings.blockNoMatches(_query),
                 style: theme.typography.textSmall.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -154,7 +156,8 @@ class _Sidebar02Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Input(hintText: 'Search', onChanged: onChanged);
+    final strings = ComponentLocalizations.of(context);
+    return Input(hintText: strings.filterSearch, onChanged: onChanged);
   }
 }
 

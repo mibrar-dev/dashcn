@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../components/page_route/page_route.dart';
 import '../../foundation/icons/radix_icons.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'screens/pages_screen.dart';
 import 'screens/permission_screen.dart';
 
@@ -35,31 +36,35 @@ class Onboarding01Flow extends StatelessWidget {
   /// Creates the flow.
   const Onboarding01Flow({
     super.key,
-    this.pages = const <Onboarding01Page>[
-      Onboarding01Page(
-        icon: RadixIcons.rocket,
-        title: 'Welcome aboard',
-        description: 'A quick tour before you start using the app.',
-      ),
-      Onboarding01Page(
-        icon: RadixIcons.chatBubble,
-        title: 'Stay in the loop',
-        description: 'Messages and updates arrive the moment they happen.',
-      ),
-      Onboarding01Page(
-        icon: RadixIcons.bell,
-        title: 'Never miss a thing',
-        description: 'Allow notifications to get the most out of the app.',
-      ),
-    ],
+    this.pages,
     this.onSkip,
     this.onFinished,
     this.onPermissionChanged,
     this.initialScreen = '/',
   });
 
+  /// Default intro pages, localized for the ambient locale.
+  static List<Onboarding01Page> defaultPages(ComponentLocalizations strings) =>
+      <Onboarding01Page>[
+        Onboarding01Page(
+          icon: RadixIcons.rocket,
+          title: strings.blockWelcomeAboard,
+          description: strings.blockQuickTour,
+        ),
+        Onboarding01Page(
+          icon: RadixIcons.chatBubble,
+          title: strings.blockStayInLoop,
+          description: strings.blockMessagesArriveMoment,
+        ),
+        Onboarding01Page(
+          icon: RadixIcons.bell,
+          title: strings.blockNeverMissThing,
+          description: strings.blockAllowNotificationsBlurb,
+        ),
+      ];
+
   /// Intro pages; defaults to a three-page tour.
-  final List<Onboarding01Page> pages;
+  final List<Onboarding01Page>? pages;
 
   /// Called when Skip is tapped.
   final VoidCallback? onSkip;
@@ -80,6 +85,7 @@ class Onboarding01Flow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     return Navigator(
       initialRoute: initialScreen,
       onGenerateRoute: (RouteSettings settings) {
@@ -93,7 +99,10 @@ class Onboarding01Flow extends StatelessWidget {
         }
         return AppPageRoute(
           settings: settings,
-          builder: (_) => Onboarding01PagesScreen(pages: pages, onSkip: onSkip),
+          builder: (_) => Onboarding01PagesScreen(
+            pages: pages ?? Onboarding01Flow.defaultPages(strings),
+            onSkip: onSkip,
+          ),
         );
       },
     );

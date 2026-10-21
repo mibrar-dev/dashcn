@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../image/image.dart';
@@ -369,7 +370,7 @@ class _ImageLightboxState extends State<ImageLightbox> {
     final Widget closeButton =
         widget.closeButtonBuilder?.call(context, close) ??
         Semantics(
-          label: 'Close',
+          label: ComponentLocalizations.of(context).actionClose,
           button: true,
           child: Container(
             width: 48,

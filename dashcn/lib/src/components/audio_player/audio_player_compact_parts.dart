@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'audio_player_controller.dart';
 
 /// Small icon button for the compact pill (volume cluster, download).
@@ -56,7 +57,7 @@ class AudioSpeedChip extends StatelessWidget {
       '',
     );
     return FocusableTap(
-      label: 'Playback speed ${text}x, tap to change',
+      label: ComponentLocalizations.of(context).mediaPlaybackSpeed(text),
       onTap: () => c.cycleSpeed(speeds),
       child: SizedBox(
         width: 32,
@@ -122,7 +123,9 @@ class _AudioVolumeButtonState extends State<AudioVolumeButton> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             audioPillButton(
-              label: c.isMuted ? 'Unmute' : 'Mute',
+              label: c.isMuted
+                  ? ComponentLocalizations.of(context).mediaUnmute
+                  : ComponentLocalizations.of(context).mediaMute,
               icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
               fg: widget.fg,
               onTap: () => c.setMuted(!c.isMuted),
@@ -238,7 +241,7 @@ class _VolumeSliderState extends State<_VolumeSlider> {
   Widget build(BuildContext context) {
     final AudioPlaybackController c = widget.controller;
     return Semantics(
-      label: 'Volume',
+      label: ComponentLocalizations.of(context).mediaVolume,
       slider: true,
       value: '${(_level * 100).round()}%',
       increasedValue: '${(((_level + 0.1).clamp(0.0, 1.0)) * 100).round()}%',

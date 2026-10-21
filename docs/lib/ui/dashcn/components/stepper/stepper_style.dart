@@ -10,6 +10,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Extra state a step carries on top of "before / current / after".
 enum StepperStepState {
@@ -365,6 +366,7 @@ class StepperIndicator extends StatelessWidget {
       width: size,
       height: size,
       child: _labeledRing(
+        ComponentLocalizations.of(context),
         Clickable(
           enabled: onPressed != null,
           onPressed: onPressed,
@@ -393,13 +395,13 @@ class StepperIndicator extends StatelessWidget {
 
   /// Labels icon-phase rings (`failed`/`completed`/custom icon), whose glyph
   /// carries no text; numbered rings already announce their number.
-  Widget _labeledRing(Widget ring) {
+  Widget _labeledRing(ComponentLocalizations strings, Widget ring) {
     final bool iconPhase =
         icon != null ||
         phase == StepperPhase.failed ||
         phase == StepperPhase.completed;
     final String? label =
-        semanticLabel ?? (iconPhase ? 'Step ${index + 1}' : null);
+        semanticLabel ?? (iconPhase ? strings.stepperStep(index) : null);
     if (label == null) {
       return ring;
     }

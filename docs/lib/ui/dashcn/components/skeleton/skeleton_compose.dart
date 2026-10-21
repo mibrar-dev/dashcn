@@ -8,6 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/surface.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
@@ -61,7 +62,7 @@ class SkeletonCard extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Surface opacity override; null follows the theme then ambient legs.
@@ -137,7 +138,9 @@ class SkeletonCard extends StatelessWidget {
       ),
     );
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: GlassSurface(
         surfaceBlur: hasSurfaceBlur(resolveSurfaceBlur(context)) ? blur : null,
         borderRadius: radius is BorderRadius ? radius : null,
@@ -186,7 +189,7 @@ class SkeletonList extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Builder slots for every visible part.
@@ -227,7 +230,9 @@ class SkeletonList extends StatelessWidget {
     final double gap = tokens.gap * ambient.scaling;
     final double rowH = skeletonRowHeight(tokens, resolved, ambient.scaling);
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: gap,

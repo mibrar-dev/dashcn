@@ -10,6 +10,7 @@ import '../../foundation/data.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/motion/motion_chevron.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -364,7 +365,9 @@ class TreeRow extends StatelessWidget {
             child: Semantics(
               button: true,
               expanded: row.expanded,
-              label: row.expanded ? 'Collapse' : 'Expand',
+              label: row.expanded
+                  ? ComponentLocalizations.of(context).treeCollapse
+                  : ComponentLocalizations.of(context).treeExpand,
               // The chevron rotates 90 degrees on expand instead of snapping.
               child: MotionChevron(
                 expanded: row.expanded,

@@ -23,6 +23,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'pricing_01_promo.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// A pricing section: three plans, the middle one highlighted.
 class Pricing01 extends StatelessWidget {
@@ -84,6 +85,7 @@ class _Pricing01Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -91,7 +93,7 @@ class _Pricing01Heading extends StatelessWidget {
       children: <Widget>[
         Badge(
           variant: BadgeVariant.secondary,
-          child: Text('Pricing', style: theme.typography.xSmall),
+          child: Text(strings.blockPricing, style: theme.typography.xSmall),
         ),
         Gap(theme.spacing.lg),
         Text(
@@ -103,8 +105,7 @@ class _Pricing01Heading extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),
           child: Text(
-            'Start free, upgrade when your team grows. Every plan includes '
-            'the full component library and the theme presets.',
+            strings.blockPlansBlurb,
             textAlign: TextAlign.center,
             style: theme.typography.textMuted.copyWith(
               color: theme.colors.mutedForeground,
@@ -323,12 +324,13 @@ class _Pricing01Faq extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text('Questions', style: theme.typography.h3),
+        Text(strings.blockFaqTitle, style: theme.typography.h3),
         Gap(theme.spacing.lg),
         Wrap(
           spacing: theme.spacing.xl,

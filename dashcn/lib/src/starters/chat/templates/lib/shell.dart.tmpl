@@ -20,15 +20,15 @@ class ChatShell extends StatefulWidget {
 class _ChatShellState extends State<ChatShell> {
   int _index = 0;
 
-  List<NavigationBarItem> get _items => const <NavigationBarItem>[
+  List<NavigationBarItem> _items(ComponentLocalizations strings) => <NavigationBarItem>[
     NavigationItem(
       key: ValueKey<String>('chat.tab.threads'),
-      label: Text('Chat'),
+      label: Text(strings.blockStarterChat),
       child: Icon(RadixIcons.chatBubble),
     ),
     NavigationItem(
       key: ValueKey<String>('chat.tab.settings'),
-      label: Text('Settings'),
+      label: Text(strings.errorActionSettings),
       child: Icon(RadixIcons.gear),
     ),
   ];
@@ -53,6 +53,7 @@ class _ChatShellState extends State<ChatShell> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     return Column(
       key: const ValueKey<String>('chat.shell'),
       children: <Widget>[
@@ -61,7 +62,7 @@ class _ChatShellState extends State<ChatShell> {
           key: const ValueKey<String>('chat.nav'),
           index: _index,
           onSelected: (int value) => setState(() => _index = value),
-          children: _items,
+          children: _items(strings),
         ),
       ],
     );

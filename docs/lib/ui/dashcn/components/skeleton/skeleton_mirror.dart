@@ -14,6 +14,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/density_tokens.dart';
 import 'skeleton_style.dart';
 
@@ -52,7 +53,7 @@ class SkeletonMirror extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   @override
@@ -62,7 +63,9 @@ class SkeletonMirror extends StatelessWidget {
     }
     final Widget placeholder = placeholderBuilder(context);
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: Stack(
         children: <Widget>[
           ExcludeSemantics(

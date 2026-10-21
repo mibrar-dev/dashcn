@@ -53,7 +53,7 @@ class ButtonStatusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool active = status != ButtonStatus.idle;
-    final String? announcement = buttonStatusAnnouncement(status);
+    final String? announcement = buttonStatusAnnouncementOf(context, status);
     return AnimatedSwitcher(
       duration: transition,
       // The exit drops instantly: a fading-out spinner would linger in
@@ -244,7 +244,7 @@ class ButtonStatusContent extends StatelessWidget {
                 key: ValueKey<ButtonStatus>(effective),
                 container: true,
                 liveRegion: true,
-                label: buttonStatusAnnouncement(effective),
+                label: buttonStatusAnnouncementOf(context, effective),
                 // The icon is decorative next to the announcement; excluding
                 // it keeps a self-labelling `Spinner` from doubling the label.
                 child: ExcludeSemantics(child: icon),

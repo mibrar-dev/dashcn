@@ -16,7 +16,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -56,7 +58,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -92,7 +96,8 @@
           "icons"
         ],
         "primitives": [
-          "date_math"
+          "date_math",
+          "localizations"
         ],
         "theme": [
           "theme"
@@ -129,7 +134,8 @@
           "icons"
         ],
         "primitives": [
-          "date_math"
+          "date_math",
+          "localizations"
         ],
         "theme": [
           "theme"
@@ -167,7 +173,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -205,7 +213,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -243,7 +253,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -278,7 +290,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -316,7 +330,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -352,7 +368,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -390,7 +408,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -426,7 +446,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -466,7 +488,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -508,7 +532,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -546,7 +572,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -584,7 +612,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -1137,6 +1167,7 @@
         ],
         "primitives": [
           "focus_outline",
+          "localizations",
           "motion",
           "surface",
           "tap_target",
@@ -1689,6 +1720,7 @@
         ],
         "primitives": [
           "clickable",
+          "localizations",
           "touch_hit_area"
         ],
         "theme": [
@@ -2032,6 +2064,7 @@
         ],
         "primitives": [
           "animation_queue",
+          "localizations",
           "motion"
         ],
         "theme": [
@@ -2141,8 +2174,9 @@
         "components": [],
         "foundation": [],
         "primitives": [
-          "motion",
-          "chart"
+          "chart",
+          "localizations",
+          "motion"
         ],
         "theme": [
           "color_tokens",
@@ -2784,7 +2818,8 @@
         ],
         "foundation": [],
         "primitives": [
-          "color_field_paint"
+          "color_field_paint",
+          "localizations"
         ],
         "theme": [
           "color_tokens",
@@ -3445,8 +3480,9 @@
         ],
         "primitives": [
           "clickable",
-          "tap_target",
+          "localizations",
           "motion",
+          "tap_target",
           "widget_states"
         ],
         "theme": [
@@ -4227,6 +4263,7 @@
         "primitives": [
           "animation",
           "clickable",
+          "localizations",
           "motion"
         ],
         "theme": [
@@ -5380,6 +5417,7 @@
           "icons"
         ],
         "primitives": [
+          "localizations",
           "motion",
           "surface"
         ],
@@ -6742,7 +6780,9 @@
         "foundation": [
           "geometry"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "color_tokens",
           "theme"
@@ -7263,7 +7303,9 @@
       "deps": {
         "components": [],
         "foundation": [],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "color_tokens",
           "theme"
@@ -8235,7 +8277,9 @@
       "deps": {
         "components": [],
         "foundation": [],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "color_tokens",
           "theme"
@@ -8322,6 +8366,7 @@
         "foundation": [],
         "primitives": [
           "animation",
+          "localizations",
           "motion",
           "surface"
         ],
@@ -8566,6 +8611,7 @@
         "foundation": [],
         "primitives": [
           "animation",
+          "localizations",
           "motion"
         ],
         "theme": [
@@ -8766,6 +8812,7 @@
         ],
         "primitives": [
           "clickable",
+          "localizations",
           "motion"
         ],
         "theme": [
@@ -9880,6 +9927,7 @@
         ],
         "primitives": [
           "clickable",
+          "localizations",
           "measured_extent",
           "roving_group",
           "touch_hit_area"
@@ -10146,6 +10194,7 @@
         ],
         "primitives": [
           "clickable",
+          "localizations",
           "motion",
           "tree_selection"
         ],
@@ -10297,6 +10346,7 @@
         ],
         "primitives": [
           "focus_outline",
+          "localizations",
           "motion",
           "surface",
           "tap_target",
@@ -10552,52 +10602,52 @@
   },
   "fileHashes": {
     "blocks/account-01/README.md": "fd6293129d3cacb88acd98d20134222133073a45da0700d5f386042d122ab9cb",
-    "blocks/account-01/account_01.dart": "a10e355a31125eb70c951aff4c83ac9c6e363ee66a3608cff5b2a96e75a869e4",
-    "blocks/account-01/account_01_password.dart": "75c6edf7bfd8b233552fff35c920d5610d6add0c4a5d900e8d64d2322c4004e4",
-    "blocks/account-01/account_01_profile.dart": "cccf5bd752344478cceac200fafbf41f8d43abcc5b604d0e0e14cd06c5260451",
-    "blocks/account-01/account_01_team.dart": "a5904f4a8f325ffb488ce76da33b6dcdfb76dd6112ab7554f8cc3fa0ab87ac41",
+    "blocks/account-01/account_01.dart": "43fe0989a150b7e153a8bc64302a5f367b6f1b466808a8758c8fd4c7fff2df7b",
+    "blocks/account-01/account_01_password.dart": "4ad52f881b3aea5fdb52cb49c11a79147064de5e534e66094f1e971070d49d56",
+    "blocks/account-01/account_01_profile.dart": "64500d5f0b18dc9dadfa633321b5d9a2afc5230db732f7e0c5b8b8c35a2c0d09",
+    "blocks/account-01/account_01_team.dart": "c5afe0b802b3451ca2196121d4e15209aacb27395873c0d22ea799cdc1e30b61",
     "blocks/account-02/README.md": "8df4b1ed09519a90f7e71bee12a7db7b1e284af544cef15d6d21a2d232282d6f",
-    "blocks/account-02/account_02.dart": "5a5a5d7930b6553fa468f912e108caedf78e66bbecb536afcde1bdc6a1527a11",
+    "blocks/account-02/account_02.dart": "aa848f89c3e6faa1bb7583cba669f79e92dfc3e7fb6c09b4649c8391b2d27e99",
     "blocks/calendar-01/README.md": "1b261d7266dd00490bf110d917ff19f372fbc8e83c58365814637413a5f3a58e",
-    "blocks/calendar-01/calendar_01.dart": "e111b13e504754a8df306af2075c79a54ef828bdf22968a04be62145c485f57e",
+    "blocks/calendar-01/calendar_01.dart": "b612191ea516e640535998233061a731932d6a2a298122f0bd415c9293bd0d24",
     "blocks/calendar-02/README.md": "4cb79cff34e1d76c26ad7522d828bffc41c37880c9e42d51dcf10e3eab1bd927",
-    "blocks/calendar-02/calendar_02.dart": "e01c22ea0744045767e8b3766d2f4543be125b63d27cd6f8cfb42c8255fb4732",
+    "blocks/calendar-02/calendar_02.dart": "affb010bcea1e4eee4fcf604e220bd48b51c1a5ef2c573271bf8264fa57446b1",
     "blocks/dashboard-01/README.md": "d3a843416c917e174b2a79af23311f436673a01c707626f979380069de8b76c9",
-    "blocks/dashboard-01/dashboard_01.dart": "aa39898620169bcd3f65a3940a88723791b111c68d5175135bd5b272063f27af",
-    "blocks/dashboard-01/dashboard_01_shell.dart": "16a969fda8b2dab383eedd28bd2114643154f4015f5733b9d99e2e2dd9404f81",
-    "blocks/dashboard-01/dashboard_01_table.dart": "cb0730df793a6018d0b9e92feb08fb93cdaa44684f6d3e21fb1104b63af45680",
+    "blocks/dashboard-01/dashboard_01.dart": "dbfa10cd8631edd0aeaf71bb0cd2f2332eac1976bc051a6cd058f33fd27ffb77",
+    "blocks/dashboard-01/dashboard_01_shell.dart": "487c5531eefdc2f642cf8ebe52ccdff020156445be38a9dade1f14ab70335eca",
+    "blocks/dashboard-01/dashboard_01_table.dart": "24eda544f11c813fc52ce37550d7c57d3ab66805bb038da8a83384968f5bf226",
     "blocks/dashboard-02/README.md": "e70d0d56084789887f7024bb1179ed8c47b71314fd265054c877f423d80c0ac1",
-    "blocks/dashboard-02/dashboard_02.dart": "c9ed876af3dfde0035d635a41a3a1cb46a22f1b8fbef19fb297d26e33a34bc4a",
-    "blocks/dashboard-02/dashboard_02_sections.dart": "1df7f367219f59c497a03b7c873d7a6b8358af9f72e03d3d8d394e22951b3b9d",
+    "blocks/dashboard-02/dashboard_02.dart": "0d5e2ce8364e4896905d15c4382b62be496d30cea57a4d53dce76be71ad171fd",
+    "blocks/dashboard-02/dashboard_02_sections.dart": "775595232c9bffde43da4ea5060e319e7f9c51da6183ffe7b8780b49da3d884c",
     "blocks/login-01/README.md": "438c83a29ef18cb73d6c40e4df09fa560b850eb66d2c27a1496f51d93be162db",
-    "blocks/login-01/login_01.dart": "805db38a4aac1999f4c73df3f9de25d3f12f550f30e1cfe5bd785097cc5b53b9",
+    "blocks/login-01/login_01.dart": "686d498794b28a32d49acd55b743363bf97ea82a8bc86f83f3d294c37b237597",
     "blocks/login-02/README.md": "08a64b8d0711bfcc01bc4eb947a2a4d43cfeefcf596f2cdd80719c26526d453e",
-    "blocks/login-02/login_02.dart": "75d4dd6db0b5704c1ab688672390a1038d798cab3abaf6b35f37a5def9ad27e4",
+    "blocks/login-02/login_02.dart": "25b6af415abd8e35a2c7a0b36b1f1acd76fcfb7f768016c265864eddf3b08435",
     "blocks/login-02/login_02_panel.dart": "835709d92f408e6c1f77a867e4a42e1ca6bd7034855621884320e3b89228d727",
     "blocks/login-03/README.md": "9b7b565846eeb118d745b04e6ee468b1ace0318d8bb3965015a4e26b8a7b72dd",
-    "blocks/login-03/login_03.dart": "dd5ec3f19833b1a23565406dace27867757b2d00ccc826a500f03dff5324f982",
+    "blocks/login-03/login_03.dart": "278802e954a977947568bc5bfaf2b5831c7e295f6fb39139c7a27a4615f61da7",
     "blocks/otp-01/README.md": "1de94fe9d7937965a096fe8458dd78b88c913627f0e5a51f301a694a86dea905",
-    "blocks/otp-01/otp_01.dart": "0dd6f9878425acd8e76936643314d7c50acb2b311a15690ca861ec3133fbc364",
+    "blocks/otp-01/otp_01.dart": "1e594788ca54cbcf853494606ddba8afc044013c4097300adb664459ef37a627",
     "blocks/pricing-01/README.md": "bb6070ed3f196ec40206bdeeb99827b9a15b1fee9de071bd3fba5beea6776a34",
-    "blocks/pricing-01/pricing_01.dart": "1a5ca7f4a649fdd06340618fffaf404afb79aed244c6acf59679a2ce7e5aaad2",
-    "blocks/pricing-01/pricing_01_promo.dart": "6dcf3f53e13213c0036499a4558ba7f4159531da424a108c747ace76cec3bbea",
+    "blocks/pricing-01/pricing_01.dart": "496eac1bead3c925188c83675e66b6e1fd7454504933710b5ce6174f7055db28",
+    "blocks/pricing-01/pricing_01_promo.dart": "a9616635e0914004e5a7443f2b82df8131251346ec0ffbc63043ed531c5398bc",
     "blocks/sidebar-01/README.md": "8895903c9c4c61e1fa9074e8cb3a8bc1cd2dbed824109bc9f52bf08bed6bbf5e",
     "blocks/sidebar-01/sidebar_01.dart": "b7b1cf109c8fd984149bae0a9975deb180c429f016620a0876b2c62bd80b8f01",
-    "blocks/sidebar-01/sidebar_01_content.dart": "5dc12466a64f023f8e8c8d689b0e2ee85a407eb3d2904cd1f07dc66442b72a16",
+    "blocks/sidebar-01/sidebar_01_content.dart": "768bffd109311f7201024aa58264af477cf2e28ac57c6d819cfa916b8fbd9786",
     "blocks/sidebar-02/README.md": "6f305e8a4ae200bdd999a344445a9233026a2f6215c0f20690d8efe33a66d9a6",
     "blocks/sidebar-02/sidebar_02.dart": "f99de94f887b350610e08fe4e4748c02282da7381e62a9239b490301310f9628",
-    "blocks/sidebar-02/sidebar_02_content.dart": "2f7b22507af359f8935b7bd063e448a4d8f3490b3454445ce9f333fa40ae0820",
-    "blocks/sidebar-02/sidebar_02_panel.dart": "ba3c52d5439304329615aa3058bb05e7db5d463e8f6f3f49593e5249577282ce",
+    "blocks/sidebar-02/sidebar_02_content.dart": "d7b45dfc7dbcdedabde7339678c4acd927ae330c3b7b31eb3f705ccd9b0c5233",
+    "blocks/sidebar-02/sidebar_02_panel.dart": "0636b44581767b23b878dd44d58da763ae30e6355b814da85a6bc5be8e5264e4",
     "blocks/sidebar-03/README.md": "c5c2065fb88ba431f8808b32044fd42b51411b777885302e385c564ad5492719",
-    "blocks/sidebar-03/sidebar_03.dart": "678047ac179b24342374921fd5331b8cd14bb2416c961e5eb5e3327c85dfff7c",
-    "blocks/sidebar-03/sidebar_03_content.dart": "b6b71fe4eb3dc4237f4a54dc5579b8cd9d4c0c1aa4485f70bda25c4c2281c6a0",
+    "blocks/sidebar-03/sidebar_03.dart": "a50da60e6dbb919c0270175eda2078f4c8379020219375b7d44c769d338ac943",
+    "blocks/sidebar-03/sidebar_03_content.dart": "63bbdb0a66880fffb9c27b147c3d13b92ce9d612b6618c02013fa6020047bf22",
     "blocks/sidebar-03/sidebar_03_sidebar.dart": "b65bcb25b480542dd896aac190067d063074f38999113116e30ebbb9d9988cca",
     "blocks/signup-01/README.md": "ac4f4ae173df79ca629f6c920c828c620f27a6343856e6d2acf5943d3c140198",
-    "blocks/signup-01/signup_01.dart": "23d65e3f0f9c9edb13aa600a01caedf7da01a3c5c434044d856f10a9b090f0d2",
+    "blocks/signup-01/signup_01.dart": "0c5302be27b0351e37be4bd36688dada201daa21d52288cf4900810cf1b6d75a",
     "blocks/signup-02/README.md": "bb2e437495dfdc9d3232546267fdfdacf399d0e5055f2de0825d41cd7ee2f7c1",
     "blocks/signup-02/signup_02.dart": "a3ecd9d96683e9d2641d8c1b2f08b8f1e3904975aa3cb01cb42c6a02f58293c3",
-    "blocks/signup-02/signup_02_aside.dart": "fb1a71554fa3d26f3b05d3cfa9df3d234b070c493680750ae0852789be75ad48",
-    "blocks/signup-02/signup_02_form.dart": "b98ea64b208fe888d3192d9f5f7e5cd2bc8c8abc0aadce3c36a1de08bde89bb3",
+    "blocks/signup-02/signup_02_aside.dart": "ccdc48800bc67383919153d94f5b6fb6dada42aff3300792a366dae2577d11f9",
+    "blocks/signup-02/signup_02_form.dart": "9a6068427b6fb02f644d2b01fc89b0fb5869fa7116866b4398067186016e434e",
     "components/accordion/accordion.dart": "3ec5dba4b8a4b065c081062ca1ba8a2a43b60dcb91680d38e95e835ed761a7e4",
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
@@ -10625,20 +10675,20 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
-    "components/audio_player/audio_player.dart": "d8edba9bce32bf4add4ca530e2b11d8c2031531b1a72daba3550df85c4205494",
-    "components/audio_player/audio_player_compact.dart": "c5251f135a3b3c8e08c29cb9698f85e81e7e8d62b672f7281b12a3b7cbd3c9b6",
-    "components/audio_player/audio_player_compact_parts.dart": "8b319cced8c1b58124a237fe4900040a2e73ec62ab03fa01f6d932b604dc11a1",
+    "components/audio_player/audio_player.dart": "ffb1ff239e9a9535d25585be6b3f923232430347a8b7952d18faa8f5cf0fac13",
+    "components/audio_player/audio_player_compact.dart": "2727f1cd632bcebe051fb08508e3968a175c4264379885ca12bf02092a80a4e0",
+    "components/audio_player/audio_player_compact_parts.dart": "251894863346992c295d7c14151ec0b8d36701165a319e9d812edc5f3a179783",
     "components/audio_player/audio_player_controller.dart": "89bb4cf98f16086f8231d23eb285572a79cb9f4cad3f95a1d563da27cc27a8fc",
-    "components/audio_player/audio_player_expanded.dart": "9efa7e425e5ae91beb2f9dcf2b754cc13baa594e9eddb7b1cfb7779b79f2a738",
-    "components/audio_player/audio_player_expanded_transport.dart": "10ed9b3ff7ac746895e0cc65807c55fa7dff174d4b81d08827e81348ddbee55e",
+    "components/audio_player/audio_player_expanded.dart": "a85314a60e2676b3a6c1d28b84cd8b1585136fe71bdee566fc3262dd0201a108",
+    "components/audio_player/audio_player_expanded_transport.dart": "beb84fdb41c68ed42e9a9569801adf8614d95171dc704d04878106c7dfd8c90e",
     "components/audio_player/audio_player_fake.dart": "75e3d972d81d1e607edf84069d25456185f33d605f43b5a889a1aaa2451992bf",
     "components/audio_player/audio_player_layout.dart": "2e8bd5d47162c23ddd695ad5273bdaa0dcbfe7e42bd25b65710a7a80bacfe8ca",
     "components/audio_player/audio_player_metrics.dart": "353c5ae8e901acb97c61bde113917e46f5d0bec726b8990248cf981bfa02d098",
-    "components/audio_player/audio_player_playlist.dart": "b8d15b0172685a5e6a5eaf29ff07d80609080ee357aa7b885397c0cecad820fb",
-    "components/audio_player/audio_player_progress.dart": "30082bcc6067ce347f4071fcbbda23e80f97729286fc0d3d9353fef8068c76c1",
+    "components/audio_player/audio_player_playlist.dart": "1fa7e469a1fde91cfb499c0ca390683024e0c4320fa22fb147907354b0b399f3",
+    "components/audio_player/audio_player_progress.dart": "977226084d66a6ae8acf0ce738b7a2312e12ee31c82270da5f4130861545ffc4",
     "components/audio_player/audio_player_style.dart": "7ae37758d037892c27a32aaa72725f5e454f5abdae939813febcf094bd57c322",
     "components/audio_player/audio_player_theme.dart": "4f2893a478a068da7c8556c940b66d859934fc79feedb4784092ca7571ff2adf",
-    "components/audio_player/audio_player_transport.dart": "87551673dfd1f97bb6fd9e616dc68307841b1d8f04789b8b7d2c56161a034d54",
+    "components/audio_player/audio_player_transport.dart": "5b2a375040e2a8fdd49ea0d4c8522fda4404b3c9a38af961299abc6fd31339c1",
     "components/audio_player/preview.dart": "74ede1443a29b8fdf2237e5bfc8cdd2e7204e4cdcaae07d1704d51a86c28af99",
     "components/autocomplete/autocomplete.dart": "388132b3f4a2d856dff78c76afd9c04bbea61ffdf581d3742d250dde625b38a6",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
@@ -10666,8 +10716,8 @@
     "components/button/button_defaults.dart": "c39887571daea75a7d0cad617af3fecf74131033859e4fc06a68a10688ff337c",
     "components/button/button_group.dart": "9b6f20f7d3fd9fb30b144d7f6f14ee3451ed273ee55853f0e01b7612b7461d40",
     "components/button/button_layout.dart": "55686cad2e52513096ce29113eaf30516acc189e6a0c68940a926c0ec3348518",
-    "components/button/button_status.dart": "01f134b3c4d4f5e58af5dcc250129f035997d4897ff3460158b2a9bd81c7f940",
-    "components/button/button_status_content.dart": "6a3e9660ebb1f81a9a8982f404420911136748490b634fda81bc5a67307bb9ff",
+    "components/button/button_status.dart": "f81b7c2e47d3197d77aafb6e1192763917d76243a55ec0e1a4aa4cfde2645184",
+    "components/button/button_status_content.dart": "7fdaf1c0239f6ce3fe7cd4ed0c250c889fda3d0831e3b2f240614dee2bf00d2d",
     "components/button/button_status_style.dart": "b39db42311806df5e3eb789205eb3a5182675305bc12d7f04ce546454d5ccf31",
     "components/button/button_style.dart": "8414ee475196b6d6001cf3382cb6575ca128cc04c72533131ed4026ec1afda43",
     "components/button/button_theme.dart": "a4ceccd77737db86c9e64fef356753d9a68d145102f4c650b5c1b54a99f4510c",
@@ -10686,20 +10736,20 @@
     "components/card_image/card_image_style.dart": "da285701b4c21a9ebbb541dbc2d29d0cb0c0f5568172c5e9d21f1cc90b97c029",
     "components/card_image/card_image_theme.dart": "4934ed979dea72bfbc1736686bed9d533e5c30bda465bd8361acebe9176008db",
     "components/card_image/preview.dart": "832a7f020d1ff5d6155db29b7dee8cace888b04f472afe30ccddfbd7ae6c5869",
-    "components/carousel/carousel.dart": "8adfd89deb323926de1b5777a35ba4ed9ad6efce3c37555f8adfa3b733ce06c0",
+    "components/carousel/carousel.dart": "aed3bad6ec6488a57bf5c175a42efd8729c0deb9a8dee3f32bf9ccb87d518636",
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
-    "components/chart/chart.dart": "6383d150dccc5d3128e565f2e86dd296b1ee66e6f1c0bf91ca004ce9bbd12be4",
+    "components/chart/chart.dart": "d03843c1fdebb9ab9d4beef83dbda70b874e3362e9e737d600aa9e5e4380bc54",
     "components/chart/chart_cartesian_painter.dart": "a8c8450fd00cd36e2a797594efacb3651cbf02b1b3734df5f4a1a0a0abf1430e",
-    "components/chart/chart_model.dart": "0d1a869cc4ec410b21629aa04b9a7bca888de7663c269375a4b08701b7fe5c54",
+    "components/chart/chart_model.dart": "d865779861c09ccc0d5dff86fe5f38ce9fd51e6516bdf6b3d12f87eae7b7808b",
     "components/chart/chart_paths.dart": "bc5efa6923f6e6bfbfd2a9b3abbc36488e8bae76620f73af367ad14b1a34e7fe",
     "components/chart/chart_pie_painter.dart": "c41633827b19f50822e47e52c833974e73473d0e798e28a0a70d0c4001df9739",
     "components/chart/chart_radar_painter.dart": "9fc7fd54fc5292fa8a94e9f6f7be01e84ce9bd1a450e3ad21929a7756e78fc21",
     "components/chart/chart_radial_painter.dart": "7892d1230f8d09eb7a4ae54f316c9cd5f252554900e1f6b1f329e24f108bb6e4",
     "components/chart/chart_style.dart": "072d6693d40228efa0529f8dd574973ece0847f32887e211108049a3aa88e4b4",
     "components/chart/chart_theme.dart": "04d7d3946ee7ff3f6a62467d96bc1d7690148e6e1daa691bb3244773ce579842",
-    "components/chart/chart_tooltip.dart": "1f5398dd0b1e4555112635bbab5ee229c1e33d848da7da6186c6ef4ccdb538a6",
+    "components/chart/chart_tooltip.dart": "c626ffb5d917315c922e235e1ad0248daf46b480aa18c5b5657eab02578ae6db",
     "components/chart/chart_tooltip_anchor.dart": "339638849858d3765a6869af799f9f835fc41797a7577c73f60c6b51ddea6223",
     "components/chart/chart_tooltip_placement.dart": "12d6e394b4b837ce74f6add76b0f893c2cb3373cf9ab687f6b95de3881b71a5f",
     "components/chart/preview.dart": "aee6446e2326111eee816bd5b52d77c9d316a5355a3d663db8e4197be2d0a977",
@@ -10729,7 +10779,7 @@
     "components/collapsible/preview.dart": "c9ac3d19befb3b134382ae29fefcf2655dc4f9e9b624775354d1fd37f6fc9206",
     "components/color/color.dart": "da95825ae2c782493abb4be57db237674ad2a492270276b6d32f2735d7c4cb73",
     "components/color/preview.dart": "41cb52d2c0b57f5d05c7df28b680cf5bd52893d3e7d0ae65224a1d10827044e7",
-    "components/color_field/color_field.dart": "a63a4f38cc924fc1f954f6da419fb26657ef2c5df31da2b75c887825c9c6996a",
+    "components/color_field/color_field.dart": "003eb08eed70b8600c39ad2ade4a6407c04445cb0d826b9edf878cafa497defa",
     "components/color_field/color_field_style.dart": "efc02a161bf2989d8fb7ead40a11a4c0a6548a4545baf471d4323590853cd19b",
     "components/color_field/color_field_theme.dart": "5ca8acf46d29a25199aceeea46e48fb3b3153a98db4ae0abc26bbfe1d90e58aa",
     "components/color_field/preview.dart": "47cc2ad64559d5ddb0fe5c228f6f60f589f51da647c9871cbaee2e4cf83ae2e2",
@@ -10751,7 +10801,7 @@
     "components/country_flag/country_flag_style.dart": "a37d73e15798fc1ab3a3529e0be6225965952a8d915ad67a954c3b09a1fc8a2e",
     "components/country_flag/country_flag_theme.dart": "7f90d6328b6b707afca974525591185ffa7e72bf3b0fe01ead9ec669cae54477",
     "components/country_flag/preview.dart": "6fd30142fcbc6680728e2f2af6acc3ea245e0869258f8700fe4f0ef2ae681c62",
-    "components/date_picker/date_picker.dart": "14795b4e9b8394f9e6c79a38478fe36c36417e5ac4da70ca0966acbc761afb2e",
+    "components/date_picker/date_picker.dart": "9847ccfbf0f7c5d008290b83592e689c65c6930205c79b079d6b4ce048082e28",
     "components/date_picker/date_picker_style.dart": "faa1af8d92972e140e4d780252d91c18f498a91ac075a55e9fe7c7c391d4070d",
     "components/date_picker/date_picker_theme.dart": "b5f921a9d3a548532622478bf543ee1939daf90d9dfca035093f78b1ec0e9800",
     "components/date_picker/preview.dart": "dd42acecef5213c4cddc3fbba32fd67fc2325a1ee15a6c9546d49e900009fc7a",
@@ -10763,7 +10813,7 @@
     "components/divider/divider_style.dart": "bdb139b37f1a2d0812fed22eb3b4b9af6aab1c38d53e2a9c1830c328e45d7cb3",
     "components/divider/divider_theme.dart": "29cd40b1fde48621a6e4c6f8b96e967bb64e7d1466ae36428fdfbfd149003d7a",
     "components/divider/preview.dart": "d5d1db506769b53bb2a2549e6ade989492f711f4b9260eec459fa92a8263b8f0",
-    "components/dot_indicator/dot_indicator.dart": "436cc2c20b5a78403f2d5968bd9f9e649bfe65ec64a81f19a79698e6cbb92572",
+    "components/dot_indicator/dot_indicator.dart": "f0dc25f115abe025dc5d13733136a69ea741f69161a8831673123a87da03fedb",
     "components/dot_indicator/dot_indicator_style.dart": "372a4ce1487b6293b110aea9155ebdb492e06289d5d0d49d3d9af558dd95cb26",
     "components/dot_indicator/dot_indicator_theme.dart": "a8981257210250fbf6ac93226e50e4b2c6a3a25f859b59160c5b7205d0b7ad09",
     "components/dot_indicator/preview.dart": "c4bbc348a2b200a4ab662e930e0ea37469b81088a1e986428329eb5734acf62a",
@@ -10802,8 +10852,8 @@
     "components/fab/fab_style.dart": "599e61873342d7792f1336d47d3758909435fb8f75e54885552f0e74f53e91f7",
     "components/fab/fab_theme.dart": "abc09e1c3734de7af293384e841c0bb782eed78af92beeca50eca2f399b34b7b",
     "components/fab/preview.dart": "83062814bacb387c75b685490e2818818c0d059f07bf571597b6a7337b29effc",
-    "components/feature_carousel/feature_carousel.dart": "a46e09269de997732f0622c5edae40526d536123305367ff807b27c0668dbb48",
-    "components/feature_carousel/feature_carousel_style.dart": "7babb2b594395c7aebb992637ead7901390bf5f6d16567b2ce51abb50bdba2e5",
+    "components/feature_carousel/feature_carousel.dart": "66f037feb0da8c0e4bbeb4971e4d5aa9eaa374e9f7a535e54e3008deb100cc3f",
+    "components/feature_carousel/feature_carousel_style.dart": "c1f6debc0a72cc09b808362f01268ac0519ccf2432b4b33d0c0df254bc05429f",
     "components/feature_carousel/feature_carousel_theme.dart": "bc401376b9e42c10c783a15c53bcd5e56038815e3c7549db7c3f4bf3aea64e69",
     "components/feature_carousel/preview.dart": "04d619cf0b0a1875b6e51c70579e7e85f2e669a5ba6637e356eeda36a52b049a",
     "components/file_diff_viewer/file_diff_viewer.dart": "c382f4fb40eb0c033ff56c759055fc40625c94fc760d5ffcfb9c25a97be83d4e",
@@ -10872,7 +10922,7 @@
     "components/image/image_style.dart": "ad0cd14e484a840aee9d34a8eb57d0c524aa50bd35310cbceb25ea2114ad2f28",
     "components/image/image_theme.dart": "c8890eacb758b9d76e0b14883c63a1abf99bfecbc38e0a43f42f2a3df5c00a23",
     "components/image/preview.dart": "6b4bb7a2953fb05229c4be8274d760476f11ed486ebfd55212b227c9846a282c",
-    "components/image_lightbox/image_lightbox.dart": "4d831df0f045a79085a6088e9f08eb167bc43467985dc9adc58d5418e8d18d49",
+    "components/image_lightbox/image_lightbox.dart": "eb71040239006f3a9cae2183590c9421409189165a01cc8114d8bf886af7c238",
     "components/image_lightbox/image_lightbox_style.dart": "1fe848fcf2e56d60421fc6bdceea0712e674b5bd35a8c1dab92fe5c8587c5403",
     "components/image_lightbox/image_lightbox_theme.dart": "633ab3e9b09162113b7a3db6d2ae3b63be0a96a6d4f9533d3514f5bcd8774829",
     "components/image_lightbox/preview.dart": "0c856d45622433dc84f336cdfc552842545d55b22be586a8460ec43351b31aeb",
@@ -10898,7 +10948,7 @@
     "components/list_tile/preview.dart": "6e6ab8b9676206b6acbfb750e65372298212b4731fe908cb0fcd080c8e550cea",
     "components/locale_utils/locale_utils.dart": "97b51cf3d2300968c48fa2b0da4eac7f568aca6be602d26385734626b9211297",
     "components/locale_utils/preview.dart": "bbdecec2a45f805e2d6b9206804c3abaf20843399d5cb9f893804f174b8bdc80",
-    "components/markdown/markdown.dart": "95e5d2f476a80d91e456302896a0a17762defd47c4265228f01f2f0f6485a3f1",
+    "components/markdown/markdown.dart": "d2060a5a0ee38957fe2d09b9bd48af30e3c891614d4bcdd870126f30a90898f3",
     "components/markdown/markdown_style.dart": "807bd5a815247296baa6491519aad9373063b4ca290cf8eea56a0279e8e22828",
     "components/markdown/markdown_theme.dart": "b556f0c2401c8ce543ba5a7ed2f76664e1a27fc9973ca4ef9290e264cebb0163",
     "components/markdown/preview.dart": "d0c85265565c9af24a5ffc3a340bea2ecb8447594b6d61dc8446cabaf86e4cac",
@@ -10936,7 +10986,7 @@
     "components/outlined_container/outlined_container_style.dart": "0e12ecce67716dbdd99deeb5fe0221f72a0fa63b4c5fca4c2944b8ef531fd851",
     "components/outlined_container/outlined_container_theme.dart": "2ff9ce8f7b07661e30de79553beaac6a5b3b9d96c8433f2149e4e1d5b3781d0b",
     "components/outlined_container/preview.dart": "eb0540391f30d6efa2d64a977396c521eddf38b893e091d4ac121708ecbfba96",
-    "components/overflow_marquee/overflow_marquee.dart": "5262fd9caa613bfa19e3f5a2145cc0a843086e3b7e7a1568d0acd33ee69025dd",
+    "components/overflow_marquee/overflow_marquee.dart": "c776b1fe9cf933fb9ee7fbd3f40fc12d6797e85d778e6a68b0a1345413244be6",
     "components/overflow_marquee/overflow_marquee_controller.dart": "5403c934b0c9af950ac2c3cdeff1526988ff276b4d4060faa7539631dd638fac",
     "components/overflow_marquee/overflow_marquee_render.dart": "cbb98badaa9d8cfd48a24c915ee3317e47c8b9ad18c1a468fdccb734cfe87c0d",
     "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
@@ -10946,7 +10996,7 @@
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
     "components/page_route/preview.dart": "767e9936a7742060e50ebf9e0b6ff36b4667b8f6f18f85f088c0d32cc2a508b7",
-    "components/pagination/pagination.dart": "567449f53127764507e47d43d74da08bd5704c90fb40589dab0904a16ceedc8a",
+    "components/pagination/pagination.dart": "e7faf0f906c8ad97f00fb218e5a01bb17b1ae6ea948497994795ac7505c86626",
     "components/pagination/pagination_style.dart": "13bf5f6290cbac7cd20fb5576430bdfb510c032394c0932df585c9f081a0c821",
     "components/pagination/pagination_theme.dart": "17b65829b531827964005ee34f5768479cb6269a7ef31b7a51459ede2df4360b",
     "components/pagination/preview.dart": "eebbb8dd7905a8df60e91a843f135b8ca445cc5bcd372b771c7f131218d92545",
@@ -10965,7 +11015,7 @@
     "components/progress/progress_style.dart": "dea8eea72d1ed044648f1c34cc424ae2bfc6548f4c7d8a5c4553fef3c2395f16",
     "components/progress/progress_theme.dart": "e8c8fb32bb5dbf64c9d492254a61b1c6ff7a6024ff9bfbc1f58569f5c528a4fa",
     "components/qr_code/preview.dart": "24a42d0c17117fbaf9e758723549aeaa5b77f11cf1d981532748a5340ae32535",
-    "components/qr_code/qr_code.dart": "ce3a111313498d5b63f49df55431d0bdbd35eecadeba844d75ff63bff94ec3ac",
+    "components/qr_code/qr_code.dart": "8b0f5847341afb2f90af0869d0f165543f77c86e6de8ca47a3572ae52a69b471",
     "components/qr_code/qr_code_matrix.dart": "bb4f26fb879faa191533030840a12eeb949d6e1cf5ac1406df3f8525987e02e1",
     "components/qr_code/qr_code_style.dart": "e20f76dda026f3fb084d47f5d7a72d1fa21f0e1b0573aff749cb39f8c5a847ad",
     "components/qr_code/qr_code_theme.dart": "f9f3cdb6858dc58de3f99bbe57bfc8d4b2ddc79ddf2c78f83cdb67eb9ebee368",
@@ -11027,18 +11077,18 @@
     "components/selectable/selectable_style.dart": "b8d3ee601dbb1b311bea16d0d552fec5033eacaceb5e9b1e158e48723ed32391",
     "components/selectable/selectable_theme.dart": "5458cecf1a831324a482edab1931a046b2b4c9cc496d086cdcdf244af0d84895",
     "components/signature_pad/preview.dart": "0575906c965b59960183612731bf46040b547350aed6db655debb45e8660739e",
-    "components/signature_pad/signature_pad.dart": "49ce8d0d94e965cb73df18ff0bd35ff2971b3e2824e6d544e643ea62641ee464",
+    "components/signature_pad/signature_pad.dart": "5169883483eda0654fb56430355100e8e88c21c5589c7ffced3655e8a4f24c93",
     "components/signature_pad/signature_pad_controller.dart": "57f7c5e790c32cc1ae9755ffa103db5b5ddef4d65943263cd7cb1d2ac15533d6",
     "components/signature_pad/signature_pad_style.dart": "df8b4f0cadc6b6911521eafc7330d897822437e1079b95a6917d3659b5e737b9",
     "components/signature_pad/signature_pad_theme.dart": "25f7d4a29239a4372c732b5f9663625c6bca325c476b49ab259744b9d654c107",
     "components/skeleton/preview.dart": "9e8a76b294f45898043a65b502278e66e954835f40caf06042f9c00829ac3a4a",
-    "components/skeleton/skeleton.dart": "2ab4e2edcaba74b8105a6e916cb7dafded846196dff01a61e7b85ff0a22cc1b8",
-    "components/skeleton/skeleton_compose.dart": "87970a23f38fcef8ea0bc6dcdf34f352ba6c851c2582c05f8656acc3689960a1",
+    "components/skeleton/skeleton.dart": "762c2e17ef94ba69b2d2fcb9f0d720dedf0a14f780a53855de2ac79fd806090b",
+    "components/skeleton/skeleton_compose.dart": "4cff5c950b6510bc75d784fea10b308c5a7f54e634c97e4da55bc52a0f82bfc4",
     "components/skeleton/skeleton_layout.dart": "57affbae6ec411f1eb4cb347932d48dc5b372a4c2814f4685e48c490177908d2",
-    "components/skeleton/skeleton_mirror.dart": "92b1e7c31bd8e4a6615b1dea9afce8d1afbffd7ffc7c9027aac9b13f17ea6e85",
-    "components/skeleton/skeleton_shapes.dart": "971f664fe155b16c61d034e743c4a7d614dfc675eb5fffd035b4eb76a27135bd",
+    "components/skeleton/skeleton_mirror.dart": "805fb5e35aff0d4644f9dbe75cc33002c03b567d5f0e05ca7c1489d50dfdc1f3",
+    "components/skeleton/skeleton_shapes.dart": "3e1b3271e5a2fb8d759f26717958971a4dda8578624e6f39e2e5a0c717566333",
     "components/skeleton/skeleton_style.dart": "85145c06055ea0a15179fad7636d8a8e0b2c95b5a47efcdf9d329d340bbaf1b8",
-    "components/skeleton/skeleton_table.dart": "00d857bb8fca46ac9f4b69a3d09cd398784ad29b80100347eb1133f1760be04a",
+    "components/skeleton/skeleton_table.dart": "888d70626f58fa64350ef4141f45718460932be7d5bc7b7cd65040e032c20f93",
     "components/skeleton/skeleton_theme.dart": "c78eb0e915c9ed5ef4e204c83d68f337139427fe67f12c5e361c01b3985bb0c5",
     "components/slider/preview.dart": "c125f85795f4286053370142f6aca4f2abc8052cb247feb9df328855157b0ce6",
     "components/slider/slider.dart": "d76d7514975555383c6629e9f3390bec0c97aceeddde35ac785f81f7984d7a37",
@@ -11049,7 +11099,7 @@
     "components/spell_check_suggestions_toolbar/preview.dart": "c8cd19998a670f941f7d8a590620c3765018ce789d9f7428410905fa440f8617",
     "components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart": "975dd3ae8e1560b32c1fcb0a48cc5d632155a5da170453c5eeb773a0f6970792",
     "components/spinner/preview.dart": "63f1f4f60ba0d812a17d4061aad52becea7910a9df7db1c6158a9dc91820caa8",
-    "components/spinner/spinner.dart": "e282f3721472f7123aa490ca843a227573e2d81ee94fb08ce67e10f41dff8b29",
+    "components/spinner/spinner.dart": "34ec4b7f7a51b1ea07f76066d6c4aa75fc0e019b0bb10b3178682ddd4d1ed961",
     "components/spinner/spinner_style.dart": "1e7ba7095408a73f7ecc44623f130be8c0c519c88216424f80b4719b92dfa7dd",
     "components/spinner/spinner_theme.dart": "441a3a47e777f1de98158bde500ad53ee095226076c07f187df8a8345ba1f3b7",
     "components/stage_container/preview.dart": "9b00ce5f399ee81cfbbec5ed1edb66b3aa84a3256b3d3b2c327c67d4e2166de4",
@@ -11062,7 +11112,7 @@
     "components/star_rating/star_rating_theme.dart": "3378906e0da63e8f022bf20b738214fb276bccb74c7098d98a649e8941a284a0",
     "components/stepper/preview.dart": "2b71cfbb55e69c3ee2f59ebef49e73cf0d841b333ac5554803203d3ca6a9d16b",
     "components/stepper/stepper.dart": "6017b25622c1a80088e5b311fcd9dc92d08e6b8c1c19b80b8269c0b931ceea62",
-    "components/stepper/stepper_style.dart": "a647d12469df08df41ed91ed0705deb4c03306704a0d447da561373aaa20b1eb",
+    "components/stepper/stepper_style.dart": "b5c210f4d7b8c514ef4b58fef169bb9aba999da31a1e84e7e300169cbd9a1129",
     "components/stepper/stepper_theme.dart": "c7b9704cff4f8ceb60bef94e3d632244b871e77d367e35c24e34a2275c053445",
     "components/steps/preview.dart": "d1a280aadb5efe9919e5e2d2c82e84543ca818b506b239b73e5d90ae28c707a5",
     "components/steps/steps.dart": "56dbf1f22c20698ffa933c6311149e42156dc22e6c782d3c5d9be3272414b500",
@@ -11119,7 +11169,7 @@
     "components/toggle/toggle_style.dart": "0d766a0621012968d00715fb487871f349bf4dba232057f25d3e8b6ad395a4ad",
     "components/toggle/toggle_theme.dart": "94686b183df1d6836a145134f26e66f9e3d2ec07ce495b60fe165748c5840520",
     "components/toolbar/preview.dart": "8bfbd0e5f504484f87ca150163bc1e83908ca28c248297fe1aee2c27fdc654f2",
-    "components/toolbar/toolbar.dart": "a067fd940807410753d8bf880fa2994d796e626f307aa30e63e699935f03c627",
+    "components/toolbar/toolbar.dart": "26f6406a7b0a1369bbbf11931a5645d386443f3f6f33f23b811bd37b56e33a98",
     "components/toolbar/toolbar_defaults.dart": "a907bc6a5db039f7a6f7960b98610326877e688949b25cca44a4eb2ea374e531",
     "components/toolbar/toolbar_group.dart": "53606873a6d6a63846a231bf5abaa5db698175f54b2ddcbbbff80d4de747a5e9",
     "components/toolbar/toolbar_item.dart": "d06ec9f227f18b11ba74cc90f1d7bd745bef51a5f030867d9058db2df0f234b6",
@@ -11141,26 +11191,26 @@
     "components/tracker/tracker_theme.dart": "3a46973a118157487308aec8d065acb1bb643fc6fd7133150d3e3d51cc600164",
     "components/tree/preview.dart": "2ae35f6a04a55ce82084abab46e2af1489a9a9a949c983c7380456291f78017d",
     "components/tree/tree.dart": "fa931d447cecbede5816adf3c5875565aaeaf6c8fefea01439b3636f865a2aaf",
-    "components/tree/tree_style.dart": "55fd3b4342ca19877c3ef262448ae03f2a830a92e64e5e1b79ea4fe7c10567fb",
+    "components/tree/tree_style.dart": "e10e5609c16eb201813378003072d158884b2fa6f727aa26d67a6f9a9f5b5d1a",
     "components/tree/tree_theme.dart": "cce9fe20bda248b06245ca02202442ad3a0e7c36a8af8502b350398367f3e10e",
     "components/triple_dots/preview.dart": "a5a4f84a97b3aa8aaec221da6180c3028edab67aa53b36185658ffba8f950cf7",
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
     "components/video_player/preview.dart": "f3a531e49983aa2e874e45914088c21b50618a26cd424d2452e4f6fd4b2aa0ed",
-    "components/video_player/video_player.dart": "18003690bee690c0c4548c04944bfb0630e0ebe7cef5be6377f141b9918993be",
-    "components/video_player/video_player_buttons.dart": "0cee53cb61814fc19714c6f14921cf0f2775081665fa15c0a007731f32b57d24",
+    "components/video_player/video_player.dart": "4ac62020bd0c650fa17b27918b1dda5dfbdf0bf30cca16408cf0fa66fcb5d62a",
+    "components/video_player/video_player_buttons.dart": "9d0bcaa8b0e716a3e657b39e2338114fa1ea2721b9fb3d1024672955e9d0ef2f",
     "components/video_player/video_player_controller.dart": "bc78d91775cf0ec4a6f54bd0df22b65ea936e33802340656c52fe5a203d7a3fe",
-    "components/video_player/video_player_controls.dart": "f2dc88f152d0d52bcd70be5a5ed80a316da8d48ecafdef0c77b966730e0ae1ce",
+    "components/video_player/video_player_controls.dart": "2531ab6f318e12366031c1c938cd77ea210d60b68bcac156aa6eb88c2f418fab",
     "components/video_player/video_player_header.dart": "45d44e266d74ad381ac2325cd40ad0d8c79ca29328aef1a3cc28b97c846be561",
-    "components/video_player/video_player_menu.dart": "e6a2c6a78045b1fd0a53aca053e92a04c16102de08dfcbd07c630c496911d74e",
+    "components/video_player/video_player_menu.dart": "e550aed7166f5a8abd119464b866e6becce687114d7b140617e292087fab38f8",
     "components/video_player/video_player_metrics.dart": "8a97de6f18f5183b3b7eda3779786243e58f0d6ad9359e7cde0b472034af5f6f",
-    "components/video_player/video_player_scrub.dart": "f8e3cffdae64cd983ead032a121d66c696a9d996d92a862a4ecb91e6850170f2",
+    "components/video_player/video_player_scrub.dart": "4a7ae54684981503b383e864cc0a385be97f9db6d14eae45cb5a545ea14ab256",
     "components/video_player/video_player_sources.dart": "0164fda686f960a3db4ac3d66e18dd902fe43d3bbc77efb7d601f9c4e1b02b4e",
-    "components/video_player/video_player_stage.dart": "39d46517d9ff3ae176c368818d0690e68ca8e3224979048af8ec80d4f5bc397a",
+    "components/video_player/video_player_stage.dart": "e23802dbdcab281b4bf321862261d71808978f7b868ffac776b81109cdec6aaa",
     "components/video_player/video_player_style.dart": "bed501184d75e6c728bb80c89fd32c1e1e15d696b6692feed61806c3dce13bf5",
     "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
-    "components/video_player/video_player_volume.dart": "6b562170401b77805ff5a88fc06f04de3c78d0c17ee1dd9e2da8044daf0c2cf4",
+    "components/video_player/video_player_volume.dart": "8751c09280b2e137b667c6e10a0aa124f03a28e0594ef7adf6d3f12697033db0",
     "components/wheel_picker/preview.dart": "2b2f9404f1e5d3c194fde4a0b16065412b07f60706d46bec8fba385eb8f9487e",
     "components/wheel_picker/wheel_picker.dart": "162a256c3c00af3f8a816f8a3193f9c34271f88afec889bfc6a56406c7d081a1",
     "components/wheel_picker/wheel_picker_style.dart": "c039c94653fc534558ca0aeb40a1c0d5a30c4898099d2850f932b3b130be91e2",
@@ -11171,32 +11221,32 @@
     "components/window/window_theme.dart": "d1052c6165dc9d8caaeb94a1b5c67fdc6cd98ac7160cdcb5266bf485e8f4be38",
     "flows/auth-01/README.md": "6f56d0bc2dd58b95b0dfd308201f7b39c599620d121e6a1feb93e462399a15f8",
     "flows/auth-01/flow.dart": "57d2d2cc5b31e8c58c2196df2e9375e02a6e9a14199b8ca52a48920882a33f57",
-    "flows/auth-01/screens/forgot_password_screen.dart": "9a29aefce8c5e6779f3225b5a89413bf13eeedddd350339730099d917bda8013",
-    "flows/auth-01/screens/otp_screen.dart": "2c99fdafbca6a85dcbada54479496bd569499e0416e267dd11db75c36a660ac1",
+    "flows/auth-01/screens/forgot_password_screen.dart": "0a7067400ecb7783ea1a54e5e79b547243dc1a2bdbfde900100d654bee4c8b06",
+    "flows/auth-01/screens/otp_screen.dart": "79cfd9c7de6384f1a7675cc54acc9fd19dfaf9cc95b09e3d7ad7c5a7400da96d",
     "flows/auth-01/screens/scaffold.dart": "71297ab2d543e8ac24d97724982748c18a4e3951cb3c9de956f451ee78cd3fd7",
-    "flows/auth-01/screens/sign_in_screen.dart": "8a1218f7044c83b0b5ec50eb05326e506591b9a32a5222a68a2a856eed6942d0",
-    "flows/auth-01/screens/sign_up_screen.dart": "339d097b70cb85373eda8389497b642de558cb1c9e9898d995b691d539351da7",
-    "flows/auth-01/screens/social_buttons.dart": "5420459b73c5a7b56b415ea63e74bdee816b20a4424c92d0fa4698f2bf3b875b",
+    "flows/auth-01/screens/sign_in_screen.dart": "09374f312f1c6ccd8a3cbfb752cc8109eb6e04ce30d1e081a692a3ec59d930b0",
+    "flows/auth-01/screens/sign_up_screen.dart": "7a115db5997d8e178c294e87f4b6a429d7587e05cb97e315c300a55183223506",
+    "flows/auth-01/screens/social_buttons.dart": "57732e3e266576c5f9c8f8393f18470e1064969ff7e9f95b2dd3dd2b165828f5",
     "flows/chat-01/README.md": "733d0fe6c956cb64714360a6a564c0d485446ec25d188df3ba308cde65be4818",
     "flows/chat-01/flow.dart": "5f42674aadc27aad5c20f09d453745d99e5596c3c4e519efad1c4f234f1dc98f",
-    "flows/chat-01/screens/attachments_sheet.dart": "828e039f64ec93ab995a00799ac476fe4ce90a132199f0bf0e5f5a3885001f14",
-    "flows/chat-01/screens/conversation_screen.dart": "ca1fb35dc10ded056cc2ef9bf0de60107db1e1e3ae5d55ad2bee7844b9c24891",
-    "flows/chat-01/screens/thread_list_screen.dart": "985be1c616ad2cd78a1cdf796b79472e139caa8c266183c393a0635d996b4757",
+    "flows/chat-01/screens/attachments_sheet.dart": "9335f53bc9325a0fc6c4db3833601b8fb029e266ee6a95544d7b5a0d77e978cd",
+    "flows/chat-01/screens/conversation_screen.dart": "ac63abccf008b85ba474730ab6234690bda52424f9d1f30d351306ba7ae7ee23",
+    "flows/chat-01/screens/thread_list_screen.dart": "6c0b3521c6acd65fbc5155e9af94e78cbb0564be34b1b970dfd182ef5cea9696",
     "flows/checkout-01/README.md": "83d7dc70434e1400c26f6f841da07e1571294489b8236c5832b46cccbb7ab892",
     "flows/checkout-01/flow.dart": "6fe5b4f66a8a6ffa17f9b990df353c3d4572ab46ec76bd73761ca485f84309a4",
-    "flows/checkout-01/screens/address_sheet.dart": "6facf1f7a50681986aabd84a1a8990ea6ed4ec1e08e5f75a1684d11e1f11cdb5",
-    "flows/checkout-01/screens/cart_screen.dart": "485dcbaa4b8a6c729177a410ba91e1ce72556ffed3e55de46674665869f2377a",
-    "flows/checkout-01/screens/payment_screen.dart": "c6ce272ff878e5e0930da1f856b87a97f464caf306677f74fee2d62866370fcc",
-    "flows/checkout-01/screens/success_screen.dart": "9fa772de36b0581c268f20ec44ccf9b306c622e569c828eedffada79b0ae48cf",
+    "flows/checkout-01/screens/address_sheet.dart": "3e04d9efe80efa6d6c57ac8fabb063c50cb2c1f6a02093a34f87fd6f831e6190",
+    "flows/checkout-01/screens/cart_screen.dart": "8142a9b378c1d62bf3f207774e14cccde4cad55deffca8e8f473f5c7c56327fa",
+    "flows/checkout-01/screens/payment_screen.dart": "f8ffee6897dccf45363adbbfed6148ce5f6be986333266652662ba0fea0cf06e",
+    "flows/checkout-01/screens/success_screen.dart": "e24b28c0d334a6e9c9e60ef0f1bdfb0b986958f014b7158bd09b31a334948db7",
     "flows/onboarding-01/README.md": "70889c2b9a4a7ed2e38bb5eb8f773ffd83a724ab5c5dae0111b51f05f388dc9b",
-    "flows/onboarding-01/flow.dart": "6ed5a00259930729d072a3858202668678bc2f3c8dd7a9dc54dbf6bc8e21b52d",
-    "flows/onboarding-01/screens/pages_screen.dart": "46492a3451cd89e12db3019ae86adb071259e25855b54268fb71c88a802efc56",
-    "flows/onboarding-01/screens/permission_screen.dart": "316945ecada9bec4254c6a443d10039ae4914f6810893086e7a01a5899a3bdff",
+    "flows/onboarding-01/flow.dart": "fee95188bb63d6f7cb4b3d356e7e81c8bf84bb24d18cf448e91014fffce583e0",
+    "flows/onboarding-01/screens/pages_screen.dart": "f01c3487f624105c3d2d9e8f07d0075a5dc6b7efec809ac0542d3065940b5df1",
+    "flows/onboarding-01/screens/permission_screen.dart": "4649159b73e17a5f173c856af402739561b2bb0adae05a18b07556e004a21b18",
     "flows/settings-01/README.md": "1ff25e99427ae8c37e26c397d21ca2143f8d54a9ab4f6184fa92330942dfdc44",
     "flows/settings-01/flow.dart": "28eff21b87bebf8ed6965ad993d620198a6c7ce710b8069195f574dd1a31f5ef",
-    "flows/settings-01/screens/account_sheet.dart": "27713b07a792feaf62323eec51a71199ac7e6e43d706aa59710c8b2db97d5e09",
-    "flows/settings-01/screens/detail_screens.dart": "1913e9288af40853cd64dcafe71c635f989dfdb91ea7c3ba6922c5cbfd8ba2b1",
-    "flows/settings-01/screens/home_screen.dart": "88f53b68f95779bc316ffb726f790d458ad805b8372693785d31b52ff6503c1f",
+    "flows/settings-01/screens/account_sheet.dart": "8a65d2213d1de6b64593cc19207cfd8eb4bdd98efab93a472742efef2704b672",
+    "flows/settings-01/screens/detail_screens.dart": "094c7eabbc78c85b4905334e51e5237e49859f9480611f2086cb4e31de56720c",
+    "flows/settings-01/screens/home_screen.dart": "002a9e1d10e525d427706d435db7f2aaad51caa5bbf67afe643add05d3c56304",
     "foundation/captured_wrapper.dart": "eb4f03c5643f882c778279880f04edfe6652fc21cbfb2d37944063121c515296",
     "foundation/color_extensions.dart": "c5f93831cf77e2a1dafca8c6da8ccbbfcd9cd444b2b9d5de0f45109e785d1776",
     "foundation/component_preview.dart": "9736ed0b02ec08ed2ee3e6685dc1171b64f0036812cddbbaee512622c118c6a4",
@@ -11270,7 +11320,7 @@
     "primitives/form_core/validators_compare.dart": "9e6c154f37c7760845fa10c2f2d042c2e5d002d17e62225978a32ac0b7d270b1",
     "primitives/fractional_align_box.dart": "30f60430855f24ee921de026cba35d792b5e713db50324339b3b128caeb661ba",
     "primitives/gooey/gooey_chip.dart": "91af948a85ce5231c623d48b7ef28c970caf76c41ad955c4543ab71f9a604365",
-    "primitives/gooey/gooey_close.dart": "f8f23a7451077ac713e84ddd5cfd796ebdc1ad28f4cef1376620fdbc051f4f75",
+    "primitives/gooey/gooey_close.dart": "33db1a680d8f50a7ad564861bf7cffcbf3cf3b2d52d9c2fcc1f7a736bd2c66dc",
     "primitives/gooey/gooey_content.dart": "ac37660a7b8151ddbd1e10e866e65d691289d9b7a016458296414a90cc48b39c",
     "primitives/gooey/gooey_frame.dart": "0fc3c2c1c7810ba87a66b57cfb1a6a5e82d524c9c9d9dfe62a25defd75145829",
     "primitives/gooey/gooey_paint.dart": "35aa50d92ef8bf29a407b713ba61c794aaf41f7f1a098dcc28ee427a372bda3c",
@@ -11290,62 +11340,68 @@
     "primitives/label.dart": "7e83cf41dd06ec7f3d84f15e1f0487e1205958d9b78788918effafea5053e21b",
     "primitives/layout.dart": "4f389c02a07790d84e9a82ac0146a20dc3b782035d41dfcae90e20a49579fe09",
     "primitives/localizations/locale_parts.dart": "6e5c8701ef26984a19f0f36f382e302f5cb5336e60286e670d3f4ec01a47fca1",
-    "primitives/localizations/localizations.dart": "2c3390af78f799a5bd00c2144c27e0953e09f5365803e76220ad0d800ef3312a",
-    "primitives/localizations/localizations_ar.dart": "f5f7df7df39ebb74c77725051365b2a0e0c457c5abe9ffc7a210efff82b360c6",
+    "primitives/localizations/localizations.dart": "133bf02d00e32a1b891711c49fd9f476bba301e7e7ffb81b12e0aaa0de18de64",
+    "primitives/localizations/localizations_ar.dart": "c492f8031982725778f701d6dcc5b5c3ed255d5822e4ad7d6ce8050b49353795",
     "primitives/localizations/localizations_bg.dart": "1808f639af302cdf866447344d2ef6fb1725eff104606e1b0ccfb155b42fe115",
+    "primitives/localizations/localizations_blocks.dart": "ae6bd731ab853c831292d68b224a98b6904ef46518345ebb07ead05ccb9aedd4",
     "primitives/localizations/localizations_bn.dart": "c0a72c4a7c8d77c1ebff2ee2c7609bdd5c9fe3dc48af59727d69965c4a59ac1f",
+    "primitives/localizations/localizations_chrome.dart": "aff630c077c9990104e437f57c0800fe3df28b0646bced261c01a0681ee5b88f",
     "primitives/localizations/localizations_cs.dart": "cdf4ad8268b4c3e90d80aef3554e86e64b5030752f85418431555358553f891b",
     "primitives/localizations/localizations_da.dart": "4a821d02cf0d47c29995624f930dfcdd34774c63c25c1b6ddef0e55f00926e20",
+    "primitives/localizations/localizations_dashcn.dart": "fde213d4cb17ef2f85cd4d6a03ece6fa102ac5d9bc8a0b58a58e5b8ee68751be",
     "primitives/localizations/localizations_date_time.dart": "e7f941e5b3768b1b2ecd9608b4bba7d37ed9ce47264cb06a63ec9395c1565c06",
-    "primitives/localizations/localizations_de.dart": "b7b92404ad34bbc1f1715e7badb9b5de917a6dc4fc0b8a7fb62cd885193f1422",
-    "primitives/localizations/localizations_delegate.dart": "50fa641ca9180cca9b9bde132baffe5fbbc3b54dc079e0a7f739bdae5204fbe6",
+    "primitives/localizations/localizations_de.dart": "169e48c21659dd4a5abe65c39375f3a158c51977d9db4be0c01ceb40da771fb0",
+    "primitives/localizations/localizations_delegate.dart": "e6e97029f1e5df2ea1edfe2d904651b63273ff13915877400cdf2a0d9c95fc3c",
     "primitives/localizations/localizations_el.dart": "17d3f4ddb7ddf73519b779f2adfc782558e4859549fd8075404939b3d6d9a922",
     "primitives/localizations/localizations_error.dart": "c4c685385f8022d6c6d4c49cf27c0d5b6a92fd29bb7981e24f2bc09d7faa09c6",
-    "primitives/localizations/localizations_es.dart": "b27ad31433205051fcb5d5bce05da0840a0abfeb9fe287f92ab5077676c9c57f",
+    "primitives/localizations/localizations_es.dart": "282a8b7d464407745dd519e751d545af145694340e6182d8b07ea33935a0345f",
     "primitives/localizations/localizations_extensions.dart": "89213b9af7d62852f90e8bbb666055ea87719f1675f7b53befe260b7b39ebcfc",
-    "primitives/localizations/localizations_fa.dart": "6aab1b30a9201463e4eef5fb0bf4c5e836b13527c7dce2bf205bb67f82a51b70",
+    "primitives/localizations/localizations_fa.dart": "d6c7f30ed4e2a34398feb8aa1c32ec2d29dba1b43240e1b595472822595430c6",
     "primitives/localizations/localizations_fi.dart": "0866d5d321a88f0bb54ac19168f9c8841712916b33c9c882a7a559f3fae104fd",
     "primitives/localizations/localizations_fil.dart": "964190043dfe4657040a0ffc4b37ab0b0d420381136dffed6f0958cf66bfda29",
     "primitives/localizations/localizations_files.dart": "79056762e9496157ddfea519b81ab2e76d9fca8018b8ba59a1ba8be86b19e058",
     "primitives/localizations/localizations_form.dart": "19cc8a3909260b82061f2f5c57a11bd25f85ee2434c4534094583255080b467c",
-    "primitives/localizations/localizations_fr.dart": "c7bdf4dd65a436738459f9cf01f3c43998dfa95e6712c89e9c0ec257d857fc2c",
-    "primitives/localizations/localizations_he.dart": "43f90df35ef8a5462b812789fe23905011cbc229784cc255fc1a4ef92eac5fda",
-    "primitives/localizations/localizations_hi.dart": "c22d55947fc0276ab3267b70e022890e3a653134f89b9cdc58198bff12d808e4",
+    "primitives/localizations/localizations_fr.dart": "46f796cf2c1c88ee79c171158846b1c09dc0bace3a85099f40a73862e7f691ce",
+    "primitives/localizations/localizations_he.dart": "e8a4570bf1f3363df8e5f6dc0cfbb56399664592240388f1f1831ff0e55b1165",
+    "primitives/localizations/localizations_hi.dart": "af3f2b643011fda72f1fb4d1f23ad8d092a195088860e2971156777157d6d166",
     "primitives/localizations/localizations_hu.dart": "d5881c23c452a7c1dba8eb1f2b507b7fb6a5e177448981527294f122a1286c32",
     "primitives/localizations/localizations_id.dart": "2136a3ad136b7710e2c182b76aef6755a003c5d8cf10a682df00014d7c3e1fde",
-    "primitives/localizations/localizations_it.dart": "b32b4f3f6b7e1f53c11166351ddc02f69ceaf365fb37cd5a5192e4920921b5c9",
-    "primitives/localizations/localizations_ja.dart": "8edfcfb36e33461d230cc4fb8343d794dfec4a947c5cf4600f09306a49474e60",
-    "primitives/localizations/localizations_ko.dart": "4a0cca2a69c23b67d853bf54d71c7cb3983c6070c1b86d7b8f1b2e591d2fc28a",
+    "primitives/localizations/localizations_it.dart": "08f48c09712ba6ad5e9233af41940416ee7b925d76c0140e68cc5b045a6313e7",
+    "primitives/localizations/localizations_ja.dart": "b03cffddc22fd359504b963172fa17f89d8b33d5c1dd2de9b815b2857339d088",
+    "primitives/localizations/localizations_ko.dart": "7cbbff41c2ace43716391781dfb15fda2a80e2edb8a663e60aaf0a5aa622afec",
+    "primitives/localizations/localizations_media.dart": "5a1655303d7ddbc18ebd5b2594b0a087955990743e4d3304071457736158533e",
     "primitives/localizations/localizations_misc.dart": "20ca40a4743de3ff01d94a8826107ea23c879ee9654fc0e7ff93ad361f67e832",
     "primitives/localizations/localizations_mr.dart": "15e10659ba9385296e27a6604dd70a7df4f4bb0feed02cb082b623785c3847bd",
     "primitives/localizations/localizations_ms.dart": "b1ab005ebc4eb93e44a7817936ca5bd1b27c7f92153eac63ca4aab24ed4d8cd1",
     "primitives/localizations/localizations_nb.dart": "d06799140695acb8d69a86b779dd1ef19ab3f3b0daed94198adea769eee2de17",
-    "primitives/localizations/localizations_nl.dart": "c01f699b74b2b39b37d9cd20d1b8db55bfe26255f76428c7984a6450d1e673bd",
+    "primitives/localizations/localizations_nl.dart": "4d6e1094f930cd27e93a07694aad645cef77a571a8d7f97801a0f69cda98e44c",
     "primitives/localizations/localizations_overlay.dart": "22f535bcf4b01f34827b388d7d4867c9f665c6a6023d553e7dd6210bec9381b8",
     "primitives/localizations/localizations_pl.dart": "500eb71a31ee4364e6eb17005b924101b2a83285e5aff55d819315ed65736fe0",
     "primitives/localizations/localizations_ps.dart": "ce5cc451ca88f7eaaf05b1e9414dce7985d3de6b5a3f409946bace6198272a39",
-    "primitives/localizations/localizations_pt.dart": "53e5a9b2f478257fe4847cdaa5e52a738de4f9e8f320bd5e7dc1d418c960ea73",
+    "primitives/localizations/localizations_pt.dart": "dea33731e171f7ddd4e5217a57479933c815eedeb2ce1df1ec3c89db6b6f7b83",
+    "primitives/localizations/localizations_pt_br.dart": "382cc4fbabc1c0c2c0a498b8a07aedc581f780fe61f867fa3a47c961cdf26eae",
     "primitives/localizations/localizations_ro.dart": "8f338729479a26c5d7eb6f35ab6b7ea09cef343baf5533d55498a2f4c2258300",
-    "primitives/localizations/localizations_ru.dart": "3a58b8c8c5d9ff52aa2cf64090690857ea870dabaf3e2e0bbcec00fbb034085f",
+    "primitives/localizations/localizations_ru.dart": "18ca480abd1895612020d95d413013cae1d4315f9cdf7c1b401d68c5f71c4052",
     "primitives/localizations/localizations_sk.dart": "db2f55356d20d2208f28c29551d262c399fa55c57e745111414953aa17f70ae2",
     "primitives/localizations/localizations_sv.dart": "3abb7e41d90c1e9413784fbcaab6c664a05a855783ee0ad8b1a3ce2f5fd2134d",
     "primitives/localizations/localizations_ta.dart": "d4c6ae759c0fb0d1a7fdbba5724c193fc42bd3e0ca153833f8ac80ec33926666",
     "primitives/localizations/localizations_te.dart": "ecfdb0422dbd2b6ee41ebea82d036cce7e0ec2184ba7f54803be572c6738958f",
     "primitives/localizations/localizations_th.dart": "779e34213a10997e10cd8bdc355f9eb89e28982d0bab85aacc31210d4d3a28db",
-    "primitives/localizations/localizations_tr.dart": "97ef6f02414096352c205643c3b3cb75f90fad379673caaa56d81d3a8e1a9af1",
+    "primitives/localizations/localizations_tr.dart": "641ddb05e5f705963054a86c4a0305ab1eb8c0c3c3586861d99b175814d9741c",
     "primitives/localizations/localizations_uk.dart": "a75069ee111d3354798c70e9ad10269bc0829701ef62fa09686b1508ef85d0f3",
-    "primitives/localizations/localizations_ur.dart": "1da2071288338da81b78823191c3aa56e2ca8e5f78a34e0f413e9b029ab95519",
+    "primitives/localizations/localizations_ur.dart": "39ee1ed371043c215ba7e71403149f8364c781b4c47e2fd1a991aa00832f7c7b",
     "primitives/localizations/localizations_vi.dart": "600ce83893ed4e2399c7c6139d2114bc19d5e4106b8b0dcaa54df5409f89858b",
-    "primitives/localizations/localizations_zh.dart": "689c36c01fbe35828b5031069fe83f0dc9913fd4de6668feb93b5faadaa319d8",
+    "primitives/localizations/localizations_zh.dart": "08a359731db7f0fd12a83ccfda38f88acbbbab28eb6b2933f19de80ddb69859e",
+    "primitives/localizations/localizations_zh_hans.dart": "273c921c4bbe4007474aa29a949b2e0d04e0a22d58b376078d4f60116bf811e5",
     "primitives/localizations/localizations_zh_hant.dart": "15b0287e0ca4120ab57a6a4d2488ca879013e235f1fe685844a24f9df6dbb3e9",
     "primitives/markdown_parser/api.dart": "f88b5574bac394005cd301db8a400984f3ae6269d4f4f9f65da8373bfba0eb1c",
-    "primitives/markdown_parser/block_parser.dart": "ea8b160c9e2acfc0a9dd812488f1f8eb50e628008c1e2f88933768d80d7f96d4",
+    "primitives/markdown_parser/block_parser.dart": "f53c9b6bead676c770cb8ed2fc72b2987db757424089d8a00e492ba2e6c561bd",
     "primitives/markdown_parser/blocks.dart": "7587349f6fdd4b1df6e7692b2db3639731ece58c82346f198ab130b1a57eb5ea",
     "primitives/markdown_parser/document.dart": "cc785cf2436319ab1f94e315e458368bd859fc73205ffa2f280588d4e4ab8902",
     "primitives/markdown_parser/inline_parser.dart": "9e68fcb2438f1e5f2a606595160f0a4a6432b88a09488aba47b022efccbf2d37",
     "primitives/markdown_parser/markdown_parser.dart": "95202f8026abf3229492463bcbbce3c82de4f8ea26305316bdb504e6cda01c29",
     "primitives/markdown_parser/media.dart": "e0d5276615123f49858df5785c0d623e56f7f66f37d327fc65eaf97e88bd90aa",
-    "primitives/markdown_parser/view.dart": "b48e46af8e32397abdca9d0d0c3bf132832ce7f532e369bfd457df05f785f8cd",
+    "primitives/markdown_parser/view.dart": "4be16c1d8a27ebef58d03b8b9da936c2e059de24d6fc548e3cc5da1caa080a62",
     "primitives/masonry_layout.dart": "12ceeef658a8374e4868fa63dc275dab73c7389b2f6de1e1abb7c447f63a0e79",
     "primitives/measured_extent.dart": "25bbb75970195c4101be632e51588a4e25333fbe78467cd06ee9ce97d78c0c02",
     "primitives/menu_nav.dart": "4a262310ce078a6a88d2796af5c505fb07cf0bc1b0b12bbe2531e6ece27d8c6f",
@@ -11461,22 +11517,22 @@
     "starters/chat/templates/lib/app.dart.tmpl": "7479dac11c6b06e835e60259a199c2a3295c344859bde4d1aa59a63f7df46924",
     "starters/chat/templates/lib/data/repository.dart.tmpl": "b6d129a55ec6d2ce9293671ecb4701bd30e69cd90f5df3341f655b6e57e7e9f8",
     "starters/chat/templates/lib/main.dart.tmpl": "17c7366d02d3f143f671bb8bdfb9a8e3849b1a5bf804f79e11dc7519c465b999",
-    "starters/chat/templates/lib/shell.dart.tmpl": "0df83a6aff6ea8519fcfff7965956202aeae71e47d29393684e8f25e44dd75b8",
+    "starters/chat/templates/lib/shell.dart.tmpl": "a0730d6e8eff2082727e0329f8fd864fe3504d391f78b76cc1b10cf179c0dc36",
     "starters/chat/templates/test/smoke_test.dart.tmpl": "6f3f0e15ed5d6fd6ad052e9a05e6d68c850a2430c7091c3b674fe2d51ef4b137",
     "starters/saas/README.md": "6f29e906a2e9b29376ad453487b930ec008f4db181d469a0ca69de6071fe93dd",
     "starters/saas/starter.json": "cd7b9d146f4983c3f37b7eff19d31c45c689293359facc36a095c4ed476e82d9",
     "starters/saas/templates/lib/app.dart.tmpl": "091dae1d2fcb740cd0669266375d5dd2749719b43ac691c94bd4008ba5633713",
     "starters/saas/templates/lib/data/repository.dart.tmpl": "8a0a928da2fb3192549cde47e6513e54089b0e802998f573d4a81d3f6408b71a",
     "starters/saas/templates/lib/main.dart.tmpl": "ea40eed7f03cd48765c184efe0c109c668cfcda474d43c9c5e45b12d109eb348",
-    "starters/saas/templates/lib/shell.dart.tmpl": "433f038056a18141d1157c0f376bea12789426151f16ea3fff721cd1ff08f5db",
+    "starters/saas/templates/lib/shell.dart.tmpl": "f1147e17ab6a1345c72dbe3c9051e813c3a33e2ca9385b0d138ec0cc68aae61a",
     "starters/saas/templates/test/smoke_test.dart.tmpl": "e62b93222e9829ad4d13d99d7c1a328767ccd06da99484680b97890ad25080f8",
     "starters/shop/README.md": "8a5d1d70841eca1f987dd3799258f83aa2645b2b52e0cfb21314143f8416eeac",
     "starters/shop/starter.json": "c3b4396a95b2fffbfd9aeb23dff0b8ba7f314743b0b57e04ffeb700a25365c9d",
     "starters/shop/templates/lib/app.dart.tmpl": "889c39eadb06f33abd08ee2866dbf78dd50041b5e2c4fd6b9101b0889116c4cd",
     "starters/shop/templates/lib/data/repository.dart.tmpl": "e8540a8968c47dfc5bc8c6078a513637f2b3bc57fec8bdcc0f338d1aaab801b4",
     "starters/shop/templates/lib/main.dart.tmpl": "9b3d27a9713b162e177e1c41d1ea2b6224725ee98aaed4abbc43ba472591f389",
-    "starters/shop/templates/lib/shell.dart.tmpl": "7d5d36df563a93e62e5a85c3dc0c5f2ba33b98cba920e460b9cf4ad8eb9b9c01",
-    "starters/shop/templates/lib/shop/product_grid.dart.tmpl": "acf0a38583d5f3d9b9ebd44b707ff39dba9bdb13768891bc57abef8c7828fade",
+    "starters/shop/templates/lib/shell.dart.tmpl": "abf21ce7383344344188d56f3b415fbc2e4f460cef5fe4bf97eb0d62b68d4594",
+    "starters/shop/templates/lib/shop/product_grid.dart.tmpl": "7cb57e13ad106bf34488f387adb304e919f46623f80366d86c0858618e9708b1",
     "starters/shop/templates/test/smoke_test.dart.tmpl": "7bb76e3676715ea880d135cac486b2131cef2ee7190e58638d97ef4ccc137710",
     "theme/color_tokens.dart": "5caa1a116a2f13b31622f11f6d11cc72c5477055773cf461b8807fd162c21cbe",
     "theme/color_utils.dart": "250556c16c4bc54be6375229c47f7fe085a90f79b4544c96b7617760ad52c709",
@@ -11566,7 +11622,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11623,7 +11681,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11674,7 +11734,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11724,7 +11786,9 @@
           "gap",
           "icons"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -11771,7 +11835,9 @@
         "foundation": [
           "gap"
         ],
-        "primitives": [],
+        "primitives": [
+          "localizations"
+        ],
         "theme": [
           "theme"
         ]
@@ -12177,6 +12243,7 @@
         "primitives": [
           "animation",
           "clickable",
+          "localizations",
           "toast_queue"
         ]
       },
@@ -12255,9 +12322,12 @@
         "primitives/localizations/localizations.dart",
         "primitives/localizations/localizations_ar.dart",
         "primitives/localizations/localizations_bg.dart",
+        "primitives/localizations/localizations_blocks.dart",
         "primitives/localizations/localizations_bn.dart",
+        "primitives/localizations/localizations_chrome.dart",
         "primitives/localizations/localizations_cs.dart",
         "primitives/localizations/localizations_da.dart",
+        "primitives/localizations/localizations_dashcn.dart",
         "primitives/localizations/localizations_date_time.dart",
         "primitives/localizations/localizations_de.dart",
         "primitives/localizations/localizations_delegate.dart",
@@ -12278,6 +12348,7 @@
         "primitives/localizations/localizations_it.dart",
         "primitives/localizations/localizations_ja.dart",
         "primitives/localizations/localizations_ko.dart",
+        "primitives/localizations/localizations_media.dart",
         "primitives/localizations/localizations_misc.dart",
         "primitives/localizations/localizations_mr.dart",
         "primitives/localizations/localizations_ms.dart",
@@ -12287,6 +12358,7 @@
         "primitives/localizations/localizations_pl.dart",
         "primitives/localizations/localizations_ps.dart",
         "primitives/localizations/localizations_pt.dart",
+        "primitives/localizations/localizations_pt_br.dart",
         "primitives/localizations/localizations_ro.dart",
         "primitives/localizations/localizations_ru.dart",
         "primitives/localizations/localizations_sk.dart",
@@ -12299,9 +12371,14 @@
         "primitives/localizations/localizations_ur.dart",
         "primitives/localizations/localizations_vi.dart",
         "primitives/localizations/localizations_zh.dart",
+        "primitives/localizations/localizations_zh_hans.dart",
         "primitives/localizations/localizations_zh_hant.dart"
       ],
       "packages": [
+        {
+          "name": "flutter_localizations",
+          "sdk": true
+        },
         {
           "constraint": "^0.20.2",
           "name": "intl"
@@ -12311,6 +12388,7 @@
     "markdown_parser": {
       "deps": {
         "primitives": [
+          "localizations",
           "syntax_highlight",
           "text_editing"
         ]

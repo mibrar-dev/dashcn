@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/surface.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
@@ -173,6 +174,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
               fg: widget.fg,
               speeds: widget.supportedSpeeds,
               onDone: () => setState(() => _menuOpen = false),
+              strings: ComponentLocalizations.of(context),
             ),
           _buttons(context, c, compactVolume: compactVolume, metrics: metrics),
         ],
@@ -239,7 +241,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           overrideBuilder: widget.playButtonBuilder,
         ),
         videoIconButton(
-          label: 'Back 10 seconds',
+          label: ComponentLocalizations.of(context).mediaSkipBack(10),
           icon: LucideIcons.rotateCcw,
           size: iconSize,
           fg: widget.fg,
@@ -247,7 +249,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           onTap: () => c.seekBy(const Duration(seconds: -10)),
         ),
         videoIconButton(
-          label: 'Forward 10 seconds',
+          label: ComponentLocalizations.of(context).mediaSkipForward(10),
           icon: LucideIcons.rotateCw,
           size: iconSize,
           fg: widget.fg,
@@ -270,7 +272,9 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           widget.captionsButtonBuilder!(context, c)
         else
           videoIconButton(
-            label: c.areCaptionsEnabled ? 'Hide captions' : 'Show captions',
+            label: c.areCaptionsEnabled
+                ? ComponentLocalizations.of(context).mediaCaptionsHide
+                : ComponentLocalizations.of(context).mediaCaptionsShow,
             icon: c.areCaptionsEnabled
                 ? LucideIcons.captions
                 : LucideIcons.captionsOff,
@@ -282,7 +286,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
         if (widget.showFullscreenButton)
           widget.fullscreenButtonBuilder?.call(context, c) ??
               videoIconButton(
-                label: 'Fullscreen',
+                label: ComponentLocalizations.of(context).mediaFullscreen,
                 icon: LucideIcons.fullscreen,
                 size: iconSize,
                 fg: widget.fg,
@@ -297,6 +301,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
                   c: c,
                   minTarget: target,
                   onTap: () => setState(() => _menuOpen = !_menuOpen),
+                  strings: ComponentLocalizations.of(context),
                 )),
       ],
     );

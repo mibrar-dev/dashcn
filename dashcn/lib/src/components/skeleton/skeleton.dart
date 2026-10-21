@@ -12,6 +12,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density_tokens.dart';
@@ -70,7 +71,7 @@ class Skeleton extends StatelessWidget {
   /// unless this is set.
   final DensityTokens? densityTokens;
 
-  /// Accessible label for the loading placeholder; null reads `Loading`.
+  /// Accessible label for the loading placeholder; null reads the locale `announcementLoading`.
   /// Set to null + `excludeSemantics` behaviour by passing empty? Null
   /// keeps the default label so screen readers announce the pending state.
   final String? semanticsLabel;
@@ -99,7 +100,9 @@ class Skeleton extends StatelessWidget {
     final Duration duration = ambient.motion.scaledDuration(baseDuration);
     final Curve curve = resolved.curve ?? ambient.motion.curves.standard;
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: _Shimmer(
         from: resolved.fromColor,
         to: resolved.toColor,

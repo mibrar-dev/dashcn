@@ -28,6 +28,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/data.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
@@ -174,13 +175,17 @@ class DotIndicator extends StatelessWidget {
       // A read-only indicator must neither look nor behave pressable.
       return Semantics(
         selected: isActive,
-        label: 'Page ${position + 1} of $length',
+        label: ComponentLocalizations.of(
+          context,
+        ).carouselPageOf(position + 1, length),
         child: mark,
       );
     }
     return Semantics(
       selected: isActive,
-      label: 'Page ${position + 1} of $length',
+      label: ComponentLocalizations.of(
+        context,
+      ).carouselPageOf(position + 1, length),
       child: Clickable(
         behavior: HitTestBehavior.translucent,
         onPressed: () => onChanged!(position),

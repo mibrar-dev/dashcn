@@ -11,6 +11,7 @@ import '../../components/card/card.dart';
 import '../../components/input/input.dart';
 import 'dashboard_02_sections.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// An analytics workspace: chart, device split and traffic sources.
@@ -128,6 +129,7 @@ class _Dashboard02ShellBar extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
+          final strings = ComponentLocalizations.of(context);
           final bool showSearch = constraints.maxWidth >= 500;
           return Row(
             children: <Widget>[
@@ -156,10 +158,15 @@ class _Dashboard02ShellBar extends StatelessWidget {
               ),
               const Spacer(),
               if (showSearch) ...<Widget>[
-                const SizedBox(width: 200, child: Input(hintText: 'Search')),
+                SizedBox(
+                  width: 200,
+                  child: Input(
+                    hintText: ComponentLocalizations.of(context).filterSearch,
+                  ),
+                ),
                 Gap(theme.spacing.sm),
               ],
-              Button(onPressed: () {}, child: const Text('Share')),
+              Button(onPressed: () {}, child: Text(strings.menuShare)),
             ],
           );
         },
@@ -173,13 +180,14 @@ class _Dashboard02Filters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Analytics', style: theme.typography.h2),
+        Text(strings.blockAnalytics, style: theme.typography.h2),
         Gap(spacing.xs),
         Text(
           'Sessions, devices and where the traffic came from.',
@@ -193,21 +201,21 @@ class _Dashboard02Filters extends StatelessWidget {
           runSpacing: spacing.md,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            const SizedBox(
+            SizedBox(
               width: 240,
-              child: Input(hintText: 'Search reports'),
+              child: Input(hintText: strings.blockSearchReports),
             ),
             Button(
               variant: ButtonVariant.outline,
               onPressed: () {},
-              child: const Text('Last 30 days'),
+              child: Text(strings.blockLast30Days),
             ),
             Button(
               variant: ButtonVariant.outline,
               onPressed: () {},
-              child: const Text('All devices'),
+              child: Text(strings.blockAllDevices),
             ),
-            Button(onPressed: () {}, child: const Text('Download')),
+            Button(onPressed: () {}, child: Text(strings.mediaDownload)),
           ],
         ),
       ],

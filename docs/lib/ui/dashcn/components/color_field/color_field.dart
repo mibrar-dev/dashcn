@@ -19,6 +19,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/color_field_paint.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 import '../alpha/alpha.dart';
 import 'color_field_style.dart';
@@ -140,7 +141,9 @@ class ColorField extends StatelessWidget {
         .padLeft(8, '0')
         .toUpperCase();
     return Semantics(
-      label: mode == ColorFieldMode.hsv ? 'HSV color field' : 'HSL color field',
+      label: mode == ColorFieldMode.hsv
+          ? ComponentLocalizations.of(context).colorFieldHsv
+          : ComponentLocalizations.of(context).colorFieldHsl,
       value: '#$hex',
       child: field,
     );

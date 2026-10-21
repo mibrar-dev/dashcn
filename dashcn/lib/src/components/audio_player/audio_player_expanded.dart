@@ -8,6 +8,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
@@ -253,7 +254,11 @@ class AudioExpandedCard extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Text(
-            resolveAudioTitle(controller, title),
+            resolveAudioTitle(
+              controller,
+              title,
+              ComponentLocalizations.of(context),
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

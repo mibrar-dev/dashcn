@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/tap_target.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'audio_player_transport.dart';
 
 /// Value the bar reports.
@@ -122,7 +123,8 @@ class _AudioProgressBarState extends State<AudioProgressBar> {
   Widget build(BuildContext context) {
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Semantics(
-      label: widget.semanticLabel ?? 'Seek',
+      label:
+          widget.semanticLabel ?? ComponentLocalizations.of(context).mediaSeek,
       slider: true,
       enabled: widget.enabled,
       value: formatAudioTimeValuetext(widget.position, widget.duration),

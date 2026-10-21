@@ -6,6 +6,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'skeleton_layout.dart';
@@ -47,7 +48,7 @@ class SkeletonTable extends StatelessWidget {
   /// Per-instance density tokens.
   final DensityTokens? densityTokens;
 
-  /// Accessible label; null reads `Loading`.
+  /// Accessible label; null reads the locale `announcementLoading`.
   final String? semanticsLabel;
 
   /// Header cell builder slot.
@@ -99,7 +100,9 @@ class SkeletonTable extends StatelessWidget {
     }
 
     return Semantics(
-      label: semanticsLabel ?? 'Loading',
+      label:
+          semanticsLabel ??
+          ComponentLocalizations.of(context).announcementLoading,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: gap,

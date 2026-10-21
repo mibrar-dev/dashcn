@@ -434,8 +434,13 @@ void main() {
           child: AudioPlayer(controller: c, variant: AudioPlayerVariant.full),
         ),
       );
-      expect(find.bySemanticsLabel('Playback speed 1x'), findsOneWidget);
-      await tester.tap(find.bySemanticsLabel('Playback speed 1x'));
+      expect(
+        find.bySemanticsLabel('Playback speed 1x, tap to change'),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find.bySemanticsLabel('Playback speed 1x, tap to change'),
+      );
       await tester.pump();
       expect(find.bySemanticsLabel('Speed 1.25x'), findsOneWidget);
       await tester.tap(find.bySemanticsLabel('Speed 1.25x'));

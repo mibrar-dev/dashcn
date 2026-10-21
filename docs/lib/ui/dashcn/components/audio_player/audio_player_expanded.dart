@@ -8,6 +8,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/localizations/localizations.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_expanded_transport.dart';
@@ -103,28 +105,35 @@ class AudioExpandedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Density-driven gaps: at the default density baseGap is 8, so these
+    // match the SPEC 12/6/8 rhythm while scaling with the theme instead of
+    // pinning larger fixed sizes that overflow the 720x420 docs stage.
+    final ThemeData ambient = Theme.of(context);
+    final double gap = ambient.density.baseGap * ambient.scaling;
+    final double sectionGap = gap * gapMd;
+    final double xsGap = gap * 0.75;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _cover(context),
-        const SizedBox(height: 12),
+        _cover(context, gap),
+        SizedBox(height: sectionGap),
         _equaliser(context),
-        const SizedBox(height: 12),
+        SizedBox(height: sectionGap),
         _artist(context),
-        const SizedBox(height: 6),
+        SizedBox(height: xsGap),
         _title(context),
-        const SizedBox(height: 12),
+        SizedBox(height: sectionGap),
         _progress(context),
-        const SizedBox(height: 8),
+        SizedBox(height: gap * gapSm),
         _times(context),
-        const SizedBox(height: 12),
+        SizedBox(height: sectionGap),
         _transport(context),
       ],
     );
   }
 
-  Widget _cover(BuildContext context) {
+  Widget _cover(BuildContext context, double gap) {
     if (coverBuilder != null) return coverBuilder!(context, controller);
     final Widget art =
         cover ??
@@ -149,8 +158,14 @@ class AudioExpandedCard extends StatelessWidget {
             ? constraints.maxWidth
             : 328;
         final double d = (w * 0.86).clamp(200.0, 300.0);
+        // Density-derived half-circle window: gap * 19 is 152 at the default
+        // density (8px base gap), 16 smaller than the fixed 168 that overflowed
+        // the 720x420 stage by 11px once the 48px touch targets land. The
+        // compact pill keeps its SPEC 48px height; only the expanded cover
+        // shrinks, and it still scales with the theme density.
+        final double coverHeight = gap * 19;
         return SizedBox(
-          height: 168,
+          height: coverHeight,
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -206,32 +221,53 @@ class AudioExpandedCard extends StatelessWidget {
     if (subtitleBuilder != null) return subtitleBuilder!(context, controller);
     final String? artist = resolveAudioArtist(controller, subtitle);
     if (artist == null) return const SizedBox.shrink();
-    return Text(
-      artist.toUpperCase(),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      textAlign: TextAlign.center,
-      style:
-          style.subtitleTextStyle ??
-          TextStyle(
-            color: muted,
-            fontSize: 11,
-            letterSpacing: 1.2,
-            fontWeight: FontWeight.w500,
+    // Row + Expanded lets the line flex to the available width and truncate
+    // instead of forcing the Column wider/taller on narrow stages.
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(
+            artist.toUpperCase(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style:
+                style.subtitleTextStyle ??
+                TextStyle(
+                  color: muted,
+                  fontSize: 11,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
+        ),
+      ],
     );
   }
 
   Widget _title(BuildContext context) {
     if (titleBuilder != null) return titleBuilder!(context, controller);
-    return Text(
-      resolveAudioTitle(controller, title),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      textAlign: TextAlign.center,
-      style:
-          style.titleTextStyle ??
-          TextStyle(color: fg, fontSize: 20, fontWeight: FontWeight.w600),
+    // Same flex + truncate contract as the compact pill title: the Expanded
+    // gives the Row's remaining width to the label and the ellipsis keeps a
+    // long track name on one line instead of overflowing the card.
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(
+            resolveAudioTitle(
+              controller,
+              title,
+              ComponentLocalizations.of(context),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style:
+                style.titleTextStyle ??
+                TextStyle(color: fg, fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
     );
   }
 
@@ -255,6 +291,8 @@ class AudioExpandedCard extends StatelessWidget {
     final AudioPlaybackController c = controller;
     final Widget times = Text(
       '${formatAudioTime(c.position)} / ${formatAudioTime(c.duration)}',
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
       style:
           style.timeTextStyle ??

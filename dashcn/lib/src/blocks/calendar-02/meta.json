@@ -19,7 +19,8 @@
       "theme"
     ],
     "primitives": [
-      "date_math"
+      "date_math",
+      "localizations"
     ],
     "components": [
       "button",

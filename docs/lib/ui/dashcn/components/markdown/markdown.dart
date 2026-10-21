@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/markdown_parser/markdown_parser.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/text_editing/text_editing.dart';
 import '../collapsible/collapsible.dart';
 import 'markdown_style.dart';
@@ -343,7 +344,9 @@ class _MarkdownState extends State<Markdown> {
       children: <Widget>[
         CollapsibleTrigger(
           child: Text(
-            (block.summary ?? '').isEmpty ? 'Details' : block.summary!,
+            (block.summary ?? '').isEmpty
+                ? ComponentLocalizations.of(context).markdownDetails
+                : block.summary!,
           ),
         ),
         CollapsibleContent(

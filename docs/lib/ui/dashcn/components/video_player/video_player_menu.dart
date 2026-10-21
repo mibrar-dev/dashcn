@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -19,9 +20,12 @@ Widget videoMoreButton({
   required VideoPlaybackController c,
   required double minTarget,
   required VoidCallback onTap,
+  ComponentLocalizations? strings,
 }) {
   return videoIconButton(
-    label: 'More options, playback speed ${formatVideoSpeed(c.playbackSpeed)}x',
+    label:
+        strings?.mediaMoreOptionsSpeed(formatVideoSpeed(c.playbackSpeed)) ??
+        'More options, playback speed ${formatVideoSpeed(c.playbackSpeed)}x',
     icon: LucideIcons.ellipsis,
     size: style.iconSize ?? 16,
     fg: fg,
@@ -38,6 +42,7 @@ Widget videoMenuSection({
   required Color fg,
   required List<double> speeds,
   required VoidCallback onDone,
+  ComponentLocalizations? strings,
 }) {
   final List<double> steps = speeds.isEmpty ? const <double>[1] : speeds;
   return Container(
@@ -56,7 +61,9 @@ Widget videoMenuSection({
           children: <Widget>[
             for (final double s in steps)
               FocusableTap(
-                label: 'Speed ${formatVideoSpeed(s)}x',
+                label:
+                    strings?.mediaSpeed(formatVideoSpeed(s)) ??
+                    'Speed ${formatVideoSpeed(s)}x',
                 onTap: () {
                   c.setPlaybackSpeed(s);
                   onDone();
@@ -95,7 +102,9 @@ Widget videoMenuSection({
           children: <Widget>[
             Expanded(
               child: FocusableTap(
-                label: c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
+                label: c.areCaptionsEnabled
+                    ? strings?.mediaCaptionsOn ?? 'Captions on'
+                    : strings?.mediaCaptionsOff ?? 'Captions off',
                 onTap: () {
                   c.toggleCaptions();
                   onDone();
@@ -106,7 +115,9 @@ Widget videoMenuSection({
                   alignment: Alignment.centerLeft,
                   child: ExcludeSemantics(
                     child: Text(
-                      c.areCaptionsEnabled ? 'Captions on' : 'Captions off',
+                      c.areCaptionsEnabled
+                          ? strings?.mediaCaptionsOn ?? 'Captions on'
+                          : strings?.mediaCaptionsOff ?? 'Captions off',
                       style: TextStyle(color: fg, fontSize: 12),
                     ),
                   ),
@@ -115,7 +126,7 @@ Widget videoMenuSection({
             ),
             ExcludeSemantics(
               child: Text(
-                'Quality Auto',
+                strings?.mediaQualityAuto ?? 'Quality Auto',
                 style: TextStyle(color: fg.withAlpha(0xB3), fontSize: 12),
               ),
             ),

@@ -8,6 +8,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/animation.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/motion/motion_scope.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'feature_carousel_style.dart';
@@ -242,7 +243,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         body,
       ],
     );
-    final Widget labelled = Semantics(label: 'Feature carousel', child: stack);
+    final Widget labelled = Semantics(
+      label: ComponentLocalizations.of(context).carouselLabel,
+      child: stack,
+    );
     return _config.enableKeyboardNavigation ? _keyboard(labelled) : labelled;
   }
 
@@ -251,6 +255,8 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     ThemeColors colors,
     FeatureCarouselItem item,
   ) {
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
     final Color border = theme.cardBorder!.resolve(colors);
     final List<BoxShadow> shadow = featureCarouselCardShadow(context, theme);
     final Widget card =
@@ -295,26 +301,38 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           ),
         ),
         if (_config.showNavArrows)
-          Positioned(left: 0, child: _arrow(false, theme, colors)),
+          Positioned(
+            left: 0,
+            child: _arrow(false, theme, colors, rtl: rtl, strings: strings),
+          ),
         if (_config.showNavArrows)
-          Positioned(right: 0, child: _arrow(true, theme, colors)),
+          Positioned(
+            right: 0,
+            child: _arrow(true, theme, colors, rtl: rtl, strings: strings),
+          ),
       ],
     );
   }
 
-  Widget _arrow(bool next, FeatureCarouselTheme theme, ThemeColors colors) {
+  Widget _arrow(
+    bool next,
+    FeatureCarouselTheme theme,
+    ThemeColors colors, {
+    required bool rtl,
+    required ComponentLocalizations strings,
+  }) {
+    final IconData icon = (next != rtl)
+        ? LucideIcons.chevronRight
+        : LucideIcons.chevronLeft;
     return _control(
       onPressed: () => _go(next ? 1 : -1),
-      label: next ? 'Next' : 'Previous',
+      label: next ? strings.buttonNext : strings.buttonPrevious,
       background: theme.controlBackground!.resolve(colors),
       foreground: theme.controlForeground!.resolve(colors),
       width: featureCarouselDefaultArrowSize,
       height: featureCarouselDefaultArrowSize,
       radius: BorderRadius.circular(theme.radius ?? 12),
-      child: Icon(
-        next ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
-        size: 24,
-      ),
+      child: Icon(icon, size: 24),
     );
   }
 
@@ -331,7 +349,8 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
       minWidth: featureCarouselDefaultCtaMinWidth,
       radius: BorderRadius.circular(featureCarouselDefaultCtaHeight / 2),
       child: Text(
-        _config.primaryActionLabel,
+        _config.primaryActionLabel ??
+            ComponentLocalizations.of(context).carouselPrimaryAction,
         style: TextStyle(fontSize: 16 * scaling, fontWeight: FontWeight.w600),
       ),
     );

@@ -11,6 +11,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/chart/chart_math.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/theme.dart';
 import 'chart_cartesian_painter.dart';
@@ -1103,7 +1104,9 @@ class _ChartState extends State<Chart> {
         }
         seen++;
         if (seen == index) {
-          label = series[si].label ?? 'Series ${si + 1}';
+          label =
+              series[si].label ??
+              ComponentLocalizations.of(context).chartSeriesDefault(si);
           raw = series[si].values.first;
           color =
               series[si].color ??
@@ -1124,7 +1127,10 @@ class _ChartState extends State<Chart> {
       label: title,
       rows: <ChartTooltipRow>[
         ChartTooltipRow(
-          label: title ?? label ?? 'Value',
+          label:
+              title ??
+              label ??
+              ComponentLocalizations.of(context).chartValueDefault,
           value: raw,
           color: color,
         ),
@@ -1142,7 +1148,9 @@ class _ChartState extends State<Chart> {
       for (var si = 0; si < series.length; si++)
         if (index < series[si].values.length)
           ChartTooltipRow(
-            label: series[si].label ?? 'Series ${si + 1}',
+            label:
+                series[si].label ??
+                ComponentLocalizations.of(context).chartSeriesDefault(si),
             value: series[si].values[index],
             color:
                 series[si].color ??
@@ -1230,7 +1238,7 @@ class _ChartState extends State<Chart> {
           else if (s.label != null && count == 1)
             s.label!
           else
-            'Slice $i',
+            ComponentLocalizations.of(context).chartSliceDefault(i),
       ];
     }
 
@@ -1417,7 +1425,9 @@ class _ChartState extends State<Chart> {
       for (var si = 0; si < series.length; si++)
         if (index < series[si].values.length)
           ChartTooltipRow(
-            label: series[si].label ?? 'Series ${si + 1}',
+            label:
+                series[si].label ??
+                ComponentLocalizations.of(context).chartSeriesDefault(si),
             value: series[si].values[index],
             color:
                 series[si].color ??
@@ -1438,7 +1448,7 @@ class _ChartState extends State<Chart> {
     if (labels != null && index < labels.length) {
       return labels[index];
     }
-    return 'Category $index';
+    return ComponentLocalizations.of(context).chartCategoryDefault(index);
   }
 
   Offset? _cartesianAnchorFor(
@@ -1636,7 +1646,11 @@ class _ChartState extends State<Chart> {
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
-                    i < labels.length ? labels[i] : 'Slice $i',
+                    i < labels.length
+                        ? labels[i]
+                        : ComponentLocalizations.of(
+                            context,
+                          ).chartSliceDefault(i),
                     style: surface.legendStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -1710,7 +1724,7 @@ class _ChartState extends State<Chart> {
       children: <Widget>[
         for (var i = 0; i < series.length; i++)
           Text(
-            '${series[i].label ?? 'Series ${i + 1}'}: ${series[i].values.join(', ')}',
+            '${series[i].label ?? ComponentLocalizations.of(context).chartSeriesDefault(i)}: ${series[i].values.join(', ')}',
             style: surface.tickStyle,
           ),
       ],
@@ -1718,22 +1732,23 @@ class _ChartState extends State<Chart> {
   }
 
   String _summary(List<ChartSeries> series) {
+    final ComponentLocalizations strings = ComponentLocalizations.of(context);
     final String kind = switch (widget.type) {
-      ChartType.line => 'Line',
-      ChartType.area => 'Area',
-      ChartType.bar => 'Bar',
-      ChartType.donut => 'Donut',
-      ChartType.pie => 'Pie',
-      ChartType.sparkline => 'Sparkline',
-      ChartType.scatter => 'Scatter',
-      ChartType.radar => 'Radar',
-      ChartType.radial => 'Radial',
+      ChartType.line => strings.chartKindLine,
+      ChartType.area => strings.chartKindArea,
+      ChartType.bar => strings.chartKindBar,
+      ChartType.donut => strings.chartKindDonut,
+      ChartType.pie => strings.chartKindPie,
+      ChartType.sparkline => strings.chartKindSparkline,
+      ChartType.scatter => strings.chartKindScatter,
+      ChartType.radar => strings.chartKindRadar,
+      ChartType.radial => strings.chartKindRadial,
     };
     if (series.isEmpty) {
-      return '$kind chart with no data';
+      return strings.chartSummaryEmpty(kind);
     }
     final int points = series.fold(0, (a, s) => a + s.values.length);
-    return '$kind chart with ${series.length} series, $points points';
+    return strings.chartSummary(series.length, points, kind);
   }
 }
 

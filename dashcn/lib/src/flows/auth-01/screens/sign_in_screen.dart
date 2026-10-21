@@ -10,6 +10,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
 import 'social_buttons.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Sign-in form; a valid submit calls [onSignIn] then shows `/otp`.
 class Auth01SignInScreen extends StatefulWidget {
@@ -61,10 +62,11 @@ class _Auth01SignInScreenState extends State<Auth01SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Auth01Scaffold(
-      title: 'Sign in',
-      subtitle: 'Enter your credentials to continue.',
+      title: strings.authSignIn,
+      subtitle: strings.blockEnterCredentialsContinue,
       children: <Widget>[
         FormScope(
           controller: _controller,
@@ -73,7 +75,7 @@ class _Auth01SignInScreenState extends State<Auth01SignInScreen> {
             children: <Widget>[
               FormItem<String>(
                 key: _emailKey,
-                label: const Text('Email'),
+                label: Text(strings.authEmail),
                 validator: const NotEmptyValidator() & const EmailValidator(),
                 // Errors surface on submit only: the mount-time report lands as
                 // `changed`, so including it would flag pristine fields.
@@ -89,7 +91,7 @@ class _Auth01SignInScreenState extends State<Auth01SignInScreen> {
               Gap(appTheme.spacing.md),
               FormItem<String>(
                 key: _passwordKey,
-                label: const Text('Password'),
+                label: Text(strings.authPassword),
                 validator:
                     const NotEmptyValidator() & const LengthValidator(min: 8),
                 // Errors surface on submit only: the mount-time report lands as
@@ -113,7 +115,7 @@ class _Auth01SignInScreenState extends State<Auth01SignInScreen> {
             variant: ButtonVariant.link,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pushNamed('/forgot'),
-            child: const Text('Forgot password?'),
+            child: Text(strings.authForgotPassword),
           ),
         ),
         Gap(appTheme.spacing.sm),
@@ -140,7 +142,7 @@ class _Auth01SignInScreenState extends State<Auth01SignInScreen> {
               variant: ButtonVariant.link,
               size: ButtonSize.sm,
               onPressed: () => Navigator.of(context).pushNamed('/signup'),
-              child: const Text('Create one'),
+              child: Text(strings.blockCreateOne),
             ),
           ],
         ),

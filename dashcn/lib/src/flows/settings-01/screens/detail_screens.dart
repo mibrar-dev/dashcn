@@ -8,6 +8,7 @@ import '../../../components/card/card.dart';
 import '../../../components/switch/switch.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Notifications detail page.
 class Settings01NotificationsScreen extends StatefulWidget {
@@ -40,6 +41,7 @@ class _Settings01NotificationsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -52,13 +54,16 @@ class _Settings01NotificationsScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Notifications', style: appTheme.typography.h3),
+                  Text(
+                    strings.blockNotifications,
+                    style: appTheme.typography.h3,
+                  ),
                   Gap(appTheme.spacing.lg),
                   Card(
                     child: Column(
                       children: <Widget>[
                         Settings01ToggleRow(
-                          label: 'Push notifications',
+                          label: strings.blockPushNotifications,
                           value: _notifications,
                           onChanged: (bool value) {
                             setState(() => _notifications = value);
@@ -66,7 +71,7 @@ class _Settings01NotificationsScreenState
                           },
                         ),
                         Settings01ToggleRow(
-                          label: 'Sounds',
+                          label: strings.blockSounds,
                           value: _sounds,
                           onChanged: (bool value) {
                             setState(() => _sounds = value);
@@ -81,7 +86,7 @@ class _Settings01NotificationsScreenState
                     variant: ButtonVariant.ghost,
                     size: ButtonSize.sm,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Back to settings'),
+                    child: Text(strings.blockBackToSettings),
                   ),
                 ],
               ),
@@ -119,6 +124,7 @@ class _Settings01AppearanceScreenState
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -131,11 +137,11 @@ class _Settings01AppearanceScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Appearance', style: appTheme.typography.h3),
+                  Text(strings.blockAppearance, style: appTheme.typography.h3),
                   Gap(appTheme.spacing.lg),
                   Card(
                     child: Settings01ToggleRow(
-                      label: 'Dark mode',
+                      label: strings.blockDarkMode,
                       value: _darkMode,
                       onChanged: (bool value) {
                         setState(() => _darkMode = value);
@@ -148,7 +154,7 @@ class _Settings01AppearanceScreenState
                     variant: ButtonVariant.ghost,
                     size: ButtonSize.sm,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Back to settings'),
+                    child: Text(strings.blockBackToSettings),
                   ),
                 ],
               ),

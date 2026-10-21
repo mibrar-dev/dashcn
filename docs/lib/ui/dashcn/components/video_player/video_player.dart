@@ -13,6 +13,7 @@ import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_controller.dart';
 import 'video_player_controls.dart';
 import 'video_player_scrub.dart';
@@ -372,7 +373,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
     frame = FocusOutline(focused: _focused, borderRadius: radius, child: frame);
     frame = Semantics(
-      label: widget.semanticLabel ?? 'Video player',
+      label:
+          widget.semanticLabel ??
+          ComponentLocalizations.of(context).mediaVideoPlayer,
       child: frame,
     );
     return Focus(

@@ -27,6 +27,7 @@ import 'localizations_nl.dart';
 import 'localizations_pl.dart';
 import 'localizations_ps.dart';
 import 'localizations_pt.dart';
+import 'localizations_pt_br.dart';
 import 'localizations_ro.dart';
 import 'localizations_ru.dart';
 import 'localizations_sk.dart';
@@ -39,6 +40,7 @@ import 'localizations_uk.dart';
 import 'localizations_ur.dart';
 import 'localizations_vi.dart';
 import 'localizations_zh.dart';
+import 'localizations_zh_hans.dart';
 import 'localizations_zh_hant.dart';
 import 'localizations.dart';
 
@@ -122,6 +124,11 @@ ComponentLocalizations lookupComponentLocalizations(Locale locale) {
     case 'ps':
       return ComponentLocalizationsPs(locale);
     case 'pt':
+      // Brazil gets its own table; all other Portuguese
+      // regions share the base `pt` table.
+      if (locale.countryCode == 'BR') {
+        return ComponentLocalizationsPtBr(locale);
+      }
       return ComponentLocalizationsPt(locale);
     case 'ro':
       return ComponentLocalizationsRo(locale);
@@ -153,6 +160,11 @@ ComponentLocalizations lookupComponentLocalizations(Locale locale) {
                   locale.countryCode == 'HK' ||
                   locale.countryCode == 'MO'))) {
         return ComponentLocalizationsZhHant(locale);
+      }
+      // Explicit `Hans` (or `zh_Hans`) pins the simplified table; every other
+      // `zh` region without a Hant marker shares it too.
+      if (locale.scriptCode == 'Hans') {
+        return ComponentLocalizationsZhHans(locale);
       }
       return ComponentLocalizationsZh(locale);
     default:

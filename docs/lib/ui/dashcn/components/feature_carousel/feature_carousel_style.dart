@@ -14,6 +14,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 
@@ -72,7 +73,7 @@ class FeatureCarouselController extends ChangeNotifier {
     this.animationStyle = FeatureCarouselAnimationStyle.slideFade,
     this.enableKeyboardNavigation = true,
     this.enableSwipe = true,
-    this.primaryActionLabel = 'Add to chat',
+    this.primaryActionLabel,
     this.onPrimaryAction,
     this.onIndexChanged,
   }) : _index = initialIndex;
@@ -93,8 +94,9 @@ class FeatureCarouselController extends ChangeNotifier {
 
   bool enableSwipe;
 
-  /// Label of the call-to-action control (English fallback: no ARB key).
-  final String primaryActionLabel;
+  /// Label of the call-to-action control; null falls back to the locale's
+  /// [ComponentLocalizations.carouselPrimaryAction].
+  final String? primaryActionLabel;
 
   void Function(FeatureCarouselItem item, int index)? onPrimaryAction;
 
@@ -322,7 +324,7 @@ class FeatureCarouselCenterCard extends StatelessWidget {
             ? const SizedBox.shrink()
             : Icon(item.icon, size: iconSize, color: accent));
     return Semantics(
-      label: 'Feature preview: ${item.title ?? 'item'}',
+      label: ComponentLocalizations.of(context).carouselItemPreview(item.title),
       child: Container(
         width: featureCarouselDefaultCardWidth,
         height: featureCarouselDefaultCardHeight,

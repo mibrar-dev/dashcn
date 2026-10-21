@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/tap_target.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
@@ -22,6 +23,18 @@ Widget videoVolumeCluster({
   bool compact = false,
   double minTarget = 48,
 }) {
+  if (compact) {
+    return videoIconButton(
+      label: c.isMuted
+          ? ComponentLocalizations.of(context).mediaUnmute
+          : ComponentLocalizations.of(context).mediaMute,
+      icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
+      size: style.iconSize ?? 16,
+      fg: fg,
+      minTarget: minTarget,
+      onTap: () => c.setMuted(!c.isMuted),
+    );
+  }
   return _VideoVolumeCluster(c: c, style: style, fg: fg, minTarget: minTarget);
 }
 
@@ -76,7 +89,9 @@ class _VideoVolumeClusterState extends State<_VideoVolumeCluster> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             videoIconButton(
-              label: c.isMuted ? 'Unmute' : 'Mute',
+              label: c.isMuted
+                  ? ComponentLocalizations.of(context).mediaUnmute
+                  : ComponentLocalizations.of(context).mediaMute,
               icon: c.isMuted ? LucideIcons.volumeOff : LucideIcons.volume2,
               size: widget.style.iconSize ?? 16,
               fg: widget.fg,
@@ -88,7 +103,7 @@ class _VideoVolumeClusterState extends State<_VideoVolumeCluster> {
             ),
             if (_open)
               Semantics(
-                label: 'Volume',
+                label: ComponentLocalizations.of(context).mediaVolume,
                 slider: true,
                 value: '${(_level * 100).round()}%',
                 increasedValue:

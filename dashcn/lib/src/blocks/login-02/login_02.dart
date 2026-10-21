@@ -24,6 +24,7 @@ import '../../components/button/button.dart';
 import '../../components/form/form.dart';
 import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 import 'login_02_panel.dart';
 
@@ -235,7 +236,10 @@ class _Login02Form extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Sign in', style: theme.typography.h2),
+          Text(
+            ComponentLocalizations.of(context).authSignIn,
+            style: theme.typography.h2,
+          ),
           Gap(theme.spacing.sm),
           Text(
             'Enter your details below to continue.',
@@ -246,7 +250,7 @@ class _Login02Form extends StatelessWidget {
           Gap(theme.spacing.xl),
           FormItem<String>(
             key: emailKey,
-            label: const Text('Email'),
+            label: Text(ComponentLocalizations.of(context).authEmail),
             validator: const NotEmptyValidator() & const EmailValidator(),
             showErrors: const <FormValidationMode>{
               FormValidationMode.changed,
@@ -263,7 +267,7 @@ class _Login02Form extends StatelessWidget {
           Gap(theme.spacing.md),
           FormItem<String>(
             key: passwordKey,
-            label: const Text('Password'),
+            label: Text(ComponentLocalizations.of(context).authPassword),
             validator:
                 const NotEmptyValidator() & const LengthValidator(min: 8),
             showErrors: const <FormValidationMode>{
@@ -271,7 +275,7 @@ class _Login02Form extends StatelessWidget {
               FormValidationMode.submitted,
             },
             child: Input(
-              hintText: 'Password',
+              hintText: ComponentLocalizations.of(context).authPassword,
               obscureText: true,
               textInputAction: TextInputAction.done,
               focusNode: passwordFocus,
@@ -285,7 +289,7 @@ class _Login02Form extends StatelessWidget {
                 throw StateError('Login02: validation failed.');
               }
             },
-            child: const Text('Sign in'),
+            child: Text(ComponentLocalizations.of(context).authSignIn),
           ),
           if (succeeded) ...<Widget>[
             Gap(theme.spacing.lg),

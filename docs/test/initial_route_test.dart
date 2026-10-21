@@ -30,6 +30,7 @@ void main() {
         '/docs/installation': DocsRoute.installation,
         '/docs/theming': DocsRoute.theming,
         '/docs/dark-mode': DocsRoute.darkMode,
+        '/docs/internationalization': DocsRoute.internationalization,
         '/docs/cli': DocsRoute.cli,
         '/docs/components': DocsRoute.components,
         '/docs/components/button': DocsRoute.component,
@@ -83,6 +84,7 @@ void main() {
         '/docs',
         '/docs/components',
         '/docs/components/button',
+        '/docs/internationalization',
         '/nope',
       ]) {
         final DocsRouteConfiguration config = DocsRouteConfiguration.parse(

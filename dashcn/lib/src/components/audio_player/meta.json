@@ -26,6 +26,7 @@
     ],
     "primitives": [
       "focus_outline",
+      "localizations",
       "motion",
       "surface",
       "tap_target",

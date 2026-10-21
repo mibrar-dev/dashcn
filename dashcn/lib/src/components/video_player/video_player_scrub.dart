@@ -6,6 +6,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_buttons.dart';
 
 /// Value the scrub bar reports.
@@ -141,10 +142,15 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
     final double buffered = _bufferedFraction;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Semantics(
-      label: widget.semanticLabel ?? 'Seek',
+      label:
+          widget.semanticLabel ?? ComponentLocalizations.of(context).mediaSeek,
       slider: true,
       enabled: widget.enabled,
-      value: formatVideoTimeValuetext(widget.position, widget.duration),
+      value: formatVideoTimeValuetextIn(
+        context,
+        widget.position,
+        widget.duration,
+      ),
       increasedValue:
           '${(widget.position + const Duration(seconds: 10)).inSeconds}s',
       decreasedValue:

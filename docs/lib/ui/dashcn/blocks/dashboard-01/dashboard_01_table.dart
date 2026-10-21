@@ -11,6 +11,7 @@ import '../../components/input/input.dart';
 import '../../components/table/table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 class _Dashboard01Order {
   const _Dashboard01Order(this.customer, this.status, this.method, this.amount);
@@ -50,6 +51,7 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     final String needle = _filter.trim().toLowerCase();
     final List<_Dashboard01Order> rows = needle.isEmpty
@@ -70,10 +72,11 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
             padding: EdgeInsets.all(theme.spacing.lg),
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
+                final strings = ComponentLocalizations.of(context);
                 final Widget filter = SizedBox(
                   width: 220,
                   child: Input(
-                    hintText: 'Filter transactions',
+                    hintText: strings.blockFilterTransactions,
                     onChanged: (String value) =>
                         setState(() => _filter = value),
                   ),
@@ -99,7 +102,10 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Text('Transactions', style: theme.typography.textLarge),
+                    Text(
+                      strings.blockTransactions,
+                      style: theme.typography.textLarge,
+                    ),
                     Gap(theme.spacing.md),
                     filter,
                   ],
@@ -112,7 +118,7 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
             Padding(
               padding: EdgeInsets.all(theme.spacing.xl),
               child: Text(
-                'No transactions match "$_filter".',
+                strings.blockNoTransactions(_filter),
                 style: theme.typography.textSmall.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -130,12 +136,12 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                 3: FixedTableSize(110),
               },
               rows: <TableViewRow>[
-                const TableViewHeader(
+                TableViewHeader(
                   cells: <TableViewCell>[
-                    TableViewCell(child: Text('Customer')),
-                    TableViewCell(child: Text('Status')),
-                    TableViewCell(child: Text('Method')),
-                    TableViewCell(child: Text('Amount')),
+                    TableViewCell(child: Text(strings.blockCustomer)),
+                    TableViewCell(child: Text(strings.blockStatus)),
+                    TableViewCell(child: Text(strings.blockMethod)),
+                    TableViewCell(child: Text(strings.blockAmount)),
                   ],
                 ),
                 for (final _Dashboard01Order order in rows)

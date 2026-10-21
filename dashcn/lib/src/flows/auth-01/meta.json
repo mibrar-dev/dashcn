@@ -4,17 +4,50 @@
   "name": "Auth 01",
   "description": "Sign in, sign up, OTP verify and forgot password with social buttons and form validation.",
   "viewport": "mobile",
-  "screens": ["Sign in", "Sign up", "OTP", "Forgot password"],
+  "screens": [
+    "Sign in",
+    "Sign up",
+    "OTP",
+    "Forgot password"
+  ],
   "entry": "flow.dart",
-  "files": ["flow.dart", "screens/scaffold.dart", "screens/sign_in_screen.dart", "screens/sign_up_screen.dart", "screens/otp_screen.dart", "screens/forgot_password_screen.dart", "screens/social_buttons.dart", "README.md"],
+  "files": [
+    "flow.dart",
+    "screens/scaffold.dart",
+    "screens/sign_in_screen.dart",
+    "screens/sign_up_screen.dart",
+    "screens/otp_screen.dart",
+    "screens/forgot_password_screen.dart",
+    "screens/social_buttons.dart",
+    "README.md"
+  ],
   "deps": {
-    "foundation": ["gap"],
-    "theme": ["theme"],
-    "primitives": [],
-    "components": ["button", "card", "form", "input", "input_otp", "page_route"],
+    "foundation": [
+      "gap"
+    ],
+    "theme": [
+      "theme"
+    ],
+    "primitives": [
+      "localizations"
+    ],
+    "components": [
+      "button",
+      "card",
+      "form",
+      "input",
+      "input_otp",
+      "page_route"
+    ],
     "blocks": []
   },
-  "tags": ["auth", "sign-in", "sign-up", "otp", "password"],
+  "tags": [
+    "auth",
+    "sign-in",
+    "sign-up",
+    "otp",
+    "password"
+  ],
   "install": "dashcn add flow:auth-01",
   "import": "import 'package:<your_app>/ui/dashcn/flows/auth-01/flow.dart';"
 }

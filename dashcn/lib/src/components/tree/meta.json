@@ -24,6 +24,7 @@
     ],
     "primitives": [
       "clickable",
+      "localizations",
       "motion",
       "tree_selection"
     ],

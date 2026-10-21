@@ -13,6 +13,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
 import 'address_sheet.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Cart rows; Checkout opens the address sheet.
 class Checkout01CartScreen extends StatefulWidget {
@@ -75,6 +76,7 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return ColoredBox(
       color: appTheme.colors.background,
@@ -89,7 +91,10 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text('Your cart', style: appTheme.typography.h3),
+                      Text(
+                        strings.blockYourCart,
+                        style: appTheme.typography.h3,
+                      ),
                       Gap(appTheme.spacing.xs),
                       Text(
                         '${_items.length} items',
@@ -99,9 +104,9 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
                       ),
                       Gap(appTheme.spacing.lg),
                       if (_items.isEmpty)
-                        const EmptyState(
-                          title: Text('Cart is empty'),
-                          description: Text('Add something you love first.'),
+                        EmptyState(
+                          title: Text(strings.blockCartEmpty),
+                          description: Text(strings.blockAddSomethingFirst),
                         )
                       else
                         Expanded(
@@ -117,7 +122,7 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
                                 ),
                                 actions: <SwipeAction>[
                                   SwipeAction(
-                                    label: 'Delete',
+                                    label: strings.menuDelete,
                                     destructive: true,
                                     onPressed: () => _remove(item),
                                   ),
@@ -139,7 +144,10 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text('Total', style: appTheme.typography.h3),
+                          Text(
+                            strings.chartTotalLabel,
+                            style: appTheme.typography.h3,
+                          ),
                           Text(
                             '\$${_total.toStringAsFixed(2)}',
                             style: appTheme.typography.h3,
@@ -152,7 +160,7 @@ class _Checkout01CartScreenState extends State<Checkout01CartScreen> {
                         onPressed: _items.isEmpty
                             ? null
                             : () => setState(() => _sheetOpen = true),
-                        child: const Text('Checkout'),
+                        child: Text(strings.blockCheckout),
                       ),
                     ],
                   ),
@@ -186,6 +194,7 @@ class _Row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Row(
       children: <Widget>[
@@ -195,7 +204,7 @@ class _Row extends StatelessWidget {
             children: <Widget>[
               Text(item.name, style: appTheme.typography.textSmall),
               Text(
-                'Qty ${item.quantity}',
+                strings.blockQty(item.quantity),
                 style: appTheme.typography.textMuted.copyWith(
                   color: appTheme.colors.mutedForeground,
                 ),

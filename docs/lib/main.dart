@@ -25,6 +25,7 @@ import 'pages/cli_reference.dart';
 import 'pages/component_page.dart' deferred as component_page;
 import 'pages/components_index_page.dart';
 import 'pages/dark_mode_page.dart';
+import 'pages/internationalization_page.dart';
 import 'pages/getting_started.dart';
 import 'pages/introduction_page.dart';
 import 'pages/landing_page.dart';
@@ -282,6 +283,7 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
     DocsRoute.material => const MaterialInteropPage(),
     DocsRoute.theming => const ThemingPage(),
     DocsRoute.darkMode => const DarkModePage(),
+    DocsRoute.internationalization => const InternationalizationPage(),
     DocsRoute.cli => const CliReferencePage(),
     DocsRoute.scorecards => const ScorecardsPage(),
     DocsRoute.blocks => DeferredPage(

@@ -10,6 +10,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// One rail destination.
 class Sidebar01Item {
@@ -43,6 +44,7 @@ class Sidebar01Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -96,9 +98,9 @@ class Sidebar01Content extends StatelessWidget {
             Button(
               variant: ButtonVariant.outline,
               onPressed: () {},
-              child: const Text('Mark all read'),
+              child: Text(strings.blockMarkAllRead),
             ),
-            Button(onPressed: () {}, child: const Text('Compose')),
+            Button(onPressed: () {}, child: Text(strings.blockCompose)),
           ],
         ),
       ],
@@ -160,6 +162,7 @@ class _Sidebar01Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     const List<(String, String)> events = <(String, String)>[
       ('Kara moved Design review to Thursday', '2h ago'),
@@ -171,7 +174,7 @@ class _Sidebar01Activity extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Activity', style: theme.typography.textLarge),
+          Text(strings.blockActivity, style: theme.typography.textLarge),
           Gap(theme.spacing.lg),
           for (final (String, String) event in events) ...<Widget>[
             Row(

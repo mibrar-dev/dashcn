@@ -6,11 +6,25 @@
   "tier": "component",
   "install": "dashcn add skeleton",
   "import": "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
-  "tags": ["display", "loading", "placeholder", "shimmer"],
+  "tags": [
+    "display",
+    "loading",
+    "placeholder",
+    "shimmer"
+  ],
   "deps": {
     "foundation": [],
-    "theme": ["color_tokens", "theme", "density_tokens"],
-    "primitives": ["animation", "motion", "surface"],
+    "theme": [
+      "color_tokens",
+      "theme",
+      "density_tokens"
+    ],
+    "primitives": [
+      "animation",
+      "localizations",
+      "motion",
+      "surface"
+    ],
     "components": []
   },
   "files": [
@@ -52,7 +66,10 @@
       "skeletonAvatarSize",
       "skeletonRowHeight"
     ],
-    "typedefs": ["SkeletonLineBuilder", "SkeletonMirrorBuilder"]
+    "typedefs": [
+      "SkeletonLineBuilder",
+      "SkeletonMirrorBuilder"
+    ]
   },
   "theme": {
     "class": "SkeletonTheme",

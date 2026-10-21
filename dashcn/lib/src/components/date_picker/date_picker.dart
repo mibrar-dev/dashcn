@@ -435,6 +435,8 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ComponentLocalizations strings = ComponentLocalizations.of(context);
+    // Chevron sides mirror in RTL so "back" keeps pointing backward.
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -446,12 +448,12 @@ class _DatePickerDialogState extends State<DatePickerDialog> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _HeaderButton(
-              icon: LucideIcons.chevronLeft,
+              icon: rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
               onPressed: () => _step(false),
             ),
             _HeaderButton(label: _header(strings), onPressed: _cycleViewType),
             _HeaderButton(
-              icon: LucideIcons.chevronRight,
+              icon: rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
               onPressed: () => _step(true),
             ),
           ],

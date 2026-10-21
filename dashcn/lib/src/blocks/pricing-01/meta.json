@@ -18,7 +18,9 @@
     "theme": [
       "theme"
     ],
-    "primitives": [],
+    "primitives": [
+      "localizations"
+    ],
     "components": [
       "alert",
       "badge",

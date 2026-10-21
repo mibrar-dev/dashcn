@@ -24,6 +24,7 @@ import '../../components/form/form.dart';
 import '../../components/switch/switch.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Values submitted by [Account02].
 class Account02Data {
@@ -134,6 +135,7 @@ class _Account02State extends State<Account02> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     // Align loosens the width: a bare ConstrainedBox under the scroll view
     // would receive tight width and its maxWidth cap would be clamped away.
@@ -148,15 +150,15 @@ class _Account02State extends State<Account02> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Breadcrumb(
+              Breadcrumb(
                 children: <Widget>[
-                  Text('Settings'),
+                  Text(strings.errorActionSettings),
                   Gap(0, crossAxisExtent: 8),
-                  Text('Notifications'),
+                  Text(strings.blockNotifications),
                 ],
               ),
               Gap(theme.spacing.md),
-              Text('Notifications', style: theme.typography.h2),
+              Text(strings.blockNotifications, style: theme.typography.h2),
               Gap(theme.spacing.xs),
               Text(
                 'Choose what you want to hear about, and where.',
@@ -166,13 +168,13 @@ class _Account02State extends State<Account02> {
               ),
               Gap(theme.spacing.lg),
               _Account02Card(
-                title: 'Email notifications',
+                title: strings.blockEmailNotifications,
                 subtitle: 'Sent to ada@example.com',
                 children: <Widget>[
                   for (final String channel in _channels)
                     _Account02SwitchRow(
                       formKey: _key(channel, 'email'),
-                      title: 'Email · $channel',
+                      title: strings.blockEmailChannel(channel),
                       value: _email[channel]!,
                       onChanged: (bool value) =>
                           setState(() => _email[channel] = value),
@@ -181,13 +183,13 @@ class _Account02State extends State<Account02> {
               ),
               Gap(theme.spacing.lg),
               _Account02Card(
-                title: 'Push notifications',
-                subtitle: 'Delivered to your devices',
+                title: strings.blockPushNotifications,
+                subtitle: strings.blockDeliveredToDevices,
                 children: <Widget>[
                   for (final String channel in _channels)
                     _Account02SwitchRow(
                       formKey: _key(channel, 'push'),
-                      title: 'Push · $channel',
+                      title: strings.blockPushChannel(channel),
                       value: _push[channel]!,
                       onChanged: (bool value) =>
                           setState(() => _push[channel] = value),
@@ -197,7 +199,7 @@ class _Account02State extends State<Account02> {
                   Gap(theme.spacing.lg),
                   _Account02SwitchRow(
                     formKey: const FormKey<bool>('quietHours'),
-                    title: 'Quiet hours',
+                    title: strings.blockQuietHours,
                     subtitle: '22:00 – 07:00, your local time',
                     value: _quietHours,
                     onChanged: (bool value) =>
@@ -207,13 +209,13 @@ class _Account02State extends State<Account02> {
               ),
               Gap(theme.spacing.lg),
               _Account02Card(
-                title: 'Weekly digest',
+                title: strings.blockWeeklyDigest,
                 subtitle:
                     'One email every Monday with everything that happened.',
                 children: <Widget>[
                   _Account02SwitchRow(
                     formKey: const FormKey<bool>('weeklyDigest'),
-                    title: 'Weekly digest',
+                    title: strings.blockWeeklyDigest,
                     value: _digest,
                     onChanged: (bool value) => setState(() => _digest = value),
                   ),
@@ -227,12 +229,12 @@ class _Account02State extends State<Account02> {
                 children: <Widget>[
                   Button(
                     onPressedAsync: _save,
-                    child: const Text('Save preferences'),
+                    child: Text(strings.blockSavePreferences),
                   ),
                   Button(
                     variant: ButtonVariant.outline,
                     onPressed: _reset,
-                    child: const Text('Reset'),
+                    child: Text(strings.blockReset),
                   ),
                 ],
               ),

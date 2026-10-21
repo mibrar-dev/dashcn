@@ -7,6 +7,7 @@ import '../../../components/button/button.dart';
 import '../../../components/pinned_sheet/pinned_sheet.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Attachment kinds; picking reports [onPick] and closes via [onClose].
 class Chat01AttachmentsSheet extends StatelessWidget {
@@ -29,6 +30,7 @@ class Chat01AttachmentsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.all(appTheme.spacing.lg),
@@ -36,20 +38,20 @@ class Chat01AttachmentsSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Attach', style: appTheme.typography.h3),
+          Text(strings.blockAttach, style: appTheme.typography.h3),
           Gap(appTheme.spacing.md),
           Button(
             key: const ValueKey<String>('chat01.attach.photo'),
             variant: ButtonVariant.outline,
             onPressed: () => onPick('photo'),
-            child: const Text('Photo'),
+            child: Text(strings.blockAttachPhoto),
           ),
           Gap(appTheme.spacing.sm),
           Button(
             key: const ValueKey<String>('chat01.attach.file'),
             variant: ButtonVariant.outline,
             onPressed: () => onPick('file'),
-            child: const Text('File'),
+            child: Text(strings.blockAttachFile),
           ),
           Gap(appTheme.spacing.sm),
           Button(
@@ -58,7 +60,7 @@ class Chat01AttachmentsSheet extends StatelessWidget {
               controller.close();
               onClose();
             },
-            child: const Text('Close'),
+            child: Text(strings.actionClose),
           ),
         ],
       ),

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../primitives/surface.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -32,6 +33,9 @@ String formatMediaTime(Duration value) {
 }
 
 /// Formats a duration as spoken text for accessibility.
+///
+/// English fallback for code without locale access; widget builds should
+/// prefer [formatVideoSpokenDuration], which pluralizes in the ambient locale.
 String _formatSpokenDuration(Duration value) {
   final int total = value.inSeconds.clamp(0, 86400 * 99);
   final int h = total ~/ 3600;
@@ -45,8 +49,40 @@ String _formatSpokenDuration(Duration value) {
 }
 
 /// Formats playhead and duration as slider valuetext time.
+///
+/// English fallback for code without a [BuildContext]; widget builds should
+/// prefer [formatVideoTimeValuetextIn], which reads the ambient locale.
 String formatVideoTimeValuetext(Duration position, Duration duration) {
   return '${_formatSpokenDuration(position)} of ${_formatSpokenDuration(duration)}';
+}
+
+/// Locale-aware spoken duration for accessibility announcements.
+String formatVideoSpokenDuration(
+  ComponentLocalizations strings,
+  Duration value,
+) {
+  final int total = value.inSeconds.clamp(0, 86400 * 99);
+  final int h = total ~/ 3600;
+  final int m = (total % 3600) ~/ 60;
+  final int s = total % 60;
+  final List<String> parts = <String>[];
+  if (h > 0) parts.add(strings.mediaHours(h));
+  if (m > 0) parts.add(strings.mediaMinutes(m));
+  if (s > 0 || parts.isEmpty) parts.add(strings.mediaSeconds(s));
+  return parts.join(' ');
+}
+
+/// Locale-aware [formatVideoTimeValuetext] for widget builds.
+String formatVideoTimeValuetextIn(
+  BuildContext context,
+  Duration position,
+  Duration duration,
+) {
+  final ComponentLocalizations strings = ComponentLocalizations.of(context);
+  return strings.mediaPositionOf(
+    formatVideoSpokenDuration(strings, position),
+    formatVideoSpokenDuration(strings, duration),
+  );
 }
 
 /// Accessible icon button for player chrome.
@@ -129,7 +165,9 @@ Widget videoPlayButton(
         )
       : visual;
   return FocusableTap(
-    label: c.isPlaying ? 'Pause' : 'Play',
+    label: c.isPlaying
+        ? ComponentLocalizations.of(context).mediaPause
+        : ComponentLocalizations.of(context).mediaPlay,
     onTap: c.toggle,
     minWidth: big ? 48 : minTarget,
     minHeight: big ? 48 : minTarget,

@@ -277,7 +277,8 @@ void main() {
       final details = doc.blocks.firstWhere(
         (block) => block.kind == MarkdownBlockKind.details,
       );
-      expect(details.summary, 'Details');
+      // Empty: the renderer substitutes the locale's `markdownDetails`.
+      expect(details.summary, '');
       expect(details.text, contains('Just body.'));
     });
   });

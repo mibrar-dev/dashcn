@@ -10,6 +10,7 @@ import '../../components/card/card.dart';
 import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// The team tab: member rows and an invite action.
 class Account01Team extends StatelessWidget {
@@ -21,6 +22,7 @@ class Account01Team extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     const List<(String, String, String)> members = <(String, String, String)>[
       ('AL', 'Ada Lovelace', 'Owner'),
@@ -32,7 +34,7 @@ class Account01Team extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Team', style: theme.typography.textLarge),
+          Text(strings.blockTeam, style: theme.typography.textLarge),
           Gap(theme.spacing.sm),
           Text(
             'Everyone with access to this workspace.',
@@ -75,7 +77,7 @@ class Account01Team extends StatelessWidget {
             child: Button(
               variant: ButtonVariant.outline,
               onPressed: onInvite ?? () {},
-              child: const Text('Invite member'),
+              child: Text(strings.blockInviteMember),
             ),
           ),
         ],

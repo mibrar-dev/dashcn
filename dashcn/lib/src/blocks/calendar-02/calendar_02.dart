@@ -19,6 +19,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/date_math.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 
 /// A scheduling panel: a month calendar and the selected day's agenda.
@@ -47,6 +48,7 @@ class _Calendar02State extends State<Calendar02> {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            final strings = ComponentLocalizations.of(context);
             final bool aside = constraints.maxWidth >= 960;
             final Widget calendar = Card(
               child: Column(
@@ -84,7 +86,7 @@ class _Calendar02State extends State<Calendar02> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Book a meeting', style: theme.typography.h2),
+                Text(strings.blockBookMeeting, style: theme.typography.h2),
                 Gap(theme.spacing.xs),
                 Text(
                   'Pick a day, then a time that suits you.',
@@ -160,18 +162,25 @@ class _Calendar02Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return Row(
       children: <Widget>[
         Expanded(
           child: Text(
-            '${_monthName(view.month)} ${view.year}',
+            '${_monthName(ComponentLocalizations.of(context), view.month)} ${view.year}',
             style: theme.typography.textLarge,
           ),
         ),
         Gap(theme.spacing.md),
-        _Calendar02Step(icon: LucideIcons.chevronLeft, onPressed: onPrevious),
+        _Calendar02Step(
+          icon: rtl ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
+          onPressed: onPrevious,
+        ),
         Gap(theme.spacing.sm),
-        _Calendar02Step(icon: LucideIcons.chevronRight, onPressed: onNext),
+        _Calendar02Step(
+          icon: rtl ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+          onPressed: onNext,
+        ),
       ],
     );
   }
@@ -208,6 +217,7 @@ class _Calendar02Agenda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Card(
       child: Column(
@@ -218,8 +228,8 @@ class _Calendar02Agenda extends StatelessWidget {
           Gap(theme.spacing.sm),
           Text(
             slot == null
-                ? 'Four slots left, 30 minutes each. Pick one.'
-                : 'Picked $slot, 30 minutes.',
+                ? strings.blockFourSlots
+                : strings.blockPickedSlot(slot),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -243,7 +253,7 @@ class _Calendar02Agenda extends StatelessWidget {
           Button(
             enabled: slot != null,
             onPressed: onBook,
-            child: const Text('Book a meeting'),
+            child: Text(strings.blockBookMeeting),
           ),
         ],
       ),
@@ -319,18 +329,10 @@ class _Calendar02Slot extends StatelessWidget {
   }
 }
 
-String _monthName(int month) => switch (month) {
-  1 => 'January',
-  2 => 'February',
-  3 => 'March',
-  4 => 'April',
-  5 => 'May',
-  6 => 'June',
-  7 => 'July',
-  8 => 'August',
-  9 => 'September',
-  10 => 'October',
-  11 => 'November',
-  12 => 'December',
-  _ => 'Month $month',
-};
+/// Full month name from the locale (replaces the hardcoded English table).
+String _monthName(ComponentLocalizations strings, int month) {
+  if (month < DateTime.january || month > DateTime.december) {
+    return 'Month $month';
+  }
+  return strings.getMonth(month);
+}

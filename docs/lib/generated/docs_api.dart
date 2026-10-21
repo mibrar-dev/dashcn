@@ -816,17 +816,17 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'overflowLabel',
-        type: 'String',
+        type: 'String?',
         isRequired: false,
-        defaultValue: '\'More\'',
-        doc: 'The overflow button\'s hover label.',
+        doc:
+            'The overflow button\'s hover label; null falls back to the locale\'s\n[ComponentLocalizations.toolbarMore].',
       ),
       DocsApiParam(
         name: 'overflowSemanticLabel',
-        type: 'String',
+        type: 'String?',
         isRequired: false,
-        defaultValue: '\'More actions\'',
-        doc: 'The overflow button\'s accessible name.',
+        doc:
+            'The overflow button\'s accessible name; null falls back to the locale\'s\n[ComponentLocalizations.toolbarMoreActions].',
       ),
       DocsApiParam(
         name: 'style',
@@ -2840,7 +2840,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'String?',
         isRequired: false,
         doc:
-            'Accessible label for the loading placeholder; null reads `Loading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
+            'Accessible label for the loading placeholder; null reads the locale `announcementLoading`.\nSet to null + `excludeSemantics` behaviour by passing empty? Null\nkeeps the default label so screen readers announce the pending state.',
       ),
     ],
     members: <DocsApiMember>[],

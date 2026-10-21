@@ -21,6 +21,7 @@ import '../../theme/theme.dart';
 import 'account_01_password.dart';
 import 'account_01_profile.dart';
 import 'account_01_team.dart';
+import '../../primitives/localizations/localizations.dart';
 
 /// Values submitted by the [Account01] profile form.
 
@@ -56,6 +57,7 @@ class _Account01State extends State<Account01> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     // Align loosens the width: a bare ConstrainedBox under the scroll view
     // would receive tight width and its maxWidth cap would be clamped away.
@@ -67,7 +69,7 @@ class _Account01State extends State<Account01> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text('Settings', style: theme.typography.h2),
+            Text(strings.errorActionSettings, style: theme.typography.h2),
             Gap(theme.spacing.xs),
             Text(
               'Manage your account settings and set your email preferences.',
@@ -81,10 +83,10 @@ class _Account01State extends State<Account01> {
               child: Tabs(
                 index: _tab,
                 onChanged: (int value) => setState(() => _tab = value),
-                children: const <TabItem>[
-                  TabItem(child: Text('Profile')),
-                  TabItem(child: Text('Password')),
-                  TabItem(child: Text('Team')),
+                children: <TabItem>[
+                  TabItem(child: Text(strings.blockProfile)),
+                  TabItem(child: Text(strings.authPassword)),
+                  TabItem(child: Text(strings.blockTeam)),
                 ],
               ),
             ),

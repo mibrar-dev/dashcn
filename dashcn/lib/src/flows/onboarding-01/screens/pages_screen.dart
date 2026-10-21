@@ -10,6 +10,7 @@ import '../../../components/dot_indicator/dot_indicator.dart';
 import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
+import '../../../primitives/localizations/localizations.dart';
 
 /// Swipeable intro pages; the last page continues to `/permission`.
 class Onboarding01PagesScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _Onboarding01PagesScreenState extends State<Onboarding01PagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ComponentLocalizations.of(context);
     final ThemeData appTheme = Theme.of(context);
     final bool last = _index >= widget.pages.length - 1;
     return ColoredBox(
@@ -50,7 +52,7 @@ class _Onboarding01PagesScreenState extends State<Onboarding01PagesScreen> {
                       variant: ButtonVariant.ghost,
                       size: ButtonSize.sm,
                       onPressed: widget.onSkip,
-                      child: const Text('Skip'),
+                      child: Text(strings.blockSkip),
                     ),
                   ),
                   Expanded(

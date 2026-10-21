@@ -6,6 +6,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/localizations/localizations.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
@@ -89,7 +90,7 @@ class VideoPlayerStage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    'Playback failed',
+                    ComponentLocalizations.of(context).mediaPlaybackFailed,
                     style: TextStyle(color: fg, fontSize: 13),
                   ),
                   const SizedBox(height: 6),
@@ -105,7 +106,7 @@ class VideoPlayerStage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        'Retry',
+                        ComponentLocalizations.of(context).errorActionRetry,
                         style: TextStyle(color: fg, fontSize: 12),
                       ),
                     ),

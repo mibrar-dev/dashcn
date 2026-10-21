@@ -29,6 +29,7 @@
     ],
     "primitives": [
       "clickable",
+      "localizations",
       "touch_hit_area"
     ],
     "components": [
