@@ -6,11 +6,29 @@
   "tier": "component",
   "install": "dashcn add feature_carousel",
   "import": "import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';",
-  "tags": ["display", "carousel", "feature", "cards", "autoplay"],
+  "tags": [
+    "display",
+    "carousel",
+    "feature",
+    "cards",
+    "autoplay"
+  ],
   "deps": {
-    "foundation": ["gap", "icons"],
-    "theme": ["color_tokens", "theme"],
-    "primitives": ["animation", "clickable", "localizations", "motion"],
+    "foundation": [
+      "gap",
+      "icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "theme"
+    ],
+    "primitives": [
+      "animation",
+      "clickable",
+      "localizations",
+      "motion",
+      "surface"
+    ],
     "components": []
   },
   "files": [
@@ -31,8 +49,13 @@
       "FeatureCarouselCenterCard",
       "FeatureCarouselGhostCard"
     ],
-    "enums": ["FeatureCarouselAnimationStyle"],
-    "typedefs": ["FeatureCarouselCardBuilder", "FeatureCarouselIconBuilder"],
+    "enums": [
+      "FeatureCarouselAnimationStyle"
+    ],
+    "typedefs": [
+      "FeatureCarouselCardBuilder",
+      "FeatureCarouselIconBuilder"
+    ],
     "constants": [
       "featureCarouselDefaults",
       "featureCarouselTransitionCurve",

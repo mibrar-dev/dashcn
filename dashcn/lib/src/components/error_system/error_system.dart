@@ -14,6 +14,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/error_handling/error_handling.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_enter.dart';
+import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
@@ -316,7 +317,8 @@ class AppErrorGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeColors colors = Theme.of(context).colors;
+    final ThemeData ambient = Theme.of(context);
+    final ThemeColors colors = ambient.colors;
     return ValueListenableBuilder<AppError?>(
       valueListenable: notifier,
       builder: (BuildContext context, AppError? error, Widget? _) {
@@ -328,11 +330,20 @@ class AppErrorGate extends StatelessWidget {
               child,
             if (error != null)
               Positioned.fill(
-                child: ColoredBox(
-                  color: colors.background,
-                  child:
-                      overlayBuilder?.call(context, error) ??
-                      ErrorState(error: error),
+                // Frosted glass: the full-section fill carries the ambient
+                // surfaceOpacity and the blur wraps the painted overlay (no
+                // extra layer at the opaque default).
+                child: GlassSurface(
+                  surfaceBlur: ambient.surfaceBlur,
+                  child: ColoredBox(
+                    color: surfaceColor(
+                      colors.background,
+                      ambient.surfaceOpacity,
+                    ),
+                    child:
+                        overlayBuilder?.call(context, error) ??
+                        ErrorState(error: error),
+                  ),
                 ),
               ),
           ],

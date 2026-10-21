@@ -7,12 +7,36 @@
   "tier": "component",
   "install": "dashcn add error_system",
   "import": "import 'package:<your_app>/ui/dashcn/components/error_system/error_system.dart';",
-  "tags": ["utility", "error", "handling", "repository", "ui"],
+  "tags": [
+    "utility",
+    "error",
+    "handling",
+    "repository",
+    "ui"
+  ],
   "deps": {
-    "foundation": ["gap", "icons"],
-    "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["error_handling", "localizations", "motion"],
-    "components": ["alert_dialog", "button", "card", "divider", "toast"]
+    "foundation": [
+      "gap",
+      "icons"
+    ],
+    "theme": [
+      "color_tokens",
+      "theme",
+      "density"
+    ],
+    "primitives": [
+      "error_handling",
+      "localizations",
+      "motion",
+      "surface"
+    ],
+    "components": [
+      "alert_dialog",
+      "button",
+      "card",
+      "divider",
+      "toast"
+    ]
   },
   "files": [
     "error_system.dart",
@@ -43,14 +67,26 @@
       "AppErrorGate",
       "ErrorSlot"
     ],
-    "enums": ["AppErrorCode", "ErrorActionType", "ErrorScopeType"],
-    "typedefs": ["ErrorMatch", "ErrorBuild"],
+    "enums": [
+      "AppErrorCode",
+      "ErrorActionType",
+      "ErrorScopeType"
+    ],
+    "typedefs": [
+      "ErrorMatch",
+      "ErrorBuild"
+    ],
     "functions": [
       "showErrorDialog",
       "showErrorSnackbar",
       "errorActionButton"
     ],
-    "constants": ["errorSystemDefaultBannerPadding", "errorSystemDefaultCardPadding", "errorSystemDefaults", "errorSystemThemeOverrides"],
+    "constants": [
+      "errorSystemDefaultBannerPadding",
+      "errorSystemDefaultCardPadding",
+      "errorSystemDefaults",
+      "errorSystemThemeOverrides"
+    ],
     "providedByPrimitives": {
       "error_handling": [
         "rule",
