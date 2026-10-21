@@ -127,7 +127,11 @@ class _AudioProgressBarState extends State<AudioProgressBar> {
           widget.semanticLabel ?? ComponentLocalizations.of(context).mediaSeek,
       slider: true,
       enabled: widget.enabled,
-      value: formatAudioTimeValuetext(widget.position, widget.duration),
+      value: formatAudioTimeValuetextIn(
+        context,
+        widget.position,
+        widget.duration,
+      ),
       increasedValue:
           '${(widget.position + const Duration(seconds: 5)).inSeconds}s',
       decreasedValue:

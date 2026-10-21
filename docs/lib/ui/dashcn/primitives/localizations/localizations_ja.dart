@@ -835,6 +835,9 @@ class ComponentLocalizationsJa extends ComponentLocalizations {
   String get mediaQualityAuto => '画質 自動';
 
   @override
+  String get mediaLiveBadge => 'ライブ';
+
+  @override
   String get blockDontHaveAccount => 'アカウントをお持ちでないですか?';
 
   @override

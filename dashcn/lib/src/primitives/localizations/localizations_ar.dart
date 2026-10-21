@@ -850,6 +850,9 @@ class ComponentLocalizationsAr extends ComponentLocalizations {
   String get mediaQualityAuto => 'الجودة تلقائية';
 
   @override
+  String get mediaLiveBadge => 'مباشر';
+
+  @override
   String get blockDontHaveAccount => 'ليس لديك حساب؟';
 
   @override

@@ -832,6 +832,9 @@ class ComponentLocalizationsKo extends ComponentLocalizations {
   String get mediaQualityAuto => '화질 자동';
 
   @override
+  String get mediaLiveBadge => '라이브';
+
+  @override
   String get blockDontHaveAccount => '계정이 없으신가요?';
 
   @override

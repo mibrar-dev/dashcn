@@ -854,6 +854,9 @@ class ComponentLocalizationsHi extends ComponentLocalizations {
   String get mediaQualityAuto => 'गुणवत्ता ऑटो';
 
   @override
+  String get mediaLiveBadge => 'लाइव';
+
+  @override
   String get blockDontHaveAccount => 'खाता नहीं है?';
 
   @override

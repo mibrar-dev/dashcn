@@ -843,6 +843,9 @@ class ComponentLocalizationsHe extends ComponentLocalizations {
   String get mediaQualityAuto => 'איכות אוטומטית';
 
   @override
+  String get mediaLiveBadge => 'חי';
+
+  @override
   String get blockDontHaveAccount => 'אין לך חשבון?';
 
   @override

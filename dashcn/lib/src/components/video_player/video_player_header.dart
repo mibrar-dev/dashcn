@@ -4,6 +4,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/localizations/localizations.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -74,9 +75,9 @@ Widget videoBarHeader({
               color: const Color(0xFFDC2626),
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const ExcludeSemantics(
+            child: ExcludeSemantics(
               child: Text(
-                'LIVE',
+                ComponentLocalizations.of(context).mediaLiveBadge,
                 style: TextStyle(
                   color: Color(0xFFFFFFFF),
                   fontSize: 10,
