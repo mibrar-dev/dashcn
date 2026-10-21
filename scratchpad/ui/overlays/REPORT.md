@@ -149,8 +149,11 @@ height = row height, 48 px touch targets, user-overridable tokens.
 
 ## PR
 
-URL: (filled after `gh pr create`; branch `feat/ui-interactive-overlays`,
-base `main`, body ends with the Claude Code trailer).
+- Branch: `feat/ui-interactive-overlays` → `main`
+- Commit: `cce73ac0` ("feat(ui): interactive overlays honor 160-320 compact
+  bounds, add dialog trigger")
+- URL: https://github.com/mibrar-dev/dashcn/pull/44 (open, not merged;
+  body ends with the Claude Code trailer).
 
 ## Not done / limitations
 
