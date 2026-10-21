@@ -1412,7 +1412,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Code Snippet',
     category: 'Typography & Media',
     description:
-        'Scrollable code block with optional top-right action buttons.',
+        'Scrollable code block with syntax colouring, copy button and selectable text.',
     install: 'dashcn add code_snippet',
     import:
         "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",

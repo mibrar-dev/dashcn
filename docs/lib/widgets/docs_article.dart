@@ -14,6 +14,7 @@ import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
+import '../ui/dashcn/primitives/text_editing/text_editing.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
 import 'docs_toc.dart';
@@ -169,6 +170,8 @@ class DocsArticle extends StatefulWidget {
 class _DocsArticleState extends State<DocsArticle> {
   final DocsArticleController _controller = DocsArticleController();
   final GlobalKey _articleKey = GlobalKey();
+  late final FocusNode _selectionFocus =
+      FocusNode(skipTraversal: true, debugLabel: 'DocsArticleSelection');
 
   @override
   void initState() {
@@ -181,6 +184,7 @@ class _DocsArticleState extends State<DocsArticle> {
   void dispose() {
     _controller.scroll.removeListener(_updateActive);
     _controller.dispose();
+    _selectionFocus.dispose();
     super.dispose();
   }
 
@@ -270,33 +274,40 @@ class _DocsArticleState extends State<DocsArticle> {
                     ),
                     child: DocsArticleScope(
                       controller: _controller,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          _titleRow(context, theme, showActions),
-                          if (widget.description.isNotEmpty) ...<Widget>[
-                            Gap(theme.spacing.sm),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: DocsMetrics.articleWidth * 0.8,
-                              ),
-                              child: Text(
-                                widget.description,
-                                style: docsText(
-                                  context,
-                                  size: 16,
-                                  height: 1.5,
-                                  color: theme.colors.mutedForeground,
+                      child: SelectableRegion(
+                        selectionControls: SelectionControls(),
+                        focusNode: _selectionFocus,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _titleRow(context, theme, showActions),
+                            if (widget.description.isNotEmpty) ...<Widget>[
+                              Gap(theme.spacing.sm),
+                              ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: DocsMetrics.articleWidth * 0.8,
+                                ),
+                                child: Text(
+                                  widget.description,
+                                  style: docsText(
+                                    context,
+                                    size: 16,
+                                    height: 1.5,
+                                    color: theme.colors.mutedForeground,
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
+                            Gap(theme.spacing.xl),
+                            ...widget.children,
+                            if (width >= 640 &&
+                                (widget.previous != null ||
+                                    widget.next != null))
+                              SelectionContainer.disabled(
+                                child: _pager(context),
+                              ),
                           ],
-                          Gap(theme.spacing.xl),
-                          ...widget.children,
-                          if (width >= 640 &&
-                              (widget.previous != null || widget.next != null))
-                            _pager(context),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -325,36 +336,38 @@ class _DocsArticleState extends State<DocsArticle> {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: widget.titleActions,
     );
-    final Widget actions = Wrap(
-      spacing: theme.spacing.sm,
-      runSpacing: theme.spacing.sm,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: <Widget>[
-        // Copy Page hides below `sm`; the prev/next pair renders at
-        // every width (spec §2.3: 28 px ≥md, 32 px below).
-        if (showActions)
-          CopyButton(
-            text: _copyText,
-            label: 'Copy Page',
-            showLabel: true,
-            variant: ButtonVariant.secondary,
-            size: ButtonSize.sm,
+    final Widget actions = SelectionContainer.disabled(
+      child: Wrap(
+        spacing: theme.spacing.sm,
+        runSpacing: theme.spacing.sm,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: <Widget>[
+          // Copy Page hides below `sm`; the prev/next pair renders at
+          // every width (spec §2.3: 28 px ≥md, 32 px below).
+          if (showActions)
+            CopyButton(
+              text: _copyText,
+              label: 'Copy Page',
+              showLabel: true,
+              variant: ButtonVariant.secondary,
+              size: ButtonSize.sm,
+            ),
+          _iconNavButton(
+            context,
+            icon: LucideIcons.chevronLeft,
+            tooltip: 'Previous',
+            link: widget.previous,
+            size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
           ),
-        _iconNavButton(
-          context,
-          icon: LucideIcons.chevronLeft,
-          tooltip: 'Previous',
-          link: widget.previous,
-          size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
-        ),
-        _iconNavButton(
-          context,
-          icon: LucideIcons.chevronRight,
-          tooltip: 'Next',
-          link: widget.next,
-          size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
-        ),
-      ],
+          _iconNavButton(
+            context,
+            icon: LucideIcons.chevronRight,
+            tooltip: 'Next',
+            link: widget.next,
+            size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
+          ),
+        ],
+      ),
     );
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
