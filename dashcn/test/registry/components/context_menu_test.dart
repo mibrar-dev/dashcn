@@ -337,7 +337,7 @@ void main() {
       );
     }
 
-    testWidgets('touch platforms floor a small trigger at 48px', (
+    testWidgets('touch floor keeps layout size but hits 4px outside', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -347,9 +347,36 @@ void main() {
         ),
       );
       await tester.pump();
+      // Layout stays the visible 24px: the 48px floor is hit-test only.
       final Size size = tester.getSize(find.byType(ContextMenu));
-      expect(size.width, 48);
-      expect(size.height, 48);
+      expect(size.width, 24);
+      expect(size.height, 24);
+      // 4px right of the visible edge: outside layout, inside the 48px
+      // floor, so the menu still opens.
+      await _openAt(tester, const Offset(28, 12));
+      expect(find.text('Copy link'), findsOneWidget);
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      // Past the floor the tap lands on nothing and opens nothing.
+      await _openAt(tester, const Offset(200, 200));
+      expect(find.text('Copy link'), findsNothing);
+    });
+
+    testWidgets('touch floor without padding still hits 4px outside', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          anchoredTrigger(targetPadding: EdgeInsets.zero),
+          data: const ThemeData(platform: TargetPlatform.android),
+        ),
+      );
+      await tester.pump();
+      final Size size = tester.getSize(find.byType(ContextMenu));
+      expect(size.width, 24);
+      expect(size.height, 24);
+      await _openAt(tester, const Offset(28, 12));
+      expect(find.text('Copy link'), findsOneWidget);
     });
 
     testWidgets('desktop keeps the author-sized trigger', (tester) async {
@@ -360,10 +387,10 @@ void main() {
         ),
       );
       await tester.pump();
-      // 24px child + 8px padding on each side, no touch floor.
+      // Hit-test-only padding: layout stays the visible 24px.
       final Size size = tester.getSize(find.byType(ContextMenu));
-      expect(size.width, 40);
-      expect(size.height, 40);
+      expect(size.width, 24);
+      expect(size.height, 24);
     });
 
     testWidgets('a null floor disables the touch minimum', (tester) async {
@@ -375,8 +402,8 @@ void main() {
       );
       await tester.pump();
       final Size size = tester.getSize(find.byType(ContextMenu));
-      expect(size.width, 40);
-      expect(size.height, 40);
+      expect(size.width, 24);
+      expect(size.height, 24);
     });
 
     testWidgets('targetPadding widens the hit area beyond the child', (

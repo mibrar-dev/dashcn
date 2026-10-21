@@ -6178,7 +6178,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         defaultValue: 'const EdgeInsets.all(8)',
         doc:
-            'Extra hit region around [child] that still opens the menu. Visual size\nis unchanged (the padding is transparent); it only widens the target.',
+            'Extra hit region around [child] that still opens the menu. Visual and\nlayout size are unchanged (the expansion is transparent hit-test only).',
       ),
       DocsApiParam(
         name: 'minTargetSize',
@@ -6186,7 +6186,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         isRequired: false,
         defaultValue: 'kContextMenuMinTargetSize',
         doc:
-            'Minimum trigger width/height on touch platforms (iOS, Android,\nFuchsia); null disables the floor. Desktop keeps the author\'s layout\nbecause right-click targets are pointer-precise.',
+            'Minimum trigger hit width/height on touch platforms (iOS, Android,\nFuchsia); null disables the floor. Desktop keeps the author\'s hit area\n(child plus [targetPadding]) because right-click targets are\npointer-precise. Layout size is always [child]\'s size.',
       ),
       DocsApiParam(
         name: 'menuMinWidth',

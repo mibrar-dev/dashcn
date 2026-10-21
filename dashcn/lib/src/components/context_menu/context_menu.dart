@@ -1,8 +1,11 @@
 // The `context_menu` component: a menu shown at the pointer on right-click
 // (and a long-press on touch platforms). Rows, traversal and the popup
 // surface come from `menu`; this file adds the pointer gesture, the enlarged
-// touch target and the positioned show helper.
+// hit-test-only touch target and the positioned show helper.
 
+import 'dart:math' as math;
+
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/overlay.dart';
@@ -27,10 +30,11 @@ const double kContextMenuMinTargetSize = 48;
 ///
 /// The trigger hit area is [child] expanded by [targetPadding], and on touch
 /// platforms it is at least [minTargetSize] on each axis so the menu stays
-/// easy to open with a finger. The menu itself is non-modal: tapping outside
-/// closes it, and the rows use the menu's traversal engine (arrows,
-/// Enter/Space, Escape, typeahead). A secondary click on a disabled menu
-/// does nothing.
+/// easy to open with a finger. The expansion is hit-test only: the trigger
+/// keeps [child]'s layout size so centred previews do not shift. The menu
+/// itself is non-modal: tapping outside closes it, and the rows use the
+/// menu's traversal engine (arrows, Enter/Space, Escape, typeahead).
+/// A secondary click on a disabled menu does nothing.
 class ContextMenu extends StatelessWidget {
   /// Creates a context menu.
   const ContextMenu({
@@ -74,13 +78,14 @@ class ContextMenu extends StatelessWidget {
   /// Responsive adaptive mode; null resolves the theme token (auto).
   final PopupAdaptive? adaptive;
 
-  /// Extra hit region around [child] that still opens the menu. Visual size
-  /// is unchanged (the padding is transparent); it only widens the target.
+  /// Extra hit region around [child] that still opens the menu. Visual and
+  /// layout size are unchanged (the expansion is transparent hit-test only).
   final EdgeInsetsGeometry targetPadding;
 
-  /// Minimum trigger width/height on touch platforms (iOS, Android,
-  /// Fuchsia); null disables the floor. Desktop keeps the author's layout
-  /// because right-click targets are pointer-precise.
+  /// Minimum trigger hit width/height on touch platforms (iOS, Android,
+  /// Fuchsia); null disables the floor. Desktop keeps the author's hit area
+  /// (child plus [targetPadding]) because right-click targets are
+  /// pointer-precise. Layout size is always [child]'s size.
   final double? minTargetSize;
 
   /// Minimum menu width; null resolves `popupTheme.minWidth`, then
@@ -117,15 +122,17 @@ class ContextMenu extends StatelessWidget {
       );
     }
 
-    Widget trigger = Padding(padding: targetPadding, child: child);
+    // Hit-test-only expansion: layout size stays [child]'s size so centred
+    // previews do not shift; the transparent hit child covers child plus
+    // [targetPadding] (and the 48px floor on touch).
+    final EdgeInsets resolvedPadding = targetPadding.resolve(
+      Directionality.of(context),
+    );
     final double? floor = touch ? minTargetSize : null;
-    if (floor != null) {
-      trigger = ConstrainedBox(
-        constraints: BoxConstraints(minWidth: floor, minHeight: floor),
-        child: trigger,
-      );
-    }
-    Widget result = GestureDetector(
+    // The inner opaque Listener guarantees the outer GestureDetector hits
+    // (SizedBox alone never hits, so a lone translucent detector would
+    // return false). Both paint nothing, so centred audits ignore them.
+    final Widget hit = GestureDetector(
       behavior: behavior,
       onSecondaryTapDown: enabled
           ? (details) => open(details.globalPosition)
@@ -133,7 +140,16 @@ class ContextMenu extends StatelessWidget {
       onLongPressStart: enabled && touch
           ? (details) => open(details.globalPosition)
           : null,
-      child: trigger,
+      child: const Listener(
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox.expand(),
+      ),
+    );
+    Widget result = _ContextMenuTrigger(
+      padding: resolvedPadding,
+      minSize: floor,
+      visible: child,
+      hit: hit,
     );
     final String? label = semanticsLabel;
     if (label != null) {
@@ -145,6 +161,128 @@ class ContextMenu extends StatelessWidget {
       );
     }
     return result;
+  }
+}
+
+/// Parent data for [_ContextMenuTrigger] children (offsets only).
+class _TriggerParentData extends ContainerBoxParentData<RenderBox> {}
+
+/// Hit-test-only trigger: sizes to [visible] while [hit] covers the expanded
+/// target (visible plus [padding], floored to [minSize]). [hit] paints
+/// nothing (a transparent [SizedBox]), so centred-preview audits that only
+/// measure painted leaves see [visible] centred.
+class _ContextMenuTrigger extends MultiChildRenderObjectWidget {
+  _ContextMenuTrigger({
+    required this.padding,
+    required this.minSize,
+    required Widget visible,
+    required Widget hit,
+  }) : super(children: <Widget>[visible, hit]);
+
+  final EdgeInsets padding;
+  final double? minSize;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderContextMenuTrigger(padding: padding, minSize: minSize);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderContextMenuTrigger renderObject,
+  ) {
+    if (renderObject.padding != padding) {
+      renderObject.padding = padding;
+      renderObject.markNeedsLayout();
+    }
+    if (renderObject.minSize != minSize) {
+      renderObject.minSize = minSize;
+      renderObject.markNeedsLayout();
+    }
+  }
+}
+
+class _RenderContextMenuTrigger extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _TriggerParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _TriggerParentData> {
+  _RenderContextMenuTrigger({required this.padding, required this.minSize});
+
+  EdgeInsets padding;
+  double? minSize;
+
+  Rect _hitRect = Rect.zero;
+
+  @override
+  void setupParentData(RenderObject child) {
+    if (child.parentData is! _TriggerParentData) {
+      child.parentData = _TriggerParentData();
+    }
+  }
+
+  @override
+  Size computeDryLayout(covariant BoxConstraints constraints) {
+    final RenderBox? visible = firstChild;
+    if (visible == null) {
+      return constraints.smallest;
+    }
+    return constraints.constrain(visible.getDryLayout(constraints.loosen()));
+  }
+
+  @override
+  void performLayout() {
+    final RenderBox? visible = firstChild;
+    final RenderBox? hit = visible == null ? null : childAfter(visible);
+    assert(
+      visible != null && hit != null,
+      '_ContextMenuTrigger needs visible and hit children',
+    );
+    if (visible == null || hit == null) {
+      size = constraints.smallest;
+      _hitRect = Rect.zero;
+      return;
+    }
+    visible.layout(constraints.loosen(), parentUsesSize: true);
+    // Meet tight parents (e.g. an Overlay entry) while keeping the visible
+    // size for loose parents so centred layouts do not shift.
+    size = constraints.constrain(visible.size);
+    (visible.parentData! as _TriggerParentData).offset = Offset.zero;
+
+    final double paddedW = visible.size.width + padding.horizontal;
+    final double paddedH = visible.size.height + padding.vertical;
+    final double floor = minSize ?? 0;
+    final double hitW = math.max(paddedW, floor);
+    final double hitH = math.max(paddedH, floor);
+    final double extraW = hitW - paddedW;
+    final double extraH = hitH - paddedH;
+    final double hitX = -padding.left - extraW / 2;
+    final double hitY = -padding.top - extraH / 2;
+    hit.layout(BoxConstraints.tight(Size(hitW, hitH)), parentUsesSize: false);
+    (hit.parentData! as _TriggerParentData).offset = Offset(hitX, hitY);
+    _hitRect = Offset(hitX, hitY) & Size(hitW, hitH);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    defaultPaint(context, offset);
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (!_hitRect.contains(position)) {
+      return false;
+    }
+    if (hitTestChildren(result, position: position)) {
+      result.add(BoxHitTestEntry(this, position));
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    return defaultHitTestChildren(result, position: position);
   }
 }
 
