@@ -1,32 +1,27 @@
 import 'package:flutter/widgets.dart';
 
+import '../../foundation/platform.dart';
+import '../../primitives/surface.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../theme/color_tokens.dart';
-import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
-import '../dialog/dialog.dart';
-import '../drawer/drawer.dart';
+import 'action_sheet_action.dart';
+import 'action_sheet_row.dart';
 import 'action_sheet_style.dart';
 
+export 'action_sheet_action.dart';
+export 'action_sheet_row.dart';
 export 'action_sheet_style.dart';
 
-class ActionSheetAction<T> {
-  const ActionSheetAction({
-    required this.label,
-    this.value,
-    this.icon,
-    this.onPressed,
-    this.isDestructive = false,
-    this.isDefault = false,
-  });
-
-  final String label;
-  final T? value;
-  final Widget? icon;
-  final VoidCallback? onPressed;
-  final bool isDestructive;
-  final bool isDefault;
-}
-
+/// A density-sized action sheet: title + message + actions + cancel.
+///
+/// Compact by default ([DensityTokens.compact]): row height, icon size,
+/// title/subtitle spacing and padding all resolve from the density tokens
+/// (override per instance via [densityTokens] or the theme leg
+/// `themeDensityTokens`). Desktop caps at the token overlay max width
+/// (320 compact); phones show a full-width bottom sheet. The open animation
+/// is the underlying dialog/sheet route and honours reduced motion.
 class ActionSheet<T> extends StatelessWidget {
   const ActionSheet({
     super.key,
@@ -35,6 +30,11 @@ class ActionSheet<T> extends StatelessWidget {
     required this.actions,
     this.cancelAction,
     this.theme,
+    this.densityTokens,
+    this.titleBuilder,
+    this.messageBuilder,
+    this.actionBuilder,
+    this.dividerBuilder,
   });
 
   final String? title;
@@ -43,9 +43,43 @@ class ActionSheet<T> extends StatelessWidget {
   final ActionSheetAction<T>? cancelAction;
   final ActionSheetTheme? theme;
 
+  /// Per-instance density tokens. Null resolves through the component theme
+  /// legs (`themeDensityTokens`) then [ThemeData.densityTokens]; phone
+  /// widths (< [kPhoneWidthBreakpoint]) use touch unless this is set.
+  final DensityTokens? densityTokens;
+
+  /// Swaps the title widget.
+  final ActionSheetTitleBuilder? titleBuilder;
+
+  /// Swaps the message widget.
+  final ActionSheetMessageBuilder? messageBuilder;
+
+  /// Swaps any action row.
+  final ActionSheetActionBuilder<T>? actionBuilder;
+
+  /// Swaps the dividers.
+  final ActionSheetDividerBuilder? dividerBuilder;
+
+  DensityTokens _tokens(BuildContext context, ActionSheetTheme resolved) {
+    return densityTokens ??
+        resolved.themeDensityTokens ??
+        ComponentTheme.maybeOf<ActionSheetTheme>(context)?.themeDensityTokens ??
+        ComponentThemes.maybeOf<ActionSheetTheme>(
+          context,
+        )?.themeDensityTokens ??
+        resolveDensityTokens(context);
+  }
+
+  Widget _divider(BuildContext context, Color color) {
+    final ActionSheetDividerBuilder? custom = dividerBuilder;
+    if (custom != null) return custom(context);
+    return Container(height: 1, color: color);
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
+    final double scaling = ambient.scaling;
     final ActionSheetTheme resolved =
         resolveComponentStyle<ActionSheetTheme, ActionSheetTheme>(
           context,
@@ -53,6 +87,7 @@ class ActionSheet<T> extends StatelessWidget {
           select: (t) => t,
           defaults: actionSheetDefaults,
         );
+    final DensityTokens tokens = _tokens(context, resolved);
     final Color bg =
         (resolved.backgroundColor ?? ThemedColor.ref(ColorRef.card)).resolve(
           ambient.colors,
@@ -61,11 +96,40 @@ class ActionSheet<T> extends StatelessWidget {
         (resolved.dividerColor ?? ThemedColor.ref(ColorRef.border)).resolve(
           ambient.colors,
         );
-    final double maxW = (resolved.maxWidth ?? 640) * ambient.scaling;
-    final EdgeInsetsGeometry padding = resolveEdgeInsets(
-      resolved.padding ?? const EdgeInsets.all(16),
-      ambient.density.baseContentPadding * ambient.scaling,
-    );
+    final double maxW = (resolved.maxWidth ?? tokens.overlayMaxWidth) * scaling;
+    double effectiveMax = maxW;
+    try {
+      if (isPhoneWidth(MediaQuery.widthOf(context))) {
+        effectiveMax = double.infinity;
+      }
+    } on FlutterError {
+      // No MediaQuery: keep the desktop cap.
+    }
+    final EdgeInsetsGeometry padding =
+        resolved.padding ??
+        EdgeInsets.symmetric(
+          horizontal: tokens.horizontalPadding * scaling,
+          vertical: tokens.verticalPadding * scaling,
+        );
+    final double rowMin =
+        (resolved.rowMinHeight ?? tokens.rowMinHeight) * scaling;
+    final double iconSize = (resolved.iconSize ?? tokens.iconSize) * scaling;
+    final double iconGap = tokens.gap * scaling;
+    final double titleGap = (resolved.titleSpacing ?? tokens.gap / 2) * scaling;
+    final double contentGap = (resolved.messageSpacing ?? tokens.gap) * scaling;
+
+    final TextStyle titleStyle =
+        (resolved.titleStyle ??
+                TextStyle(
+                  fontSize: tokens.bodyTextSize,
+                  fontWeight: FontWeight.w600,
+                ))
+            .copyWith(color: ambient.colors.foreground);
+    final TextStyle messageStyle =
+        (resolved.messageStyle ?? TextStyle(fontSize: tokens.subtitleTextSize))
+            .copyWith(color: ambient.colors.mutedForeground);
+    final TextStyle labelBase =
+        resolved.actionStyle ?? TextStyle(fontSize: tokens.bodyTextSize);
 
     Widget actionButton(ActionSheetAction<T> action, {bool isCancel = false}) {
       final Color color = action.isDestructive
@@ -76,144 +140,97 @@ class ActionSheet<T> extends StatelessWidget {
                           ThemedColor.ref(ColorRef.mutedForeground))
                       .resolve(ambient.colors)
                 : ambient.colors.foreground);
-      return Semantics(
-        button: true,
-        label: action.label,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            action.onPressed?.call();
-            final NavigatorState navigator = Navigator.of(context);
-            if (navigator.canPop()) {
-              navigator.pop(action.value);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Row(
-              children: <Widget>[
-                if (action.icon != null) ...<Widget>[
-                  action.icon!,
-                  const SizedBox(width: 12),
-                ],
-                Expanded(
-                  child: Text(
-                    action.label,
-                    style:
-                        (resolved.actionStyle ?? const TextStyle(fontSize: 16))
-                            .copyWith(
-                              color: color,
-                              fontWeight: action.isDefault
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                            ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+      final Widget row = ActionSheetRow<T>(
+        action: action,
+        isCancel: isCancel,
+        rowMinHeight: rowMin,
+        iconSize: iconSize,
+        horizontalPadding: tokens.horizontalPadding * scaling,
+        verticalPadding: tokens.verticalPadding * scaling,
+        iconGap: iconGap,
+        labelStyle: labelBase,
+        color: color,
       );
+      final double growth = isMobile(ambient.platform)
+          ? (48 * scaling - rowMin).clamp(0.0, double.infinity).toDouble() / 2
+          : 0.0;
+      final Widget padded = growth > 0
+          ? TouchHitArea(vertical: growth, child: row)
+          : row;
+      final ActionSheetActionBuilder<T>? custom = actionBuilder;
+      if (custom != null) return custom(context, action, padded, isCancel);
+      return padded;
     }
 
     final List<Widget> actionWidgets = <Widget>[];
     for (int i = 0; i < actions.length; i++) {
       actionWidgets.add(actionButton(actions[i]));
       if (i < actions.length - 1) {
-        actionWidgets.add(Container(height: 1, color: divider));
+        actionWidgets.add(_divider(context, divider));
       }
     }
 
-    final Widget body = ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: maxW),
-      child: Container(
-        decoration: BoxDecoration(
-          color: bg,
-          borderRadius:
-              resolved.borderRadius ??
-              BorderRadius.circular(12 * ambient.scaling),
-        ),
-        padding: padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if (title != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  title!,
-                  style:
-                      resolved.titleStyle ??
-                      const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+    final double? opacity = resolved.surfaceOpacity ?? ambient.surfaceOpacity;
+    final double? blur = resolved.surfaceBlur ?? ambient.surfaceBlur;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: effectiveMax.isFinite ? effectiveMax : double.infinity,
+      ),
+      child: GlassSurface(
+        surfaceBlur: blur,
+        borderRadius:
+            resolved.borderRadius ?? BorderRadius.circular(12 * scaling),
+        child: Container(
+          decoration: BoxDecoration(
+            color: surfaceColor(bg, opacity),
+            borderRadius:
+                resolved.borderRadius ?? BorderRadius.circular(12 * scaling),
+          ),
+          padding: padding,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              if (title != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: titleGap),
+                  child:
+                      titleBuilder?.call(context, title!, titleStyle) ??
+                      Text(
+                        title!,
+                        style: titleStyle,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-            if (message != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  message!,
-                  style: resolved.messageStyle ?? const TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
+              if (message != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: contentGap),
+                  child:
+                      messageBuilder?.call(context, message!, messageStyle) ??
+                      Text(
+                        message!,
+                        style: messageStyle,
+                        textAlign: TextAlign.center,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                 ),
-              ),
-            if (actions.isNotEmpty)
-              Flexible(
-                child: ListView(shrinkWrap: true, children: actionWidgets),
-              ),
-            if (cancelAction != null) ...<Widget>[
-              const SizedBox(height: 8),
-              Container(height: 1, color: divider),
-              actionButton(cancelAction!, isCancel: true),
+              if (actions.isNotEmpty)
+                Flexible(
+                  child: ListView(shrinkWrap: true, children: actionWidgets),
+                ),
+              if (cancelAction != null) ...<Widget>[
+                SizedBox(height: contentGap),
+                _divider(context, divider),
+                actionButton(cancelAction!, isCancel: true),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
-
-    return body;
   }
-}
-
-Future<T?> showActionSheet<T>({
-  required BuildContext context,
-  String? title,
-  String? message,
-  required List<ActionSheetAction<T>> actions,
-  ActionSheetAction<T>? cancelAction,
-  ActionSheetTheme? theme,
-  bool useRootNavigator = true,
-}) {
-  final bool wide = MediaQuery.of(context).size.width >= 600;
-  final Widget content = ActionSheet<T>(
-    title: title,
-    message: message,
-    actions: actions,
-    cancelAction: cancelAction,
-    theme: theme,
-  );
-  if (wide) {
-    return showDialog<T>(
-      context: context,
-      builder: (_) => content,
-      useRootNavigator: useRootNavigator,
-    );
-  }
-  return openSheet<T>(
-    context: context,
-    builder: (_) => content,
-    draggable: true,
-    expands: false,
-    maxSize: 340,
-    barrierDismissible: true,
-    useRootNavigator: useRootNavigator,
-    theme: const DrawerTheme(
-      padding: EdgeInsets.zero,
-      background: ThemedColor.ref(ColorRef.card),
-    ),
-  );
 }

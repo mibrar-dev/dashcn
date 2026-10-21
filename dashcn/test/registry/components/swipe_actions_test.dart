@@ -7,6 +7,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/swipe_actions/swipe_actions.dart';
+import 'package:dashcn/src/theme/density_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -206,10 +207,10 @@ void main() {
         ),
       );
       await tester.pump();
-      // Sized to settle open, clear of the dismiss line.
+      // Sized to settle open, clear of the dismiss line (compact tile ~56).
       await tester.drag(
         find.byKey(const ValueKey<String>('row1')),
-        const Offset(-88, 0),
+        const Offset(-50, 0),
       );
       await _pumpSettle(tester);
       await tester.tap(find.text('Delete 1'));
@@ -219,4 +220,127 @@ void main() {
       expect(controller.isOpen, isTrue);
     },
   );
+
+  testWidgets('density tokens drive tile width (56 compact, 64 comfortable)', (
+    tester,
+  ) async {
+    expect(swipeActionWidthForTokens(DensityTokens.compact), 56);
+    expect(swipeActionWidthForTokens(DensityTokens.comfortable), 64);
+    expect(swipeActionWidthForTokens(DensityTokens.touch), 72);
+  });
+
+  testWidgets('density override respected per instance', (tester) async {
+    await _pump(
+      tester,
+      SwipeActions(
+        densityTokens: DensityTokens.comfortable,
+        actions: <SwipeAction>[SwipeAction(label: 'Del', onPressed: () {})],
+        child: const Text('row'),
+      ),
+    );
+    // Comfortable tile is wider; a -50 drag reveals less than compact.
+    await tester.drag(find.text('row'), const Offset(-50, 0));
+    await _pumpSettle(tester);
+    // Still settles open (50/64 = 0.78 > 0.5).
+    expect(find.text('Del'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('theme actionWidth override wins', (tester) async {
+    await _pump(
+      tester,
+      SwipeActions(
+        theme: const SwipeActionsTheme(actionWidth: 80),
+        actions: <SwipeAction>[SwipeAction(label: 'Del', onPressed: () {})],
+        child: const Text('row'),
+      ),
+    );
+    await tester.drag(find.text('row'), const Offset(-60, 0));
+    await _pumpSettle(tester);
+    expect(find.text('Del'), findsOneWidget);
+  });
+
+  testWidgets('custom runBuilder and contentBuilder swap visuals', (
+    tester,
+  ) async {
+    await _pump(
+      tester,
+      SwipeActions(
+        runBuilder: (context, run, progress) => run,
+        contentBuilder: (context, content, progress) => content,
+        actions: <SwipeAction>[SwipeAction(label: 'Del', onPressed: () {})],
+        child: const Text('row'),
+      ),
+    );
+    await tester.drag(find.text('row'), const Offset(-100, 0));
+    await _pumpSettle(tester);
+    expect(find.text('Del'), findsOneWidget);
+  });
+
+  testWidgets('reduced motion snaps open via controller', (tester) async {
+    final SwipeActionsController controller = SwipeActionsController();
+    await tester.pumpWidget(
+      Theme(
+        data: const ThemeData(),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(disableAnimations: true),
+            child: Center(
+              child: SizedBox(
+                width: 390,
+                height: 72,
+                child: SwipeActions(
+                  controller: controller,
+                  actions: <SwipeAction>[
+                    SwipeAction(label: 'Del', onPressed: () {}),
+                  ],
+                  child: const Text('row'),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    controller.open();
+    await tester.pump();
+    expect(controller.isOpen, isTrue);
+  });
+
+  testWidgets('no overflow at 375 phone width', (tester) async {
+    await tester.pumpWidget(
+      Theme(
+        data: const ThemeData(),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(
+            child: SizedBox(
+              width: 375,
+              child: SwipeActions(
+                actions: <SwipeAction>[
+                  SwipeAction(
+                    label: 'An extremely long action label that truncates',
+                    onPressed: () {},
+                  ),
+                  SwipeAction(
+                    label: 'Delete',
+                    destructive: true,
+                    onPressed: () {},
+                  ),
+                ],
+                onDismissed: () {},
+                child: const Text(
+                  'A very long row title that must not overflow at 375',
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+  });
 }

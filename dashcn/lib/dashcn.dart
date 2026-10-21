@@ -3,6 +3,9 @@
 export 'src/components/accordion/accordion.dart';
 export 'src/components/accordion/accordion_style.dart';
 export 'src/components/action_sheet/action_sheet.dart';
+export 'src/components/action_sheet/action_sheet_action.dart';
+export 'src/components/action_sheet/action_sheet_row.dart';
+export 'src/components/action_sheet/action_sheet_show.dart';
 export 'src/components/action_sheet/action_sheet_style.dart';
 export 'src/components/alert/alert.dart';
 export 'src/components/alert/alert_style.dart';
@@ -254,6 +257,7 @@ export 'src/components/steps/steps_style.dart';
 export 'src/components/swipe_actions/swipe_action.dart';
 export 'src/components/swipe_actions/swipe_action_buttons.dart';
 export 'src/components/swipe_actions/swipe_actions.dart';
+export 'src/components/swipe_actions/swipe_actions_style.dart';
 export 'src/components/swiper/swiper.dart';
 export 'src/components/swiper/swiper_style.dart';
 export 'src/components/switch/switch.dart';

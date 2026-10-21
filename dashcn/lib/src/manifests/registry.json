@@ -687,6 +687,7 @@
         "classes": [
           "ActionSheet",
           "ActionSheetAction",
+          "ActionSheetRow",
           "ActionSheetTheme",
           "ActionSheetStyle"
         ],
@@ -705,12 +706,18 @@
           "drawer"
         ],
         "foundation": [
-          "icons"
+          "icons",
+          "platform"
         ],
-        "primitives": [],
+        "primitives": [
+          "clickable",
+          "surface",
+          "touch_hit_area"
+        ],
         "theme": [
           "color_tokens",
           "density",
+          "density_tokens",
           "theme"
         ]
       },
@@ -718,6 +725,9 @@
       "entry": "components/action_sheet/action_sheet.dart",
       "files": [
         "components/action_sheet/action_sheet.dart",
+        "components/action_sheet/action_sheet_action.dart",
+        "components/action_sheet/action_sheet_row.dart",
+        "components/action_sheet/action_sheet_show.dart",
         "components/action_sheet/action_sheet_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
@@ -738,10 +748,21 @@
         "defaults": "actionSheetDefaults",
         "fields": {
           "backgroundColor": "ThemedColor? - sheet background",
+          "borderRadius": "BorderRadius? - sheet radius",
           "cancelColor": "ThemedColor? - cancel action colour",
           "destructiveColor": "ThemedColor? - destructive action colour",
+          "dividerColor": "ThemedColor? - divider colour",
+          "iconSize": "double? - row icon size (tokens.iconSize)",
+          "maxWidth": "double? - desktop max width (320 compact)",
+          "messageSpacing": "double? - header gap (tokens.gap)",
           "messageStyle": "TextStyle? - message text style",
-          "titleStyle": "TextStyle? - title text style"
+          "padding": "EdgeInsetsGeometry? - sheet padding",
+          "rowMinHeight": "double? - row min height (tokens.rowMinHeight)",
+          "surfaceBlur": "double? - frosted blur",
+          "surfaceOpacity": "double? - frosted opacity",
+          "titleSpacing": "double? - title gap (tokens.gap/2)",
+          "titleStyle": "TextStyle? - title text style",
+          "transitionDuration": "Duration? - open animation"
         },
         "userFile": "action_sheet_theme.dart"
       },
@@ -8765,19 +8786,22 @@
           "SwipeActions",
           "SwipeAction",
           "SwipeActionButtons",
-          "SwipeActionsController"
+          "SwipeActionsController",
+          "SwipeActionsTheme",
+          "SwipeActionsStyle"
         ]
       },
       "category": "Utilities (building blocks)",
       "deps": {
-        "components": [
-          "button"
-        ],
+        "components": [],
         "foundation": [],
         "primitives": [
+          "clickable",
           "motion"
         ],
         "theme": [
+          "color_tokens",
+          "density_tokens",
           "theme",
           "motion"
         ]
@@ -8787,7 +8811,8 @@
       "files": [
         "components/swipe_actions/swipe_action.dart",
         "components/swipe_actions/swipe_action_buttons.dart",
-        "components/swipe_actions/swipe_actions.dart"
+        "components/swipe_actions/swipe_actions.dart",
+        "components/swipe_actions/swipe_actions_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
       "install": "dashcn add swipe_actions",
@@ -8803,7 +8828,21 @@
         "list",
         "gesture"
       ],
-      "userOwned": []
+      "theme": {
+        "class": "SwipeActionsTheme",
+        "defaults": "swipeActionsDefaults",
+        "fields": {
+          "actionWidth": "double? - tile width (control+24)",
+          "iconLabelGap": "double? - icon/label gap",
+          "iconSize": "double? - tile icon size",
+          "labelStyle": "TextStyle? - tile label style",
+          "rowMinHeight": "double? - row min height"
+        },
+        "userFile": "swipe_actions_theme.dart"
+      },
+      "userOwned": [
+        "components/swipe_actions/swipe_actions_theme.dart"
+      ]
     },
     "swiper": {
       "api": {
@@ -10459,10 +10498,13 @@
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
     "components/accordion/preview.dart": "3d725fd596bf24362fae5618a50e19b63390192b6569632378c33652eead48bf",
-    "components/action_sheet/action_sheet.dart": "4bab73a074483aa01bd09ac22936ab954635623c803d0983fd4b12c69ac9729e",
-    "components/action_sheet/action_sheet_style.dart": "ba2f9eede2442d81ad2cc55e9519cee0662e16cd03138849fad404b50aa2525b",
+    "components/action_sheet/action_sheet.dart": "7acf533b6cc298cb1273ce87c2251a000287f5c40f2a914cf4f965cd5d7e433c",
+    "components/action_sheet/action_sheet_action.dart": "28b41cd014006b84542599d6fdf6999b35f7fa19dea33742aedd3eae29373f47",
+    "components/action_sheet/action_sheet_row.dart": "6c874ba88b6828d96b3afcf99fe187f180f33b17f38efaddebe1a61f19e77711",
+    "components/action_sheet/action_sheet_show.dart": "57752173117424362962b0c379ee7fcc5fc4234e1724f20512908047b0ef9f6d",
+    "components/action_sheet/action_sheet_style.dart": "70f6c31eed9fe927aae7ff9e9012ebea9acc6e4c4f48b525eb0073ad18eb2eca",
     "components/action_sheet/action_sheet_theme.dart": "7625dffe23b1c6d072aff7b8abe2358cc50f2062ebb8ea35292d1c7d8b910f61",
-    "components/action_sheet/preview.dart": "522c5b9534538ebbd572ac624ba41bf2e6079f30faab3c77165c7b8e82d43765",
+    "components/action_sheet/preview.dart": "030853dfdc77af91a7d5bafc893c4cff9670dd14be5aae58a1e8c1ae7ad5e67f",
     "components/alert/alert.dart": "fd0c4190aebf8ff2354c21ee84ae90a5755167e86db513b6b487003a0f9955d4",
     "components/alert/alert_style.dart": "be146d30c1607d5d580df03a0b57f94e798e1246ff6866742fd0bbeb3ae4743b",
     "components/alert/alert_theme.dart": "c0d6deb5deb53267de56ef33059c9493d9c856fa99a402fbee2c9dde5c2d40f1",
@@ -10736,10 +10778,10 @@
     "components/keyboard_shortcut/keyboard_shortcut_style.dart": "981aa7be785620b33caca32d9edf0a2b7471a0bade61ce4d957220bcc0f4e563",
     "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "941fa588703a84c03383b57ab34acf6e12bbb1867aaa53a8b8d2ffd55b6b9d20",
     "components/keyboard_shortcut/preview.dart": "7ed36a064a5c686d52625cf6ee86f145bfc99a6f536e2147844596bf9a407a38",
-    "components/list_tile/list_tile.dart": "91f93340c4ec1c404ae0a95e4b5376d525fa24e736d73c5f2e60b5eef20e2d6d",
+    "components/list_tile/list_tile.dart": "db3b9102739100d16cd716ea364fedf8540c8206a8b78cf48f94bfaca1bbc189",
     "components/list_tile/list_tile_style.dart": "fef15a45cc636c717e1f01fc7de6e8d5d38cec4af80d64e87f3aa65dd9941622",
     "components/list_tile/list_tile_theme.dart": "9fe37645a2f02c97f12f51e30bbcdac3d7451a501bd6a11ae7bca4469f7e62ac",
-    "components/list_tile/preview.dart": "8d956681dd1d371bdfe1fff02cc3b2c693a115ccf2cc60729f9c0b6d873dafda",
+    "components/list_tile/preview.dart": "6e6ab8b9676206b6acbfb750e65372298212b4731fe908cb0fcd080c8e550cea",
     "components/locale_utils/locale_utils.dart": "97b51cf3d2300968c48fa2b0da4eac7f568aca6be602d26385734626b9211297",
     "components/locale_utils/preview.dart": "bbdecec2a45f805e2d6b9206804c3abaf20843399d5cb9f893804f174b8bdc80",
     "components/markdown/markdown.dart": "95e5d2f476a80d91e456302896a0a17762defd47c4265228f01f2f0f6485a3f1",
@@ -10905,10 +10947,12 @@
     "components/steps/steps.dart": "56dbf1f22c20698ffa933c6311149e42156dc22e6c782d3c5d9be3272414b500",
     "components/steps/steps_style.dart": "9199e49f41feeea60abc3ead6baeb178ff29e906dca611b5f4928a59d8b13272",
     "components/steps/steps_theme.dart": "3ae02e6c7990e17e81b74eca3ee31cded8fb5278cbdd53bed7d785ba5183ff18",
-    "components/swipe_actions/preview.dart": "4e283ee40ff17e82ca4b2ff2560af75552730fef51416c328841c3553de7f984",
+    "components/swipe_actions/preview.dart": "45f99ad6480a223d818d61e17e3c80ea1eb454d4cdbb37e90f126f113e38a471",
     "components/swipe_actions/swipe_action.dart": "dfcc60d37d37fbcbdbf3d77734fc0a2e00f4f189f9126a487a784dda143efd19",
-    "components/swipe_actions/swipe_action_buttons.dart": "ef54d4f5f24638b38f82d4b1b144e6681447bc2a0fd13cf9442eb891cb0d3b2c",
-    "components/swipe_actions/swipe_actions.dart": "69747bde888fc1483dcaad03ece5a55a221d54f56b1bba64c89c5309f919d828",
+    "components/swipe_actions/swipe_action_buttons.dart": "e6b2faa7448cf96d063e9c53c9d264226442255b07ea1b27982cb3e7bb42f4c2",
+    "components/swipe_actions/swipe_actions.dart": "5a0c6bb4c25c01de8bb8f5f5108c9bbf2708fb9f1b4e716c8a0378ce01d2266b",
+    "components/swipe_actions/swipe_actions_style.dart": "81adf399bfe9c9dfd4a2b6b92741ba63525336e66b936504a62cee0f2ed6d8cb",
+    "components/swipe_actions/swipe_actions_theme.dart": "90ede7ba858c09244c92875d378723ec3c640db235c349e3eda3a995b8f12e20",
     "components/swiper/preview.dart": "d76e99b227ee05dc762552cc6c6e6c7bc6654bb1f4f2a359879e68050d76eb5b",
     "components/swiper/swiper.dart": "b66f990a31484c353464efa0ac83b870806c17ad96032d9f754b5505a4d0f51c",
     "components/swiper/swiper_style.dart": "a8e57f8ce3c90ff8033b4d7b94299c359854c8ae9835cd835100ead6ab41685e",

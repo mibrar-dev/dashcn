@@ -3,3 +3,4 @@
 export '../src/components/swipe_actions/swipe_action.dart';
 export '../src/components/swipe_actions/swipe_action_buttons.dart';
 export '../src/components/swipe_actions/swipe_actions.dart';
+export '../src/components/swipe_actions/swipe_actions_style.dart';

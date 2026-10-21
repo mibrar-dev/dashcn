@@ -998,6 +998,19 @@ FileDiffViewer(layout: FileDiffLayout.split, files: files);''',
       tokenClasses:
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssppppppppppppppppppppsssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
+    DocsSnippet(
+      id: 'list_tile.1',
+      componentId: 'list_tile',
+      language: 'dart',
+      code: r'''ListTile(
+  densityTokens: DensityTokens.comfortable,
+  leading: Avatar(initials: 'IB', size: 40),
+  title: Text('Comfortable'),
+  subtitle: Text('Row 40-44, icon 20'),
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssspppppppppppppppppppppppppppsssssssssssssppppppppppppppppppppsssssssssssssssssssspppp',
+    ),
   ],
   'number_ticker': <DocsSnippet>[
     DocsSnippet(
@@ -3262,6 +3275,18 @@ controller.setStepState(1, null); // cleared''',
       tokenClasses:
           'ppppppppppppppppkkkkppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssppppp',
     ),
+    DocsSnippet(
+      id: 'action_sheet.1',
+      componentId: 'action_sheet',
+      language: 'dart',
+      code: r'''ActionSheet<void>(
+  densityTokens: DensityTokens.comfortable,
+  title: 'Comfortable',
+  actions: const [ActionSheetAction(label: 'Edit')],
+);''',
+      tokenClasses:
+          'ppppppppppppkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssspppppppppppppkkkkkpppppppppppppppppppppppppppsssssspppppp',
+    ),
   ],
   'alert_dialog': <DocsSnippet>[
     DocsSnippet(
@@ -4605,6 +4630,18 @@ SwipeActions(
       tokenClasses:
           'kkkkkkpssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssssssssssspppp',
     ),
+    DocsSnippet(
+      id: 'swipe_actions.2',
+      componentId: 'swipe_actions',
+      language: 'dart',
+      code: r'''SwipeActions(
+  densityTokens: DensityTokens.comfortable,
+  actions: [SwipeAction(label: 'Delete', onPressed: () {})],
+  child: const Text('Row'),
+)''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssspppppppppppppppppppppppppppppppkkkkkppppppssssspppp',
+    ),
   ],
   'swiper': <DocsSnippet>[
     DocsSnippet(
@@ -5519,6 +5556,9 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'action_sheet',
     files: <String>[
       'lib/ui/dashcn/components/action_sheet/action_sheet.dart',
+      'lib/ui/dashcn/components/action_sheet/action_sheet_action.dart',
+      'lib/ui/dashcn/components/action_sheet/action_sheet_row.dart',
+      'lib/ui/dashcn/components/action_sheet/action_sheet_show.dart',
       'lib/ui/dashcn/components/action_sheet/action_sheet_style.dart',
     ],
     userOwned: <String>[
@@ -5916,8 +5956,11 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/swipe_actions/swipe_action.dart',
       'lib/ui/dashcn/components/swipe_actions/swipe_action_buttons.dart',
       'lib/ui/dashcn/components/swipe_actions/swipe_actions.dart',
+      'lib/ui/dashcn/components/swipe_actions/swipe_actions_style.dart',
     ],
-    userOwned: <String>[],
+    userOwned: <String>[
+      'lib/ui/dashcn/components/swipe_actions/swipe_actions_theme.dart',
+    ],
   ),
   'swiper': DocsFileList(
     componentId: 'swiper',

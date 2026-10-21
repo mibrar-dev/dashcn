@@ -1,19 +1,20 @@
 # SwipeActions (`swipe_actions`)
 
 Swipe a row to reveal trailing actions; drag past the actions to dismiss
-(dismiss-to-delete). The settle is a critically-damped spring fed by the
-release velocity, action buttons scale and fade in with the reveal progress
-(staggered from the trailing edge outward), over-drag meets resistance
-instead of a hard stop, and a full-swipe commit collapses the row height to
-zero before `onDismissed` fires — so the caller removes an already-gone row.
-RTL-aware; keyboard and screen-reader users get the same actions as real
-buttons once revealed.
+(dismiss-to-delete). Density-sized by default: compact tile ~56 px wide with
+a 16 px icon and 12 px label; comfortable (~64) and touch (~72) grow from the
+tokens. The row min-height follows the tokens, the reveal scales with the
+drag, and a full swipe collapses the row height to zero before `onDismissed`
+fires — so the caller removes an already-gone row. RTL-aware; keyboard and
+screen-reader users get the same actions as density tiles once revealed.
 
 ## Files
 
 - `swipe_actions.dart`
 - `swipe_action.dart`
 - `swipe_action_buttons.dart`
+- `swipe_actions_style.dart`
+- `swipe_actions_theme.dart`
 
 ## Install
 
@@ -33,22 +34,39 @@ SwipeActions(
 )
 ```
 
+## Density
+
+```dart
+SwipeActions(
+  densityTokens: DensityTokens.comfortable,
+  actions: [SwipeAction(label: 'Delete', onPressed: () {})],
+  child: const Text('Row'),
+)
+```
+
+Tile width resolves `control + 24` (56 / 64 / 72), icon from `tokens.iconSize`
+(16 / 20 / 24), label from `tokens.subtitleTextSize - 1` (12 / 13 / 14), gap
+from `tokens.gap / 2`, row min from `tokens.rowMinHeight`. Override per
+instance via `densityTokens`/`actionExtent` or the theme (`actionWidth`,
+`iconSize`, `labelStyle`, `iconLabelGap`, `rowMinHeight`).
+
 ## Motion
 
 `motion` (`MotionSpec`) retimes the spring settle and the commit collapse for
 one row, or snaps them via `MotionSpec.disabled`. Reduced motion
 (`MediaQuery.disableAnimations` or `motion.enabled == false`) snaps every
 phase with no ticker. `SwipeAction.builder` receives the per-button reveal
-progress (0 closed, 1 open) to paint a custom action; `dismissThreshold`
+progress (0 closed, 1 open) to paint a custom action; `runBuilder` swaps the
+whole run and `contentBuilder` swaps the row content; `dismissThreshold`
 moves the full-swipe commit line (1.0 is exactly the actions width).
 
 ## Declared dependencies
 
 | Layer | Units |
 |---|---|
-| `theme` | `theme` |
-| `primitives` | `motion_scope`, `motion_spec` |
-| `components` | `button` |
+| `theme` | `color_tokens`, `density_tokens`, `theme`, `motion` |
+| `primitives` | `clickable`, `motion` |
+| `components` | [] |
 
 ## Notes
 

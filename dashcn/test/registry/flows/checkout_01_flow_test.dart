@@ -6,7 +6,6 @@
 // data.
 
 import 'package:flutter/widgets.dart';
-import 'package:dashcn/src/components/button/button.dart';
 import 'package:dashcn/src/components/pinned_sheet/pinned_sheet.dart';
 import 'package:dashcn/src/components/swipe_actions/swipe_actions.dart';
 import 'package:dashcn/src/flows/checkout-01/flow.dart';
@@ -27,8 +26,8 @@ List<Checkout01CartItem> _items() => const <Checkout01CartItem>[
   Checkout01CartItem(name: 'Desk lamp', price: 54),
 ];
 
-/// Width of one revealed action (1 x 76 px per row).
-const double _actionsWidth = 76;
+/// Width of one revealed action (1 x 56 px compact tile per row).
+const double _actionsWidth = 56;
 
 void main() {
   for (final brightness in flowBrightnesses) {
@@ -78,10 +77,7 @@ void main() {
           totalWidth: _actionsWidth,
         );
         await tester.tap(
-          find.descendant(
-            of: backpackRow,
-            matching: find.widgetWithText(Button, 'Delete'),
-          ),
+          find.descendant(of: backpackRow, matching: find.text('Delete')),
         );
         await flowSettle(tester);
         expect(removed, <String>['Everyday backpack']);

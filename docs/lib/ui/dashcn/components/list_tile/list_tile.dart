@@ -101,8 +101,11 @@ class ListTile extends StatelessWidget {
     );
     final double hGap =
         (resolved.horizontalTitleGap ?? tokens.gap) * ambient.scaling;
+    // Leading slot fits a density avatar (control 32/40/48) + 8 px breathing
+    // room: 40 compact (back-compat), 48 comfortable, 56 touch.
     final double minLeading =
-        (resolved.minLeadingWidth ?? 40.0) * ambient.scaling;
+        (resolved.minLeadingWidth ?? (tokens.controlHeight + 8)) *
+        ambient.scaling;
 
     final ThemedColor? effectiveTileColor = tileColor ?? resolved.tileColor;
     final ThemedColor? effectiveSelectedColor =
