@@ -1,10 +1,10 @@
 // Transport row for `audio_player`: play, skip, speed, repeat, mute.
-//
-// Split from `audio_player.dart` so both files stay small.
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
+import '../../primitives/tap_target.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_style.dart';
@@ -25,7 +25,25 @@ String formatAudioTime(Duration value) {
   return '$m:${s.toString().padLeft(2, '0')}';
 }
 
-/// 48px accessible transport button.
+/// Formats a duration as spoken text for accessibility.
+String _formatSpokenDuration(Duration value) {
+  final int total = value.inSeconds.clamp(0, 86400 * 99);
+  final int h = total ~/ 3600;
+  final int m = (total % 3600) ~/ 60;
+  final int s = total % 60;
+  final List<String> parts = <String>[];
+  if (h > 0) parts.add('$h ${h == 1 ? "hour" : "hours"}');
+  if (m > 0) parts.add('$m ${m == 1 ? "minute" : "minutes"}');
+  if (s > 0 || parts.isEmpty) parts.add('$s ${s == 1 ? "second" : "seconds"}');
+  return parts.join(' ');
+}
+
+/// Formats playhead and duration as slider valuetext time.
+String formatAudioTimeValuetext(Duration position, Duration duration) {
+  return '${_formatSpokenDuration(position)} of ${_formatSpokenDuration(duration)}';
+}
+
+/// Accessible transport button meeting touch targets via TapTarget.
 Widget audioSmallButton({
   required String label,
   required IconData icon,
@@ -33,19 +51,21 @@ Widget audioSmallButton({
   required Color fg,
   VoidCallback? onTap,
 }) {
-  // The 48x48 box already meets the touch minimum: no TouchHitArea
-  // growth, so the six-button transport row fits a 360px card.
   return Semantics(
     label: label,
     button: true,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: SizedBox(
-        width: 48,
-        height: 48,
-        child: Center(
-          child: Icon(icon, size: size, color: fg),
+    child: TapTarget(
+      minWidth: 48,
+      minHeight: 48,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: SizedBox(
+          width: 32,
+          height: 32,
+          child: Center(
+            child: Icon(icon, size: size, color: fg),
+          ),
         ),
       ),
     ),
@@ -62,61 +82,97 @@ Widget audioPlayButton(
   AudioPartBuilder? loadingOverride,
 }) {
   if (overrideBuilder != null) return overrideBuilder(context, c);
-  final double size = style.controlSize ?? 48;
+  final double size = style.controlSize ?? 32;
+  final double iconSize = style.iconSize ?? 16;
   final ThemeData ambient = Theme.of(context);
   Widget icon = Icon(
     c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-    size: 22,
+    size: iconSize,
     color: fg,
   );
   if (c.isBuffering) {
     icon = loadingOverride != null
         ? loadingOverride(context, c)
-        : Icon(LucideIcons.loaderCircle, size: 22, color: fg);
+        : Icon(LucideIcons.loaderCircle, size: iconSize, color: fg);
   }
-  // The round button already meets the 48px touch minimum: no growth.
   return Semantics(
     label: c.isPlaying ? 'Pause' : 'Play',
     button: true,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: c.toggle,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color:
-              style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
+    child: TapTarget(
+      minWidth: 48,
+      minHeight: 48,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: c.toggle,
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color:
+                style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
+          ),
+          alignment: Alignment.center,
+          child: icon,
         ),
-        alignment: Alignment.center,
-        child: icon,
       ),
     ),
   );
 }
 
+/// Handles keyboard events for audio playback.
+KeyEventResult handleAudioKey({
+  required KeyEvent event,
+  required AudioPlaybackController controller,
+  required Duration skipBack,
+  required Duration skipForward,
+}) {
+  if (event is! KeyDownEvent) return KeyEventResult.ignored;
+  switch (event.logicalKey) {
+    case LogicalKeyboardKey.space:
+    case LogicalKeyboardKey.keyK:
+      controller.toggle();
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowRight:
+      controller.seekTo(controller.position + const Duration(seconds: 5));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowLeft:
+      controller.seekTo(controller.position - const Duration(seconds: 5));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowUp:
+      controller.setVolume((controller.volume + 0.1).clamp(0.0, 1.0));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.arrowDown:
+      controller.setVolume((controller.volume - 0.1).clamp(0.0, 1.0));
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyJ:
+      controller.seekTo(controller.position - skipBack);
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyL:
+      controller.seekTo(controller.position + skipForward);
+      return KeyEventResult.handled;
+    case LogicalKeyboardKey.keyM:
+      controller.setMuted(!controller.isMuted);
+      return KeyEventResult.handled;
+  }
+  return KeyEventResult.ignored;
+}
+
 /// Speed cycler with an inline option list.
 class AudioSpeedButton extends StatefulWidget {
-  /// Creates a speed button.
   const AudioSpeedButton({
     super.key,
     required this.controller,
     required this.fg,
     this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
+    this.initialOpen = false,
     this.overrideBuilder,
   });
 
-  /// Playback controller.
   final AudioPlaybackController controller;
-
-  /// Foreground colour.
   final Color fg;
-
-  /// Speeds offered.
   final List<double> supportedSpeeds;
-
-  /// Full override of the button.
+  final bool initialOpen;
   final AudioPartBuilder? overrideBuilder;
 
   @override
@@ -124,7 +180,13 @@ class AudioSpeedButton extends StatefulWidget {
 }
 
 class _AudioSpeedButtonState extends State<AudioSpeedButton> {
-  bool _open = false;
+  late bool _open;
+
+  @override
+  void initState() {
+    super.initState();
+    _open = widget.initialOpen;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,54 +201,73 @@ class _AudioSpeedButtonState extends State<AudioSpeedButton> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         if (_open)
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              for (final double s in speeds)
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    c.setPlaybackSpeed(s);
-                    setState(() => _open = false);
-                  },
-                  child: Semantics(
-                    label: 'Speed ${s}x',
-                    button: true,
-                    child: Container(
-                      width: 64,
-                      height: 44,
-                      alignment: Alignment.center,
-                      child: ExcludeSemantics(
-                        child: Text(
-                          '${s}x',
-                          style: TextStyle(
-                            color: widget.fg,
-                            fontSize: 12,
-                            fontWeight: c.playbackSpeed == s
-                                ? FontWeight.w700
-                                : FontWeight.w400,
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xEE18181B),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0x33FFFFFF)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                for (final double s in speeds)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      c.setPlaybackSpeed(s);
+                      setState(() => _open = false);
+                    },
+                    child: Semantics(
+                      label: 'Speed ${s}x',
+                      button: true,
+                      child: TapTarget(
+                        minWidth: 64,
+                        minHeight: 48,
+                        child: Container(
+                          width: 64,
+                          height: 32,
+                          alignment: Alignment.center,
+                          child: ExcludeSemantics(
+                            child: Text(
+                              '${s}x',
+                              style: TextStyle(
+                                color: widget.fg,
+                                fontSize: 12,
+                                fontWeight: c.playbackSpeed == s
+                                    ? FontWeight.w700
+                                    : FontWeight.w400,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         Semantics(
           label: 'Playback speed ${c.playbackSpeed}x',
           button: true,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => setState(() => _open = !_open),
-            child: SizedBox(
-              width: 48,
-              height: 48,
-              child: Center(
-                child: ExcludeSemantics(
-                  child: Text(
-                    '${c.playbackSpeed}x',
-                    style: TextStyle(color: widget.fg, fontSize: 12),
+          child: TapTarget(
+            minWidth: 48,
+            minHeight: 48,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => setState(() => _open = !_open),
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: Center(
+                  child: ExcludeSemantics(
+                    child: Text(
+                      '${c.playbackSpeed}x',
+                      style: TextStyle(
+                        color: widget.fg,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -200,7 +281,6 @@ class _AudioSpeedButtonState extends State<AudioSpeedButton> {
 
 /// Full transport row: skip back, play, skip forward, speed, repeat, mute.
 class AudioTransportRow extends StatelessWidget {
-  /// Creates a transport row.
   const AudioTransportRow({
     super.key,
     required this.controller,
@@ -211,6 +291,7 @@ class AudioTransportRow extends StatelessWidget {
     this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
     this.showVolume = true,
     this.showSpeed = true,
+    this.initialSpeedOpen = false,
     this.controlsBuilder,
     this.playButtonBuilder,
     this.volumeBuilder,
@@ -218,52 +299,26 @@ class AudioTransportRow extends StatelessWidget {
     this.loadingBuilder,
   });
 
-  /// Playback controller.
   final AudioPlaybackController controller;
-
-  /// Resolved theme.
   final AudioPlayerTheme style;
-
-  /// Foreground colour.
   final Color fg;
-
-  /// Skip-back step.
   final Duration skipBack;
-
-  /// Skip-forward step.
   final Duration skipForward;
-
-  /// Speeds offered.
   final List<double> supportedSpeeds;
-
-  /// Whether volume shows.
   final bool showVolume;
-
-  /// Whether speed shows.
   final bool showSpeed;
-
-  /// Overrides the whole row.
+  final bool initialSpeedOpen;
   final AudioPartBuilder? controlsBuilder;
-
-  /// Overrides the play button.
   final AudioPartBuilder? playButtonBuilder;
-
-  /// Overrides the volume button.
   final AudioPartBuilder? volumeBuilder;
-
-  /// Overrides the speed button.
   final AudioPartBuilder? speedBuilder;
-
-  /// Overrides the loading indicator.
   final AudioPartBuilder? loadingBuilder;
 
   @override
   Widget build(BuildContext context) {
-    if (controlsBuilder != null) {
-      return controlsBuilder!(context, controller);
-    }
+    if (controlsBuilder != null) return controlsBuilder!(context, controller);
     final AudioPlaybackController c = controller;
-    final double iconSize = style.iconSize ?? 20;
+    final double iconSize = style.iconSize ?? 16;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -274,6 +329,7 @@ class AudioTransportRow extends StatelessWidget {
           fg: fg,
           onTap: () => c.seekTo(c.position - skipBack),
         ),
+        const SizedBox(width: 4),
         audioPlayButton(
           context,
           style,
@@ -282,6 +338,7 @@ class AudioTransportRow extends StatelessWidget {
           overrideBuilder: playButtonBuilder,
           loadingOverride: loadingBuilder,
         ),
+        const SizedBox(width: 4),
         audioSmallButton(
           label: 'Forward ${skipForward.inSeconds} seconds',
           icon: LucideIcons.skipForward,
@@ -289,13 +346,16 @@ class AudioTransportRow extends StatelessWidget {
           fg: fg,
           onTap: () => c.seekTo(c.position + skipForward),
         ),
+        const SizedBox(width: 4),
         if (showSpeed)
           AudioSpeedButton(
             controller: c,
             fg: fg,
             supportedSpeeds: supportedSpeeds,
+            initialOpen: initialSpeedOpen,
             overrideBuilder: speedBuilder,
           ),
+        const SizedBox(width: 4),
         audioSmallButton(
           label: c.isLooping ? 'Disable repeat' : 'Enable repeat',
           icon: LucideIcons.repeat,
@@ -303,7 +363,8 @@ class AudioTransportRow extends StatelessWidget {
           fg: fg,
           onTap: () => c.setLooping(!c.isLooping),
         ),
-        if (showVolume)
+        if (showVolume) ...[
+          const SizedBox(width: 4),
           volumeBuilder?.call(context, c) ??
               audioSmallButton(
                 label: c.isMuted ? 'Unmute' : 'Mute',
@@ -312,6 +373,7 @@ class AudioTransportRow extends StatelessWidget {
                 fg: fg,
                 onTap: () => c.setMuted(!c.isMuted),
               ),
+        ],
       ],
     );
   }

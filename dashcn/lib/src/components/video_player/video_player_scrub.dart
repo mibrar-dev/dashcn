@@ -6,6 +6,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import 'video_player_buttons.dart';
+
 /// Value the scrub bar reports.
 typedef VideoScrubChanged = void Function(Duration position);
 
@@ -71,6 +73,7 @@ class VideoScrubBar extends StatefulWidget {
 class _VideoScrubBarState extends State<VideoScrubBar> {
   FocusNode? _owned;
   bool _focused = false;
+  bool _hovered = false;
 
   FocusNode get _node => widget.focusNode ?? (_owned ??= FocusNode());
 
@@ -123,7 +126,7 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
       label: widget.semanticLabel ?? 'Seek',
       slider: true,
       enabled: widget.enabled,
-      value: '${widget.position.inSeconds}s of ${widget.duration.inSeconds}s',
+      value: formatVideoTimeValuetext(widget.position, widget.duration),
       increasedValue:
           '${(widget.position + const Duration(seconds: 5)).inSeconds}s',
       decreasedValue:
@@ -155,29 +158,42 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
           }
           return KeyEventResult.ignored;
         },
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) {
-            final RenderBox box = context.findRenderObject()! as RenderBox;
-            _seekFromDx(box.globalToLocal(d.globalPosition).dx, box.size.width);
-          },
-          onHorizontalDragUpdate: (d) {
-            final RenderBox box = context.findRenderObject()! as RenderBox;
-            _seekFromDx(box.globalToLocal(d.globalPosition).dx, box.size.width);
-          },
-          child: SizedBox(
-            height: 48,
-            child: CustomPaint(
-              painter: _ScrubPainter(
-                fraction: fraction,
-                bufferedFraction: buffered,
-                trackColor: widget.trackColor,
-                bufferedColor: widget.bufferedColor,
-                fillColor: widget.fillColor,
-                thumbColor: widget.thumbColor,
-                trackHeight: widget.trackHeight,
-                focused: _focused,
-                rtl: rtl,
+        child: MouseRegion(
+          cursor: widget.enabled
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (d) {
+              final RenderBox box = context.findRenderObject()! as RenderBox;
+              _seekFromDx(
+                box.globalToLocal(d.globalPosition).dx,
+                box.size.width,
+              );
+            },
+            onHorizontalDragUpdate: (d) {
+              final RenderBox box = context.findRenderObject()! as RenderBox;
+              _seekFromDx(
+                box.globalToLocal(d.globalPosition).dx,
+                box.size.width,
+              );
+            },
+            child: SizedBox(
+              height: 24,
+              child: CustomPaint(
+                painter: _ScrubPainter(
+                  fraction: fraction,
+                  bufferedFraction: buffered,
+                  trackColor: widget.trackColor,
+                  bufferedColor: widget.bufferedColor,
+                  fillColor: widget.fillColor,
+                  thumbColor: widget.thumbColor,
+                  trackHeight: widget.trackHeight,
+                  focused: _focused || _hovered,
+                  rtl: rtl,
+                ),
               ),
             ),
           ),
@@ -244,7 +260,7 @@ class _ScrubPainter extends CustomPainter {
     }
     final double tx = rtl ? size.width * (1 - fraction) : size.width * fraction;
     paint.color = thumbColor;
-    canvas.drawCircle(Offset(tx, cy), focused ? 8 : 6, paint);
+    canvas.drawCircle(Offset(tx, cy), focused ? 6 : 4, paint);
   }
 
   @override

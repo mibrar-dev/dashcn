@@ -4,10 +4,10 @@
 // mute, speed, looping). The docs app wires an audio plugin to it; the kit
 // ships [FakeAudioPlaybackController].
 
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
+import '../../primitives/focus_outline.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/color_tokens.dart';
@@ -38,6 +38,7 @@ class AudioPlayer extends StatefulWidget {
     this.supportedSpeeds = const <double>[0.5, 1, 1.5, 2],
     this.showVolume = true,
     this.showSpeed = true,
+    this.initialSpeedOpen = false,
     this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
@@ -59,101 +60,45 @@ class AudioPlayer extends StatefulWidget {
     this.initialLooping = false,
   });
 
-  /// Playback controller; an internal fake is owned when null.
   final AudioPlaybackController? controller;
-
-  /// Compact row or full card.
   final AudioPlayerVariant variant;
-
-  /// Track title.
   final String? title;
-
-  /// Track subtitle (artist, album).
   final String? subtitle;
-
-  /// Cover art shown in the full layout.
   final Widget? cover;
-
-  /// Skip-back step.
   final Duration skipBack;
-
-  /// Skip-forward step.
   final Duration skipForward;
-
-  /// Speeds offered by the speed control.
   final List<double> supportedSpeeds;
-
-  /// Whether the volume cluster shows.
   final bool showVolume;
-
-  /// Whether the speed control shows.
   final bool showSpeed;
-
-  /// Accessible label.
+  final bool initialSpeedOpen;
   final String? semanticLabel;
-
-  /// Focus node; one is created when null.
   final FocusNode? focusNode;
-
-  /// Whether to take focus on first build.
   final bool autofocus;
-
-  /// Widget-leg theme override.
   final AudioPlayerTheme? theme;
-
-  /// Overrides the cover art.
   final AudioPartBuilder? coverBuilder;
-
-  /// Overrides the title.
   final AudioPartBuilder? titleBuilder;
-
-  /// Overrides the subtitle.
   final AudioPartBuilder? subtitleBuilder;
-
-  /// Overrides the progress bar.
   final Widget Function(
     BuildContext context,
     AudioPlaybackController controller,
     AudioProgressBar defaults,
   )?
   progressBuilder;
-
-  /// Waveform slot: replaces the bar with a custom waveform.
   final Widget Function(
     BuildContext context,
     AudioPlaybackController controller,
     AudioProgressBar defaults,
   )?
   waveformBuilder;
-
-  /// Overrides the transport row.
   final AudioPartBuilder? controlsBuilder;
-
-  /// Overrides the play button.
   final AudioPartBuilder? playButtonBuilder;
-
-  /// Overrides the volume cluster.
   final AudioPartBuilder? volumeBuilder;
-
-  /// Overrides the speed control.
   final AudioPartBuilder? speedBuilder;
-
-  /// Overrides the loading indicator.
   final AudioPartBuilder? loadingBuilder;
-
-  /// Uncontrolled initial position (used when [controller] is null).
   final Duration? initialPosition;
-
-  /// Uncontrolled initial volume.
   final double? initialVolume;
-
-  /// Uncontrolled initial mute.
   final bool initialMuted;
-
-  /// Uncontrolled initial speed.
   final double initialSpeed;
-
-  /// Uncontrolled initial looping.
   final bool initialLooping;
 
   @override
@@ -163,6 +108,7 @@ class AudioPlayer extends StatefulWidget {
 class _AudioPlayerState extends State<AudioPlayer> {
   AudioPlaybackController? _owned;
   FocusNode? _ownedFocus;
+  bool _focused = false;
 
   AudioPlaybackController get _controller =>
       widget.controller ??
@@ -192,33 +138,6 @@ class _AudioPlayerState extends State<AudioPlayer> {
     _owned?.dispose();
     _ownedFocus?.dispose();
     super.dispose();
-  }
-
-  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
-    if (event is! KeyDownEvent) return KeyEventResult.ignored;
-    final c = _controller;
-    switch (event.logicalKey) {
-      case LogicalKeyboardKey.space:
-      case LogicalKeyboardKey.keyK:
-        c.toggle();
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.arrowRight:
-        c.seekTo(c.position + const Duration(seconds: 5));
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.arrowLeft:
-        c.seekTo(c.position - const Duration(seconds: 5));
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyJ:
-        c.seekTo(c.position - widget.skipBack);
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyL:
-        c.seekTo(c.position + widget.skipForward);
-        return KeyEventResult.handled;
-      case LogicalKeyboardKey.keyM:
-        c.setMuted(!c.isMuted);
-        return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
   }
 
   @override
@@ -272,6 +191,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
       supportedSpeeds: widget.supportedSpeeds,
       showVolume: widget.showVolume,
       showSpeed: widget.showSpeed,
+      initialSpeedOpen: widget.initialSpeedOpen,
       coverBuilder: widget.coverBuilder,
       titleBuilder: widget.titleBuilder,
       subtitleBuilder: widget.subtitleBuilder,
@@ -286,7 +206,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
     Widget card = Container(
       padding:
           style.padding ??
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
         border: Border.all(
@@ -298,10 +218,17 @@ class _AudioPlayerState extends State<AudioPlayer> {
       child: AnimatedOpacity(opacity: 1, duration: fade, child: content),
     );
     card = GlassSurface(surfaceBlur: blur, borderRadius: radius, child: card);
+    card = FocusOutline(focused: _focused, borderRadius: radius, child: card);
     return Focus(
       focusNode: _focus,
       autofocus: widget.autofocus,
-      onKeyEvent: _onKey,
+      onFocusChange: (v) => setState(() => _focused = v),
+      onKeyEvent: (node, event) => handleAudioKey(
+        event: event,
+        controller: c,
+        skipBack: widget.skipBack,
+        skipForward: widget.skipForward,
+      ),
       child: Semantics(
         label: widget.semanticLabel ?? 'Audio player',
         child: card,

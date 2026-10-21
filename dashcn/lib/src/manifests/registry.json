@@ -1101,11 +1101,14 @@
           "icons"
         ],
         "primitives": [
+          "focus_outline",
           "motion",
-          "surface"
+          "surface",
+          "tap_target"
         ],
         "theme": [
           "color_tokens",
+          "density",
           "theme"
         ]
       },
@@ -10125,12 +10128,14 @@
           "icons"
         ],
         "primitives": [
+          "focus_outline",
           "motion",
           "surface",
-          "touch_hit_area"
+          "tap_target"
         ],
         "theme": [
           "color_tokens",
+          "density",
           "theme"
         ]
       },
@@ -10442,14 +10447,14 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
-    "components/audio_player/audio_player.dart": "ecaf4eb86af12eb3583880517a1da64127140b6966819d5b27746820ab00857a",
-    "components/audio_player/audio_player_controller.dart": "390d191fa90b4f74b667f2256471f0d4b8fb247689972b352380075041f54d47",
-    "components/audio_player/audio_player_layout.dart": "2b90265c5cdbb39c614fb997b9b04b9a546909106a3dbd24b1540417abbb0cd2",
-    "components/audio_player/audio_player_progress.dart": "f2ec3bc9901b7391576676c981ac34769acd17a7d7d3da15e7d5d9870c0dd948",
-    "components/audio_player/audio_player_style.dart": "4099e2f519ce8953e540cafa3a8419c778139cb4918de64839d263753caace46",
+    "components/audio_player/audio_player.dart": "ca01653d589dd5fbda8aee2cb35b92ec8cb9dbdf980f273b041cdcae49fd9cbd",
+    "components/audio_player/audio_player_controller.dart": "f727bc98bfeca7effe89e2b5ca185013fff43377ac76d8f23db007c8179a8c4b",
+    "components/audio_player/audio_player_layout.dart": "fcf34e6233e3e3a7012e7659989f74728ac728c9d588b63d422d4427a808b59b",
+    "components/audio_player/audio_player_progress.dart": "30082bcc6067ce347f4071fcbbda23e80f97729286fc0d3d9353fef8068c76c1",
+    "components/audio_player/audio_player_style.dart": "2ae5551ab84022bf7dae61926ea6e9b0e8c8d5a48f2f1f34c7730587bee677af",
     "components/audio_player/audio_player_theme.dart": "4f2893a478a068da7c8556c940b66d859934fc79feedb4784092ca7571ff2adf",
-    "components/audio_player/audio_player_transport.dart": "2a0379dd2fb19f9cfbef9a890ec4fdd04d5d82264953e8d9f819f9283d95f1dc",
-    "components/audio_player/preview.dart": "981d0e85a962265ea1d509fb1798ebefe59219c7357450526096b79827643bc3",
+    "components/audio_player/audio_player_transport.dart": "fe6ead8ed5ff056e88ebfa188ae8b5bc650fc1a54946f0359ebea3c8c6fe3591",
+    "components/audio_player/preview.dart": "fb46ac7b1587dca262a567de8bc44cfb5b9291d7d3db241ca730209f86b1532b",
     "components/autocomplete/autocomplete.dart": "388132b3f4a2d856dff78c76afd9c04bbea61ffdf581d3742d250dde625b38a6",
     "components/autocomplete/autocomplete_style.dart": "43a42113ca329b73492b71799049c5ac41a03bcd5c33121522306c436bd28e02",
     "components/autocomplete/autocomplete_theme.dart": "2eab0681ae203c27bc4d77c94f4e32e678e9e7242a472e05c78e0959e38460e0",
@@ -10939,13 +10944,13 @@
     "components/triple_dots/triple_dots.dart": "268ed0cad7f54e078317c4e8234e754471c80406b4069f4b3adbf9973f82b057",
     "components/triple_dots/triple_dots_style.dart": "2788f6d6fab457efd89bf7bd712a714bb69f7ac107ca3cf05fb08ba754af836a",
     "components/triple_dots/triple_dots_theme.dart": "535bc0f8489e87d5ccef9979dd8f096d6e0bec52360cc45ee3ca1291ed81c27a",
-    "components/video_player/preview.dart": "1cc3de2545ffb02ce9fe2c18dd8bab3ccf555e6ea3df9bc235bfbc27b90fe4a5",
-    "components/video_player/video_player.dart": "90290d8c53e271a41184176a4c31f7b2c0a3840d97bfcfa80d4d986fb64dcc17",
-    "components/video_player/video_player_buttons.dart": "dd2546e7d4ec944a224b91dde1820b882bf7ca917c598519e45765a31802bc52",
-    "components/video_player/video_player_controller.dart": "7475d702a721685f9d808b5ed58a6f7be053224300cbeeac4f2ab89b7563d8be",
-    "components/video_player/video_player_controls.dart": "e1f47f4ed26489710e0142e9d2abe90b72efa5ada42719bf776ec081c27da4ec",
-    "components/video_player/video_player_scrub.dart": "7179b9ede67c38616f835e02692fccdc2a394ed6ae3f1232e07b8cdeb0eeaf23",
-    "components/video_player/video_player_style.dart": "4a6491d272e5acb4cfeb89c6c4d935b0b69de290c193caa04a4da0f94644a186",
+    "components/video_player/preview.dart": "521cbabde4eb340e444a3427befee7ef7eb5eb23530f2ce7a9db08de888bf026",
+    "components/video_player/video_player.dart": "7ac31e59c51e624a16094cfd2036e3bd219c914405fe4df5eeb5b46da419c91a",
+    "components/video_player/video_player_buttons.dart": "476613eb2fce95bfd0042daec041cee932bae553a452ab6193b3f7822bdad242",
+    "components/video_player/video_player_controller.dart": "c60f2fcadeff12b0cc1485df32080f9afd6538f389254ec68126257699b938f2",
+    "components/video_player/video_player_controls.dart": "bd7da14e72e16118dd87517e6ea65ffb3e183b9c162138849e6649ed2b9f76b8",
+    "components/video_player/video_player_scrub.dart": "1a701e407afebcd80e7c28bd85b5269b0c8025b239ee39bca13aa9927375cbf2",
+    "components/video_player/video_player_style.dart": "f2cd183d39118665c533f6bb32a0541c7b13acdc3b0ea69bad12435ebe6beb3f",
     "components/video_player/video_player_theme.dart": "8ef371805d95595f2713bb0c562be5f392fc7dcd9bec56e9e5cb12fd2b519d4b",
     "components/wheel_picker/preview.dart": "2b2f9404f1e5d3c194fde4a0b16065412b07f60706d46bec8fba385eb8f9487e",
     "components/wheel_picker/wheel_picker.dart": "162a256c3c00af3f8a816f8a3193f9c34271f88afec889bfc6a56406c7d081a1",
