@@ -94,6 +94,9 @@ const Map<String, String> kCssTrackingToStep = <String, String>{
 };
 
 /// Shadow-atom variables to `WebShadowAtoms` fields.
+///
+/// `--shadow-offset-x/-y` are the canonical names the writers emit;
+/// `--shadow-x/-y` are the Tailwind v4 shorthand aliases for the same atoms.
 const Map<String, String> kCssShadowToAtom = <String, String>{
   'shadow-color': 'color',
   'shadow-opacity': 'opacity',
@@ -101,6 +104,8 @@ const Map<String, String> kCssShadowToAtom = <String, String>{
   'shadow-spread': 'spread',
   'shadow-offset-x': 'offsetX',
   'shadow-offset-y': 'offsetY',
+  'shadow-x': 'offsetX',
+  'shadow-y': 'offsetY',
 };
 
 /// Glass surface variables (mode-independent, unitless / px).

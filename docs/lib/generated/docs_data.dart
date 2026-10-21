@@ -596,7 +596,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add skeleton',
     import:
         "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
-    fileCount: 3,
+    fileCount: 8,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -1024,11 +1024,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Overflow Marquee',
     category: 'Layout',
     description:
-        'Auto-scrolls content that overflows its container, horizontally or vertically, with soft edge fades and reduced-motion support.',
+        'Continuous auto-scrolling content loop, horizontally or vertically, with soft edge fades, hover/focus pause, and reduced-motion support.',
     install: 'dashcn add overflow_marquee',
     import:
         "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
-    fileCount: 3,
+    fileCount: 5,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -1412,7 +1412,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Code Snippet',
     category: 'Typography & Media',
     description:
-        'Scrollable code block with optional top-right action buttons.',
+        'Scrollable code block with syntax colouring, copy button and selectable text.',
     install: 'dashcn add code_snippet',
     import:
         "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",

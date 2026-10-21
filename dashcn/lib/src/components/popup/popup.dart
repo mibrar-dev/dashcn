@@ -2,10 +2,16 @@
 // content. The surface itself is the menu component's `MenuPopup`
 // (re-exported here); this file adds the generic show helper with Escape
 // and outside-tap dismissal.
+//
+// Sizing follows the density principles (DESIGN.md): compact by default,
+// the popup hugs its content between 160 and 320 px wide
+// (`kOverlayMinWidthCompact`/`kOverlayMaxWidthCompact`) unless the caller
+// pins [width] or overrides [maxWidth]/[maxHeight].
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import '../../primitives/overlay.dart';
 import '../../primitives/popover.dart';
@@ -19,6 +25,9 @@ export '../menu/menu.dart' show MenuPopup, MenuPopupTheme, menuPopupDefaults;
 /// menu (no roving focus, no rows), and unlike [showContextMenu] it is
 /// anchored rather than pointer-positioned. Escape and an outside tap close
 /// it while [modal] keeps the content behind non-interactive.
+///
+/// The surface hugs its content between 160 and 320 px wide (compact overlay
+/// bounds); pass [width] to pin it or [maxWidth] to allow a wider panel.
 Future<T?> showPopup<T>({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -35,6 +44,9 @@ Future<T?> showPopup<T>({
   double? maxHeight,
   PopupAdaptive? adaptive,
 }) {
+  final MenuPopupTheme effectiveTheme = (theme ?? const MenuPopupTheme()).merge(
+    const MenuPopupTheme(minWidth: kOverlayMinWidthCompact),
+  );
   return showPopover<T>(
     context: context,
     handler: OverlayHandler.popover,
@@ -60,9 +72,9 @@ Future<T?> showPopup<T>({
           ),
         },
         child: MenuPopup(
-          theme: theme,
+          theme: effectiveTheme,
           width: width,
-          maxWidth: maxWidth,
+          maxWidth: maxWidth ?? kOverlayMaxWidthCompact,
           maxHeight: maxHeight,
           children: <Widget>[
             Focus(autofocus: true, child: Builder(builder: builder)),

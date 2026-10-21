@@ -1,35 +1,31 @@
 // The `skeleton` component: a widgets-only loading placeholder with a
 // repeating shimmer, replacing `package:skeletonizer` (banned).
 //
-// The old module was `UpstreamSkeletonizerConfigLayer` plus a `Widget` extension
-// (`asSkeleton`, `asSkeletonSliver`, `ignoreSkeleton`, `excludeSkeleton`).
-// Fixes, all verified against the old source:
-//   * `package:skeletonizer/skeletonizer.dart` and `package:flutter/material.dart`
-//     imports are gone; the shimmer is a gradient sweep built from
-//     `RepeatedAnimationBuilder` (primitives/animation.dart).
-//   * `asSkeleton(snapshot:)` silently overrode the caller's `enabled`
-//     argument whenever a snapshot was passed (`enabled = !snapshot.hasData`),
-//     so `enabled: false, snapshot: <loaded>` still showed a skeleton.
-//   * `asSkeleton` returned `Skeleton.leaf` for `Avatar`/`Image` only when
-//     neither `unite` nor `replacement` was given, so the flags silently
-//     overrode each other depending on argument order.
-//   * `fromColor`/`toColor` had two different defaults in two files
-//     (hard-coded `0x0D171717`/`0x1A171717` versus `primary.scaleAlpha(0.05)`
-//     and `0.1`); there is one token-derived row now.
-//   * `enableSwitchAnimation` toggled `SkeletonizerConfigData` but no widget
-//     in the component read it — it was a dead knob.
+// Shape placeholders ([SkeletonLine], [SkeletonAvatar]) render the shimmer
+// in text-line and avatar shapes; composed placeholders ([SkeletonCard],
+// [SkeletonList], [SkeletonTable]) cover card, list and table loading
+// states; [SkeletonMirror] sizes a placeholder from the real child's box.
+// All sizes come from the density scale (compact default), the sweep uses
+// theme tokens and the theme motion legs, and reduced motion parks the
+// sweep with no ticker.
 
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animation.dart';
 import '../../primitives/motion/motion_scope.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'skeleton_style.dart';
 
+export 'skeleton_compose.dart';
+export 'skeleton_layout.dart';
+export 'skeleton_mirror.dart';
+export 'skeleton_shapes.dart';
 export 'skeleton_style.dart';
+export 'skeleton_table.dart';
 
-/// A shimmering placeholder shown while [content] is still loading.
+/// A shimmering placeholder shown while [child] is still loading.
 ///
 /// The widget keeps the child's layout box, so swapping it in and out never
 /// moves the surrounding page:
@@ -48,6 +44,9 @@ class Skeleton extends StatelessWidget {
     this.enabled = true,
     this.borderRadius,
     this.theme,
+    this.style,
+    this.densityTokens,
+    this.semanticsLabel,
   });
 
   /// The real content, laid out but painted only while [enabled] is false.
@@ -63,28 +62,52 @@ class Skeleton extends StatelessWidget {
   /// Widget-leg theme override, merged on top of the other legs.
   final SkeletonTheme? theme;
 
+  /// Per-instance style override; merged over [theme].
+  final SkeletonStyle? style;
+
+  /// Per-instance density tokens. Null resolves through the component theme
+  /// legs then the ambient `ThemeData.densityTokens`; phone widths use touch
+  /// unless this is set.
+  final DensityTokens? densityTokens;
+
+  /// Accessible label for the loading placeholder; null reads `Loading`.
+  /// Set to null + `excludeSemantics` behaviour by passing empty? Null
+  /// keeps the default label so screen readers announce the pending state.
+  final String? semanticsLabel;
+
   @override
   Widget build(BuildContext context) {
-    final SkeletonTheme resolved =
+    final SkeletonTheme base =
         resolveComponentStyle<SkeletonTheme, SkeletonTheme>(
           context,
           widget: theme,
           select: (t) => t,
           defaults: skeletonDefaults,
         );
+    final SkeletonTheme resolved = (style ?? const SkeletonTheme()).merge(base);
     final BorderRadius radius =
         (borderRadius ?? resolved.borderRadius ?? _defaultRadius(context))
             .resolve(Directionality.of(context));
     if (!enabled) {
       return ClipRRect(borderRadius: radius, child: child);
     }
-    return _Shimmer(
-      from: resolved.fromColor,
-      to: resolved.toColor,
-      duration: resolved.duration!,
-      curve: resolved.curve!,
-      borderRadius: radius,
-      child: child,
+    // Motion legs: the sweep duration scales with the theme intensity and
+    // the curve falls back to the motion standard curve, so the Theme
+    // Studio intensity picker retimes the shimmer with the rest of the kit.
+    final ThemeData ambient = Theme.of(context);
+    final Duration baseDuration = resolved.duration ?? kSkeletonSweepDuration;
+    final Duration duration = ambient.motion.scaledDuration(baseDuration);
+    final Curve curve = resolved.curve ?? ambient.motion.curves.standard;
+    return Semantics(
+      label: semanticsLabel ?? 'Loading',
+      child: _Shimmer(
+        from: resolved.fromColor,
+        to: resolved.toColor,
+        duration: motionReduced(context) ? Duration.zero : duration,
+        curve: curve,
+        borderRadius: radius,
+        child: child,
+      ),
     );
   }
 
@@ -120,7 +143,7 @@ class _Shimmer extends StatelessWidget {
       gradient: _sweep(fromColor, toColor, 0.5),
     );
     // Under reduced motion the sweep parks mid-way with no ticker.
-    if (motionReduced(context)) {
+    if (motionReduced(context) || duration == Duration.zero) {
       return ClipRRect(
         borderRadius: borderRadius,
         child: Container(decoration: staticDecoration, child: child),

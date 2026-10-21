@@ -1428,15 +1428,52 @@ const Progress(
       id: 'skeleton.1',
       componentId: 'skeleton',
       language: 'dart',
-      code: r'''const Skeleton(
-  borderRadius: BorderRadius.all(Radius.circular(40)),
-  child: SizedBox(width: 80, height: 80),
-);''',
+      code: r'''const SkeletonLine(lines: 3);
+const SkeletonAvatar();
+const SkeletonBlock(width: 120);''',
       tokenClasses:
-          'kkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+          'kkkkkpppppppppppppppppppppppppkkkkkpppppppppppppppppppkkkkkppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
       id: 'skeleton.2',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''const SkeletonList(itemCount: 3);
+const SkeletonCard(showAvatar: true, contentLines: 2, showFooter: true);
+const SkeletonTable(columns: 3, rows: 4);''',
+      tokenClasses:
+          'kkkkkpppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppkkkkpppppppppppppppppppppppppppppppkkkkpppkkkkkpppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.3',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''SkeletonMirror(
+  enabled: loading,
+  placeholderBuilder: (context) => const SkeletonLine(lines: 2),
+  child: ProfileRow(user: user),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.4',
+      componentId: 'skeleton',
+      language: 'dart',
+      code: r'''SkeletonLine(
+  lines: 3,
+  lineBuilder: (context, index, isLast, bar) => bar,
+);
+SkeletonList(
+  itemCount: 3,
+  leadingBuilder: (context, index, avatar) => avatar,
+  titleBuilder: (context, index, title) => title,
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'skeleton.5',
       componentId: 'skeleton',
       language: 'dart',
       code: r'''Skeleton(
@@ -1448,7 +1485,7 @@ const Progress(
           'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',
     ),
     DocsSnippet(
-      id: 'skeleton.3',
+      id: 'skeleton.6',
       componentId: 'skeleton',
       language: 'dart',
       code: r'''const SkeletonTheme skeletonThemeOverrides = SkeletonTheme(
@@ -2732,19 +2769,32 @@ final filtered = _state.whereMatches(orders, bindings);''',
       id: 'overflow_marquee.0',
       componentId: 'overflow_marquee',
       language: 'dart',
-      code: r'''OverflowMarquee(
-  duration: Duration(seconds: 8),
-  delayDuration: Duration(seconds: 1),
-  fadePortion: 0.15,
-  child: Text('A very long ticker line ...'),
+      code: r'''// Continuous horizontal ticker with edge fade
+OverflowMarquee(
+  speed: 50.0,
+  gap: 28.0,
+  child: Text('Breaking updates streaming continuously ...'),
 );
 
+// Controlled playback with play/pause controller
+final controller = MarqueeController();
+
 OverflowMarquee(
-  direction: Axis.vertical,
-  child: SizedBox(height: 96, child: Text('Vertical credits ...')),
+  controller: controller,
+  pauseOnHover: true,
+  child: Text('Midnight City — M83 (Extended Club Mix)'),
+);
+
+// Vertical credits scrolling upwards
+OverflowMarquee(
+  direction: AxisDirectional.up,
+  speed: 25.0,
+  child: Column(
+    children: [Text('Directed by ...'), Text('Produced by ...')],
+  ),
 );''',
       tokenClasses:
-          'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssssssspppppp',
+          'ccccccccccccccccccccccccccccccccccccccccccccccppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssssssssssssssssssssssssssssssssssssspppppppcccccccccccccccccccccccccccccccccccccccccccccccccpkkkkkpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkppppppppppppppppssssssssssssssssssssssssssssssssssssssssspppppppcccccccccccccccccccccccccccccccccccccpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssssssssppppppppsssssssssssssssssppppppppppp',
     ),
   ],
   'resizable': <DocsSnippet>[
@@ -3748,19 +3798,30 @@ AudioPlayer(
       componentId: 'code_snippet',
       language: 'dart',
       code: r'''CodeSnippet(
+  language: 'dart',
   constraints: const BoxConstraints(maxWidth: 480, maxHeight: 200),
+  code: const Text('void main() => runApp(const MyApp());'),
+);''',
+      tokenClasses:
+          'pppppppppppppppppppppppppsssssspppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssssssssssssssssssssssssssssssssssssppppp',
+    ),
+    DocsSnippet(
+      id: 'code_snippet.2',
+      componentId: 'code_snippet',
+      language: 'dart',
+      code: r'''CodeSnippet(
   actions: [
     Button(
       size: ButtonSize.sm,
       variant: ButtonVariant.ghost,
-      onPressed: copy,
-      child: const Text('Copy'),
+      onPressed: runCode,
+      child: const Text('Run'),
     ),
   ],
   code: const Text('dart format .'),
 );''',
       tokenClasses:
-          'ppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppsssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkppppppssssspppppppppppppppppppppppkkkkkppppppsssssssssssssssppppp',
     ),
   ],
   'image': <DocsSnippet>[
@@ -5158,7 +5219,12 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'skeleton',
     files: <String>[
       'lib/ui/dashcn/components/skeleton/skeleton.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_compose.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_layout.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_mirror.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_shapes.dart',
       'lib/ui/dashcn/components/skeleton/skeleton_style.dart',
+      'lib/ui/dashcn/components/skeleton/skeleton_table.dart',
     ],
     userOwned: <String>[
       'lib/ui/dashcn/components/skeleton/skeleton_theme.dart',
@@ -5457,6 +5523,8 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'overflow_marquee',
     files: <String>[
       'lib/ui/dashcn/components/overflow_marquee/overflow_marquee.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_controller.dart',
+      'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_render.dart',
       'lib/ui/dashcn/components/overflow_marquee/overflow_marquee_style.dart',
     ],
     userOwned: <String>[

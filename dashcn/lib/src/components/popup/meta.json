@@ -15,7 +15,8 @@
   "deps": {
     "foundation": [],
     "theme": [
-      "theme"
+      "theme",
+      "density_tokens"
     ],
     "primitives": [
       "overlay",
@@ -53,7 +54,7 @@
     "semantics": "the surface is a plain decorated box: give the content its own semantics"
   },
   "sizes": {
-    "surface": "MenuPopup defaults: min-width 192 (12rem), padding 4, 1px border, radius md"
+    "surface": "160-320 px wide (compact overlay bounds kOverlayMinWidthCompact/kOverlayMaxWidthCompact), hugs content, padding 4, 1px border, radius md"
   },
   "notes": [
     "MenuPopup/MenuPopupTheme are re-exported from menu (B13) and never re-declared.",

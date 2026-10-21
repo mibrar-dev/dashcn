@@ -1,59 +1,150 @@
 // The `code_snippet` component: [CodeSnippet] (scrollable code block with
-// optional action buttons).
-//
-// Ported from `components/display/code_snippet`. Fixes: the state class held
-// no state, so the widget is stateless; the `gap` package spacer becomes the
-// foundation `Gap`.
+// syntax colouring, selectable text and copy button).
 
+import 'dart:async';
+import 'dart:math' as math;
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
+import '../../foundation/icons/lucide_icons.dart';
+import '../../foundation/platform.dart';
+import '../../primitives/clickable.dart';
 import '../../primitives/syntax_highlight/syntax_highlight.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../primitives/text_editing/text_editing.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'code_snippet_style.dart';
 
 export 'code_snippet_style.dart';
 
-/// Scrollable code block with optional top-right [actions] (copy, run).
+/// Builder slot for replacing the copy button widget.
+typedef CodeSnippetCopyButtonBuilder =
+    Widget Function(BuildContext context, VoidCallback onCopy, bool copied);
+
+/// Builder slot for customizing the entire actions row.
+typedef CodeSnippetActionsBuilder =
+    Widget Function(BuildContext context, List<Widget> actions);
+
+/// Builder slot for customizing or wrapping the highlighted code widget.
+typedef CodeSnippetCodeBuilder =
+    Widget Function(BuildContext context, Widget code);
+
+/// Scrollable code block with syntax colouring, top-right [actions] and a
+/// built-in copy button.
 ///
 /// The [code] content renders in the ambient monospace small style. When a
-/// [language] is given (or auto-detected from a fence tag / strong content
-/// signals), the code is syntax-highlighted with the theme's `syntax` token
-/// group. The block sits inside a [SelectableRegion], so the source is
-/// selectable by mouse, by the keyboard (`Ctrl/Cmd+A`, then `Ctrl/Cmd+C`) and
-/// through the platform context menu; [Text] and [Text.rich] register with
-/// the region on their own, so the syntax colours are unchanged.
-class CodeSnippet extends StatelessWidget {
+/// [language] is given (or auto-detected from a fence tag / content signals),
+/// the code is syntax-highlighted with the theme's `syntax` token group.
+///
+/// Text is selectable by mouse and keyboard (`Ctrl/Cmd+A`, `Ctrl/Cmd+C`).
+/// Long lines scroll horizontally inside the block without overflowing.
+class CodeSnippet extends StatefulWidget {
   /// Creates a code snippet display.
   const CodeSnippet({
     super.key,
     this.constraints,
     this.actions = const <Widget>[],
     required this.code,
+    this.rawCode,
     this.language,
+    this.showCopyButton,
+    this.copied,
+    this.onCopiedChange,
+    this.onCopy,
+    this.copyButtonBuilder,
+    this.actionsBuilder,
+    this.codeBuilder,
     this.theme,
   });
 
   /// Bounds of the snippet area.
   final BoxConstraints? constraints;
 
-  /// Action buttons in the top-right corner.
+  /// Custom action buttons in the top-right corner.
   final List<Widget> actions;
 
-  /// Code content (usually a [Text]).
+  /// Code content widget (typically a [Text] or [Text.rich]).
   final Widget code;
 
-  /// Language id or fence tag (`dart`, `js`, `py`, …) used for syntax
-  /// highlighting. When null, the language is auto-detected from the code
-  /// text (fence tag first, then conservative content signals); unknown
-  /// content stays plain.
+  /// Optional verbatim code string to copy and highlight. When omitted, the
+  /// source text is extracted from [code] if it is a [Text].
+  final String? rawCode;
+
+  /// Language id or fence tag (`dart`, `json`, `yaml`, `sh`, `js`, `html`, …)
+  /// used for syntax highlighting. When null, the language is auto-detected.
   final String? language;
 
-  /// Widget-leg theme override, merged over the other legs.
+  /// Whether the copy button renders in the actions row. When null, resolves
+  /// from the theme (default true).
+  final bool? showCopyButton;
+
+  /// Controlled copy state. When null, state is managed internally.
+  final bool? copied;
+
+  /// Called when the copied state changes (in both controlled and uncontrolled
+  /// modes).
+  final ValueChanged<bool>? onCopiedChange;
+
+  /// Called when the copy button is activated.
+  final VoidCallback? onCopy;
+
+  /// Builder slot for replacing the copy button widget.
+  final CodeSnippetCopyButtonBuilder? copyButtonBuilder;
+
+  /// Builder slot for customizing the entire actions row.
+  final CodeSnippetActionsBuilder? actionsBuilder;
+
+  /// Builder slot for customizing or wrapping the highlighted code widget.
+  final CodeSnippetCodeBuilder? codeBuilder;
+
+  /// Widget-leg theme override.
   final CodeSnippetTheme? theme;
+
+  @override
+  State<CodeSnippet> createState() => _CodeSnippetState();
+}
+
+class _CodeSnippetState extends State<CodeSnippet> {
+  bool _internalCopied = false;
+  Timer? _feedbackTimer;
+
+  bool get _isCopied => widget.copied ?? _internalCopied;
+
+  @override
+  void dispose() {
+    _feedbackTimer?.cancel();
+    super.dispose();
+  }
+
+  String? get _effectiveText {
+    if (widget.rawCode != null) return widget.rawCode;
+    final Widget raw = widget.code;
+    return raw is Text ? (raw.data ?? raw.textSpan?.toPlainText()) : null;
+  }
+
+  Future<void> _handleCopy(Duration feedbackDuration) async {
+    final String? text = _effectiveText;
+    if (text != null && text.isNotEmpty) {
+      await Clipboard.setData(ClipboardData(text: text));
+    }
+    widget.onCopy?.call();
+    if (!mounted) return;
+    if (widget.copied == null) {
+      setState(() => _internalCopied = true);
+      _feedbackTimer?.cancel();
+      _feedbackTimer = Timer(feedbackDuration, () {
+        if (mounted) {
+          setState(() => _internalCopied = false);
+          widget.onCopiedChange?.call(false);
+        }
+      });
+    }
+    widget.onCopiedChange?.call(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +152,65 @@ class CodeSnippet extends StatelessWidget {
     final CodeSnippetTheme style =
         resolveComponentStyle<CodeSnippetTheme, CodeSnippetTheme>(
           context,
-          widget: theme,
+          widget: widget.theme,
           select: (t) => t,
           defaults: codeSnippetDefaults,
         );
     final double scale = ambient.scaling;
+    final TextDirection direction = Directionality.of(context);
+    final EdgeInsets padding = resolveEdgeInsets(
+      style.padding ?? EdgeInsets.zero,
+      ambient.density.baseContainerPadding * scale,
+    ).resolve(direction);
+
+    final bool mobile = isMobile(ambient.platform);
+    final double buttonSize = 28 * scale;
+    final double touch = math.max(
+      0,
+      (touchMinEdge(ambient.platform) - buttonSize) / 2,
+    );
+    final double touchTargetSize = buttonSize + (mobile ? 2 * touch : 0);
+
+    final bool shouldShowCopy =
+        widget.showCopyButton ?? style.showCopyButton ?? true;
+    final List<Widget> allActions = <Widget>[
+      ...widget.actions,
+      if (shouldShowCopy)
+        _buildCopyButton(context, ambient, style, scale, buttonSize, touch),
+    ];
+
+    final Widget? actionsRow = allActions.isEmpty
+        ? null
+        : (widget.actionsBuilder != null
+              ? widget.actionsBuilder!(context, allActions)
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _spaced(
+                    allActions,
+                    scale,
+                    style.actionSpacing ?? 4,
+                  ),
+                ));
+
+    final double minContainerHeight = math.max(
+      widget.constraints?.minHeight ?? 0,
+      mobile && actionsRow != null ? touchTargetSize : 0,
+    );
+    final BoxConstraints effectiveConstraints =
+        (widget.constraints ?? const BoxConstraints()).copyWith(
+          minHeight: minContainerHeight,
+        );
+
+    final Widget codeChild = _codeChild(ambient);
+    final Widget selectableCode =
+        Overlay.maybeOf(context) == null ||
+            SelectionContainer.maybeOf(context) != null
+        ? codeChild
+        : SelectableRegion(
+            selectionControls: SelectionControls(),
+            child: codeChild,
+          );
+
     return Container(
       decoration: BoxDecoration(
         color: style.background?.resolve(ambient.colors),
@@ -76,84 +221,158 @@ class CodeSnippet extends StatelessWidget {
           width: (style.borderWidth ?? 1) * scale,
         ),
         borderRadius:
-            style.borderRadius?.resolve(Directionality.of(context)) ??
-            ambient.borderRadiusLg,
+            style.borderRadius?.resolve(direction) ?? ambient.borderRadiusLg,
       ),
       child: Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
           Container(
-            constraints: constraints,
+            constraints: effectiveConstraints,
             child: SingleChildScrollView(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                padding: resolveEdgeInsets(
-                  style.padding ?? EdgeInsets.zero,
-                  ambient.density.baseContainerPadding * scale,
-                ),
+                padding: padding,
                 child: DefaultTextStyle.merge(
                   style: TextStyle(color: ambient.colors.foreground),
-                  // SelectableRegion needs an Overlay for its handles and
-                  // menu; without one (e.g. a bare WidgetsApp) the code still
-                  // renders, just not selectable.
-                  child: Overlay.maybeOf(context) == null
-                      ? _codeChild(ambient)
-                      : SelectableRegion(
-                          selectionControls: SelectionControls(),
-                          child: _codeChild(ambient),
-                        ),
+                  child: selectableCode,
                 ),
               ),
             ),
           ),
-          if (actions.isNotEmpty)
+          if (actionsRow != null)
             Positioned.directional(
-              textDirection: Directionality.of(context),
-              end: ambient.density.baseGap * scale,
-              top: ambient.density.baseGap * scale,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: _spaced(scale),
-              ),
+              textDirection: direction,
+              end: mobile
+                  ? math.max(0, ambient.density.baseGap * scale - touch)
+                  : ambient.density.baseGap * scale,
+              top: mobile
+                  ? math.max(0, (minContainerHeight - touchTargetSize) / 2)
+                  : ambient.density.baseGap * scale,
+              child: actionsRow,
             ),
         ],
       ),
     );
   }
 
-  /// Actions interleaved with 4px gaps.
-  List<Widget> _spaced(double scale) {
-    final List<Widget> out = <Widget>[];
-    for (int i = 0; i < actions.length; i++) {
-      if (i > 0) out.add(Gap(4 * scale));
-      out.add(actions[i]);
+  Widget _buildCopyButton(
+    BuildContext context,
+    ThemeData ambient,
+    CodeSnippetTheme style,
+    double scale,
+    double buttonSize,
+    double touch,
+  ) {
+    final bool isCopied = _isCopied;
+    final Duration feedbackDuration =
+        style.copyFeedbackDuration ?? const Duration(milliseconds: 2000);
+    void onCopy() => _handleCopy(feedbackDuration);
+
+    if (widget.copyButtonBuilder != null) {
+      return widget.copyButtonBuilder!(context, onCopy, isCopied);
     }
-    return out;
+
+    final IconData iconData = isCopied
+        ? (style.copiedIcon ?? LucideIcons.check)
+        : (style.copyIcon ?? LucideIcons.copy);
+    final Color iconColor =
+        (isCopied
+            ? style.copiedIconColor?.resolve(ambient.colors)
+            : style.copyIconColor?.resolve(ambient.colors)) ??
+        (isCopied ? ambient.colors.primary : ambient.colors.mutedForeground);
+
+    final bool disableAnimations = MediaQuery.disableAnimationsOf(context);
+    final Duration animDuration = disableAnimations
+        ? Duration.zero
+        : ambient.motion.durations.fast;
+    final double buttonSize = 28 * scale;
+    final double touch = math.max(
+      0,
+      (touchMinEdge(ambient.platform) - buttonSize) / 2,
+    );
+
+    return Semantics(
+      button: true,
+      label: isCopied ? 'Copied' : 'Copy code',
+      child: TouchHitArea(
+        vertical: touch,
+        horizontal: touch,
+        child: SizedBox(
+          width: buttonSize,
+          height: buttonSize,
+          child: Clickable(
+            onPressed: onCopy,
+            focusOutline: true,
+            mouseCursor: const WidgetStatePropertyAll<MouseCursor>(
+              SystemMouseCursors.click,
+            ),
+            padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+              EdgeInsets.zero,
+            ),
+            decoration: WidgetStateProperty.resolveWith<Decoration?>((states) {
+              final bool active =
+                  states.contains(WidgetState.hovered) ||
+                  states.contains(WidgetState.pressed);
+              return BoxDecoration(
+                color: active
+                    ? ambient.colors.muted
+                    : ambient.colors.card.withValues(alpha: 0.8),
+                border: active
+                    ? null
+                    : Border.all(
+                        color: ambient.colors.border.withValues(alpha: 0.5),
+                        width: 1 * scale,
+                      ),
+                borderRadius: ambient.borderRadiusSm,
+              );
+            }),
+            child: Center(
+              child: AnimatedSwitcher(
+                duration: animDuration,
+                switchInCurve: ambient.motion.curves.standard,
+                switchOutCurve: ambient.motion.curves.standard,
+                child: Icon(
+                  iconData,
+                  key: ValueKey<bool>(isCopied),
+                  size: 14 * scale,
+                  color: iconColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
-  /// The code child, highlighted when a language is known or detected.
-  ///
-  /// The source string comes from a plain [Text] or from a [Text.rich]
-  /// span (`toPlainText`); it is re-colored with the theme syntax group.
-  /// Any other widget renders untouched.
+  List<Widget> _spaced(List<Widget> items, double scale, double spacing) => [
+    for (int i = 0; i < items.length; i++) ...[
+      if (i > 0) Gap(spacing * scale),
+      items[i],
+    ],
+  ];
+
   Widget _codeChild(ThemeData ambient) {
-    final Widget raw = code;
-    if (raw is! Text) return raw.mono.small;
-    final String? text = raw.data ?? raw.textSpan?.toPlainText();
-    if (text == null) return raw.mono.small;
-    final SyntaxLanguage? detected =
-        syntaxLanguageFromId(language) ?? syntaxLanguageGuess(text);
-    if (detected == null) return raw.mono.small;
-    final TextStyle base = ambient.typography.mono.copyWith(
-      color: ambient.colors.foreground,
-    );
-    return Text.rich(
-      syntaxTextSpan(
-        code: text,
-        language: detected,
-        base: base,
-        colors: ambient.syntaxColors,
-      ),
-    ).mono.small;
+    Widget content = widget.code;
+    final String? text = _effectiveText;
+    if (text != null) {
+      final SyntaxLanguage? detected =
+          syntaxLanguageFromId(widget.language) ?? syntaxLanguageGuess(text);
+      if (detected != null) {
+        final TextStyle base = ambient.typography.mono.copyWith(
+          color: ambient.colors.foreground,
+        );
+        content = Text.rich(
+          syntaxTextSpan(
+            code: text,
+            language: detected,
+            base: base,
+            colors: ambient.syntaxColors,
+          ),
+        );
+      }
+    }
+    final Widget styled = content.mono.small;
+    return widget.codeBuilder?.call(context, styled) ?? styled;
   }
 }
