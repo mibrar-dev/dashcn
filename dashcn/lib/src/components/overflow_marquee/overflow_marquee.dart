@@ -1,31 +1,38 @@
-// The `overflow_marquee` component: self-scrolling content with soft edge
-// fades. Fixes over the old copy: no Material import (the fade used
-// `Colors.white`), the fade is a `dstIn` mask toward the ambient `background`
-// token (the old white `modulate` stops faded nothing — `BlendMode.modulate`
-// never touches alpha), `fadePortion` was ignored, and RTL never reversed it.
+// The `overflow_marquee` component: continuous self-scrolling content with
+// seamless looping, soft edge fades, pause on hover/focus, and reduced-motion
+// support.
 
-import 'dart:math' as math;
-
-import 'package:flutter/foundation.dart' show ValueListenable, ValueNotifier;
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../primitives/animation.dart';
+import 'overflow_marquee_controller.dart';
+import 'overflow_marquee_render.dart';
 import 'overflow_marquee_style.dart';
 
+export 'overflow_marquee_controller.dart';
+export 'overflow_marquee_render.dart' show MarqueeLayout, RenderMarquee;
 export 'overflow_marquee_style.dart';
 
-/// Scrolls [child] along [direction] when it overflows its container and
-/// stays still when it fits. The scroll ping-pongs — rest, one run of the
-/// overflow, rest, back — with fades at both clipped edges; under reduced
-/// motion (`MediaQuery.disableAnimations`) the content holds its position.
+/// Scrolls [child] along [direction] in a continuous seamless loop.
+///
+/// Pauses on hover, on keyboard focus, or via [controller]. When reduced
+/// motion (`MediaQuery.disableAnimations`) is active, the ticker halts and
+/// the content is shown truncated at its start position.
 class OverflowMarquee extends StatefulWidget {
-  /// Creates a marquee.
+  /// Creates an overflow marquee.
   const OverflowMarquee({
     super.key,
     required this.child,
     this.direction,
+    this.speed,
+    this.gap,
+    this.pauseOnHover,
+    this.pauseOnFocus,
+    this.loop,
+    this.controller,
+    this.leading,
+    this.trailing,
+    this.builder,
     this.duration,
     this.delayDuration,
     this.step,
@@ -37,16 +44,43 @@ class OverflowMarquee extends StatefulWidget {
   /// Content to scroll.
   final Widget child;
 
-  /// Scroll axis; null uses the theme, then `Axis.horizontal`.
-  final Axis? direction;
+  /// Scroll direction: [AxisDirectional] or legacy [Axis].
+  final Object? direction;
 
-  /// Time one run of [step] pixels takes; a run scales with the overflow.
+  /// Speed in pixels per second; overrides [step] and [duration].
+  final double? speed;
+
+  /// Gap between looping instances in pixels.
+  final double? gap;
+
+  /// Whether hovering pauses the marquee.
+  final bool? pauseOnHover;
+
+  /// Whether keyboard focus pauses the marquee.
+  final bool? pauseOnFocus;
+
+  /// Whether the marquee loops continuously.
+  final bool? loop;
+
+  /// Controller for external play/pause management.
+  final MarqueeController? controller;
+
+  /// Optional builder slot placed before the scrolling marquee.
+  final Widget? leading;
+
+  /// Optional builder slot placed after the scrolling marquee.
+  final Widget? trailing;
+
+  /// Builder wrapping the scrolling subtree.
+  final Widget Function(BuildContext context, Widget child)? builder;
+
+  /// Time one run of [step] pixels takes (legacy timing).
   final Duration? duration;
 
-  /// Pause at each end of a run.
+  /// Pause at each end of a run (legacy timing).
   final Duration? delayDuration;
 
-  /// Pixels covered per [duration].
+  /// Pixels covered per [duration] (legacy timing).
   final double? step;
 
   /// Fade width per edge as a fraction of the visible extent (`0..0.5`).
@@ -55,7 +89,7 @@ class OverflowMarquee extends StatefulWidget {
   /// Easing of each run.
   final Curve? curve;
 
-  /// Widget-leg theme override, merged on top of the other legs.
+  /// Widget-leg theme override.
   final OverflowMarqueeTheme? theme;
 
   @override
@@ -64,336 +98,201 @@ class OverflowMarquee extends StatefulWidget {
 
 class _OverflowMarqueeState extends State<OverflowMarquee>
     with SingleTickerProviderStateMixin {
-  /// Elapsed scroll time: a notifier, so a tick never rebuilds the subtree.
   late final ValueNotifier<Duration> _elapsed = ValueNotifier<Duration>(
     Duration.zero,
   );
-
   late final Ticker _ticker;
+
+  bool _isHovered = false;
+  bool _isFocused = false;
+  Duration _pauseStartTime = Duration.zero;
+  Duration _pausedDuration = Duration.zero;
+  bool _wasPaused = false;
 
   @override
   void initState() {
     super.initState();
-    _ticker = createTicker((Duration elapsed) => _elapsed.value = elapsed);
+    widget.controller?.addListener(_onControllerChanged);
+    _ticker = createTicker(_onTick);
+  }
+
+  @override
+  void didUpdateWidget(OverflowMarquee oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_onControllerChanged);
+      widget.controller?.addListener(_onControllerChanged);
+    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _syncTicker();
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_onControllerChanged);
+    _ticker.dispose();
+    _elapsed.dispose();
+    super.dispose();
+  }
+
+  bool _isPaused(MarqueeSurface surface, bool reducedMotion) {
+    if (reducedMotion) return true;
+    if (widget.controller?.isPaused ?? false) return true;
+    final bool hoverActive = widget.pauseOnHover ?? surface.pauseOnHover;
+    if (hoverActive && _isHovered) return true;
+    final bool focusActive = widget.pauseOnFocus ?? surface.pauseOnFocus;
+    return focusActive && _isFocused;
+  }
+
+  void _onTick(Duration elapsed) {
+    final bool reduced =
+        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final MarqueeSurface surface = _resolve(context);
+    final bool paused = _isPaused(surface, reduced);
+
+    if (paused) {
+      if (!_wasPaused) {
+        _pauseStartTime = elapsed;
+        _wasPaused = true;
+      }
+      return;
+    }
+    if (_wasPaused) {
+      _pausedDuration += (elapsed - _pauseStartTime);
+      _wasPaused = false;
+    }
+    _elapsed.value = elapsed - _pausedDuration;
+  }
+
+  void _syncTicker() {
     final bool reduced =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     if (reduced) {
-      _ticker.stop();
+      if (_ticker.isActive) _ticker.stop();
       _elapsed.value = Duration.zero;
     } else if (!_ticker.isActive) {
       _ticker.start();
     }
   }
 
-  @override
-  void dispose() {
-    _ticker.dispose();
-    _elapsed.dispose();
-    super.dispose();
-  }
+  void _onControllerChanged() => setState(() {});
+
+  MarqueeSurface _resolve(BuildContext context) => resolveMarqueeSurface(
+    context,
+    widgetTheme: widget.theme,
+    direction: widget.direction,
+    speed: widget.speed,
+    gap: widget.gap,
+    pauseOnHover: widget.pauseOnHover,
+    pauseOnFocus: widget.pauseOnFocus,
+    loop: widget.loop,
+    duration: widget.duration,
+    delayDuration: widget.delayDuration,
+    step: widget.step,
+    fadePortion: widget.fadePortion,
+    curve: widget.curve,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final MarqueeSurface surface = resolveMarqueeSurface(
-      context,
-      widgetTheme: widget.theme,
-      direction: widget.direction,
-      duration: widget.duration,
-      delayDuration: widget.delayDuration,
-      step: widget.step,
-      fadePortion: widget.fadePortion,
-      curve: widget.curve,
-    );
-    return ClipRect(
-      child: _MarqueeLayout(
-        direction: surface.direction,
-        duration: surface.duration,
-        delayDuration: surface.delayDuration,
-        step: surface.step,
-        fadePortion: surface.fadePortion,
-        curve: surface.curve,
-        elapsed: _elapsed,
-        textDirection: Directionality.of(context),
-        fadeColor: surface.fadeColor,
-        child: widget.child,
-      ),
-    );
-  }
-}
+    final bool reduced =
+        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final MarqueeSurface surface = _resolve(context);
+    final TextDirection textDir = Directionality.of(context);
+    final bool isHorizontal =
+        surface.direction == AxisDirectional.start ||
+        surface.direction == AxisDirectional.end;
 
-/// Hosts the marquee render object.
-class _MarqueeLayout extends SingleChildRenderObjectWidget {
-  const _MarqueeLayout({
-    required this.direction,
-    required this.duration,
-    required this.delayDuration,
-    required this.step,
-    required this.fadePortion,
-    required this.curve,
-    required this.elapsed,
-    required this.textDirection,
-    required this.fadeColor,
-    required super.child,
-  });
+    _syncTicker();
 
-  final Axis direction;
-  final Duration duration;
-  final Duration delayDuration;
-  final double step;
-  final double fadePortion;
-  final Curve curve;
-  final ValueListenable<Duration> elapsed;
-  final TextDirection textDirection;
-
-  /// Colour the edge fade blends into.
-  final Color fadeColor;
-
-  @override
-  _RenderMarquee createRenderObject(BuildContext context) {
-    return _RenderMarquee(
-      direction: direction,
-      duration: duration,
-      delayDuration: delayDuration,
-      step: step,
-      fadePortion: fadePortion,
-      curve: curve,
-      elapsed: elapsed,
-      textDirection: textDirection,
-      fadeColor: fadeColor,
-    );
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, _RenderMarquee renderObject) {
-    final bool geometryChanged =
-        renderObject.direction != direction ||
-        renderObject.step != step ||
-        renderObject.duration != duration ||
-        renderObject.delayDuration != delayDuration;
-    renderObject
-      ..direction = direction
-      ..duration = duration
-      ..delayDuration = delayDuration
-      ..step = step
-      ..fadePortion = fadePortion
-      ..curve = curve
-      ..textDirection = textDirection
-      ..fadeColor = fadeColor
-      ..elapsed = elapsed;
-    geometryChanged
-        ? renderObject.markNeedsLayout()
-        : renderObject.markNeedsPaint();
-  }
-}
-
-/// Lays the child out at its natural size, clips to the constraints and
-/// paints it translated by the scroll offset behind an edge-fade shader.
-class _RenderMarquee extends RenderShiftedBox {
-  _RenderMarquee({
-    required this.direction,
-    required this.duration,
-    required this.delayDuration,
-    required this.step,
-    required this.fadePortion,
-    required this.curve,
-    required this.fadeColor,
-    required this._textDirection,
-    required this._elapsed,
-  }) : super(null);
-
-  Axis direction;
-  Duration duration;
-  Duration delayDuration;
-  double step;
-  double fadePortion;
-  Curve curve;
-  TextDirection _textDirection;
-  ValueListenable<Duration> _elapsed;
-
-  /// Colour the edge fade blends into; a change repaints the mask.
-  Color fadeColor;
-
-  double _overflow = 0;
-
-  set textDirection(TextDirection value) {
-    if (value == _textDirection) return;
-    _textDirection = value;
-    // The scroll offset lives in the child's parent data.
-    markNeedsLayout();
-  }
-
-  /// Elapsed scroll time; re-subscribes the paint listener on change.
-  set elapsed(ValueListenable<Duration> value) {
-    if (identical(value, _elapsed)) return;
-    if (attached) {
-      _elapsed.removeListener(_onTick);
-    }
-    _elapsed = value;
-    if (attached) {
-      _elapsed.addListener(_onTick);
-    }
-    markNeedsPaint();
-  }
-
-  @override
-  void attach(PipelineOwner owner) {
-    super.attach(owner);
-    _elapsed.addListener(_onTick);
-  }
-
-  @override
-  void detach() {
-    _elapsed.removeListener(_onTick);
-    super.detach();
-  }
-
-  void _onTick() {
-    // The scroll offset lives in the child's parent data, so a tick relayouts
-    // (cheap: this render object is the relayout boundary and the child's
-    // constraints never change). That keeps hit tests, transforms and
-    // semantics aligned with what is painted.
-    if (_overflow > 0) markNeedsLayout();
-  }
-
-  @override
-  bool get alwaysNeedsCompositing => child != null;
-
-  @override
-  void performLayout() {
-    final RenderBox? child = this.child;
-    if (child == null) {
-      _overflow = 0;
-      size = constraints.smallest;
-      return;
-    }
-    child.layout(_childConstraints(constraints), parentUsesSize: true);
-    size = constraints.constrain(child.size);
-    final double childExtent = direction == Axis.horizontal
-        ? child.size.width
-        : child.size.height;
-    final double ownExtent = direction == Axis.horizontal
-        ? size.width
-        : size.height;
-    _overflow = math.max(0, childExtent - ownExtent);
-    (child.parentData! as BoxParentData).offset = _scroll(_progress);
-  }
-
-  @override
-  Size computeDryLayout(covariant BoxConstraints constraints) {
-    final RenderBox? child = this.child;
-    return child == null
-        ? constraints.smallest
-        : constraints.constrain(
-            child.getDryLayout(_childConstraints(constraints)),
-          );
-  }
-
-  /// The child measures along its main axis without any container bound.
-  BoxConstraints _childConstraints(BoxConstraints c) =>
-      direction == Axis.horizontal
-      ? c.copyWith(minWidth: 0, maxWidth: double.infinity)
-      : c.copyWith(minHeight: 0, maxHeight: double.infinity);
-
-  @override
-  double computeMinIntrinsicWidth(double height) => direction == Axis.vertical
-      ? super.computeMinIntrinsicWidth(height)
-      : super.computeMinIntrinsicWidth(double.infinity);
-
-  @override
-  double computeMaxIntrinsicWidth(double height) => direction == Axis.vertical
-      ? super.computeMaxIntrinsicWidth(height)
-      : super.computeMaxIntrinsicWidth(double.infinity);
-
-  @override
-  double computeMinIntrinsicHeight(double width) => direction == Axis.horizontal
-      ? super.computeMinIntrinsicHeight(double.infinity)
-      : super.computeMinIntrinsicHeight(width);
-  @override
-  double computeMaxIntrinsicHeight(double width) => direction == Axis.horizontal
-      ? super.computeMaxIntrinsicHeight(double.infinity)
-      : super.computeMaxIntrinsicHeight(width);
-
-  /// Normalized scroll position: rest, run forward, rest, run back. A run
-  /// covers the whole overflow in `duration` for every `step` pixels.
-  double get _progress {
-    final int runUs = (duration.inMicroseconds * (_overflow / step)).round();
-    if (_overflow <= 0 || runUs <= 0) {
-      return 0;
-    }
-    return pingPongProgress(
-      elapsed: _elapsed.value,
-      run: Duration(microseconds: runUs),
-      rest: delayDuration,
-      curve: curve,
-    );
-  }
-
-  /// Scroll translation for [progress]; RTL starts against the end edge.
-  Offset _scroll(double progress) {
-    final double extent = _overflow * progress;
-    if (direction == Axis.horizontal) {
-      final bool rtl = _textDirection == TextDirection.rtl;
-      return Offset(rtl ? extent - _overflow : -extent, 0);
-    }
-    return Offset(0, -extent);
-  }
-
-  /// Edge fade over the visible bounds; identity when nothing scrolls.
-  /// `dstIn` from transparent to the ambient `background` token, so clipped
-  /// edges dissolve into the surface the marquee sits on and stay correct in
-  /// dark mode (`BlendMode.modulate` never touches alpha — hence the old white
-  /// stops faded nothing).
-  Shader _shader(Rect bounds) {
-    final double portion = fadePortion.clamp(0.0, 0.5);
-    final Color fade = fadeColor;
-    if (_overflow <= 0 || portion <= 0) {
-      return LinearGradient(colors: <Color>[fade, fade]).createShader(bounds);
-    }
-    final (Alignment begin, Alignment end) = direction == Axis.horizontal
-        ? (
-            AlignmentDirectional.centerStart.resolve(_textDirection),
-            AlignmentDirectional.centerEnd.resolve(_textDirection),
-          )
-        : (Alignment.topCenter, Alignment.bottomCenter);
-    return LinearGradient(
-      begin: begin,
-      end: end,
-      colors: <Color>[
-        fade.withValues(alpha: 0),
-        fade,
-        fade,
-        fade.withValues(alpha: 0),
-      ],
-      stops: <double>[0, portion, 1 - portion, 1],
-    ).createShader(bounds);
-  }
-
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    final RenderBox? child = this.child;
-    if (child == null) return;
-    final ShaderMaskLayer fade =
-        (layer as ShaderMaskLayer?) ?? ShaderMaskLayer();
-    layer = fade;
-    fade
-      ..shader = _shader(offset & size)
-      ..maskRect = offset & size
-      ..blendMode = BlendMode.dstIn;
-    context.pushLayer(fade, _paintChild, offset);
-  }
-
-  void _paintChild(PaintingContext context, Offset offset) {
-    final RenderBox? child = this.child;
-    if (child != null) {
-      context.paintChild(
-        child,
-        offset + (child.parentData! as BoxParentData).offset,
+    Widget scrollingChild = widget.child;
+    if (reduced) {
+      scrollingChild = DefaultTextStyle.merge(
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        child: scrollingChild,
       );
     }
+
+    Widget core = MarqueeLayout(
+      direction: surface.direction,
+      speed: surface.speed,
+      gap: surface.gap,
+      loop: surface.loop,
+      reducedMotion: reduced,
+      elapsed: _elapsed,
+      textDirection: textDir,
+      child: scrollingChild,
+    );
+
+    if (surface.fadePortion > 0 && !reduced) {
+      core = ShaderMask(
+        shaderCallback: (Rect bounds) {
+          final double portion = surface.fadePortion.clamp(0.0, 0.5);
+          final (Alignment begin, Alignment end) = isHorizontal
+              ? (
+                  AlignmentDirectional.centerStart.resolve(textDir),
+                  AlignmentDirectional.centerEnd.resolve(textDir),
+                )
+              : (Alignment.topCenter, Alignment.bottomCenter);
+          return LinearGradient(
+            begin: begin,
+            end: end,
+            colors: const <Color>[
+              Color(0x00FFFFFF),
+              Color(0xFFFFFFFF),
+              Color(0xFFFFFFFF),
+              Color(0x00FFFFFF),
+            ],
+            stops: <double>[0.0, portion, 1.0 - portion, 1.0],
+          ).createShader(bounds);
+        },
+        blendMode: BlendMode.dstIn,
+        child: core,
+      );
+    }
+
+    Widget result = ClipRect(child: core);
+
+    final bool hoverActive = widget.pauseOnHover ?? surface.pauseOnHover;
+    final bool focusActive = widget.pauseOnFocus ?? surface.pauseOnFocus;
+
+    if (hoverActive || focusActive) {
+      result = MouseRegion(
+        onEnter: hoverActive ? (_) => setState(() => _isHovered = true) : null,
+        onExit: hoverActive ? (_) => setState(() => _isHovered = false) : null,
+        child: Focus(
+          onFocusChange: focusActive
+              ? (f) => setState(() => _isFocused = f)
+              : null,
+          child: result,
+        ),
+      );
+    }
+
+    if (widget.leading != null || widget.trailing != null) {
+      result = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (widget.leading != null) widget.leading!,
+          Flexible(child: result),
+          if (widget.trailing != null) widget.trailing!,
+        ],
+      );
+    }
+
+    if (widget.builder != null) {
+      result = widget.builder!(context, result);
+    }
+
+    return Semantics(
+      container: true,
+      label: 'Marquee scrolling content',
+      child: result,
+    );
   }
 }

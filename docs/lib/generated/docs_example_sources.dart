@@ -18049,8 +18049,8 @@ Widget _customized(BuildContext context) => const _CustomizedFilterBar();
   ],
   'overflow_marquee': <DocsExampleSource>[
     DocsExampleSource(
-      name: 'Now playing',
-      builder: '_nowPlaying',
+      name: 'Default',
+      builder: '_defaultMarquee',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -18059,7 +18059,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18072,7 +18071,56 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// Now-playing row with a play/pause toggle: long song titles scroll.
+Widget _defaultMarquee(BuildContext context) {
+  final theme = Theme.of(context);
+  return SizedBox(
+    width: 340,
+    child: _band(
+      context,
+      Row(
+        children: <Widget>[
+          Icon(LucideIcons.bell, size: 16, color: theme.colors.primary),
+          Gap(theme.spacing.sm),
+          const Expanded(
+            child: OverflowMarquee(
+              speed: 45.0,
+              gap: 28.0,
+              child: Text(
+                'Breaking News: dashcn continuous marquee components now live across all platforms! • '
+                'Seamless looping with soft edge fades • Fully keyboard accessible',
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Now playing',
+      builder: '_nowPlaying',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
 class _NowPlaying extends StatefulWidget {
   const _NowPlaying();
 
@@ -18081,76 +18129,82 @@ class _NowPlaying extends StatefulWidget {
 }
 
 class _NowPlayingState extends State<_NowPlaying> {
-  bool _playing = true;
+  final MarqueeController _controller = MarqueeController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          width: 320,
-          child: _band(
-            context,
-            Row(
-              children: <Widget>[
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: theme.colors.muted,
-                    borderRadius: BorderRadius.circular(6),
+    return SizedBox(
+      width: 320,
+      child: _band(
+        context,
+        Row(
+          children: <Widget>[
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: theme.colors.muted,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Center(
+                child: Icon(
+                  LucideIcons.music,
+                  size: 20,
+                  color: theme.colors.primary,
+                ),
+              ),
+            ),
+            Gap(theme.spacing.sm),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  OverflowMarquee(
+                    controller: _controller,
+                    speed: 40.0,
+                    gap: 32.0,
+                    child: const Text(
+                      'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      LucideIcons.music,
-                      size: 20,
+                  Text(
+                    _controller.isPlaying ? 'Playing · Synthwave' : 'Paused',
+                    style: TextStyle(
+                      fontSize: 12,
                       color: theme.colors.mutedForeground,
                     ),
                   ),
-                ),
-                Gap(theme.spacing.sm),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const OverflowMarquee(
-                        duration: Duration(seconds: 6),
-                        child: Text(
-                          'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
-                        ),
-                      ),
-                      Text(
-                        _playing ? 'Playing · Synthwave' : 'Paused · Synthwave',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: theme.colors.mutedForeground,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Gap(theme.spacing.sm),
-                Button(
-                  size: ButtonSize.icon,
-                  variant: ButtonVariant.ghost,
-                  onPressed: () => setState(() => _playing = !_playing),
-                  child: Semantics(
-                    label: _playing ? 'Pause' : 'Play',
-                    child: Icon(
-                      _playing ? LucideIcons.pause : LucideIcons.play,
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            Gap(theme.spacing.sm),
+            Button(
+              size: ButtonSize.icon,
+              variant: ButtonVariant.ghost,
+              onPressed: () {
+                _controller.toggle();
+                setState(() {});
+              },
+              child: Semantics(
+                label: _controller.isPlaying ? 'Pause' : 'Play',
+                child: Icon(
+                  _controller.isPlaying ? LucideIcons.pause : LucideIcons.play,
+                  size: 16,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -18169,7 +18223,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18182,11 +18235,10 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// A live-news band: a LIVE badge plus scrolling headlines.
 Widget _newsTicker(BuildContext context) {
   final theme = Theme.of(context);
   return SizedBox(
-    width: 320,
+    width: 340,
     child: _band(
       context,
       Row(
@@ -18195,11 +18247,12 @@ Widget _newsTicker(BuildContext context) {
           Gap(theme.spacing.sm),
           const Expanded(
             child: OverflowMarquee(
-              duration: Duration(seconds: 12),
+              speed: 55.0,
+              gap: 32.0,
               child: Text(
-                'dashcn 1.0 ships 145 components  •  '
-                'pull-to-refresh learns trackpads  •  '
-                'dots keep their gaps  •  '
+                'dashcn 1.0 ships 145 components • '
+                'pull-to-refresh learns trackpads • '
+                'continuous marquees loop seamlessly • '
                 'cards never collapse',
               ),
             ),
@@ -18212,8 +18265,8 @@ Widget _newsTicker(BuildContext context) {
 ''',
     ),
     DocsExampleSource(
-      name: 'Filename',
-      builder: '_filenameCard',
+      name: 'Vertical',
+      builder: '_verticalCredits',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -18222,7 +18275,6 @@ import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
 
-/// A bordered band for the ticker-style examples.
 Widget _band(BuildContext context, Widget child) {
   final theme = Theme.of(context);
   return DecoratedBox(
@@ -18235,33 +18287,147 @@ Widget _band(BuildContext context, Widget child) {
   );
 }
 
-/// A long filename scrolling inside a fixed-width file card.
-Widget _filenameCard(BuildContext context) {
-  final theme = Theme.of(context);
+Widget _verticalCredits(BuildContext context) {
   return SizedBox(
-    width: 240,
+    width: 280,
+    height: 96,
     child: _band(
       context,
-      Row(
-        children: <Widget>[
-          Icon(
-            LucideIcons.fileText,
-            size: 16,
-            color: theme.colors.mutedForeground,
+      const Center(
+        child: OverflowMarquee(
+          direction: AxisDirectional.up,
+          speed: 25.0,
+          gap: 16.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Directed by dashcn Team', style: TextStyle(fontSize: 13)),
+              Text(
+                'Original Score by Synthwave',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                'Starring Continuous Marquee',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                'Special Thanks to Open Source',
+                style: TextStyle(fontSize: 11),
+              ),
+            ],
           ),
-          Gap(theme.spacing.sm),
-          const Expanded(
-            child: OverflowMarquee(
-              duration: Duration(seconds: 5),
-              child: Text('quarterly-report-final-v2-ACTUAL-final.pdf'),
+        ),
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'RTL reverse',
+      builder: '_rtlTicker',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
+Widget _rtlTicker(BuildContext context) {
+  return Directionality(
+    textDirection: TextDirection.rtl,
+    child: SizedBox(
+      width: 320,
+      child: Builder(
+        builder: (context) {
+          final theme = Theme.of(context);
+          return _band(
+            context,
+            Row(
+              children: <Widget>[
+                const Badge(child: Text('عاجل')),
+                Gap(theme.spacing.sm),
+                const Expanded(
+                  child: OverflowMarquee(
+                    direction: AxisDirectional.start,
+                    speed: 45.0,
+                    gap: 30.0,
+                    child: Text(
+                      'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+                    ),
+                  ),
+                ),
+              ],
             ),
+          );
+        },
+      ),
+    ),
+  );
+}
+''',
+    ),
+    DocsExampleSource(
+      name: 'Customized',
+      builder: '_customizedMarquee',
+      code: r'''import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
+import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
+import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
+import 'package:<your_app>/ui/dashcn/components/button/button.dart';
+import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';
+
+Widget _band(BuildContext context, Widget child) {
+  final theme = Theme.of(context);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      color: theme.colors.card,
+      border: Border.all(color: theme.colors.border),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(padding: EdgeInsets.all(theme.spacing.sm), child: child),
+  );
+}
+
+Widget _customizedMarquee(BuildContext context) {
+  final theme = Theme.of(context);
+  return SizedBox(
+    width: 340,
+    child: _band(
+      context,
+      OverflowMarquee(
+        speed: 75.0,
+        gap: 40.0,
+        fadePortion: 0.15,
+        leading: Padding(
+          padding: EdgeInsets.only(right: theme.spacing.sm),
+          child: const Badge(
+            variant: BadgeVariant.secondary,
+            child: Text('FAST'),
           ),
-          Gap(theme.spacing.sm),
-          Text(
-            '2.4 MB',
-            style: TextStyle(fontSize: 11, color: theme.colors.mutedForeground),
-          ),
-        ],
+        ),
+        trailing: Padding(
+          padding: EdgeInsets.only(left: theme.spacing.sm),
+          child: Icon(LucideIcons.zap, size: 16, color: theme.colors.primary),
+        ),
+        child: const Text(
+          'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
       ),
     ),
   );

@@ -1144,7 +1144,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'overflow_marquee': <DocsDep>[
-    DocsDep(id: 'animation', kind: DocsDepKind.primitive),
+    DocsDep(id: 'geometry', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],

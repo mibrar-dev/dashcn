@@ -5583,8 +5583,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'OverflowMarquee',
     hasApiTable: true,
     parseClean: true,
-    summary:
-        'Scrolls [child] along [direction] when it overflows its container and stays still when it fits. The scroll ping-pongs — rest, one run of the overflow, rest, back — with fades at both clipped edges; under reduced motion (`MediaQuery.disableAnimations`) the content holds its position.',
+    summary: 'Scrolls [child] along [direction] in a continuous seamless loop.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'child',
@@ -5594,28 +5593,81 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
       ),
       DocsApiParam(
         name: 'direction',
-        type: 'Axis?',
+        type: 'Object?',
         isRequired: false,
-        doc: 'Scroll axis; null uses the theme, then `Axis.horizontal`.',
+        doc: 'Scroll direction: [AxisDirectional] or legacy [Axis].',
+      ),
+      DocsApiParam(
+        name: 'speed',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Speed in pixels per second; overrides [step] and [duration].',
+      ),
+      DocsApiParam(
+        name: 'gap',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Gap between looping instances in pixels.',
+      ),
+      DocsApiParam(
+        name: 'pauseOnHover',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether hovering pauses the marquee.',
+      ),
+      DocsApiParam(
+        name: 'pauseOnFocus',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether keyboard focus pauses the marquee.',
+      ),
+      DocsApiParam(
+        name: 'loop',
+        type: 'bool?',
+        isRequired: false,
+        doc: 'Whether the marquee loops continuously.',
+      ),
+      DocsApiParam(
+        name: 'controller',
+        type: 'MarqueeController?',
+        isRequired: false,
+        doc: 'Controller for external play/pause management.',
+      ),
+      DocsApiParam(
+        name: 'leading',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Optional builder slot placed before the scrolling marquee.',
+      ),
+      DocsApiParam(
+        name: 'trailing',
+        type: 'Widget?',
+        isRequired: false,
+        doc: 'Optional builder slot placed after the scrolling marquee.',
+      ),
+      DocsApiParam(
+        name: 'builder',
+        type: 'Widget Function(BuildContext context, Widget child)?',
+        isRequired: false,
+        doc: 'Builder wrapping the scrolling subtree.',
       ),
       DocsApiParam(
         name: 'duration',
         type: 'Duration?',
         isRequired: false,
-        doc:
-            'Time one run of [step] pixels takes; a run scales with the overflow.',
+        doc: 'Time one run of [step] pixels takes (legacy timing).',
       ),
       DocsApiParam(
         name: 'delayDuration',
         type: 'Duration?',
         isRequired: false,
-        doc: 'Pause at each end of a run.',
+        doc: 'Pause at each end of a run (legacy timing).',
       ),
       DocsApiParam(
         name: 'step',
         type: 'double?',
         isRequired: false,
-        doc: 'Pixels covered per [duration].',
+        doc: 'Pixels covered per [duration] (legacy timing).',
       ),
       DocsApiParam(
         name: 'fadePortion',
@@ -5634,7 +5686,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'theme',
         type: 'OverflowMarqueeTheme?',
         isRequired: false,
-        doc: 'Widget-leg theme override, merged on top of the other legs.',
+        doc: 'Widget-leg theme override.',
       ),
     ],
     members: <DocsApiMember>[],
@@ -13618,13 +13670,13 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       ),
       DocsThemeField(
         name: 'direction',
-        type: 'Axis?',
-        description: 'horizontal | vertical',
+        type: 'AxisDirectional?',
+        description: 'start | end | up | down (RTL-aware)',
       ),
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'time of one `step` run',
+        description: 'legacy run time',
       ),
       DocsThemeField(
         name: 'fadePortion',
@@ -13632,9 +13684,34 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         description: 'edge fade fraction of the visible extent, clamped 0..0.5',
       ),
       DocsThemeField(
+        name: 'gap',
+        type: 'double?',
+        description: 'gap between repeating copies in continuous loop',
+      ),
+      DocsThemeField(
+        name: 'loop',
+        type: 'bool?',
+        description: 'whether marquee loops continuously',
+      ),
+      DocsThemeField(
+        name: 'pauseOnFocus',
+        type: 'bool?',
+        description: 'pause animation on keyboard focus',
+      ),
+      DocsThemeField(
+        name: 'pauseOnHover',
+        type: 'bool?',
+        description: 'pause animation on pointer hover',
+      ),
+      DocsThemeField(
+        name: 'speed',
+        type: 'double?',
+        description: 'scroll speed in pixels per second',
+      ),
+      DocsThemeField(
         name: 'step',
         type: 'double?',
-        description: 'pixels covered per `duration`',
+        description: 'pixels covered per duration',
       ),
     ],
   ),
