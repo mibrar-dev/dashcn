@@ -119,9 +119,7 @@ class JustAudioAdapter extends AudioPlaybackController {
   /// Loads a queue; the first (or [index]) track starts loading.
   Future<void> setTracks(List<AudioTrack> tracks, {int index = 0}) async {
     _tracks = tracks;
-    _currentIndex = tracks.isEmpty
-        ? 0
-        : index.clamp(0, tracks.length - 1);
+    _currentIndex = tracks.isEmpty ? 0 : index.clamp(0, tracks.length - 1);
     await _loadCurrent(autoPlay: false);
     notifyListeners();
   }
