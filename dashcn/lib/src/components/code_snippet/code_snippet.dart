@@ -11,6 +11,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../foundation/platform.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/surface.dart';
 import '../../primitives/syntax_highlight/syntax_highlight.dart';
 import '../../primitives/text/text_extension.dart';
 import '../../primitives/text_editing/text_editing.dart';
@@ -22,16 +23,23 @@ import 'code_snippet_style.dart';
 export 'code_snippet_style.dart';
 
 /// Builder slot for replacing the copy button widget.
-typedef CodeSnippetCopyButtonBuilder =
-    Widget Function(BuildContext context, VoidCallback onCopy, bool copied);
+typedef CodeSnippetCopyButtonBuilder = Widget Function(
+  BuildContext context,
+  VoidCallback onCopy,
+  bool copied,
+);
 
 /// Builder slot for customizing the entire actions row.
-typedef CodeSnippetActionsBuilder =
-    Widget Function(BuildContext context, List<Widget> actions);
+typedef CodeSnippetActionsBuilder = Widget Function(
+  BuildContext context,
+  List<Widget> actions,
+);
 
 /// Builder slot for customizing or wrapping the highlighted code widget.
-typedef CodeSnippetCodeBuilder =
-    Widget Function(BuildContext context, Widget code);
+typedef CodeSnippetCodeBuilder = Widget Function(
+  BuildContext context,
+  Widget code,
+);
 
 /// Scrollable code block with syntax colouring, top-right [actions] and a
 /// built-in copy button.
@@ -211,46 +219,57 @@ class _CodeSnippetState extends State<CodeSnippet> {
             child: codeChild,
           );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: style.background?.resolve(ambient.colors),
-        border: Border.all(
-          color:
-              style.borderColor?.resolve(ambient.colors) ??
-              ambient.colors.border,
-          width: (style.borderWidth ?? 1) * scale,
+    final BorderRadiusGeometry paintRadius =
+        style.borderRadius?.resolve(direction) ?? ambient.borderRadiusLg;
+    final Color? rawFill = style.background?.resolve(ambient.colors);
+    // Frosted glass: the card fill carries the ambient surfaceOpacity and
+    // the blur wraps the painted block (no extra layer at default).
+    final Color? fill = rawFill == null
+        ? null
+        : surfaceColor(rawFill, ambient.surfaceOpacity);
+    return GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: paintRadius,
+      child: Container(
+        decoration: BoxDecoration(
+          color: fill,
+          border: Border.all(
+            color:
+                style.borderColor?.resolve(ambient.colors) ??
+                ambient.colors.border,
+            width: (style.borderWidth ?? 1) * scale,
+          ),
+          borderRadius: paintRadius,
         ),
-        borderRadius:
-            style.borderRadius?.resolve(direction) ?? ambient.borderRadiusLg,
-      ),
-      child: Stack(
-        fit: StackFit.passthrough,
-        children: <Widget>[
-          Container(
-            constraints: effectiveConstraints,
-            child: SingleChildScrollView(
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            Container(
+              constraints: effectiveConstraints,
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: padding,
-                child: DefaultTextStyle.merge(
-                  style: TextStyle(color: ambient.colors.foreground),
-                  child: selectableCode,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: padding,
+                  child: DefaultTextStyle.merge(
+                    style: TextStyle(color: ambient.colors.foreground),
+                    child: selectableCode,
+                  ),
                 ),
               ),
             ),
-          ),
-          if (actionsRow != null)
-            Positioned.directional(
-              textDirection: direction,
-              end: mobile
-                  ? math.max(0, ambient.density.baseGap * scale - touch)
-                  : ambient.density.baseGap * scale,
-              top: mobile
-                  ? math.max(0, (minContainerHeight - touchTargetSize) / 2)
-                  : ambient.density.baseGap * scale,
-              child: actionsRow,
-            ),
-        ],
+            if (actionsRow != null)
+              Positioned.directional(
+                textDirection: direction,
+                end: mobile
+                    ? math.max(0, ambient.density.baseGap * scale - touch)
+                    : ambient.density.baseGap * scale,
+                top: mobile
+                    ? math.max(0, (minContainerHeight - touchTargetSize) / 2)
+                    : ambient.density.baseGap * scale,
+                child: actionsRow,
+              ),
+          ],
+        ),
       ),
     );
   }

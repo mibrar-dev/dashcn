@@ -6,6 +6,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/surface.dart';
+import '../../theme/theme.dart';
 import 'chart_model.dart';
 import 'chart_style.dart';
 import 'chart_tooltip_placement.dart';
@@ -153,6 +155,14 @@ class ChartTooltipCard extends StatelessWidget {
     if (config.builder != null) {
       return config.builder!(context, data);
     }
+    final ThemeData ambient = Theme.of(context);
+    // Frosted glass: the popover fill carries the ambient surfaceOpacity
+    // and the blur wraps the painted card (no extra layer at default).
+    final Color paint = surfaceColor(
+      surface.tooltipFill,
+      ambient.surfaceOpacity,
+    );
+    const BorderRadius radius = BorderRadius.all(Radius.circular(6));
     String? title;
     if (config.showLabel) {
       title = data.label;
@@ -161,51 +171,58 @@ class ChartTooltipCard extends StatelessWidget {
     for (final ChartTooltipRow row in data.rows) {
       total += row.value;
     }
-    return Container(
-      constraints: const BoxConstraints(maxWidth: chartTooltipDefaultMaxWidth),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: surface.tooltipFill,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: surface.gridColor),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (title != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                title,
-                style: surface.tickStyle,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          for (final ChartTooltipRow row in data.rows) _row(row, strong: false),
-          if (config.showTotal && data.rows.length > 1)
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: surface.gridColor)),
+    return GlassSurface(
+      surfaceBlur: ambient.surfaceBlur,
+      borderRadius: radius,
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: chartTooltipDefaultMaxWidth,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: paint,
+          borderRadius: radius,
+          border: Border.all(color: surface.gridColor),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  title,
+                  style: surface.tickStyle,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: _row(
-                    ChartTooltipRow(
-                      label:
-                          config.totalLabel ??
-                          ComponentLocalizations.of(context).chartTotalLabel,
-                      value: total,
-                      color: surface.tooltipStyle.color,
+              ),
+            for (final ChartTooltipRow row in data.rows)
+              _row(row, strong: false),
+            if (config.showTotal && data.rows.length > 1)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border(top: BorderSide(color: surface.gridColor)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: _row(
+                      ChartTooltipRow(
+                        label:
+                            config.totalLabel ??
+                            ComponentLocalizations.of(context).chartTotalLabel,
+                        value: total,
+                        color: surface.tooltipStyle.color,
+                      ),
+                      strong: true,
                     ),
-                    strong: true,
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

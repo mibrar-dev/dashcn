@@ -59,6 +59,13 @@
 // renders exactly as before: `surfaceColor` returns the base colour unchanged
 // and `GlassSurface` returns its child unchanged (no extra layer), except for
 // the sidebar/panel null-fill paths which keep drawing nothing.
+//
+// Surface-tokens audit (this branch): `chart` (tooltip card),
+// `code_snippet`, `error_system` (full-section overlay), `feature_carousel`
+// (section backdrop), `search_bar` (popover surface) and `toolbar`
+// (container) now frost too; their widget tests live in
+// `surface_tokens_audit_test.dart` and the ids moved from the allow-list to
+// `_tested`.
 
 import 'dart:convert';
 import 'dart:io';
@@ -1009,6 +1016,12 @@ const Set<String> _tested = <String>{
   'dropzone',
   'video_player',
   'audio_player',
+  'chart',
+  'code_snippet',
+  'error_system',
+  'feature_carousel',
+  'search_bar',
+  'toolbar',
 };
 
 /// Registry ids with no frosted surface, and why.
@@ -1040,7 +1053,6 @@ const Map<String, String> _allowList = <String, String>{
   'checkbox': 'control, not a surface',
   'chip': 'inline token, not a surface',
   'chip_input': 'input variant; fill covered via the shared input resolver',
-  'code_snippet': 'code block; inline fill, not a floating surface',
   'collapsible': 'layout container, no surface of its own',
   'color': 'color utility, no widget surface',
   'color_field': 'input variant; fill covered via the shared input resolver',
@@ -1051,9 +1063,7 @@ const Map<String, String> _allowList = <String, String>{
   'divider': 'hairline, not a surface',
   'dot_indicator': 'status dot accent, not a surface',
   'empty_state': 'placeholder layout; no surface of its own',
-  'error_system': 'error mapping, no paint',
   'eye_dropper': 'color sampling tool; popup surface covered via menu',
-  'feature_carousel': 'composed carousel; no own surface paint',
   'segmented_control':
       'selection control; the track is an inline fill and the thumb is a '
       'control surface, not a floating overlay',
@@ -1085,8 +1095,7 @@ const Map<String, String> _allowList = <String, String>{
   'pagination': 'page buttons; controls, not a surface',
   'patch': 'patch utility, no paint',
   'progress': 'canvas track/fill accents, not a box surface',
-  'qr_code':
-      'fixed module bitmap; the quiet zone stays light by design, not a floating surface',
+  'qr_code': 'fixed module bitmap; the quiet zone stays light by design, not a floating surface',
   'radio_group': 'controls, not a surface',
   'refresh_trigger': 'pull-to-refresh trigger, no surface of its own',
   'resizable': 'split layout; panels are caller content',
@@ -1094,8 +1103,6 @@ const Map<String, String> _allowList = <String, String>{
   'scrollable_client': 'scroll client, no paint',
   'scrollbar': 'scroll indicator, not a surface',
   'scrollview': 'scroll viewport, no surface of its own',
-  'search_bar':
-      'inline field + result card; the surface stays opaque by design',
   'selectable': 'selection wrapper, no surface of its own',
   'signature_pad':
       'drawing canvas; the ink surface stays opaque so strokes stay legible',
@@ -1112,9 +1119,6 @@ const Map<String, String> _allowList = <String, String>{
   'swiper': 'dismiss scrim only; panel chrome is the drawer surface',
   'switch': 'control, not a surface',
   'switcher': 'segmented control; controls, not a surface',
-  'toolbar':
-      'action bar; the container is an inline track and the items are '
-      'controls, not a floating overlay',
   'table': 'data grid; cells are inline fills, not a floating surface',
   'tabs': 'tab controls; panels are caller content',
   'text_animate': 'animated text, no surface',
@@ -1124,7 +1128,6 @@ const Map<String, String> _allowList = <String, String>{
   'timeline_animation': 'timeline animation utility, no paint',
   'toggle': 'control, not a surface',
   'tracker': 'analytics utility, no paint',
-  'chart': 'canvas paints, not a box surface',
   'tree': 'tree rows; inline fills, not a floating surface',
   'triple_dots': 'overflow glyph, no surface',
 };
