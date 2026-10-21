@@ -195,6 +195,8 @@ export 'src/components/object_input/object_input.dart';
 export 'src/components/outlined_container/outlined_container.dart';
 export 'src/components/outlined_container/outlined_container_style.dart';
 export 'src/components/overflow_marquee/overflow_marquee.dart';
+export 'src/components/overflow_marquee/overflow_marquee_controller.dart';
+export 'src/components/overflow_marquee/overflow_marquee_render.dart';
 export 'src/components/overflow_marquee/overflow_marquee_style.dart';
 export 'src/components/overlay_configuration/overlay_configuration.dart';
 export 'src/components/page_route/page_route.dart';

@@ -26,6 +26,9 @@ class SelectableCode extends StatelessWidget {
     if (Overlay.maybeOf(context) == null) {
       return child;
     }
+    if (SelectionContainer.maybeOf(context) != null) {
+      return child;
+    }
     return SelectableRegion(
       selectionControls: SelectionControls(),
       child: child,
