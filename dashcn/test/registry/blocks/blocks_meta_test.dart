@@ -67,13 +67,13 @@ void main() {
     'calendar-01': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>['date_math'],
+      'primitives': <String>['date_math', 'localizations'],
       'components': <String>['button', 'calendar', 'card', 'divider'],
     },
     'calendar-02': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>['date_math'],
+      'primitives': <String>['date_math', 'localizations'],
       'components': <String>['button', 'calendar', 'card', 'divider'],
     },
     'dashboard-01': <String, List<String>>{
@@ -93,7 +93,7 @@ void main() {
     'dashboard-02': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'button',
         'card',
@@ -106,7 +106,7 @@ void main() {
     'login-01': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'button',
@@ -120,13 +120,13 @@ void main() {
     'login-02': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>['alert', 'button', 'form', 'input'],
     },
     'login-03': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'button',
@@ -139,7 +139,7 @@ void main() {
     'otp-01': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'button',
@@ -187,7 +187,7 @@ void main() {
     'sidebar-03': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'avatar',
         'badge',
@@ -203,7 +203,7 @@ void main() {
     'signup-01': <String, List<String>>{
       'foundation': <String>['gap'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'button',
@@ -216,7 +216,7 @@ void main() {
     'signup-02': <String, List<String>>{
       'foundation': <String>['gap', 'icons'],
       'theme': <String>['theme'],
-      'primitives': <String>[],
+      'primitives': <String>['localizations'],
       'components': <String>[
         'alert',
         'button',

@@ -1,12 +1,14 @@
 // Tests for the error-domain strings of `ComponentLocalizations`.
 //
-// These getters are English fallbacks: no Flutter ARB file carries the
-// strings, so nothing is copied (or invented) into the locale tables. The
-// dismiss label is the one exception - it reuses `dialogDismiss`, Flutter's
-// translated `modalBarrierDismissLabel`.
+// English defaults live on the mixins; every required locale table overrides
+// them with native translations (see `i18n_locale_completeness_test.dart`).
+// Locales without their own error table fall back to English, and the
+// dismiss label reuses `dialogDismiss`, Flutter's translated
+// `modalBarrierDismissLabel`.
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/primitives/localizations/localizations.dart';
+import 'package:dashcn/src/primitives/localizations/localizations_bg.dart';
 import 'package:dashcn/src/primitives/localizations/localizations_de.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -106,17 +108,24 @@ void main() {
   });
 
   group('translated tables', () {
-    test('error strings fall back to English (no invented translations)', () {
+    test('error strings are translated where tables exist', () {
       const ComponentLocalizationsDe german = ComponentLocalizationsDe();
-      expect(german.errorSomethingWentWrong, 'Something went wrong');
-      expect(german.errorActionRetry, 'Retry');
-      expect(german.errorServerError, 'Server error');
+      expect(german.errorSomethingWentWrong, 'Etwas ist schiefgelaufen');
+      expect(german.errorActionRetry, 'Wiederholen');
+      expect(german.errorServerError, 'Serverfehler');
       expect(
         german.errorServerErrorMessage,
-        'The server encountered a problem. Please try again.',
+        'Auf dem Server ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.',
       );
       // The dismiss label is Flutter's translated `modalBarrierDismissLabel`.
       expect(german.dialogDismiss, 'Schließen');
+    });
+
+    test('locales without an error table fall back to English', () {
+      const ComponentLocalizationsBg bulgarian = ComponentLocalizationsBg();
+      expect(bulgarian.errorSomethingWentWrong, 'Something went wrong');
+      expect(bulgarian.errorActionRetry, 'Retry');
+      expect(bulgarian.errorServerError, 'Server error');
     });
 
     test('a locale table may override any error getter', () {
