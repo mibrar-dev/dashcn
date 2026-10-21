@@ -1,28 +1,41 @@
 # Overflow marquee
 
-Scrolls content on its own when it no longer fits its container — news
-tickers, long labels, vertical credits. Widgets-only: no Material, no
-Cupertino.
+Continuous self-scrolling content loop with soft edge fades, pause on
+hover/focus, and reduced-motion support. Widgets-only: no Material, no Cupertino.
 
 ## When to use
 
-- A single overflowing line or column that should keep moving.
-- Content that fits should not animate at all (the render object measures the
-  overflow first and paints a still frame when there is none).
+- Continuous tickers, announcements, and news bands that stream content.
+- Now-playing music tracks, long titles, and stock tickers.
+- Vertical credits or looping notifications.
+- Accessible marquee with keyboard focus pause and pointer hover pause.
 
 ## Snippets
 
 ```dart
+// Continuous horizontal ticker with edge fade
 OverflowMarquee(
-  duration: Duration(seconds: 8),
-  delayDuration: Duration(seconds: 1),
-  fadePortion: 0.15,
-  child: Text('A very long ticker line ...'),
+  speed: 50.0,
+  gap: 28.0,
+  child: Text('Breaking updates streaming continuously ...'),
 );
 
+// Controlled playback with play/pause controller
+final controller = MarqueeController();
+
 OverflowMarquee(
-  direction: Axis.vertical,
-  child: SizedBox(height: 96, child: Text('Vertical credits ...')),
+  controller: controller,
+  pauseOnHover: true,
+  child: Text('Midnight City — M83 (Extended Club Mix)'),
+);
+
+// Vertical credits scrolling upwards
+OverflowMarquee(
+  direction: AxisDirectional.up,
+  speed: 25.0,
+  child: Column(
+    children: [Text('Directed by ...'), Text('Produced by ...')],
+  ),
 );
 ```
 
@@ -30,12 +43,17 @@ OverflowMarquee(
 
 | Parameter | Default | Notes |
 |---|---|---|
-| `direction` | `Axis.horizontal` | scroll axis |
-| `duration` | `1s` | time for one `step`-pixel run; a run scales with the overflow |
-| `delayDuration` | `500ms` | pause at each end of a run |
-| `step` | `100` | pixels covered per `duration` |
-| `fadePortion` | `0.1` | edge fade as a **fraction** of the visible extent, clamped `0..0.5` |
-| `curve` | `Curves.linear` | easing of each run |
+| `direction` | `AxisDirectional.start` | scroll direction (`start`, `end`, `up`, `down`, RTL-aware; also accepts legacy `Axis`) |
+| `speed` | `50.0` | speed in pixels per second (overrides `step` and `duration`) |
+| `gap` | `24.0` | gap between repeating copies in continuous loop |
+| `pauseOnHover` | `true` | pause scrolling when mouse pointer enters |
+| `pauseOnFocus` | `true` | pause scrolling when keyboard focus enters |
+| `loop` | `true` | whether content loops continuously |
+| `controller` | null | `MarqueeController` for external play/pause management |
+| `leading` | null | builder slot placed before the scrolling marquee |
+| `trailing` | null | builder slot placed after the scrolling marquee |
+| `builder` | null | custom wrapper builder `(context, child)` |
+| `fadePortion` | `0.1` | edge fade as a **fraction** of visible extent, clamped `0..0.5` |
 | `theme` | null | widget-leg `OverflowMarqueeTheme` |
 
 ## Theming
@@ -47,11 +65,9 @@ argument > nearest `ComponentTheme<OverflowMarqueeTheme>` > app
 
 ## Behaviour notes
 
-- Scroll ping-pongs: rest, run forward, rest, run back.
-- Horizontal scrolling follows the ambient text direction (RTL starts at the
-  right edge and scrolls the other way).
-- Reduced motion (`MediaQuery.disableAnimations`) stops the ticker and holds
-  the content at its start position.
-- Hit tests follow the scroll offset, so links/controls inside the child
-  remain tappable.
-- Ticks repaint the layer instead of rebuilding the widget subtree.
+- Continuous seamless marquee: content streams across the viewport, repeating with `gap`.
+- RTL aware: `AxisDirectional.start` automatically scrolls left in LTR and right in RTL.
+- Reduced motion (`MediaQuery.disableAnimations`): stops the ticker, halts at start position, and truncates text with ellipsis.
+- Hit testing: all visible instances in the marquee window remain interactable and tappable.
+- Hover & focus: automatically pauses scrolling on hover or focus to comply with WCAG accessibility guidelines.
+- Ticks repaint the render object without rebuilding the widget subtree.
