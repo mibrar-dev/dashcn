@@ -8,6 +8,7 @@ export '../src/components/audio_player/audio_player_expanded.dart';
 export '../src/components/audio_player/audio_player_expanded_transport.dart';
 export '../src/components/audio_player/audio_player_fake.dart';
 export '../src/components/audio_player/audio_player_layout.dart';
+export '../src/components/audio_player/audio_player_metrics.dart';
 export '../src/components/audio_player/audio_player_playlist.dart';
 export '../src/components/audio_player/audio_player_progress.dart';
 export '../src/components/audio_player/audio_player_style.dart';

@@ -6,8 +6,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/tap_target.dart';
+import '../../primitives/focus_tap.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import 'audio_player_style.dart';
 import 'audio_player_transport.dart';
@@ -112,40 +113,35 @@ class AudioExpandedTransport extends StatelessWidget {
     if (c.isBuffering && loadingBuilder != null) {
       return loadingBuilder!(context, c);
     }
+    // SPEC shows a black disc on a light card; invert on dark theme so the
+    // disc stays visible against a dark card.
+    final bool dark = Theme.of(context).brightness == Brightness.dark;
     final double size = style.controlSize ?? 56;
+    final Color disc = dark ? const Color(0xFFFFFFFF) : const Color(0xFF18181B);
+    final Color glyph = dark
+        ? const Color(0xFF18181B)
+        : const Color(0xFFFFFFFF);
     final Widget icon = c.isBuffering
-        ? const Icon(
-            LucideIcons.loaderCircle,
-            size: 24,
-            color: Color(0xFFFFFFFF),
-          )
+        ? Icon(LucideIcons.loaderCircle, size: 24, color: glyph)
         : Icon(
             c.isPlaying ? LucideIcons.pause : LucideIcons.play,
             size: 24,
-            color: const Color(0xFFFFFFFF),
+            color: glyph,
           );
-    return Semantics(
+    return FocusableTap(
       label: c.isPlaying
           ? ComponentLocalizations.of(context).mediaPause
           : ComponentLocalizations.of(context).mediaPlay,
-      button: true,
-      child: TapTarget(
-        minWidth: 56,
-        minHeight: 56,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: c.toggle,
-          child: Container(
-            width: size,
-            height: size,
-            decoration: const BoxDecoration(
-              color: Color(0xFF18181B),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: icon,
-          ),
-        ),
+      onTap: c.toggle,
+      minWidth: 56,
+      minHeight: 56,
+      circular: true,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(color: disc, shape: BoxShape.circle),
+        alignment: Alignment.center,
+        child: icon,
       ),
     );
   }
@@ -158,22 +154,14 @@ Widget _transportButton({
   required double size,
   VoidCallback? onTap,
 }) {
-  return Semantics(
+  return FocusableTap(
     label: label,
-    button: true,
-    child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Center(
-            child: Icon(icon, size: size, color: fg),
-          ),
-        ),
+    onTap: onTap,
+    child: SizedBox(
+      width: 40,
+      height: 40,
+      child: Center(
+        child: Icon(icon, size: size, color: fg),
       ),
     ),
   );
@@ -188,22 +176,14 @@ Widget _toggleButton({
   required double size,
   VoidCallback? onTap,
 }) {
-  return Semantics(
+  return FocusableTap(
     label: label,
-    button: true,
-    child: TapTarget(
-      minWidth: 48,
-      minHeight: 48,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Center(
-            child: Icon(icon, size: size, color: active ? fg : muted),
-          ),
-        ),
+    onTap: onTap,
+    child: SizedBox(
+      width: 40,
+      height: 40,
+      child: Center(
+        child: Icon(icon, size: size, color: active ? fg : muted),
       ),
     ),
   );

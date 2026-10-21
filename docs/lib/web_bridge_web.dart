@@ -126,3 +126,47 @@ void webDownloadText(String filename, String text) {
     // Not available; the copy button next to it still works.
   }
 }
+
+/// Downloads the file at [url] as [filename] via an anchor download.
+///
+/// Used by the live audio example's download buttons (binary-safe: the
+/// browser fetches the bytes). Silently ignored when blocked.
+void webDownloadUrl(String url, String filename) {
+  try {
+    final web.HTMLAnchorElement anchor =
+        web.document.createElement('a') as web.HTMLAnchorElement;
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+  } catch (_) {
+    // Popup blocked or not available; the button is simply inert.
+  }
+}
+
+/// Requests one-shot camera access, then immediately releases the stream.
+///
+/// Resolves true when permission is granted (a video track starts), false
+/// when denied, unavailable or headless. The live video example shows the
+/// SPEC fallback message on false.
+Future<bool> webRequestCamera() async {
+  try {
+    final web.MediaDevices devices = web.window.navigator.mediaDevices;
+    final JSAny result = await devices
+        .getUserMedia(web.MediaStreamConstraints(video: true.toJS))
+        .toDart;
+    final web.MediaStream stream = result as web.MediaStream;
+    var granted = false;
+    try {
+      granted = stream.getVideoTracks().length > 0;
+      final JSArray<web.MediaStreamTrack> tracks = stream.getTracks();
+      for (int i = 0; i < tracks.length; i++) {
+        tracks[i].stop();
+      }
+    } catch (_) {
+      granted = true;
+    }
+    return granted;
+  } catch (_) {
+    return false;
+  }
+}

@@ -864,6 +864,9 @@ class ComponentLocalizationsDe extends ComponentLocalizations {
   String get mediaQualityAuto => 'Qualität Auto';
 
   @override
+  String get mediaLiveBadge => 'LIVE';
+
+  @override
   String get blockDontHaveAccount => 'Noch kein Konto?';
 
   @override

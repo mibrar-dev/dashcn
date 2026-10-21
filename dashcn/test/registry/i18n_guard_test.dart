@@ -48,10 +48,6 @@ const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
       'videoMoreButton: optional-strings fallback; internal call sites pass locale.',
     ),
     _Allowed(
-      "'Speed \${s}x'",
-      'videoMenuSection: optional-strings fallback; internal call sites pass locale.',
-    ),
-    _Allowed(
       "'Captions on'",
       'videoMenuSection: optional-strings fallback; internal call sites pass locale.',
     ),
@@ -148,7 +144,7 @@ const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
   'primitives/file_value/file_value.dart': <_Allowed>[
     _Allowed('', 'mime/extension data tables; not words.'),
   ],
-  'components/video_player/video_player_controller.dart': <_Allowed>[
+  'components/video_player/video_player_sources.dart': <_Allowed>[
     _Allowed(
       "'Online MP4'",
       'demoVideoSources entries are explicitly demo content; docs-sample doctrine.',

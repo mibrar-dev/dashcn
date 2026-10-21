@@ -7,7 +7,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/tap_target.dart';
+import '../../primitives/focus_tap.dart';
 import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 import '../../primitives/localizations/localizations.dart';
@@ -111,12 +111,24 @@ class AudioCompactPill extends StatelessWidget {
                 _iconPlay(context, c),
                 Text(
                   formatAudioTime(c.position),
-                  style: TextStyle(color: fg, fontSize: 12),
+                  style: TextStyle(
+                    color: fg,
+                    fontSize: 12,
+                    fontFeatures: const <FontFeature>[
+                      FontFeature.tabularFigures(),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 2),
                 Text(
                   formatAudioTime(c.duration),
-                  style: TextStyle(color: muted, fontSize: 12),
+                  style: TextStyle(
+                    color: muted,
+                    fontSize: 12,
+                    fontFeatures: const <FontFeature>[
+                      FontFeature.tabularFigures(),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -184,26 +196,18 @@ class AudioCompactPill extends StatelessWidget {
 
   Widget _iconPlay(BuildContext context, AudioPlaybackController c) {
     if (playButtonBuilder != null) return playButtonBuilder!(context, c);
-    return Semantics(
+    return FocusableTap(
       label: c.isPlaying
           ? ComponentLocalizations.of(context).mediaPause
           : ComponentLocalizations.of(context).mediaPlay,
-      button: true,
-      child: TapTarget(
-        minWidth: 48,
-        minHeight: 48,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: c.toggle,
-          child: SizedBox(
-            width: 32,
-            height: 48,
-            child: Icon(
-              c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-              size: style.iconSize ?? 20,
-              color: fg,
-            ),
-          ),
+      onTap: c.toggle,
+      child: SizedBox(
+        width: 32,
+        height: 48,
+        child: Icon(
+          c.isPlaying ? LucideIcons.pause : LucideIcons.play,
+          size: style.iconSize ?? 20,
+          color: fg,
         ),
       ),
     );

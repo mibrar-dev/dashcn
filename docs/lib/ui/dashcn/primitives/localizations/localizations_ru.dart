@@ -858,6 +858,9 @@ class ComponentLocalizationsRu extends ComponentLocalizations {
   String get mediaQualityAuto => 'Качество: Авто';
 
   @override
+  String get mediaLiveBadge => 'ВЖИВУЮ';
+
+  @override
   String get blockDontHaveAccount => 'Нет учётной записи?';
 
   @override

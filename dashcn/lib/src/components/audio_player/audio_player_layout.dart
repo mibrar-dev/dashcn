@@ -33,6 +33,7 @@ class AudioPlayerBody extends StatelessWidget {
     this.supportedSpeeds = kAudioSpeeds,
     this.showVolume = true,
     this.showSpeed = true,
+    this.initialSpeedOpen = false,
     this.onDownload,
     this.coverBuilder,
     this.titleBuilder,
@@ -83,6 +84,9 @@ class AudioPlayerBody extends StatelessWidget {
 
   /// Whether the speed control shows.
   final bool showSpeed;
+
+  /// Whether the expanded speed menu starts open.
+  final bool initialSpeedOpen;
 
   /// Called when the compact download icon is tapped.
   final VoidCallback? onDownload;
@@ -144,6 +148,8 @@ class AudioPlayerBody extends StatelessWidget {
           subtitle: subtitle,
           cover: cover,
           supportedSpeeds: supportedSpeeds,
+          showSpeed: showSpeed,
+          initialSpeedOpen: initialSpeedOpen,
           coverBuilder: coverBuilder,
           titleBuilder: titleBuilder,
           subtitleBuilder: subtitleBuilder,
@@ -155,6 +161,7 @@ class AudioPlayerBody extends StatelessWidget {
           nextBuilder: nextBuilder,
           shuffleBuilder: shuffleBuilder,
           repeatBuilder: repeatBuilder,
+          speedBuilder: speedBuilder,
           loadingBuilder: loadingBuilder,
         );
     }

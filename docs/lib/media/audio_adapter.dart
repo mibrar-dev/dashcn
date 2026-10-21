@@ -16,6 +16,7 @@
 // ```
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:just_audio/just_audio.dart' as audio;
 
@@ -32,10 +33,12 @@ class JustAudioAdapter extends AudioPlaybackController {
     _subscriptions.addAll(<StreamSubscription<Object?>>[
       player.positionStream.listen((_) => notifyListeners()),
       player.durationStream.listen((_) => notifyListeners()),
+      player.bufferedPositionStream.listen((_) => notifyListeners()),
       player.playerStateStream.listen((_) => notifyListeners()),
       player.playingStream.listen((_) => notifyListeners()),
       player.volumeStream.listen((_) => notifyListeners()),
       player.speedStream.listen((_) => notifyListeners()),
+      player.loopModeStream.listen((_) => notifyListeners()),
     ]);
   }
 
@@ -49,6 +52,20 @@ class JustAudioAdapter extends AudioPlaybackController {
 
   List<AudioTrack> _tracks = const <AudioTrack>[];
   int _currentIndex = 0;
+  bool _shuffled = false;
+  Object? _error;
+  final Random _random = Random();
+
+  /// Clears the last reported error.
+  void clearError() {
+    _error = null;
+    notifyListeners();
+  }
+
+  void _fail(Object error) {
+    _error = error;
+    notifyListeners();
+  }
 
   @override
   Duration get position => player.position;
@@ -80,16 +97,29 @@ class JustAudioAdapter extends AudioPlaybackController {
   bool get isLooping => player.loopMode == audio.LoopMode.one;
 
   @override
-  Object? get error => null;
+  Object? get error => _error;
 
   @override
-  Future<void> play() => player.play();
+  Future<void> play() async {
+    try {
+      await player.play();
+    } catch (error) {
+      _fail(error);
+      rethrow;
+    }
+  }
 
   @override
   Future<void> pause() => player.pause();
 
   @override
-  Future<void> seekTo(Duration position) => player.seek(position);
+  Future<void> seekTo(Duration position) {
+    final Duration end = duration <= Duration.zero ? position : duration;
+    final Duration target = position <= Duration.zero
+        ? Duration.zero
+        : (position >= end ? end : position);
+    return player.seek(target);
+  }
 
   @override
   Future<void> setVolume(double volume) {
@@ -120,6 +150,7 @@ class JustAudioAdapter extends AudioPlaybackController {
   Future<void> setTracks(List<AudioTrack> tracks, {int index = 0}) async {
     _tracks = tracks;
     _currentIndex = tracks.isEmpty ? 0 : index.clamp(0, tracks.length - 1);
+    clearError();
     await _loadCurrent(autoPlay: false);
     notifyListeners();
   }
@@ -128,18 +159,32 @@ class JustAudioAdapter extends AudioPlaybackController {
     final AudioTrack? track = currentTrack;
     final String? src = track?.src;
     if (src == null) return;
-    if (src.startsWith('http')) {
-      await player.setUrl(src);
-    } else {
-      await player.setFilePath(src);
+    try {
+      if (src.startsWith('http')) {
+        await player.setUrl(src);
+      } else {
+        await player.setFilePath(src);
+      }
+      clearError();
+      if (autoPlay) await play();
+    } catch (error) {
+      _fail(error);
+      rethrow;
     }
-    if (autoPlay) await player.play();
   }
 
   @override
   Future<void> next() async {
     if (!hasNext) return;
-    _currentIndex++;
+    if (_shuffled && _tracks.length > 1) {
+      int pick = _currentIndex;
+      while (pick == _currentIndex) {
+        pick = _random.nextInt(_tracks.length);
+      }
+      _currentIndex = pick;
+    } else {
+      _currentIndex++;
+    }
     await _loadCurrent();
     notifyListeners();
   }
@@ -150,7 +195,15 @@ class JustAudioAdapter extends AudioPlaybackController {
       await seekTo(Duration.zero);
       return;
     }
-    _currentIndex--;
+    if (_shuffled && _tracks.length > 1) {
+      int pick = _currentIndex;
+      while (pick == _currentIndex) {
+        pick = _random.nextInt(_tracks.length);
+      }
+      _currentIndex = pick;
+    } else {
+      _currentIndex--;
+    }
     await _loadCurrent();
     notifyListeners();
   }
@@ -160,6 +213,16 @@ class JustAudioAdapter extends AudioPlaybackController {
     if (_tracks.isEmpty) return;
     _currentIndex = index.clamp(0, _tracks.length - 1);
     await _loadCurrent();
+    notifyListeners();
+  }
+
+  @override
+  bool get isShuffled => _shuffled;
+
+  @override
+  Future<void> setShuffled(bool shuffled) async {
+    _shuffled = shuffled;
+    await player.setShuffleModeEnabled(shuffled);
     notifyListeners();
   }
 

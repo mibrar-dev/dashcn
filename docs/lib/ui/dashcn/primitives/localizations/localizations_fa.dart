@@ -852,6 +852,9 @@ class ComponentLocalizationsFa extends ComponentLocalizations {
   String get mediaQualityAuto => 'کیفیت خودکار';
 
   @override
+  String get mediaLiveBadge => 'زنده';
+
+  @override
   String get blockDontHaveAccount => 'حساب ندارید؟';
 
   @override

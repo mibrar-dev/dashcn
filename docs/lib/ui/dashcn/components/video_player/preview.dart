@@ -15,7 +15,8 @@ import 'video_player.dart';
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
   return Container(
-    alignment: Alignment.center,
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.only(top: 12),
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: colors,
@@ -57,8 +58,8 @@ class _DefaultVideoState extends State<_DefaultVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -98,8 +99,8 @@ class _LiveVideoState extends State<_LiveVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Live stream',
@@ -138,8 +139,8 @@ class _CameraVideoState extends State<_CameraVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Live feed',
@@ -189,8 +190,8 @@ class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -251,8 +252,8 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Captioned premiere',
@@ -291,8 +292,8 @@ class _BarHiddenVideoState extends State<_BarHiddenVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           controlsVisible: false,
@@ -331,8 +332,8 @@ class _PhoneVideoState extends State<_PhoneVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'For Bigger Blazes',
@@ -370,8 +371,8 @@ class _CustomVideoState extends State<_CustomVideo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 640,
-      child: ColoredBox(
-        color: const Color(0xFF000000),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
           title: 'Custom theme',

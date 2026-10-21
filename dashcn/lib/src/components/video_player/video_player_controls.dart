@@ -10,11 +10,13 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/surface.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_header.dart';
 import 'video_player_menu.dart';
+import 'video_player_metrics.dart';
 import 'video_player_scrub.dart';
 import 'video_player_style.dart';
 import 'video_player_volume.dart';
@@ -127,6 +129,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     final ThemeData ambient = Theme.of(context);
     final VideoPlaybackController c = widget.controller;
     final VideoPlayerTheme style = widget.style;
+    final VideoPlayerMetrics metrics = resolveVideoMetrics(style);
     final Color base =
         style.scrim?.resolve(ambient.colors) ?? const Color(0x99000000);
     final double? opacity = resolveSurfaceOpacity(
@@ -138,9 +141,10 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
       component: style.surfaceBlur,
     );
     Widget bar = Container(
-      padding:
-          style.controlsPadding ??
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: resolveEdgeInsets(
+        style.controlsPadding ?? metrics.controlsPadding,
+        ambient.density.baseContentPadding * ambient.scaling,
+      ),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
         borderRadius: BorderRadius.circular(14),
@@ -172,7 +176,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
               onDone: () => setState(() => _menuOpen = false),
               strings: ComponentLocalizations.of(context),
             ),
-          _buttons(context, c, compactVolume: compactVolume),
+          _buttons(context, c, compactVolume: compactVolume, metrics: metrics),
         ],
       ),
     );
@@ -196,6 +200,9 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
 
   Widget _scrub(BuildContext context, VideoPlaybackController c) {
     final colors = Theme.of(context).colors;
+    final VideoPlayerTheme style = widget.style;
+    final double trackHeight =
+        style.trackHeight ?? resolveVideoMetrics(style).trackHeight;
     final VideoScrubBar defaults = VideoScrubBar(
       position: c.position,
       duration: _total(c),
@@ -209,7 +216,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
       fillColor: widget.style.accent?.resolve(colors) ?? colors.primary,
       thumbColor:
           widget.style.thumb?.resolve(colors) ?? const Color(0xFFFFFFFF),
-      trackHeight: widget.style.trackHeight ?? 4,
+      trackHeight: trackHeight,
     );
     return widget.progressBuilder?.call(context, c, defaults) ?? defaults;
   }
@@ -218,8 +225,9 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     BuildContext context,
     VideoPlaybackController c, {
     required bool compactVolume,
+    required VideoPlayerMetrics metrics,
   }) {
-    final double iconSize = widget.style.iconSize ?? 16;
+    final double iconSize = widget.style.iconSize ?? metrics.iconSize;
     // SPEC compact density: 32px targets under 380px bar width.
     final double target = compactVolume ? 32 : 48;
     return Row(
@@ -234,7 +242,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
         ),
         videoIconButton(
           label: ComponentLocalizations.of(context).mediaSkipBack(10),
-          icon: LucideIcons.skipBack,
+          icon: LucideIcons.rotateCcw,
           size: iconSize,
           fg: widget.fg,
           minTarget: target,
@@ -242,7 +250,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
         ),
         videoIconButton(
           label: ComponentLocalizations.of(context).mediaSkipForward(10),
-          icon: LucideIcons.skipForward,
+          icon: LucideIcons.rotateCw,
           size: iconSize,
           fg: widget.fg,
           minTarget: target,
