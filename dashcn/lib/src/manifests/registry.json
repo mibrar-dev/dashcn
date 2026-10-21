@@ -10682,7 +10682,7 @@
     "components/app/preview.dart": "b1c97be2cc78847514c39ee4a033ca2ae41ada4384a7d83c931ed0de0be9e966",
     "components/async/async.dart": "b78dab734d119221c9d23f59ae0b903f25f476db454d6c121cad568393fe0df7",
     "components/async/preview.dart": "1aee5966cbf3edb0b53133f620fb8c8f64b274904ee3a24a9010f90aac272457",
-    "components/audio_player/audio_player.dart": "1a2f58f27d2fd2224d29840e82f69822245ac4a45090343f057448cd4132bcb4",
+    "components/audio_player/audio_player.dart": "803f99290d6527f77d328125ee282f390cf45bbed2d59b33bcc6bd45dfed982e",
     "components/audio_player/audio_player_compact.dart": "f8243d70daf379248f896cbe5c00fa0734591d3921e9fe3ebb1aa0169a52c39e",
     "components/audio_player/audio_player_compact_parts.dart": "bc6befcb871dcb9abf69434f215c82e46fc5bd6d45f4a1dcb4dd7ff39a03ddaa",
     "components/audio_player/audio_player_controller.dart": "914cb268bba76b079dd76394a6362e1e9f623b3e746e09813db8c234913b8d27",
