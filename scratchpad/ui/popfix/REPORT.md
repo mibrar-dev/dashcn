@@ -93,6 +93,6 @@ Overlay open states cannot be clicked via agent-browser (Flutter canvas exposes 
 
 ## PR
 
-PR: TODO (fill after `gh pr create`)
+PR: https://github.com/mibrar-dev/dashcn/pull/45
 
 Decisions: inline popups were already single (pinned by tests, not reworked); fixed the two overlay doubles (home command, wide sheet) at the source (transparent shell) rather than editing screenshots; action sheet compact row 40 per Material dense + 16px icons per `size-4`, padding/max-width from tokens; Flutter-web scrolling limits noted above.
