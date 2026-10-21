@@ -170,8 +170,10 @@ class DocsArticle extends StatefulWidget {
 class _DocsArticleState extends State<DocsArticle> {
   final DocsArticleController _controller = DocsArticleController();
   final GlobalKey _articleKey = GlobalKey();
-  late final FocusNode _selectionFocus =
-      FocusNode(skipTraversal: true, debugLabel: 'DocsArticleSelection');
+  late final FocusNode _selectionFocus = FocusNode(
+    skipTraversal: true,
+    debugLabel: 'DocsArticleSelection',
+  );
 
   @override
   void initState() {
