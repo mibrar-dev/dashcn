@@ -154,7 +154,7 @@ converge on one before the `dashcn_cli` companion PR):
 
 ## PR
 
-- URL: (filled in after `gh pr create`)
+- URL: https://github.com/mibrar-dev/dashcn/pull/46 (open, DO NOT MERGE)
 
 ## Session notes (translations + API + docs page + installer convergence)
 
