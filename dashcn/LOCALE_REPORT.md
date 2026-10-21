@@ -7,22 +7,22 @@ and parameterized keys interpolate their arguments.
 
 | locale | keys | direction |
 |---|---|---|
-| ar | 494/494 | RTL |
-| he | 494/494 | RTL |
-| fa | 494/494 | RTL |
-| ur | 494/494 | RTL |
-| de | 494/494 | LTR |
-| fr | 494/494 | LTR |
-| es | 494/494 | LTR |
-| it | 494/494 | LTR |
-| pt-BR | 494/494 | LTR |
-| nl | 494/494 | LTR |
-| ru | 494/494 | LTR |
-| tr | 494/494 | LTR |
-| ja | 494/494 | LTR |
-| ko | 494/494 | LTR |
-| zh-Hans | 494/494 | LTR |
-| hi | 494/494 | LTR |
+| ar | 493/493 | RTL |
+| he | 493/493 | RTL |
+| fa | 493/493 | RTL |
+| ur | 493/493 | RTL |
+| de | 493/493 | LTR |
+| fr | 493/493 | LTR |
+| es | 493/493 | LTR |
+| it | 493/493 | LTR |
+| pt-BR | 493/493 | LTR |
+| nl | 493/493 | LTR |
+| ru | 493/493 | LTR |
+| tr | 493/493 | LTR |
+| ja | 493/493 | LTR |
+| ko | 493/493 | LTR |
+| zh-Hans | 493/493 | LTR |
+| hi | 493/493 | LTR |
 
 ## Notes
 
