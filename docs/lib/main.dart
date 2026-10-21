@@ -98,12 +98,18 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    // Web deep links (`/docs/...`, `/charts/...`) resolve from the browser
+    // URL (`Uri.base`) on http(s), not the `"/"` default route, so release
+    // builds served with an SPA fallback land on the linked page. Tests
+    // (`file://`) keep the `"/"` landing.
+    final Uri initialUri =
+        (Uri.base.scheme == 'http' || Uri.base.scheme == 'https')
+        ? Uri.base
+        : Uri.parse(
+            WidgetsBinding.instance.platformDispatcher.defaultRouteName,
+          );
     _routeInformationProvider = PlatformRouteInformationProvider(
-      initialRouteInformation: RouteInformation(
-        uri: Uri.parse(
-          WidgetsBinding.instance.platformDispatcher.defaultRouteName,
-        ),
-      ),
+      initialRouteInformation: RouteInformation(uri: initialUri),
     );
     WidgetsBinding.instance.addObserver(this);
     widget.state.addListener(_onThemeChanged);

@@ -4,8 +4,6 @@
 // collapses into the full-width mobile popper (not a side drawer); the search
 // trigger hides below `md`.
 
-import 'dart:ui' as ui;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -20,6 +18,7 @@ import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/clickable.dart';
+import '../ui/dashcn/primitives/surface.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../web_bridge.dart';
@@ -67,115 +66,126 @@ class DocsHeader extends StatelessWidget {
               ? DocsMetrics.searchWidthLg
               : DocsMetrics.searchWidthMd);
     final bool showCta = width >= 768;
-    return Container(
-      height: wide ? DocsMetrics.headerHeightLg : DocsMetrics.headerHeightSm,
-      color: theme.colors.background,
-      padding: const EdgeInsets.symmetric(horizontal: DocsMetrics.barPadding),
-      child: Row(
-        children: <Widget>[
-          // Invisible initial-focus anchor: the reference paints no focus
-          // ring on load, but the first Tab must still start in the header
-          // (focus_test). A plain `Focus(autofocus: true)` loses the race
-          // against the Navigator route scope's own autofocus (it requests
-          // focus during build), so the anchor asks in a post-frame callback
-          // - the same trick `Button(autofocus)` uses. No `FocusOutline`
-          // wraps it, so taking focus paints nothing.
-          FocusTraversalOrder(
-            order: DocsFocusOrder.headerAnchor,
-            child: const _HeaderFocusAnchor(),
-          ),
-          if (!wide)
-            Button(
-              variant: ButtonVariant.ghost,
-              size: ButtonSize.sm,
-              // No `autofocus`: the reference paints no focus ring on load.
-              // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
-              // slots still make the first Tab land in the header.
-              onPressed: onToggleMobileNav,
-              leading: Icon(
-                mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
-                size: 16,
-              ),
-              child: Text(mobileNavOpen ? 'Close' : 'Menu'),
+    // Frosted glass: the bar fill carries the docs theme's surfaceOpacity
+    // and the blur wraps the painted bar (no extra layer at the opaque
+    // default, so layout and focus order are unchanged).
+    final Color paint = surfaceColor(
+      theme.colors.background,
+      theme.surfaceOpacity,
+    );
+    return GlassSurface(
+      surfaceBlur: theme.surfaceBlur,
+      child: Container(
+        height: wide ? DocsMetrics.headerHeightLg : DocsMetrics.headerHeightSm,
+        color: paint,
+        padding: const EdgeInsets.symmetric(horizontal: DocsMetrics.barPadding),
+        child: Row(
+          children: <Widget>[
+            // Invisible initial-focus anchor: the reference paints no focus
+            // ring on load, but the first Tab must still start in the header
+            // (focus_test). A plain `Focus(autofocus: true)` loses the race
+            // against the Navigator route scope's own autofocus (it requests
+            // focus during build), so the anchor asks in a post-frame callback
+            // - the same trick `Button(autofocus)` uses. No `FocusOutline`
+            // wraps it, so taking focus paints nothing.
+            FocusTraversalOrder(
+              order: DocsFocusOrder.headerAnchor,
+              child: const _HeaderFocusAnchor(),
             ),
-          if (wide)
-            for (final DocsNavLink link in _headerNavFor(width))
-              Padding(
-                // P7-TH1: nav link trailing gap follows the theme (gap-1).
-                padding: EdgeInsets.only(right: theme.spacing.xs),
-                child: _NavLink(
-                  link: link,
-                  active: _navActive(link.location, currentLocation),
-                  onPressed: () => delegate.go(context, link.location),
-                ),
-              ),
-          const Spacer(),
-          if (showSearch)
-            _SearchTrigger(
-              width: searchWidth,
-              label: width >= 1280 ? 'Search documentation…' : 'Search…',
-              onPressed: delegate.openPalette,
-            ),
-          if (showSeparators) ...<Widget>[
-            Gap(theme.spacing.sm),
-            const _BarSeparator(),
-          ],
-          Gap(theme.spacing.sm),
-          Tooltip(
-            tooltip: (BuildContext context) => const Text('GitHub repository'),
-            child: Button(
-              variant: ButtonVariant.ghost,
-              size: ButtonSize.sm,
-              onPressed: () => webOpenUrl(kDocsRepoUrl),
-              leading: const Icon(LucideIcons.github, size: 16),
-              // The label needs `xl`: at exactly 1024 the bar overflows by a
-              // few pixels with it (measured in the responsive audit).
-              child: width >= 1280
-                  ? const Text('GitHub')
-                  : const SizedBox.shrink(),
-            ),
-          ),
-          Gap(theme.spacing.xs),
-          Tooltip(
-            tooltip: (BuildContext context) => const Text('Toggle theme'),
-            child: SizedBox(
-              width: 32,
-              height: 32,
-              child: Button(
+            if (!wide)
+              Button(
                 variant: ButtonVariant.ghost,
-                size: ButtonSize.xs,
-                theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
-                onPressed: state.toggleBrightness,
-                child: Icon(
-                  state.brightness == Brightness.dark
-                      ? LucideIcons.sun
-                      : LucideIcons.moon,
+                size: ButtonSize.sm,
+                // No `autofocus`: the reference paints no focus ring on load.
+                // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
+                // slots still make the first Tab land in the header.
+                onPressed: onToggleMobileNav,
+                leading: Icon(
+                  mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
                   size: 16,
                 ),
+                child: Text(mobileNavOpen ? 'Close' : 'Menu'),
+              ),
+            if (wide)
+              for (final DocsNavLink link in _headerNavFor(width))
+                Padding(
+                  // P7-TH1: nav link trailing gap follows the theme (gap-1).
+                  padding: EdgeInsets.only(right: theme.spacing.xs),
+                  child: _NavLink(
+                    link: link,
+                    active: _navActive(link.location, currentLocation),
+                    onPressed: () => delegate.go(context, link.location),
+                  ),
+                ),
+            const Spacer(),
+            if (showSearch)
+              _SearchTrigger(
+                width: searchWidth,
+                label: width >= 1280 ? 'Search documentation…' : 'Search…',
+                onPressed: delegate.openPalette,
+              ),
+            if (showSeparators) ...<Widget>[
+              Gap(theme.spacing.sm),
+              const _BarSeparator(),
+            ],
+            Gap(theme.spacing.sm),
+            Tooltip(
+              tooltip: (BuildContext context) =>
+                  const Text('GitHub repository'),
+              child: Button(
+                variant: ButtonVariant.ghost,
+                size: ButtonSize.sm,
+                onPressed: () => webOpenUrl(kDocsRepoUrl),
+                leading: const Icon(LucideIcons.github, size: 16),
+                // The label needs `xl`: at exactly 1024 the bar overflows by a
+                // few pixels with it (measured in the responsive audit).
+                child: width >= 1280
+                    ? const Text('GitHub')
+                    : const SizedBox.shrink(),
               ),
             ),
-          ),
-          if (showCta) ...<Widget>[
-            Gap(theme.spacing.sm),
-            if (currentLocation == '/themes')
-              // Spec §2.7: on `/create`/`/themes` the header swaps the primary
-              // CTA for `Get Code`, which opens the export dialog.
-              Button(
-                key: const ValueKey<String>('docs-header-get-code'),
-                variant: ButtonVariant.primary,
-                size: ButtonSize.sm,
-                onPressed: () => showGetCodeDialog(context, state.themeModel),
-                child: const Text('Get Code'),
-              )
-            else
-              Button(
-                variant: ButtonVariant.primary,
-                size: ButtonSize.sm,
-                onPressed: () => delegate.go(context, '/docs/installation'),
-                child: const Text('Get Started'),
+            Gap(theme.spacing.xs),
+            Tooltip(
+              tooltip: (BuildContext context) => const Text('Toggle theme'),
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: Button(
+                  variant: ButtonVariant.ghost,
+                  size: ButtonSize.xs,
+                  theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
+                  onPressed: state.toggleBrightness,
+                  child: Icon(
+                    state.brightness == Brightness.dark
+                        ? LucideIcons.sun
+                        : LucideIcons.moon,
+                    size: 16,
+                  ),
+                ),
               ),
+            ),
+            if (showCta) ...<Widget>[
+              Gap(theme.spacing.sm),
+              if (currentLocation == '/themes')
+                // Spec §2.7: on `/create`/`/themes` the header swaps the primary
+                // CTA for `Get Code`, which opens the export dialog.
+                Button(
+                  key: const ValueKey<String>('docs-header-get-code'),
+                  variant: ButtonVariant.primary,
+                  size: ButtonSize.sm,
+                  onPressed: () => showGetCodeDialog(context, state.themeModel),
+                  child: const Text('Get Code'),
+                )
+              else
+                Button(
+                  variant: ButtonVariant.primary,
+                  size: ButtonSize.sm,
+                  onPressed: () => delegate.go(context, '/docs/installation'),
+                  child: const Text('Get Started'),
+                ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -428,8 +438,9 @@ class _BarSeparator extends StatelessWidget {
   }
 }
 
-/// The full-width mobile navigation popper (spec §2.8): background 90 % +
-/// blur, `Menu` group (site nav) then `Sections` (docs pages), gap 12.
+/// The mobile navigation drawer: a left panel sliding in over a dimmed
+/// scrim (the shell owns the scrim + slide animation). Solid background
+/// with a right rule, `Menu` group then `Sections`, gap 12.
 class DocsMobileNav extends StatelessWidget {
   /// Creates the mobile nav.
   const DocsMobileNav({
@@ -445,7 +456,7 @@ class DocsMobileNav extends StatelessWidget {
   /// Current canonical location.
   final String currentLocation;
 
-  /// Called after a link is chosen (closes the popper).
+  /// Called after a link is chosen (closes the drawer).
   final VoidCallback onNavigate;
 
   @override
@@ -459,34 +470,32 @@ class DocsMobileNav extends StatelessWidget {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.sizeOf(context).height - headerHeight,
       ),
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: ColoredBox(
-            color: theme.colors.background.withValues(alpha: 0.9),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _MobileGroup(
-                    label: 'Menu',
-                    links: kHeaderNav,
-                    currentLocation: currentLocation,
-                    delegate: delegate,
-                    onNavigate: onNavigate,
-                  ),
-                  const Gap(48),
-                  _MobileGroup(
-                    label: 'Sections',
-                    links: kDocsSections,
-                    currentLocation: currentLocation,
-                    delegate: delegate,
-                    onNavigate: onNavigate,
-                  ),
-                ],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colors.background,
+          border: Border(right: BorderSide(color: theme.colors.border)),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _MobileGroup(
+                label: 'Menu',
+                links: kHeaderNav,
+                currentLocation: currentLocation,
+                delegate: delegate,
+                onNavigate: onNavigate,
               ),
-            ),
+              const Gap(48),
+              _MobileGroup(
+                label: 'Sections',
+                links: kDocsSections,
+                currentLocation: currentLocation,
+                delegate: delegate,
+                onNavigate: onNavigate,
+              ),
+            ],
           ),
         ),
       ),

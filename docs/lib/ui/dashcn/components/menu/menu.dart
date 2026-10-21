@@ -2,6 +2,7 @@
 // traversal and row surfaces live in primitives, rows resolve legs here.
 
 import 'package:flutter/widgets.dart';
+
 import '../../foundation/data.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/menu_nav.dart';
@@ -9,6 +10,7 @@ import '../../primitives/menu_rows.dart';
 import '../../primitives/popover_controller.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
+import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'menu_style.dart';
 
@@ -102,13 +104,31 @@ class _MenuButtonState extends State<MenuButton> {
     assert(group != null, 'MenuButton must be a child of MenuGroup');
     if (group == null) return;
     group.closeOthers();
-    // Bar roots open below the trigger's start edge; nested levels open to
-    // the side. Edges are directional (RTL mirrors them) and the physical
-    // offset mirrors too.
+    // Bar roots open below the trigger; nested levels open to the side.
+    // Edges are directional (RTL mirrors them) and the physical offset
+    // mirrors too. A bar trigger in the trailing half anchors to its
+    // trailing edge (the menu opens under the trigger, aligned to its
+    // right edge where the trigger is at the right in LTR) so the popup
+    // never overflows the viewport edge.
     final bool below =
         group.parent == null && group.direction == Axis.horizontal;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
-    final Offset fallback = below ? const Offset(-4, 8) : const Offset(8, -4);
+    bool alignEnd = false;
+    if (below) {
+      final RenderObject? render = context.findRenderObject();
+      if (render is RenderBox && render.hasSize) {
+        final Offset global = render.localToGlobal(Offset.zero);
+        final double screenWidth = MediaQuery.sizeOf(context).width;
+        final double centerX = global.dx + render.size.width / 2;
+        final bool atTrailing = rtl
+            ? centerX < screenWidth / 2
+            : centerX > screenWidth / 2;
+        alignEnd = atTrailing;
+      }
+    }
+    final Offset fallback = below
+        ? (alignEnd ? const Offset(4, 8) : const Offset(-4, 8))
+        : const Offset(8, -4);
     final Offset raw =
         group.subMenuOffset ??
         _menuThemeOf(context, widget.theme).subMenuOffset ??
@@ -117,9 +137,15 @@ class _MenuButtonState extends State<MenuButton> {
     showMenuPopover<void>(
       context: context,
       controller: _controller,
-      alignment: AlignmentDirectional.topStart,
+      alignment: below
+          ? (alignEnd
+                ? AlignmentDirectional.topEnd
+                : AlignmentDirectional.topStart)
+          : AlignmentDirectional.topStart,
       anchorAlignment: below
-          ? AlignmentDirectional.bottomStart
+          ? (alignEnd
+                ? AlignmentDirectional.bottomEnd
+                : AlignmentDirectional.bottomStart)
           : AlignmentDirectional.topEnd,
       offset: offset,
       popupBuilder: (context) => MenuPopup(
@@ -241,7 +267,10 @@ RovingRow _plainRow(
       app.density.baseContentPadding * app.scaling,
     ).add(group?.itemPadding ?? EdgeInsets.zero),
     textStyle: style.textStyle,
-    minHeight: group?.rowMinHeight ?? 32,
+    // Popup rows use the density tokens (normal padding) instead of a
+    // hardcoded compact height; the menubar bar passes 48 for its triggers.
+    minHeight:
+        group?.rowMinHeight ?? resolveDensityTokens(context).rowMinHeight,
     onOpen: onOpen,
     onClose: onClose,
     isOpen: isOpen,

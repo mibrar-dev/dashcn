@@ -1,5 +1,5 @@
-// Charts gallery tests: `/charts` shows every family section on one
-// full-width page; `/charts/<family>` shows just that family.
+// Charts gallery tests: `/charts` shows the tab bar with the first family
+// selected (one family at a time); `/charts/<family>` shows just that family.
 //
 // Both routes render without the docs sidebar. Each card carries its title,
 // description, live chart, a Copy button and a View code dialog. The old
@@ -44,12 +44,6 @@ Future<void> _go(
   delegate.go(tester.element(find.byType(Navigator).last), location);
   await _pumpSoon(tester);
 }
-
-/// Total example cards across every family.
-int get _totalExamples => kChartFamilies.fold<int>(
-  0,
-  (int sum, ChartFamily family) => sum + family.examples.length,
-);
 
 void main() {
   group('charts routes', () {
@@ -112,28 +106,28 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('hub shows every family section with every example card', (
+    testWidgets('hub shows the first family tab with its example cards', (
       WidgetTester tester,
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await _go(tester, delegate, '/charts');
+      // Tab bar: first family selected by default; only it renders.
+      expect(find.byType(ChartFamilySection), findsOneWidget);
+      final ChartFamily first = kChartFamilies.first;
       expect(
-        find.byType(ChartFamilySection),
-        findsNWidgets(kChartFamilies.length),
+        find.byKey(ValueKey<String>('chart-family-section-${first.id}')),
+        findsOneWidget,
+        reason: first.id,
       );
-      expect(find.byType(ChartExampleCard), findsNWidgets(_totalExamples));
-      for (final ChartFamily family in kChartFamilies) {
-        expect(
-          find.byKey(ValueKey<String>('chart-family-section-${family.id}')),
-          findsOneWidget,
-          reason: family.id,
-        );
-        for (final String name in family.examples) {
-          expect(find.text(name), findsWidgets, reason: '${family.id}/$name');
-        }
+      expect(
+        find.byType(ChartExampleCard),
+        findsNWidgets(first.examples.length),
+      );
+      for (final String name in first.examples) {
+        expect(find.text(name), findsWidgets, reason: '${first.id}/$name');
       }
       // No Components-style trust table on the hub.
-      expect(find.text('How we measure'), findsNothing);
+      expect(find.text('Trust scorecard'), findsNothing);
       expect(tester.takeException(), isNull);
     });
 
@@ -181,7 +175,8 @@ void main() {
       );
       tester.takeException();
       await _go(tester, delegate, '/charts');
-      for (int i = 0; i < _totalExamples; i++) {
+      final int count = kChartFamilies.first.examples.length;
+      for (int i = 0; i < count; i++) {
         await tester.ensureVisible(find.byType(ChartExampleCard).at(i));
         await tester.pump(const Duration(milliseconds: 100));
       }
@@ -222,10 +217,7 @@ void main() {
         DocsRouteConfiguration.charts,
         reason: '/docs/components/chart resolves to the hub',
       );
-      expect(
-        find.byType(ChartFamilySection),
-        findsNWidgets(kChartFamilies.length),
-      );
+      expect(find.byType(ChartFamilySection), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 

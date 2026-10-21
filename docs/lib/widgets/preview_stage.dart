@@ -1,8 +1,8 @@
 // The component preview frame + stage (spec §2.4, P7-D1 polish, P7-D1b centring):
 //
-//  * The frame is `R:card` with `padding: 0`, `borderWidth: 1` and no shadow
-//    — the registry card supports border-only, no-padding surfaces, so the
-//    old plan's `D:PreviewFrame` is NOT needed (spec §6 open question 3).
+//  * The frame is `R:card` with `padding: 0`, borderless (`borderWidth: 0`)
+//    and no shadow — a single 1 px overlay frame redrawn above the child,
+//    so the card never paints two borders (Card border + overlay).
 //    P7-D1: the corner radius is `rounded-lg` (the upstream card radius).
 //  * [PreviewStage] is the centered stage that hosts the deferred
 //    `preview.dart` export (D4 wires the loader). P7-D1: responsive padding
@@ -40,6 +40,7 @@ class PreviewFrame extends StatelessWidget {
     super.key,
     required this.child,
     this.clipBehavior = Clip.antiAlias,
+    this.showBorder = true,
   });
 
   /// Frame content (toolbar, stage and/or code teaser).
@@ -48,40 +49,41 @@ class PreviewFrame extends StatelessWidget {
   /// Clip behaviour; defaults to clipping the rounded corners.
   final Clip clipBehavior;
 
+  /// Whether the single 1 px frame paints. Popup-like previews (their
+  /// surface already draws its own border) pass false so the card never
+  /// shows an outer border with an inner bordered box.
+  final bool showBorder;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final ThemedColor themedBorder = ThemedColor.value(theme.colors.border);
     final Color border = theme.colors.border;
     final BorderRadius radius = theme.borderRadiusLg;
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 48),
       child: Card(
         padding: EdgeInsets.zero,
-        borderWidth: 1,
-        borderColor: themedBorder,
+        borderWidth: 0,
         borderRadius: radius,
         shadows: const <BoxShadow>[],
         clipBehavior: clipBehavior,
         child: Stack(
           children: <Widget>[
             child,
-            // Redrawn above the child: `Card` paints its border before the
-            // content, and the full-bleed stage/teaser surfaces would cover
-            // it — the reference's 1 px frame stays visible on every side.
-            // The overlay is paint-only: `DecoratedBox.hitTestSelf` returns
-            // true for its whole rect, so it must not take pointer events
-            // (that would dead-zone the stage demos and the View Code pill).
-            Positioned.fill(
-              child: IgnorePointer(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: radius,
-                    border: Border.all(color: border),
+            if (showBorder)
+              // Single 1 px frame redrawn above the child: `Card` is
+              // borderless here so only this overlay paints (no double
+              // borders). Paint-only: must not take pointer events.
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: radius,
+                      border: Border.all(color: border),
+                    ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
