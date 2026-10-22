@@ -46,8 +46,8 @@ Widget videoMenuSection({
 }) {
   final List<double> steps = speeds.isEmpty ? const <double>[1] : speeds;
   return Container(
-    margin: const EdgeInsets.only(top: 4),
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+    margin: const EdgeInsets.only(top: 8),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
     decoration: BoxDecoration(
       color: const Color(0x33FFFFFF),
       borderRadius: BorderRadius.circular(8),
@@ -56,8 +56,8 @@ Widget videoMenuSection({
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Wrap(
-          spacing: 6,
-          runSpacing: 6,
+          spacing: 8,
+          runSpacing: 8,
           children: <Widget>[
             for (final double s in steps)
               FocusableTap(
@@ -72,8 +72,8 @@ Widget videoMenuSection({
                 minHeight: 32,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
+                    horizontal: 12,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -97,7 +97,7 @@ Widget videoMenuSection({
               ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Row(
           children: <Widget>[
             Expanded(
