@@ -230,7 +230,13 @@ class ComponentApiSection extends StatelessWidget {
           ),
         ),
         if (table.hasApiTable) ...<Widget>[
-          if (table.summary != null) TypesetParagraph(table.summary!),
+          if (table.summary != null)
+            TypesetParagraph.rich(
+              docsDocSpans(
+                table.summary!,
+                docsText(context, size: 15, height: 26.25 / 15),
+              ),
+            ),
           const Gap(16),
           TypesetTable(
             headers: <String>[

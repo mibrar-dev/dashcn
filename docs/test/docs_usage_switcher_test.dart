@@ -111,7 +111,9 @@ void main() {
         ]);
         expect(usageTable.rows.length, 5); // keyParams.take(5)
 
-        // Verify dividers (bottom borders on container rows)
+        // Verify dividers (bottom borders on table rows).
+        // Fitted layout uses TableRow decorations; stacked layout uses
+        // Containers with a full border. Accept either.
         final Iterable<Container> tableContainers = tester
             .widgetList<Container>(
               find.descendant(
@@ -119,12 +121,72 @@ void main() {
                 matching: find.byType(Container),
               ),
             );
-        final bool hasDividers = tableContainers.any(
+        final bool hasContainerDividers = tableContainers.any(
           (c) =>
               (c.decoration is BoxDecoration) &&
-              (c.decoration as BoxDecoration).border?.bottom != null,
+              (((c.decoration as BoxDecoration).border?.bottom != null) ||
+                  (c.decoration as BoxDecoration).border?.isUniform == false ||
+                  (c.decoration as BoxDecoration).border != null),
         );
-        expect(hasDividers, isTrue);
+        final Iterable<Table> tables = tester.widgetList<Table>(
+          find.descendant(of: usageTableFinder, matching: find.byType(Table)),
+        );
+        bool hasTableDividers = false;
+        for (final Table table in tables) {
+          for (final TableRow row in table.children) {
+            final Decoration? decoration = row.decoration;
+            if (decoration is BoxDecoration &&
+                decoration.border?.bottom != null) {
+              hasTableDividers = true;
+              break;
+            }
+          }
+          if (hasTableDividers) {
+            break;
+          }
+        }
+        expect(hasContainerDividers || hasTableDividers, isTrue);
+
+        // Verify descriptions render without raw markup: no backticks or
+        // square brackets survive in the table text.
+        final Iterable<Text> tableTexts = tester.widgetList<Text>(
+          find.descendant(of: usageTableFinder, matching: find.byType(Text)),
+        );
+        for (final Text text in tableTexts) {
+          final String? plain = text.data;
+          if (plain != null) {
+            expect(plain.contains('`'), isFalse, reason: plain);
+            // Headers and mono cells never contain brackets; description
+            // cells render them as chips (WidgetSpans), not raw text.
+            if (text.style?.fontFamily == null ||
+                !text.style!.fontFamily!.toLowerCase().contains('mono')) {
+              // Allow the em dash placeholder.
+              if (plain != '—') {
+                expect(plain.contains('['), isFalse, reason: plain);
+                expect(plain.contains(']'), isFalse, reason: plain);
+              }
+            }
+          }
+          final InlineSpan? span = text.textSpan;
+          if (span != null) {
+            void checkSpan(InlineSpan s) {
+              if (s is TextSpan) {
+                final String? t = s.text;
+                if (t != null) {
+                  expect(t.contains('`'), isFalse, reason: t);
+                }
+                final List<InlineSpan>? children = s.children;
+                if (children != null) {
+                  for (final InlineSpan child in children) {
+                    checkSpan(child);
+                  }
+                }
+              }
+            }
+
+            checkSpan(span);
+          }
+        }
 
         // Capture light usage table
         await _saveCapture(tester, key, 'usage-table-light');
