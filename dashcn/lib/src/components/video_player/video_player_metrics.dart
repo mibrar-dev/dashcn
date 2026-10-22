@@ -37,31 +37,28 @@ class VideoPlayerMetrics {
 
   /// Compact metrics (default look).
   static const VideoPlayerMetrics compact = VideoPlayerMetrics(
-    controlSize: 64,
+    controlSize: 56,
     iconSize: 16,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 10, vertical: 6),
+    controlsPadding: EdgeInsetsDensity.pxAll(12),
     trackHeight: 4,
     fontSize: 12,
   );
 
   /// Comfortable metrics.
   static const VideoPlayerMetrics comfortable = VideoPlayerMetrics(
-    controlSize: 64,
-    iconSize: 20,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8),
+    controlSize: 56,
+    iconSize: 16,
+    controlsPadding: EdgeInsetsDensity.pxAll(12),
     trackHeight: 4,
-    fontSize: 13,
+    fontSize: 12,
   );
 
   /// Touch metrics for phone screens.
   static const VideoPlayerMetrics touch = VideoPlayerMetrics(
-    controlSize: 72,
-    iconSize: 24,
-    controlsPadding: EdgeInsetsDensity.pxSymmetric(
-      horizontal: 16,
-      vertical: 10,
-    ),
-    trackHeight: 6,
-    fontSize: 14,
+    controlSize: 56,
+    iconSize: 16,
+    controlsPadding: EdgeInsetsDensity.pxAll(12),
+    trackHeight: 4,
+    fontSize: 12,
   );
 }

@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_metrics.dart';
 
@@ -313,6 +312,5 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
   coverSize: 44,
-  padding: EdgeInsetsDensity.pxSymmetric(horizontal: 16),
   fadeDuration: kDefaultDuration,
 );

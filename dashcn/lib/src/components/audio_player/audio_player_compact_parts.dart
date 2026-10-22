@@ -16,17 +16,17 @@ Widget audioPillButton({
   required String label,
   required IconData icon,
   required Color fg,
-  double size = 18,
+  double size = 16,
   VoidCallback? onTap,
 }) {
   return FocusableTap(
     label: label,
     onTap: onTap,
-    minWidth: 32,
-    minHeight: 32,
+    minWidth: 36,
+    minHeight: 36,
     child: SizedBox(
-      width: 32,
-      height: 48,
+      width: 36,
+      height: 36,
       child: Icon(icon, size: size, color: fg),
     ),
   );
@@ -61,11 +61,11 @@ class AudioSpeedChip extends StatelessWidget {
     return FocusableTap(
       label: ComponentLocalizations.of(context).mediaPlaybackSpeed(text),
       onTap: () => c.cycleSpeed(speeds),
-      minWidth: 32,
-      minHeight: 32,
+      minWidth: 36,
+      minHeight: 36,
       child: SizedBox(
-        width: 32,
-        height: 48,
+        width: 36,
+        height: 36,
         child: Center(
           child: ExcludeSemantics(
             child: Text(
@@ -125,6 +125,7 @@ class _AudioVolumeButtonState extends State<AudioVolumeButton> {
         onFocusChange: (v) => setState(() => _open = _open || v),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             audioPillButton(
               label: c.isMuted
@@ -269,6 +270,7 @@ class _VolumeSliderState extends State<_VolumeSlider> {
           return KeyEventResult.ignored;
         },
         child: TapTarget(
+          minWidth: 48,
           minHeight: 48,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -289,7 +291,7 @@ class _VolumeSliderState extends State<_VolumeSlider> {
             child: SizedBox(
               key: _lineKey,
               width: 64,
-              height: 48,
+              height: 36,
               child: CustomPaint(
                 painter: _MiniLevel(
                   value: _level,

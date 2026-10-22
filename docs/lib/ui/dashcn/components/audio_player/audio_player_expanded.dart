@@ -3,11 +3,11 @@
 // Portrait card (~360px wide, radius 20): full circular disc cover art that
 // rotates while playing (20 s per turn, paused when stopped), equaliser
 // glyph, uppercase artist, large centred title, full-width progress with
-// centred mono times, and a 5-button transport row (shuffle, previous, 56px
+// centred mono times, and a 5-button transport row (shuffle, previous, 48px
 // black play, next, repeat) wired to the playlist. Tapping the disc opens a
 // details panel on top of the card (title, artist, album, duration, track
 // number). Card padding is the 16 px density token; the transport row uses
-// 12 px density gaps.
+// 8 px density gaps.
 
 import 'package:flutter/widgets.dart';
 
@@ -119,12 +119,12 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
   @override
   Widget build(BuildContext context) {
     // Density-driven gaps: at the default density baseGap is 8, so gapMd
-    // (1.5x) is the 12 px controls rhythm and xsGap keeps the tight
+    // (1.5x) is the 12 px controls rhythm and 4 px keeps the tight
     // artist/title stack. Card padding (16 px) lives in the body wrapper.
     final ThemeData ambient = Theme.of(context);
     final double gap = ambient.density.baseGap * ambient.scaling;
     final double sectionGap = gap * gapMd;
-    final double xsGap = gap * 0.75;
+    final double xsGap = 4;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         // Flexible disc: the loose card measures 439 px tall (405 px column

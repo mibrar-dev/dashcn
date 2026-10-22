@@ -1,7 +1,7 @@
 // Expanded card transport for `audio_player` (SPEC reference 2).
 //
 // Split from `audio_player_expanded.dart` so both files stay small: shuffle,
-// previous, the 56px black play button, next, repeat.
+// previous, the 48px black play button, next, repeat.
 
 import 'package:flutter/widgets.dart';
 
@@ -57,13 +57,12 @@ class AudioExpandedTransport extends StatelessWidget {
   Widget build(BuildContext context) {
     final AudioPlaybackController c = controller;
     if (controlsBuilder != null) return controlsBuilder!(context, c);
-    final double iconSize = style.iconSize ?? 18;
-    // 12 px density gaps between transport controls. Wrap (not Row) so
+    final double iconSize = style.iconSize ?? 16;
+    // 8 px density gaps between transport controls. Wrap (not Row) so
     // custom builders with wide content wrap to a second line instead of
-    // overflowing the 386 px card content (scorecard 48 px targets fit
-    // in one line for the default buttons).
+    // overflowing the card; the default buttons fit in one centred line.
     final ThemeData ambient = Theme.of(context);
-    final double controlGap = ambient.density.baseGap * ambient.scaling * gapMd;
+    final double controlGap = ambient.density.baseGap * ambient.scaling * gapSm;
     return Wrap(
       alignment: WrapAlignment.center,
       spacing: controlGap,
@@ -122,16 +121,16 @@ class AudioExpandedTransport extends StatelessWidget {
     // SPEC shows a black disc on a light card; invert on dark theme so the
     // disc stays visible against a dark card.
     final bool dark = Theme.of(context).brightness == Brightness.dark;
-    final double size = style.controlSize ?? 56;
+    final double size = style.controlSize ?? 48;
     final Color disc = dark ? const Color(0xFFFFFFFF) : const Color(0xFF18181B);
     final Color glyph = dark
         ? const Color(0xFF18181B)
         : const Color(0xFFFFFFFF);
     final Widget icon = c.isBuffering
-        ? Icon(LucideIcons.loaderCircle, size: 24, color: glyph)
+        ? Icon(LucideIcons.loaderCircle, size: 16, color: glyph)
         : Icon(
             c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-            size: 24,
+            size: 16,
             color: glyph,
           );
     return FocusableTap(
@@ -139,8 +138,8 @@ class AudioExpandedTransport extends StatelessWidget {
           ? ComponentLocalizations.of(context).mediaPause
           : ComponentLocalizations.of(context).mediaPlay,
       onTap: c.toggle,
-      minWidth: 56,
-      minHeight: 56,
+      minWidth: 48,
+      minHeight: 48,
       circular: true,
       child: Container(
         width: size,

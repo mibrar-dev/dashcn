@@ -392,7 +392,7 @@ void main() {
       expect(demoVideoSources[2].uri, isNull);
     });
 
-    testWidgets('centre play button defaults to a 64px glass circle', (
+    testWidgets('centre play button defaults to a 56px glass circle', (
       tester,
     ) async {
       final FakeVideoPlaybackController c = FakeVideoPlaybackController();
@@ -406,10 +406,10 @@ void main() {
             w.decoration is BoxDecoration &&
             (w.decoration as BoxDecoration).shape == BoxShape.circle &&
             w.child is Icon &&
-            w.constraints?.maxWidth == 64,
+            w.constraints?.maxWidth == 56,
       );
       expect(big, findsOneWidget);
-      expect(tester.getSize(big).width, 64);
+      expect(tester.getSize(big).width, 56);
     });
 
     testWidgets('skip buttons use rotate icons', (tester) async {
@@ -457,7 +457,7 @@ void main() {
             w.decoration is BoxDecoration &&
             (w.decoration as BoxDecoration).shape == BoxShape.circle &&
             w.child is Icon &&
-            w.constraints?.maxWidth == 64,
+            w.constraints?.maxWidth == 56,
       );
       expect(centrePlay, findsOneWidget);
       await tester.tap(centrePlay);
