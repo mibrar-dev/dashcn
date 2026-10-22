@@ -57,9 +57,9 @@ void main() {
       // Examples section lists the remaining examples as h3 headings.
       expect(find.text('Examples'), findsWidgets);
       expect(find.text('Destructive'), findsWidgets);
-      // API Reference table.
+      // API Reference and Usage tables.
       expect(find.text('API Reference'), findsWidgets);
-      expect(find.text('Parameter'), findsOneWidget);
+      expect(find.text('Parameter'), findsNWidgets(2));
       expect(find.textContaining('variant'), findsWidgets);
       // Theme table.
       expect(find.text('Theme'), findsWidgets);

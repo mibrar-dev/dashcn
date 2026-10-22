@@ -208,21 +208,24 @@ class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
           child: const _HeaderFocusAnchor(),
         ),
         if (!wide)
-          Button(
-            variant: ButtonVariant.ghost,
-            size: ButtonSize.sm,
-            // No `autofocus`: the reference paints no focus ring on load.
-            // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
-            // slots still make the first Tab land in the header.
-            onPressed: onToggleMobileNav,
-            leading: Icon(
-              mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
-              size: 16,
-            ),
-            child: Text(
-              mobileNavOpen
-                  ? docsChrome(locale, 'close')
-                  : docsChrome(locale, 'menu'),
+          SizedBox(
+            height: 32,
+            child: Button(
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.sm,
+              // No `autofocus`: the reference paints no focus ring on load.
+              // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
+              // slots still make the first Tab land in the header.
+              onPressed: onToggleMobileNav,
+              leading: Icon(
+                mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
+                size: 16,
+              ),
+              child: Text(
+                mobileNavOpen
+                    ? docsChrome(locale, 'close')
+                    : docsChrome(locale, 'menu'),
+              ),
             ),
           ),
         if (wide)
@@ -256,17 +259,20 @@ class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
         Tooltip(
           tooltip: (BuildContext context) =>
               Text(docsChrome(locale, 'githubRepo')),
-          child: Button(
-            variant: ButtonVariant.ghost,
-            size: ButtonSize.sm,
-            onPressed: () => webOpenUrl(kDocsRepoUrl),
-            leading: const Icon(LucideIcons.github, size: 16),
-            // The label needs 1600: the bar is overflow-free at 1280/1440
-            // with the icon only (measured in the responsive audit), and the
-            // locale switcher takes the remaining room.
-            child: width >= 1600
-                ? Text(docsChrome(locale, 'github'))
-                : const SizedBox.shrink(),
+          child: SizedBox(
+            height: 32,
+            child: Button(
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.sm,
+              onPressed: () => webOpenUrl(kDocsRepoUrl),
+              leading: const Icon(LucideIcons.github, size: 16),
+              // The label needs 1600: the bar is overflow-free at 1280/1440
+              // with the icon only (measured in the responsive audit), and the
+              // locale switcher takes the remaining room.
+              child: width >= 1600
+                  ? Text(docsChrome(locale, 'github'))
+                  : const SizedBox.shrink(),
+            ),
           ),
         ),
         Gap(Theme.of(context).spacing.xs),
@@ -297,19 +303,25 @@ class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
           if (currentLocation == '/themes')
             // Spec §2.7: on `/create`/`/themes` the header swaps the primary
             // CTA for `Get Code`, which opens the export dialog.
-            Button(
-              key: const ValueKey<String>('docs-header-get-code'),
-              variant: ButtonVariant.primary,
-              size: ButtonSize.sm,
-              onPressed: () => showGetCodeDialog(context, state.themeModel),
-              child: Text(docsChrome(locale, 'getCode')),
+            SizedBox(
+              height: 32,
+              child: Button(
+                key: const ValueKey<String>('docs-header-get-code'),
+                variant: ButtonVariant.primary,
+                size: ButtonSize.sm,
+                onPressed: () => showGetCodeDialog(context, state.themeModel),
+                child: Text(docsChrome(locale, 'getCode')),
+              ),
             )
           else
-            Button(
-              variant: ButtonVariant.primary,
-              size: ButtonSize.sm,
-              onPressed: () => delegate.go(context, '/docs/installation'),
-              child: Text(docsChrome(locale, 'getStarted')),
+            SizedBox(
+              height: 32,
+              child: Button(
+                variant: ButtonVariant.primary,
+                size: ButtonSize.sm,
+                onPressed: () => delegate.go(context, '/docs/installation'),
+                child: Text(docsChrome(locale, 'getStarted')),
+              ),
             ),
         ],
       ],
@@ -390,21 +402,15 @@ class DocsLocaleSwitcher extends StatelessWidget {
       tooltip: (BuildContext context) => Text(
         '${docsChrome(locale, 'language')}: ${docsLocaleNativeName(locale)}',
       ),
-      // Icon-only 32 px trigger (the theme-toggle pattern): the bar has no
-      // room for a labeled switcher next to eight nav items, the 256 px
-      // search, the GitHub label and the CTA (5 px overflow at 1600 in the
-      // test font even with the ghost-sm icon button). The tooltip names
-      // the current language.
       child: SizedBox(
-        width: 32,
         height: 32,
         child: Button(
           key: const ValueKey<String>('docs-locale-switcher'),
           variant: ButtonVariant.ghost,
-          size: ButtonSize.xs,
-          theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
+          size: ButtonSize.sm,
           onPressed: () => _open(context),
-          child: const Icon(LucideIcons.globe, size: 16),
+          leading: const Icon(LucideIcons.globe, size: 16),
+          child: Text(triggerLabel(locale)),
         ),
       ),
     );
@@ -432,28 +438,52 @@ class _LocaleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Clickable(
-      onPressed: onPressed,
-      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-        EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              docsLocaleNativeName(locale),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: docsText(
-                context,
-                size: 14,
-                weight: selected ? FontWeight.w600 : FontWeight.w400,
+    final ThemeColors colors = theme.colors;
+    return SizedBox(
+      height: 32,
+      child: Clickable(
+        onPressed: onPressed,
+        decoration: WidgetStateProperty.resolveWith<Decoration?>((
+          Set<WidgetState> states,
+        ) {
+          if (selected) {
+            return BoxDecoration(
+              color: colors.accent.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(4),
+            );
+          }
+          if (states.contains(WidgetState.hovered)) {
+            return BoxDecoration(
+              color: colors.accent,
+              borderRadius: BorderRadius.circular(4),
+            );
+          }
+          return null;
+        }),
+        padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+          EdgeInsets.symmetric(horizontal: 8),
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  docsLocaleNativeName(locale),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: docsText(
+                    context,
+                    size: 14,
+                    weight: selected ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
               ),
-            ),
+              if (selected)
+                Icon(LucideIcons.check, size: 16, color: colors.foreground),
+            ],
           ),
-          if (selected)
-            Icon(LucideIcons.check, size: 14, color: theme.colors.foreground),
-        ],
+        ),
       ),
     );
   }
@@ -576,23 +606,26 @@ class _NavLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeColors colors = Theme.of(context).colors;
-    return Button(
-      variant: ButtonVariant.ghost,
-      size: ButtonSize.sm,
-      theme: ButtonVariantStyle(
-        // Spec §2.0 measures the reference nav link at `px-2.5` (10 px
-        // horizontal); the kit button's default padding is wider, which with
-        // five nav items overflows the 64 px bar at exactly 1024 px.
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        foreground: StateValue<ThemedColor>(
-          rest: ThemedColor.value(
-            active ? colors.foreground : colors.mutedForeground,
+    return SizedBox(
+      height: 32,
+      child: Button(
+        variant: ButtonVariant.ghost,
+        size: ButtonSize.sm,
+        theme: ButtonVariantStyle(
+          // Spec §2.0 measures the reference nav link at `px-2.5` (10 px
+          // horizontal); the kit button's default padding is wider, which with
+          // five nav items overflows the 64 px bar at exactly 1024 px.
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          foreground: StateValue<ThemedColor>(
+            rest: ThemedColor.value(
+              active ? colors.foreground : colors.mutedForeground,
+            ),
+            hovered: ThemedColor.value(colors.foreground),
           ),
-          hovered: ThemedColor.value(colors.foreground),
         ),
+        onPressed: onPressed,
+        child: Text(link.label),
       ),
-      onPressed: onPressed,
-      child: Text(link.label),
     );
   }
 }
