@@ -216,6 +216,7 @@ ComponentControlsFacts _componentControls(
       );
     }
   }
+  _injectSyntheticControls(component, params, controls, overrides);
   return ComponentControlsFacts(
     componentId: component.id,
     symbol: facts.symbol,
@@ -223,6 +224,69 @@ ComponentControlsFacts _componentControls(
     isConst: isConst,
     controls: controls,
   );
+}
+
+/// Injects playground-only synthetic controls (generator-side, never
+/// hand-edited into `docs_controls.dart`).
+///
+/// Button only in this iteration (the verified page): `hasIcon` (toggle) +
+/// `iconPosition` (select leading/trailing) for its `leading`/`trailing`
+/// slots, plus `fullWidth` (toggle). The builder renders them (default
+/// icons, full-width wrapper) and the emitter writes them as
+/// `leading:`/`trailing:` plus a `SizedBox` wrapper. Other components keep
+/// their existing variant/size/colour controls; the same injection can be
+/// enabled per-component later via `meta.json` without touching generated
+/// files.
+///
+/// Synthetic defaults/labels honour `meta.json` playground overrides so
+/// they stay configurable without touching generated files.
+void _injectSyntheticControls(
+  ComponentFacts component,
+  List<ApiParamFacts> params,
+  List<ControlFacts> controls,
+  PlaygroundOverrides overrides,
+) {
+  if (component.id != 'button') {
+    return;
+  }
+  bool has(String name) => controls.any((ControlFacts c) => c.name == name);
+  if (!overrides.exclude.contains('hasIcon') && !has('hasIcon')) {
+    controls.add(
+      ControlFacts(
+        name: 'hasIcon',
+        label: overrides.labels['hasIcon'] ?? 'Has Icon',
+        kind: 'toggle',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: overrides.defaults['hasIcon'] ?? 'false',
+      ),
+    );
+  }
+  if (!overrides.exclude.contains('iconPosition') && !has('iconPosition')) {
+    controls.add(
+      ControlFacts(
+        name: 'iconPosition',
+        label: overrides.labels['iconPosition'] ?? 'Icon Position',
+        kind: 'select',
+        type: 'ButtonIconPosition',
+        isRequired: false,
+        defaultValue: overrides.defaults['iconPosition'] ?? 'leading',
+        options: const <String>['leading', 'trailing'],
+      ),
+    );
+  }
+  if (!overrides.exclude.contains('fullWidth') && !has('fullWidth')) {
+    controls.add(
+      ControlFacts(
+        name: 'fullWidth',
+        label: overrides.labels['fullWidth'] ?? 'Full Width',
+        kind: 'toggle',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: overrides.defaults['fullWidth'] ?? 'false',
+      ),
+    );
+  }
 }
 
 /// The declared type without nullability (`VoidCallback?` -> `VoidCallback`).

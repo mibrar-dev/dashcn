@@ -54,7 +54,9 @@ const List<String> _builderIds = <String>[
 /// They keep the probed widget in a valid, observable state: the slider
 /// triple stays ordered, pagination keeps the page inside its total,
 /// progress shows a determinate value. The obscure toggle reveals the
-/// masking character; autofocus reveals the focus ring.
+/// masking character; autofocus reveals the focus ring. Button's synthetic
+/// `iconPosition` only affects the emitted code when `hasIcon` is on, so
+/// its probe context enables the icon.
 Map<String, Object?> _contextFor(String componentId, String probed) {
   if ((componentId == 'input' || componentId == 'text_area') &&
       probed == 'obscuringCharacter') {
@@ -63,6 +65,9 @@ Map<String, Object?> _contextFor(String componentId, String probed) {
   if ((componentId == 'input' || componentId == 'text_area') &&
       probed == 'showFocusRing') {
     return <String, Object?>{'autofocus': true};
+  }
+  if (componentId == 'button' && probed == 'iconPosition') {
+    return <String, Object?>{'hasIcon': true};
   }
   return switch (componentId) {
     'slider' => <String, Object?>{'value': 5.0, 'min': 0.0, 'max': 10.0},

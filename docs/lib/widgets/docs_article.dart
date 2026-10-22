@@ -141,7 +141,11 @@ class DocsArticle extends StatefulWidget {
     this.next,
     this.titleActions = const <Widget>[],
     this.showTitleActions = true,
+    this.hideToc = false,
   });
+
+  /// Hides the "On This Page" column (used while the playground replaces it).
+  final bool hideToc;
 
   /// Page title (measured 30/36, semibold).
   final String title;
@@ -258,7 +262,7 @@ class _DocsArticleState extends State<DocsArticle> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
-    final bool showToc = width >= 1280;
+    final bool showToc = !widget.hideToc && width >= 1280;
     final bool showActions = widget.showTitleActions && width >= 640;
     // The shell header floats over the navigator: the article scroll view
     // extends underneath it, so its top inset carries the header height and

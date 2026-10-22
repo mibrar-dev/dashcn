@@ -7,6 +7,11 @@
 // argument per line with trailing commas past 80 columns, and the
 // user-facing import on top. `Text`/`Theme` come from `package:flutter
 // /widgets.dart` and the dashcn theme, which the docs page already imports.
+//
+// Synthetic playground-only controls are interpreted, never emitted
+// verbatim: `hasIcon` + `iconPosition` become `leading:`/`trailing:` with a
+// default icon, `fullWidth` wraps the call in a full-width `SizedBox`, and
+// `iconPosition` alone never emits.
 
 import '../generated/docs_controls.dart';
 import 'values.dart';
@@ -16,6 +21,18 @@ String emitCode(ComponentControls spec, PlaygroundValues values) {
   final List<_Arg> args = <_Arg>[];
   for (final ControlSpec control in spec.controls) {
     if (!control.isEditable) {
+      continue;
+    }
+    // Synthetic controls never emit verbatim (see below); `iconPosition`
+    // only matters together with `hasIcon`, `fullWidth` wraps the call.
+    if (control.name == 'iconPosition' || control.name == 'fullWidth') {
+      continue;
+    }
+    if (control.name == 'hasIcon') {
+      final _Arg? iconArg = _renderIconArg(spec, values);
+      if (iconArg != null) {
+        args.add(iconArg);
+      }
       continue;
     }
     // Required params are always emitted (omitting them would not compile);
@@ -30,7 +47,16 @@ String emitCode(ComponentControls spec, PlaygroundValues values) {
   }
   final bool useConst = spec.isConst && args.every((_Arg arg) => arg.isConst);
   final String head = '${useConst ? 'const ' : ''}${spec.symbol}';
-  final String call = _renderCall(head, args);
+  String call = _renderCall(head, args);
+  if (_isFullWidth(spec, values)) {
+    // Full-width wrapper stays const when the inner call is const
+    // (`double.infinity` is a compile-time constant).
+    final String inner = call.startsWith('const ')
+        ? call.substring('const '.length)
+        : call;
+    final String wrapped = 'SizedBox(width: double.infinity, child: $inner)';
+    call = useConst ? 'const $wrapped' : wrapped;
+  }
   return "import '${spec.import}';\n\n$call\n";
 }
 
@@ -39,6 +65,45 @@ class _Arg {
 
   final String source;
   final bool isConst;
+}
+
+/// Whether the synthetic `fullWidth` toggle is on for this spec/values.
+bool _isFullWidth(ComponentControls spec, PlaygroundValues values) {
+  final bool hasControl = spec.controls.any(
+    (ControlSpec c) => c.name == 'fullWidth' && c.isEditable,
+  );
+  if (!hasControl) {
+    return false;
+  }
+  return values.getBoolOr('fullWidth', false);
+}
+
+/// Synthetic `hasIcon` + `iconPosition` as a leading/trailing Icon arg.
+///
+/// Returns null when the spec has no synthetic icon controls, when the
+/// toggle is off/default, or when the position is unknown. The icon itself
+/// is const; the docs page already imports the icon set.
+_Arg? _renderIconArg(ComponentControls spec, PlaygroundValues values) {
+  final bool hasIconControl = spec.controls.any(
+    (ControlSpec c) => c.name == 'hasIcon' && c.isEditable,
+  );
+  if (!hasIconControl) {
+    return null;
+  }
+  if (!values.getBoolOr('hasIcon', false)) {
+    return null;
+  }
+  final String position = values.getEnum('iconPosition') ?? 'leading';
+  if (position == 'trailing') {
+    return const _Arg(
+      'trailing: const Icon(LucideIcons.chevronRight, size: 16)',
+      isConst: true,
+    );
+  }
+  return const _Arg(
+    'leading: const Icon(LucideIcons.plus, size: 16)',
+    isConst: true,
+  );
 }
 
 _Arg? _renderArg(ControlSpec control, PlaygroundValues values) {

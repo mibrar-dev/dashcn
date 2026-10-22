@@ -33,6 +33,40 @@ void main() {
     expect(tester.widget<Button>(find.byType(Button)).onPressed, isNull);
   });
 
+  testWidgets('button synthetic icon, position, fullWidth and status reach', (
+    WidgetTester tester,
+  ) async {
+    await pumpPlayground(tester, 'button', <String, Object?>{
+      'hasIcon': true,
+      'iconPosition': 'leading',
+      'status': 'loading',
+    });
+    Button button = tester.widget<Button>(find.byType(Button));
+    expect(button.leading, isNotNull);
+    expect(button.trailing, isNull);
+    expect(button.status, ButtonStatus.loading);
+
+    await pumpPlayground(tester, 'button', <String, Object?>{
+      'hasIcon': true,
+      'iconPosition': 'trailing',
+    });
+    button = tester.widget<Button>(find.byType(Button));
+    expect(button.leading, isNull);
+    expect(button.trailing, isNotNull);
+
+    await pumpPlayground(tester, 'button', <String, Object?>{
+      'fullWidth': true,
+    });
+    // Full-width wraps the button in a full-width SizedBox.
+    expect(
+      find.byWidgetPredicate(
+        (Widget w) =>
+            w is SizedBox && w.width == double.infinity && w.child is Button,
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('badge controls reach the widget', (WidgetTester tester) async {
     await pumpPlayground(tester, 'badge', <String, Object?>{
       'variant': 'destructive',
