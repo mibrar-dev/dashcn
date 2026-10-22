@@ -11,7 +11,11 @@
 // Trust scorecards open from a top button in a dialog (desktop) or sheet
 // (phone) instead of an inline list. The Playground opens as a right-side
 // panel (Figma-like): the sidebar stays put while the content area shows
-// the panel on the right.
+// the panel on the right. While open, the playground canvas is the single
+// live preview — the left column drops its duplicate main preview card but
+// keeps the description and the examples list — and the same playground
+// values drive every example on the page (code tabs preserve the original
+// per-example sources).
 //
 // The example cards live in `widgets/example_preview_card.dart` (P7-D1: one
 // card per named example instead of P6-F4's single preview + Select).
@@ -24,6 +28,7 @@ import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../playground/builders.dart';
 import '../playground/ui/playground_panel.dart';
+import '../playground/ui/scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
@@ -153,8 +158,28 @@ class _ComponentPageState extends State<ComponentPage> {
     final bool hasPlayground =
         kControlSpecs.containsKey(widget.componentId) &&
         kPlaygroundBuilders.containsKey(widget.componentId);
+    final DocsState state = DocsRouterScope.of(context).state;
+    // Shareable deep links (`?p.variant=…`): a non-empty query auto-opens
+    // the panel so reload/back-forward restore the configured playground.
+    // Router navigation without `p.*` clears the query (applyRouteUri), so
+    // no leftover leaks across components.
+    final bool playgroundActive =
+        (_playgroundOpen || state.playgroundQuery.isNotEmpty) && hasPlayground;
+    final ThemeData theme = Theme.of(context);
+    void openPlayground() {
+      // Fresh controls per component: a leftover `p.*` query from another
+      // component would otherwise leak (e.g. Button `p.variant` into Badge).
+      state.setPlaygroundQuery(const <String, String>{});
+      setState(() => _playgroundOpen = true);
+    }
+
+    void closePlayground() {
+      state.setPlaygroundQuery(const <String, String>{});
+      setState(() => _playgroundOpen = false);
+    }
+
     final Widget article = DocsArticle(
-      hideToc: _playgroundOpen && hasPlayground,
+      hideToc: playgroundActive,
       title: component.name,
       description: component.description,
       previous: neighbors.previousId != null
@@ -188,10 +213,10 @@ class _ComponentPageState extends State<ComponentPage> {
       ],
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.only(bottom: theme.spacing.lg),
           child: Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: theme.spacing.sm,
+            runSpacing: theme.spacing.sm,
             children: <Widget>[
               Button(
                 key: const ValueKey<String>('trust-scorecards-open'),
@@ -205,13 +230,17 @@ class _ComponentPageState extends State<ComponentPage> {
                   key: const ValueKey<String>('playground-open'),
                   variant: ButtonVariant.secondary,
                   size: ButtonSize.sm,
-                  onPressed: () => setState(() => _playgroundOpen = true),
+                  onPressed: openPlayground,
                   child: const Text('Playground'),
                 ),
             ],
           ),
         ),
-        ComponentPreviewCard(componentId: widget.componentId),
+        // Single live preview: while the playground is open its canvas is
+        // the preview, so the left column drops the duplicate main card but
+        // keeps the description and every example below.
+        if (!playgroundActive)
+          ComponentPreviewCard(componentId: widget.componentId),
         ComponentInstallBlock(componentId: widget.componentId),
         ComponentUsageSection(componentId: widget.componentId),
         ComponentExamplesSection(componentId: widget.componentId),
@@ -224,28 +253,26 @@ class _ComponentPageState extends State<ComponentPage> {
           ComponentAccessibilitySection(componentId: widget.componentId),
       ],
     );
-    if (!_playgroundOpen || !hasPlayground) {
+    if (!playgroundActive) {
       return DocsLayout(child: article);
     }
     // Figma-like: sidebar stays put (DocsLayout), content area shows the
-    // article on the left and the playground panel docked on the right.
-    // Narrow screens show the panel as a full-width overlay so the Row
-    // never overflows a 375 px phone.
-    final DocsState state = DocsRouterScope.of(context).state;
+    // article on the left and the 380 px playground panel docked on the
+    // right. The panel holds the single live canvas plus the grouped
+    // controls, Reset/Copy and the live code. Phone widths show the same
+    // panel as a bottom sheet so the Row never overflows 375 px.
     final double contentWidth = MediaQuery.sizeOf(context).width;
-    final Widget panel = Container(
-      width: contentWidth >= 1024 ? 380 : double.infinity,
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(color: Theme.of(context).colors.border),
-        ),
-        color: Theme.of(context).colors.background,
-      ),
-      child: Column(
+    Widget panelContent() {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 12, 8),
+            padding: EdgeInsets.fromLTRB(
+              theme.spacing.lg,
+              theme.spacing.md,
+              theme.spacing.md,
+              theme.spacing.sm,
+            ),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -254,12 +281,12 @@ class _ComponentPageState extends State<ComponentPage> {
                     style: docsText(context, size: 14, weight: FontWeight.w600),
                   ),
                 ),
-                Gap(Theme.of(context).spacing.xs),
+                Gap(theme.spacing.xs),
                 Button(
                   key: const ValueKey<String>('playground-close'),
                   variant: ButtonVariant.ghost,
                   size: ButtonSize.sm,
-                  onPressed: () => setState(() => _playgroundOpen = false),
+                  onPressed: closePlayground,
                   child: const Text('Close'),
                 ),
               ],
@@ -267,7 +294,12 @@ class _ComponentPageState extends State<ComponentPage> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              padding: EdgeInsets.fromLTRB(
+                theme.spacing.lg,
+                0,
+                theme.spacing.lg,
+                theme.spacing.lg,
+              ),
               child: ListenableBuilder(
                 listenable: state,
                 builder: (BuildContext context, Widget? _) => PlaygroundPanel(
@@ -275,30 +307,64 @@ class _ComponentPageState extends State<ComponentPage> {
                   initialQuery: state.playgroundQuery,
                   onQueryChanged: state.setPlaygroundQuery,
                   reportUrl: false,
+                  inlineControls: true,
                 ),
               ),
             ),
           ),
         ],
-      ),
+      );
+    }
+
+    final Widget scopedArticle = PlaygroundScope(
+      activeComponentId: widget.componentId,
+      child: article,
     );
     if (contentWidth < 1024) {
+      final double sheetHeight = MediaQuery.sizeOf(context).height * 0.85;
       return DocsLayout(
-        child: Stack(
-          children: <Widget>[
-            article,
-            Positioned.fill(child: panel),
-          ],
+        child: PlaygroundScope(
+          activeComponentId: widget.componentId,
+          child: Stack(
+            children: <Widget>[
+              scopedArticle,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: sheetHeight,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: theme.colors.background,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    border: Border.all(color: theme.colors.border),
+                  ),
+                  child: panelContent(),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     }
     return DocsLayout(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(child: article),
-          panel,
-        ],
+      child: PlaygroundScope(
+        activeComponentId: widget.componentId,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(child: scopedArticle),
+            Container(
+              width: 380,
+              decoration: BoxDecoration(
+                border: Border(left: BorderSide(color: theme.colors.border)),
+                color: theme.colors.background,
+              ),
+              child: panelContent(),
+            ),
+          ],
+        ),
       ),
     );
   }

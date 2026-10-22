@@ -16,6 +16,10 @@
 // open empty.
 // Infrastructure params (key, context, controllers, theme/style)
 // are skipped; everything else is read-only with a reason.
+// Synthetic playground-only controls (hasIcon/iconPosition for
+// leading/trailing slots, fullWidth for button) are injected by
+// the generator; the builder renders them and the emitter writes
+// them as leading/trailing Icon and a SizedBox wrapper.
 // Per-component `playground: {exclude, ranges, defaults, labels}`
 // overrides live in the component meta.json (see the kit registry
 // README). Enum values resolve by scanning lib/src/**.
@@ -625,6 +629,31 @@ kControlSpecs = <String, ComponentControls>{
         type: 'DensityTokens?',
         isRequired: false,
         readOnlyReason: 'unresolved type',
+      ),
+      ControlSpec(
+        name: 'hasIcon',
+        label: 'Has Icon',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+      ),
+      ControlSpec(
+        name: 'iconPosition',
+        label: 'Icon Position',
+        kind: ControlKind.select,
+        type: 'ButtonIconPosition',
+        isRequired: false,
+        defaultValue: 'leading',
+        options: <String>['leading', 'trailing'],
+      ),
+      ControlSpec(
+        name: 'fullWidth',
+        label: 'Full Width',
+        kind: ControlKind.toggle,
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
       ),
     ],
   ),

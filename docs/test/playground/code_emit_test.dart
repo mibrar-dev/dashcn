@@ -217,6 +217,40 @@ void main() {
       );
     });
 
+    test('button synthetic hasIcon/iconPosition/fullWidth/status emit', () {
+      final ComponentControls spec = kControlSpecs['button']!;
+      final PlaygroundValues values = PlaygroundValues.defaults(spec);
+      // Icon off by default: no leading/trailing.
+      expect(emitCode(spec, values), isNot(contains('leading:')));
+      expect(emitCode(spec, values), isNot(contains('trailing:')));
+      // Icon on (leading default) emits leading.
+      values.set('hasIcon', true);
+      expect(
+        emitCode(spec, values),
+        contains('leading: const Icon(LucideIcons.plus, size: 16)'),
+      );
+      // Trailing position emits trailing instead.
+      values.set('iconPosition', 'trailing');
+      final String trailingCode = emitCode(spec, values);
+      expect(
+        trailingCode,
+        contains('trailing: const Icon(LucideIcons.chevronRight, size: 16)'),
+      );
+      expect(trailingCode, isNot(contains('leading:')));
+      // Full width wraps the call.
+      values.set('iconPosition', 'leading');
+      values.set('fullWidth', true);
+      expect(
+        emitCode(spec, values),
+        contains('SizedBox(width: double.infinity, child: Button('),
+      );
+      // Loading status emits the enum.
+      values.set('fullWidth', false);
+      values.set('hasIcon', false);
+      values.set('status', 'loading');
+      expect(emitCode(spec, values), contains('status: ButtonStatus.loading'));
+    });
+
     test('optional text at its default is omitted', () {
       final ComponentControls spec = kControlSpecs['select']!;
       final PlaygroundValues values = PlaygroundValues.defaults(spec);

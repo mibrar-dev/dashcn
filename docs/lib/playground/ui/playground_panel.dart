@@ -58,6 +58,7 @@ class PlaygroundPanel extends StatefulWidget {
     this.onQueryChanged,
     this.boundedBy,
     this.reportUrl = true,
+    this.inlineControls = false,
   });
 
   /// Registry component id (must have a spec and a playground builder).
@@ -79,6 +80,13 @@ class PlaygroundPanel extends StatefulWidget {
 
   /// Whether to also push the merged URI to the engine on web.
   final bool reportUrl;
+
+  /// When true the controls render inline even below [kPlaygroundSheetWidth].
+  ///
+  /// The component page's 380 px right panel sets this: its narrow width
+  /// would otherwise hide the grouped controls behind an `Edit controls`
+  /// sheet button. Standalone embeds keep the sheet behaviour.
+  final bool inlineControls;
 
   @override
   State<PlaygroundPanel> createState() => _PlaygroundPanelState();
@@ -319,7 +327,9 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
         );
         final Widget code = PlaygroundCodeBlock(spec: spec, values: values);
         final ThemeData theme = Theme.of(context);
-        if (width.isFinite && width < kPlaygroundSheetWidth) {
+        if (!widget.inlineControls &&
+            width.isFinite &&
+            width < kPlaygroundSheetWidth) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
