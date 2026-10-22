@@ -3,13 +3,43 @@
 // One focused demo per example; the first entry is the default. Every example
 // owns its `FakeAudioPlaybackController` and shrink-wraps in a bounded box.
 // The playlist examples use the three SPEC reference tracks.
+//
+// Flexible widths: each example caps at its SPEC width (360 compact card,
+// 420 pill, 320 phone) but shrinks to the stage when narrower (375 phone
+// stage ~295, 1280 desktop stage ~560), so no card overflows by 300 px.
 
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
+import '../../theme/density.dart';
+import '../../theme/theme.dart';
 import 'audio_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
+
+/// Density gap for the shared example (12 px at the default density).
+double _gapMd(BuildContext context) {
+  final ThemeData ambient = Theme.of(context);
+  return ambient.density.baseGap * ambient.scaling * gapMd;
+}
 
 /// Gradient cover used by the previews (the live app passes real artwork).
 Widget _coverArt(List<Color> colors) {
@@ -47,9 +77,9 @@ class _DefaultAudioState extends State<_DefaultAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         cover: _coverArt(const <Color>[Color(0xFF7C3AED), Color(0xFFEC4899)]),
@@ -82,9 +112,9 @@ class _CompactAudioState extends State<_CompactAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 420,
-      child: AudioPlayer(
+    return _capped(
+      420,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.compact,
         onDownload: () {},
@@ -117,9 +147,9 @@ class _ExpandedAudioState extends State<_ExpandedAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         cover: _coverArt(const <Color>[Color(0xFF0EA5E9), Color(0xFF312E81)]),
@@ -149,9 +179,9 @@ class _SharedAudioState extends State<_SharedAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: SingleChildScrollView(
+    return _capped(
+      360,
+      SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -160,7 +190,7 @@ class _SharedAudioState extends State<_SharedAudio> {
               variant: AudioPlayerVariant.compact,
               onDownload: () {},
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: _gapMd(context)),
             AudioPlayer(
               controller: _controller,
               variant: AudioPlayerVariant.full,
@@ -197,9 +227,9 @@ class _PhoneAudioState extends State<_PhoneAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      child: AudioPlayer(
+    return _capped(
+      320,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.compact,
         onDownload: () {},
@@ -229,9 +259,9 @@ class _CustomAudioState extends State<_CustomAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      child: AudioPlayer(
+    return _capped(
+      360,
+      AudioPlayer(
         controller: _controller,
         variant: AudioPlayerVariant.full,
         theme: const AudioPlayerTheme(

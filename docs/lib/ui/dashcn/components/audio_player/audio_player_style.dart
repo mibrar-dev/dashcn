@@ -313,6 +313,6 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
   coverSize: 44,
-  padding: EdgeInsetsDensity.pxSymmetric(horizontal: 10),
+  padding: EdgeInsetsDensity.pxSymmetric(horizontal: 16),
   fadeDuration: kDefaultDuration,
 );

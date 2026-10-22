@@ -4,6 +4,10 @@
 // owns its `FakeVideoPlaybackController` and shrink-wraps in a bounded box.
 // The source examples map to the three SPEC sources: online MP4, live stream
 // URL and live camera feed (fallback message when permission is denied).
+//
+// Flexible widths: each example caps at its SPEC width (640 desktop, 320
+// phone) but shrinks to the stage when narrower (375 phone stage ~295,
+// 1280 desktop stage ~560), so no card overflows.
 
 import 'package:flutter/widgets.dart';
 
@@ -11,6 +15,24 @@ import '../../foundation/component_preview.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/color_tokens.dart';
 import 'video_player.dart';
+
+/// Caps [child] at [maxWidth] but shrinks to the stage when narrower.
+///
+/// `PreviewStage` hands a bounded `maxWidth` (phone ~295, desktop ~560);
+/// a fixed `SizedBox(width: 640)` would overflow the phone stage by ~300.
+/// `LayoutBuilder` reads the available width and picks the smaller, so the
+/// same example fits at 375 and 1280 with no overflow.
+Widget _capped(double maxWidth, Widget child) {
+  return LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      final double avail = constraints.maxWidth.isFinite
+          ? constraints.maxWidth
+          : maxWidth;
+      final double width = avail < maxWidth ? avail : maxWidth;
+      return SizedBox(width: width, child: child);
+    },
+  );
+}
 
 /// Gradient frame used by the previews (the live app plugs the texture).
 Widget _frame(List<Color> colors, String label) {
@@ -56,9 +78,9 @@ class _DefaultVideoState extends State<_DefaultVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -97,9 +119,9 @@ class _LiveVideoState extends State<_LiveVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -137,9 +159,9 @@ class _CameraVideoState extends State<_CameraVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -188,9 +210,9 @@ class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -250,9 +272,9 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -290,9 +312,9 @@ class _BarHiddenVideoState extends State<_BarHiddenVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -330,9 +352,9 @@ class _PhoneVideoState extends State<_PhoneVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      child: ClipRRect(
+    return _capped(
+      320,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
@@ -369,9 +391,9 @@ class _CustomVideoState extends State<_CustomVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640,
-      child: ClipRRect(
+    return _capped(
+      640,
+      ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,

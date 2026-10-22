@@ -15,6 +15,7 @@ import 'package:docs/media/audio_adapter.dart';
 import 'package:docs/ui/dashcn/components/audio_player/audio_player.dart';
 import 'package:docs/ui/dashcn/foundation/component_preview.dart';
 import 'package:docs/ui/dashcn/foundation/icons/lucide_icons.dart';
+import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/web_bridge.dart';
 import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart' as audio;
@@ -97,12 +98,23 @@ class _LiveAudioState extends State<_LiveAudio> {
   Widget build(BuildContext context) {
     final JustAudioAdapter? adapter = _adapter;
     if (adapter == null) {
-      return const SizedBox(
-        width: 360,
-        height: 120,
-        child: Center(
-          child: Text('Loading live audio…', style: TextStyle(fontSize: 13)),
-        ),
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double avail = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : 360;
+          final double width = avail < 360 ? avail : 360;
+          return SizedBox(
+            width: width,
+            height: 120,
+            child: const Center(
+              child: Text(
+                'Loading live audio…',
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+          );
+        },
       );
     }
     return ListenableBuilder(
@@ -114,55 +126,67 @@ class _LiveAudioState extends State<_LiveAudio> {
           Color(0xFF7C3AED),
           Color(0xFFEC4899),
         ];
-        return SizedBox(
-          width: 360,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _TrackSelector(adapter: adapter),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 360,
-                child: AudioPlayer(
-                  controller: adapter,
-                  variant: AudioPlayerVariant.compact,
-                  onDownload: _downloadCurrent,
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 360,
-                child: AudioPlayer(
-                  controller: adapter,
-                  variant: AudioPlayerVariant.full,
-                  cover: coverUrl == null
-                      ? _coverFallback(gradient)
-                      : Image.network(
-                          coverUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (
-                                BuildContext context,
-                                Object error,
-                                StackTrace? stackTrace,
-                              ) => _coverFallback(gradient),
-                        ),
-                ),
-              ),
-              if (adapter.error != null || _failed)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    'Playback failed: ${adapter.error ?? 'could not load track'}',
-                    style: const TextStyle(
-                      color: Color(0xFFDC2626),
-                      fontSize: 12,
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double avail = constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : 360;
+            final double width = avail < 360 ? avail : 360;
+            final double gap =
+                Theme.of(context).density.baseGap *
+                Theme.of(context).scaling *
+                1.5;
+            return SizedBox(
+              width: width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _TrackSelector(adapter: adapter),
+                  SizedBox(height: gap),
+                  SizedBox(
+                    width: width,
+                    child: AudioPlayer(
+                      controller: adapter,
+                      variant: AudioPlayerVariant.compact,
+                      onDownload: _downloadCurrent,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-            ],
-          ),
+                  SizedBox(height: gap),
+                  SizedBox(
+                    width: width,
+                    child: AudioPlayer(
+                      controller: adapter,
+                      variant: AudioPlayerVariant.full,
+                      cover: coverUrl == null
+                          ? _coverFallback(gradient)
+                          : Image.network(
+                              coverUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder:
+                                  (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                  ) => _coverFallback(gradient),
+                            ),
+                    ),
+                  ),
+                  if (adapter.error != null || _failed)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        'Playback failed: ${adapter.error ?? 'could not load track'}',
+                        style: const TextStyle(
+                          color: Color(0xFFDC2626),
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
