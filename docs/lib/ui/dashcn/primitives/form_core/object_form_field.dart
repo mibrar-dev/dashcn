@@ -249,6 +249,13 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
   /// close — the same contract as `Select` and the popover handler.
   final FocusNode _triggerFocus = FocusNode(debugLabel: 'ObjectFormField');
 
+  /// Visual trigger anchor (the painted 36 px [Clickable], not the outer
+  /// [TouchHitArea] hit padding). Popovers must anchor to the visible box
+  /// so pickers sit within 12 px of the trigger on touch platforms.
+  final GlobalKey _triggerAnchorKey = GlobalKey(
+    debugLabel: 'ObjectFormFieldTrigger',
+  );
+
   bool get _enabled => widget.enabled ?? (widget.onChanged != null);
 
   @override
@@ -350,9 +357,14 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     final T? value = initial ?? formValue;
     T? delayed = value;
     final ThemeData theme = Theme.of(context);
+    // Anchor to the painted trigger, not the outer hit-area padding (same
+    // contract as Select: TouchHitArea grows the layout to 48 px on touch
+    // while the visible trigger stays 36 px).
+    final BuildContext anchorContext =
+        _triggerAnchorKey.currentContext ?? context;
     _popoverController
         .show<void>(
-          context: context,
+          context: anchorContext,
           adaptive: widget.adaptive,
           alignment: widget.popoverAlignment ?? Alignment.topLeft,
           anchorAlignment:
@@ -456,6 +468,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         minWidth: floor,
       ),
       child: Clickable(
+        key: _triggerAnchorKey,
         enabled: enabled,
         focusNode: _triggerFocus,
         onPressed: enabled ? prompt : null,
@@ -494,10 +507,11 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
           );
 
     // Touch comfort is invisible hit area, never larger visuals: the trigger
-    // paints at 36 px (objectFormTriggerMinHeight), but grows to the platform
-    // minimum (iOS 44, Android 48) with transparent padding on touch
-    // platforms. Placed inside the Semantics node so the larger box is the
-    // reported tap target (same as Button's TouchHitArea).
+    // paints at 36 px (objectFormTriggerMinHeight) with semantics/hit test
+    // expanded to the platform minimum (iOS 44, Android 48) on touch
+    // platforms, but the layout stays 36 so triggers align with inputs.
+    // Placed inside the Semantics node so the larger box is the reported
+    // tap target. Popovers anchor to the visual box via [_triggerAnchorKey].
     final double touchVertical = math.max(
       0,
       (touchMinEdge(theme.platform) - objectFormTriggerMinHeight) / 2,
@@ -507,7 +521,11 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
       child: Semantics(
         button: true,
         enabled: enabled,
-        child: TouchHitArea(vertical: touchVertical, child: sized),
+        child: TouchHitArea(
+          vertical: touchVertical,
+          growLayout: false,
+          child: sized,
+        ),
       ),
     );
   }

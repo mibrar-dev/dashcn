@@ -148,6 +148,12 @@ class _SelectState<T> extends State<Select<T>>
   FocusNode get _focus =>
       widget.focusNode ?? (_ownedFocus ??= FocusNode(debugLabel: 'Select'));
 
+  /// Visual trigger anchor (the painted 36 px [Clickable], not the outer
+  /// [TouchHitArea] hit padding). Popovers must anchor to the visible box
+  /// so the popup sits within 12 px of the trigger on touch platforms where
+  /// the hit area grows the layout to 48 px.
+  final GlobalKey _triggerAnchorKey = GlobalKey(debugLabel: 'SelectTrigger');
+
   bool get _enabled => widget.enabled ?? widget.onChanged != null;
 
   bool get _searching => widget.builder != null;
@@ -228,9 +234,16 @@ class _SelectState<T> extends State<Select<T>>
       );
 
   void _open() {
+    // Anchor to the painted trigger, not the outer hit-area padding:
+    // on touch platforms TouchHitArea grows the layout to 48 px while the
+    // visible trigger stays 36 px; anchoring to `context` (the outer box)
+    // would leave an 18 px gap to a 20 px placeholder. The inner anchor
+    // keeps the 12 px contract (8 px centering + 4 px offset).
+    final BuildContext anchorContext =
+        _triggerAnchorKey.currentContext ?? context;
     _popover
         .show<void>(
-          context: context,
+          context: anchorContext,
           adaptive: widget.adaptive,
           // Below the trigger's start edge; the popup hugs the widest
           // option and is never narrower than the trigger.
@@ -357,8 +370,14 @@ class _SelectState<T> extends State<Select<T>>
           enabled: enabled,
           child: TouchHitArea(
             vertical: touchVertical,
+            // Triggers sit beside inputs: keep the layout at the visual
+            // height (36) so rows stay aligned; only semantics/hit test
+            // expand to the platform minimum. Popups anchor to the visual
+            // box via [_triggerAnchorKey] so they stay within 12 px.
+            growLayout: false,
             child: IntrinsicWidth(
               child: Clickable(
+                key: _triggerAnchorKey,
                 enabled: enabled,
                 focusNode: _focus,
                 onPressed: enabled ? _open : null,
