@@ -91,4 +91,5 @@ left); code stays LTR.
 
 ## 7. PR
 
-PR URL: (pending — opened after this report; see commit trailer)
+https://github.com/mibrar-dev/dashcn/pull/57 (open, unmerged; branch
+`feat/website-i18n-header`, pushed with no force-push).
