@@ -144,10 +144,11 @@ void main() {
           tester.getSize(find.byType(FilterBarSearchField)),
           const Size(220, 36),
         );
-        // All filter controls are 36 px (sizing scale, same desktop/mobile).
+        // Sort paints at 36 px but reports 48 px on touch via the invisible
+        // TouchHitArea (same as Button): `flutter test` runs as Android.
         expect(
           tester.getSize(find.byType(FilterBarSortControl)),
-          const Size(180, 36),
+          const Size(180, 48),
         );
       }
     });

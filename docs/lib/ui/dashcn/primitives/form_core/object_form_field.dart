@@ -8,11 +8,13 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/captured_wrapper.dart';
 import '../../foundation/data.dart';
+import 'dart:math' as math;
 import '../../foundation/gap.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../clickable.dart';
+import '../touch_hit_area.dart';
 import '../localizations/localizations.dart';
 import '../widget_states.dart';
 import '../overlay.dart';
@@ -491,6 +493,22 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
             },
           );
 
-    return Opacity(opacity: enabled ? 1 : 0.5, child: sized);
+    // Touch comfort is invisible hit area, never larger visuals: the trigger
+    // paints at 36 px (objectFormTriggerMinHeight), but grows to the platform
+    // minimum (iOS 44, Android 48) with transparent padding on touch
+    // platforms. Placed inside the Semantics node so the larger box is the
+    // reported tap target (same as Button's TouchHitArea).
+    final double touchVertical = math.max(
+      0,
+      (touchMinEdge(theme.platform) - objectFormTriggerMinHeight) / 2,
+    );
+    return Opacity(
+      opacity: enabled ? 1 : 0.5,
+      child: Semantics(
+        button: true,
+        enabled: enabled,
+        child: TouchHitArea(vertical: touchVertical, child: sized),
+      ),
+    );
   }
 }

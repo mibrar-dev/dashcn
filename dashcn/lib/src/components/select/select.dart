@@ -18,6 +18,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/geometry.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../primitives/form_core/form_value.dart';
 import '../../primitives/overlay.dart';
 import '../../primitives/popover_controller.dart';
@@ -337,47 +338,64 @@ class _SelectState<T> extends State<Select<T>>
     final double borderWidth = trigger.borderColor == null
         ? 0
         : trigger.borderWidth ?? 1;
+    final double triggerHeight = widget.triggerMinHeight ?? 36;
+    // Touch comfort is invisible hit area, never larger visuals: the trigger
+    // paints at 36 px, but grows to the platform minimum (iOS 44, Android
+    // 48) with transparent padding on touch platforms. Placed inside the
+    // Semantics node so the larger box is the reported tap target (same as
+    // Button's TouchHitArea).
+    final double touchVertical = math.max(
+      0,
+      (touchMinEdge(ambient.platform) - triggerHeight) / 2,
+    );
     return Data<SelectData>.inherit(
       data: _data(),
       child: Opacity(
         opacity: enabled ? 1 : 0.5,
-        child: IntrinsicWidth(
-          child: Clickable(
-            enabled: enabled,
-            focusNode: _focus,
-            onPressed: enabled ? _open : null,
-            decoration: WidgetStateProperty.resolveWith(decorationFor),
-            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
-              insetBorder(resolvedPadding, borderWidth),
-            ),
-            textStyle: WidgetStateProperty.resolveWith(
-              (states) => TextStyle(
-                fontSize: 14,
-                color: colorFor(trigger.foreground, states),
-              ),
-            ),
-            iconTheme: WidgetStateProperty.resolveWith(
-              (states) => IconThemeData(
-                size: 16,
-                color: colorFor(trigger.foreground, states),
-              ),
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight:
-                    (widget.triggerMinHeight ?? 36) -
-                    math.max(resolvedPadding.top, borderWidth) -
-                    math.max(resolvedPadding.bottom, borderWidth),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(child: valueContent),
-                  if (widget.expandIcon != null) ...<Widget>[
-                    Gap(ambient.spacing.sm),
-                    widget.expandIcon!,
-                  ],
-                ],
+        child: Semantics(
+          button: true,
+          enabled: enabled,
+          child: TouchHitArea(
+            vertical: touchVertical,
+            child: IntrinsicWidth(
+              child: Clickable(
+                enabled: enabled,
+                focusNode: _focus,
+                onPressed: enabled ? _open : null,
+                decoration: WidgetStateProperty.resolveWith(decorationFor),
+                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+                  insetBorder(resolvedPadding, borderWidth),
+                ),
+                textStyle: WidgetStateProperty.resolveWith(
+                  (states) => TextStyle(
+                    fontSize: 14,
+                    color: colorFor(trigger.foreground, states),
+                  ),
+                ),
+                iconTheme: WidgetStateProperty.resolveWith(
+                  (states) => IconThemeData(
+                    size: 16,
+                    color: colorFor(trigger.foreground, states),
+                  ),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight:
+                        (widget.triggerMinHeight ?? 36) -
+                        math.max(resolvedPadding.top, borderWidth) -
+                        math.max(resolvedPadding.bottom, borderWidth),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(child: valueContent),
+                      if (widget.expandIcon != null) ...<Widget>[
+                        Gap(ambient.spacing.sm),
+                        widget.expandIcon!,
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
