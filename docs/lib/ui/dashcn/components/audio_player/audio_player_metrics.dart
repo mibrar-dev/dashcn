@@ -55,40 +55,40 @@ class AudioPlayerMetrics {
 
   /// Compact metrics (default look).
   static const AudioPlayerMetrics compact = AudioPlayerMetrics(
-    playButtonSize: 32,
-    smallButtonSize: 32,
+    playButtonSize: 36,
+    smallButtonSize: 36,
     iconSize: 16,
     coverSize: 44,
     padding: EdgeInsetsDensity.pxAll(12),
     trackHeight: 4,
     titleFontSize: 13,
     subtitleFontSize: 12,
-    timeFontSize: 11,
+    timeFontSize: 12,
   );
 
   /// Comfortable metrics.
   static const AudioPlayerMetrics comfortable = AudioPlayerMetrics(
-    playButtonSize: 40,
+    playButtonSize: 36,
     smallButtonSize: 36,
-    iconSize: 18,
+    iconSize: 16,
     coverSize: 48,
-    padding: EdgeInsetsDensity.pxAll(16),
+    padding: EdgeInsetsDensity.pxAll(12),
     trackHeight: 4,
-    titleFontSize: 14,
-    subtitleFontSize: 13,
+    titleFontSize: 13,
+    subtitleFontSize: 12,
     timeFontSize: 12,
   );
 
   /// Touch metrics for phone screens.
   static const AudioPlayerMetrics touch = AudioPlayerMetrics(
-    playButtonSize: 48,
-    smallButtonSize: 44,
-    iconSize: 20,
-    coverSize: 56,
-    padding: EdgeInsetsDensity.pxAll(16),
-    trackHeight: 6,
-    titleFontSize: 15,
-    subtitleFontSize: 14,
-    timeFontSize: 13,
+    playButtonSize: 36,
+    smallButtonSize: 36,
+    iconSize: 16,
+    coverSize: 48,
+    padding: EdgeInsetsDensity.pxAll(12),
+    trackHeight: 4,
+    titleFontSize: 13,
+    subtitleFontSize: 12,
+    timeFontSize: 12,
   );
 }

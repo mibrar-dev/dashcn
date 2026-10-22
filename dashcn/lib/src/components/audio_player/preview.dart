@@ -266,13 +266,13 @@ class _CustomAudioState extends State<_CustomAudio> {
         variant: AudioPlayerVariant.full,
         theme: const AudioPlayerTheme(
           accent: ThemedColor.value(Color(0xFFE11D48)),
-          controlSize: 56,
+          controlSize: 48,
         ),
         playButtonBuilder: (context, c) => GestureDetector(
           onTap: c.toggle,
           child: Container(
-            width: 56,
-            height: 56,
+            width: 48,
+            height: 48,
             decoration: const BoxDecoration(
               color: Color(0xFFE11D48),
               shape: BoxShape.circle,
