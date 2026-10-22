@@ -20,6 +20,7 @@ import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
 import '../ui/dashcn/components/badge/badge.dart';
+import '../ui/dashcn/theme/theme.dart';
 import '../widgets/component_examples_section.dart';
 import '../widgets/component_install_block.dart';
 import '../widgets/component_playground_section.dart';
@@ -84,6 +85,10 @@ class _ComponentPageState extends State<ComponentPage> {
             variant: BadgeVariant.outline,
             child: Text(component.stability),
           ),
+          if (_isWip(component.id)) ...<Widget>[
+            Badge(variant: BadgeVariant.outline, child: Text('WIP')),
+            _WipNote(),
+          ],
         ],
         children: <Widget>[
           ComponentPreviewCard(componentId: widget.componentId),
@@ -108,6 +113,11 @@ class _ComponentPageState extends State<ComponentPage> {
     return kApiTables[id]!.members.isNotEmpty;
   }
 
+  /// Audio/video players are still being polished.
+  static bool _isWip(String id) {
+    return id == 'audio_player' || id == 'video_player';
+  }
+
   static bool _hasThemeTable(String id) {
     final DocsThemeTable table = kThemeTables[id]!;
     return table.hasTheme && table.fields.isNotEmpty;
@@ -115,5 +125,39 @@ class _ComponentPageState extends State<ComponentPage> {
 
   static bool _hasKeyboardRows(String id) {
     return (kKeyboardRows[id] ?? const <DocsKeyboardRow>[]).isNotEmpty;
+  }
+}
+
+/// WIP note beside the badge: density-capped and truncating so the title
+/// row fits at 375 and 1280.
+///
+/// The badge Wrap measures its children with the Row's remaining width once
+/// `docs_article` gives it a Flexible bound; without a cap this note's
+/// intrinsic width (~396) forces the Row past 640 by ~300. Capping at 12x
+/// the content-padding base (192 at the default density, scaled) and
+/// ellipsizing keeps it to one line in both branches.
+class _WipNote extends StatelessWidget {
+  /// Creates the note.
+  const _WipNote();
+
+  @override
+  Widget build(BuildContext context) {
+    final double densityBase =
+        Theme.of(context).density.baseContentPadding *
+        Theme.of(context).scaling;
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: densityBase * 12),
+      child: Text(
+        'Work in progress: bugs may occur.',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        style: docsText(
+          context,
+          size: 12,
+          color: Theme.of(context).colors.mutedForeground,
+        ),
+      ),
+    );
   }
 }

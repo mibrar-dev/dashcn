@@ -373,7 +373,9 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
     expect(find.byType(VideoPlayer), findsOneWidget);
-    expect(find.byType(VideoControlsBar), findsOneWidget);
+    // Phone (<600 px) uses the minimal YouTube-style bar, not the glass bar.
+    expect(find.byType(VideoMinimalBar), findsOneWidget);
+    expect(find.byType(VideoControlsBar), findsNothing);
   });
 
   group('players fix', () {
@@ -521,6 +523,179 @@ void main() {
       await tester.sendKeyUpEvent(LogicalKeyboardKey.shift);
       await tester.pump();
       expect(sought, const Duration(seconds: 65));
+    });
+  });
+
+  group('players polish', () {
+    testWidgets('phone shows minimal bar with play, seek, time, fullscreen', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(375, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: SizedBox(
+                width: 375,
+                child: VideoPlayer(controller: c, title: 'Phone title'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(find.byType(VideoMinimalBar), findsOneWidget);
+      expect(find.bySemanticsLabel('Play'), findsWidgets);
+      expect(find.bySemanticsLabel('Seek'), findsOneWidget);
+      expect(find.text('0:37 / 3:42'), findsOneWidget);
+      expect(find.bySemanticsLabel('Fullscreen'), findsOneWidget);
+      // No glass-bar header or speed menu on phone.
+      expect(
+        find.bySemanticsLabel('More options, playback speed 1x'),
+        findsNothing,
+      );
+    });
+
+    testWidgets('phone title hidden until tap, tap toggles controls', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(375, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: SizedBox(
+                width: 375,
+                child: VideoPlayer(controller: c, title: 'Phone title'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      // Controls visible initially, title shows as overlay.
+      expect(find.text('Phone title'), findsOneWidget);
+      // Tap the video frame (top-left, away from the centre play button and
+      // the bottom bar) toggles controls off without toggling play.
+      final Offset topLeft =
+          tester.getTopLeft(find.byType(VideoPlayer)) + const Offset(10, 10);
+      await tester.tapAt(topLeft);
+      await tester.pump();
+      expect(c.isPlaying, isFalse);
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        0,
+      );
+      // Tap again shows controls and the title.
+      await tester.tapAt(topLeft);
+      await tester.pump();
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        1,
+      );
+      expect(find.text('Phone title'), findsOneWidget);
+    });
+
+    testWidgets('phone controls auto-hide after 3 s while playing', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(375, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+        isPlaying: true,
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: SizedBox(
+                width: 375,
+                child: VideoPlayer(controller: c, title: 'Phone title'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        1,
+      );
+      await tester.pump(const Duration(seconds: 4));
+      await tester.pump();
+      expect(
+        tester
+            .widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first)
+            .opacity,
+        0,
+      );
+    });
+
+    testWidgets('desktop tap toggles play', (tester) async {
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(_frame(child: VideoPlayer(controller: c)));
+      expect(c.isPlaying, isFalse);
+      await tester.tap(find.byType(VideoPlayer));
+      await tester.pump();
+      expect(c.isPlaying, isTrue);
+    });
+
+    testWidgets('minimal bar scrub seeks on drag', (tester) async {
+      tester.view.physicalSize = const Size(375, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final FakeVideoPlaybackController c = FakeVideoPlaybackController(
+        position: const Duration(seconds: 30),
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: SizedBox(
+                width: 375,
+                child: VideoPlayer(controller: c, title: 'Phone title'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      final Finder seek = find.bySemanticsLabel('Seek');
+      expect(seek, findsOneWidget);
+      final Offset center = tester.getCenter(seek);
+      final double width = tester.getSize(seek).width;
+      await tester.dragFrom(
+        Offset(center.dx - width * 0.2, center.dy),
+        Offset(width * 0.4, 0),
+      );
+      await tester.pump();
+      expect(c.position.inSeconds, greaterThan(60));
     });
   });
 }

@@ -312,7 +312,8 @@ class _AudioPlayerState extends State<AudioPlayer> {
 ///
 /// Theme padding uses density-px (`EdgeInsetsDensity`); plain insets pass
 /// through. The compact pill keeps horizontal padding only so the card stays
-/// ~48px tall (SPEC reference 1).
+/// ~48px tall (SPEC reference 1). The expanded card uses the 16 px density
+/// token; the compact pill uses 16 px horizontal.
 EdgeInsetsGeometry _resolveBodyPadding(
   EdgeInsetsGeometry? padding,
   double densityBase,
@@ -321,12 +322,31 @@ EdgeInsetsGeometry _resolveBodyPadding(
   final EdgeInsetsGeometry base =
       padding ??
       (compact
-          ? const EdgeInsets.symmetric(horizontal: 10)
-          : const EdgeInsets.all(16));
+          ? const EdgeInsetsDensity.pxSymmetric(horizontal: 16)
+          : const EdgeInsetsDensity.pxAll(16));
   final EdgeInsets resolved = resolveEdgeInsets(
     base,
     densityBase,
   ).resolve(TextDirection.ltr);
-  if (!compact) return resolved;
+  if (!compact) {
+    // Expanded default padding is horizontal-only (`audioPlayerDefaults`),
+    // so `resolved` carries 0 vertical and the transport row paints on the
+    // card edge. Guarantee the 16 px density token top/bottom while keeping
+    // any explicit horizontal/vertical the theme already provides.
+    final EdgeInsets vertical = resolveEdgeInsets(
+      const EdgeInsetsDensity.pxAll(16),
+      densityBase,
+    ).resolve(TextDirection.ltr);
+    final double top = resolved.top <= 0 ? vertical.top : resolved.top;
+    final double bottom = resolved.bottom <= 0
+        ? vertical.bottom
+        : resolved.bottom;
+    return EdgeInsets.only(
+      left: resolved.left,
+      right: resolved.right,
+      top: top,
+      bottom: bottom,
+    );
+  }
   return EdgeInsets.only(left: resolved.left, right: resolved.right);
 }
