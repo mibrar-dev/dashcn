@@ -3,6 +3,7 @@
 - **Branch**: `fix/docs-usage-switcher`
 - **Worktree**: `/Users/ibrar/Desktop/infinora.noworkspace/shadcn_copy_paste/dashcn-w-docsusage`
 - **Notes Directory**: `scratchpad/ui/round2/docsusage`
+- **Pull Request**: [#62 (https://github.com/mibrar-dev/dashcn/pull/62)](https://github.com/mibrar-dev/dashcn/pull/62)
 - **Date**: 2026-10-22
 
 ---
