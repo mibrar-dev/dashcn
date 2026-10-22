@@ -1,8 +1,14 @@
 // The docs site header (spec §2.0): sticky 64 px (`lg+`) / 56 px bar, no
-// border, background fill, four nav items, fixed-width search trigger
-// (192/160/256), GitHub, theme toggle and the primary CTA. Below `lg` the nav
+// border, four nav items, fixed-width search trigger (192/160/256), GitHub,
+// theme toggle, locale switcher and the primary CTA. Below `lg` the nav
 // collapses into the full-width mobile popper (not a side drawer); the search
 // trigger hides below `md`.
+//
+// The bar is the kit `navigation_bar` component (bar container): its surface
+// paints `surfaceColor(background, ambient.surfaceOpacity)` under a
+// `GlassSurface(ambient.surfaceBlur)`, so lowering the theme's surface
+// opacity makes scrolled content show through (blurred). Text uses the
+// foreground/muted tokens, which hold 4.5:1 on the background token.
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -11,20 +17,58 @@ import 'package:flutter/widgets.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/divider/divider.dart';
 import '../ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';
+import '../ui/dashcn/components/navigation_bar/navigation_bar.dart';
+import '../ui/dashcn/components/popup/popup.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/clickable.dart';
-import '../ui/dashcn/primitives/surface.dart';
+import '../ui/dashcn/primitives/localizations/localizations.dart';
+import '../ui/dashcn/primitives/overlay.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../web_bridge.dart';
 import 'docs_footer.dart' show kDocsRepoUrl;
 import 'get_code_dialog.dart';
 import 'docs_tokens.dart';
+
+/// Translated header-nav label for [location] in [locale].
+String docsHeaderNavLabel(String location, Locale locale) {
+  final String key = switch (location) {
+    '/' => 'navHome',
+    '/docs' => 'navDocs',
+    '/docs/components' => 'navComponents',
+    '/charts' => 'navCharts',
+    '/blocks' => 'navBlocks',
+    '/docs/flows' => 'navFlows',
+    '/docs/starters' => 'navStarters',
+    '/themes' => 'navThemes',
+    _ => 'navDocs',
+  };
+  return docsChrome(locale, key);
+}
+
+/// Translated docs-section label for [location] in [locale].
+String docsSectionLabel(String location, Locale locale) {
+  final String key = switch (location) {
+    '/docs' => 'secIntroduction',
+    '/docs/components' => 'navComponents',
+    '/docs/installation' => 'secInstallation',
+    '/docs/package-or-own' => 'secPackageOrOwn',
+    '/docs/material' => 'secMaterial',
+    '/docs/theming' => 'secTheming',
+    '/docs/dark-mode' => 'secDarkMode',
+    '/docs/internationalization' => 'secI18n',
+    '/docs/cli' => 'secCli',
+    '/docs/scorecards' => 'secScorecards',
+    _ => 'secIntroduction',
+  };
+  return docsChrome(locale, key);
+}
 
 /// The site header.
 class DocsHeader extends StatelessWidget {
@@ -41,7 +85,7 @@ class DocsHeader extends StatelessWidget {
   /// Router delegate (navigation + palette).
   final DocsRouterDelegate delegate;
 
-  /// Theme state (toggle).
+  /// Theme state (toggle + locale).
   final DocsState state;
 
   /// Current canonical location (active nav state).
@@ -55,7 +99,6 @@ class DocsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
     final bool showSearch = width >= 768;
@@ -66,126 +109,338 @@ class DocsHeader extends StatelessWidget {
               ? DocsMetrics.searchWidthLg
               : DocsMetrics.searchWidthMd);
     final bool showCta = width >= 768;
-    // Frosted glass: the bar fill carries the docs theme's surfaceOpacity
-    // and the blur wraps the painted bar (no extra layer at the opaque
-    // default, so layout and focus order are unchanged).
-    final Color paint = surfaceColor(
-      theme.colors.background,
-      theme.surfaceOpacity,
-    );
-    return GlassSurface(
-      surfaceBlur: theme.surfaceBlur,
-      child: Container(
-        height: wide ? DocsMetrics.headerHeightLg : DocsMetrics.headerHeightSm,
-        color: paint,
+    // The kit bar owns the surface: no manual `surfaceColor`/`GlassSurface`
+    // here. `backgroundColor: null` resolves the background token and the
+    // ambient surfaceOpacity/surfaceBlur, identical to the manual paint the
+    // header did before, so future glass-theme changes propagate via kit.
+    return SizedBox(
+      height: wide ? DocsMetrics.headerHeightLg : DocsMetrics.headerHeightSm,
+      child: NavigationBar(
+        container: NavigationContainerType.bar,
+        alignment: MainAxisAlignment.start,
+        spacing: 0,
         padding: const EdgeInsets.symmetric(horizontal: DocsMetrics.barPadding),
-        child: Row(
-          children: <Widget>[
-            // Invisible initial-focus anchor: the reference paints no focus
-            // ring on load, but the first Tab must still start in the header
-            // (focus_test). A plain `Focus(autofocus: true)` loses the race
-            // against the Navigator route scope's own autofocus (it requests
-            // focus during build), so the anchor asks in a post-frame callback
-            // - the same trick `Button(autofocus)` uses. No `FocusOutline`
-            // wraps it, so taking focus paints nothing.
-            FocusTraversalOrder(
-              order: DocsFocusOrder.headerAnchor,
-              child: const _HeaderFocusAnchor(),
-            ),
-            if (!wide)
-              Button(
-                variant: ButtonVariant.ghost,
-                size: ButtonSize.sm,
-                // No `autofocus`: the reference paints no focus ring on load.
-                // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
-                // slots still make the first Tab land in the header.
-                onPressed: onToggleMobileNav,
-                leading: Icon(
-                  mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
-                  size: 16,
-                ),
-                child: Text(mobileNavOpen ? 'Close' : 'Menu'),
-              ),
-            if (wide)
-              for (final DocsNavLink link in _headerNavFor(width))
-                Padding(
-                  // P7-TH1: nav link trailing gap follows the theme (gap-1).
-                  padding: EdgeInsets.only(right: theme.spacing.xs),
-                  child: _NavLink(
-                    link: link,
-                    active: _navActive(link.location, currentLocation),
-                    onPressed: () => delegate.go(context, link.location),
-                  ),
-                ),
-            const Spacer(),
-            if (showSearch)
-              _SearchTrigger(
-                width: searchWidth,
-                label: width >= 1280 ? 'Search documentation…' : 'Search…',
-                onPressed: delegate.openPalette,
-              ),
-            if (showSeparators) ...<Widget>[
-              Gap(theme.spacing.sm),
-              const _BarSeparator(),
-            ],
-            Gap(theme.spacing.sm),
-            Tooltip(
-              tooltip: (BuildContext context) =>
-                  const Text('GitHub repository'),
-              child: Button(
-                variant: ButtonVariant.ghost,
-                size: ButtonSize.sm,
-                onPressed: () => webOpenUrl(kDocsRepoUrl),
-                leading: const Icon(LucideIcons.github, size: 16),
-                // The label needs `xl`: at exactly 1024 the bar overflows by a
-                // few pixels with it (measured in the responsive audit).
-                child: width >= 1280
-                    ? const Text('GitHub')
-                    : const SizedBox.shrink(),
-              ),
-            ),
-            Gap(theme.spacing.xs),
-            Tooltip(
-              tooltip: (BuildContext context) => const Text('Toggle theme'),
-              child: SizedBox(
-                width: 32,
-                height: 32,
-                child: Button(
-                  variant: ButtonVariant.ghost,
-                  size: ButtonSize.xs,
-                  theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
-                  onPressed: state.toggleBrightness,
-                  child: Icon(
-                    state.brightness == Brightness.dark
-                        ? LucideIcons.sun
-                        : LucideIcons.moon,
-                    size: 16,
-                  ),
-                ),
-              ),
-            ),
-            if (showCta) ...<Widget>[
-              Gap(theme.spacing.sm),
-              if (currentLocation == '/themes')
-                // Spec §2.7: on `/create`/`/themes` the header swaps the primary
-                // CTA for `Get Code`, which opens the export dialog.
-                Button(
-                  key: const ValueKey<String>('docs-header-get-code'),
-                  variant: ButtonVariant.primary,
-                  size: ButtonSize.sm,
-                  onPressed: () => showGetCodeDialog(context, state.themeModel),
-                  child: const Text('Get Code'),
-                )
-              else
-                Button(
-                  variant: ButtonVariant.primary,
-                  size: ButtonSize.sm,
-                  onPressed: () => delegate.go(context, '/docs/installation'),
-                  child: const Text('Get Started'),
-                ),
-            ],
-          ],
+        children: <NavigationBarItem>[
+          _DocsBarContents(
+            delegate: delegate,
+            state: state,
+            currentLocation: currentLocation,
+            mobileNavOpen: mobileNavOpen,
+            onToggleMobileNav: onToggleMobileNav,
+            wide: wide,
+            showSearch: showSearch,
+            searchWidth: searchWidth,
+            showSeparators: showSeparators,
+            showCta: showCta,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Inert adapter: keeps the existing bar Row (focus anchor, nav-link buttons,
+/// spacer, search trigger, GitHub/theme/locale/CTA) unchanged inside the kit
+/// surface. Non-selectable so the bar's roving index ignores it.
+class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
+  /// Creates the bar contents.
+  const _DocsBarContents({
+    required this.delegate,
+    required this.state,
+    required this.currentLocation,
+    required this.mobileNavOpen,
+    required this.onToggleMobileNav,
+    required this.wide,
+    required this.showSearch,
+    required this.searchWidth,
+    required this.showSeparators,
+    required this.showCta,
+  });
+
+  /// Router delegate (navigation + palette).
+  final DocsRouterDelegate delegate;
+
+  /// Theme + locale state.
+  final DocsState state;
+
+  /// Current canonical location (active nav state).
+  final String currentLocation;
+
+  /// Whether the mobile nav popper is open.
+  final bool mobileNavOpen;
+
+  /// Toggles the mobile nav popper.
+  final VoidCallback onToggleMobileNav;
+
+  /// Whether the nav links render inline (`lg+`).
+  final bool wide;
+
+  /// Whether the search trigger renders (`md+`).
+  final bool showSearch;
+
+  /// Fixed search trigger width (192/160/256).
+  final double searchWidth;
+
+  /// Whether the bar separators render (`lg+`).
+  final bool showSeparators;
+
+  /// Whether the primary CTA renders (`md+`).
+  final bool showCta;
+
+  @override
+  bool get selectable => false;
+
+  @override
+  Widget build(BuildContext context) {
+    final Locale locale = state.locale;
+    final double width = MediaQuery.sizeOf(context).width;
+    return Row(
+      children: <Widget>[
+        // Invisible initial-focus anchor: the reference paints no focus
+        // ring on load, but the first Tab must still start in the header
+        // (focus_test). A plain `Focus(autofocus: true)` loses the race
+        // against the Navigator route scope's own autofocus (it requests
+        // focus during build), so the anchor asks in a post-frame callback
+        // - the same trick `Button(autofocus)` uses. No `FocusOutline`
+        // wraps it, so taking focus paints nothing.
+        FocusTraversalOrder(
+          order: DocsFocusOrder.headerAnchor,
+          child: const _HeaderFocusAnchor(),
         ),
+        if (!wide)
+          Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.sm,
+            // No `autofocus`: the reference paints no focus ring on load.
+            // `OrderedTraversalPolicy` + the shell `FocusTraversalOrder`
+            // slots still make the first Tab land in the header.
+            onPressed: onToggleMobileNav,
+            leading: Icon(
+              mobileNavOpen ? LucideIcons.x : LucideIcons.menu,
+              size: 16,
+            ),
+            child: Text(
+              mobileNavOpen
+                  ? docsChrome(locale, 'close')
+                  : docsChrome(locale, 'menu'),
+            ),
+          ),
+        if (wide)
+          for (final DocsNavLink link in _headerNavFor(width))
+            Padding(
+              // P7-TH1: nav link trailing gap follows the theme (gap-1).
+              padding: EdgeInsets.only(right: Theme.of(context).spacing.xs),
+              child: _NavLink(
+                link: DocsNavLink(
+                  label: docsHeaderNavLabel(link.location, locale),
+                  location: link.location,
+                ),
+                active: _navActive(link.location, currentLocation),
+                onPressed: () => delegate.go(context, link.location),
+              ),
+            ),
+        const Spacer(),
+        if (showSearch)
+          _SearchTrigger(
+            width: searchWidth,
+            label: width >= 1280
+                ? docsChrome(locale, 'searchLong')
+                : docsChrome(locale, 'searchShort'),
+            onPressed: delegate.openPalette,
+          ),
+        if (showSeparators) ...<Widget>[
+          Gap(Theme.of(context).spacing.sm),
+          const _BarSeparator(),
+        ],
+        Gap(Theme.of(context).spacing.sm),
+        Tooltip(
+          tooltip: (BuildContext context) =>
+              Text(docsChrome(locale, 'githubRepo')),
+          child: Button(
+            variant: ButtonVariant.ghost,
+            size: ButtonSize.sm,
+            onPressed: () => webOpenUrl(kDocsRepoUrl),
+            leading: const Icon(LucideIcons.github, size: 16),
+            // The label needs `xl`: at exactly 1024 the bar overflows by a
+            // few pixels with it (measured in the responsive audit).
+            child: width >= 1280
+                ? Text(docsChrome(locale, 'github'))
+                : const SizedBox.shrink(),
+          ),
+        ),
+        Gap(Theme.of(context).spacing.xs),
+        Tooltip(
+          tooltip: (BuildContext context) =>
+              Text(docsChrome(locale, 'toggleTheme')),
+          child: SizedBox(
+            width: 32,
+            height: 32,
+            child: Button(
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.xs,
+              theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
+              onPressed: state.toggleBrightness,
+              child: Icon(
+                state.brightness == Brightness.dark
+                    ? LucideIcons.sun
+                    : LucideIcons.moon,
+                size: 16,
+              ),
+            ),
+          ),
+        ),
+        Gap(Theme.of(context).spacing.xs),
+        DocsLocaleSwitcher(state: state),
+        if (showCta) ...<Widget>[
+          Gap(Theme.of(context).spacing.sm),
+          if (currentLocation == '/themes')
+            // Spec §2.7: on `/create`/`/themes` the header swaps the primary
+            // CTA for `Get Code`, which opens the export dialog.
+            Button(
+              key: const ValueKey<String>('docs-header-get-code'),
+              variant: ButtonVariant.primary,
+              size: ButtonSize.sm,
+              onPressed: () => showGetCodeDialog(context, state.themeModel),
+              child: Text(docsChrome(locale, 'getCode')),
+            )
+          else
+            Button(
+              variant: ButtonVariant.primary,
+              size: ButtonSize.sm,
+              onPressed: () => delegate.go(context, '/docs/installation'),
+              child: Text(docsChrome(locale, 'getStarted')),
+            ),
+        ],
+      ],
+    );
+  }
+}
+
+/// The header locale switcher: a globe button showing the current language.
+///
+/// Lists every locale the kit ships (from
+/// `ComponentLocalizations.supportedLocales` — never a hard-coded subset)
+/// with its native name. Choosing one switches the whole website immediately
+/// (same page), persists to localStorage + `?locale=` and flips text
+/// direction for RTL languages via the app locale.
+class DocsLocaleSwitcher extends StatelessWidget {
+  /// Creates the switcher.
+  const DocsLocaleSwitcher({super.key, required this.state});
+
+  /// Locale state (current choice + setter).
+  final DocsState state;
+
+  /// Short trigger label for [locale] (`EN`, `DE`, `PT-BR`, `繁`, `简`).
+  static String triggerLabel(Locale locale) {
+    final String tag = docsLocaleTag(locale);
+    if (tag == 'zh_Hant') {
+      return '繁';
+    }
+    if (tag == 'zh_Hans') {
+      return '简';
+    }
+    if (tag == 'pt_BR') {
+      return 'PT-BR';
+    }
+    return locale.languageCode.toUpperCase();
+  }
+
+  Future<void> _open(BuildContext context) async {
+    final Locale current = state.locale;
+    await showPopup<void>(
+      context: context,
+      alignment: Alignment.topRight,
+      anchorAlignment: Alignment.bottomRight,
+      offset: const Offset(0, 4),
+      maxWidth: 280,
+      maxHeight: 360,
+      builder: (BuildContext popupContext) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 320),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              for (final Locale locale
+                  in ComponentLocalizations.supportedLocales)
+                _LocaleRow(
+                  locale: locale,
+                  selected: docsLocaleTag(locale) == docsLocaleTag(current),
+                  onPressed: () {
+                    closeOverlay(popupContext);
+                    state.setLocale(locale);
+                  },
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Locale locale = state.locale;
+    return Tooltip(
+      tooltip: (BuildContext context) => Text(
+        '${docsChrome(locale, 'language')}: ${docsLocaleNativeName(locale)}',
+      ),
+      child: Button(
+        key: const ValueKey<String>('docs-locale-switcher'),
+        variant: ButtonVariant.ghost,
+        size: ButtonSize.sm,
+        onPressed: () => _open(context),
+        leading: const Icon(LucideIcons.globe, size: 16),
+        child: Text(triggerLabel(locale)),
+      ),
+    );
+  }
+}
+
+/// One locale row in the switcher popup (native name + check on current).
+class _LocaleRow extends StatelessWidget {
+  /// Creates the row.
+  const _LocaleRow({
+    required this.locale,
+    required this.selected,
+    required this.onPressed,
+  });
+
+  /// The locale this row selects.
+  final Locale locale;
+
+  /// Whether this is the current website locale.
+  final bool selected;
+
+  /// Selects the locale (and closes the popup).
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Clickable(
+      onPressed: onPressed,
+      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+        EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              docsLocaleNativeName(locale),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: docsText(
+                context,
+                size: 14,
+                weight: selected ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+          ),
+          if (selected)
+            Icon(LucideIcons.check, size: 14, color: theme.colors.foreground),
+        ],
       ),
     );
   }
@@ -448,6 +703,7 @@ class DocsMobileNav extends StatelessWidget {
     required this.delegate,
     required this.currentLocation,
     required this.onNavigate,
+    required this.locale,
   });
 
   /// Router delegate.
@@ -459,6 +715,9 @@ class DocsMobileNav extends StatelessWidget {
   /// Called after a link is chosen (closes the drawer).
   final VoidCallback onNavigate;
 
+  /// Website locale for the group + link labels.
+  final Locale locale;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -466,6 +725,20 @@ class DocsMobileNav extends StatelessWidget {
     final double headerHeight = width >= 1024
         ? DocsMetrics.headerHeightLg
         : DocsMetrics.headerHeightSm;
+    List<DocsNavLink> translated(List<DocsNavLink> links) => <DocsNavLink>[
+      for (final DocsNavLink link in links)
+        DocsNavLink(
+          label:
+              link.location.startsWith('/docs') &&
+                  link.location != '/' &&
+                  kDocsSections.any(
+                    (DocsNavLink s) => s.location == link.location,
+                  )
+              ? docsSectionLabel(link.location, locale)
+              : docsHeaderNavLabel(link.location, locale),
+          location: link.location,
+        ),
+    ];
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.sizeOf(context).height - headerHeight,
@@ -481,16 +754,16 @@ class DocsMobileNav extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _MobileGroup(
-                label: 'Menu',
-                links: kHeaderNav,
+                label: docsChrome(locale, 'menu'),
+                links: translated(kHeaderNav),
                 currentLocation: currentLocation,
                 delegate: delegate,
                 onNavigate: onNavigate,
               ),
               const Gap(48),
               _MobileGroup(
-                label: 'Sections',
-                links: kDocsSections,
+                label: docsChrome(locale, 'sideSections'),
+                links: translated(kDocsSections),
                 currentLocation: currentLocation,
                 delegate: delegate,
                 onNavigate: onNavigate,

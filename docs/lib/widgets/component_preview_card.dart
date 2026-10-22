@@ -14,9 +14,12 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../generated/docs_example_sources.dart';
 import '../previews/component_previews.dart';
-import '../routing/docs_router.dart';
+
 import '../state/docs_state.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'device_frame/all_frames.dart';
@@ -188,7 +191,11 @@ class PreviewExampleLoaderState extends State<PreviewExampleLoader> {
         }
         if (snapshot.hasError) {
           return Text(
-            'Preview failed to load',
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'cmpPreviewFailed',
+            ),
             style: docsText(
               context,
               size: 13,

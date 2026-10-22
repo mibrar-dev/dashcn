@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/input/input.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -121,6 +122,8 @@ class _DocsPaletteState extends State<DocsPalette> {
     final DocsSiteColors site = DocsSiteColors.of(context);
     final Size size = MediaQuery.sizeOf(context);
     final double top = size.height * DocsMetrics.paletteTopFraction;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
@@ -164,7 +167,7 @@ class _DocsPaletteState extends State<DocsPalette> {
                         Input(
                           controller: _query,
                           autofocus: true,
-                          hintText: 'Search documentation…',
+                          hintText: docsChrome(locale, 'searchLong'),
                           onChanged: (_) => setState(() => _selected = 0),
                           onSubmitted: (_) => _activateSelected(),
                           features: const <InputFeature>[
@@ -203,6 +206,8 @@ class _DocsPaletteState extends State<DocsPalette> {
     final ThemeData theme = Theme.of(context);
     final String query = _query.text.trim();
     final List<PaletteEntry> visible = _visible;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: query.isEmpty ? 320 : 0),
       child: ScrollConfiguration(
@@ -214,7 +219,7 @@ class _DocsPaletteState extends State<DocsPalette> {
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: Center(
                     child: Text(
-                      'No results found.',
+                      docsChrome(locale, 'searchNoResults'),
                       style: docsText(
                         context,
                         size: 14,
@@ -247,13 +252,15 @@ class _DocsPaletteState extends State<DocsPalette> {
     if (groupItems.isEmpty) {
       return const <Widget>[];
     }
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final String heading = switch (group) {
-      PaletteGroup.pages => 'Pages',
-      PaletteGroup.components => 'Components',
-      PaletteGroup.blocks => 'Blocks',
-      PaletteGroup.flows => 'Flows',
-      PaletteGroup.starters => 'Starters',
-      PaletteGroup.presets => 'Presets',
+      PaletteGroup.pages => docsChrome(locale, 'searchPages'),
+      PaletteGroup.components => docsChrome(locale, 'navComponents'),
+      PaletteGroup.blocks => docsChrome(locale, 'navBlocks'),
+      PaletteGroup.flows => docsChrome(locale, 'navFlows'),
+      PaletteGroup.starters => docsChrome(locale, 'navStarters'),
+      PaletteGroup.presets => docsChrome(locale, 'searchPresets'),
     };
     return <Widget>[
       Padding(
@@ -402,6 +409,8 @@ class _Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final DocsSiteColors site = DocsSiteColors.of(context);
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DecoratedBox(
       decoration: BoxDecoration(
         color: site.panelFooter,
@@ -417,7 +426,7 @@ class _Footer extends StatelessWidget {
             const _KeyCap('↵'),
             const Gap(8),
             Text(
-              'Go to Page',
+              docsChrome(locale, 'searchGoTo'),
               style: docsText(
                 context,
                 size: 12,

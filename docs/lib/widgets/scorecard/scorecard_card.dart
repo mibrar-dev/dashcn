@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../generated/docs_scorecards.dart';
 import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
 import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/components/card/card.dart';
 import '../../ui/dashcn/components/divider/divider.dart';
@@ -42,15 +43,27 @@ class ScorecardCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const CardHeader(
+          CardHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CardTitle(child: Text('Trust scorecard')),
+                CardTitle(
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'scTitle',
+                    ),
+                  ),
+                ),
                 CardDescription(
                   child: Text(
-                    'Measured quality facts. Null means not measured.',
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'scDesc',
+                    ),
                   ),
                 ),
               ],
@@ -101,7 +114,13 @@ class ScorecardCard extends StatelessWidget {
                     variant: ButtonVariant.link,
                     size: ButtonSize.sm,
                     onPressed: () => _goToMeasure(context),
-                    child: const Text('How we measure'),
+                    child: Text(
+                      docsChrome(
+                        DocsRouterScope.maybeOf(context)?.state.locale ??
+                            const Locale('en'),
+                        'secScorecards',
+                      ),
+                    ),
                   ),
                 ],
               ),

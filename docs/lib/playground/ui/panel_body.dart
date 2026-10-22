@@ -9,6 +9,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
+
 import '../../generated/docs_controls.dart';
 import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/foundation/gap.dart';
@@ -90,7 +93,10 @@ class PlaygroundControlsTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Text(
-      'Controls',
+      docsChrome(
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'),
+        'pgControls',
+      ),
       style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
     );
   }
@@ -147,7 +153,13 @@ class PlaygroundControlsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: pristine ? null : onReset,
-              child: const Text('Reset'),
+              child: Text(
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'pgReset',
+                ),
+              ),
             ),
           ],
         ),

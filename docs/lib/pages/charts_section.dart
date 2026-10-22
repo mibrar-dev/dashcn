@@ -8,6 +8,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../generated/docs_example_sources.dart';
 import '../generated/docs_previews.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -195,7 +198,13 @@ class ChartExampleCard extends StatelessWidget {
                             title: name,
                             code: source.code,
                           ),
-                          child: const Text('View code'),
+                          child: Text(
+                            docsChrome(
+                              DocsRouterScope.maybeOf(context)?.state.locale ??
+                                  const Locale('en'),
+                              'viewCode',
+                            ),
+                          ),
                         ),
                       ],
                     ),

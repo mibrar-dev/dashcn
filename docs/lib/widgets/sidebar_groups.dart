@@ -8,13 +8,15 @@
 //
 // Split out of `docs_sidebar.dart` for the ~400-line rule.
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import '../generated/docs_blocks.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_flows.dart';
 import '../generated/docs_starters.dart';
 import '../routing/docs_nav.dart';
+import '../state/docs_strings.dart';
+import 'docs_header.dart' show docsSectionLabel;
 
 /// One sidebar row: a group label, a category sub-label, or a link.
 @immutable
@@ -61,11 +63,25 @@ class SidebarRow {
 
 /// Builds the sidebar rows for [activeLocation], top to bottom.
 List<SidebarRow> buildSidebarRows(String activeLocation) {
+  return buildSidebarRowsLocalized(activeLocation, const Locale('en'));
+}
+
+/// Builds the sidebar rows for [activeLocation] in [locale].
+///
+/// Group labels, docs-section links, Theme Studio and the import item are
+/// translated; component/block/flow/starter names and category ids stay
+/// English (registry proper nouns).
+List<SidebarRow> buildSidebarRowsLocalized(
+  String activeLocation,
+  Locale locale,
+) {
+  String sectionLabel(DocsNavLink link) =>
+      docsSectionLabelFor(link.location, locale);
   return <SidebarRow>[
-    const SidebarRow.label('Sections'),
+    SidebarRow.label(docsChrome(locale, 'sideSections')),
     for (final DocsNavLink link in kDocsSections)
-      SidebarRow.link(text: link.label, location: link.location),
-    const SidebarRow.label('Components'),
+      SidebarRow.link(text: sectionLabel(link), location: link.location),
+    SidebarRow.label(docsChrome(locale, 'navComponents')),
     for (final DocsComponentCategory category
         in kComponentCategoryGroups) ...<SidebarRow>[
       SidebarRow.subLabel(category.id),
@@ -75,26 +91,37 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
           location: '/docs/components/${component.id}',
         ),
     ],
-    const SidebarRow.label('Blocks'),
+    SidebarRow.label(docsChrome(locale, 'navBlocks')),
     for (final DocsBlockCategory category in kBlockCategories) ...<SidebarRow>[
       SidebarRow.subLabel(category.id),
       for (final DocsBlock block in category.blocks)
         SidebarRow.link(text: block.name, location: '/blocks/${block.id}'),
     ],
-    const SidebarRow.label('Flows'),
+    SidebarRow.label(docsChrome(locale, 'navFlows')),
     for (final DocsFlow flow in kFlows)
       SidebarRow.link(text: flow.name, location: '/docs/flows/${flow.id}'),
-    const SidebarRow.label('Starters'),
+    SidebarRow.label(docsChrome(locale, 'navStarters')),
     for (final DocsStarter starter in kStarters)
       SidebarRow.link(
         text: starter.name,
         location: '/docs/starters/${starter.id}',
       ),
-    const SidebarRow.label('Themes'),
-    const SidebarRow.link(text: 'Theme Studio', location: '/themes'),
-    const SidebarRow.link(
-      text: 'Import a web theme',
+    SidebarRow.label(docsChrome(locale, 'navThemes')),
+    SidebarRow.link(
+      text: docsChrome(locale, 'sideThemeStudio'),
+      location: '/themes',
+    ),
+    SidebarRow.link(
+      text: docsChrome(locale, 'sideImportTheme'),
       location: '/themes?panel=import',
     ),
   ];
+}
+
+/// Translated docs-section label for a sidebar [location] in [locale].
+String docsSectionLabelFor(String location, Locale locale) {
+  if (location == '/docs/components') {
+    return docsChrome(locale, 'navComponents');
+  }
+  return docsSectionLabel(location, locale);
 }

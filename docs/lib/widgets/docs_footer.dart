@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/primitives/clickable.dart';
 import '../ui/dashcn/theme/theme.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../web_bridge.dart';
 import 'docs_tokens.dart';
 
@@ -28,6 +30,8 @@ class DocsFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final TextStyle base = docsText(
       context,
       size: width >= 640 ? 14 : 12,
@@ -49,12 +53,16 @@ class DocsFooter extends StatelessWidget {
         alignment: WrapAlignment.center,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
-          Text('A widgets-only Flutter component kit — ', style: base),
-          _FooterLink('Docs', link, onDocs),
+          Text(docsChrome(locale, 'footerTagline'), style: base),
+          _FooterLink(docsChrome(locale, 'navDocs'), link, onDocs),
           Text(' · ', style: base),
-          _FooterLink('GitHub', link, () => webOpenUrl(kDocsRepoUrl)),
+          _FooterLink(
+            docsChrome(locale, 'github'),
+            link,
+            () => webOpenUrl(kDocsRepoUrl),
+          ),
           Text(' · ', style: base),
-          _FooterLink('CLI', link, onCli),
+          _FooterLink(docsChrome(locale, 'secCli'), link, onCli),
         ],
       ),
     );

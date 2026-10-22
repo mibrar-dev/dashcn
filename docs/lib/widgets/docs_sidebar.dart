@@ -19,6 +19,7 @@ import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/primitives/clickable.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
+import '../state/docs_strings.dart';
 import 'docs_tokens.dart';
 import 'scroll_fade.dart';
 import 'sidebar_groups.dart';
@@ -77,13 +78,19 @@ class _DocsSidebarState extends State<DocsSidebar> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final double width = MediaQuery.sizeOf(context).width;
+    // The shell header floats over the navigator: the sidebar starts below
+    // it (header + 0.6rem) so rows never hide underneath the frosted bar.
+    final double headerHeight = width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     // Spec §2.2: the sidebar sticks at `header + 0.6rem` (10 px) and the
     // first group starts `pt-12` (48 px) below that; the scroll area sits at
     // `pl-2.5` + the container gutter's 8 px, so rows start at x = 26.
     return SizedBox(
       width: DocsMetrics.sidebarWidth,
       child: Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: headerHeight + 10),
         child: Stack(
           children: <Widget>[
             Padding(
@@ -141,7 +148,12 @@ class _DocsSidebarState extends State<DocsSidebar> {
   List<Widget> _rows(BuildContext context) {
     final List<Widget> rows = <Widget>[];
     bool label = false;
-    for (final SidebarRow row in buildSidebarRows(widget.activeLocation)) {
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    for (final SidebarRow row in buildSidebarRowsLocalized(
+      widget.activeLocation,
+      locale,
+    )) {
       if (row.isLabel) {
         if (label) {
           rows.add(const Gap(24));
@@ -258,6 +270,8 @@ class _SidebarItem extends StatelessWidget {
     final ThemeColors colors = theme.colors;
     final BorderRadius radius = theme.borderRadiusMd;
     final bool wip = _isWip(location);
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Padding(
       padding: EdgeInsets.only(bottom: spacing),
       child: Clickable(
@@ -302,7 +316,8 @@ class _SidebarItem extends StatelessWidget {
         }),
         child: wip
             ? Semantics(
-                label: '$label, WIP, Work in progress: bugs may occur.',
+                label:
+                    '$label, ${docsChrome(locale, 'cmpWip')}, ${docsChrome(locale, 'cmpWipNote')}',
                 child: ExcludeSemantics(
                   child: Row(
                     children: <Widget>[
@@ -324,7 +339,7 @@ class _SidebarItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          'WIP',
+                          docsChrome(locale, 'cmpWip'),
                           style: docsText(
                             context,
                             size: 10,

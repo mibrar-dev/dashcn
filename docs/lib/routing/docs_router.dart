@@ -681,6 +681,14 @@ class DocsRouterDelegate extends RouterDelegate<DocsRouteConfiguration>
   /// Called from [DocsRouterHost], which listens to this delegate — the shell
   /// route is created once by the app, so the navigator must rebuild itself
   /// instead of being captured in a route builder closure.
+  ///
+  /// Each page is wrapped in a [ListenableBuilder] on the shell state:
+  /// declarative [Navigator.pages] keeps routes with equal pages (same key),
+  /// so a state commit that is not navigation (locale, playground query)
+  /// would otherwise never reach the page subtree — the header (outside the
+  /// navigator) rebuilds via the shell listener while the page stays stale.
+  /// The builder recreates the page widget on every commit; element state
+  /// (scroll, playground) is preserved because the position and type match.
   Widget buildNavigator() {
     return DocsRouterScope(
       delegate: this,
@@ -694,8 +702,9 @@ class DocsRouterDelegate extends RouterDelegate<DocsRouteConfiguration>
               // in-app navigation is instant. The registry page stays for
               // structure; only the palette keeps an enter animation.
               transitionDuration: Duration.zero,
-              child: Builder(
-                builder: (BuildContext context) =>
+              child: ListenableBuilder(
+                listenable: state,
+                builder: (BuildContext context, Widget? _) =>
                     _pageBuilder(context, entry.config),
               ),
             ),

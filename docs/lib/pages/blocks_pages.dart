@@ -9,9 +9,12 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../generated/docs_blocks.dart';
 import '../routing/docs_nav.dart';
-import '../routing/docs_router.dart';
+
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -38,7 +41,13 @@ class BlocksIndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<DocsBlock> blocks = _visibleBlocks(categorySlug);
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -154,7 +163,13 @@ class _BlocksHero extends StatelessWidget {
                 size: ButtonSize.md,
                 onPressed: () =>
                     DocsRouterScope.of(context).go(context, '/docs/components'),
-                child: const Text('View Components'),
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'viewComponents',
+                  ),
+                ),
               ),
               Button(
                 variant: ButtonVariant.secondary,
@@ -274,7 +289,13 @@ class BlockPage extends StatelessWidget {
     final ({String? previousId, String? nextId}) neighbors = blockNeighbors(
       blockId,
     );
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 64),
         child: Center(
@@ -477,7 +498,13 @@ class _MissingBlock extends StatelessWidget {
               size: ButtonSize.sm,
               onPressed: () =>
                   DocsRouterScope.of(context).go(context, '/blocks'),
-              child: const Text('Back to Blocks'),
+              child: Text(
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'backBlocks',
+                ),
+              ),
             ),
           ],
         ),

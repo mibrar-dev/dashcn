@@ -162,85 +162,94 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
 
   Widget _buildShell(BuildContext context, Widget navigator) {
     final DocsState state = widget.state;
-    // Resolved once per build: the model caches per document, so every read
-    // below is the identical instance and unchanged commits stay no-ops.
-    final ThemeData theme = state.theme;
-    return DashcnApp(
-      title: 'dashcn',
-      debugShowCheckedModeBanner: false,
-      color: theme.colors.primary,
-      theme: theme,
-      themeMode: state.brightness == Brightness.dark
-          ? ThemeMode.dark
-          : ThemeMode.light,
-      // DashcnApp merges `shortcuts`/`actions` over the WidgetsApp defaults
-      // (Tab traversal, Enter/Space activation, Escape dismissal survive), so
-      // only the docs-specific bindings are listed here.
-      shortcuts: docsShortcuts,
-      actions: <Type, Action<Intent>>{
-        OpenDocsPaletteIntent: CallbackAction<OpenDocsPaletteIntent>(
-          onInvoke: (OpenDocsPaletteIntent intent) {
-            _delegate.openPalette();
-            return null;
+    return ListenableBuilder(
+      listenable: state,
+      builder: (BuildContext context, Widget? _) {
+        // Resolved per build: the model caches per document, so every read
+        // is the identical instance and unchanged commits stay no-ops.
+        // Inside the listener so locale/brightness commits rebuild
+        // `DashcnApp` with the fresh theme + locale (same page).
+        final ThemeData theme = state.theme;
+        return DashcnApp(
+          title: 'dashcn',
+          debugShowCheckedModeBanner: false,
+          color: theme.colors.primary,
+          theme: theme,
+          locale: state.locale,
+          themeMode: state.brightness == Brightness.dark
+              ? ThemeMode.dark
+              : ThemeMode.light,
+          // DashcnApp merges `shortcuts`/`actions` over the WidgetsApp defaults
+          // (Tab traversal, Enter/Space activation, Escape dismissal survive), so
+          // only the docs-specific bindings are listed here.
+          shortcuts: docsShortcuts,
+          actions: <Type, Action<Intent>>{
+            OpenDocsPaletteIntent: CallbackAction<OpenDocsPaletteIntent>(
+              onInvoke: (OpenDocsPaletteIntent intent) {
+                _delegate.openPalette();
+                return null;
+              },
+            ),
           },
-        ),
-      },
-      builder: (BuildContext context, Widget? child) => MotionScope(
-        child: Builder(
-          builder: (BuildContext context) {
-            final DocsThemeTransition kind = state.themeModel.transition;
-            return Listener(
-              // The tap point the circular reveal expands from (P7-TS1).
-              // One offset write per pointer-down; never a rebuild.
-              onPointerDown: (PointerDownEvent event) =>
-                  _switchOrigin = event.position,
-              child: ThemeSwitchTransition(
-                // One swap per commit, then the picked animation of the old
-                // frame over the new one (P7-WD single swap, P7-TS1 kinds).
-                // Reduced motion swaps instantly whatever is picked.
-                data: theme,
-                duration: context.reduceMotion
-                    ? Duration.zero
-                    : docsTransitionDuration(kind),
-                curve: kEaseOutExpo,
-                kind: kind,
-                origin: _switchOrigin,
-                child: child ?? const SizedBox.shrink(),
-              ),
-            );
-          },
-        ),
-      ),
-      // The home route is deliberately unnamed: the docs navigator must be the
-      // only thing reporting URLs to the engine (the Router owns history).
-      // P7-WA app-level overlay hosting: the gooey layer portals into the
-      // root overlay and the toast layer stacks over the window, so toasts
-      // anchor to the browser window instead of the preview card that
-      // triggered them; the background-scale wrapper dims/scales the shell
-      // while a drawer/sheet route is open.
-      navigatorObservers: <NavigatorObserver>[_drawerScaleObserver],
-      home: GooeyToastLayer(
-        child: ToastLayer(
-          child: DrawerBackgroundScale(
-            observer: _drawerScaleObserver,
-            child: DocsAppShell(
-              delegate: _delegate,
-              state: state,
-              child: navigator,
+          builder: (BuildContext context, Widget? child) => MotionScope(
+            child: Builder(
+              builder: (BuildContext context) {
+                final DocsThemeTransition kind = state.themeModel.transition;
+                return Listener(
+                  // The tap point the circular reveal expands from (P7-TS1).
+                  // One offset write per pointer-down; never a rebuild.
+                  onPointerDown: (PointerDownEvent event) =>
+                      _switchOrigin = event.position,
+                  child: ThemeSwitchTransition(
+                    // One swap per commit, then the picked animation of the old
+                    // frame over the new one (P7-WD single swap, P7-TS1 kinds).
+                    // Reduced motion swaps instantly whatever is picked.
+                    data: theme,
+                    duration: context.reduceMotion
+                        ? Duration.zero
+                        : docsTransitionDuration(kind),
+                    curve: kEaseOutExpo,
+                    kind: kind,
+                    origin: _switchOrigin,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                );
+              },
             ),
           ),
-        ),
-      ),
-      pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
-          PageRouteBuilder<T>(
-            settings: const RouteSettings(),
-            pageBuilder:
-                (
-                  BuildContext context,
-                  Animation<double> animation,
-                  Animation<double> secondaryAnimation,
-                ) => builder(context),
+          // The home route is deliberately unnamed: the docs navigator must be the
+          // only thing reporting URLs to the engine (the Router owns history).
+          // P7-WA app-level overlay hosting: the gooey layer portals into the
+          // root overlay and the toast layer stacks over the window, so toasts
+          // anchor to the browser window instead of the preview card that
+          // triggered them; the background-scale wrapper dims/scales the shell
+          // while a drawer/sheet route is open.
+          navigatorObservers: <NavigatorObserver>[_drawerScaleObserver],
+          home: GooeyToastLayer(
+            child: ToastLayer(
+              child: DrawerBackgroundScale(
+                observer: _drawerScaleObserver,
+                child: DocsAppShell(
+                  delegate: _delegate,
+                  state: state,
+                  child: navigator,
+                ),
+              ),
+            ),
           ),
+          pageRouteBuilder:
+              <T>(RouteSettings settings, WidgetBuilder builder) =>
+                  PageRouteBuilder<T>(
+                    settings: const RouteSettings(),
+                    pageBuilder:
+                        (
+                          BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                        ) => builder(context),
+                  ),
+        );
+      },
     );
   }
 }
@@ -271,10 +280,10 @@ const Map<ShortcutActivator, Intent> docsShortcuts =
 /// main chunk. Only unknown URLs fall through to the not-found page.
 Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
   return switch (config.route) {
-    DocsRoute.landing => const LandingPage(),
-    DocsRoute.introduction => const IntroductionPage(),
-    DocsRoute.components => const ComponentsIndexPage(),
-    DocsRoute.charts => const ChartsHubPage(),
+    DocsRoute.landing => LandingPage(),
+    DocsRoute.introduction => IntroductionPage(),
+    DocsRoute.components => ComponentsIndexPage(),
+    DocsRoute.charts => ChartsHubPage(),
     DocsRoute.chartFamily => ChartFamilyPage(familyId: config.chartFamilyId!),
     DocsRoute.component => DeferredPage(
       load: component_page.loadLibrary,
@@ -284,14 +293,14 @@ Widget buildDocsPage(BuildContext context, DocsRouteConfiguration config) {
     DocsRoute.themes => ThemesPage(
       openPanel: config.sourceUri?.queryParameters['panel'],
     ),
-    DocsRoute.installation => const GettingStartedPage(),
-    DocsRoute.packageOrOwn => const PackageOrOwnPage(),
-    DocsRoute.material => const MaterialInteropPage(),
-    DocsRoute.theming => const ThemingPage(),
-    DocsRoute.darkMode => const DarkModePage(),
-    DocsRoute.internationalization => const InternationalizationPage(),
-    DocsRoute.cli => const CliReferencePage(),
-    DocsRoute.scorecards => const ScorecardsPage(),
+    DocsRoute.installation => GettingStartedPage(),
+    DocsRoute.packageOrOwn => PackageOrOwnPage(),
+    DocsRoute.material => MaterialInteropPage(),
+    DocsRoute.theming => ThemingPage(),
+    DocsRoute.darkMode => DarkModePage(),
+    DocsRoute.internationalization => InternationalizationPage(),
+    DocsRoute.cli => CliReferencePage(),
+    DocsRoute.scorecards => ScorecardsPage(),
     DocsRoute.blocks => DeferredPage(
       load: blocks_pages.loadLibrary,
       builder: (BuildContext context) => blocks_pages.BlocksIndexPage(),

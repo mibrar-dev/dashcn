@@ -17,6 +17,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../previews/block_previews.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/spinner/spinner.dart';
@@ -248,7 +251,11 @@ class BlockPreviewLoaderState extends State<BlockPreviewLoader> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Text(
-                'Preview failed to load',
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'cmpPreviewFailed',
+                ),
                 style: TextStyle(
                   fontSize: 13,
                   color: Theme.of(context).colors.mutedForeground,

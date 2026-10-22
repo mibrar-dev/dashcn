@@ -8,6 +8,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../generated/docs_example_sources.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import 'example_preview_card.dart';
@@ -33,7 +36,14 @@ class ComponentExamplesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'examples', title: 'Examples'),
+        HeadingAnchor(
+          id: 'examples',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpExamples',
+          ),
+        ),
         for (int i = 1; i < sources.length; i++) ...<Widget>[
           HeadingAnchor(
             id: _anchorId(sources[i].name, used),

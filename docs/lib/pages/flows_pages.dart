@@ -10,11 +10,14 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
 import '../flows/flow_demo_data.dart';
 import '../flows/flow_screen_table.dart';
 import '../generated/docs_flows.dart';
 import '../routing/docs_nav.dart';
-import '../routing/docs_router.dart';
+
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -41,7 +44,13 @@ class FlowsIndexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -128,7 +137,13 @@ class _FlowsHero extends StatelessWidget {
                 size: ButtonSize.md,
                 onPressed: () =>
                     DocsRouterScope.of(context).go(context, '/docs/components'),
-                child: const Text('View Components'),
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'viewComponents',
+                  ),
+                ),
               ),
               Button(
                 variant: ButtonVariant.secondary,
@@ -247,7 +262,13 @@ class FlowCard extends StatelessWidget {
                       onPressed: () => DocsRouterScope.of(
                         context,
                       ).go(context, '/docs/flows/${flow.id}'),
-                      child: const Text('Open flow'),
+                      child: Text(
+                        docsChrome(
+                          DocsRouterScope.maybeOf(context)?.state.locale ??
+                              const Locale('en'),
+                          'openFlow',
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -325,7 +346,13 @@ class _FlowPageState extends State<FlowPage> {
     final ({String? previousId, String? nextId}) neighbors = flowNeighbors(
       flow.id,
     );
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 64),
         child: Center(
@@ -656,7 +683,13 @@ class _MissingFlow extends StatelessWidget {
               size: ButtonSize.sm,
               onPressed: () =>
                   DocsRouterScope.of(context).go(context, '/docs/flows'),
-              child: const Text('Back to Flows'),
+              child: Text(
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'backFlows',
+                ),
+              ),
             ),
           ],
         ),

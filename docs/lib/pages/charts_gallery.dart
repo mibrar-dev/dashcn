@@ -65,7 +65,13 @@ class _ChartsGalleryState extends State<ChartsGallery> {
     final List<ChartFamily> families = kChartFamilies
         .where((ChartFamily family) => family.id == selectedId)
         .toList(growable: false);
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       controller: _scroll,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -168,9 +174,9 @@ class ChartsHero extends StatelessWidget {
                 variant: ButtonVariant.secondary,
                 size: ButtonSize.md,
                 leading: const Icon(LucideIcons.bookOpen, size: 16),
-                onPressed: () => DocsRouterScope.of(
-                  context,
-                ).go(context, '/docs/components/chart'),
+                onPressed: () =>
+                    DocsRouterScope.of(context)
+                        .go(context, '/docs/components/chart'),
                 child: const Text('Documentation'),
               ),
             ],

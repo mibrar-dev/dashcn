@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/device_frame/device_spec.dart';
 import 'docs_storage.dart';
+import 'docs_strings.dart';
 import 'site_theme_model.dart';
 
 export 'docs_storage.dart'
@@ -64,6 +65,9 @@ class DocsState extends ChangeNotifier {
   DeviceFrameId _frame = DeviceFrameId.none;
   DeviceOrientation _orientation = DeviceOrientation.portrait;
 
+  /// The website locale (header switcher). Defaults to English.
+  Locale _locale = const Locale('en');
+
   /// The playground `p.*` params of the current URL (P9-Z).
   ///
   /// Seeded from the browser URL on load and back/forward; the component
@@ -94,6 +98,13 @@ class DocsState extends ChangeNotifier {
 
   /// The preview frame choice (P9-1); `none` renders previews unframed.
   DeviceFrameId get frame => _frame;
+
+  /// The website locale (header switcher; `en` by default).
+  Locale get locale => _locale;
+
+  /// The `?locale=` query value, or null when the choice is the default.
+  String? get localeQueryValue =>
+      docsLocaleTag(_locale) == 'en' ? null : docsLocaleTag(_locale);
 
   /// Portrait or landscape for the framed previews (P9-1).
   DeviceOrientation get orientation => _orientation;
@@ -147,9 +158,12 @@ class DocsState extends ChangeNotifier {
 
   /// Applies the frame pair and the playground `p.*` params out of [uri]'s
   /// query (deep links, reload and browser back/forward arrive here via the
-  /// router). Unknown frame values fall back to the defaults.
+  /// router). Unknown frame values fall back to the defaults. A present
+  /// `?locale=` seeds the website locale; an absent one keeps the current
+  /// choice so in-app navigation never drops it.
   void applyRouteUri(Uri uri) {
     applyFrameUri(uri);
+    applyLocaleQuery(uri.queryParameters[kDocsLocaleQueryKey]);
     final Map<String, String> query = <String, String>{
       for (final MapEntry<String, String> entry in uri.queryParameters.entries)
         if (entry.key.startsWith('p.')) entry.key: entry.value,
@@ -168,12 +182,18 @@ class DocsState extends ChangeNotifier {
 
   /// Copies [uri] with the frame pair and the playground query merged in
   /// (back-to-default keys dropped), so the router reports both to the
-  /// browser history.
+  /// browser history. The non-default locale rides along as `?locale=`.
   Uri reportUri(Uri uri) {
     final Map<String, String> params = Map<String, String>.of(
       frameUri(uri).queryParameters,
     )..removeWhere((String key, String value) => key.startsWith('p.'));
     params.addAll(_playgroundQuery);
+    final String? localeValue = localeQueryValue;
+    if (localeValue == null) {
+      params.remove(kDocsLocaleQueryKey);
+    } else {
+      params[kDocsLocaleQueryKey] = localeValue;
+    }
     return uri.replace(queryParameters: params.isEmpty ? null : params);
   }
 
@@ -226,6 +246,20 @@ class DocsState extends ChangeNotifier {
     if (orientation != _orientation) {
       _orientation = orientation;
       changed = true;
+    }
+    try {
+      final String? storedLocale = storage.read(kDocsLocaleKey);
+      if (storedLocale != null &&
+          storedLocale.isNotEmpty &&
+          kDocsLocaleNativeNames.containsKey(storedLocale)) {
+        final Locale parsed = docsLocaleFromTag(storedLocale);
+        if (parsed != _locale) {
+          _locale = parsed;
+          changed = true;
+        }
+      }
+    } catch (_) {
+      // Storage blocked (private mode, tests): keep the default locale.
     }
     if (changed) {
       notifyListeners();
@@ -285,6 +319,49 @@ class DocsState extends ChangeNotifier {
     _orientation = orientation;
     storage.write(kDocsOrientationKey, orientation.queryValue);
     notifyListeners();
+  }
+
+  /// Applies one parsed `?locale=` value (deep links and browser
+  /// back/forward arrive here via [applyRouteUri]). Unknown tags are
+  /// ignored; a null/absent value keeps the current choice.
+  void applyLocaleQuery(String? tag) {
+    if (tag == null || tag.isEmpty) {
+      return;
+    }
+    if (!kDocsLocaleNativeNames.containsKey(tag)) {
+      return;
+    }
+    final Locale parsed = docsLocaleFromTag(tag);
+    if (parsed == _locale) {
+      return;
+    }
+    _locale = parsed;
+    notifyListeners();
+    try {
+      storage.write(kDocsLocaleKey, tag);
+    } catch (_) {
+      // Storage blocked: the in-memory choice still applies.
+    }
+  }
+
+  /// Switches the whole website to [locale] immediately (same page),
+  /// persists the choice (localStorage + `?locale=` via [reportUri]) and
+  /// notifies so `DashcnApp` rebuilds with the new directionality.
+  void setLocale(Locale locale) {
+    final String tag = docsLocaleTag(locale);
+    if (!kDocsLocaleNativeNames.containsKey(tag)) {
+      return;
+    }
+    if (docsLocaleTag(_locale) == tag) {
+      return;
+    }
+    _locale = docsLocaleFromTag(tag);
+    notifyListeners();
+    try {
+      storage.write(kDocsLocaleKey, tag);
+    } catch (_) {
+      // Storage blocked (private mode): the in-memory locale still applies.
+    }
   }
 
   @override

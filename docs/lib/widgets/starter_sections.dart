@@ -7,8 +7,11 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../generated/docs_starters.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
+import '../generated/docs_starters.dart';
+
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -251,7 +254,13 @@ class MissingStarter extends StatelessWidget {
               size: ButtonSize.sm,
               onPressed: () =>
                   DocsRouterScope.of(context).go(context, '/docs/starters'),
-              child: const Text('Back to Starters'),
+              child: Text(
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'backStarters',
+                ),
+              ),
             ),
           ],
         ),

@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -30,7 +31,15 @@ class LandingPage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool xl = width >= 1280;
+    // The shell header floats over the navigator: the hero starts below it.
+    final double headerHeight = width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    final String heroTitle = docsChrome(locale, 'landTitle');
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Column(
         children: <Widget>[
           Padding(
@@ -46,7 +55,10 @@ class LandingPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Announcement(
-                  label: '${kStats.components} components ready to install',
+                  label: docsFill(
+                    docsChrome(locale, 'landReady'),
+                    count: kStats.components,
+                  ),
                   onPressed: () =>
                       DocsRouterScope.of(context).go(context, '/docs'),
                 ),
@@ -55,10 +67,10 @@ class LandingPage extends StatelessWidget {
                   constraints: const BoxConstraints(maxWidth: 896),
                   child: Semantics(
                     header: true,
-                    label: 'Every platform at once',
+                    label: heroTitle,
                     excludeSemantics: true,
                     child: Text(
-                      'Every platform at once',
+                      heroTitle,
                       textAlign: TextAlign.center,
                       style: docsText(
                         context,
@@ -75,8 +87,7 @@ class LandingPage extends StatelessWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 896),
                   child: Text(
-                    'Widgets-only components you install '
-                    'and own.\nLive below in every theme.',
+                    docsChrome(locale, 'landSub'),
                     textAlign: TextAlign.center,
                     style: docsText(
                       context,
@@ -93,18 +104,18 @@ class LandingPage extends StatelessWidget {
                   runSpacing: theme.spacing.sm,
                   children: <Widget>[
                     _PillButton(
-                      label: 'Get Started',
+                      label: docsChrome(locale, 'getStarted'),
                       primary: true,
-                      onPressed: () => DocsRouterScope.of(
-                        context,
-                      ).go(context, '/docs/installation'),
+                      onPressed: () =>
+                          DocsRouterScope.of(context)
+                              .go(context, '/docs/installation'),
                     ),
                     _PillButton(
-                      label: 'Browse flows',
+                      label: docsChrome(locale, 'landBrowseFlows'),
                       primary: false,
-                      onPressed: () => DocsRouterScope.of(
-                        context,
-                      ).go(context, '/docs/flows'),
+                      onPressed: () =>
+                          DocsRouterScope.of(context)
+                              .go(context, '/docs/flows'),
                     ),
                   ],
                 ),

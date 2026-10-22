@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../motion/ease.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -83,6 +85,16 @@ class _CopyButtonState extends State<CopyButton> {
 
   @override
   Widget build(BuildContext context) {
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    // Default `Copy` labels/tooltips resolve to the website locale; explicit
+    // labels (e.g. `Copy Page`) pass through untouched.
+    final String label = widget.label == 'Copy'
+        ? docsChrome(locale, 'artCopy')
+        : widget.label;
+    final String tooltip = widget.tooltip == 'Copy'
+        ? docsChrome(locale, 'artCopy')
+        : widget.tooltip;
     final Widget icon = Icon(
       _copied ? LucideIcons.check : LucideIcons.copy,
       size: 14,
@@ -93,10 +105,10 @@ class _CopyButtonState extends State<CopyButton> {
       theme: widget.theme,
       onPressed: _copy,
       leading: widget.showLabel ? icon : null,
-      child: widget.showLabel ? Text(widget.label) : icon,
+      child: widget.showLabel ? Text(label) : icon,
     );
     return Tooltip(
-      tooltip: (BuildContext context) => Text(widget.tooltip),
+      tooltip: (BuildContext context) => Text(tooltip),
       child: button,
     );
   }

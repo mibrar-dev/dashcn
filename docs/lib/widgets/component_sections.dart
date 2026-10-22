@@ -6,6 +6,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_api.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../generated/docs_snippets.dart';
 import '../generated/docs_tables.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -36,22 +38,32 @@ class ComponentUsageSection extends StatelessWidget {
     final DocsApiTable? api = kApiTables[componentId];
     final List<DocsApiParam> params = api?.params ?? const <DocsApiParam>[];
     final List<DocsApiParam> keyParams = params.take(5).toList(growable: false);
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    // Translated usage blurb (`Install with {command}, then …`): split on
+    // the placeholder so the command keeps its code style in every locale.
+    final List<String> blurbParts = docsChrome(
+      locale,
+      'cmpUsageBlurb',
+    ).split('{command}');
+    final String blurbPrefix = blurbParts.isNotEmpty ? blurbParts[0] : '';
+    final String blurbSuffix = blurbParts.length > 1
+        ? blurbParts.sublist(1).join('{command}')
+        : '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'usage', title: 'Usage'),
+        HeadingAnchor(id: 'usage', title: docsChrome(locale, 'cmpUsage')),
         TypesetParagraph.rich(<InlineSpan>[
-          const TextSpan(text: 'Install with '),
+          TextSpan(text: blurbPrefix),
           typesetInlineCodeSpan('dashcn add $componentId'),
-          const TextSpan(
-            text: ', then use it in your widget tree. Minimal example below.',
-          ),
+          TextSpan(text: blurbSuffix),
         ]),
         if (snippets.isNotEmpty) _CompactSnippet(snippet: snippets.first),
         if (keyParams.isNotEmpty) ...<Widget>[
           Gap(Theme.of(context).spacing.md),
           Text(
-            'Key parameters',
+            docsChrome(locale, 'cmpKeyParams'),
             style: docsText(context, size: 14, weight: FontWeight.w600),
           ),
           Gap(Theme.of(context).spacing.xs),
@@ -73,7 +85,10 @@ class ComponentUsageSection extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: Theme.of(context).spacing.md),
             child: Text(
-              '${snippets.length - 1} more snippet${snippets.length - 1 == 1 ? '' : 's'} in the README.',
+              docsFill(
+                docsChrome(locale, 'cmpMore'),
+                count: snippets.length - 1,
+              ),
               style: docsText(
                 context,
                 size: 13,
@@ -197,16 +212,39 @@ class ComponentApiSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'api-reference', title: 'API Reference'),
+        HeadingAnchor(
+          id: 'api-reference',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpApi',
+          ),
+        ),
         if (table.hasApiTable) ...<Widget>[
           if (table.summary != null) TypesetParagraph(table.summary!),
           const Gap(16),
           TypesetTable(
-            headers: const <String>[
-              'Parameter',
-              'Type',
-              'Default',
-              'Description',
+            headers: <String>[
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'thParam',
+              ),
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'thType',
+              ),
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'thDefault',
+              ),
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'thDesc',
+              ),
             ],
             rows: <TypesetRow>[
               for (final DocsApiParam param in table.params)
@@ -219,8 +257,12 @@ class ComponentApiSection extends StatelessWidget {
             ],
           ),
         ] else
-          const TypesetParagraph(
-            'This component has no constructor API table.',
+          TypesetParagraph(
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'cmpNoApi',
+            ),
           ),
       ],
     );
@@ -247,7 +289,14 @@ class ComponentMembersSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'members', title: 'Members'),
+        HeadingAnchor(
+          id: 'members',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpMembers',
+          ),
+        ),
         TypesetParagraph(
           '${table.members.length} declared '
           '${table.members.length == 1 ? 'entry point' : 'entry points'} on '
@@ -255,11 +304,27 @@ class ComponentMembersSection extends StatelessWidget {
         ),
         const Gap(16),
         TypesetTable(
-          headers: const <String>[
-            'Member',
-            'Kind',
-            'Parameters',
-            'Description',
+          headers: <String>[
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thMember',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thKind',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thParams',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thDesc',
+            ),
           ],
           rows: <TypesetRow>[
             for (final DocsApiMember member in table.members)
@@ -304,14 +369,37 @@ class ComponentThemeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'theme', title: 'Theme'),
+        HeadingAnchor(
+          id: 'theme',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpTheme',
+          ),
+        ),
         TypesetParagraph(
           'The ${table.themeClass} fields resolved by the theme layer. '
           'User-owned ${table.userFile} is never overwritten by CLI updates.',
         ),
         const Gap(16),
         TypesetTable(
-          headers: const <String>['Field', 'Type', 'Description'],
+          headers: <String>[
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thField',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thType',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thDesc',
+            ),
+          ],
           rows: <TypesetRow>[
             for (final DocsThemeField field in table.fields)
               TypesetRow(<TypesetCell>[
@@ -339,10 +427,28 @@ class ComponentAccessibilitySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'accessibility', title: 'Accessibility'),
+        HeadingAnchor(
+          id: 'accessibility',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpA11y',
+          ),
+        ),
         const Gap(16),
         TypesetTable(
-          headers: const <String>['Key', 'Action'],
+          headers: <String>[
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thKey',
+            ),
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'thAction',
+            ),
+          ],
           rows: <TypesetRow>[
             for (final DocsKeyboardRow row in rows)
               TypesetRow(<TypesetCell>[

@@ -5,6 +5,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_snippets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -46,7 +48,14 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'installation', title: 'Installation'),
+        HeadingAnchor(
+          id: 'installation',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'secInstallation',
+          ),
+        ),
         // P7-TH1: section gaps follow the theme (lg/md).
         Gap(theme.spacing.lg),
         // Narrow screens (320 px, wide test fonts) scroll the tabs
@@ -57,12 +66,20 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _LineTab(
-                label: 'Package',
+                label: docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'cmpPackage',
+                ),
                 selected: _tab == 0,
                 onTap: () => setState(() => _tab = 0),
               ),
               _LineTab(
-                label: 'Own the code',
+                label: docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'cmpOwnCode',
+                ),
                 selected: _tab == 1,
                 onTap: () => setState(() => _tab = 1),
               ),
@@ -72,11 +89,26 @@ class _ComponentInstallBlockState extends State<ComponentInstallBlock> {
         Gap(theme.spacing.md),
         _InstallFigure(command: _command, files: _tab == 1 ? files : null),
         Gap(theme.spacing.md),
-        TypesetParagraph.rich(<InlineSpan>[
-          const TextSpan(text: 'Switch later with '),
-          typesetInlineCodeSpan(ejectCommand(widget.componentId)),
-          const TextSpan(text: ' — turns a package import into owned sources.'),
-        ]),
+        Builder(
+          builder: (BuildContext context) {
+            final locale =
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en');
+            final List<String> parts = docsChrome(
+              locale,
+              'cmpEjectNote',
+            ).split('{command}');
+            final String prefix = parts.isNotEmpty ? parts[0] : '';
+            final String suffix = parts.length > 1
+                ? parts.sublist(1).join('{command}')
+                : '';
+            return TypesetParagraph.rich(<InlineSpan>[
+              TextSpan(text: prefix),
+              typesetInlineCodeSpan(ejectCommand(widget.componentId)),
+              TextSpan(text: suffix),
+            ]);
+          },
+        ),
       ],
     );
   }
@@ -197,16 +229,26 @@ class _FileList extends StatelessWidget {
                       ),
                     ),
                     Gap(theme.spacing.sm),
-                    const Badge(
+                    Badge(
                       variant: BadgeVariant.outline,
-                      child: Text('user-owned'),
+                      child: Text(
+                        docsChrome(
+                          DocsRouterScope.maybeOf(context)?.state.locale ??
+                              const Locale('en'),
+                          'cmpUserOwned',
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
             Gap(theme.spacing.sm),
             Text(
-              kUserOwnedNote,
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'cmpUserOwnedNote',
+              ),
               style: docsText(
                 context,
                 size: 12,

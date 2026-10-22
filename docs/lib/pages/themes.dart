@@ -8,6 +8,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/popup/popup.dart';
@@ -65,6 +66,10 @@ class _ThemesPageState extends State<ThemesPage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final DocsState state = DocsRouterScope.of(context).state;
+    // The shell header floats over the navigator: pages start below it.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? 64
+        : 56;
     // Accessibility: the Studio has no visible title, so expose a
     // screen-reader heading (`Themes`) without changing the layout.
     final Widget heading = Semantics(
@@ -79,6 +84,7 @@ class _ThemesPageState extends State<ThemesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: headerHeight),
             heading,
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -88,7 +94,13 @@ class _ThemesPageState extends State<ThemesPage> {
                 size: ButtonSize.sm,
                 leading: const Icon(LucideIcons.slidersHorizontal, size: 14),
                 onPressed: () => _openRail(context, state),
-                child: const Text('Customize'),
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'customize',
+                  ),
+                ),
               ),
             ),
             const Gap(12),
@@ -102,6 +114,7 @@ class _ThemesPageState extends State<ThemesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          SizedBox(height: headerHeight),
           heading,
           Expanded(
             child: Row(
