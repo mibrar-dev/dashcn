@@ -46,6 +46,11 @@ class DocsAppShell extends StatefulWidget {
 class _DocsAppShellState extends State<DocsAppShell> {
   bool _mobileNavOpen = false;
   bool _drawerMounted = false;
+  // Close-operation counter: every close arms a delayed unmount, but only
+  // the latest close may unmount. Without this a stale timer from an
+  // earlier close fires during a newer close animation and unmounts the
+  // drawer mid-slide — the scrim and panel vanish instantly (a snap).
+  int _drawerGeneration = 0;
 
   void _toggleMobileNav() {
     if (_mobileNavOpen) {
@@ -53,7 +58,7 @@ class _DocsAppShellState extends State<DocsAppShell> {
       return;
     }
     // Mount closed, then open next frame so the slide/fade animate in
-    // instead of jumping. Reduced motion still snaps (duration zero).
+    // instead of jumping. Reduced motion shortens it to 150 ms.
     setState(() {
       _drawerMounted = true;
       _mobileNavOpen = false;
@@ -70,11 +75,17 @@ class _DocsAppShellState extends State<DocsAppShell> {
       return;
     }
     final Duration duration = context.motionDuration(kDurationPopper * 2);
+    final int generation = ++_drawerGeneration;
     setState(() => _mobileNavOpen = false);
     // Keep mounted during the slide-out/fade-out, then unmount so the
-    // off-screen drawer never lingers for finders or focus.
+    // off-screen drawer never lingers for finders or focus. The generation
+    // check keeps a stale timer (from a close superseded by a
+    // reopen+close) from unmounting mid-animation.
     Future.delayed(duration + const Duration(milliseconds: 50), () {
-      if (mounted && !_mobileNavOpen && _drawerMounted) {
+      if (mounted &&
+          !_mobileNavOpen &&
+          _drawerMounted &&
+          generation == _drawerGeneration) {
         setState(() => _drawerMounted = false);
       }
     });
@@ -128,7 +139,7 @@ class _DocsAppShellState extends State<DocsAppShell> {
         // dimmed scrim. The drawer mounts on open (closed, then animates in)
         // and stays mounted during the slide-out/fade-out before unmounting,
         // so open and close both animate with no jump and no lingering
-        // off-screen widgets. Reduced motion snaps it (duration zero).
+        // off-screen widgets. Reduced motion shortens both to 150 ms.
         final Widget content = Stack(
           children: <Widget>[
             shell,
