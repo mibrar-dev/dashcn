@@ -255,4 +255,72 @@ void main() {
       findsWidgets,
     );
   });
+
+  testWidgets('title and rows have inner padding', (tester) async {
+    await tester.pumpWidget(
+      _frame(
+        child: const ActionSheet<void>(
+          title: 'T',
+          actions: <ActionSheetAction<void>>[
+            ActionSheetAction<void>(label: 'A'),
+          ],
+          cancelAction: ActionSheetAction<void>(label: 'Cancel'),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    // Title carries its own horizontal token inset (12 compact).
+    final Padding titlePad = tester.widget<Padding>(
+      find.ancestor(of: find.text('T'), matching: find.byType(Padding)).first,
+    );
+    final EdgeInsets titleInsets = titlePad.padding.resolve(TextDirection.ltr);
+    expect(titleInsets.left, 12);
+    expect(titleInsets.right, 12);
+
+    // Rows carry 12px horizontal / 6px vertical (compact density tokens).
+    final Iterable<Padding> rowPads = tester.widgetList<Padding>(
+      find.ancestor(of: find.text('A'), matching: find.byType(Padding)),
+    );
+    final bool hasRowPad = rowPads.any((Padding p) {
+      final EdgeInsets r = p.padding.resolve(TextDirection.ltr);
+      return r.left == 12 && r.right == 12 && r.top == 6 && r.bottom == 6;
+    });
+    expect(hasRowPad, isTrue);
+
+    // Cancel row is padded too.
+    final Iterable<Padding> cancelPads = tester.widgetList<Padding>(
+      find.ancestor(of: find.text('Cancel'), matching: find.byType(Padding)),
+    );
+    final bool hasCancelPad = cancelPads.any((Padding p) {
+      final EdgeInsets r = p.padding.resolve(TextDirection.ltr);
+      return r.left == 12 && r.top == 6;
+    });
+    expect(hasCancelPad, isTrue);
+
+    // Shell has outer density padding (gap x 2 = 16 compact) so content
+    // never sits flush against the sheet edges.
+    final Iterable<Container> containers = tester.widgetList<Container>(
+      find.descendant(
+        of: find.byType(ActionSheet<void>),
+        matching: find.byType(Container),
+      ),
+    );
+    final bool hasShellPad = containers.any((Container c) {
+      final EdgeInsetsGeometry? pad = c.padding;
+      if (pad == null) return false;
+      final EdgeInsets r = pad.resolve(TextDirection.ltr);
+      return r.left == 16 && r.right == 16 && r.top == 16 && r.bottom == 16;
+    });
+    expect(hasShellPad, isTrue);
+
+    // Compact row height stays 40.
+    final Iterable<ConstrainedBox> boxes = tester.widgetList<ConstrainedBox>(
+      find.descendant(
+        of: find.byType(ActionSheet<void>),
+        matching: find.byType(ConstrainedBox),
+      ),
+    );
+    expect(boxes.any((b) => b.constraints.minHeight == 40), isTrue);
+  });
 }
