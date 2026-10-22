@@ -154,6 +154,7 @@ class _ComponentPageState extends State<ComponentPage> {
         kControlSpecs.containsKey(widget.componentId) &&
         kPlaygroundBuilders.containsKey(widget.componentId);
     final Widget article = DocsArticle(
+      hideToc: _playgroundOpen && hasPlayground,
       title: component.name,
       description: component.description,
       previous: neighbors.previousId != null
