@@ -200,6 +200,7 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
             child: SizedBox(
               key: _trackKey,
               height: 24,
+              width: double.infinity,
               child: CustomPaint(
                 painter: _ScrubPainter(
                   fraction: fraction,

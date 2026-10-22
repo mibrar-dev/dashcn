@@ -102,8 +102,12 @@ class AudioCompactPill extends StatelessWidget {
             1.0,
           );
     final ThemeData ambient = Theme.of(context);
-    final Color fill =
-        style.accent?.resolve(ambient.colors) ?? ambient.colors.primary;
+    // Inactive track from the border token, active fill from the foreground
+    // token: same pair as the expanded card and the video scrub bar so the
+    // pill stays visible in both themes.
+    final Color track =
+        style.track?.resolve(ambient.colors) ?? ambient.colors.border;
+    final Color fill = fg;
     // 8 px density gaps between controls; times and title share one
     // vertically centred row of 36 px controls in the 48 px pill.
     final double controlGap = ambient.density.baseGap * ambient.scaling * gapSm;
@@ -192,7 +196,7 @@ class AudioCompactPill extends StatelessWidget {
                 _CompactSeekLine(
                   controller: c,
                   fraction: fraction,
-                  fg: fg,
+                  track: track,
                   fill: fill,
                 ),
           ),
@@ -233,13 +237,13 @@ class _CompactSeekLine extends StatelessWidget {
   const _CompactSeekLine({
     required this.controller,
     required this.fraction,
-    required this.fg,
+    required this.track,
     required this.fill,
   });
 
   final AudioPlaybackController controller;
   final double fraction;
-  final Color fg;
+  final Color track;
   final Color fill;
 
   void _seek(BuildContext context, Offset globalPosition, Size size) {
@@ -282,7 +286,7 @@ class _CompactSeekLine extends StatelessWidget {
                   child: SizedBox(
                     height: 2,
                     child: ColoredBox(
-                      color: fg.withAlpha(0x24),
+                      color: track,
                       child: Align(
                         alignment:
                             Directionality.of(context) == TextDirection.rtl

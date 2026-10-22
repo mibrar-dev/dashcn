@@ -189,6 +189,7 @@ class _AudioProgressBarState extends State<AudioProgressBar> {
               },
               child: SizedBox(
                 height: 24,
+                width: double.infinity,
                 child: CustomPaint(
                   painter: _AudioBarPainter(
                     fraction: _fraction,

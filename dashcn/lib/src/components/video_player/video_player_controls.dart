@@ -212,13 +212,10 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
       buffered: c.buffered,
       enabled: !c.isLive,
       onSeek: c.seekTo,
-      trackColor:
-          widget.style.track?.resolve(colors) ?? const Color(0x59FFFFFF),
-      bufferedColor:
-          widget.style.buffered?.resolve(colors) ?? const Color(0x99FFFFFF),
-      fillColor: widget.style.accent?.resolve(colors) ?? colors.primary,
-      thumbColor:
-          widget.style.thumb?.resolve(colors) ?? const Color(0xFFFFFFFF),
+      trackColor: widget.style.track?.resolve(colors) ?? colors.border,
+      bufferedColor: widget.style.buffered?.resolve(colors) ?? colors.border,
+      fillColor: widget.style.accent?.resolve(colors) ?? widget.fg,
+      thumbColor: widget.style.thumb?.resolve(colors) ?? widget.fg,
       trackHeight: trackHeight,
     );
     return widget.progressBuilder?.call(context, c, defaults) ?? defaults;
@@ -389,14 +386,11 @@ class VideoMinimalBar extends StatelessWidget {
       buffered: c.buffered,
       enabled: !c.isLive,
       onSeek: c.seekTo,
-      trackColor:
-          style.track?.resolve(ambient.colors) ?? const Color(0x59FFFFFF),
+      trackColor: style.track?.resolve(ambient.colors) ?? ambient.colors.border,
       bufferedColor:
-          style.buffered?.resolve(ambient.colors) ?? const Color(0x99FFFFFF),
-      fillColor:
-          style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
-      thumbColor:
-          style.thumb?.resolve(ambient.colors) ?? const Color(0xFFFFFFFF),
+          style.buffered?.resolve(ambient.colors) ?? ambient.colors.border,
+      fillColor: style.accent?.resolve(ambient.colors) ?? fg,
+      thumbColor: style.thumb?.resolve(ambient.colors) ?? fg,
       trackHeight: style.trackHeight ?? metrics.trackHeight,
     );
     final Widget time = Text(
