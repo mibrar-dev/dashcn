@@ -95,4 +95,4 @@ Read-only (686 fields: 685 current + synthetic shift) hidden from panel.
 
 ## PR
 
-PR URL: TBD (to be filled after `gh pr create`).
+PR URL: https://github.com/mibrar-dev/dashcn/pull/56
