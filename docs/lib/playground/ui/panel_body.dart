@@ -6,6 +6,10 @@
 // through callbacks. The list rebuilds off [version] (a `ValueNotifier` the
 // panel bumps on every commit) so controls inside an open bottom-sheet route
 // stay live — the panel's own `setState` cannot reach into the overlay.
+//
+// Controls are grouped Figma-style (Appearance, Size, State, Content); only
+// editable kinds appear here. Read-only entries stay in the API Reference
+// docs and never render as rows.
 
 import 'package:flutter/widgets.dart';
 
@@ -14,6 +18,7 @@ import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import '../../widgets/code_figure.dart';
+import '../../widgets/copy_button.dart';
 import '../../widgets/device_frame/framed_preview.dart';
 import '../../widgets/preview_stage.dart';
 import '../builder.dart';
@@ -21,6 +26,7 @@ import '../code.dart';
 import '../values.dart';
 import 'control_label.dart';
 import 'controls.dart';
+import 'groups.dart';
 import 'query.dart';
 
 /// The framed live preview (P9-1 frames keep working inside the playground).
@@ -96,7 +102,7 @@ class PlaygroundControlsTitle extends StatelessWidget {
   }
 }
 
-/// Controls header (title + reset) plus the rows.
+/// Controls header (title + reset + copy) plus the grouped rows.
 class PlaygroundControlsCard extends StatelessWidget {
   /// Creates the controls column.
   const PlaygroundControlsCard({
@@ -135,6 +141,7 @@ class PlaygroundControlsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final bool pristine = playgroundQuery(spec, values).isEmpty;
+    final String code = emitCode(spec, values);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +155,16 @@ class PlaygroundControlsCard extends StatelessWidget {
               size: ButtonSize.sm,
               onPressed: pristine ? null : onReset,
               child: const Text('Reset'),
+            ),
+            Gap(theme.spacing.xs),
+            CopyButton(
+              key: const ValueKey<String>('playground-copy'),
+              text: code,
+              label: 'Copy code',
+              showLabel: true,
+              variant: ButtonVariant.secondary,
+              size: ButtonSize.sm,
+              tooltip: 'Copy code',
             ),
           ],
         ),
@@ -165,7 +182,11 @@ class PlaygroundControlsCard extends StatelessWidget {
   }
 }
 
-/// One row per editable control.
+/// One row per editable control, grouped Figma-style.
+///
+/// Groups (Appearance, Size, State, Content) come from `groups.dart`; only
+/// editable kinds render. Read-only entries are hidden here and stay in the
+/// API Reference docs.
 class PlaygroundControlsList extends StatelessWidget {
   /// Creates the rows.
   const PlaygroundControlsList({
@@ -199,10 +220,7 @@ class PlaygroundControlsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final List<ControlSpec> editable = <ControlSpec>[
-      for (final ControlSpec control in spec.controls)
-        if (control.isEditable) control,
-    ];
+    final Map<String, List<ControlSpec>> grouped = groupEditableControls(spec);
     return ListenableBuilder(
       listenable: version,
       builder: (BuildContext context, Widget? _) {
@@ -210,15 +228,23 @@ class PlaygroundControlsList extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            for (int i = 0; i < editable.length; i++) ...<Widget>[
-              if (i > 0) Gap(theme.spacing.sm),
-              ControlRow(
-                spec: spec,
-                control: editable[i],
-                values: values,
-                onCommit: onCommit,
-                textController: controllers[editable[i].name],
-                boundedBy: boundedBy,
+            for (int g = 0; g < grouped.entries.length; g++) ...<Widget>[
+              if (g > 0) Gap(theme.spacing.md),
+              PlaygroundControlGroup(
+                groupId: grouped.entries.elementAt(g).key,
+                title: playgroundGroupTitle(grouped.entries.elementAt(g).key),
+                children: <Widget>[
+                  for (final ControlSpec control
+                      in grouped.entries.elementAt(g).value)
+                    ControlRow(
+                      spec: spec,
+                      control: control,
+                      values: values,
+                      onCommit: onCommit,
+                      textController: controllers[control.name],
+                      boundedBy: boundedBy,
+                    ),
+                ],
               ),
             ],
           ],

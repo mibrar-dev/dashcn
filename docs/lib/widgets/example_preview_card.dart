@@ -10,10 +10,22 @@
 // stay empty until the scroll settles ([_LazyPreview]), keeping long pages
 // fast: the deferred chunk itself loads once per component and is shared by
 // every card on the page.
+//
+// While the component page's playground is open, the same playground values
+// drive every example on the page (the playground canvas is the single live
+// preview): each card renders its registered playground builder from the
+// shared `p.*` query instead of its static deferred preview, so the page
+// changes together. The Code tab keeps the original per-example source, so
+// deliberate per-example overrides stay visible in documentation.
 
 import 'package:flutter/widgets.dart';
 
+import '../generated/docs_controls.dart';
 import '../generated/docs_example_sources.dart';
+import '../playground/builder.dart';
+import '../playground/builders.dart';
+import '../playground/ui/scope.dart';
+import '../playground/values.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -87,6 +99,37 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
   double get _minHeight =>
       widget.isMain ? kMainPreviewMinHeight : kExamplePreviewMinHeight;
 
+  /// Whether this card currently renders playground-driven (vs static).
+  bool _isPlaygroundDriven(DocsState state, bool scopeActive) {
+    if (!scopeActive || state.playgroundQuery.isEmpty) {
+      return false;
+    }
+    return kControlSpecs.containsKey(widget.componentId) &&
+        kPlaygroundBuilders.containsKey(widget.componentId);
+  }
+
+  /// The preview body: playground-driven when the page playground is open
+  /// for this component and the shared query is non-empty, else the static
+  /// deferred preview.
+  Widget _playgroundDrivenBody(DocsState state, bool scopeActive) {
+    if (_isPlaygroundDriven(state, scopeActive)) {
+      final ComponentControls spec = kControlSpecs[widget.componentId]!;
+      final PlaygroundBuilder builder =
+          kPlaygroundBuilders[widget.componentId]!;
+      final PlaygroundValues values = PlaygroundValues.fromQuery(
+        spec,
+        state.playgroundQuery,
+      );
+      return Builder(
+        builder: (BuildContext context) => builder(context, values),
+      );
+    }
+    return PreviewExampleLoader(
+      componentId: widget.componentId,
+      exampleIndex: widget.exampleIndex,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final DocsState state = DocsRouterScope.of(context).state;
@@ -94,6 +137,14 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
     // Command, Menubar bar): the outer card stays borderless so the page
     // never shows an outer border with an inner bordered box.
     final bool popupLike = _popupLikeComponents.contains(widget.componentId);
+    // Playground-driven examples: when the page playground is open for this
+    // component and the shared `p.*` query is non-empty, every card renders
+    // the registered playground builder from the same values (the page
+    // changes together). The Code tab below keeps the original source, so
+    // deliberate per-example overrides stay documented. When closed or at
+    // defaults (empty query) the static deferred previews render as today.
+    final bool playgroundScopeActive =
+        PlaygroundScope.maybeOf(context)?.drives(widget.componentId) ?? false;
     // F1: the card also rebuilds when the shared frame choice changes, so
     // every example on the page follows the one frame bar.
     return ListenableBuilder(
@@ -137,15 +188,21 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
                 ),
               );
             }
+            final bool driven = _isPlaygroundDriven(
+              state,
+              playgroundScopeActive,
+            );
+            final Widget exampleBody = _playgroundDrivenBody(
+              state,
+              playgroundScopeActive,
+            );
+            // Playground-driven cards bypass the lazy gate so every example
+            // updates the moment a control changes (no scroll needed).
             final Widget stage = PreviewStage(
               minHeight: _minHeight,
-              child: _LazyPreview(
-                minHeight: _minHeight,
-                child: PreviewExampleLoader(
-                  componentId: widget.componentId,
-                  exampleIndex: widget.exampleIndex,
-                ),
-              ),
+              child: driven
+                  ? exampleBody
+                  : _LazyPreview(minHeight: _minHeight, child: exampleBody),
             );
             final Widget previewBody = _inverted
                 ? Theme(
@@ -169,10 +226,7 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
               frame: state.frame,
               orientation: state.orientation,
               componentId: widget.componentId,
-              child: PreviewExampleLoader(
-                componentId: widget.componentId,
-                exampleIndex: widget.exampleIndex,
-              ),
+              child: _playgroundDrivenBody(state, playgroundScopeActive),
             );
             if (_inverted) {
               framed = Theme(
