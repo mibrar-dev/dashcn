@@ -8,8 +8,11 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../generated/docs_blocks.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
+
+import '../generated/docs_blocks.dart';
+
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/divider/divider.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -218,7 +221,13 @@ class _HeaderRow extends StatelessWidget {
                   onPressed: () => DocsRouterScope.of(
                     context,
                   ).go(context, '/blocks/${block.id}'),
-                  child: const Text('Open in new tab'),
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'openNewTab',
+                    ),
+                  ),
                 ),
             ],
           );

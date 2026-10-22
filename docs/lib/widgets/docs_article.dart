@@ -10,6 +10,7 @@ import '../motion/ease.dart';
 import '../motion/motion_scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
@@ -231,6 +232,12 @@ class _DocsArticleState extends State<DocsArticle> {
     if (box == null || object is! RenderBox || !_controller.scroll.hasClients) {
       return;
     }
+    // The shell header floats over the scroll view: stop headings below it
+    // (web `scroll-margin-top`), or the bar covers the jumped-to heading.
+    final double width = MediaQuery.sizeOf(context).width;
+    final double headerHeight = width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     final double dy =
         object.localToGlobal(Offset.zero, ancestor: box).dy +
         _controller.scroll.offset;
@@ -239,7 +246,7 @@ class _DocsArticleState extends State<DocsArticle> {
       const Duration(milliseconds: 250),
     );
     _controller.scroll.animateTo(
-      (dy - 12).clamp(0, max).toDouble(),
+      (dy - headerHeight - 12).clamp(0, max).toDouble(),
       duration: duration,
       curve: kEaseStandard,
     );
@@ -257,6 +264,12 @@ class _DocsArticleState extends State<DocsArticle> {
     final double width = MediaQuery.sizeOf(context).width;
     final bool showToc = !widget.hideToc && width >= 1280;
     final bool showActions = widget.showTitleActions && width >= 640;
+    // The shell header floats over the navigator: the article scroll view
+    // extends underneath it, so its top inset carries the header height and
+    // scrolled prose shows through the frosted bar.
+    final double headerHeight = width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return Row(
       key: _articleKey,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -267,7 +280,10 @@ class _DocsArticleState extends State<DocsArticle> {
             child: SingleChildScrollView(
               controller: _controller.scroll,
               // Spec §2.2/§2.3: `--top-spacing` is 0 below `lg`, 16 px ≥lg.
-              padding: EdgeInsets.only(top: width >= 1024 ? 16 : 0, bottom: 48),
+              padding: EdgeInsets.only(
+                top: headerHeight + (width >= 1024 ? 16 : 0),
+                bottom: 48,
+              ),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -332,7 +348,11 @@ class _DocsArticleState extends State<DocsArticle> {
   }
 
   Widget _titleRow(BuildContext context, ThemeData theme, bool showActions) {
-    // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        const Locale(
+          'en',
+        ); // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
     // badge size with gap-2 between them; the badge group keeps gap-3 from
     // the actions; Copy Page and the pager use gap-2. The Wrap drops to the
     // next line on narrow widths instead of squeezing to 0px gaps.
@@ -353,7 +373,8 @@ class _DocsArticleState extends State<DocsArticle> {
           if (showActions)
             CopyButton(
               text: _copyText,
-              label: 'Copy Page',
+              label: docsChrome(locale, 'artCopyPage'),
+              tooltip: docsChrome(locale, 'artCopy'),
               showLabel: true,
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
@@ -361,14 +382,14 @@ class _DocsArticleState extends State<DocsArticle> {
           _iconNavButton(
             context,
             icon: LucideIcons.chevronLeft,
-            tooltip: 'Previous',
+            tooltip: docsChrome(locale, 'artPrevious'),
             link: widget.previous,
             size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
           ),
           _iconNavButton(
             context,
             icon: LucideIcons.chevronRight,
-            tooltip: 'Next',
+            tooltip: docsChrome(locale, 'artNext'),
             link: widget.next,
             size: MediaQuery.sizeOf(context).width >= 768 ? 28 : 32,
           ),

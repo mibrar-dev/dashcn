@@ -13,6 +13,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
+
 import '../../generated/docs_controls.dart';
 import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/foundation/gap.dart';
@@ -96,7 +99,10 @@ class PlaygroundControlsTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Text(
-      'Controls',
+      docsChrome(
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'),
+        'pgControls',
+      ),
       style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
     );
   }
@@ -142,6 +148,9 @@ class PlaygroundControlsCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool pristine = playgroundQuery(spec, values).isEmpty;
     final String code = emitCode(spec, values);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    final String copyLabel = docsChrome(locale, 'pgCopyCode');
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,17 +163,23 @@ class PlaygroundControlsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: pristine ? null : onReset,
-              child: const Text('Reset'),
+              child: Text(
+                docsChrome(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'pgReset',
+                ),
+              ),
             ),
             Gap(theme.spacing.xs),
             CopyButton(
               key: const ValueKey<String>('playground-copy'),
               text: code,
-              label: 'Copy code',
+              label: copyLabel,
               showLabel: true,
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
-              tooltip: 'Copy code',
+              tooltip: copyLabel,
             ),
           ],
         ),
@@ -220,6 +235,8 @@ class PlaygroundControlsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final Map<String, List<ControlSpec>> grouped = groupEditableControls(spec);
     return ListenableBuilder(
       listenable: version,
@@ -232,7 +249,10 @@ class PlaygroundControlsList extends StatelessWidget {
               if (g > 0) Gap(theme.spacing.md),
               PlaygroundControlGroup(
                 groupId: grouped.entries.elementAt(g).key,
-                title: playgroundGroupTitle(grouped.entries.elementAt(g).key),
+                title: playgroundGroupTitleFor(
+                  locale,
+                  grouped.entries.elementAt(g).key,
+                ),
                 children: <Widget>[
                   for (final ControlSpec control
                       in grouped.entries.elementAt(g).value)

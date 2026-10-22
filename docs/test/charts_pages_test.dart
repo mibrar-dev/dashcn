@@ -177,7 +177,10 @@ void main() {
       await _go(tester, delegate, '/charts');
       final int count = kChartFamilies.first.examples.length;
       for (int i = 0; i < count; i++) {
-        await tester.ensureVisible(find.byType(ChartExampleCard).at(i));
+        await ensureVisibleBelowHeader(
+          tester,
+          find.byType(ChartExampleCard).at(i),
+        );
         await tester.pump(const Duration(milliseconds: 100));
       }
       expect(tester.takeException(), isNull);
@@ -226,7 +229,7 @@ void main() {
     ) async {
       final DocsRouterDelegate delegate = await pumpDocsApp(tester);
       await _go(tester, delegate, '/charts/area');
-      await tester.ensureVisible(find.text('View code').first);
+      await ensureVisibleBelowHeader(tester, find.text('View code').first);
       await tester.pump(const Duration(milliseconds: 100));
       await tester.tap(find.text('View code').first);
       await _pumpSoon(tester);
@@ -249,7 +252,7 @@ void main() {
       );
       tester.takeException();
       await _go(tester, delegate, '/charts/area');
-      await tester.ensureVisible(find.text('View code').first);
+      await ensureVisibleBelowHeader(tester, find.text('View code').first);
       await tester.pump(const Duration(milliseconds: 100));
       await tester.tap(find.text('View code').first);
       await _pumpSoon(tester);
@@ -273,7 +276,10 @@ void main() {
           in kChartFamilyExamples.entries) {
         await _go(tester, delegate, '/charts/${entry.key}');
         for (int i = 0; i < entry.value.length; i++) {
-          await tester.ensureVisible(find.byType(ChartExampleCard).at(i));
+          await ensureVisibleBelowHeader(
+            tester,
+            find.byType(ChartExampleCard).at(i),
+          );
           await tester.pump(const Duration(milliseconds: 100));
         }
         expect(

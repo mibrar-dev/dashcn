@@ -6,6 +6,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -23,19 +24,27 @@ class DocsPlaceholderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final bool docsRoute = config.route != DocsRoute.themes;
+    // The shell header floats over the navigator: center below it.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? 64
+        : 56;
     return ColoredBox(
       color: theme.colors.background,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),
           child: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.fromLTRB(32, 32 + headerHeight, 32, 32),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
                   config.route == DocsRoute.notFound
-                      ? 'Page not found'
+                      ? docsChrome(
+                          DocsRouterScope.maybeOf(context)?.state.locale ??
+                              const Locale('en'),
+                          'nfTitle',
+                        )
                       : config.title,
                   textAlign: TextAlign.center,
                   style: docsText(
@@ -47,8 +56,11 @@ class DocsPlaceholderPage extends StatelessWidget {
                 ),
                 const Gap(12),
                 Text(
-                  'This URL does not match any docs route. Use the header or '
-                  'the command palette to find a page.',
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'nfBlurb',
+                  ),
                   textAlign: TextAlign.center,
                   style: docsText(
                     context,
@@ -64,7 +76,13 @@ class DocsPlaceholderPage extends StatelessWidget {
                     size: ButtonSize.sm,
                     onPressed: () =>
                         DocsRouterScope.of(context).go(context, '/docs'),
-                    child: const Text('Back to the introduction'),
+                    child: Text(
+                      docsChrome(
+                        DocsRouterScope.maybeOf(context)?.state.locale ??
+                            const Locale('en'),
+                        'nfBack',
+                      ),
+                    ),
                   ),
               ],
             ),

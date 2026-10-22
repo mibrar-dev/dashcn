@@ -14,6 +14,7 @@ import '../playground/builders.dart';
 import '../playground/ui/playground_panel.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
+import '../state/docs_strings.dart';
 import 'heading_anchor.dart';
 import 'typeset.dart';
 
@@ -36,9 +37,22 @@ class ComponentPlaygroundSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'playground', title: 'Playground'),
+        HeadingAnchor(
+          id: 'playground',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'cmpPlayground',
+          ),
+        ),
         if (!hasPlayground(componentId))
-          const TypesetParagraph('Playground coming soon for this component.')
+          TypesetParagraph(
+            docsChrome(
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+              'cmpPlaygroundSoon',
+            ),
+          )
         else
           _LivePlayground(componentId: componentId),
       ],

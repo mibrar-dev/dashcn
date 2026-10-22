@@ -62,7 +62,7 @@ void main() {
         tester.getTopLeft(find.byKey(ValueKey<String>('scorecard-row-$id')));
     // Alphabetical by default: accordion sits above chip.
     expect(topLeft('accordion').dy < topLeft('chip').dy, isTrue);
-    await tester.ensureVisible(find.text('Sort by failures'));
+    await ensureVisibleBelowHeader(tester, find.text('Sort by failures'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Sort by failures'));
     await tester.pumpAndSettle();

@@ -6,6 +6,8 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import 'heading_anchor.dart';
 import 'scorecard/scorecard_card.dart';
 
@@ -22,7 +24,14 @@ class ComponentScorecardSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'scorecard', title: 'Trust scorecard'),
+        HeadingAnchor(
+          id: 'scorecard',
+          title: docsChrome(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'scTitle',
+          ),
+        ),
         ScorecardCard(componentId: componentId),
       ],
     );

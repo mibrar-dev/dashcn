@@ -30,6 +30,8 @@ import '../builder.dart';
 import '../builders.dart';
 import '../../generated/docs_controls.dart';
 import '../../ui/dashcn/components/button/button.dart';
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
 import '../../ui/dashcn/components/drawer/drawer.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/theme/theme.dart';
@@ -274,7 +276,13 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
                   variant: ButtonVariant.primary,
                   size: ButtonSize.sm,
                   onPressed: () => closeSheet<void>(sheetContext),
-                  child: const Text('Done'),
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'pgDone',
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -341,7 +349,13 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
                 variant: ButtonVariant.outline,
                 size: ButtonSize.md,
                 onPressed: _openSheet,
-                child: const Text('Edit controls'),
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'pgEdit',
+                  ),
+                ),
               ),
               Gap(theme.spacing.sm),
               code,

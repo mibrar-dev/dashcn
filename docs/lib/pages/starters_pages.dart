@@ -34,7 +34,13 @@ class StartersIndexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -167,7 +173,13 @@ class StarterPage extends StatelessWidget {
     final ({String? previousId, String? nextId}) neighbors = starterNeighbors(
       starter.id,
     );
+    // The shell header floats over the navigator: this scroll view
+    // extends underneath it, so its top inset carries the header height.
+    final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: headerHeight),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 64),
         child: Center(

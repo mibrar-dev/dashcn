@@ -24,7 +24,8 @@ Future<void> _openPlayground(
   WidgetTester tester,
   DocsRouterDelegate delegate,
 ) async {
-  await tester.ensureVisible(
+  await ensureVisibleBelowHeader(
+    tester,
     find.byKey(const ValueKey<String>('playground-open')),
   );
   await tester.pumpAndSettle();
@@ -46,7 +47,7 @@ Future<void> _pickOption(
   final Finder trigger = find.byKey(
     ValueKey<String>('playground-select-$control'),
   );
-  await tester.ensureVisible(trigger);
+  await ensureVisibleBelowHeader(tester, trigger);
   await tester.pump(const Duration(milliseconds: 100));
   await tester.tap(trigger);
   for (int i = 0; i < 5; i++) {

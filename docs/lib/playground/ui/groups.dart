@@ -19,6 +19,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../generated/docs_controls.dart';
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import '../values.dart';
 import 'control_label.dart';
@@ -39,6 +41,17 @@ String playgroundGroupTitle(String groupId) {
     'size' => 'Size',
     'state' => 'State',
     'content' => 'Content',
+    _ => groupId,
+  };
+}
+
+/// Locale-aware display title per group id (website chrome).
+String playgroundGroupTitleFor(Locale locale, String groupId) {
+  return switch (groupId) {
+    'appearance' => docsChrome(locale, 'pgGroupAppearance'),
+    'size' => docsChrome(locale, 'pgGroupSize'),
+    'state' => docsChrome(locale, 'pgGroupState'),
+    'content' => docsChrome(locale, 'pgGroupContent'),
     _ => groupId,
   };
 }
@@ -206,6 +219,8 @@ class PlaygroundGroupedControlsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final Map<String, List<ControlSpec>> grouped = groupEditableControls(spec);
     return ListenableBuilder(
       listenable: version,
@@ -218,7 +233,10 @@ class PlaygroundGroupedControlsList extends StatelessWidget {
               if (g > 0) SizedBox(height: theme.spacing.md),
               PlaygroundControlGroup(
                 groupId: grouped.entries.elementAt(g).key,
-                title: playgroundGroupTitle(grouped.entries.elementAt(g).key),
+                title: playgroundGroupTitleFor(
+                  locale,
+                  grouped.entries.elementAt(g).key,
+                ),
                 children: <Widget>[
                   for (final ControlSpec control
                       in grouped.entries.elementAt(g).value)

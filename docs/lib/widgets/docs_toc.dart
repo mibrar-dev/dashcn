@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/primitives/clickable.dart';
 import '../ui/dashcn/theme/theme.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import 'docs_article.dart';
 import 'docs_tokens.dart';
 import 'scroll_fade.dart';
@@ -25,13 +27,20 @@ class DocsToc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final double width = MediaQuery.sizeOf(context).width;
+    // The shell header floats over the navigator: the TOC starts below it.
+    final double headerHeight = width >= 1024
+        ? DocsMetrics.headerHeightLg
+        : DocsMetrics.headerHeightSm;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return SizedBox(
       width: DocsMetrics.tocWidth,
       // Spec §2.2: the column sticks at `header + 1px`, then the
       // `--top-spacing` spacer (16 px ≥lg) and the list's `p-4 pt-0` put the
       // "On This Page" label 33 px below the header.
       child: Padding(
-        padding: const EdgeInsets.only(top: 33, bottom: 32),
+        padding: EdgeInsets.only(top: headerHeight + 33, bottom: 32),
         child: AnimatedBuilder(
           animation: controller,
           builder: (BuildContext context, Widget? child) {
@@ -49,7 +58,7 @@ class DocsToc extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'On This Page',
+                        docsChrome(locale, 'artOnThisPage'),
                         style: docsText(
                           context,
                           size: 12,

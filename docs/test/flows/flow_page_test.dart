@@ -63,7 +63,7 @@ void main() {
       final Finder signUpEntry = find.byKey(
         const ValueKey<String>('flow-screen-Sign up'),
       );
-      await tester.ensureVisible(signUpEntry);
+      await ensureVisibleBelowHeader(tester, signUpEntry);
       await tester.pumpAndSettle();
       await tester.tap(
         find.descendant(of: signUpEntry, matching: find.text('Sign up')),
@@ -119,7 +119,7 @@ void main() {
       );
       // The install block sits below the fold at the test surface:
       // scroll it into view before tapping, like the component tests.
-      await tester.ensureVisible(find.text('Own the code').first);
+      await ensureVisibleBelowHeader(tester, find.text('Own the code').first);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Own the code').first);
       await tester.pumpAndSettle();
@@ -138,7 +138,7 @@ void main() {
       final Finder permissionEntry = find.byKey(
         const ValueKey<String>('flow-screen-Permission'),
       );
-      await tester.ensureVisible(permissionEntry);
+      await ensureVisibleBelowHeader(tester, permissionEntry);
       await tester.pumpAndSettle();
       await tester.tap(
         find.descendant(of: permissionEntry, matching: find.text('Permission')),

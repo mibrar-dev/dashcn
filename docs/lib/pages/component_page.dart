@@ -32,6 +32,7 @@ import '../playground/ui/scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/dialog/dialog.dart' as dashcn_dialog;
@@ -63,6 +64,8 @@ class _ComponentPageState extends State<ComponentPage> {
 
   void _openScorecards() {
     final double width = MediaQuery.sizeOf(context).width;
+    final Locale dialogLocale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final Widget card = ScorecardCard(componentId: widget.componentId);
     if (width < 640) {
       // Phone: bottom sheet.
@@ -96,7 +99,7 @@ class _ComponentPageState extends State<ComponentPage> {
                         variant: ButtonVariant.ghost,
                         size: ButtonSize.sm,
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('Close'),
+                        child: Text(docsChrome(dialogLocale, 'close')),
                       ),
                     ],
                   ),
@@ -134,7 +137,7 @@ class _ComponentPageState extends State<ComponentPage> {
                       variant: ButtonVariant.ghost,
                       size: ButtonSize.sm,
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Close'),
+                      child: Text(docsChrome(dialogLocale, 'close')),
                     ),
                   ],
                 ),
@@ -203,11 +206,26 @@ class _ComponentPageState extends State<ComponentPage> {
       titleActions: <Widget>[
         Badge(
           variant: BadgeVariant.secondary,
-          child: Text(fileCountLabel(component.fileCount)),
+          child: Text(
+            docsFileCount(
+              component.fileCount,
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+            ),
+          ),
         ),
         Badge(variant: BadgeVariant.outline, child: Text(component.stability)),
         if (_isWip(component.id)) ...<Widget>[
-          Badge(variant: BadgeVariant.outline, child: Text('WIP')),
+          Badge(
+            variant: BadgeVariant.outline,
+            child: Text(
+              docsChrome(
+                DocsRouterScope.maybeOf(context)?.state.locale ??
+                    const Locale('en'),
+                'cmpWip',
+              ),
+            ),
+          ),
           _WipNote(),
         ],
       ],
@@ -223,7 +241,13 @@ class _ComponentPageState extends State<ComponentPage> {
                 variant: ButtonVariant.outline,
                 size: ButtonSize.sm,
                 onPressed: _openScorecards,
-                child: const Text('Trust scorecards'),
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'cmpTrust',
+                  ),
+                ),
               ),
               if (hasPlayground)
                 Button(
@@ -231,7 +255,13 @@ class _ComponentPageState extends State<ComponentPage> {
                   variant: ButtonVariant.secondary,
                   size: ButtonSize.sm,
                   onPressed: openPlayground,
-                  child: const Text('Playground'),
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'cmpPlayground',
+                    ),
+                  ),
                 ),
             ],
           ),
@@ -262,6 +292,9 @@ class _ComponentPageState extends State<ComponentPage> {
     // controls, Reset/Copy and the live code. Phone widths show the same
     // panel as a bottom sheet so the Row never overflows 375 px.
     final double contentWidth = MediaQuery.sizeOf(context).width;
+    // The shell header floats over the navigator: the docked panel starts
+    // below it (narrow overlay fills the article area, same inset).
+    final double panelTop = (contentWidth >= 1024 ? 64.0 : 56.0) + 12;
     Widget panelContent() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -269,7 +302,7 @@ class _ComponentPageState extends State<ComponentPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(
               theme.spacing.lg,
-              theme.spacing.md,
+              panelTop,
               theme.spacing.md,
               theme.spacing.sm,
             ),
@@ -277,7 +310,11 @@ class _ComponentPageState extends State<ComponentPage> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    'Playground',
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'cmpPlayground',
+                    ),
                     style: docsText(context, size: 14, weight: FontWeight.w600),
                   ),
                 ),
@@ -287,7 +324,13 @@ class _ComponentPageState extends State<ComponentPage> {
                   variant: ButtonVariant.ghost,
                   size: ButtonSize.sm,
                   onPressed: closePlayground,
-                  child: const Text('Close'),
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'close',
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -405,10 +448,12 @@ class _WipNote extends StatelessWidget {
     final double densityBase =
         Theme.of(context).density.baseContentPadding *
         Theme.of(context).scaling;
+    final locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: densityBase * 12),
       child: Text(
-        'Work in progress: bugs may occur.',
+        docsChrome(locale, 'cmpWipNote'),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         softWrap: false,

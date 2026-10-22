@@ -107,22 +107,37 @@ class _DocsAppShellState extends State<DocsAppShell> {
         // sits below the fold exactly like the reference. The shell keeps it
         // only for not-found.
         final bool showFooter = config.route == DocsRoute.notFound;
+        // The header floats over the navigator (kit NavigationBar frosted
+        // glass): page scroll views extend underneath it and show through
+        // when the theme lowers surfaceOpacity, blurred by surfaceBlur.
+        // Pages carry a matching top inset so first paint starts below it.
         final Widget shell = Column(
           children: <Widget>[
-            FocusTraversalOrder(
-              order: DocsFocusOrder.header,
-              child: DocsHeader(
-                delegate: widget.delegate,
-                state: widget.state,
-                currentLocation: config.location,
-                mobileNavOpen: _mobileNavOpen,
-                onToggleMobileNav: _toggleMobileNav,
-              ),
-            ),
             Expanded(
-              child: FocusTraversalOrder(
-                order: DocsFocusOrder.navigator,
-                child: widget.child,
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: FocusTraversalOrder(
+                      order: DocsFocusOrder.navigator,
+                      child: widget.child,
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: FocusTraversalOrder(
+                      order: DocsFocusOrder.header,
+                      child: DocsHeader(
+                        delegate: widget.delegate,
+                        state: widget.state,
+                        currentLocation: config.location,
+                        mobileNavOpen: _mobileNavOpen,
+                        onToggleMobileNav: _toggleMobileNav,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             if (showFooter)
@@ -185,6 +200,7 @@ class _DocsAppShellState extends State<DocsAppShell> {
                         delegate: widget.delegate,
                         currentLocation: config.location,
                         onNavigate: _closeMobileNav,
+                        locale: widget.state.locale,
                       ),
                     ),
                   ),

@@ -12,7 +12,7 @@ void main() {
     ) async {
       await pumpDocsApp(tester, width: 1400, height: 2400);
       final Finder open = find.text('Delete project');
-      await tester.ensureVisible(open);
+      await ensureVisibleBelowHeader(tester, open);
       await tester.tap(open);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));

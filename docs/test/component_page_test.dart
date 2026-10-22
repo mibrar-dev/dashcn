@@ -118,7 +118,7 @@ void main() {
       await tester.pumpAndSettle();
       // Switch to the Own tab. The tabs now sit above the preview figure, so at
       // the 1400x900 test surface they can be below the fold - scroll first.
-      await tester.ensureVisible(find.text('Own the code'));
+      await ensureVisibleBelowHeader(tester, find.text('Own the code'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Own the code'));
       await tester.pumpAndSettle();
@@ -231,7 +231,7 @@ void main() {
         final Finder tabs = find.byKey(
           ValueKey<String>('example-tabs-${entry.key}'),
         );
-        await tester.ensureVisible(tabs);
+        await ensureVisibleBelowHeader(tester, tabs);
         await tester.pumpAndSettle();
         final Finder codeTab = find.descendant(
           of: find.byType(ExamplePreviewCard).at(entry.key),
@@ -307,7 +307,8 @@ void main() {
         ),
         findsOneWidget,
       );
-      await tester.ensureVisible(
+      await ensureVisibleBelowHeader(
+        tester,
         find.byKey(const ValueKey<String>('preview-theme-toggle-0')),
       );
       await tester.pumpAndSettle();

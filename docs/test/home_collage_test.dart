@@ -121,7 +121,7 @@ void main() {
   testWidgets('dialog trigger opens a real dialog', (tester) async {
     await pumpDocsApp(tester, width: 1400);
     expect(find.text('Share this document'), findsNothing);
-    await tester.ensureVisible(find.text('Open dialog'));
+    await ensureVisibleBelowHeader(tester, find.text('Open dialog'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Open dialog'));
     await tester.pumpAndSettle();
@@ -133,7 +133,7 @@ void main() {
 
   testWidgets('danger zone opens a real alert dialog', (tester) async {
     await pumpDocsApp(tester, width: 1400);
-    await tester.ensureVisible(find.text('Delete project'));
+    await ensureVisibleBelowHeader(tester, find.text('Delete project'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete project'));
     await tester.pumpAndSettle();
@@ -145,7 +145,7 @@ void main() {
 
   testWidgets('panel buttons open the drawer and the sheet', (tester) async {
     await pumpDocsApp(tester, width: 1400);
-    await tester.ensureVisible(find.text('Open drawer'));
+    await ensureVisibleBelowHeader(tester, find.text('Open drawer'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Open drawer'));
     await tester.pumpAndSettle();
@@ -154,7 +154,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Close panel'), findsNothing);
 
-    await tester.ensureVisible(find.text('Open sheet'));
+    await ensureVisibleBelowHeader(tester, find.text('Open sheet'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Open sheet'));
     await tester.pumpAndSettle();
@@ -166,7 +166,7 @@ void main() {
 
   testWidgets('command trigger opens a real palette', (tester) async {
     await pumpDocsApp(tester, width: 1400);
-    await tester.ensureVisible(find.text('Commands…'));
+    await ensureVisibleBelowHeader(tester, find.text('Commands…'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Commands…'));
     await tester.pumpAndSettle();

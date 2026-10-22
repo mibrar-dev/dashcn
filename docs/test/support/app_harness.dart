@@ -149,6 +149,33 @@ Future<void> goTo(
   await tester.pumpAndSettle();
 }
 
+/// Scrolls [target] into view and nudges it clear of the floating shell
+/// header (64 px `lg+` / 56 px below).
+///
+/// The header floats over the page scroll views (frosted glass over scrolled
+/// content), so a plain `ensureVisible` aligns the target's top edge with the
+/// viewport top — underneath the bar, where taps hit the header instead of
+/// the target. This helper drags it down to [margin] when needed.
+Future<void> ensureVisibleBelowHeader(
+  WidgetTester tester,
+  Finder target, {
+  double margin = 80,
+}) async {
+  await tester.ensureVisible(target);
+  await tester.pumpAndSettle();
+  final double top = tester.getTopLeft(target).dy;
+  if (top >= margin) {
+    return;
+  }
+  // Drag from a hittable content point (the target itself sits under the
+  // bar): moving down scrolls back toward the start and drops the target
+  // below the header. Coordinate-based so nested horizontal scrollers never
+  // intercept it.
+  final double x = tester.getCenter(target).dx;
+  await tester.dragFrom(Offset(x, margin + 40), Offset(0, margin - top));
+  await tester.pumpAndSettle();
+}
+
 /// Waits for the landing hero chunk to resolve (P9-Z).
 ///
 /// The device-frame hero was removed: the home route carries no deferred hero
