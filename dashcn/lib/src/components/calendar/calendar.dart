@@ -465,9 +465,10 @@ typedef _Slot = ({
 /// horizontal scroll.
 const double _kMinCalendarCell = 20;
 
-/// Density scale of the ambient theme: 1 at the default density, 0.5 at
-/// compact, 1.25 at comfortable (the kit's documented scaling rule).
-double _densityScale(ThemeData theme) => theme.density.scale * theme.scaling;
+/// Visual scale for calendar cells: same on desktop and mobile (the global
+/// [ThemeData.scaling] only). Density never changes the painted 32 px cells;
+/// touch comfort is invisible hit area, never larger visuals.
+double _densityScale(ThemeData theme) => theme.scaling;
 
 /// Nominal cell side of the day grid, density-scaled.
 double calendarDayCellWidthOf(CalendarTheme style, ThemeData theme) =>

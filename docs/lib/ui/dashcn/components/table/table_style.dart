@@ -281,6 +281,7 @@ const EdgeInsetsGeometry tableHeadCellPadding = EdgeInsetsDensity.pxSymmetric(
 
 /// Default body-cell styling: bottom border, `muted/50` hover fill and a
 /// `muted` selected fill (upstream `data-[state=selected]:bg-muted`).
+/// Rows are 40 px (the sizing scale default row height, same desktop/mobile).
 const TableCellTheme tableCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(
     hovered: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
@@ -293,11 +294,13 @@ const TableCellTheme tableCellDefaults = TableCellTheme(
   borderColor: StateValue<ThemedColor>(rest: ThemedColor.ref(ColorRef.border)),
   borderWidth: 1,
   padding: tableCellPadding,
+  minHeight: 40,
 );
 
-/// Default header-cell styling: compact `TableHead` (`h-9` = 36 px on the
-/// density scale, upstream v4 `h-10 px-2`), medium `muted-foreground` text,
-/// left-aligned and vertically centred by the cell view.
+/// Default header-cell styling: 40 px header (`h-10` on the sizing scale,
+/// upstream v4 `h-10 px-2`), medium `muted-foreground` text, left-aligned
+/// and vertically centred by the cell view. Columns resize by dragging the
+/// header divider (see the resizable controller in the previews).
 const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   background: StateValue<ThemedColor>(
     hovered: ThemedColor.ref(ColorRef.muted, alpha: 0.5),
@@ -309,7 +312,7 @@ const TableCellTheme tableHeaderCellDefaults = TableCellTheme(
   borderWidth: 1,
   textStyle: TextStyle(fontWeight: FontWeight.w500),
   padding: tableHeadCellPadding,
-  minHeight: 36,
+  minHeight: 40,
 );
 
 /// Default footer-cell styling: medium muted-foreground text, no border.

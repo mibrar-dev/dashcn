@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import '../../foundation/geometry.dart';
+
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
@@ -270,11 +271,14 @@ class _ButtonState extends State<Button> {
           select: (t) => t.forVariant(widget.variant),
           defaults: buttonDefaults.forVariant(widget.variant)!,
         );
+    // Same visuals on desktop and mobile: resolve the ambient tokens
+    // directly (no phone-width touch switch). Touch comfort comes from the
+    // invisible [TouchHitArea] below, never larger visuals.
     final DensityTokens tokens =
         widget.densityTokens ??
         ComponentTheme.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
         ComponentThemes.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
     final ButtonSizeMetrics metrics = buttonMetricsForTokens(
       widget.size,
       tokens,

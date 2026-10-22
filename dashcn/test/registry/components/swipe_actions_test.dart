@@ -207,10 +207,10 @@ void main() {
         ),
       );
       await tester.pump();
-      // Sized to settle open, clear of the dismiss line (compact tile ~56).
+      // Sized to settle open, clear of the dismiss line (readable tile 64).
       await tester.drag(
         find.byKey(const ValueKey<String>('row1')),
-        const Offset(-50, 0),
+        const Offset(-70, 0),
       );
       await _pumpSettle(tester);
       await tester.tap(find.text('Delete 1'));
@@ -221,10 +221,11 @@ void main() {
     },
   );
 
-  testWidgets('density tokens drive tile width (56 compact, 64 comfortable)', (
+  testWidgets('density tokens drive tile width (64 compact, 64 comfortable)', (
     tester,
   ) async {
-    expect(swipeActionWidthForTokens(DensityTokens.compact), 56);
+    // At least 64 px wide so labels stay readable (compact 56 bumped to 64).
+    expect(swipeActionWidthForTokens(DensityTokens.compact), 64);
     expect(swipeActionWidthForTokens(DensityTokens.comfortable), 64);
     expect(swipeActionWidthForTokens(DensityTokens.touch), 72);
   });
@@ -260,7 +261,7 @@ void main() {
     expect(find.text('Del'), findsOneWidget);
   });
 
-  testWidgets('explicit actionExtent honors the 48 px touch floor', (
+  testWidgets('explicit actionExtent honors the 64 px readable floor', (
     tester,
   ) async {
     await _pump(
@@ -271,8 +272,8 @@ void main() {
         child: const Text('row'),
       ),
     );
-    // A -48 drag reveals the full clamped 48 px tile, not 20 px.
-    await tester.drag(find.text('row'), const Offset(-48, 0));
+    // A -64 drag reveals the full clamped 64 px tile, not 20 px.
+    await tester.drag(find.text('row'), const Offset(-64, 0));
     await _pumpSettle(tester);
     expect(find.text('Del'), findsOneWidget);
   });

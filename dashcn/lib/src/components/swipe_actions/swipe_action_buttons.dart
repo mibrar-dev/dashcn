@@ -4,7 +4,7 @@
 // the trailing edge outward: the outermost action reaches full size first,
 // the innermost last. Callers replace any button through
 // `SwipeAction.builder`, which receives the same per-button progress.
-// Sizes come from the density tokens (compact: 56 px tile, 16 px icon,
+// Sizes come from the density tokens (at least 64 px tile, 16 px icon,
 // 12 px label): no oversized tiles.
 
 import 'package:flutter/widgets.dart';
@@ -63,6 +63,7 @@ class SwipeActionButtons extends StatelessWidget {
           select: (t) => t,
           defaults: swipeActionsDefaults,
         );
+    // Same visuals desktop/mobile: ambient tokens, no phone-width switch.
     final DensityTokens tokens =
         densityTokens ??
         resolved.themeDensityTokens ??
@@ -72,7 +73,7 @@ class SwipeActionButtons extends StatelessWidget {
         ComponentThemes.maybeOf<SwipeActionsTheme>(
           context,
         )?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
     final double scaling = appTheme.scaling;
     final double iconSize = (resolved.iconSize ?? tokens.iconSize) * scaling;
     // Labels stay at the subtitle token size (13 compact) for readability:
@@ -118,11 +119,13 @@ class SwipeActionButtons extends StatelessWidget {
   }
 }
 
-/// Density-sized default action tile: icon above label, filling its tile.
+/// Density-sized default action tile: icon above label.
 ///
-/// Compact is ~56 px wide with a 16 px icon and 12 px label; the label
-/// truncates so long names never widen the tile. Keyboard reachable via
-/// [Clickable]; destructive tiles use the destructive pair.
+/// At least 64 px wide with a 16 px icon and readable subtitle-size label;
+/// the label truncates so long names never widen the tile. The run uses
+/// list-tile row heights (32 single / 48 two-line) so the reveal matches
+/// the row. Keyboard reachable via [Clickable]; destructive tiles use the
+/// destructive pair.
 class _DensityTile extends StatelessWidget {
   const _DensityTile({
     required this.action,

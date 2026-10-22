@@ -1378,7 +1378,10 @@ import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
 
 void _noop() {}
 
-/// A customised button: secondary fill, custom radius and no elevation.
+/// A customised button: secondary fill, custom radius and token shadow.
+///
+/// Extended 56 px pill with a 16 px icon plus label; elevation 3 paints the
+/// theme shadowLg so the button lifts off the stage instead of looking flat.
 Widget _fabCustomized(BuildContext context) {
   return const Center(
     child: Fab(
@@ -1391,9 +1394,9 @@ Widget _fabCustomized(BuildContext context) {
         foreground: StateValue(
           rest: ThemedColor.ref(ColorRef.secondaryForeground),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        elevation: 0,
-        gap: 6,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        elevation: 3,
+        gap: 8,
       ),
     ),
   );
@@ -9871,10 +9874,10 @@ class _DataTableState extends State<_DataTable> {
 
   final ResizableTableController _resize = ResizableTableController(
     defaultColumnWidth: 120,
-    // Compact density row height (32-40 band; header uses 36): the grid
-    // scrolls inside its frame via the controllers below, and every header
-    // divider drags to resize its column while row dividers resize rows.
-    defaultRowHeight: 36,
+    // Sizing-scale row height 40 (header 40): the grid scrolls inside its
+    // frame via the controllers below, and every header divider drags to
+    // resize its column while row dividers resize rows.
+    defaultRowHeight: 40,
     columnWidths: <int, double>{0: 40},
     widthConstraints: <int, ConstrainedTableSize>{
       0: ConstrainedTableSize(min: 32, max: 64),
@@ -9959,7 +9962,9 @@ class _DataTableState extends State<_DataTable> {
         visible.map((_Member m) => m.name).any(_selected.contains);
     return Center(
       // Fixed widths sum to 400 (40 + 3 x 120), so the box hugs the grid
-      // exactly and the stage centres it; narrower viewports scroll.
+      // exactly and the stage centres it; narrower viewports (375 px phones)
+      // scroll horizontally inside the frame via the controllers above, so
+      // the Status column is never cut off.
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: Column(
@@ -9967,12 +9972,12 @@ class _DataTableState extends State<_DataTable> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Fixed rows (header + page) fill this box exactly: every row is
-            // the controller's 36 px compact height, so narrower viewports
-            // scroll instead of overflowing and the stage centres the box.
+            // the 40 px sizing-scale height, so narrower viewports scroll
+            // instead of overflowing and the stage centres the box.
             // Drag any header divider to resize that column; drag a row
             // divider to resize the row.
             SizedBox(
-              height: (_pageSize + 1) * 36,
+              height: (_pageSize + 1) * 40,
               child: TableView(
                 resizeController: _resize,
                 horizontalController: _horizontal,
@@ -10144,7 +10149,7 @@ class _InvoicesTable extends StatefulWidget {
 class _InvoicesTableState extends State<_InvoicesTable> {
   final ResizableTableController _resize = ResizableTableController(
     defaultColumnWidth: 90,
-    defaultRowHeight: 36,
+    defaultRowHeight: 40,
   );
   final ScrollController _horizontal = ScrollController();
   final ScrollController _vertical = ScrollController();
@@ -10163,8 +10168,9 @@ class _InvoicesTableState extends State<_InvoicesTable> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: SizedBox(
-          // Header + 4 body rows + footer at the 36 px compact row height.
-          height: 6 * 36,
+          // Header + 4 body rows + footer at the 40 px sizing-scale height.
+          // The frame scrolls horizontally at 375 px so nothing is cut off.
+          height: 6 * 40,
           child: TableView(
             resizeController: _resize,
             horizontalController: _horizontal,
@@ -30035,10 +30041,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
                 onDismissed: () => _remove(row),
                 child: Card(
                   child: SizedBox(
-                    // Compact density row (36 px, within the 32-40 compact
-                    // band); the action tiles stretch to this height so the
-                    // swipe reveal always matches the row.
-                    height: 36,
+                    // List-tile single-line row (32 px sizing scale); the 64 px action
+                    // tiles stretch to this height so the swipe reveal always
+                    // matches the row.
+                    height: 32,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Align(
@@ -30105,13 +30111,13 @@ Widget _compact(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            height: 36,
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Compact row 36, tile 56',
+                  'Compact row 32, tile 64',
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -30231,10 +30237,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
                 onDismissed: () => _remove(row),
                 child: Card(
                   child: SizedBox(
-                    // Compact density row (36 px, within the 32-40 compact
-                    // band); the action tiles stretch to this height so the
-                    // swipe reveal always matches the row.
-                    height: 36,
+                    // List-tile single-line row (32 px sizing scale); the 64 px action
+                    // tiles stretch to this height so the swipe reveal always
+                    // matches the row.
+                    height: 32,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Align(
@@ -30330,8 +30336,8 @@ Widget _customBuilders(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            // Compact density row; the custom builders above stretch to it.
-            height: 36,
+            // List-tile single-line row (32); the custom builders above stretch to it.
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
@@ -30383,8 +30389,8 @@ Widget _motionOverride(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            // Compact density row.
-            height: 36,
+            // List-tile single-line row (32).
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(

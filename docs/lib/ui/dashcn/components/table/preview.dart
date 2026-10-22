@@ -104,10 +104,10 @@ class _DataTableState extends State<_DataTable> {
 
   final ResizableTableController _resize = ResizableTableController(
     defaultColumnWidth: 120,
-    // Compact density row height (32-40 band; header uses 36): the grid
-    // scrolls inside its frame via the controllers below, and every header
-    // divider drags to resize its column while row dividers resize rows.
-    defaultRowHeight: 36,
+    // Sizing-scale row height 40 (header 40): the grid scrolls inside its
+    // frame via the controllers below, and every header divider drags to
+    // resize its column while row dividers resize rows.
+    defaultRowHeight: 40,
     columnWidths: <int, double>{0: 40},
     widthConstraints: <int, ConstrainedTableSize>{
       0: ConstrainedTableSize(min: 32, max: 64),
@@ -192,7 +192,9 @@ class _DataTableState extends State<_DataTable> {
         visible.map((_Member m) => m.name).any(_selected.contains);
     return Center(
       // Fixed widths sum to 400 (40 + 3 x 120), so the box hugs the grid
-      // exactly and the stage centres it; narrower viewports scroll.
+      // exactly and the stage centres it; narrower viewports (375 px phones)
+      // scroll horizontally inside the frame via the controllers above, so
+      // the Status column is never cut off.
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: Column(
@@ -200,12 +202,12 @@ class _DataTableState extends State<_DataTable> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Fixed rows (header + page) fill this box exactly: every row is
-            // the controller's 36 px compact height, so narrower viewports
-            // scroll instead of overflowing and the stage centres the box.
+            // the 40 px sizing-scale height, so narrower viewports scroll
+            // instead of overflowing and the stage centres the box.
             // Drag any header divider to resize that column; drag a row
             // divider to resize the row.
             SizedBox(
-              height: (_pageSize + 1) * 36,
+              height: (_pageSize + 1) * 40,
               child: TableView(
                 resizeController: _resize,
                 horizontalController: _horizontal,
@@ -360,7 +362,7 @@ class _InvoicesTable extends StatefulWidget {
 class _InvoicesTableState extends State<_InvoicesTable> {
   final ResizableTableController _resize = ResizableTableController(
     defaultColumnWidth: 90,
-    defaultRowHeight: 36,
+    defaultRowHeight: 40,
   );
   final ScrollController _horizontal = ScrollController();
   final ScrollController _vertical = ScrollController();
@@ -379,8 +381,9 @@ class _InvoicesTableState extends State<_InvoicesTable> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: SizedBox(
-          // Header + 4 body rows + footer at the 36 px compact row height.
-          height: 6 * 36,
+          // Header + 4 body rows + footer at the 40 px sizing-scale height.
+          // The frame scrolls horizontally at 375 px so nothing is cut off.
+          height: 6 * 40,
           child: TableView(
             resizeController: _resize,
             horizontalController: _horizontal,

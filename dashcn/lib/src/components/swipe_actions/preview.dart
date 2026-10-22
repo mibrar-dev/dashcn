@@ -62,10 +62,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
                 onDismissed: () => _remove(row),
                 child: Card(
                   child: SizedBox(
-                    // Compact density row (36 px, within the 32-40 compact
-                    // band); the action tiles stretch to this height so the
-                    // swipe reveal always matches the row.
-                    height: 36,
+                    // List-tile single-line row (32 px sizing scale); the 64 px action
+                    // tiles stretch to this height so the swipe reveal always
+                    // matches the row.
+                    height: 32,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Align(
@@ -120,13 +120,13 @@ Widget _compact(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            height: 36,
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Compact row 36, tile 56',
+                  'Compact row 32, tile 64',
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -221,8 +221,8 @@ Widget _customBuilders(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            // Compact density row; the custom builders above stretch to it.
-            height: 36,
+            // List-tile single-line row (32); the custom builders above stretch to it.
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
@@ -262,8 +262,8 @@ Widget _motionOverride(BuildContext context) {
         onDismissed: () {},
         child: Card(
           child: SizedBox(
-            // Compact density row.
-            height: 36,
+            // List-tile single-line row (32).
+            height: 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Align(
