@@ -1010,11 +1010,11 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Filter Bar',
     category: 'Layout',
     description:
-        'Search, sort, date-range, custom filters and chips in one bar, with a clear action and a mobile sheet presentation; backed by a typed filter engine.',
+        'Search, sort, date-range, custom filters and chips in one bar, with a clear action and inline, popup, dialog and sheet presentations; backed by a typed filter engine.',
     install: 'dashcn add filter_bar',
     import:
         "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
-    fileCount: 12,
+    fileCount: 13,
     stability: 'stable',
     listed: true,
     placement: 'top',

@@ -5568,6 +5568,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
       'lib/ui/dashcn/components/filter_bar/filter_bar.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_body.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_controls.dart',
+      'lib/ui/dashcn/components/filter_bar/filter_bar_dialog.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_inline.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_layout.dart',
       'lib/ui/dashcn/components/filter_bar/filter_bar_menu.dart',

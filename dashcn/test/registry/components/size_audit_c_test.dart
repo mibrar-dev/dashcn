@@ -30,9 +30,12 @@ void main() {
       );
     }
 
-    testWidgets('header row is 40px tall with 8px side padding', (
+    testWidgets('header row is 36px tall with 8px side padding', (
       tester,
     ) async {
+      // Compact density: the header is `h-9` (36, the compact rowMax on the
+      // 32-36 scale), compacted from upstream v4 `h-10 px-2` (40). The side
+      // padding stays `px-2` (8 each side, 16 horizontal).
       await tester.pumpWidget(
         Theme(
           data: const ThemeData(),
@@ -53,7 +56,7 @@ void main() {
             )
             .first,
       );
-      expect(box.constraints.minHeight, 40);
+      expect(box.constraints.minHeight, 36);
       final Padding padding = tester.widget<Padding>(
         find
             .ancestor(of: find.text('Name'), matching: find.byType(Padding))

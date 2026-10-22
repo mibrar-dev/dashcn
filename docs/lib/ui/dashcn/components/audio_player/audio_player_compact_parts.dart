@@ -22,6 +22,8 @@ Widget audioPillButton({
   return FocusableTap(
     label: label,
     onTap: onTap,
+    minWidth: 32,
+    minHeight: 32,
     child: SizedBox(
       width: 32,
       height: 48,
@@ -59,6 +61,8 @@ class AudioSpeedChip extends StatelessWidget {
     return FocusableTap(
       label: ComponentLocalizations.of(context).mediaPlaybackSpeed(text),
       onTap: () => c.cycleSpeed(speeds),
+      minWidth: 32,
+      minHeight: 32,
       child: SizedBox(
         width: 32,
         height: 48,

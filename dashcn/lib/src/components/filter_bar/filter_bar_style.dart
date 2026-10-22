@@ -15,17 +15,25 @@ export 'filter_bar_overflow.dart';
 
 /// How a `FilterBar` presents its controls.
 enum FilterBarPresentation {
-  /// All controls inline within the bar.
+  /// All controls inline within the bar (the default).
   inline,
 
-  /// Controls presented in a drawer sheet.
+  /// Controls overflow into an anchored compact popup menu (same surface as
+  /// [menu], the canonical name for the anchored variant).
+  popup,
+
+  /// Controls overflow into an anchored compact menu (legacy name for
+  /// [popup]; both open the same anchored surface).
+  menu,
+
+  /// Controls presented in a centred dialog.
+  dialog,
+
+  /// Controls presented in a drawer sheet (bottom sheet on phone widths).
   sheet,
 
   /// Responsive: sheet presentation below [FilterBar.sheetBreakpoint].
   autoSheet,
-
-  /// Controls overflow into an anchored compact menu.
-  menu,
 
   /// Responsive: compact menu overflow below [FilterBar.sheetBreakpoint].
   autoMenu,

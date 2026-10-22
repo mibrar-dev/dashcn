@@ -98,7 +98,8 @@ TableView(
 Per cell, `TableTheme.cellTheme` merges over the row default
 (`TableViewHeader` / `TableViewFooter` / body). The row defaults follow
 dashcn: body cells are `p-2` with a bottom border, a `muted/50` row-hover
-fill and a `muted` selected fill; header cells are `h-10 px-2` with medium
+fill and a `muted` selected fill; header cells are compact `h-9 px-2` (36,
+upstream v4 `h-10`) with medium
 `mutedForeground` text (dashcn v4 `TableHead`); footer cells are muted with
 no border. Every cell is `align-middle`: content hugs the leading edge and
 centres vertically when its row grows taller than the content.

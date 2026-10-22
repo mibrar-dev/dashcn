@@ -310,3 +310,139 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
   /// Speed/captions menu section: wrapping speed chips, captions toggle and
   /// quality note (SPEC more-menu).
 }
+
+/// Minimal phone bar (under 600 px, YouTube-mobile style): a single thin bar
+/// with play, draggable seek, time and fullscreen. No title row, no speed or
+/// captions menu; the title lives in the overlay the player shows on tap.
+class VideoMinimalBar extends StatelessWidget {
+  /// Creates a minimal bar.
+  const VideoMinimalBar({
+    super.key,
+    required this.controller,
+    required this.style,
+    required this.fg,
+    this.showFullscreenButton = true,
+    this.onFullscreenRequested,
+    this.playButtonBuilder,
+    this.progressBuilder,
+    this.fullscreenButtonBuilder,
+  });
+
+  /// Playback controller.
+  final VideoPlaybackController controller;
+
+  /// Resolved theme.
+  final VideoPlayerTheme style;
+
+  /// Foreground colour.
+  final Color fg;
+
+  /// Whether the fullscreen button shows.
+  final bool showFullscreenButton;
+
+  /// Fullscreen callback.
+  final VoidCallback? onFullscreenRequested;
+
+  /// Builder slots.
+  final VideoPartBuilder? playButtonBuilder;
+  final Widget Function(
+    BuildContext context,
+    VideoPlaybackController controller,
+    VideoScrubBar defaults,
+  )?
+  progressBuilder;
+  final VideoPartBuilder? fullscreenButtonBuilder;
+
+  Duration _total(VideoPlaybackController c) {
+    if (c.duration > Duration.zero) return c.duration;
+    return const Duration(minutes: 3, seconds: 42);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final VideoPlaybackController c = controller;
+    final ThemeData ambient = Theme.of(context);
+    final VideoPlayerMetrics metrics = resolveVideoMetrics(style);
+    final Color base =
+        style.scrim?.resolve(ambient.colors) ?? const Color(0x99000000);
+    final double? opacity = resolveSurfaceOpacity(
+      context,
+      component: style.surfaceOpacity,
+    );
+    final double? blur = resolveSurfaceBlur(
+      context,
+      component: style.surfaceBlur,
+    );
+    final double iconSize = style.iconSize ?? metrics.iconSize;
+    final VideoScrubBar defaults = VideoScrubBar(
+      position: c.position,
+      duration: _total(c),
+      buffered: c.buffered,
+      enabled: !c.isLive,
+      onSeek: c.seekTo,
+      trackColor:
+          style.track?.resolve(ambient.colors) ?? const Color(0x59FFFFFF),
+      bufferedColor:
+          style.buffered?.resolve(ambient.colors) ?? const Color(0x99FFFFFF),
+      fillColor:
+          style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
+      thumbColor:
+          style.thumb?.resolve(ambient.colors) ?? const Color(0xFFFFFFFF),
+      trackHeight: style.trackHeight ?? metrics.trackHeight,
+    );
+    final Widget time = Text(
+      c.isLive
+          ? formatMediaTime(c.position)
+          : '${formatMediaTime(c.position)} / ${formatMediaTime(_total(c))}',
+      maxLines: 1,
+      style:
+          style.timeTextStyle ??
+          TextStyle(color: fg.withAlpha(0xCC), fontSize: 12),
+    );
+    Widget bar = Container(
+      padding: resolveEdgeInsets(
+        style.controlsPadding ?? metrics.controlsPadding,
+        ambient.density.baseContentPadding * ambient.scaling,
+      ),
+      decoration: BoxDecoration(
+        color: surfaceColor(base, opacity),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: <Widget>[
+          videoPlayButton(
+            context,
+            style,
+            fg,
+            c,
+            minTarget: 32,
+            overrideBuilder: playButtonBuilder,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: progressBuilder?.call(context, c, defaults) ?? defaults,
+          ),
+          const SizedBox(width: 8),
+          time,
+          if (showFullscreenButton) ...<Widget>[
+            const SizedBox(width: 4),
+            fullscreenButtonBuilder?.call(context, c) ??
+                videoIconButton(
+                  label: ComponentLocalizations.of(context).mediaFullscreen,
+                  icon: LucideIcons.fullscreen,
+                  size: iconSize,
+                  fg: fg,
+                  minTarget: 32,
+                  onTap: onFullscreenRequested,
+                ),
+          ],
+        ],
+      ),
+    );
+    return GlassSurface(
+      surfaceBlur: blur,
+      borderRadius: BorderRadius.circular(14),
+      child: bar,
+    );
+  }
+}

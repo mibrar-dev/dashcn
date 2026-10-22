@@ -5507,7 +5507,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'presentation',
         type: 'FilterBarPresentation',
         isRequired: false,
-        defaultValue: 'FilterBarPresentation.autoMenu',
+        defaultValue: 'FilterBarPresentation.inline',
       ),
       DocsApiParam(
         name: 'sheetBreakpoint',

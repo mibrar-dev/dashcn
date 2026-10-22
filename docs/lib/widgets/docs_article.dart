@@ -415,14 +415,17 @@ class _DocsArticleState extends State<DocsArticle> {
             ],
           );
         }
+        // Wide branch: the badge Wrap gets a bounded width via Flexible so
+        // it wraps to a second line instead of forcing the Row past 640
+        // (the WIP note is the widest badge child). Title keeps the
+        // remaining space; actions stay pinned trailing.
+        // WIP pages carry three badges (count + stability + the WIP note):
+        // the bounded Wrap keeps the 640 px article from overflowing.
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             title,
             Gap(theme.spacing.md),
-            // WIP pages carry three badges (count + stability + the long
-            // "Work in progress" note): the badge Wrap needs a bounded width
-            // so it wraps instead of overflowing the 640 px article.
             Flexible(child: badges),
             Gap(theme.spacing.md),
             actions,

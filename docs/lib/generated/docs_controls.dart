@@ -6786,8 +6786,16 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.select,
         type: 'FilterBarPresentation',
         isRequired: false,
-        defaultValue: 'autoMenu',
-        options: <String>['inline', 'sheet', 'autoSheet', 'menu', 'autoMenu'],
+        defaultValue: 'inline',
+        options: <String>[
+          'inline',
+          'popup',
+          'menu',
+          'dialog',
+          'sheet',
+          'autoSheet',
+          'autoMenu',
+        ],
       ),
       ControlSpec(
         name: 'sheetBreakpoint',

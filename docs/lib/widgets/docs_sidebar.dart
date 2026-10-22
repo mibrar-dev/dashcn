@@ -265,11 +265,17 @@ class _SidebarItem extends StatelessWidget {
   final double spacing;
   final Key? itemKey;
 
+  static bool _isWip(String location) {
+    return location == '/docs/components/audio_player' ||
+        location == '/docs/components/video_player';
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ThemeColors colors = theme.colors;
     final BorderRadius radius = theme.borderRadiusMd;
+    final bool wip = _isWip(location);
     return Padding(
       padding: EdgeInsets.only(bottom: spacing),
       child: Clickable(
@@ -312,7 +318,47 @@ class _SidebarItem extends StatelessWidget {
                       : colors.sidebarForeground),
           );
         }),
-        child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+        child: wip
+            ? Semantics(
+                label: '$label, WIP, Work in progress: bugs may occur.',
+                child: ExcludeSemantics(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: colors.border),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          'WIP',
+                          style: docsText(
+                            context,
+                            size: 10,
+                            weight: FontWeight.w700,
+                            height: 12 / 10,
+                            color: active
+                                ? colors.accentForeground
+                                : colors.sidebarForeground,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
       ),
     );
   }

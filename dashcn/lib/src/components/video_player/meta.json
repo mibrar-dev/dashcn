@@ -54,6 +54,7 @@
     "classes": [
       "VideoPlayer",
       "VideoControlsBar",
+      "VideoMinimalBar",
       "VideoScrubBar",
       "VideoPlayerTheme",
       "VideoPlaybackController",
