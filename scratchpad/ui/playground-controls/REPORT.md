@@ -66,32 +66,46 @@ Read-only (686 fields: 685 current + synthetic shift) hidden from panel.
 
 ## Captures (127.0.0.1:8886, `flutter build web --release --base-href /`)
 
-- `captures/button-1280x800-before.png`: Button page closed — main preview
-  present, TOC present, no panel.
-- `captures/button-1280x800-after.png`: `?p.variant=outline&p.size=lg` —
-  panel open (380 px, Close, canvas outline Button, Controls Reset/Copy code,
-  Appearance/Variant=outline, Size/Size=lg, State, Content), left duplicate
-  removed (Installation directly), TOC replaced.
-- `captures/button-375x812-before.png`: phone closed — main preview, no panel.
-- `captures/button-375x812-after.png`: phone bottom sheet — Playground Close,
-  canvas, Controls Reset/Copy code, Appearance/Size/State, no overflow.
+UI-driven (no URL hand-edit): open Playground via click, change Variant
+`primary`→`outline` and Size `md`→`lg` via the panel selects. Preview changes
+white→dark outline and grows md→lg; URL becomes
+`?p.variant=outline&p.size=lg`; Reset flips disabled→enabled.
+
+- `captures/before_1280x800.png`: playground open defaults — 380 px panel
+  (Close, canvas white primary Button, Controls Reset disabled + Copy code,
+  Appearance/Variant=primary, Size/Size=md, State, Content), left duplicate
+  removed (Installation directly, description kept), TOC replaced.
+- `captures/after_1280x800.png`: same viewport after UI variant+size change —
+  panel outline/lg (Reset enabled), canvas dark outline lg Button.
+- `captures/before_375x812.png`: phone bottom sheet defaults — Playground
+  Close, canvas white primary Button, Controls primary/md, Reset disabled.
+- `captures/after_375x812.png`: phone bottom sheet after UI-equivalent change
+  (viewport resize preserves open + query) — canvas dark outline lg, Controls
+  outline/lg, Reset enabled, no overflow.
+- Legacy `captures/button-*.png` (closed vs `?p.*`): kept for reference.
 - Widget test `variant and size reach every button example` asserts all
-  `PreviewStage` Buttons are `outline`/`lg` (page changes together).
+  `PreviewStage` Buttons are `outline`/`lg` (page changes together; Code tabs
+  keep original per-example sources).
 
 ## Gates
 
-- `dart format --output=none --set-exit-if-changed lib test tool` (docs): 0 changed.
-- `flutter analyze` (docs): No issues found.
-- `dart run tool/check_names.dart` (dashcn): 0 hits.
-- `dart run tool/gen_docs_data.dart --check` (docs): up to date (18 files).
-- `bash tool/sync_registry.sh --check` (docs): mirror is up to date.
-- `flutter test test/playground/values_test.dart`: pass.
-- `flutter test test/playground/code_emit_test.dart`: pass.
-- `flutter test test/playground/ui/panel_test.dart`: 13 pass.
-- `flutter test test/playground/ui/panel_figma_test.dart`: 3 pass.
+- `dart format --output=none --set-exit-if-changed lib test tool` (docs): 0 changed (exit 0).
+- `flutter analyze --fatal-infos` (docs): No issues found (exit 0).
+- `dart run ../dashcn/tool/check_names.dart`: 0 hits (exit 0).
+- `dart run tool/gen_docs_data.dart --check` (docs): up to date (18 files, exit 0).
+- `bash tool/sync_registry.sh --check` (docs): mirror is up to date (exit 0).
+- `flutter test test/playground` (docs, one at a time): 278 pass.
 - `flutter test test/component_page_test.dart`: 13 pass.
-- `flutter test test/component_page_playground_test.dart`: 4 pass.
-- `flutter build web --release --base-href /`: built `build/web`.
+- `flutter test test/component_page_playground_test.dart`: 4 pass (open hides
+  duplicate 14→13, variant+size reach every Button, read-only hidden, phone
+  bottom sheet).
+- `flutter test test/playground/ui/panel_figma_test.dart`: 3 pass (groups,
+  Reset/Copy, 380 px inline).
+- `flutter test test/playground/builders_core_test.dart`: 7 pass (incl.
+  synthetic icon/position/status/fullWidth).
+- `flutter test test/playground/code_emit_test.dart`: 12 pass (incl. synthetic
+  hasIcon/iconPosition/fullWidth/status).
+- `flutter build web --release --base-href /`: built `build/web` (exit 0).
 
 ## PR
 
