@@ -166,4 +166,90 @@ void main() {
     expect(find.byType(DocsMobileNav), findsOneWidget);
     await tester.pumpAndSettle();
   });
+
+  testWidgets('the mobile drawer close animates over 200 ms', (
+    WidgetTester tester,
+  ) async {
+    Finder headerToggle(String label) => find.descendant(
+      of: find.byType(DocsHeader),
+      matching: find.text(label),
+    );
+    Finder getScrimFade() => find.ancestor(
+      of: find.byWidgetPredicate(
+        (Widget w) => w is ColoredBox && w.color == const Color(0x66000000),
+      ),
+      matching: find.byType(FadeTransition),
+    );
+    Finder getPanelSlide() => find.ancestor(
+      of: find.byType(DocsMobileNav),
+      matching: find.byType(SlideTransition),
+    );
+    await pumpDocsApp(tester, width: 375, height: 900);
+    await tester.tap(headerToggle('Menu'));
+    await tester.pump();
+    await tester.pumpAndSettle();
+    expect(find.byType(DocsMobileNav), findsOneWidget);
+
+    await tester.tap(headerToggle('Close'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    // The panel is still mounted and moving mid-close: part slid out and
+    // part faded, not snapped away.
+    expect(find.byType(DocsMobileNav), findsOneWidget);
+    final double dx = tester
+        .widget<SlideTransition>(getPanelSlide())
+        .position
+        .value
+        .dx;
+    expect(dx, greaterThan(-1));
+    expect(dx, lessThan(0));
+    final double opacity = tester
+        .widget<FadeTransition>(getScrimFade())
+        .opacity
+        .value;
+    expect(opacity, greaterThan(0));
+    expect(opacity, lessThan(1));
+    // After the ~200 ms slide-out/fade-out the drawer unmounts.
+    await tester.pumpAndSettle();
+    expect(find.byType(DocsMobileNav), findsNothing);
+  });
+
+  testWidgets('a stale drawer-close timer never cuts a newer close short', (
+    WidgetTester tester,
+  ) async {
+    Finder headerToggle(String label) => find.descendant(
+      of: find.byType(DocsHeader),
+      matching: find.text(label),
+    );
+    Finder getPanelSlide() => find.ancestor(
+      of: find.byType(DocsMobileNav),
+      matching: find.byType(SlideTransition),
+    );
+    await pumpDocsApp(tester, width: 375, height: 900);
+    await tester.tap(headerToggle('Menu'));
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    await tester.tap(headerToggle('Close')); // close#1 arms its unmount timer
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(headerToggle('Menu')); // reopen mid-close
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tap(headerToggle('Close')); // close#2 restarts the animation
+    await tester.pump();
+    // close#1's timer fires here (~250 ms after close#1): the drawer must
+    // still be mounted and mid-slide for close#2, not snapped away.
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byType(DocsMobileNav), findsOneWidget);
+    final double dx = tester
+        .widget<SlideTransition>(getPanelSlide())
+        .position
+        .value
+        .dx;
+    expect(dx, greaterThan(-1));
+    expect(dx, lessThan(0));
+    await tester.pumpAndSettle();
+    expect(find.byType(DocsMobileNav), findsNothing);
+  });
 }
