@@ -119,7 +119,11 @@ class DocsHeader extends StatelessWidget {
         container: NavigationContainerType.bar,
         alignment: MainAxisAlignment.start,
         spacing: 0,
-        padding: const EdgeInsets.symmetric(horizontal: DocsMetrics.barPadding),
+        // Tighter edge inset below `md` so the 32 px controls (menu, GitHub,
+        // theme, locale with code) fit 375 px with no overflow.
+        padding: EdgeInsets.symmetric(
+          horizontal: width >= 768 ? DocsMetrics.barPadding : 16,
+        ),
         children: <NavigationBarItem>[
           _DocsBarContents(
             delegate: delegate,
@@ -260,18 +264,16 @@ class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
           tooltip: (BuildContext context) =>
               Text(docsChrome(locale, 'githubRepo')),
           child: SizedBox(
+            width: 32,
             height: 32,
             child: Button(
               variant: ButtonVariant.ghost,
-              size: ButtonSize.sm,
+              size: ButtonSize.xs,
+              theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
               onPressed: () => webOpenUrl(kDocsRepoUrl),
-              leading: const Icon(LucideIcons.github, size: 16),
-              // The label needs 1600: the bar is overflow-free at 1280/1440
-              // with the icon only (measured in the responsive audit), and the
-              // locale switcher takes the remaining room.
-              child: width >= 1600
-                  ? Text(docsChrome(locale, 'github'))
-                  : const SizedBox.shrink(),
+              // Icon-only at every width: the labeled locale switcher needs
+              // the room (33 px overflow at 1600 with both labels).
+              child: const Icon(LucideIcons.github, size: 16),
             ),
           ),
         ),
@@ -345,8 +347,8 @@ class DocsLocaleSwitcher extends StatelessWidget {
 
   /// Short trigger label for [locale] (`EN`, `DE`, `PT-BR`, `繁`, `简`).
   ///
-  /// Kept for tests (trigger-label unit coverage); the trigger itself stays
-  /// icon-only — the bar has no room for the code next to eight nav items.
+  /// Shown next to the globe in the 32 px header trigger at every width;
+  /// the GitHub button stays icon-only so the labeled switcher fits.
   static String triggerLabel(Locale locale) {
     final String tag = docsLocaleTag(locale);
     if (tag == 'zh_Hant') {

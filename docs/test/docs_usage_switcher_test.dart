@@ -24,7 +24,6 @@ import 'support/app_harness.dart';
 
 const List<String> kCaptureDirs = <String>[
   '../scratchpad/ui/round2/docsusage/captures',
-  '/Users/ibrar/Desktop/infinora.noworkspace/shadcn_copy_paste/scratchpad/ui/round2/docsusage/captures',
 ];
 
 Future<void> _saveCapture(
