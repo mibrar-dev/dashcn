@@ -9,14 +9,11 @@
 // lives in `sidebar_groups.dart`; building blocks (`listed: false`) are not
 // listed here.
 //
-// The active item is centred in the scroll area on route changes (the
-// reference's longest-match auto-scroll). Session persistence is intentionally
-// omitted.
+// The sidebar keeps its scroll position across navigations: only the content
+// view changes and the selected item highlight follows the route.
 
 import 'package:flutter/widgets.dart';
 
-import '../motion/ease.dart';
-import '../motion/motion_scope.dart';
 import '../routing/docs_router.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/primitives/clickable.dart';
@@ -39,57 +36,42 @@ class DocsSidebar extends StatefulWidget {
 }
 
 class _DocsSidebarState extends State<DocsSidebar> {
-  final ScrollController _scroll = ScrollController();
-  GlobalKey? _activeKey;
-  String? _activeKeyLocation;
+  // Shared scroll offset so navigating between docs pages keeps the sidebar
+  // position: each page builds its own `DocsSidebar`, but the offset is
+  // restored instead of resetting to the top. Only the content view changes.
+  static double _savedOffset = 0;
+
+  late final ScrollController _scroll;
 
   @override
   void initState() {
     super.initState();
-    _scheduleCentre();
+    _scroll = ScrollController(initialScrollOffset: _savedOffset);
+    _scroll.addListener(_saveOffset);
   }
 
-  @override
-  void didUpdateWidget(covariant DocsSidebar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.activeLocation != widget.activeLocation) {
-      _scheduleCentre();
+  void _saveOffset() {
+    if (_scroll.hasClients) {
+      _savedOffset = _scroll.offset;
     }
   }
 
   @override
   void dispose() {
+    _scroll.removeListener(_saveOffset);
+    _saveOffset();
     _scroll.dispose();
     super.dispose();
-  }
-
-  void _scheduleCentre() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final BuildContext? context = _activeKey?.currentContext;
-      if (!mounted || context == null) {
-        return;
-      }
-      // `ensureVisible` handles both the sidebar's own scroll area and any
-      // outer viewport without manual offset math.
-      final Duration duration = context.motionDuration(kDurationFast);
-      Scrollable.ensureVisible(
-        context,
-        alignment: 0.5,
-        duration: duration,
-        curve: kEaseStandard,
-      );
-    });
   }
 
   GlobalKey? _keyFor(String? location) {
     if (location == null || location != widget.activeLocation) {
       return null;
     }
-    if (_activeKeyLocation != location) {
-      _activeKeyLocation = location;
-      _activeKey = GlobalKey(debugLabel: 'sidebar-$location');
-    }
-    return _activeKey;
+    // Stable key per location so tests can find the active row; no
+    // auto-scroll: the sidebar keeps its scroll position across navigations
+    // and only the selected item highlight changes.
+    return GlobalKey(debugLabel: 'sidebar-$location');
   }
 
   @override

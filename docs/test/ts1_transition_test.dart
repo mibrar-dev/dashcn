@@ -77,7 +77,7 @@ Future<void> _waitForSnapshot(WidgetTester tester) async {
 
 void main() {
   group('transition durations', () {
-    test('every animated kind lands in the 250-400 ms band', () {
+    test('every animated kind lands in the 200-400 ms band', () {
       expect(docsTransitionDuration(DocsThemeTransition.none), Duration.zero);
       for (final DocsThemeTransition kind in <DocsThemeTransition>{
         DocsThemeTransition.fade,
@@ -86,7 +86,7 @@ void main() {
         DocsThemeTransition.blur,
       }) {
         final Duration duration = docsTransitionDuration(kind);
-        expect(duration.inMilliseconds, greaterThanOrEqualTo(250));
+        expect(duration.inMilliseconds, greaterThanOrEqualTo(200));
         expect(duration.inMilliseconds, lessThanOrEqualTo(400));
       }
     });

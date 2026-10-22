@@ -39,10 +39,10 @@ const Duration kDurationHeadingAnchor = Duration(milliseconds: 200);
 /// once per commit under [kDurationThemeSwitch]'s snapshot fade (P7-WD).
 const Duration kDurationTheme = Duration(milliseconds: 300);
 
-/// Shell theme-switch snapshot cross-fade (P7-WD): the old frame fades over
-/// the new one. Reduced motion swaps instantly (`Duration.zero` at the call
-/// site, not this constant).
-const Duration kDurationThemeSwitch = Duration(milliseconds: 250);
+/// Shell theme-switch snapshot cross-fade: the old frame fades out over 200 ms
+/// to reveal the new one. Reduced motion swaps instantly (`Duration.zero` at
+/// the call site, not this constant).
+const Duration kDurationThemeSwitch = Duration(milliseconds: 200);
 
 /// Copy-button "Copied" feedback; the check icon resets after 2000ms.
 const Duration kDurationCopyFeedback = Duration(milliseconds: 2000);

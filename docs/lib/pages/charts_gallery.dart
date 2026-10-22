@@ -1,5 +1,5 @@
-// The charts gallery shell shared by `/charts` (every family) and
-// `/charts/<family>` (one family): hero, family pill nav and the sections.
+// The charts gallery shell shared by `/charts` (first family) and
+// `/charts/<family>` (one family): hero, family tab bar and the section.
 //
 // Full-width like Blocks/Themes: no docs sidebar. The header keeps `Charts`
 // active through the router's `startsWith('/charts')` rule.
@@ -21,12 +21,13 @@ import 'charts_section.dart';
 /// Outer padding + max width of the charts gallery (mirrors Blocks/Flows).
 const double kChartsMaxWidth = 1400;
 
-/// `/charts` when [familyId] is null, `/charts/<family>` otherwise.
+/// `/charts` when [familyId] is null (first family), `/charts/<family>`
+/// otherwise.
 class ChartsGallery extends StatefulWidget {
   /// Creates the gallery, optionally scoped to one family.
   const ChartsGallery({super.key, this.familyId});
 
-  /// The family to show, or null for every family.
+  /// The family to show, or null for the first family.
   final String? familyId;
 
   @override
@@ -58,11 +59,12 @@ class _ChartsGalleryState extends State<ChartsGallery> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartFamily> families = widget.familyId == null
-        ? kChartFamilies
-        : kChartFamilies
-              .where((ChartFamily family) => family.id == widget.familyId)
-              .toList(growable: false);
+    // Tab bar: the first family is selected by default on `/charts`; only
+    // the selected family renders (never all families on one scroll).
+    final String selectedId = widget.familyId ?? kChartFamilies.first.id;
+    final List<ChartFamily> families = kChartFamilies
+        .where((ChartFamily family) => family.id == selectedId)
+        .toList(growable: false);
     return SingleChildScrollView(
       controller: _scroll,
       child: Column(
@@ -77,7 +79,7 @@ class _ChartsGalleryState extends State<ChartsGallery> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    ChartFamilyNav(activeFamilyId: widget.familyId),
+                    ChartFamilyNav(activeFamilyId: selectedId),
                     Gap(Theme.of(context).spacing.lg),
                     Column(
                       key: _galleryKey,
@@ -179,14 +181,15 @@ class ChartsHero extends StatelessWidget {
   }
 }
 
-/// The family pill strip: one pill per family, linking to its page.
+/// The family tab bar: one tab per family, switching families.
 ///
-/// Horizontally scrollable so phone widths never overflow.
+/// Horizontally scrollable so phone widths never overflow. The first family
+/// is selected by default; only the selected family renders below.
 class ChartFamilyNav extends StatelessWidget {
-  /// Creates the nav; [activeFamilyId] is null on the hub.
+  /// Creates the nav; [activeFamilyId] is the selected tab.
   const ChartFamilyNav({super.key, this.activeFamilyId});
 
-  /// The selected family id, or null for `/charts`.
+  /// The selected family id.
   final String? activeFamilyId;
 
   @override

@@ -1,13 +1,13 @@
-// P9-Z component page integration: frames + playground + scorecard.
+// P9-Z component page integration: frames + playground panel + scorecards
+// dialog.
 //
 // The preview runs inside `FramedPreview` (router `?frame=` round-trip),
-// the Playground section seeds from `p.*` and reports back through the
-// router, and the scorecard card sits below the playground.
+// the Playground opens as a right-side panel (Figma-like) seeding from
+// `p.*` and reporting back through the router, and the trust scorecard
+// opens from the top button in a dialog/sheet.
 
 import 'package:docs/playground/ui/playground_panel.dart';
 import 'package:docs/routing/docs_router.dart';
-import 'package:docs/widgets/component_playground_section.dart';
-import 'package:docs/widgets/component_scorecard_section.dart';
 import 'package:docs/widgets/device_frame/device_spec.dart';
 import 'package:docs/widgets/device_frame/framed_preview.dart';
 import 'package:docs/widgets/scorecard/scorecard_card.dart';
@@ -74,38 +74,44 @@ void main() {
       expect(find.text('Button'), findsWidgets);
     });
 
-    testWidgets('button shows preview frames, playground and scorecard', (
-      WidgetTester tester,
-    ) async {
-      await pumpComponentPage(tester, 'button');
-      expect(
-        find.byWidgetPredicate(
-          (Widget w) => w is FramedPreview && w.id == 'button',
-        ),
-        findsOneWidget,
-      );
-      expect(find.text('Playground'), findsWidgets);
-      expect(find.byType(PlaygroundPanel), findsOneWidget);
-      expect(find.text('Trust scorecard'), findsWidgets);
-      expect(find.byType(ScorecardCard), findsOneWidget);
-      // Both new sections register TOC headings.
-      expect(find.byType(ComponentPlaygroundSection), findsOneWidget);
-      expect(find.byType(ComponentScorecardSection), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
+    testWidgets(
+      'button shows preview frames, playground panel and scorecards dialog',
+      (WidgetTester tester) async {
+        await pumpComponentPage(tester, 'button');
+        expect(
+          find.byWidgetPredicate(
+            (Widget w) => w is FramedPreview && w.id == 'button',
+          ),
+          findsOneWidget,
+        );
+        // Top buttons open the panel/dialog instead of inline sections.
+        expect(find.text('Playground'), findsWidgets);
+        expect(find.text('Trust scorecards'), findsOneWidget);
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        expect(find.byType(ScorecardCard), findsNothing);
+        // Open the playground side panel.
+        await tester.tap(find.text('Playground'));
+        await tester.pumpAndSettle();
+        expect(find.byType(PlaygroundPanel), findsOneWidget);
+        // Open the scorecards dialog.
+        await tester.tap(find.text('Trust scorecards'));
+        await tester.pumpAndSettle();
+        expect(find.byType(ScorecardCard), findsWidgets);
+        expect(tester.takeException(), isNull);
+      },
+    );
 
-    testWidgets('component without a builder shows the coming-soon note', (
+    testWidgets('component without a builder hides the playground panel', (
       WidgetTester tester,
     ) async {
-      expect(hasPlayground('menu'), isFalse);
       await pumpComponentPage(tester, 'menu');
-      expect(find.text('Playground'), findsWidgets);
-      expect(
-        find.text('Playground coming soon for this component.'),
-        findsOneWidget,
-      );
+      expect(find.text('Trust scorecards'), findsOneWidget);
+      expect(find.text('Playground'), findsNothing);
       expect(find.byType(PlaygroundPanel), findsNothing);
-      expect(find.byType(ScorecardCard), findsOneWidget);
+      // Scorecards still open from the top button.
+      await tester.tap(find.text('Trust scorecards'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ScorecardCard), findsWidgets);
       expect(tester.takeException(), isNull);
     });
 
@@ -127,6 +133,8 @@ void main() {
       WidgetTester tester,
     ) async {
       await pumpComponentPage(tester, 'divider');
+      await tester.tap(find.text('Trust scorecards'));
+      await tester.pumpAndSettle();
       expect(find.text('Pass'), findsWidgets);
       expect(find.text('Exempt'), findsNothing);
       expect(find.text('Fail'), findsNothing);

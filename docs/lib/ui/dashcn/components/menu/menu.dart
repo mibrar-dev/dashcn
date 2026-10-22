@@ -278,7 +278,10 @@ RovingRow _plainRow(
     ),
     padding: padding,
     textStyle: style.textStyle,
-    minHeight: group?.rowMinHeight ?? 32,
+    // Popup rows use the density tokens (normal padding) instead of a
+    // hardcoded compact height; the menubar bar passes 48 for its triggers.
+    minHeight:
+        group?.rowMinHeight ?? resolveDensityTokens(context).rowMinHeight,
     onOpen: onOpen,
     onClose: onClose,
     isOpen: isOpen,

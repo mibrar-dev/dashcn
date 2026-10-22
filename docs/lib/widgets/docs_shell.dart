@@ -45,15 +45,39 @@ class DocsAppShell extends StatefulWidget {
 
 class _DocsAppShellState extends State<DocsAppShell> {
   bool _mobileNavOpen = false;
+  bool _drawerMounted = false;
 
   void _toggleMobileNav() {
-    setState(() => _mobileNavOpen = !_mobileNavOpen);
+    if (_mobileNavOpen) {
+      _closeMobileNav();
+      return;
+    }
+    // Mount closed, then open next frame so the slide/fade animate in
+    // instead of jumping. Reduced motion still snaps (duration zero).
+    setState(() {
+      _drawerMounted = true;
+      _mobileNavOpen = false;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _drawerMounted && !_mobileNavOpen) {
+        setState(() => _mobileNavOpen = true);
+      }
+    });
   }
 
   void _closeMobileNav() {
-    if (_mobileNavOpen) {
-      setState(() => _mobileNavOpen = false);
+    if (!_mobileNavOpen && !_drawerMounted) {
+      return;
     }
+    final Duration duration = context.motionDuration(kDurationPopper * 2);
+    setState(() => _mobileNavOpen = false);
+    // Keep mounted during the slide-out/fade-out, then unmount so the
+    // off-screen drawer never lingers for finders or focus.
+    Future.delayed(duration + const Duration(milliseconds: 50), () {
+      if (mounted && !_mobileNavOpen && _drawerMounted) {
+        setState(() => _drawerMounted = false);
+      }
+    });
   }
 
   @override
@@ -100,49 +124,62 @@ class _DocsAppShellState extends State<DocsAppShell> {
               ),
           ],
         );
-        // The mobile nav is the reference's full-width popper (not a drawer):
-        // it fades in/out over 100 ms (`duration-100`), opacity-only, so the
-        // reduced-motion rule ("no transforms, ≤150 ms") holds unchanged.
+        // The mobile nav is a drawer: a panel slides in from the left over a
+        // dimmed scrim. The drawer mounts on open (closed, then animates in)
+        // and stays mounted during the slide-out/fade-out before unmounting,
+        // so open and close both animate with no jump and no lingering
+        // off-screen widgets. Reduced motion snaps it (duration zero).
         final Widget content = Stack(
           children: <Widget>[
             shell,
-            if (_mobileNavOpen)
+            if (_drawerMounted) ...<Widget>[
               Positioned(
                 top: headerHeight,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: _closeMobileNav,
+                child: IgnorePointer(
+                  ignoring: !_mobileNavOpen,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: _closeMobileNav,
+                    child: AnimatedOpacity(
+                      opacity: _mobileNavOpen ? 1 : 0,
+                      duration: context.motionDuration(kDurationPopper * 2),
+                      curve: kEaseStandard,
+                      child: const ColoredBox(color: Color(0x66000000)),
+                    ),
+                  ),
                 ),
               ),
-            Positioned(
-              top: headerHeight,
-              left: 0,
-              right: 0,
-              child: IgnorePointer(
-                ignoring: !_mobileNavOpen,
-                child: AnimatedSwitcher(
-                  duration: context.motionDuration(kDurationPopper),
-                  switchInCurve: kEaseStandard,
-                  switchOutCurve: kEaseIn,
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) =>
-                          FadeTransition(opacity: animation, child: child),
-                  child: _mobileNavOpen
-                      ? DocsMobileNav(
-                          key: const ValueKey<String>('mobile-nav'),
-                          delegate: widget.delegate,
-                          currentLocation: config.location,
-                          onNavigate: _closeMobileNav,
-                        )
-                      : const SizedBox.shrink(
-                          key: ValueKey<String>('mobile-nav-closed'),
-                        ),
+              Positioned(
+                top: headerHeight,
+                bottom: 0,
+                left: 0,
+                width: MediaQuery.sizeOf(context).width * 0.86 > 360
+                    ? 360
+                    : MediaQuery.sizeOf(context).width * 0.86,
+                child: ExcludeFocus(
+                  excluding: !_mobileNavOpen,
+                  child: ExcludeSemantics(
+                    excluding: !_mobileNavOpen,
+                    child: AnimatedSlide(
+                      offset: _mobileNavOpen
+                          ? Offset.zero
+                          : const Offset(-1, 0),
+                      duration: context.motionDuration(kDurationPopper * 2),
+                      curve: kEaseStandard,
+                      child: DocsMobileNav(
+                        key: const ValueKey<String>('mobile-nav'),
+                        delegate: widget.delegate,
+                        currentLocation: config.location,
+                        onNavigate: _closeMobileNav,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
         );
         // Paint the viewport with the active preset background: the app has

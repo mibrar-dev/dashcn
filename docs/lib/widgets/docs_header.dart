@@ -4,8 +4,6 @@
 // collapses into the full-width mobile popper (not a side drawer); the search
 // trigger hides below `md`.
 
-import 'dart:ui' as ui;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -440,8 +438,9 @@ class _BarSeparator extends StatelessWidget {
   }
 }
 
-/// The full-width mobile navigation popper (spec §2.8): background 90 % +
-/// blur, `Menu` group (site nav) then `Sections` (docs pages), gap 12.
+/// The mobile navigation drawer: a left panel sliding in over a dimmed
+/// scrim (the shell owns the scrim + slide animation). Solid background
+/// with a right rule, `Menu` group then `Sections`, gap 12.
 class DocsMobileNav extends StatelessWidget {
   /// Creates the mobile nav.
   const DocsMobileNav({
@@ -457,7 +456,7 @@ class DocsMobileNav extends StatelessWidget {
   /// Current canonical location.
   final String currentLocation;
 
-  /// Called after a link is chosen (closes the popper).
+  /// Called after a link is chosen (closes the drawer).
   final VoidCallback onNavigate;
 
   @override
@@ -471,34 +470,32 @@ class DocsMobileNav extends StatelessWidget {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.sizeOf(context).height - headerHeight,
       ),
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: ColoredBox(
-            color: theme.colors.background.withValues(alpha: 0.9),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _MobileGroup(
-                    label: 'Menu',
-                    links: kHeaderNav,
-                    currentLocation: currentLocation,
-                    delegate: delegate,
-                    onNavigate: onNavigate,
-                  ),
-                  const Gap(48),
-                  _MobileGroup(
-                    label: 'Sections',
-                    links: kDocsSections,
-                    currentLocation: currentLocation,
-                    delegate: delegate,
-                    onNavigate: onNavigate,
-                  ),
-                ],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colors.background,
+          border: Border(right: BorderSide(color: theme.colors.border)),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _MobileGroup(
+                label: 'Menu',
+                links: kHeaderNav,
+                currentLocation: currentLocation,
+                delegate: delegate,
+                onNavigate: onNavigate,
               ),
-            ),
+              const Gap(48),
+              _MobileGroup(
+                label: 'Sections',
+                links: kDocsSections,
+                currentLocation: currentLocation,
+                delegate: delegate,
+                onNavigate: onNavigate,
+              ),
+            ],
           ),
         ),
       ),

@@ -18,7 +18,11 @@ import 'selectable_code.dart';
 import 'typeset.dart';
 import 'typeset_tables.dart';
 
-/// The Usage section: README snippets as code figures.
+/// The Usage section: install, minimal example and key parameters.
+///
+/// Shows the important information first (what to install, the minimal
+/// example, the key parameters) with the code in a compact snippet below,
+/// not a wall of code. Code is syntax-coloured with a copy button.
 class ComponentUsageSection extends StatelessWidget {
   /// Creates the section for [componentId].
   const ComponentUsageSection({super.key, required this.componentId});
@@ -29,24 +33,62 @@ class ComponentUsageSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<DocsSnippet> snippets =
         kDocsSnippets[componentId] ?? const <DocsSnippet>[];
+    final DocsApiTable? api = kApiTables[componentId];
+    final List<DocsApiParam> params = api?.params ?? const <DocsApiParam>[];
+    final List<DocsApiParam> keyParams = params.take(5).toList(growable: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const HeadingAnchor(id: 'usage', title: 'Usage'),
-        const TypesetParagraph(
-          'Install the component, then use it in your widget tree. The '
-          'examples below are extracted from the component README.',
-        ),
-        for (int i = 0; i < snippets.length; i++) ...<Widget>[
-          _SnippetBlock(snippet: snippets[i]),
+        TypesetParagraph.rich(<InlineSpan>[
+          const TextSpan(text: 'Install with '),
+          typesetInlineCodeSpan('dashcn add $componentId'),
+          const TextSpan(
+            text: ', then use it in your widget tree. Minimal example below.',
+          ),
+        ]),
+        if (snippets.isNotEmpty) _CompactSnippet(snippet: snippets.first),
+        if (keyParams.isNotEmpty) ...<Widget>[
+          Gap(Theme.of(context).spacing.md),
+          Text(
+            'Key parameters',
+            style: docsText(context, size: 14, weight: FontWeight.w600),
+          ),
+          Gap(Theme.of(context).spacing.xs),
+          for (final DocsApiParam param in keyParams)
+            Padding(
+              padding: EdgeInsets.only(bottom: Theme.of(context).spacing.xs),
+              child: TypesetParagraph.rich(<InlineSpan>[
+                TextSpan(
+                  text: '${param.name}: ',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                TextSpan(text: param.type.isEmpty ? 'required' : param.type),
+                if (param.doc != null && param.doc!.isNotEmpty)
+                  TextSpan(text: ' — ${param.doc}'),
+              ]),
+            ),
         ],
+        if (snippets.length > 1)
+          Padding(
+            padding: EdgeInsets.only(top: Theme.of(context).spacing.md),
+            child: Text(
+              '${snippets.length - 1} more snippet${snippets.length - 1 == 1 ? '' : 's'} in the README.',
+              style: docsText(
+                context,
+                size: 13,
+                color: Theme.of(context).colors.mutedForeground,
+              ),
+            ),
+          ),
       ],
     );
   }
 }
 
-class _SnippetBlock extends StatelessWidget {
-  const _SnippetBlock({required this.snippet});
+/// Compact syntax-coloured snippet with a copy button.
+class _CompactSnippet extends StatelessWidget {
+  const _CompactSnippet({required this.snippet});
 
   final DocsSnippet snippet;
 
@@ -54,62 +96,86 @@ class _SnippetBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     final DocsSiteColors site = DocsSiteColors.of(context);
     final ThemeData theme = Theme.of(context);
-    final bool dark = site.codeSurface == const Color(0xFF161616);
     return Padding(
-      // P7-TH1: snippet outer/top insets follow the theme (lg).
       padding: EdgeInsets.only(top: theme.spacing.lg),
       child: Container(
         decoration: BoxDecoration(
           color: site.codeSurface,
-          // P7-TH1: snippet blocks use the card radius token (rounded-lg).
           borderRadius: theme.borderRadiusLg,
           border: Border.all(color: theme.colors.border.withValues(alpha: 0.3)),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: theme.spacing.md,
+                vertical: theme.spacing.xs,
+              ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: theme.colors.border.withValues(alpha: 0.3),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      snippet.language.isEmpty ? 'dart' : snippet.language,
+                      style: docsText(
+                        context,
+                        size: 11,
+                        color: site.codeNumber,
+                      ),
+                    ),
+                  ),
+                  CopyButton(
+                    text: snippet.code,
+                    variant: ButtonVariant.ghost,
+                    size: ButtonSize.sm,
+                  ),
+                ],
+              ),
+            ),
+            Container(
               width: double.infinity,
-              // P7-TH1: code insets follow the theme (lg).
-              padding: EdgeInsets.all(theme.spacing.lg),
+              padding: EdgeInsets.all(theme.spacing.md),
+              constraints: const BoxConstraints(maxHeight: 320),
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SelectableCode(
-                  child: Text.rich(
-                    TextSpan(
-                      children: snippet.spans(
-                        plain: theme.typography.mono.copyWith(
-                          fontSize: 14,
-                          height: 24.5 / 14,
-                          color: dark
-                              ? const Color(0xFFE5E5E5)
-                              : const Color(0xFF262626),
-                        ),
-                        comment: theme.typography.mono.copyWith(
-                          fontSize: 14,
-                          height: 24.5 / 14,
-                          color: site.codeNumber,
-                        ),
-                        keyword: theme.typography.mono.copyWith(
-                          fontSize: 14,
-                          height: 24.5 / 14,
-                          color: const Color(0xFF79C0FF),
-                        ),
-                        string: theme.typography.mono.copyWith(
-                          fontSize: 14,
-                          height: 24.5 / 14,
-                          color: const Color(0xFFA5D6FF),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SelectableCode(
+                    child: Text.rich(
+                      TextSpan(
+                        children: snippet.spans(
+                          plain: theme.typography.mono.copyWith(
+                            fontSize: 13,
+                            height: 22 / 13,
+                            color: theme.colors.foreground,
+                          ),
+                          comment: theme.typography.mono.copyWith(
+                            fontSize: 13,
+                            height: 22 / 13,
+                            color: site.codeNumber,
+                          ),
+                          keyword: theme.typography.mono.copyWith(
+                            fontSize: 13,
+                            height: 22 / 13,
+                            color: theme.syntaxColors.keyword,
+                          ),
+                          string: theme.typography.mono.copyWith(
+                            fontSize: 13,
+                            height: 22 / 13,
+                            color: theme.syntaxColors.string,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            CopyButton(
-              text: snippet.code,
-              variant: ButtonVariant.ghost,
-              size: ButtonSize.sm,
             ),
           ],
         ),

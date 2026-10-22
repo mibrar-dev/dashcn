@@ -41,6 +41,18 @@ const double kMainPreviewMinHeight = 350;
 /// Minimum stage height of the per-example cards.
 const double kExamplePreviewMinHeight = 200;
 
+/// Components whose inline preview is itself a bordered surface: the outer
+/// card stays borderless so the page shows one border, not an outer border
+/// with an inner bordered box.
+const Set<String> _popupLikeComponents = <String>{
+  'popup',
+  'dropdown_menu',
+  'menu',
+  'context_menu',
+  'command',
+  'menubar',
+};
+
 /// One example's card: toolbar (tabs + toggle + copy) over stage/code.
 class ExamplePreviewCard extends StatefulWidget {
   /// Creates the card for one example.
@@ -78,6 +90,10 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
   @override
   Widget build(BuildContext context) {
     final DocsState state = DocsRouterScope.of(context).state;
+    // Popup-like previews render a bordered surface inline (MenuPopup,
+    // Command, Menubar bar): the outer card stays borderless so the page
+    // never shows an outer border with an inner bordered box.
+    final bool popupLike = _popupLikeComponents.contains(widget.componentId);
     // F1: the card also rebuilds when the shared frame choice changes, so
     // every example on the page follows the one frame bar.
     return ListenableBuilder(
@@ -102,6 +118,7 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
             // The Code tab always shows the code as today: no frame.
             if (_tab == 1) {
               return PreviewFrame(
+                showBorder: !popupLike,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -139,6 +156,7 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
             // `None` keeps today's card exactly.
             if (state.frame == DeviceFrameId.none) {
               return PreviewFrame(
+                showBorder: !popupLike,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[toolbar, previewBody],

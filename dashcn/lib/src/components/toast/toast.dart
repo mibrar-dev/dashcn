@@ -147,13 +147,14 @@ class _ToastLayerState extends State<ToastLayer> {
     return _ToastScope(
       controller: _controller,
       theme: theme,
+      // The Stack slot is always present so showing the first toast never
+      // moves `child` in the tree: the toast appears within one frame with
+      // no full-tree relayout (the same always-mounted overlay pattern the
+      // theme switch uses).
       child: ListenableBuilder(
         listenable: _controller,
         builder: (BuildContext context, Widget? child) {
           final List<ToastEntry<ToastBuilder>> entries = _controller.entries;
-          if (entries.isEmpty) {
-            return widget.child;
-          }
           return Stack(
             children: <Widget>[
               widget.child,

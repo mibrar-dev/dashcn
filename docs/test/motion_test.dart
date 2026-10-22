@@ -1,6 +1,7 @@
 import 'package:docs/motion/ease.dart';
 import 'package:docs/motion/motion_scope.dart';
 import 'package:docs/routing/docs_router.dart';
+import 'package:docs/widgets/docs_header.dart';
 import 'package:docs/widgets/heading_anchor.dart';
 import 'package:docs/widgets/theme_switch_transition.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +16,7 @@ void main() {
     expect(kDurationPalette, const Duration(milliseconds: 200));
     expect(kDurationHeadingAnchor, const Duration(milliseconds: 200));
     expect(kDurationTheme, const Duration(milliseconds: 300));
-    expect(kDurationThemeSwitch, const Duration(milliseconds: 250));
+    expect(kDurationThemeSwitch, const Duration(milliseconds: 200));
     expect(kDurationCopyFeedback, const Duration(milliseconds: 2000));
     // Removed motions have no constants: no route/reveal/hero/marquee/float.
     expect(kEaseOutExpo, isA<Cubic>());
@@ -143,17 +144,26 @@ void main() {
     expect(opacity.duration, kDurationFast);
   });
 
-  testWidgets('the mobile popper animates over 100 ms', (
+  testWidgets('the mobile drawer animates over 200 ms', (
     WidgetTester tester,
   ) async {
     await pumpDocsApp(tester, width: 800, height: 900);
     await tester.tap(find.text('Menu'));
-    await tester.pumpAndSettle();
-    final AnimatedSwitcher switcher = tester.widget<AnimatedSwitcher>(
-      find.byType(AnimatedSwitcher),
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    // Drawer scrim fades and panel slides out over 200 ms (popper x2).
+    final List<AnimatedSlide> slides = tester
+        .widgetList<AnimatedSlide>(find.byType(AnimatedSlide))
+        .toList(growable: false);
+    expect(
+      slides.any(
+        (AnimatedSlide s) =>
+            s.duration == kDurationPopper * 2 && s.curve == kEaseStandard,
+      ),
+      isTrue,
+      reason: 'drawer panel slides over 200 ms',
     );
-    expect(switcher.duration, kDurationPopper);
-    expect(switcher.switchInCurve, kEaseStandard);
-    expect(switcher.switchOutCurve, kEaseIn);
+    expect(find.byType(DocsMobileNav), findsOneWidget);
+    await tester.pumpAndSettle();
   });
 }

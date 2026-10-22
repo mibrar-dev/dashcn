@@ -32,8 +32,8 @@ import '../motion/motion_scope.dart';
 import '../state/docs_storage.dart';
 import '../ui/dashcn/theme/theme.dart';
 
-/// Length of the fade switch (~250 ms, P7-WD).
-const Duration kThemeSwitchFade = Duration(milliseconds: 250);
+/// Length of the fade switch (200 ms cross-fade).
+const Duration kThemeSwitchFade = Duration(milliseconds: 200);
 
 /// Length of the circular reveal (~350 ms).
 const Duration kThemeSwitchCircular = Duration(milliseconds: 350);
@@ -325,7 +325,8 @@ class _ThemeSwitchTransitionState extends State<ThemeSwitchTransition>
   }
 }
 
-/// Fades [image]; an empty box when there is nothing to fade.
+/// Fades [image] out to reveal the new frame underneath; an empty box when
+/// there is nothing to fade.
 class _SnapshotFade extends StatelessWidget {
   const _SnapshotFade({
     required this.image,
@@ -343,8 +344,13 @@ class _SnapshotFade extends StatelessWidget {
     if (snapshot == null) {
       return const SizedBox.shrink();
     }
+    // The snapshot is the old frame painted over the new base: it starts
+    // opaque and fades out (1 -> 0) so colours cross-fade smoothly instead
+    // of jumping and jumping back.
     return FadeTransition(
-      opacity: animation.drive(CurveTween(curve: curve)),
+      opacity: animation.drive(
+        CurveTween(curve: curve).chain(Tween(begin: 1.0, end: 0.0)),
+      ),
       child: RawImage(image: snapshot, fit: BoxFit.fill),
     );
   }

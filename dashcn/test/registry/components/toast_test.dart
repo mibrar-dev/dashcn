@@ -60,13 +60,17 @@ Future<void> _clear(WidgetTester tester, ToastController controller) async {
 void main() {
   const ThemeColors colors = ThemeColors.lightFallback;
 
-  testWidgets('renders only the child when there are no toasts', (
+  testWidgets('keeps a single Stack slot when there are no toasts', (
     tester,
   ) async {
     final controller = ToastController();
     addTearDown(controller.dispose);
     await tester.pumpWidget(_frame(controller));
-    expect(find.byType(Stack), findsNothing);
+    // The Stack slot is always present so the first toast appears within
+    // one frame with no tree-shape relayout; with no toasts it holds only
+    // the child and no toast cards.
+    expect(find.byType(Stack), findsOneWidget);
+    expect(find.text('Saved'), findsNothing);
   });
 
   testWidgets('a controller toast renders a card', (tester) async {

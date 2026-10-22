@@ -1,5 +1,5 @@
-// `/charts` — the charts gallery: hero, family nav and every family section
-// (heading + responsive card grid) on one page.
+// `/charts` — the charts gallery: hero, family tab bar and the first family
+// section (tab-selected, one family at a time).
 //
 // Full-width like Blocks/Themes: no docs sidebar.
 
