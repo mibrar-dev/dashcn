@@ -6589,6 +6589,100 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     ],
     members: <DocsApiMember>[],
   ),
+  'sidebar': DocsApiTable(
+    componentId: 'sidebar',
+    symbol: 'DashboardSidebar',
+    hasApiTable: true,
+    parseClean: true,
+    summary:
+        'A production dashboard sidebar: header, grouped navigation and an account footer. Place it in a `Row` beside content on desktop, or in an `openDrawer` builder on phone widths — the same widget adapts.',
+    params: <DocsApiParam>[
+      DocsApiParam(
+        name: 'sections',
+        type: 'List<SidebarSection>',
+        isRequired: true,
+        doc: 'Grouped navigation.',
+      ),
+      DocsApiParam(
+        name: 'title',
+        type: 'String',
+        isRequired: false,
+        defaultValue: '\'Acme Inc\'',
+        doc: 'Header title next to the logo.',
+      ),
+      DocsApiParam(
+        name: 'logo',
+        type: 'Widget?',
+        isRequired: false,
+        doc:
+            'Header mark; defaults to a `command` glyph on the sidebar-primary tile.',
+      ),
+      DocsApiParam(
+        name: 'selectedId',
+        type: 'String?',
+        isRequired: false,
+        doc: 'Identity of the highlighted row; matches [SidebarItem.key].',
+      ),
+      DocsApiParam(
+        name: 'onSelected',
+        type: 'ValueChanged<String>?',
+        isRequired: false,
+        doc: 'Called with the tapped row\'s identity.',
+      ),
+      DocsApiParam(
+        name: 'collapsed',
+        type: 'bool',
+        isRequired: false,
+        defaultValue: 'false',
+        doc: 'Icon-only 56 px rail with tooltips; labels hide.',
+      ),
+      DocsApiParam(
+        name: 'onToggleCollapsed',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc:
+            'Called when the header collapse control is pressed; null hides it.',
+      ),
+      DocsApiParam(
+        name: 'user',
+        type: 'SidebarUser?',
+        isRequired: false,
+        doc: 'Footer account row; null hides the footer.',
+      ),
+      DocsApiParam(
+        name: 'onUserPressed',
+        type: 'VoidCallback?',
+        isRequired: false,
+        doc:
+            'Called when the footer account row is pressed (open an account menu).',
+      ),
+      DocsApiParam(
+        name: 'focusNode',
+        type: 'FocusScopeNode?',
+        isRequired: false,
+        doc: 'Focus scope of the navigation; created internally when null.',
+      ),
+      DocsApiParam(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Widget-leg surface opacity override.',
+      ),
+      DocsApiParam(
+        name: 'surfaceBlur',
+        type: 'double?',
+        isRequired: false,
+        doc: 'Widget-leg surface blur override.',
+      ),
+      DocsApiParam(
+        name: 'theme',
+        type: 'SidebarTheme?',
+        isRequired: false,
+        doc: 'Widget-leg theme override, merged on top of the other legs.',
+      ),
+    ],
+    members: <DocsApiMember>[],
+  ),
   'stepper': DocsApiTable(
     componentId: 'stepper',
     symbol: 'Stepper',
@@ -14393,6 +14487,86 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         name: 'showLabel',
         type: 'bool?',
         description: 'whether previous/next show a text label',
+      ),
+    ],
+  ),
+  'sidebar': DocsThemeTable(
+    componentId: 'sidebar',
+    themeClass: 'SidebarTheme',
+    themeDefaults: 'sidebarDefaults',
+    userFile: 'sidebar_theme.dart',
+    userOwned: true,
+    hasTheme: true,
+    fields: <DocsThemeField>[
+      DocsThemeField(
+        name: 'activeBackground',
+        type: 'ThemedColor?',
+        description: 'selected row fill, default sidebarAccent',
+      ),
+      DocsThemeField(
+        name: 'activeForeground',
+        type: 'ThemedColor?',
+        description: 'selected row foreground, default sidebarAccentForeground',
+      ),
+      DocsThemeField(
+        name: 'background',
+        type: 'ThemedColor?',
+        description: 'rail fill, default sidebar',
+      ),
+      DocsThemeField(
+        name: 'borderColor',
+        type: 'ThemedColor?',
+        description: 'rail edge border, default sidebarBorder',
+      ),
+      DocsThemeField(
+        name: 'collapsedWidth',
+        type: 'double?',
+        description: 'collapsed rail width, default 56',
+      ),
+      DocsThemeField(
+        name: 'expandedWidth',
+        type: 'double?',
+        description: 'expanded rail width, default 240',
+      ),
+      DocsThemeField(
+        name: 'foreground',
+        type: 'ThemedColor?',
+        description: 'rail foreground, default sidebarForeground',
+      ),
+      DocsThemeField(
+        name: 'groupLabelColor',
+        type: 'ThemedColor?',
+        description: 'group label colour, default mutedForeground',
+      ),
+      DocsThemeField(
+        name: 'iconSize',
+        type: 'double?',
+        description: 'navigation and header icon size, default 16',
+      ),
+      DocsThemeField(
+        name: 'itemHeight',
+        type: 'double?',
+        description: 'navigation row height, default 32',
+      ),
+      DocsThemeField(
+        name: 'itemPadding',
+        type: 'EdgeInsetsGeometry?',
+        description: 'row inner padding, default 8x4',
+      ),
+      DocsThemeField(
+        name: 'itemRadius',
+        type: 'BorderRadiusGeometry?',
+        description: 'row corner radius, default theme.borderRadiusMd',
+      ),
+      DocsThemeField(
+        name: 'surfaceBlur',
+        type: 'double?',
+        description: 'frosted-glass blur leg, default none',
+      ),
+      DocsThemeField(
+        name: 'surfaceOpacity',
+        type: 'double?',
+        description: 'frosted-glass opacity leg, default opaque',
       ),
     ],
   ),

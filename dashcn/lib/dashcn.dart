@@ -248,6 +248,8 @@ export 'src/components/select/select.dart';
 export 'src/components/select/select_style.dart';
 export 'src/components/selectable/selectable.dart';
 export 'src/components/selectable/selectable_style.dart';
+export 'src/components/sidebar/sidebar.dart';
+export 'src/components/sidebar/sidebar_style.dart';
 export 'src/components/signature_pad/signature_pad.dart';
 export 'src/components/signature_pad/signature_pad_controller.dart';
 export 'src/components/signature_pad/signature_pad_style.dart';

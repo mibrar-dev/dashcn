@@ -1335,6 +1335,22 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     ],
   ),
   DocsSearchEntry(
+    label: 'Sidebar',
+    kind: DocsSearchKind.component,
+    route: '/docs/components/sidebar',
+    tag: '3 files',
+    keywords: <String>[
+      'Sidebar',
+      'sidebar',
+      'dashboard',
+      'drawer',
+      'menu',
+      'navigation',
+      'rail',
+      'sidebar',
+    ],
+  ),
+  DocsSearchEntry(
     label: 'Stepper',
     kind: DocsSearchKind.component,
     route: '/docs/components/stepper',

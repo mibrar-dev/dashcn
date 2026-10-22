@@ -2,11 +2,11 @@
 //
 // Root cause: the landing pill counted `kStats.listedComponents`
 // (`listed: true` only) but worded it as installable components, while the
-// registry manifest holds 132 installable `components` entries (the
+// registry manifest holds 133 installable `components` entries (the
 // `listed: false` entries — building blocks in `Utilities` and friends plus
 // the `chart` component, which has its own Charts section — stay installable
 // but unbrowsable).
-// Fix: the pill now shows `kStats.components` (132) with the same
+// Fix: the pill now shows `kStats.components` (133) with the same
 // "ready to install" wording, which honestly matches the installable set.
 
 import 'package:docs/generated/docs_data.dart';
@@ -16,8 +16,8 @@ import 'support/app_harness.dart';
 
 void main() {
   test('generated stats distinguish installable vs listed', () {
-    expect(kStats.components, 132);
-    expect(kStats.listedComponents, 96);
+    expect(kStats.components, 133);
+    expect(kStats.listedComponents, 97);
     expect(kStats.listedComponents, lessThan(kStats.components));
     expect(
       kComponents.length,
@@ -36,6 +36,6 @@ void main() {
       find.text('${kStats.components} components ready to install'),
       findsOneWidget,
     );
-    expect(find.textContaining('96 components ready to install'), findsNothing);
+    expect(find.textContaining('97 components ready to install'), findsNothing);
   });
 }

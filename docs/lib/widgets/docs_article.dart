@@ -419,6 +419,8 @@ class _DocsArticleState extends State<DocsArticle> {
         // it wraps to a second line instead of forcing the Row past 640
         // (the WIP note is the widest badge child). Title keeps the
         // remaining space; actions stay pinned trailing.
+        // WIP pages carry three badges (count + stability + the WIP note):
+        // the bounded Wrap keeps the 640 px article from overflowing.
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
