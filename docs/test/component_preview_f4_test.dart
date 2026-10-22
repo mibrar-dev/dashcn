@@ -145,7 +145,7 @@ void main() {
       final Finder toggle = find.byKey(
         const ValueKey<String>('preview-theme-toggle-0'),
       );
-      await tester.ensureVisible(toggle);
+      await ensureVisibleBelowHeader(tester, toggle);
       await tester.pumpAndSettle();
       await tester.tap(toggle);
       await tester.pumpAndSettle();
@@ -204,7 +204,8 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await tester.ensureVisible(
+      await ensureVisibleBelowHeader(
+        tester,
         find.byKey(const ValueKey<String>('code-teaser-view-code')).first,
       );
       await tester.pumpAndSettle();
@@ -226,7 +227,8 @@ void main() {
       // source, still selectable with colours intact.
       final List<DocsExampleSource> sources = kExampleSources['button']!;
       for (int i = 0; i < sources.length; i++) {
-        await tester.ensureVisible(
+        await ensureVisibleBelowHeader(
+          tester,
           find.byKey(ValueKey<String>('example-tabs-$i')),
         );
         await tester.pumpAndSettle();

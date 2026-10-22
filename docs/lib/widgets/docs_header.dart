@@ -261,9 +261,10 @@ class _DocsBarContents extends StatelessWidget implements NavigationBarItem {
             size: ButtonSize.sm,
             onPressed: () => webOpenUrl(kDocsRepoUrl),
             leading: const Icon(LucideIcons.github, size: 16),
-            // The label needs `xl`: at exactly 1024 the bar overflows by a
-            // few pixels with it (measured in the responsive audit).
-            child: width >= 1280
+            // The label needs 1600: the bar is overflow-free at 1280/1440
+            // with the icon only (measured in the responsive audit), and the
+            // locale switcher takes the remaining room.
+            child: width >= 1600
                 ? Text(docsChrome(locale, 'github'))
                 : const SizedBox.shrink(),
           ),
@@ -331,6 +332,9 @@ class DocsLocaleSwitcher extends StatelessWidget {
   final DocsState state;
 
   /// Short trigger label for [locale] (`EN`, `DE`, `PT-BR`, `繁`, `简`).
+  ///
+  /// Kept for tests (trigger-label unit coverage); the trigger itself stays
+  /// icon-only — the bar has no room for the code next to eight nav items.
   static String triggerLabel(Locale locale) {
     final String tag = docsLocaleTag(locale);
     if (tag == 'zh_Hant') {
@@ -386,13 +390,22 @@ class DocsLocaleSwitcher extends StatelessWidget {
       tooltip: (BuildContext context) => Text(
         '${docsChrome(locale, 'language')}: ${docsLocaleNativeName(locale)}',
       ),
-      child: Button(
-        key: const ValueKey<String>('docs-locale-switcher'),
-        variant: ButtonVariant.ghost,
-        size: ButtonSize.sm,
-        onPressed: () => _open(context),
-        leading: const Icon(LucideIcons.globe, size: 16),
-        child: Text(triggerLabel(locale)),
+      // Icon-only 32 px trigger (the theme-toggle pattern): the bar has no
+      // room for a labeled switcher next to eight nav items, the 256 px
+      // search, the GitHub label and the CTA (5 px overflow at 1600 in the
+      // test font even with the ghost-sm icon button). The tooltip names
+      // the current language.
+      child: SizedBox(
+        width: 32,
+        height: 32,
+        child: Button(
+          key: const ValueKey<String>('docs-locale-switcher'),
+          variant: ButtonVariant.ghost,
+          size: ButtonSize.xs,
+          theme: const ButtonVariantStyle(padding: EdgeInsets.zero),
+          onPressed: () => _open(context),
+          child: const Icon(LucideIcons.globe, size: 16),
+        ),
       ),
     );
   }

@@ -127,15 +127,16 @@ void main() {
     // Hero title tracks the foreground token.
     final Text title = tester.widget<Text>(find.text('Every platform at once'));
     expect(title.style!.color, after.colors.foreground);
-    // Header bar tracks the background token.
-    final Iterable<Container> bars = tester.widgetList<Container>(
+    // Header bar tracks the background token (kit NavigationBar bar surface:
+    // a ColoredBox painted with surfaceColor(background, surfaceOpacity)).
+    final Iterable<ColoredBox> bars = tester.widgetList<ColoredBox>(
       find.descendant(
         of: find.byType(DocsHeader),
-        matching: find.byType(Container),
+        matching: find.byType(ColoredBox),
       ),
     );
     expect(
-      bars.any((Container bar) => bar.color == after.colors.background),
+      bars.any((ColoredBox bar) => bar.color == after.colors.background),
       isTrue,
       reason: 'header fill equals the background token',
     );

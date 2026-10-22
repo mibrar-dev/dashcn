@@ -106,16 +106,16 @@ class LandingPage extends StatelessWidget {
                     _PillButton(
                       label: docsChrome(locale, 'getStarted'),
                       primary: true,
-                      onPressed: () =>
-                          DocsRouterScope.of(context)
-                              .go(context, '/docs/installation'),
+                      onPressed: () => DocsRouterScope.of(
+                        context,
+                      ).go(context, '/docs/installation'),
                     ),
                     _PillButton(
                       label: docsChrome(locale, 'landBrowseFlows'),
                       primary: false,
-                      onPressed: () =>
-                          DocsRouterScope.of(context)
-                              .go(context, '/docs/flows'),
+                      onPressed: () => DocsRouterScope.of(
+                        context,
+                      ).go(context, '/docs/flows'),
                     ),
                   ],
                 ),

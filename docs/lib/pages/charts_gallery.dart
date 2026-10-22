@@ -174,9 +174,9 @@ class ChartsHero extends StatelessWidget {
                 variant: ButtonVariant.secondary,
                 size: ButtonSize.md,
                 leading: const Icon(LucideIcons.bookOpen, size: 16),
-                onPressed: () =>
-                    DocsRouterScope.of(context)
-                        .go(context, '/docs/components/chart'),
+                onPressed: () => DocsRouterScope.of(
+                  context,
+                ).go(context, '/docs/components/chart'),
                 child: const Text('Documentation'),
               ),
             ],

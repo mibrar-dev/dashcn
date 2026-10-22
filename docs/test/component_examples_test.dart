@@ -98,7 +98,8 @@ void main() {
       await tester.pumpAndSettle();
       final int count = kComponentPreviews[entry.key]!.length;
       for (int i = 0; i < count; i++) {
-        await tester.ensureVisible(
+        await ensureVisibleBelowHeader(
+          tester,
           find.byKey(ValueKey<String>('example-tabs-$i')),
         );
         await tester.pumpAndSettle();
