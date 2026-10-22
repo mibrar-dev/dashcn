@@ -11314,7 +11314,7 @@
     "components/video_player/video_player_header.dart": "7aa271e4a7a26e370a8f42cd8ac1eab928f6d7f46919e394aaf6a8dc164909d9",
     "components/video_player/video_player_menu.dart": "1df05e5cd81dde0159c1778fb95378466fcbe9a9b74d18e5fbad3cd7b72fda18",
     "components/video_player/video_player_metrics.dart": "b0a5713867e78f9bce616ccf4b42e47af0db693bc4bcfe3faa943ed3c57fefa2",
-    "components/video_player/video_player_scrub.dart": "f0940a2c5255af8b09fbdddf68a2548e8c9480519cea12b578855fb67813f009",
+    "components/video_player/video_player_scrub.dart": "587b44d4ea7a1e85c37d2c47ccdc678747fc8ea2debc918a6f482801e0abbb93",
     "components/video_player/video_player_sources.dart": "0164fda686f960a3db4ac3d66e18dd902fe43d3bbc77efb7d601f9c4e1b02b4e",
     "components/video_player/video_player_stage.dart": "e23802dbdcab281b4bf321862261d71808978f7b868ffac776b81109cdec6aaa",
     "components/video_player/video_player_style.dart": "90d3492eb33dbab63f97bfbeac420b3a4e81be308ff433468f70fec50565e9b5",

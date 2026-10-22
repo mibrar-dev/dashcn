@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/tap_target.dart';
 import 'video_player_buttons.dart';
 
 /// Value the scrub bar reports.
@@ -157,61 +158,68 @@ class _VideoScrubBarState extends State<VideoScrubBar> {
           '${(widget.position - const Duration(seconds: 10)).inSeconds}s',
       onIncrease: widget.enabled ? () => _step(1) : null,
       onDecrease: widget.enabled ? () => _step(-1) : null,
-      child: Focus(
-        focusNode: _node,
-        onFocusChange: (v) => setState(() => _focused = v),
-        onKeyEvent: (node, event) {
-          if (!widget.enabled || event is! KeyDownEvent) {
+      // 24 px visual with a 48 px invisible hit area on touch platforms
+      // (mirrors `AudioProgressBar`): `TapTarget` centres the 24 px bar in
+      // a 48 px minimum on mobile/test so the Seek slider meets the 48x48
+      // (Android) and 44x44 (iOS) tap targets; desktop layouts stay 24 px.
+      child: TapTarget(
+        minHeight: 48,
+        child: Focus(
+          focusNode: _node,
+          onFocusChange: (v) => setState(() => _focused = v),
+          onKeyEvent: (node, event) {
+            if (!widget.enabled || event is! KeyDownEvent) {
+              return KeyEventResult.ignored;
+            }
+            final bool fine = HardwareKeyboard.instance.isShiftPressed;
+            if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+              _step(1, fine: fine);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+              _step(-1, fine: fine);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.home) {
+              widget.onSeek?.call(Duration.zero);
+              return KeyEventResult.handled;
+            }
+            if (event.logicalKey == LogicalKeyboardKey.end) {
+              widget.onSeek?.call(widget.duration);
+              return KeyEventResult.handled;
+            }
             return KeyEventResult.ignored;
-          }
-          final bool fine = HardwareKeyboard.instance.isShiftPressed;
-          if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-            _step(1, fine: fine);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-            _step(-1, fine: fine);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.home) {
-            widget.onSeek?.call(Duration.zero);
-            return KeyEventResult.handled;
-          }
-          if (event.logicalKey == LogicalKeyboardKey.end) {
-            widget.onSeek?.call(widget.duration);
-            return KeyEventResult.handled;
-          }
-          return KeyEventResult.ignored;
-        },
-        child: MouseRegion(
-          cursor: widget.enabled
-              ? SystemMouseCursors.click
-              : SystemMouseCursors.basic,
-          onEnter: (_) => setState(() => _hovered = true),
-          onExit: (_) => setState(() => _hovered = false),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (d) {
-              _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
-            },
-            onHorizontalDragUpdate: (d) {
-              _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
-            },
-            child: SizedBox(
-              key: _trackKey,
-              height: 24,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: _ScrubPainter(
-                  fraction: fraction,
-                  bufferedFraction: buffered,
-                  trackColor: widget.trackColor,
-                  bufferedColor: widget.bufferedColor,
-                  fillColor: widget.fillColor,
-                  thumbColor: widget.thumbColor,
-                  trackHeight: widget.trackHeight,
-                  focused: _focused || _hovered,
-                  rtl: rtl,
+          },
+          child: MouseRegion(
+            cursor: widget.enabled
+                ? SystemMouseCursors.click
+                : SystemMouseCursors.basic,
+            onEnter: (_) => setState(() => _hovered = true),
+            onExit: (_) => setState(() => _hovered = false),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (d) {
+                _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
+              },
+              onHorizontalDragUpdate: (d) {
+                _seekFromDx(_trackLocal(d.globalPosition).dx, _trackWidth);
+              },
+              child: SizedBox(
+                key: _trackKey,
+                height: 24,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: _ScrubPainter(
+                    fraction: fraction,
+                    bufferedFraction: buffered,
+                    trackColor: widget.trackColor,
+                    bufferedColor: widget.bufferedColor,
+                    fillColor: widget.fillColor,
+                    thumbColor: widget.thumbColor,
+                    trackHeight: widget.trackHeight,
+                    focused: _focused || _hovered,
+                    rtl: rtl,
+                  ),
                 ),
               ),
             ),
