@@ -108,11 +108,14 @@ class ActionSheet<T> extends StatelessWidget {
     final EdgeInsetsGeometry padding =
         resolved.padding ??
         EdgeInsets.symmetric(
-          // Vertical-only shell padding from the density tokens: rows carry
-          // their own horizontal padding, so a horizontal shell inset here
-          // would double the sides (12 + 12 = 24). Headers get their own
-          // horizontal inset below; dividers span the full sheet width.
-          vertical: tokens.verticalPadding * scaling,
+          // Outer sheet inset from the density tokens: gap x 2 is 16
+          // compact (20 comfortable, 24 touch). Title/message carry their
+          // own horizontal token inset below and rows carry their own 12px
+          // horizontal (tokens.horizontalPadding), so row text sits 28px
+          // from the edge in compact; dividers inset by the 16px shell
+          // instead of touching the sheet borders.
+          horizontal: tokens.gap * 2 * scaling,
+          vertical: tokens.gap * 2 * scaling,
         );
     // Compact rows are 40 (Material dense list) rather than the generic
     // token 32: action rows are touch targets with 16px icons, so the
