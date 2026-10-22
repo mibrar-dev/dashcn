@@ -305,7 +305,7 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   foreground: ThemedColor.ref(ColorRef.cardForeground),
   mutedForeground: ThemedColor.ref(ColorRef.mutedForeground),
   accent: ThemedColor.ref(ColorRef.primary),
-  track: ThemedColor.ref(ColorRef.secondary),
+  track: ThemedColor.ref(ColorRef.border),
   buffered: ThemedColor.ref(ColorRef.muted),
   thumb: ThemedColor.ref(ColorRef.primary),
   coverBackground: ThemedColor.ref(ColorRef.muted),

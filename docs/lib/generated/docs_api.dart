@@ -15296,7 +15296,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'accent',
         type: 'ThemedColor?',
-        description: 'played fill and play button, primary',
+        description: 'played fill override, null = foreground',
       ),
       DocsThemeField(
         name: 'background',
@@ -15398,7 +15398,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'track',
         type: 'ThemedColor?',
-        description: 'unplayed track, secondary',
+        description: 'unplayed track, border',
       ),
       DocsThemeField(
         name: 'trackHeight',
@@ -15624,7 +15624,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'accent',
         type: 'ThemedColor?',
-        description: 'played fill, primary',
+        description: 'played fill override, null = foreground (white)',
       ),
       DocsThemeField(
         name: 'background',
@@ -15704,7 +15704,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'track',
         type: 'ThemedColor?',
-        description: 'unplayed track, translucent white',
+        description: 'unplayed track, border',
       ),
       DocsThemeField(
         name: 'trackHeight',
