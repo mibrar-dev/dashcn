@@ -172,6 +172,8 @@ import 'package:docs/ui/dashcn/components/navigation_menu/preview.dart'
     deferred as preview_navigation_menu;
 import 'package:docs/ui/dashcn/components/pagination/preview.dart'
     deferred as preview_pagination;
+import 'package:docs/ui/dashcn/components/sidebar/preview.dart'
+    deferred as preview_sidebar;
 import 'package:docs/ui/dashcn/components/stepper/preview.dart'
     deferred as preview_stepper;
 import 'package:docs/ui/dashcn/components/tabs/preview.dart'
@@ -656,6 +658,10 @@ Future<Widget> loadComponentPreview(
     (_) => Builder(
       builder: preview_pagination.paginationPreviews[exampleIndex].builder,
     ),
+  ),
+  'sidebar' => preview_sidebar.loadLibrary().then(
+    (_) =>
+        Builder(builder: preview_sidebar.sidebarPreviews[exampleIndex].builder),
   ),
   'stepper' => preview_stepper.loadLibrary().then(
     (_) =>

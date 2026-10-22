@@ -250,6 +250,9 @@ const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
   'blocks/signup-02/signup_02_aside.dart': <_Allowed>[
     _Allowed("'Acme Inc'", 'demo brand; sample content.'),
   ],
+  'components/sidebar/sidebar.dart': <_Allowed>[
+    _Allowed("'Acme Inc'", 'demo brand default; callers pass their own title.'),
+  ],
   'blocks/login-02/login_02.dart': <_Allowed>[
     _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
   ],

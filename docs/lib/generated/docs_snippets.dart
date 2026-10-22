@@ -3270,6 +3270,68 @@ Menubar(
           'kkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppppppppppp',
     ),
   ],
+  'sidebar': <DocsSnippet>[
+    DocsSnippet(
+      id: 'sidebar.0',
+      componentId: 'sidebar',
+      language: 'dart',
+      code: r'''DashboardSidebar(
+  sections: const <SidebarSection>[
+    SidebarSection(
+      label: 'Main',
+      items: <SidebarItem>[
+        SidebarItem(label: 'Dashboard', icon: LucideIcons.layoutDashboard),
+        SidebarItem(
+          label: 'Documents',
+          icon: LucideIcons.fileText,
+          badge: '12',
+        ),
+      ],
+    ),
+    SidebarSection(
+      label: 'Account',
+      items: <SidebarItem>[
+        SidebarItem(
+          label: 'Settings',
+          icon: LucideIcons.settings,
+          children: <SidebarItem>[
+            SidebarItem(label: 'Profile', icon: LucideIcons.circleUser),
+            SidebarItem(label: 'Billing', icon: LucideIcons.creditCard),
+          ],
+        ),
+      ],
+    ),
+  ],
+  selectedId: 'Dashboard',
+  onSelected: (String id) => setState(() => _selected = id),
+  onToggleCollapsed: () => setState(() => _collapsed(!_collapsed)),
+  user: const SidebarUser(name: 'Ibrar Ahmed', email: 'm@example.com'),
+  onUserPressed: () => _openAccountMenu(context),
+)''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppkkkkkppppppppppppppppppppppppppppppppppppppppppppppppppppsssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppsssssssssppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppssssssssssssspppppppppssssssssssssssspppppppppppppppppppppppppppppppppppppppppppppppppppppp',
+    ),
+    DocsSnippet(
+      id: 'sidebar.1',
+      componentId: 'sidebar',
+      language: 'dart',
+      code: r'''openDrawer(
+  context: context,
+  position: OverlayPosition.start,
+  builder: (BuildContext drawerContext) => DashboardSidebar(
+    sections: sections,
+    selectedId: _selected,
+    onSelected: (String id) {
+      setState(() => _selected = id);
+      closeDrawer(drawerContext);
+    },
+    user: const SidebarUser(name: 'Ibrar Ahmed', email: 'm@example.com'),
+  ),
+);''',
+      tokenClasses:
+          'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppkkkkkpppppppppppppppppppssssssssssssspppppppppssssssssssssssspppppppppp',
+    ),
+  ],
   'stepper': <DocsSnippet>[
     DocsSnippet(
       id: 'stepper.0',
@@ -5647,6 +5709,14 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     userOwned: <String>[
       'lib/ui/dashcn/components/pagination/pagination_theme.dart',
     ],
+  ),
+  'sidebar': DocsFileList(
+    componentId: 'sidebar',
+    files: <String>[
+      'lib/ui/dashcn/components/sidebar/sidebar.dart',
+      'lib/ui/dashcn/components/sidebar/sidebar_style.dart',
+    ],
+    userOwned: <String>['lib/ui/dashcn/components/sidebar/sidebar_theme.dart'],
   ),
   'stepper': DocsFileList(
     componentId: 'stepper',

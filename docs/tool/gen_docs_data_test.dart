@@ -591,9 +591,9 @@ void main() {
       );
       expect(homeEnd.action, 'the first or last day of the focused week');
       expect(homeEnd.source, 'Keyboard');
-      // Exactly nine components document keyboard rows (the seven before, plus
-      // the fab and segmented control, which document their keys).
-      expect(kKeyboardGaps.length, kComponents.length - 9);
+      // Exactly ten components document keyboard rows (the nine before, plus
+      // the sidebar, which documents its keys).
+      expect(kKeyboardGaps.length, kComponents.length - 10);
     },
   );
 

@@ -41,6 +41,8 @@
 // |   nothing at the opaque default (defaults identical) |
 // | navigation_menu (panel) | pass | pass | panel is an `OutlinedContainer`
 // |   (component legs win over ambient) |
+// | sidebar (rail) | pass | pass | `surfaceColor` + `GlassSurface`
+// |   (widget > component > ambient legs) |
 // | scaffold app bar | pass | pass | already frosted (widget > component >
 // |   ambient legs) |
 // | scaffold bar section | pass | pass | already frosted (ambient legs);
@@ -91,6 +93,7 @@ import 'package:dashcn/src/components/input/input.dart';
 import 'package:dashcn/src/components/menu/menu.dart';
 import 'package:dashcn/src/components/menubar/menubar.dart';
 import 'package:dashcn/src/components/navigation_bar/navigation_bar.dart';
+import 'package:dashcn/src/components/sidebar/sidebar.dart';
 import 'package:dashcn/src/components/navigation_menu/navigation_menu.dart';
 import 'package:dashcn/src/components/outlined_container/outlined_container.dart';
 import 'package:dashcn/src/components/phone_input/phone_input.dart';
@@ -396,6 +399,35 @@ void main() {
         ),
       );
       _expectGlass(tester, find.byType(Menubar));
+    });
+  });
+
+  group('sidebar', () {
+    testWidgets('rail fill is translucent with a blur', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          DashboardSidebar(
+            sections: const <SidebarSection>[
+              SidebarSection(
+                label: 'Main',
+                items: <SidebarItem>[
+                  SidebarItem(
+                    label: 'Dashboard',
+                    icon: LucideIcons.layoutDashboard,
+                  ),
+                ],
+              ),
+            ],
+            selectedId: 'Dashboard',
+            onSelected: (_) {},
+            user: const SidebarUser(
+              name: 'Ibrar Ahmed',
+              email: 'm@example.com',
+            ),
+          ),
+        ),
+      );
+      _expectGlass(tester, find.byType(DashboardSidebar));
     });
   });
 
@@ -1006,6 +1038,7 @@ const Set<String> _tested = <String>{
   'navigation_bar',
   'navigation_menu',
   'scaffold',
+  'sidebar',
   'window',
   'image_lightbox',
   'outlined_container',
