@@ -65,6 +65,7 @@ effects (gooey/streaming), not surfaces.
 | progress track height | `?? 8` | `spacing.sm` | exact |
 | spell_check toolbar offset | `Offset(8, -8)` | `spacing.sm` pair | exact |
 | table resizer color | dead `Color(0xFF000000)` init | `late`, always assigned `colors.primary` | exact |
+| slider value-label bubble (motion) | const `BorderRadius.circular(4)` | `theme.borderRadiusSm` | 4 exact |
 
 ## Justified exceptions (allow-listed in `theme_tokens_guard_test.dart`)
 
