@@ -12,8 +12,11 @@
 // give the model two sources of truth and make the exported `app_theme.dart`
 // drift from what the site renders.
 
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
+import '../theme/script_fonts.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/device_frame/device_spec.dart';
 import 'docs_storage.dart';
@@ -342,6 +345,7 @@ class DocsState extends ChangeNotifier {
     } catch (_) {
       // Storage blocked: the in-memory choice still applies.
     }
+    unawaited(loadDocsScriptFonts(<String>[tag]));
   }
 
   /// Switches the whole website to [locale] immediately (same page),
@@ -362,6 +366,7 @@ class DocsState extends ChangeNotifier {
     } catch (_) {
       // Storage blocked (private mode): the in-memory locale still applies.
     }
+    unawaited(loadDocsScriptFonts(<String>[tag]));
   }
 
   @override

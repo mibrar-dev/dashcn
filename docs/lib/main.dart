@@ -11,6 +11,8 @@
 // the header toggle stores an explicit mode. The platform listener below
 // forwards system changes while no explicit mode is stored.
 
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -39,7 +41,9 @@ import 'routing/deferred_page.dart';
 import 'routing/docs_router.dart';
 import 'state/docs_state.dart';
 import 'state/docs_storage.dart';
+import 'state/docs_strings.dart';
 import 'theme/docs_fonts.dart';
+import 'theme/script_fonts.dart';
 import 'theme/theme_document.dart';
 import 'ui/dashcn/components/app/app.dart';
 import 'ui/dashcn/components/drawer/drawer.dart';
@@ -52,14 +56,30 @@ import 'widgets/docs_shell.dart';
 import 'widgets/palette.dart';
 import 'widgets/theme_switch_transition.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final DocsState state = DocsState(
     storage: const DocsStorage(),
     systemBrightness:
         WidgetsBinding.instance.platformDispatcher.platformBrightness,
   )..restore();
+  // Script subsets register before the first frame (asset bytes only come
+  // off disk lazily, so English visits pay nothing), plus the `?locale=`
+  // tag when one rides the deep link — the router flips it a frame later
+  // with the font already registered.
+  final Uri base = Uri.base;
+  final String? seededTag = (base.scheme == 'http' || base.scheme == 'https')
+      ? base.queryParameters[kDocsLocaleQueryKey]
+      : null;
+  await loadDocsScriptFonts(<String>[
+    state.locale.languageCode,
+    if (seededTag != null && kDocsLocaleNativeNames.containsKey(seededTag))
+      seededTag,
+  ]);
   runApp(DocsApp(state: state));
+  // TEMP probe (remove): resolved sans stack at boot.
+  // ignore: avoid_print
+  print('SCRIPT-STACK-PROBE sans=${state.theme.typography.sans}');
 }
 
 /// The docs application root.

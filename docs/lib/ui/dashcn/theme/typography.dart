@@ -351,13 +351,10 @@ class Typography {
     );
   }
 
-  // Generic CSS family names (sans-serif, serif, monospace, ...) are not
-  // Flutter font families and cannot be resolved by the engine. Keeping them
-  // in [fontFamilyFallback] makes Skia treat them as (missing) family names,
-  // which can mask the engine's own Noto fallback and leave glyphs as tofu.
-  // Drop them and keep only resolvable names, merged with the base style's
-  // bundled fallback (e.g. NotoSansSymbols2) so symbols still render before
-  // the lazy Noto download finishes.
+  // Generic CSS family names (`sans-serif`, `serif`, `monospace`, …) are
+  // not Flutter font families: the engine cannot resolve them, so keeping
+  // them in `fontFamilyFallback` only wastes a failed lookup per run. They
+  // stay legal as the primary name (the caller's explicit first choice).
   static const Set<String> _kGenericCssFamilies = <String>{
     'sans-serif',
     'serif',
@@ -375,23 +372,24 @@ class Typography {
 
   static TextStyle _withFamily(TextStyle style, String? spec) {
     if (spec == null) return style;
-    final parts = spec
+    List<String> parts = spec
         .split(',')
         .map((e) => e.trim())
         .where((e) => e.isNotEmpty)
-        .toList();
+        .toList(growable: false);
     if (parts.isEmpty) return style;
-    final List<String> explicit = parts
-        .sublist(1)
-        .where(
-          (String name) => !_kGenericCssFamilies.contains(name.toLowerCase()),
-        )
-        .toList();
-    final List<String> merged = <String>[
-      ...explicit,
-      ...?style.fontFamilyFallback,
-    ];
-    // De-duplicate while preserving order.
+    if (parts.length > 1) {
+      parts = <String>[
+        parts.first,
+        for (final String name in parts.sublist(1))
+          if (!_kGenericCssFamilies.contains(name.toLowerCase())) name,
+      ];
+    }
+    // Merge, keeping the spec's own fallback list ahead of the base style's
+    // bundled fallback (e.g. NotoSansSymbols2): callers hand a specific
+    // stack and expect it honoured, while the bundled symbol coverage must
+    // survive the swap instead of leaving glyphs as tofu.
+    final List<String> merged = <String>[...parts.sublist(1), ...?style.fontFamilyFallback];
     final List<String> deduped = <String>[];
     for (final String name in merged) {
       if (!deduped.contains(name)) deduped.add(name);

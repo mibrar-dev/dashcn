@@ -23,6 +23,7 @@ import '../ui/dashcn/theme/density.dart';
 import '../ui/dashcn/theme/motion.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../ui/dashcn/theme/tokens.dart';
+import 'script_fonts.dart';
 import '../ui/dashcn/theme/typography.dart';
 import 'theme_document_schema.dart';
 
@@ -304,10 +305,20 @@ class ThemeDocument {
   /// read `theme.spacing`/`theme.density`. Without these two lines the font
   /// and spacing rows would export values the site never renders.
   ThemeData theme(Brightness brightness) {
+    // Glyph-coverage defaults (see `script_fonts.dart`): when the document
+    // names no family, resolve to the bundled default with every offered
+    // script's subset behind it — then a language with no Geist coverage
+    // renders its real glyphs even when the engine's remote Noto chain is
+    // unreachable. A document that DOES name a family keeps it (the
+    // `applyFonts` merge keeps the bundled symbol fallback behind it).
     final ThemeFonts families = ThemeFonts(
-      fontSans: bodyFont,
+      fontSans: bodyFont?.isEmpty ?? true
+          ? kDocsDefaultBodyFontStack
+          : bodyFont,
       fontSerif: fonts['serif'],
-      fontMono: monoFont,
+      fontMono: monoFont?.isEmpty ?? true
+          ? kDocsDefaultMonoFontStack
+          : monoFont,
       fontHeading: headingFont,
     );
     final SpacingScale scale = SpacingScale(spacing * 16);

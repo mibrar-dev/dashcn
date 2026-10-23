@@ -70,6 +70,11 @@ dev_dependencies:
 flutter:
   # No `uses-material-design`: the kit is widgets-only; Material icons and
   # fonts are deliberately not bundled.
+  assets:
+    # Per-script Noto subsets (lazy per locale, see lib/theme/script_fonts.dart
+    # and scripts/subset_script_fonts.py). Plain `assets:` entries are never
+    # parsed or registered at boot — only downloaded when a locale needs them.
+    - assets/fonts/script/
   fonts:
     - family: LucideIcons
       fonts:
