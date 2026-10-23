@@ -7,12 +7,15 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/motion/motion_scope.dart';
+import '../../theme/theme.dart';
+
 import 'toast_entry.dart';
 import 'toast_placement.dart';
 import 'toast_queue.dart';
 
 /// Exit animation duration used by both toast components.
-const Duration kToastExitDuration = Duration(milliseconds: 200);
+const Duration kToastExitDuration = Duration(milliseconds: 150);
 
 /// The ordered column of one toast slot: the newest entry sits nearest the
 /// anchor, each unit carries its own gap (so a collapse takes the gap with it)
@@ -72,10 +75,48 @@ class ToastSlotColumn<T> extends StatelessWidget {
             collapse: collapse,
             child: Padding(
               padding: EdgeInsets.only(top: i == 0 ? 0 : gap),
-              child: cardBuilder(context, ordered[i]),
+              // `entries` is newest first: every card behind the newest one
+              // settles to the 0.95 stack depth.
+              child: ToastStackDepth(
+                older: entries.isNotEmpty && entries.first.id != ordered[i].id,
+                child: cardBuilder(context, ordered[i]),
+              ),
             ),
           ),
       ],
+    );
+  }
+}
+
+/// Scale of a toast that has a newer toast in front of it.
+const double kToastStackScale = 0.95;
+
+/// Settles a card to the stack depth scale (0.95) when a newer toast arrives,
+/// and back to 1 when it becomes the newest again. Under reduced motion the
+/// scale snaps.
+class ToastStackDepth extends StatelessWidget {
+  /// Creates a stack-depth wrapper.
+  const ToastStackDepth({super.key, required this.older, required this.child});
+
+  /// Whether a newer toast sits in front of this one.
+  final bool older;
+
+  /// The toast card.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final double target = older ? kToastStackScale : 1.0;
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 1.0, end: target),
+      duration: resolveMotionDuration(
+        context,
+        const Duration(milliseconds: 200),
+      ),
+      curve: Theme.of(context).motion.curves.emphasizedOut,
+      child: child,
+      builder: (BuildContext context, double scale, Widget? child) =>
+          Transform.scale(scale: scale, child: child),
     );
   }
 }

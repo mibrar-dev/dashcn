@@ -8,6 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
+import '../../theme/motion.dart';
+import '../../theme/theme.dart';
+import '../motion/motion_scope.dart';
 import '../sheet_overlay.dart';
 import 'drawer_panel.dart';
 import 'drawer_panel_surface.dart';
@@ -162,22 +165,29 @@ class _DrawerRouteShellState extends State<DrawerRouteShell> {
         : math.min(maxSize, routeExtent);
     final Animation<double> anim =
         route.animation ?? const AlwaysStoppedAnimation<double>(1);
+    final MotionTokens motion = Theme.of(context).motion;
+    final bool reduced = motionReduced(context);
     panel = Align(alignment: position.alignment, child: panel);
     panel = AnimatedBuilder(
       animation: anim,
       child: panel,
-      builder: (BuildContext context, Widget? child) => Transform.translate(
-        offset: horizontal
-            ? Offset(
-                position.slideOffset.dx * panelExtent * (1 - anim.value),
-                0,
-              )
-            : Offset(
-                0,
-                position.slideOffset.dy * panelExtent * (1 - anim.value),
-              ),
-        child: child,
-      ),
+      builder: (BuildContext context, Widget? child) {
+        if (reduced) {
+          // Reduced motion: no slide, only the route's short opacity fade.
+          return Opacity(opacity: anim.value.clamp(0.0, 1.0), child: child);
+        }
+        // Enter decelerates from the edge; exit accelerates back to it.
+        final bool exiting = anim.status == AnimationStatus.reverse;
+        final double eased = exiting
+            ? motion.curves.emphasizedIn.transform(anim.value)
+            : motion.curves.emphasizedOut.transform(anim.value);
+        return Transform.translate(
+          offset: horizontal
+              ? Offset(position.slideOffset.dx * panelExtent * (1 - eased), 0)
+              : Offset(0, position.slideOffset.dy * panelExtent * (1 - eased)),
+          child: child,
+        );
+      },
     );
     if (route.useSafeArea) {
       panel = SafeArea(

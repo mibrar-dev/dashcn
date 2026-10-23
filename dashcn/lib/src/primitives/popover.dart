@@ -132,6 +132,7 @@ OverlayCompleter<T?> showPopover<T>({
   bool dismissBackdropFocus = true,
   Duration? showDuration,
   Duration? dismissDuration,
+  bool scaleOnEnter = true,
   OverlayBarrier? overlayBarrier,
   OverlayHandler? handler,
   PopupAdaptive? adaptive,
@@ -162,6 +163,7 @@ OverlayCompleter<T?> showPopover<T>({
     dismissBackdropFocus: dismissBackdropFocus,
     showDuration: showDuration,
     dismissDuration: dismissDuration,
+    scaleOnEnter: scaleOnEnter,
     overlayBarrier: overlayBarrier,
     adaptive: adaptive,
   );
