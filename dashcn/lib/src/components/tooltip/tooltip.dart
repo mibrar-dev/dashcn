@@ -41,6 +41,12 @@ const Duration kTooltipWaitDuration = Duration(milliseconds: 500);
 /// Default grace period after the pointer leaves before the tooltip hides.
 const Duration kTooltipShowDuration = Duration(milliseconds: 200);
 
+/// Tooltip enter: fade plus a 4 px travel from the anchor side, 100 ms.
+const Duration kTooltipEnterDuration = Duration(milliseconds: 100);
+
+/// Tooltip exit: fade only, 80 ms.
+const Duration kTooltipExitDuration = Duration(milliseconds: 80);
+
 /// A short label shown while the pointer rests on [child].
 ///
 /// [tooltip] returns the bare content: the widget wraps it in a
@@ -123,6 +129,10 @@ class _TooltipState extends State<Tooltip> {
       dismissBackdropFocus: false,
       // Tooltips stay anchored on all widths (never a bottom sheet).
       adaptive: PopupAdaptive.anchored,
+      // Fade and 4 px from the anchor side: no scale on enter.
+      scaleOnEnter: false,
+      showDuration: kTooltipEnterDuration,
+      hideDuration: kTooltipExitDuration,
       alignment: widget.alignment,
       anchorAlignment: widget.anchorAlignment,
       handler: _handler(context),
@@ -207,6 +217,7 @@ class TooltipOverlayHandler extends OverlayHandler {
     bool dismissBackdropFocus = true,
     Duration? showDuration,
     Duration? dismissDuration,
+    bool scaleOnEnter = true,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
     PopupAdaptive? adaptive,
@@ -236,6 +247,7 @@ class TooltipOverlayHandler extends OverlayHandler {
       dismissBackdropFocus: dismissBackdropFocus,
       showDuration: showDuration,
       dismissDuration: dismissDuration,
+      scaleOnEnter: scaleOnEnter,
       overlayBarrier: overlayBarrier,
       layerLink: layerLink,
       adaptive: adaptive,
