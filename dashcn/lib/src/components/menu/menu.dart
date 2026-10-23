@@ -206,7 +206,12 @@ class _MenuButtonState extends State<MenuButton> {
       leading: widget.leading,
       reserveLeading: reserve,
       trailing: widget.trailing,
-      showChevron: _hasSub && widget.trailing == null,
+      // Horizontal bar triggers never show a directional chevron (upstream
+      // shows none on the bar); nested submenu levels keep theirs.
+      showChevron:
+          _hasSub &&
+          widget.trailing == null &&
+          !(group?.direction == Axis.horizontal && group?.parent == null),
       child: widget.child,
     );
   }
@@ -244,19 +249,19 @@ RovingRow _plainRow(
   // so dangerous actions stay readable instead of dimming.
   const Set<WidgetState> hovered = <WidgetState>{WidgetState.hovered};
   final Color destructiveColor = app.colors.destructive;
-  // Row padding comes from the density tokens (horizontal `gap`, vertical
-  // `verticalPadding`: 8/6 compact on the 4 px scale), so rows keep their
-  // padding at every density and the focus ring never clips against the
-  // popup's `p-1` inset. An explicit theme `itemPadding` still wins.
-  final DensityTokens tokens = resolveDensityTokens(context);
-  final EdgeInsetsGeometry basePadding =
-      style.itemPadding ?? menuItemPaddingOf(tokens, app.scaling);
-  final EdgeInsetsGeometry padding = style.itemPadding == null
-      ? basePadding.add(group?.itemPadding ?? EdgeInsets.zero)
-      : resolveEdgeInsets(
-          style.itemPadding!,
-          app.density.baseContentPadding * app.scaling,
-        ).add(group?.itemPadding ?? EdgeInsets.zero);
+  // Row padding is stored as density multipliers (8/6 rows, 8/4 bar
+  // triggers on the 4 px scale) and resolved against the ambient density, so
+  // rows keep their padding at every density and the focus ring never clips
+  // against the popup's `p-1` inset. An explicit theme `itemPadding` still
+  // wins. Horizontal bar roots (the menubar) use the shallower 8/4 trigger
+  // padding so the 20 px body line measures exactly 28 px in the 36 px bar.
+  final bool isBarTrigger =
+      group?.direction == Axis.horizontal && group?.parent == null;
+  final EdgeInsetsGeometry padding = resolveEdgeInsets(
+    style.itemPadding ??
+        (isBarTrigger ? menuBarTriggerDefaultPadding : menuItemDefaultPadding),
+    app.density.baseContentPadding * app.scaling,
+  ).add(group?.itemPadding ?? EdgeInsets.zero);
   return RovingRow(
     enabled: enabled,
     focusNode: focusNode,
@@ -278,10 +283,11 @@ RovingRow _plainRow(
     ),
     padding: padding,
     textStyle: style.textStyle,
-    // Popup rows use the density tokens (normal padding) instead of a
-    // hardcoded compact height; the menubar bar passes 48 for its triggers.
-    minHeight:
-        group?.rowMinHeight ?? resolveDensityTokens(context).rowMinHeight,
+    // SIZING.md: menu-family rows are 32 px on desktop and mobile alike
+    // (touch comfort comes from the invisible hit area, never larger
+    // visuals), so the fallback is the fixed row constant instead of the
+    // density row height; horizontal bar roots pass 28 for their triggers.
+    minHeight: group?.rowMinHeight ?? kMenuRowHeight,
     onOpen: onOpen,
     onClose: onClose,
     isOpen: isOpen,

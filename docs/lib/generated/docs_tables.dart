@@ -1430,6 +1430,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'menu', kind: DocsDepKind.component),
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover', kind: DocsDepKind.primitive),
+    DocsDep(id: 'density', kind: DocsDepKind.theme),
     DocsDep(id: 'density_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],

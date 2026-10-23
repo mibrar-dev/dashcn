@@ -18,24 +18,25 @@ import '../../theme/color_tokens.dart';
 
 export 'segmented_control_defaults.dart';
 
-/// Fixed sizes of a segmented control.
+/// Fixed sizes of a segmented control (SIZING.md fields: 36 default, 32
+/// small, 40 large, so the painted track always matches the bar scale).
 enum SegmentedControlSize {
-  /// 28 px tall with a 14 px icon.
+  /// 32 px tall with a 14 px icon.
   sm,
 
-  /// 32 px tall with a 16 px icon (the default).
+  /// 36 px tall with a 16 px icon (the default).
   md,
 
-  /// 36 px tall with a 18 px icon.
+  /// 40 px tall with a 18 px icon.
   lg,
 }
 
 /// The height of a segmented control for [size], in logical pixels.
 double segmentedControlHeightFor(SegmentedControlSize size) {
   return switch (size) {
-    SegmentedControlSize.sm => 28,
-    SegmentedControlSize.md => 32,
-    SegmentedControlSize.lg => 36,
+    SegmentedControlSize.sm => 32,
+    SegmentedControlSize.md => 36,
+    SegmentedControlSize.lg => 40,
   };
 }
 
@@ -111,7 +112,8 @@ class SegmentedControlStyle implements Mergeable<SegmentedControlStyle> {
   /// The control's corner radius; null uses the ambient `borderRadiusMd`.
   final BorderRadiusGeometry? borderRadius;
 
-  /// The control's padding; null uses 3 px.
+  /// The control's padding; null uses 4 px (p-1), so the default 36 px
+  /// control holds 28 px segments (SIZING.md bars).
   final EdgeInsetsGeometry? padding;
 
   /// The padding inside a segment; null uses 8 px horizontally.

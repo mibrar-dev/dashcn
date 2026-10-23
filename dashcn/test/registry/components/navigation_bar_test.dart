@@ -141,7 +141,7 @@ void main() {
       expect(search.dy, greaterThan(home.dy));
     });
 
-    testWidgets('sidebar is 200 wide and shows its labels', (
+    testWidgets('sidebar is 256 wide and shows its labels', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
@@ -159,8 +159,44 @@ void main() {
           ),
         ),
       );
-      expect(tester.getSize(find.byType(NavigationBar)).width, 200);
+      expect(tester.getSize(find.byType(NavigationBar)).width, 256);
       expect(find.text('Home'), findsOneWidget);
+    });
+
+    testWidgets('rail lays the icon and the label out in a row', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationBar(
+            container: NavigationContainerType.rail,
+            labelType: NavigationLabelType.all,
+            children: <NavigationBarItem>[_item('Home')],
+          ),
+        ),
+      );
+      final Offset icon = tester.getCenter(find.byType(Icon).first);
+      final Offset label = tester.getCenter(find.text('Home'));
+      // Row layout: the label sits beside the icon, not below it.
+      expect(label.dx, greaterThan(icon.dx));
+      expect((label.dy - icon.dy).abs(), lessThan(12));
+      // SIZING.md: single-line rows are 32 px.
+      expect(tester.getSize(find.byType(NavigationItemRow)).height, 32);
+    });
+
+    testWidgets('group labels are 32 px rows', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        _frame(
+          child: NavigationBar(
+            container: NavigationContainerType.sidebar,
+            children: <NavigationBarItem>[
+              const NavigationLabel(child: Text('Main')),
+              _item('Home'),
+            ],
+          ),
+        ),
+      );
+      expect(tester.getSize(find.byType(NavigationLabel)).height, 32);
     });
   });
 
@@ -451,14 +487,16 @@ void main() {
   });
 
   group('sizes', () {
-    testWidgets('an item is 36 high (dashcn h-9)', (WidgetTester tester) async {
+    testWidgets('an item is 32 high (SIZING.md rows)', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         _frame(
           child: NavigationBar(children: <NavigationBarItem>[_item('Home')]),
         ),
       );
       await tester.pumpAndSettle();
-      expect(tester.getSize(find.byType(NavigationItemRow)).height, 36);
+      expect(tester.getSize(find.byType(NavigationItemRow)).height, 32);
     });
   });
 
