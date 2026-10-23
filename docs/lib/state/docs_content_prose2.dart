@@ -126,9 +126,9 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Wrap one subtree to preview a single translated surface without changing the app locale.',
     'proseI18nH4': 'Installing a Locale',
     'proseI18nP6':
-        'The offline installer writes the locale wiring into your project — no pasting, no network.',
+        'The offline installer writes the locale wiring into your project — no pasting, no network. Each component records the strings it reads, including those of the components it depends on, so installing a component installs its translations too: component installs the English base and the strings one component needs for every locale the project already has; add installs a language for every component already in the project, and components added later receive it automatically. Running either command again changes nothing.',
     'proseI18nP7':
-        'Wire the generated file into DashcnApp once; every component below it re-strings.',
+        'Wire the generated file into DashcnApp once; every component below it re-strings. The public API is backward compatible: ComponentLocalizations is still the lookup, DashcnLocalizations is its alias.',
     'proseCliP1':
         'The CLI manages the registry lifecycle: install the layer core, add components, update from upstream, and validate the install.',
     'proseScoreP1':
