@@ -28,6 +28,10 @@ export 'drawer_style.dart';
 export '../../primitives/drawer_route/drawer_route.dart'
     show DrawerOverlayCompleter, OverlayPosition;
 
+/// Close duration of a drawer or sheet: the panel slides back to its edge
+/// over 220 ms (accelerate) while the scrim fades with it.
+const Duration kDrawerExitDuration = Duration(milliseconds: 220);
+
 /// Resolves the drawer theme for [context]: defaults, app, scoped, widget leg.
 DrawerTheme _resolveDrawerTheme(
   BuildContext context,
@@ -64,17 +68,22 @@ DrawerOverlayCompleter<T?> _pushPanel<T>({
     rootNavigator: useRootNavigator,
   );
   final DrawerTheme style = _resolveDrawerTheme(context, theme);
-  // The panel slides from its edge with the scale-back background; closing
-  // reverses the same route. Under reduced motion the panel snaps open.
+  // The panel slides from its edge (300 ms open) and slides back out over
+  // 220 ms on close. Reduced motion keeps only a short opacity fade.
   final MotionTokens motion = Theme.of(context).motion;
-  final Duration duration = motionReduced(context)
-      ? Duration.zero
+  final bool reduced = motionReduced(context);
+  final Duration duration = reduced
+      ? kOverlayReducedFade
       : (style.transitionDuration ?? motion.durations.slow);
+  final Duration reverseDuration = reduced
+      ? kOverlayReducedFade
+      : kDrawerExitDuration;
   final DrawerRoute<T> route = DrawerRoute<T>(
     builder: builder,
     position: position,
     themeOf: (BuildContext context) => _resolveDrawerTheme(context, theme),
     duration: duration,
+    reverseDuration: reverseDuration,
     barrierDismissible: barrierDismissible,
     useSafeArea: useSafeArea,
     expands: expands,
@@ -93,7 +102,15 @@ DrawerOverlayCompleter<T?> _pushPanel<T>({
   return DrawerOverlayCompleter<T?>(
     route.popped,
     route.animation ?? const AlwaysStoppedAnimation<double>(1),
-    () => navigator.removeRoute(route),
+    // Close always animates out: pop through the route transition when the
+    // drawer is on top; removeRoute only for a route covered by another.
+    () {
+      if (route.isCurrent && navigator.canPop()) {
+        navigator.pop();
+      } else {
+        navigator.removeRoute(route);
+      }
+    },
   );
 }
 

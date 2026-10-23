@@ -10,6 +10,7 @@ import '../foundation/data.dart';
 import '../foundation/geometry.dart';
 import '../foundation/tween_utils.dart';
 import '../theme/theme.dart';
+import 'motion/motion_scope.dart';
 import 'overlay.dart';
 import 'popover_layout.dart';
 import 'popover_overlay_widget.dart';
@@ -381,14 +382,26 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
                 margin:
                     _margin?.optionallyResolve(context) ??
                     (const EdgeInsets.all(8) * scaling),
-                scale: tweenValue(0.9, 1.0, widget.animation),
+                // Enter: scale 0.95 to 1 from the anchor side. Exit and
+                // reduced motion: fade only (the scale holds at 1).
+                scale:
+                    widget.closing ||
+                        motionReduced(context) ||
+                        !widget.scaleOnEnter
+                    ? 1.0
+                    : tweenValue(0.95, 1.0, widget.animation),
                 scaleAlignment: (widget.transitionAlignment ?? _alignment)
                     .optionallyResolve(context),
                 allowInvertVertical: _allowInvertVertical,
                 allowInvertHorizontal: _allowInvertHorizontal,
-                child: FadeTransition(
-                  opacity: AlwaysStoppedAnimation<double>(widget.animation),
-                  child: Builder(builder: (context) => widget.builder(context)),
+                child: _enterSlide(
+                  context,
+                  FadeTransition(
+                    opacity: AlwaysStoppedAnimation<double>(widget.animation),
+                    child: Builder(
+                      builder: (context) => widget.builder(context),
+                    ),
+                  ),
                 ),
               );
             },
@@ -403,6 +416,20 @@ class PopoverOverlayWidgetState extends State<PopoverOverlayWidget>
       childWidget = widget.data!.wrap(childWidget);
     }
     return childWidget;
+  }
+
+  /// Tooltips (no scale) travel 4 px from the anchor side while they enter;
+  /// the offset is the popover alignment times 4 px, so it starts closest to
+  /// the anchor and settles at zero. Exits and reduced motion do not move.
+  Widget _enterSlide(BuildContext context, Widget child) {
+    if (widget.scaleOnEnter || widget.closing || motionReduced(context)) {
+      return child;
+    }
+    final Alignment side = _alignment.optionallyResolve(context);
+    return Transform.translate(
+      offset: Offset(side.x * 4, side.y * 4) * (1 - widget.animation),
+      child: child,
+    );
   }
 
   bool _usesSheet(BuildContext context, ThemeData theme) {

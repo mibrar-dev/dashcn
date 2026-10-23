@@ -158,7 +158,7 @@ class FilterBarOverflowMenu extends StatelessWidget {
                           if (onClearAll != null)
                             Button(
                               variant: ButtonVariant.ghost,
-                              size: ButtonSize.sm,
+                              size: ButtonSize.md,
                               onPressed: onClearAll,
                               child: Text(l10n.filterClearAll),
                             ),

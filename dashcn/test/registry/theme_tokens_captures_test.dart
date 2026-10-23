@@ -92,9 +92,12 @@ Widget _frame(ThemeData data, Widget child) {
                     PageRouteBuilder<void>(
                       settings: settings,
                       pageBuilder: (_, _, _) => Overlay.wrap(
-                        child: Center(
-                          child: SizedBox.fromSize(size: _stage, child: child),
-                        ),
+                        // NOTE: no tight SizedBox around the scene: Center
+                        // must pass loose constraints so explicitly-sized
+                        // scenes keep their size (the 280x460 sidebar rail,
+                        // the 56px swipe row). A tight stage box would stretch
+                        // them to the full 720x520.
+                        child: Center(child: child),
                       ),
                     ),
               ),

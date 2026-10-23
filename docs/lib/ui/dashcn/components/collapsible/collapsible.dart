@@ -173,8 +173,9 @@ class CollapsibleTrigger extends StatelessWidget {
             // the icon `Button` stays a sibling (never nested), so a tap
             // lands on exactly one of the two controls.
             Expanded(
-              // The label line is 14px tall: touch platforms pad it to the
-              // 48px minimum (transparent, visuals unchanged).
+              // The label line is 14px tall: touch platforms expand the
+              // hit-test/semantics region to the 48px minimum (invisible,
+              // visuals and layout unchanged).
               child: TouchHitArea(
                 vertical: 17,
                 child: Clickable(

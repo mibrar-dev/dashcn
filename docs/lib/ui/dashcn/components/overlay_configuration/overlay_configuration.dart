@@ -89,6 +89,7 @@ OverlayCompleter<T?> _showPopoverConfiguration<T>({
   bool dismissBackdropFocus = true,
   Duration? showDuration,
   Duration? dismissDuration,
+  bool scaleOnEnter = true,
   OverlayBarrier? overlayBarrier,
 }) {
   return showPopover<T>(
@@ -103,6 +104,7 @@ OverlayCompleter<T?> _showPopoverConfiguration<T>({
     dismissBackdropFocus: dismissBackdropFocus,
     showDuration: showDuration,
     dismissDuration: dismissDuration,
+    scaleOnEnter: scaleOnEnter,
     overlayBarrier: overlayBarrier,
     builder: _content(configuration, builder),
   );
