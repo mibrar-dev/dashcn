@@ -105,6 +105,82 @@ InlineSpan typesetLinkSpan(String label, VoidCallback onPressed) {
   );
 }
 
+/// Parses a generated doc comment into rich spans.
+///
+/// Backticked words (`` `Text` ``) become inline code chips and `[Type]`
+/// references become inline code chips with the brackets stripped, so no
+/// raw `` ` `` or `[`/`]` symbols reach the UI. Newlines collapse to spaces
+/// so the description wraps naturally inside tables. Empty input renders
+/// an em dash.
+List<InlineSpan> docsDocSpans(String raw, TextStyle base) {
+  final String normalized = raw
+      .replaceAll('\n', ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+  if (normalized.isEmpty) {
+    return <InlineSpan>[TextSpan(text: '—', style: base)];
+  }
+  final List<InlineSpan> out = <InlineSpan>[];
+  int i = 0;
+  while (i < normalized.length) {
+    final int backtick = normalized.indexOf('`', i);
+    final int bracket = normalized.indexOf('[', i);
+    int next;
+    bool isBacktick;
+    if (backtick == -1 && bracket == -1) {
+      out.add(TextSpan(text: normalized.substring(i), style: base));
+      break;
+    } else if (backtick != -1 && (bracket == -1 || backtick < bracket)) {
+      next = backtick;
+      isBacktick = true;
+    } else {
+      next = bracket;
+      isBacktick = false;
+    }
+    if (next > i) {
+      out.add(TextSpan(text: normalized.substring(i, next), style: base));
+    }
+    if (isBacktick) {
+      final int close = normalized.indexOf('`', next + 1);
+      if (close == -1) {
+        out.add(TextSpan(text: normalized.substring(next), style: base));
+        break;
+      }
+      final String code = normalized.substring(next + 1, close);
+      if (code.isEmpty) {
+        out.add(TextSpan(text: '``', style: base));
+      } else {
+        out.add(
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: TypesetInlineCode(code),
+          ),
+        );
+      }
+      i = close + 1;
+    } else {
+      final int close = normalized.indexOf(']', next + 1);
+      if (close == -1) {
+        out.add(TextSpan(text: normalized.substring(next), style: base));
+        break;
+      }
+      final String ref = normalized.substring(next + 1, close);
+      if (ref.isEmpty) {
+        out.add(TextSpan(text: '[]', style: base));
+      } else {
+        out.add(
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: TypesetInlineCode(ref),
+          ),
+        );
+      }
+      i = close + 1;
+    }
+  }
+  return out;
+}
+
 class _TypesetLinkState extends State<TypesetLink> {
   bool _hovered = false;
 

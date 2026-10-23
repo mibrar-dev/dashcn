@@ -1,6 +1,6 @@
 // The docs sidebar (spec §2.2): 288 px column, 224 px scroll area with pl-10,
 // 1 px gradient right rule, scroll-fade mask and the Sections / Components /
-// Blocks groups. Items are 30 px rows (12.8/18.29 500) driven by the shared
+// Blocks groups. Items are 32 px rows (12.8/18.29 500) driven by the shared
 // `Clickable` primitive; the active item gets the accent fill + 1 px border (no
 // ring, no file-count badges, no palette button — spec §5.1).
 //
@@ -274,88 +274,94 @@ class _SidebarItem extends StatelessWidget {
         DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Padding(
       padding: EdgeInsets.only(bottom: spacing),
-      child: Clickable(
-        key: itemKey,
-        onPressed: () => DocsRouterScope.of(context).go(context, location),
-        decoration: WidgetStateProperty.resolveWith<Decoration?>((
-          Set<WidgetState> states,
-        ) {
-          if (active) {
-            return BoxDecoration(
-              color: colors.accent,
-              border: Border.all(color: colors.accent),
-              borderRadius: radius,
+      child: SizedBox(
+        height: 32,
+        child: Clickable(
+          key: itemKey,
+          onPressed: () => DocsRouterScope.of(context).go(context, location),
+          decoration: WidgetStateProperty.resolveWith<Decoration?>((
+            Set<WidgetState> states,
+          ) {
+            if (active) {
+              return BoxDecoration(
+                color: colors.accent,
+                border: Border.all(color: colors.accent),
+                borderRadius: radius,
+              );
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return BoxDecoration(
+                color: colors.sidebarAccent,
+                borderRadius: radius,
+              );
+            }
+            return const BoxDecoration();
+          }),
+          padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+            EdgeInsets.symmetric(horizontal: 8),
+          ),
+          textStyle: WidgetStateProperty.resolveWith<TextStyle?>((
+            Set<WidgetState> states,
+          ) {
+            final bool hovered = states.contains(WidgetState.hovered);
+            return docsText(
+              context,
+              size: 12.8,
+              weight: FontWeight.w500,
+              height: 18.29 / 12.8,
+              color: active
+                  ? colors.accentForeground
+                  : (hovered
+                        ? colors.sidebarAccentForeground
+                        : colors.sidebarForeground),
             );
-          }
-          if (states.contains(WidgetState.hovered)) {
-            return BoxDecoration(
-              color: colors.sidebarAccent,
-              borderRadius: radius,
-            );
-          }
-          return const BoxDecoration();
-        }),
-        padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        ),
-        textStyle: WidgetStateProperty.resolveWith<TextStyle?>((
-          Set<WidgetState> states,
-        ) {
-          final bool hovered = states.contains(WidgetState.hovered);
-          return docsText(
-            context,
-            size: 12.8,
-            weight: FontWeight.w500,
-            height: 18.29 / 12.8,
-            color: active
-                ? colors.accentForeground
-                : (hovered
-                      ? colors.sidebarAccentForeground
-                      : colors.sidebarForeground),
-          );
-        }),
-        child: wip
-            ? Semantics(
-                label:
-                    '$label, ${docsChrome(locale, 'cmpWip')}, ${docsChrome(locale, 'cmpWipNote')}',
-                child: ExcludeSemantics(
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: colors.border),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          docsChrome(locale, 'cmpWip'),
-                          style: docsText(
-                            context,
-                            size: 10,
-                            weight: FontWeight.w700,
-                            height: 12 / 10,
-                            color: active
-                                ? colors.accentForeground
-                                : colors.sidebarForeground,
+          }),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: wip
+                ? Semantics(
+                    label:
+                        '$label, ${docsChrome(locale, 'cmpWip')}, ${docsChrome(locale, 'cmpWipNote')}',
+                    child: ExcludeSemantics(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              label,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: colors.border),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              docsChrome(locale, 'cmpWip'),
+                              style: docsText(
+                                context,
+                                size: 10,
+                                weight: FontWeight.w700,
+                                height: 12 / 10,
+                                color: active
+                                    ? colors.accentForeground
+                                    : colors.sidebarForeground,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )
-            : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    ),
+                  )
+                : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ),
+        ),
       ),
     );
   }
