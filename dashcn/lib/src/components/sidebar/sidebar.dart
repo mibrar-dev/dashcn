@@ -430,10 +430,7 @@ class _DashboardSidebarState extends State<DashboardSidebar> {
       onKeyEvent: _handleKey,
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(end: width),
-        duration: resolveMotionDuration(
-          context,
-          theme.motion.durations.base,
-        ),
+        duration: resolveMotionDuration(context, theme.motion.durations.base),
         curve: theme.motion.curves.standard,
         builder: (BuildContext context, double value, Widget? child) {
           return SizedBox(
