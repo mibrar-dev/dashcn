@@ -6,9 +6,8 @@
 // This is *encoding, not encryption*: a theme is not a secret. The same
 // bytes always produce the same string, so the docs Theme Studio can print
 // it live and the CLI can accept it with `--preset`. Decoding is local and
-// performs no network access. Short preset ids (`--preset bciwvKBk`) need a
-// hosted store that resolves an id to one of these strings; that lookup is
-// a follow-up (see [PresetStoreResolver]) and never happens here.
+// performs no network access. Short preset ids (`--preset bciwvKBk`) are
+// not supported: pass the full string.
 
 import 'dart:convert';
 
@@ -19,6 +18,8 @@ const String kPresetStringPrefix = 'dcn1_';
 
 /// Preset-string format version carried by the prefix (`1` in `dcn1_`).
 const int kPresetStringVersion = 1;
+
+const int _kMaxPayloadLength = 16 * 1024;
 
 /// A preset string that cannot be decoded.
 final class PresetStringException implements Exception {
@@ -48,7 +49,7 @@ String encodePresetString(Map<String, Object?> preset) {
 ///
 /// Throws [PresetStringException] with a clear message for unknown versions
 /// (`dcn2_…`), truncated prefixes and malformed input. Never touches the
-/// network: short ids are *not* resolved here (see [PresetStoreResolver]).
+/// network: short ids are *not* resolved.
 Map<String, Object?> decodePresetString(String input) {
   final String text = input.trim();
   final RegExpMatch? versioned = RegExp(r'^dcn(\d+)_').firstMatch(text);
@@ -58,13 +59,19 @@ Map<String, Object?> decodePresetString(String input) {
       '(canonical JSON, deflated, base64url).',
     );
   }
-  if (int.parse(versioned.group(1)!) != kPresetStringVersion) {
+  if (versioned.group(1) != '$kPresetStringVersion') {
     throw PresetStringException(
       'Unsupported preset string version "dcn${versioned.group(1)}_": '
       'this build reads dcn1_ only.',
     );
   }
   final String payload = text.substring(versioned.group(0)!.length);
+  // A real preset is ~2 KB; the cap bounds what DEFLATE can expand to.
+  if (payload.length > _kMaxPayloadLength) {
+    throw const PresetStringException(
+      'Malformed preset string: longer than any real preset.',
+    );
+  }
   late final List<int> deflated;
   try {
     deflated = base64Url.decode(_repad(payload));
@@ -205,33 +212,4 @@ Map<String, String> _flatten(Map<String, Object?> node, [String prefix = '']) {
     }
   });
   return out;
-}
-
-/// Hosted-store hook: resolves a short preset id (`--preset bciwvKBk`) to
-/// a full `dcn1_` string.
-///
-/// Interface only — no network code ships here. The CLI implements this
-/// against the hosted lookup service (follow-up; see REPORT.md) and the
-/// docs site never calls it: the builder always prints the full string.
-abstract interface class PresetStoreResolver {
-  /// Returns the `dcn1_` string for [shortId], or null when unknown.
-  Future<String?> resolvePresetString(String shortId);
-}
-
-/// The default resolver: short ids have no store in this build.
-///
-/// Throws [PresetStringException] pointing at the full-string form and the
-/// hosted-lookup follow-up instead of silently falling back.
-final class UnconfiguredPresetStoreResolver implements PresetStoreResolver {
-  /// Creates the default resolver.
-  const UnconfiguredPresetStoreResolver();
-
-  @override
-  Future<String?> resolvePresetString(String shortId) async {
-    throw PresetStringException(
-      'Short preset id "$shortId" needs the hosted preset store, which is '
-      'not configured in this build (follow-up: hosted lookup service). '
-      'Pass the full dcn1_ string with --preset instead.',
-    );
-  }
 }

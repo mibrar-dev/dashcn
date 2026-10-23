@@ -62,6 +62,17 @@ void main() {
   });
 
   group('rejection', () {
+    test('huge versions and oversized payloads fail cleanly', () {
+      expect(
+        () => decodePresetString('dcn99999999999999999999999_abc'),
+        throwsA(isA<PresetStringException>()),
+      );
+      expect(
+        () => decodePresetString('dcn1_${'A' * (17 * 1024)}'),
+        throwsA(isA<PresetStringException>()),
+      );
+    });
+
     test('unknown versions are rejected with a clear message', () {
       expect(
         () => decodePresetString('dcn2_abc'),
@@ -135,22 +146,6 @@ void main() {
     test('identical documents diff empty', () {
       final Map<String, Object?> preset = _neutralPreset();
       expect(diffPresetDocuments(preset, preset).isEmpty, isTrue);
-    });
-  });
-
-  group('store-resolver hook', () {
-    test('short ids fail loudly, never silently', () async {
-      const PresetStoreResolver resolver = UnconfiguredPresetStoreResolver();
-      await expectLater(
-        resolver.resolvePresetString('bciwvKBk'),
-        throwsA(
-          isA<PresetStringException>().having(
-            (Object e) => (e as PresetStringException).message,
-            'message',
-            allOf(contains('hosted preset store'), contains('dcn1_')),
-          ),
-        ),
-      );
     });
   });
 }

@@ -363,10 +363,7 @@ class _DocsArticleState extends State<DocsArticle> {
 
   Widget _titleRow(BuildContext context, ThemeData theme, bool showActions) {
     final locale =
-        DocsRouterScope.maybeOf(context)?.state.locale ??
-        const Locale(
-          'en',
-        ); // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'); // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
     // badge size with gap-2 between them; the badge group keeps gap-3 from
     // the actions; Copy Page and the pager use gap-2. The Wrap drops to the
     // next line on narrow widths instead of squeezing to 0px gaps.
@@ -412,7 +409,25 @@ class _DocsArticleState extends State<DocsArticle> {
     );
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final bool tight = constraints.maxWidth < 560;
+        final TextStyle titleStyle = docsText(
+          context,
+          size: 30,
+          weight: FontWeight.w600,
+          height: 36 / 30,
+          letterSpacing: -0.75,
+        );
+        // Stack the row when the title would share it with less than half
+        // the width: a long (or translated) title otherwise breaks mid-word.
+        final TextPainter measure = TextPainter(
+          text: TextSpan(text: widget.title, style: titleStyle),
+          textDirection: Directionality.of(context),
+          textScaler: MediaQuery.textScalerOf(context),
+          maxLines: 1,
+        )..layout();
+        final bool tight =
+            constraints.maxWidth < 560 ||
+            measure.width > constraints.maxWidth / 2;
+        measure.dispose();
         // The title text without flex: the tight branch stacks it in a
         // Column, and an Expanded there would flex against the scroll
         // view's unbounded height (`RenderFlex children have non-zero flex
@@ -424,16 +439,7 @@ class _DocsArticleState extends State<DocsArticle> {
           header: true,
           label: widget.title,
           excludeSemantics: true,
-          child: Text(
-            widget.title,
-            style: docsText(
-              context,
-              size: 30,
-              weight: FontWeight.w600,
-              height: 36 / 30,
-              letterSpacing: -0.75,
-            ),
-          ),
+          child: Text(widget.title, style: titleStyle),
         );
         final Widget title = Expanded(child: titleText);
         if (!widget.showTitleActions) {
@@ -528,9 +534,9 @@ class _DocsArticleState extends State<DocsArticle> {
                     child: Button(
                       variant: ButtonVariant.secondary,
                       size: ButtonSize.sm,
-                      onPressed: () => DocsRouterScope.of(
-                        context,
-                      ).go(context, widget.previous!.location),
+                      onPressed: () =>
+                          DocsRouterScope.of(context)
+                              .go(context, widget.previous!.location),
                       leading: const Icon(LucideIcons.arrowLeft, size: 16),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: maxLabel),
@@ -548,9 +554,9 @@ class _DocsArticleState extends State<DocsArticle> {
                     child: Button(
                       variant: ButtonVariant.secondary,
                       size: ButtonSize.sm,
-                      onPressed: () => DocsRouterScope.of(
-                        context,
-                      ).go(context, widget.next!.location),
+                      onPressed: () =>
+                          DocsRouterScope.of(context)
+                              .go(context, widget.next!.location),
                       trailing: const Icon(LucideIcons.arrowRight, size: 16),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: maxLabel),

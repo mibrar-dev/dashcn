@@ -30,9 +30,7 @@ export 'google_fonts_catalogue.dart'
 export 'preset_codec.dart'
     show
         PresetDiff,
-        PresetStoreResolver,
         PresetStringException,
-        UnconfiguredPresetStoreResolver,
         canonicalPresetJson,
         decodePresetString,
         diffPresetDocuments,
