@@ -448,7 +448,7 @@ void main() {
       expect(c.playbackSpeed, 1.25);
     });
 
-    testWidgets('expanded big play button defaults to 56px', (tester) async {
+    testWidgets('expanded big play button defaults to 48px', (tester) async {
       final FakeAudioPlaybackController c = FakeAudioPlaybackController(
         tracks: _tracks,
       );
@@ -467,7 +467,7 @@ void main() {
             w.child is Icon,
       );
       expect(big, findsOneWidget);
-      expect(tester.getSize(big).width, 56);
+      expect(tester.getSize(big).width, 48);
     });
 
     testWidgets('initialSpeedOpen opens the expanded speed menu', (
@@ -656,7 +656,7 @@ void main() {
       expect(find.text('0:30'), findsNothing);
     });
 
-    testWidgets('compact speed and volume keep 32px targets', (tester) async {
+    testWidgets('compact speed and volume keep 36px visuals', (tester) async {
       final FakeAudioPlaybackController c = FakeAudioPlaybackController(
         tracks: _tracks,
       );
@@ -665,9 +665,9 @@ void main() {
       final Size speed = tester.getSize(
         find.bySemanticsLabel('Playback speed 1x, tap to change'),
       );
-      expect(speed.width, 32);
+      expect(speed.width, 36);
       final Size mute = tester.getSize(find.bySemanticsLabel('Mute'));
-      expect(mute.width, 32);
+      expect(mute.width, 36);
     });
   });
 }

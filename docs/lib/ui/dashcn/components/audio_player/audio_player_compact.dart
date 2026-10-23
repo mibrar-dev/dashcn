@@ -1,11 +1,12 @@
 // Compact pill for `audio_player` (SPEC reference 1).
 //
-// A single horizontal pill (~48px tall, radius 14, bottom-edge progress):
+// A single horizontal pill (48px tall, radius 14, bottom-edge progress):
 // play/pause (icon only), elapsed, total, truncated title, volume + slider,
 // speed cycler, download. Hover/focus on the volume icon reveals the slider.
 // The bottom-edge progress is a draggable seek line (tap/drag seeks, time
-// labels update). Speed and volume keep 32 px compact hit targets. Card
-// padding is the 16 px density token; the controls row uses 12 px gaps.
+// labels update). Speed and volume keep 36 px visuals with 48 px touch
+// targets. Card padding is the 12 px density token; the controls row uses
+// 8 px gaps with times and title vertically centred.
 
 import 'package:flutter/widgets.dart';
 
@@ -101,77 +102,93 @@ class AudioCompactPill extends StatelessWidget {
             1.0,
           );
     final ThemeData ambient = Theme.of(context);
-    final Color fill =
-        style.accent?.resolve(ambient.colors) ?? ambient.colors.primary;
-    // 12 px density gaps between the time cluster and the title.
-    final double controlGap = ambient.density.baseGap * ambient.scaling * gapMd;
+    // Inactive track from the border token, active fill from the foreground
+    // token: same pair as the expanded card and the video scrub bar so the
+    // pill stays visible in both themes.
+    final Color track =
+        style.track?.resolve(ambient.colors) ?? ambient.colors.border;
+    final Color fill = fg;
+    // 8 px density gaps between controls; times and title share one
+    // vertically centred row of 36 px controls in the 48 px pill.
+    final double controlGap = ambient.density.baseGap * ambient.scaling * gapSm;
 
     return SizedBox(
       height: 48,
       child: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Row(
-              children: <Widget>[
-                _iconPlay(context, c),
-                Text(
-                  formatAudioTime(c.position),
-                  style: TextStyle(
-                    color: fg,
-                    fontSize: 12,
-                    fontFeatures: const <FontFeature>[
-                      FontFeature.tabularFigures(),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  formatAudioTime(c.duration),
-                  style: TextStyle(
-                    color: muted,
-                    fontSize: 12,
-                    fontFeatures: const <FontFeature>[
-                      FontFeature.tabularFigures(),
-                    ],
-                  ),
-                ),
-                SizedBox(width: controlGap),
-                Expanded(
-                  child: Text(
-                    name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: fg,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                if (showVolume)
-                  volumeBuilder?.call(context, c) ??
-                      AudioVolumeButton(controller: c, fg: fg),
-                if (showSpeed)
-                  speedBuilder?.call(context, c) ??
-                      AudioSpeedChip(
-                        controller: c,
-                        fg: fg,
-                        speeds: supportedSpeeds,
+          Center(
+            child: SizedBox(
+              height: 36,
+              child: Padding(
+                padding: EdgeInsets.zero,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _iconPlay(context, c),
+                    Text(
+                      formatAudioTime(c.position),
+                      style: TextStyle(
+                        color: fg,
+                        fontSize: 12,
+                        fontFeatures: const <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
                       ),
-                downloadBuilder?.call(context, c) ??
-                    audioPillButton(
-                      label: ComponentLocalizations.of(context).mediaDownload,
-                      icon: LucideIcons.download,
-                      fg: fg,
-                      onTap: onDownload,
                     ),
-              ],
+                    const SizedBox(width: 4),
+                    Text(
+                      formatAudioTime(c.duration),
+                      style: TextStyle(
+                        color: muted,
+                        fontSize: 12,
+                        fontFeatures: const <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: controlGap),
+                    Expanded(
+                      child: Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: fg,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: controlGap),
+                    if (showVolume)
+                      volumeBuilder?.call(context, c) ??
+                          AudioVolumeButton(controller: c, fg: fg),
+                    if (showVolume && showSpeed) SizedBox(width: controlGap),
+                    if (showSpeed)
+                      speedBuilder?.call(context, c) ??
+                          AudioSpeedChip(
+                            controller: c,
+                            fg: fg,
+                            speeds: supportedSpeeds,
+                          ),
+                    SizedBox(width: controlGap),
+                    downloadBuilder?.call(context, c) ??
+                        audioPillButton(
+                          label: ComponentLocalizations.of(
+                            context,
+                          ).mediaDownload,
+                          icon: LucideIcons.download,
+                          fg: fg,
+                          onTap: onDownload,
+                        ),
+                  ],
+                ),
+              ),
             ),
           ),
           Positioned(
-            left: 16,
-            right: 16,
+            left: 12,
+            right: 12,
             bottom: 0,
             height: 12,
             child:
@@ -179,7 +196,7 @@ class AudioCompactPill extends StatelessWidget {
                 _CompactSeekLine(
                   controller: c,
                   fraction: fraction,
-                  fg: fg,
+                  track: track,
                   fill: fill,
                 ),
           ),
@@ -195,14 +212,14 @@ class AudioCompactPill extends StatelessWidget {
           ? ComponentLocalizations.of(context).mediaPause
           : ComponentLocalizations.of(context).mediaPlay,
       onTap: c.toggle,
-      minWidth: 32,
-      minHeight: 32,
+      minWidth: 36,
+      minHeight: 36,
       child: SizedBox(
-        width: 32,
-        height: 48,
+        width: 36,
+        height: 36,
         child: Icon(
           c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-          size: style.iconSize ?? 20,
+          size: style.iconSize ?? 16,
           color: fg,
         ),
       ),
@@ -220,13 +237,13 @@ class _CompactSeekLine extends StatelessWidget {
   const _CompactSeekLine({
     required this.controller,
     required this.fraction,
-    required this.fg,
+    required this.track,
     required this.fill,
   });
 
   final AudioPlaybackController controller;
   final double fraction;
-  final Color fg;
+  final Color track;
   final Color fill;
 
   void _seek(BuildContext context, Offset globalPosition, Size size) {
@@ -269,7 +286,7 @@ class _CompactSeekLine extends StatelessWidget {
                   child: SizedBox(
                     height: 2,
                     child: ColoredBox(
-                      color: fg.withAlpha(0x24),
+                      color: track,
                       child: Align(
                         alignment:
                             Directionality.of(context) == TextDirection.rtl

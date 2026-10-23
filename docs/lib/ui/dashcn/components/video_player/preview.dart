@@ -402,7 +402,7 @@ class _CustomVideoState extends State<_CustomVideo> {
           content: const ColoredBox(color: Color(0xFF3F3F46)),
           theme: const VideoPlayerTheme(
             accent: ThemedColor.value(Color(0xFFE11D48)),
-            controlSize: 64,
+            controlSize: 56,
           ),
           playButtonBuilder: (context, c) => GestureDetector(
             onTap: c.toggle,

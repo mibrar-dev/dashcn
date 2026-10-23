@@ -9,6 +9,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
 import '../../primitives/tap_target.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/theme.dart';
 import 'audio_player_controller.dart';
 
 /// Small icon button for the compact pill (volume cluster, download).
@@ -16,17 +17,17 @@ Widget audioPillButton({
   required String label,
   required IconData icon,
   required Color fg,
-  double size = 18,
+  double size = 16,
   VoidCallback? onTap,
 }) {
   return FocusableTap(
     label: label,
     onTap: onTap,
-    minWidth: 32,
-    minHeight: 32,
+    minWidth: 36,
+    minHeight: 36,
     child: SizedBox(
-      width: 32,
-      height: 48,
+      width: 36,
+      height: 36,
       child: Icon(icon, size: size, color: fg),
     ),
   );
@@ -61,11 +62,11 @@ class AudioSpeedChip extends StatelessWidget {
     return FocusableTap(
       label: ComponentLocalizations.of(context).mediaPlaybackSpeed(text),
       onTap: () => c.cycleSpeed(speeds),
-      minWidth: 32,
-      minHeight: 32,
+      minWidth: 36,
+      minHeight: 36,
       child: SizedBox(
-        width: 32,
-        height: 48,
+        width: 36,
+        height: 36,
         child: Center(
           child: ExcludeSemantics(
             child: Text(
@@ -125,6 +126,7 @@ class _AudioVolumeButtonState extends State<AudioVolumeButton> {
         onFocusChange: (v) => setState(() => _open = _open || v),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             audioPillButton(
               label: c.isMuted
@@ -146,12 +148,14 @@ class _AudioVolumeButtonState extends State<AudioVolumeButton> {
 class _MiniLevel extends CustomPainter {
   const _MiniLevel({
     required this.value,
+    required this.track,
     required this.fill,
     required this.rtl,
     this.focused = false,
   });
 
   final double value;
+  final Color track;
   final Color fill;
   final bool rtl;
 
@@ -161,15 +165,15 @@ class _MiniLevel extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final double midY = size.height / 2;
-    final Paint track = Paint()
-      ..color = fill.withAlpha(0x3D)
+    final Paint trackPaint = Paint()
+      ..color = track
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     final Paint active = Paint()
       ..color = fill
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(Offset(4, midY), Offset(size.width - 4, midY), track);
+    canvas.drawLine(Offset(4, midY), Offset(size.width - 4, midY), trackPaint);
     final double w = (size.width - 8) * value.clamp(0.0, 1.0);
     if (rtl) {
       canvas.drawLine(
@@ -200,6 +204,7 @@ class _MiniLevel extends CustomPainter {
   @override
   bool shouldRepaint(_MiniLevel old) =>
       old.value != value ||
+      old.track != track ||
       old.fill != fill ||
       old.rtl != rtl ||
       old.focused != focused;
@@ -269,6 +274,7 @@ class _VolumeSliderState extends State<_VolumeSlider> {
           return KeyEventResult.ignored;
         },
         child: TapTarget(
+          minWidth: 48,
           minHeight: 48,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -289,10 +295,11 @@ class _VolumeSliderState extends State<_VolumeSlider> {
             child: SizedBox(
               key: _lineKey,
               width: 64,
-              height: 48,
+              height: 36,
               child: CustomPaint(
                 painter: _MiniLevel(
                   value: _level,
+                  track: Theme.of(context).colors.border,
                   fill: widget.fg,
                   focused: _focused,
                   rtl: Directionality.of(context) == TextDirection.rtl,

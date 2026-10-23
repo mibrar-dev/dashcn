@@ -87,6 +87,7 @@ class _VideoVolumeClusterState extends State<_VideoVolumeCluster> {
         }),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             videoIconButton(
               label: c.isMuted
@@ -101,6 +102,7 @@ class _VideoVolumeClusterState extends State<_VideoVolumeCluster> {
                 setState(() => _open = !_open);
               },
             ),
+            if (_open) const SizedBox(width: 8),
             if (_open)
               Semantics(
                 label: ComponentLocalizations.of(context).mediaVolume,
