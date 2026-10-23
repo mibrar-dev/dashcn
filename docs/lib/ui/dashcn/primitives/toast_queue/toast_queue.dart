@@ -68,7 +68,7 @@ class ToastQueue<T> extends ChangeNotifier {
   ToastQueue({
     this.defaultDuration = const Duration(seconds: 3),
     this.singlePerSlot = true,
-    this.exitDuration = const Duration(milliseconds: 200),
+    this.exitDuration = const Duration(milliseconds: 150),
     DateTime Function()? clock,
   }) : _clock = clock ?? DateTime.now;
 
