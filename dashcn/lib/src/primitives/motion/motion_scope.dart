@@ -34,6 +34,11 @@ Duration resolveMotionDuration(BuildContext context, Duration base) {
   return Theme.of(context).motion.scaledDuration(base);
 }
 
+/// Opacity-only fade that overlays use under reduced motion. Reduced motion
+/// removes movement and scale; the one remaining change is this fade, which
+/// is at most 150 ms.
+const Duration kOverlayReducedFade = Duration(milliseconds: 100);
+
 /// Resolves an enter [offset] through the theme intensity enter offset.
 ///
 /// Standard keeps the caller's slide, subtle halves it, expressive grows it

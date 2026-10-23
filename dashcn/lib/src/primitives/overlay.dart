@@ -94,6 +94,7 @@ abstract class OverlayHandler {
     bool dismissBackdropFocus = true,
     Duration? showDuration,
     Duration? dismissDuration,
+    bool scaleOnEnter = true,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
     PopupAdaptive? adaptive,

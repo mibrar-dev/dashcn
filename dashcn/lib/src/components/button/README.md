@@ -121,8 +121,9 @@ Heights match dashcn `h-7`/`h-8`/`h-9`/`h-10`; the height comes from
 `minHeight` (vertical padding is zero so outline borders do not inflate
 it). All sizes use 14 / w500 text.
 
-On touch platforms the button grows with transparent hit padding (iOS 44,
-Android 48) via `TouchHitArea`; the painted size never changes. Opt out per
+On touch platforms the hit-test region and semantics tap target expand to
+the platform minimum (iOS 44, Android 48) via `TouchHitArea`; paint and
+layout never change. Opt out per
 app with `ThemeData(touchTargets: TouchTargets.shrinkWrap)`.
 
 Global `Density.baseContentPadding` scales the padding; `ButtonTheme` may
