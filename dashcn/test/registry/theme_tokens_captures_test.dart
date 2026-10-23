@@ -110,7 +110,9 @@ Future<void> _tap(WidgetTester tester, Finder target) async {
   await tester.pump(const Duration(milliseconds: 320));
 }
 
-/// Writes the current pixels under [key] to `<tag>.png`.
+/// Writes the current pixels under [key] to `<tag>.png`. The real raster
+/// path is required: these PNGs are the visual proof for the token matrix
+/// (see rearch/captures/fix-theme-tokens-everywhere/CAPTURES.md).
 Future<void> _snap(WidgetTester tester, GlobalKey key, String tag) async {
   await tester.pump();
   final RenderRepaintBoundary boundary =
@@ -361,7 +363,10 @@ void main() {
           final GlobalKey key = GlobalKey();
           final SwipeActionsController controller = SwipeActionsController();
           addTearDown(controller.dispose);
+          // The binding requires painting debug vars to be reset; restore
+          // the default (shadows disabled) after each capture.
           debugDisableShadows = false;
+          addTearDown(() => debugDisableShadows = true);
           await tester.pumpWidget(
             RepaintBoundary(
               key: key,
