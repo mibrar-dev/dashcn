@@ -19,8 +19,8 @@ const ValueKey<String> _send = ValueKey<String>('chat01.send');
 const ValueKey<String> _attach = ValueKey<String>('chat01.attach');
 const ValueKey<String> _photo = ValueKey<String>('chat01.attach.photo');
 
-/// Width of the revealed two-action run (2 x 56 px compact tiles).
-const double _actionsWidth = 112;
+/// Width of the revealed two-action run (2 x 64 px readable tiles).
+const double _actionsWidth = 128;
 
 /// Fling direction dismissing a row (mirrored under RTL).
 Offset _fling(TextDirection direction) => direction == TextDirection.rtl

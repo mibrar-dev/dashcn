@@ -16,22 +16,23 @@
   ],
   "deps": {
     "foundation": [
-        "data",
-        "gap",
-        "geometry",
-        "icons"
+      "data",
+      "gap",
+      "geometry",
+      "icons"
     ],
     "theme": [
-        "color_tokens",
-        "density",
-        "theme"
+      "color_tokens",
+      "density",
+      "theme"
     ],
     "primitives": [
       "clickable",
       "form_core",
       "overlay",
       "popover_controller",
-      "select_popup"
+      "select_popup",
+      "touch_hit_area"
     ],
     "components": [
       "button",
