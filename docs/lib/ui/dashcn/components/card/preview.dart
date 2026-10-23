@@ -60,7 +60,7 @@ class _CardDefaultState extends State<_CardDefault> {
                               context,
                               docsSample(
                                 context,
-                                'Ship a new build to production.',
+                                docsSample(context, 'Ship a new build to production.'),
                               ),
                             ),
                           ),
@@ -78,7 +78,7 @@ class _CardDefaultState extends State<_CardDefault> {
                         context,
                         docsSample(
                           context,
-                          'Every deploy is immutable; roll back from the history tab.',
+                          docsSample(context, 'Every deploy is immutable; roll back from the history tab.'),
                         ),
                       ),
                     ),

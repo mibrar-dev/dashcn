@@ -227,12 +227,12 @@ class _TabPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
-    // Pill triggers fill the strip (h-9 = 36, p-[3px]): 30px boxes.
-    // Upstream is h-[calc(100%-1px)] (29); the 1px compensates its
-    // transparent border, which these borderless pills omit.
+    // SIZING.md bars: pill triggers are 28 px inside the 36 px strip (4 px
+    // container padding). Upstream is h-[calc(100%-1px)]; the 1px compensates
+    // its transparent border, which these borderless pills omit.
     // Horizontal padding only (px-2); the label centers in the box.
     final Widget content = ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 30, minWidth: 0),
+      constraints: const BoxConstraints(minHeight: 28, minWidth: 0),
       child: Center(
         child: AnimatedScale(
           scale: selected ? 1.05 : 1.0,

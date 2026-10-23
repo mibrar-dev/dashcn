@@ -76,7 +76,7 @@ Widget _threeLine(BuildContext context) => _wrap(
         context,
         docsSample(
           context,
-          'A longer subtitle that spans multiple lines in the tile.',
+          docsSample(context, 'A longer subtitle that spans multiple lines in the tile.'),
         ),
       ),
     ),

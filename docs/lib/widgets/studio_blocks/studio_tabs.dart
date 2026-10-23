@@ -172,7 +172,7 @@ class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
       title: docsSample(context, 'Preferences'),
       subtitle: docsSample(
         context,
-        'Manage your account settings and notifications.',
+        docsSample(context, 'Manage your account settings and notifications.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

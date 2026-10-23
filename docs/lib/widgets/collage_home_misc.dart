@@ -1,10 +1,11 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: people and plan cards (P6-H1).
 //
 // Two home-only compositions: the contributor wall (`AvatarGroup` with a
 // `HoverCard` handle) and the release timeline (`Timeline`).
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/avatar/avatar.dart';
 import '../ui/dashcn/components/hover_card/hover_card.dart';
@@ -13,6 +14,7 @@ import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Contributors`: the avatar stack with a hoverable handle.
 class HomeContributorsCard extends StatelessWidget {
@@ -21,10 +23,12 @@ class HomeContributorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Contributors'),
-      subtitle: docsSample(context, 'Seven people shipped this release.'),
+      title: docsHome(locale, 'homeContribTitle'),
+      subtitle: docsHome(locale, 'homeContribSub'),
       children: <Widget>[
         const AvatarGroup(
           children: <Widget>[
@@ -77,9 +81,11 @@ class HomeTimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Release timeline'),
-      subtitle: docsSample(context, 'Midnight Drive — 2026.'),
+      title: docsHome(locale, 'homeTimelineTitle'),
+      subtitle: docsHome(locale, 'homeTimelineSub'),
       children: <Widget>[
         Timeline(
           data: <TimelineData>[

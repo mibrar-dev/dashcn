@@ -176,7 +176,10 @@ class StudioGoalCard extends StatelessWidget {
       title: docsSample(context, 'Set a new milestone'),
       subtitle: docsSample(
         context,
-        'Define your financial target and we will help pace it.',
+        docsSample(
+          context,
+          'Define your financial target and we will help pace it.',
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -353,7 +356,7 @@ class StudioUpcomingPaymentsCard extends StatelessWidget {
       title: docsSample(context, 'Upcoming Payments'),
       subtitle: docsSample(
         context,
-        'Select a date to view scheduled payments.',
+        docsSample(context, 'Select a date to view scheduled payments.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -19,7 +19,7 @@ Widget _default(BuildContext context) {
         context,
         docsSample(
           context,
-          'Select this text to see the custom selection styling.',
+          docsSample(context, 'Select this text to see the custom selection styling.'),
         ),
       ),
     ),

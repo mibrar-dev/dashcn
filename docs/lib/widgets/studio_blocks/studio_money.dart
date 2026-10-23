@@ -224,7 +224,10 @@ class StudioDividendCard extends StatelessWidget {
       title: docsSample(context, 'Q2 Dividend Income'),
       subtitle: docsSample(
         context,
-        'Quarterly payouts across your portfolio holdings.',
+        docsSample(
+          context,
+          'Quarterly payouts across your portfolio holdings.',
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

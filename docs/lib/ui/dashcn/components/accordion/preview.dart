@@ -26,7 +26,7 @@ Widget _accordionDefault(BuildContext context) {
               context,
               docsSample(
                 context,
-                'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
+                docsSample(context, 'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.'),
               ),
             ),
           ),
@@ -40,7 +40,7 @@ Widget _accordionDefault(BuildContext context) {
               context,
               docsSample(
                 context,
-                'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
+                docsSample(context, 'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.'),
               ),
             ),
           ),
@@ -73,7 +73,7 @@ Widget _accordionExpanded(BuildContext context) {
               context,
               docsSample(
                 context,
-                'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
+                docsSample(context, 'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.'),
               ),
             ),
           ),
@@ -88,7 +88,7 @@ Widget _accordionExpanded(BuildContext context) {
               context,
               docsSample(
                 context,
-                'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
+                docsSample(context, 'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.'),
               ),
             ),
           ),

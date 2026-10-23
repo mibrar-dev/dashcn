@@ -33,7 +33,10 @@ class StudioShareCard extends StatelessWidget {
       title: docsSample(context, 'Share this release'),
       subtitle: docsSample(
         context,
-        'Open the Ledger mobile app and scan this code to link.',
+        docsSample(
+          context,
+          'Open the Ledger mobile app and scan this code to link.',
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +104,7 @@ class StudioOtpCard extends StatelessWidget {
       title: docsSample(context, 'Verify your phone'),
       subtitle: docsSample(
         context,
-        'Enter the 6-digit code we texted to ···· 1192.',
+        docsSample(context, 'Enter the 6-digit code we texted to ···· 1192.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

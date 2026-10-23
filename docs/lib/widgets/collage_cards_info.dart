@@ -4,6 +4,8 @@
 // ~400-line rule. Shares the [CollageCard] shell from that file.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
@@ -11,21 +13,23 @@ import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/table/table.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
-import '../ui/dashcn/foundation/component_preview.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 class CollageButtonsCard extends StatelessWidget {
   const CollageButtonsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Buttons'),
+      title: docsHome(locale, 'homeButtonsTitle'),
       children: <Widget>[
         Wrap(
           spacing: 8,
@@ -35,7 +39,7 @@ class CollageButtonsCard extends StatelessWidget {
               size: ButtonSize.sm,
               trailing: const Icon(LucideIcons.arrowRight, size: 14),
               onPressed: () {},
-              child: Text('Button'),
+              child: const Text('Button'),
             ),
             Button(
               variant: ButtonVariant.secondary,
@@ -60,13 +64,13 @@ class CollageButtonsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: Text('Alert Dialog'),
+              child: const Text('Alert Dialog'),
             ),
             Button(
               variant: ButtonVariant.ghost,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: Text('Button Group'),
+              child: const Text('Button Group'),
             ),
           ],
         ),
@@ -85,7 +89,7 @@ class CollageButtonsCard extends StatelessWidget {
               variant: BadgeVariant.outline,
               child: Text(docsSample(context, 'Outline')),
             ),
-            const Badge(
+            Badge(
               variant: BadgeVariant.primary,
               showAsDot: true,
               child: SizedBox.shrink(),
@@ -199,7 +203,7 @@ class CollagePagesCard extends StatelessWidget {
                 const Gap(8),
                 Expanded(
                   child: Text(
-                    docsSample(context, links[i].label),
+                    links[i].label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: docsText(
@@ -248,7 +252,7 @@ class CollageTableCard extends StatelessWidget {
             ),
             TableViewRow(
               cells: <TableViewCell>[
-                const TableViewCell(child: Text('Leo')),
+                TableViewCell(child: Text('Leo')),
                 TableViewCell(child: Text(docsSample(context, 'Editor'))),
                 TableViewCell(child: Text(docsSample(context, 'Invited'))),
               ],

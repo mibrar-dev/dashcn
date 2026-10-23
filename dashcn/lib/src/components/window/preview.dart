@@ -47,7 +47,7 @@ class _SingleWindowState extends State<_SingleWindow> {
                   context,
                   docsSample(
                     context,
-                    'Drag the title bar; resize from any edge.',
+                    docsSample(context, 'Drag the title bar; resize from any edge.'),
                   ),
                 ),
               ),

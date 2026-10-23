@@ -130,7 +130,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
                     context,
                     docsSample(
                       context,
-                      'Code applied — your discount shows at checkout.',
+                      docsSample(context, 'Code applied — your discount shows at checkout.'),
                     ),
                   ),
                   style: theme.typography.textSmall,

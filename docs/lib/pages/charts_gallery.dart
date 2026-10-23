@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../motion/motion_scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -126,6 +127,8 @@ class ChartsHero extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Padding(
       padding: EdgeInsets.fromLTRB(24, wide ? 64 : 32, 24, 32),
       child: Column(
@@ -133,7 +136,7 @@ class ChartsHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 896),
             child: Text(
-              'Charts',
+              docsContentPage(locale, 'pageChartsTitle'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -149,7 +152,7 @@ class ChartsHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
-              'Copy-paste charts for every dataset, from trends to breakdowns.',
+              docsContentPage(locale, 'pageChartsSub'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -168,7 +171,7 @@ class ChartsHero extends StatelessWidget {
                 variant: ButtonVariant.primary,
                 size: ButtonSize.md,
                 onPressed: onBrowse,
-                child: const Text('Browse charts'),
+                child: Text(docsContentPage(locale, 'pageChartsBrowse')),
               ),
               Button(
                 variant: ButtonVariant.secondary,
@@ -177,7 +180,7 @@ class ChartsHero extends StatelessWidget {
                 onPressed: () => DocsRouterScope.of(
                   context,
                 ).go(context, '/docs/components/chart'),
-                child: const Text('Documentation'),
+                child: Text(docsContentPage(locale, 'pageChartsDocs')),
               ),
             ],
           ),

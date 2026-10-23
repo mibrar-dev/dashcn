@@ -56,7 +56,10 @@ class _StudioFaqCardState extends State<StudioFaqCard> {
             trigger: Text(
               docsSample(
                 context,
-                'How do I connect my bank or investment accounts?',
+                docsSample(
+                  context,
+                  'How do I connect my bank or investment accounts?',
+                ),
               ),
             ),
             content: Text(
@@ -71,7 +74,10 @@ class _StudioFaqCardState extends State<StudioFaqCard> {
             content: Text(
               docsSample(
                 context,
-                'Every report exports as CSV, including the royalty ledger.',
+                docsSample(
+                  context,
+                  'Every report exports as CSV, including the royalty ledger.',
+                ),
               ),
             ),
           ),
@@ -263,7 +269,7 @@ class StudioToolbarCard extends StatelessWidget {
       title: docsSample(context, 'Format'),
       subtitle: docsSample(
         context,
-        'Shortcuts are documented on every control.',
+        docsSample(context, 'Shortcuts are documented on every control.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

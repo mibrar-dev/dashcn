@@ -7,14 +7,17 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 
-/// Expanded rail width: 240 px (compact dashboard density).
-const double kSidebarExpandedWidth = 240.0;
+/// Expanded rail width: 256 px (SIZING.md sidebar).
+const double kSidebarExpandedWidth = 256.0;
 
-/// Collapsed rail width: 56 px, icons only with tooltips.
-const double kSidebarCollapsedWidth = 56.0;
+/// Collapsed rail width: 64 px, icons only with tooltips.
+const double kSidebarCollapsedWidth = 64.0;
 
-/// Navigation row height: 32 px (compact density row minimum).
+/// Navigation row height: 32 px (SIZING.md row minimum).
 const double kSidebarItemHeight = 32.0;
+
+/// Nested sub-menu row height: 28 px (SIZING.md bars' inner items).
+const double kSidebarSubItemHeight = 28.0;
 
 /// Navigation and header icon size: 16 px (compact density icon).
 const double kSidebarIconSize = 16.0;
@@ -49,10 +52,10 @@ class SidebarTheme extends ComponentThemeData
     this.surfaceBlur,
   });
 
-  /// Expanded rail width. Default: [kSidebarExpandedWidth] (240).
+  /// Expanded rail width. Default: [kSidebarExpandedWidth] (256).
   final double? expandedWidth;
 
-  /// Collapsed rail width. Default: [kSidebarCollapsedWidth] (56).
+  /// Collapsed rail width. Default: [kSidebarCollapsedWidth] (64).
   final double? collapsedWidth;
 
   /// Navigation row height. Default: [kSidebarItemHeight] (32).
@@ -166,10 +169,12 @@ class SidebarTheme extends ComponentThemeData
 }
 
 /// Token-derived baseline; every unset override field falls through here.
+///
+/// `itemHeight` stays null on purpose: top-level rows resolve 32 px and
+/// nested sub-menu rows 28 px in the sidebar (SIZING.md).
 const SidebarTheme sidebarDefaults = SidebarTheme(
   expandedWidth: kSidebarExpandedWidth,
   collapsedWidth: kSidebarCollapsedWidth,
-  itemHeight: kSidebarItemHeight,
   iconSize: kSidebarIconSize,
   background: ThemedColor.ref(ColorRef.sidebar),
   foreground: ThemedColor.ref(ColorRef.sidebarForeground),

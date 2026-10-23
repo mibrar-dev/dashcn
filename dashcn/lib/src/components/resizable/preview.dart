@@ -72,6 +72,6 @@ Widget _flexible(BuildContext context) {
 
 /// Named docs examples for `resizable`; the first entry is the default.
 List<ComponentPreview> get resizablePreviews => <ComponentPreview>[
-  ComponentPreview(docsSample(null, 'Absolute'), _absolute),
+  ComponentPreview('Absolute', _absolute),
   ComponentPreview(docsSample(null, 'Flexible'), _flexible),
 ];

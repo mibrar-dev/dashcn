@@ -15,7 +15,7 @@ import '../button/button.dart';
 import 'navigation_menu.dart';
 
 /// Featured tile for the Getting-started panel (upstream's gradient card).
-Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
+Widget _featuredTile(ThemeData theme) {
   return Button(
     variant: ButtonVariant.ghost,
     onPressed: () {},
@@ -34,9 +34,8 @@ Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
-          Text(
-            docsSample(context, 'Beautifully designed components'),
-          ).muted().small(),
+          const SizedBox(height: 4),
+          Text(docsSample(null, 'Beautifully designed components')).muted().small(),
         ],
       ),
     ),
@@ -44,35 +43,31 @@ Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
 }
 
 /// Getting-started panel: featured tile plus three links.
-Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
+Widget _gettingStarted(ThemeData theme) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      SizedBox(width: 200, child: _featuredTile(theme, context)),
+      SizedBox(width: 200, child: _featuredTile(theme)),
       const SizedBox(width: 12),
       Expanded(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             NavigationMenuContent(
-              title: Text(docsSample(context, 'Introduction')),
-              content: Text(
-                docsSample(context, 'Re-usable components for your apps'),
-              ),
+              title: Text(docsSample(null, 'Introduction')),
+              content: Text(docsSample(null, 'Re-usable components for your apps')),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
-              title: Text(docsSample(context, 'Installation')),
-              content: Text(
-                docsSample(context, 'How to install dependencies and code'),
-              ),
+              title: Text(docsSample(null, 'Installation')),
+              content: Text(docsSample(null, 'How to install dependencies and code')),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
-              title: Text(docsSample(context, 'Typography')),
-              content: Text(
-                docsSample(context, 'Styles for headings and paragraphs'),
-              ),
+              title: Text(docsSample(null, 'Typography')),
+              content: Text(docsSample(null, 'Styles for headings and paragraphs')),
               onPressed: _noop,
             ),
           ],
@@ -85,48 +80,38 @@ Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
 void _noop() {}
 
 /// Components panel: two-column grid of six links.
-Widget _componentsGrid([BuildContext? context]) {
+Widget _componentsGrid() {
   return NavigationMenuContentList(
     crossAxisCount: 2,
     children: <Widget>[
       NavigationMenuContent(
         title: Text('Alert Dialog'),
-        content: Text(
-          docsSample(context, 'A modal dialog that interrupts the user'),
-        ),
+        content: Text(docsSample(null, 'A modal dialog that interrupts the user')),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Hover Card'),
-        content: Text(
-          docsSample(context, 'For sighted users to preview content'),
-        ),
+        content: Text(docsSample(null, 'For sighted users to preview content')),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Progress'),
-        content: Text(
-          docsSample(context, 'Displays an indicator showing progress'),
-        ),
+        content: Text(docsSample(null, 'Displays an indicator showing progress')),
         onPressed: _noop,
       ),
       NavigationMenuContent(
-        title: Text(docsSample(context, 'Scroll Area')),
-        content: Text(
-          docsSample(context, 'Visually separates content into sections'),
-        ),
+        title: Text(docsSample(null, 'Scroll Area')),
+        content: Text(docsSample(null, 'Visually separates content into sections')),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Tabs'),
-        content: Text(
-          docsSample(context, 'A set of layered sections of content'),
-        ),
+        content: Text(docsSample(null, 'A set of layered sections of content')),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Tooltip'),
-        content: Text(docsSample(context, 'A popup that displays information')),
+        content: Text(docsSample(null, 'A popup that displays information')),
         onPressed: _noop,
       ),
     ],
@@ -158,17 +143,15 @@ class _DefaultBarState extends State<_DefaultBar> {
           child: NavigationMenu(
             children: <Widget>[
               NavigationMenuItem(
-                content: _gettingStarted(theme, context),
+                content: _gettingStarted(theme),
                 child: Text(docsSample(context, 'Getting started')),
               ),
               NavigationMenuItem(
-                content: _componentsGrid(context),
+                content: _componentsGrid(),
                 child: Text(docsSample(context, 'Components')),
               ),
               NavigationMenuItem(
-                onPressed: () => setState(
-                  () => _page = docsSample(context, 'Documentation'),
-                ),
+                onPressed: () => setState(() => _page = docsSample(context, 'Documentation')),
                 child: Text(docsSample(context, 'Docs')),
               ),
             ],
@@ -176,7 +159,7 @@ class _DefaultBarState extends State<_DefaultBar> {
         ),
         Gap(theme.spacing.md),
         Text(
-          '${'Viewing '}${docsSample(context, _page)}',
+          'Viewing $_page',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -255,7 +238,7 @@ Widget _withIcons(BuildContext context) {
 Widget _defaultBar(BuildContext context) => const _DefaultBar();
 
 /// Named docs examples for `navigation_menu`; the first entry is the default.
-List<ComponentPreview> get navigationMenuPreviews => <ComponentPreview>[
+List<ComponentPreview> navigationMenuPreviews = <ComponentPreview>[
   ComponentPreview(docsSample(null, 'Default'), _defaultBar),
   ComponentPreview(docsSample(null, 'Content list'), _contentList),
   ComponentPreview(docsSample(null, 'With icons'), _withIcons),

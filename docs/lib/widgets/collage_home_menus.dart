@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: overlay cards, part 2 — menubar, menu, command (P6-H1).
 //
 // `Menubar` opens real submenu popovers on tap; the dropdown surface shows
@@ -6,6 +5,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // real `Command` palette through a dialog.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/command/command.dart';
@@ -18,6 +19,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Menu bar`: registry menus with real submenu popovers.
 class HomeMenubarCard extends StatelessWidget {
@@ -26,9 +28,11 @@ class HomeMenubarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Menu bar'),
-      subtitle: docsSample(context, 'File, edit and view menus.'),
+      title: docsHome(locale, 'homeMenuTitle'),
+      subtitle: docsHome(locale, 'homeMenuSub'),
       children: <Widget>[
         // `Menubar` sizes its window intrinsically and cannot shrink below
         // its widest row. Clip-free horizontal scroll keeps it reachable in
@@ -108,9 +112,11 @@ class HomeDropdownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Quick actions'),
-      subtitle: docsSample(context, 'The menu surface, opened.'),
+      title: docsHome(locale, 'homeQuickTitle'),
+      subtitle: docsHome(locale, 'homeQuickSub'),
       children: <Widget>[
         SizedBox(
           width: 220,
@@ -153,10 +159,12 @@ class HomeCommandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Command palette'),
-      subtitle: docsSample(context, 'Every page, one keystroke away.'),
+      title: docsHome(locale, 'homePaletteTitle'),
+      subtitle: docsHome(locale, 'homePaletteSub'),
       children: <Widget>[
         Button(
           variant: ButtonVariant.outline,

@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: form cards (P6-H1).
 //
 // Extends the Theme Studio form blocks (`studio_blocks/studio_forms.dart`):
@@ -6,6 +5,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/select/select.dart';
@@ -16,6 +17,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Payout Threshold`: a select, a slider with a live amount and a textarea.
 class HomePayoutCard extends StatefulWidget {
@@ -38,16 +40,15 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Payout Threshold'),
-      subtitle: docsSample(
-        context,
-        'Set the minimum balance before a payout is triggered.',
-      ),
+      title: docsHome(locale, 'homePayoutTitle'),
+      subtitle: docsHome(locale, 'homePayoutSub'),
       trailing: const Icon(LucideIcons.x, size: 14),
       children: <Widget>[
-        StudioFieldLabel(docsSample(context, 'Preferred Currency')),
+        StudioFieldLabel(docsHome(locale, 'homePrefCurrency')),
         const Gap(6),
         Select<String>(
           value: _currency,
@@ -159,8 +160,10 @@ class _HomeReportCardState extends State<HomeReportCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Report an Issue'),
+      title: docsHome(locale, 'homeReportTitle'),
       subtitle: docsSample(
         context,
         'Tell us what went wrong and we will pick it up.',

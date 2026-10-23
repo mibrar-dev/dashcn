@@ -44,7 +44,10 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
       title: docsSample(context, 'Payout Threshold'),
       subtitle: docsSample(
         context,
-        'Set the minimum balance before a payout is triggered.',
+        docsSample(
+          context,
+          'Set the minimum balance before a payout is triggered.',
+        ),
       ),
       trailing: const Icon(LucideIcons.x, size: 14),
       child: Column(
@@ -122,7 +125,10 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
             maxLines: 4,
             hintText: docsSample(
               context,
-              'Add any notes for this payout configuration...',
+              docsSample(
+                context,
+                'Add any notes for this payout configuration...',
+              ),
             ),
           ),
           const Gap(16),
@@ -169,7 +175,7 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
       title: docsSample(context, 'Buy Investment'),
       subtitle: docsSample(
         context,
-        'A strategy for building wealth over time.',
+        docsSample(context, 'A strategy for building wealth over time.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -269,7 +275,7 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
       title: docsSample(context, 'Report an Issue'),
       subtitle: docsSample(
         context,
-        'Tell us what went wrong and we will pick it up.',
+        docsSample(context, 'Tell us what went wrong and we will pick it up.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -294,7 +300,10 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
             maxLines: 6,
             hintText: docsSample(
               context,
-              'Include track names, dates and any error codes.',
+              docsSample(
+                context,
+                'Include track names, dates and any error codes.',
+              ),
             ),
           ),
           const Gap(16),
@@ -343,7 +352,7 @@ class _StudioCreateAccountCardState extends State<StudioCreateAccountCard> {
       title: docsSample(context, 'Create Account'),
       subtitle: docsSample(
         context,
-        'Start distributing your music in minutes.',
+        docsSample(context, 'Start distributing your music in minutes.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

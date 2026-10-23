@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: overlay cards, part 1 — dialog, alert, drawer (P6-H1).
 //
 // Every card opens its real registry overlay (`showDialog`,
@@ -7,6 +6,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // the overlay opens on demand.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/alert_dialog/alert_dialog.dart';
 import '../ui/dashcn/components/avatar/avatar.dart';
@@ -18,6 +19,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Share document`: an avatar row whose action opens a real dialog.
 class HomeDialogCard extends StatelessWidget {
@@ -26,10 +28,12 @@ class HomeDialogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Share document'),
-      subtitle: docsSample(context, 'Invite people to this workspace.'),
+      title: docsHome(locale, 'homeShareDocTitle'),
+      subtitle: docsHome(locale, 'homeShareDocSub'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -99,10 +103,12 @@ class HomeAlertConfirmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Danger zone'),
-      subtitle: docsSample(context, 'Deleting a project cannot be undone.'),
+      title: docsHome(locale, 'homeDangerTitle'),
+      subtitle: docsHome(locale, 'homeDangerSub'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -157,8 +163,10 @@ class HomeDrawerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Account panel'),
+      title: docsHome(locale, 'homeAccountPanel'),
       subtitle: docsSample(context, 'The same content as a drawer or a sheet.'),
       children: <Widget>[
         Row(

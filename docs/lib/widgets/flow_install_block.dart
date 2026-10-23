@@ -5,6 +5,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_flows.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
@@ -39,10 +41,15 @@ class _FlowInstallBlockState extends State<FlowInstallBlock> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const HeadingAnchor(id: 'installation', title: 'Installation'),
+        HeadingAnchor(
+          id: 'installation',
+          title: docsChrome(locale, 'secInstallation'),
+        ),
         const Gap(16),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -50,12 +57,12 @@ class _FlowInstallBlockState extends State<FlowInstallBlock> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _LineTab(
-                label: 'Package',
+                label: docsChrome(locale, 'cmpPackage'),
                 selected: _tab == 0,
                 onTap: () => setState(() => _tab = 0),
               ),
               _LineTab(
-                label: 'Own the code',
+                label: docsChrome(locale, 'cmpOwnCode'),
                 selected: _tab == 1,
                 onTap: () => setState(() => _tab = 1),
               ),

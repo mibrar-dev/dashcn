@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: settings cards (P6-H1).
 //
 // Extends the Theme Studio settings blocks
@@ -7,6 +6,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -15,6 +16,7 @@ import '../ui/dashcn/components/switch/switch.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Notifications`: switch rows, the way upstream's settings cards read.
 class HomeNotificationsCard extends StatefulWidget {
@@ -49,8 +51,10 @@ class _HomeNotificationsCardState extends State<HomeNotificationsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Notifications'),
+      title: docsHome(locale, 'homeNotifTitle'),
       subtitle: docsSample(
         context,
         'Choose what you want to be notified about.',
@@ -139,8 +143,10 @@ class _HomePreferencesCardState extends State<HomePreferencesCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Preferences'),
+      title: docsHome(locale, 'homePrefTitle'),
       subtitle: docsSample(
         context,
         'Manage your account settings and notifications.',
@@ -247,9 +253,11 @@ class _HomeCookieCardState extends State<HomeCookieCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Cookie Settings'),
-      subtitle: docsSample(context, 'Choose which cookies we may set.'),
+      title: docsHome(locale, 'homeCookieTitle'),
+      subtitle: docsHome(locale, 'homeCookieSub'),
       children: <Widget>[
         for (int i = 0; i < rows.length; i++)
           Padding(

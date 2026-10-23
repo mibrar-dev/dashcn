@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: date and time cards (P6-H1).
 //
 // `Release date` and `Reporting Period` extend the Theme Studio picker
@@ -6,6 +5,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // registry `TimePicker` the same way.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/calendar/calendar.dart';
@@ -18,6 +19,7 @@ import '../ui/dashcn/primitives/date_math.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// A calendar block (the reference's release-date picker).
 class HomeCalendarCard extends StatefulWidget {
@@ -34,8 +36,10 @@ class _HomeCalendarCardState extends State<HomeCalendarCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Release date'),
+      title: docsHome(locale, 'homeReleaseDate'),
       subtitle: _subtitle(_selected),
       trailing: const Icon(LucideIcons.calendarDays, size: 16),
       children: <Widget>[
@@ -69,8 +73,10 @@ class _HomeDateRangeCardState extends State<HomeDateRangeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Reporting Period'),
+      title: docsHome(locale, 'homeReportPeriod'),
       subtitle: _periodSubtitle(_range),
       children: <Widget>[
         DateRangePicker(
@@ -108,9 +114,11 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Standup time'),
+      title: docsHome(locale, 'homeStandup'),
       subtitle: 'Daily at ${_format(_time)}',
       trailing: Icon(
         LucideIcons.clock,

@@ -344,7 +344,7 @@ class _Pricing01Faq extends StatelessWidget {
                 context,
                 docsSample(
                   context,
-                  'Yes. Upgrades apply immediately, downgrades next cycle.',
+                  docsSample(context, 'Yes. Upgrades apply immediately, downgrades next cycle.'),
                 ),
               ),
             ),
@@ -354,7 +354,7 @@ class _Pricing01Faq extends StatelessWidget {
                 context,
                 docsSample(
                   context,
-                  'Every plan starts with 14 days, no card required.',
+                  docsSample(context, 'Every plan starts with 14 days, no card required.'),
                 ),
               ),
             ),

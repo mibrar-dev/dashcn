@@ -51,7 +51,7 @@ class _StudioNotificationsCardState extends State<StudioNotificationsCard> {
       title: docsSample(context, 'Notifications'),
       subtitle: docsSample(
         context,
-        'Choose what you want to be notified about.',
+        docsSample(context, 'Choose what you want to be notified about.'),
       ),
       trailing: Badge(
         variant: BadgeVariant.outline,

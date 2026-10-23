@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: data-display cards (P6-H1).
 //
 // Extends the Theme Studio blocks (`studio_blocks/studio_list.dart`,
@@ -7,6 +6,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // empty state — re-shelled in [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/accordion/accordion.dart';
 import '../ui/dashcn/components/avatar/avatar.dart';
@@ -17,6 +18,7 @@ import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Recent Transactions`: a list of avatar rows with a category caption.
 class HomeTransactionsCard extends StatelessWidget {
@@ -57,9 +59,11 @@ class HomeTransactionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Recent Transactions'),
-      subtitle: docsSample(context, 'Your latest account activity.'),
+      title: docsHome(locale, 'homeRecentTitle'),
+      subtitle: docsHome(locale, 'homeRecentSub'),
       trailing: Button(
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
@@ -69,7 +73,7 @@ class HomeTransactionsCard extends StatelessWidget {
       children: <Widget>[
         for (int i = 0; i < rows.length; i++) ...<Widget>[
           if (i > 0)
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 2),
               child: _HomeRowDivider(),
             ),
@@ -161,12 +165,11 @@ class HomeTeamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Team Members'),
-      subtitle: docsSample(
-        context,
-        'Four people have access to this workspace.',
-      ),
+      title: docsHome(locale, 'homeTeamTitle'),
+      subtitle: docsHome(locale, 'homeTeamSub'),
       children: <Widget>[
         for (final (String name, String role) in members)
           Padding(
@@ -239,9 +242,11 @@ class HomeFaqCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Frequently asked questions'),
-      subtitle: docsSample(context, 'General, Billing and Goals'),
+      title: docsHome(locale, 'homeFaqTitle'),
+      subtitle: docsHome(locale, 'homeFaqSub'),
       children: <Widget>[
         Accordion(
           items: <AccordionItem>[
@@ -259,10 +264,7 @@ class HomeFaqCard extends StatelessWidget {
               trigger: Text(
                 docsSample(
                   context,
-                  docsSample(
-                    context,
-                    'How do I connect my bank or investment accounts?',
-                  ),
+                  'How do I connect my bank or investment accounts?',
                 ),
               ),
               content: Text(
@@ -295,9 +297,11 @@ class HomeEmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'New Release'),
-      subtitle: docsSample(context, 'Nothing here yet.'),
+      title: docsHome(locale, 'homeReleaseTitle'),
+      subtitle: docsHome(locale, 'homeReleaseEmpty'),
       children: <Widget>[
         EmptyState(
           variant: EmptyStateVariant.empty,

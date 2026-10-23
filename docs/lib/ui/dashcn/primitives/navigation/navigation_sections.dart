@@ -54,20 +54,29 @@ class NavigationGroup extends StatelessWidget implements NavigationBarItem {
     final NavigationControlData? data = Data.maybeOf<NavigationControlData>(
       context,
     );
-    final Widget padded = Container(
-      alignment: labelAlignment ?? Alignment.center,
-      padding:
-          labelPadding ?? EdgeInsets.symmetric(horizontal: 8 * ambient.scaling),
-      child: Hidden(
-        hidden: !(data?.expanded ?? true),
-        direction: Axis.vertical,
-        reverse: true,
-        child: DefaultTextStyle.merge(
-          style: ambient.typography.xSmall.copyWith(
-            color: ambient.colors.mutedForeground,
+    // SIZING.md: group labels are 32 px rows; the label sits at the row's
+    // start edge so icon columns line up with the rows below.
+    final Widget padded = SizedBox(
+      height: 32,
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Container(
+          alignment: labelAlignment ?? Alignment.center,
+          padding:
+              labelPadding ??
+              EdgeInsets.symmetric(horizontal: 8 * ambient.scaling),
+          child: Hidden(
+            hidden: !(data?.expanded ?? true),
+            direction: Axis.vertical,
+            reverse: true,
+            child: DefaultTextStyle.merge(
+              style: ambient.typography.xSmall.copyWith(
+                color: ambient.colors.mutedForeground,
+              ),
+              maxLines: 1,
+              child: _overflowLabel(label, labelOverflow, data),
+            ),
           ),
-          maxLines: 1,
-          child: _overflowLabel(label, labelOverflow, data),
         ),
       ),
     );
@@ -122,10 +131,19 @@ class NavigationLabel extends StatelessWidget implements NavigationBarItem {
           color: ambient.colors.mutedForeground,
         ),
         maxLines: 1,
-        child: Padding(
-          padding:
-              padding ?? EdgeInsets.symmetric(horizontal: 8 * ambient.scaling),
-          child: _overflowLabel(child, overflow, data),
+        // SIZING.md: group labels are 32 px rows; the text sits at the
+        // row's start so icon columns line up with the rows below.
+        child: SizedBox(
+          height: 32,
+          child: Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Padding(
+              padding:
+                  padding ??
+                  EdgeInsets.symmetric(horizontal: 8 * ambient.scaling),
+              child: _overflowLabel(child, overflow, data),
+            ),
+          ),
         ),
       ),
     );

@@ -40,7 +40,7 @@ class CollageGoalCard extends StatelessWidget {
       title: docsSample(context, 'Set a goal'),
       subtitle: docsSample(
         context,
-        'Small forms built from the same primitives',
+        docsSample(context, 'Small forms built from the same primitives'),
       ),
       children: <Widget>[
         Input(hintText: docsSample(context, 'Goal name')),

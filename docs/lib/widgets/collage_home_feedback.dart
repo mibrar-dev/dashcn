@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: feedback cards (P6-H1).
 //
 // `Status` extends the Theme Studio block (`studio_blocks/studio_form.dart`);
@@ -6,6 +5,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // from the same registry components for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/alert/alert.dart';
 import '../ui/dashcn/components/badge/badge.dart';
@@ -18,6 +19,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Status`: every badge variant, so a preset that changes the secondary /
 /// outline / destructive colours shows up.
@@ -27,8 +29,10 @@ class HomeStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Status'),
+      title: docsHome(locale, 'homeStatusTitle'),
       children: <Widget>[
         Wrap(
           spacing: 8,
@@ -64,9 +68,11 @@ class HomeAlertsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Notices'),
-      subtitle: docsSample(context, 'Callouts for status and warnings.'),
+      title: docsHome(locale, 'homeNoticesTitle'),
+      subtitle: docsHome(locale, 'homeNoticesSub'),
       children: <Widget>[
         Alert(
           leading: Icon(LucideIcons.info, size: 16),
@@ -83,10 +89,7 @@ class HomeAlertsCard extends StatelessWidget {
           content: Text(
             docsSample(
               context,
-              docsSample(
-                context,
-                'The bank rejected the transfer. Update the IBAN.',
-              ),
+              'The bank rejected the transfer. Update the IBAN.',
             ),
           ),
         ),
@@ -114,10 +117,12 @@ class HomeLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Storage'),
-      subtitle: docsSample(context, 'Synced 4 minutes ago.'),
+      title: docsHome(locale, 'homeStorageTitle'),
+      subtitle: docsHome(locale, 'homeStorageSub'),
       children: <Widget>[
         for (final (String label, String detail, double value) in bars)
           Padding(
@@ -167,9 +172,11 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: docsSample(context, 'Rate this release'),
-      subtitle: docsSample(context, 'How did Midnight Drive land?'),
+      title: docsHome(locale, 'homeRateTitle'),
+      subtitle: docsHome(locale, 'homeRateSub'),
       children: <Widget>[
         StarRating(
           value: _rating,
@@ -180,7 +187,7 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Chip(child: Text(docsSample(context, 'Mix'))),
+            Chip(child: Text('Mix')),
             Chip(child: Text(docsSample(context, 'Master'))),
             Chip(child: Text(docsSample(context, 'Artwork'))),
           ],

@@ -167,7 +167,7 @@ class StudioTeamMembersCard extends StatelessWidget {
       title: docsSample(context, 'Team Members'),
       subtitle: docsSample(
         context,
-        'Four people have access to this workspace.',
+        docsSample(context, 'Four people have access to this workspace.'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

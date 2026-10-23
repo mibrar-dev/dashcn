@@ -153,6 +153,13 @@ String? _previewListName(File preview) {
     path: preview.path,
   );
   for (final Declaration declaration in result.unit.declarations) {
+    if (declaration is FunctionDeclaration && declaration.isGetter) {
+      final getterType = declaration.returnType?.toSource() ?? '';
+      if (getterType.replaceAll(' ', '') == 'List<ComponentPreview>') {
+        return declaration.name.lexeme;
+      }
+      continue;
+    }
     if (declaration is! TopLevelVariableDeclaration) continue;
     final list = declaration.variables;
     if (list.variables.length != 1) continue;

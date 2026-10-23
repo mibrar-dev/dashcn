@@ -85,7 +85,7 @@ class _SkeletonSkeletonBlockState extends State<_SkeletonSkeletonBlock> {
                     context,
                     docsSample(
                       context,
-                      'Body copy that keeps its box while loading.',
+                      docsSample(context, 'Body copy that keeps its box while loading.'),
                     ),
                   ),
                   // Body copy renders over the muted shimmer sweep.

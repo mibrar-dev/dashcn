@@ -106,7 +106,7 @@ class Signup02Form extends StatelessWidget {
               context,
               docsSample(
                 context,
-                'Start your 14-day trial. No credit card required.',
+                docsSample(context, 'Start your 14-day trial. No credit card required.'),
               ),
             ),
             style: theme.typography.textMuted.copyWith(
@@ -263,7 +263,7 @@ class Signup02Form extends StatelessWidget {
                   context,
                   docsSample(
                     context,
-                    'Trial started — check your inbox to verify it.',
+                    docsSample(context, 'Trial started — check your inbox to verify it.'),
                   ),
                 ),
                 style: theme.typography.textSmall,

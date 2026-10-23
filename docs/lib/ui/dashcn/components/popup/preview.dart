@@ -79,14 +79,16 @@ class _AnchoredDemo extends StatelessWidget {
 
 Widget _anchored(BuildContext context) => const _AnchoredDemo();
 
-/// A customized surface: widget-leg theme override (tinted fill, no border).
+/// A customized surface: widget-leg theme override (tinted fill). The fill
+/// and the text come from the paired `secondary` tokens so the text stays
+/// readable in light and dark mode alike.
 Widget _customized(BuildContext context) {
   return const SizedBox(
     width: 220,
     child: MenuPopup(
       theme: MenuPopupTheme(
-        background: ThemedColor.value(Color(0xFFF0FDF4)),
-        borderWidth: 0,
+        background: ThemedColor.ref(ColorRef.secondary),
+        foreground: ThemedColor.ref(ColorRef.secondaryForeground),
       ),
       children: <Widget>[_ProfileCard()],
     ),

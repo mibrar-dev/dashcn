@@ -68,7 +68,7 @@ class Login02Panel extends StatelessWidget {
                     Text(
                       docsSample(
                         context,
-                        '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."',
+                        docsSample(context, '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."'),
                       ),
                       style: theme.typography.textLarge,
                     ),

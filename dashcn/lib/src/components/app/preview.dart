@@ -52,7 +52,7 @@ class AppPreview extends StatelessWidget {
                             context,
                             docsSample(
                               context,
-                              'DashcnApp is wired and running.',
+                              docsSample(context, 'DashcnApp is wired and running.'),
                             ),
                           ),
                           style: theme.typography.large.copyWith(

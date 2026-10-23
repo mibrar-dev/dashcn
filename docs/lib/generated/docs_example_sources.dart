@@ -19974,12 +19974,164 @@ Widget _single(BuildContext context) {
     DocsExampleSource(
       name: 'Default',
       builder: '_commandDefault',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 List<String> _commandValues = <String>[
@@ -20030,11 +20182,17 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   if (!widget.buildGroups) {
                     for (final String value in ranked) {
                       items.add(
-                        SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
-                          title: Text(value),
-                          onTap: () => setState(() => _lastCommand = value),
+                        // SIZING h-8 (32 px) like the menu family; the
+                        // hit-test-only wrapper reports the 48 px tap target
+                        // without changing layout (switch to TouchHitArea
+                        // once PR 60 merges).
+                        _CommandRowHitArea(
+                          vertical: 8,
+                          child: SubFocusListItem(
+                            minHeight: 32,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
                         ),
                       );
                     }
@@ -20063,11 +20221,16 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                       for (final String value in ranked) {
                         items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
+                          // SIZING h-8 (32 px); hit-test-only 48 px target
+                          // via the local wrapper (switch to TouchHitArea
+                          // once PR 60 merges).
+                          _CommandRowHitArea(
+                            vertical: 8,
+                            child: SubFocusListItem(
+                              minHeight: 32,
+                              title: Text(value),
+                              onTap: () => setState(() => _lastCommand = value),
+                            ),
                           ),
                         );
                       }
@@ -20082,7 +20245,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
             Text(
               _lastCommand == null
                   ? 'Run a command to see it here'
-                  : '${'Ran'} ${_lastCommand!}',
+                  : 'Ran $_lastCommand',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colors.mutedForeground,
@@ -20102,12 +20265,164 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
     DocsExampleSource(
       name: 'With groups',
       builder: '_commandWithGroups',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 List<String> _commandValues = <String>[
@@ -20158,11 +20473,17 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   if (!widget.buildGroups) {
                     for (final String value in ranked) {
                       items.add(
-                        SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
-                          title: Text(value),
-                          onTap: () => setState(() => _lastCommand = value),
+                        // SIZING h-8 (32 px) like the menu family; the
+                        // hit-test-only wrapper reports the 48 px tap target
+                        // without changing layout (switch to TouchHitArea
+                        // once PR 60 merges).
+                        _CommandRowHitArea(
+                          vertical: 8,
+                          child: SubFocusListItem(
+                            minHeight: 32,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
                         ),
                       );
                     }
@@ -20191,11 +20512,16 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                       for (final String value in ranked) {
                         items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
+                          // SIZING h-8 (32 px); hit-test-only 48 px target
+                          // via the local wrapper (switch to TouchHitArea
+                          // once PR 60 merges).
+                          _CommandRowHitArea(
+                            vertical: 8,
+                            child: SubFocusListItem(
+                              minHeight: 32,
+                              title: Text(value),
+                              onTap: () => setState(() => _lastCommand = value),
+                            ),
                           ),
                         );
                       }
@@ -20210,7 +20536,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
             Text(
               _lastCommand == null
                   ? 'Run a command to see it here'
-                  : '${'Ran'} ${_lastCommand!}',
+                  : 'Ran $_lastCommand',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colors.mutedForeground,
@@ -20231,12 +20557,164 @@ Widget _commandWithGroups(BuildContext context) =>
     DocsExampleSource(
       name: 'Dialog',
       builder: '_commandDialog',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 List<String> _commandValues = <String>[
@@ -20255,10 +20733,12 @@ class _CommandDialogTrigger extends StatelessWidget {
   Stream<List<Widget>> _results(BuildContext context, String? query) async* {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
+      // SIZING h-8 (32 px); hit-test-only 48 px target (local wrapper until
+      // PR 60's TouchHitArea lands).
       for (final String value in ranked)
-        SubFocusListItem(
-          minHeight: 48,
-          title: Text(value),
+        _CommandRowHitArea(
+          vertical: 8,
+          child: SubFocusListItem(minHeight: 32, title: Text(value)),
         ),
     ];
   }
@@ -20281,12 +20761,164 @@ Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
     DocsExampleSource(
       name: 'Customized',
       builder: '_commandCustomized',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 List<String> _commandValues = <String>[
@@ -20298,7 +20930,8 @@ List<String> _commandValues = <String>[
   'Settings',
 ];
 
-/// A customized palette: widget-leg theme override (tinted fill).
+/// A customized palette: widget-leg theme override (muted tint that stays
+/// readable in light and dark mode).
 Widget _commandCustomized(BuildContext context) {
   return Center(
     child: SizedBox(
@@ -20308,7 +20941,7 @@ Widget _commandCustomized(BuildContext context) {
         child: Command(
           debounceDuration: Duration.zero,
           theme: const CommandTheme(
-            background: ThemedColor.value(Color(0xFFF0FDF4)),
+            background: ThemedColor.ref(ColorRef.muted),
           ),
           builder: (context, query) async* {
             final List<String> ranked = rankCommandLabels(
@@ -20316,8 +20949,13 @@ Widget _commandCustomized(BuildContext context) {
               query,
             );
             yield <Widget>[
+              // SIZING h-8 (32 px); hit-test-only 48 px target (local
+              // wrapper until PR 60's TouchHitArea lands).
               for (final String value in ranked)
-                SubFocusListItem(minHeight: 48, title: Text(value)),
+                _CommandRowHitArea(
+                  vertical: 8,
+                  child: SubFocusListItem(minHeight: 32, title: Text(value)),
+                ),
             ];
           },
         ),
@@ -22446,6 +23084,7 @@ Widget _breadcrumbResponsive(BuildContext context) => const _ResponsiveTrail();
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -22504,6 +23143,7 @@ Widget _default(BuildContext context) =>
       builder: '_withLabels',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -22562,6 +23202,7 @@ Widget _withLabels(BuildContext context) =>
       builder: '_sidebar',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -22599,13 +23240,38 @@ class _SidebarDemoState extends State<_SidebarDemo> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    // Tall enough for the header, both groups, the expanded collapsible
+    // children and the footer with no scrolling.
     return SizedBox(
-      width: 260,
-      height: 320,
+      width: 256,
+      height: 420,
       child: NavigationBar(
         container: NavigationContainerType.sidebar,
         index: _index,
         onSelected: (int value) => setState(() => _index = value),
+        header: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+            child: Text(
+              'Acme Inc',
+              style: theme.typography.small.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        footer: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+            child: Text(
+              'v1.0.0',
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+          ),
+        ],
         children: <NavigationBarItem>[
           NavigationLabel(child: Text('Main')),
           ..._barItems(context),
@@ -22655,7 +23321,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';
 
 /// Featured tile for the Getting-started panel (upstream's gradient card).
-Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
+Widget _featuredTile(ThemeData theme) {
   return Button(
     variant: ButtonVariant.ghost,
     onPressed: () {},
@@ -22674,9 +23340,8 @@ Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
-          Text(
-            'Beautifully designed components',
-          ).muted().small(),
+          const SizedBox(height: 4),
+          Text('Beautifully designed components').muted().small(),
         ],
       ),
     ),
@@ -22684,11 +23349,11 @@ Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
 }
 
 /// Getting-started panel: featured tile plus three links.
-Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
+Widget _gettingStarted(ThemeData theme) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      SizedBox(width: 200, child: _featuredTile(theme, context)),
+      SizedBox(width: 200, child: _featuredTile(theme)),
       const SizedBox(width: 12),
       Expanded(
         child: Column(
@@ -22696,23 +23361,19 @@ Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
           children: <Widget>[
             NavigationMenuContent(
               title: Text('Introduction'),
-              content: Text(
-                'Re-usable components for your apps',
-              ),
+              content: Text('Re-usable components for your apps'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Installation'),
-              content: Text(
-                'How to install dependencies and code',
-              ),
+              content: Text('How to install dependencies and code'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Typography'),
-              content: Text(
-                'Styles for headings and paragraphs',
-              ),
+              content: Text('Styles for headings and paragraphs'),
               onPressed: _noop,
             ),
           ],
@@ -22725,43 +23386,33 @@ Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
 void _noop() {}
 
 /// Components panel: two-column grid of six links.
-Widget _componentsGrid([BuildContext? context]) {
+Widget _componentsGrid() {
   return NavigationMenuContentList(
     crossAxisCount: 2,
     children: <Widget>[
       NavigationMenuContent(
         title: Text('Alert Dialog'),
-        content: Text(
-          'A modal dialog that interrupts the user',
-        ),
+        content: Text('A modal dialog that interrupts the user'),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Hover Card'),
-        content: Text(
-          'For sighted users to preview content',
-        ),
+        content: Text('For sighted users to preview content'),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Progress'),
-        content: Text(
-          'Displays an indicator showing progress',
-        ),
+        content: Text('Displays an indicator showing progress'),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Scroll Area'),
-        content: Text(
-          'Visually separates content into sections',
-        ),
+        content: Text('Visually separates content into sections'),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Tabs'),
-        content: Text(
-          'A set of layered sections of content',
-        ),
+        content: Text('A set of layered sections of content'),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -22798,17 +23449,15 @@ class _DefaultBarState extends State<_DefaultBar> {
           child: NavigationMenu(
             children: <Widget>[
               NavigationMenuItem(
-                content: _gettingStarted(theme, context),
+                content: _gettingStarted(theme),
                 child: Text('Getting started'),
               ),
               NavigationMenuItem(
-                content: _componentsGrid(context),
+                content: _componentsGrid(),
                 child: Text('Components'),
               ),
               NavigationMenuItem(
-                onPressed: () => setState(
-                  () => _page = 'Documentation',
-                ),
+                onPressed: () => setState(() => _page = 'Documentation'),
                 child: Text('Docs'),
               ),
             ],
@@ -22816,7 +23465,7 @@ class _DefaultBarState extends State<_DefaultBar> {
         ),
         Gap(theme.spacing.md),
         Text(
-          '${'Viewing '}${_page}',
+          'Viewing $_page',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -23004,7 +23653,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -23260,7 +23909,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
 
 /// Full sidebar beside content on wide stages, phone bar + drawer below
 /// [kSidebarPhoneWidth] (the density phone breakpoint). Narrow desktop
-/// stages use the collapsed 56 px rail so the 240 px rail never overflows
+/// stages use the collapsed 64 px rail so the 256 px rail never overflows
 /// the docs 560 px example stage; the content column scrolls vertically
 /// when the stage height is bounded. Collapse control and account footer
 /// included.
@@ -23295,7 +23944,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
           // Docs stages (560 px at 1440 px viewports, 295 px at 375 px
           // viewports which take the phone branch above) stay overflow-free:
           // tight desktop widths keep the collapsed rail (narrower sidebar
-          // inside the stage) instead of forcing the full 240 px rail.
+          // inside the stage) instead of forcing the full 256 px rail.
           final bool narrowStage = width < 720;
           body = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23320,7 +23969,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -23691,7 +24340,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -23853,7 +24502,7 @@ class _DemoContent extends StatelessWidget {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -27122,14 +27771,16 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
-/// A customized surface: widget-leg theme override (tinted fill, no border).
+/// A customized surface: widget-leg theme override (tinted fill). The fill
+/// and the text come from the paired `secondary` tokens so the text stays
+/// readable in light and dark mode alike.
 Widget _customized(BuildContext context) {
   return const SizedBox(
     width: 220,
     child: MenuPopup(
       theme: MenuPopupTheme(
-        background: ThemedColor.value(Color(0xFFF0FDF4)),
-        borderWidth: 0,
+        background: ThemedColor.ref(ColorRef.secondary),
+        foreground: ThemedColor.ref(ColorRef.secondaryForeground),
       ),
       children: <Widget>[_ProfileCard()],
     ),

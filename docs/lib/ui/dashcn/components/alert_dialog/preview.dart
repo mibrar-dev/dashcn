@@ -76,7 +76,7 @@ Widget _deleteAccount(BuildContext context) => _Trigger(
         context,
         docsSample(
           context,
-          'This permanently deletes your account and all of its data. This action cannot be undone.',
+          docsSample(context, 'This permanently deletes your account and all of its data. This action cannot be undone.'),
         ),
       ),
     ),
@@ -100,7 +100,7 @@ Widget _discardChanges(BuildContext context) => _Trigger(
         context,
         docsSample(
           context,
-          'You have unsaved changes to this document. Leaving now will lose them.',
+          docsSample(context, 'You have unsaved changes to this document. Leaving now will lose them.'),
         ),
       ),
     ),
@@ -189,7 +189,7 @@ Widget _success(BuildContext context) => _Trigger(
         context,
         docsSample(
           context,
-          'Your subscription is active. A receipt was sent to your inbox.',
+          docsSample(context, 'Your subscription is active. A receipt was sent to your inbox.'),
         ),
       ),
     ),
@@ -219,7 +219,7 @@ class _LivePush extends StatelessWidget {
           description: Text(
             docsSample(
               context,
-              'This action cannot be undone. The project and its history is removed.',
+              docsSample(context, 'This action cannot be undone. The project and its history is removed.'),
             ),
           ),
           actionsBuilder: (BuildContext dialogContext) => <Widget>[

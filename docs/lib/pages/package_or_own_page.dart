@@ -7,6 +7,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose1.dart';
 import '../widgets/code_figure.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
@@ -38,87 +41,66 @@ class PackageOrOwnPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/package-or-own');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Package or own the code?',
-        description:
-            'Two ways to use the same components: depend on the package '
-            'or copy the sources. How to choose, how eject bridges them, '
-            'and how updates differ.',
+        title: docsContentPage(locale, 'pagePackageTitle'),
+        description: docsContentPage(locale, 'pagePackageDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Every component ships twice from the same source: as the '
-            'published dashcn package and as copyable files the CLI installs '
-            'into your app. Both render the same widgets from the same '
-            'theme tokens; they differ only in who owns the bytes.',
+          TypesetParagraph(docsProse1(locale, 'prosePackageP1')),
+          HeadingAnchor(
+            id: 'which-one',
+            title: docsProse1(locale, 'prosePackageH1'),
           ),
-          const HeadingAnchor(id: 'which-one', title: 'Which one?'),
-          const TypesetParagraph(
-            'Choose the package when you want semver updates and lean '
-            'imports. Choose own-the-code when you want to read, edit and '
-            'commit every line.',
-          ),
+          TypesetParagraph(docsProse1(locale, 'prosePackageP2')),
           const DocsCodeFigure(code: kPackageAddCommand, language: 'bash'),
           DocsCodeFigure(code: kPackageOrOwnDartSamples[0], language: 'dart'),
           DocsCodeFigure(code: kPackageOrOwnDartSamples[1], language: 'dart'),
-          const TypesetParagraph(
-            'Per-component imports keep package-mode builds lean; only the '
-            'components you import are compiled in.',
-          ),
+          TypesetParagraph(docsProse1(locale, 'prosePackageP3')),
           DocsCodeFigure(code: kPackageOrOwnDartSamples[2], language: 'dart'),
           const DocsCodeFigure(code: kOwnCodeGettingStarted, language: 'bash'),
           DocsCodeFigure(code: kPackageOrOwnDartSamples[3], language: 'dart'),
-          const HeadingAnchor(id: 'eject', title: 'How eject works'),
+          HeadingAnchor(
+            id: 'eject',
+            title: docsProse1(locale, 'prosePackageH2'),
+          ),
           TypesetParagraph.rich(<InlineSpan>[
-            const TextSpan(text: 'Started on the package and outgrew it? '),
+            TextSpan(text: docsProse1(locale, 'prosePackageEjectA')),
             typesetInlineCodeSpan('dashcn eject button'),
-            const TextSpan(
-              text:
-                  ' copies that component (plus its closure) into your app '
-                  'and rewrites the app imports to match. ',
-            ),
+            TextSpan(text: docsProse1(locale, 'prosePackageEjectB')),
             typesetInlineCodeSpan('dashcn eject button --with-deps'),
-            const TextSpan(
-              text: ' also ejects its transitive component dependencies.',
-            ),
+            TextSpan(text: docsProse1(locale, 'prosePackageEjectC')),
           ]),
-          const HeadingAnchor(id: 'updates', title: 'How updates differ'),
-          const TypesetBullets(
+          HeadingAnchor(
+            id: 'updates',
+            title: docsProse1(locale, 'prosePackageH3'),
+          ),
+          TypesetBullets(
             items: <List<InlineSpan>>[
               <InlineSpan>[
                 TextSpan(
-                  text: 'Package: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  text: docsProse1(locale, 'prosePackageB1t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
-                  text:
-                      'update with the package manager; breaking changes '
-                      'arrive as new major versions.',
-                ),
+                TextSpan(text: docsProse1(locale, 'prosePackageB1b')),
               ],
               <InlineSpan>[
                 TextSpan(
-                  text: 'Own the code: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  text: docsProse1(locale, 'prosePackageB2t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
-                  text:
-                      'run dashcn update. Unchanged files are overwritten, '
-                      'locally edited files are reported and skipped, and '
-                      'user-owned *_theme.dart files are never touched.',
-                ),
+                TextSpan(text: docsProse1(locale, 'prosePackageB2b')),
               ],
             ],
           ),
-          const HeadingAnchor(id: 'lock-file', title: 'The lock file'),
-          const TypesetParagraph(
-            'dashcn.lock (v2) records the registry reference, the install '
-            'root, the theme selection and — per component — whether it is '
-            'a package dependency or owned sources. .dashcn/config.json '
-            'holds the install path and registry source. Commit both.',
+          HeadingAnchor(
+            id: 'lock-file',
+            title: docsProse1(locale, 'prosePackageH4'),
           ),
+          TypesetParagraph(docsProse1(locale, 'prosePackageP4')),
         ],
       ),
     );

@@ -72,7 +72,7 @@ class _Auth01ForgotPasswordScreenState
               context,
               docsSample(
                 context,
-                'Reset link sent. Check your inbox to continue.',
+                docsSample(context, 'Reset link sent. Check your inbox to continue.'),
               ),
             ),
             style: appTheme.typography.textSmall.copyWith(

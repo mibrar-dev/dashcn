@@ -50,7 +50,7 @@ Widget _richContent(BuildContext context) {
               context,
               docsSample(
                 context,
-                'Beautifully designed components that you can copy and paste.',
+                docsSample(context, 'Beautifully designed components that you can copy and paste.'),
               ),
             ),
           ),

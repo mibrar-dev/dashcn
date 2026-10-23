@@ -11,6 +11,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../theme/density.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import '../../primitives/overlay.dart';
@@ -44,8 +45,14 @@ Future<T?> showPopup<T>({
   double? maxHeight,
   PopupAdaptive? adaptive,
 }) {
+  // SIZING.md: popups with free content carry 8 px inner padding (menus
+  // with rows keep the 4 px surface padding); the surface still draws the
+  // single 1 px border from the popup theme.
   final MenuPopupTheme effectiveTheme = (theme ?? const MenuPopupTheme()).merge(
-    const MenuPopupTheme(minWidth: kOverlayMinWidthCompact),
+    const MenuPopupTheme(
+      minWidth: kOverlayMinWidthCompact,
+      padding: EdgeInsetsDensity.pxAll(8),
+    ),
   );
   return showPopover<T>(
     context: context,

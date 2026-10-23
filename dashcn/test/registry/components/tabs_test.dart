@@ -128,11 +128,11 @@ void main() {
     expect(_labelStyle(tester, 'Password').color, _dark.mutedForeground);
   });
 
-  testWidgets('strip is h-9, triggers h-30 with px-2 and text-sm labels', (
+  testWidgets('strip is 36, triggers 28 with px-2 and text-sm labels', (
     WidgetTester tester,
   ) async {
     await _pump(tester, _Strip());
-    // Strip content: 30px triggers + 3px padding top and bottom = 36.
+    // Strip content: 28px triggers + 4px padding top and bottom = 36.
     final Container strip = tester
         .widgetList<Container>(
           find.descendant(
@@ -143,8 +143,8 @@ void main() {
         .firstWhere((Container c) => c.child is IntrinsicHeight);
     expect(tester.getSize(find.byWidget(strip)).height, 36);
     final EdgeInsets stripPadding = strip.padding! as EdgeInsets;
-    expect(stripPadding.top, 3);
-    expect(tester.getSize(find.byType(TabButton).first).height, 30);
+    expect(stripPadding.top, 4);
+    expect(tester.getSize(find.byType(TabButton).first).height, 28);
     final EdgeInsets padding = _pill(tester, 0).padding! as EdgeInsets;
     expect(padding.left, 8);
     expect(padding.top, 0);

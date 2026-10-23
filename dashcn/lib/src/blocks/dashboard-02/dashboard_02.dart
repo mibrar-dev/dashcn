@@ -195,7 +195,7 @@ class _Dashboard02Filters extends StatelessWidget {
             context,
             docsSample(
               context,
-              'Sessions, devices and where the traffic came from.',
+              docsSample(context, 'Sessions, devices and where the traffic came from.'),
             ),
           ),
           style: theme.typography.textMuted.copyWith(

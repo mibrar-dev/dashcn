@@ -131,7 +131,7 @@ class _Dashboard01Header extends StatelessWidget {
             context,
             docsSample(
               context,
-              'Revenue, subscriptions and the most recent orders.',
+              docsSample(context, 'Revenue, subscriptions and the most recent orders.'),
             ),
           ),
           style: theme.typography.textMuted.copyWith(

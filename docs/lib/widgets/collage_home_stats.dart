@@ -1,4 +1,3 @@
-import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: charts-like stat cards (P6-H1).
 //
 // Extends the Theme Studio stat blocks (`studio_blocks/studio_stats.dart`):
@@ -6,6 +5,8 @@ import '../ui/dashcn/foundation/component_preview.dart';
 // in [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/progress/progress.dart';
@@ -16,6 +17,7 @@ import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 import 'studio_blocks/studio_paint.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Contribution History`: the reference's bar chart plus a payout row.
 class HomeContributionCard extends StatelessWidget {
@@ -33,10 +35,12 @@ class HomeContributionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Contribution History'),
-      subtitle: docsSample(context, 'Last 6 months of activity'),
+      title: docsHome(locale, 'homeContribHist'),
+      subtitle: docsHome(locale, 'homeContribHistSub'),
       children: <Widget>[
         const StudioContributionChart(bars: bars),
         const Gap(16),
@@ -143,10 +147,12 @@ class _HomeUsageCardState extends State<HomeUsageCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: docsSample(context, 'Power Usage'),
-      subtitle: docsSample(context, 'Whole home'),
+      title: docsHome(locale, 'homePowerTitle'),
+      subtitle: docsHome(locale, 'homePowerSub'),
       children: <Widget>[
         Select<String>(
           value: _window,
