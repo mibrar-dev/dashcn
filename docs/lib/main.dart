@@ -95,6 +95,10 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   /// reveal expands from here). Written on pointer-down, read on switch.
   Offset? _switchOrigin;
 
+  void _onSystemFontsChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -112,6 +116,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       initialRouteInformation: RouteInformation(uri: initialUri),
     );
     WidgetsBinding.instance.addObserver(this);
+    PaintingBinding.instance.systemFonts.addListener(_onSystemFontsChanged);
     widget.state.addListener(_onThemeChanged);
     WidgetsBinding.instance.addPostFrameCallback((Duration _) {
       dispatchWebAppReady();
@@ -133,6 +138,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    PaintingBinding.instance.systemFonts.removeListener(_onSystemFontsChanged);
     widget.state.removeListener(_onThemeChanged);
     _delegate.dispose();
     _routeInformationProvider.dispose();
