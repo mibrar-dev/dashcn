@@ -1482,7 +1482,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     name: 'Video Player',
     category: 'Typography & Media',
     description:
-        'SPEC glass control bar (title header, 10s skips, speed/captions more-menu, auto-hide), 64px centre button, live badge and camera fallback.',
+        'SPEC glass control bar (title header, 10s skips, speed/captions more-menu, auto-hide), 56px centre button, live badge and camera fallback.',
     install: 'dashcn add video_player',
     import:
         "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",

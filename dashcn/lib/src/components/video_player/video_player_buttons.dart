@@ -125,7 +125,7 @@ Widget videoIconButton({
 
 /// Centre or bar play/pause button.
 ///
-/// The big variant is the SPEC ~64px translucent glass circle; the bar
+/// The big variant is the SPEC 56px translucent glass circle; the bar
 /// variant is icon-only at 32px.
 Widget videoPlayButton(
   BuildContext context,

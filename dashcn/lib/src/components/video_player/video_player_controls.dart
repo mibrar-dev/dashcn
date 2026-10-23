@@ -1,9 +1,11 @@
 // Control bar for `video_player`: header + scrub + buttons + more menu.
 //
-// SPEC: frosted bar inset ~16px, radius ~14. Top: title (white 14) and muted
-// subtitle, elapsed/total right. Thin progress with dot thumb. Bottom row:
-// play, back 10s, forward 10s left; volume, captions, fullscreen, more right.
-// The more menu holds speeds (0.5x-3x), captions on/off and quality.
+// SPEC: frosted bar with 12 px padding: title (white 14) and muted
+// subtitle, elapsed/total right aligned to the title baseline. Thin progress
+// with dot thumb. Bottom row: play, back 10s, forward 10s left with 8 px
+// gaps; volume, captions, fullscreen, more right with 8 px gaps (32 px
+// visuals, 48 px touch targets). The more menu holds speeds (0.5x-3x),
+// captions on/off and quality.
 
 import 'package:flutter/widgets.dart';
 
@@ -163,7 +165,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
             headerBuilder: widget.headerBuilder,
             timeLabelBuilder: widget.timeLabelBuilder,
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 8),
           _scrub(context, c),
           if (_menuOpen &&
               widget.moreBuilder == null &&
@@ -176,6 +178,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
               onDone: () => setState(() => _menuOpen = false),
               strings: ComponentLocalizations.of(context),
             ),
+          const SizedBox(height: 8),
           _buttons(context, c, compactVolume: compactVolume, metrics: metrics),
         ],
       ),
@@ -209,13 +212,10 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
       buffered: c.buffered,
       enabled: !c.isLive,
       onSeek: c.seekTo,
-      trackColor:
-          widget.style.track?.resolve(colors) ?? const Color(0x59FFFFFF),
-      bufferedColor:
-          widget.style.buffered?.resolve(colors) ?? const Color(0x99FFFFFF),
-      fillColor: widget.style.accent?.resolve(colors) ?? colors.primary,
-      thumbColor:
-          widget.style.thumb?.resolve(colors) ?? const Color(0xFFFFFFFF),
+      trackColor: widget.style.track?.resolve(colors) ?? colors.border,
+      bufferedColor: widget.style.buffered?.resolve(colors) ?? colors.border,
+      fillColor: widget.style.accent?.resolve(colors) ?? widget.fg,
+      thumbColor: widget.style.thumb?.resolve(colors) ?? widget.fg,
       trackHeight: trackHeight,
     );
     return widget.progressBuilder?.call(context, c, defaults) ?? defaults;
@@ -228,8 +228,9 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     required VideoPlayerMetrics metrics,
   }) {
     final double iconSize = widget.style.iconSize ?? metrics.iconSize;
-    // SPEC compact density: 32px targets under 380px bar width.
-    final double target = compactVolume ? 32 : 48;
+    // 32 px visuals with 8 px gaps; 48 px touch targets via the invisible
+    // hit area (desktop layouts stay 32 px).
+    const double target = 48;
     return Row(
       children: <Widget>[
         videoPlayButton(
@@ -240,6 +241,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           minTarget: target,
           overrideBuilder: widget.playButtonBuilder,
         ),
+        const SizedBox(width: 8),
         videoIconButton(
           label: ComponentLocalizations.of(context).mediaSkipBack(10),
           icon: LucideIcons.rotateCcw,
@@ -248,6 +250,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
           minTarget: target,
           onTap: () => c.seekBy(const Duration(seconds: -10)),
         ),
+        const SizedBox(width: 8),
         videoIconButton(
           label: ComponentLocalizations.of(context).mediaSkipForward(10),
           icon: LucideIcons.rotateCw,
@@ -268,6 +271,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
             compact: compactVolume,
             minTarget: target,
           ),
+        const SizedBox(width: 8),
         if (widget.captionsButtonBuilder != null)
           widget.captionsButtonBuilder!(context, c)
         else
@@ -283,6 +287,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
             minTarget: target,
             onTap: c.toggleCaptions,
           ),
+        const SizedBox(width: 8),
         if (widget.showFullscreenButton)
           widget.fullscreenButtonBuilder?.call(context, c) ??
               videoIconButton(
@@ -293,6 +298,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
                 minTarget: target,
                 onTap: widget.onFullscreenRequested,
               ),
+        if (widget.showFullscreenButton) const SizedBox(width: 8),
         widget.moreBuilder?.call(context, c) ??
             (widget.speedBuilder?.call(context, c) ??
                 videoMoreButton(
@@ -380,14 +386,11 @@ class VideoMinimalBar extends StatelessWidget {
       buffered: c.buffered,
       enabled: !c.isLive,
       onSeek: c.seekTo,
-      trackColor:
-          style.track?.resolve(ambient.colors) ?? const Color(0x59FFFFFF),
+      trackColor: style.track?.resolve(ambient.colors) ?? ambient.colors.border,
       bufferedColor:
-          style.buffered?.resolve(ambient.colors) ?? const Color(0x99FFFFFF),
-      fillColor:
-          style.accent?.resolve(ambient.colors) ?? ambient.colors.primary,
-      thumbColor:
-          style.thumb?.resolve(ambient.colors) ?? const Color(0xFFFFFFFF),
+          style.buffered?.resolve(ambient.colors) ?? ambient.colors.border,
+      fillColor: style.accent?.resolve(ambient.colors) ?? fg,
+      thumbColor: style.thumb?.resolve(ambient.colors) ?? fg,
       trackHeight: style.trackHeight ?? metrics.trackHeight,
     );
     final Widget time = Text(
@@ -415,7 +418,7 @@ class VideoMinimalBar extends StatelessWidget {
             style,
             fg,
             c,
-            minTarget: 32,
+            minTarget: 48,
             overrideBuilder: playButtonBuilder,
           ),
           const SizedBox(width: 8),
@@ -425,14 +428,14 @@ class VideoMinimalBar extends StatelessWidget {
           const SizedBox(width: 8),
           time,
           if (showFullscreenButton) ...<Widget>[
-            const SizedBox(width: 4),
+            const SizedBox(width: 8),
             fullscreenButtonBuilder?.call(context, c) ??
                 videoIconButton(
                   label: ComponentLocalizations.of(context).mediaFullscreen,
                   icon: LucideIcons.fullscreen,
                   size: iconSize,
                   fg: fg,
-                  minTarget: 32,
+                  minTarget: 48,
                   onTap: onFullscreenRequested,
                 ),
           ],

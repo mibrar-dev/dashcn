@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'audio_player_metrics.dart';
 
@@ -306,13 +305,12 @@ const AudioPlayerTheme audioPlayerDefaults = AudioPlayerTheme(
   foreground: ThemedColor.ref(ColorRef.cardForeground),
   mutedForeground: ThemedColor.ref(ColorRef.mutedForeground),
   accent: ThemedColor.ref(ColorRef.primary),
-  track: ThemedColor.ref(ColorRef.secondary),
+  track: ThemedColor.ref(ColorRef.border),
   buffered: ThemedColor.ref(ColorRef.muted),
   thumb: ThemedColor.ref(ColorRef.primary),
   coverBackground: ThemedColor.ref(ColorRef.muted),
   borderColor: ThemedColor.ref(ColorRef.border),
   borderWidth: 1,
   coverSize: 44,
-  padding: EdgeInsetsDensity.pxSymmetric(horizontal: 16),
   fadeDuration: kDefaultDuration,
 );

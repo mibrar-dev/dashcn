@@ -15296,7 +15296,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'accent',
         type: 'ThemedColor?',
-        description: 'played fill and play button, primary',
+        description: 'played fill override, null = foreground',
       ),
       DocsThemeField(
         name: 'background',
@@ -15323,7 +15323,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
         name: 'controlSize',
         type: 'double?',
         description:
-            'play button diameter, null = 32 (pill rows) / 56 (expanded card)',
+            'play button diameter, null = 36 (pill) / 48 (expanded card)',
       ),
       DocsThemeField(
         name: 'coverBackground',
@@ -15353,7 +15353,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'iconSize',
         type: 'double?',
-        description: 'button icons, null = density default (16 compact)',
+        description: 'button icons, null = 16',
       ),
       DocsThemeField(
         name: 'mutedForeground',
@@ -15363,7 +15363,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'padding',
         type: 'EdgeInsetsGeometry?',
-        description: 'card padding, density horizontal 10 (pill) / 16 (card)',
+        description: 'card padding, 12 px horizontal (pill) / 16 px all (card)',
       ),
       DocsThemeField(
         name: 'subtitleTextStyle',
@@ -15398,7 +15398,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'track',
         type: 'ThemedColor?',
-        description: 'unplayed track, secondary',
+        description: 'unplayed track, border',
       ),
       DocsThemeField(
         name: 'trackHeight',
@@ -15624,7 +15624,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'accent',
         type: 'ThemedColor?',
-        description: 'played fill, primary',
+        description: 'played fill override, null = foreground (white)',
       ),
       DocsThemeField(
         name: 'background',
@@ -15649,12 +15649,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'controlSize',
         type: 'double?',
-        description: 'centre button, null = density default (64 compact)',
+        description: 'centre button, null = 56',
       ),
       DocsThemeField(
         name: 'controlsPadding',
         type: 'EdgeInsetsGeometry?',
-        description: 'bar padding, null = density default (10h/6v compact)',
+        description: 'bar padding, null = 12 px all',
       ),
       DocsThemeField(
         name: 'controlsTimeout',
@@ -15674,7 +15674,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'iconSize',
         type: 'double?',
-        description: 'bar icons, null = density default (16 compact)',
+        description: 'bar icons, null = 16',
       ),
       DocsThemeField(
         name: 'scrim',
@@ -15704,12 +15704,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'track',
         type: 'ThemedColor?',
-        description: 'unplayed track, translucent white',
+        description: 'unplayed track, border',
       ),
       DocsThemeField(
         name: 'trackHeight',
         type: 'double?',
-        description: 'scrub height, null = density default (4 compact)',
+        description: 'scrub height, null = 4',
       ),
     ],
   ),
