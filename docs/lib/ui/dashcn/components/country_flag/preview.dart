@@ -22,7 +22,6 @@ Widget _countryFlagDefault(BuildContext context) {
       CountryFlag.fromCountryCode('JP'),
       CountryFlag.fromCountryCode('DE'),
       CountryFlag.fromCountryCode('BR'),
-      CountryFlag.fromCountryCode('XX'),
       CountryFlag.fromCurrencyCode('JPY'),
       CountryFlag.fromPhonePrefix('+49'),
     ],

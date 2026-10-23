@@ -20,7 +20,10 @@ Widget _collapsibleRow(BuildContext context, String label) {
       color: theme.colors.muted,
       borderRadius: theme.borderRadiusLg,
     ),
-    child: Padding(padding: EdgeInsetsDensity.pxAll(12), child: Text(label)),
+    child: DensityContentPadding(
+      padding: EdgeInsetsDensity.pxAll(12),
+      child: Text(label),
+    ),
   );
 }
 

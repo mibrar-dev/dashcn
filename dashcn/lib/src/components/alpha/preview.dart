@@ -30,7 +30,18 @@ class AlphaPreview extends StatelessWidget {
                     child: CustomPaint(painter: AlphaPainter()),
                   ),
                   Container(color: theme.colors.primary.withValues(alpha: 0.5)),
-                  const Center(child: Text('Alpha grid')),
+                  Center(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: theme.colors.background),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        child: Text('Alpha grid'),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
