@@ -337,8 +337,10 @@ class _CommandResults extends StatelessWidget {
 
   Widget _buildList(List<Widget> items) {
     // The 4 px floating-surface padding lives on the scrollable itself;
-    // rows size via SubFocusListItem (48 px in the demos to meet the
-    // touch minimum).
+    // rows are SIZING h-8 (32 px) like the menu family — the demos wrap
+    // them in a hit-test-only 48 px expander (local wrapper until PR 60's
+    // TouchHitArea lands) so the tap target stays green without changing
+    // layout.
     return ListView(shrinkWrap: true, padding: listPadding, children: items);
   }
 }
