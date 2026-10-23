@@ -80,7 +80,7 @@ typedef SwipeActionsContentBuilder =
 /// Swipe a row to reveal trailing [actions]; optionally dismiss-to-delete.
 ///
 /// Density-sized by default ([DensityTokens.compact]): each action tile is
-/// ~56 px wide with a 16 px icon and 11-12 px label; comfortable and touch
+/// at least 64 px wide with a 16 px icon and readable subtitle label; comfortable and touch
 /// grow from the tokens. The row min-height follows the tokens, the reveal
 /// scales with the drag, and a full swipe collapses the row before
 /// [onDismissed] fires.
@@ -127,7 +127,7 @@ class SwipeActions extends StatefulWidget {
   final VoidCallback? onDismissed;
 
   /// Width of one action; null resolves from the density tokens
-  /// (`control + 24`: 56 compact / 64 comfortable / 72 touch).
+  /// (at least 64: 64 compact / 64 comfortable / 72 touch).
   /// The revealed run is `actions.length * actionExtent`.
   final double? actionExtent;
 
@@ -189,6 +189,7 @@ class _SwipeActionsState extends State<SwipeActions>
   }
 
   DensityTokens _tokens(BuildContext context, SwipeActionsTheme resolved) {
+    // Same visuals desktop/mobile: ambient tokens, no phone-width switch.
     return widget.densityTokens ??
         resolved.themeDensityTokens ??
         ComponentTheme.maybeOf<SwipeActionsTheme>(
@@ -197,21 +198,23 @@ class _SwipeActionsState extends State<SwipeActions>
         ComponentThemes.maybeOf<SwipeActionsTheme>(
           context,
         )?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
   }
 
   double _extent(BuildContext context) {
-    // Explicit extents still honor the 48 px touch minimum: a caller-passed
-    // narrow tile would otherwise break the touch floor and the reveal math
-    // (the reveal width is actions * extent, matching the stretched row).
+    // Action tiles are at least 64 px wide (readable labels) and never
+    // below the 48 px touch floor. Explicit extents still honor the floor
+    // so the reveal math (actions * extent) stays exact.
     if (widget.actionExtent != null) {
       final double explicit = widget.actionExtent!;
-      return explicit < 48 ? 48 : explicit;
+      if (explicit < 64) return 64;
+      return explicit;
     }
     final SwipeActionsTheme resolved = _resolvedTheme(context);
     if (resolved.actionWidth != null) {
       final double themed = resolved.actionWidth! * Theme.of(context).scaling;
-      return themed < 48 ? 48 : themed;
+      if (themed < 64) return 64;
+      return themed;
     }
     return swipeActionWidthForTokens(_tokens(context, resolved)) *
         Theme.of(context).scaling;
@@ -413,10 +416,18 @@ class _SwipeActionsState extends State<SwipeActions>
     final SwipeActionsTheme resolved = _resolvedTheme(context);
     final DensityTokens tokens = _tokens(context, resolved);
     final double scaling = Theme.of(context).scaling;
-    final double extent =
+    // At least 64 px per action so labels stay readable (same floor as
+    // [_extent]; explicit narrow extents are bumped, never clipped).
+    double rawExtent =
         widget.actionExtent ??
         resolved.actionWidth ??
         swipeActionWidthForTokens(tokens) * scaling;
+    if (widget.actionExtent != null && rawExtent < 64) {
+      rawExtent = 64;
+    } else if (resolved.actionWidth != null && rawExtent < 64) {
+      rawExtent = 64;
+    }
+    final double extent = rawExtent;
     // Keep an explicit widget extent exact; a theme width scales.
     final double total =
         widget.actions.length * (widget.actionExtent ?? extent);
@@ -457,16 +468,13 @@ class _SwipeActionsState extends State<SwipeActions>
         // area moves with the content: outside it, the detector would
         // keep the full un-translated hit box, cover the revealed
         // actions, and win the tap arena — tapping an action would just
-        // close the row. A tap while closed is a no-op.
+        // close the row.
         Transform.translate(
           offset: Offset((_rtl ? 1 : -1) * travel * total, 0),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () {
-              if (_reveal > 0) {
-                _animateTo(0);
-              }
-            },
+            // Only while open: a closed row must not expose a tap action.
+            onTap: peeked ? () => _animateTo(0) : null,
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: rowMin),
               child: content,

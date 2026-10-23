@@ -76,12 +76,14 @@ class ListTile extends StatelessWidget {
     final ListTileStyle resolved = (style ?? const ListTileStyle()).merge(
       container,
     );
+    // Same visuals on desktop and mobile: ambient tokens directly (no
+    // phone-width touch switch). Touch comfort is invisible hit area only.
     final DensityTokens tokens =
         densityTokens ??
         container.themeDensityTokens ??
         ComponentTheme.maybeOf<ListTileTheme>(context)?.themeDensityTokens ??
         ComponentThemes.maybeOf<ListTileTheme>(context)?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
     final bool isDense = dense ?? resolved.dense ?? false;
     // Dense keeps the compact look: two px less vertical than the ambient
     // tokens (6 -> 4 at compact, preserving the old dense default).
@@ -166,47 +168,62 @@ class ListTile extends StatelessWidget {
       );
     }
 
-    final Widget content = Padding(
-      padding: padding,
-      child: Row(
-        crossAxisAlignment: isThreeLine
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
-        children: <Widget>[
-          if (leading != null) ...<Widget>[
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: resolved.leadingWidth ?? minLeading,
-                maxHeight: tokens.rowMaxHeight * ambient.scaling,
+    // Fixed row heights from the sizing scale (same desktop and mobile):
+    // 32 px single line (compact control / rowMin), 48 px two lines
+    // (touch control / rowMin). Three-line rows grow naturally.
+    final double rowMinHeight =
+        (subtitle != null && !isThreeLine
+            ? 48.0
+            : isThreeLine
+            ? 48.0
+            : 32.0) *
+        ambient.scaling;
+
+    final Widget content = ConstrainedBox(
+      constraints: BoxConstraints(minHeight: rowMinHeight),
+      child: Padding(
+        padding: padding,
+        child: Row(
+          crossAxisAlignment: isThreeLine
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
+          children: <Widget>[
+            if (leading != null) ...<Widget>[
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: resolved.leadingWidth ?? minLeading,
+                  maxHeight: rowMinHeight,
+                ),
+                child: SizedBox(
+                  width: resolved.leadingWidth ?? minLeading,
+                  child: Center(child: leadingWidget),
+                ),
               ),
-              child: SizedBox(
-                width: resolved.leadingWidth ?? minLeading,
-                child: leadingWidget,
-              ),
-            ),
-            Gap(hGap),
-          ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                titleWidget,
-                if (subtitleWidget != null) ...<Widget>[
-                  Gap(
-                    (isDense ? tokens.gap / 4 : tokens.gap / 2) *
-                        ambient.scaling,
-                  ),
-                  subtitleWidget,
+              Gap(hGap),
+            ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  titleWidget,
+                  if (subtitleWidget != null) ...<Widget>[
+                    Gap(
+                      (isDense ? tokens.gap / 4 : tokens.gap / 2) *
+                          ambient.scaling,
+                    ),
+                    subtitleWidget,
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          if (trailing != null) ...<Widget>[
-            Gap(hGap),
-            Flexible(child: trailing!),
+            if (trailing != null) ...<Widget>[
+              Gap(hGap),
+              Flexible(child: trailing!),
+            ],
           ],
-        ],
+        ),
       ),
     );
 

@@ -19,8 +19,9 @@ const Color _green = Color(0xFF00FF00);
 const Color _blue = Color(0xFF0000FF);
 const Color _yellow = Color(0xFFFFFF00);
 
-/// Desktop theme: `flutter test` runs as Android, where buttons grow a
-/// transparent touch hit area; size-table assertions pin the desktop visuals.
+/// Desktop theme: `flutter test` runs as Android; size-table assertions pin
+/// the desktop visuals (layout is identical on touch: the hit area is
+/// invisible and never changes layout per SIZING.md).
 const ThemeData _desktop = ThemeData(platform: TargetPlatform.macOS);
 
 Widget _frame({
@@ -646,13 +647,24 @@ void main() {
       expect(tester.getSize(find.byType(Button)).height, 36, reason: 'hovered');
     });
 
-    testWidgets('touch platforms grow the hit box, never the visuals', (
+    testWidgets('touch platforms keep layout, expand hit and semantics', (
       tester,
     ) async {
       // `flutter test` runs as Android (48px minimum): a 36px md button
-      // measures 48 tall through transparent padding.
+      // keeps a 36px layout while the invisible hit-test/semantics region
+      // reaches 48px (SIZING.md: same sizes on desktop and mobile).
       await _pump(tester, Button(onPressed: () {}, child: const Text('Save')));
-      expect(tester.getSize(find.byType(Button)).height, 48);
+      expect(tester.getSize(find.byType(Button)).height, 36);
+      // Overflow taps still press: 3px above the 36px visual box.
+      var pressed = false;
+      await _pump(
+        tester,
+        Button(onPressed: () => pressed = true, child: const Text('Save')),
+      );
+      final Offset center = tester.getCenter(find.byType(Button));
+      await tester.tapAt(Offset(center.dx, center.dy - 18 - 3));
+      await tester.pump();
+      expect(pressed, isTrue);
       // Desktop keeps the size-table height.
       await _pump(
         tester,

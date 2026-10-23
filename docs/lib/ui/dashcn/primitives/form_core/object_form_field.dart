@@ -8,11 +8,13 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/captured_wrapper.dart';
 import '../../foundation/data.dart';
+import 'dart:math' as math;
 import '../../foundation/gap.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import '../clickable.dart';
+import '../touch_hit_area.dart';
 import '../localizations/localizations.dart';
 import '../widget_states.dart';
 import '../overlay.dart';
@@ -247,6 +249,13 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
   /// close — the same contract as `Select` and the popover handler.
   final FocusNode _triggerFocus = FocusNode(debugLabel: 'ObjectFormField');
 
+  /// Visual trigger anchor (the painted 36 px [Clickable], not the outer
+  /// [TouchHitArea] hit padding). Popovers must anchor to the visible box
+  /// so pickers sit within 12 px of the trigger on touch platforms.
+  final GlobalKey _triggerAnchorKey = GlobalKey(
+    debugLabel: 'ObjectFormFieldTrigger',
+  );
+
   bool get _enabled => widget.enabled ?? (widget.onChanged != null);
 
   @override
@@ -348,9 +357,14 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     final T? value = initial ?? formValue;
     T? delayed = value;
     final ThemeData theme = Theme.of(context);
+    // Anchor to the painted trigger's [Clickable] (same contract as Select:
+    // the invisible TouchHitArea never changes layout; the visible trigger
+    // stays 36 px).
+    final BuildContext anchorContext =
+        _triggerAnchorKey.currentContext ?? context;
     _popoverController
         .show<void>(
-          context: context,
+          context: anchorContext,
           adaptive: widget.adaptive,
           alignment: widget.popoverAlignment ?? Alignment.topLeft,
           anchorAlignment:
@@ -454,6 +468,7 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
         minWidth: floor,
       ),
       child: Clickable(
+        key: _triggerAnchorKey,
         enabled: enabled,
         focusNode: _triggerFocus,
         onPressed: enabled ? prompt : null,
@@ -491,6 +506,22 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
             },
           );
 
-    return Opacity(opacity: enabled ? 1 : 0.5, child: sized);
+    // Touch comfort is an invisible hit-test/semantics expansion, never
+    // larger visuals or layout: the trigger paints at 36 px
+    // (objectFormTriggerMinHeight) with hit test and the reported tap target
+    // expanded to the platform minimum (iOS 44, Android 48) on touch
+    // platforms, but the layout stays 36 so triggers align with inputs.
+    // Popovers anchor to the visual box via [_triggerAnchorKey].
+    final double touchVertical = math.max(
+      0,
+      (touchMinEdge(theme.platform) - objectFormTriggerMinHeight) / 2,
+    );
+    return TouchHitArea(
+      vertical: touchVertical,
+      child: Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: Semantics(button: true, enabled: enabled, child: sized),
+      ),
+    );
   }
 }
