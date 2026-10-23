@@ -12,19 +12,25 @@ import 'steps.dart';
 
 /// The default vertical flow.
 Widget _default(BuildContext context) {
-  return const Steps(
+  return Steps(
     children: <Widget>[
       StepItem(
-        title: Text('Account'),
-        content: <Widget>[Text('Sign up with your email address.')],
+        title: Text(docsSample(context, 'Account')),
+        content: <Widget>[
+          Text(docsSample(context, 'Sign up with your email address.')),
+        ],
       ),
       StepItem(
-        title: Text('Verify'),
-        content: <Widget>[Text('Check your inbox for a code.')],
+        title: Text(docsSample(context, 'Verify')),
+        content: <Widget>[
+          Text(docsSample(context, 'Check your inbox for a code.')),
+        ],
       ),
       StepItem(
-        title: Text('Profile'),
-        content: <Widget>[Text('Add your personal information.')],
+        title: Text(docsSample(context, 'Profile')),
+        content: <Widget>[
+          Text(docsSample(context, 'Add your personal information.')),
+        ],
       ),
     ],
   );
@@ -32,32 +38,41 @@ Widget _default(BuildContext context) {
 
 /// Larger indicators tinted with the primary token.
 Widget _custom(BuildContext context) {
-  return const Steps(
-    theme: StepsTheme(
+  return Steps(
+    theme: const StepsTheme(
       indicatorSize: 32,
       indicatorColor: ThemedColor.ref(ColorRef.primary),
       indicatorForeground: ThemedColor.ref(ColorRef.primaryForeground),
       connectorColor: ThemedColor.ref(ColorRef.primary, alpha: 0.4),
     ),
     children: <Widget>[
-      StepItem(title: Text('Cart'), content: <Widget>[Text('Review items.')]),
-      StepItem(title: Text('Pay'), content: <Widget>[Text('Choose a method.')]),
+      StepItem(
+        title: Text(docsSample(context, 'Cart')),
+        content: <Widget>[Text(docsSample(context, 'Review items.'))],
+      ),
+      StepItem(
+        title: Text('Pay'),
+        content: <Widget>[Text(docsSample(context, 'Choose a method.'))],
+      ),
     ],
   );
 }
 
 /// A single step.
 Widget _single(BuildContext context) {
-  return const Steps(
+  return Steps(
     children: <Widget>[
-      StepItem(title: Text('Done'), content: <Widget>[Text('Nothing else.')]),
+      StepItem(
+        title: Text(docsSample(context, 'Done')),
+        content: <Widget>[Text(docsSample(context, 'Nothing else.'))],
+      ),
     ],
   );
 }
 
 /// Named docs examples for `steps`; the first entry is the default.
-const List<ComponentPreview> stepsPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Custom indicators', _custom),
-  ComponentPreview('Single step', _single),
+List<ComponentPreview> get stepsPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Custom indicators'), _custom),
+  ComponentPreview(docsSample(null, 'Single step'), _single),
 ];

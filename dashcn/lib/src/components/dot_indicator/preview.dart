@@ -46,7 +46,7 @@ class _DotIndicatorHorizontalDotsState
         DotIndicator(index: 1, length: 5),
         Gap(theme.spacing.sm),
         Text(
-          'read-only (no click cursor, no tap target)',
+          docsSample(context, 'read-only (no click cursor, no tap target)'),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -142,8 +142,8 @@ Widget _dotIndicatorVertical(BuildContext context) =>
 Widget _dotIndicatorThemed(BuildContext context) => const _DotIndicatorThemed();
 
 /// Named docs examples for `dot_indicator`; the first entry is the default.
-const List<ComponentPreview> dotIndicatorPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _dotIndicatorDefault),
-  ComponentPreview('Vertical', _dotIndicatorVertical),
-  ComponentPreview('Themed dots', _dotIndicatorThemed),
+List<ComponentPreview> get dotIndicatorPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _dotIndicatorDefault),
+  ComponentPreview(docsSample(null, 'Vertical'), _dotIndicatorVertical),
+  ComponentPreview(docsSample(null, 'Themed dots'), _dotIndicatorThemed),
 ];

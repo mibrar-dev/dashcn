@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// The testimonial panel: muted fill edge to edge, a token-drawn dot
 /// pattern, the product mark top-left and a quote anchored at the bottom.
@@ -53,7 +54,10 @@ class Login02Panel extends StatelessWidget {
                       ),
                     ),
                     Gap(theme.spacing.sm),
-                    Text('Acme Inc', style: theme.typography.textSmall),
+                    Text(
+                      docsSample(context, 'Acme Inc'),
+                      style: theme.typography.textSmall,
+                    ),
                   ],
                 ),
                 Gap(theme.spacing.xl),
@@ -62,13 +66,18 @@ class Login02Panel extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '"The kit paid for itself the week we adopted it. '
-                      'Every screen ships on-brand, light or dark."',
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."',
+                        ),
+                      ),
                       style: theme.typography.textLarge,
                     ),
                     Gap(theme.spacing.md),
                     Text(
-                      'Sofia Davis — Design lead, Acme',
+                      docsSample(context, 'Sofia Davis — Design lead, Acme'),
                       style: theme.typography.textSmall.copyWith(
                         color: theme.colors.mutedForeground,
                       ),

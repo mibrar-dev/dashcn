@@ -9,31 +9,31 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import 'text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = docsSample(null, 'Ship a new build to production.');
 
 /// Opacity-only entrance.
 Widget _default(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.fade());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.fade());
 }
 
 /// Vertical slide entrance.
 Widget _slide(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.slide());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.slide());
 }
 
 /// Blur-to-sharp entrance.
 Widget _blur(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.blur());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.blur());
 }
 
 /// Scramble-then-resolve entrance.
 Widget _scramble(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.scramble());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.scramble());
 }
 
 /// Word-by-word slide with a blinking cursor.
 Widget _words(BuildContext context) {
-  return const TextAnimate(
+  return TextAnimate(
     text: _sample,
     animateByWord: true,
     effect: TextAnimateEffect.slide(),
@@ -42,10 +42,10 @@ Widget _words(BuildContext context) {
 }
 
 /// Named docs examples for `text_animate`; the first entry is the default.
-const List<ComponentPreview> textAnimatePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Slide', _slide),
-  ComponentPreview('Blur', _blur),
-  ComponentPreview('Scramble', _scramble),
-  ComponentPreview('Words', _words),
+List<ComponentPreview> get textAnimatePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Slide'), _slide),
+  ComponentPreview(docsSample(null, 'Blur'), _blur),
+  ComponentPreview(docsSample(null, 'Scramble'), _scramble),
+  ComponentPreview(docsSample(null, 'Words'), _words),
 ];

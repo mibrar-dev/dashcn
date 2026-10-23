@@ -51,7 +51,7 @@ class _ScaffoldDefault extends StatefulWidget {
 }
 
 class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
-  String _lastAction = 'Tap an app-bar action';
+  String _lastAction = docsSample(null, 'Tap an app-bar action');
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +69,18 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
                 leading: <Widget>[
                   _AppBarAction(
                     icon: LucideIcons.chevronLeft,
-                    label: 'Back',
-                    onPressed: () => setState(() => _lastAction = 'Went back'),
+                    label: docsSample(context, 'Back'),
+                    onPressed: () => setState(
+                      () => _lastAction = docsSample(context, 'Went back'),
+                    ),
                   ),
                 ],
-                title: const Text('My Application'),
-                subtitle: const Text('Dashboard'),
+                title: Text(docsSample(context, 'My Application')),
+                subtitle: Text(docsSample(context, 'Dashboard')),
                 trailing: <Widget>[
                   _AppBarAction(
                     icon: LucideIcons.ellipsis,
-                    label: 'More',
+                    label: docsSample(context, 'More'),
                     onPressed: _openMenu,
                   ),
                 ],
@@ -86,11 +88,13 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
             ],
             footers: <Widget>[
               AppBar(
-                title: const Text('Status'),
-                subtitle: const Text('All systems go'),
+                title: Text(docsSample(context, 'Status')),
+                subtitle: Text(docsSample(context, 'All systems go')),
               ),
             ],
-            child: const Center(child: Text('Main content area')),
+            child: Center(
+              child: Text(docsSample(context, 'Main content area')),
+            ),
           ),
         ),
         Gap(theme.spacing.md),
@@ -107,17 +111,17 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
       context: context,
       children: <Widget>[
         MenuButton(
-          child: const Text('Rename'),
-          onPressed: (_) => _run('Rename chosen'),
+          child: Text(docsSample(context, 'Rename')),
+          onPressed: (_) => _run(docsSample(context, 'Rename chosen')),
         ),
         MenuButton(
-          child: const Text('Duplicate'),
-          onPressed: (_) => _run('Duplicated'),
+          child: Text(docsSample(context, 'Duplicate')),
+          onPressed: (_) => _run(docsSample(context, 'Duplicated')),
         ),
         const MenuSeparator(),
         MenuButton(
-          child: const Text('Archive'),
-          onPressed: (_) => _run('Archived'),
+          child: Text(docsSample(context, 'Archive')),
+          onPressed: (_) => _run(docsSample(context, 'Archived')),
         ),
       ],
     );
@@ -128,14 +132,14 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
 
 /// A shell showing the loading bar over fetching content.
 Widget _withLoading(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 360,
     height: 200,
     child: Scaffold(
-      headers: <Widget>[AppBar(title: Text('Syncing'))],
+      headers: <Widget>[AppBar(title: Text(docsSample(context, 'Syncing')))],
       loadingProgress: 0.4,
       showLoadingSparks: true,
-      child: Center(child: Text('Fetching...')),
+      child: Center(child: Text(docsSample(context, 'Fetching...'))),
     ),
   );
 }
@@ -143,7 +147,7 @@ Widget _withLoading(BuildContext context) {
 Widget _default(BuildContext context) => const _ScaffoldDefault();
 
 /// Named docs examples for `scaffold`; the first entry is the default.
-const List<ComponentPreview> scaffoldPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With loading', _withLoading),
+List<ComponentPreview> get scaffoldPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With loading'), _withLoading),
 ];

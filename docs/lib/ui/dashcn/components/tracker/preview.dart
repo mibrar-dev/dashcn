@@ -13,17 +13,35 @@ import 'tracker.dart';
 
 /// All four levels.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: Tracker(
-      semanticLabel: 'Activity tracker',
+      semanticLabel: docsSample(context, 'Activity tracker'),
       data: <TrackerData>[
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
-        TrackerData(tooltip: Text('Degraded'), level: TrackerLevel.warning),
-        TrackerData(tooltip: Text('Down'), level: TrackerLevel.critical),
-        TrackerData(tooltip: Text('No data'), level: TrackerLevel.unknown),
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Healthy')),
+          level: TrackerLevel.fine,
+        ),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Degraded')),
+          level: TrackerLevel.warning,
+        ),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Down')),
+          level: TrackerLevel.critical,
+        ),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'No data')),
+          level: TrackerLevel.unknown,
+        ),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Healthy')),
+          level: TrackerLevel.fine,
+        ),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Healthy')),
+          level: TrackerLevel.fine,
+        ),
       ],
     ),
   );
@@ -31,14 +49,17 @@ Widget _default(BuildContext context) {
 
 /// Taller segments with a wider gap through the widget leg.
 Widget _customSize(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: Tracker(
       theme: TrackerTheme(itemHeight: 24, gap: 4, radius: 4),
       data: <TrackerData>[
         TrackerData(tooltip: Text('One'), level: TrackerLevel.fine),
         TrackerData(tooltip: Text('Two'), level: TrackerLevel.critical),
-        TrackerData(tooltip: Text('Three'), level: TrackerLevel.warning),
+        TrackerData(
+          tooltip: Text(docsSample(context, 'Three')),
+          level: TrackerLevel.warning,
+        ),
       ],
     ),
   );
@@ -46,7 +67,7 @@ Widget _customSize(BuildContext context) {
 
 /// Fine segments tinted with the primary token through a scoped theme.
 Widget _themed(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: ComponentTheme<TrackerTheme>(
       data: TrackerTheme(
@@ -57,7 +78,10 @@ Widget _themed(BuildContext context) {
         data: <TrackerData>[
           TrackerData(tooltip: Text('One'), level: TrackerLevel.fine),
           TrackerData(tooltip: Text('Two'), level: TrackerLevel.fine),
-          TrackerData(tooltip: Text('Three'), level: TrackerLevel.fine),
+          TrackerData(
+            tooltip: Text(docsSample(context, 'Three')),
+            level: TrackerLevel.fine,
+          ),
         ],
       ),
     ),
@@ -65,8 +89,8 @@ Widget _themed(BuildContext context) {
 }
 
 /// Named docs examples for `tracker`; the first entry is the default.
-const List<ComponentPreview> trackerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Custom size', _customSize),
-  ComponentPreview('Themed', _themed),
+List<ComponentPreview> get trackerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Custom size'), _customSize),
+  ComponentPreview(docsSample(null, 'Themed'), _themed),
 ];

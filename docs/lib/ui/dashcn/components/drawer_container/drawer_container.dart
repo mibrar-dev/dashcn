@@ -170,7 +170,7 @@ class DrawerRawContainer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         if (draggable && showDragHandle) ...<Widget>[
-          SizedBox(height: gapBeforeDragger ?? 8),
+          SizedBox(height: gapBeforeDragger ?? theme.spacing.sm),
           Center(
             child: ExcludeSemantics(
               child: Container(
@@ -183,7 +183,7 @@ class DrawerRawContainer extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: gapAfterDragger ?? 4),
+          SizedBox(height: gapAfterDragger ?? theme.spacing.xs),
         ],
         Flexible(child: child),
       ],

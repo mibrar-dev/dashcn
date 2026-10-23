@@ -23,7 +23,7 @@ class _KbdLive extends StatefulWidget {
 }
 
 class _KbdLiveState extends State<_KbdLive> {
-  String _status = 'Press the chord';
+  String _status = docsSample(null, 'Press the chord');
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,9 @@ class _KbdLiveState extends State<_KbdLive> {
       child: Actions(
         actions: <Type, Action<Intent>>{
           _OpenPaletteIntent: CallbackAction<_OpenPaletteIntent>(
-            onInvoke: (_) => setState(() => _status = 'Command palette opened'),
+            onInvoke: (_) => setState(
+              () => _status = docsSample(context, 'Command palette opened'),
+            ),
           ),
         },
         child: Focus(
@@ -127,11 +129,11 @@ Widget _kbdInMenuItem(BuildContext context) {
     alignment: Alignment.center,
     child: ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 300),
-      child: const Card(
+      child: Card(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
           children: <Widget>[
-            Expanded(child: Text('Open command palette')),
+            Expanded(child: Text(docsSample(context, 'Open command palette'))),
             Gap(16),
             KeyboardShortcut.fromActivator(
               activator: SingleActivator(LogicalKeyboardKey.keyK, meta: true),
@@ -181,12 +183,12 @@ Widget _kbdGhost(BuildContext context) {
 }
 
 /// Named docs examples for `keyboard_shortcut`; the first is the default.
-const List<ComponentPreview> keyboardShortcutPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _kbdDefault),
-  ComponentPreview('Modifiers', _kbdModifiers),
-  ComponentPreview('Sequence', _kbdSequence),
-  ComponentPreview('In menu item', _kbdInMenuItem),
-  ComponentPreview('Scoped labels', _kbdScoped),
-  ComponentPreview('Live chord', _kbdLive),
-  ComponentPreview('Ghost', _kbdGhost),
+List<ComponentPreview> get keyboardShortcutPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _kbdDefault),
+  ComponentPreview(docsSample(null, 'Modifiers'), _kbdModifiers),
+  ComponentPreview(docsSample(null, 'Sequence'), _kbdSequence),
+  ComponentPreview(docsSample(null, 'In menu item'), _kbdInMenuItem),
+  ComponentPreview(docsSample(null, 'Scoped labels'), _kbdScoped),
+  ComponentPreview(docsSample(null, 'Live chord'), _kbdLive),
+  ComponentPreview(docsSample(null, 'Ghost'), _kbdGhost),
 ];

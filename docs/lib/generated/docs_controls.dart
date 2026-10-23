@@ -11611,7 +11611,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.readOnly,
         type: 'Radius',
         isRequired: false,
-        defaultValue: 'const Radius.circular(0)',
+        defaultValue: 'Radius.zero',
         readOnlyReason: 'unresolved type',
       ),
       ControlSpec(
@@ -11704,7 +11704,7 @@ kControlSpecs = <String, ComponentControls>{
         kind: ControlKind.readOnly,
         type: 'Radius',
         isRequired: false,
-        defaultValue: 'const Radius.circular(0)',
+        defaultValue: 'Radius.zero',
         readOnlyReason: 'unresolved type',
       ),
       ControlSpec(

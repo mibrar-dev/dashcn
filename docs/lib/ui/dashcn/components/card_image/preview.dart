@@ -34,16 +34,16 @@ class _Tile {
   final int chart;
 }
 
-const List<_Tile> _tiles = <_Tile>[
+List<_Tile> _tiles = <_Tile>[
   _Tile(
-    title: 'Sunset',
-    subtitle: '18:42 · Lisbon',
+    title: docsSample(null, 'Sunset'),
+    subtitle: docsSample(null, '18:42 · Lisbon'),
     icon: LucideIcons.mountain,
     chart: 0,
   ),
   _Tile(
-    title: 'Harbor nights',
-    subtitle: '3:21 · focus mix',
+    title: docsSample(null, 'Harbor nights'),
+    subtitle: docsSample(null, '3:21 · focus mix'),
     icon: LucideIcons.music,
     chart: 1,
   ),
@@ -125,7 +125,7 @@ class _CardImageGridState extends State<_CardImageGrid> {
         Gap(theme.spacing.md),
         Text(
           _opened == null
-              ? 'Tap the card to open it'
+              ? docsSample(context, 'Tap the card to open it')
               : 'Opened "${_tiles[_opened!].title}"',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
@@ -174,7 +174,9 @@ class _CardImageHorizontalState extends State<_CardImageHorizontal> {
         ),
         Gap(theme.spacing.sm),
         Text(
-          _opened ? 'Opened "${_tiles[1].title}"' : 'Tap the card to open it',
+          _opened
+              ? 'Opened "${_tiles[1].title}"'
+              : docsSample(context, 'Tap the card to open it'),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -205,7 +207,7 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
           width: 200,
           child: CardImage(
             image: _thumb(context, _tiles[1]),
-            title: const Text('Archived'),
+            title: Text(docsSample(context, 'Archived')),
             subtitle: const Text('read-only'),
             enabled: false,
             onPressed: () {},
@@ -216,12 +218,12 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
           child: CardImage(
             image: _thumb(context, _tiles[0]),
             title: Text(
-              'In progress',
+              docsSample(context, 'In progress'),
               style: TextStyle(
                 fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
-            subtitle: const Text('tap to open'),
+            subtitle: Text(docsSample(context, 'tap to open')),
             trailing: const Icon(LucideIcons.chevronRight, size: 16),
             onPressed: () => setState(() => _opened = !_opened),
           ),
@@ -240,8 +242,8 @@ Widget _cardImageDisabled(BuildContext context) =>
     const _CardImageDisabledPair();
 
 /// Named docs examples for `card_image`; the first entry is the default.
-const List<ComponentPreview> cardImagePreviews = <ComponentPreview>[
-  ComponentPreview('Vertical', _cardImageVertical),
-  ComponentPreview('Horizontal', _cardImageHorizontal),
-  ComponentPreview('Disabled', _cardImageDisabled),
+List<ComponentPreview> get cardImagePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Vertical'), _cardImageVertical),
+  ComponentPreview(docsSample(null, 'Horizontal'), _cardImageHorizontal),
+  ComponentPreview(docsSample(null, 'Disabled'), _cardImageDisabled),
 ];

@@ -89,7 +89,7 @@ class GridItemPickerLayout extends ItemPickerLayout {
           select: (t) => t,
           defaults: itemPickerDefaults,
         );
-    final double gap = style.spacing ?? 4;
+    final double gap = style.spacing ?? Theme.of(context).spacing.xs;
     return _stripPadding(
       context: context,
       child: GridView.builder(

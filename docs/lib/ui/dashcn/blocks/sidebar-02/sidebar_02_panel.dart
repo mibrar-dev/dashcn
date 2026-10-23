@@ -11,6 +11,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The inset sidebar panel: product mark, live-filter search, grouped
 /// navigation and the user row. Shared by the desktop layout and the mobile
@@ -34,14 +35,14 @@ class Sidebar02Panel extends StatefulWidget {
 }
 
 class _Sidebar02PanelState extends State<Sidebar02Panel> {
-  static const List<String> _platform = <String>[
-    'Playground',
-    'Models',
-    'Documentation',
+  static final List<String> _platform = <String>[
+    docsSample(null, 'Playground'),
+    docsSample(null, 'Models'),
+    docsSample(null, 'Documentation'),
   ];
-  static const List<String> _projects = <String>[
-    'Design system',
-    'Marketing site',
+  static final List<String> _projects = <String>[
+    docsSample(null, 'Design system'),
+    docsSample(null, 'Marketing site'),
   ];
 
   String _query = '';
@@ -89,7 +90,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
                 ),
                 Gap(theme.spacing.sm),
                 Text(
-                  'Acme Inc',
+                  docsSample(context, 'Acme Inc'),
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.sidebarForeground,
                     fontWeight: FontWeight.w600,
@@ -114,7 +115,7 @@ class _Sidebar02PanelState extends State<Sidebar02Panel> {
           Gap(theme.spacing.lg),
           if (platform.isNotEmpty)
             _Sidebar02Group(
-              label: 'Platform',
+              label: docsSample(context, 'Platform'),
               items: platform,
               links: _links,
               selected: widget.selected,

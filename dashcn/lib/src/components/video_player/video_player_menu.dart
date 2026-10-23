@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/focus_tap.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -37,6 +38,7 @@ Widget videoMoreButton({
 /// Speed/captions menu section: wrapping speed chips, captions toggle and
 /// quality note (SPEC more-menu).
 Widget videoMenuSection({
+  required BuildContext context,
   required VideoPlaybackController c,
   required VideoPlayerTheme style,
   required Color fg,
@@ -50,7 +52,7 @@ Widget videoMenuSection({
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
     decoration: BoxDecoration(
       color: const Color(0x33FFFFFF),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(Theme.of(context).radiusLg),
     ),
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -79,7 +81,9 @@ Widget videoMenuSection({
                     border: Border.all(
                       color: c.playbackSpeed == s ? fg : fg.withAlpha(0x66),
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(
+                      Theme.of(context).radiusLg,
+                    ),
                   ),
                   child: ExcludeSemantics(
                     child: Text(

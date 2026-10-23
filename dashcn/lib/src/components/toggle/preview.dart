@@ -42,7 +42,7 @@ class _ToggleControlledInnerState extends State<_ToggleControlledInner> {
     return Toggle(
       value: _value,
       onChanged: (bool value) => setState(() => _value = value),
-      child: Text(_value ? 'On' : 'Off'),
+      child: Text(docsSample(context, _value ? 'On' : 'Off')),
     );
   }
 }
@@ -73,7 +73,10 @@ class _ToggleControllerToggleState extends State<_ToggleControllerToggle> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Toggle(controller: _toggleController, child: const Text('Controller')),
+        Toggle(
+          controller: _toggleController,
+          child: Text(docsSample(context, 'Controller')),
+        ),
         Gap(spacing.md),
         Toggle(
           controller: _toggleController,
@@ -91,9 +94,9 @@ Widget _toggleDisabled(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      const Toggle(value: true, child: Text('On')),
+      Toggle(value: true, child: Text('On')),
       Gap(spacing.md),
-      const Toggle(value: false, onChanged: null, child: Text('Off')),
+      Toggle(value: false, onChanged: null, child: Text('Off')),
     ],
   );
 }
@@ -148,9 +151,9 @@ Widget _toggleController(BuildContext context) =>
     const _ToggleControllerToggle();
 
 /// Named docs examples for `toggle`; the first entry is the default.
-const List<ComponentPreview> togglePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _toggleDefault),
+List<ComponentPreview> get togglePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _toggleDefault),
   ComponentPreview('Group', _toggleGroup),
-  ComponentPreview('Controller', _toggleController),
-  ComponentPreview('Disabled', _toggleDisabled),
+  ComponentPreview(docsSample(null, 'Controller'), _toggleController),
+  ComponentPreview(docsSample(null, 'Disabled'), _toggleDisabled),
 ];

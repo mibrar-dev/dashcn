@@ -165,11 +165,11 @@ Widget _colorPickerEyeDropper(BuildContext context) =>
     const _ColorPickerEyeDropper();
 
 /// Named docs examples for `color_picker`; the first entry is the default.
-const List<ComponentPreview> colorPickerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _colorPickerDefault),
-  ComponentPreview('With alpha', _colorPickerAlpha),
-  ComponentPreview('HSL', _colorPickerHsl),
-  ComponentPreview('HSV', _colorPickerHsv),
-  ComponentPreview('HEX', _colorPickerHex),
-  ComponentPreview('Eye dropper', _colorPickerEyeDropper),
+List<ComponentPreview> get colorPickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _colorPickerDefault),
+  ComponentPreview(docsSample(null, 'With alpha'), _colorPickerAlpha),
+  ComponentPreview(docsSample(null, 'HSL'), _colorPickerHsl),
+  ComponentPreview(docsSample(null, 'HSV'), _colorPickerHsv),
+  ComponentPreview(docsSample(null, 'HEX'), _colorPickerHex),
+  ComponentPreview(docsSample(null, 'Eye dropper'), _colorPickerEyeDropper),
 ];

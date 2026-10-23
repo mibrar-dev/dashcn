@@ -41,13 +41,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = docsSample(context, widget.label);
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -66,20 +67,29 @@ Widget _buttonExample(
 Widget _buttonDefault(BuildContext context) =>
     _buttonExample(context, ButtonVariant.primary, 'Button');
 
-Widget _buttonSecondary(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.secondary, 'Secondary');
+Widget _buttonSecondary(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.secondary,
+  docsSample(context, 'Secondary'),
+);
 
-Widget _buttonOutline(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.outline, 'Outline');
+Widget _buttonOutline(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.outline,
+  docsSample(context, 'Outline'),
+);
 
 Widget _buttonGhost(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.ghost, 'Ghost');
+    _buttonExample(context, ButtonVariant.ghost, docsSample(context, 'Ghost'));
 
 Widget _buttonLink(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.link, 'Link');
+    _buttonExample(context, ButtonVariant.link, docsSample(context, 'Link'));
 
-Widget _buttonDestructive(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.destructive, 'Delete');
+Widget _buttonDestructive(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.destructive,
+  docsSample(context, 'Delete'),
+);
 
 /// Icon-only button (upstream `size="icon"`) with the press count beside it.
 class _ButtonIcon extends StatefulWidget {
@@ -109,7 +119,9 @@ class _ButtonIconState extends State<_ButtonIcon> {
         // Truncate on narrow touch viewports instead of overflowing the row.
         Flexible(
           child: Text(
-            _presses == 0 ? 'not pressed yet' : 'pressed $_presses time(s)',
+            _presses == 0
+                ? docsSample(context, 'not pressed yet')
+                : 'pressed $_presses time(s)',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -129,7 +141,7 @@ class _ButtonWithIcon extends StatefulWidget {
 }
 
 class _ButtonWithIconState extends State<_ButtonWithIcon> {
-  String _last = 'not pressed yet';
+  String _last = docsSample(null, 'not pressed yet');
 
   @override
   Widget build(BuildContext context) {
@@ -143,14 +155,17 @@ class _ButtonWithIconState extends State<_ButtonWithIcon> {
           children: <Widget>[
             Button(
               leading: const Icon(LucideIcons.plus, size: 16),
-              onPressed: () => setState(() => _last = 'Add item pressed'),
-              child: const Text('Add item'),
+              onPressed: () => setState(
+                () => _last = docsSample(context, 'Add item pressed'),
+              ),
+              child: Text(docsSample(context, 'Add item')),
             ),
             Button(
               variant: ButtonVariant.outline,
               trailing: const Icon(LucideIcons.chevronRight, size: 16),
-              onPressed: () => setState(() => _last = 'Next pressed'),
-              child: const Text('Next'),
+              onPressed: () =>
+                  setState(() => _last = docsSample(context, 'Next pressed')),
+              child: Text(docsSample(context, 'Next')),
             ),
           ],
         ),
@@ -173,7 +188,7 @@ class _ButtonSizes extends StatefulWidget {
 }
 
 class _ButtonSizesState extends State<_ButtonSizes> {
-  String _last = 'not pressed yet';
+  String _last = docsSample(null, 'not pressed yet');
 
   @override
   Widget build(BuildContext context) {
@@ -208,9 +223,9 @@ class _ButtonSizesState extends State<_ButtonSizes> {
 
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
-  return const Align(
+  return Align(
     alignment: Alignment.center,
-    child: Button(enabled: false, child: Text('Disabled')),
+    child: Button(enabled: false, child: Text(docsSample(context, 'Disabled'))),
   );
 }
 
@@ -232,19 +247,22 @@ Widget _buttonControlledStatus(BuildContext context) =>
     const ButtonControlledStatusPreview();
 
 /// Named docs examples for `button`; the first entry is the default.
-const List<ComponentPreview> buttonPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _buttonDefault),
-  ComponentPreview('Secondary', _buttonSecondary),
-  ComponentPreview('Outline', _buttonOutline),
-  ComponentPreview('Ghost', _buttonGhost),
-  ComponentPreview('Link', _buttonLink),
-  ComponentPreview('Destructive', _buttonDestructive),
-  ComponentPreview('Icon', _buttonIcon),
-  ComponentPreview('With icon', _buttonWithIcon),
-  ComponentPreview('Sizes', _buttonSizes),
-  ComponentPreview('Loading', _buttonLoading),
-  ComponentPreview('Async (success)', _buttonAsyncSuccess),
-  ComponentPreview('Async (failure)', _buttonAsyncFailure),
-  ComponentPreview('Controlled status', _buttonControlledStatus),
-  ComponentPreview('Disabled', _buttonDisabled),
+List<ComponentPreview> get buttonPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _buttonDefault),
+  ComponentPreview(docsSample(null, 'Secondary'), _buttonSecondary),
+  ComponentPreview(docsSample(null, 'Outline'), _buttonOutline),
+  ComponentPreview(docsSample(null, 'Ghost'), _buttonGhost),
+  ComponentPreview(docsSample(null, 'Link'), _buttonLink),
+  ComponentPreview(docsSample(null, 'Destructive'), _buttonDestructive),
+  ComponentPreview(docsSample(null, 'Icon'), _buttonIcon),
+  ComponentPreview(docsSample(null, 'With icon'), _buttonWithIcon),
+  ComponentPreview(docsSample(null, 'Sizes'), _buttonSizes),
+  ComponentPreview(docsSample(null, 'Loading'), _buttonLoading),
+  ComponentPreview(docsSample(null, 'Async (success)'), _buttonAsyncSuccess),
+  ComponentPreview(docsSample(null, 'Async (failure)'), _buttonAsyncFailure),
+  ComponentPreview(
+    docsSample(null, 'Controlled status'),
+    _buttonControlledStatus,
+  ),
+  ComponentPreview(docsSample(null, 'Disabled'), _buttonDisabled),
 ];

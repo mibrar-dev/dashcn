@@ -18,10 +18,10 @@ Widget _card(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      const Text('@dashcn'),
+      Text('@dashcn'),
       Gap(theme.spacing.xs),
       Text(
-        'Beautifully designed components.',
+        docsSample(context, 'Beautifully designed components.'),
         style: TextStyle(color: theme.colors.mutedForeground),
       ),
     ],
@@ -30,7 +30,7 @@ Widget _card(BuildContext context) {
 
 /// The default card after the hover delay.
 Widget _default(BuildContext context) {
-  return HoverCard(hoverBuilder: _card, child: const Text('@dashcn'));
+  return HoverCard(hoverBuilder: _card, child: Text('@dashcn'));
 }
 
 /// Rich content: title, bio and follower count.
@@ -41,25 +41,37 @@ Widget _richContent(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('@dashcn'),
+        Text('@dashcn'),
         Gap(theme.spacing.xs),
         Text(
-          'Beautifully designed components that you can copy and paste.',
+          docsSample(
+            context,
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Beautifully designed components that you can copy and paste.',
+                ),
+              ),
+            ),
+          ),
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
         Gap(theme.spacing.sm),
         Text(
-          '12k followers',
+          docsSample(context, '12k followers'),
           style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
         ),
       ],
     ),
-    child: const Text('@dashcn (rich)'),
+    child: Text('@dashcn (rich)'),
   );
 }
 
 /// Named docs examples for `hover_card`; the first entry is the default.
-const List<ComponentPreview> hoverCardPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Rich content', _richContent),
+List<ComponentPreview> get hoverCardPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Rich content'), _richContent),
 ];

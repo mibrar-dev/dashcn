@@ -193,8 +193,9 @@ class ColorHistoryGrid extends StatelessWidget {
           select: (t) => t,
           defaults: historyDefaults,
         );
-    final double gap = spacing ?? resolved.spacing ?? 4;
-    final double tile = resolved.tileSize ?? 32;
+    final double gap = spacing ?? resolved.spacing ?? themeData.spacing.xs;
+    final double tile =
+        resolved.tileSize ?? themeData.densityTokens.rowMinHeight;
     final BorderRadiusGeometry radius =
         resolved.borderRadius ?? themeData.borderRadiusMd;
     final Color ringColor =

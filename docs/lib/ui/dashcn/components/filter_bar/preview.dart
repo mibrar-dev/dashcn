@@ -11,10 +11,12 @@ import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import 'filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
-  FilterSortOption(id: 'newest', label: 'Newest'),
-  FilterSortOption(id: 'oldest', label: 'Oldest'),
-  FilterSortOption(id: 'popular', label: 'Most popular'),
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
+  FilterSortOption(id: 'newest', label: docsSample(context, 'Newest')),
+  FilterSortOption(id: 'oldest', label: docsSample(context, 'Oldest')),
+  FilterSortOption(id: 'popular', label: docsSample(context, 'Most popular')),
 ];
 
 /// Inline bar with sort options, query applied, and a result count.
@@ -35,7 +37,7 @@ class _DefaultFilterBarState extends State<_DefaultFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 42,
         presentation: FilterBarPresentation.inline,
       ),
@@ -54,11 +56,14 @@ class _ChipsFilterBar extends StatefulWidget {
 }
 
 class _ChipsFilterBarState extends State<_ChipsFilterBar> {
-  FilterState _state = const FilterState(
+  FilterState _state = FilterState(
     sortId: 'newest',
     chips: <FilterChipData>[
-      FilterChipData(key: 'tag:design', label: 'Tag: Design'),
-      FilterChipData(key: 'status:active', label: 'Status: Active'),
+      FilterChipData(key: 'tag:design', label: docsSample(null, 'Tag: Design')),
+      FilterChipData(
+        key: 'status:active',
+        label: docsSample(null, 'Status: Active'),
+      ),
     ],
   );
 
@@ -69,7 +74,7 @@ class _ChipsFilterBarState extends State<_ChipsFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 3,
         presentation: FilterBarPresentation.inline,
       ),
@@ -97,7 +102,7 @@ class _OverflowFilterBarState extends State<_OverflowFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Anchored compact popup menu (the canonical anchored variant).
@@ -125,7 +130,7 @@ class _DialogFilterBarState extends State<_DialogFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Centred dialog: same tokens as the inline bar and popup menu.
@@ -153,7 +158,7 @@ class _SheetFilterBarState extends State<_SheetFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Bottom sheet on phone widths via the drawer sheet scaffold.
@@ -178,9 +183,11 @@ class _OpenMenuFilterBar extends StatefulWidget {
 }
 
 class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
-  FilterState _state = const FilterState(
+  FilterState _state = FilterState(
     sortId: 'newest',
-    chips: <FilterChipData>[FilterChipData(key: 'tag:ui', label: 'Tag: UI')],
+    chips: <FilterChipData>[
+      FilterChipData(key: 'tag:ui', label: docsSample(null, 'Tag: UI')),
+    ],
   );
 
   @override
@@ -194,13 +201,13 @@ class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
           FilterBar(
             state: _state,
             onStateChanged: (FilterState next) => setState(() => _state = next),
-            sortOptions: _sortOptions,
+            sortOptions: _sortOptions(context),
             resultsCount: 7,
             presentation: FilterBarPresentation.menu,
           ),
           const Gap(kSpace2),
           FilterBarOverflowMenu(
-            title: 'Filters',
+            title: docsSample(context, 'Filters'),
             activeCount: _state.activeFilterCount,
             resultsCount: 7,
             width: 320,
@@ -211,7 +218,7 @@ class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
               children: <Widget>[
                 FilterBarSortControl(
                   value: _state.sortId,
-                  options: _sortOptions,
+                  options: _sortOptions(context),
                   onChanged: (String? next) =>
                       setState(() => _state = _state.copyWith(sortId: next)),
                   width: double.infinity,
@@ -246,7 +253,7 @@ class _CustomizedFilterBarState extends State<_CustomizedFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 19,
         densityTokens: DensityTokens.comfortable,
         presentation: FilterBarPresentation.inline,
@@ -266,12 +273,12 @@ class _CustomizedFilterBarState extends State<_CustomizedFilterBar> {
 Widget _customized(BuildContext context) => const _CustomizedFilterBar();
 
 /// Named docs examples for `filter_bar`; the first entry is the default.
-const List<ComponentPreview> filterBarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With chips', _withChips),
+List<ComponentPreview> get filterBarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With chips'), _withChips),
   ComponentPreview('Popup', _overflowMenu),
   ComponentPreview('Dialog', _dialog),
   ComponentPreview('Sheet', _sheet),
-  ComponentPreview('Overflow menu open', _openMenu),
-  ComponentPreview('Customized', _customized),
+  ComponentPreview(docsSample(null, 'Overflow menu open'), _openMenu),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
 ];

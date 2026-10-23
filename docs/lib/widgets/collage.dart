@@ -27,6 +27,8 @@ import 'collage_home_overlays.dart';
 import 'collage_home_settings.dart';
 import 'collage_home_stats.dart';
 import 'collage_home_time.dart';
+import 'package:docs/widgets/preview_scope.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// The landing hero collage.
 class DocsCollage extends StatelessWidget {
@@ -37,10 +39,10 @@ class DocsCollage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
     if (width < 768) {
-      return const StaticCollage();
+      return const PreviewScope(child: StaticCollage());
     }
     final int columns = width >= 1400 ? 4 : (width >= 1024 ? 3 : 2);
-    return _CollageBody(columns: columns);
+    return PreviewScope(child: _CollageBody(columns: columns));
   }
 }
 
@@ -129,10 +131,10 @@ class _CollageBody extends StatelessWidget {
           const HomeChatCard(),
           const HomeAlertsCard(),
           const HomeBrowseCard(),
-          const HomeSparkCard(
-            title: 'Net Revenue',
+          HomeSparkCard(
+            title: docsSample(context, 'Net Revenue'),
             value: r'$48,320',
-            caption: '+12.4% vs last month',
+            caption: docsSample(context, '+12.4% vs last month'),
             samples: <double>[22, 26, 24, 31, 29, 38, 35, 44, 41, 52],
           ),
           const HomeCreateAccountCard(),
@@ -154,10 +156,10 @@ class _CollageBody extends StatelessWidget {
           const HomeTimelineCard(),
           const HomeUploadCard(),
           const HomeCookieCard(),
-          const HomeSparkCard(
-            title: 'Active Listeners',
+          HomeSparkCard(
+            title: docsSample(context, 'Active Listeners'),
             value: '18,204',
-            caption: '+3.1% vs last month',
+            caption: docsSample(context, '+3.1% vs last month'),
             samples: <double>[31, 34, 33, 38, 42, 40, 46, 44, 49, 52],
           ),
         ];

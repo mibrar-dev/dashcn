@@ -16,6 +16,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// Scores a password 0-4: length, case mix, digit, special character.
 int passwordStrength(String password) {
@@ -101,7 +102,16 @@ class Signup02Form extends StatelessWidget {
           Text(strings.blockCreateYourAccount, style: theme.typography.h2),
           Gap(theme.spacing.sm),
           Text(
-            'Start your 14-day trial. No credit card required.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Start your 14-day trial. No credit card required.',
+                ),
+              ),
+            ),
             style: theme.typography.textMuted.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -131,7 +141,7 @@ class Signup02Form extends StatelessWidget {
                     const LengthValidator(min: 2, max: 50),
                 showErrors: _show,
                 child: Input(
-                  hintText: 'Lovelace',
+                  hintText: docsSample(context, 'Lovelace'),
                   textInputAction: TextInputAction.next,
                   focusNode: lastNameFocus,
                   onSubmitted: (_) => emailFocus.requestFocus(),
@@ -225,7 +235,7 @@ class Signup02Form extends StatelessWidget {
                       Button(
                         variant: ButtonVariant.link,
                         onPressed: () {},
-                        child: const Text('privacy policy'),
+                        child: Text(docsSample(context, 'privacy policy')),
                       ),
                       Text(
                         '.',
@@ -252,7 +262,16 @@ class Signup02Form extends StatelessWidget {
             Gap(theme.spacing.lg),
             Alert(
               content: Text(
-                'Trial started — check your inbox to verify it.',
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Trial started — check your inbox to verify it.',
+                    ),
+                  ),
+                ),
                 style: theme.typography.textSmall,
               ),
             ),
@@ -266,7 +285,7 @@ class Signup02Form extends StatelessWidget {
             spacing: 4,
             children: <Widget>[
               Text(
-                'Already have an account?',
+                docsSample(context, 'Already have an account?'),
                 style: theme.typography.textSmall.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -298,7 +317,7 @@ class _Signup02TermsValidator extends Validator<CheckboxValue> {
       return null;
     }
     return InvalidResult(
-      'You must accept the terms to continue.',
+      docsSample(context, 'You must accept the terms to continue.'),
       state: lifecycle,
     );
   }
@@ -315,12 +334,12 @@ class _Signup02Strength extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final int score = password.isEmpty ? 0 : passwordStrength(password);
-    const List<String> labels = <String>[
-      'Enter a password',
-      'Weak',
-      'Fair',
-      'Good',
-      'Strong',
+    List<String> labels = <String>[
+      docsSample(context, 'Enter a password'),
+      docsSample(context, 'Weak'),
+      docsSample(context, 'Fair'),
+      docsSample(context, 'Good'),
+      docsSample(context, 'Strong'),
     ];
     return Column(
       mainAxisSize: MainAxisSize.min,

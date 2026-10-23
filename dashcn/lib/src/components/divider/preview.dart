@@ -21,16 +21,16 @@ Widget _dividerLabelled(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const Divider(label: Text('or continue with')),
+      Divider(label: Text(docsSample(context, 'or continue with'))),
       Gap(spacing.sm),
-      const Divider(
+      Divider(
         labelAlignment: DividerLabelAlignment.start,
-        label: Text('New this week'),
+        label: Text(docsSample(context, 'New this week')),
       ),
       Gap(spacing.sm),
-      const Divider(
+      Divider(
         labelAlignment: DividerLabelAlignment.end,
-        label: Text('Archived'),
+        label: Text(docsSample(context, 'Archived')),
       ),
     ],
   );
@@ -43,18 +43,18 @@ Widget _dividerVertical(BuildContext context) {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: const <Widget>[
-        Text('Inbox'),
+      children: <Widget>[
+        Text(docsSample(context, 'Inbox')),
         Divider(axis: Axis.vertical),
-        Text('Archive'),
+        Text(docsSample(context, 'Archive')),
       ],
     ),
   );
 }
 
 /// Named docs examples for `divider`; the first entry is the default.
-const List<ComponentPreview> dividerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _dividerDefault),
-  ComponentPreview('Labelled', _dividerLabelled),
-  ComponentPreview('Vertical', _dividerVertical),
+List<ComponentPreview> get dividerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _dividerDefault),
+  ComponentPreview(docsSample(null, 'Labelled'), _dividerLabelled),
+  ComponentPreview(docsSample(null, 'Vertical'), _dividerVertical),
 ];

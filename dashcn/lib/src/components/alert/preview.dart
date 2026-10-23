@@ -32,8 +32,8 @@ Widget _alert(
         Alert(
           variant: variant,
           leading: const Icon(LucideIcons.info, size: 16),
-          title: Text(title),
-          content: Text(content),
+          title: Text(docsSample(context, title)),
+          content: Text(docsSample(context, content)),
         ),
       ],
     ),
@@ -44,16 +44,16 @@ Widget _alert(
 Widget _alertDefault(BuildContext context) => _alert(
   context,
   AlertVariant.base,
-  'Heads up',
-  'You can install components from the CLI.',
+  docsSample(context, 'Heads up'),
+  docsSample(context, 'You can install components from the CLI.'),
 );
 
 /// Destructive variant.
 Widget _alertDestructive(BuildContext context) => _alert(
   context,
   AlertVariant.destructive,
-  'Session expired',
-  'Please log in again to continue.',
+  docsSample(context, 'Session expired'),
+  docsSample(context, 'Please log in again to continue.'),
 );
 
 /// A compact alert whose trailing button dismisses it.
@@ -78,8 +78,8 @@ class _AlertCompactState extends State<_AlertCompact> {
         children: <Widget>[
           if (!_dismissed)
             Alert(
-              title: const Text('Notification'),
-              content: const Text('You have a new message.'),
+              title: Text(docsSample(context, 'Notification')),
+              content: Text(docsSample(context, 'You have a new message.')),
               trailing: Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.ghost,
@@ -89,7 +89,7 @@ class _AlertCompactState extends State<_AlertCompact> {
             )
           else
             Text(
-              'Notification dismissed.',
+              docsSample(context, 'Notification dismissed.'),
               style: TextStyle(color: theme.colors.mutedForeground),
             ),
           Gap(theme.spacing.md),
@@ -97,7 +97,7 @@ class _AlertCompactState extends State<_AlertCompact> {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: () => setState(() => _dismissed = false),
-            child: const Text('Show again'),
+            child: Text(docsSample(context, 'Show again')),
           ),
         ],
       ),
@@ -108,8 +108,8 @@ class _AlertCompactState extends State<_AlertCompact> {
 Widget _alertCompact(BuildContext context) => const _AlertCompact();
 
 /// Named docs examples for `alert`; the first entry is the default.
-const List<ComponentPreview> alertPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _alertDefault),
-  ComponentPreview('Destructive', _alertDestructive),
-  ComponentPreview('Compact', _alertCompact),
+List<ComponentPreview> get alertPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _alertDefault),
+  ComponentPreview(docsSample(null, 'Destructive'), _alertDestructive),
+  ComponentPreview(docsSample(null, 'Compact'), _alertCompact),
 ];

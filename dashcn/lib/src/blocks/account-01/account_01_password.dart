@@ -16,6 +16,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by the [Account01PasswordForm] password form.
 class Account01PasswordData {
@@ -58,9 +59,9 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
 
   Validator<String> get _confirmValidator =>
       const NotEmptyValidator() &
-      const CompareWith<String>.equal(
+      CompareWith<String>.equal(
         FormKey<String>('newPassword'),
-        message: 'Passwords do not match.',
+        message: docsSample(context, 'Passwords do not match.'),
       );
 
   @override
@@ -140,7 +141,16 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                 Text(strings.authPassword, style: theme.typography.textLarge),
                 Gap(theme.spacing.sm),
                 Text(
-                  'At least 8 characters. Changing it signs you out elsewhere.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      docsSample(
+                        context,
+                        'At least 8 characters. Changing it signs you out elsewhere.',
+                      ),
+                    ),
+                  ),
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.mutedForeground,
                   ),
@@ -209,7 +219,7 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                   Gap(theme.spacing.lg),
                   Alert(
                     content: Text(
-                      'Password updated.',
+                      docsSample(context, 'Password updated.'),
                       style: theme.typography.textSmall,
                     ),
                   ),

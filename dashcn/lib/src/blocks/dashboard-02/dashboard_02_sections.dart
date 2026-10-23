@@ -11,6 +11,7 @@ import '../../components/tabs/tabs.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 class Dashboard02Chart extends StatelessWidget {
   const Dashboard02Chart({super.key});
@@ -48,9 +49,9 @@ class Dashboard02Chart extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const _Dashboard02Legend('Desktop', 0),
+              _Dashboard02Legend(docsSample(context, 'Desktop'), 0),
               Gap(spacing.lg),
-              const _Dashboard02Legend('Mobile', 1),
+              _Dashboard02Legend(docsSample(context, 'Mobile'), 1),
             ],
           ),
           Gap(spacing.lg),
@@ -97,14 +98,15 @@ class _Dashboard02Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    const double swatch = 10;
     return Row(
       children: <Widget>[
         Container(
-          width: 10,
-          height: 10,
+          width: swatch,
+          height: swatch,
           decoration: BoxDecoration(
             color: theme.colors.chartColors[chartIndex],
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(swatch / 2),
           ),
         ),
         const Gap(0, crossAxisExtent: 6),
@@ -129,11 +131,11 @@ class Dashboard02Sources extends StatelessWidget {
     final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
-    const List<_Dashboard02Source> sources = <_Dashboard02Source>[
-      _Dashboard02Source('Direct', 0.38),
-      _Dashboard02Source('Search', 0.31),
-      _Dashboard02Source('Referral', 0.19),
-      _Dashboard02Source('Social', 0.12),
+    List<_Dashboard02Source> sources = <_Dashboard02Source>[
+      _Dashboard02Source(docsSample(context, 'Direct'), 0.38),
+      _Dashboard02Source(docsSample(context, 'Search'), 0.31),
+      _Dashboard02Source(docsSample(context, 'Referral'), 0.19),
+      _Dashboard02Source(docsSample(context, 'Social'), 0.12),
     ];
     return Card(
       child: Column(
@@ -171,10 +173,10 @@ class Dashboard02Devices extends StatelessWidget {
     final strings = ComponentLocalizations.of(context);
     final theme = Theme.of(context);
     final spacing = theme.spacing;
-    const List<_Dashboard02Device> devices = <_Dashboard02Device>[
-      _Dashboard02Device('Desktop', 0.52, 0),
-      _Dashboard02Device('Mobile', 0.41, 1),
-      _Dashboard02Device('Tablet', 0.07, 2),
+    List<_Dashboard02Device> devices = <_Dashboard02Device>[
+      _Dashboard02Device(docsSample(context, 'Desktop'), 0.52, 0),
+      _Dashboard02Device(docsSample(context, 'Mobile'), 0.41, 1),
+      _Dashboard02Device(docsSample(context, 'Tablet'), 0.07, 2),
     ];
     return Card(
       child: Column(

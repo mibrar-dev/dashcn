@@ -9,6 +9,7 @@ import '../../primitives/overlay_manager.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'overlay_configuration.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the overlay-configuration gallery.
 class OverlayConfigurationPreview extends StatelessWidget {
@@ -25,7 +26,7 @@ class OverlayConfigurationPreview extends StatelessWidget {
       container: true,
       explicitChildNodes: true,
       child: Directionality(
-        textDirection: TextDirection.ltr,
+        textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
         child: DefaultTextStyle(
           style: TextStyle(color: theme.colors.foreground, fontSize: 14),
           child: AppLayer(
@@ -143,7 +144,7 @@ class _OverlayConfigControllerTriggerState
         const PopoverConfiguration(alignment: Alignment.center),
         builder: (BuildContext context) => const _OverlayConfigBody(),
       ),
-      child: const Text('Controller'),
+      child: Text(docsSample(context, 'Controller')),
     );
   }
 }
@@ -162,11 +163,11 @@ class _OverlayConfigBody extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text('Overlay content'),
+          Text(docsSample(context, 'Overlay content')),
           Gap(Theme.of(context).spacing.sm),
           Text(
             configuration == null
-                ? 'no configuration'
+                ? docsSample(context, 'no configuration')
                 : configuration.runtimeType.toString(),
             style: const TextStyle(fontSize: 12),
           ),

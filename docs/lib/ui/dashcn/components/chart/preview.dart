@@ -47,11 +47,11 @@ class _LineInteractiveState extends State<_LineInteractive> {
           labels: _AreaInteractiveState.dayLabels.sublist(90 - _count),
           series: <ChartSeries>[
             ChartSeries(
-              label: 'Desktop',
+              label: docsSample(context, 'Desktop'),
               values: _AreaInteractiveState.desktopData.sublist(90 - _count),
             ),
             ChartSeries(
-              label: 'Mobile',
+              label: docsSample(context, 'Mobile'),
               values: _AreaInteractiveState.mobileData.sublist(90 - _count),
             ),
           ],
@@ -64,60 +64,66 @@ class _LineInteractiveState extends State<_LineInteractive> {
 Widget _chartLineInteractive(BuildContext context) => const _LineInteractive();
 
 Widget _chartLineDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartLineLinear(BuildContext context) {
-  return const Chart(
+  return Chart(
     lineStyle: ChartLineStyle.linear,
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartLineStep(BuildContext context) {
-  return const Chart(
+  return Chart(
     lineStyle: ChartLineStyle.step,
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartLineMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _barDesktop),
-      ChartSeries(label: 'Mobile', values: _barMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _barMobile),
     ],
   );
 }
 
 Widget _chartLineDots(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _barDesktop),
-      ChartSeries(label: 'Mobile', values: _barMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _barMobile),
     ],
   );
 }
 
 Widget _chartLineDotsCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     tooltip: ChartTooltipConfig(showLabel: false),
     series: <ChartSeries>[
       ChartSeries(
-        label: 'Desktop',
+        label: docsSample(context, 'Desktop'),
         values: _barDesktop,
         markerShape: ChartMarkerShape.commit,
       ),
@@ -135,7 +141,7 @@ Widget _chartLineDotsColors(BuildContext context) {
     ),
     series: <ChartSeries>[
       ChartSeries(
-        label: 'Visitors',
+        label: docsSample(context, 'Visitors'),
         values: _browserVisitors,
         pointColors: _browserColors(context),
       ),
@@ -144,12 +150,14 @@ Widget _chartLineDotsColors(BuildContext context) {
 }
 
 Widget _chartLineLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     showPointLabels: true,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
@@ -164,7 +172,10 @@ Widget _chartLineLabelCustom(BuildContext context) {
       showLabel: false,
     ),
     series: <ChartSeries>[
-      ChartSeries(label: 'Visitors', values: _browserVisitors),
+      ChartSeries(
+        label: docsSample(context, 'Visitors'),
+        values: _browserVisitors,
+      ),
     ],
   );
 }
@@ -172,12 +183,12 @@ Widget _chartLineLabelCustom(BuildContext context) {
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
 
-const List<String> _browserNames = <String>[
-  'Chrome',
-  'Safari',
-  'Firefox',
-  'Edge',
-  'Other',
+List<String> _browserNames = <String>[
+  docsSample(null, 'Chrome'),
+  docsSample(null, 'Safari'),
+  docsSample(null, 'Firefox'),
+  docsSample(null, 'Edge'),
+  docsSample(null, 'Other'),
 ];
 
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
@@ -224,11 +235,11 @@ class _BarInteractiveState extends State<_BarInteractive> {
           labels: _AreaInteractiveState.dayLabels.sublist(90 - _count),
           series: <ChartSeries>[
             ChartSeries(
-              label: 'Desktop',
+              label: docsSample(context, 'Desktop'),
               values: _AreaInteractiveState.desktopData.sublist(90 - _count),
             ),
             ChartSeries(
-              label: 'Mobile',
+              label: docsSample(context, 'Mobile'),
               values: _AreaInteractiveState.mobileData.sublist(90 - _count),
             ),
           ],
@@ -241,63 +252,71 @@ class _BarInteractiveState extends State<_BarInteractive> {
 Widget _chartBarInteractive(BuildContext context) => const _BarInteractive();
 
 Widget _chartBarDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartBarHorizontal(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barLayout: ChartBarLayout.horizontal,
     labels: _areaMonths,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartBarMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _barDesktop),
-      ChartSeries(label: 'Mobile', values: _barMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _barMobile),
     ],
   );
 }
 
 Widget _chartBarStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barMode: ChartBarMode.stacked,
     labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _barDesktop),
-      ChartSeries(label: 'Mobile', values: _barMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _barMobile),
     ],
   );
 }
 
 Widget _chartBarLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     showBarLabels: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
 Widget _chartBarLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barLayout: ChartBarLayout.horizontal,
     labels: _areaMonths,
     showLabels: false,
     showBarLabels: true,
     showBarCategories: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _barDesktop),
+    ],
   );
 }
 
@@ -335,12 +354,12 @@ Widget _chartBarActive(BuildContext context) {
 }
 
 Widget _chartBarNegative(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     series: <ChartSeries>[
       ChartSeries(
-        label: 'Desktop',
+        label: docsSample(context, 'Desktop'),
         values: <double>[186, 305, -120, 73, -90, 214],
       ),
     ],
@@ -356,11 +375,11 @@ class _PieInteractive extends StatefulWidget {
 }
 
 class _PieInteractiveState extends State<_PieInteractive> {
-  static const List<String> months = <String>[
-    'January',
-    'February',
-    'March',
-    'April',
+  static List<String> months = <String>[
+    docsSample(null, 'January'),
+    docsSample(null, 'February'),
+    docsSample(null, 'March'),
+    docsSample(null, 'April'),
     'May',
   ];
   static const List<double> visitors = <double>[186, 305, 237, 173, 209];
@@ -395,7 +414,7 @@ class _PieInteractiveState extends State<_PieInteractive> {
             }
           },
           centerLabel: '${visitors[_active].toInt()}',
-          centerSublabel: 'Visitors',
+          centerSublabel: docsSample(context, 'Visitors'),
           pie: const ChartPieConfig(activeRing: true),
           tooltip: const ChartTooltipConfig(showLabel: false),
           series: <ChartSeries>[
@@ -543,7 +562,7 @@ class _PieDropdownState extends State<_PieDropdown> {
 Widget _chartPieInteractive(BuildContext context) => const _PieInteractive();
 
 Widget _chartPieSimple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -552,7 +571,7 @@ Widget _chartPieSimple(BuildContext context) {
 }
 
 Widget _chartPieSeparatorNone(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -562,7 +581,7 @@ Widget _chartPieSeparatorNone(BuildContext context) {
 }
 
 Widget _chartPieLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -572,7 +591,7 @@ Widget _chartPieLabel(BuildContext context) {
 }
 
 Widget _chartPieLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -582,7 +601,7 @@ Widget _chartPieLabelCustom(BuildContext context) {
 }
 
 Widget _chartPieLabelList(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -592,18 +611,21 @@ Widget _chartPieLabelList(BuildContext context) {
 }
 
 Widget _chartPieLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
     series: <ChartSeries>[
-      ChartSeries(label: 'Browsers', values: _browserVisitors),
+      ChartSeries(
+        label: docsSample(context, 'Browsers'),
+        values: _browserVisitors,
+      ),
     ],
   );
 }
 
 Widget _chartPieDonut(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
@@ -612,7 +634,7 @@ Widget _chartPieDonut(BuildContext context) {
 }
 
 Widget _chartPieDonutActive(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
@@ -622,36 +644,51 @@ Widget _chartPieDonutActive(BuildContext context) {
 }
 
 Widget _chartPieDonutText(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
     centerLabel: '925',
-    centerSublabel: 'Visitors',
+    centerSublabel: docsSample(context, 'Visitors'),
     series: <ChartSeries>[ChartSeries(values: _browserVisitors)],
   );
 }
 
 Widget _chartPieStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
-    labels: <String>['January', 'February', 'March', 'April', 'May'],
+    labels: <String>[
+      docsSample(context, 'January'),
+      docsSample(context, 'February'),
+      docsSample(context, 'March'),
+      docsSample(context, 'April'),
+      'May',
+    ],
     showLegend: false,
     pie: ChartPieConfig(stacked: true),
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: <double>[186, 305, 237, 173, 209]),
-      ChartSeries(label: 'Mobile', values: <double>[80, 200, 120, 190, 130]),
+      ChartSeries(
+        label: docsSample(context, 'Desktop'),
+        values: <double>[186, 305, 237, 173, 209],
+      ),
+      ChartSeries(
+        label: docsSample(context, 'Mobile'),
+        values: <double>[80, 200, 120, 190, 130],
+      ),
     ],
   );
 }
 
 Widget _chartScatter(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.scatter,
     series: <ChartSeries>[
-      ChartSeries(label: 'Latency', values: <double>[2, 5, 3, 8, 6, 9, 4]),
+      ChartSeries(
+        label: docsSample(context, 'Latency'),
+        values: <double>[2, 5, 3, 8, 6, 9, 4],
+      ),
     ],
   );
 }
@@ -685,8 +722,11 @@ class _ChartStreamingState extends State<_ChartStreaming> {
     super.initState();
     _controller = ChartController(
       maxPoints: 40,
-      initial: const <ChartSeries>[
-        ChartSeries(label: 'Live', values: <double>[3, 5, 2, 6, 4, 7]),
+      initial: <ChartSeries>[
+        ChartSeries(
+          label: docsSample(context, 'Live'),
+          values: <double>[3, 5, 2, 6, 4, 7],
+        ),
       ],
     );
     _timer = Timer.periodic(const Duration(milliseconds: 800), (_) {
@@ -707,231 +747,353 @@ class _ChartStreamingState extends State<_ChartStreaming> {
   Widget build(BuildContext context) {
     return Chart(
       controller: _controller,
-      semanticsLabel: 'Streaming line chart, last 40 points',
+      semanticsLabel: docsSample(
+        context,
+        docsSample(context, 'Streaming line chart, last 40 points'),
+      ),
     );
   }
 }
 
 Widget _chartStreaming(BuildContext context) => const _ChartStreaming();
 
-const List<String> _radarMonths = <String>[
-  'January',
-  'February',
-  'March',
-  'April',
+List<String> _radarMonths = <String>[
+  docsSample(null, 'January'),
+  docsSample(null, 'February'),
+  docsSample(null, 'March'),
+  docsSample(null, 'April'),
   'May',
-  'June',
+  docsSample(null, 'June'),
 ];
 
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartRadarDefault(BuildContext context) {
-  return const Chart(
-    type: ChartType.radar,
-    labels: _radarMonths,
-    height: 260,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
-  );
-}
-
-Widget _chartRadarDots(BuildContext context) {
-  return const Chart(
-    type: ChartType.radar,
-    labels: _radarMonths,
-    height: 260,
-    showMarkers: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
-  );
-}
-
-Widget _chartRadarLinesOnly(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _radarDesktop, fillOpacity: 0),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
+  );
+}
+
+Widget _chartRadarDots(BuildContext context) {
+  return Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    showMarkers: true,
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
+  );
+}
+
+Widget _chartRadarLinesOnly(BuildContext context) {
+  return Chart(
+    type: ChartType.radar,
+    labels: _radarMonths,
+    height: 260,
+    series: <ChartSeries>[
+      ChartSeries(
+        label: docsSample(context, 'Desktop'),
+        values: _radarDesktop,
+        fillOpacity: 0,
+      ),
     ],
   );
 }
 
 Widget _chartRadarLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(showValues: true),
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _radarDesktop),
-      ChartSeries(label: 'Mobile', values: _radarMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _radarMobile),
     ],
   );
 }
 
 Widget _chartRadarGridCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(rings: 1, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarGridNone(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.none),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarGridCircle(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarGridCircleNoLines(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarGridCircleFilled(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, filled: true),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarGridFilled(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(filled: true),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+    ],
   );
 }
 
 Widget _chartRadarMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _radarDesktop),
-      ChartSeries(label: 'Mobile', values: _radarMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _radarMobile),
     ],
   );
 }
 
 Widget _chartRadarLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _radarDesktop),
-      ChartSeries(label: 'Mobile', values: _radarMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _radarDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _radarMobile),
     ],
   );
 }
 
 /// Named docs examples for `chart`; the first entry is the default.
-const List<ComponentPreview> chartPreviews = <ComponentPreview>[
-  ComponentPreview('Line Chart - Interactive', _chartLineInteractive),
-  ComponentPreview('Line Chart', _chartLineDefault),
-  ComponentPreview('Line Chart - Linear', _chartLineLinear),
-  ComponentPreview('Line Chart - Step', _chartLineStep),
-  ComponentPreview('Line Chart - Multiple', _chartLineMultiple),
-  ComponentPreview('Line Chart - Dots', _chartLineDots),
-  ComponentPreview('Line Chart - Custom Dots', _chartLineDotsCustom),
-  ComponentPreview('Line Chart - Dots Colors', _chartLineDotsColors),
-  ComponentPreview('Line Chart - Label', _chartLineLabel),
-  ComponentPreview('Line Chart - Custom Label', _chartLineLabelCustom),
-  ComponentPreview('Area Chart - Interactive', _chartAreaInteractive),
-  ComponentPreview('Area Chart', _chartAreaDefault),
-  ComponentPreview('Area Chart - Linear', _chartAreaLinear),
-  ComponentPreview('Area Chart - Step', _chartAreaStep),
-  ComponentPreview('Area Chart - Legend', _chartAreaLegend),
-  ComponentPreview('Area Chart - Stacked', _chartAreaStacked),
-  ComponentPreview('Area Chart - Stacked Expanded', _chartAreaStackedExpanded),
-  ComponentPreview('Area Chart - Icons', _chartAreaIcons),
-  ComponentPreview('Area Chart - Gradient', _chartAreaGradient),
-  ComponentPreview('Area Chart - Axes', _chartAreaAxes),
-  ComponentPreview('Bar Chart - Interactive', _chartBarInteractive),
-  ComponentPreview('Bar Chart', _chartBarDefault),
-  ComponentPreview('Bar Chart - Horizontal', _chartBarHorizontal),
-  ComponentPreview('Bar Chart - Multiple', _chartBarMultiple),
-  ComponentPreview('Bar Chart - Stacked + Legend', _chartBarStacked),
-  ComponentPreview('Bar Chart - Label', _chartBarLabel),
-  ComponentPreview('Bar Chart - Custom Label', _chartBarLabelCustom),
-  ComponentPreview('Bar Chart - Mixed', _chartBarMixed),
-  ComponentPreview('Bar Chart - Active', _chartBarActive),
-  ComponentPreview('Bar Chart - Negative', _chartBarNegative),
-  ComponentPreview('Pie Chart', _chartPieSimple),
-  ComponentPreview('Pie Chart - Separator None', _chartPieSeparatorNone),
-  ComponentPreview('Pie Chart - Label', _chartPieLabel),
-  ComponentPreview('Pie Chart - Custom Label', _chartPieLabelCustom),
-  ComponentPreview('Pie Chart - Label List', _chartPieLabelList),
-  ComponentPreview('Pie Chart - Legend', _chartPieLegend),
-  ComponentPreview('Pie Chart - Donut', _chartPieDonut),
-  ComponentPreview('Pie Chart - Donut Active', _chartPieDonutActive),
-  ComponentPreview('Pie Chart - Donut with Text', _chartPieDonutText),
-  ComponentPreview('Pie Chart - Stacked', _chartPieStacked),
-  ComponentPreview('Pie Chart - Interactive', _chartPieInteractive),
-  ComponentPreview('Scatter', _chartScatter),
-  ComponentPreview('Sparkline', _chartSparkline),
-  ComponentPreview('Streaming', _chartStreaming),
-  ComponentPreview('Radar Chart', _chartRadarDefault),
-  ComponentPreview('Radar Chart - Dots', _chartRadarDots),
-  ComponentPreview('Radar Chart - Lines Only', _chartRadarLinesOnly),
-  ComponentPreview('Radar Chart - Custom Label', _chartRadarLabelCustom),
-  ComponentPreview('Radar Chart - Grid Custom', _chartRadarGridCustom),
-  ComponentPreview('Radar Chart - Grid None', _chartRadarGridNone),
-  ComponentPreview('Radar Chart - Grid Circle', _chartRadarGridCircle),
+List<ComponentPreview> get chartPreviews => <ComponentPreview>[
   ComponentPreview(
-    'Radar Chart - Grid Circle - No lines',
+    docsSample(null, 'Line Chart - Interactive'),
+    _chartLineInteractive,
+  ),
+  ComponentPreview(docsSample(null, 'Line Chart'), _chartLineDefault),
+  ComponentPreview(docsSample(null, 'Line Chart - Linear'), _chartLineLinear),
+  ComponentPreview(docsSample(null, 'Line Chart - Step'), _chartLineStep),
+  ComponentPreview(
+    docsSample(null, 'Line Chart - Multiple'),
+    _chartLineMultiple,
+  ),
+  ComponentPreview(docsSample(null, 'Line Chart - Dots'), _chartLineDots),
+  ComponentPreview(
+    docsSample(null, 'Line Chart - Custom Dots'),
+    _chartLineDotsCustom,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Line Chart - Dots Colors'),
+    _chartLineDotsColors,
+  ),
+  ComponentPreview(docsSample(null, 'Line Chart - Label'), _chartLineLabel),
+  ComponentPreview(
+    docsSample(null, 'Line Chart - Custom Label'),
+    _chartLineLabelCustom,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Area Chart - Interactive'),
+    _chartAreaInteractive,
+  ),
+  ComponentPreview(docsSample(null, 'Area Chart'), _chartAreaDefault),
+  ComponentPreview(docsSample(null, 'Area Chart - Linear'), _chartAreaLinear),
+  ComponentPreview(docsSample(null, 'Area Chart - Step'), _chartAreaStep),
+  ComponentPreview(docsSample(null, 'Area Chart - Legend'), _chartAreaLegend),
+  ComponentPreview(docsSample(null, 'Area Chart - Stacked'), _chartAreaStacked),
+  ComponentPreview(
+    docsSample(null, 'Area Chart - Stacked Expanded'),
+    _chartAreaStackedExpanded,
+  ),
+  ComponentPreview(docsSample(null, 'Area Chart - Icons'), _chartAreaIcons),
+  ComponentPreview(
+    docsSample(null, 'Area Chart - Gradient'),
+    _chartAreaGradient,
+  ),
+  ComponentPreview(docsSample(null, 'Area Chart - Axes'), _chartAreaAxes),
+  ComponentPreview(
+    docsSample(null, 'Bar Chart - Interactive'),
+    _chartBarInteractive,
+  ),
+  ComponentPreview(docsSample(null, 'Bar Chart'), _chartBarDefault),
+  ComponentPreview(
+    docsSample(null, 'Bar Chart - Horizontal'),
+    _chartBarHorizontal,
+  ),
+  ComponentPreview(docsSample(null, 'Bar Chart - Multiple'), _chartBarMultiple),
+  ComponentPreview(
+    docsSample(null, 'Bar Chart - Stacked + Legend'),
+    _chartBarStacked,
+  ),
+  ComponentPreview(docsSample(null, 'Bar Chart - Label'), _chartBarLabel),
+  ComponentPreview(
+    docsSample(null, 'Bar Chart - Custom Label'),
+    _chartBarLabelCustom,
+  ),
+  ComponentPreview(docsSample(null, 'Bar Chart - Mixed'), _chartBarMixed),
+  ComponentPreview(docsSample(null, 'Bar Chart - Active'), _chartBarActive),
+  ComponentPreview(docsSample(null, 'Bar Chart - Negative'), _chartBarNegative),
+  ComponentPreview(docsSample(null, 'Pie Chart'), _chartPieSimple),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Separator None'),
+    _chartPieSeparatorNone,
+  ),
+  ComponentPreview(docsSample(null, 'Pie Chart - Label'), _chartPieLabel),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Custom Label'),
+    _chartPieLabelCustom,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Label List'),
+    _chartPieLabelList,
+  ),
+  ComponentPreview(docsSample(null, 'Pie Chart - Legend'), _chartPieLegend),
+  ComponentPreview(docsSample(null, 'Pie Chart - Donut'), _chartPieDonut),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Donut Active'),
+    _chartPieDonutActive,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Donut with Text'),
+    _chartPieDonutText,
+  ),
+  ComponentPreview(docsSample(null, 'Pie Chart - Stacked'), _chartPieStacked),
+  ComponentPreview(
+    docsSample(null, 'Pie Chart - Interactive'),
+    _chartPieInteractive,
+  ),
+  ComponentPreview(docsSample(null, 'Scatter'), _chartScatter),
+  ComponentPreview(docsSample(null, 'Sparkline'), _chartSparkline),
+  ComponentPreview(docsSample(null, 'Streaming'), _chartStreaming),
+  ComponentPreview(docsSample(null, 'Radar Chart'), _chartRadarDefault),
+  ComponentPreview(docsSample(null, 'Radar Chart - Dots'), _chartRadarDots),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Lines Only'),
+    _chartRadarLinesOnly,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Custom Label'),
+    _chartRadarLabelCustom,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Grid Custom'),
+    _chartRadarGridCustom,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Grid None'),
+    _chartRadarGridNone,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Grid Circle'),
+    _chartRadarGridCircle,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Grid Circle - No lines'),
     _chartRadarGridCircleNoLines,
   ),
   ComponentPreview(
-    'Radar Chart - Grid Circle Filled',
+    docsSample(null, 'Radar Chart - Grid Circle Filled'),
     _chartRadarGridCircleFilled,
   ),
-  ComponentPreview('Radar Chart - Grid Filled', _chartRadarGridFilled),
-  ComponentPreview('Radar Chart - Multiple', _chartRadarMultiple),
-  ComponentPreview('Radar Chart - Legend', _chartRadarLegend),
-  ComponentPreview('Radial Chart', _chartRadialSimple),
-  ComponentPreview('Radial Chart - Label', _chartRadialLabel),
-  ComponentPreview('Radial Chart - Grid', _chartRadialGrid),
-  ComponentPreview('Radial Chart - Text', _chartRadialText),
-  ComponentPreview('Radial Chart - Shape', _chartRadialShape),
-  ComponentPreview('Radial Chart - Stacked', _chartRadialStacked),
-  ComponentPreview('Tooltip - Default', _chartTooltipDefault),
-  ComponentPreview('Tooltip - Line Indicator', _chartTooltipLineIndicator),
-  ComponentPreview('Tooltip - No Indicator', _chartTooltipNoIndicator),
-  ComponentPreview('Tooltip - Custom label', _chartTooltipCustomLabel),
-  ComponentPreview('Tooltip - Label Formatter', _chartTooltipLabelFormatter),
-  ComponentPreview('Tooltip - No Label', _chartTooltipNoLabel),
-  ComponentPreview('Tooltip - Formatter', _chartTooltipFormatter),
-  ComponentPreview('Tooltip - Icons', _chartTooltipIcons),
-  ComponentPreview('Tooltip - Advanced', _chartTooltipAdvanced),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Grid Filled'),
+    _chartRadarGridFilled,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Radar Chart - Multiple'),
+    _chartRadarMultiple,
+  ),
+  ComponentPreview(docsSample(null, 'Radar Chart - Legend'), _chartRadarLegend),
+  ComponentPreview(docsSample(null, 'Radial Chart'), _chartRadialSimple),
+  ComponentPreview(docsSample(null, 'Radial Chart - Label'), _chartRadialLabel),
+  ComponentPreview(docsSample(null, 'Radial Chart - Grid'), _chartRadialGrid),
+  ComponentPreview(docsSample(null, 'Radial Chart - Text'), _chartRadialText),
+  ComponentPreview(docsSample(null, 'Radial Chart - Shape'), _chartRadialShape),
+  ComponentPreview(
+    docsSample(null, 'Radial Chart - Stacked'),
+    _chartRadialStacked,
+  ),
+  ComponentPreview(docsSample(null, 'Tooltip - Default'), _chartTooltipDefault),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - Line Indicator'),
+    _chartTooltipLineIndicator,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - No Indicator'),
+    _chartTooltipNoIndicator,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - Custom label'),
+    _chartTooltipCustomLabel,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - Label Formatter'),
+    _chartTooltipLabelFormatter,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - No Label'),
+    _chartTooltipNoLabel,
+  ),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - Formatter'),
+    _chartTooltipFormatter,
+  ),
+  ComponentPreview(docsSample(null, 'Tooltip - Icons'), _chartTooltipIcons),
+  ComponentPreview(
+    docsSample(null, 'Tooltip - Advanced'),
+    _chartTooltipAdvanced,
+  ),
 ];
 
 const List<String> _tooltipDays = <String>[
@@ -959,9 +1121,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: docsSample(null, 'Running'),
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: docsSample(null, 'Swimming'),
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -976,7 +1144,7 @@ Widget _chartTooltipNoIndicator(BuildContext context) => _tooltipBase(
   tooltip: const ChartTooltipConfig(indicator: ChartTooltipIndicator.none),
 );
 
-String _tooltipCustomLabel(int index) => 'Activities';
+String _tooltipCustomLabel(int index) => docsSample(null, 'Activities');
 
 Widget _chartTooltipCustomLabel(BuildContext context) => _tooltipBase(
   tooltip: const ChartTooltipConfig(
@@ -995,19 +1163,19 @@ Widget _chartTooltipNoLabel(BuildContext context) =>
     _tooltipBase(tooltip: const ChartTooltipConfig(showLabel: false));
 
 Widget _chartTooltipFormatter(BuildContext context) => _tooltipBase(
-  tooltip: const ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
+  tooltip: ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
 );
 
 Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
   tooltip: const ChartTooltipConfig(showLabel: false),
-  series: const <ChartSeries>[
+  series: <ChartSeries>[
     ChartSeries(
-      label: 'Running',
+      label: docsSample(context, 'Running'),
       values: _tooltipRunning,
       icon: Icon(LucideIcons.footprints),
     ),
     ChartSeries(
-      label: 'Swimming',
+      label: docsSample(context, 'Swimming'),
       values: _tooltipSwimming,
       icon: Icon(LucideIcons.waves),
     ),
@@ -1015,7 +1183,7 @@ Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
 );
 
 Widget _chartTooltipAdvanced(BuildContext context) => _tooltipBase(
-  tooltip: const ChartTooltipConfig(
+  tooltip: ChartTooltipConfig(
     showLabel: false,
     valueSuffix: ' kcal',
     showTotal: true,
@@ -1141,11 +1309,11 @@ class _AreaInteractiveState extends State<_AreaInteractive> {
           labels: dayLabels.sublist(90 - _count),
           series: <ChartSeries>[
             ChartSeries(
-              label: 'Mobile',
+              label: docsSample(context, 'Mobile'),
               values: mobileData.sublist(90 - _count),
             ),
             ChartSeries(
-              label: 'Desktop',
+              label: docsSample(context, 'Desktop'),
               values: desktopData.sublist(90 - _count),
             ),
           ],
@@ -1158,44 +1326,50 @@ class _AreaInteractiveState extends State<_AreaInteractive> {
 Widget _chartAreaInteractive(BuildContext context) => const _AreaInteractive();
 
 Widget _chartAreaDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     labels: _areaMonths,
     fillOpacity: 0.4,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _areaDesktop),
+    ],
   );
 }
 
 Widget _chartAreaLinear(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     lineStyle: ChartLineStyle.linear,
     labels: _areaMonths,
     fillOpacity: 0.4,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _areaDesktop),
+    ],
   );
 }
 
 Widget _chartAreaStep(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     lineStyle: ChartLineStyle.step,
     labels: _areaMonths,
     fillOpacity: 0.4,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _areaDesktop),
+    ],
   );
 }
 
 Widget _chartAreaLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     areaMode: ChartAreaMode.stacked,
     labels: _areaMonths,
     series: <ChartSeries>[
-      ChartSeries(label: 'Mobile', values: _areaMobile),
-      ChartSeries(label: 'Desktop', values: _areaDesktop),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: _areaMobile),
+      ChartSeries(label: docsSample(context, 'Desktop'), values: _areaDesktop),
     ],
   );
 }
@@ -1227,18 +1401,18 @@ Widget _chartAreaStackedExpanded(BuildContext context) {
 }
 
 Widget _chartAreaIcons(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     areaMode: ChartAreaMode.stacked,
     labels: _areaMonths,
     series: <ChartSeries>[
       ChartSeries(
-        label: 'Mobile',
+        label: docsSample(context, 'Mobile'),
         values: _areaMobile,
         icon: Icon(LucideIcons.trendingUp),
       ),
       ChartSeries(
-        label: 'Desktop',
+        label: docsSample(context, 'Desktop'),
         values: _areaDesktop,
         icon: Icon(LucideIcons.trendingDown),
       ),
@@ -1259,12 +1433,12 @@ Widget _chartAreaGradient(BuildContext context) {
     labels: _areaMonths,
     series: <ChartSeries>[
       ChartSeries(
-        label: 'Mobile',
+        label: docsSample(context, 'Mobile'),
         values: _areaMobile,
         gradient: fill(palette[1]),
       ),
       ChartSeries(
-        label: 'Desktop',
+        label: docsSample(context, 'Desktop'),
         values: _areaDesktop,
         gradient: fill(palette[0]),
       ),
@@ -1289,12 +1463,12 @@ Widget _chartAreaAxes(BuildContext context) {
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
 
-const List<String> _radialBrowserLabels = <String>[
-  'Chrome',
-  'Safari',
-  'Firefox',
-  'Edge',
-  'Other',
+List<String> _radialBrowserLabels = <String>[
+  docsSample(null, 'Chrome'),
+  docsSample(null, 'Safari'),
+  docsSample(null, 'Firefox'),
+  docsSample(null, 'Edge'),
+  docsSample(null, 'Other'),
 ];
 
 List<ChartSeries> _radialBrowsers({bool labeled = true}) {
@@ -1317,17 +1491,17 @@ Widget _chartRadialSimple(BuildContext context) {
 }
 
 Widget _chartRadialLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
     radial: ChartRadialConfig(showRingLabels: true),
     series: <ChartSeries>[
-      ChartSeries(label: 'Chrome', values: <double>[275]),
-      ChartSeries(label: 'Safari', values: <double>[200]),
-      ChartSeries(label: 'Firefox', values: <double>[187]),
-      ChartSeries(label: 'Edge', values: <double>[173]),
-      ChartSeries(label: 'Other', values: <double>[90]),
+      ChartSeries(label: docsSample(context, 'Chrome'), values: <double>[275]),
+      ChartSeries(label: docsSample(context, 'Safari'), values: <double>[200]),
+      ChartSeries(label: docsSample(context, 'Firefox'), values: <double>[187]),
+      ChartSeries(label: docsSample(context, 'Edge'), values: <double>[173]),
+      ChartSeries(label: docsSample(context, 'Other'), values: <double>[90]),
     ],
   );
 }
@@ -1343,12 +1517,12 @@ Widget _chartRadialGrid(BuildContext context) {
 }
 
 Widget _chartRadialText(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
     centerLabel: '200',
-    centerSublabel: 'Visitors',
+    centerSublabel: docsSample(context, 'Visitors'),
     radial: ChartRadialConfig(sweep: 250 / 360, rounded: true),
     series: <ChartSeries>[
       ChartSeries(values: <double>[200]),
@@ -1357,12 +1531,12 @@ Widget _chartRadialText(BuildContext context) {
 }
 
 Widget _chartRadialShape(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
     centerLabel: '1,260',
-    centerSublabel: 'Visitors',
+    centerSublabel: docsSample(context, 'Visitors'),
     radial: ChartRadialConfig(sweep: 100 / 360, thickness: 0.35),
     series: <ChartSeries>[
       ChartSeries(values: <double>[1260]),
@@ -1371,16 +1545,19 @@ Widget _chartRadialShape(BuildContext context) {
 }
 
 Widget _chartRadialStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
     centerLabel: '1,830',
-    centerSublabel: 'Visitors',
+    centerSublabel: docsSample(context, 'Visitors'),
     radial: ChartRadialConfig(sweep: 0.5, stacked: true, rounded: true),
     series: <ChartSeries>[
-      ChartSeries(label: 'Mobile', values: <double>[570]),
-      ChartSeries(label: 'Desktop', values: <double>[1260]),
+      ChartSeries(label: docsSample(context, 'Mobile'), values: <double>[570]),
+      ChartSeries(
+        label: docsSample(context, 'Desktop'),
+        values: <double>[1260],
+      ),
     ],
   );
 }

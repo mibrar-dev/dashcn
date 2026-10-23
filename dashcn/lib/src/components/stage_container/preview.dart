@@ -30,8 +30,7 @@ class _StageContent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             color: theme.colors.card,
             child: Text(
-              'padding: ${padding.left.toStringAsFixed(0)} / '
-              '${padding.right.toStringAsFixed(0)}',
+              'padding: ${padding.left.toStringAsFixed(0)} / ${padding.right.toStringAsFixed(0)}',
               style: TextStyle(color: theme.colors.mutedForeground),
             ),
           ),
@@ -56,7 +55,7 @@ Widget _narrow(BuildContext context) {
 }
 
 /// Named docs examples for `stage_container`; the first entry is the default.
-const List<ComponentPreview> stageContainerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Narrow', _narrow),
+List<ComponentPreview> get stageContainerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Narrow'), _narrow),
 ];

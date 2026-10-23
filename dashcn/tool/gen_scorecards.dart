@@ -144,6 +144,13 @@ String? previewVariable(File preview) {
     path: preview.path,
   );
   for (final member in result.unit.declarations) {
+    if (member is FunctionDeclaration && member.isGetter) {
+      final getterType = member.returnType?.toSource() ?? '';
+      if (getterType.replaceAll(' ', '') == 'List<ComponentPreview>') {
+        return member.name.lexeme;
+      }
+      continue;
+    }
     if (member is! TopLevelVariableDeclaration) {
       continue;
     }

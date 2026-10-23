@@ -52,7 +52,7 @@ class _DropzoneDemoState extends State<_DropzoneDemo> {
           child: Dropzone(
             state: _state,
             isDragOver: _dragOver,
-            hint: const Text('Up to 10 MB each.'),
+            hint: Text(docsSample(context, 'Up to 10 MB each.')),
             onBrowse: _browse,
           ),
         ),
@@ -82,9 +82,9 @@ class _DropzoneDemoState extends State<_DropzoneDemo> {
 
 /// The zone while a drag hovers over it.
 Widget _dropzoneDragOver(BuildContext context) {
-  return const Dropzone(
+  return Dropzone(
     isDragOver: true,
-    hint: Text('Release to upload.'),
+    hint: Text(docsSample(context, 'Release to upload.')),
     onBrowse: _dropzoneBrowse,
   );
 }
@@ -119,19 +119,21 @@ Widget _dropzoneError(BuildContext context) {
 
 /// The zone with a custom hint instead of the default content.
 Widget _dropzoneCustom(BuildContext context) {
-  return const Dropzone(
+  return Dropzone(
     showAction: false,
-    content: Text('Drop a folder here to upload it whole.'),
+    content: Text(
+      docsSample(context, 'Drop a folder here to upload it whole.'),
+    ),
   );
 }
 
 Widget _dropzoneDefault(BuildContext context) => const _DropzoneDemo();
 
 /// Named docs examples for `dropzone`; the first entry is the default.
-const List<ComponentPreview> dropzonePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _dropzoneDefault),
-  ComponentPreview('Drag over', _dropzoneDragOver),
-  ComponentPreview('Uploading', _dropzoneUploading),
-  ComponentPreview('Error', _dropzoneError),
-  ComponentPreview('Custom content', _dropzoneCustom),
+List<ComponentPreview> get dropzonePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _dropzoneDefault),
+  ComponentPreview(docsSample(null, 'Drag over'), _dropzoneDragOver),
+  ComponentPreview(docsSample(null, 'Uploading'), _dropzoneUploading),
+  ComponentPreview(docsSample(null, 'Error'), _dropzoneError),
+  ComponentPreview(docsSample(null, 'Custom content'), _dropzoneCustom),
 ];

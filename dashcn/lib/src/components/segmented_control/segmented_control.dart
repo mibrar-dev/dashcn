@@ -262,7 +262,7 @@ class _SegmentedControlState<T> extends State<SegmentedControl<T>> {
     );
 
     final BorderRadiusGeometry radius =
-        controlStyle.borderRadius ?? Theme.of(context).borderRadiusMd;
+        controlStyle.borderRadius ?? Theme.of(context).borderRadiusLg;
 
     // The track is its own layer: it paints at [trackHeight] and is centred in
     // the control's box, so the touch growth stays invisible.

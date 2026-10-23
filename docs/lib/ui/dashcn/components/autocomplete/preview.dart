@@ -13,22 +13,22 @@ import '../../theme/theme.dart';
 import '../input/input.dart';
 import 'autocomplete.dart';
 
-const List<String> _autocompleteFruits = <String>[
-  'Apple',
-  'Apricot',
-  'Avocado',
-  'Banana',
-  'Cherry',
-  'Grape',
-  'Kiwi',
-  'Lemon',
-  'Mango',
-  'Orange',
-  'Peach',
-  'Pear',
-  'Pineapple',
-  'Strawberry',
-  'Watermelon',
+List<String> _autocompleteFruits = <String>[
+  docsSample(null, 'Apple'),
+  docsSample(null, 'Apricot'),
+  docsSample(null, 'Avocado'),
+  docsSample(null, 'Banana'),
+  docsSample(null, 'Cherry'),
+  docsSample(null, 'Grape'),
+  docsSample(null, 'Kiwi'),
+  docsSample(null, 'Lemon'),
+  docsSample(null, 'Mango'),
+  docsSample(null, 'Orange'),
+  docsSample(null, 'Peach'),
+  docsSample(null, 'Pear'),
+  docsSample(null, 'Pineapple'),
+  docsSample(null, 'Strawberry'),
+  docsSample(null, 'Watermelon'),
 ];
 
 Iterable<String> _autocompleteFilter(String query) {
@@ -100,26 +100,28 @@ class _AutocompleteAutoCompleteFieldState
 
 /// The default replacement mode.
 Widget _autocompleteDefault(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(hint: 'replaces the word');
+    _AutocompleteAutoCompleteField(
+      hint: docsSample(context, 'replaces the word'),
+    );
 
 /// Append mode: the suggestion is inserted at the caret.
 Widget _autocompleteAppend(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
-      hint: 'appended at the caret',
+    _AutocompleteAutoCompleteField(
+      hint: docsSample(context, 'appended at the caret'),
       mode: AutoCompleteMode.append,
     );
 
 /// Replace-all mode: the whole field is replaced.
 Widget _autocompleteReplaceAll(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
-      hint: 'replaces the whole field',
+    _AutocompleteAutoCompleteField(
+      hint: docsSample(context, 'replaces the whole field'),
       mode: AutoCompleteMode.replaceAll,
     );
 
 /// A custom completer plus a custom row builder.
 Widget _autocompleteCustomRow(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
-      hint: 'with a padded completion',
+    _AutocompleteAutoCompleteField(
+      hint: docsSample(context, 'with a padded completion'),
       completer: _autocompletePad,
       itemBuilder: _autocompleteBoldWhenSelected,
     );
@@ -136,9 +138,9 @@ Widget _autocompleteBoldWhenSelected(
 );
 
 /// Named docs examples for `autocomplete`; the first entry is the default.
-const List<ComponentPreview> autocompletePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _autocompleteDefault),
-  ComponentPreview('Append', _autocompleteAppend),
-  ComponentPreview('Replace all', _autocompleteReplaceAll),
-  ComponentPreview('Custom row', _autocompleteCustomRow),
+List<ComponentPreview> get autocompletePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _autocompleteDefault),
+  ComponentPreview(docsSample(null, 'Append'), _autocompleteAppend),
+  ComponentPreview(docsSample(null, 'Replace all'), _autocompleteReplaceAll),
+  ComponentPreview(docsSample(null, 'Custom row'), _autocompleteCustomRow),
 ];

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart'
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/theme.dart';
 import '../menu/menu.dart';
 
 /// The number of spell check suggestions the toolbar offers at once.
@@ -134,7 +135,9 @@ class SpellCheckSuggestionsToolbar extends StatelessWidget {
     final ComponentLocalizations localizations = ComponentLocalizations.of(
       context,
     );
-    final position = anchors.primaryAnchor + const Offset(8, -8);
+    final position =
+        anchors.primaryAnchor +
+        Offset(Theme.of(context).spacing.sm, -Theme.of(context).spacing.sm);
     return TextFieldTapRegion(
       child: Stack(
         children: <Widget>[

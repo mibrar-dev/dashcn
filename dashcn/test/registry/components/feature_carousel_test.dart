@@ -265,7 +265,8 @@ void main() {
       );
       expect(
         _cardDecoration(tester).borderRadius,
-        BorderRadius.circular(featureCarouselDefaults.radius!),
+        // Null default resolves the theme radiusXl step (12 at default).
+        BorderRadius.circular(const ThemeData().radiusXl),
       );
     });
   });
@@ -294,7 +295,7 @@ void main() {
           in FeatureCarouselAnimationStyle.values) {
         expect(featureCarouselTransitionStyle(style, 1), isNotNull);
       }
-      expect(featureCarouselDefaults.radius, 12);
+      expect(featureCarouselDefaults.radius, isNull);
       expect(featureCarouselDefaults.transitionDuration?.inMilliseconds, 260);
     });
   });

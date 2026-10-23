@@ -11,6 +11,7 @@ import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/components/switch/switch.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import 'studio_card.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Notifications`: switch rows, the way upstream's settings cards read.
 class StudioNotificationsCard extends StatefulWidget {
@@ -23,11 +24,23 @@ class StudioNotificationsCard extends StatefulWidget {
 }
 
 class _StudioNotificationsCardState extends State<StudioNotificationsCard> {
-  static const List<(String, String)> rows = <(String, String)>[
-    ('Transaction alerts', 'Deposits, withdrawals, and transfers.'),
-    ('Security alerts', 'Login attempts and account changes.'),
-    ('Goal milestones', 'Updates at 25%, 50%, 75%, and 100%.'),
-    ('Market updates', 'Daily portfolio summary and price alerts.'),
+  static List<(String, String)> rows = <(String, String)>[
+    (
+      docsSample(null, 'Transaction alerts'),
+      docsSample(null, 'Deposits, withdrawals, and transfers.'),
+    ),
+    (
+      docsSample(null, 'Security alerts'),
+      docsSample(null, 'Login attempts and account changes.'),
+    ),
+    (
+      docsSample(null, 'Goal milestones'),
+      docsSample(null, 'Updates at 25%, 50%, 75%, and 100%.'),
+    ),
+    (
+      docsSample(null, 'Market updates'),
+      docsSample(null, 'Daily portfolio summary and price alerts.'),
+    ),
   ];
 
   final Set<int> _on = <int>{0, 1, 2};
@@ -35,8 +48,11 @@ class _StudioNotificationsCardState extends State<StudioNotificationsCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Notifications',
-      subtitle: 'Choose what you want to be notified about.',
+      title: docsSample(context, 'Notifications'),
+      subtitle: docsSample(
+        context,
+        docsSample(context, 'Choose what you want to be notified about.'),
+      ),
       trailing: Badge(
         variant: BadgeVariant.outline,
         child: Text('${_on.length} of ${rows.length}'),
@@ -79,9 +95,12 @@ class _StudioNotificationsCardState extends State<StudioNotificationsCard> {
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Save Preferences', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Save Preferences'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],

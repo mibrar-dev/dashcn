@@ -22,7 +22,6 @@ Widget _countryFlagDefault(BuildContext context) {
       CountryFlag.fromCountryCode('JP'),
       CountryFlag.fromCountryCode('DE'),
       CountryFlag.fromCountryCode('BR'),
-      CountryFlag.fromCountryCode('XX'),
       CountryFlag.fromCurrencyCode('JPY'),
       CountryFlag.fromPhonePrefix('+49'),
     ],
@@ -49,7 +48,7 @@ Widget _countryFlagSizes(BuildContext context) {
 }
 
 /// Named docs examples for `country_flag`; the first entry is the default.
-const List<ComponentPreview> countryFlagPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _countryFlagDefault),
-  ComponentPreview('Sizes', _countryFlagSizes),
+List<ComponentPreview> get countryFlagPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _countryFlagDefault),
+  ComponentPreview(docsSample(null, 'Sizes'), _countryFlagSizes),
 ];

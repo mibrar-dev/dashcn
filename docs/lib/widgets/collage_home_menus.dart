@@ -19,6 +19,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Menu bar`: registry menus with real submenu popovers.
 class HomeMenubarCard extends StatelessWidget {
@@ -46,34 +47,57 @@ class HomeMenubarCard extends StatelessWidget {
                   subMenu: <Widget>[
                     MenuButton(
                       onPressed: _menuNoop,
-                      child: Text('New release'),
+                      child: Text(docsSample(context, 'New release')),
                     ),
-                    MenuButton(onPressed: _menuNoop, child: Text('Open…')),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Open…')),
+                    ),
                     MenuSeparator(),
-                    MenuButton(onPressed: _menuNoop, child: Text('Export CSV')),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Export CSV')),
+                    ),
                   ],
-                  child: Text('File'),
+                  child: Text(docsSample(context, 'File')),
                 ),
                 MenuButton(
                   subMenu: <Widget>[
-                    MenuButton(onPressed: _menuNoop, child: Text('Undo')),
-                    MenuButton(onPressed: _menuNoop, child: Text('Redo')),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Undo')),
+                    ),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Redo')),
+                    ),
                   ],
-                  child: Text('Edit'),
+                  child: Text(docsSample(context, 'Edit')),
                 ),
                 MenuButton(
                   subMenu: <Widget>[
-                    MenuButton(onPressed: _menuNoop, child: Text('Dashboard')),
-                    MenuButton(onPressed: _menuNoop, child: Text('Reports')),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Dashboard')),
+                    ),
+                    MenuButton(
+                      onPressed: _menuNoop,
+                      child: Text(docsSample(context, 'Reports')),
+                    ),
                   ],
-                  child: Text('View'),
+                  child: Text(docsSample(context, 'View')),
                 ),
               ],
             ),
           ),
         ),
         Gap(12),
-        StudioHelper('Menus open anchored popovers, like the desktop app.'),
+        StudioHelper(
+          docsSample(
+            context,
+            'Menus open anchored popovers, like the desktop app.',
+          ),
+        ),
       ],
     );
   }
@@ -98,13 +122,19 @@ class HomeDropdownCard extends StatelessWidget {
           width: 220,
           child: DropdownMenu(
             children: <Widget>[
-              MenuButton(onPressed: _menuNoop, child: Text('Profile')),
-              MenuButton(onPressed: _menuNoop, child: Text('Settings')),
+              MenuButton(
+                onPressed: _menuNoop,
+                child: Text(docsSample(context, 'Profile')),
+              ),
+              MenuButton(
+                onPressed: _menuNoop,
+                child: Text(docsSample(context, 'Settings')),
+              ),
               MenuSeparator(),
               MenuButton(
                 trailing: MenuShortcut(shortcut: '⌘Q'),
                 onPressed: _menuNoop,
-                child: Text('Sign out'),
+                child: Text(docsSample(context, 'Sign out')),
               ),
             ],
           ),
@@ -119,12 +149,12 @@ class HomeCommandCard extends StatelessWidget {
   /// Creates the card.
   const HomeCommandCard({super.key});
 
-  static const List<String> _commands = <String>[
-    'Go to Dashboard',
-    'Create release',
-    'Invite teammate',
-    'Open settings',
-    'Export report',
+  static final List<String> _commands = <String>[
+    docsSample(null, 'Go to Dashboard'),
+    docsSample(null, 'Create release'),
+    docsSample(null, 'Invite teammate'),
+    docsSample(null, 'Open settings'),
+    docsSample(null, 'Export report'),
   ];
 
   @override
@@ -148,7 +178,7 @@ class HomeCommandCard extends StatelessWidget {
             context: context,
             constraints: const BoxConstraints(maxWidth: 320),
             debounceDuration: Duration.zero,
-            searchPlaceholder: const Text('Type a command...'),
+            searchPlaceholder: Text(docsSample(context, 'Type a command...')),
             builder: (BuildContext context, String? query) async* {
               yield <Widget>[
                 for (final String command in _commands)
@@ -164,7 +194,7 @@ class HomeCommandCard extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Text('Commands…'),
+              Text(docsSample(context, 'Commands…')),
               const Gap(12),
               Text(
                 '⌘K',

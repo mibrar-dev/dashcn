@@ -21,12 +21,12 @@ class _FruitSelect extends StatefulWidget {
 class _FruitSelectState extends State<_FruitSelect> {
   String? _fruit;
 
-  static const List<String> _fruits = <String>[
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Grape',
+  static final List<String> _fruits = <String>[
+    docsSample(null, 'Apple'),
+    docsSample(null, 'Banana'),
+    docsSample(null, 'Cherry'),
+    docsSample(null, 'Date'),
+    docsSample(null, 'Grape'),
   ];
 
   @override
@@ -36,11 +36,15 @@ class _FruitSelectState extends State<_FruitSelect> {
       child: Select<String>(
         value: _fruit,
         onChanged: (String? value) => setState(() => _fruit = value),
-        placeholder: const Text('Select a fruit'),
-        itemBuilder: (BuildContext context, String value) => Text(value),
+        placeholder: Text(docsSample(context, 'Select a fruit')),
+        itemBuilder: (BuildContext context, String value) =>
+            Text(docsSample(context, value)),
         items: <Widget>[
           for (final String fruit in _fruits)
-            SelectItem<String>(value: fruit, child: Text(fruit)),
+            SelectItem<String>(
+              value: fruit,
+              child: Text(docsSample(context, fruit)),
+            ),
         ],
       ),
     );
@@ -67,23 +71,36 @@ class _GroupedSelectState extends State<_GroupedSelect> {
       child: Select<String>(
         value: _produce,
         onChanged: (String? value) => setState(() => _produce = value),
-        placeholder: const Text('Select produce'),
-        itemBuilder: (BuildContext context, String value) => Text(value),
-        items: const <Widget>[
+        placeholder: Text(docsSample(context, 'Select produce')),
+        itemBuilder: (BuildContext context, String value) =>
+            Text(docsSample(context, value)),
+        items: <Widget>[
           SelectItem<String>(
             value: '__fruits',
             enabled: false,
-            child: Text('Fruits'),
+            child: Text(docsSample(context, 'Fruits')),
           ),
-          SelectItem<String>(value: 'Apple', child: Text('Apple')),
-          SelectItem<String>(value: 'Banana', child: Text('Banana')),
+          SelectItem<String>(
+            value: docsSample(context, 'Apple'),
+            child: Text(docsSample(context, 'Apple')),
+          ),
+          SelectItem<String>(
+            value: docsSample(context, 'Banana'),
+            child: Text(docsSample(context, 'Banana')),
+          ),
           SelectItem<String>(
             value: '__vegetables',
             enabled: false,
-            child: Text('Vegetables'),
+            child: Text(docsSample(context, 'Vegetables')),
           ),
-          SelectItem<String>(value: 'Carrot', child: Text('Carrot')),
-          SelectItem<String>(value: 'Lettuce', child: Text('Lettuce')),
+          SelectItem<String>(
+            value: docsSample(context, 'Carrot'),
+            child: Text(docsSample(context, 'Carrot')),
+          ),
+          SelectItem<String>(
+            value: docsSample(context, 'Lettuce'),
+            child: Text(docsSample(context, 'Lettuce')),
+          ),
         ],
       ),
     );
@@ -97,22 +114,29 @@ Widget _disabled(BuildContext context) {
   return SizedBox(
     width: 220,
     child: Select<String>(
-      value: 'Apple',
+      value: docsSample(context, 'Apple'),
       onChanged: (String? value) {},
       enabled: false,
-      placeholder: const Text('Select a fruit'),
-      itemBuilder: (BuildContext context, String value) => Text(value),
-      items: const <Widget>[
-        SelectItem<String>(value: 'Apple', child: Text('Apple')),
-        SelectItem<String>(value: 'Banana', child: Text('Banana')),
+      placeholder: Text(docsSample(context, 'Select a fruit')),
+      itemBuilder: (BuildContext context, String value) =>
+          Text(docsSample(context, value)),
+      items: <Widget>[
+        SelectItem<String>(
+          value: docsSample(context, 'Apple'),
+          child: Text(docsSample(context, 'Apple')),
+        ),
+        SelectItem<String>(
+          value: docsSample(context, 'Banana'),
+          child: Text(docsSample(context, 'Banana')),
+        ),
       ],
     ),
   );
 }
 
 /// Named docs examples for `select`; the first entry is the default.
-const List<ComponentPreview> selectPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With groups', _withGroups),
-  ComponentPreview('Disabled', _disabled),
+List<ComponentPreview> get selectPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With groups'), _withGroups),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

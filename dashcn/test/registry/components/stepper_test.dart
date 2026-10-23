@@ -428,4 +428,36 @@ void main() {
     expect(find.byIcon(LucideIcons.star), findsOneWidget);
     expect(find.text('1'), findsNothing);
   });
+
+  testWidgets('labels that do not fit collapse to the active step', (
+    tester,
+  ) async {
+    const List<StepperStep> steps = <StepperStep>[
+      StepperStep(title: Text('Account'), content: Text('a')),
+      StepperStep(title: Text('Profile'), content: Text('b')),
+      StepperStep(title: Text('Payment'), content: Text('c')),
+    ];
+    await tester.pumpWidget(
+      _frame(
+        child: const SizedBox(
+          width: 200,
+          child: Stepper(currentStep: 1, steps: steps),
+        ),
+      ),
+    );
+    expect(find.text('Account'), findsNothing);
+    expect(find.text('Profile'), findsOneWidget);
+    expect(find.text('Payment'), findsNothing);
+
+    await tester.pumpWidget(
+      _frame(
+        child: const SizedBox(
+          width: 600,
+          child: Stepper(currentStep: 1, steps: steps),
+        ),
+      ),
+    );
+    expect(find.text('Account'), findsOneWidget);
+    expect(find.text('Payment'), findsOneWidget);
+  });
 }

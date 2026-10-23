@@ -11,6 +11,7 @@ import '../../components/page_route/page_route.dart';
 import 'screens/cart_screen.dart';
 import 'screens/payment_screen.dart';
 import 'screens/success_screen.dart';
+import '../../foundation/component_preview.dart';
 
 /// One row of the [Checkout01Flow] cart.
 class Checkout01CartItem {
@@ -65,19 +66,28 @@ class Checkout01Order {
 /// Cart → address sheet → payment → success.
 class Checkout01Flow extends StatelessWidget {
   /// Creates the flow.
-  const Checkout01Flow({
+  Checkout01Flow({
     super.key,
-    this.items = const <Checkout01CartItem>[
-      Checkout01CartItem(name: 'Everyday backpack', price: 89),
-      Checkout01CartItem(name: 'Insulated bottle', price: 32, quantity: 2),
-      Checkout01CartItem(name: 'Desk lamp', price: 54),
-    ],
+    List<Checkout01CartItem>? items,
     this.onRemoveItem,
     this.onAddressSaved,
     this.onPlaceOrder,
     this.onDone,
     this.initialScreen = '/',
-  });
+  }) : items =
+           items ??
+           <Checkout01CartItem>[
+             Checkout01CartItem(
+               name: docsSample(null, 'Everyday backpack'),
+               price: 89,
+             ),
+             Checkout01CartItem(
+               name: docsSample(null, 'Insulated bottle'),
+               price: 32,
+               quantity: 2,
+             ),
+             Checkout01CartItem(name: docsSample(null, 'Desk lamp'), price: 54),
+           ];
 
   /// Starting cart rows; the cart screen owns a mutable copy.
   final List<Checkout01CartItem> items;

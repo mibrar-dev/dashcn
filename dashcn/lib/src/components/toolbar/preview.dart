@@ -13,28 +13,28 @@ import 'toolbar.dart';
 
 /// The default example: a horizontal row of actions.
 Widget _toolbarDefault(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       children: <Widget>[
         ToolbarItem(
-          tooltip: 'Undo',
-          semanticLabel: 'Undo',
+          tooltip: docsSample(context, 'Undo'),
+          semanticLabel: docsSample(context, 'Undo'),
           child: Icon(LucideIcons.rotateCw),
         ),
         ToolbarItem(
-          tooltip: 'Redo',
-          semanticLabel: 'Redo',
+          tooltip: docsSample(context, 'Redo'),
+          semanticLabel: docsSample(context, 'Redo'),
           child: Icon(LucideIcons.refreshCw),
         ),
         ToolbarSeparator(),
         ToolbarItem(
-          tooltip: 'Share',
-          semanticLabel: 'Share',
+          tooltip: docsSample(context, 'Share'),
+          semanticLabel: docsSample(context, 'Share'),
           child: Icon(LucideIcons.share),
         ),
         ToolbarItem(
-          tooltip: 'Delete',
-          semanticLabel: 'Delete',
+          tooltip: docsSample(context, 'Delete'),
+          semanticLabel: docsSample(context, 'Delete'),
           child: Icon(LucideIcons.trash),
         ),
       ],
@@ -44,29 +44,29 @@ Widget _toolbarDefault(BuildContext context) {
 
 /// A vertical toolbar (a rail).
 Widget _toolbarVertical(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       axis: ToolbarAxis.vertical,
       children: <Widget>[
         ToolbarItem(
-          tooltip: 'Home',
-          semanticLabel: 'Home',
+          tooltip: docsSample(context, 'Home'),
+          semanticLabel: docsSample(context, 'Home'),
           child: Icon(LucideIcons.compass),
         ),
         ToolbarItem(
-          tooltip: 'Files',
-          semanticLabel: 'Files',
+          tooltip: docsSample(context, 'Files'),
+          semanticLabel: docsSample(context, 'Files'),
           child: Icon(LucideIcons.folder),
         ),
         ToolbarItem(
-          tooltip: 'Search',
-          semanticLabel: 'Search',
+          tooltip: docsSample(context, 'Search'),
+          semanticLabel: docsSample(context, 'Search'),
           child: Icon(LucideIcons.search),
         ),
         ToolbarSeparator(),
         ToolbarItem(
-          tooltip: 'Settings',
-          semanticLabel: 'Settings',
+          tooltip: docsSample(context, 'Settings'),
+          semanticLabel: docsSample(context, 'Settings'),
           child: Icon(LucideIcons.settings),
         ),
       ],
@@ -76,19 +76,19 @@ Widget _toolbarVertical(BuildContext context) {
 
 /// Groups and separators.
 Widget _toolbarGroups(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       children: <Widget>[
         ToolbarGroup(
           children: <Widget>[
             ToolbarItem(
-              tooltip: 'Bold',
-              semanticLabel: 'Bold',
+              tooltip: docsSample(context, 'Bold'),
+              semanticLabel: docsSample(context, 'Bold'),
               child: Icon(LucideIcons.bold),
             ),
             ToolbarItem(
-              tooltip: 'Italic',
-              semanticLabel: 'Italic',
+              tooltip: docsSample(context, 'Italic'),
+              semanticLabel: docsSample(context, 'Italic'),
               child: Icon(LucideIcons.italic),
             ),
           ],
@@ -97,13 +97,13 @@ Widget _toolbarGroups(BuildContext context) {
         ToolbarGroup(
           children: <Widget>[
             ToolbarItem(
-              tooltip: 'Align left',
-              semanticLabel: 'Align left',
+              tooltip: docsSample(context, 'Align left'),
+              semanticLabel: docsSample(context, 'Align left'),
               child: Icon(LucideIcons.alignLeft),
             ),
             ToolbarItem(
-              tooltip: 'Align centre',
-              semanticLabel: 'Align centre',
+              tooltip: docsSample(context, 'Align centre'),
+              semanticLabel: docsSample(context, 'Align centre'),
               child: Icon(LucideIcons.alignCenter),
             ),
           ],
@@ -133,21 +133,21 @@ class _ToolbarTogglesState extends State<_ToolbarToggles> {
           ToolbarToggleItem(
             value: _bold,
             onChanged: (bool value) => setState(() => _bold = value),
-            tooltip: 'Bold',
-            semanticLabel: 'Bold',
+            tooltip: docsSample(context, 'Bold'),
+            semanticLabel: docsSample(context, 'Bold'),
             child: Icon(LucideIcons.bold),
           ),
           ToolbarToggleItem(
             value: _italic,
             onChanged: (bool value) => setState(() => _italic = value),
-            tooltip: 'Italic',
-            semanticLabel: 'Italic',
+            tooltip: docsSample(context, 'Italic'),
+            semanticLabel: docsSample(context, 'Italic'),
             child: Icon(LucideIcons.italic),
           ),
           const ToolbarSeparator(),
-          const ToolbarItem(
-            tooltip: 'Print',
-            semanticLabel: 'Print',
+          ToolbarItem(
+            tooltip: docsSample(context, 'Print'),
+            semanticLabel: docsSample(context, 'Print'),
             child: Icon(LucideIcons.printer),
           ),
         ],
@@ -160,34 +160,34 @@ Widget _toolbarToggles(BuildContext context) => const _ToolbarToggles();
 
 /// The overflow menu: the toolbar is narrower than its items.
 Widget _toolbarOverflow(BuildContext context) {
-  return const Center(
+  return Center(
     child: SizedBox(
       width: 200,
       child: Toolbar(
         children: <Widget>[
           ToolbarItem(
-            tooltip: 'Undo',
-            semanticLabel: 'Undo',
+            tooltip: docsSample(context, 'Undo'),
+            semanticLabel: docsSample(context, 'Undo'),
             child: Icon(LucideIcons.rotateCw),
           ),
           ToolbarItem(
-            tooltip: 'Redo',
-            semanticLabel: 'Redo',
+            tooltip: docsSample(context, 'Redo'),
+            semanticLabel: docsSample(context, 'Redo'),
             child: Icon(LucideIcons.refreshCw),
           ),
           ToolbarItem(
-            tooltip: 'Copy',
-            semanticLabel: 'Copy',
+            tooltip: docsSample(context, 'Copy'),
+            semanticLabel: docsSample(context, 'Copy'),
             child: Icon(LucideIcons.copy),
           ),
           ToolbarItem(
-            tooltip: 'Share',
-            semanticLabel: 'Share',
+            tooltip: docsSample(context, 'Share'),
+            semanticLabel: docsSample(context, 'Share'),
             child: Icon(LucideIcons.share),
           ),
           ToolbarItem(
-            tooltip: 'Delete',
-            semanticLabel: 'Delete',
+            tooltip: docsSample(context, 'Delete'),
+            semanticLabel: docsSample(context, 'Delete'),
             child: Icon(LucideIcons.trash),
           ),
         ],
@@ -214,18 +214,18 @@ Widget _toolbarCustomized(BuildContext context) {
       ),
       children: <Widget>[
         ToolbarItem(
-          tooltip: 'Save',
-          semanticLabel: 'Save',
+          tooltip: docsSample(context, 'Save'),
+          semanticLabel: docsSample(context, 'Save'),
           child: const Icon(LucideIcons.save),
         ),
         ToolbarItem(
-          tooltip: 'Upload',
-          semanticLabel: 'Upload',
+          tooltip: docsSample(context, 'Upload'),
+          semanticLabel: docsSample(context, 'Upload'),
           child: const Icon(LucideIcons.upload),
         ),
         ToolbarItem(
-          tooltip: 'Download',
-          semanticLabel: 'Download',
+          tooltip: docsSample(context, 'Download'),
+          semanticLabel: docsSample(context, 'Download'),
           child: const Icon(LucideIcons.download),
         ),
       ],
@@ -234,11 +234,11 @@ Widget _toolbarCustomized(BuildContext context) {
 }
 
 /// Named docs examples for `toolbar`; the first entry is the default.
-const List<ComponentPreview> toolbarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _toolbarDefault),
-  ComponentPreview('Vertical', _toolbarVertical),
-  ComponentPreview('Groups', _toolbarGroups),
-  ComponentPreview('Toggles', _toolbarToggles),
-  ComponentPreview('Overflow', _toolbarOverflow),
-  ComponentPreview('Customized', _toolbarCustomized),
+List<ComponentPreview> get toolbarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _toolbarDefault),
+  ComponentPreview(docsSample(null, 'Vertical'), _toolbarVertical),
+  ComponentPreview(docsSample(null, 'Groups'), _toolbarGroups),
+  ComponentPreview(docsSample(null, 'Toggles'), _toolbarToggles),
+  ComponentPreview(docsSample(null, 'Overflow'), _toolbarOverflow),
+  ComponentPreview(docsSample(null, 'Customized'), _toolbarCustomized),
 ];

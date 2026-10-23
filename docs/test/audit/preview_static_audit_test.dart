@@ -231,19 +231,30 @@ String _previewClassName(CompilationUnit unit) {
 /// Example names of the exported `const List<ComponentPreview>`, in order.
 List<String> _previewExamples(CompilationUnit unit) {
   for (final Declaration declaration in unit.declarations) {
-    if (declaration is! TopLevelVariableDeclaration) {
+    // Examples are a top-level getter (`get xPreviews => <ComponentPreview>[..]`)
+    // or, in older files, a top-level variable; accept both.
+    final Expression? initializer;
+    if (declaration is FunctionDeclaration && declaration.isGetter) {
+      final String type =
+          declaration.returnType?.toSource().replaceAll(' ', '') ?? '';
+      final FunctionBody body = declaration.functionExpression.body;
+      if (type != 'List<ComponentPreview>' || body is! ExpressionFunctionBody) {
+        continue;
+      }
+      initializer = body.expression;
+    } else if (declaration is TopLevelVariableDeclaration) {
+      final String type =
+          declaration.variables.type?.toSource().replaceAll(' ', '') ?? '';
+      if (type != 'List<ComponentPreview>') {
+        continue;
+      }
+      if (declaration.variables.variables.length != 1) {
+        continue;
+      }
+      initializer = declaration.variables.variables.first.initializer;
+    } else {
       continue;
     }
-    final String type =
-        declaration.variables.type?.toSource().replaceAll(' ', '') ?? '';
-    if (type != 'List<ComponentPreview>') {
-      continue;
-    }
-    if (declaration.variables.variables.length != 1) {
-      continue;
-    }
-    final Expression? initializer =
-        declaration.variables.variables.first.initializer;
     if (initializer is! ListLiteral) {
       continue;
     }
@@ -280,6 +291,17 @@ List<String> _previewExamples(CompilationUnit unit) {
             names.add(value);
           }
           break;
+        }
+        // `docsSample(context | null, 'English key')`: the key is the name.
+        if (argument is MethodInvocation &&
+            argument.methodName.name == 'docsSample') {
+          final List<Expression> parts = <Expression>[
+            for (final Argument part in argument.argumentList.arguments)
+              if (part is Expression) part,
+          ];
+          if (parts.length >= 2 && parts[1] is SimpleStringLiteral) {
+            names.add((parts[1] as SimpleStringLiteral).value);
+          }
         }
         break;
       }

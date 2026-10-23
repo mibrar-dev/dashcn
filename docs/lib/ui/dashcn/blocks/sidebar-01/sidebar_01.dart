@@ -18,6 +18,7 @@ import 'sidebar_01_content.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// A navigation rail that collapses to icons, with a sample content area.
 class Sidebar01 extends StatefulWidget {
@@ -305,7 +306,7 @@ class _Sidebar01DrawerNav extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              'Acme Inc',
+              docsSample(context, 'Acme Inc'),
               style: theme.typography.textSmall.copyWith(
                 color: theme.colors.sidebarForeground,
                 fontWeight: FontWeight.w600,

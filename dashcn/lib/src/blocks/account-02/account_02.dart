@@ -25,6 +25,7 @@ import '../../components/switch/switch.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Account02].
 class Account02Data {
@@ -50,8 +51,7 @@ class Account02Data {
 
   @override
   String toString() =>
-      'Account02Data(email: $email, push: $push, '
-      'quietHours: $quietHours, weeklyDigest: $weeklyDigest)';
+      'Account02Data(email: $email, push: $push, quietHours: $quietHours, weeklyDigest: $weeklyDigest)';
 }
 
 /// A notifications preferences screen: per-channel rows plus a digest card.
@@ -68,18 +68,18 @@ class Account02 extends StatefulWidget {
 }
 
 class _Account02State extends State<Account02> {
-  static const List<String> _channels = <String>[
-    'Everything',
-    'Mentions and replies',
-    'Product updates',
-    'Marketing',
+  static final List<String> _channels = <String>[
+    docsSample(null, 'Everything'),
+    docsSample(null, 'Mentions and replies'),
+    docsSample(null, 'Product updates'),
+    docsSample(null, 'Marketing'),
   ];
 
   static Map<String, bool> _defaults() => <String, bool>{
     'Everything': true,
-    'Mentions and replies': true,
-    'Product updates': true,
-    'Marketing': false,
+    docsSample(null, 'Mentions and replies'): true,
+    docsSample(null, 'Product updates'): true,
+    docsSample(null, 'Marketing'): false,
   };
 
   final FormController _controller = FormController();
@@ -161,7 +161,16 @@ class _Account02State extends State<Account02> {
               Text(strings.blockNotifications, style: theme.typography.h2),
               Gap(theme.spacing.xs),
               Text(
-                'Choose what you want to hear about, and where.',
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Choose what you want to hear about, and where.',
+                    ),
+                  ),
+                ),
                 style: theme.typography.textMuted.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -169,7 +178,7 @@ class _Account02State extends State<Account02> {
               Gap(theme.spacing.lg),
               _Account02Card(
                 title: strings.blockEmailNotifications,
-                subtitle: 'Sent to ada@example.com',
+                subtitle: docsSample(context, 'Sent to ada@example.com'),
                 children: <Widget>[
                   for (final String channel in _channels)
                     _Account02SwitchRow(
@@ -200,7 +209,10 @@ class _Account02State extends State<Account02> {
                   _Account02SwitchRow(
                     formKey: const FormKey<bool>('quietHours'),
                     title: strings.blockQuietHours,
-                    subtitle: '22:00 – 07:00, your local time',
+                    subtitle: docsSample(
+                      context,
+                      docsSample(context, '22:00 – 07:00, your local time'),
+                    ),
                     value: _quietHours,
                     onChanged: (bool value) =>
                         setState(() => _quietHours = value),
@@ -210,8 +222,16 @@ class _Account02State extends State<Account02> {
               Gap(theme.spacing.lg),
               _Account02Card(
                 title: strings.blockWeeklyDigest,
-                subtitle:
-                    'One email every Monday with everything that happened.',
+                subtitle: docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'One email every Monday with everything that happened.',
+                    ),
+                  ),
+                ),
                 children: <Widget>[
                   _Account02SwitchRow(
                     formKey: const FormKey<bool>('weeklyDigest'),
@@ -242,7 +262,7 @@ class _Account02State extends State<Account02> {
                 Gap(theme.spacing.lg),
                 Alert(
                   content: Text(
-                    'Preferences saved.',
+                    docsSample(context, 'Preferences saved.'),
                     style: theme.typography.textSmall,
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'group.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the group gallery.
 class GroupPreview extends StatelessWidget {
@@ -17,7 +18,7 @@ class GroupPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -27,7 +28,11 @@ class GroupPreview extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _section(context, 'Absolute placement', _stage(theme)),
+                _section(
+                  context,
+                  docsSample(context, 'Absolute placement'),
+                  _stage(theme),
+                ),
               ],
             ),
           ),

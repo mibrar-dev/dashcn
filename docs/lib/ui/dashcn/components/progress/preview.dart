@@ -19,14 +19,14 @@ import 'progress.dart';
 Widget _progressDeterminate(BuildContext context) {
   final spacing = Theme.of(context).spacing;
   final bar = <Widget>[
-    const Progress(value: 0.25, semanticsLabel: 'Quarter'),
+    Progress(value: 0.25, semanticsLabel: docsSample(context, 'Quarter')),
     Gap(spacing.lg),
-    const Progress(value: 0.6, semanticsLabel: 'Sixty percent'),
+    Progress(value: 0.6, semanticsLabel: docsSample(context, 'Sixty percent')),
     Gap(spacing.lg),
-    const Progress(
+    Progress(
       value: 0.85,
       showSparks: true,
-      semanticsLabel: 'Eighty five percent',
+      semanticsLabel: docsSample(context, 'Eighty five percent'),
     ),
   ];
   return Column(
@@ -53,7 +53,7 @@ Widget _progressDeterminate(BuildContext context) {
 
 /// Indeterminate mode.
 Widget _progressIndeterminate(BuildContext context) {
-  return const Progress(semanticsLabel: 'Loading');
+  return Progress(semanticsLabel: docsSample(context, 'Loading'));
 }
 
 /// A bar the example drives between 0 and 100%.
@@ -77,7 +77,7 @@ class _ProgressLiveState extends State<_ProgressLive> {
         Progress(
           value: _value,
           showSparks: true,
-          semanticsLabel: 'Upload progress',
+          semanticsLabel: docsSample(context, 'Upload progress'),
         ),
         Gap(theme.spacing.md),
         Text(
@@ -113,8 +113,8 @@ class _ProgressLiveState extends State<_ProgressLive> {
 Widget _progressLive(BuildContext context) => const _ProgressLive();
 
 /// Named docs examples for `progress`; the first entry is the default.
-const List<ComponentPreview> progressPreviews = <ComponentPreview>[
-  ComponentPreview('Determinate', _progressDeterminate),
-  ComponentPreview('Live', _progressLive),
-  ComponentPreview('Indeterminate', _progressIndeterminate),
+List<ComponentPreview> get progressPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Determinate'), _progressDeterminate),
+  ComponentPreview(docsSample(null, 'Live'), _progressLive),
+  ComponentPreview(docsSample(null, 'Indeterminate'), _progressIndeterminate),
 ];

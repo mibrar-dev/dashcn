@@ -19,6 +19,7 @@ import '../../ui/dashcn/theme/color_tokens.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
 import 'studio_paint.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Scan to connect your mobile device`: the reference's QR share card.
 class StudioShareCard extends StatelessWidget {
@@ -29,8 +30,14 @@ class StudioShareCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return StudioCard(
-      title: 'Share this release',
-      subtitle: 'Open the Ledger mobile app and scan this code to link.',
+      title: docsSample(context, 'Share this release'),
+      subtitle: docsSample(
+        context,
+        docsSample(
+          context,
+          'Open the Ledger mobile app and scan this code to link.',
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -55,7 +62,7 @@ class StudioShareCard extends StatelessWidget {
                 size: ButtonSize.sm,
                 leading: const Icon(LucideIcons.copy, size: 14),
                 onPressed: () {},
-                child: const Text('Copy link'),
+                child: Text(docsSample(context, 'Copy link')),
               ),
             ],
           ),
@@ -73,12 +80,14 @@ class StudioFileUploadCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Cover Art',
-      subtitle: 'Upload the artwork of the release.',
+      title: docsSample(context, 'Cover Art'),
+      subtitle: docsSample(context, 'Upload the artwork of the release.'),
       child: Dropzone(
         icon: const Icon(LucideIcons.image, size: 22),
-        actionLabel: 'Upload Artwork',
-        hint: const Text('Minimum 3000 × 3000px · JPEG or PNG only'),
+        actionLabel: docsSample(context, 'Upload Artwork'),
+        hint: Text(
+          docsSample(context, 'Minimum 3000 × 3000px · JPEG or PNG only'),
+        ),
       ),
     );
   }
@@ -92,12 +101,15 @@ class StudioOtpCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Verify your phone',
-      subtitle: 'Enter the 6-digit code we texted to ···· 1192.',
+      title: docsSample(context, 'Verify your phone'),
+      subtitle: docsSample(
+        context,
+        docsSample(context, 'Enter the 6-digit code we texted to ···· 1192.'),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           InputOtp(length: 6),
           Gap(16),
           Row(
@@ -106,7 +118,7 @@ class StudioOtpCard extends StatelessWidget {
                 child: Button(
                   variant: ButtonVariant.outline,
                   onPressed: studioNoop,
-                  child: Text('Resend'),
+                  child: Text(docsSample(context, 'Resend')),
                 ),
               ),
               Gap(12),
@@ -114,7 +126,7 @@ class StudioOtpCard extends StatelessWidget {
                 child: Button(
                   variant: ButtonVariant.primary,
                   onPressed: studioNoop,
-                  child: Text('Verify'),
+                  child: Text(docsSample(context, 'Verify')),
                 ),
               ),
             ],
@@ -142,19 +154,31 @@ class StudioChatCard extends StatefulWidget {
 /// State of the working [StudioChatCard]; public so tests drive send/reply.
 class StudioChatCardState extends State<StudioChatCard> {
   /// Canned agent replies, cycled in order.
-  static const List<String> cannedReplies = <String>[
-    'Got it — pulling up your payout history now.',
-    'That month was prorated after the reissue; I can send the breakdown.',
-    'All set — refresh the report to see the corrected split.',
+  static List<String> cannedReplies = <String>[
+    docsSample(null, 'Got it — pulling up your payout history now.'),
+    docsSample(
+      null,
+      'That month was prorated after the reissue; I can send the breakdown.',
+    ),
+    docsSample(
+      null,
+      'All set — refresh the report to see the corrected split.',
+    ),
   ];
 
   final TextEditingController reply = TextEditingController();
   final ScrollController scroll = ScrollController();
 
   final List<(String, bool)> messages = <(String, bool)>[
-    ('The royalty report shows a lower split than expected.', true),
-    ('Can you re-check the 2026-01 payout?', true),
-    ('I see it — that month was prorated after the reissue.', false),
+    (
+      docsSample(null, 'The royalty report shows a lower split than expected.'),
+      true,
+    ),
+    (docsSample(null, 'Can you re-check the 2026-01 payout?'), true),
+    (
+      docsSample(null, 'I see it — that month was prorated after the reissue.'),
+      false,
+    ),
   ];
 
   bool canSend = false;
@@ -224,8 +248,8 @@ class StudioChatCardState extends State<StudioChatCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Support',
-      subtitle: 'We reply within one business day.',
+      title: docsSample(context, 'Support'),
+      subtitle: docsSample(context, 'We reply within one business day.'),
       trailing: Badge(
         variant: BadgeVariant.secondary,
         child: Text('${messages.length}'),
@@ -262,7 +286,7 @@ class StudioChatCardState extends State<StudioChatCard> {
             controller: reply,
             minLines: 1,
             maxLines: 4,
-            hintText: 'Write a reply...',
+            hintText: docsSample(context, 'Write a reply...'),
             textInputAction: TextInputAction.send,
             onSubmitted: (_) => send(),
           ),
@@ -275,7 +299,7 @@ class StudioChatCardState extends State<StudioChatCard> {
               leading: const Icon(LucideIcons.send, size: 14),
               enabled: canSend,
               onPressed: send,
-              child: const Text('Send'),
+              child: Text(docsSample(context, 'Send')),
             ),
           ),
         ],

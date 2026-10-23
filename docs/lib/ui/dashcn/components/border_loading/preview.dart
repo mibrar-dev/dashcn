@@ -36,7 +36,7 @@ Widget _borderLoadingSweep(BuildContext context) {
   return Center(
     child: _borderLoadingCard(
       context,
-      'Indeterminate sweep',
+      docsSample(context, 'Indeterminate sweep'),
       const BorderLoading(child: SizedBox(width: 120, height: 48)),
     ),
   );
@@ -103,7 +103,7 @@ Widget _borderLoadingOutline(BuildContext context) {
   return Center(
     child: _borderLoadingCard(
       context,
-      'Static outline',
+      docsSample(context, 'Static outline'),
       const BorderLoading(
         mode: BorderLoadingMode.staticBorder,
         child: SizedBox(width: 120, height: 48),
@@ -117,8 +117,8 @@ Widget _borderLoadingProgressExample(BuildContext context) =>
     const _BorderLoadingProgress();
 
 /// Named docs examples for `border_loading`; the first entry is the default.
-const List<ComponentPreview> borderLoadingPreviews = <ComponentPreview>[
-  ComponentPreview('Sweep', _borderLoadingSweep),
+List<ComponentPreview> get borderLoadingPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Sweep'), _borderLoadingSweep),
   ComponentPreview('Progress', _borderLoadingProgressExample),
-  ComponentPreview('Outline', _borderLoadingOutline),
+  ComponentPreview(docsSample(null, 'Outline'), _borderLoadingOutline),
 ];

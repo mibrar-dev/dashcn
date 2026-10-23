@@ -147,7 +147,10 @@ class _PlaygroundState extends State<_Playground> {
         description: description,
         state: state,
         action: state == GooeyToastState.action
-            ? GooeyToastAction(label: 'Confirm', onPressed: () {})
+            ? GooeyToastAction(
+                label: docsSample(context, 'Confirm'),
+                onPressed: () {},
+              )
             : null,
       ),
     );
@@ -223,7 +226,7 @@ class _PlaygroundState extends State<_Playground> {
               alignment: WrapAlignment.center,
               children: <Widget>[
                 _chip(
-                  label: 'light fill',
+                  label: docsSample(context, 'light fill'),
                   selected:
                       shared.fill == const ThemedColor.value(gooeySurfaceFill),
                   onPressed: () => _shared.value = shared.copyWith(
@@ -231,7 +234,7 @@ class _PlaygroundState extends State<_Playground> {
                   ),
                 ),
                 _chip(
-                  label: 'dark fill',
+                  label: docsSample(context, 'dark fill'),
                   selected:
                       shared.fill == const ThemedColor.value(Color(0xFF232326)),
                   onPressed: () => _shared.value = shared.copyWith(
@@ -239,7 +242,7 @@ class _PlaygroundState extends State<_Playground> {
                   ),
                 ),
                 _chip(
-                  label: 'popover fill',
+                  label: docsSample(context, 'popover fill'),
                   selected:
                       shared.fill == const ThemedColor.ref(ColorRef.popover),
                   onPressed: () => _shared.value = shared.copyWith(
@@ -271,17 +274,29 @@ class _PlaygroundState extends State<_Playground> {
 }
 
 (String, String) _copy(GooeyToastState state) => switch (state) {
-  GooeyToastState.success => ('Success', 'Workspace settings were saved.'),
-  GooeyToastState.loading => ('Processing', 'Please wait while we process.'),
-  GooeyToastState.error => ('Error', 'Failed to sync your workspace.'),
-  GooeyToastState.warning => (
-    'Storage Warning',
-    'You are running out of storage space.',
+  GooeyToastState.success => (
+    docsSample(null, 'Success'),
+    docsSample(null, 'Workspace settings were saved.'),
   ),
-  GooeyToastState.info => ('Heads up', 'A new update is available.'),
+  GooeyToastState.loading => (
+    docsSample(null, 'Processing'),
+    docsSample(null, 'Please wait while we process.'),
+  ),
+  GooeyToastState.error => (
+    docsSample(null, 'Error'),
+    docsSample(null, 'Failed to sync your workspace.'),
+  ),
+  GooeyToastState.warning => (
+    docsSample(null, 'Storage Warning'),
+    docsSample(null, 'You are running out of storage space.'),
+  ),
+  GooeyToastState.info => (
+    docsSample(null, 'Heads up'),
+    docsSample(null, 'A new update is available.'),
+  ),
   GooeyToastState.action => (
-    'Action Required',
-    'Review and confirm this request.',
+    docsSample(null, 'Action Required'),
+    docsSample(null, 'Review and confirm this request.'),
   ),
 };
 
@@ -312,7 +327,7 @@ class _PromiseDemoState extends State<_PromiseDemo> {
     final String id = _controller.showGooeyToast(
       context,
       GooeyToastOptions(
-        title: 'Uploading',
+        title: docsSample(context, 'Uploading'),
         state: GooeyToastState.loading,
         persistUntilDismissed: true,
         autopilot: const GooeyAutopilot(),
@@ -329,8 +344,8 @@ class _PromiseDemoState extends State<_PromiseDemo> {
     _controller.showGooeyToast(
       context,
       _toast(
-        title: 'Upload Complete',
-        description: 'Your file is ready.',
+        title: docsSample(context, 'Upload Complete'),
+        description: docsSample(context, 'Your file is ready.'),
         state: GooeyToastState.success,
       ),
       id: id,
@@ -348,7 +363,11 @@ class _PromiseDemoState extends State<_PromiseDemo> {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: _running ? null : _run,
-          child: Text(_running ? 'Uploading…' : 'Start upload'),
+          child: Text(
+            _running
+                ? docsSample(context, 'Uploading…')
+                : docsSample(context, 'Start upload'),
+          ),
         ),
       ),
     );
@@ -379,7 +398,7 @@ class _ReplyDemoState extends State<_ReplyDemo> {
     _controller.showGooeyToast(
       context,
       GooeyToastOptions(
-        title: 'Thread Reply',
+        title: docsSample(context, 'Thread Reply'),
         state: GooeyToastState.action,
         position: shared.position,
         shapeStyle: shared.shape,
@@ -388,7 +407,7 @@ class _ReplyDemoState extends State<_ReplyDemo> {
           onSend: (String message) => _controller.showGooeyToast(
             context,
             _toast(
-              title: 'Message Sent',
+              title: docsSample(context, 'Message Sent'),
               description: 'Your reply was sent. "$message"',
               state: GooeyToastState.success,
             ),
@@ -410,7 +429,7 @@ class _ReplyDemoState extends State<_ReplyDemo> {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: _show,
-          child: const Text('Interactive Reply Demo'),
+          child: Text(docsSample(context, 'Interactive Reply Demo')),
         ),
       ),
     );
@@ -451,7 +470,7 @@ class _ReplyFormState extends State<_ReplyForm> {
       children: <Widget>[
         Input(
           controller: _controller,
-          placeholder: const Text('Type your reply...'),
+          placeholder: Text(docsSample(context, 'Type your reply...')),
           minLines: 2,
           maxLines: 3,
           onSubmitted: (_) => _submit(),
@@ -461,7 +480,7 @@ class _ReplyFormState extends State<_ReplyForm> {
           variant: ButtonVariant.primary,
           size: ButtonSize.sm,
           onPressed: _submit,
-          child: const Text('Send Reply'),
+          child: Text(docsSample(context, 'Send Reply')),
         ),
       ],
     );
@@ -471,8 +490,8 @@ class _ReplyFormState extends State<_ReplyForm> {
 Widget _reply(BuildContext context) => const _ReplyDemo();
 
 /// Named docs examples for `gooey_toast`; the first entry is the default.
-const List<ComponentPreview> gooeyToastPreviews = <ComponentPreview>[
-  ComponentPreview('Playground', _playground),
-  ComponentPreview('Promise', _promise),
-  ComponentPreview('Interactive Reply', _reply),
+List<ComponentPreview> get gooeyToastPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Playground'), _playground),
+  ComponentPreview(docsSample(null, 'Promise'), _promise),
+  ComponentPreview(docsSample(null, 'Interactive Reply'), _reply),
 ];

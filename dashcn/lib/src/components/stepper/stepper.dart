@@ -286,42 +286,59 @@ class _StepperRender extends StatelessWidget {
     );
 
     if (direction == Axis.horizontal) {
-      final List<Widget> cells = <Widget>[];
-      for (int i = 0; i < steps.length; i++) {
-        final bool last = i == steps.length - 1;
-        cells.add(
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                dot(i),
-                Gap(gap),
-                Flexible(
-                  child: DefaultTextStyle.merge(
-                    style: title,
-                    child: steps[i].title,
-                  ),
+      // Labels that cannot fit their cell collapse to the active step's label.
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double cellWidth = constraints.maxWidth / steps.length;
+          final bool fits = steps.every(
+            (StepperStep step) =>
+                box + gap * 2 + _labelWidth(context, step.title, title) <=
+                cellWidth,
+          );
+          final List<Widget> cells = <Widget>[];
+          for (int i = 0; i < steps.length; i++) {
+            final bool last = i == steps.length - 1;
+            final bool showLabel = fits || i == active;
+            cells.add(
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    dot(i),
+                    if (showLabel) ...<Widget>[
+                      Gap(gap),
+                      Flexible(
+                        child: DefaultTextStyle.merge(
+                          style: title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          child: steps[i].title,
+                        ),
+                      ),
+                    ],
+                    if (!last) ...<Widget>[
+                      Gap(gap),
+                      Expanded(child: bar(i, double.infinity, thickness)),
+                    ],
+                  ],
                 ),
-                if (!last) ...<Widget>[
-                  Gap(gap),
-                  Expanded(child: bar(i, double.infinity, thickness)),
-                ],
-              ],
-            ),
-          ),
-        );
-      }
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: cells,
-            ),
-          ),
-          content(active, 0),
-        ],
+              ),
+            );
+          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: cells,
+                ),
+              ),
+              content(active, 0),
+            ],
+          );
+        },
       );
     }
 
@@ -363,4 +380,18 @@ class _StepperRender extends StatelessWidget {
       children: rows,
     );
   }
+}
+
+/// Width of a plain-text label; 0 for custom widgets, which are assumed to fit.
+double _labelWidth(BuildContext context, Widget label, TextStyle style) {
+  if (label is! Text || label.data == null) {
+    return 0;
+  }
+  final TextPainter painter = TextPainter(
+    text: TextSpan(text: label.data, style: style.merge(label.style)),
+    textDirection: Directionality.of(context),
+  )..layout();
+  final double width = painter.width;
+  painter.dispose();
+  return width;
 }

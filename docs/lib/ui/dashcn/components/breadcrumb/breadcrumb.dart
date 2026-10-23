@@ -74,7 +74,10 @@ class Breadcrumb extends StatelessWidget {
         separator ?? style.separator ?? arrowSeparator;
     final EdgeInsetsGeometry effectivePadding =
         padding ?? style.padding ?? EdgeInsets.zero;
-    final double spacing = (style.spacing ?? 6) * ambient.scaling;
+    // Upstream 6 px separator gap: the default-density gap minus 2 px, so it
+    // tracks the density scale instead of staying fixed.
+    final double spacing =
+        (style.spacing ?? ambient.density.baseGap - 2) * ambient.scaling;
 
     final List<Widget> row = <Widget>[];
     for (var i = 0; i < children.length; i++) {
@@ -172,7 +175,7 @@ class _BreadcrumbArrowSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final double size = 12 * theme.scaling;
+    final double size = (theme.iconTheme.xSmall.size ?? 12) * theme.scaling;
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     return SizedBox.square(
       dimension: size,

@@ -37,6 +37,7 @@ import 'pages/themes.dart';
 import 'pages/theming_page.dart';
 import 'routing/deferred_page.dart';
 import 'routing/docs_router.dart';
+import 'state/docs_sample_strings.dart';
 import 'state/docs_state.dart';
 import 'state/docs_storage.dart';
 import 'theme/docs_fonts.dart';
@@ -54,6 +55,7 @@ import 'widgets/theme_switch_transition.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  installDocsSampleResolver();
   final DocsState state = DocsState(
     storage: const DocsStorage(),
     systemBrightness:
@@ -95,9 +97,15 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   /// reveal expands from here). Written on pointer-down, read on switch.
   Offset? _switchOrigin;
 
+  void _onSystemFontsChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    installDocsSampleResolver();
+    setDocsSampleLocale(widget.state.locale);
     // Web deep links (`/docs/...`, `/charts/...`) resolve from the browser
     // URL (`Uri.base`) on http(s), not the `"/"` default route, so release
     // builds served with an SPA fallback land on the linked page. Tests
@@ -112,6 +120,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
       initialRouteInformation: RouteInformation(uri: initialUri),
     );
     WidgetsBinding.instance.addObserver(this);
+    PaintingBinding.instance.systemFonts.addListener(_onSystemFontsChanged);
     widget.state.addListener(_onThemeChanged);
     WidgetsBinding.instance.addPostFrameCallback((Duration _) {
       dispatchWebAppReady();
@@ -133,6 +142,7 @@ class _DocsAppState extends State<DocsApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    PaintingBinding.instance.systemFonts.removeListener(_onSystemFontsChanged);
     widget.state.removeListener(_onThemeChanged);
     _delegate.dispose();
     _routeInformationProvider.dispose();

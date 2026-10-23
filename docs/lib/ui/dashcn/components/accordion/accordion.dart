@@ -285,7 +285,8 @@ class AccordionTrigger extends StatelessWidget {
         (resolved.themeDensity ?? ambient.density).baseContentPadding *
             ambient.scaling;
     // upstream trigger `gap-4` = 16 between the label and the chevron.
-    final double iconGap = resolved.iconGap ?? 16 * ambient.scaling;
+    final double iconGap =
+        (resolved.iconGap ?? ambient.spacing.lg) * ambient.scaling;
     final Color arrowColor =
         (resolved.arrowIconColor ??
                 const ThemedColor.ref(ColorRef.mutedForeground))

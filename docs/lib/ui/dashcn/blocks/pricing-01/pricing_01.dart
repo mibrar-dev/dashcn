@@ -1,10 +1,6 @@
 // The `pricing-01` block: a marketing pricing section with a promo-code
 // form.
 //
-// A block is layer 4 of the registry: it may import foundation, theme,
-// primitives and components, never another block. Its public widget is the
-// preview - the docs page renders it exactly as an app would.
-//
 // Three plans with a feature list and a highlighted middle tier. From 1080px
 // the tiers sit side by side; below that they stack. The highlight uses the
 // primary/ring tokens, so it survives a preset switch. The promo-code row is
@@ -24,6 +20,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'pricing_01_promo.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// A pricing section: three plans, the middle one highlighted.
 class Pricing01 extends StatelessWidget {
@@ -97,7 +94,7 @@ class _Pricing01Heading extends StatelessWidget {
         ),
         Gap(theme.spacing.lg),
         Text(
-          'Plans that scale with you',
+          docsSample(context, 'Plans that scale with you'),
           style: theme.typography.h2,
           textAlign: TextAlign.center,
         ),
@@ -125,42 +122,43 @@ class _Pricing01Plans extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double spacing = Theme.of(context).spacing.lg;
-    const List<_Pricing01Plan> plans = <_Pricing01Plan>[
+    String t(String key) => docsSample(context, key);
+    List<_Pricing01Plan> plans = <_Pricing01Plan>[
       _Pricing01Plan(
-        name: 'Starter',
+        name: t('Starter'),
         price: '\$0',
-        cadence: 'per user / month',
+        cadence: t('per user / month'),
         features: <String>[
-          'Up to 3 projects',
-          'Community support',
-          '1 theme preset',
+          t('Up to 3 projects'),
+          t('Community support'),
+          t('1 theme preset'),
         ],
-        cta: 'Get started',
+        cta: t('Get started'),
         highlighted: false,
       ),
       _Pricing01Plan(
         name: 'Pro',
         price: '\$20',
-        cadence: 'per user / month',
+        cadence: t('per user / month'),
         features: <String>[
-          'Unlimited projects',
-          'All 42 theme presets',
-          'Blocks and charts',
-          'Priority support',
+          t('Unlimited projects'),
+          t('All 42 theme presets'),
+          t('Blocks and charts'),
+          t('Priority support'),
         ],
-        cta: 'Subscribe',
+        cta: t('Subscribe'),
         highlighted: true,
       ),
       _Pricing01Plan(
-        name: 'Enterprise',
-        price: 'Custom',
-        cadence: 'annual billing',
+        name: t('Enterprise'),
+        price: t('Custom'),
+        cadence: t('annual billing'),
         features: <String>[
-          'SSO and audit log',
-          'Dedicated support',
-          'Custom themes',
+          t('SSO and audit log'),
+          t('Dedicated support'),
+          t('Custom themes'),
         ],
-        cta: 'Contact sales',
+        cta: t('Contact sales'),
         highlighted: false,
       ),
     ];
@@ -181,11 +179,6 @@ class _Pricing01Plans extends StatelessWidget {
         // it: inside the block's own scroll view the height is unbounded and
         // a bare Row(stretch) hands its Gap separators a tight infinite
         // height, which asserts in debug builds. Cards keep equal heights.
-        //
-        // Under the unbounded docs frame the Row sizes to its tallest card;
-        // IntrinsicHeight needs no bounded host, so this tree is safe both
-        // ways. Gap has no intrinsic width contribution issue here because
-        // the Row is bounded horizontally.
         return IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -324,6 +317,7 @@ class _Pricing01Faq extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String t(String key) => docsSample(context, key);
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
     return Column(
@@ -336,14 +330,32 @@ class _Pricing01Faq extends StatelessWidget {
           spacing: theme.spacing.xl,
           runSpacing: theme.spacing.lg,
           alignment: WrapAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             _Pricing01FaqItem(
-              question: 'Can I change plans later?',
-              answer: 'Yes. Upgrades apply immediately, downgrades next cycle.',
+              question: t('Can I change plans later?'),
+              answer: docsSample(
+                context,
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Yes. Upgrades apply immediately, downgrades next cycle.',
+                  ),
+                ),
+              ),
             ),
             _Pricing01FaqItem(
-              question: 'Is there a free trial?',
-              answer: 'Every plan starts with 14 days, no card required.',
+              question: t('Is there a free trial?'),
+              answer: docsSample(
+                context,
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Every plan starts with 14 days, no card required.',
+                  ),
+                ),
+              ),
             ),
           ],
         ),

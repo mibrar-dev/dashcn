@@ -37,6 +37,6 @@ Widget _default(BuildContext context) {
 }
 
 /// Named docs examples for `scrollview`; the first entry is the default.
-const List<ComponentPreview> scrollviewPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
+List<ComponentPreview> get scrollviewPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
 ];

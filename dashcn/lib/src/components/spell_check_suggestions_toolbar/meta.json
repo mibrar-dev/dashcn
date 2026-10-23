@@ -16,7 +16,9 @@
   ],
   "deps": {
     "foundation": [],
-    "theme": [],
+    "theme": [
+      "theme"
+    ],
     "primitives": [
       "localizations"
     ],

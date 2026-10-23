@@ -25,12 +25,12 @@ class _DefaultRefresh extends StatefulWidget {
 
 class _DefaultRefreshState extends State<_DefaultRefresh> {
   final List<String> _rows = <String>[
-    'Row 1',
-    'Row 2',
-    'Row 3',
-    'Row 4',
-    'Row 5',
-    'Row 6',
+    docsSample(null, 'Row 1'),
+    docsSample(null, 'Row 2'),
+    docsSample(null, 'Row 3'),
+    docsSample(null, 'Row 4'),
+    docsSample(null, 'Row 5'),
+    docsSample(null, 'Row 6'),
   ];
   int _refreshes = 0;
 
@@ -88,7 +88,7 @@ Widget _refreshing(BuildContext context) {
 Widget _default(BuildContext context) => const _DefaultRefresh();
 
 /// Named docs examples for `refresh_trigger`; the first entry is the default.
-const List<ComponentPreview> refreshTriggerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Refreshing', _refreshing),
+List<ComponentPreview> get refreshTriggerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Refreshing'), _refreshing),
 ];
