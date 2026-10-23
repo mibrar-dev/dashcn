@@ -10,7 +10,6 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
-    - flutter_cli_verification_example/**
     - build/**
     - example/build/**
     # Intentional-violation fixtures for the guardrail tests: they carry unused

@@ -412,7 +412,25 @@ class _DocsArticleState extends State<DocsArticle> {
     );
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final bool tight = constraints.maxWidth < 560;
+        final TextStyle titleStyle = docsText(
+          context,
+          size: 30,
+          weight: FontWeight.w600,
+          height: 36 / 30,
+          letterSpacing: -0.75,
+        );
+        // Stack the row when the title would share it with less than half
+        // the width: a long (or translated) title otherwise breaks mid-word.
+        final TextPainter measure = TextPainter(
+          text: TextSpan(text: widget.title, style: titleStyle),
+          textDirection: Directionality.of(context),
+          textScaler: MediaQuery.textScalerOf(context),
+          maxLines: 1,
+        )..layout();
+        final bool tight =
+            constraints.maxWidth < 560 ||
+            measure.width > constraints.maxWidth / 2;
+        measure.dispose();
         // The title text without flex: the tight branch stacks it in a
         // Column, and an Expanded there would flex against the scroll
         // view's unbounded height (`RenderFlex children have non-zero flex
@@ -424,16 +442,7 @@ class _DocsArticleState extends State<DocsArticle> {
           header: true,
           label: widget.title,
           excludeSemantics: true,
-          child: Text(
-            widget.title,
-            style: docsText(
-              context,
-              size: 30,
-              weight: FontWeight.w600,
-              height: 36 / 30,
-              letterSpacing: -0.75,
-            ),
-          ),
+          child: Text(widget.title, style: titleStyle),
         );
         final Widget title = Expanded(child: titleText);
         if (!widget.showTitleActions) {
