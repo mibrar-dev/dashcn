@@ -7,7 +7,6 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/progress/progress.dart';
-import 'package:dashcn/src/foundation/constants.dart';
 import 'package:dashcn/src/primitives/animation.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';

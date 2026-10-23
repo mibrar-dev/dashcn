@@ -8,8 +8,6 @@ import 'package:dashcn/src/components/avatar/avatar.dart';
 import 'package:dashcn/src/components/image/image.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 

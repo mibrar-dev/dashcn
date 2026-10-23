@@ -4,7 +4,6 @@
 // Reduced motion snaps to the target width with no ticker.
 
 import 'package:dashcn/src/components/sidebar/sidebar.dart';
-import 'package:dashcn/src/components/sidebar/sidebar_style.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter/widgets.dart';
