@@ -387,8 +387,11 @@ double _labelWidth(BuildContext context, Widget label, TextStyle style) {
   if (label is! Text || label.data == null) {
     return 0;
   }
-  return (TextPainter(
+  final TextPainter painter = TextPainter(
     text: TextSpan(text: label.data, style: style.merge(label.style)),
     textDirection: Directionality.of(context),
-  )..layout()).width;
+  )..layout();
+  final double width = painter.width;
+  painter.dispose();
+  return width;
 }
