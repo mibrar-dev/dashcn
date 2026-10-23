@@ -67,19 +67,28 @@ class ComponentUsageSection extends StatelessWidget {
             style: docsText(context, size: 14, weight: FontWeight.w600),
           ),
           Gap(Theme.of(context).spacing.xs),
-          for (final DocsApiParam param in keyParams)
-            Padding(
-              padding: EdgeInsets.only(bottom: Theme.of(context).spacing.xs),
-              child: TypesetParagraph.rich(<InlineSpan>[
-                TextSpan(
-                  text: '${param.name}: ',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                TextSpan(text: param.type.isEmpty ? 'required' : param.type),
-                if (param.doc != null && param.doc!.isNotEmpty)
-                  TextSpan(text: ' — ${param.doc}'),
-              ]),
-            ),
+          TypesetTable(
+            headers: <String>[
+              docsChrome(locale, 'thParam'),
+              docsChrome(locale, 'thType'),
+              docsChrome(locale, 'thDefault'),
+              docsChrome(locale, 'thDesc'),
+            ],
+            rows: <TypesetRow>[
+              for (final DocsApiParam param in keyParams)
+                TypesetRow(<TypesetCell>[
+                  TypesetCell(text: param.name, mono: true),
+                  TypesetCell(
+                    text: param.type.isEmpty
+                        ? (param.isRequired ? 'required' : '—')
+                        : param.type,
+                    mono: true,
+                  ),
+                  TypesetCell(text: param.defaultValue ?? '—'),
+                  TypesetCell(text: param.doc ?? ''),
+                ]),
+            ],
+          ),
         ],
         if (snippets.length > 1)
           Padding(
@@ -221,7 +230,13 @@ class ComponentApiSection extends StatelessWidget {
           ),
         ),
         if (table.hasApiTable) ...<Widget>[
-          if (table.summary != null) TypesetParagraph(table.summary!),
+          if (table.summary != null)
+            TypesetParagraph.rich(
+              docsDocSpans(
+                table.summary!,
+                docsText(context, size: 15, height: 26.25 / 15),
+              ),
+            ),
           const Gap(16),
           TypesetTable(
             headers: <String>[
