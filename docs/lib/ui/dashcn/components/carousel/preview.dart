@@ -225,7 +225,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${docsSample(context, 'Slide')} ${_index + 1} '
+                '${docsSample(context, 'of')} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,

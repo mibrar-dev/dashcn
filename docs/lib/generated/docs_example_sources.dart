@@ -2798,7 +2798,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${'Slide'} ${_index + 1} '
+                '${'of'} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3037,7 +3040,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${'Slide'} ${_index + 1} '
+                '${'of'} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3277,7 +3283,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${'Slide'} ${_index + 1} '
+                '${'of'} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3517,7 +3526,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${'Slide'} ${_index + 1} '
+                '${'of'} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3757,7 +3769,10 @@ class _CarouselShellState extends State<_CarouselShell> {
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('${'Slide'} ${_index + 1} / $_slideCount'),
+              Text(
+                '${'Slide'} ${_index + 1} '
+                '${'of'} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
