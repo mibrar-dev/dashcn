@@ -10147,7 +10147,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'double?',
         isRequired: false,
         doc:
-            'Width of one action; null resolves from the density tokens\n(`control + 24`: 56 compact / 64 comfortable / 72 touch).\nThe revealed run is `actions.length * actionExtent`.',
+            'Width of one action; null resolves from the density tokens\n(at least 64: 64 compact / 64 comfortable / 72 touch).\nThe revealed run is `actions.length * actionExtent`.',
       ),
       DocsApiParam(
         name: 'controller',

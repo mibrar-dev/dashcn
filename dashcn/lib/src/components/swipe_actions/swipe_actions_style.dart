@@ -17,7 +17,7 @@ typedef SwipeActionsStyle = SwipeActionsTheme;
 /// Every field is nullable: an override leg sets only what it changes and
 /// [merge] keeps the lower leg's remaining fields. Sizes resolve from the
 /// density tokens when null, so an empty override keeps the token look:
-/// compact tile 56 px wide (48 px touch floor), icon 16, label 13.
+/// tile at least 64 px wide (readable labels), icon 16, label 13.
 class SwipeActionsTheme extends ComponentThemeData
     implements Mergeable<SwipeActionsTheme> {
   const SwipeActionsTheme({
@@ -32,8 +32,9 @@ class SwipeActionsTheme extends ComponentThemeData
     this.rowMinHeight,
   });
 
-  /// Width of one action tile; null resolves
-  /// `tokens.controlHeight + 24` (56 compact / 64 comfortable / 72 touch).
+  /// Width of one action tile; null resolves at least 64 px
+  /// (`max(tokens.controlHeight + 24, 64)`: 64 compact / 64 comfortable /
+  /// 72 touch) so labels stay readable.
   final double? actionWidth;
 
   /// Icon size in the default tile; null resolves `tokens.iconSize`
@@ -122,9 +123,12 @@ class SwipeActionsTheme extends ComponentThemeData
 
 const SwipeActionsTheme swipeActionsDefaults = SwipeActionsTheme();
 
-/// Tile width from [tokens]: control + 24 (56 / 64 / 72), never below the
-/// 48 px touch minimum (WCAG 2.5.8 target floor; Material touch density).
+/// Tile width from [tokens]: at least 64 px (the comfortable token width)
+/// and full row height. Compact `control + 24` (56) is bumped to the 64
+/// minimum so labels stay readable; comfortable (64) and touch (72) keep
+/// their token widths. Never below the 48 px touch minimum.
 double swipeActionWidthForTokens(DensityTokens tokens) {
   final double width = tokens.controlHeight + 24;
-  return width < 48 ? 48 : width;
+  final double withFloor = width < 64 ? 64 : width;
+  return withFloor < 48 ? 48 : withFloor;
 }

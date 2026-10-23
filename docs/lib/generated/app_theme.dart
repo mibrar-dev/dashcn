@@ -2837,7 +2837,7 @@ const ThemeColors neutralDarkColors = ThemeColors(
   accent: Color(0xFF262626),
   accentForeground: Color(0xFFFAFAFA),
   destructive: Color(0xFFFF6467),
-  destructiveForeground: Color(0xFFDF2225),
+  destructiveForeground: Color(0xFFFFFFFF),
   border: Color(0x1AFFFFFF),
   input: Color(0x26FFFFFF),
   ring: Color(0xFF737373),
