@@ -465,79 +465,89 @@ class _SliderState extends State<Slider>
     final bool pressed = _pressed && widget.enabled;
     final Offset thumbCenter = view.thumbs[_activeThumb ?? 0].center;
     final bool labelVisible = pressed;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        TweenAnimationBuilder<double>(
-          // Reduced motion keeps the thumb at rest: no scale at all.
-          tween: Tween<double>(
-            end: pressed && !motionReduced(context)
-                ? _sliderThumbPressScale
-                : 1.0,
-          ),
-          duration: duration,
-          curve: curve,
-          builder: (BuildContext context, double scale, Widget? _) {
-            return SizedBox(
-              height: canvasHeight,
-              child: CustomPaint(
-                size: Size(view.trackRect.width, canvasHeight),
-                painter: SliderPainter(
-                  view: view,
-                  marksStyle: marksStyle,
-                  thumbShape: thumbShape,
-                  trackColor: trackColor,
-                  fillColor: fillColor,
-                  thumbColor: thumbColor,
-                  thumbBorderColor: thumbBorderColor,
-                  markColor: markColor,
-                  focused: _focused,
-                  ringColor: ringColor,
-                  thumbScale: scale,
+    // The label is built only while it shows or fades: at rest the slider
+    // lays out exactly as without it, so centring and hit testing ignore it.
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(end: labelVisible ? 1.0 : 0.0),
+      duration: duration,
+      curve: curve,
+      child: TweenAnimationBuilder<double>(
+        // Reduced motion keeps the thumb at rest: no scale at all.
+        tween: Tween<double>(
+          end: pressed && !motionReduced(context)
+              ? _sliderThumbPressScale
+              : 1.0,
+        ),
+        duration: duration,
+        curve: curve,
+        builder: (BuildContext context, double scale, Widget? _) {
+          return SizedBox(
+            height: canvasHeight,
+            child: CustomPaint(
+              size: Size(view.trackRect.width, canvasHeight),
+              painter: SliderPainter(
+                view: view,
+                marksStyle: marksStyle,
+                thumbShape: thumbShape,
+                trackColor: trackColor,
+                fillColor: fillColor,
+                thumbColor: thumbColor,
+                thumbBorderColor: thumbBorderColor,
+                markColor: markColor,
+                focused: _focused,
+                ringColor: ringColor,
+                thumbScale: scale,
+              ),
+            ),
+          );
+        },
+      ),
+      builder: (BuildContext context, double shown, Widget? canvas) {
+        return Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            canvas!,
+            if (shown > 0)
+              Positioned(
+                left: thumbCenter.dx - _sliderLabelWidth / 2,
+                width: _sliderLabelWidth,
+                top: -_sliderLabelGap - _sliderLabelHeight,
+                height: _sliderLabelHeight,
+                child: IgnorePointer(
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      // The label fades by alpha (no Opacity layer) and rises 4 px
+                      // into place as it appears.
+                      return Transform.translate(
+                        offset: Offset(0, _sliderLabelRise * (1 - shown)),
+                        child: Center(
+                          child: DefaultTextStyle.merge(
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: theme.colors.primaryForeground.withValues(
+                                alpha: shown,
+                              ),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: theme.colors.primary.withValues(
+                                  alpha: shown,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(_formatLabel(_labelValue())),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            );
-          },
-        ),
-        Positioned(
-          left: thumbCenter.dx - _sliderLabelWidth / 2,
-          width: _sliderLabelWidth,
-          top: -_sliderLabelGap - _sliderLabelHeight,
-          height: _sliderLabelHeight,
-          child: IgnorePointer(
-            child: TweenAnimationBuilder<double>(
-              tween: Tween<double>(end: labelVisible ? 1.0 : 0.0),
-              duration: duration,
-              curve: curve,
-              builder: (BuildContext context, double shown, Widget? _) {
-                // The label fades by alpha (no Opacity layer) and rises 4 px
-                // into place as it appears.
-                return Transform.translate(
-                  offset: Offset(0, _sliderLabelRise * (1 - shown)),
-                  child: Center(
-                    child: DefaultTextStyle.merge(
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: theme.colors.primaryForeground.withValues(
-                          alpha: shown,
-                        ),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: theme.colors.primary.withValues(alpha: shown),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(_formatLabel(_labelValue())),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 
