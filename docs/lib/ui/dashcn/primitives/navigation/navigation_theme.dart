@@ -165,10 +165,12 @@ class NavigationItemStyle implements Mergeable<NavigationItemStyle> {
   );
 }
 
-/// Navigation row padding: upstream `px-3 py-2` (12/8) as density multipliers,
-/// resolved by `NavigationItemRow`.
+/// Navigation row padding: SIZING.md rows are 8 px horizontal with 6 px
+/// vertical (upstream was `px-3 py-2`); stored as density multipliers so an
+/// explicit density override still scales, and the 20 px content box keeps
+/// single-line rows at 32 px.
 const EdgeInsetsGeometry navigationItemDefaultPadding =
-    EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8);
+    EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 6);
 
 /// Token-derived unselected item row.
 const NavigationItemStyle navigationItemDefaults = NavigationItemStyle(

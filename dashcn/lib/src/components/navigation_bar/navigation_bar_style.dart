@@ -139,10 +139,13 @@ const EdgeInsetsGeometry navigationBarDefaultPadding =
     EdgeInsetsDensity.pxSymmetric(horizontal: 12, vertical: 8);
 
 /// Token-derived baseline values; unset override fields fall through here.
+///
+/// `labelPosition` stays null on purpose: the bar stacks the label under the
+/// icon while vertical rails and sidebars lay them out in a row (resolved in
+/// `NavigationBar.build` per SIZING.md).
 const NavigationBarTheme navigationBarDefaults = NavigationBarTheme(
   spacing: 8,
   padding: navigationBarDefaultPadding,
-  labelPosition: NavigationLabelPosition.bottom,
   labelSize: NavigationLabelSize.small,
   itemStyle: navigationItemDefaults,
   activeItemStyle: navigationActiveItemDefaults,
