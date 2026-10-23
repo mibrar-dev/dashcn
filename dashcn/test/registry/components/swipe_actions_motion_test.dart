@@ -91,7 +91,7 @@ void main() {
     final gesture = await tester.startGesture(center);
     await gesture.moveTo(center + const Offset(-30, 0));
     await tester.pump();
-    await gesture.moveTo(center + const Offset(-60, 0));
+    await gesture.moveTo(center + const Offset(-40, 0));
     await tester.pump();
     // The reveal wrapper is one of several Opacity ancestors (the Button
     // paints its own); it carries the partial progress.

@@ -78,7 +78,7 @@ Future<void> openFilterBarDialog({
                     if (showClear)
                       Button(
                         variant: ButtonVariant.ghost,
-                        size: ButtonSize.sm,
+                        size: ButtonSize.md,
                         onPressed: onClearAll,
                         child: Text(l10n.filterClearAll),
                       ),

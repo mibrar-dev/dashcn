@@ -86,15 +86,15 @@ class ToolbarItemSurface extends StatelessWidget {
       return value?.resolve(states)?.resolve(ambient.colors);
     }
 
-    final Widget button = Semantics(
-      button: true,
-      enabled: enabled,
-      toggled: toggled,
-      label: semanticLabel,
-      child: Opacity(
-        opacity: enabled ? 1 : 0.5,
-        child: TouchHitArea(
-          vertical: touchVertical,
+    final Widget button = TouchHitArea(
+      vertical: touchVertical,
+      child: Semantics(
+        button: true,
+        enabled: enabled,
+        toggled: toggled,
+        label: semanticLabel,
+        child: Opacity(
+          opacity: enabled ? 1 : 0.5,
           child: Clickable(
             enabled: enabled,
             statesController: statesController,

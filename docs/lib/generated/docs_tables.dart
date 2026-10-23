@@ -879,6 +879,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'autocomplete': <DocsDep>[
@@ -1078,6 +1079,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'overlay', kind: DocsDepKind.primitive),
     DocsDep(id: 'popover_controller', kind: DocsDepKind.primitive),
     DocsDep(id: 'select_popup', kind: DocsDepKind.primitive),
+    DocsDep(id: 'touch_hit_area', kind: DocsDepKind.primitive),
     DocsDep(id: 'data', kind: DocsDepKind.foundation),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'geometry', kind: DocsDepKind.foundation),
