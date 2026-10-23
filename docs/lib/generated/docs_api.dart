@@ -7604,8 +7604,6 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'CodeSnippet',
     hasApiTable: true,
     parseClean: true,
-    summary:
-        'Scrollable code block with syntax colouring, top-right [actions] and a built-in copy button.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'code',
@@ -15453,7 +15451,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'copyFeedbackDuration',
         type: 'Duration?',
-        description: 'duration to show copied feedback, 2000ms',
+        description: 'duration to show copied feedback, 1500ms',
       ),
       DocsThemeField(
         name: 'copyIcon',

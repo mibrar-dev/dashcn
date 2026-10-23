@@ -295,6 +295,10 @@ class _ToggleState extends State<Toggle> with FormValueSupplier<bool, Toggle> {
         child: Clickable(
           enabled: enabled,
           onPressed: enabled ? _handleToggle : null,
+          // Pressable like the button: 0.97 with a spring release. The
+          // selected fill cross-fades on the 150 ms state clock.
+          pressScale: 0.97,
+          pressCurve: theme.motion.curves.spring,
           onHover: widget.onHover,
           onFocus: widget.onFocusChange,
           focusNode: _focusNode,

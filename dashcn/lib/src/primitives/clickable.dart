@@ -138,6 +138,15 @@ class Clickable extends StatefulWidget {
   /// Whether to suppress the focus outline.
   final bool disableFocusOutline;
 
+  /// Scale applied while pressed. Null keeps the theme press scale
+  /// (standard 0.96). Reduced motion drops the press scale entirely.
+  final double? pressScale;
+
+  /// Curve of the press transform (press and release). Null keeps the theme
+  /// standard curve; buttons pass the spring curve so release overshoots
+  /// and settles back.
+  final Curve? pressCurve;
+
   /// Creates a [Clickable].
   const Clickable({
     super.key,
@@ -182,6 +191,8 @@ class Clickable extends StatefulWidget {
     this.onTertiaryLongPress,
     this.marginAlignment,
     this.disableFocusOutline = false,
+    this.pressScale,
+    this.pressCurve,
   });
 
   @override

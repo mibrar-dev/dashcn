@@ -33,6 +33,9 @@ export 'button_status_content.dart';
 export 'button_style.dart';
 
 /// Opacity applied to the whole button while disabled (upstream `opacity-50`).
+/// Press scale for the button (MOTION.md: 0.97, spring back).
+const double _buttonPressScale = 0.97;
+
 const double _buttonDisabledOpacity = 0.5;
 
 /// Cursor for an enabled button; the system arrow while disabled.
@@ -390,6 +393,9 @@ class _ButtonState extends State<Button> {
             onFocus: widget.onFocusChange,
             focusNode: _focusNode,
             decoration: WidgetStateProperty.resolveWith(paint.decorationFor),
+            // Press to 0.97 and spring back (MOTION.md: button).
+            pressScale: _buttonPressScale,
+            pressCurve: theme.motion.curves.spring,
             mouseCursor: _buttonMouseCursor,
             padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(contentPadding),
             textStyle: WidgetStateProperty.resolveWith(paint.textStyleFor),
