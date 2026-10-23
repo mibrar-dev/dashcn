@@ -39,7 +39,7 @@ Widget _spinnerSmall(BuildContext context) {
       const Spinner(size: 14, strokeWidth: 2),
       Gap(spacing.sm),
       Text(
-        'Loading...',
+        docsSample(context, 'Loading...'),
         style: TextStyle(
           fontSize: 13,
           color: Theme.of(context).colors.mutedForeground,
@@ -50,7 +50,7 @@ Widget _spinnerSmall(BuildContext context) {
 }
 
 /// Named docs examples for `spinner`; the first entry is the default.
-const List<ComponentPreview> spinnerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _spinnerDefault),
-  ComponentPreview('Small', _spinnerSmall),
+List<ComponentPreview> get spinnerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _spinnerDefault),
+  ComponentPreview(docsSample(null, 'Small'), _spinnerSmall),
 ];

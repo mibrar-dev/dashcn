@@ -46,7 +46,7 @@ Widget _vertical(BuildContext context) {
 }
 
 /// Named docs examples for `scrollable`; the first entry is the default.
-const List<ComponentPreview> scrollablePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Vertical', _vertical),
+List<ComponentPreview> get scrollablePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Vertical'), _vertical),
 ];

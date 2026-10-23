@@ -246,7 +246,9 @@ class _NavigationBarState extends State<NavigationBar> {
         distribute:
             container == NavigationContainerType.bar &&
             direction == Axis.horizontal,
-        gap: (widget.spacing ?? style.spacing ?? 8) * ambient.scaling,
+        gap:
+            (widget.spacing ?? style.spacing ?? ambient.spacing.sm) *
+            ambient.scaling,
       ),
     );
     final NavigationItemStyle activeStyle =

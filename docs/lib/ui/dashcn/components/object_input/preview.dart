@@ -81,8 +81,8 @@ Widget _time(BuildContext context) => const _TimeDemo();
 Widget _duration(BuildContext context) => const _DurationDemo();
 
 /// Named docs examples for `object_input`; the first entry is the default.
-const List<ComponentPreview> objectInputPreviews = <ComponentPreview>[
-  ComponentPreview('Date', _date),
-  ComponentPreview('Time', _time),
-  ComponentPreview('Duration', _duration),
+List<ComponentPreview> get objectInputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Date'), _date),
+  ComponentPreview(docsSample(null, 'Time'), _time),
+  ComponentPreview(docsSample(null, 'Duration'), _duration),
 ];

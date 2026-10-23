@@ -8,6 +8,7 @@ import '../../components/button/button.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The app-shell top bar: product mark, actions and the account avatar.
 class Dashboard01ShellBar extends StatelessWidget {
@@ -48,7 +49,7 @@ class Dashboard01ShellBar extends StatelessWidget {
           ),
           Gap(theme.spacing.sm),
           Text(
-            'Acme Inc',
+            docsSample(context, 'Acme Inc'),
             style: theme.typography.textSmall.copyWith(
               fontWeight: FontWeight.w600,
             ),

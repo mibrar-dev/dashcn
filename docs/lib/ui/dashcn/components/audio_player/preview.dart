@@ -297,11 +297,11 @@ Widget _phone(BuildContext context) => const _PhoneAudio();
 Widget _custom(BuildContext context) => const _CustomAudio();
 
 /// Named docs examples for `audio_player`; the first entry is the default.
-const List<ComponentPreview> audioPlayerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Compact', _compact),
-  ComponentPreview('Expanded card', _expanded),
-  ComponentPreview('Shared playlist', _shared),
-  ComponentPreview('Phone width', _phone),
-  ComponentPreview('Customized', _custom),
+List<ComponentPreview> get audioPlayerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Compact'), _compact),
+  ComponentPreview(docsSample(null, 'Expanded card'), _expanded),
+  ComponentPreview(docsSample(null, 'Shared playlist'), _shared),
+  ComponentPreview(docsSample(null, 'Phone width'), _phone),
+  ComponentPreview(docsSample(null, 'Customized'), _custom),
 ];

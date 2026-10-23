@@ -63,7 +63,7 @@ class _GestureHint extends StatelessWidget {
         ),
         SizedBox(height: theme.spacing.xs),
         Text(
-          'Desktop: right-click · touch: long-press',
+          docsSample(context, 'Desktop: right-click · touch: long-press'),
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
@@ -151,28 +151,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
-                onPressed: (_) => _run('Went back'),
+                child: Text(docsSample(context, 'Back')),
+                onPressed: (_) => _run(docsSample(context, 'Went back')),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text(docsSample(context, 'Reload')),
+                onPressed: (_) =>
+                    _run(docsSample(context, 'Reloaded the page')),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
-                onPressed: (_) => _run('Copied the link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text(docsSample(context, 'Copy link')),
+                onPressed: (_) => _run(docsSample(context, 'Copied the link')),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text(docsSample(context, 'More tools')),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text(docsSample(context, 'Inspect')),
                 onPressed: (_) {},
               ),
             ],
@@ -180,7 +181,11 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            docsSample(
+              context,
+              _lastAction ??
+                  docsSample(context, 'Pick an action from the menu'),
+            ),
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -195,14 +200,16 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 Widget _contextMenuDefault(BuildContext context) => const _ContextMenuSurface();
 
 /// A surface whose menu row opens a submenu.
-Widget _contextMenuWithSubmenu(BuildContext context) =>
-    const _ContextMenuSurface(hintAction: 'this card', withSubmenu: true);
+Widget _contextMenuWithSubmenu(BuildContext context) => _ContextMenuSurface(
+  hintAction: docsSample(context, 'this card'),
+  withSubmenu: true,
+);
 
 /// A 24px icon trigger: the 48px touch floor keeps it hittable on mobile.
 Widget _contextMenuTouchTarget(BuildContext context) {
   final ThemeData theme = Theme.of(context);
   return _ContextMenuSurface(
-    hintAction: 'the icon',
+    hintAction: docsSample(context, 'the icon'),
     // The 48px touch floor is the point of this demo: pass it explicitly.
     minTargetSize: kContextMenuMinTargetSize,
     child: Container(
@@ -218,27 +225,28 @@ Widget _contextMenuTouchTarget(BuildContext context) {
 }
 
 /// The padded hit region, drawn as a muted wash around the card.
-Widget _contextMenuExpandedTarget(BuildContext context) =>
-    const _ContextMenuSurface(
-      hintAction: 'the wash',
-      targetPadding: EdgeInsets.all(28),
-      showTargetOutline: true,
-    );
+Widget _contextMenuExpandedTarget(BuildContext context) => _ContextMenuSurface(
+  hintAction: docsSample(context, 'the wash'),
+  targetPadding: EdgeInsets.all(28),
+  showTargetOutline: true,
+);
 
 /// A customized menu: clamped width plus a per-instance surface override.
-Widget _contextMenuCompactMenu(BuildContext context) =>
-    const _ContextMenuSurface(
-      hintAction: 'this card',
-      menuMinWidth: 200,
-      menuMaxWidth: 240,
-      popupTheme: MenuPopupTheme(padding: EdgeInsetsDensity.pxAll(8)),
-    );
+Widget _contextMenuCompactMenu(BuildContext context) => _ContextMenuSurface(
+  hintAction: docsSample(context, 'this card'),
+  menuMinWidth: 200,
+  menuMaxWidth: 240,
+  popupTheme: MenuPopupTheme(padding: EdgeInsetsDensity.pxAll(8)),
+);
 
 /// Named docs examples for `context_menu`; the first entry is the default.
-const List<ComponentPreview> contextMenuPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _contextMenuDefault),
-  ComponentPreview('With submenu', _contextMenuWithSubmenu),
-  ComponentPreview('Touch target', _contextMenuTouchTarget),
-  ComponentPreview('Expanded target', _contextMenuExpandedTarget),
-  ComponentPreview('Compact menu', _contextMenuCompactMenu),
+List<ComponentPreview> get contextMenuPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _contextMenuDefault),
+  ComponentPreview(docsSample(null, 'With submenu'), _contextMenuWithSubmenu),
+  ComponentPreview(docsSample(null, 'Touch target'), _contextMenuTouchTarget),
+  ComponentPreview(
+    docsSample(null, 'Expanded target'),
+    _contextMenuExpandedTarget,
+  ),
+  ComponentPreview(docsSample(null, 'Compact menu'), _contextMenuCompactMenu),
 ];

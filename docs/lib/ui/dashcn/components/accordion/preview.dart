@@ -18,22 +18,46 @@ Widget _accordionDefault(BuildContext context) {
     child: Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it accessible?')),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it accessible?')),
+          ),
           content: Text(
-            'Yes. It follows the WAI-ARIA disclosure pattern and responds '
-            'to Enter and Space.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
+                ),
+              ),
+            ),
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it styled?')),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it styled?')),
+          ),
           content: Text(
-            'Yes. Defaults come from the global tokens and every part is '
-            'overridable through AccordionTheme.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
+                ),
+              ),
+            ),
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it animated?')),
-          content: Text('Yes. Items animate with the theme duration.'),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it animated?')),
+          ),
+          content: Text(
+            docsSample(context, 'Yes. Items animate with the theme duration.'),
+          ),
         ),
       ],
     ),
@@ -47,23 +71,47 @@ Widget _accordionExpanded(BuildContext context) {
     child: Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it accessible?')),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it accessible?')),
+          ),
           content: Text(
-            'Yes. It follows the WAI-ARIA disclosure pattern and responds '
-            'to Enter and Space.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
+                ),
+              ),
+            ),
           ),
         ),
         AccordionItem(
           expanded: true,
-          trigger: AccordionTrigger(child: Text('Is it styled?')),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it styled?')),
+          ),
           content: Text(
-            'Yes. Defaults come from the global tokens and every part is '
-            'overridable through AccordionTheme.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
+                ),
+              ),
+            ),
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it animated?')),
-          content: Text('Yes. Items animate with the theme duration.'),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Is it animated?')),
+          ),
+          content: Text(
+            docsSample(context, 'Yes. Items animate with the theme duration.'),
+          ),
         ),
       ],
     ),
@@ -95,15 +143,21 @@ class _AccordionTwoItemAccordion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Accordion(
+    return Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Shipping')),
-          content: Text('Dispatched within two working days.'),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Shipping')),
+          ),
+          content: Text(
+            docsSample(context, 'Dispatched within two working days.'),
+          ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Returns')),
-          content: Text('Free returns within 30 days.'),
+          trigger: AccordionTrigger(
+            child: Text(docsSample(context, 'Returns')),
+          ),
+          content: Text(docsSample(context, 'Free returns within 30 days.')),
         ),
       ],
     );
@@ -111,8 +165,8 @@ class _AccordionTwoItemAccordion extends StatelessWidget {
 }
 
 /// Named docs examples for `accordion`; the first entry is the default.
-const List<ComponentPreview> accordionPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _accordionDefault),
-  ComponentPreview('Expanded', _accordionExpanded),
-  ComponentPreview('Multiple', _accordionMultiple),
+List<ComponentPreview> get accordionPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _accordionDefault),
+  ComponentPreview(docsSample(null, 'Expanded'), _accordionExpanded),
+  ComponentPreview(docsSample(null, 'Multiple'), _accordionMultiple),
 ];

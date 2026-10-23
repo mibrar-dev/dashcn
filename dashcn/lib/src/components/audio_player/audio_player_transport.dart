@@ -114,9 +114,9 @@ Widget audioPlayButton(
   AudioPartBuilder? loadingOverride,
 }) {
   if (overrideBuilder != null) return overrideBuilder(context, c);
-  final double size = style.controlSize ?? 32;
-  final double iconSize = style.iconSize ?? 16;
   final ThemeData ambient = Theme.of(context);
+  final double size = style.controlSize ?? ambient.densityTokens.controlHeight;
+  final double iconSize = style.iconSize ?? ambient.densityTokens.iconSize;
   Widget icon = Icon(
     c.isPlaying ? LucideIcons.pause : LucideIcons.play,
     size: iconSize,
@@ -230,7 +230,7 @@ class _AudioSpeedButtonState extends State<AudioSpeedButton> {
           Container(
             decoration: BoxDecoration(
               color: const Color(0xEE18181B),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(Theme.of(context).radiusLg),
               border: Border.all(color: const Color(0x33FFFFFF)),
             ),
             child: Column(
@@ -334,7 +334,8 @@ class AudioTransportRow extends StatelessWidget {
   Widget build(BuildContext context) {
     if (controlsBuilder != null) return controlsBuilder!(context, controller);
     final AudioPlaybackController c = controller;
-    final double iconSize = style.iconSize ?? 16;
+    final double iconSize =
+        style.iconSize ?? Theme.of(context).densityTokens.iconSize;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[

@@ -11,6 +11,7 @@ import '../../theme/theme.dart';
 import '../button/button.dart';
 import '../dialog/dialog.dart';
 import 'page_route.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class PageRoutePreview extends StatelessWidget {
@@ -26,7 +27,7 @@ class PageRoutePreview extends StatelessWidget {
       container: true,
       explicitChildNodes: true,
       child: Directionality(
-        textDirection: TextDirection.ltr,
+        textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
         child: _PageRoutePreviewBody(),
       ),
     );
@@ -81,7 +82,7 @@ class _HomePage extends StatelessWidget {
                 context: context,
                 builder: (context) => const _RouteDialogBody(),
               ),
-              child: const Text('dialog over the page'),
+              child: Text(docsSample(context, 'dialog over the page')),
             ),
             const AppPageTransition(
               animation: AlwaysStoppedAnimation<double>(1),
@@ -117,9 +118,11 @@ class _RouteDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[Text('A dialog pushed over a page route.')],
+      children: <Widget>[
+        Text(docsSample(context, 'A dialog pushed over a page route.')),
+      ],
     );
   }
 }

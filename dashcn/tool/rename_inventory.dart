@@ -25,7 +25,6 @@ const List<(String, String)> _scanRoots = <(String, String)>[
   ('kit_assets', 'dashcn/assets'),
   ('kit_skills', 'dashcn/skills'),
   ('kit_scripts', 'dashcn/scripts'),
-  ('kit_cli_fixture', 'dashcn/flutter_cli_verification_example'),
   ('docs_lib', 'docs/lib'),
   ('docs_test', 'docs/test'),
   ('docs_tool', 'docs/tool'),

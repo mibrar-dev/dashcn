@@ -9,12 +9,13 @@ import '../../components/progress/progress.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
-const List<_Sidebar03Link> _sidebar03Links = <_Sidebar03Link>[
-  _Sidebar03Link('Dashboard', LucideIcons.layoutDashboard),
-  _Sidebar03Link('Documents', LucideIcons.fileText),
-  _Sidebar03Link('Reports', LucideIcons.chartBar),
-  _Sidebar03Link('Settings', LucideIcons.settings),
+List<_Sidebar03Link> _sidebar03Links = <_Sidebar03Link>[
+  _Sidebar03Link(docsSample(null, 'Dashboard'), LucideIcons.layoutDashboard),
+  _Sidebar03Link(docsSample(null, 'Documents'), LucideIcons.fileText),
+  _Sidebar03Link(docsSample(null, 'Reports'), LucideIcons.chartBar),
+  _Sidebar03Link(docsSample(null, 'Settings'), LucideIcons.settings),
 ];
 
 /// The sidebar panel: grouped navigation plus a storage meter. Shared by the
@@ -45,7 +46,7 @@ class Sidebar03Sidebar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(theme.spacing.lg),
             child: Text(
-              'Navigation',
+              docsSample(context, 'Navigation'),
               style: theme.typography.textLarge.copyWith(
                 color: theme.colors.sidebarForeground,
               ),
@@ -74,14 +75,14 @@ class Sidebar03Sidebar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Storage',
+                  docsSample(context, 'Storage'),
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colors.mutedForeground,
                   ),
                 ),
                 Gap(theme.spacing.sm),
                 Text(
-                  '12.4 GB of 20 GB',
+                  docsSample(context, '12.4 GB of 20 GB'),
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.sidebarForeground,
                   ),

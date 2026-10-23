@@ -103,7 +103,9 @@ class VideoPlayerStage extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0x33FFFFFF),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(
+                          Theme.of(context).radiusSm,
+                        ),
                       ),
                       child: Text(
                         ComponentLocalizations.of(context).errorActionRetry,
@@ -148,7 +150,7 @@ class VideoPlayerStage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: const Color(0xCC000000),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(Theme.of(context).radiusSm),
             ),
             child: Text(
               cueText,

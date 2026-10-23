@@ -23,7 +23,7 @@ class _MenubarDefault extends StatefulWidget {
 }
 
 class _MenubarDefaultState extends State<_MenubarDefault> {
-  String _lastAction = 'Open a menu and pick a command';
+  String _lastAction = docsSample(null, 'Open a menu and pick a command');
 
   @override
   Widget build(BuildContext context) {
@@ -37,54 +37,58 @@ class _MenubarDefaultState extends State<_MenubarDefault> {
             MenuButton(
               subMenu: <Widget>[
                 MenuButton(
-                  child: const Text('New'),
-                  onPressed: (_) => _run('New document'),
+                  child: Text('New'),
+                  onPressed: (_) => _run(docsSample(context, 'New document')),
                 ),
                 MenuButton(
-                  child: const Text('Open'),
-                  onPressed: (_) => _run('Opened a document'),
+                  child: Text(docsSample(context, 'Open')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Opened a document')),
                 ),
                 const MenuSeparator(),
                 MenuButton(
-                  trailing: const MenuShortcut(shortcut: '⌘S'),
-                  child: const Text('Save'),
-                  onPressed: (_) => _run('Saved the document'),
+                  trailing: MenuShortcut(shortcut: '⌘S'),
+                  child: Text(docsSample(context, 'Save')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Saved the document')),
                 ),
               ],
-              child: const Text('File'),
+              child: Text(docsSample(context, 'File')),
             ),
             MenuButton(
               subMenu: <Widget>[
                 MenuButton(
-                  child: const Text('Cut'),
-                  onPressed: (_) => _run('Cut the selection'),
+                  child: Text('Cut'),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Cut the selection')),
                 ),
                 MenuButton(
-                  child: const Text('Copy'),
-                  onPressed: (_) => _run('Copied to the clipboard'),
+                  child: Text(docsSample(context, 'Copy')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Copied to the clipboard')),
                 ),
               ],
-              child: const Text('Edit'),
+              child: Text(docsSample(context, 'Edit')),
             ),
             MenuButton(
               subMenu: <Widget>[
-                const MenuLabel(child: Text('Zoom')),
+                MenuLabel(child: Text(docsSample(context, 'Zoom'))),
                 MenuButton(
                   child: const Text('100%'),
-                  onPressed: (_) => _run('Zoom 100%'),
+                  onPressed: (_) => _run(docsSample(context, 'Zoom 100%')),
                 ),
                 MenuButton(
                   child: const Text('150%'),
-                  onPressed: (_) => _run('Zoom 150%'),
+                  onPressed: (_) => _run(docsSample(context, 'Zoom 150%')),
                 ),
               ],
-              child: const Text('View'),
+              child: Text(docsSample(context, 'View')),
             ),
           ],
         ),
         Gap(theme.spacing.md),
         Text(
-          _lastAction,
+          docsSample(context, _lastAction),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -104,16 +108,16 @@ class _WithSubmenu extends StatelessWidget {
       children: <Widget>[
         MenuButton(
           subMenu: <Widget>[
-            const MenuLabel(child: Text('Zoom')),
+            MenuLabel(child: Text(docsSample(context, 'Zoom'))),
             MenuSub(
-              trigger: const Text('Zoom level'),
+              trigger: Text(docsSample(context, 'Zoom level')),
               children: <Widget>[
                 MenuButton(child: const Text('100%'), onPressed: (_) {}),
                 MenuButton(child: const Text('150%'), onPressed: (_) {}),
               ],
             ),
           ],
-          child: const Text('View'),
+          child: Text(docsSample(context, 'View')),
         ),
       ],
     );
@@ -127,7 +131,7 @@ Widget _default(BuildContext context) => const _MenubarDefault();
 Widget _withSubmenu(BuildContext context) => const _WithSubmenu();
 
 /// Named docs examples for `menubar`; the first entry is the default.
-const List<ComponentPreview> menubarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With submenu', _withSubmenu),
+List<ComponentPreview> get menubarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With submenu'), _withSubmenu),
 ];

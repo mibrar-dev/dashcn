@@ -19,6 +19,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Status`: every badge variant, so a preset that changes the secondary /
 /// outline / destructive colours shows up.
@@ -37,10 +38,22 @@ class HomeStatusCard extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Badge(variant: BadgeVariant.primary, child: Text('Live')),
-            Badge(variant: BadgeVariant.secondary, child: Text('Draft')),
-            Badge(variant: BadgeVariant.outline, child: Text('Review')),
-            Badge(variant: BadgeVariant.destructive, child: Text('Overdue')),
+            Badge(
+              variant: BadgeVariant.primary,
+              child: Text(docsSample(context, 'Live')),
+            ),
+            Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(docsSample(context, 'Draft')),
+            ),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, 'Review')),
+            ),
+            Badge(
+              variant: BadgeVariant.destructive,
+              child: Text(docsSample(context, 'Overdue')),
+            ),
           ],
         ),
       ],
@@ -63,15 +76,22 @@ class HomeAlertsCard extends StatelessWidget {
       children: <Widget>[
         Alert(
           leading: Icon(LucideIcons.info, size: 16),
-          title: Text('Heads up'),
-          content: Text('Royalties settle on the 15th of every month.'),
+          title: Text(docsSample(context, 'Heads up')),
+          content: Text(
+            docsSample(context, 'Royalties settle on the 15th of every month.'),
+          ),
         ),
         Gap(12),
         Alert(
           variant: AlertVariant.destructive,
           leading: Icon(LucideIcons.triangleAlert, size: 16),
-          title: Text('Payout failed'),
-          content: Text('The bank rejected the transfer. Update the IBAN.'),
+          title: Text(docsSample(context, 'Payout failed')),
+          content: Text(
+            docsSample(
+              context,
+              'The bank rejected the transfer. Update the IBAN.',
+            ),
+          ),
         ),
       ],
     );
@@ -89,10 +109,10 @@ class HomeLoadingCard extends StatelessWidget {
   /// Creates the card.
   const HomeLoadingCard({super.key});
 
-  static const List<(String, String, double)> bars = <(String, String, double)>[
-    ('Documents', '7.2 of 10 GB', 0.72),
-    ('Media', '16.0 of 40 GB', 0.4),
-    ('Backups', '4.5 of 5 GB', 0.9),
+  static List<(String, String, double)> bars = <(String, String, double)>[
+    (docsSample(null, 'Documents'), docsSample(null, '7.2 of 10 GB'), 0.72),
+    (docsSample(null, 'Media'), docsSample(null, '16.0 of 40 GB'), 0.4),
+    (docsSample(null, 'Backups'), docsSample(null, '4.5 of 5 GB'), 0.9),
   ];
 
   @override
@@ -127,11 +147,11 @@ class HomeLoadingCard extends StatelessWidget {
               ],
             ),
           ),
-        const Button(
+        Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: collageNoop,
-          child: Text('Manage storage'),
+          child: Text(docsSample(context, 'Manage storage')),
         ),
       ],
     );
@@ -163,20 +183,20 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
           onChanged: (double value) => setState(() => _rating = value),
         ),
         const Gap(12),
-        const Wrap(
+        Wrap(
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
             Chip(child: Text('Mix')),
-            Chip(child: Text('Master')),
-            Chip(child: Text('Artwork')),
+            Chip(child: Text(docsSample(context, 'Master'))),
+            Chip(child: Text(docsSample(context, 'Artwork'))),
           ],
         ),
         const Gap(12),
         StudioHelper(
           _rating >= 4
               ? 'Loved it — thanks for the high score.'
-              : 'Tap a star to leave your score.',
+              : docsSample(context, 'Tap a star to leave your score.'),
         ),
       ],
     );

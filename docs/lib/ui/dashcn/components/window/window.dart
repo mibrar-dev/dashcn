@@ -10,6 +10,7 @@
 // detached `WindowActions` throwing on a null handle, ghost navigator entries
 // when close raced the exit animation, and a 0x0 viewport on first layout.
 
+import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/widgets.dart';
@@ -344,7 +345,7 @@ class _WindowState extends State<Window> implements WindowHandle {
           }
           final Rect? max = _state.maximized;
           final Rect target = max == null
-              ? _state.bounds
+              ? _fitWithin(_state.bounds, viewport.size)
               : relativeRect(max, viewport.size);
           return AnimatedValueBuilder<Rect>(
             value: target,
@@ -409,4 +410,17 @@ class WindowNavigator extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Keeps a restored window inside the navigator when it is wider or taller
+/// than the viewport (its stored pixel bounds do not change).
+Rect _fitWithin(Rect rect, Size viewport) {
+  final double width = math.min(rect.width, viewport.width);
+  final double height = math.min(rect.height, viewport.height);
+  return Rect.fromLTWH(
+    math.max(0, math.min(rect.left, viewport.width - width)),
+    math.max(0, math.min(rect.top, viewport.height - height)),
+    width,
+    height,
+  );
 }

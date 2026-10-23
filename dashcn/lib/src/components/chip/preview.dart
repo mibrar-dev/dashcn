@@ -21,7 +21,7 @@ import 'chip.dart';
 Widget _hint(BuildContext context, String text) {
   final theme = Theme.of(context);
   return Text(
-    text,
+    docsSample(context, text),
     textAlign: TextAlign.center,
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
@@ -36,11 +36,11 @@ class _RemovableChips extends StatefulWidget {
 }
 
 class _RemovableChipsState extends State<_RemovableChips> {
-  static const List<String> _all = <String>[
-    'Design system',
-    'Flutter',
-    'Accessibility',
-    'Dark mode',
+  static final List<String> _all = <String>[
+    docsSample(null, 'Design system'),
+    docsSample(null, 'Flutter'),
+    docsSample(null, 'Accessibility'),
+    docsSample(null, 'Dark mode'),
   ];
   final List<String> _tags = List<String>.of(_all);
 
@@ -72,9 +72,10 @@ class _RemovableChipsState extends State<_RemovableChips> {
                   semanticLabel: 'Remove $tag',
                   child: const Icon(LucideIcons.x, size: 12),
                 ),
-                child: Text(tag),
+                child: Text(docsSample(context, tag)),
               ),
-            if (_tags.isEmpty) const Chip(child: Text('No tags')),
+            if (_tags.isEmpty)
+              Chip(child: Text(docsSample(context, 'No tags'))),
           ],
         ),
         Gap(spacing.sm),
@@ -88,13 +89,25 @@ class _RemovableChipsState extends State<_RemovableChips> {
                 size: ButtonSize.sm,
                 variant: ButtonVariant.outline,
                 onPressed: _reset,
-                child: const Text('Reset'),
+                child: Text(docsSample(context, 'Reset')),
               ),
             ],
           ],
         ),
         Gap(spacing.xs),
-        _hint(context, 'Tip: focus a chip and press Backspace to remove it.'),
+        _hint(
+          context,
+          docsSample(
+            context,
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'Tip: focus a chip and press Backspace to remove it.',
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -109,14 +122,14 @@ class _FilterChips extends StatefulWidget {
 }
 
 class _FilterChipsState extends State<_FilterChips> {
-  static const List<String> _options = <String>[
-    'Music',
-    'Sports',
-    'Travel',
-    'Cooking',
-    'Reading',
+  static final List<String> _options = <String>[
+    docsSample(null, 'Music'),
+    docsSample(null, 'Sports'),
+    docsSample(null, 'Travel'),
+    docsSample(null, 'Cooking'),
+    docsSample(null, 'Reading'),
   ];
-  final Set<String> _selected = <String>{'Music', 'Travel'};
+  final Set<String> _selected = <String>{'Music', docsSample(null, 'Travel')};
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +156,7 @@ class _FilterChipsState extends State<_FilterChips> {
                 leading: _selected.contains(option)
                     ? const Icon(LucideIcons.check, size: 12)
                     : null,
-                child: Text(option),
+                child: Text(docsSample(context, option)),
               ),
           ],
         ),
@@ -162,22 +175,22 @@ Widget _chipsWithIcon(BuildContext context) {
     child: Wrap(
       spacing: spacing.sm,
       runSpacing: spacing.sm,
-      children: const <Widget>[
+      children: <Widget>[
         Chip(
-          leading: Icon(LucideIcons.star, size: 12),
-          child: Text('Featured'),
+          leading: const Icon(LucideIcons.star, size: 12),
+          child: Text(docsSample(context, 'Featured')),
         ),
         Chip(
-          leading: Icon(LucideIcons.check, size: 12),
-          child: Text('Verified'),
+          leading: const Icon(LucideIcons.check, size: 12),
+          child: Text(docsSample(context, 'Verified')),
         ),
         Chip(
-          leading: Icon(LucideIcons.folder, size: 12),
-          child: Text('Archived'),
+          leading: const Icon(LucideIcons.folder, size: 12),
+          child: Text(docsSample(context, 'Archived')),
         ),
         Chip(
-          trailing: Icon(LucideIcons.chevronRight, size: 12),
-          child: Text('See all'),
+          trailing: const Icon(LucideIcons.chevronRight, size: 12),
+          child: Text(docsSample(context, 'See all')),
         ),
       ],
     ),
@@ -195,22 +208,31 @@ Widget _chipsVariants(BuildContext context) {
         spacing: spacing.sm,
         runSpacing: spacing.sm,
         crossAxisAlignment: WrapCrossAlignment.center,
-        children: const <Widget>[
-          Chip(child: Text('Active')),
-          Chip(variant: ButtonVariant.outline, child: Text('On hold')),
-          Chip(variant: ButtonVariant.destructive, child: Text('Overdue')),
-          Chip(variant: ButtonVariant.ghost, child: Text('Draft')),
+        children: <Widget>[
+          Chip(child: Text(docsSample(context, 'Active'))),
+          Chip(
+            variant: ButtonVariant.outline,
+            child: Text(docsSample(context, 'On hold')),
+          ),
+          Chip(
+            variant: ButtonVariant.destructive,
+            child: Text(docsSample(context, 'Overdue')),
+          ),
+          Chip(
+            variant: ButtonVariant.ghost,
+            child: Text(docsSample(context, 'Draft')),
+          ),
         ],
       ),
       Gap(spacing.sm),
-      const Wrap(
+      Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           Chip(
-            theme: ChipTheme(
+            theme: const ChipTheme(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             ),
-            child: Text('Large'),
+            child: Text(docsSample(context, 'Large')),
           ),
         ],
       ),
@@ -223,9 +245,9 @@ Widget _chipsRemovable(BuildContext context) => const _RemovableChips();
 Widget _chipsSelectable(BuildContext context) => const _FilterChips();
 
 /// Named docs examples for `chip`; the first entry is the default.
-const List<ComponentPreview> chipPreviews = <ComponentPreview>[
-  ComponentPreview('Removable', _chipsRemovable),
+List<ComponentPreview> get chipPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Removable'), _chipsRemovable),
   ComponentPreview('Selectable', _chipsSelectable),
-  ComponentPreview('With icon', _chipsWithIcon),
-  ComponentPreview('Variants', _chipsVariants),
+  ComponentPreview(docsSample(null, 'With icon'), _chipsWithIcon),
+  ComponentPreview(docsSample(null, 'Variants'), _chipsVariants),
 ];

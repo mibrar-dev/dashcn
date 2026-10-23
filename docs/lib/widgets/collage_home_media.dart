@@ -20,6 +20,7 @@ import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_paint.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Support`: a working support thread with a reply composer.
 ///
@@ -38,19 +39,31 @@ class HomeChatCard extends StatefulWidget {
 /// State of the working [HomeChatCard]; public so tests drive send/reply.
 class HomeChatCardState extends State<HomeChatCard> {
   /// Canned agent replies, cycled in order.
-  static const List<String> cannedReplies = <String>[
-    'Got it — pulling up your payout history now.',
-    'That month was prorated after the reissue; I can send the breakdown.',
-    'All set — refresh the report to see the corrected split.',
+  static List<String> cannedReplies = <String>[
+    docsSample(null, 'Got it — pulling up your payout history now.'),
+    docsSample(
+      null,
+      'That month was prorated after the reissue; I can send the breakdown.',
+    ),
+    docsSample(
+      null,
+      'All set — refresh the report to see the corrected split.',
+    ),
   ];
 
   final TextEditingController reply = TextEditingController();
   final ScrollController scroll = ScrollController();
 
   final List<(String, bool)> messages = <(String, bool)>[
-    ('The royalty report shows a lower split than expected.', true),
-    ('Can you re-check the 2026-01 payout?', true),
-    ('I see it — that month was prorated after the reissue.', false),
+    (
+      docsSample(null, 'The royalty report shows a lower split than expected.'),
+      true,
+    ),
+    (docsSample(null, 'Can you re-check the 2026-01 payout?'), true),
+    (
+      docsSample(null, 'I see it — that month was prorated after the reissue.'),
+      false,
+    ),
   ];
 
   bool canSend = false;
@@ -157,7 +170,7 @@ class HomeChatCardState extends State<HomeChatCard> {
           controller: reply,
           minLines: 1,
           maxLines: 4,
-          hintText: 'Write a reply...',
+          hintText: docsSample(context, 'Write a reply...'),
           textInputAction: TextInputAction.send,
           onSubmitted: (_) => send(),
         ),
@@ -170,7 +183,7 @@ class HomeChatCardState extends State<HomeChatCard> {
             leading: const Icon(LucideIcons.send, size: 14),
             enabled: canSend,
             onPressed: send,
-            child: const Text('Send'),
+            child: Text(docsSample(context, 'Send')),
           ),
         ),
       ],
@@ -238,7 +251,7 @@ class HomeShareCard extends StatelessWidget {
               size: ButtonSize.sm,
               leading: const Icon(LucideIcons.copy, size: 14),
               onPressed: () {},
-              child: const Text('Copy link'),
+              child: Text(docsSample(context, 'Copy link')),
             ),
           ],
         ),
@@ -262,8 +275,10 @@ class HomeUploadCard extends StatelessWidget {
       children: <Widget>[
         Dropzone(
           icon: Icon(LucideIcons.image, size: 22),
-          actionLabel: 'Upload Artwork',
-          hint: Text('Minimum 3000 × 3000px · JPEG or PNG only'),
+          actionLabel: docsSample(context, 'Upload Artwork'),
+          hint: Text(
+            docsSample(context, 'Minimum 3000 × 3000px · JPEG or PNG only'),
+          ),
         ),
       ],
     );

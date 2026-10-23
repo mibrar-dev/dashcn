@@ -423,7 +423,9 @@ void main() {
 
     test('defaults carry the documented tokens', () {
       expect(searchBarDefaultIconSize, 16);
-      expect(searchBarDefaults.iconSize, searchBarDefaultIconSize);
+      // Icon size is token-driven: the null default resolves
+      // densityTokens.iconSize (16 compact) at build.
+      expect(searchBarDefaults.iconSize, isNull);
       expect(searchBarDefaults.showLeading, isTrue);
       expect(searchBarDefaults.showClear, isTrue);
       expect(searchBarThemeOverrides, const SearchBarTheme());

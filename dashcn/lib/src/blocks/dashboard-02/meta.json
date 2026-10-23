@@ -12,12 +12,15 @@
   ],
   "deps": {
     "foundation": [
+      "component_preview",
       "gap"
     ],
     "theme": [
       "theme"
     ],
-    "primitives": ["localizations"],
+    "primitives": [
+      "localizations"
+    ],
     "components": [
       "button",
       "card",

@@ -27,7 +27,7 @@ class _GridExampleState extends State<_GridExample> {
     return SizedBox(
       width: 320,
       child: ItemPickerDialog<String>(
-        items: const ItemList<String>(<String>['A', 'B', 'C', 'D']),
+        items: ItemList<String>(<String>['A', 'B', 'C', 'D']),
         builder: (BuildContext context, String value) =>
             ItemPickerOption<String>(
               value: value,
@@ -40,7 +40,7 @@ class _GridExampleState extends State<_GridExample> {
   }
 }
 
-Widget _grid(BuildContext context) => const _GridExample();
+Widget _grid(BuildContext context) => _GridExample();
 
 /// List body with a swatch per row and a live selection.
 class _ListExample extends StatefulWidget {
@@ -51,16 +51,20 @@ class _ListExample extends StatefulWidget {
 }
 
 class _ListExampleState extends State<_ListExample> {
-  String? _value = 'Coral';
+  String? _value = docsSample(null, 'Coral');
 
-  static const List<String> _items = <String>['Coral', 'Mint', 'Sky'];
+  static final List<String> _items = <String>[
+    docsSample(null, 'Coral'),
+    docsSample(null, 'Mint'),
+    'Sky',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
       child: ItemPickerDialog<String>(
-        items: const ItemList<String>(_items),
+        items: ItemList<String>(_items),
         layout: ItemPickerLayout.list,
         builder: (BuildContext context, String value) =>
             ItemPickerOption<String>(
@@ -97,10 +101,10 @@ class _Swatch extends StatelessWidget {
   }
 }
 
-Widget _list(BuildContext context) => const _ListExample();
+Widget _list(BuildContext context) => _ListExample();
 
 /// Named docs examples for `item_picker`; the first entry is the default.
-const List<ComponentPreview> itemPickerPreviews = <ComponentPreview>[
-  ComponentPreview('Grid', _grid),
-  ComponentPreview('List', _list),
+List<ComponentPreview> get itemPickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Grid'), _grid),
+  ComponentPreview(docsSample(null, 'List'), _list),
 ];

@@ -29,7 +29,7 @@ class _DrawerContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          'Drawer content',
+          docsSample(context, 'Drawer content'),
           style: TextStyle(
             color: theme.colors.foreground,
             fontSize: 16,
@@ -38,14 +38,14 @@ class _DrawerContent extends StatelessWidget {
         ),
         Gap(theme.spacing.md),
         Text(
-          'Slides in from the edge over the whole app.',
+          docsSample(context, 'Slides in from the edge over the whole app.'),
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
         Gap(theme.spacing.lg),
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
-          child: const Text('Close'),
+          child: Text(docsSample(context, 'Close')),
         ),
       ],
     );
@@ -64,7 +64,7 @@ class _SheetContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          'Sheet content',
+          docsSample(context, 'Sheet content'),
           style: TextStyle(
             color: theme.colors.foreground,
             fontSize: 16,
@@ -73,7 +73,7 @@ class _SheetContent extends StatelessWidget {
         ),
         Gap(theme.spacing.md),
         Text(
-          'An expanding bottom sheet with a drag handle.',
+          docsSample(context, 'An expanding bottom sheet with a drag handle.'),
           style: TextStyle(color: theme.colors.mutedForeground),
         ),
         Gap(theme.spacing.lg),
@@ -81,7 +81,7 @@ class _SheetContent extends StatelessWidget {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => closeSheet(context),
-          child: const Text('Close'),
+          child: Text(docsSample(context, 'Close')),
         ),
       ],
     );
@@ -105,7 +105,7 @@ class _DrawerTrigger extends StatelessWidget {
         position: position,
         builder: (BuildContext context) => const _DrawerContent(),
       ),
-      child: Text(label),
+      child: Text(docsSample(context, label)),
     );
   }
 }
@@ -118,11 +118,23 @@ Widget _default(BuildContext context) {
       spacing: spacing.sm,
       runSpacing: spacing.sm,
       alignment: WrapAlignment.center,
-      children: const <Widget>[
-        _DrawerTrigger(position: OverlayPosition.start, label: 'Open left'),
-        _DrawerTrigger(position: OverlayPosition.end, label: 'Open right'),
-        _DrawerTrigger(position: OverlayPosition.top, label: 'Open top'),
-        _DrawerTrigger(position: OverlayPosition.bottom, label: 'Open bottom'),
+      children: <Widget>[
+        _DrawerTrigger(
+          position: OverlayPosition.start,
+          label: docsSample(context, 'Open left'),
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.end,
+          label: docsSample(context, 'Open right'),
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.top,
+          label: docsSample(context, 'Open top'),
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.bottom,
+          label: docsSample(context, 'Open bottom'),
+        ),
       ],
     ),
   );
@@ -139,7 +151,7 @@ Widget _sheet(BuildContext context) {
         draggable: true,
         builder: (BuildContext context) => const _SheetContent(),
       ),
-      child: const Text('Open sheet'),
+      child: Text(docsSample(context, 'Open sheet')),
     ),
   );
 }
@@ -200,7 +212,9 @@ class _ScaleDemoState extends State<_ScaleDemo> {
                                   useRootNavigator: false,
                                   builder: (_) => const _DrawerContent(),
                                 ),
-                                child: const Text('Open scaled drawer'),
+                                child: Text(
+                                  docsSample(context, 'Open scaled drawer'),
+                                ),
                               ),
                             ),
                           ),
@@ -232,15 +246,15 @@ Widget _themed(BuildContext context) {
         ),
         builder: (BuildContext context) => const _DrawerContent(),
       ),
-      child: const Text('Open themed drawer'),
+      child: Text(docsSample(context, 'Open themed drawer')),
     ),
   );
 }
 
 /// Named docs examples for `drawer`; the first entry is the default.
-const List<ComponentPreview> drawerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
+List<ComponentPreview> get drawerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
   ComponentPreview('Sheet', _sheet),
-  ComponentPreview('Background scale', _scale),
-  ComponentPreview('Themed', _themed),
+  ComponentPreview(docsSample(null, 'Background scale'), _scale),
+  ComponentPreview(docsSample(null, 'Themed'), _themed),
 ];

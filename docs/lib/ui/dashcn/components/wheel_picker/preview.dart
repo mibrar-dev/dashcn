@@ -119,13 +119,13 @@ class _LoopingWheel extends StatefulWidget {
 }
 
 class _LoopingWheelState extends State<_LoopingWheel> {
-  static const List<String> _colours = <String>[
+  static final List<String> _colours = <String>[
     'Red',
-    'Orange',
-    'Yellow',
-    'Green',
-    'Blue',
-    'Violet',
+    docsSample(null, 'Orange'),
+    docsSample(null, 'Yellow'),
+    docsSample(null, 'Green'),
+    docsSample(null, 'Blue'),
+    docsSample(null, 'Violet'),
   ];
   List<int> _value = <int>[0];
 
@@ -229,7 +229,11 @@ class _CustomizedWheel extends StatefulWidget {
 }
 
 class _CustomizedWheelState extends State<_CustomizedWheel> {
-  static const List<String> _sizes = <String>['Small', 'Medium', 'Large'];
+  static final List<String> _sizes = <String>[
+    docsSample(null, 'Small'),
+    docsSample(null, 'Medium'),
+    docsSample(null, 'Large'),
+  ];
   static const List<String> _codes = <String>['S', 'M', 'L', 'XL'];
   List<int> _value = <int>[1, 0];
 
@@ -267,11 +271,13 @@ Widget _customized(BuildContext context) => const _CustomizedWheel();
 
 /// A read-only wheel with no callback.
 Widget _readOnly(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 120,
     child: WheelPicker(
       columns: <WheelColumn>[
-        WheelColumn(items: <String>['One', 'Two', 'Three']),
+        WheelColumn(
+          items: <String>['One', 'Two', docsSample(context, 'Three')],
+        ),
       ],
       initialValue: <int>[1],
     ),
@@ -279,11 +285,11 @@ Widget _readOnly(BuildContext context) {
 }
 
 /// Named docs examples for `wheel_picker`; the first entry is the default.
-const List<ComponentPreview> wheelPickerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Time', _time),
-  ComponentPreview('Looping', _looping),
-  ComponentPreview('3D Perspective', _perspective),
-  ComponentPreview('Customized', _customized),
-  ComponentPreview('Read-only', _readOnly),
+List<ComponentPreview> get wheelPickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Time'), _time),
+  ComponentPreview(docsSample(null, 'Looping'), _looping),
+  ComponentPreview(docsSample(null, '3D Perspective'), _perspective),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
+  ComponentPreview(docsSample(null, 'Read-only'), _readOnly),
 ];

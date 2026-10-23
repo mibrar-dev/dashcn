@@ -20,7 +20,10 @@ Widget _collapsibleRow(BuildContext context, String label) {
       color: theme.colors.muted,
       borderRadius: theme.borderRadiusLg,
     ),
-    child: Padding(padding: EdgeInsetsDensity.pxAll(12), child: Text(label)),
+    child: DensityContentPadding(
+      padding: EdgeInsetsDensity.pxAll(12),
+      child: Text(label),
+    ),
   );
 }
 
@@ -35,7 +38,9 @@ class _CollapsibleUncontrolled extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(
         children: <Widget>[
-          const CollapsibleTrigger(child: Text('Recent activity')),
+          CollapsibleTrigger(
+            child: Text(docsSample(context, 'Recent activity')),
+          ),
           Gap(spacing.sm),
           _collapsibleRow(context, '@mibrar-dev/dashcn'),
           CollapsibleContent(
@@ -76,13 +81,18 @@ class _CollapsibleControlledState extends State<_CollapsibleControlled> {
         isExpanded: _expanded,
         onExpansionChanged: (bool value) => setState(() => _expanded = value),
         children: <Widget>[
-          const CollapsibleTrigger(child: Text('Controlled section')),
-          Gap(spacing.sm),
-          CollapsibleContent(
-            child: _collapsibleRow(context, 'Toggled by the parent'),
+          CollapsibleTrigger(
+            child: Text(docsSample(context, 'Controlled section')),
           ),
           Gap(spacing.sm),
-          Text(_expanded ? 'open' : 'closed'),
+          CollapsibleContent(
+            child: _collapsibleRow(
+              context,
+              docsSample(context, 'Toggled by the parent'),
+            ),
+          ),
+          Gap(spacing.sm),
+          Text(docsSample(context, _expanded ? 'open' : 'closed')),
         ],
       ),
     );
@@ -96,7 +106,10 @@ Widget _collapsibleControlledExample(BuildContext context) =>
     const _CollapsibleControlled();
 
 /// Named docs examples for `collapsible`; the first entry is the default.
-const List<ComponentPreview> collapsiblePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _collapsibleDefault),
-  ComponentPreview('Controlled', _collapsibleControlledExample),
+List<ComponentPreview> get collapsiblePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _collapsibleDefault),
+  ComponentPreview(
+    docsSample(null, 'Controlled'),
+    _collapsibleControlledExample,
+  ),
 ];

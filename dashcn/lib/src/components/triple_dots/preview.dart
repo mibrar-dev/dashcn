@@ -46,8 +46,8 @@ Widget _tripleDotsThemed(BuildContext context) {
 }
 
 /// Named docs examples for `triple_dots`; the first entry is the default.
-const List<ComponentPreview> tripleDotsPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _tripleDotsDefault),
-  ComponentPreview('Vertical', _tripleDotsVertical),
-  ComponentPreview('Themed dots', _tripleDotsThemed),
+List<ComponentPreview> get tripleDotsPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _tripleDotsDefault),
+  ComponentPreview(docsSample(null, 'Vertical'), _tripleDotsVertical),
+  ComponentPreview(docsSample(null, 'Themed dots'), _tripleDotsThemed),
 ];

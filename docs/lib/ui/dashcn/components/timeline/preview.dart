@@ -15,22 +15,22 @@ import 'timeline.dart';
 Widget _default(BuildContext context) {
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
-    child: const Timeline(
+    child: Timeline(
       data: <TimelineData>[
         TimelineData(
           time: Text('09:00'),
-          title: Text('Kickoff'),
-          content: Text('Project kickoff meeting.'),
+          title: Text(docsSample(context, 'Kickoff')),
+          content: Text(docsSample(context, 'Project kickoff meeting.')),
         ),
         TimelineData(
           time: Text('11:00'),
-          title: Text('Design review'),
-          content: Text('Review the first concept batch.'),
+          title: Text(docsSample(context, 'Design review')),
+          content: Text(docsSample(context, 'Review the first concept batch.')),
         ),
         TimelineData(
           time: Text('14:30'),
-          title: Text('Delivery'),
-          content: Text('Share the final assets.'),
+          title: Text(docsSample(context, 'Delivery')),
+          content: Text(docsSample(context, 'Share the final assets.')),
         ),
       ],
     ),
@@ -41,7 +41,7 @@ Widget _default(BuildContext context) {
 Widget _compact(BuildContext context) {
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
-    child: const ComponentTheme<TimelineTheme>(
+    child: ComponentTheme<TimelineTheme>(
       data: TimelineTheme(
         dotSize: 8,
         connectorThickness: 1,
@@ -51,8 +51,14 @@ Widget _compact(BuildContext context) {
       child: Timeline(
         timeConstraints: BoxConstraints(minWidth: 72, maxWidth: 72),
         data: <TimelineData>[
-          TimelineData(time: Text('Mon'), title: Text('Compact')),
-          TimelineData(time: Text('Tue'), title: Text('scoped leg')),
+          TimelineData(
+            time: Text('Mon'),
+            title: Text(docsSample(context, 'Compact')),
+          ),
+          TimelineData(
+            time: Text('Tue'),
+            title: Text(docsSample(context, 'scoped leg')),
+          ),
         ],
       ),
     ),
@@ -60,7 +66,7 @@ Widget _compact(BuildContext context) {
 }
 
 /// Named docs examples for `timeline`; the first entry is the default.
-const List<ComponentPreview> timelinePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Compact', _compact),
+List<ComponentPreview> get timelinePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Compact'), _compact),
 ];

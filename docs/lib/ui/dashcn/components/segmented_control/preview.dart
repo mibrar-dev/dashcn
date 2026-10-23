@@ -29,10 +29,16 @@ class _SegmentedDefaultState extends State<_SegmentedDefault> {
       child: SegmentedControl<String>(
         value: _value,
         onChanged: (String value) => setState(() => _value = value),
-        segments: const <SegmentedControlSegment<String>>[
+        segments: <SegmentedControlSegment<String>>[
           SegmentedControlSegment<String>(value: 'day', label: Text('Day')),
-          SegmentedControlSegment<String>(value: 'week', label: Text('Week')),
-          SegmentedControlSegment<String>(value: 'month', label: Text('Month')),
+          SegmentedControlSegment<String>(
+            value: 'week',
+            label: Text(docsSample(context, 'Week')),
+          ),
+          SegmentedControlSegment<String>(
+            value: 'month',
+            label: Text(docsSample(context, 'Month')),
+          ),
         ],
       ),
     );
@@ -58,21 +64,21 @@ class _SegmentedIconsState extends State<_SegmentedIcons> {
       child: SegmentedControl<int>(
         value: _value,
         onChanged: (int value) => setState(() => _value = value),
-        segments: const <SegmentedControlSegment<int>>[
+        segments: <SegmentedControlSegment<int>>[
           SegmentedControlSegment<int>(
             value: 0,
             icon: Icon(LucideIcons.list),
-            semanticLabel: 'List',
+            semanticLabel: docsSample(context, 'List'),
           ),
           SegmentedControlSegment<int>(
             value: 1,
             icon: Icon(LucideIcons.layoutGrid),
-            semanticLabel: 'Grid',
+            semanticLabel: docsSample(context, 'Grid'),
           ),
           SegmentedControlSegment<int>(
             value: 2,
             icon: Icon(LucideIcons.layers),
-            semanticLabel: 'Layers',
+            semanticLabel: docsSample(context, 'Layers'),
           ),
         ],
       ),
@@ -101,21 +107,21 @@ class _SegmentedMultipleState extends State<_SegmentedMultiple> {
         values: _values,
         onValuesChanged: (Set<String> values) =>
             setState(() => _values = values),
-        segments: const <SegmentedControlSegment<String>>[
+        segments: <SegmentedControlSegment<String>>[
           SegmentedControlSegment<String>(
             value: 'bold',
             icon: Icon(LucideIcons.bold),
-            semanticLabel: 'Bold',
+            semanticLabel: docsSample(context, 'Bold'),
           ),
           SegmentedControlSegment<String>(
             value: 'italic',
             icon: Icon(LucideIcons.italic),
-            semanticLabel: 'Italic',
+            semanticLabel: docsSample(context, 'Italic'),
           ),
           SegmentedControlSegment<String>(
             value: 'underline',
             icon: Icon(LucideIcons.underline),
-            semanticLabel: 'Underline',
+            semanticLabel: docsSample(context, 'Underline'),
           ),
         ],
       ),
@@ -178,10 +184,13 @@ class _SegmentedFullWidthState extends State<_SegmentedFullWidth> {
           expand: true,
           value: _value,
           onChanged: (int value) => setState(() => _value = value),
-          segments: const <SegmentedControlSegment<int>>[
+          segments: <SegmentedControlSegment<int>>[
             SegmentedControlSegment<int>(value: 0, label: Text('One')),
             SegmentedControlSegment<int>(value: 1, label: Text('Two')),
-            SegmentedControlSegment<int>(value: 2, label: Text('Three')),
+            SegmentedControlSegment<int>(
+              value: 2,
+              label: Text(docsSample(context, 'Three')),
+            ),
           ],
         ),
       ),
@@ -193,11 +202,11 @@ Widget _segmentedFullWidth(BuildContext context) => const _SegmentedFullWidth();
 
 /// A customised control: a rounded track and a filled thumb.
 Widget _segmentedCustomized(BuildContext context) {
-  return const Center(
+  return Center(
     child: SegmentedControl<String>(
       value: 'left',
       onChanged: _noop,
-      style: SegmentedControlStyle(
+      style: const SegmentedControlStyle(
         background: ThemedColor.ref(ColorRef.accent, alpha: 0.25),
         thumbBackground: ThemedColor.ref(ColorRef.accent),
         thumbBorderColor: ThemedColor.ref(ColorRef.accent),
@@ -206,8 +215,14 @@ Widget _segmentedCustomized(BuildContext context) {
         padding: EdgeInsets.all(4),
       ),
       segments: <SegmentedControlSegment<String>>[
-        SegmentedControlSegment<String>(value: 'left', label: Text('Left')),
-        SegmentedControlSegment<String>(value: 'right', label: Text('Right')),
+        SegmentedControlSegment<String>(
+          value: 'left',
+          label: Text(docsSample(context, 'Left')),
+        ),
+        SegmentedControlSegment<String>(
+          value: 'right',
+          label: Text(docsSample(context, 'Right')),
+        ),
       ],
     ),
   );
@@ -217,11 +232,11 @@ void _noop(String value) {}
 
 /// Named docs examples for `segmented_control`; the first entry is the
 /// default.
-const List<ComponentPreview> segmentedControlPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _segmentedDefault),
-  ComponentPreview('Icons', _segmentedIcons),
-  ComponentPreview('Multiple', _segmentedMultiple),
-  ComponentPreview('Disabled', _segmentedDisabled),
-  ComponentPreview('Full width', _segmentedFullWidth),
-  ComponentPreview('Customized', _segmentedCustomized),
+List<ComponentPreview> get segmentedControlPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _segmentedDefault),
+  ComponentPreview(docsSample(null, 'Icons'), _segmentedIcons),
+  ComponentPreview(docsSample(null, 'Multiple'), _segmentedMultiple),
+  ComponentPreview(docsSample(null, 'Disabled'), _segmentedDisabled),
+  ComponentPreview(docsSample(null, 'Full width'), _segmentedFullWidth),
+  ComponentPreview(docsSample(null, 'Customized'), _segmentedCustomized),
 ];

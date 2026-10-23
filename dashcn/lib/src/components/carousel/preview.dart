@@ -139,7 +139,7 @@ class _CarouselShellState extends State<_CarouselShell> {
       variant: ButtonVariant.outline,
       onPressed: () => _go(-1),
       child: Semantics(
-        label: 'Previous',
+        label: docsSample(context, 'Previous'),
         child: Icon(
           horizontal ? LucideIcons.chevronLeft : LucideIcons.chevronUp,
           size: 16,
@@ -151,7 +151,7 @@ class _CarouselShellState extends State<_CarouselShell> {
       variant: ButtonVariant.outline,
       onPressed: () => _go(1),
       child: Semantics(
-        label: 'Next',
+        label: docsSample(context, 'Next'),
         child: Icon(
           horizontal ? LucideIcons.chevronRight : LucideIcons.chevronDown,
           size: 16,
@@ -213,12 +213,22 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  docsSample(
+                    context,
+                    _playing
+                        ? docsSample(context, 'Pause')
+                        : docsSample(context, 'Play'),
+                  ),
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text(
+                '${docsSample(context, 'Slide')} ${_index + 1} '
+                '${docsSample(context, 'of')} $_slideCount',
+              ),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -227,7 +237,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text(docsSample(context, 'Jump to last')),
               ),
             ],
           ],
@@ -257,10 +267,10 @@ Widget _carouselApi(BuildContext context) =>
     const _CarouselShell(showCounter: true);
 
 /// Named docs examples for `carousel`; the first entry is the default.
-const List<ComponentPreview> carouselPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _carouselDefault),
-  ComponentPreview('Sizes', _carouselSizes),
-  ComponentPreview('Vertical', _carouselVertical),
-  ComponentPreview('Autoplay', _carouselAutoplay),
-  ComponentPreview('With API', _carouselApi),
+List<ComponentPreview> get carouselPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _carouselDefault),
+  ComponentPreview(docsSample(null, 'Sizes'), _carouselSizes),
+  ComponentPreview(docsSample(null, 'Vertical'), _carouselVertical),
+  ComponentPreview(docsSample(null, 'Autoplay'), _carouselAutoplay),
+  ComponentPreview(docsSample(null, 'With API'), _carouselApi),
 ];

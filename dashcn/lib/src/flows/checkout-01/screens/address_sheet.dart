@@ -11,6 +11,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Address form; Save validates, reports [onSaved], and closes via [onClose].
 class Checkout01AddressSheet extends StatefulWidget {
@@ -95,9 +96,9 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
                   showErrors: const <FormValidationMode>{
                     FormValidationMode.submitted,
                   },
-                  child: const Input(
+                  child: Input(
                     key: ValueKey<String>('checkout01.address.name'),
-                    hintText: 'Ada Lovelace',
+                    hintText: docsSample(context, 'Ada Lovelace'),
                   ),
                 ),
                 Gap(appTheme.spacing.sm),
@@ -110,9 +111,9 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
                   showErrors: const <FormValidationMode>{
                     FormValidationMode.submitted,
                   },
-                  child: const Input(
+                  child: Input(
                     key: ValueKey<String>('checkout01.address.street'),
-                    hintText: '12 Bernoulli Lane',
+                    hintText: docsSample(context, '12 Bernoulli Lane'),
                   ),
                 ),
                 Gap(appTheme.spacing.sm),
@@ -125,9 +126,9 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
                   showErrors: const <FormValidationMode>{
                     FormValidationMode.submitted,
                   },
-                  child: const Input(
+                  child: Input(
                     key: ValueKey<String>('checkout01.address.city'),
-                    hintText: 'Springfield',
+                    hintText: docsSample(context, 'Springfield'),
                   ),
                 ),
               ],
@@ -137,7 +138,11 @@ class _Checkout01AddressSheetState extends State<Checkout01AddressSheet> {
           Button(
             key: const ValueKey<String>('checkout01.address.save'),
             onPressed: _busy ? null : _save,
-            child: Text(_busy ? 'Saving…' : 'Save and continue'),
+            child: Text(
+              _busy
+                  ? docsSample(context, 'Saving…')
+                  : docsSample(context, 'Save and continue'),
+            ),
           ),
           Gap(appTheme.spacing.sm),
           Button(

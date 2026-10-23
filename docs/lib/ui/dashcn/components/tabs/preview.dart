@@ -25,10 +25,10 @@ class _InteractiveTabsState extends State<_InteractiveTabs> {
     return Tabs(
       index: _index,
       onChanged: (int index) => setState(() => _index = index),
-      children: const <TabItem>[
-        TabItem(child: Text('Account')),
-        TabItem(child: Text('Password')),
-        TabItem(child: Text('Settings')),
+      children: <TabItem>[
+        TabItem(child: Text(docsSample(context, 'Account'))),
+        TabItem(child: Text(docsSample(context, 'Password'))),
+        TabItem(child: Text(docsSample(context, 'Settings'))),
       ],
     );
   }
@@ -45,11 +45,11 @@ Widget _default(BuildContext context) {
 
 /// Strip with no callback, so every tab is disabled.
 Widget _disabled(BuildContext context) {
-  return const Tabs(
+  return Tabs(
     index: 0,
     children: <TabItem>[
-      TabItem(child: Text('Account')),
-      TabItem(child: Text('Password')),
+      TabItem(child: Text(docsSample(context, 'Account'))),
+      TabItem(child: Text(docsSample(context, 'Password'))),
     ],
   );
 }
@@ -84,9 +84,9 @@ class _PaneDemoState extends State<_PaneDemo> {
         itemBuilder:
             (BuildContext context, TabPaneData<String> item, int index) =>
                 Text(item.data, overflow: TextOverflow.ellipsis),
-        child: const Padding(
-          padding: EdgeInsets.all(12),
-          child: Text('Editor content'),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Text(docsSample(context, 'Editor content')),
         ),
       ),
     );
@@ -96,8 +96,8 @@ class _PaneDemoState extends State<_PaneDemo> {
 Widget _pane(BuildContext context) => const _PaneDemo();
 
 /// Named docs examples for `tabs`; the first entry is the default.
-const List<ComponentPreview> tabsPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Disabled', _disabled),
-  ComponentPreview('Tab pane', _pane),
+List<ComponentPreview> get tabsPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
+  ComponentPreview(docsSample(null, 'Tab pane'), _pane),
 ];

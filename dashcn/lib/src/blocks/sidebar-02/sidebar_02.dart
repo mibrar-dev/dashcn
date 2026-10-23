@@ -20,6 +20,7 @@ import 'sidebar_02_panel.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// A grouped, inset sidebar shell around a sample content area.
 class Sidebar02 extends StatefulWidget {
@@ -212,11 +213,11 @@ class _Sidebar02HeaderBar extends StatelessWidget {
 
 /// Mirrors the content heading so the header bar names the section.
 String _sidebar02HeaderTitle(int selected) => switch (selected) {
-  1 => 'Models',
-  2 => 'Documentation',
-  3 => 'Design system',
-  4 => 'Marketing site',
-  _ => 'Playground',
+  1 => docsSample(null, 'Models'),
+  2 => docsSample(null, 'Documentation'),
+  3 => docsSample(null, 'Design system'),
+  4 => docsSample(null, 'Marketing site'),
+  _ => docsSample(null, 'Playground'),
 };
 
 /// The mobile bar: a menu trigger plus the product mark.
@@ -262,7 +263,7 @@ class _Sidebar02Bar extends StatelessWidget {
           ),
           Gap(theme.spacing.sm),
           Text(
-            'Acme Inc',
+            docsSample(context, 'Acme Inc'),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.sidebarForeground,
               fontWeight: FontWeight.w600,

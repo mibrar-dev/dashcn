@@ -153,12 +153,14 @@ class Pagination extends StatelessWidget {
           select: (t) => t,
           defaults: paginationDefaults,
         );
-    final double spacing = (gap ?? style.gap ?? 4) * ambient.scaling;
+    final double spacing =
+        (gap ?? style.gap ?? ambient.spacing.xs) * ambient.scaling;
     final bool withLabel = showLabel ?? style.showLabel ?? true;
     final ComponentLocalizations localizations = ComponentLocalizations.of(
       context,
     );
-    final double iconSize = 12 * ambient.scaling;
+    final double iconSize =
+        (ambient.iconTheme.xSmall.size ?? 12) * ambient.scaling;
 
     // A masonry column (~300 px) or a phone (375 px minus padding) cannot hold
     // the full window, so the control collapses to prev/ellipsis/current/next:

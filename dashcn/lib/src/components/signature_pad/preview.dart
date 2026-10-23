@@ -44,34 +44,39 @@ class _InteractivePadState extends State<_InteractivePad> {
           SignaturePad(
             controller: _controller,
             onChanged: (int count) => setState(() => _count = count),
-            semanticsLabel: 'Signature pad demo',
+            semanticsLabel: docsSample(context, 'Signature pad demo'),
           ),
           Gap(theme.spacing.sm),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _PadButton(
-                label: 'Undo',
+                label: docsSample(context, 'Undo'),
                 onTap: _controller.canUndo
                     ? () => setState(_controller.undo)
                     : null,
               ),
               Gap(theme.spacing.sm),
               _PadButton(
-                label: 'Redo',
+                label: docsSample(context, 'Redo'),
                 onTap: _controller.canRedo
                     ? () => setState(_controller.redo)
                     : null,
               ),
               Gap(theme.spacing.sm),
               _PadButton(
-                label: 'Clear',
+                label: docsSample(context, 'Clear'),
                 onTap: _controller.isEmpty
                     ? null
                     : () => setState(_controller.clear),
               ),
               const Spacer(),
-              Text(_count == 1 ? '1 stroke' : '$_count strokes', style: label),
+              Text(
+                _count == 1
+                    ? docsSample(context, '1 stroke')
+                    : '$_count strokes',
+                style: label,
+              ),
             ],
           ),
         ],
@@ -134,7 +139,7 @@ class _ReadOnlyPadState extends State<_ReadOnlyPad> {
       child: SignaturePad(
         controller: _controller,
         readOnly: true,
-        semanticsLabel: 'Saved signature',
+        semanticsLabel: docsSample(context, 'Saved signature'),
       ),
     );
   }
@@ -148,7 +153,7 @@ Widget _disabled(BuildContext context) {
     constraints: const BoxConstraints(maxWidth: 360),
     child: SignaturePad(
       enabled: false,
-      semanticsLabel: 'Signature pad unavailable',
+      semanticsLabel: docsSample(context, 'Signature pad unavailable'),
     ),
   );
 }
@@ -171,8 +176,8 @@ SignatureStroke _demoStroke(Color color) {
 }
 
 /// Named docs examples for `signature_pad`; the first entry is the default.
-const List<ComponentPreview> signaturePadPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Read-only', _readOnly),
-  ComponentPreview('Disabled', _disabled),
+List<ComponentPreview> get signaturePadPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Read-only'), _readOnly),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

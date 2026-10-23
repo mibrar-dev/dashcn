@@ -205,7 +205,6 @@ const StarRatingTheme starRatingDefaults = StarRatingTheme(
   style: StarRatingStyle(
     activeColor: ThemedColor.ref(ColorRef.primary),
     inactiveColor: ThemedColor.ref(ColorRef.muted),
-    size: 24,
     spacing: 5,
     points: 5,
     pointRounding: 0,

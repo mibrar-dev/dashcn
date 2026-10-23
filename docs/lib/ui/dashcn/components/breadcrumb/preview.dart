@@ -23,7 +23,7 @@ import 'breadcrumb.dart';
 Widget _currentLine(BuildContext context, String page) {
   final theme = Theme.of(context);
   return Text(
-    'Current page: $page',
+    '${'Current page: '}${docsSample(context, page)}',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
 }
@@ -38,21 +38,30 @@ Future<void> _openHidden(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
-        MenuButton(child: Text(crumb), onPressed: (_) => onSelect(crumb)),
+        MenuButton(
+          child: Text(docsSample(context, crumb)),
+          onPressed: (_) => onSelect(crumb),
+        ),
     ],
   );
 }
 
 /// Clickable crumbs for [path] except the last one, which is the current
 /// (non-link) page.
-List<Widget> _crumbs(List<String> path, void Function(int index) onTap) =>
-    <Widget>[
-      for (int i = 0; i < path.length; i++)
-        if (i == path.length - 1)
-          Text(path[i])
-        else
-          BreadcrumbLink(onPressed: () => onTap(i), child: Text(path[i])),
-    ];
+List<Widget> _crumbs(
+  BuildContext context,
+  List<String> path,
+  void Function(int index) onTap,
+) => <Widget>[
+  for (int i = 0; i < path.length; i++)
+    if (i == path.length - 1)
+      Text(docsSample(context, path[i]))
+    else
+      BreadcrumbLink(
+        onPressed: () => onTap(i),
+        child: Text(docsSample(context, path[i])),
+      ),
+];
 
 /// Default chevron trail, centred.
 class _DefaultTrail extends StatefulWidget {
@@ -63,7 +72,11 @@ class _DefaultTrail extends StatefulWidget {
 }
 
 class _DefaultTrailState extends State<_DefaultTrail> {
-  List<String> _path = const <String>['Home', 'Components', 'Breadcrumb'];
+  List<String> _path = <String>[
+    docsSample(null, 'Home'),
+    docsSample(null, 'Components'),
+    'Breadcrumb',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +88,7 @@ class _DefaultTrailState extends State<_DefaultTrail> {
           alignment: Alignment.center,
           child: Breadcrumb(
             children: _crumbs(
+              context,
               _path,
               (int i) => setState(() {
                 _path = _path.sublist(0, i + 1);
@@ -111,6 +125,7 @@ class _SlashTrailState extends State<_SlashTrail> {
           child: Breadcrumb(
             separator: Breadcrumb.slashSeparator,
             children: _crumbs(
+              context,
               _path,
               (int i) => setState(() {
                 _path = _path.sublist(0, i + 1);
@@ -134,12 +149,12 @@ class _EllipsisTrail extends StatefulWidget {
 }
 
 class _EllipsisTrailState extends State<_EllipsisTrail> {
-  List<String> _path = const <String>[
-    'Home',
-    'Docs',
-    'Guides',
-    'Components',
-    'Navigation',
+  List<String> _path = <String>[
+    docsSample(null, 'Home'),
+    docsSample(null, 'Docs'),
+    docsSample(null, 'Guides'),
+    docsSample(null, 'Components'),
+    docsSample(null, 'Navigation'),
     'Breadcrumb',
   ];
 
@@ -152,7 +167,9 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
     final spacing = Theme.of(context).spacing;
     // A short trail needs no ellipsis.
     final Widget trail = _path.length <= 3
-        ? Breadcrumb(children: _crumbs(_path, (int i) => _goTo(_path[i])))
+        ? Breadcrumb(
+            children: _crumbs(context, _path, (int i) => _goTo(_path[i])),
+          )
         : Builder(
             builder: (BuildContext context) {
               final List<String> hidden = _path.sublist(1, _path.length - 2);
@@ -160,7 +177,7 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
                 children: <Widget>[
                   BreadcrumbLink(
                     onPressed: () => _goTo(_path.first),
-                    child: Text(_path.first),
+                    child: Text(docsSample(context, _path.first)),
                   ),
                   Button(
                     size: ButtonSize.icon,
@@ -168,7 +185,7 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
                     onPressed: () => _openHidden(context, hidden, _goTo),
                     child: const Icon(LucideIcons.ellipsis, size: 16),
                   ),
-                  ..._crumbs(_path.sublist(_path.length - 2), (int i) {
+                  ..._crumbs(context, _path.sublist(_path.length - 2), (int i) {
                     _goTo(_path[_path.length - 2 + i]);
                   }),
                 ],
@@ -195,11 +212,11 @@ class _ResponsiveTrail extends StatefulWidget {
 }
 
 class _ResponsiveTrailState extends State<_ResponsiveTrail> {
-  List<String> _path = const <String>[
-    'Home',
-    'Library',
-    'Components',
-    'Navigation',
+  List<String> _path = <String>[
+    docsSample(null, 'Home'),
+    docsSample(null, 'Library'),
+    docsSample(null, 'Components'),
+    docsSample(null, 'Navigation'),
     'Breadcrumb',
   ];
 
@@ -221,12 +238,12 @@ class _ResponsiveTrailState extends State<_ResponsiveTrail> {
                   constraints.maxWidth < 420 && _path.length > 3;
               final List<Widget> children;
               if (!collapsed) {
-                children = _crumbs(_path, (int i) => _goTo(_path[i]));
+                children = _crumbs(context, _path, (int i) => _goTo(_path[i]));
               } else {
                 children = <Widget>[
                   BreadcrumbLink(
                     onPressed: () => _goTo(_path.first),
-                    child: Text(_path.first),
+                    child: Text(docsSample(context, _path.first)),
                   ),
                   Button(
                     size: ButtonSize.icon,
@@ -238,7 +255,7 @@ class _ResponsiveTrailState extends State<_ResponsiveTrail> {
                     ),
                     child: const Icon(LucideIcons.ellipsis, size: 16),
                   ),
-                  Text(_path.last),
+                  Text(docsSample(context, _path.last)),
                 ];
               }
               return Breadcrumb(children: children);
@@ -261,9 +278,9 @@ Widget _breadcrumbEllipsis(BuildContext context) => const _EllipsisTrail();
 Widget _breadcrumbResponsive(BuildContext context) => const _ResponsiveTrail();
 
 /// Named docs examples for `breadcrumb`; the first entry is the default.
-const List<ComponentPreview> breadcrumbPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _breadcrumbDefault),
-  ComponentPreview('With slash', _breadcrumbSlash),
-  ComponentPreview('With ellipsis', _breadcrumbEllipsis),
-  ComponentPreview('Responsive', _breadcrumbResponsive),
+List<ComponentPreview> get breadcrumbPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _breadcrumbDefault),
+  ComponentPreview(docsSample(null, 'With slash'), _breadcrumbSlash),
+  ComponentPreview(docsSample(null, 'With ellipsis'), _breadcrumbEllipsis),
+  ComponentPreview(docsSample(null, 'Responsive'), _breadcrumbResponsive),
 ];

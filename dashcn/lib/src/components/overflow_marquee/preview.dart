@@ -39,13 +39,18 @@ Widget _defaultMarquee(BuildContext context) {
         children: <Widget>[
           Icon(LucideIcons.bell, size: 16, color: theme.colors.primary),
           Gap(theme.spacing.sm),
-          const Expanded(
+          Expanded(
             child: OverflowMarquee(
               speed: 45.0,
               gap: 28.0,
               child: Text(
-                'Breaking News: dashcn continuous marquee components now live across all platforms! • '
-                'Seamless looping with soft edge fades • Fully keyboard accessible',
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible',
+                  ),
+                ),
               ),
             ),
           ),
@@ -105,13 +110,24 @@ class _NowPlayingState extends State<_NowPlaying> {
                     controller: _controller,
                     speed: 40.0,
                     gap: 32.0,
-                    child: const Text(
-                      'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                    child: Text(
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          docsSample(
+                            context,
+                            'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                          ),
+                        ),
+                      ),
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                   Text(
-                    _controller.isPlaying ? 'Playing · Synthwave' : 'Paused',
+                    _controller.isPlaying
+                        ? docsSample(context, 'Playing · Synthwave')
+                        : docsSample(context, 'Paused'),
                     style: TextStyle(
                       fontSize: 12,
                       color: theme.colors.mutedForeground,
@@ -129,7 +145,9 @@ class _NowPlayingState extends State<_NowPlaying> {
                 setState(() {});
               },
               child: Semantics(
-                label: _controller.isPlaying ? 'Pause' : 'Play',
+                label: _controller.isPlaying
+                    ? docsSample(context, 'Pause')
+                    : docsSample(context, 'Play'),
                 child: Icon(
                   _controller.isPlaying ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
@@ -158,10 +176,8 @@ Widget _newsTicker(BuildContext context) {
               speed: 55.0,
               gap: 32.0,
               child: Text(
-                'dashcn 1.0 ships 145 components • '
-                'pull-to-refresh learns trackpads • '
-                'continuous marquees loop seamlessly • '
-                'cards never collapse',
+                'dashcn 1.0 ships 145 components • pull-to-refresh learns trackpads • '
+                'continuous marquees loop seamlessly • cards never collapse',
               ),
             ),
           ),
@@ -177,7 +193,7 @@ Widget _verticalCredits(BuildContext context) {
     height: 96,
     child: _band(
       context,
-      const Center(
+      Center(
         child: OverflowMarquee(
           direction: AxisDirectional.up,
           speed: 25.0,
@@ -185,17 +201,20 @@ Widget _verticalCredits(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Directed by dashcn Team', style: TextStyle(fontSize: 13)),
               Text(
-                'Original Score by Synthwave',
+                docsSample(context, 'Directed by dashcn Team'),
+                style: TextStyle(fontSize: 13),
+              ),
+              Text(
+                docsSample(context, 'Original Score by Synthwave'),
                 style: TextStyle(fontSize: 12),
               ),
               Text(
-                'Starring Continuous Marquee',
+                docsSample(context, 'Starring Continuous Marquee'),
                 style: TextStyle(fontSize: 12),
               ),
               Text(
-                'Special Thanks to Open Source',
+                docsSample(context, 'Special Thanks to Open Source'),
                 style: TextStyle(fontSize: 11),
               ),
             ],
@@ -220,13 +239,22 @@ Widget _rtlTicker(BuildContext context) {
               children: <Widget>[
                 const Badge(child: Text('عاجل')),
                 Gap(theme.spacing.sm),
-                const Expanded(
+                Expanded(
                   child: OverflowMarquee(
                     direction: AxisDirectional.start,
                     speed: 45.0,
                     gap: 30.0,
                     child: Text(
-                      'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          docsSample(
+                            context,
+                            'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -260,8 +288,17 @@ Widget _customizedMarquee(BuildContext context) {
           padding: EdgeInsets.only(left: theme.spacing.sm),
           child: Icon(LucideIcons.zap, size: 16, color: theme.colors.primary),
         ),
-        child: const Text(
-          'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
+        child: Text(
+          docsSample(
+            context,
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
+              ),
+            ),
+          ),
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
@@ -270,13 +307,13 @@ Widget _customizedMarquee(BuildContext context) {
 }
 
 /// Named docs examples for `overflow_marquee`; the first entry is the default.
-const List<ComponentPreview> overflowMarqueePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _defaultMarquee),
-  ComponentPreview('Now playing', _nowPlaying),
-  ComponentPreview('News ticker', _newsTicker),
-  ComponentPreview('Vertical', _verticalCredits),
-  ComponentPreview('RTL reverse', _rtlTicker),
-  ComponentPreview('Customized', _customizedMarquee),
+List<ComponentPreview> get overflowMarqueePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _defaultMarquee),
+  ComponentPreview(docsSample(null, 'Now playing'), _nowPlaying),
+  ComponentPreview(docsSample(null, 'News ticker'), _newsTicker),
+  ComponentPreview(docsSample(null, 'Vertical'), _verticalCredits),
+  ComponentPreview(docsSample(null, 'RTL reverse'), _rtlTicker),
+  ComponentPreview(docsSample(null, 'Customized'), _customizedMarquee),
 ];
 
 Widget _nowPlaying(BuildContext context) => const _NowPlaying();

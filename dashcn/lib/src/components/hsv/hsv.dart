@@ -87,7 +87,7 @@ class HSVColorSlider extends StatefulWidget {
     this.onChanging,
     this.onChanged,
     this.reverse = false,
-    this.radius = const Radius.circular(0),
+    this.radius = Radius.zero,
     this.padding = EdgeInsets.zero,
     this.enabled = true,
     this.style,

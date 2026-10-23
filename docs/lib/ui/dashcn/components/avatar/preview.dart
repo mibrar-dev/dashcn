@@ -17,8 +17,7 @@ import 'avatar.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _avatarPhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the avatar examples.
@@ -98,9 +97,9 @@ Widget _avatarGroup(BuildContext context) {
 }
 
 /// Named docs examples for `avatar`; the first entry is the default.
-const List<ComponentPreview> avatarPreviews = <ComponentPreview>[
+List<ComponentPreview> get avatarPreviews => <ComponentPreview>[
   ComponentPreview('Image', _avatarImage),
-  ComponentPreview('Initials', _avatarInitials),
+  ComponentPreview(docsSample(null, 'Initials'), _avatarInitials),
   ComponentPreview('Badge', _avatarBadge),
   ComponentPreview('Group', _avatarGroup),
 ];
