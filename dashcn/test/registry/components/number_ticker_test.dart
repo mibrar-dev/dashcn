@@ -201,7 +201,7 @@ void main() {
         );
       }
 
-      const Duration d500 = Duration(milliseconds: 500);
+      const Duration d500 = Duration(milliseconds: 200);
       await pump();
       expect(seen!.duration, d500);
       await pump(

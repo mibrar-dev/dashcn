@@ -11756,7 +11756,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'animation duration, 500ms',
+        description: 'animation duration, 200ms (base token)',
       ),
       DocsThemeField(
         name: 'style',

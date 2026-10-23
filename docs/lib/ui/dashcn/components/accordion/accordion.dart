@@ -135,6 +135,14 @@ class _AccordionItemState extends State<AccordionItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   CurvedAnimation? _curve;
+
+  /// Content opacity: starts 50 ms into the expand (0.25 of the 200 ms run)
+  /// and reaches zero in the first quarter of a collapse, so the text fades
+  /// out before the height closes.
+  late final CurvedAnimation _contentFade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.25, 1.0, curve: Curves.easeOut),
+  );
   AccordionState? _accordion;
   bool _expanded = false;
   bool _initialApplied = false;
@@ -171,12 +179,20 @@ class _AccordionItemState extends State<AccordionItem>
   @override
   void dispose() {
     _accordion?._expanded.removeListener(_handleExpansionChanged);
+    _contentFade.dispose();
     _controller.dispose();
     super.dispose();
   }
 
   /// Whether this item is the expanded one.
   bool get isExpanded => _expanded;
+
+  /// Expansion progress (0 collapsed, 1 expanded). The trigger's chevron
+  /// reads it on every tick so it turns in step with the section height.
+  double get progress => _controller.value;
+
+  /// Notifies on every expansion tick (the chevron rebuilds from it).
+  Listenable get progressListenable => _controller;
 
   /// Opens this item or closes it when it was already open.
   void dispatchToggle() {
@@ -247,9 +263,12 @@ class _AccordionItemState extends State<AccordionItem>
               resolved.reverseCurve ?? Curves.easeOut,
             ),
             alignment: AlignmentDirectional.topStart,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: padding),
-              child: widget.content.small.normal,
+            child: FadeTransition(
+              opacity: _contentFade,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: padding),
+                child: widget.content.small.normal,
+              ),
             ),
           ),
         ],
@@ -323,17 +342,17 @@ class AccordionTrigger extends StatelessWidget {
               ),
             ),
             Gap(iconGap),
-            TweenAnimationBuilder<double>(
-              tween: Tween<double>(end: item.isExpanded ? 0 : 1),
-              duration: motionReduced(context)
-                  ? Duration.zero
-                  : (resolved.duration ?? ambient.motion.durations.base),
-              builder: (context, value, child) => Transform.rotate(
-                angle: value * math.pi,
-                child: IconTheme(
-                  data: IconThemeData(color: arrowColor, size: iconSize),
-                  child: Icon(resolved.arrowIcon ?? LucideIcons.chevronUp),
-                ),
+            // Driven by the item's expansion controller, so the chevron turns
+            // in step with the height (half a turn over the same run).
+            AnimatedBuilder(
+              animation: item.progressListenable,
+              builder: (context, child) => Transform.rotate(
+                angle: (1 - item.progress) * math.pi,
+                child: child,
+              ),
+              child: IconTheme(
+                data: IconThemeData(color: arrowColor, size: iconSize),
+                child: Icon(resolved.arrowIcon ?? LucideIcons.chevronUp),
               ),
             ),
           ],

@@ -228,17 +228,80 @@ class CollapsibleContent extends StatelessWidget {
     if (motionReduced(context)) {
       return Offstage(offstage: !show, child: child);
     }
-    final ThemeData motionTheme = Theme.of(context);
-    // Size plus fade with the accordion timing: the offstage child reports
-    // zero size while collapsed, and `AnimatedSize` bridges the gap.
-    return AnimatedSize(
-      duration: motionTheme.motion.durations.base,
-      alignment: Alignment.topCenter,
-      child: AnimatedOpacity(
-        duration: motionTheme.motion.durations.base,
-        opacity: show ? 1.0 : 0.0,
-        child: Offstage(offstage: !show, child: child),
-      ),
+    return _CollapsibleMotion(show: show, child: child);
+  }
+}
+
+/// Drives one content pane: a single 200 ms run sizes the pane and fades its
+/// content. Opening fades the content in after 50 ms; closing fades it out
+/// first (the first quarter of the run) while the height collapses.
+class _CollapsibleMotion extends StatefulWidget {
+  const _CollapsibleMotion({required this.show, required this.child});
+
+  final bool show;
+  final Widget child;
+
+  @override
+  State<_CollapsibleMotion> createState() => _CollapsibleMotionState();
+}
+
+class _CollapsibleMotionState extends State<_CollapsibleMotion>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    value: widget.show ? 1.0 : 0.0,
+  );
+  late final CurvedAnimation _size = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOut,
+    reverseCurve: Curves.easeIn,
+  );
+  late final CurvedAnimation _fade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.25, 1.0, curve: Curves.easeOut),
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.duration = Theme.of(context).motion.durations.base;
+  }
+
+  @override
+  void didUpdateWidget(covariant _CollapsibleMotion oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.show != oldWidget.show) {
+      if (widget.show) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _size.dispose();
+    _fade.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (BuildContext context, Widget? child) {
+        return Offstage(
+          offstage: _controller.isDismissed,
+          child: SizeTransition(
+            sizeFactor: _size,
+            alignment: Alignment.topCenter,
+            child: FadeTransition(opacity: _fade, child: child),
+          ),
+        );
+      },
+      child: widget.child,
     );
   }
 }

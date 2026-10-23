@@ -10,7 +10,7 @@
   "deps": {
     "foundation": [],
     "theme": ["color_tokens", "theme"],
-    "primitives": ["animated_value_builder"],
+    "primitives": ["animated_value_builder", "motion"],
     "components": []
   },
   "files": [
@@ -29,7 +29,7 @@
     "userFile": "number_ticker_theme.dart",
     "defaults": "numberTickerDefaults",
     "fields": {
-      "duration": "Duration? - animation duration, 500ms",
+      "duration": "Duration? - animation duration, 200ms (base token)",
       "curve": "Curve? - animation curve, easeInOut",
       "style": "TextStyle? - text style, ambient"
     }

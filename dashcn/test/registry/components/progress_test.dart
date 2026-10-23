@@ -172,7 +172,7 @@ void main() {
     final animated = tester.widget<TweenAnimationBuilder<double>>(
       find.byType(TweenAnimationBuilder<double>),
     );
-    expect(animated.duration, kDefaultDuration);
+    expect(animated.duration, const Duration(milliseconds: 300));
 
     await tester.pumpWidget(
       _frame(child: const Progress(value: 0.2, disableAnimation: true)),

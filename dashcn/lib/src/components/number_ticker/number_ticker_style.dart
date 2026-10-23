@@ -111,6 +111,6 @@ class NumberTickerTheme extends ComponentThemeData
 
 /// Built-in number ticker defaults.
 const NumberTickerTheme numberTickerDefaults = NumberTickerTheme(
-  duration: Duration(milliseconds: 500),
+  duration: Duration(milliseconds: 200),
   curve: Curves.easeInOut,
 );

@@ -29,6 +29,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_chevron.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/theme.dart';
 import 'sidebar_style.dart';
@@ -424,11 +425,29 @@ class _DashboardSidebarState extends State<DashboardSidebar> {
         ),
       ),
     );
+    // Collapse animates the rail width (base token, 200 ms). The rail keeps
+    // its target width inside a clip, so content slides aside rather than
+    // reflowing while the width changes.
     return FocusScope(
       node: widget.focusNode,
       onKeyEvent: _handleKey,
-      child: SizedBox(
-        width: width,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: width),
+        duration: resolveMotionDuration(context, theme.motion.durations.base),
+        curve: theme.motion.curves.standard,
+        builder: (BuildContext context, double animatedWidth, Widget? child) {
+          return SizedBox(
+            width: animatedWidth,
+            child: ClipRect(
+              child: OverflowBox(
+                alignment: AlignmentDirectional.topStart,
+                minWidth: width,
+                maxWidth: width,
+                child: child,
+              ),
+            ),
+          );
+        },
         child: GlassSurface(surfaceBlur: blur, child: rail),
       ),
     );

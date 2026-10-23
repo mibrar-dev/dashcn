@@ -78,7 +78,9 @@ void main() {
     var dismissed = 0;
     await _pump(tester, _row(onDelete: () {}, onDismissed: () => dismissed++));
     await tester.fling(find.text('row'), const Offset(-400, 0), 2000);
-    await _pumpSettle(tester);
+    // Slide (200 ms) then collapse (200 ms) before onDismissed fires.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
     expect(dismissed, 1);
   });
 
