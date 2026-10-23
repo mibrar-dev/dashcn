@@ -204,12 +204,22 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
                   ? exampleBody
                   : _LazyPreview(minHeight: _minHeight, child: exampleBody),
             );
+            final ThemeData? themeOverride = PlaygroundScope.maybeOf(
+              context,
+            )?.themeOverride;
+            final ThemeData baseStageTheme =
+                themeOverride ?? state.themeModel.themeFor(stageBrightness);
             final Widget previewBody = _inverted
                 ? Theme(
-                    data: state.themeModel.themeFor(stageBrightness),
+                    data: baseStageTheme.copyWith(
+                      colors: () =>
+                          state.themeModel.themeFor(stageBrightness).colors,
+                    ),
                     child: stage,
                   )
-                : stage;
+                : (themeOverride != null
+                      ? Theme(data: themeOverride, child: stage)
+                      : stage);
             // `None` keeps today's card exactly.
             if (state.frame == DeviceFrameId.none) {
               return PreviewFrame(
@@ -230,9 +240,14 @@ class _ExamplePreviewCardState extends State<ExamplePreviewCard> {
             );
             if (_inverted) {
               framed = Theme(
-                data: state.themeModel.themeFor(stageBrightness),
+                data: baseStageTheme.copyWith(
+                  colors: () =>
+                      state.themeModel.themeFor(stageBrightness).colors,
+                ),
                 child: framed,
               );
+            } else if (themeOverride != null) {
+              framed = Theme(data: themeOverride, child: framed);
             }
             return Padding(
               padding: const EdgeInsets.only(top: 16, bottom: 48),

@@ -20,6 +20,7 @@ import '../state/docs_strings.dart';
 import '../generated/docs_example_sources.dart';
 import '../previews/component_previews.dart';
 
+import '../playground/ui/scope.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'device_frame/all_frames.dart';
@@ -89,23 +90,23 @@ class _BareExamplePreview extends StatelessWidget {
     // frame choice changes, so a plain read stays fresh. `maybeOf` keeps
     // standalone widget tests working (they default to unframed).
     final DocsState? state = DocsRouterScope.maybeOf(context)?.state;
+    final ThemeData? themeOverride = PlaygroundScope.maybeOf(
+      context,
+    )?.themeOverride;
     final DeviceFrameId frame = state?.frame ?? DeviceFrameId.none;
     final DeviceOrientation orientation =
         state?.orientation ?? DeviceOrientation.portrait;
-    if (frame == DeviceFrameId.none) {
-      return PreviewFrame(
-        child: PreviewStage(
-          child: PreviewExampleLoader(
-            componentId: componentId,
-            exampleIndex: 0,
-          ),
-        ),
-      );
-    }
-    final Widget screen = FramedScreen(
+    Widget loader = PreviewExampleLoader(
       componentId: componentId,
-      child: PreviewExampleLoader(componentId: componentId, exampleIndex: 0),
+      exampleIndex: 0,
     );
+    if (themeOverride != null) {
+      loader = Theme(data: themeOverride, child: loader);
+    }
+    if (frame == DeviceFrameId.none) {
+      return PreviewFrame(child: PreviewStage(child: loader));
+    }
+    final Widget screen = FramedScreen(componentId: componentId, child: loader);
     if (frame == DeviceFrameId.all) {
       return AllFrames(orientation: orientation, child: screen);
     }

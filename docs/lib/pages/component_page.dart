@@ -23,10 +23,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../generated/docs_api.dart';
-import '../generated/docs_controls.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../playground/builders.dart';
+import '../playground/theme_values.dart';
 import '../playground/ui/playground_panel.dart';
 import '../playground/ui/scope.dart';
 import '../routing/docs_nav.dart';
@@ -158,20 +158,31 @@ class _ComponentPageState extends State<ComponentPage> {
     final ({String? previousId, String? nextId}) neighbors = componentNeighbors(
       widget.componentId,
     );
-    final bool hasPlayground =
-        kControlSpecs.containsKey(widget.componentId) &&
-        kPlaygroundBuilders.containsKey(widget.componentId);
+    final bool hasPlaygroundBuilder = kPlaygroundBuilders.containsKey(
+      widget.componentId,
+    );
     final DocsState state = DocsRouterScope.of(context).state;
-    // Shareable deep links (`?p.variant=…`): a non-empty query auto-opens
-    // the panel so reload/back-forward restore the configured playground.
-    // Router navigation without `p.*` clears the query (applyRouteUri), so
-    // no leftover leaks across components.
+    // Shareable deep links (`?p.variant=…` or `?t.radius=…`): a non-empty
+    // query auto-opens the panel so reload/back-forward restore the
+    // configured playground. Router navigation without `p.*`/`t.*` clears
+    // the query (applyRouteUri), so no leftover leaks across components.
     final bool playgroundActive =
-        (_playgroundOpen || state.playgroundQuery.isNotEmpty) && hasPlayground;
+        _playgroundOpen || state.playgroundQuery.isNotEmpty;
     final ThemeData theme = Theme.of(context);
+    final PlaygroundThemeValues themeValues = PlaygroundThemeValues.fromQuery(
+      theme,
+      state.playgroundQuery,
+    );
+    final ThemeData? themeOverride =
+        (playgroundActive || !themeValues.isDefault(theme))
+        ? themeValues.applyTo(
+            theme,
+            (Brightness b) => state.themeModel.themeFor(b),
+          )
+        : null;
     void openPlayground() {
-      // Fresh controls per component: a leftover `p.*` query from another
-      // component would otherwise leak (e.g. Button `p.variant` into Badge).
+      // Fresh controls per component: a leftover query from another
+      // component would otherwise leak.
       state.setPlaygroundQuery(const <String, String>{});
       setState(() => _playgroundOpen = true);
     }
@@ -249,27 +260,27 @@ class _ComponentPageState extends State<ComponentPage> {
                   ),
                 ),
               ),
-              if (hasPlayground)
-                Button(
-                  key: const ValueKey<String>('playground-open'),
-                  variant: ButtonVariant.secondary,
-                  size: ButtonSize.sm,
-                  onPressed: openPlayground,
-                  child: Text(
-                    docsChrome(
-                      DocsRouterScope.maybeOf(context)?.state.locale ??
-                          const Locale('en'),
-                      'cmpPlayground',
-                    ),
+              Button(
+                key: const ValueKey<String>('playground-open'),
+                variant: ButtonVariant.secondary,
+                size: ButtonSize.sm,
+                onPressed: openPlayground,
+                child: Text(
+                  docsChrome(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'cmpPlayground',
                   ),
                 ),
+              ),
             ],
           ),
         ),
         // Single live preview: while the playground is open its canvas is
         // the preview, so the left column drops the duplicate main card but
-        // keeps the description and every example below.
-        if (!playgroundActive)
+        // keeps the description and every example below. When the component
+        // has no builder, the main card stays visible.
+        if (!playgroundActive || !hasPlaygroundBuilder)
           ComponentPreviewCard(componentId: widget.componentId),
         ComponentInstallBlock(componentId: widget.componentId),
         ComponentUsageSection(componentId: widget.componentId),
@@ -284,7 +295,13 @@ class _ComponentPageState extends State<ComponentPage> {
       ],
     );
     if (!playgroundActive) {
-      return DocsLayout(child: article);
+      return DocsLayout(
+        child: PlaygroundScope(
+          activeComponentId: widget.componentId,
+          themeOverride: themeOverride,
+          child: article,
+        ),
+      );
     }
     // Figma-like: sidebar stays put (DocsLayout), content area shows the
     // article on the left and the 380 px playground panel docked on the
@@ -361,6 +378,7 @@ class _ComponentPageState extends State<ComponentPage> {
 
     final Widget scopedArticle = PlaygroundScope(
       activeComponentId: widget.componentId,
+      themeOverride: themeOverride,
       child: article,
     );
     if (contentWidth < 1024) {
@@ -368,6 +386,7 @@ class _ComponentPageState extends State<ComponentPage> {
       return DocsLayout(
         child: PlaygroundScope(
           activeComponentId: widget.componentId,
+          themeOverride: themeOverride,
           child: Stack(
             children: <Widget>[
               scopedArticle,
@@ -394,6 +413,7 @@ class _ComponentPageState extends State<ComponentPage> {
     return DocsLayout(
       child: PlaygroundScope(
         activeComponentId: widget.componentId,
+        themeOverride: themeOverride,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

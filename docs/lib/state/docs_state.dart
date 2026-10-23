@@ -166,7 +166,8 @@ class DocsState extends ChangeNotifier {
     applyLocaleQuery(uri.queryParameters[kDocsLocaleQueryKey]);
     final Map<String, String> query = <String, String>{
       for (final MapEntry<String, String> entry in uri.queryParameters.entries)
-        if (entry.key.startsWith('p.')) entry.key: entry.value,
+        if (entry.key.startsWith('p.') || entry.key.startsWith('t.'))
+          entry.key: entry.value,
     };
     setPlaygroundQuery(query);
   }
@@ -184,9 +185,11 @@ class DocsState extends ChangeNotifier {
   /// (back-to-default keys dropped), so the router reports both to the
   /// browser history. The non-default locale rides along as `?locale=`.
   Uri reportUri(Uri uri) {
-    final Map<String, String> params = Map<String, String>.of(
-      frameUri(uri).queryParameters,
-    )..removeWhere((String key, String value) => key.startsWith('p.'));
+    final Map<String, String> params =
+        Map<String, String>.of(frameUri(uri).queryParameters)..removeWhere(
+          (String key, String value) =>
+              key.startsWith('p.') || key.startsWith('t.'),
+        );
     params.addAll(_playgroundQuery);
     final String? localeValue = localeQueryValue;
     if (localeValue == null) {
