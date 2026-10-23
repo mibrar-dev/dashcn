@@ -19,6 +19,7 @@
     "theme": [
       "color_tokens",
       "density",
+      "motion",
       "theme"
     ],
     "primitives": [
