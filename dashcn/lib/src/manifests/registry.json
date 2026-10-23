@@ -12828,7 +12828,7 @@
     "primitives/motion/hover_elevate.dart": "52da1e7fab4f0fbd322503654546bfad814908f04177f7a9d838424fe52ccf88",
     "primitives/motion/motion.dart": "884e40bb73e80d315ef7a12c14b7be724064646e2db25f7faaac68541ecb8691",
     "primitives/motion/motion_chevron.dart": "da1507a55a75045160b13cc7843e5388e5b13f99deb3be301996797f8d797428",
-    "primitives/motion/motion_collapse.dart": "1bdf0ea554f81aaf8a717e5cf89dbc0cd5bb8cf5b061ebbbc075becc6dd2088c",
+    "primitives/motion/motion_collapse.dart": "99c7b7ba443ba74681ea7e0d94f46c2cdf8ceeb0cf33ca254763569e64d1185e",
     "primitives/motion/motion_enter.dart": "8627c056675dda026488fae327a2525aa419b07039d12e69587b181974dc4723",
     "primitives/motion/motion_presence.dart": "fee6fa22be60fae2068bbce284cf373899c7af72124e0a6b0331b591739079ab",
     "primitives/motion/motion_scope.dart": "b728e4a7ed808c46d640e4066cfebd26ed2b3fe5df580137d201fe37d08f2a9f",

@@ -34,7 +34,7 @@ class MotionCollapse extends StatefulWidget {
     this.enterCurve,
     this.exitCurve,
     this.onExited,
-    this.alignment = Alignment.topCenter,
+    this.alignment = AlignmentDirectional.topStart,
   });
 
   /// Whether the child is shown at full height.
