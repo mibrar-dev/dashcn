@@ -351,6 +351,28 @@ class Typography {
     );
   }
 
+  // Generic CSS family names (sans-serif, serif, monospace, ...) are not
+  // Flutter font families and cannot be resolved by the engine. Keeping them
+  // in [fontFamilyFallback] makes Skia treat them as (missing) family names,
+  // which can mask the engine's own Noto fallback and leave glyphs as tofu.
+  // Drop them and keep only resolvable names, merged with the base style's
+  // bundled fallback (e.g. NotoSansSymbols2) so symbols still render before
+  // the lazy Noto download finishes.
+  static const Set<String> _kGenericCssFamilies = <String>{
+    'sans-serif',
+    'serif',
+    'monospace',
+    'system-ui',
+    'ui-sans-serif',
+    'ui-serif',
+    'ui-monospace',
+    'cursive',
+    'fantasy',
+    'emoji',
+    'math',
+    'fangsong',
+  };
+
   static TextStyle _withFamily(TextStyle style, String? spec) {
     if (spec == null) return style;
     final parts = spec
@@ -359,9 +381,24 @@ class Typography {
         .where((e) => e.isNotEmpty)
         .toList();
     if (parts.isEmpty) return style;
+    final List<String> explicit = parts
+        .sublist(1)
+        .where(
+          (String name) => !_kGenericCssFamilies.contains(name.toLowerCase()),
+        )
+        .toList();
+    final List<String> merged = <String>[
+      ...explicit,
+      ...?style.fontFamilyFallback,
+    ];
+    // De-duplicate while preserving order.
+    final List<String> deduped = <String>[];
+    for (final String name in merged) {
+      if (!deduped.contains(name)) deduped.add(name);
+    }
     return style.copyWith(
       fontFamily: parts.first,
-      fontFamilyFallback: parts.length > 1 ? parts.sublist(1) : null,
+      fontFamilyFallback: deduped.isEmpty ? null : deduped,
     );
   }
 

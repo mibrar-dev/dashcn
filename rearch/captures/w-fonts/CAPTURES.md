@@ -4,16 +4,33 @@ Fix branch: `fix/docs-script-fonts`
 
 Build: `cd docs && flutter build web --release --no-tree-shake-icons`
 Serve: `python3 -m http.server 8897 --directory build/web`
-Capture: agent-browser (headless), 10 s wait per locale for engine Noto fallback download + rebuild.
+Capture: agent-browser (headless, muted), 10 s wait per locale for engine
+Noto fallback download + rebuild. Page captured: home (`/#/`) at
+`?locale=<tag>`.
 
-Screenshots are the docs home page (`/#/`) at `?locale=<tag>` for each
-script-bearing locale (plus `de` as a Latin baseline):
+Screenshots (home page, header/hero/previews):
 
-- ar.png, he.png, fa.png, ur.png, ps.png — RTL scripts
-- hi.png, mr.png, bn.png, ta.png, te.png, th.png — Indic / Thai
-- ko.png, ja.png, zh.png, zh_Hans.png, zh_Hant.png — CJK
-- ru.png, bg.png, uk.png, el.png — Cyrillic / Greek
-- de.png — Latin baseline
+- home_ar.png — ar (Arabic)
+- home_he.png — he (Hebrew)
+- home_fa.png — fa (Persian)
+- home_ur.png — ur (Urdu)
+- home_ps.png — ps (Pashto)
+- home_hi.png — hi (Hindi/Devanagari)
+- home_mr.png — mr (Marathi/Devanagari)
+- home_bn.png — bn (Bengali)
+- home_ta.png — ta (Tamil)
+- home_te.png — te (Telugu)
+- home_th.png — th (Thai)
+- home_ko.png — ko (Korean)
+- home_ja.png — ja (Japanese)
+- home_zh.png — zh (Chinese)
+- home_zh_Hans.png — zh_Hans (Simplified Chinese)
+- home_zh_Hant.png — zh_Hant (Traditional Chinese)
+- home_ru.png — ru (Russian/Cyrillic)
+- home_bg.png — bg (Bulgarian/Cyrillic)
+- home_uk.png — uk (Ukrainian/Cyrillic)
+- home_el.png — el (Greek)
+- home_de.png — de (German/Latin baseline)
 
 Root cause: `Typography._withFamily` split CSS font specs like
 `"GeistSans, sans-serif"` into a Flutter `fontFamily` plus a
