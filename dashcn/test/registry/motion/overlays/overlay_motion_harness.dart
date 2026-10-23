@@ -8,6 +8,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Pumps [page] inside a themed [Navigator]. [disabled] sets
 /// `MediaQuery.disableAnimations` (the reduced-motion switch).
+/// Boundary around the whole test page; frame captures read its pixels.
+final GlobalKey overlayCaptureKey = GlobalKey(debugLabel: 'overlayCapture');
+
 Future<void> pumpOverlayPage(
   WidgetTester tester, {
   required Widget Function(BuildContext context) page,
@@ -15,24 +18,27 @@ Future<void> pumpOverlayPage(
   Size size = const Size(800, 600),
 }) {
   return tester.pumpWidget(
-    MediaQuery(
-      data: MediaQueryData(size: size, disableAnimations: disabled),
-      child: Theme(
-        data: const ThemeData(),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          // TapRegionSurface: the outside-tap region every popover relies on.
-          child: TapRegionSurface(
-            child: Navigator(
-              key: UniqueKey(),
-              onGenerateRoute: (RouteSettings settings) =>
-                  PageRouteBuilder<void>(
-                    settings: settings,
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        Builder(
-                          builder: (context) => Center(child: page(context)),
-                        ),
-                  ),
+    RepaintBoundary(
+      key: overlayCaptureKey,
+      child: MediaQuery(
+        data: MediaQueryData(size: size, disableAnimations: disabled),
+        child: Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            // TapRegionSurface: the outside-tap region every popover relies on.
+            child: TapRegionSurface(
+              child: Navigator(
+                key: UniqueKey(),
+                onGenerateRoute: (RouteSettings settings) =>
+                    PageRouteBuilder<void>(
+                      settings: settings,
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          Builder(
+                            builder: (context) => Center(child: page(context)),
+                          ),
+                    ),
+              ),
             ),
           ),
         ),
