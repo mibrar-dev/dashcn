@@ -5,7 +5,8 @@
 // disabled foreground, the four theme-precedence legs, cell-theme merging and
 // interactive resizing.
 
-import 'package:flutter/gestures.dart' show PointerDeviceKind;
+import 'package:flutter/gestures.dart'
+    show PointerDeviceKind, PointerScrollEvent;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/table/table.dart';
@@ -649,5 +650,43 @@ void main() {
         expect(width, greaterThanOrEqualTo(0));
       }
     });
+  });
+
+  testWidgets('narrow grid scrolls horizontally to reach the last column', (
+    tester,
+  ) async {
+    final ScrollController horizontal = ScrollController();
+    addTearDown(horizontal.dispose);
+    await tester.pumpWidget(
+      _frame(
+        size: const Size(200, 200),
+        child: TableView(
+          columnWidths: const <int, TableSize>{
+            0: FixedTableSize(120),
+            1: FixedTableSize(120),
+            2: FixedTableSize(120),
+          },
+          rows: const <TableViewRow>[
+            TableViewHeader(
+              cells: <TableViewCell>[
+                TableViewCell(child: Text('Invoice')),
+                TableViewCell(child: Text('Status')),
+                TableViewCell(child: Text('Amount')),
+              ],
+            ),
+          ],
+          verticalController: ScrollController(),
+          horizontalController: horizontal,
+        ),
+      ),
+    );
+    await tester.sendEventToBinding(
+      PointerScrollEvent(
+        position: tester.getCenter(find.byType(TableView)),
+        scrollDelta: Offset(200, 0),
+      ),
+    );
+    await tester.pump();
+    expect(horizontal.offset, greaterThan(0));
   });
 }
