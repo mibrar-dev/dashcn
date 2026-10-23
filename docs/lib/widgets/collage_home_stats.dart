@@ -5,6 +5,8 @@
 // in [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/progress/progress.dart';
@@ -32,10 +34,12 @@ class HomeContributionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Contribution History',
-      subtitle: 'Last 6 months of activity',
+      title: docsHome(locale, 'homeContribHist'),
+      subtitle: docsHome(locale, 'homeContribHistSub'),
       children: <Widget>[
         const StudioContributionChart(bars: bars),
         const Gap(16),
@@ -140,10 +144,12 @@ class _HomeUsageCardState extends State<HomeUsageCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Power Usage',
-      subtitle: 'Whole home',
+      title: docsHome(locale, 'homePowerTitle'),
+      subtitle: docsHome(locale, 'homePowerSub'),
       children: <Widget>[
         Select<String>(
           value: _window,

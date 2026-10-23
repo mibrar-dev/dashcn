@@ -5,6 +5,8 @@
 import 'package:docs/generated/docs_flows.dart';
 import 'package:docs/pages/flows_pages.dart';
 import 'package:docs/routing/docs_router.dart';
+import 'package:docs/state/docs_strings.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/app_harness.dart';
@@ -51,6 +53,30 @@ void main() {
         find.text('No flow named `nope-01`.', skipOffstage: false),
         findsOneWidget,
       );
+    });
+
+    test('screen count uses English singular and plural', () {
+      expect(docsFlowScreensCount(1, const Locale('en')), '1 screen');
+      expect(docsFlowScreensCount(4, const Locale('en')), '4 screens');
+      expect(docsFlowScreensCount(0, const Locale('en')), '0 screens');
+    });
+
+    test('screen count uses German singular and plural', () {
+      expect(docsFlowScreensCount(1, const Locale('de')), '1 Screen');
+      expect(docsFlowScreensCount(4, const Locale('de')), '4 Screens');
+    });
+
+    testWidgets('German locale renders the German screen count', (
+      WidgetTester tester,
+    ) async {
+      final DocsRouterDelegate delegate = await pumpDocsApp(tester);
+      docsState.setLocale(const Locale('de'));
+      await tester.pumpAndSettle();
+      await goTo(tester, delegate, '/docs/flows');
+      // `auth-01` has 4 screens; the German badge keeps the German noun.
+      expect(find.text('4 Screens'), findsWidgets);
+      expect(find.text('4 screens'), findsNothing);
+      expect(find.text('1 Screen'), findsNothing);
     });
   });
 }

@@ -79,13 +79,27 @@ class DocsArticleController extends ChangeNotifier {
   String? get activeId => _activeId;
 
   /// Called by `HeadingAnchor` during build.
+  ///
+  /// Upserts by anchor id so a locale switch (same page, new titles) refreshes
+  /// the TOC instead of keeping the first-registered English titles. The TOC
+  /// (`DocsToc`) and the headings then read the same translated strings.
   void register(DocsHeadingEntry entry) {
-    if (_headings.any((DocsHeadingEntry h) => h.id == entry.id)) {
+    final int index = _headings.indexWhere(
+      (DocsHeadingEntry h) => h.id == entry.id,
+    );
+    if (index == -1) {
+      _headings.add(entry);
+      // Registration happens during build; notify after the frame instead.
+      _notifyAfterFrame();
       return;
     }
-    _headings.add(entry);
-    // Registration happens during build; notify after the frame instead.
-    _notifyAfterFrame();
+    final DocsHeadingEntry existing = _headings[index];
+    if (existing.title != entry.title ||
+        existing.level != entry.level ||
+        existing.key != entry.key) {
+      _headings[index] = entry;
+      _notifyAfterFrame();
+    }
   }
 
   /// Removes a heading (route change / rebuild).
