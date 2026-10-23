@@ -21,6 +21,7 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/component_preview_card.dart' show PreviewExampleLoader;
 import '../widgets/copy_button.dart';
+import '../state/docs_content_categories.dart';
 import '../widgets/docs_tokens.dart';
 import '../widgets/example_preview_card.dart' show ExampleSnippetCode;
 import '../widgets/preview_stage.dart';
@@ -52,7 +53,11 @@ class ChartFamilySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          family.title,
+          docsChartFamilyTitle(
+            family.id,
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+          ),
           style: docsText(
             context,
             size: 20,
@@ -63,7 +68,11 @@ class ChartFamilySection extends StatelessWidget {
         ),
         Gap(theme.spacing.xs),
         Text(
-          family.description,
+          docsChartFamilyDesc(
+            family.id,
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+          ),
           style: docsText(
             context,
             size: 14,

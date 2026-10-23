@@ -5,6 +5,8 @@
 // [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/select/select.dart';
@@ -37,13 +39,15 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Payout Threshold',
-      subtitle: 'Set the minimum balance before a payout is triggered.',
+      title: docsHome(locale, 'homePayoutTitle'),
+      subtitle: docsHome(locale, 'homePayoutSub'),
       trailing: const Icon(LucideIcons.x, size: 14),
       children: <Widget>[
-        const StudioFieldLabel('Preferred Currency'),
+        StudioFieldLabel(docsHome(locale, 'homePrefCurrency')),
         const Gap(6),
         Select<String>(
           value: _currency,
@@ -145,8 +149,10 @@ class _HomeReportCardState extends State<HomeReportCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Report an Issue',
+      title: docsHome(locale, 'homeReportTitle'),
       subtitle: 'Tell us what went wrong and we will pick it up.',
       children: <Widget>[
         const StudioFieldLabel('Category'),

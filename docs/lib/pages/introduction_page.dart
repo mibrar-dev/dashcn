@@ -5,6 +5,10 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose1.dart';
+import '../state/docs_strings.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
 import '../widgets/heading_anchor.dart';
@@ -19,96 +23,71 @@ class IntroductionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Introduction',
-        description:
-            'A widgets-only Flutter component kit you install as source. '
-            'No package dependency, no Material, no wrapper to fight.',
+        title: docsContentPage(locale, 'pageIntroTitle'),
+        description: docsContentPage(locale, 'pageIntroDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Every component in this kit is copied into your app, so the '
-            'source is yours to read, edit and extend. The registry defines '
-            'each component once: its widget file, its style file, its theme '
-            'overrides and a generated manifest the CLI installs from.',
+          TypesetParagraph(docsProse1(locale, 'proseIntroP1')),
+          TypesetParagraph(docsProse1(locale, 'proseIntroP2')),
+          HeadingAnchor(
+            id: 'source-you-own',
+            title: docsProse1(locale, 'proseIntroH1'),
           ),
-          const TypesetParagraph(
-            'There is exactly one implementation per component. No variant '
-            'wrappers, no per-style subclasses and no Material widgets under '
-            'the hood; the components are built from the kit primitives and '
-            'the active theme tokens.',
-          ),
-          const HeadingAnchor(id: 'source-you-own', title: 'Source you own'),
-          TypesetParagraph(
-            'A component arrives as a folder under your UI directory. The '
-            'theme file inside it is user-owned: CLI updates never overwrite '
-            'your overrides, so you can change any token-driven value without '
-            'forking the registry.',
-          ),
+          TypesetParagraph(docsProse1(locale, 'proseIntroP3')),
           TypesetBullets(
             items: <List<InlineSpan>>[
               <InlineSpan>[
-                const TextSpan(
-                  text: 'Open source: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                TextSpan(
+                  text: docsProse1(locale, 'proseIntroB1t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                const TextSpan(
-                  text:
-                      'the component files are plain Flutter widgets you can '
-                      'diff, review and commit.',
-                ),
+                TextSpan(text: docsProse1(locale, 'proseIntroB1b')),
               ],
               <InlineSpan>[
-                const TextSpan(
-                  text: 'Predictable interfaces: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                TextSpan(
+                  text: docsProse1(locale, 'proseIntroB2t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                const TextSpan(
-                  text:
-                      'one constructor plus enums, so examples and AI tools '
-                      'can learn the pattern once.',
-                ),
+                TextSpan(text: docsProse1(locale, 'proseIntroB2b')),
               ],
               <InlineSpan>[
-                const TextSpan(
-                  text: 'Generated docs: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                TextSpan(
+                  text: docsProse1(locale, 'proseIntroB3t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
-                  text:
-                      'the ${kStats.listedComponents} reference pages are built from '
-                      'the registry manifest, never hand-written.',
+                  text: docsFill(
+                    docsProse1(locale, 'proseIntroB3b'),
+                    count: kStats.listedComponents,
+                  ),
                 ),
               ],
             ],
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'one-command-install',
-            title: 'One command install',
+            title: docsProse1(locale, 'proseIntroH2'),
           ),
           TypesetParagraph.rich(<InlineSpan>[
-            const TextSpan(text: 'Add a component with '),
+            TextSpan(text: docsProse1(locale, 'proseIntroP4a')),
             typesetInlineCodeSpan('dashcn add <component>'),
-            const TextSpan(
-              text:
-                  '. The CLI writes the component, its shared dependencies '
-                  'and a user-owned theme file, and records the exact hashes '
-                  'in a lock file so updates stay reviewable.',
-            ),
+            TextSpan(text: docsProse1(locale, 'proseIntroP4b')),
           ]),
-          const HeadingAnchor(id: 'presets', title: 'Presets included'),
+          HeadingAnchor(
+            id: 'presets',
+            title: docsProse1(locale, 'proseIntroH3'),
+          ),
           TypesetParagraph(
-            'The kit ships ${kStats.presets} theme presets across '
-            '${kStats.modes} modes. A preset is data: colour tokens, radius '
-            'and fonts, resolved through the same theme layer the components '
-            'read at build time.',
+            docsProse1(locale, 'proseIntroP5')
+                .replaceAll('{presets}', '${kStats.presets}')
+                .replaceAll('{modes}', '${kStats.modes}'),
           ),
-          const TypesetParagraph(
-            'Try them on the Themes page, or read the Theming page to see how '
-            'a preset maps onto the token names.',
-          ),
+          TypesetParagraph(docsProse1(locale, 'proseIntroP6')),
         ],
       ),
     );

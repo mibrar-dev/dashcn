@@ -8,6 +8,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../flows/flow_sources.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'code_spans.dart';
@@ -36,6 +38,8 @@ class FlowCodePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final List<DocsFlowFile> sources =
         kFlowFileSources[flowId] ?? const <DocsFlowFile>[];
     final List<DocsFlowFile> shown = <DocsFlowFile>[
@@ -48,7 +52,10 @@ class FlowCodePanel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        HeadingAnchor(id: 'code-$screenName', title: 'Code — $screenName'),
+        HeadingAnchor(
+          id: 'code-$screenName',
+          title: "${docsContentPage(locale, 'pageCode')} — $screenName",
+        ),
         const Gap(16),
         if (shown.isEmpty)
           Text(
