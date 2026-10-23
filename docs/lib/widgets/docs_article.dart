@@ -419,18 +419,6 @@ class _DocsArticleState extends State<DocsArticle> {
           height: 36 / 30,
           letterSpacing: -0.75,
         );
-        // Stack the row when the title would share it with less than half
-        // the width: a long (or translated) title otherwise breaks mid-word.
-        final TextPainter measure = TextPainter(
-          text: TextSpan(text: widget.title, style: titleStyle),
-          textDirection: Directionality.of(context),
-          textScaler: MediaQuery.textScalerOf(context),
-          maxLines: 1,
-        )..layout();
-        final bool tight =
-            constraints.maxWidth < 560 ||
-            measure.width > constraints.maxWidth / 2;
-        measure.dispose();
         // The title text without flex: the tight branch stacks it in a
         // Column, and an Expanded there would flex against the scroll
         // view's unbounded height (`RenderFlex children have non-zero flex
@@ -451,7 +439,7 @@ class _DocsArticleState extends State<DocsArticle> {
             children: <Widget>[title],
           );
         }
-        if (tight) {
+        if (constraints.maxWidth < 560) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -463,20 +451,22 @@ class _DocsArticleState extends State<DocsArticle> {
             ],
           );
         }
-        // Wide branch: the badge Wrap gets a bounded width via Flexible so
-        // it wraps to a second line instead of forcing the Row past 640
-        // (the WIP note is the widest badge child). Title keeps the
-        // remaining space; actions stay pinned trailing.
-        // WIP pages carry three badges (count + stability + the WIP note):
-        // the bounded Wrap keeps the 640 px article from overflowing.
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        // Wide branch: a Wrap never squeezes the title, so a long or
+        // translated title breaks only between words; when badges and
+        // actions do not fit beside it they move to the next line together.
+        return Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          spacing: theme.spacing.md,
+          runSpacing: theme.spacing.md,
           children: <Widget>[
-            title,
-            Gap(theme.spacing.md),
-            Flexible(child: badges),
-            Gap(theme.spacing.md),
-            actions,
+            titleText,
+            Wrap(
+              spacing: theme.spacing.md,
+              runSpacing: theme.spacing.sm,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[badges, actions],
+            ),
           ],
         );
       },
