@@ -56,7 +56,7 @@ void main(List<String> args) {
 
   _printReport(keys, tags, tables);
 
-  final String output = _render(tags, tables);
+  final String output = _formatted(_render(tags, tables));
   if (errors.isNotEmpty) {
     stderr.writeln(errors.join('\n'));
     exitCode = 1;
@@ -74,6 +74,25 @@ void main(List<String> args) {
   }
   out.writeAsStringSync(output);
   stdout.writeln('wrote $_outPath');
+}
+
+/// [source] as `dart format` writes it, so `--check` and the CI format step agree.
+String _formatted(String source) {
+  // Inside the package so dart format picks the package's language version.
+  final File file = File('tool/.docs_sample_table.tmp.dart')
+    ..writeAsStringSync(source);
+  try {
+    final ProcessResult result = Process.runSync('dart', <String>[
+      'format',
+      file.path,
+    ]);
+    if (result.exitCode != 0) {
+      throw StateError('dart format failed: ${result.stderr}');
+    }
+    return file.readAsStringSync();
+  } finally {
+    file.deleteSync();
+  }
 }
 
 Map<String, String> _readMap(File file) {
