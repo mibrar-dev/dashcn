@@ -22,6 +22,8 @@ class PopoverOverlayWidget extends StatefulWidget {
     this.themes,
     required this.builder,
     required this.animation,
+    this.closing = false,
+    this.scaleOnEnter = true,
     required this.anchorAlignment,
     this.widthConstraint = PopoverConstraint.flexible,
     this.heightConstraint = PopoverConstraint.flexible,
@@ -67,6 +69,13 @@ class PopoverOverlayWidget extends StatefulWidget {
 
   /// Show/hide animation progress (0..1).
   final double animation;
+
+  /// True while the popover exits. Exits fade only: the scale holds at 1.
+  final bool closing;
+
+  /// Whether enter scales 0.95 to 1 (menus, popovers). False fades and
+  /// slides 4 px from the anchor side instead (tooltips).
+  final bool scaleOnEnter;
 
   /// Width constraint strategy.
   final PopoverConstraint widthConstraint;

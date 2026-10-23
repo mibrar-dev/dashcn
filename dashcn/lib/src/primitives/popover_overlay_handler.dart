@@ -17,6 +17,20 @@ import 'popover.dart';
 import 'popover_overlay_state.dart';
 import 'popover_overlay_widget.dart';
 
+/// Resolves an overlay leg: the caller's explicit duration, else [fallback],
+/// scaled by the theme intensity. Reduced motion keeps only a short opacity
+/// fade (see [kOverlayReducedFade]); the transform is dropped by the state.
+Duration _overlayDuration(
+  BuildContext context,
+  Duration? explicit,
+  Duration fallback,
+) {
+  if (motionReduced(context)) {
+    return kOverlayReducedFade;
+  }
+  return resolveMotionDuration(context, explicit ?? fallback);
+}
+
 /// Default popover overlay handler.
 class PopoverOverlayHandler extends OverlayHandler {
   /// Creates a [PopoverOverlayHandler].
@@ -48,6 +62,7 @@ class PopoverOverlayHandler extends OverlayHandler {
     bool dismissBackdropFocus = true,
     Duration? showDuration,
     Duration? dismissDuration,
+    bool scaleOnEnter = true,
     OverlayBarrier? overlayBarrier,
     LayerLink? layerLink,
     PopupAdaptive? adaptive,
@@ -163,17 +178,24 @@ class PopoverOverlayHandler extends OverlayHandler {
                 child: AnimatedValueBuilder<double>(
                   value: isClosed.value ? 0.0 : 1.0,
                   initialValue: 0.0,
+                  // Enter decelerates over 150 ms; exit accelerates over
+                  // 100 ms and only fades (no scale), per the overlay motion
+                  // spec. `showDuration` is the enter, `dismissDuration` the
+                  // exit.
                   curve: isClosed.value
-                      ? const Interval(0, 2 / 3)
-                      : Curves.linear,
-                  duration: resolveMotionDuration(
-                    innerContext,
-                    isClosed.value
-                        ? (showDuration ??
-                              Theme.of(innerContext).motion.durations.fast)
-                        : (dismissDuration ??
-                              Theme.of(innerContext).motion.durations.instant),
-                  ),
+                      ? Theme.of(innerContext).motion.curves.emphasizedIn
+                      : Theme.of(innerContext).motion.curves.emphasizedOut,
+                  duration: isClosed.value
+                      ? _overlayDuration(
+                          innerContext,
+                          dismissDuration,
+                          Theme.of(innerContext).motion.durations.instant,
+                        )
+                      : _overlayDuration(
+                          innerContext,
+                          showDuration,
+                          Theme.of(innerContext).motion.durations.fast,
+                        ),
                   onEnd: (value) {
                     if (value == 0.0 && isClosed.value) {
                       popoverEntry.remove();
@@ -184,6 +206,8 @@ class PopoverOverlayHandler extends OverlayHandler {
                   builder: (innerContext, animation, child) {
                     return PopoverOverlayWidget(
                       animation: animation,
+                      closing: isClosed.value,
+                      scaleOnEnter: scaleOnEnter,
                       onTapOutside: () {
                         if (isClosed.value) return;
                         if (!modal) {

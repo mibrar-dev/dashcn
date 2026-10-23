@@ -19,6 +19,7 @@ class DrawerRoute<T> extends ModalRoute<T> {
     required this.position,
     required this.themeOf,
     required this.duration,
+    this.reverseDuration,
     required this.barrierDismissible,
     required this.useSafeArea,
     required this.expands,
@@ -42,6 +43,9 @@ class DrawerRoute<T> extends ModalRoute<T> {
   final DrawerRouteTheme Function(BuildContext context) themeOf;
 
   final Duration duration;
+
+  /// Close transition duration; null reuses [duration].
+  final Duration? reverseDuration;
 
   /// Whether the barrier tap / Escape pops the panel.
   @override
@@ -75,7 +79,7 @@ class DrawerRoute<T> extends ModalRoute<T> {
   Duration get transitionDuration => duration;
 
   @override
-  Duration get reverseTransitionDuration => duration;
+  Duration get reverseTransitionDuration => reverseDuration ?? duration;
 
   AnimationController? get dragController => controller;
 

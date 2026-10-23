@@ -11101,6 +11101,7 @@
         "theme": [
           "color_tokens",
           "density",
+          "motion",
           "theme"
         ]
       },
@@ -12216,7 +12217,7 @@
     "components/date_picker/date_picker_style.dart": "faa1af8d92972e140e4d780252d91c18f498a91ac075a55e9fe7c7c391d4070d",
     "components/date_picker/date_picker_theme.dart": "b5f921a9d3a548532622478bf543ee1939daf90d9dfca035093f78b1ec0e9800",
     "components/date_picker/preview.dart": "dd42acecef5213c4cddc3fbba32fd67fc2325a1ee15a6c9546d49e900009fc7a",
-    "components/dialog/dialog.dart": "4949b33304232cf9c871ec5bb0e9c97f1014def50461d1032534e2c1bbc911f2",
+    "components/dialog/dialog.dart": "3d170005310d5ae6c491d86bca93428cb8723dfe367e7495ed923a34e2ab6744",
     "components/dialog/dialog_style.dart": "68452832c1b9fa256d5229a23e2fd32538631caed2da5b9cf016fd56fad8e889",
     "components/dialog/dialog_theme.dart": "347235dc95c013d1d3246efe5c63bd4f8b70dc6f1f27a8c324b0b053c7aec56b",
     "components/dialog/preview.dart": "44e623551cf53148d08563ec9602c3aeb5eac805a7a092ed3f32ef382e193af0",
@@ -12228,7 +12229,7 @@
     "components/dot_indicator/dot_indicator_style.dart": "372a4ce1487b6293b110aea9155ebdb492e06289d5d0d49d3d9af558dd95cb26",
     "components/dot_indicator/dot_indicator_theme.dart": "a8981257210250fbf6ac93226e50e4b2c6a3a25f859b59160c5b7205d0b7ad09",
     "components/dot_indicator/preview.dart": "c4bbc348a2b200a4ab662e930e0ea37469b81088a1e986428329eb5734acf62a",
-    "components/drawer/drawer.dart": "ce43d090567f6ee513e1171b3e642d2b29e86e51a13a4dcddfbdeec9ea70317c",
+    "components/drawer/drawer.dart": "35c54c6b2d257c72ee017a14758e111f7ec51c47f5dd8a384c2f9754fbc08529",
     "components/drawer/drawer_background_scale.dart": "8003852870ab08aa064318627029e4bd711bb46ebfaf830f960d54fa03d14b19",
     "components/drawer/drawer_style.dart": "bdaaabf7740bccb172556cb22df99672762a2bb02f58c9278580b4372ada7111",
     "components/drawer/drawer_theme.dart": "15e9c455b6f0e61ab749756fe70de370a8d51986953894ded476c04608c59e9f",
@@ -12404,7 +12405,7 @@
     "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
     "components/overflow_marquee/overflow_marquee_theme.dart": "a0d064556b916170fc3ffadaeb7991e963cd5b07d987f803330724b9f8902a1f",
     "components/overflow_marquee/preview.dart": "08cd923e7f3564ae2ad586784da215b6c5404f5b50a3b0f84df52c766e59c966",
-    "components/overlay_configuration/overlay_configuration.dart": "91188b9ada185780b1464fa7ca3f1586fc8c0fc336fe78d86f19003a16f9e84c",
+    "components/overlay_configuration/overlay_configuration.dart": "a5d8b532bb357c8e1beb62b8be06031d2fc7a7801b12b1414916181520c53639",
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
     "components/page_route/preview.dart": "767e9936a7742060e50ebf9e0b6ff36b4667b8f6f18f85f088c0d32cc2a508b7",
@@ -12578,7 +12579,7 @@
     "components/timeline_animation/preview.dart": "9bd1ff83134a91e41745cc0da9ef890c7626c8e6abfed45545bd4c5f54c490eb",
     "components/timeline_animation/timeline_animation.dart": "d51c5214f3d44a54426f58a743dce68829f09c15b299bcc12469ecaa559145e8",
     "components/toast/preview.dart": "6523125db57d5141ec00e94447ceb051c255bd10c4d5ec8d23ed46c780685a39",
-    "components/toast/toast.dart": "454e597ac6296075c467571f635246893c2008f7e8aee59bb5285bbb6783618c",
+    "components/toast/toast.dart": "d8af741e9fd72ce28ea153c0a128e6d70565833bbe9f07b909a14778154f8ed2",
     "components/toast/toast_style.dart": "667f2fffc2d836b5c1f4ab78aa5e58d7f0bd0966b25661c23bb84ea6f31fda2f",
     "components/toast/toast_theme.dart": "a1f48f6603741624a5845362cfb2b85c434a91f4df9f82b33fa1ea4bbf5b94e2",
     "components/toggle/preview.dart": "001d77beb05d73969a05ce7284b9baffc30ddd2dfb9dd9f0453c628fb77f7c76",
@@ -12599,7 +12600,7 @@
     "components/toolbar/toolbar_theme.dart": "4a4b8ddd831ee83bd372a1a041c8225db41ff5727b83e486e781852eaaf05856",
     "components/toolbar/toolbar_toggle_item.dart": "0057910c9fcc0a292a36c0f5577dc53b576a30fe90c4a67159876e1cdee431f9",
     "components/tooltip/preview.dart": "2898f8f0a90ef1f3ad2f288c122499b81ebcbb4802dd6efe5d1db33220d5d3f7",
-    "components/tooltip/tooltip.dart": "1ce5e8e0b1da34f7c3a56b2c465566114e41c99f2c6d403d6c75bcba8a8069d4",
+    "components/tooltip/tooltip.dart": "1eaf0cb52cb0e8417b6e7d0109519083bb8241e0426ba953a67813f9b185be4a",
     "components/tooltip/tooltip_style.dart": "39d6b17632bb934ded7b9497c6eab29b15c75e7e672a7e3743b5cee516914976",
     "components/tooltip/tooltip_theme.dart": "7d0180f345a15c3bae80896c71d7e78bda0ce53318cc397e2d9fd3cbffb8d54e",
     "components/tracker/preview.dart": "bd1854bf0ad2b1fcec3cf9e58d78acc62292772e6353601c30838157d6952e10",
@@ -12698,10 +12699,10 @@
     "primitives/countries.dart": "892eb3b607f0ef3ebfb362d9eb06dd3cc878ab73a659ceba7d7ae7c06faaf8b4",
     "primitives/date_math.dart": "8382007a17ad0ae22dffdd5892c6d8bf7a85c5921227ddaa368aef3dcb1a33c7",
     "primitives/drag_sort.dart": "97c2568902cd28b021f2432a15904bb49383a7d5f69732d7ddfb5bb19822fdf7",
-    "primitives/drawer_route/drawer_panel.dart": "cbdfa2e68220b5a8fa517e7b9247393d393f0c03e7fcc3a09882d6ec25cb758b",
+    "primitives/drawer_route/drawer_panel.dart": "d327d8ee92e4c3bf23ac7e612dd0da23ec4de9812578d56d7efcd68d7c024000",
     "primitives/drawer_route/drawer_panel_surface.dart": "567d8cdaeffa6b264c8e0afa98825f3b1bb372635504276dec45b22d7c7501cb",
     "primitives/drawer_route/drawer_route.dart": "934b844fed5b65bb2bfb60202cc6e1a79ec73cdbd7974fd45757945f19a03aac",
-    "primitives/drawer_route/drawer_shell.dart": "191864cceb90735677053c49ba331bc320fa2c54fe81e66619b60a73022987d4",
+    "primitives/drawer_route/drawer_shell.dart": "230613f3a3def3111f821867d9c164c4b48e7a5567e89ff465d565df786b90a9",
     "primitives/error_handling/error_handling.dart": "aa93bc3171d221d165de374a10fd1cca6d05e36bd47ef8ec4e663c4ce89b23bb",
     "primitives/error_handling/error_models.dart": "5f3b8d3b087b563eecc5eea6dee300de61db322465d246dd82a3fefa37e9efd7",
     "primitives/error_handling/error_recovery.dart": "46a07bc07c310298bbaa5588df0ca12f3a1a9ca9045a0cd681c9dd813b5dfbdc",
@@ -12831,7 +12832,7 @@
     "primitives/motion/motion_collapse.dart": "1bdf0ea554f81aaf8a717e5cf89dbc0cd5bb8cf5b061ebbbc075becc6dd2088c",
     "primitives/motion/motion_enter.dart": "8627c056675dda026488fae327a2525aa419b07039d12e69587b181974dc4723",
     "primitives/motion/motion_presence.dart": "fee6fa22be60fae2068bbce284cf373899c7af72124e0a6b0331b591739079ab",
-    "primitives/motion/motion_scope.dart": "b728e4a7ed808c46d640e4066cfebd26ed2b3fe5df580137d201fe37d08f2a9f",
+    "primitives/motion/motion_scope.dart": "83a9ef61f00c34de6c6a0fe4887aa4710ba62ab1ed060bc253b10f8e5b44425e",
     "primitives/motion/motion_spec.dart": "b20858afc06f3505db6c9552e8e424aed910b4863f74adcdf367f0e279c37b62",
     "primitives/motion/press_scale.dart": "78df358795ca97adb52415061394a75a3bc351b73e772604919acb801875731e",
     "primitives/motion/scale_in.dart": "2f6d79448df5ed72c2f39d252ff873701ea5426643c72e749e22503bd3cbcc5d",
@@ -12842,17 +12843,17 @@
     "primitives/navigation/navigation_theme.dart": "7958a726e5f84f26154807ad9a40b24a8320777e7063e7a3db7f0eb296c5d232",
     "primitives/object_segments.dart": "f21bca2f2d54fe06043b119e51257bdcde7f59696b829aa4f8185b6215f4548e",
     "primitives/overlap_layout.dart": "21414dced07ac2bff7db9782f59fe8a2b1f37cbbf0222dc8e1f999d857e7bae8",
-    "primitives/overlay.dart": "02e19c062b821e658c765613c470056a8ddacbab118cf4b4ff1d714f5ad3a488",
-    "primitives/overlay_manager.dart": "3d0980f1b29b9db15724f489492e4aa34b0a9dd75e25fa7cd1f174f9af26f07a",
-    "primitives/overlay_manager_layer.dart": "b9e8a2e179cf3da1dd17fe2c57c285c65910ef69c002007353241eb5f12aac41",
+    "primitives/overlay.dart": "32c929264d52015c32c2ae2b4b01fd8697909d3d78cd30acb1d98635955599cb",
+    "primitives/overlay_manager.dart": "c4b64a44cb7538f8aa3f94126e9ad6267a3f3ac3ed824e63bd84a0d7e8157002",
+    "primitives/overlay_manager_layer.dart": "858a1f581bc616a9084cb749be0082c99141e7efd13a66760d3bb4a5b4790236",
     "primitives/phone_number.dart": "d6a8e6b60f54f1326a878491e68964d50f3a9f090ce851c2d2eaec960922ce18",
-    "primitives/popover.dart": "57f1a257207ec6bfbbd8672876f1f8e8f7503d4f177b53144ebd18964ab97c99",
-    "primitives/popover_controller.dart": "17c0d3ce813f111249aa9b9df46c011bda25f63871d8d54e0738badba6424b36",
+    "primitives/popover.dart": "729fe9d98e07bce39b53531a095a772b864e1fe546bb6456c0320e9ea5f200a6",
+    "primitives/popover_controller.dart": "868cb60e13e86d38b739e614e02299edb95bc4b322d0d7f353bd5bc2353b4f56",
     "primitives/popover_layout.dart": "32c7a1adc919d35a932e6d2a98e0cf21bfa47da3d7ad9f6397b6a42963919522",
     "primitives/popover_layout_render.dart": "6dab492863cb3251d78a2c7a6bf498eb260e5d6c0346afb04a8b26475061745b",
-    "primitives/popover_overlay_handler.dart": "695ea3592983ed90673e169a8721babfe10bff754f446b52d9ad2fd5949e2767",
-    "primitives/popover_overlay_state.dart": "6433d14b5ab8f1fbae2d29b6f2dec8c38332007cf7a50e22877eeb3b91db33a4",
-    "primitives/popover_overlay_widget.dart": "4264efc244ad01e973c4d9908c251f3d0a37a479b6d2c07cf42e86542a9cfd0e",
+    "primitives/popover_overlay_handler.dart": "d3074e70511c02cf0c8875e545ef7b92df63b999f5e67e5693c070b578c435c2",
+    "primitives/popover_overlay_state.dart": "3521f386d2d30920f7677cb050778ed0bbe2fb0a785c01e547184e08bfaa3a44",
+    "primitives/popover_overlay_widget.dart": "a223a55420d65595601c2b1178461b162926ef06b06897e1f8cbbabea3069328",
     "primitives/resizable_handle.dart": "5e783b3ff434636e98ecc0fe57112e18cd4faf22ca6f5c9412c371c5a8c83bfe",
     "primitives/resizable_pane.dart": "09ef91d97a8af12a24480f44c2f5014bc3efdb65228fb59690a0b67348bf1523",
     "primitives/roving_group.dart": "5cd0bdc9da51b1d427332a55d873238ebfd8773bf7e6235a8b337aabb3c2b465",
@@ -12919,9 +12920,9 @@
     "primitives/text_editing/token_units.dart": "304baf82cc19fe6e51582fb2eb2d7934056e71321223b7aebf459f39c41bf8f9",
     "primitives/toast_queue/toast_controller.dart": "bccc526a139af1737d4b31b1e5723b5f7da892c3a4c4e29f2e188780567ff5ab",
     "primitives/toast_queue/toast_entry.dart": "b5efa0df9be9b9d81a0636067517520547e6f025dfc745418baee422f6163112",
-    "primitives/toast_queue/toast_exit.dart": "f80ad314e43eb46b34147345681d210fa1f168a8c791076708d01c5d447cfd2b",
+    "primitives/toast_queue/toast_exit.dart": "8365c40b1bd28e3e76e23815a356d5beaf5aaa23dfb48760f7df8952959579ed",
     "primitives/toast_queue/toast_placement.dart": "5be48ebe7abcb2a728acb5ac95ea21d931609404b37d4857bde106b0c79dc084",
-    "primitives/toast_queue/toast_queue.dart": "e9c1e47ab3cb3537787feacc7610507acdac2e2e95bafba82760d670a9559257",
+    "primitives/toast_queue/toast_queue.dart": "4f4be360b5b0b5ed6f826ea16cf4c94fe7635dfd0b23a3ccd136dec03d814361",
     "primitives/touch_hit_area.dart": "9c9c94df0f9c47c97a37fd5f8a0c17e0f59bdf34d4638f68c7c96da891b9e819",
     "primitives/tree_selection/tree_nodes.dart": "4cfd2bbcf5f2b24eb52f3384bcef6f857f4a1b79e124d71dfb1b2a83f39d7da4",
     "primitives/tree_selection/tree_selection.dart": "554af28f3168a8f48578fa7243aced526924cc870bac2ec0899be5459f1f2523",
@@ -13528,6 +13529,7 @@
       "deps": {
         "primitives": [
           "localizations",
+          "motion",
           "overlay",
           "sheet_overlay",
           "surface"
@@ -14022,6 +14024,7 @@
     "popover_overlay_state": {
       "deps": {
         "primitives": [
+          "motion",
           "overlay",
           "popover_layout",
           "popover_overlay_widget"
@@ -14321,7 +14324,9 @@
     },
     "toast_queue": {
       "deps": {
-        "primitives": []
+        "primitives": [
+          "motion"
+        ]
       },
       "files": [
         "primitives/toast_queue/toast_controller.dart",
