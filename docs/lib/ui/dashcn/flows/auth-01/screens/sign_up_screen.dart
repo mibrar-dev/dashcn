@@ -11,6 +11,7 @@ import '../../../theme/theme.dart';
 import 'scaffold.dart';
 import 'social_buttons.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Sign-up form; a valid submit calls [onSignUp] then shows `/otp`.
 class Auth01SignUpScreen extends StatefulWidget {
@@ -85,9 +86,9 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
                 showErrors: const <FormValidationMode>{
                   FormValidationMode.submitted,
                 },
-                child: const Input(
+                child: Input(
                   key: ValueKey<String>('auth01.signup.name'),
-                  hintText: 'Ada Lovelace',
+                  hintText: docsSample(context, 'Ada Lovelace'),
                 ),
               ),
               Gap(appTheme.spacing.md),
@@ -130,7 +131,11 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
         Gap(appTheme.spacing.lg),
         Button(
           onPressed: _busy ? null : _submit,
-          child: Text(_busy ? 'Creating…' : 'Create account'),
+          child: Text(
+            _busy
+                ? docsSample(context, 'Creating…')
+                : docsSample(context, 'Create account'),
+          ),
         ),
         Gap(appTheme.spacing.lg),
         Auth01SocialButtons(onSocialSignIn: widget.onSocialSignIn),
@@ -140,7 +145,7 @@ class _Auth01SignUpScreenState extends State<Auth01SignUpScreen> {
           children: <Widget>[
             Flexible(
               child: Text(
-                'Have an account?',
+                docsSample(context, 'Have an account?'),
                 style: appTheme.typography.textSmall.copyWith(
                   color: appTheme.colors.mutedForeground,
                 ),

@@ -17,6 +17,7 @@ import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 import 'studio_blocks/studio_paint.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Contribution History`: the reference's bar chart plus a payout row.
 class HomeContributionCard extends StatelessWidget {
@@ -54,9 +55,9 @@ class HomeContributionCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Badge(
+            Badge(
               variant: BadgeVariant.secondary,
-              child: Text('May 25, 2026'),
+              child: Text(docsSample(context, 'May 25, 2026')),
             ),
           ],
         ),
@@ -66,7 +67,9 @@ class HomeContributionCard extends StatelessWidget {
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
         const Gap(2),
-        const StudioHelper('Accelerated savings plan · recurring monthly'),
+        StudioHelper(
+          docsSample(context, 'Accelerated savings plan · recurring monthly'),
+        ),
       ],
     );
   }
@@ -164,16 +167,16 @@ class _HomeUsageCardState extends State<HomeUsageCard> {
         const Gap(16),
         const StudioSparkline(values: samples),
         const Gap(16),
-        const Row(
+        Row(
           children: <Widget>[
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  StudioCaption('Currently Using'),
+                  StudioCaption(docsSample(context, 'Currently Using')),
                   Gap(4),
-                  StudioValue('3.4 kW', size: 20),
+                  StudioValue(docsSample(context, '3.4 kW'), size: 20),
                 ],
               ),
             ),
@@ -182,24 +185,24 @@ class _HomeUsageCardState extends State<HomeUsageCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  StudioCaption('Solar Gen'),
+                  StudioCaption(docsSample(context, 'Solar Gen')),
                   Gap(4),
-                  StudioValue('+1.2 kW', size: 20),
+                  StudioValue(docsSample(context, '+1.2 kW'), size: 20),
                 ],
               ),
             ),
           ],
         ),
         const Gap(12),
-        const Progress(
+        Progress(
           value: 0.85,
           height: 4,
-          semanticsLabel: 'Battery level 85 percent',
+          semanticsLabel: docsSample(context, 'Battery level 85 percent'),
         ),
         const Gap(8),
         Row(
           children: <Widget>[
-            const Expanded(child: StudioHelper('Battery Level')),
+            Expanded(child: StudioHelper(docsSample(context, 'Battery Level'))),
             Icon(
               LucideIcons.batteryCharging,
               size: 14,

@@ -223,9 +223,13 @@ class _AudioPlayerState extends State<AudioPlayer> {
       component: style.surfaceBlur,
     );
     final bool compact = widget.variant == AudioPlayerVariant.compact;
+    // 14 px / 20 px at the default theme: the radius steps plus the offset
+    // the media chrome keeps above the surface scale.
     final BorderRadiusGeometry radius =
         style.borderRadius ??
-        (compact ? BorderRadius.circular(14) : BorderRadius.circular(20));
+        (compact
+            ? BorderRadius.circular(ambient.radiusXl + 2)
+            : BorderRadius.circular(ambient.radiusXxl + 8));
     final Duration fade = resolveMotionDuration(
       context,
       style.fadeDuration ?? kDefaultDuration,

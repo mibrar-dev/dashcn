@@ -66,10 +66,10 @@ class _CustomCountriesPhoneState extends State<_CustomCountriesPhone> {
     return PhoneInput(
       initialCountry: const Country(dialCode: '+44', code: 'GB'),
       initialValue: _value,
-      countries: const <CountryInfo>[
-        CountryInfo('GB', '+44', 'GBP', 'United Kingdom'),
-        CountryInfo('IE', '+353', 'EUR', 'Ireland'),
-        CountryInfo('FR', '+33', 'EUR', 'France'),
+      countries: <CountryInfo>[
+        CountryInfo('GB', '+44', 'GBP', docsSample(context, 'United Kingdom')),
+        CountryInfo('IE', '+353', 'EUR', docsSample(context, 'Ireland')),
+        CountryInfo('FR', '+33', 'EUR', docsSample(context, 'France')),
       ],
       onChanged: (PhoneNumber? value) => setState(() => _value = value),
       theme: _compact,
@@ -101,7 +101,7 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
     return FormScope(
       child: FormItem<PhoneNumber>(
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
-        label: const Text('Phone'),
+        label: Text(docsSample(context, 'Phone')),
         validator: const PhoneNumberValidator(),
         showErrors: const <FormValidationMode>{
           FormValidationMode.initial,
@@ -125,8 +125,8 @@ Widget _customCountries(BuildContext context) => const _CustomCountriesPhone();
 Widget _invalid(BuildContext context) => const _InvalidPhone();
 
 /// Named docs examples for `phone_input`; the first entry is the default.
-const List<ComponentPreview> phoneInputPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Custom countries', _customCountries),
-  ComponentPreview('Invalid', _invalid),
+List<ComponentPreview> get phoneInputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Custom countries'), _customCountries),
+  ComponentPreview(docsSample(null, 'Invalid'), _invalid),
 ];

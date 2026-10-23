@@ -30,7 +30,7 @@ class _InteractiveRatingState extends State<_InteractiveRating> {
     return StarRating(
       value: _value,
       onChanged: (double value) => setState(() => _value = value),
-      semanticLabel: 'Rating',
+      semanticLabel: docsSample(context, 'Rating'),
     );
   }
 }
@@ -83,9 +83,9 @@ Widget _disabled(BuildContext context) {
 }
 
 /// Named docs examples for `star_rating`; the first entry is the default.
-const List<ComponentPreview> starRatingPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Read-only', _readOnly),
-  ComponentPreview('Vertical', _vertical),
-  ComponentPreview('Disabled', _disabled),
+List<ComponentPreview> get starRatingPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Read-only'), _readOnly),
+  ComponentPreview(docsSample(null, 'Vertical'), _vertical),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

@@ -16,6 +16,7 @@ import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Payout Threshold`: a select, a slider with a live amount and a textarea.
 class StudioPayoutCard extends StatefulWidget {
@@ -27,10 +28,10 @@ class StudioPayoutCard extends StatefulWidget {
 }
 
 class _StudioPayoutCardState extends State<StudioPayoutCard> {
-  static const List<String> currencies = <String>[
+  static List<String> currencies = <String>[
     r'USD — United States Dollar',
-    'EUR — Euro',
-    'GBP — British Pound',
+    docsSample(null, 'EUR — Euro'),
+    docsSample(null, 'GBP — British Pound'),
   ];
 
   String _currency = currencies.first;
@@ -40,14 +41,20 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return StudioCard(
-      title: 'Payout Threshold',
-      subtitle: 'Set the minimum balance before a payout is triggered.',
+      title: docsSample(context, 'Payout Threshold'),
+      subtitle: docsSample(
+        context,
+        docsSample(
+          context,
+          'Set the minimum balance before a payout is triggered.',
+        ),
+      ),
       trailing: const Icon(LucideIcons.x, size: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const StudioFieldLabel('Preferred Currency'),
+          StudioFieldLabel(docsSample(context, 'Preferred Currency')),
           const Gap(6),
           Select<String>(
             value: _currency,
@@ -63,7 +70,11 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
           const Gap(20),
           Row(
             children: <Widget>[
-              const Expanded(child: StudioFieldLabel('Minimum Payout Amount')),
+              Expanded(
+                child: StudioFieldLabel(
+                  docsSample(context, 'Minimum Payout Amount'),
+                ),
+              ),
               Text(
                 r'$' + _minimum.toStringAsFixed(2),
                 style: theme.typography.small.copyWith(
@@ -79,7 +90,7 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
             min: 50,
             max: 10000,
             onChanged: (double next) => setState(() => _minimum = next),
-            semanticLabel: 'Minimum payout amount',
+            semanticLabel: docsSample(context, 'Minimum payout amount'),
           ),
           Row(
             children: <Widget>[
@@ -107,20 +118,29 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
             ],
           ),
           const Gap(16),
-          const StudioFieldLabel('Notes'),
+          StudioFieldLabel(docsSample(context, 'Notes')),
           const Gap(6),
-          const TextArea(
+          TextArea(
             minLines: 3,
             maxLines: 4,
-            hintText: 'Add any notes for this payout configuration...',
+            hintText: docsSample(
+              context,
+              docsSample(
+                context,
+                'Add any notes for this payout configuration...',
+              ),
+            ),
           ),
           const Gap(16),
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Save Threshold', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Save Threshold'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],
@@ -139,10 +159,10 @@ class StudioInvestmentCard extends StatefulWidget {
 }
 
 class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
-  static const List<String> orderTypes = <String>[
-    'Market Order',
-    'Limit Order',
-    'Stop Order',
+  static List<String> orderTypes = <String>[
+    docsSample(null, 'Market Order'),
+    docsSample(null, 'Limit Order'),
+    docsSample(null, 'Stop Order'),
   ];
 
   String _orderType = orderTypes.first;
@@ -152,13 +172,16 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return StudioCard(
-      title: 'Buy Investment',
-      subtitle: 'A strategy for building wealth over time.',
+      title: docsSample(context, 'Buy Investment'),
+      subtitle: docsSample(
+        context,
+        docsSample(context, 'A strategy for building wealth over time.'),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const StudioFieldLabel('Amount to Invest'),
+          StudioFieldLabel(docsSample(context, 'Amount to Invest')),
           const Gap(6),
           Row(
             children: <Widget>[
@@ -182,7 +205,7 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
             ],
           ),
           const Gap(16),
-          const StudioFieldLabel('Order Type'),
+          StudioFieldLabel(docsSample(context, 'Order Type')),
           const Gap(6),
           Select<String>(
             value: _orderType,
@@ -195,8 +218,14 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
             itemBuilder: (BuildContext context, String value) => Text(value),
           ),
           const Gap(16),
-          const StudioRow(label: 'Estimated Shares', value: '1.95'),
-          const StudioRow(label: 'Buying Power', value: r'$12,450.00'),
+          StudioRow(
+            label: docsSample(context, 'Estimated Shares'),
+            value: '1.95',
+          ),
+          StudioRow(
+            label: docsSample(context, 'Buying Power'),
+            value: r'$12,450.00',
+          ),
           const Gap(12),
           const Text(
             'Market orders execute at the current price. Trades are '
@@ -207,9 +236,12 @@ class _StudioInvestmentCardState extends State<StudioInvestmentCard> {
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Review Order', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Review Order'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],
@@ -228,11 +260,11 @@ class StudioReportIssueCard extends StatefulWidget {
 }
 
 class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
-  static const List<String> kinds = <String>[
-    'Wrong royalty split',
-    'Missing track',
-    'Artwork rejected',
-    'Payout delayed',
+  static List<String> kinds = <String>[
+    docsSample(null, 'Wrong royalty split'),
+    docsSample(null, 'Missing track'),
+    docsSample(null, 'Artwork rejected'),
+    docsSample(null, 'Payout delayed'),
   ];
 
   String _kind = kinds.first;
@@ -240,13 +272,16 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Report an Issue',
-      subtitle: 'Tell us what went wrong and we will pick it up.',
+      title: docsSample(context, 'Report an Issue'),
+      subtitle: docsSample(
+        context,
+        docsSample(context, 'Tell us what went wrong and we will pick it up.'),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const StudioFieldLabel('Category'),
+          StudioFieldLabel(docsSample(context, 'Category')),
           const Gap(6),
           Select<String>(
             value: _kind,
@@ -258,21 +293,27 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
             itemBuilder: (BuildContext context, String value) => Text(value),
           ),
           const Gap(16),
-          const StudioFieldLabel('What happened?'),
+          StudioFieldLabel(docsSample(context, 'What happened?')),
           const Gap(6),
-          const TextArea(
+          TextArea(
             minLines: 4,
             maxLines: 6,
-            hintText: 'Include track names, dates and any error codes.',
+            hintText: docsSample(
+              context,
+              docsSample(
+                context,
+                'Include track names, dates and any error codes.',
+              ),
+            ),
           ),
           const Gap(16),
           Row(
             children: <Widget>[
-              const Expanded(
+              Expanded(
                 child: Button(
                   variant: ButtonVariant.outline,
                   onPressed: studioNoop,
-                  child: Text('Cancel'),
+                  child: Text(docsSample(context, 'Cancel')),
                 ),
               ),
               const Gap(12),
@@ -280,7 +321,7 @@ class _StudioReportIssueCardState extends State<StudioReportIssueCard> {
                 child: Button(
                   variant: ButtonVariant.primary,
                   onPressed: () {},
-                  child: const Text('Submit Report'),
+                  child: Text(docsSample(context, 'Submit Report')),
                 ),
               ),
             ],
@@ -303,18 +344,21 @@ class StudioCreateAccountCard extends StatefulWidget {
 
 class _StudioCreateAccountCardState extends State<StudioCreateAccountCard> {
   bool _sameAddress = true;
-  String _payout = 'Bank Transfer';
+  String _payout = docsSample(null, 'Bank Transfer');
 
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Create Account',
-      subtitle: 'Start distributing your music in minutes.',
+      title: docsSample(context, 'Create Account'),
+      subtitle: docsSample(
+        context,
+        docsSample(context, 'Start distributing your music in minutes.'),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const StudioFieldLabel('Email'),
+          StudioFieldLabel(docsSample(context, 'Email')),
           const Gap(6),
           const Input(
             initialValue: '',
@@ -322,24 +366,24 @@ class _StudioCreateAccountCardState extends State<StudioCreateAccountCard> {
             keyboardType: TextInputType.emailAddress,
           ),
           const Gap(16),
-          const StudioFieldLabel('Password'),
+          StudioFieldLabel(docsSample(context, 'Password')),
           const Gap(6),
-          const Input(
+          Input(
             initialValue: '',
             obscureText: true,
-            hintText: 'At least 8 characters',
+            hintText: docsSample(context, 'At least 8 characters'),
           ),
           const Gap(16),
-          const StudioFieldLabel('Payout Method'),
+          StudioFieldLabel(docsSample(context, 'Payout Method')),
           const Gap(6),
           Select<String>(
             value: _payout,
             onChanged: (String? next) =>
                 setState(() => _payout = next ?? _payout),
-            items: const <Widget>[
+            items: <Widget>[
               SelectItem<String>(
-                value: 'Bank Transfer',
-                child: Text('Bank Transfer'),
+                value: docsSample(context, 'Bank Transfer'),
+                child: Text(docsSample(context, 'Bank Transfer')),
               ),
               SelectItem<String>(value: 'PayPal', child: Text('PayPal')),
             ],
@@ -348,7 +392,9 @@ class _StudioCreateAccountCardState extends State<StudioCreateAccountCard> {
           const Gap(16),
           Row(
             children: <Widget>[
-              const Expanded(child: Text('Billing same as payout')),
+              Expanded(
+                child: Text(docsSample(context, 'Billing same as payout')),
+              ),
               Switch(
                 value: _sameAddress,
                 onChanged: (bool value) => setState(() => _sameAddress = value),
@@ -359,9 +405,12 @@ class _StudioCreateAccountCardState extends State<StudioCreateAccountCard> {
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Create Account', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Create Account'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],

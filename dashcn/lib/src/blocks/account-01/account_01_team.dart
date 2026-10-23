@@ -11,6 +11,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The team tab: member rows and an invite action.
 class Account01Team extends StatelessWidget {
@@ -24,10 +25,10 @@ class Account01Team extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    const List<(String, String, String)> members = <(String, String, String)>[
-      ('AL', 'Ada Lovelace', 'Owner'),
-      ('BK', 'Bjarne Kern', 'Admin'),
-      ('SD', 'Sofia Davis', 'Member'),
+    List<(String, String, String)> members = <(String, String, String)>[
+      ('AL', docsSample(context, 'Ada Lovelace'), docsSample(context, 'Owner')),
+      ('BK', docsSample(context, 'Bjarne Kern'), docsSample(context, 'Admin')),
+      ('SD', docsSample(context, 'Sofia Davis'), docsSample(context, 'Member')),
     ];
     return Card(
       child: Column(
@@ -37,7 +38,7 @@ class Account01Team extends StatelessWidget {
           Text(strings.blockTeam, style: theme.typography.textLarge),
           Gap(theme.spacing.sm),
           Text(
-            'Everyone with access to this workspace.',
+            docsSample(context, 'Everyone with access to this workspace.'),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),

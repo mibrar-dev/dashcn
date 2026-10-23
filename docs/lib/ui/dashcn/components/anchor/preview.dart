@@ -11,6 +11,7 @@ import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'anchor.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class AnchorPreview extends StatefulWidget {
@@ -22,7 +23,7 @@ class AnchorPreview extends StatefulWidget {
 }
 
 class _AnchorPreviewState extends State<AnchorPreview> {
-  String _report = 'tap a row';
+  String _report = docsSample(null, 'tap a row');
 
   void _resolve(BuildContext rowContext, String label) {
     const LinkedAnchor anchor = LinkedAnchor('row-anchor');
@@ -32,10 +33,8 @@ class _AnchorPreviewState extends State<AnchorPreview> {
     setState(() {
       _report = box == null
           ? '$label: no anchor'
-          : '$label: ${box.size.width.toStringAsFixed(0)}'
-                'x${box.size.height.toStringAsFixed(0)} '
-                'visible=${subscription.isVisible} '
-                'tracking=${subscription.supportsCompositeTracking}';
+          : '$label: ${box.size.width.toStringAsFixed(0)}x${box.size.height.toStringAsFixed(0)} '
+                'visible=${subscription.isVisible} tracking=${subscription.supportsCompositeTracking}';
     });
     subscription.dispose();
   }
@@ -43,7 +42,7 @@ class _AnchorPreviewState extends State<AnchorPreview> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: _body(context),
     );
   }

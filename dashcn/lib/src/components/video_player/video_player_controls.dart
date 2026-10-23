@@ -149,7 +149,8 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
       ),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
-        borderRadius: BorderRadius.circular(14),
+        // 14 px at the default theme: control bars keep 2 px above radiusXl.
+        borderRadius: BorderRadius.circular(ambient.radiusXl + 2),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -171,6 +172,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
               widget.moreBuilder == null &&
               widget.speedBuilder == null)
             videoMenuSection(
+              context: context,
               c: c,
               style: style,
               fg: widget.fg,
@@ -185,7 +187,7 @@ class _VideoControlsBarState extends State<VideoControlsBar> {
     );
     bar = GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(ambient.radiusXl + 2),
       child: bar,
     );
     final Widget defaults = AnimatedOpacity(
@@ -409,7 +411,7 @@ class VideoMinimalBar extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(ambient.radiusXl + 2),
       ),
       child: Row(
         children: <Widget>[
@@ -444,7 +446,7 @@ class VideoMinimalBar extends StatelessWidget {
     );
     return GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(ambient.radiusXl + 2),
       child: bar,
     );
   }

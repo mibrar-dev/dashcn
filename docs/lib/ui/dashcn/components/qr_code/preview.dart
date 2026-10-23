@@ -55,7 +55,7 @@ class _LiveUrlState extends State<_LiveUrl> {
           QrCode(
             data: _url,
             size: 200,
-            semanticsLabel: 'QR code for the typed URL',
+            semanticsLabel: docsSample(context, 'QR code for the typed URL'),
           ),
         ],
       ),
@@ -92,8 +92,8 @@ class _Shapes extends StatelessWidget {
           spacing: theme.spacing.md,
           runSpacing: theme.spacing.md,
           children: <Widget>[
-            cell('Square', QrModuleShape.square),
-            cell('Rounded', QrModuleShape.rounded),
+            cell(docsSample(context, 'Square'), QrModuleShape.square),
+            cell(docsSample(context, 'Rounded'), QrModuleShape.rounded),
             cell('Dot', QrModuleShape.dot),
           ],
         ),
@@ -115,8 +115,8 @@ class _Shapes extends StatelessWidget {
 Widget _shapes(BuildContext context) => const _Shapes();
 
 /// Named docs examples for `qr_code`; the first entry is the default.
-const List<ComponentPreview> qrCodePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Live URL', _liveUrl),
-  ComponentPreview('Shapes', _shapes),
+List<ComponentPreview> get qrCodePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Live URL'), _liveUrl),
+  ComponentPreview(docsSample(null, 'Shapes'), _shapes),
 ];

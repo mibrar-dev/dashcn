@@ -29,27 +29,27 @@ class _Trigger extends StatelessWidget {
         variant: ButtonVariant.outline,
         size: ButtonSize.sm,
         onPressed: onPressed,
-        child: Text(label),
+        child: Text(docsSample(context, label)),
       ),
     );
   }
 }
 
 Widget _default(BuildContext context) => _Trigger(
-  label: 'Show toast',
+  label: docsSample(context, 'Show toast'),
   onPressed: () => showToast(
     context,
-    builder: (context) => const Text('Saved to your workspace.'),
+    builder: (context) => Text(docsSample(context, 'Saved to your workspace.')),
   ),
 );
 
 Widget _destructive(BuildContext context) => _Trigger(
-  label: 'Show destructive toast',
+  label: docsSample(context, 'Show destructive toast'),
   onPressed: () => showToast(
     context,
     placement: ToastPlacement.bottomCenter,
     builder: (BuildContext toastContext) => Text(
-      'Could not save the file.',
+      docsSample(toastContext, 'Could not save the file.'),
       style: TextStyle(
         color: Theme.of(toastContext).colors.destructive,
         fontWeight: FontWeight.w600,
@@ -65,7 +65,7 @@ class _ActionTrigger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _Trigger(
-      label: 'Show toast with action',
+      label: docsSample(context, 'Show toast with action'),
       onPressed: () => showToast(
         context,
         placement: ToastPlacement.bottomTrailing,
@@ -73,12 +73,12 @@ class _ActionTrigger extends StatelessWidget {
           spacing: Theme.of(toastContext).spacing.md,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            const Text('Deployment started.'),
+            Text(docsSample(toastContext, 'Deployment started.')),
             Button(
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
               onPressed: () => toastControllerOf(toastContext)?.dismissAll(),
-              child: const Text('View'),
+              child: Text(docsSample(toastContext, 'View')),
             ),
           ],
         ),
@@ -115,9 +115,9 @@ Widget _positions(BuildContext context) {
 }
 
 /// Named docs examples for `toast`; the first entry is the default.
-const List<ComponentPreview> toastPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Destructive', _destructive),
-  ComponentPreview('With action', _withAction),
-  ComponentPreview('Positions', _positions),
+List<ComponentPreview> get toastPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Destructive'), _destructive),
+  ComponentPreview(docsSample(null, 'With action'), _withAction),
+  ComponentPreview(docsSample(null, 'Positions'), _positions),
 ];

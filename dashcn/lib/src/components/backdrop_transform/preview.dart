@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'backdrop_transform.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class BackdropTransformPreview extends StatefulWidget {
@@ -25,7 +26,7 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: _body(context),
     );
   }
@@ -66,8 +67,7 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
                   children: <Widget>[
                     Center(
                       child: Text(
-                        'freed ${freed.width.toStringAsFixed(1)}'
-                        ' x ${freed.height.toStringAsFixed(1)}',
+                        'freed ${freed.width.toStringAsFixed(1)} x ${freed.height.toStringAsFixed(1)}',
                       ),
                     ),
                     Positioned.fill(
@@ -89,7 +89,7 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
               ),
             ),
             SizedBox(height: Theme.of(context).spacing.lg),
-            const Text('no transform'),
+            Text(docsSample(context, 'no transform')),
             SizedBox(height: Theme.of(context).spacing.sm),
             SizedBox(
               width: size.width,
@@ -107,8 +107,7 @@ class _BackdropTransformPreviewState extends State<BackdropTransformPreview> {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(
-                    'dark tokens / radiusXxl = '
-                    '${Theme.of(context).radiusXxl}',
+                    'dark tokens / radiusXxl = ${Theme.of(context).radiusXxl}',
                   ),
                 ),
               ),

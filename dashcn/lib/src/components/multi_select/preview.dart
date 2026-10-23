@@ -9,12 +9,12 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/component_preview.dart';
 import 'multi_select.dart';
 
-const List<String> _options = <String>[
-  'Apple',
-  'Banana',
-  'Cherry',
-  'Date',
-  'Grape',
+List<String> _options = <String>[
+  docsSample(null, 'Apple'),
+  docsSample(null, 'Banana'),
+  docsSample(null, 'Cherry'),
+  docsSample(null, 'Date'),
+  docsSample(null, 'Grape'),
 ];
 
 /// A controlled picker with one fruit selected.
@@ -26,7 +26,7 @@ class _DefaultExample extends StatefulWidget {
 }
 
 class _DefaultExampleState extends State<_DefaultExample> {
-  Iterable<String>? _fruits = <String>['Apple'];
+  Iterable<String>? _fruits = <String>[docsSample(null, 'Apple')];
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,18 @@ class _DefaultExampleState extends State<_DefaultExample> {
       child: MultiSelect<String>(
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
-        placeholder: const Text('Select fruits'),
+        placeholder: Text(docsSample(context, 'Select fruits')),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(docsSample(context, value)),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(docsSample(context, fruit)),
+            ),
         ],
       ),
     );
@@ -58,7 +64,11 @@ class _BadgesExample extends StatefulWidget {
 }
 
 class _BadgesExampleState extends State<_BadgesExample> {
-  Iterable<String>? _fruits = <String>['Apple', 'Cherry', 'Grape'];
+  Iterable<String>? _fruits = <String>[
+    docsSample(null, 'Apple'),
+    docsSample(null, 'Cherry'),
+    docsSample(null, 'Grape'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +77,18 @@ class _BadgesExampleState extends State<_BadgesExample> {
       child: MultiSelect<String>(
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
-        placeholder: const Text('Select fruits'),
+        placeholder: Text(docsSample(context, 'Select fruits')),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(docsSample(context, value)),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(docsSample(context, fruit)),
+            ),
         ],
       ),
     );
@@ -90,7 +106,7 @@ class _DisabledExample extends StatefulWidget {
 }
 
 class _DisabledExampleState extends State<_DisabledExample> {
-  Iterable<String>? _fruits = <String>['Apple'];
+  Iterable<String>? _fruits = <String>[docsSample(null, 'Apple')];
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +116,18 @@ class _DisabledExampleState extends State<_DisabledExample> {
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
         enabled: false,
-        placeholder: const Text('Select fruits'),
+        placeholder: Text(docsSample(context, 'Select fruits')),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(docsSample(context, value)),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(docsSample(context, fruit)),
+            ),
         ],
       ),
     );
@@ -115,8 +137,8 @@ class _DisabledExampleState extends State<_DisabledExample> {
 Widget _disabled(BuildContext context) => const _DisabledExample();
 
 /// Named docs examples for `multi_select`; the first entry is the default.
-const List<ComponentPreview> multiSelectPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With badges', _withBadges),
-  ComponentPreview('Disabled', _disabled),
+List<ComponentPreview> get multiSelectPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With badges'), _withBadges),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

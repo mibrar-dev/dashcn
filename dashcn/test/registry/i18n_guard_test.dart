@@ -292,12 +292,6 @@ const Map<String, List<_Allowed>> _allowList = <String, List<_Allowed>>{
   'flows/auth-01/screens/sign_in_screen.dart': <_Allowed>[
     _Allowed("'name@example.com'", 'example-email demo hint; sample content.'),
   ],
-  'flows/settings-01/flow.dart': <_Allowed>[
-    _Allowed(
-      "this.userName = 'Ada Lovelace'",
-      'demo user default; sample content.',
-    ),
-  ],
 };
 
 /// Lines that are never user-facing: diagnostics, debug labels, storage keys,

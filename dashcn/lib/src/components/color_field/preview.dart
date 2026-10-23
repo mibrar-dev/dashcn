@@ -35,11 +35,11 @@ class _ColorFieldLabel extends StatelessWidget {
 
 /// The HSV saturation/value field.
 Widget _colorFieldDefault(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      _ColorFieldLabel('HSV field'),
+      _ColorFieldLabel(docsSample(context, 'HSV field')),
       SizedBox(
         width: 240,
         height: 140,
@@ -55,11 +55,11 @@ Widget _colorFieldDefault(BuildContext context) {
 
 /// The hue strip.
 Widget _colorFieldHue(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      _ColorFieldLabel('Hue strip'),
+      _ColorFieldLabel(docsSample(context, 'Hue strip')),
       SizedBox(
         width: 240,
         height: 24,
@@ -74,11 +74,11 @@ Widget _colorFieldHue(BuildContext context) {
 
 /// The HSL lightness field.
 Widget _colorFieldHsl(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      _ColorFieldLabel('HSL field'),
+      _ColorFieldLabel(docsSample(context, 'HSL field')),
       SizedBox(
         width: 240,
         height: 140,
@@ -95,11 +95,11 @@ Widget _colorFieldHsl(BuildContext context) {
 
 /// The alpha ramp.
 Widget _colorFieldAlpha(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      _ColorFieldLabel('Alpha ramp'),
+      _ColorFieldLabel(docsSample(context, 'Alpha ramp')),
       SizedBox(
         width: 240,
         height: 24,
@@ -113,9 +113,9 @@ Widget _colorFieldAlpha(BuildContext context) {
 }
 
 /// Named docs examples for `color_field`; the first entry is the default.
-const List<ComponentPreview> colorFieldPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _colorFieldDefault),
-  ComponentPreview('Hue', _colorFieldHue),
-  ComponentPreview('HSL', _colorFieldHsl),
-  ComponentPreview('Alpha', _colorFieldAlpha),
+List<ComponentPreview> get colorFieldPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _colorFieldDefault),
+  ComponentPreview(docsSample(null, 'Hue'), _colorFieldHue),
+  ComponentPreview(docsSample(null, 'HSL'), _colorFieldHsl),
+  ComponentPreview(docsSample(null, 'Alpha'), _colorFieldAlpha),
 ];

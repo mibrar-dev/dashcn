@@ -349,7 +349,8 @@ class _SelectState<T> extends State<Select<T>>
     final double borderWidth = trigger.borderColor == null
         ? 0
         : trigger.borderWidth ?? 1;
-    final double triggerHeight = widget.triggerMinHeight ?? 36;
+    final double triggerHeight =
+        widget.triggerMinHeight ?? ambient.densityTokens.rowMaxHeight;
     // Touch comfort is an invisible hit-test/semantics expansion, never
     // larger visuals or layout: the trigger paints at 36 px and the layout
     // stays 36 px, while taps and the reported tap target reach the platform
@@ -380,20 +381,21 @@ class _SelectState<T> extends State<Select<T>>
                 ),
                 textStyle: WidgetStateProperty.resolveWith(
                   (states) => TextStyle(
-                    fontSize: 14,
+                    fontSize: ambient.densityTokens.bodyTextSize,
                     color: colorFor(trigger.foreground, states),
                   ),
                 ),
                 iconTheme: WidgetStateProperty.resolveWith(
                   (states) => IconThemeData(
-                    size: 16,
+                    size: ambient.densityTokens.iconSize,
                     color: colorFor(trigger.foreground, states),
                   ),
                 ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight:
-                        (widget.triggerMinHeight ?? 36) -
+                        (widget.triggerMinHeight ??
+                            ambient.densityTokens.rowMaxHeight) -
                         math.max(resolvedPadding.top, borderWidth) -
                         math.max(resolvedPadding.bottom, borderWidth),
                   ),

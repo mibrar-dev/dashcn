@@ -123,12 +123,13 @@ List<DocsExampleSourceFacts> extractExampleSources({
       for (int i = 0; i < decls.length; i++)
         if (picked.contains(i)) decls[i].slice,
     ];
-    final String code = '$header\n\n${bodies.join('\n\n')}\n';
+    final String rawCode = '$header\n\n${bodies.join('\n\n')}\n';
+    final String code = _sanitizeDocsSample(rawCode);
     out.add(
       DocsExampleSourceFacts(
         name: parsed.name,
         description: parsed.description,
-        builder: parsed.builderSource,
+        builder: _sanitizeDocsSample(parsed.builderSource),
         code: code,
       ),
     );
@@ -136,24 +137,98 @@ List<DocsExampleSourceFacts> extractExampleSources({
   return out;
 }
 
+/// Strips docs-internal [docsSample] calls so the Code tab shows clean English
+/// code for copy-paste.
+String _sanitizeDocsSample(String code) {
+  const String target = 'docsSample(';
+  int pos = 0;
+  final StringBuffer res = StringBuffer();
+  while (true) {
+    final int idx = code.indexOf(target, pos);
+    if (idx == -1) {
+      res.write(code.substring(pos));
+      break;
+    }
+    res.write(code.substring(pos, idx));
+    int depth = 1;
+    int commaPos = -1;
+    int i = idx + target.length;
+    String? inQuote;
+    while (i < code.length && depth > 0) {
+      final String ch = code[i];
+      if (inQuote != null) {
+        if (ch == '\\') {
+          i += 2;
+          continue;
+        } else if (ch == inQuote) {
+          inQuote = null;
+        }
+      } else {
+        if (ch == "'" || ch == '"') {
+          inQuote = ch;
+        } else if (ch == '(') {
+          depth++;
+        } else if (ch == ')') {
+          depth--;
+          if (depth == 0) {
+            break;
+          }
+        } else if (ch == ',' && depth == 1 && commaPos == -1) {
+          commaPos = i;
+        }
+      }
+      i++;
+    }
+    if (depth == 0 && commaPos != -1) {
+      final String expr = code.substring(commaPos + 1, i).trim();
+      res.write(_sanitizeDocsSample(expr.replaceFirst(RegExp(r',\s*$'), '')));
+      pos = i + 1;
+    } else {
+      res.write(target);
+      pos = idx + target.length;
+    }
+  }
+  return res.toString();
+}
+
 /// The `List<ComponentPreview>` literal of the file, or null.
 ListLiteral? _previewList(CompilationUnit unit) {
   for (final CompilationUnitMember member in unit.declarations) {
-    if (member is! TopLevelVariableDeclaration) {
-      continue;
+    final ({String name, ListLiteral list})? found = _previewListOf(member);
+    if (found != null) {
+      return found.list;
     }
+  }
+  return null;
+}
+
+/// The name and list literal of a top-level `List<ComponentPreview>` declared
+/// as a variable (`= <ComponentPreview>[...]`) or as a getter
+/// (`get name => <ComponentPreview>[...]`). Null for any other declaration.
+({String name, ListLiteral list})? _previewListOf(
+  CompilationUnitMember member,
+) {
+  if (member is TopLevelVariableDeclaration) {
     final String type =
         member.variables.type?.toSource().replaceAll(' ', '') ?? '';
-    if (type != 'List<ComponentPreview>') {
-      continue;
+    if (type != 'List<ComponentPreview>' ||
+        member.variables.variables.length != 1) {
+      return null;
     }
-    if (member.variables.variables.length != 1) {
-      continue;
-    }
-    final Expression? initializer =
-        member.variables.variables.first.initializer;
+    final VariableDeclaration variable = member.variables.variables.first;
+    final Expression? initializer = variable.initializer;
     if (initializer is ListLiteral) {
-      return initializer;
+      return (name: variable.name.lexeme, list: initializer);
+    }
+    return null;
+  }
+  if (member is FunctionDeclaration && member.isGetter) {
+    final String type = member.returnType?.toSource().replaceAll(' ', '') ?? '';
+    final FunctionBody body = member.functionExpression.body;
+    if (type == 'List<ComponentPreview>' &&
+        body is ExpressionFunctionBody &&
+        body.expression is ListLiteral) {
+      return (name: member.name.lexeme, list: body.expression as ListLiteral);
     }
   }
   return null;
@@ -186,6 +261,25 @@ _PreviewElement? _parseElement(Expression element, String source) {
   return _parseArguments(arguments, source);
 }
 
+/// The English label of an example: a plain string literal, or the key of a
+/// `docsSample(context, 'key')` wrapper (the Code tab always shows English).
+String? _literalName(Expression expression) {
+  if (expression is StringLiteral) {
+    return expression.stringValue;
+  }
+  if (expression is MethodInvocation &&
+      expression.methodName.name == 'docsSample') {
+    final List<Expression> args = <Expression>[
+      for (final Argument argument in expression.argumentList.arguments)
+        if (argument is Expression) argument,
+    ];
+    if (args.length >= 2 && args[1] is StringLiteral) {
+      return (args[1] as StringLiteral).stringValue;
+    }
+  }
+  return null;
+}
+
 _PreviewElement? _parseArguments(ArgumentList arguments, String source) {
   // Positional arguments are `Expression`s; `NamedArgument` is not, so it
   // is excluded here and read separately below.
@@ -196,7 +290,7 @@ _PreviewElement? _parseArguments(ArgumentList arguments, String source) {
   if (positional.length < 2) {
     return null;
   }
-  final String? name = (positional[0] as StringLiteral?)?.stringValue;
+  final String? name = _literalName(positional[0]);
   if (name == null || name.isEmpty) {
     return null;
   }

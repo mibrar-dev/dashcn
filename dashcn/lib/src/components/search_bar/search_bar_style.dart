@@ -96,7 +96,7 @@ class SearchBarTheme extends ComponentThemeData
   /// Whether the trailing clear button shows while text is not empty.
   final bool? showClear;
 
-  /// Leading icon size; null falls back to [searchBarDefaultIconSize].
+  /// Leading icon size; null falls back to the density icon token.
   final double? iconSize;
 
   /// Returns a copy with the given fields replaced.
@@ -323,7 +323,6 @@ const SearchBarTheme searchBarDefaults = SearchBarTheme(
   minRowHeight: 48,
   showLeading: true,
   showClear: true,
-  iconSize: searchBarDefaultIconSize,
 );
 
 /// Default leading-icon size.

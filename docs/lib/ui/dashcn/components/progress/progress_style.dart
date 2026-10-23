@@ -212,7 +212,8 @@ ProgressSurface resolveProgressSurface(
     select: (t) => t,
     defaults: progressDefaults,
   );
-  final double effectiveHeight = height ?? resolved.height ?? 8 * theme.scaling;
+  final double effectiveHeight =
+      height ?? resolved.height ?? theme.spacing.sm * theme.scaling;
   final Color fill = color ?? resolved.color?.resolve(colors) ?? colors.primary;
   final Color track =
       backgroundColor ??

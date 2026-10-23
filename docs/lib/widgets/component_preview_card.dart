@@ -31,6 +31,7 @@ import 'device_frame/framed_screen.dart';
 import 'docs_tokens.dart';
 import 'example_preview_card.dart';
 import 'preview_stage.dart';
+import 'package:docs/widgets/preview_scope.dart';
 
 /// The main demo card: the first example of [componentId].
 class ComponentPreviewCard extends StatelessWidget {
@@ -188,7 +189,7 @@ class PreviewExampleLoaderState extends State<PreviewExampleLoader> {
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
         if (snapshot.hasData) {
-          return snapshot.data!;
+          return PreviewScope(child: snapshot.data!);
         }
         if (snapshot.hasError) {
           return Text(

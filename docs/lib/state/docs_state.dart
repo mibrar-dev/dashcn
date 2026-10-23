@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/device_frame/device_spec.dart';
+import 'docs_sample_strings.dart';
 import 'docs_storage.dart';
 import 'docs_strings.dart';
 import 'site_theme_model.dart';
@@ -258,6 +259,7 @@ class DocsState extends ChangeNotifier {
         final Locale parsed = docsLocaleFromTag(storedLocale);
         if (parsed != _locale) {
           _locale = parsed;
+          setDocsSampleLocale(_locale);
           changed = true;
         }
       }
@@ -339,6 +341,7 @@ class DocsState extends ChangeNotifier {
       return;
     }
     _locale = parsed;
+    setDocsSampleLocale(_locale);
     notifyListeners();
     try {
       storage.write(kDocsLocaleKey, tag);
@@ -359,6 +362,7 @@ class DocsState extends ChangeNotifier {
       return;
     }
     _locale = docsLocaleFromTag(tag);
+    setDocsSampleLocale(_locale);
     notifyListeners();
     try {
       storage.write(kDocsLocaleKey, tag);

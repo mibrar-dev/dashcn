@@ -24,6 +24,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Login01].
 class Login01Data {
@@ -160,7 +161,16 @@ class _Login01State extends State<Login01> {
                       ),
                       Gap(theme.spacing.xs),
                       Text(
-                        'Enter your credentials to access your workspace.',
+                        docsSample(
+                          context,
+                          docsSample(
+                            context,
+                            docsSample(
+                              context,
+                              'Enter your credentials to access your workspace.',
+                            ),
+                          ),
+                        ),
                         style: theme.typography.textMuted.copyWith(
                           color: theme.colors.mutedForeground,
                         ),
@@ -249,7 +259,7 @@ class _Login01State extends State<Login01> {
                         Gap(theme.spacing.lg),
                         Alert(
                           content: Text(
-                            'Signed in — welcome back.',
+                            docsSample(context, 'Signed in — welcome back.'),
                             style: theme.typography.textSmall,
                           ),
                         ),

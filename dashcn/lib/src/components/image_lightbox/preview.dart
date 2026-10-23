@@ -27,23 +27,23 @@ const String _amberPng =
 final List<LightboxImage> _photos = <LightboxImage>[
   LightboxImage(
     image: MemoryImage(base64Decode(_redPng)),
-    caption: 'Red sample',
-    semanticLabel: 'Red sample image',
+    caption: docsSample(null, 'Red sample'),
+    semanticLabel: docsSample(null, 'Red sample image'),
   ),
   LightboxImage(
     image: MemoryImage(base64Decode(_greenPng)),
-    caption: 'Green sample',
-    semanticLabel: 'Green sample image',
+    caption: docsSample(null, 'Green sample'),
+    semanticLabel: docsSample(null, 'Green sample image'),
   ),
   LightboxImage(
     image: MemoryImage(base64Decode(_bluePng)),
-    caption: 'Blue sample',
-    semanticLabel: 'Blue sample image',
+    caption: docsSample(null, 'Blue sample'),
+    semanticLabel: docsSample(null, 'Blue sample image'),
   ),
   LightboxImage(
     image: MemoryImage(base64Decode(_amberPng)),
-    caption: 'Amber sample',
-    semanticLabel: 'Amber sample image',
+    caption: docsSample(null, 'Amber sample'),
+    semanticLabel: docsSample(null, 'Amber sample image'),
   ),
 ];
 
@@ -129,9 +129,9 @@ class _GalleryState extends State<_Gallery> {
 Widget _gallery(BuildContext context) => const _Gallery();
 
 /// Named docs examples for `image_lightbox`; the first entry is the default.
-const List<ComponentPreview> imageLightboxPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Minimal', _minimal),
-  ComponentPreview('Customized', _customized),
-  ComponentPreview('From thumbnails', _gallery),
+List<ComponentPreview> get imageLightboxPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Minimal'), _minimal),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
+  ComponentPreview(docsSample(null, 'From thumbnails'), _gallery),
 ];

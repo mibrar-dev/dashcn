@@ -26,10 +26,16 @@ class _RowsDemoState extends State<_RowsDemo> {
     return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
-      items: const <Widget>[
-        RadioItem<String>(value: 'free', label: Text('Free')),
+      items: <Widget>[
+        RadioItem<String>(
+          value: 'free',
+          label: Text(docsSample(context, 'Free')),
+        ),
         RadioItem<String>(value: 'pro', label: Text('Pro')),
-        RadioItem<String>(value: 'team', label: Text('Team')),
+        RadioItem<String>(
+          value: 'team',
+          label: Text(docsSample(context, 'Team')),
+        ),
       ],
     );
   }
@@ -56,7 +62,10 @@ class _CardsDemoState extends State<_CardsDemo> {
           RadioCard<String>(
             value: plan,
             child: Text(
-              plan,
+              docsSample(
+                context,
+                plan == 'free' ? docsSample(context, 'Free') : 'Pro',
+              ),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
@@ -70,7 +79,7 @@ Widget _default(BuildContext context) => const _RowsDemo();
 Widget _cardItems(BuildContext context) => const _CardsDemo();
 
 /// Named docs examples for `radio_group`; the first entry is the default.
-const List<ComponentPreview> radioGroupPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Card items', _cardItems),
+List<ComponentPreview> get radioGroupPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Card items'), _cardItems),
 ];

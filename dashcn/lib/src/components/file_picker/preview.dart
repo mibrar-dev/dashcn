@@ -13,14 +13,14 @@ import 'file_picker.dart';
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
   return <FileValue>[
-    const FileValue(
+    FileValue(
       id: 'pick-pdf',
       name: 'report.pdf',
       size: 482000,
       mimeType: 'application/pdf',
     ),
     if (request.allowMultiple)
-      const FileValue(
+      FileValue(
         id: 'pick-png',
         name: 'photo.png',
         size: 1200000,
@@ -134,8 +134,8 @@ Widget _trigger(BuildContext context) {
 }
 
 /// Named docs examples for `file_picker`; the first entry is the default.
-const List<ComponentPreview> filePickerPreviews = <ComponentPreview>[
+List<ComponentPreview> get filePickerPreviews => <ComponentPreview>[
   ComponentPreview('Dropzone', _dropzone),
-  ComponentPreview('Tile', _tile),
-  ComponentPreview('Trigger', _trigger),
+  ComponentPreview(docsSample(null, 'Tile'), _tile),
+  ComponentPreview(docsSample(null, 'Trigger'), _trigger),
 ];

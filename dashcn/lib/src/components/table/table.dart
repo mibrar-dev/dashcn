@@ -133,7 +133,9 @@ class TableViewState extends State<TableView> {
   int _maxColumn = 0;
   TextDirection _textDirection = TextDirection.ltr;
   double _resizerThickness = 4;
-  Color _resizerColor = const Color(0xFF000000);
+  // Assigned from the theme (`TableTheme.resizerColor` or `colors.primary`)
+  // at the top of every build; never read before that assignment.
+  late Color _resizerColor;
   final ValueNotifier<TableCellRange?> _hoveredCellNotifier = ValueNotifier(
     null,
   );

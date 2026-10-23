@@ -109,7 +109,7 @@ class SegmentedControlStyle implements Mergeable<SegmentedControlStyle> {
   /// The control's border width; null uses 1 px when a border colour is set.
   final double? borderWidth;
 
-  /// The control's corner radius; null uses the ambient `borderRadiusMd`.
+  /// The control's corner radius; null uses the ambient `borderRadiusLg`.
   final BorderRadiusGeometry? borderRadius;
 
   /// The control's padding; null uses 4 px (p-1), so the default 36 px

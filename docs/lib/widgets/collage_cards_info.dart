@@ -19,6 +19,7 @@ import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'copy_button.dart';
 import 'docs_tokens.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 class CollageButtonsCard extends StatelessWidget {
   const CollageButtonsCard({super.key});
@@ -44,13 +45,13 @@ class CollageButtonsCard extends StatelessWidget {
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Secondary'),
+              child: Text(docsSample(context, 'Secondary')),
             ),
             Button(
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Outline'),
+              child: Text(docsSample(context, 'Outline')),
             ),
           ],
         ),
@@ -78,10 +79,16 @@ class CollageButtonsCard extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Badge(variant: BadgeVariant.primary, child: Text('Badge')),
-            Badge(variant: BadgeVariant.secondary, child: Text('Secondary')),
-            Badge(variant: BadgeVariant.outline, child: Text('Outline')),
+            Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(docsSample(context, 'Secondary')),
+            ),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, 'Outline')),
+            ),
             Badge(
               variant: BadgeVariant.primary,
               showAsDot: true,
@@ -104,8 +111,8 @@ class CollageInstallCard extends StatelessWidget {
         .firstWhere((DocsComponent component) => component.id == 'button')
         .install;
     return CollageCard(
-      title: 'Install',
-      subtitle: 'One command copies the source in',
+      title: docsSample(context, 'Install'),
+      subtitle: docsSample(context, 'One command copies the source in'),
       children: <Widget>[
         DecoratedBox(
           decoration: BoxDecoration(
@@ -144,20 +151,21 @@ class CollageTooltipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Tooltips',
+      title: docsSample(context, 'Tooltips'),
       children: <Widget>[
         Tooltip(
-          tooltip: (BuildContext context) => const Text('Adds the component'),
+          tooltip: (BuildContext context) =>
+              Text(docsSample(context, 'Adds the component')),
           child: Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: collageNoop,
-            child: const Text('Hover me'),
+            child: Text(docsSample(context, 'Hover me')),
           ),
         ),
         const Gap(12),
         Text(
-          'Accessible by default.',
+          docsSample(context, 'Accessible by default.'),
           style: docsText(
             context,
             size: 12.5,
@@ -184,7 +192,7 @@ class CollagePagesCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final List<DocsNavLink> links = kDocsSections.take(4).toList();
     return CollageCard(
-      title: 'Pages',
+      title: docsSample(context, 'Pages'),
       children: <Widget>[
         for (int i = 0; i < links.length; i++)
           Padding(
@@ -223,30 +231,30 @@ class CollageTableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CollageCard(
       title: 'Table',
-      subtitle: 'Rows, columns and widths from one widget',
+      subtitle: docsSample(context, 'Rows, columns and widths from one widget'),
       children: <Widget>[
         TableView(
           defaultColumnWidth: FlexTableSize(),
           rows: <TableViewRow>[
             TableViewHeader(
               cells: <TableViewCell>[
-                TableViewCell(child: Text('Name')),
-                TableViewCell(child: Text('Role')),
-                TableViewCell(child: Text('Status')),
+                TableViewCell(child: Text(docsSample(context, 'Name'))),
+                TableViewCell(child: Text(docsSample(context, 'Role'))),
+                TableViewCell(child: Text(docsSample(context, 'Status'))),
               ],
             ),
             TableViewRow(
               cells: <TableViewCell>[
-                TableViewCell(child: Text('Maya')),
-                TableViewCell(child: Text('Admin')),
-                TableViewCell(child: Text('Active')),
+                TableViewCell(child: Text(docsSample(context, 'Maya'))),
+                TableViewCell(child: Text(docsSample(context, 'Admin'))),
+                TableViewCell(child: Text(docsSample(context, 'Active'))),
               ],
             ),
             TableViewRow(
               cells: <TableViewCell>[
                 TableViewCell(child: Text('Leo')),
-                TableViewCell(child: Text('Editor')),
-                TableViewCell(child: Text('Invited')),
+                TableViewCell(child: Text(docsSample(context, 'Editor'))),
+                TableViewCell(child: Text(docsSample(context, 'Invited'))),
               ],
             ),
           ],

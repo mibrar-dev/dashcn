@@ -113,6 +113,5 @@ class HistoryTheme extends ComponentThemeData
 const HistoryTheme historyDefaults = HistoryTheme(
   selectedBorder: ThemedColor.ref(ColorRef.primary),
   selectedBorderWidth: 2,
-  spacing: 4,
   tileSize: 32,
 );

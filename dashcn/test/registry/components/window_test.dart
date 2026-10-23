@@ -556,4 +556,21 @@ void main() {
       expect(windowDefaults.snapOverlayColor?.resolve(colors), colors.card);
     });
   });
+
+  testWidgets('a window wider than the navigator is drawn inside it', (
+    tester,
+  ) async {
+    final WindowController controller = WindowController(
+      bounds: const Rect.fromLTWH(24, 20, 280, 190),
+    );
+    addTearDown(controller.dispose);
+    await tester.pumpWidget(
+      _frame(child: _stage(controller, size: const Size(200, 200))),
+    );
+    await tester.pump();
+    final Rect navigator = tester.getRect(find.byType(WindowNavigator));
+    final Rect window = tester.getRect(find.byType(Window));
+    expect(window.right, lessThanOrEqualTo(navigator.right + 0.5));
+    expect(controller.bounds, const Rect.fromLTWH(24, 20, 280, 190));
+  });
 }

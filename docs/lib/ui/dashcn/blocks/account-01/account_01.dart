@@ -22,6 +22,7 @@ import 'account_01_password.dart';
 import 'account_01_profile.dart';
 import 'account_01_team.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by the [Account01] profile form.
 
@@ -72,7 +73,16 @@ class _Account01State extends State<Account01> {
             Text(strings.errorActionSettings, style: theme.typography.h2),
             Gap(theme.spacing.xs),
             Text(
-              'Manage your account settings and set your email preferences.',
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Manage your account settings and set your email preferences.',
+                  ),
+                ),
+              ),
               style: theme.typography.textMuted.copyWith(
                 color: theme.colors.mutedForeground,
               ),

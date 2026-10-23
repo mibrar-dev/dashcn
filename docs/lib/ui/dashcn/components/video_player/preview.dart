@@ -84,12 +84,12 @@ class _DefaultVideoState extends State<_DefaultVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'For Bigger Blazes',
-          subtitle: 'Season 3 episode 6',
+          title: docsSample(context, 'For Bigger Blazes'),
+          subtitle: docsSample(context, 'Season 3 episode 6'),
           content: _frame(const <Color>[
             Color(0xFF312E81),
             Color(0xFF0EA5E9),
-          ], 'Online MP4'),
+          ], docsSample(context, 'Online MP4')),
         ),
       ),
     );
@@ -125,8 +125,8 @@ class _LiveVideoState extends State<_LiveVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'Live stream',
-          subtitle: 'HLS test stream',
+          title: docsSample(context, 'Live stream'),
+          subtitle: docsSample(context, 'HLS test stream'),
           content: _frame(const <Color>[
             Color(0xFF7F1D1D),
             Color(0xFFDC2626),
@@ -165,18 +165,18 @@ class _CameraVideoState extends State<_CameraVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'Live feed',
-          subtitle: 'Camera',
+          title: docsSample(context, 'Live feed'),
+          subtitle: docsSample(context, 'Camera'),
           content: Container(
             color: const Color(0xFF18181B),
             alignment: Alignment.center,
-            child: const Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Icon(LucideIcons.cameraOff, size: 32, color: Color(0xFFFFFFFF)),
                 SizedBox(height: 8),
                 Text(
-                  'Camera unavailable — permission denied',
+                  docsSample(context, 'Camera unavailable — permission denied'),
                   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 13),
                 ),
               ],
@@ -216,21 +216,21 @@ class _SpeedMenuOpenVideoState extends State<_SpeedMenuOpenVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'For Bigger Blazes',
-          subtitle: 'Season 3 episode 6',
+          title: docsSample(context, 'For Bigger Blazes'),
+          subtitle: docsSample(context, 'Season 3 episode 6'),
           controlsBuilder: (context, c, defaults) => VideoControlsBar(
             controller: c,
             style: videoPlayerDefaults,
             fg: const Color(0xFFFFFFFF),
             fade: Duration.zero,
-            title: 'For Bigger Blazes',
-            subtitle: 'Season 3 episode 6',
+            title: docsSample(context, 'For Bigger Blazes'),
+            subtitle: docsSample(context, 'Season 3 episode 6'),
             initialSpeedOpen: true,
           ),
           content: _frame(const <Color>[
             Color(0xFF4C1D95),
             Color(0xFF7C3AED),
-          ], 'Speed menu open'),
+          ], docsSample(context, 'Speed menu open')),
         ),
       ),
     );
@@ -254,11 +254,11 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
     _controller = FakeVideoPlaybackController(
       position: const Duration(seconds: 12),
       areCaptionsEnabled: true,
-      cues: const <VideoCaptionCue>[
+      cues: <VideoCaptionCue>[
         VideoCaptionCue(
           start: Duration(seconds: 10),
           end: Duration(seconds: 15),
-          text: 'Hello, world',
+          text: docsSample(context, 'Hello, world'),
         ),
       ],
     );
@@ -278,12 +278,12 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'Captioned premiere',
-          subtitle: 'English subtitles',
+          title: docsSample(context, 'Captioned premiere'),
+          subtitle: docsSample(context, 'English subtitles'),
           content: _frame(const <Color>[
             Color(0xFF0F172A),
             Color(0xFF334155),
-          ], 'Captions on'),
+          ], docsSample(context, 'Captions on')),
         ),
       ),
     );
@@ -319,12 +319,12 @@ class _BarHiddenVideoState extends State<_BarHiddenVideo> {
         child: VideoPlayer(
           controller: _controller,
           controlsVisible: false,
-          title: 'For Bigger Blazes',
-          subtitle: 'Season 3 episode 6',
+          title: docsSample(context, 'For Bigger Blazes'),
+          subtitle: docsSample(context, 'Season 3 episode 6'),
           content: _frame(const <Color>[
             Color(0xFF047857),
             Color(0xFF10B981),
-          ], 'Bar hidden'),
+          ], docsSample(context, 'Bar hidden')),
         ),
       ),
     );
@@ -358,12 +358,12 @@ class _PhoneVideoState extends State<_PhoneVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'For Bigger Blazes',
-          subtitle: 'Season 3 episode 6',
+          title: docsSample(context, 'For Bigger Blazes'),
+          subtitle: docsSample(context, 'Season 3 episode 6'),
           content: _frame(const <Color>[
             Color(0xFF1E1B4B),
             Color(0xFF4338CA),
-          ], 'Phone width'),
+          ], docsSample(context, 'Phone width')),
         ),
       ),
     );
@@ -397,8 +397,8 @@ class _CustomVideoState extends State<_CustomVideo> {
         borderRadius: BorderRadius.circular(18),
         child: VideoPlayer(
           controller: _controller,
-          title: 'Custom theme',
-          subtitle: 'Rose accent',
+          title: docsSample(context, 'Custom theme'),
+          subtitle: docsSample(context, 'Rose accent'),
           content: const ColoredBox(color: Color(0xFF3F3F46)),
           theme: const VideoPlayerTheme(
             accent: ThemedColor.value(Color(0xFFE11D48)),
@@ -436,13 +436,13 @@ Widget _phone(BuildContext context) => const _PhoneVideo();
 Widget _custom(BuildContext context) => const _CustomVideo();
 
 /// Named docs examples for `video_player`; the first entry is the default.
-const List<ComponentPreview> videoPlayerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Live stream', _live),
-  ComponentPreview('Camera fallback', _camera),
-  ComponentPreview('Speed menu open', _speedMenuOpen),
-  ComponentPreview('Captions on', _captions),
-  ComponentPreview('Bar hidden', _barHidden),
-  ComponentPreview('Phone width', _phone),
-  ComponentPreview('Customized', _custom),
+List<ComponentPreview> get videoPlayerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Live stream'), _live),
+  ComponentPreview(docsSample(null, 'Camera fallback'), _camera),
+  ComponentPreview(docsSample(null, 'Speed menu open'), _speedMenuOpen),
+  ComponentPreview(docsSample(null, 'Captions on'), _captions),
+  ComponentPreview(docsSample(null, 'Bar hidden'), _barHidden),
+  ComponentPreview(docsSample(null, 'Phone width'), _phone),
+  ComponentPreview(docsSample(null, 'Customized'), _custom),
 ];

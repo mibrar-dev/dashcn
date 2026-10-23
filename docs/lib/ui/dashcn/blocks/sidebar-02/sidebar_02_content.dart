@@ -12,6 +12,7 @@ import '../../components/progress/progress.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The sample content area: stats, usage, files and activity.
 class Sidebar02Content extends StatelessWidget {
@@ -32,19 +33,28 @@ class Sidebar02Content extends StatelessWidget {
         Text(_sidebar02Title(selected), style: theme.typography.h2),
         Gap(theme.spacing.xs),
         Text(
-          'Experiment with the API before you ship it.',
+          docsSample(context, 'Experiment with the API before you ship it.'),
           style: theme.typography.textMuted.copyWith(
             color: theme.colors.mutedForeground,
           ),
         ),
         Gap(theme.spacing.lg),
-        const Wrap(
+        Wrap(
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Badge(variant: BadgeVariant.secondary, child: Text('Stable')),
-            Badge(variant: BadgeVariant.outline, child: Text('Beta channel')),
-            Badge(variant: BadgeVariant.primary, child: Text('New: batches')),
+            Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(docsSample(context, 'Stable')),
+            ),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, 'Beta channel')),
+            ),
+            Badge(
+              variant: BadgeVariant.primary,
+              child: Text(docsSample(context, 'New: batches')),
+            ),
           ],
         ),
         Gap(theme.spacing.lg),
@@ -63,7 +73,7 @@ class Sidebar02Content extends StatelessWidget {
               const Progress(value: 0.68),
               Gap(theme.spacing.sm),
               Text(
-                '2,040,000 of 3,000,000 tokens',
+                docsSample(context, '2,040,000 of 3,000,000 tokens'),
                 style: theme.typography.textSmall.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -85,11 +95,11 @@ class Sidebar02Content extends StatelessWidget {
 }
 
 String _sidebar02Title(int selected) => switch (selected) {
-  1 => 'Models',
-  2 => 'Documentation',
-  3 => 'Design system',
-  4 => 'Marketing site',
-  _ => 'Playground',
+  1 => docsSample(null, 'Models'),
+  2 => docsSample(null, 'Documentation'),
+  3 => docsSample(null, 'Design system'),
+  4 => docsSample(null, 'Marketing site'),
+  _ => docsSample(null, 'Playground'),
 };
 
 class _Sidebar02Stats extends StatelessWidget {
@@ -105,10 +115,10 @@ class _Sidebar02Stats extends StatelessWidget {
         final double cardWidth = columns == 1
             ? constraints.maxWidth
             : (constraints.maxWidth - gap * (columns - 1)) / columns;
-        const List<(String, String)> stats = <(String, String)>[
-          ('Projects', '12'),
-          ('Members', '8'),
-          ('Deploys', '1,204'),
+        List<(String, String)> stats = <(String, String)>[
+          (docsSample(context, 'Projects'), '12'),
+          (docsSample(context, 'Members'), '8'),
+          (docsSample(context, 'Deploys'), '1,204'),
         ];
         return Wrap(
           spacing: gap,
@@ -148,10 +158,14 @@ class _Sidebar02Files extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    const List<(String, String, String)> files = <(String, String, String)>[
-      ('SM', 'Summer lookbook.pdf', '2.4 MB · edited 3m ago'),
-      ('BR', 'Brand tokens.json', '18 KB · edited 1h ago'),
-      ('RD', 'Roadmap Q4.md', '44 KB · edited yesterday'),
+    List<(String, String, String)> files = <(String, String, String)>[
+      (
+        'SM',
+        'Summer lookbook.pdf',
+        docsSample(context, '2.4 MB · edited 3m ago'),
+      ),
+      ('BR', 'Brand tokens.json', docsSample(context, '18 KB · edited 1h ago')),
+      ('RD', 'Roadmap Q4.md', docsSample(context, '44 KB · edited yesterday')),
     ];
     return Card(
       child: Column(
@@ -198,10 +212,19 @@ class _Sidebar02Activity extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    const List<(String, String)> events = <(String, String)>[
-      ('Ada deployed Marketing site to production', '12m ago'),
-      ('Bjarne invited Sofia to Design system', '1h ago'),
-      ('Nightly backup completed', '6h ago'),
+    List<(String, String)> events = <(String, String)>[
+      (
+        docsSample(context, 'Ada deployed Marketing site to production'),
+        docsSample(context, '12m ago'),
+      ),
+      (
+        docsSample(context, 'Bjarne invited Sofia to Design system'),
+        docsSample(context, '1h ago'),
+      ),
+      (
+        docsSample(context, 'Nightly backup completed'),
+        docsSample(context, '6h ago'),
+      ),
     ];
     return Card(
       child: Column(

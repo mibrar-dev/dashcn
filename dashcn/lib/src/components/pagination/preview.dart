@@ -60,7 +60,7 @@ class _IconOnlyPaginationState extends State<_IconOnlyPagination> {
 Widget _iconOnly(BuildContext context) => const _IconOnlyPagination();
 
 /// Named docs examples for `pagination`; the first entry is the default.
-const List<ComponentPreview> paginationPreviews = <ComponentPreview>[
-  ComponentPreview('Labelled', _labelled),
-  ComponentPreview('Icon only', _iconOnly),
+List<ComponentPreview> get paginationPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Labelled'), _labelled),
+  ComponentPreview(docsSample(null, 'Icon only'), _iconOnly),
 ];

@@ -23,7 +23,7 @@ class _DatePickerLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Text(
-      text,
+      docsSample(context, text),
       style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
     );
   }
@@ -39,11 +39,11 @@ Widget _datePickerSingle(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const _DatePickerLabel('Empty trigger'),
+      _DatePickerLabel(docsSample(context, 'Empty trigger')),
       Gap(spacing.sm),
       DatePicker(value: null, onChanged: (DateTime? value) {}),
       Gap(spacing.lg),
-      const _DatePickerLabel('Filled trigger'),
+      _DatePickerLabel(docsSample(context, 'Filled trigger')),
       Gap(spacing.sm),
       DatePicker(value: _datePickerToday, onChanged: (DateTime? value) {}),
     ],
@@ -57,11 +57,11 @@ Widget _datePickerRange(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const _DatePickerLabel('Empty range trigger'),
+      _DatePickerLabel(docsSample(context, 'Empty range trigger')),
       Gap(spacing.sm),
       DateRangePicker(value: null, onChanged: (DateTimeRange? value) {}),
       Gap(spacing.lg),
-      const _DatePickerLabel('Filled range trigger'),
+      _DatePickerLabel(docsSample(context, 'Filled range trigger')),
       Gap(spacing.sm),
       DateRangePicker(
         value: DateTimeRange(
@@ -76,10 +76,10 @@ Widget _datePickerRange(BuildContext context) {
 
 /// The dialog prompt with a title.
 Widget _datePickerDialog(BuildContext context) {
-  return const DatePicker(
+  return DatePicker(
     value: null,
     mode: PromptMode.dialog,
-    dialogTitle: Text('Pick a date'),
+    dialogTitle: Text(docsSample(context, 'Pick a date')),
     onChanged: null,
   );
 }
@@ -98,10 +98,10 @@ Widget _datePickerInline(BuildContext context) {
 }
 
 /// Named docs examples for `date_picker`; the first entry is the default.
-const List<ComponentPreview> datePickerPreviews = <ComponentPreview>[
-  ComponentPreview('Single', _datePickerSingle),
-  ComponentPreview('Range', _datePickerRange),
+List<ComponentPreview> get datePickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Single'), _datePickerSingle),
+  ComponentPreview(docsSample(null, 'Range'), _datePickerRange),
   ComponentPreview('Dialog', _datePickerDialog),
-  ComponentPreview('Disabled', _datePickerDisabled),
-  ComponentPreview('Inline', _datePickerInline),
+  ComponentPreview(docsSample(null, 'Disabled'), _datePickerDisabled),
+  ComponentPreview(docsSample(null, 'Inline'), _datePickerInline),
 ];

@@ -29,7 +29,7 @@ class _SingleSliderState extends State<_SingleSlider> {
       child: Slider(
         value: _value,
         onChanged: (double value) => setState(() => _value = value),
-        semanticLabel: 'Single',
+        semanticLabel: docsSample(context, 'Single'),
       ),
     );
   }
@@ -53,7 +53,7 @@ class _RangeSliderState extends State<_RangeSlider> {
       child: Slider.range(
         value: _range,
         onRangeChanged: (SliderValue value) => setState(() => _range = value),
-        semanticLabel: 'Range',
+        semanticLabel: docsSample(context, 'Range'),
       ),
     );
   }
@@ -94,8 +94,8 @@ Widget _range(BuildContext context) => const _RangeSlider();
 Widget _steps(BuildContext context) => const _StepsSlider();
 
 /// Named docs examples for `slider`; the first entry is the default.
-const List<ComponentPreview> sliderPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Range', _range),
+List<ComponentPreview> get sliderPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Range'), _range),
   ComponentPreview('Steps', _steps),
 ];

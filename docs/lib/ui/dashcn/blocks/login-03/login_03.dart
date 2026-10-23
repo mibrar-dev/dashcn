@@ -25,6 +25,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Login03].
 class Login03Data {
@@ -139,7 +140,7 @@ class _Login03State extends State<Login03> {
                     ),
                     Gap(theme.spacing.sm),
                     Text(
-                      'Pick the way you prefer.',
+                      docsSample(context, 'Pick the way you prefer.'),
                       style: theme.typography.textMuted.copyWith(
                         color: theme.colors.mutedForeground,
                       ),
@@ -156,9 +157,12 @@ class _Login03State extends State<Login03> {
                             );
                             final Widget google = Button(
                               variant: ButtonVariant.outline,
-                              onPressed: () =>
-                                  widget.onProvider?.call('Google'),
-                              child: const _Login03ProviderButton('Google'),
+                              onPressed: () => widget.onProvider?.call(
+                                docsSample(context, 'Google'),
+                              ),
+                              child: _Login03ProviderButton(
+                                docsSample(context, 'Google'),
+                              ),
                             );
                             // Stacked on phones so the provider buttons never
                             // overflow a 375 px card; side by side otherwise.
@@ -257,7 +261,16 @@ class _Login03State extends State<Login03> {
                             Gap(theme.spacing.lg),
                             Alert(
                               content: Text(
-                                'Signed in — welcome back.',
+                                docsSample(
+                                  context,
+                                  docsSample(
+                                    context,
+                                    docsSample(
+                                      context,
+                                      'Signed in — welcome back.',
+                                    ),
+                                  ),
+                                ),
                                 style: theme.typography.textSmall,
                               ),
                             ),

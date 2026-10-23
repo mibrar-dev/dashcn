@@ -9,88 +9,99 @@ import 'list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _default(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     leading: Icon(LucideIcons.user),
-    title: Text('Title'),
-    subtitle: Text('Subtitle'),
+    title: Text(docsSample(context, 'Title')),
+    subtitle: Text(docsSample(context, 'Subtitle')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _compact(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.compact,
     leading: Icon(LucideIcons.user),
-    title: Text('Compact (default)'),
-    subtitle: Text('Row 32-36, icon 16'),
+    title: Text(docsSample(context, 'Compact (default)')),
+    subtitle: Text(docsSample(context, 'Row 32-36, icon 16')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _comfortable(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.comfortable,
     leading: Icon(LucideIcons.user),
-    title: Text('Comfortable'),
-    subtitle: Text('Row 40-44, icon 20'),
+    title: Text(docsSample(context, 'Comfortable')),
+    subtitle: Text(docsSample(context, 'Row 40-44, icon 20')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _avatar(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     leading: Avatar(initials: 'IB', size: 32),
-    title: Text('Avatar 32 (compact)'),
-    subtitle: Text('Avatar sizes follow density'),
+    title: Text(docsSample(context, 'Avatar 32 (compact)')),
+    subtitle: Text(docsSample(context, 'Avatar sizes follow density')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _avatarComfortable(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.comfortable,
     leading: Avatar(initials: 'IB', size: 40),
-    title: Text('Avatar 40 (comfortable)'),
-    subtitle: Text('Row 40-44, icon 20'),
+    title: Text(docsSample(context, 'Avatar 40 (comfortable)')),
+    subtitle: Text(docsSample(context, 'Row 40-44, icon 20')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _dense(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     dense: true,
     leading: Icon(LucideIcons.user),
-    title: Text('Dense tile'),
-    subtitle: Text('Subtitle'),
+    title: Text(docsSample(context, 'Dense tile')),
+    subtitle: Text(docsSample(context, 'Subtitle')),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _threeLine(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     isThreeLine: true,
     leading: Icon(LucideIcons.user),
-    title: Text('Three-line title'),
-    subtitle: Text('A longer subtitle that spans multiple lines in the tile.'),
+    title: Text(docsSample(context, 'Three-line title')),
+    subtitle: Text(
+      docsSample(
+        context,
+        docsSample(
+          context,
+          docsSample(
+            context,
+            'A longer subtitle that spans multiple lines in the tile.',
+          ),
+        ),
+      ),
+    ),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
 
 Widget _selected(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     selected: true,
     leading: Icon(LucideIcons.check),
-    title: Text('Selected'),
-    subtitle: Text('Selected state'),
+    title: Text(docsSample(context, 'Selected')),
+    subtitle: Text(docsSample(context, 'Selected state')),
   ),
 );
 
 Widget _disabled(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     enabled: false,
     leading: Icon(LucideIcons.user),
-    title: Text('Disabled'),
-    subtitle: Text('Disabled state'),
+    title: Text(docsSample(context, 'Disabled')),
+    subtitle: Text(docsSample(context, 'Disabled state')),
   ),
 );
 
@@ -101,32 +112,41 @@ Widget _customized(BuildContext context) => _wrap(
       titleStyle: TextStyle(fontWeight: FontWeight.w700),
     ),
     leading: const Icon(LucideIcons.star),
-    title: const Text('Customized'),
-    subtitle: const Text('With style override'),
+    title: Text(docsSample(context, 'Customized')),
+    subtitle: Text(docsSample(context, 'With style override')),
     trailing: const Icon(LucideIcons.heart),
   ),
 );
 
 Widget _grouped(BuildContext context) => _wrap(
-  const ListTileGroup(
+  ListTileGroup(
     children: <Widget>[
-      ListTile(title: Text('First'), leading: Icon(LucideIcons.user)),
-      ListTile(title: Text('Second'), leading: Icon(LucideIcons.user)),
-      ListTile(title: Text('Third'), leading: Icon(LucideIcons.user)),
+      ListTile(
+        title: Text(docsSample(context, 'First')),
+        leading: Icon(LucideIcons.user),
+      ),
+      ListTile(
+        title: Text(docsSample(context, 'Second')),
+        leading: Icon(LucideIcons.user),
+      ),
+      ListTile(
+        title: Text(docsSample(context, 'Third')),
+        leading: Icon(LucideIcons.user),
+      ),
     ],
   ),
 );
 
-const List<ComponentPreview> listTilePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Compact', _compact),
-  ComponentPreview('Comfortable', _comfortable),
+List<ComponentPreview> get listTilePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Compact'), _compact),
+  ComponentPreview(docsSample(null, 'Comfortable'), _comfortable),
   ComponentPreview('Avatar', _avatar),
-  ComponentPreview('Avatar comfortable', _avatarComfortable),
-  ComponentPreview('Dense', _dense),
-  ComponentPreview('Three line', _threeLine),
-  ComponentPreview('Selected', _selected),
-  ComponentPreview('Disabled', _disabled),
-  ComponentPreview('Customized', _customized),
-  ComponentPreview('Grouped', _grouped),
+  ComponentPreview(docsSample(null, 'Avatar comfortable'), _avatarComfortable),
+  ComponentPreview(docsSample(null, 'Dense'), _dense),
+  ComponentPreview(docsSample(null, 'Three line'), _threeLine),
+  ComponentPreview(docsSample(null, 'Selected'), _selected),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
+  ComponentPreview(docsSample(null, 'Grouped'), _grouped),
 ];

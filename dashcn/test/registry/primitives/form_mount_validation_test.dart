@@ -112,7 +112,7 @@ void main() {
         _frame(
           _form(
             controller,
-            const ValidationMode<String>(
+            ValidationMode<String>(
               NotEmptyValidator(),
               mode: <FormValidationMode>{FormValidationMode.changed},
             ),
@@ -132,7 +132,7 @@ void main() {
         _frame(
           _form(
             controller,
-            const ValidationMode<String>(
+            ValidationMode<String>(
               NotEmptyValidator(),
               mode: <FormValidationMode>{FormValidationMode.changed},
             ),
@@ -159,7 +159,7 @@ void main() {
         _frame(
           _form(
             controller,
-            const ValidationMode<String>(
+            ValidationMode<String>(
               NotEmptyValidator(),
               mode: <FormValidationMode>{
                 FormValidationMode.initial,
@@ -167,7 +167,7 @@ void main() {
                 FormValidationMode.submitted,
               },
             ),
-            showErrors: const <FormValidationMode>{
+            showErrors: <FormValidationMode>{
               FormValidationMode.initial,
               FormValidationMode.changed,
               FormValidationMode.submitted,
@@ -187,7 +187,7 @@ void main() {
     ) async {
       await pumpBlock(
         tester,
-        const Login01(),
+        Login01(),
         blockTheme('neutral', Brightness.light),
         768,
       );
@@ -196,11 +196,11 @@ void main() {
 
     testWidgets('flows render with no errors on first frame', (tester) async {
       final List<Widget> flows = <Widget>[
-        const Auth01Flow(),
-        const Chat01Flow(),
-        const Checkout01Flow(),
-        const Onboarding01Flow(),
-        const Settings01Flow(),
+        Auth01Flow(),
+        Chat01Flow(),
+        Checkout01Flow(),
+        Onboarding01Flow(),
+        Settings01Flow(),
       ];
       for (final Widget flow in flows) {
         await pumpFlow(

@@ -28,12 +28,12 @@ Widget _outlinedContainerDefault(BuildContext context) {
 
 /// A wider radius and denser padding.
 Widget _outlinedContainerRounded(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: OutlinedContainer(
       padding: EdgeInsetsDensity.pxAll(20),
       borderRadius: BorderRadius.all(Radius.circular(24)),
-      child: Text('Rounded corners'),
+      child: Text(docsSample(context, 'Rounded corners')),
     ),
   );
 }
@@ -45,23 +45,23 @@ Widget _outlinedContainerTranslucent(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const SizedBox(
+      SizedBox(
         width: 320,
         child: OutlinedContainer(
           padding: EdgeInsetsDensity.pxAll(16),
           backgroundColor: ThemedColor.ref(ColorRef.primary),
           surfaceOpacity: 0.12,
-          child: Text('Translucent primary fill'),
+          child: Text(docsSample(context, 'Translucent primary fill')),
         ),
       ),
       Gap(spacing.lg),
-      const SizedBox(
+      SizedBox(
         width: 320,
         child: OutlinedContainer(
           padding: EdgeInsetsDensity.pxAll(16),
           surfaceBlur: 12,
           surfaceOpacity: 0.6,
-          child: Text('Backdrop blur'),
+          child: Text(docsSample(context, 'Backdrop blur')),
         ),
       ),
     ],
@@ -80,7 +80,7 @@ Widget _outlinedContainerDashed(BuildContext context) {
         DashedContainer(
           child: Padding(
             padding: EdgeInsetsDensity.pxAll(16),
-            child: const Text('Dashed container'),
+            child: Text(docsSample(context, 'Dashed container')),
           ),
         ),
         Gap(spacing.lg),
@@ -91,9 +91,12 @@ Widget _outlinedContainerDashed(BuildContext context) {
 }
 
 /// Named docs examples for `outlined_container`; the first is the default.
-const List<ComponentPreview> outlinedContainerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _outlinedContainerDefault),
-  ComponentPreview('Rounded', _outlinedContainerRounded),
-  ComponentPreview('Translucent', _outlinedContainerTranslucent),
-  ComponentPreview('Dashed', _outlinedContainerDashed),
+List<ComponentPreview> get outlinedContainerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _outlinedContainerDefault),
+  ComponentPreview(docsSample(null, 'Rounded'), _outlinedContainerRounded),
+  ComponentPreview(
+    docsSample(null, 'Translucent'),
+    _outlinedContainerTranslucent,
+  ),
+  ComponentPreview(docsSample(null, 'Dashed'), _outlinedContainerDashed),
 ];

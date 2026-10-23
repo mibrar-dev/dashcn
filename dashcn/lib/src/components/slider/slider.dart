@@ -534,7 +534,7 @@ class _SliderState extends State<Slider>
                                 color: theme.colors.primary.withValues(
                                   alpha: shown,
                                 ),
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: theme.borderRadiusSm,
                               ),
                               child: Text(_formatLabel(_labelValue())),
                             ),

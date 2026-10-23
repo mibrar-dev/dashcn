@@ -11,7 +11,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'eye_dropper.dart';
 
@@ -101,16 +100,16 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                 borderRadius: theme.borderRadiusMd,
               ),
               child: Padding(
-                padding: EdgeInsetsDensity.pxSymmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: theme.spacing.md,
+                  vertical: theme.spacing.sm,
                 ),
                 child: Text(
                   _sampling
-                      ? 'Sampling… move to pick'
+                      ? docsSample(context, 'Sampling… move to pick')
                       : _picked == null
-                      ? 'Pick a colour'
-                      : 'Pick again',
+                      ? docsSample(context, 'Pick a colour')
+                      : docsSample(context, 'Pick again'),
                   style: TextStyle(color: theme.colors.primaryForeground),
                 ),
               ),
@@ -134,7 +133,7 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
               Gap(theme.spacing.sm),
               Text(
                 shown == null
-                    ? 'no colour picked'
+                    ? docsSample(context, 'no colour picked')
                     : '#${_eyeDropperHex(shown)}',
                 style: TextStyle(color: theme.colors.mutedForeground),
               ),
@@ -154,7 +153,7 @@ Widget _eyeDropperInline(BuildContext context) =>
     const _EyeDropperPicker(inline: true);
 
 /// Named docs examples for `eye_dropper`; the first entry is the default.
-const List<ComponentPreview> eyeDropperPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _eyeDropperDefault),
-  ComponentPreview('Inline value', _eyeDropperInline),
+List<ComponentPreview> get eyeDropperPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _eyeDropperDefault),
+  ComponentPreview(docsSample(null, 'Inline value'), _eyeDropperInline),
 ];

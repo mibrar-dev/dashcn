@@ -24,6 +24,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// A complete application shell: header, sidebar and a sample screen.
 class Sidebar03 extends StatefulWidget {
@@ -191,11 +192,11 @@ class _Sidebar03State extends State<Sidebar03> {
 class _Sidebar03Header extends StatelessWidget {
   const _Sidebar03Header({required this.selected, this.onMenu});
 
-  static const List<String> _titles = <String>[
-    'Dashboard',
-    'Documents',
-    'Reports',
-    'Settings',
+  static final List<String> _titles = <String>[
+    docsSample(null, 'Dashboard'),
+    docsSample(null, 'Documents'),
+    docsSample(null, 'Reports'),
+    docsSample(null, 'Settings'),
   ];
 
   final int selected;
@@ -246,7 +247,7 @@ class _Sidebar03Header extends StatelessWidget {
                   child: Breadcrumb(
                     children: <Widget>[
                       Text(
-                        'Acme',
+                        docsSample(context, 'Acme'),
                         style: theme.typography.textSmall.copyWith(
                           color: theme.colors.mutedForeground,
                         ),

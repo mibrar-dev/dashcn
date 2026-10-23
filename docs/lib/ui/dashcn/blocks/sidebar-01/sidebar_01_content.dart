@@ -11,6 +11,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// One rail destination.
 class Sidebar01Item {
@@ -25,12 +26,12 @@ class Sidebar01Item {
 }
 
 /// The rail destinations, shared by the rail, the bar and the drawer.
-const List<Sidebar01Item> sidebar01Items = <Sidebar01Item>[
-  Sidebar01Item('Home', LucideIcons.house),
-  Sidebar01Item('Inbox', LucideIcons.inbox),
+List<Sidebar01Item> sidebar01Items = <Sidebar01Item>[
+  Sidebar01Item(docsSample(null, 'Home'), LucideIcons.house),
+  Sidebar01Item(docsSample(null, 'Inbox'), LucideIcons.inbox),
   Sidebar01Item('Calendar', LucideIcons.calendarDays),
-  Sidebar01Item('Search', LucideIcons.search),
-  Sidebar01Item('Settings', LucideIcons.settings),
+  Sidebar01Item(docsSample(null, 'Search'), LucideIcons.search),
+  Sidebar01Item(docsSample(null, 'Settings'), LucideIcons.settings),
 ];
 
 /// The sample content that sits next to the rail: stats, the mailbox and
@@ -53,7 +54,7 @@ class Sidebar01Content extends StatelessWidget {
         Text(sidebar01Items[selected].label, style: theme.typography.h2),
         Gap(theme.spacing.xs),
         Text(
-          'Everything in one place, at arm’s reach.',
+          docsSample(context, 'Everything in one place, at arm’s reach.'),
           style: theme.typography.textMuted.copyWith(
             color: theme.colors.mutedForeground,
           ),
@@ -69,21 +70,48 @@ class Sidebar01Content extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _Sidebar01Row(
-                'Design review',
-                'Kara — 2 hours ago',
-                'Can we move the sidebar review to Thursday?',
+                docsSample(context, 'Design review'),
+                docsSample(context, 'Kara — 2 hours ago'),
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Can we move the sidebar review to Thursday?',
+                    ),
+                  ),
+                ),
               ),
               const Divider(),
               _Sidebar01Row(
-                'Invoice 4821',
-                'Billing — yesterday',
-                'Your receipt for the annual plan is attached.',
+                docsSample(context, 'Invoice 4821'),
+                docsSample(context, 'Billing — yesterday'),
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Your receipt for the annual plan is attached.',
+                    ),
+                  ),
+                ),
               ),
               const Divider(),
               _Sidebar01Row(
-                'Welcome aboard',
-                'Team — Monday',
-                'Here is everything you need to get started.',
+                docsSample(context, 'Welcome aboard'),
+                docsSample(context, 'Team — Monday'),
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Here is everything you need to get started.',
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -121,10 +149,10 @@ class _Sidebar01Stats extends StatelessWidget {
         final double cardWidth = columns == 1
             ? constraints.maxWidth
             : (constraints.maxWidth - gap * (columns - 1)) / columns;
-        const List<(String, String)> stats = <(String, String)>[
-          ('Unread', '12'),
-          ('Starred', '4'),
-          ('Snoozed', '2'),
+        List<(String, String)> stats = <(String, String)>[
+          (docsSample(context, 'Unread'), '12'),
+          (docsSample(context, 'Starred'), '4'),
+          (docsSample(context, 'Snoozed'), '2'),
         ];
         return Wrap(
           spacing: gap,
@@ -164,10 +192,19 @@ class _Sidebar01Activity extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    const List<(String, String)> events = <(String, String)>[
-      ('Kara moved Design review to Thursday', '2h ago'),
-      ('Billing sent Invoice 4821', 'Yesterday'),
-      ('Ada shared Welcome aboard with you', 'Monday'),
+    List<(String, String)> events = <(String, String)>[
+      (
+        docsSample(context, 'Kara moved Design review to Thursday'),
+        docsSample(context, '2h ago'),
+      ),
+      (
+        docsSample(context, 'Billing sent Invoice 4821'),
+        docsSample(context, 'Yesterday'),
+      ),
+      (
+        docsSample(context, 'Ada shared Welcome aboard with you'),
+        docsSample(context, 'Monday'),
+      ),
     ];
     return Card(
       child: Column(

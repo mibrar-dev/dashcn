@@ -39,6 +39,8 @@ class AlphaPainter extends CustomPainter {
     if (squareSize <= 0) {
       return;
     }
+    // Squares past the right/bottom edge would otherwise spill out of the swatch.
+    canvas.clipRect(Offset.zero & size);
     final paint = Paint()
       ..style = PaintingStyle.fill
       ..color = primary;

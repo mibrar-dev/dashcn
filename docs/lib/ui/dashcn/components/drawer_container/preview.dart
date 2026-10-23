@@ -65,7 +65,7 @@ Widget _drawerContainerWithHandle(BuildContext context) {
   return Wrap(
     spacing: Theme.of(context).spacing.md,
     runSpacing: Theme.of(context).spacing.md,
-    children: const <Widget>[
+    children: <Widget>[
       _DrawerContainerFrame(
         width: 220,
         height: 140,
@@ -84,7 +84,7 @@ Widget _drawerContainerWithHandle(BuildContext context) {
           isSheet: true,
           crossAxisSize: FractionAxisSize(0.5),
           crossAxisAlignment: 0,
-          child: Center(child: Text('Half width')),
+          child: Center(child: Text(docsSample(context, 'Half width'))),
         ),
       ),
       _DrawerContainerFrame(
@@ -94,7 +94,7 @@ Widget _drawerContainerWithHandle(BuildContext context) {
           position: OverlayPosition.bottom,
           isSheet: true,
           fadeAnimation: AlwaysStoppedAnimation<double>(1),
-          child: Center(child: Text('With barrier')),
+          child: Center(child: Text(docsSample(context, 'With barrier'))),
         ),
       ),
     ],
@@ -114,15 +114,15 @@ Widget _drawerContainerDataDriven(BuildContext context) {
       ),
       child: DrawerContainer(
         size: FractionAxisSize(0.6),
-        child: const Center(child: Text('Data-driven')),
+        child: Center(child: Text(docsSample(context, 'Data-driven'))),
       ),
     ),
   );
 }
 
 /// Named docs examples for `drawer_container`; the first entry is the default.
-const List<ComponentPreview> drawerContainerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _drawerContainerDefault),
-  ComponentPreview('With handle', _drawerContainerWithHandle),
-  ComponentPreview('Data-driven', _drawerContainerDataDriven),
+List<ComponentPreview> get drawerContainerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _drawerContainerDefault),
+  ComponentPreview(docsSample(null, 'With handle'), _drawerContainerWithHandle),
+  ComponentPreview(docsSample(null, 'Data-driven'), _drawerContainerDataDriven),
 ];

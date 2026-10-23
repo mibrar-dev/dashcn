@@ -11,10 +11,19 @@ import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'stepper.dart';
 
-List<StepperStep> _steps() => const <StepperStep>[
-  StepperStep(title: Text('Account'), content: Text('Email, password')),
-  StepperStep(title: Text('Profile'), content: Text('Name, avatar')),
-  StepperStep(title: Text('Payment'), content: Text('Card, invoice')),
+List<StepperStep> _steps([BuildContext? context]) => <StepperStep>[
+  StepperStep(
+    title: Text(docsSample(context, 'Account')),
+    content: Text(docsSample(context, 'Email, password')),
+  ),
+  StepperStep(
+    title: Text(docsSample(context, 'Profile')),
+    content: Text(docsSample(context, 'Name, avatar')),
+  ),
+  StepperStep(
+    title: Text(docsSample(context, 'Payment')),
+    content: Text(docsSample(context, 'Card, invoice')),
+  ),
 ];
 
 /// A stepper that moves when a step is activated; owns its index.
@@ -36,7 +45,7 @@ class _InteractiveStepperState extends State<_InteractiveStepper> {
       currentStep: _current,
       onStepChanged: (int index) => setState(() => _current = index),
       direction: widget.direction,
-      steps: _steps(),
+      steps: _steps(context),
     );
   }
 }
@@ -59,7 +68,7 @@ class _SizesStepper extends StatefulWidget {
 
 class _SizesStepperState extends State<_SizesStepper> {
   int _current = 1;
-  String _last = 'Tap a step indicator';
+  String _last = docsSample(null, 'Tap a step indicator');
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +84,7 @@ class _SizesStepperState extends State<_SizesStepper> {
           Stepper(
             currentStep: _current,
             size: size,
-            steps: _steps(),
+            steps: _steps(context),
             onStepChanged: (int index) => setState(() {
               _current = index;
               _last = '${size.name} step ${index + 1}';
@@ -83,7 +92,7 @@ class _SizesStepperState extends State<_SizesStepper> {
           ),
           Gap(spacing.md),
         ],
-        Text(_last),
+        Text(docsSample(context, _last)),
       ],
     );
   }
@@ -116,16 +125,16 @@ class _FailedStepperState extends State<_FailedStepper> {
 
   @override
   Widget build(BuildContext context) {
-    return Stepper(controller: _controller, steps: _steps());
+    return Stepper(controller: _controller, steps: _steps(context));
   }
 }
 
 Widget _failed(BuildContext context) => const _FailedStepper();
 
 /// Named docs examples for `stepper`; the first entry is the default.
-const List<ComponentPreview> stepperPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Vertical', _vertical),
-  ComponentPreview('Sizes', _sizes),
-  ComponentPreview('Failed step', _failed),
+List<ComponentPreview> get stepperPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Vertical'), _vertical),
+  ComponentPreview(docsSample(null, 'Sizes'), _sizes),
+  ComponentPreview(docsSample(null, 'Failed step'), _failed),
 ];

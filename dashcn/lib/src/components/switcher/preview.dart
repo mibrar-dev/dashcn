@@ -99,7 +99,7 @@ Widget _vertical(BuildContext context) {
 }
 
 /// Named docs examples for `switcher`; the first entry is the default.
-const List<ComponentPreview> switcherPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Vertical', _vertical),
+List<ComponentPreview> get switcherPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Vertical'), _vertical),
 ];

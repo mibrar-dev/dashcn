@@ -155,7 +155,10 @@ SpinnerSurface resolveSpinnerSurface(
     select: (t) => t,
     defaults: spinnerDefaults,
   );
-  final double effectiveSize = size ?? resolved.size ?? 24 * theme.scaling;
+  final double effectiveSize =
+      size ??
+      resolved.size ??
+      (theme.iconTheme.large.size ?? 24) * theme.scaling;
   return SpinnerSurface(
     size: effectiveSize,
     strokeWidth: strokeWidth ?? resolved.strokeWidth ?? effectiveSize / 12,

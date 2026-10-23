@@ -162,7 +162,9 @@ class ChartTooltipCard extends StatelessWidget {
       surface.tooltipFill,
       ambient.surfaceOpacity,
     );
-    const BorderRadius radius = BorderRadius.all(Radius.circular(6));
+    final BorderRadius radius = BorderRadius.all(
+      Radius.circular(ambient.radiusMd),
+    );
     String? title;
     if (config.showLabel) {
       title = data.label;

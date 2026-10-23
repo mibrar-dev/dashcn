@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../ui/dashcn/components/progress/progress.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -19,8 +20,8 @@ class CollageRegistryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Registry',
-      subtitle: 'Counts generated from the manifest',
+      title: docsSample(context, 'Registry'),
+      subtitle: docsSample(context, 'Counts generated from the manifest'),
       children: <Widget>[
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -70,8 +71,8 @@ class CollagePresetsCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final ThemeColors colors = theme.colors;
     return CollageCard(
-      title: 'Theme presets',
-      subtitle: 'Light and dark from one token set',
+      title: docsSample(context, 'Theme presets'),
+      subtitle: docsSample(context, 'Light and dark from one token set'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -90,7 +91,7 @@ class CollagePresetsCard extends StatelessWidget {
         ),
         const Gap(12),
         Text(
-          kPresets.first.name,
+          docsSample(context, kPresets.first.name),
           style: docsText(
             context,
             size: 13,

@@ -10,6 +10,7 @@ import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../spinner/spinner.dart';
 import 'async.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class AsyncPreview extends StatefulWidget {
@@ -44,7 +45,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
     final bool fails = _fails;
     return Future<String>.delayed(const Duration(milliseconds: 600), () {
       if (fails) {
-        throw StateError('load failed');
+        throw StateError(docsSample(null, 'load failed'));
       }
       return 'loaded #$generation';
     });
@@ -53,7 +54,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: _body(context),
     );
   }
@@ -68,14 +69,14 @@ class _AsyncPreviewState extends State<AsyncPreview> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('synchronous value'),
+            Text(docsSample(context, 'synchronous value')),
             FutureOrBuilder<String>(
               future: 'ready',
               builder: (context, snapshot) =>
                   Text('${snapshot.connectionState.name} / ${snapshot.data}'),
             ),
             const SizedBox(height: 20),
-            const Text('pending future'),
+            Text(docsSample(context, 'pending future')),
             FutureOrBuilder<String>(
               future: _pending,
               builder: (context, snapshot) {
@@ -86,7 +87,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
               },
             ),
             const SizedBox(height: 20),
-            const Text('error future'),
+            Text(docsSample(context, 'error future')),
             FutureOrBuilder<String>(
               future: _erroring,
               builder: (context, snapshot) =>
@@ -100,7 +101,7 @@ class _AsyncPreviewState extends State<AsyncPreview> {
                 _pending = _delayed();
                 _erroring = _delayed();
               }),
-              child: const Text('reload futures'),
+              child: Text(docsSample(context, 'reload futures')),
             ),
             SizedBox(height: Theme.of(context).spacing.xl),
             Builder(

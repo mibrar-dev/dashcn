@@ -18,7 +18,6 @@ coverage/
 *.iml
 .vscode/
 
-flutter_cli_verification_example/
 
 # Test goldens/screens and tool output never ship.
 test/**/goldens/
