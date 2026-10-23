@@ -425,25 +425,42 @@ void main() {
         expect(captionTop.dy - lastRow.bottom, 8.0);
       });
 
-      testWidgets('compact row is 32 px, comfortable two-line row is 48 px', (
-        tester,
-      ) async {
-        await pumpPreview(tester, 1);
-        expect(tester.getSize(find.byType(SwipeActions)).height, 32.0);
-        expect(tileSize(tester, 'Archive'), const Size(64.0, 32.0));
+      testWidgets(
+        'compact rows are 32 px, comfortable two-line rows are 48 px',
+        (tester) async {
+          await pumpPreview(tester, 1);
+          final compact = find.byType(SwipeActions);
+          expect(compact, findsNWidgets(3));
+          for (int i = 0; i < 3; i++) {
+            expect(
+              tester.getSize(compact.at(i)).height,
+              32.0,
+              reason: 'compact $i',
+            );
+          }
+          expect(tileSize(tester, 'Archive'), const Size(64.0, 32.0));
 
-        await pumpPreview(tester, 2);
-        expect(tester.getSize(find.byType(SwipeActions)).height, 48.0);
-        await tester.drag(find.byType(SwipeActions), const Offset(-70, 0));
-        await _pumpSettle(tester);
-        expect(
-          tester.getSize(find.byType(SwipeActions)).height,
-          48.0,
-          reason: 'open row',
-        );
-        expect(tileSize(tester, 'Archive'), const Size(64.0, 48.0));
-        expect(tileSize(tester, 'Delete'), const Size(64.0, 48.0));
-      });
+          await pumpPreview(tester, 2);
+          final comfortable = find.byType(SwipeActions);
+          expect(comfortable, findsNWidgets(2));
+          for (int i = 0; i < 2; i++) {
+            expect(
+              tester.getSize(comfortable.at(i)).height,
+              48.0,
+              reason: 'comfortable $i',
+            );
+          }
+          await tester.drag(comfortable.first, const Offset(-70, 0));
+          await _pumpSettle(tester);
+          expect(
+            tester.getSize(comfortable.first).height,
+            48.0,
+            reason: 'open row',
+          );
+          expect(tileSize(tester, 'Archive'), const Size(64.0, 48.0));
+          expect(tileSize(tester, 'Delete'), const Size(64.0, 48.0));
+        },
+      );
     },
   );
 }

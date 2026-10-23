@@ -1,9 +1,8 @@
 # SwipeActions (`swipe_actions`)
 
 Swipe a row to reveal trailing actions; drag past the actions to dismiss
-(dismiss-to-delete). Density-sized by default: compact tile ~56 px wide with
-a 16 px icon and 12 px label; comfortable (~64) and touch (~72) grow from the
-tokens. The row min-height follows the tokens, the reveal scales with the
+(dismiss-to-delete). Density-sized by default: each action tile is at least 64 px wide with a
+16 px icon and a readable label; comfortable and touch grow from the tokens. The row min-height follows the tokens, the reveal scales with the
 drag, and a full swipe collapses the row height to zero before `onDismissed`
 fires — so the caller removes an already-gone row. RTL-aware; keyboard and
 screen-reader users get the same actions as density tiles once revealed.
@@ -44,8 +43,8 @@ SwipeActions(
 )
 ```
 
-Tile width resolves `control + 24` (56 / 64 / 72), icon from `tokens.iconSize`
-(16 / 20 / 24), label from `tokens.subtitleTextSize - 1` (12 / 13 / 14), gap
+Tile width resolves `control + 24` with a 64 px floor (64 / 64 / 72), icon from
+`tokens.iconSize` (16 / 20 / 24), label from `tokens.subtitleTextSize`, gap
 from `tokens.gap / 2`, row min from `tokens.rowMinHeight`. Override per
 instance via `densityTokens`/`actionExtent` or the theme (`actionWidth`,
 `iconSize`, `labelStyle`, `iconLabelGap`, `rowMinHeight`).

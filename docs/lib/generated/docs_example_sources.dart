@@ -29997,10 +29997,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30067,27 +30064,24 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _listSurface(
-              appTheme,
-              <Widget>[
-                for (final String row in _rows)
-                  SwipeActions(
-                    actions: <SwipeAction>[
-                      SwipeAction(
-                        label: 'Archive',
-                        onPressed: () => _remove(row),
-                      ),
-                      SwipeAction(
-                        label: 'Delete',
-                        destructive: true,
-                        onPressed: () => _remove(row),
-                      ),
-                    ],
-                    onDismissed: () => _remove(row),
-                    child: _singleRow(appTheme, row),
-                  ),
-              ],
-            ),
+            _listSurface(appTheme, <Widget>[
+              for (final String row in _rows)
+                SwipeActions(
+                  actions: <SwipeAction>[
+                    SwipeAction(
+                      label: 'Archive',
+                      onPressed: () => _remove(row),
+                    ),
+                    SwipeAction(
+                      label: 'Delete',
+                      destructive: true,
+                      onPressed: () => _remove(row),
+                    ),
+                  ],
+                  onDismissed: () => _remove(row),
+                  child: _singleRow(appTheme, row),
+                ),
+            ]),
             // Caption sits 8 px (sm) below the list.
             Gap(appTheme.spacing.sm),
             Text(
@@ -30126,10 +30120,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30168,26 +30159,25 @@ Widget _compact(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: _listSurface(
-        appTheme,
-        <Widget>[
+      child: _listSurface(appTheme, <Widget>[
+        // Dense file list: single-line rows, compact action tiles.
+        for (final String file in const <String>[
+          'Q3 budget.xlsx',
+          'Team offsite notes.docx',
+          'Logo final.png',
+        ])
           SwipeActions(
             densityTokens: DensityTokens.compact,
             actions: <SwipeAction>[
               SwipeAction(label: 'Archive', onPressed: () {}),
-              SwipeAction(
-                label: 'Delete',
-                destructive: true,
-                onPressed: () {},
-              ),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
             ],
             onDismissed: () {},
-            // List-tile single-line row (32); the 64 px action tiles
-            // stretch to this full row height.
-            child: _singleRow(appTheme, 'Compact row 32, tile 64'),
+            // List-tile single-line row (32); the action tiles stretch to
+            // this full row height.
+            child: _singleRow(appTheme, file),
           ),
-        ],
-      ),
+      ]),
     ),
   );
 }
@@ -30210,10 +30200,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30255,30 +30242,24 @@ Widget _comfortable(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: _listSurface(
-        appTheme,
-        <Widget>[
+      child: _listSurface(appTheme, <Widget>[
+        // Two-line inbox rows: sender as title, preview as subtitle.
+        for (final (String, String) mail in const <(String, String)>[
+          ('Priya Shah', 'Design review moved to 10:30 tomorrow'),
+          ('Ops alerts', 'Build 418 passed on main, deploy is ready'),
+        ])
           SwipeActions(
             densityTokens: DensityTokens.comfortable,
             actions: <SwipeAction>[
               SwipeAction(label: 'Archive', onPressed: () {}),
-              SwipeAction(
-                label: 'Delete',
-                destructive: true,
-                onPressed: () {},
-              ),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
             ],
             onDismissed: () {},
-            // List-tile two-line row (48); the 64 px action tiles stretch
-            // to this full row height.
-            child: _twoLineRow(
-              appTheme,
-              'Comfortable two-line 48, tile 64',
-              'Subtitle keeps the 48 px list-tile height',
-            ),
+            // List-tile two-line row (48); the action tiles stretch to
+            // this full row height.
+            child: _twoLineRow(appTheme, mail.$1, mail.$2),
           ),
-        ],
-      ),
+      ]),
     ),
   );
 }
@@ -30301,10 +30282,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30371,27 +30349,24 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _listSurface(
-              appTheme,
-              <Widget>[
-                for (final String row in _rows)
-                  SwipeActions(
-                    actions: <SwipeAction>[
-                      SwipeAction(
-                        label: 'Archive',
-                        onPressed: () => _remove(row),
-                      ),
-                      SwipeAction(
-                        label: 'Delete',
-                        destructive: true,
-                        onPressed: () => _remove(row),
-                      ),
-                    ],
-                    onDismissed: () => _remove(row),
-                    child: _singleRow(appTheme, row),
-                  ),
-              ],
-            ),
+            _listSurface(appTheme, <Widget>[
+              for (final String row in _rows)
+                SwipeActions(
+                  actions: <SwipeAction>[
+                    SwipeAction(
+                      label: 'Archive',
+                      onPressed: () => _remove(row),
+                    ),
+                    SwipeAction(
+                      label: 'Delete',
+                      destructive: true,
+                      onPressed: () => _remove(row),
+                    ),
+                  ],
+                  onDismissed: () => _remove(row),
+                  child: _singleRow(appTheme, row),
+                ),
+            ]),
             // Caption sits 8 px (sm) below the list.
             Gap(appTheme.spacing.sm),
             Text(
@@ -30433,10 +30408,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30477,50 +30449,43 @@ Widget _customBuilders(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: _listSurface(
-        appTheme,
-        <Widget>[
-          SwipeActions(
-            actions: <SwipeAction>[
-              SwipeAction(
-                label: 'Pin',
-                builder: (BuildContext context, double progress) => Opacity(
-                  opacity: progress,
-                  child: Transform.scale(
-                    scale: 0.6 + 0.4 * progress,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: appTheme.colors.primary,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Pin',
-                          style: appTheme.typography.textSmall.copyWith(
-                            color: appTheme.colors.primaryForeground,
-                          ),
+      child: _listSurface(appTheme, <Widget>[
+        SwipeActions(
+          actions: <SwipeAction>[
+            SwipeAction(
+              label: 'Pin',
+              builder: (BuildContext context, double progress) => Opacity(
+                opacity: progress,
+                child: Transform.scale(
+                  scale: 0.6 + 0.4 * progress,
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: appTheme.colors.primary,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Pin',
+                        style: appTheme.typography.textSmall.copyWith(
+                          color: appTheme.colors.primaryForeground,
                         ),
                       ),
                     ),
                   ),
                 ),
-                onPressed: () {},
               ),
-              SwipeAction(
-                label: 'Delete',
-                destructive: true,
-                onPressed: () {},
-              ),
-            ],
-            onDismissed: () {},
-            // List-tile single-line row (32); the custom builders above
-            // center in its full height.
-            child: _singleRow(appTheme, 'Custom builders'),
-          ),
-        ],
-      ),
+              onPressed: () {},
+            ),
+            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          ],
+          onDismissed: () {},
+          // List-tile single-line row (32); the custom builders above
+          // center in its full height.
+          child: _singleRow(appTheme, 'Travel packing list'),
+        ),
+      ]),
     ),
   );
 }
@@ -30543,10 +30508,7 @@ import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart
 // the rendered rows land exactly on the list-tile heights under both the
 // test font and real fonts (Geist runs ~1.3 line height: single-line content
 // ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
-const EdgeInsets _rowPadding = EdgeInsets.symmetric(
-  horizontal: 8,
-  vertical: 4,
-);
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
 /// 1 px divider between rows inside the shared surface.
 Widget _rowDivider(ThemeData appTheme) => Container(
@@ -30587,28 +30549,21 @@ Widget _motionOverride(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: _listSurface(
-        appTheme,
-        <Widget>[
-          SwipeActions(
-            motion: const MotionSpec(
-              enterDuration: Duration(milliseconds: 450),
-              exitDuration: Duration(milliseconds: 450),
-            ),
-            actions: <SwipeAction>[
-              SwipeAction(label: 'Archive', onPressed: () {}),
-              SwipeAction(
-                label: 'Delete',
-                destructive: true,
-                onPressed: () {},
-              ),
-            ],
-            onDismissed: () {},
-            // List-tile single-line row (32).
-            child: _singleRow(appTheme, 'Slow motion'),
+      child: _listSurface(appTheme, <Widget>[
+        SwipeActions(
+          motion: const MotionSpec(
+            enterDuration: Duration(milliseconds: 450),
+            exitDuration: Duration(milliseconds: 450),
           ),
-        ],
-      ),
+          actions: <SwipeAction>[
+            SwipeAction(label: 'Archive', onPressed: () {}),
+            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          ],
+          onDismissed: () {},
+          // List-tile single-line row (32).
+          child: _singleRow(appTheme, 'Team offsite agenda'),
+        ),
+      ]),
     ),
   );
 }

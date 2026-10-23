@@ -146,17 +146,23 @@ Widget _compact(BuildContext context) {
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
       child: _listSurface(appTheme, <Widget>[
-        SwipeActions(
-          densityTokens: DensityTokens.compact,
-          actions: <SwipeAction>[
-            SwipeAction(label: 'Archive', onPressed: () {}),
-            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-          ],
-          onDismissed: () {},
-          // List-tile single-line row (32); the 64 px action tiles
-          // stretch to this full row height.
-          child: _singleRow(appTheme, 'Compact row 32, tile 64'),
-        ),
+        // Dense file list: single-line rows, compact action tiles.
+        for (final String file in const <String>[
+          'Q3 budget.xlsx',
+          'Team offsite notes.docx',
+          'Logo final.png',
+        ])
+          SwipeActions(
+            densityTokens: DensityTokens.compact,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            ],
+            onDismissed: () {},
+            // List-tile single-line row (32); the action tiles stretch to
+            // this full row height.
+            child: _singleRow(appTheme, file),
+          ),
       ]),
     ),
   );
@@ -169,21 +175,22 @@ Widget _comfortable(BuildContext context) {
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
       child: _listSurface(appTheme, <Widget>[
-        SwipeActions(
-          densityTokens: DensityTokens.comfortable,
-          actions: <SwipeAction>[
-            SwipeAction(label: 'Archive', onPressed: () {}),
-            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-          ],
-          onDismissed: () {},
-          // List-tile two-line row (48); the 64 px action tiles stretch
-          // to this full row height.
-          child: _twoLineRow(
-            appTheme,
-            'Comfortable two-line 48, tile 64',
-            'Subtitle keeps the 48 px list-tile height',
+        // Two-line inbox rows: sender as title, preview as subtitle.
+        for (final (String, String) mail in const <(String, String)>[
+          ('Priya Shah', 'Design review moved to 10:30 tomorrow'),
+          ('Ops alerts', 'Build 418 passed on main, deploy is ready'),
+        ])
+          SwipeActions(
+            densityTokens: DensityTokens.comfortable,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            ],
+            onDismissed: () {},
+            // List-tile two-line row (48); the action tiles stretch to
+            // this full row height.
+            child: _twoLineRow(appTheme, mail.$1, mail.$2),
           ),
-        ),
       ]),
     ),
   );
@@ -236,7 +243,7 @@ Widget _customBuilders(BuildContext context) {
           onDismissed: () {},
           // List-tile single-line row (32); the custom builders above
           // center in its full height.
-          child: _singleRow(appTheme, 'Custom builders'),
+          child: _singleRow(appTheme, 'Travel packing list'),
         ),
       ]),
     ),
@@ -263,7 +270,7 @@ Widget _motionOverride(BuildContext context) {
           ],
           onDismissed: () {},
           // List-tile single-line row (32).
-          child: _singleRow(appTheme, 'Slow motion'),
+          child: _singleRow(appTheme, 'Team offsite agenda'),
         ),
       ]),
     ),
