@@ -1,23 +1,19 @@
 // Touch hit-area expansion for desktop-density controls.
 //
 // Desktop kits size buttons and rows at 28-40 px; touch platforms require
-// 44x44 (iOS) or 48x48 (Android). This wrapper expands the reported
-// semantics tap target (what the scorecards and screen readers measure) on
-// touch platforms only, so the painted visuals never change and desktop
-// layouts are pixel-identical.
+// 44x44 (iOS) or 48x48 (Android). This wrapper extends the hit-test region
+// (and the reported semantics tap target, which the scorecards and screen
+// readers measure) on touch platforms only, so the painted visuals never
+// change, desktop layouts are pixel-identical, and the layout size never
+// changes on any platform (SIZING.md: same sizes on desktop and mobile;
+// touch comfort comes from an invisible hit area, never larger visuals).
 //
-// Two modes (see [TouchHitArea.growLayout]):
-// - growing (default, buttons): transparent [Padding] so the layout grows to
-//   the platform minimum (36 visual + 6 px/side = 48 layout on Android).
-//   `tester.getSize` reports 48; neighbours must have room. Pinned by
-//   `button_test` ("touch platforms grow the hit box") and `card_image_test`
-//   (6 px inset).
-// - non-growing (triggers that must align with inputs: select, date/time
-//   pickers): same layout size as [child] (visual 36 stays 36), larger
-//   semantics bounds and hit test via [_TouchHitExpander]. `tester.getSize`
-//   stays at the sizing-scale height so side-by-side controls stay aligned,
-//   while the scorecards still see 48. The popup anchor uses the visual box,
-//   so anchored popups stay within 12 px.
+// The layout always stays at the child's size (`tester.getSize` keeps
+// reporting the sizing-scale height so side-by-side controls stay aligned).
+// The invisible per-side expansion applies to hit testing (taps in the
+// overflow still press the control) and to semantics (the merged tap target
+// reports the platform minimum). The popup anchor uses the visual box, so
+// anchored popups stay within 12 px.
 
 // The render proxy uses public `vertical:`/`horizontal:` names with private
 // mutable backing fields whose setters mark semantics dirty.
@@ -35,16 +31,14 @@ double touchMinEdge(TargetPlatform platform) {
 
 /// Adds a transparent hit expansion around [child] on touch platforms.
 ///
-/// On Android/iOS the semantics tap target grows to the platform minimum
-/// while the painted visuals never change. On desktop returns [child]
-/// unchanged. Place inside the control's `Semantics` node so the larger
-/// box is the reported tap target.
+/// On Android/iOS the hit-test region and the semantics tap target grow to
+/// the platform minimum while the painted visuals and the layout size never
+/// change. On desktop returns [child] unchanged. Place inside the control's
+/// `Semantics` node so the larger box is the reported tap target.
 ///
-/// When [growLayout] is true (default, buttons) the layout grows with
-/// transparent [Padding]; when false (select, date/time triggers that sit
-/// beside inputs) the layout stays at the visual size and only the semantics
-/// bounds and hit test expand, so `tester.getSize` keeps reporting the
-/// sizing-scale height and neighbours never shift.
+/// The layout never grows: the proxy's size is always the child's size, so
+/// `tester.getSize` keeps reporting the sizing-scale height and neighbours
+/// never shift.
 ///
 /// Opt out per app with `ThemeData(touchTargets: TouchTargets.shrinkWrap)`,
 /// which returns [child] unchanged on every platform (dense rows and joined
@@ -55,6 +49,7 @@ class TouchHitArea extends StatelessWidget {
     super.key,
     this.vertical = 0,
     this.horizontal = 0,
+    @Deprecated('Layout never grows; kept for API compatibility.')
     this.growLayout = true,
     required this.child,
   });
@@ -65,9 +60,7 @@ class TouchHitArea extends StatelessWidget {
   /// Transparent expansion per side, left and right.
   final double horizontal;
 
-  /// When true the layout grows with transparent padding (buttons); when
-  /// false the layout stays at the visual size and only semantics/hit test
-  /// expand (triggers beside inputs).
+  /// Ignored: the layout never grows (kept for API compatibility).
   final bool growLayout;
 
   /// The control.
@@ -83,15 +76,6 @@ class TouchHitArea extends StatelessWidget {
     }
     if (!isMobile(Theme.of(context).platform)) {
       return child;
-    }
-    if (growLayout) {
-      return Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: vertical,
-          horizontal: horizontal,
-        ),
-        child: child,
-      );
     }
     return _TouchHitExpander(
       vertical: vertical,
@@ -135,13 +119,30 @@ class _TouchHitExpander extends SingleChildRenderObjectWidget {
 
 /// Proxy whose layout size is the child's size, but whose semantics bounds
 /// and hit test include the invisible per-side expansion.
-class _RenderTouchHitArea extends RenderProxyBox {
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect while leaving
+/// container descendants (status live regions) as separate nodes, so the
+/// scorecard tap guidelines see the platform minimum and announcements keep
+/// their live-region flag.
+class _RenderTouchHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
   /// Creates a hit-area proxy with per-side expansion.
   _RenderTouchHitArea({required double vertical, required double horizontal})
     // ignore: prefer_initializing_formals
     : _vertical = vertical,
       // ignore: prefer_initializing_formals
-      _horizontal = horizontal;
+      _horizontal = horizontal {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
 
   double _vertical;
 

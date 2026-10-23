@@ -284,14 +284,14 @@ class _ButtonState extends State<Button> {
       tokens,
     );
     final ButtonGroupData? group = Data.maybeOf<ButtonGroupData>(context);
-    // Touch platforms grow the hit box (transparent padding, never visuals)
-    // to the platform minimum height. Joined groups are excluded: padding
-    // would separate their shared edges.
+    // Touch comfort is an invisible hit-test/semantics expansion (never
+    // larger visuals or layout) to the platform minimum height. Joined
+    // groups are excluded: expansion would overlap their shared edges.
     final double touchVertical = group != null
         ? 0
         : math.max(0, (touchMinEdge(theme.platform) - metrics.minHeight) / 2);
-    // Icon buttons are square (36x36): the same growth applies horizontally
-    // so the width meets the minimum too (36x48 failed the tap target).
+    // Icon buttons are square (36x36): the same expansion applies
+    // horizontally so the hit/semantics region meets the minimum too.
     // Text buttons size to their content plus horizontal padding, so only
     // the fixed-minimum icon size needs it.
     final double touchHorizontal = group != null || metrics.minWidth <= 0
@@ -374,14 +374,14 @@ class _ButtonState extends State<Button> {
       child: Center(widthFactor: 1, heightFactor: 1, child: content),
     );
 
-    return Semantics(
-      button: true,
-      enabled: enabled,
-      child: Opacity(
-        opacity: enabled ? 1 : _buttonDisabledOpacity,
-        child: TouchHitArea(
-          vertical: touchVertical,
-          horizontal: touchHorizontal,
+    return TouchHitArea(
+      vertical: touchVertical,
+      horizontal: touchHorizontal,
+      child: Semantics(
+        button: true,
+        enabled: enabled,
+        child: Opacity(
+          opacity: enabled ? 1 : _buttonDisabledOpacity,
           child: Clickable(
             enabled: enabled,
             onPressed: enabled ? _handlePress : null,

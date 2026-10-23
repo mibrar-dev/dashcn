@@ -148,10 +148,9 @@ class _SelectState<T> extends State<Select<T>>
   FocusNode get _focus =>
       widget.focusNode ?? (_ownedFocus ??= FocusNode(debugLabel: 'Select'));
 
-  /// Visual trigger anchor (the painted 36 px [Clickable], not the outer
-  /// [TouchHitArea] hit padding). Popovers must anchor to the visible box
-  /// so the popup sits within 12 px of the trigger on touch platforms where
-  /// the hit area grows the layout to 48 px.
+  /// Visual trigger anchor (the painted 36 px [Clickable]). Popovers anchor
+  /// to the visible box so the popup sits within 12 px of the trigger; the
+  /// invisible [TouchHitArea] never changes layout.
   final GlobalKey _triggerAnchorKey = GlobalKey(debugLabel: 'SelectTrigger');
 
   bool get _enabled => widget.enabled ?? widget.onChanged != null;
@@ -234,11 +233,10 @@ class _SelectState<T> extends State<Select<T>>
       );
 
   void _open() {
-    // Anchor to the painted trigger, not the outer hit-area padding:
-    // on touch platforms TouchHitArea grows the layout to 48 px while the
-    // visible trigger stays 36 px; anchoring to `context` (the outer box)
-    // would leave an 18 px gap to a 20 px placeholder. The inner anchor
-    // keeps the 12 px contract (8 px centering + 4 px offset).
+    // Anchor to the painted trigger's [Clickable]: the invisible TouchHitArea
+    // never changes layout, but anchoring to `context` (the outer box)
+    // would still leave a gap to a placeholder. The inner anchor keeps the
+    // 12 px contract (8 px centering + 4 px offset).
     final BuildContext anchorContext =
         _triggerAnchorKey.currentContext ?? context;
     _popover
@@ -352,26 +350,24 @@ class _SelectState<T> extends State<Select<T>>
         ? 0
         : trigger.borderWidth ?? 1;
     final double triggerHeight = widget.triggerMinHeight ?? 36;
-    // Touch comfort is invisible hit area, never larger visuals: the trigger
-    // paints at 36 px, but the layout grows to the platform minimum (iOS 44,
-    // Android 48) with transparent padding on touch platforms. Placed inside
-    // the Semantics node so the larger box is the reported tap target (same
-    // as Button's TouchHitArea). Popups anchor to the painted visual box via
-    // [_triggerAnchorKey] so they stay within 12 px; rows stay aligned
-    // because the bar centers 36 px visuals in the grown hit box.
+    // Touch comfort is an invisible hit-test/semantics expansion, never
+    // larger visuals or layout: the trigger paints at 36 px and the layout
+    // stays 36 px, while taps and the reported tap target reach the platform
+    // minimum (iOS 44, Android 48) on touch platforms. Popups anchor to the
+    // painted visual box via [_triggerAnchorKey] so they stay within 12 px.
     final double touchVertical = math.max(
       0,
       (touchMinEdge(ambient.platform) - triggerHeight) / 2,
     );
     return Data<SelectData>.inherit(
       data: _data(),
-      child: Opacity(
-        opacity: enabled ? 1 : 0.5,
-        child: Semantics(
-          button: true,
-          enabled: enabled,
-          child: TouchHitArea(
-            vertical: touchVertical,
+      child: TouchHitArea(
+        vertical: touchVertical,
+        child: Opacity(
+          opacity: enabled ? 1 : 0.5,
+          child: Semantics(
+            button: true,
+            enabled: enabled,
             child: IntrinsicWidth(
               child: Clickable(
                 key: _triggerAnchorKey,

@@ -357,9 +357,9 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
     final T? value = initial ?? formValue;
     T? delayed = value;
     final ThemeData theme = Theme.of(context);
-    // Anchor to the painted trigger, not the outer hit-area padding (same
-    // contract as Select: TouchHitArea grows the layout to 48 px on touch
-    // while the visible trigger stays 36 px).
+    // Anchor to the painted trigger's [Clickable] (same contract as Select:
+    // the invisible TouchHitArea never changes layout; the visible trigger
+    // stays 36 px).
     final BuildContext anchorContext =
         _triggerAnchorKey.currentContext ?? context;
     _popoverController
@@ -506,26 +506,21 @@ class _ObjectFormFieldState<T> extends State<ObjectFormField<T>>
             },
           );
 
-    // Touch comfort is invisible hit area, never larger visuals: the trigger
-    // paints at 36 px (objectFormTriggerMinHeight) with semantics/hit test
+    // Touch comfort is an invisible hit-test/semantics expansion, never
+    // larger visuals or layout: the trigger paints at 36 px
+    // (objectFormTriggerMinHeight) with hit test and the reported tap target
     // expanded to the platform minimum (iOS 44, Android 48) on touch
     // platforms, but the layout stays 36 so triggers align with inputs.
-    // Placed inside the Semantics node so the larger box is the reported
-    // tap target. Popovers anchor to the visual box via [_triggerAnchorKey].
+    // Popovers anchor to the visual box via [_triggerAnchorKey].
     final double touchVertical = math.max(
       0,
       (touchMinEdge(theme.platform) - objectFormTriggerMinHeight) / 2,
     );
-    return Opacity(
-      opacity: enabled ? 1 : 0.5,
-      child: Semantics(
-        button: true,
-        enabled: enabled,
-        child: TouchHitArea(
-          vertical: touchVertical,
-          growLayout: false,
-          child: sized,
-        ),
+    return TouchHitArea(
+      vertical: touchVertical,
+      child: Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: Semantics(button: true, enabled: enabled, child: sized),
       ),
     );
   }
