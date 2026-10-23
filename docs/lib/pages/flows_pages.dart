@@ -11,6 +11,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_registry.dart';
 import '../state/docs_strings.dart';
 
 import '../flows/flow_demo_data.dart';
@@ -86,12 +88,17 @@ class _FlowsHero extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Padding(
       padding: EdgeInsets.fromLTRB(24, wide ? 64 : 32, 24, 32),
       child: Column(
         children: <Widget>[
           Announcement(
-            label: '${kFlows.length} flows ready to install',
+            label: docsFill(
+              docsContentPage(locale, 'pageFlowsBadge'),
+              count: kFlows.length,
+            ),
             onPressed: () =>
                 DocsRouterScope.of(context).go(context, '/docs/components'),
           ),
@@ -99,7 +106,7 @@ class _FlowsHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 896),
             child: Text(
-              'Flows that feel like apps',
+              docsContentPage(locale, 'pageFlowsTitle'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -115,9 +122,7 @@ class _FlowsHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
-              'Installable, navigable mini-apps — mobile-first — built from '
-              'the kit components. Run one live below, then take it home '
-              'with a single command.',
+              docsContentPage(locale, 'pageFlowsSub'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -151,7 +156,7 @@ class _FlowsHero extends StatelessWidget {
                 leading: const Icon(LucideIcons.terminal, size: 16),
                 onPressed: () =>
                     DocsRouterScope.of(context).go(context, '/docs/cli'),
-                child: const Text('CLI reference'),
+                child: Text(docsContentPage(locale, 'pageCliRef')),
               ),
             ],
           ),
@@ -200,7 +205,9 @@ class FlowCard extends StatelessWidget {
                       children: <Widget>[
                         Badge(
                           variant: BadgeVariant.secondary,
-                          child: Text('${flow.screens.length} screens'),
+                          child: Text(
+                            "${flow.screens.length} ${docsContentPage(DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'), 'pageFlowsScreens')}",
+                          ),
                         ),
                         const Gap(8),
                         Badge(
@@ -230,7 +237,11 @@ class FlowCard extends StatelessWidget {
                     ),
                     const Gap(4),
                     Text(
-                      flow.description,
+                      docsFlowDesc(
+                        flow.id,
+                        DocsRouterScope.maybeOf(context)?.state.locale ??
+                            const Locale('en'),
+                      ),
                       style: docsText(
                         context,
                         size: 13,
@@ -421,7 +432,9 @@ class _FlowPageHeader extends StatelessWidget {
           children: <Widget>[
             Badge(
               variant: BadgeVariant.secondary,
-              child: Text('${flow.screens.length} screens'),
+              child: Text(
+                "${flow.screens.length} ${docsContentPage(DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'), 'pageFlowsScreens')}",
+              ),
             ),
             const Gap(8),
             Badge(variant: BadgeVariant.outline, child: Text(flow.viewport)),
@@ -444,7 +457,11 @@ class _FlowPageHeader extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: Text(
-            flow.description,
+            docsFlowDesc(
+              flow.id,
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+            ),
             style: docsText(
               context,
               size: 16,
@@ -478,7 +495,11 @@ class _ScreenMap extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Screens',
+          docsContentPage(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'pageFlowsScreens',
+          ),
           style: docsText(
             context,
             size: 14,
@@ -584,7 +605,11 @@ class _Dependencies extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Installed with this flow',
+          docsContentPage(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'pageFlowsInstalledWith',
+          ),
           style: docsText(
             context,
             size: 14,
@@ -595,7 +620,11 @@ class _Dependencies extends StatelessWidget {
         const Gap(8),
         Text(
           parts.isEmpty
-              ? 'This flow uses no other components.'
+              ? docsContentPage(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'pageFlowsNoDeps',
+                )
               : parts.join('\n'),
           style: docsText(
             context,

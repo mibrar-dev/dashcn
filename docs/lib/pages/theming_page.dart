@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose2.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../widgets/code_figure.dart';
 import '../widgets/density_demos.dart';
@@ -29,20 +31,20 @@ class ThemingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/theming');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Theming',
-        description: 'Tokens, presets and per-component theme overrides.',
+        title: docsContentPage(locale, 'pageThemingTitle'),
+        description: docsContentPage(locale, 'pageThemingDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Build your theme from tokens. Every colour, radius, font and '
-            'shadow a component reads comes from the active ThemeData, '
-            'so a preset switch re-themes the whole app without touching '
-            'component code.',
+          TypesetParagraph(docsProse2(locale, 'proseThemeP1')),
+          HeadingAnchor(
+            id: 'tokens',
+            title: docsProse2(locale, 'proseThemeH1'),
           ),
-          const HeadingAnchor(id: 'tokens', title: 'Tokens'),
           TypesetParagraph.rich(<InlineSpan>[
             const TextSpan(
               text: 'Each colour token is named after the dashcn ',
@@ -68,10 +70,7 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['token-read']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
-            id: 'token-convention',
-            title: 'Token Convention',
-          ),
+          HeadingAnchor(id: 'token-convention', title: 'Token Convention'),
           const TypesetParagraph(
             'Tokens come in semantic background/foreground pairs. The base '
             'token controls the surface colour and the -foreground token '
@@ -89,17 +88,19 @@ class ThemingPage extends StatelessWidget {
           ),
           const Gap(16),
           const ThemeTokenTable(),
-          const HeadingAnchor(id: 'radius-scale', title: 'Radius Scale'),
-          const TypesetParagraph(
-            'radius is the base radius factor: the unitless rem number a '
-            'preset stores. The component radius steps derive from it, so a '
-            'single value updates every rounded surface.',
+          HeadingAnchor(
+            id: 'radius-scale',
+            title: docsProse2(locale, 'proseThemeRadiusH'),
           ),
+          TypesetParagraph(docsProse2(locale, 'proseThemeRadiusP')),
           DocsCodeFigure(
             code: kThemingSamples['radius']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(id: 'presets', title: 'Presets'),
+          HeadingAnchor(
+            id: 'presets',
+            title: docsProse2(locale, 'proseThemePresetsH'),
+          ),
           TypesetParagraph.rich(<InlineSpan>[
             TextSpan(text: 'The kit ships '),
             TextSpan(
@@ -123,9 +124,9 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['preset-apply']!.code,
             language: 'bash',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'component-themes',
-            title: 'Component Themes',
+            title: docsProse2(locale, 'proseThemeCompH'),
           ),
           const TypesetParagraph(
             'Every component resolves its style through four legs, from '
@@ -142,9 +143,9 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['component-theme']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'sizing-and-density',
-            title: 'Sizing and density',
+            title: docsProse2(locale, 'proseThemeSizeH'),
           ),
           const TypesetParagraph(
             'Density tokens set the default look: compact is the default '
@@ -163,7 +164,10 @@ class ThemingPage extends StatelessWidget {
           const Gap(16),
           const DensityDemos(),
           const Gap(16),
-          const HeadingAnchor(id: 'glass-surfaces', title: 'Glass Surfaces'),
+          HeadingAnchor(
+            id: 'glass-surfaces',
+            title: docsProse2(locale, 'proseThemeGlassH'),
+          ),
           const TypesetParagraph(
             'Two optional mode-independent tokens make floating surfaces '
             'frosted: surfaceOpacity (0..1) multiplies every surface fill, '
@@ -178,9 +182,9 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['glass']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'animated-theming',
-            title: 'Animated Theming',
+            title: docsProse2(locale, 'proseThemeAnimH'),
           ),
           const TypesetParagraph(
             'AnimatedTheme animates ThemeData changes over the '
@@ -191,7 +195,10 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['animated']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(id: 'motion', title: 'Motion'),
+          HeadingAnchor(
+            id: 'motion',
+            title: docsProse2(locale, 'proseThemeMotionH'),
+          ),
           const TypesetParagraph(
             'Every component animation resolves through the motion tokens, '
             'read as Theme.of(context).motion. Durations stay in the subtle '

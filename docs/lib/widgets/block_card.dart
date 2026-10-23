@@ -9,6 +9,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
 import '../state/docs_strings.dart';
 
 import '../generated/docs_blocks.dart';
@@ -285,8 +286,16 @@ class _TabRow extends StatelessWidget {
               for (final BlockCardTab value in BlockCardTab.values)
                 _LineTab(
                   label: switch (value) {
-                    BlockCardTab.preview => 'Preview',
-                    BlockCardTab.code => 'Code',
+                    BlockCardTab.preview => docsContentPage(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'pagePreview',
+                    ),
+                    BlockCardTab.code => docsContentPage(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'pageCode',
+                    ),
                   },
                   selected: tab == value,
                   onTap: () => onTab(value),

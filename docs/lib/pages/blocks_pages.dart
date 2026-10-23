@@ -10,6 +10,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_router.dart';
+import '../state/docs_content_categories.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_registry.dart';
 import '../state/docs_strings.dart';
 
 import '../generated/docs_blocks.dart';
@@ -41,6 +44,8 @@ class BlocksIndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<DocsBlock> blocks = _visibleBlocks(categorySlug);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     // The shell header floats over the navigator: this scroll view
     // extends underneath it, so its top inset carries the header height.
     final double headerHeight = MediaQuery.sizeOf(context).width >= 1024
@@ -71,7 +76,7 @@ class BlocksIndexPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 64),
                         child: Center(
                           child: Text(
-                            'No blocks in this family yet.',
+                            docsContentPage(locale, 'pageBlocksEmpty'),
                             style: docsText(
                               context,
                               size: 15,
@@ -112,12 +117,17 @@ class _BlocksHero extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Padding(
       padding: EdgeInsets.fromLTRB(24, wide ? 64 : 32, 24, 32),
       child: Column(
         children: <Widget>[
           Announcement(
-            label: '${kBlocks.length} blocks ready to install',
+            label: docsFill(
+              docsContentPage(locale, 'pageBlocksBadge'),
+              count: kBlocks.length,
+            ),
             onPressed: () =>
                 DocsRouterScope.of(context).go(context, '/docs/components'),
           ),
@@ -125,7 +135,7 @@ class _BlocksHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 896),
             child: Text(
-              'Building Blocks for the Web',
+              docsContentPage(locale, 'pageBlocksTitle'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -141,8 +151,7 @@ class _BlocksHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
-              'Composed, page-level layouts built from the kit components. '
-              'Install one with a single command and make every pixel yours.',
+              docsContentPage(locale, 'pageBlocksSub'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -177,7 +186,7 @@ class _BlocksHero extends StatelessWidget {
                 leading: const Icon(LucideIcons.terminal, size: 16),
                 onPressed: () =>
                     DocsRouterScope.of(context).go(context, '/docs/cli'),
-                child: const Text('CLI reference'),
+                child: Text(docsContentPage(locale, 'pageCliRef')),
               ),
             ],
           ),
@@ -196,12 +205,14 @@ class _FamilyStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: <Widget>[
           _FamilyPill(
-            label: 'Featured',
+            label: docsContentPage(locale, 'pageBlocksFeatured'),
             location: '/blocks',
             active: activeSlug == null,
           ),
@@ -209,7 +220,7 @@ class _FamilyStrip extends StatelessWidget {
               in kBlockCategories) ...<Widget>[
             Gap(theme.spacing.sm),
             _FamilyPill(
-              label: category.id,
+              label: docsBlockFamilyName(category.id, locale),
               location: '/blocks/${category.slug}',
               active: activeSlug == category.slug,
             ),
@@ -338,6 +349,8 @@ class _BlockPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -349,7 +362,16 @@ class _BlockPageHeader extends StatelessWidget {
           runSpacing: theme.spacing.sm,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            Badge(variant: BadgeVariant.secondary, child: Text(block.category)),
+            Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(
+                docsBlockFamilyName(
+                  block.category,
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                ),
+              ),
+            ),
             Badge(variant: BadgeVariant.outline, child: Text(block.viewport)),
             SizedBox(width: theme.spacing.xs),
             CopyButton(text: block.install, showLabel: true),
@@ -370,7 +392,7 @@ class _BlockPageHeader extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: Text(
-            block.description,
+            docsBlockDesc(block.id, locale),
             style: docsText(
               context,
               size: 16,
@@ -397,7 +419,11 @@ class _Dependencies extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Installed with this block',
+          docsContentPage(
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+                const Locale('en'),
+            'pageBlocksInstalledWith',
+          ),
           style: docsText(
             context,
             size: 14,
@@ -408,7 +434,11 @@ class _Dependencies extends StatelessWidget {
         Gap(theme.spacing.sm),
         Text(
           block.deps.isEmpty
-              ? 'This block uses no other components.'
+              ? docsContentPage(
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                  'pageBlocksNoDeps',
+                )
               : 'Components: ${block.deps.join(', ')}',
           style: docsText(
             context,
